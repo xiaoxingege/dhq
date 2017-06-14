@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --inline --hot --host localhost",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "rm -rf dist && cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "author": "yang.li",
   "license": "MIT",
