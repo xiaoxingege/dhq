@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router'
-import index from './components/index.vue'
+import index from '../components/index.vue'
 
 export function configRouter(routes) {
 

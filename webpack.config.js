@@ -16,6 +16,20 @@ const buildEntry = function() {
 	return ret;
 }
 
+const buildHTML = function() {
+	let dir = path.join(__dirname, `src/${featureName}/pages`);
+	let entries = fs.readdirSync(dir);
+	return entries.map(entry => {
+		let basename = path.basename(entry, '.js');
+		return new HtmlWebpackPlugin({
+			filename: `${featureName}/${basename}.html`,
+			template: `./src/${featureName}/index.html`,
+			chunks: ['vendor', basename],
+			inject: 'true'
+		})
+	});
+}
+
 module.exports = {
 	entry: Object.assign({
 		vendor: ['vue', 'vue-router']
@@ -72,7 +86,7 @@ module.exports = {
 	// }
 }
 
-module.exports.plugins = [
+module.exports.plugins = buildHTML().concat([
 	new webpack.optimize.CommonsChunkPlugin({
 		name: 'vendor',
 		filename: featureName + '/vendors.min.js',
@@ -80,11 +94,6 @@ module.exports.plugins = [
 			removeComments: true,
 			collapseWhitespace: false
 		}
-	}),
-	new HtmlWebpackPlugin({
-		filename: featureName + '/' + 'index.html',
-		template: './src/' + featureName + '/' + 'index.html',
-		inject: 'true'
 	}),
 	new webpack.LoaderOptionsPlugin({
 		options: {
@@ -95,7 +104,7 @@ module.exports.plugins = [
 			}
 		}
 	})
-];
+]);
 
 if (process.env.NODE_ENV === 'production') {
 	module.exports.plugins = (module.exports.plugins || []).concat([

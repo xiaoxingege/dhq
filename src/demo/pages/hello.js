@@ -7,7 +7,7 @@ import index from '../../components/index'
 Vue.use(VueRouter);
 
 const routes = [
-	{ path: '/', component: index }
+	{ path: '/hello', component: index }
 ]
 
 configRouter(routes).then((router) => {

@@ -1,0 +1,1 @@
+﻿webpackJsonp([0],{42:function(e,t,n){"use strict";function u(e){return e&&e.__esModule?e:{default:e}}var o=n(3),a=u(o),f=n(2),p=u(f),c=n(15),l=n(16),r=u(l),d=n(9),s=u(d);a.default.use(p.default);var i=[{path:"/",component:s.default}];(0,c.configRouter)(i).then(function(e){new a.default({el:"#app",components:{App:r.default},router:e})})}},[42]);

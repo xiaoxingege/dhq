@@ -39,16 +39,6 @@ export default {
 	},
 	mounted() {
 		document.title = 'vue-demo';
-
-		iscroll = new IScroll('.demo-wrapper', {
-			click: true,
-			disableTouch: false,
-			disableMouse: false,
-			disablePointer: true
-		});
-		document.addEventListener('touchmove', function(e) {
-			e.preventDefault();
-		}, false);
 	}
 }
 </script>
