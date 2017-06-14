@@ -7,20 +7,24 @@ var path = require('path'),
 let featureName = process.env.JRJ_FEATURE || 'demo';
 
 const buildEntry = function() {
-  let dir = path.join(__dirname,`src/${featureName}`);
+	let dir = path.join(__dirname, `src/${featureName}/pages`);
+	let entries = fs.readdirSync(dir);
+	let ret = {};
+	entries.forEach(entry => {
+		ret[path.basename(entry, '.js')] = `./src/${featureName}/pages/${entry}`
+	});
+	return ret;
 }
 
 module.exports = {
-	entry: {
-		demo: './src/demo/index.js',
+	entry: Object.assign({
 		vendor: ['vue', 'vue-router']
-	},
+	}, buildEntry()),
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		publicPath: process.env.NODE_ENV == 'production'
-			? 'https://i0.jrjimg.cn/zqt-m/one-step/'
-			: '/dist/',
-		filename: feature.name + '/[name].[hash:12].js'
+		publicPath: process.env.NODE_ENV == 'production' ?
+			'https://i0.jrjimg.cn/zqt-m/one-step/' : '/dist/',
+		filename: featureName + '/[name].[hash:12].js'
 	},
 	resolve: {
 		extensions: [
@@ -32,32 +36,30 @@ module.exports = {
 		}
 	},
 	module: {
-		loaders: [
-			{
-				test: /\.vue$/,
-				loader: 'vue-loader'
-			}, {
-				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				options: {
-					presets: [
-						'es2015', 'stage-0'
-					],
-					plugins: ['transform-runtime']
-				}
-			}, {
-				test: /\.html$/,
-				loader: 'vue-html-loader'
-			}, {
-				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'url-loader',
-				query: {
-					limit: 15000,
-					name: feature.name + '/images/[name].[ext]?[hash]'
-				}
+		loaders: [{
+			test: /\.vue$/,
+			loader: 'vue-loader'
+		}, {
+			test: /\.js$/,
+			loader: 'babel-loader',
+			exclude: /node_modules/,
+			options: {
+				presets: [
+					'es2015', 'stage-0'
+				],
+				plugins: ['transform-runtime']
 			}
-		]
+		}, {
+			test: /\.html$/,
+			loader: 'vue-html-loader'
+		}, {
+			test: /\.(png|jpg|gif|svg)$/,
+			loader: 'url-loader',
+			query: {
+				limit: 15000,
+				name: featureName + '/images/[name].[ext]?[hash]'
+			}
+		}]
 	}
 	// babel: {
 	//     presets: ['es2015', 'stage-2'],
@@ -73,15 +75,15 @@ module.exports = {
 module.exports.plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		name: 'vendor',
-		filename: feature.name + '/vendors.min.js',
+		filename: featureName + '/vendors.min.js',
 		minify: {
 			removeComments: true,
 			collapseWhitespace: false
 		}
 	}),
 	new HtmlWebpackPlugin({
-		filename: feature.name + '/' + 'index.html',
-		template: './src/' + feature.name + '/' + 'index.html',
+		filename: featureName + '/' + 'index.html',
+		template: './src/' + featureName + '/' + 'index.html',
 		inject: 'true'
 	}),
 	new webpack.LoaderOptionsPlugin({

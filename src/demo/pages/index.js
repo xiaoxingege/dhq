@@ -1,21 +1,24 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { configRouter } from './route-config'
-import App from './app.vue'
+import { configRouter } from '../route-config'
+import App from '../components/app.vue'
 
 
 Vue.use(VueRouter);
 
-var router;
+const routes = [
+	{ path: '/', component: index },
+	{ path: '/index', component: index }
+]
 
-configRouter(router).then((router) => {
+configRouter(routes).then((router) => {
 
-    new Vue({
-        el: '#app',
-        components: {
-            App
-        },
-        router
-    });
+	new Vue({
+		el: '#app',
+		components: {
+			App
+		},
+		router
+	});
 
 })
