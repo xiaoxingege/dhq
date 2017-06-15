@@ -38,5 +38,8 @@
     "webpack-dev-server": "^2.4.5",
     "webpack-spritesmith": "^0.3.3",
     "webpack-utf8-bom": "^1.0.3"
+  },
+  "dependencies": {
+    "jade": "^1.11.0"
   }
 }
