@@ -19,6 +19,7 @@
 	<jade />
 	<sass />
 	<no-router />
+	<fetch />
 </div>
 </template>
 
@@ -26,6 +27,7 @@
 import Jade from './jade'
 import Sass from './sass'
 import NoRouter from './no-router'
+import Fetch from './fetch'
 
 export default {
   data () {
@@ -36,7 +38,8 @@ export default {
   components: {
     Jade,
     Sass,
-    NoRouter
+    NoRouter,
+    Fetch
   },
   methods: {
 

@@ -44,6 +44,7 @@
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-spritesmith": "^0.3.3",
-    "webpack-utf8-bom": "^1.0.3"
+    "webpack-utf8-bom": "^1.0.3",
+    "whatwg-fetch": "^2.0.3"
   }
 }
