@@ -16,7 +16,7 @@
 	<div class="demo-wrapper-inner">
 		<div class="demo-detail">{{message}}</div>
 	</div>
-	<jade />
+	<pug />
 	<sass />
 	<no-router />
 	<fetch />
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Jade from './jade'
+import Pug from './pug'
 import Sass from './sass'
 import NoRouter from './no-router'
 import Fetch from './fetch'
@@ -36,7 +36,7 @@ export default {
     }
   },
   components: {
-    Jade,
+    Pug,
     Sass,
     NoRouter,
     Fetch
