@@ -130,6 +130,7 @@ input {
 }
 
 
+
 /* start commented backslash hack \*/
 
 * html .clearfix {
@@ -139,6 +140,7 @@ input {
 .clearfix {
 	display: block;
 }
+
 
 
 /* close commented backslash hack */
@@ -233,22 +235,20 @@ input {
 </template>
 
 <script>
-import Vue from 'vue'
-
 export default {
-	data() {
-		return {
+  data () {
+    return {
 
-		}
-	},
-	components: {
+    }
+  },
+  components: {
 
-	},
-	mounted() {
+  },
+  mounted () {
 
-	},
-	methods: {
+  },
+  methods: {
 
-	}
-};
+  }
+}
 </script>

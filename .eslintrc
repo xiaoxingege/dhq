@@ -1,0 +1,22 @@
+{
+	"extends": ["eslint:recommended", "vue"],
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"globals": {
+		"$": true
+	},
+	"env": {
+		"browser": true,
+		"node": true,
+		"amd": true,
+		"es6": true
+	},
+	"rules": {
+		"quotes": [1, "single"],
+		"no-undef": "error",
+		"strict": "error",
+		"no-extra-semi": "error",
+		"no-console": "error"
+	}
+}

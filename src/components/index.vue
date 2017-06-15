@@ -23,28 +23,26 @@
 </template>
 
 <script>
-import Jade from './Jade'
-import Sass from './Sass'
+import Jade from './jade'
+import Sass from './sass'
 import NoRouter from './no-router'
 
-let iscroll;
-
 export default {
-	data() {
-		return {
-			message: 'Hello world'
-		}
-	},
-	components: {
-		Jade,
-		Sass,
-		NoRouter
-	},
-	methods: {
+  data () {
+    return {
+      message: 'Hello world'
+    }
+  },
+  components: {
+    Jade,
+    Sass,
+    NoRouter
+  },
+  methods: {
 
-	},
-	mounted() {
-		document.title = 'vue-demo';
-	}
+  },
+  mounted () {
+    document.title = 'vue-demo'
+  }
 }
 </script>

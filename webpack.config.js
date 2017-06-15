@@ -46,11 +46,19 @@ module.exports = {
 		],
 		modules: ["node_modules"],
 		alias: {
-			vue: 'vue/dist/vue.min.js'
+			vue: 'vue/dist/vue.min.js',
+			components: __dirname + '/src/components/',
+			assets: __dirname + '/src/assets/'
 		}
 	},
 	module: {
-		loaders: [{
+		rules: [{
+			enforce: 'pre',
+			test: /\.(js|vue)$/,
+			exclude: /node_modules/,
+			loader: 'eslint-loader',
+			options: { fix: true }
+		}, {
 			test: /\.vue$/,
 			loader: 'vue-loader'
 		}, {
