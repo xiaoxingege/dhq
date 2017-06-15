@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import Jade from '../../components/jade'
+import NoRouter from '../../components/noRouter'
 
 new Vue({
 	el: '#app',
 	components: {
-		app: Jade
+		app: NoRouter
 	}
 });

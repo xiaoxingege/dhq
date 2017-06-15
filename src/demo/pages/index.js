@@ -2,12 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { configRouter } from '../route-config'
 import App from '../../components/app'
-import index from '../../components/index'
+import Index from '../../components/index'
 
 Vue.use(VueRouter);
 
 const routes = [
-	{ path: '/', component: index }
+	{ path: '/', component: Index }
 ]
 
 configRouter(routes).then((router) => {

@@ -16,12 +16,14 @@
 	<div class="demo-wrapper-inner">
 		<div class="demo-detail">{{message}}</div>
 	</div>
-	<hello />
+	<jade />
+	<sass />
 </div>
 </template>
 
 <script>
-import hello from './hello'
+import Jade from './Jade'
+import Sass from './Sass'
 
 let iscroll;
 
@@ -32,7 +34,8 @@ export default {
 		}
 	},
 	components: {
-		hello
+		jade: Jade,
+		sass: Sass
 	},
 	methods: {
 
