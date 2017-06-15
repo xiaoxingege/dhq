@@ -103,7 +103,8 @@ module.exports.plugins = buildHTML().concat([
 				}
 			}
 		}
-	})
+	}),
+	new webpack.HashedModuleIdsPlugin()
 ]);
 
 if (process.env.NODE_ENV === 'production') {

@@ -1,3 +1,3 @@
 <template>
-<div>seon</div>
+<div>Hello World</div>
 </template>
