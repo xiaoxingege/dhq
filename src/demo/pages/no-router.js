@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import NoRouter from '../../components/noRouter'
+import NoRouter from '../../components/no-router'
 
 new Vue({
 	el: '#app',
