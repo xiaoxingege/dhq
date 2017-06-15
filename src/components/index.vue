@@ -18,12 +18,14 @@
 	</div>
 	<jade />
 	<sass />
+	<no-router />
 </div>
 </template>
 
 <script>
 import Jade from './Jade'
 import Sass from './Sass'
+import NoRouter from './no-router'
 
 let iscroll;
 
@@ -34,8 +36,9 @@ export default {
 		}
 	},
 	components: {
-		jade: Jade,
-		sass: Sass
+		Jade,
+		Sass,
+		NoRouter
 	},
 	methods: {
 
