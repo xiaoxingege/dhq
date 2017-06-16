@@ -16,16 +16,16 @@
 	<div class="demo-wrapper-inner">
 		<div class="demo-detail">{{message}}</div>
 	</div>
-	<pug />
 	<sass />
+	<pug />
 	<no-router />
 	<fetch />
 </div>
 </template>
 
 <script>
-import Pug from './pug'
 import Sass from './sass'
+import Pug from './pug'
 import NoRouter from './no-router'
 import Fetch from './fetch'
 
@@ -36,8 +36,8 @@ export default {
     }
   },
   components: {
-    Pug,
     Sass,
+    Pug,
     NoRouter,
     Fetch
   },

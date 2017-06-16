@@ -1,11 +1,10 @@
-<style lang="sass">
-$text-color: red
-
-.red
-  color: $text-color
+<style>
+.red {
+	color: red
+}
 </style>
-<template lang="jade">
-div.content {{ loading ? 'Loading...' : content }}
+<template>
+<div>{{ loading ? 'Loading...' : content }}</div>
 </template>
 
 <script>
@@ -23,12 +22,14 @@ export default {
   },
   methods: {
     fetchData () {
-      fetch('data.json').then((res) => {
-        return res.json()
-      }).then(body => {
-        this.loading = false
-        this.content = body.content
-      })
+      setTimeout(() => {
+        fetch('data.json').then((res) => {
+          return res.json()
+        }).then(body => {
+          this.loading = false
+          this.content = body.content
+        })
+      }, 1000)
     }
   },
   mounted () {
