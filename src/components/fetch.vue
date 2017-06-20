@@ -4,7 +4,7 @@
 }
 </style>
 <template>
-<div>{{ loading ? 'Loading...' : content }}</div>
+<div>{{ loading ? 'Loading...' : name }}</div>
 </template>
 
 <script>
@@ -23,11 +23,11 @@ export default {
   methods: {
     fetchData () {
       setTimeout(() => {
-        fetch('data.json').then((res) => {
+        fetch('/package.json').then((res) => {
           return res.json()
         }).then(body => {
           this.loading = false
-          this.content = body.content
+          this.name = body.name
         })
       }, 1000)
     }
