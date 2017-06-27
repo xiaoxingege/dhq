@@ -1,21 +1,22 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import { configRouter } from '../route-config'
-import App from 'components/app'
+import Vuex from 'vuex'
+import initVue from 'utils/initVue'
 import Index from 'components/index'
 
-Vue.use(VueRouter)
+Vue.use(Vuex)
 
 const routes = [
-	{ path: '/', component: Index }
+  { path: '/', component: Index }
 ]
 
-configRouter(routes).then((router) => {
-  new Vue({
-    el: '#app',
-    components: {
-      App
-    },
-    router
-  })
+import demo from 'stores/demo'
+const store = new Vuex.Store({
+  modules: {
+    demo
+  }
+})
+
+initVue({
+  store,
+  routes
 })

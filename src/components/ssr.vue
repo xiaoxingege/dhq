@@ -4,5 +4,5 @@ div {
 }
 </style>
 <template>
-<div>No Router</div>
+<div>Rendered on server</div>
 </template>

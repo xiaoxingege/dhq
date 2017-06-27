@@ -1,9 +1,16 @@
 import Vue from 'vue'
-import NoRouter from 'components/no-router'
+import Vuex from 'vuex'
+import initVue from 'utils/initVue'
 
-new Vue({
-  el: '#app',
-  components: {
-    app: NoRouter
+Vue.use(Vuex)
+
+import demo from 'stores/demo'
+const store = new Vuex.Store({
+  modules: {
+    demo
   }
+})
+
+initVue({
+  store
 })

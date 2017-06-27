@@ -1,10 +1,10 @@
 <style>
 .red {
-	color: red
+  color: red
 }
 </style>
 <template>
-<div>{{ loading ? 'Loading...' : name }}</div>
+<div>{{ !name ? 'Loading...' : name }}</div>
 </template>
 
 <script>
@@ -12,21 +12,16 @@ import 'whatwg-fetch'
 
 export default {
   data () {
-    return {
-      loading: true
-    }
+    return {}
   },
+  props: ['name'],
   components: {},
-  created () {
-    this.fetchData()
-  },
   methods: {
     fetchData () {
       setTimeout(() => {
         fetch('/package.json').then((res) => {
           return res.json()
         }).then(body => {
-          this.loading = false
           this.name = body.name
         })
       }, 1000)
@@ -34,6 +29,7 @@ export default {
   },
   mounted () {
     document.title = 'vue-demo'
+    this.fetchData()
   }
 }
 </script>
