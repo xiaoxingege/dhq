@@ -12,31 +12,31 @@
   </div>
   <sass />
   <pug />
-  <no-router />
   <fetch />
   <store />
+  <async-store />
 </div>
 </template>
 
 <script>
 import Sass from './sass'
 import Pug from './pug'
-import NoRouter from './no-router'
 import Fetch from './fetch'
 import Store from './store'
+import AsyncStore from './async-store'
 
 export default {
   data () {
     return {
-      message: 'Hello world'
+      message: 'Hello Vue'
     }
   },
   components: {
     Sass,
     Pug,
-    NoRouter,
     Fetch,
-    Store
+    Store,
+    AsyncStore
   },
   methods: {
 

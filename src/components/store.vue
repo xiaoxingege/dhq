@@ -1,7 +1,7 @@
 <style>
 </style>
 <template>
-<div>{{store}}</div>
+<div>{{content}}</div>
 </template>
 <script>
 import {
@@ -10,7 +10,7 @@ import {
 
 export default {
   computed: mapState({
-    store: state => state.demo.content
+    content: state => state.sync.content
   })
 }
 </script>

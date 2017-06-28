@@ -5,12 +5,15 @@ import renderToString from 'utils/renderToString'
 
 Vue.use(Vuex)
 
-import demo from 'stores/demo'
+import sync from 'stores/sync'
+import asyncStore from 'stores/async'
 const store = new Vuex.Store({
   modules: {
-    demo
+    sync,
+    async: asyncStore
   }
 })
+store.commit('async/fetch', 'store on server');
 
 const app = new Vue({
   template: '<div><index name="haha"/></div>',
@@ -21,7 +24,7 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('/hello', async(ctx, next) => {
+  router.get('/ssr', async(ctx, next) => {
     let html = await renderToString(app);
     ctx.body = `
     <html>

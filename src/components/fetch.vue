@@ -4,7 +4,7 @@
 }
 </style>
 <template>
-<div>{{ !name ? 'Loading...' : name }}</div>
+<div>{{ !name ? 'Loading...' : `fetched name: ${name}` }}</div>
 </template>
 
 <script>

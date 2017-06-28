@@ -4,10 +4,12 @@ import initVue from 'utils/initVue'
 
 Vue.use(Vuex)
 
-import demo from 'stores/demo'
+import sync from 'stores/sync'
+import async from 'stores/async'
 const store = new Vuex.Store({
   modules: {
-    demo
+    sync,
+    async
   }
 })
 
