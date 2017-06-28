@@ -1,3 +1,7 @@
+/*
+ * 初始化路由配置
+ */
+
 import VueRouter from 'vue-router'
 
 export function configRouter (routes) {

@@ -1,14 +1,27 @@
+/*
+ * 前端页面入口文件
+ */
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
 import Index from 'components/index'
 
+/*
+ * 引入vuex
+ */
 Vue.use(Vuex)
 
+/*
+ * 定义路由
+ */
 const routes = [
   { path: '/', component: Index }
 ]
 
+/*
+ * 实例化store
+ */
 import sync from 'stores/sync'
 import async from 'stores/async'
 const store = new Vuex.Store({
@@ -18,6 +31,11 @@ const store = new Vuex.Store({
   }
 })
 
+/*
+ * 实例化vue对象，渲染页面
+ * @store  vuex的数据仓库
+ * @routes  路由配置
+ */
 initVue({
   store,
   routes
