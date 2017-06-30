@@ -6,6 +6,9 @@ var path = require('path'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   WebpackMd5Hash = require('webpack-md5-hash')
 
+/*
+ * 指定项目名
+ */
 let featureName = process.env.JRJ_FEATURE || 'demo';
 
 const buildEntry = function() {
