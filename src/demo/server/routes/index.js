@@ -14,6 +14,10 @@ Vue.use(Vuex)
  */
 import sync from 'stores/sync'
 import asyncStore from 'stores/async'
+import fs from 'fs'
+import path from 'path'
+import getTemplatePath from 'utils/getTemplatePath'
+
 const store = new Vuex.Store({
   modules: {
     sync,
@@ -29,28 +33,20 @@ store.commit('async/fetch', 'store on server');
 
 // 实例化vue对象
 const app = new Vue({
-  template: '<div><index/></div>',
-  components: {
-    Index
-  },
+  render: h => h(Index),
   store
 })
 
+/* 读取编译后的相应的html模板文件 */
+const templatePath = getTemplatePath(path.basename(__filename, '.js'));
+const template = fs.readFileSync(templatePath).toString();
 module.exports = function(router) {
-  router.get('/ssr', async(ctx, next) => {
+  router.get('/', async(ctx, next) => {
     // 渲染vue对象为html字符串
     let html = await renderToString(app);
     // 向浏览器输出完整的html
-    ctx.body = `
-    <html>
-      <head>
-      </head>
-      <body>
-        <div id="app">
-          ${html}
-        </div>
-      </body>
-    </html>
-    `;
+    let arr = template.split(/<div class="app">.*<\/div>/);
+    arr.splice(1, 0, `<div class="app">${html}</div>`)
+    ctx.body = arr.join('');
   });
 }

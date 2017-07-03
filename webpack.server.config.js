@@ -10,7 +10,7 @@ let featureName = process.env.JRJ_FEATURE || 'demo';
 module.exports = merge({}, {
   // Point entry to your app's server entry file
   entry: {
-    index: './src/demo/server/index.js'
+    index: `./src/${featureName}/server/index.js`
   },
 
   // This allows webpack to handle dynamic imports in a Node-appropriate
@@ -25,7 +25,7 @@ module.exports = merge({}, {
   output: {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2',
-    filename: 'server/' + featureName + '/[name].js'
+    filename: featureName + '/server' + '/[name].js'
   },
   resolve: {
     extensions: [
@@ -80,7 +80,5 @@ module.exports = merge({}, {
   // This is the plugin that turns the entire output of the server build
   // into a single JSON file. The default file name will be
   // `vue-ssr-server-bundle.json`
-  plugins: [
-    // new VueSSRServerPlugin()
-  ]
+  plugins: []
 })

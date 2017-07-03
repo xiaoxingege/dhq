@@ -45,7 +45,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: process.env.NODE_ENV == 'production' ?
-      'https://localhost:8000/dist/' : '/dist/',
+      'http://localhost:8000/dist/' : '/dist/',
     filename: process.env.NODE_ENV == 'production' ? featureName + '/[name].[chunkhash:12].js' : featureName + '/[name].js'
   },
   resolve: {
@@ -65,7 +65,7 @@ module.exports = {
     rules: [{
       enforce: 'pre',
       test: /\.(js|vue)$/,
-      exclude: /node_modules/,
+      exclude: /(node_modules|plugins)/,
       loader: 'eslint-loader',
       options: {
         fix: true

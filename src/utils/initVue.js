@@ -19,22 +19,18 @@ module.exports = function (opts) {
   if (routes) {
     Vue.use(VueRouter)
     configRouter(routes).then((router) => {
-      new Vue({
-        components: {
-          App: RoutedApp
-        },
-        el: el || '#app',
+      const app = new Vue({
+        render: h => h(RoutedApp),
         router,
         store
       })
+      app.$mount(el || '.app')
     })
   } else { // 否则使用app作为根组件
-    new Vue({
-      components: {
-        App: App
-      },
-      el: el || '#app',
+    const app = new Vue({
+      render: h => h(App),
       store
     })
+    app.$mount(el || '.app')
   }
 }
