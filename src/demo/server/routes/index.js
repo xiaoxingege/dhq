@@ -45,8 +45,7 @@ module.exports = function(router) {
     // 渲染vue对象为html字符串
     let html = await renderToString(app);
     // 向浏览器输出完整的html
-    let arr = template.split(/<div class="app">.*<\/div>/);
-    arr.splice(1, 0, `<div class="app">${html}</div>`)
-    ctx.body = arr.join('');
+    ctx.body = template.replace(/<!--content-->/, html);
+    await next;
   });
 }
