@@ -5,7 +5,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { configRouter } from 'utils/configRouter'
-import App from 'components/app'
 import RoutedApp from 'components/routed-app'
 
 /*
@@ -14,13 +13,16 @@ import RoutedApp from 'components/routed-app'
  * @el 根节点选择器
  */
 module.exports = function (opts) {
-  const { routes, store, el } = opts
+  const { routes, store, el, component } = opts
   // 如果定义了路由配置，则用routed-app作为根组件
   if (routes) {
     Vue.use(VueRouter)
     configRouter(routes).then((router) => {
       const app = new Vue({
-        render: h => h(RoutedApp),
+        template: '<App></App>',
+        components: {
+          App: RoutedApp
+        },
         router,
         store
       })
@@ -28,7 +30,10 @@ module.exports = function (opts) {
     })
   } else { // 否则使用app作为根组件
     const app = new Vue({
-      render: h => h(App),
+      template: '<App/>',
+      components: {
+        App: component
+      },
       store
     })
     app.$mount(el || '.app')

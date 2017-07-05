@@ -5,6 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
+import App from 'components/app'
 
 /*
  * 引入vuex
@@ -26,7 +27,9 @@ const store = new Vuex.Store({
 /*
  * 实例化vue对象，渲染页面
  * @store  vuex的数据仓库
+ * @component  用于渲染的组件
  */
 initVue({
-  store
+  store,
+  component: App
 })
