@@ -6,6 +6,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
 import Index from 'components/index'
+import ComponentsList from 'components/components-list'
 
 /*
  * 引入vuex
@@ -16,7 +17,8 @@ Vue.use(Vuex)
  * 定义路由
  */
 const routes = [
-  { path: '/', component: Index }
+  { path: '/', component: Index },
+  { path: '/components', component: ComponentsList }
 ]
 
 /*
@@ -38,5 +40,6 @@ const store = new Vuex.Store({
  */
 initVue({
   store,
-  routes
+  routes,
+  historyMode: 'history'
 })

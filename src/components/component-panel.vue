@@ -78,7 +78,7 @@ h2 {
 </template>
 
 <script>
-import camelcase from 'camelcase'
+import camelcase from 'camel-case'
 
 export default {
   props: {
