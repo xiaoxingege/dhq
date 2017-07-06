@@ -63,7 +63,7 @@
 <template>
 <div class="head-nav-dark clearfix">
   <div class="wrapper">
-    <a href="/" class="site-logo-compact"></a>
+    <a href="/" class="site-logo-compact" :style="{backgroundImage:logoUrl ? `url(${logoUrl})` : ''}"></a>
     <ul class="site-nav-compact">
       <li><a href="/live/index.html" target="_self" data-type="live">直播</a></li>
       <li><a href="/match/" target="_self" data-type="match">炒股大赛</a></li>
@@ -73,6 +73,7 @@
       <li><a href="/account/" target="_self" data-type="account">找投顾</a></li>
       <li class="last"><a href="javascript:void(0);" onclick="javascript:JRJ.ui.isLogin(function(){window.location='/account/dynamic.jspa'});" target="_self" data-type="itougu">我的</a></li>
     </ul>
+    <div v-if="logoUrl">{{logoUrl}}</div>
     <div class="site-search">
       <slot name="search"></slot>
     </div>
@@ -82,6 +83,9 @@
 
 <script>
 export default {
+  props: {
+    logoUrl: String
+  },
   data () {
     return {}
   },

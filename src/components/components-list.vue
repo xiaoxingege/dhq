@@ -13,7 +13,22 @@ a {
 
 <template>
 <div class="components-list">
-  <ComponentPanel>
+  <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航" :props="[
+    {
+      name: 'logo-url',
+      desc: '替换默认的logo图片'
+    }
+  ]" :events="[
+    {
+      name: 'logoclick',
+      desc: '点击logo时的事件'
+    }
+  ]" :slots="[
+    {
+      name: 'search',
+      desc: '用于插入搜索框'
+    }
+  ]">
     <HeadNavDark />
   </ComponentPanel>
 </div>
