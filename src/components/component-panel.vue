@@ -78,6 +78,8 @@ h2 {
 </template>
 
 <script>
+import camelcase from 'camelcase'
+
 export default {
   props: {
     name: String,
@@ -97,7 +99,7 @@ export default {
       this.showDetail = !this.showDetail
     },
     setProp (key, ev) {
-      this.$children[0].$props.logoUrl = ev.target.value
+      this.$children[0].$props[camelcase(key)] = ev.target.value
     }
   },
   mounted () {}
