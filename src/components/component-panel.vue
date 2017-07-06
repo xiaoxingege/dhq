@@ -97,7 +97,6 @@ export default {
       this.showDetail = !this.showDetail
     },
     setProp (key, ev) {
-      debugger
       this.$children[0].$props.logoUrl = ev.target.value
     }
   },
