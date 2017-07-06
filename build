@@ -1,0 +1,100 @@
+#!/bin/bash
+
+function p() {
+    echo -e "\033[32m$1\033[0m"
+}
+
+function perr() {
+    echo -e "\033[31m$1\033[0m"
+}
+
+function pwarn() {
+    echo -e "\033[33m$1\033[0m"
+}
+
+function pinfo() {
+    echo -e "\033[36m$1\033[0m"
+}
+
+errstr="__error__"
+
+err=$(pm2 reload $feature 2>/dev/null || echo $errstr)
+
+if [ "$err" = "__error__" ]; then
+  echo 'error'
+fi
+
+filecontent=$(cat package.json)
+version=$(echo $filecontent | jq -r '.version')
+tagname=$feature-$version
+
+err=$(git tag $tagname 2>/dev/null || echo $errstr)
+
+if [ "$err" = "__error__" ]; then
+  perr "tag已经存在"
+  # exit 1
+fi
+
+gitmergeconfilict=($(grep ">>>" ./ -r --exclude-dir=node_modules --exclude-dir=.git | grep -v deploy.sh | awk -F ':' '{print $1}' | sed  's/\/\{1,\}/\//g'))
+gitmergeconfilictcount=${#gitmergeconfilict[@]}
+
+if [ $gitmergeconfilictcount -gt 0 ]; then
+  perr '有以下冲突没有处理：'
+  for((i=0;i<gitmergeconfilictcount;i++));do
+    pinfo ${gitmergeconfilict[i]}
+  done
+  exit
+fi
+
+gitchange=($(git status -bs | grep "^[^#]"))
+gitchangecount=${#gitchange[@]}
+
+if [ $gitchangecount -gt 0 ]; then
+  perr '请先提交代码的修改'
+  exit
+fi
+
+gitahead=($(git status -bs | grep "ahead \d"))
+gitaheadcount=${#gitahead[@]}
+
+if [ $gitaheadcount -gt 0 ]; then
+  perr '请先把代码push到server'
+  exit
+fi
+
+yarn install
+rm -rf dist/$feature/
+npm run build
+newfiles=()
+for file in $(ls dist/$feature/*)
+do
+  if [ -f $file ]; then
+    filename=${file##*/}
+    status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$filename")
+    if [ $status = 404 ]; then
+      ftp -u "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/assets/$filename" dist/$feature/$filename
+      pinfo "$filename transfered"
+      newfiles[${#newfiles[@]}]=$file
+    fi
+  fi
+done
+
+for file in $newfiles
+do
+  if [ -f $file ]; then
+    filename=${file##*/}
+    status="404"
+    pinfo "waiting for $filename"
+    while [ "$status" != "200" ]
+    do
+      status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$filename")
+      echo $status
+      wait
+      if [ "$status" != "200" ]; then
+        sleep 5s
+      fi
+    done
+  fi
+done
+
+p $tagname
