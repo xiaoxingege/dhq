@@ -44,7 +44,9 @@ h2 {
     outline: 0;
     border: 1px solid #ccc;
     padding: 4px 7px;
-    width: 700px;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
 }
 </style>
 
@@ -86,7 +88,7 @@ export default {
   },
   data () {
     return {
-      showDetail: true
+      showDetail: false
     }
   },
   components: {},

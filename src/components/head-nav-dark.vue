@@ -73,7 +73,6 @@
       <li><a href="/account/" target="_self" data-type="account">找投顾</a></li>
       <li class="last"><a href="javascript:void(0);" onclick="javascript:JRJ.ui.isLogin(function(){window.location='/account/dynamic.jspa'});" target="_self" data-type="itougu">我的</a></li>
     </ul>
-    <div v-if="logoUrl">{{logoUrl}}</div>
     <div class="site-search">
       <slot name="search"></slot>
     </div>
