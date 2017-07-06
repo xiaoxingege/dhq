@@ -13,8 +13,6 @@ import ComponentsList from 'components/components-list'
  */
 Vue.use(Vuex)
 
-const a = 1
-
 /*
  * 定义路由
  */

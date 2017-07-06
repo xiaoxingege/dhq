@@ -18,22 +18,8 @@ function pinfo() {
 
 errstr="__error__"
 
-err=$(pm2 reload $feature 2>/dev/null || echo $errstr)
-
-if [ "$err" = "__error__" ]; then
-  echo 'error'
-fi
-
 filecontent=$(cat package.json)
 version=$(echo $filecontent | jq -r '.version')
-tagname=$feature-$version
-
-err=$(git tag $tagname 2>/dev/null || echo $errstr)
-
-if [ "$err" = "__error__" ]; then
-  perr "tag已经存在"
-  # exit 1
-fi
 
 gitmergeconfilict=($(grep ">>>" ./ -r --exclude-dir=node_modules --exclude-dir=.git | grep -v deploy.sh | awk -F ':' '{print $1}' | sed  's/\/\{1,\}/\//g'))
 gitmergeconfilictcount=${#gitmergeconfilict[@]}
@@ -51,7 +37,7 @@ gitchangecount=${#gitchange[@]}
 
 if [ $gitchangecount -gt 0 ]; then
   perr '请先提交代码的修改'
-  exit
+  # exit
 fi
 
 gitahead=($(git status -bs | grep "ahead \d"))
@@ -59,42 +45,77 @@ gitaheadcount=${#gitahead[@]}
 
 if [ $gitaheadcount -gt 0 ]; then
   perr '请先把代码push到server'
-  exit
+  # exit
 fi
 
 yarn install
-rm -rf dist/$feature/
-npm run build
+rm -rf dist/$feature/*.*
+err=$(npm run build 1>/dev/null || echo $errstr)
+if [ "$err" = "__error__" ]; then
+  exit 1
+fi
+err=$(npm run buildserver 1>/dev/null || echo $errstr)
+if [ "$err" = "__error__" ]; then
+  exit 1
+fi
 newfiles=()
 for file in $(ls dist/$feature/*)
 do
   if [ -f $file ]; then
     filename=${file##*/}
-    status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$filename")
+    status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
     if [ $status = 404 ]; then
-      ftp -u "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/assets/$filename" dist/$feature/$filename
+      ftp -n 117.121.12.155 <<f1 >>/dev/null
+quote USER shihuang.piao.ftp.img
+quote PASS n6i7&FOy^q
+mkdir jrjimg/assets/$feature
+bye
+f1
+      ftp -n 117.121.12.155 <<f2 >>/dev/null
+quote USER shihuang.piao.ftp.img
+quote PASS n6i7&FOy^q
+cd jrjimg/assets/$feature/
+lcd dist/$feature/
+put $filename
+bye
+f2
       pinfo "$filename transfered"
       newfiles[${#newfiles[@]}]=$file
     fi
   fi
 done
 
-for file in $newfiles
-do
-  if [ -f $file ]; then
-    filename=${file##*/}
-    status="404"
-    pinfo "waiting for $filename"
-    while [ "$status" != "200" ]
-    do
-      status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$filename")
-      echo $status
-      wait
-      if [ "$status" != "200" ]; then
-        sleep 5s
-      fi
-    done
-  fi
-done
+if [ ${#newfiles[@]} -gt 0 ]; then
+  for file in $newfiles
+  do
+    if [ -f $file ]; then
+      filename=${file##*/}
+      status="404"
+      pinfo "waiting for $filename"
+      while [ "$status" != "200" ]
+      do
+        status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
+        wait
+        if [ "$status" != "200" ]; then
+          sleep 5s
+        fi
+      done
+    fi
+  done
 
-p $tagname
+  tagname=$feature-$version
+
+  err=$(git tag $tagname 2>/dev/null || echo $errstr)
+
+  if [ "$err" = "__error__" ]; then
+    perr "tag已经存在"
+    exit 1
+  fi
+  git push origin $tagname
+  p $tagname
+  err=$(pm2 reload $feature 2>/dev/null || echo $errstr)
+
+  if [ "$err" = "__error__" ]; then
+    node dist/$feature/server/index.js
+  fi
+fi
