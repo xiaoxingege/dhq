@@ -103,19 +103,9 @@ if [ ${#newfiles[@]} -gt 0 ]; then
     fi
   done
 
-  tagname=$feature-$version
-
-  err=$(git tag $tagname 2>/dev/null || echo $errstr)
-
-  if [ "$err" = "__error__" ]; then
-    perr "tag已经存在"
-    exit 1
-  fi
-  git push origin $tagname
-  p $tagname
   err=$(pm2 reload $feature 2>/dev/null || echo $errstr)
 
   if [ "$err" = "__error__" ]; then
-    node dist/$feature/server/index.js
+    pm2 start -n $feature dist/$feature/server/index.js
   fi
 fi
