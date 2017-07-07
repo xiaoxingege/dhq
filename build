@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export BUILD_ID=dontKillMePlease
+
 function p() {
     echo -e "\033[32m$1\033[0m"
 }
