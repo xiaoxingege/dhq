@@ -103,10 +103,10 @@ if [ ${#newfiles[@]} -gt 0 ]; then
     fi
   done
 
-  err=$(pm2 reload $feature 2>/dev/null || echo $errstr)
-  echo ===========$err
+  err=$(pm2 reload $feature 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "__error__" ]; then
-    echo 'start pm2'
     pm2 start -n $feature dist/$feature/server/index.js
   fi
+else
+  exit 1
 fi
