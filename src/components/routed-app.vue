@@ -5,7 +5,7 @@ body,
 ul,
 li {
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 
 a {
@@ -16,19 +16,41 @@ li {
   list-style: none;
 }
 
-.app {
+.app>* {
   text-align: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  animation-duration: .2s;
+  -webkit-animation-duration: .2s;
 }
 </style>
 
 <template>
 <div class="app">
-  <transition enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+  <transition :enter-active-class="`animated ${enter}`" :leave-active-class="`animated ${leave}`">
     <router-view></router-view>
   </transition>
 </div>
 </template>
 
 <script>
-
+export default {
+  data () {
+    return {
+      enter: 'fadeInRight',
+      leave: 'fadeOutLeft',
+      last: ''
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.enter = this.last.path === to.path ? 'fadeInLeft' : 'fadeInRight'
+      this.leave = this.last.path === to.path ? 'fadeOutRight' : 'fadeOutLeft'
+      if (this.last.path !== to.path) {
+        this.last = from
+      }
+    }
+  }
+}
 </script>

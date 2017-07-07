@@ -102,6 +102,11 @@ module.exports = {
         name: featureName + '/images/[name].[ext]?[chunkhash]'
       }
     }]
+  },
+  devServer: {
+    historyApiFallback: {
+      index: `/dist/${featureName}/`
+    }
   }
 }
 

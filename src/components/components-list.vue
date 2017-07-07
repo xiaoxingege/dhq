@@ -6,9 +6,6 @@ a {
     color: #666;
     font-size: 14px;
 }
-.components-list {
-    height: 300px;
-}
 </style>
 
 <template>

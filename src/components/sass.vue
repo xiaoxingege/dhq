@@ -5,5 +5,5 @@ $text-color: red
   color: $text-color
 </style>
 <template>
-<div class="red">Hello Sass</div>
+<router-link to="/components" class="red">Hello Sass</router-link>
 </template>
