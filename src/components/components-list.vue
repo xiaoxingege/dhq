@@ -21,7 +21,7 @@ a {
   ]" :events="[
     {
       name: 'logoclick',
-      desc: '点击logo时的事件'
+      desc: '点击logo触发的事件'
     }
   ]" :slots="[
     {
