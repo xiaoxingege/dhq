@@ -105,7 +105,7 @@ if [ ${#newfiles[@]} -gt 0 ]; then
 
   err=$(pm2 reload $feature 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "__error__" ]; then
-    pm2 start -n $feature dist/$feature/server/index.js
+    BUILD_ID=dontKillMe pm2 start -n $feature dist/$feature/server/index.js
   fi
 else
   exit 1
