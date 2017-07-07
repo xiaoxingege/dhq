@@ -16,7 +16,7 @@ a {
   <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航" :props="[
     {
       name: 'logo-url',
-      desc: '替换默认的logo图片'
+      desc: '替换logo图片'
     }
   ]" :events="[
     {
