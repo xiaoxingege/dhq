@@ -8,7 +8,7 @@ import initVue from 'utils/initVue'
 import Index from 'components/index'
 import ComponentsList from 'components/components-list'
 
-const a = 10
+const a = 11
 void (a)
 /*
  * 引入vuex
