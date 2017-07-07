@@ -45,8 +45,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: process.env.NODE_ENV == 'production' ?
-      `http://i0.jrjimg.cn/assets/${featureName}/` : '/dist/',
-    filename: process.env.NODE_ENV == 'production' ? '[name].[chunkhash:12].js' : '[name].js'
+      `http://i0.jrjimg.cn/assets/` : '/dist/',
+    filename: process.env.NODE_ENV == 'production' ? featureName + '/[name].[chunkhash:12].js' : featureName + '/[name].js'
   },
   resolve: {
     extensions: [
