@@ -24,33 +24,6 @@ filecontent=$(cat package.json)
 version=$(echo $filecontent | jq -r '.version')
 echo version=$(echo $version) > /tmp/$feature.profile
 
-gitmergeconfilict=($(grep ">>>" ./ -r --exclude-dir=node_modules --exclude-dir=.git | grep -v deploy.sh | awk -F ':' '{print $1}' | sed  's/\/\{1,\}/\//g'))
-gitmergeconfilictcount=${#gitmergeconfilict[@]}
-
-if [ $gitmergeconfilictcount -gt 0 ]; then
-  perr '有以下冲突没有处理：'
-  for((i=0;i<gitmergeconfilictcount;i++));do
-    pinfo ${gitmergeconfilict[i]}
-  done
-  exit
-fi
-
-gitchange=($(git status -bs | grep "^[^#]"))
-gitchangecount=${#gitchange[@]}
-
-if [ $gitchangecount -gt 0 ]; then
-  perr '请先提交代码的修改'
-  # exit
-fi
-
-gitahead=($(git status -bs | grep "ahead \d"))
-gitaheadcount=${#gitahead[@]}
-
-if [ $gitaheadcount -gt 0 ]; then
-  perr '请先把代码push到server'
-  # exit
-fi
-
 yarn install
 rm -rf dist/$feature/*.*
 err=$(npm run build 1>/dev/null || echo $errstr)
@@ -65,6 +38,7 @@ newfiles=()
 for file in $(ls dist/$feature/*)
 do
   if [ -f $file ]; then
+    echo $file
     filename=${file##*/}
     status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
     if [ $status = 404 ]; then
