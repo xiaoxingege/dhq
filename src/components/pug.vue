@@ -1,3 +1,3 @@
 <template lang="pug">
-div Hello Pug4
+div Hello Pug5
 </template>
