@@ -8,7 +8,7 @@
     "dev": "webpack-dev-server --inline --hot --host localhost --port=8000",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
-    "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js  --progress",
+    "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js",
     "deploy": ""
   },
   "author": "yang.li",
