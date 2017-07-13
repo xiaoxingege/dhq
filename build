@@ -25,13 +25,25 @@ version=$(echo $filecontent | jq -r '.version')
 echo version=$(echo $version) > /tmp/$feature.profile
 
 yarn install
+err=$errstr
+while [ "$err" = "$errstr" ]
+do
+  err=$(npm run build 1>/dev/null || echo $errstr)
+  if [ "$err" = "$errstr" ]; then
+    rm -rf node_modules
+  fi
+done
+err=$(npm run build 1>/dev/null || echo $errstr)
+if [ "$err" = "$errstr" ]; then
+  exit 1
+fi
 rm -rf dist/$feature/*.*
 err=$(npm run build 1>/dev/null || echo $errstr)
-if [ "$err" = "__error__" ]; then
+if [ "$err" = "$errstr" ]; then
   exit 1
 fi
 err=$(npm run buildserver 1>/dev/null || echo $errstr)
-if [ "$err" = "__error__" ]; then
+if [ "$err" = "$errstr" ]; then
   exit 1
 fi
 newfiles=()
@@ -84,7 +96,7 @@ f2
   done
 
   err=$(pm2 reload $feature 1>/dev/null 2>/dev/null || echo $errstr)
-  if [ "$err" = "__error__" ]; then
+  if [ "$err" = "$errstr" ]; then
     pm2 start -n $feature dist/$feature/server/index.js
   fi
 else
