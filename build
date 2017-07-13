@@ -88,5 +88,6 @@ f2
     pm2 start -n $feature dist/$feature/server/index.js
   fi
 else
+  echo 'no files changed'
   exit 1
 fi
