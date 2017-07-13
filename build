@@ -24,13 +24,14 @@ filecontent=$(cat package.json)
 version=$(echo $filecontent | jq -r '.version')
 echo version=$(echo $version) > /tmp/$feature.profile
 
-yarn install
 err=$errstr
 while [ "$err" = "$errstr" ]
 do
-  err=$(npm run build 1>/dev/null || echo $errstr)
+  err=$(yarn install 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "$errstr" ]; then
+    echo 'retry install modules...'
     rm -rf node_modules
+    sleep 5s
   fi
 done
 err=$(npm run build 1>/dev/null || echo $errstr)
