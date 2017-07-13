@@ -35,35 +35,39 @@ if [ "$err" = "__error__" ]; then
   exit 1
 fi
 newfiles=()
+ftp -n 117.121.12.155 <<f1 >>/dev/null
+quote USER shihuang.piao.ftp.img
+quote PASS n6i7&FOy^q
+mkdir jrjimg/assets/$feature
+bye
+f1
+mkdir -p dist/$feature/ftp
 for file in $(ls dist/$feature/*)
 do
   if [ -f $file ]; then
     filename=${file##*/}
     status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
     if [ $status = 404 ]; then
-      ftp -n 117.121.12.155 <<f1 >>/dev/null
-quote USER shihuang.piao.ftp.img
-quote PASS n6i7&FOy^q
-mkdir jrjimg/assets/$feature
-bye
-f1
-      ftp -n 117.121.12.155 <<f2 >>/dev/null
-quote USER shihuang.piao.ftp.img
-quote PASS n6i7&FOy^q
-cd jrjimg/assets/$feature/
-lcd dist/$feature/
-put $filename
-bye
-f2
       pinfo "$filename transfered"
       newfiles[${#newfiles[@]}]=$file
+      cp $file dist/$feature/ftp/
     fi
   fi
 done
 
 if [ ${#newfiles[@]} -gt 0 ]; then
-  for file in $newfiles
+  ftp -n 117.121.12.155 <<f2 >>/dev/null
+quote USER shihuang.piao.ftp.img
+quote PASS n6i7&FOy^q
+cd jrjimg/assets/$feature/
+lcd dist/$feature/ftp/
+prompt
+mput *
+bye
+f2
+  for file in ${newfiles[*]}
   do
+    echo $file
     if [ -f $file ]; then
       filename=${file##*/}
       status="404"
