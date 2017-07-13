@@ -11,12 +11,10 @@ var path = require('path'),
  */
 let featureName = process.env.JRJ_FEATURE || 'demo';
 
-let entryCount = 0;
 const buildEntry = function() {
   let entryPathes = [`./src/${featureName}/pages`]
   let ret = {};
   for (let entryPath of entryPathes) {
-    entryCount++;
     let dir = path.join(__dirname, entryPath);
     let entries = fs.readdirSync(dir);
     entries.forEach(entry => {

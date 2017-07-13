@@ -8,6 +8,10 @@ li {
   padding: 0;
 }
 
+body {
+  background-color: #dedede;
+}
+
 a {
   text-decoration: none;
 }

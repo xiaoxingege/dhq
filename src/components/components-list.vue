@@ -1,7 +1,4 @@
 <style lang="scss">
-body {
-    background-color: #dedede;
-}
 a {
     color: #666;
     font-size: 14px;
