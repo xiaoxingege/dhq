@@ -113,7 +113,7 @@ module.exports = {
 module.exports.plugins = buildHTML().concat([
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
-    filename: featureName + '/vendors.[chunkhash:12].js',
+    filename: process.env.NODE_ENV === 'production' ? featureName + '/vendors.[chunkhash:12].js' : featureName + '/vendors.js',
     minChunks: function(module, count) {
       return false
     },

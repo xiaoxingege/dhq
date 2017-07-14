@@ -7,7 +7,7 @@ a {
 
 <template>
 <div class="components-list">
-  <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航" :props="[
+  <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航2" :props="[
     {
       name: 'logo-url',
       desc: '替换logo图片'
@@ -33,7 +33,7 @@ import ComponentPanel from './component-panel'
 import HeadNavDark from './head-nav-dark'
 
 export default {
-  data () {
+  data() {
     return {}
   },
   components: {
@@ -41,6 +41,6 @@ export default {
     HeadNavDark
   },
   methods: {},
-  mounted () {}
+  mounted() {}
 }
 </script>
