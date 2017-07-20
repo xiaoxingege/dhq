@@ -26,7 +26,11 @@ export default {
         fetch('http://itougu.jrj.com.cn/marketing/getShareInfo.jspa?userId=' + rootState.user.ssoId + '&frm=h5').then((res) => {
           return res.json()
         }).then(body => {
-          commit('fetch', body.data)
+          if (body.retCode === 0) {
+            commit('fetch', body.data)
+          } else if (body.retCode === -1) {
+            commit('fetch', { shareTimes: 0, zuse: false })
+          }
         }).catch((body2) => {
           commit('fetch', {
             shareTimes: 0,
