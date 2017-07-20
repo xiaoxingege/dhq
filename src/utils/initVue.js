@@ -26,7 +26,7 @@ module.exports = function (opts) {
         router,
         store
       })
-      app.$mount(el || '.app')
+      app.$mount(el || 'app')
     })
   } else { // 否则使用app作为根组件
     const app = new Vue({
@@ -36,6 +36,6 @@ module.exports = function (opts) {
       },
       store
     })
-    app.$mount(el || '.app')
+    app.$mount(el || 'app')
   }
 }

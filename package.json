@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --inline --hot --host localhost --port=8000",
+    "dev": "webpack-dev-server --inline --hot --port=80",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
     "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js",
@@ -55,6 +55,8 @@
     "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
+    "blueimp-md5": "^2.7.0",
+    "fetch-jsonp": "^1.1.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "log4js": "^1.1.1",

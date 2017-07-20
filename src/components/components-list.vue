@@ -7,7 +7,7 @@ a {
 
 <template>
 <div class="components-list">
-  <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航2" :props="[
+  <!-- <ComponentPanel name="head-nav-dark" desc="金融界网站头部深色导航" :props="[
     {
       name: 'logo-url',
       desc: '替换logo图片'
@@ -24,6 +24,14 @@ a {
     }
   ]">
     <HeadNavDark />
+  </ComponentPanel> -->
+  <ComponentPanel name="jichushare-message" desc="基础分享-活动说明" :props="[
+  ]" :events="[
+  ]" :slots="[
+  ]">
+    <div style="background:#f04337;">
+      <JichushareMessage />
+    </div>
   </ComponentPanel>
 </div>
 </template>
@@ -31,16 +39,18 @@ a {
 <script>
 import ComponentPanel from './component-panel'
 import HeadNavDark from './head-nav-dark'
+import JichushareMessage from './jichushare-message'
 
 export default {
-  data() {
+  data () {
     return {}
   },
   components: {
     ComponentPanel,
-    HeadNavDark
+    HeadNavDark,
+    JichushareMessage
   },
   methods: {},
-  mounted() {}
+  mounted () {}
 }
 </script>
