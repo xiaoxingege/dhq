@@ -87,7 +87,7 @@ export default {
         var times = this.generateTimeReqestNumber()
         var hashvalue = 'taskId=100014&timeStamp=' + times
         var hashstr = blueimpMd5(hashvalue)
-        fetch('http://i.jrj.com.cn/jifen/doTask?sign=' + hashstr + '&taskId=100014&timeStamp=' + times, this.myInit).then((res) => {
+        fetch('http://i.jrj.com.cn/jifen/doTask?sign=' + hashstr + '&taskId=100000001&timeStamp=' + times, this.myInit).then((res) => {
           return res.json()
         }).then(body => {
           if (body.retCode === 0) {
