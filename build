@@ -53,7 +53,6 @@ mkdir jrjimg/assets/$feature/images
 bye
 f1
 mkdir -p dist/$feature/ftp/images
-mkdir -p dist/$feature/images
 for file in $(ls dist/$feature/*)
 do
   if [ -f $file ]; then
@@ -67,18 +66,20 @@ do
   fi
 done
 
-for file in $(ls dist/$feature/images/*)
-do
-  if [ -f $file ]; then
-    filename=${file##*/}
-    status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/images/$filename")
-    if [ $status = 404 ]; then
-      pinfo "$filename transfered"
-      newfiles[${#newfiles[@]}]=$file
-      cp $file dist/$feature/ftp/images/
+if [ -d dist/$feature/images ]; then
+  for file in $(ls dist/$feature/images/*)
+  do
+    if [ -f $file ]; then
+      filename=${file##*/}
+      status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/images/$filename")
+      if [ $status = 404 ]; then
+        pinfo "$filename transfered"
+        newfiles[${#newfiles[@]}]=$file
+        cp $file dist/$feature/ftp/images/
+      fi
     fi
-  fi
-done
+  done
+fi
 
 if [ ${#newfiles[@]} -gt 0 ]; then
   ftp -n 117.121.12.155 <<f2 >>/dev/null
