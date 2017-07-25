@@ -85,7 +85,7 @@ export default {
     jindou () {
       if (this.btnJindouText === '马上领取金豆') {
         var times = this.generateTimeReqestNumber()
-        var hashvalue = 'taskId=100014&timeStamp=' + times
+        var hashvalue = 'taskId=100000001&timeStamp=' + times
         var hashstr = blueimpMd5(hashvalue)
         fetch('http://i.jrj.com.cn/jifen/doTask?sign=' + hashstr + '&taskId=100000001&timeStamp=' + times, this.myInit).then((res) => {
           return res.json()
@@ -120,14 +120,11 @@ export default {
     },
     jindoustutas () {
       if ((this.$store.state.user.ssoId + '').length >= 18) {
-        var times = this.generateTimeReqestNumber()
-        var hashvalue = 'taskId=100014&timeStamp=' + times
-        var hashstr = blueimpMd5(hashvalue)
-        fetch('http://i.jrj.com.cn/jifen/doTask?sign=' + hashstr + '&taskId=100014&timeStamp=' + times, this.myInit).then((res) => {
+        fetch('http://i.jrj.com.cn/jifen/myTaskStatus?taskId=100000001', this.myInit).then((res) => {
           return res.json()
         }).then(body => {
-          if (body.retCode === 2) {
-            this.btnJindouText = '恭喜你，领取成功'
+          if (body.retCode === 0 && body.data.status === 1) {
+            this.btnJindouText = '立即金豆兑换礼品'
           }
         }).catch(body2 => {
           this.$store.commit('error/push', {
