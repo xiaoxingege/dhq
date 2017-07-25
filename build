@@ -53,6 +53,7 @@ mkdir jrjimg/assets/$feature/images
 bye
 f1
 mkdir -p dist/$feature/ftp/images
+mkdir -p dist/$feature/images
 for file in $(ls dist/$feature/*)
 do
   if [ -f $file ]; then
