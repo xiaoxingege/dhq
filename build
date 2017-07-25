@@ -23,7 +23,7 @@ function pinfo() {
 function get_port() {
   is_use="0"
   if [ "$uname" = "Linux" ];then
-    is_use=`netstat -nltp | grep ':${port} ' | wc -l`
+    is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
   else
     is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
   fi
@@ -31,7 +31,7 @@ function get_port() {
   do
     let "port+=1"
     if [ "$uname" = "Linux" ];then
-      is_use=`netstat -nltp | grep ':${port} ' | wc -l`
+      is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
     else
       is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
     fi
@@ -149,6 +149,7 @@ f3
     fi
   done
   pm2name=$feature_$branch
+  pm2 delete jichushare-test
   err=$(pm2 reload $pm2name 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "$errstr" ]; then
     pm2 start -n $pm2name dist/$feature/server/index.js -- $port
