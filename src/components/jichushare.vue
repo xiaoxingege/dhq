@@ -1,21 +1,21 @@
 <style>
 @import '../assets/css/reset.css';
-html{
+html {
   height: 100%;
 }
+
 body {
   background: #f04337 url(../assets/images/jichushare/bg.jpg) no-repeat;
   background-size: 100% 100%;
 }
 
-.jichushare {
-}
+.jichushare {}
 
 .jichushare-message {
   position: fixed;
   top: 0;
   right: .5rem;
-  z-index:1
+  z-index: 1
 }
 </style>
 
@@ -43,6 +43,9 @@ export default {
     JichushareJindu,
     JichushareBtn,
     JichushareToast
+  },
+  mounted () {
+    document.title = '分享送豪礼!'
   }
 }
 </script>
