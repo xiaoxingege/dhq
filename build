@@ -21,8 +21,7 @@ function pinfo() {
 errstr="__error__"
 
 filecontent=$(cat package.json)
-#version=$(echo $filecontent | jq -r '.version')
-version=1.0.0
+version=$(echo $filecontent | jq -r '.version')
 echo version=$(echo $version) > /tmp/$feature.profile
 
 err=$errstr
