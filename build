@@ -148,8 +148,7 @@ f3
       done
     fi
   done
-  pm2name=$feature_$branch
-  pm2 delete jichushare-test
+  pm2name=$feature_$branch_$port
   err=$(pm2 reload $pm2name 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "$errstr" ]; then
     pm2 start -n $pm2name dist/$feature/server/index.js -- $port
