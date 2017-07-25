@@ -25,14 +25,6 @@ a {
   ]">
     <HeadNavDark />
   </ComponentPanel>
-  <ComponentPanel name="jichushare-message" desc="基础分享 活动说明" :props="[
-  ]" :events="[
-  ]" :slots="[
-  ]">
-    <div style="background:#f04337;">
-      <JichushareMessage />
-    </div>
-  </ComponentPanel>
 </div>
 </template>
 
