@@ -26,7 +26,8 @@ const app = new Vue({
 module.exports = function(router) {
   router.get('/jichushare', async(ctx, next) => {
     // 渲染vue对象为html字符串
-    let html = await renderToString(app);
+    ctx.type='html';
+    let html = '';
     // 向浏览器输出完整的html
     ctx.body = html;
     // 继续执行后面的中间件
