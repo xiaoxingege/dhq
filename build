@@ -2,6 +2,8 @@
 
 export BUILD_ID=dontKillMePlease
 
+uname=`uname`
+
 function p() {
     echo -e "\033[32m$1\033[0m"
 }
@@ -18,10 +20,34 @@ function pinfo() {
     echo -e "\033[36m$1\033[0m"
 }
 
+function get_port() {
+  is_use="0"
+  if [ "$uname" = "Linux" ];then
+    is_use=`netstat -nltp | grep ':${port} ' | wc -l`
+  else
+    is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
+  fi
+  while [ $is_use = "1" ]
+  do
+    let "port+=1"
+    if [ "$uname" = "Linux" ];then
+      is_use=`netstat -nltp | grep ':${port} ' | wc -l`
+    else
+      is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
+    fi
+  done
+}
+
+port=3000
+get_port
+
 errstr="__error__"
 
 filecontent=$(cat package.json)
-version=$(echo $filecontent | jq -r '.version')
+version=1.0.0
+if [ "$uname" = "Linux" ]; then
+  version=$(echo $filecontent | jq -r '.version')
+fi
 echo version=$(echo $version) > /tmp/$feature.profile
 
 err=$errstr
@@ -121,10 +147,10 @@ f3
       done
     fi
   done
-
-  err=$(pm2 reload $feature 1>/dev/null 2>/dev/null || echo $errstr)
+  pm2name=$feature_$branch
+  err=$(pm2 reload $pm2name 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "$errstr" ]; then
-    pm2 start -n $feature dist/$feature/server/index.js
+    pm2 start -n $pm2name dist/$feature/server/index.js -- $port
   fi
 else
   echo 'no files changed'
