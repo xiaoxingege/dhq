@@ -40,6 +40,7 @@ function get_port() {
 
 port=3000
 get_port
+echo 'using port: '$port
 
 errstr="__error__"
 

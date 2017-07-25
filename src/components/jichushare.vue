@@ -45,7 +45,7 @@ export default {
     JichushareToast
   },
   mounted () {
-    document.title = '分享送豪礼!!'
+    document.title = '分享送豪礼!!!'
   }
 }
 </script>
