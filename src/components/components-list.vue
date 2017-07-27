@@ -34,7 +34,7 @@ import HeadNavDark from './head-nav-dark'
 import JichushareMessage from './jichushare-message'
 
 export default {
-  data() {
+  data () {
     return {}
   },
   components: {
@@ -43,6 +43,6 @@ export default {
     JichushareMessage
   },
   methods: {},
-  mounted() {}
+  mounted () {}
 }
 </script>
