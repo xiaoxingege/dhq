@@ -140,7 +140,7 @@ li {
 <template>
 <div v-if="show" class="web-install-dialog" :style="{width:winWidth+'px',height:winHeight+'px'}">
   <div class="content">
-    <h2>下载金融界app</h2>
+    <h2>下载金融界App</h2>
     <div class="title-line-left"></div>
     <div class="title-line-right"></div>
     <a class="btn-close" @click="close"></a>
