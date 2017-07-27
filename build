@@ -56,8 +56,6 @@ function get_port() {
 }
 
 port=3000
-get_port
-pinfo 'using port: '$port
 
 errstr="__error__"
 
@@ -170,10 +168,12 @@ f3
       done
     fi
   done
-  pm2name=$feature"_"$branch"_"$port
+  pm2name=$feature"_"$branch
   pinfo 'pm2 name: '$pm2name
   pm2 reload $pm2name
   if [ "$?" != "0" ]; then
+    get_port
+    pinfo 'using port: '$port
     pm2 start -n $pm2name dist/$feature/server/index.js -- $port
   fi
 else
