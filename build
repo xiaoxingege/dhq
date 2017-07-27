@@ -66,12 +66,12 @@ echo 'yarn install done.'
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
-err=$(npm run build 1>/dev/null || echo $errstr)
+err=$(npm run build 1>/dev/null 2>/dev/null || echo $errstr)
 if [ "$err" = "$errstr" ]; then
   exit 1
 fi
 echo 'npm build done.'
-err=$(npm run buildserver 1>/dev/null || echo $errstr)
+err=$(npm run buildserver 1>/dev/null 2>/dev/null || echo $errstr)
 if [ "$err" = "$errstr" ]; then
   exit 1
 fi
