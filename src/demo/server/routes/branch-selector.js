@@ -25,6 +25,7 @@ const app = new Vue({
 
 module.exports = function(router) {
   router.get('/branch-selector', async(ctx, next) => {
+    ctx.template = 'branchSelector';
     // 渲染vue对象为html字符串
     let html = await renderToString(app);
     // 向浏览器输出完整的html
