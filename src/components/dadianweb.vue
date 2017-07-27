@@ -1,0 +1,76 @@
+<style>
+@import '../assets/css/reset.css';
+.tit {
+  border-bottom: 1px solid green;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+.item { position: relative; margin-bottom: 60px;}
+.btn{ position: absolute; left:800px; top:20px;width: 100px;
+text-align: center;
+font-size: 16px;
+color: #3e0f11;
+float: left;
+background: #00e2d4;
+line-height: 40px;
+border-radius: 10px;
+box-shadow: 0 5px 0 0 #02867d;
+color:#fff;
+cursor: pointer;}
+.item  li{ margin-bottom: 30px;}
+.item span {
+  width: 100px;line-height: 26px; padding-left: 40px;
+}
+.item select,.item input{ width:200px; height: 26px;font-size: 18px; outline: none;}
+.item .long{ width:400px;}
+.text{ width:680px; height: 150px;padding:0 10px;resize: none; outline: none; margin-left: 40px; font-size: 14px;}
+</style>
+
+<template>
+<div class="dadian">
+  <dadianBtn/>
+  <div class="tit">查询条件</div>
+  <div class="item">
+    <ul>
+      <li class="clearfix">
+        <span class="fl">日期</span>
+        <div class="fl">
+          <dadianTime/>
+        </div>
+      </li>
+      <li class="clearfix">
+        <span class="fl">URL中包含</span>
+        <input type="text" class="fl long" name="" value="">
+      </li>
+    </ul>
+    <a href="javascript:;" class="btn">检索</a>
+  </div>
+  <div class="tit">语句查询</div>
+  <div class="item">
+    <textarea name="name" class="text">
+      select * from appcms_parquet
+      where url like'%i.jrj.com.cn/app/myfund%'
+      and ds='2017-06-30'
+    </textarea>
+      <a href="javascript:;" class="btn">检索</a>
+  </div>
+  <div class="tit">结果</div>
+  <JichushareToast/>
+</div>
+</template>
+
+<script>
+import dadianBtn from 'components/dadian-btn'
+import dadianTime from 'components/dadian-time'
+import JichushareToast from 'components/jichushare-toast'
+
+export default {
+  components: {
+    dadianBtn,
+    dadianTime,
+    JichushareToast
+  }
+}
+</script>
