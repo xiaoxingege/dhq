@@ -30,7 +30,7 @@ app.use(router.routes());
 /* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
 const templateMap = {
-  default: fs.readFileSync(path.join(templatePath, 'jichushare.html')).toString()
+  default: fs.readFileSync(path.join(templatePath, 'index.html')).toString()
 }
 app.use(async function(ctx, next) {
   ctx.body = templateMap[ctx.template || 'default'].replace(/<!--content-->/, ctx.body);
