@@ -3,21 +3,38 @@
 export BUILD_ID=dontKillMePlease
 
 uname=`uname`
+user=`whoami`
 
 function p() {
+  if [ "$user" = "jenkins" ]; then
+    echo $1
+  else
     echo -e "\033[32m$1\033[0m"
+  fi
 }
 
 function perr() {
+  if [ "$user" = "jenkins" ]; then
+    echo $1
+  else
     echo -e "\033[31m$1\033[0m"
+  fi
 }
 
 function pwarn() {
+  if [ "$user" = "jenkins" ]; then
+    echo $1
+  else
     echo -e "\033[33m$1\033[0m"
+  fi
 }
 
 function pinfo() {
+  if [ "$user" = "jenkins" ]; then
+    echo $1
+  else
     echo -e "\033[36m$1\033[0m"
+  fi
 }
 
 function get_port() {
@@ -40,7 +57,7 @@ function get_port() {
 
 port=3000
 get_port
-echo 'using port: '$port
+pinfo 'using port: '$port
 
 errstr="__error__"
 
@@ -50,32 +67,32 @@ if [ "$uname" = "Linux" ]; then
   version=$(echo $filecontent | jq -r '.version')
 fi
 echo version=$(echo $version) > /tmp/$feature.profile
-echo 'current version: '$version
+pinfo 'current version: '$version
 
 err=$errstr
 while [ "$err" = "$errstr" ]
 do
   err=$(yarn install 1>/dev/null 2>/dev/null || echo $errstr)
   if [ "$err" = "$errstr" ]; then
-    echo 'retry install modules...'
+    pinfo 'retry install modules...'
     rm -rf node_modules
     sleep 5s
   fi
 done
-echo 'yarn install done.'
+pinfo 'yarn install done.'
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
-err=$(npm run build 1>/dev/null 2>/dev/null || echo $errstr)
-if [ "$err" = "$errstr" ]; then
+npm run build
+if [ "$?" != "0" ]; then
   exit 1
 fi
-echo 'npm build done.'
-err=$(npm run buildserver || echo $errstr)
-if [ "$err" = "$errstr" ]; then
+pinfo 'npm build done.'
+npm run buildserver
+if [ "$?" != "0" ]; then
   exit 1
 fi
-echo 'npm buildserver done.'
+pinfo 'npm buildserver done.'
 newfiles=()
 ftp -n 117.121.12.155 <<f1 >>/dev/null
 quote USER shihuang.piao.ftp.img
@@ -116,7 +133,7 @@ if [ -d dist/$feature/images ]; then
 fi
 
 if [ ${#newfiles[@]} -gt 0 ]; then
-  echo 'has new files.'
+  pinfo 'has new files.'
   ftp -n 117.121.12.155 <<f2 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
@@ -154,12 +171,12 @@ f3
     fi
   done
   pm2name=$feature_$branch_$port
-  echo 'pm2 name: '$pm2name
-  err=$(pm2 reload $pm2name 1>/dev/null 2>/dev/null || echo $errstr)
-  if [ "$err" = "$errstr" ]; then
+  pinfo 'pm2 name: '$pm2name
+  pm2 reload $pm2name
+  if [ "$?" != "0" ]; then
     pm2 start -n $pm2name dist/$feature/server/index.js -- $port
   fi
 else
-  echo 'no files changed'
+  perr 'no files changed'
   exit 1
 fi
