@@ -1,10 +1,11 @@
 <style lang="scss" scoped>
 .web-install-dialog {
     -webkit-font-smoothing: antialiased;
-    z-index: 1;
+    z-index: 1000;
     top: 0;
     left: 0;
     background: rgba(0,0,0,.4);
+    position: fixed;
 }
 .content {
     border-radius: 7px;
@@ -161,10 +162,9 @@ li {
 import cookie from 'component-cookie'
 export default {
   data () {
-    const rect = document.documentElement.getBoundingClientRect()
     return {
-      winWidth: rect.width,
-      winHeight: rect.height,
+      winWidth: window.innerWidth,
+      winHeight: window.innerHeight,
       show: false
     }
   },
@@ -179,9 +179,13 @@ export default {
     if (isShow) {
       this.show = true
       cookie('web-install-dialog', '1', {
-        maxage: 5000
+        maxage: 1000 * 3600 * 24
       })
     }
+    window.addEventListener('resize', () => {
+      this.winWidth = window.innerWidth
+      this.winHeight = window.innerHeight
+    })
   }
 }
 </script>

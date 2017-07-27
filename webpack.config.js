@@ -40,7 +40,7 @@ const buildHTML = function() {
 
 module.exports = {
   entry: Object.assign({
-    vendor: ['vue', 'vue-router']
+    vendor: ['vue', 'vue-router', 'vuex', 'babel-polyfill']
   }, buildEntry()),
   output: {
     path: path.resolve(__dirname, 'dist'),
