@@ -170,7 +170,7 @@ f3
       done
     fi
   done
-  pm2name=$feature_$branch_$port
+  pm2name=$feature"_"$branch"_"$port
   pinfo 'pm2 name: '$pm2name
   pm2 reload $pm2name
   if [ "$?" != "0" ]; then
