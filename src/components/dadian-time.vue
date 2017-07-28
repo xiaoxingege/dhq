@@ -5,9 +5,9 @@
 <template>
 <div class="dadian-time">
   <div class="up">
-    <input ref="starttime" @change="starttimeChanged($event)" placeholder="请输入日期" class="laydate-icon" v-model="starttime" @click="startsendmsgtoparent" >
+    <input  @change="starttimeChanged($event)" placeholder="请输入日期" class="laydate-icon" v-model="starttime" @click="startsendmsgtoparent" >
     <span>至</span>
-    <input ref="endtime" @change="endtimeChanged($event)"  placeholder="请输入日期" class="laydate-icon" v-model="endtime"  @click="endsendmsgtoparent" >
+    <input  @change="endtimeChanged($event)"  placeholder="请输入日期" class="laydate-icon" v-model="endtime"  @click="endsendmsgtoparent" >
   </div>
 
 </div>
