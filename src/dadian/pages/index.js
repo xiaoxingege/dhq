@@ -39,5 +39,6 @@ const store = new Vuex.Store({
  */
 initVue({
   store,
-  routes
+  routes,
+  historyMode: 'history'
 })

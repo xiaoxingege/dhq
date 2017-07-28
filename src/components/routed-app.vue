@@ -9,7 +9,6 @@ li {
 }
 
 body {
-  background-color: #dedede;
 }
 
 a {
@@ -21,7 +20,6 @@ li {
 }
 
 .app>* {
-  text-align: center;
   position: absolute;
   top: 0;
   width: 100%;

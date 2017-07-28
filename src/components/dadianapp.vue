@@ -37,7 +37,7 @@ cursor: pointer;}
       <li class="clearfix">
         <span class="fl">日期</span>
         <div class="fl">
-          <dadianTime/>
+          <dadianTime v-bind:starttime="starttime" v-bind:endtime="endtime" v-on:starttimeChanged="startshowMsgFromChild"  v-on:endtimeChanged="endshowMsgFromChild"  />
         </div>
       </li>
       <li class="clearfix">
@@ -57,10 +57,10 @@ cursor: pointer;}
         <span class="fl">d_name</span>
         <input type="text" class="fl" name="" value="">
         <span class="fl">devid</span>
-        <input type="text" class="fl long" name="" value="">
+        <input type="text" class="fl long" name="" >
       </li>
     </ul>
-    <a href="javascript:;" class="btn">检索</a>
+    <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
   </div>
   <div class="tit">语句查询</div>
   <div class="item">
@@ -79,6 +79,7 @@ cursor: pointer;}
       <a href="javascript:;" class="btn">检索</a>
   </div>
   <div class="tit">结果</div>
+  <dadianTable v-bind:tabledata="tabledata" />
   <JichushareToast/>
 </div>
 </template>
@@ -86,13 +87,51 @@ cursor: pointer;}
 <script>
 import dadianBtn from 'components/dadian-btn'
 import dadianTime from 'components/dadian-time'
+import dadianTable from 'components/dadian-table'
 import JichushareToast from 'components/jichushare-toast'
 
 export default {
   components: {
     dadianBtn,
     dadianTime,
+    dadianTable,
     JichushareToast
+  },
+  data () {
+    return {
+      starttime: this.getNowFormatDate(),
+      endtime: this.getNowFormatDate(),
+      tabledata: {
+        th: ['哈哈', '呵呵', '嘎嘎', '嘻嘻', '嘿嘿', '槑', '恩', '哼'],
+        td: [
+            ['哈哈1', '呵呵4', '嘎嘎6', '嘻嘻', '嘿45嘿', '435槑', '恩54', '哼657'],
+            ['哈哈2', '呵呵', '嘎7嘎', '嘻87嘻', '嘿45嘿', '45槑', '恩34', '756'],
+            ['哈哈3', '呵呵5', '嘎8嘎', '嘻43嘻', '嘿453嘿', '槑34', '恩', '8678哼']
+        ]
+      }
+    }
+  },
+  computed: {
+
+  },
+  mounted () {
+
+  },
+  methods: {
+    pad2 (n) { return n < 10 ? '0' + n : n },
+    getNowFormatDate () {
+      var date = new Date()
+      return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
+    },
+    appbtn1 () {
+      alert(this.starttime + '$$' + this.endtime)
+    },
+    startshowMsgFromChild (data) {
+      this.starttime = data
+    },
+    endshowMsgFromChild (data) {
+      this.endtime = data
+    }
   }
 }
 </script>

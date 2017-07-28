@@ -7,18 +7,19 @@
   font-size: 16px;
   color: #3e0f11;
   float: left;
-  background: #009F95;
+  background: #00e0d2;
   line-height: 20px;
   border-radius: 5px;
-  box-shadow: 0 5px 0 0 #026760;
+  box-shadow: 0 5px 0 0 #00c1b5;
   color:#fff;
   cursor: pointer;
 }
+.router-link-active{ background: #009F95;box-shadow: 0 5px 0 0 #026760 ;}
 </style>
 <template>
 <div class="dadian-btn">
-  <a class="btn1" v-link="{ path : '/dadianapp'}">APP<br /> 打卡测试</a>
-  <a class="btn1" v-link="{ path : '/dadianweb'}">H5/WEB<br /> 打卡测试</a>
+  <router-link class="btn1" to="/dadianapp">APP<br /> 打卡测试</router-link>
+  <router-link class="btn1" to="/dadianweb">H5/WEB<br /> 打卡测试</router-link>
 </div>
 </template>
 <script>

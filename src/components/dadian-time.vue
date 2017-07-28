@@ -5,9 +5,9 @@
 <template>
 <div class="dadian-time">
   <div class="up">
-    <input placeholder="请输入日期" class="laydate-icon" @click="laydatefn" >
+    <input ref="starttime" @change="starttimeChanged($event)" placeholder="请输入日期" class="laydate-icon" v-model="starttime" @click="startsendmsgtoparent" >
     <span>至</span>
-    <input placeholder="请输入日期" class="laydate-icon"  @click="laydatefn" >
+    <input ref="endtime" @change="endtimeChanged($event)"  placeholder="请输入日期" class="laydate-icon" v-model="endtime"  @click="endsendmsgtoparent" >
   </div>
 
 </div>
@@ -23,13 +23,23 @@ export default {
     return {
     }
   },
+  props: ['starttime', 'endtime'],
   computed: mapState({
   }),
   mounted () {
   },
   methods: {
-    laydatefn () {
-      window.laydate({ istime: true, format: 'YYYY-MM-DD hh:mm:ss' })
+    starttimeChanged (newTime) {
+      this.$emit('starttimeChanged', newTime)
+    },
+    endtimeChanged (newTime) {
+      this.$emit('endtimeChanged', newTime)
+    },
+    startsendmsgtoparent () {
+      window.laydate({ istime: true, format: 'YYYY-MM-DD hh:mm:ss', choose: this.starttimeChanged.bind(this) })
+    },
+    endsendmsgtoparent () {
+      window.laydate({ istime: true, format: 'YYYY-MM-DD hh:mm:ss', choose: this.endtimeChanged.bind(this) })
     }
   }
 }
