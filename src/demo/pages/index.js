@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import initVue from 'utils/initVue'
 import Index from 'components/index'
 import ComponentsList from 'components/components-list'
+// import Search from 'components/search'
 
 /*
  * 引入vuex
@@ -19,17 +20,17 @@ Vue.use(Vuex)
 const routes = [
   { path: '/', component: Index },
   { path: '/components', component: ComponentsList }
+  // { path: '/search', component: Search }
 ]
 
 /*
  * 实例化store
  */
-import sync from 'stores/sync'
-import async from 'stores/async'
+
+import zhikuanSearch from 'stores/zhikuan-search'
 const store = new Vuex.Store({
   modules: {
-    sync,
-    async
+    zhikuanSearch
   }
 })
 

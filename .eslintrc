@@ -17,6 +17,6 @@
 		"no-undef": "error",
 		"strict": "error",
 		"no-extra-semi": "error",
-		"no-console": "error"
+		"no-console": "off"
 	}
 }
