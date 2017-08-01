@@ -9,7 +9,7 @@ var path = require('path'),
 /*
  * 指定项目名
  */
-let featureName = process.env.JRJ_FEATURE || 'demo';
+let featureName = process.env.JRJ_FEATURE || 'activity';
 
 const buildEntry = function() {
   let entryPathes = [`./src/${featureName}/pages`]
@@ -40,7 +40,7 @@ const buildHTML = function() {
 
 module.exports = {
   entry: Object.assign({
-    vendor: ['vue', 'vue-router']
+    vendor: ['vue', 'vue-router', 'vuex', 'babel-polyfill']
   }, buildEntry()),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -99,14 +99,16 @@ module.exports = {
       loader: 'url-loader',
       query: {
         limit: 15000,
-        name: featureName + '/images/[name].[ext]?[chunkhash]'
+        name: featureName + '/images/[name].[ext]'
       }
     }]
   },
   devServer: {
     historyApiFallback: {
       index: `/dist/${featureName}/`
-    }
+    },
+    host: '0.0.0.0',
+    disableHostCheck: true
   }
 }
 
