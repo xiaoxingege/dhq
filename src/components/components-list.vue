@@ -80,6 +80,7 @@ import ComponentPanel from './component-panel'
 import HeadNavDark from './head-nav-dark'
 import SearchBar from './search-bar'
 import ArticleList from './article-list'
+import JichushareMessage from './jichushare-message'
 
 export default {
   data () {
@@ -91,7 +92,8 @@ export default {
     ComponentPanel,
     HeadNavDark,
     SearchBar,
-    ArticleList
+    ArticleList,
+    JichushareMessage
   },
   methods: {
     showArticleList () {
