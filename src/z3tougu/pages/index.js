@@ -1,36 +1,9 @@
 /*
  * 前端页面入口文件
  */
-
-import Vue from 'vue'
-import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import Index from 'components/index'
-// import Search from 'components/search'
-
-/*
- * 引入vuex
- */
-Vue.use(Vuex)
-
-/*
- * 定义路由
- */
-const routes = [
-    { path: '/', component: Index }
-    // { path: '/search', component: Search }
-]
-
-/*
- * 实例化store
- */
-
-import zhikuanSearch from 'stores/zhikuan-search'
-const store = new Vuex.Store({
-  modules: {
-    zhikuanSearch
-  }
-})
+import routes from '../router'
+import store from '../store'
 
 /*
  * 实例化vue对象，渲染页面
