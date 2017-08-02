@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/web-install-dialog'
+import App from 'components/hangqing'
 
 /*
  * 引入vuex
