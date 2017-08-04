@@ -1,37 +1,63 @@
-<style lang="scss" scoped>
+:<style lang="scss" scoped>
     @import '../assets/css/base.css';
     .article-list{
-        border: 1px solid #e1e1e1;
+        width:100%;
+        border-top: 1px solid #ccc;
         background: #fff;
         font-size: 12px;
         z-index: 999999;
-        box-shadow: 2px 2px 7px 0 #bfbfbf;
-        -moz-box-shadow: 2px 2px 7px 0 #bfbfbf;
-        -webkit-box-shadow: 2px 2px 7px 0 #bfbfbf;
         text-align: left;
+    }
+    .newsTitle{
+        background:#F2F2F2;
+        height:22px;
+        line-height: 22px;
+        font-size:12px;
+        padding:0 9px;
+    }
+    .newsTitle a{
+        color:#000;
+    }
+    .newsTitle a:hover{
+        text-decoration: underline;
+    }
+    .newList{
+        line-height: 20px;
+        padding:0 9px;
+        margin-bottom: 10px;
+    }
+    .newList li a{
+        color:#000;
+    }
+    .newList li a:hover{
+        text-decoration: underline;
     }
 </style>
 <template>
-    <div class="article-list" :style="{width:width+'px'}">
+    <div class="article-list">
         <div v-if="data && data.length > 0" v-for="block of data">
-            <p class="c999 clearfix">
+            <template v-if="block.count != 0">
+            <p class="c999 clearfix newsTitle">
                 <span class="fl title">{{block.title}}</span>
-                <a class="fr">共{{block.count}}条相关资讯&gt;&gt;</a>
+                <router-link :to="{name:'search' , params:{ linkText : block.linkText, keyword : keyword}}" class="fr">共{{block.count}}条相关{{block.title}}&gt;&gt;</router-link>
             </p>
-            <ul>
+            <ul class="newList">
                 <li v-for="article of block.list"><a :href="article.link">{{article.title}}</a></li>
             </ul>
+            </template>
         </div>
-        <div v-if="!data">当前没有数据</div>
+        <!--<div v-if="!data">当前没有数据</div>-->
     </div>
 </template>
 <script>
     import { mapState } from 'vuex'
-export default {
+    export default {
       data () {
-        return {}
+        return {
+
+        }
       },
-      props: ['data', 'width'],
+      props: ['data', 'width', 'keyword'],
       computed: mapState({
         result: state => state.zhikuanSearch.result
       }),

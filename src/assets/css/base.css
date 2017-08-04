@@ -16,3 +16,9 @@ a{
     font-size:12px;
     text-align: justify;
 }
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}

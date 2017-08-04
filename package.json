@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.7.0",
+    "echarts": "^3.6.2",
     "fetch-jsonp": "^1.1.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",

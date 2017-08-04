@@ -1,14 +1,9 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
     .search-bar{
-        margin-top: 8px;
-        width: 500px;
+        width: 100%;
         height: 24px;
         line-height: 0;
-        background-color: #62697d;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
     }
     form{
         position: relative;
@@ -18,34 +13,22 @@
         outline: 0;
         border: 0;
         background: 0;
+        color:#666;
     }
     .search_t{
-        width: 450px;
-        height: 16px;
-        line-height: 16px;
-        border-right: 1px solid #828ba4;
-        margin-top: 4px;
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
         font-size: 12px;
-        color: #bfbec0;
-        padding-left: 18px;
-        &::-webkit-input-placeholder{color:#bfbec0}
+        padding-left: 10px;
+        &::-webkit-input-placeholder{ color:#bfbec0;}
     }
-    .search_s{
-        position: absolute;
-        right: 8px;
-        top: 6px;
-        width: 13px;
-        height: 13px;
-        cursor: pointer;
-        background-image: url(../assets/images/f_sprite.png);
-        background-position: 0 -129px;
-    }
+
 </style>
 <template>
     <div class="search-bar">
         <form @submit="search($event)" class="">
-            <input @input="search($event)" ref="keyword" class="search_t" type="text" value="" :placeholder="placeholder" autocomplete="off">
-            <input type="submit" class="search_s" value="">
+            <input @input="search($event)" @keyup="keyEnter($event)" ref="keyword" class="search_t" type="text" value="" :placeholder="placeholder" autocomplete="off">
         </form>
     </div>
 </template>
@@ -65,10 +48,20 @@ export default {
           e.preventDefault()
           const keyword = this.$refs.keyword.value
           this.$store.dispatch('zhikuanSearch/search', { keyword })
+        },
+        keyEnter (e) {
+          if (e.keyCode === 13) {
+            const keyword = this.$refs.keyword.value
+            this.$store.dispatch('zhikuanSearch/quotaList', { keyword })
+            if (this.$store.state.zhikuanSearch.isQuota) {
+            } else {
+              window.open(`/search/stock/${keyword}`)
+            }
+          }
         }
       },
       mounted () {
-        this.$watch('result', result => {
+        this.$watch('result', function (result) {
           if (result) {
             this.$emit('searchsuccess')
           } else {
