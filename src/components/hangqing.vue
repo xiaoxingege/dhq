@@ -35,12 +35,14 @@ body {
   height: 100%;
   background: url(../assets/images/hangqing/mask.png) bottom right;
   background-size: 100% auto;
+  top: 0
 }
 
 .data_hd {
   color: #aaa;
-  line-height: .64rem;
+  line-height: .77rem;
   position: relative;
+  background: #fff;
 }
 
 .data_hd .icon {
@@ -50,14 +52,14 @@ body {
   background: url(../assets/images/hangqing/default.png) no-repeat bottom right;
   background-size: .1rem .1rem;
 }
-
-.data_hd .iconup {
+.data_hd .iconup ,.data_hd .icondown{color: #3996F2}
+.data_hd .iconup .icon {
   background-image: url(../assets/images/hangqing/up.png);
   background-size: .1rem .2rem;
   height: .2rem;
 }
 
-.data_hd .icondown {
+.data_hd .icondown .icon {
   background-image: url(../assets/images/hangqing/down.png);
   background-size: .1rem .2rem;
   height: .2rem;
@@ -80,17 +82,24 @@ body {
   box-sizing: border-box;
   width: 200%;
 }
-
+.data_zuo,.data_you{padding-top: .77rem;}
 .alldata li {
   position: relative;
 }
 
 .data_r .data_hd {
   text-align: right;
+  position: fixed;
+  left:30%;top:0;
+  background: #fff;z-index: 3;width:17.5rem;
 }
 
 .data_l {
   width: 30%
+}
+.data_l .data_hd{
+  position: fixed;width: 30%;left: 0;top: 0;
+  z-index: 4;
 }
 
 .data_l .data_hd span {
@@ -108,6 +117,10 @@ body {
 }
 
 .data_zuo li b {
+  padding-top: .35rem;
+}
+
+.datazuo1 li b {
   padding-top: .2rem;
 }
 
@@ -122,7 +135,11 @@ body {
   overflow-x: auto;
 }
 
-.data_r_in {
+.data_r>div {
+  width: 12.4rem;
+}
+
+.data_r .bigwidth {
   width: 17.5rem;
 }
 
@@ -136,8 +153,9 @@ body {
   width: 1.7rem;
   text-align: right;
   line-height: 1.2rem;
-  font-size: .34rem
+  font-size: .3rem
 }
+.loading{text-align: center;line-height: .5rem; font-size: .3rem;}
 </style>
 
 <template>
@@ -145,67 +163,92 @@ body {
   <div class="alldata clearfix">
     <div class="data_l fl">
       <div class="data_hd">
-        <span>股票名称</span>
+        <span v-if="typeurl == 1">股票名称</span>
+        <span v-if="typeurl == 2">概念</span>
+        <span v-if="typeurl == 3">行业</span>
       </div>
-      <ul class="data_zuo">
-        <!-- <li><b>天富能源</b><em>600500</em></li>
-        <li><b>你是谁</b><em>600500</em></li> -->
-        <li v-for="item in dataarr"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
+      <ul class="data_zuo datazuo1" v-if="typeurl == 1">
+        <li v-for="item in dataarr1"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
+      </ul>
+      <ul class="data_zuo datazuo2" v-if="typeurl == 2">
+        <li v-for="item in dataarr2"><b>{{item.name}}</b></li>
+      </ul>
+      <ul class="data_zuo datazuo3" v-if="typeurl == 3">
+        <li v-for="item in dataarr3"><b>{{item.name}}</b></li>
       </ul>
     </div>
-    <div class="data_r fl">
-      <div class="data_r_in">
-        <div class="data_hd clearfix">
-          <span>主力净流入<i class="icon iconup"></i></span>
-          <span>现价<i class="icon icondown"></i></span>
-          <span class="blue">涨跌幅<i class="icon"></i></span>
-          <span>主力流入<i class="icon"></i></span>
-          <span>主力流出<i class="icon"></i></span>
-          <span>总成交额<i class="icon"></i></span>
-          <span>量比<i class="icon"></i></span>
-          <span>换手率<i class="icon"></i></span>
-          <span>流通市值<i class="icon"></i></span>
-          <span>总市值<i class="icon"></i></span>
+    <div class="data_r fl" @scroll="scrollLeft($event)">
+      <div :class="typeurl == '1' ? 'bigwidth' : ''">
+        <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 1" ref="myspanbox">
+          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入<i class="icon" ></i></span>
+          <span  data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
+          <span  data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span  data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span  data-index='5' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span  data-index='6' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span  data-index='7' @click="paixu($event)">量比<i class="icon"></i></span>
+          <span  data-index='8' @click="paixu($event)">换手率<i class="icon"></i></span>
+          <span  data-index='9' @click="paixu($event)">流通市值<i class="icon"></i></span>
+          <span  data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
-        <ul class="data_you">
-          <!-- <li class="clearfix">
-            <span>23.23</span>
-            <span>23.23%</span>
-            <span>23.23</span>
-            <span>923</span>
-            <span>573</span>
-            <span>312</span>
-            <span>23.23</span>
-            <span>23%</span>
-            <span>523</span>
-            <span>6573</span>
-          </li>
-          <li class="clearfix">
-            <span>23.23</span>
-            <span>23.23%</span>
-            <span>23.23</span>
-            <span>923</span>
-            <span>573</span>
-            <span>312</span>
-            <span>23.23</span>
-            <span>23%</span>
-            <span>523</span>
-            <span>6573</span>
-          </li> -->
-          <li class="clearfix" v-for="item in dataarr">
-            <span>{{item.mainForceNetInflow}}</span>
-            <span>{{item.currentPrice}}</span>
-            <span>{{item.advanceDeclineRatio}}</span>
-            <span>{{item.mainForceInflow}}</span>
-            <span>{{item.mainForceOutflow}}</span>
-            <span>{{item.dealBalance}}</span>
-            <span>{{item.cat}}</span>
+        <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}"  v-if="typeurl == 2">
+          <span data-index='0'  class="icondown" @click="paixu($event)">主力净流入<i class="icon"></i></span>
+          <span data-index='1' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='2'>领涨股<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='6' @click="paixu($event)">涨股比<i class="icon"></i></span>
+        </div>
+        <div class="data_hd clearfix datahd3"  :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
+          <span data-index='0'  class="icondown"  @click="paixu($event)">主力净流入<i class="icon "></i></span>
+          <span data-index='1' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='2'>领涨股<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='6' @click="paixu($event)">涨股比<i class="icon"></i></span>
+        </div>
+        <ul class="data_you datayou1" v-if="typeurl == 1">
+          <li class="clearfix" v-for="item in dataarr1">
+            <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi  }}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.currentPrice}}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
+            <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
+            <span>{{item.dealBalance | changyi }}</span>
+            <span :class="addcolor(item.cat)">{{item.cat}}</span>
             <span>{{item.tr}}</span>
-            <span>{{item.cmv}}</span>
-            <span>{{item.tmv}}</span>
+            <span>{{item.cmv | changyi }}</span>
+            <span>{{item.tmv | changyi }}</span>
+          </li>
+        </ul>
+        <ul class="data_you datayou2" v-if="typeurl == 2">
+          <li class="clearfix" v-for="item in dataarr2">
+            <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi}}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span>{{item.leaderStockName}}</span>
+            <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
+            <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
+            <span>{{item.dealBalance | changyi }}</span>
+            <span>{{item.shareRatio}}</span>
+          </li>
+        </ul>
+        <ul class="data_you datayou3" v-if="typeurl == 3">
+          <li class="clearfix" v-for="item in dataarr3">
+            <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi }}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span>{{item.leaderStockName}}</span>
+            <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
+            <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
+            <span>{{item.dealBalance | changyi }}</span>
+            <span>{{item.shareRatio}}</span>
           </li>
         </ul>
       </div>
+    </div>
+    <div class="loading">
+      加载中...
     </div>
     <i class="mask"></i>
   </div>
@@ -213,59 +256,87 @@ body {
 </template>
 
 <script>
+import jQuery from 'jquery'
 export default {
   data () {
     return {
-      typeurl: this.getQueryString('a'),
-      dataarr: [
-        {
-          'stockCode': '002340',
-          'stockName': '格林美',
-          'mainForceNetInflow': 587828235.48,
-          'currentPrice': 6.78,
-          'advanceDeclineRatio': 7.11,
-          'mainForceInflow': 1360204950.51,
-          'mainForceOutflow': 772376715.03,
-          'dealBalance': 2208903559.97,
-          'cat': 4.31,
-          'tr': 10.53,
-          'cmv': 2116062.75,
-          'tmv': 2591003
+      typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
+      scrollleftpx: '30%',
+      dataarr1: [],
+      dataarr2: [],
+      dataarr3: [],
+      urllink: {
+        1: {
+          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/stockfundflow/query_stock_fund_flow',
+          'sort_column': '1', // 排序字段
+          'order_type': 'desc', // asc=升，desc=降，默认降序
+          'pn': 1, // 页码
+          'ps': 20 // 每页条数
         },
-        {
-          'stockCode': '601001',
-          'stockName': '大同煤业',
-          'mainForceNetInflow': 395010602,
-          'currentPrice': 6.77,
-          'advanceDeclineRatio': 6.45,
-          'mainForceInflow': 586867944,
-          'mainForceOutflow': 191857342,
-          'dealBalance': 868274751,
-          'cat': 60.2,
-          'tr': 7.5,
-          'cmv': 1133094.88,
-          'tmv': 1133094.88
+        2: {
+          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
+          'sort_column': '0', // 排序字段
+          'order_type': 'desc', // asc=升，desc=降，默认降序
+          'pn': 1, // 页码
+          'ps': 20, // 每页条数
+          'platType': 5// 概念
         },
-        {
-          'stockCode': '002182',
-          'stockName': '云海金属',
-          'mainForceNetInflow': 229557647.74,
-          'currentPrice': 11.43,
-          'advanceDeclineRatio': 10.01,
-          'mainForceInflow': 303323606.16,
-          'mainForceOutflow': 73765958.42,
-          'dealBalance': 422534460.25,
-          'cat': 2.42,
-          'tr': 8.4,
-          'cmv': 515184.41,
-          'tmv': 738858.06
+        3: {
+          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
+          'sort_column': '0', // 排序字段
+          'order_type': 'desc', // asc=升，desc=降，默认降序
+          'pn': 1, // 页码
+          'ps': 20, // 每页条数
+          'platType': 16// 行业
         }
-      ]
-
+      }
     }
   },
   mounted () {
+    window.jQuery = window.$ = jQuery
     document.title = '概念行业个股'
+    this.jiazaidata()
+    var _this = this
+    // 缓存指针
+    // 设置一个开关来避免重负请求数据
+    var sw = true
+    // 注册scroll事件并监听
+    window.addEventListener('scroll', function () {
+      if (document.body.scrollTop + window.innerHeight >= document.body.offsetHeight) {
+        if (sw === true) {
+          if (sw === false) { return }
+          sw = false
+          setTimeout(function () {
+            var urll = _this.urllink[_this.typeurl]
+            urll.pn++
+            var url = urll.url + '?sort_column=' + urll.sort_column + '&order_type=' + urll.order_type + '&pn=' + urll.pn + '&ps=' + urll.ps + '&platType=' + urll.platType
+            console.log(url)
+            fetch(url, {
+              method: 'GET',
+              mode: 'cors',
+              cache: 'default'
+            }).then((res) => {
+              return res.json()
+            }).then(v => {
+              if (v.data.items.length === 0) {
+                sw = false
+                $('.loading').hide()
+              } else {
+                _this.$data['dataarr' + _this.typeurl] = _this['dataarr' + _this.typeurl].concat(v.data.items)
+                sw = true
+              }
+            }).catch(v2 => {
+              console.log(v2)
+            })
+          }, 1000)
+        }
+      }
+    })
+  },
+  filters: {
+    changyi (v) {
+      return (v / 100000000).toFixed(2) + '亿'
+    }
   },
   methods: {
     getQueryString (name) {
@@ -275,7 +346,50 @@ export default {
       return null
     },
     jiazaidata () {
-
+      var urll = this.urllink[this.typeurl]
+      var url = urll.url + '?sort_column=' + urll.sort_column + '&order_type=' + urll.order_type + '&pn=' + urll.pn + '&ps=' + urll.ps + '&platType=' + urll.platType
+      console.log(url)
+      fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+      }).then((res) => {
+        return res.json()
+      }).then(v => {
+        // this.dataarr1 = this.dataarr1.concat(v.data.items)
+        this.$data['dataarr' + this.typeurl] = v.data.items
+      }).catch(v2 => {
+        console.log(v2)
+      })
+    },
+    // 正红负绿
+    addcolor (v) {
+      if ((v + '').indexOf('-') !== -1) {
+        return 'green'
+      } else {
+        return 'red'
+      }
+    },
+    scrollLeft (v) {
+      this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
+    },
+    paixu (v) {
+      var o = this.urllink[this.typeurl]
+      if (o['sort_column'] === v.target.getAttribute('data-index')) {
+        if (o['order_type'] === 'asc') {
+          o['order_type'] = 'desc'
+          v.target.setAttribute('class', 'icondown')
+        } else {
+          o['order_type'] = 'asc'
+          v.target.setAttribute('class', 'iconup')
+        }
+      } else {
+        o['sort_column'] = v.target.getAttribute('data-index')
+        o['order_type'] = 'desc'
+        $('.data_hd span').removeClass('icondown').removeClass('iconup')
+        v.target.setAttribute('class', 'icondown')
+      }
+      this.jiazaidata()
     }
   }
 }
