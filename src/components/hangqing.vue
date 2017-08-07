@@ -375,6 +375,7 @@ export default {
     },
     paixu (v) {
       var o = this.urllink[this.typeurl]
+      o['pn'] = 1
       if (o['sort_column'] === v.target.getAttribute('data-index')) {
         if (o['order_type'] === 'asc') {
           o['order_type'] = 'desc'
@@ -386,6 +387,7 @@ export default {
       } else {
         o['sort_column'] = v.target.getAttribute('data-index')
         o['order_type'] = 'desc'
+
         $('.data_hd span').removeClass('icondown').removeClass('iconup')
         v.target.setAttribute('class', 'icondown')
       }
