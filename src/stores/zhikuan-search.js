@@ -125,7 +125,7 @@ export default {
       })
     },
     quotaList ({ commit }, { keyword }) {
-      fetch(`http://10.77.4.80:8899/openapi/search/quota.shtml?w=${keyword}`, {
+      return fetch(`http://10.77.4.80:8899/openapi/search/quota.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

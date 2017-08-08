@@ -54,8 +54,47 @@
 <template>
     <div class="page clearfix">
         <span>上一页</span>
-        <ul class="pages clearfix">
+        <ul class="pages clearfix" v-if="totalPage<=5">
             <li @click="getCurrentPage($event)" v-for="page in totalPage">{{page}}</li>
+        </ul>
+        <ul class="pages clearfix" v-else-if="currentPage==1&&totalPage>5">
+            <li @click="getCurrentPage($event)" v-for="page in 4">{{page}}</li>
+            <li>...</li>
+            <li @click="getCurrentPage($event)">{{totalPage}}</li>
+        </ul>
+        <ul class="pages clearfix" v-else-if="currentPage==totalPage&&totalPage>5">
+            <li @click="getCurrentPage($event)">1</li>
+            <li>...</li>
+            <li  @click="getCurrentPage($event)" v-for="page in [3,2,1,0]">{{totalPage-page}}</li>
+        </ul>
+        <ul class="pages clearfix" v-else-if="currentPage<=3&&totalPage>5">
+            <li @click="getCurrentPage($event)" v-for="page in 4">{{page}}</li>
+            <li>...</li>
+            <li @click="getCurrentPage($event)">{{totalPage}}</li>
+        </ul>
+
+        <ul class="pages clearfix" v-else-if="currentPage==4&&totalPage>5">
+            <li @click="getCurrentPage($event)" v-for="page in 5">{{page}}</li>
+            <li>...</li>
+            <li @click="getCurrentPage($event)">{{totalPage}}</li>
+        </ul>
+
+        <ul class="pages clearfix" v-else-if="totalPage-3===currentPage&&totalPage>5">
+            <li @click="getCurrentPage($event)">1</li>
+            <li>...</li>
+            <li  @click="getCurrentPage($event)" v-for="page in [3,2,1,0]">{{totalPage-page}}</li>
+        </ul>
+        <ul class="pages clearfix" v-else-if="totalPage-currentPage<3&&totalPage>5">
+            <li @click="getCurrentPage($event)">1</li>
+            <li>...</li>
+            <li  @click="getCurrentPage($event)" v-for="page in [3,2,1,0]">{{totalPage-page}}</li>
+        </ul>
+        <ul class="pages clearfix" v-else>
+            <li @click="getCurrentPage($event)">1</li>
+            <li>...</li>
+            <li  @click="getCurrentPage($event)" v-for="page in [2,1,0,-1]">{{currentPage-page}}</li>
+            <li>...</li>
+            <li @click="getCurrentPage($event)">{{totalPage}}</li>
         </ul>
         <span class="nextPage">下一页</span>
         <span class="totals">共{{totalPage}}页</span>
@@ -71,13 +110,20 @@
       props: ['totalPage'],
       data () {
         return {
-          currentPage: ''
+          currentPage: 1
         }
       },
       methods: {
         getCurrentPage (e) {
           this.$emit('getPageFromChild', e.target.innerText)
           this.currentPage = e.target.innerText
+          const lis = document.getElementsByTagName('li')
+          for (const item of lis) {
+            if (item.innerText === this.currentPage) {
+              item.setAttribute('class', 'active')
+            }
+          }
+          e.target.setAttribute('class', 'active')
         },
         getCurrentSelectPage (e) {
           this.$emit('getPageFromChild', e.target.value)
@@ -85,7 +131,14 @@
         }
       },
       mounted () {
-
-      }
+        const lis = document.getElementsByClassName('pages')[0].getElementsByTagName('li')
+        console.log(lis)
+        if (lis.length > 0) {
+          debugger
+          for (var item of lis) {
+            console.log(item)
+          }
+        }
+  }
     }
 </script>

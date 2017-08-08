@@ -11,31 +11,88 @@ export default {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更新
     keyword: '',
     id: '',
-    dataList: null
+    dataList: {
+      news: null,
+      report: null
+    },
+    isReportCanDown: false,
+    downUrl: '',
+    moreData: null
+
   },
   mutations: {
-    setDetail (state, result) {
+    setDetail (state, options) {
+      const result = options.result
       if (result.errCode === 0) {
-        state.dataList = result.data.news
+        state.dataList = {
+          [options.field]: result.data
+        }
       } else {
-        state.dataList = null
+        state.dataList = {
+          [options.field]: null
+        }
       }
     },
     setDetailOptions (state, options) {
       state.id = options.id
+    },
+    setReport (state, result) {
+      if (result.errCode === 0) {
+        state.isReportCanDown = true
+      } else {
+        state.isReportCanDown = false
+      }
+    },
+    setRelateNews (state, result) {
+      if (result.errCode === 0) {
+        state.moreData = result.data
+      } else {
+        state.moreData = null
+      }
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    getDetailPages ({ commit }, { id }) {
+    getDetailPages ({ commit }, { id, detailType }) {
       commit('setDetailOptions', { id })
-      fetch(`http://www.z3quant.com/openapi/news/${id}.shtml`, {
+      return fetch(`http://www.z3quant.com/openapi/${detailType}/${id}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setDetail', body)
+        commit('setDetail', {
+          field: detailType,
+          result: body
+        })
+      })
+    },
+    checkDownReport ({ commit }, { id }) {
+      return fetch(`http://www.z3quant.com/openapi/report/checkDownReportFile/${id}.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setReport', body)
+      })
+    },
+    getInforRelate ({ commit }, { id, innerCode }) {
+      return fetch(`http://www.z3quant.com/openapi/relatedNews/${id}.shtml?innerCode=${innerCode}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setRelateNews', body)
+      })
+    },
+    getTopicRelate ({ commit }, { topicCode }) {
+      return fetch(`http://www.z3quant.com/openapi/news/topic/${topicCode}.shtml?page=0&size=3`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setRelateNews', body)
       })
     }
+
   }
 }

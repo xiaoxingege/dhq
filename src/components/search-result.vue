@@ -56,14 +56,14 @@
         </ul>
         <ul v-if="searchType == 'infor'">
             <li  v-for="item of resultData">
-                <router-link :to="{name:'detailPages' , params:{ id : item.id}}">{{item.newsTitle}}</router-link>
+                <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}">{{item.newsTitle}}</router-link>
                 <p class="searchInfo">{{item.newsSummary}}</p>
                 <p class="searchTime">{{item.newsTime}}<span class="newsSource">{{item.newsSource}}</span></p>
             </li>
         </ul>
         <ul v-if="searchType == 'report'">
             <li  v-for="item of resultData">
-                <router-link :to="{ name:'detailPages' , params:{ id : item.id}}">{{item.reportTitle}}</router-link>
+                <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}">{{item.reportTitle}}</router-link>
                 <p class="searchInfo">{{item.reportSummary}}</p>
                 <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
             </li>
@@ -98,7 +98,7 @@
       }),
       methods: {
         showSearchList (currentPage) {
-          const keyword = this.$store.state.zhikuanSearch.keyword
+          const keyword = this.$store.state.zhikuanSearch.keyword === '' ? this.$route.params.keyword : this.$store.state.zhikuanSearch.keyword
           const linkText = this.$route.params.linkText
           this.$store.dispatch('zhikuanSearchList/searchList', { keyword, currentPage, linkText }).then(() => {
             this.resultData = this.$store.state.zhikuanSearchList.dataList
