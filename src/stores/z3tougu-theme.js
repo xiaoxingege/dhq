@@ -6,7 +6,11 @@
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
 const mutationTypes = {
-  UPDATE_HOTLIST: 'UPDATE_HOTLIST'
+  UPDATE_HOTLIST: 'UPDATE_HOTLIST',
+  UPDATE_TOPIC_SUMMARY: 'UPDATE_TOPIC_SUMMARY',
+  UPDATE_TOPIC_LINEDATA: 'UPDATE_TOPIC_LINEDATA',
+  UPDATE_TOPIC_NEWS: 'UPDATE_TOPIC_NEWS',
+  UPDATE_TOPIC_STOCKLIST: 'UPDATE_TOPIC_STOCKLIST'
 }
 const PAGE_SIZE = 10
 
@@ -38,6 +42,22 @@ export default {
       console.log(options)
       state.pagesize = options.size || PAGE_SIZE
       state.page = options.page || 1
+    },
+    [mutationTypes.UPDATE_TOPIC_SUMMARY] (state, topic) {
+      state.topic || (state.topic = {})
+      state.topic = topic
+    },
+    [mutationTypes.UPDATE_TOPIC_LINEDATA] (state, lineData) {
+      state.topic || (state.topic = {})
+      state.topic.lineDate = lineData
+    },
+    [mutationTypes.UPDATE_TOPIC_NEWS] (state, news) {
+      state.topic || (state.topic = {})
+      state.topic.news = news
+    },
+    [mutationTypes.UPDATE_TOPIC_STOCKLIST] (state, news) {
+      state.topic || (state.topic = {})
+      state.topic.news = news
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -79,6 +99,21 @@ export default {
           console.log(page)
         }
       })
+    },
+    queryTopicSummary ({ commit }, { topicId }) {
+      const url = `http://www.z3quant.com/openapi/topic/${topicId}.sthml`
+      fetch(url, { mode: 'cors' }).then(res => res.json).then(result => {
+        commit(mutationTypes.UPDATE_TOPIC_SUMMARY)
+      })
+    },
+    queryTopicLineData ({ commit }, { topicId, period }) {
+      const url = `http://www.z3quant.com/openapi/topic/${topicId}.sthml?period=${period}`
+      fetch(url, { mode: 'cors' }).then(res => res.json).then(result => {
+        commit(mutationTypes.UPDATE_TOPIC_LINEDATA)
+      })
+    },
+    queryTopicLineDataRealtime ({ commit }) {
+
     }
   }
 }
