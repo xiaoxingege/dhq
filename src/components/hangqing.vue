@@ -401,7 +401,7 @@ export default {
       window.jrj.jsCallNative('100', JSON.stringify({ 'stockName': stockName, 'stockCode': stockCode }))
     },
     gotobankuai (platname, platcode) {
-      window.jrj.jsCallNative('161', JSON.stringify({ 'platname': platname, 'platcode': platcode }))
+      window.jrj.jsCallNative('161', JSON.stringify({ 'platname': platname, 'platcode': platcode, 'plattype': this.urllink[this.typeurl].platType }))
     }
   }
 }
