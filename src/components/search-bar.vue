@@ -52,7 +52,6 @@ export default {
         keyEnter (e) {
           if (e.keyCode === 13) {
             const keyword = this.$refs.keyword.value
-<<<<<<< Updated upstream
             this.$store.dispatch('zhikuanSearch/quotaList', { keyword }).then(() => {
               if (this.$store.state.zhikuanSearch.isQuota) {
                 window.open(this.$store.state.zhikuanSearch.isQuota)
@@ -60,14 +59,6 @@ export default {
                 window.open(`/search/stock/${keyword}`)
               }
             })
-=======
-            this.$store.dispatch('zhikuanSearch/quotaList', { keyword })
-            if (this.$store.state.zhikuanSearch.isQuota) {
-    
-            } else {
-              window.open(`/search/stock/${keyword}`)
-            }
->>>>>>> Stashed changes
           }
         }
       },

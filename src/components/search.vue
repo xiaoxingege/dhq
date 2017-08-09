@@ -22,7 +22,6 @@
 </template>
 
 <script>
-
     import SearchNav from 'components/search-nav'
     import SearchResult from 'components/search-result'
 
