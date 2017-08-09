@@ -172,10 +172,10 @@ body {
         <li v-for="item in dataarr1" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
       </ul>
       <ul class="data_zuo datazuo2" v-if="typeurl == 2">
-        <li v-for="item in dataarr2" @click="gotostock(item.leaderStockName,item.leaderStockCode)"><b>{{item.name}}</b></li>
+        <li v-for="item in dataarr2" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
       </ul>
       <ul class="data_zuo datazuo3" v-if="typeurl == 3">
-        <li v-for="item in dataarr3" @click="gotostock(item.leaderStockName,item.leaderStockCode)"><b>{{item.name}}</b></li>
+        <li v-for="item in dataarr3" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
       </ul>
     </div>
     <div class="data_r fl" @scroll="scrollLeft($event)">
@@ -193,8 +193,8 @@ body {
           <span  data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}"  v-if="typeurl == 2">
-          <span data-index='0'  class="icondown" @click="paixu($event)">主力净流入<i class="icon"></i></span>
-          <span data-index='1' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
+          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='2'>领涨股<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
           <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
@@ -202,8 +202,8 @@ body {
           <span data-index='6' @click="paixu($event)">涨股比<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd3"  :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
-          <span data-index='0'  class="icondown"  @click="paixu($event)">主力净流入<i class="icon "></i></span>
-          <span data-index='1' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' "  @click="paixu($event)">主力净流入<i class="icon "></i></span>
+          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='2'>领涨股<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
           <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
@@ -264,6 +264,7 @@ export default {
   data () {
     return {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
+      sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
       dataarr1: [],
       dataarr2: [],
@@ -278,7 +279,7 @@ export default {
         },
         2: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-          'sort_column': '0', // 排序字段
+          'sort_column': this.getQueryString('sortcolumn'), // 排序字段
           'order_type': 'desc', // asc=升，desc=降，默认降序
           'pn': 1, // 页码
           'ps': 20, // 每页条数
@@ -286,7 +287,7 @@ export default {
         },
         3: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-          'sort_column': '0', // 排序字段
+          'sort_column': this.getQueryString('sortcolumn'), // 排序字段
           'order_type': 'desc', // asc=升，desc=降，默认降序
           'pn': 1, // 页码
           'ps': 20, // 每页条数
@@ -398,6 +399,9 @@ export default {
     },
     gotostock (stockName, stockCode) {
       window.jrj.jsCallNative('100', JSON.stringify({ 'stockName': stockName, 'stockCode': stockCode }))
+    },
+    gotobankuai (platname, platcode) {
+      window.jrj.jsCallNative('161', JSON.stringify({ 'platname': platname, 'platcode': platcode }))
     }
   }
 }
