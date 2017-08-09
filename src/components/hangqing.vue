@@ -194,21 +194,21 @@ body {
         </div>
         <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}"  v-if="typeurl == 2">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
-          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='2'>领涨股<i class="icon"></i></span>
-          <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='5' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='6' @click="paixu($event)">涨股比<i class="icon"></i></span>
+          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='6'>领涨股<i class="icon"></i></span>
+          <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd3"  :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' "  @click="paixu($event)">主力净流入<i class="icon "></i></span>
-          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='2'>领涨股<i class="icon"></i></span>
-          <span data-index='3' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='4' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='5' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='6' @click="paixu($event)">涨股比<i class="icon"></i></span>
+          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='6'>领涨股<i class="icon"></i></span>
+          <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
         </div>
         <ul class="data_you datayou1" v-if="typeurl == 1">
           <li class="clearfix" v-for="item in dataarr1"  @click="gotostock(item.stockName,item.stockCode)">
