@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env JRJ_FEATURE=z3tougu webpack-dev-server --inline --hot --port=82",
+    "dev": "cross-env JRJ_FEATURE=web webpack-dev-server --inline --hot --port=82",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
