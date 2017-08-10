@@ -72,13 +72,11 @@ while [ "$code" != "0" ]
 do
   echo ===$code
   yarn install
-  if [ "$?" != "0" ]; then
+  code=$?
+  if [ "$code" != "0" ]; then
     pinfo 'retry install modules...'
     rm -rf node_modules
     sleep 5s
-  else
-    code=$?
-  fi
 done
 pinfo 'yarn install done.'
 
