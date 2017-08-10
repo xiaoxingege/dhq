@@ -13,7 +13,7 @@
 </template>
 <script>
     import echarts from 'echarts'
-
+    // import { xList, yList } from '../'
     export default{
       data () {
         return {
@@ -245,10 +245,11 @@
                         tmpValue = tmpColor / ratioArr
                       }
                       if (typeInfo !== 'sw_indu_name' && typeInfo !== 'fcst_idx.rating_syn') {
+                        let num
                         if (typeInfo === 'mkt_idx.rela_volume') {
-                          var num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
+                          num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
                         } else {
-                          var num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
+                          num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
                         }
                         if (tmpValue < (conditionArr[1] - num)) {
                           return colorArr[0]
