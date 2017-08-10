@@ -70,7 +70,6 @@ yarn config set registry https://registry.npm.taobao.org
 code="1"
 while [ "$code" != "0" ]
 do
-  echo ===$code
   yarn install
   code=$?
   if [ "$code" != "0" ]; then
