@@ -44,7 +44,7 @@ export default {
     JichushareBtn,
     JichushareToast
   },
-  mounted() {
+  mounted () {
     document.title = '分支:jichushare-test-分享送豪礼!'
   }
 }

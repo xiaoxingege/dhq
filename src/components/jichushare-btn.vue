@@ -116,7 +116,7 @@ export default {
       window.jrj.jsCallNative('143', JSON.stringify({})) // Z点操盘免费体验
     },
     bdcp () {
-      window.location.href = 'http://itougu.jrj.com.cn/activity/app/zdcpDyzx.jspa' // 八折体验Z点操盘
+      window.location.href = 'http://itougu.jrj.com.cn/activity/app/zdcpDyzxNew.jspa' // 八折体验Z点操盘
     },
     jindoustutas () {
       if ((this.$store.state.user.ssoId + '').length >= 18) {

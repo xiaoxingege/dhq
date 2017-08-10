@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env JRJ_FEATURE=z3tougu webpack-dev-server --inline --hot --port=81",
+    "dev": "cross-env JRJ_FEATURE=z3tougu webpack-dev-server --inline --hot --port=82",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.7.0",
+    "echarts": "^3.6.2",
     "fetch-jsonp": "^1.1.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
