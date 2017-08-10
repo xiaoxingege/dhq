@@ -131,14 +131,7 @@
         }
       },
       mounted () {
-        const lis = document.getElementsByClassName('pages')[0].getElementsByTagName('li')
-        console.log(lis)
-        if (lis.length > 0) {
-          debugger
-          for (var item of lis) {
-            console.log(item)
-          }
-        }
+    
   }
     }
 </script>
