@@ -179,7 +179,4 @@ f3
   #   pinfo 'using port: '$port
   #   pm2 start -n $pm2name dist/$feature/server/index.js -- $port
   # fi
-else
-  perr 'no files changed'
-  exit 1
 fi
