@@ -3,17 +3,12 @@
 </style>
 <template>
 <div class="neican-kuaibao">
-  <div class="gundong">
-    <ul>
-      <li><span>{{baodaoming}}</span>成功购买<span>{{neicanman}}</span>内参！</li>
-      <li><span>{{baodaoming}}</span>成功购买<span>{{neicanman}}</span>内参！</li>
-      <li><span>{{baodaoming}}</span>成功购买<span>{{neicanman}}</span>内参！</li>
-    </ul>
-  </div>
+  <span>{{baodaoming}}</span>成功购买<span>{{neicanman}}</span>内参！
 </div>
 </template>
 <script>
-
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   data () {
     return {
@@ -24,14 +19,15 @@ export default {
     }
   },
   mounted () {
-    $('.gundong').jCarouselLite({
-      auto: 2000,
-      speed: 500,
-      circular: true,
-      vertical: true,
-      visible: 3,
-      pauseOnHover: true
-    })
+    var _this = this
+    this.changestr()
+    setInterval(_this.changestr, 3000)
+  },
+  methods: {
+    changestr () {
+      this.baodaoming = this.baodaomings[parseInt(Math.random() * 300)]
+      this.neicanman = this.neicanmans[parseInt(Math.random() * this.neicanmans.length)]
+    }
   }
 }
 </script>
