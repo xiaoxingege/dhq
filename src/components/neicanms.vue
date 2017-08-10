@@ -162,7 +162,6 @@ color: #fff;
 /*弹层*/
 
 .mask {
-  display: none;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -175,7 +174,6 @@ color: #fff;
 }
 
 .layer {
-  display: none;
   width: 578px;
   height: 212px;
   position: fixed;
@@ -185,10 +183,12 @@ color: #fff;
   margin-left: -289px;
   z-index: 21;
   animation: haha .6s cubic-bezier(1, -0.49, 0, 1.5);
-  background: url(https://i0.jrjimg.cn/zqt-red-1000/focus/focus20170414teacherlottery/laybg_1.png);
+  background: url(../assets/images/neicanms/weblay01.png);
   background-size: 100% 100%;
 }
-
+.layer_guoqi{
+  background-image:url(../assets/images/neicanms/weblay02.png);
+}
 @keyframes haha {
   from {
     transform: scale(6);
@@ -202,8 +202,8 @@ color: #fff;
 
 .closebtn {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
   right: 0;
   top: 0;
@@ -310,10 +310,13 @@ color: #fff;
     <a href="#three"></a>
     <a href="#four"></a>
   </div>
-  <div class="mask"></div>
+  <div class="mask" v-if="layerczshow===true || layerguoqishow===true"></div>
   <!--抽中-->
-  <div class="layer layer_cz">
-    <i class="closebtn"></i>
+  <div class="layer layer_cz" v-if="layerczshow===true">
+    <i class="closebtn" @click="closelayer"></i>
+  </div>
+  <div class="layer layer_guoqi" v-if="layerguoqishow ===true ">
+    <i class="closebtn" @click="closelayer"></i>
   </div>
 </div>
 </template>
@@ -324,14 +327,16 @@ import neicanKuaibao from 'components/neican-kuaibao'
 export default {
   data () {
     return {
-      opentime: '2017-08-09 10:00:00',
+      opentime: '2017-08-10 15:50:36',
+      layerczshow: false,
+      layerguoqishow: false,
       urlbox: {
         url01: [{
           touxiang: 'http://touxing.com.cn',
           neican: 'http://neican.com.cn',
           classtr: '',
           timestr: '',
-          guoqi: true
+          guoqi: ''
         },
         {
           touxiang: 'http://touxing2.com.cn',
@@ -436,6 +441,7 @@ export default {
   methods: {
     timebtn () {
       var now = new Date()
+      console.log(now)
       var year = this.opentime.split('-')[0]
       var month = this.opentime.split('-')[1]
       var day = this.opentime.split('-')[2].split(' ')[0]
@@ -450,10 +456,13 @@ export default {
         var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
         var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
         var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+        console.log(minute)
         if (leftTime <= 0 && item.guoqi === true) {
           item.classtr = 'gray'
+          item.timestr = ''
         } else if (leftTime <= 0) {
           item.classtr = 'open'
+          item.timestr = ''
         } else {
           item.classtr = 'time'
           item.timestr = '倒计时<br />' + day1 + '天' + hour + '小时' + minute + '分' + second + '秒'
@@ -461,7 +470,14 @@ export default {
       })
     },
     miaosha (v) {
-      console.log(v.getAttribute('dataindex'))
+      console.log(v.currentTarget.getAttribute('dataindex'))
+      if (v.currentTarget.className === 'gray') {
+        this.layerguoqishow = true
+      }
+    },
+    closelayer () {
+      this.layerguoqishow = false
+      this.layerczshow = false
     }
   }
 }
