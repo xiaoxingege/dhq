@@ -59,11 +59,8 @@ port=3000
 
 errstr="__error__"
 
-filecontent=$(cat package.json)
-version=1.0.0
-if [ "$uname" = "Linux" ]; then
-  version=$(echo $filecontent | jq -r '.version')
-fi
+
+version=$(cat package.json | grep -oE '"version":.*' | awk -F '"' '{print $4}')
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
@@ -77,6 +74,7 @@ do
     sleep 5s
   fi
 done
+exit 0
 pinfo 'yarn install done.'
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
