@@ -154,22 +154,22 @@ mput *
 bye
 f3
   fi
-  for file in ${newfiles[*]}
-  do
-    if [ -f $file ]; then
-      filename=${file##*/}
-      status="404"
-      pinfo "waiting for $filename"
-      while [ "$status" != "200" ]
-      do
-        status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
-        wait
-        if [ "$status" != "200" ]; then
-          sleep 5s
-        fi
-      done
-    fi
-  done
+  # for file in ${newfiles[*]}
+  # do
+  #   if [ -f $file ]; then
+  #     filename=${file##*/}
+  #     status="404"
+  #     pinfo "waiting for $filename"
+  #     while [ "$status" != "200" ]
+  #     do
+  #       status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
+  #       wait
+  #       if [ "$status" != "200" ]; then
+  #         sleep 5s
+  #       fi
+  #     done
+  #   fi
+  # done
   # pm2name=$feature"_"$branch
   # pinfo 'pm2 name: '$pm2name
   # pm2 reload $pm2name
