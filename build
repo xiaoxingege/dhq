@@ -5,6 +5,8 @@ export BUILD_ID=dontKillMePlease
 uname=`uname`
 user=`whoami`
 
+echo $user
+
 function p() {
   if [ "$user" = "jenkins" ]; then
     echo $1
@@ -64,18 +66,22 @@ version=$(cat package.json | grep -oE '"version":.*' | awk -F '"' '{print $4}')
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
-err=$errstr
-while [ "$err" = "$errstr" ]
+code="1"
+while [ "$code" != "0" ]
 do
-  err=$(yarn install 1>/dev/null 2>/dev/null || echo $errstr)
-  if [ "$err" = "$errstr" ]; then
+  echo ===$code
+  yarn install
+  if [ "$?" != "0" ]; then
     pinfo 'retry install modules...'
     rm -rf node_modules
     sleep 5s
+  else
+    echo 000
+    code=$?
   fi
 done
-exit 0
 pinfo 'yarn install done.'
+exit 0
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
