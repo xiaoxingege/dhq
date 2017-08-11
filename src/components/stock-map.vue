@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
- import Vue from 'vue'
+//  import Vue from 'vue'
 import playBackSrc from '../assets/images/stock-map/playback.png'
 import playStopSrc from '../assets/images/stock-map/playstop.png'
 import echarts from 'echarts'
@@ -85,157 +85,157 @@ const valueRangeGX = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6] // 股息率
 const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
 let pid
 export default{
-   props: ['rangeCode', 'condition'], // 从父组件传下来
-   data () {
-     return {
-       code: this.rangeCode || '',
-       id: '',
-       isContinue: 1,
-       colors: {
-         'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
-         'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
-         'perf_idx.chng_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
-         'perf_idx.chng_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
-         'perf_idx.chng_pct_6month': colorsList1.slice().reverse(), // 近6月涨跌幅
-         'perf_idx.chng_pct_year': colorsList1.slice().reverse(), // 近1年涨跌幅
-         'perf_idx.chng_pct_year_sofar': colorsList1.slice().reverse(), // 今年以来涨跌幅
-         'mkt_idx.rela_volume': colorsList2, // 相对成交量
-         'mkt_idx.peg': colorsList1, // PEG
-         'mkt_idx.ps': colorsList1, // 市销率
-         'mkt_idx.pb': colorsList1, // 市净率
-         'mkt_idx.div_rate': colorsList1.slice().reverse().slice(20), // 股息率
-         'mkt_idx.pe_ttm': colorsList1, // 市盈率(TTM)
-         'mkt_idx.fir_fcst_pe': colorsList1, // 预测市盈率
-         'fin_idx.eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
-         'act_date': colorsList3// 业绩公布日
-       },
-       rangeValues: {
-         'mkt_idx.cur_chng_pct': valueRange1d, // 涨跌幅
-         'mkt_idx.chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
-         'perf_idx.chng_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
-         'perf_idx.chng_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
-         'perf_idx.chng_pct_6month': this.fmtraneValue(valueRange1d, 8), // 近6月涨跌幅
-         'perf_idx.chng_pct_year': this.fmtraneValue(valueRange1d, 9), // 近1年涨跌幅
-         'perf_idx.chng_pct_year_sofar': this.fmtraneValue(valueRange1d, 8), // 今年以来涨跌幅
-         'mkt_idx.rela_volume': valueRangeRelvol, // 相对成交量
-         'mkt_idx.peg': this.fmtraneValue(valueRangeGX, 2.5), // PEG
-         'mkt_idx.ps': this.fmtraneValue(valueRangeGX, 10), // 市销率
-         'mkt_idx.pb': this.fmtraneValue(valueRangeGX, 6), // 市净率
-         'mkt_idx.div_rate': valueRangeGX, // 股息率
-         'mkt_idx.pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
-         'mkt_idx.fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
-         'fin_idx.eps_5year': this.fmtraneValue(valueRange1d, 9), // EPS增长率(过去5年)
-         'act_date': valueRangeEd// 业绩公布日
-       },
-       isUnit: {
-         'mkt_idx.cur_chng_pct': '%', // 涨跌幅 绿-红
-         'mkt_idx.chng_pct_week': '%', // 近1周涨跌幅
-         'perf_idx.chng_pct_month': '%', // 近1月涨跌幅
-         'perf_idx.chng_pct_3month': '%', // 近3月涨跌幅
-         'perf_idx.chng_pct_6month': '%', // 近6月涨跌幅
-         'perf_idx.chng_pct_year': '%', // 近1年涨跌幅
-         'perf_idx.chng_pct_year_sofar': '%', // 今年以来涨跌幅
-         'mkt_idx.rela_volume': '', // 相对成交量
-         'mkt_idx.peg': '', // PEG
-         'mkt_idx.ps': '', // 市销率
-         'mkt_idx.pb': '', // 市净率
-         'mkt_idx.div_rate': '', // 股息率
-         'mkt_idx.pe_ttm': '', // 市盈率(TTM)
-         'mkt_idx.fir_fcst_pe': '', // 预测市盈率
-         'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
-         'act_date': ''// 业绩公布日
-       },
-       legendList: [],
-       playBackDate: ['20170717', '20170718', '20170719', '20170720', '20170721'],
-       playBackDateShow: ['7.17', '7.18', '7.19', '7.20', '7.21'],
-       playBackIndex: 4,
-       playBackState: false, // 默认是停止不回放
-       playBackSrc: playStopSrc
-     }
-   },
-   components: {
-     StockList
-   },
-   watch: {
-     rangeCode () {
-       this.updateMap()
-     },
-     condition () {
-       this.updateData()
-     },
-     id () {
-       this.getStockChartData()
-     }
-   },
-   computed: {
-     mapData: function () {
-       const map = [].concat(this.$store.state.stockMap.industries)
-       map.forEach(function (industry) {
-         industry.value = industry.scale
-         industry.children && industry.children.forEach(function (lvl2) {
-           lvl2.value = lvl2.scale
-           lvl2.children && lvl2.children.sort((a, b) => (b.scale - a.scale)) && lvl2.children.forEach(function (stock) {
-             stock.value = stock.scale
-             stock.parent = lvl2.id
-           })
-         })
-       })
-       return map
-     },
-     stockData: function () {
-       const map = this.mapData
-       const stockData = this.$store.state.stockMap.stockData
-       const _this = this
-       map.forEach(function (industry) {
-         industry.children && industry.children.forEach(function (lvl2) {
-           lvl2.children && lvl2.children.forEach(function (stock) {
-             if (stockData) {
-               stock.perf = stockData[stock.id] || stockData[stock.name]
-               stock.itemStyle = { normal: {
-                 color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
-               }}
-             } else {
-               stock.itemStyle = { normal: {
-                 color: '#2f323d'
-               }}
-             }
-           })
-         })
-       })
-       map.forEach(function (industry) {
-         industry.children.forEach(function (lvl2) {
-           var totalPerf = 0
-           var totalScale = 0
-           if (stockData) {
-             lvl2.children.forEach(function (stock) {
-               if (stock.perf) {
-                 totalPerf += stock.value * stock.perf
-               }
-               totalScale += stock.value
-             })
-             lvl2.perf = totalPerf / totalScale
-             lvl2.itemStyle = { normal: {
-               borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf)
-             }}
-           } else {
-             lvl2.itemStyle = { normal: {
-               borderColor: '#000'
-             }}
-           }
-         })
-       })
-       return map
-     },
-     stockChartData: function () {
-       const stockChartData = this.$store.state.stockMap.stockChartData
-       return stockChartData
-     }
-   },
-   methods: {
-     initMap: function () {
-       this.chart = echarts.init(this.$refs.treemap)
-       const _this = this
-       this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
+  props: ['rangeCode', 'condition'], // 从父组件传下来
+  data () {
+    return {
+      code: this.rangeCode || '',
+      id: '',
+      isContinue: 1,
+      colors: {
+        'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
+        'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
+        'perf_idx.chng_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
+        'perf_idx.chng_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
+        'perf_idx.chng_pct_6month': colorsList1.slice().reverse(), // 近6月涨跌幅
+        'perf_idx.chng_pct_year': colorsList1.slice().reverse(), // 近1年涨跌幅
+        'perf_idx.chng_pct_year_sofar': colorsList1.slice().reverse(), // 今年以来涨跌幅
+        'mkt_idx.rela_volume': colorsList2, // 相对成交量
+        'mkt_idx.peg': colorsList1, // PEG
+        'mkt_idx.ps': colorsList1, // 市销率
+        'mkt_idx.pb': colorsList1, // 市净率
+        'mkt_idx.div_rate': colorsList1.slice().reverse().slice(20), // 股息率
+        'mkt_idx.pe_ttm': colorsList1, // 市盈率(TTM)
+        'mkt_idx.fir_fcst_pe': colorsList1, // 预测市盈率
+        'fin_idx.eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
+        'act_date': colorsList3// 业绩公布日
+      },
+      rangeValues: {
+        'mkt_idx.cur_chng_pct': valueRange1d, // 涨跌幅
+        'mkt_idx.chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
+        'perf_idx.chng_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
+        'perf_idx.chng_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
+        'perf_idx.chng_pct_6month': this.fmtraneValue(valueRange1d, 8), // 近6月涨跌幅
+        'perf_idx.chng_pct_year': this.fmtraneValue(valueRange1d, 9), // 近1年涨跌幅
+        'perf_idx.chng_pct_year_sofar': this.fmtraneValue(valueRange1d, 8), // 今年以来涨跌幅
+        'mkt_idx.rela_volume': valueRangeRelvol, // 相对成交量
+        'mkt_idx.peg': this.fmtraneValue(valueRangeGX, 2.5), // PEG
+        'mkt_idx.ps': this.fmtraneValue(valueRangeGX, 10), // 市销率
+        'mkt_idx.pb': this.fmtraneValue(valueRangeGX, 6), // 市净率
+        'mkt_idx.div_rate': valueRangeGX, // 股息率
+        'mkt_idx.pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
+        'mkt_idx.fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
+        'fin_idx.eps_5year': this.fmtraneValue(valueRange1d, 9), // EPS增长率(过去5年)
+        'act_date': valueRangeEd// 业绩公布日
+      },
+      isUnit: {
+        'mkt_idx.cur_chng_pct': '%', // 涨跌幅 绿-红
+        'mkt_idx.chng_pct_week': '%', // 近1周涨跌幅
+        'perf_idx.chng_pct_month': '%', // 近1月涨跌幅
+        'perf_idx.chng_pct_3month': '%', // 近3月涨跌幅
+        'perf_idx.chng_pct_6month': '%', // 近6月涨跌幅
+        'perf_idx.chng_pct_year': '%', // 近1年涨跌幅
+        'perf_idx.chng_pct_year_sofar': '%', // 今年以来涨跌幅
+        'mkt_idx.rela_volume': '', // 相对成交量
+        'mkt_idx.peg': '', // PEG
+        'mkt_idx.ps': '', // 市销率
+        'mkt_idx.pb': '', // 市净率
+        'mkt_idx.div_rate': '', // 股息率
+        'mkt_idx.pe_ttm': '', // 市盈率(TTM)
+        'mkt_idx.fir_fcst_pe': '', // 预测市盈率
+        'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
+        'act_date': ''// 业绩公布日
+      },
+      legendList: [],
+      playBackDate: ['20170717', '20170718', '20170719', '20170720', '20170721'],
+      playBackDateShow: ['7.17', '7.18', '7.19', '7.20', '7.21'],
+      playBackIndex: 4,
+      playBackState: false, // 默认是停止不回放
+      playBackSrc: playStopSrc
+    }
+  },
+  components: {
+    StockList
+  },
+  watch: {
+    rangeCode () {
+      this.updateMap()
+    },
+    condition () {
+      this.updateData()
+    },
+    id () {
+      this.getStockChartData()
+    }
+  },
+  computed: {
+    mapData: function () {
+      const map = [].concat(this.$store.state.stockMap.industries)
+      map.forEach(function (industry) {
+        industry.value = industry.scale
+        industry.children && industry.children.forEach(function (lvl2) {
+          lvl2.value = lvl2.scale
+          lvl2.children && lvl2.children.sort((a, b) => (b.scale - a.scale)) && lvl2.children.forEach(function (stock) {
+            stock.value = stock.scale
+            stock.parent = lvl2.id
+          })
+        })
+      })
+      return map
+    },
+    stockData: function () {
+      const map = this.mapData
+      const stockData = this.$store.state.stockMap.stockData
+      const _this = this
+      map.forEach(function (industry) {
+        industry.children && industry.children.forEach(function (lvl2) {
+          lvl2.children && lvl2.children.forEach(function (stock) {
+            if (stockData) {
+              stock.perf = stockData[stock.id] || stockData[stock.name]
+              stock.itemStyle = { normal: {
+                color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
+              }}
+            } else {
+              stock.itemStyle = { normal: {
+                color: '#2f323d'
+              }}
+            }
+          })
+        })
+      })
+      map.forEach(function (industry) {
+        industry.children.forEach(function (lvl2) {
+          var totalPerf = 0
+          var totalScale = 0
+          if (stockData) {
+            lvl2.children.forEach(function (stock) {
+              if (stock.perf) {
+                totalPerf += stock.value * stock.perf
+              }
+              totalScale += stock.value
+            })
+            lvl2.perf = totalPerf / totalScale
+            lvl2.itemStyle = { normal: {
+              borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf)
+            }}
+          } else {
+            lvl2.itemStyle = { normal: {
+              borderColor: '#000'
+            }}
+          }
+        })
+      })
+      return map
+    },
+    stockChartData: function () {
+      const stockChartData = this.$store.state.stockMap.stockChartData
+      return stockChartData
+    }
+  },
+  methods: {
+    initMap: function () {
+      this.chart = echarts.init(this.$refs.treemap)
+      const _this = this
+      this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
                       this.chart.setOption({
                         tooltip: {
@@ -353,170 +353,170 @@ export default{
                         this.chart.hideLoading()
                       })
                     })
-       this.chart.showLoading()
-       this.getLegendColor()
-     },
-     updateMap: function () {
+      this.chart.showLoading()
+      this.getLegendColor()
+    },
+    updateMap: function () {
       /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
-       this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode }).then(() => {
-         this.chart && this.chart.setOption({ series: [{ data: this.mapData }] })
-       })
-       this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
-         this.chart && this.chart.setOption({ series: [{ data: this.stockData }] })
-       })
-     },
-     updateData: function () {
-       this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
-         this.updataMapData()
-       })
-       this.getLegendColor()
-     },
-     updataMapData: function () {
-       this.chart.setOption({ series: [{ data: this.stockData }] })
-     },
-     getStockChartData: function () {
-       this.$store.dispatch('stockMap/stockChartData', { code: this.rangeCode, id: this.id }).then
-     },
-     getLevelOption: function () {
-       return [
-         {// 第一层外
-           itemStyle: {
-             normal: {
-               borderColor: '#000', // 第一层矩形间隔线颜色
-               borderWidth: 0,
-               color: '#000',
-               gapWidth: 5// 第一层块间隔距离
-             }
-           },
-           upperLabel: {
-             normal: {
-               show: false
-             }
-           },
-           silent: true
-         },
-         {// 第一层
-           itemStyle: {
-             normal: {
-               borderColor: '#000', // 第一层背景色也就是第二层矩形间隔颜色
-               color: '#000',
-               borderWidth: 1, // 第一层矩形间距
-               gapWidth: 1// 第二层矩形间距
-             },
-             emphasis: {
+      this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode }).then(() => {
+        this.chart && this.chart.setOption({ series: [{ data: this.mapData }] })
+      })
+      this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
+        this.chart && this.chart.setOption({ series: [{ data: this.stockData }] })
+      })
+    },
+    updateData: function () {
+      this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
+        this.updataMapData()
+      })
+      this.getLegendColor()
+    },
+    updataMapData: function () {
+      this.chart.setOption({ series: [{ data: this.stockData }] })
+    },
+    getStockChartData: function () {
+      this.$store.dispatch('stockMap/stockChartData', { code: this.rangeCode, id: this.id }).then
+    },
+    getLevelOption: function () {
+      return [
+        {// 第一层外
+          itemStyle: {
+            normal: {
+              borderColor: '#000', // 第一层矩形间隔线颜色
+              borderWidth: 0,
+              color: '#000',
+              gapWidth: 5// 第一层块间隔距离
+            }
+          },
+          upperLabel: {
+            normal: {
+              show: false
+            }
+          },
+          silent: true
+        },
+        {// 第一层
+          itemStyle: {
+            normal: {
+              borderColor: '#000', // 第一层背景色也就是第二层矩形间隔颜色
+              color: '#000',
+              borderWidth: 1, // 第一层矩形间距
+              gapWidth: 1// 第二层矩形间距
+            },
+            emphasis: {
                 // borderColor: 'transparant'
-             }
-           },
-           silent: true,
-           upperLabel: {
-             normal: {
-               offset: [3, 0]
-             },
-             emphasis: {
-               offset: [3, 0],
-               formatter: function (params) {
+            }
+          },
+          silent: true,
+          upperLabel: {
+            normal: {
+              offset: [3, 0]
+            },
+            emphasis: {
+              offset: [3, 0],
+              formatter: function (params) {
                   // console.log(params)
-               }
-             }
-           }
-         },
-         {// 第二层
-           itemStyle: {
-             normal: {
-               borderWidth: 0,
-               gapWidth: 0,
-               borderColor: '#000'
-             },
-             emphasis: {
-               borderColor: '#ffd614'
-             }
-           },
-           upperLabel: {
-             normal: {
-               offset: [10, 0],
-               formatter: function (params) {
+              }
+            }
+          }
+        },
+        {// 第二层
+          itemStyle: {
+            normal: {
+              borderWidth: 0,
+              gapWidth: 0,
+              borderColor: '#000'
+            },
+            emphasis: {
+              borderColor: '#ffd614'
+            }
+          },
+          upperLabel: {
+            normal: {
+              offset: [10, 0],
+              formatter: function (params) {
                   // console.log(params)
-               }
-             },
-             emphasis: {
-               offset: [10, 0],
-               textStyle: {
-                 color: '#333'
-               }
-             }
-           },
-           silent: true
-         },
-         {// 第3层
-           itemStyle: {
-             normal: {
-               borderWidth: 0.5,
-               borderColor: '#000',
-               color: '#2f323d'
-             },
-             emphasis: {
+              }
+            },
+            emphasis: {
+              offset: [10, 0],
+              textStyle: {
+                color: '#333'
+              }
+            }
+          },
+          silent: true
+        },
+        {// 第3层
+          itemStyle: {
+            normal: {
+              borderWidth: 0.5,
+              borderColor: '#000',
+              color: '#2f323d'
+            },
+            emphasis: {
               // color: 'red'
-             }
-           },
-           silent: true
-         }
-       ]
-     },
-     showColor: function (colorArr, valueArr, value) {
-       if (value == null) {
-         return colorArr.nullColor
-       }
-       if (value <= (valueArr[0] + valueArr[1]) / 2) {
-         return colorArr[0]
-       } else if (value > (valueArr[valueArr.length - 1] + valueArr[valueArr.length - 2]) / 2) {
-         return colorArr[colorArr.length - 1]
-       } else {
-         var index = Math.round((value - valueArr[0]) / (valueArr[valueArr.length - 1] - valueArr[0]) * colorArr.length)
-         return colorArr[index]
-       }
-     },
-     getLegendColor: function () {
-       this.legendList = []
-       for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
-         this.legendList.push({
-           value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
-           backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
-         })
-       }
-     },
-     startPlay: function () {
-       if (this.playBackState) { // 播放中
-         this.playBackState = false
-         clearInterval(pid)
-         this.playBackSrc = playStopSrc
-       } else {
-         this.playBackState = true
-         this.playBackSrc = playBackSrc
-         if (this.playBackIndex >= this.playBackDate.length - 1) {
-           this.playBackIndex = 0
-         }
-         pid = setInterval(() => {
-           this.playBackIndex++
-           const playBackDate = this.playBackDate[this.playBackIndex]
-           this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
-             this.updataMapData()
-           })
-           if (this.playBackIndex === this.playBackDate.length - 1) {
-             clearInterval(pid)
-           }
-         }, 800)
-       }
-     },
-     fmtraneValue: function (arr, n) {
-       var getArr = []
-       for (var i in arr) {
-         getArr.push(arr[i] * n)
-       }
-       return getArr
-     }
-   },
-   mounted () {
-     this.initMap()
-   }
+            }
+          },
+          silent: true
+        }
+      ]
+    },
+    showColor: function (colorArr, valueArr, value) {
+      if (value == null) {
+        return colorArr.nullColor
+      }
+      if (value <= (valueArr[0] + valueArr[1]) / 2) {
+        return colorArr[0]
+      } else if (value > (valueArr[valueArr.length - 1] + valueArr[valueArr.length - 2]) / 2) {
+        return colorArr[colorArr.length - 1]
+      } else {
+        var index = Math.round((value - valueArr[0]) / (valueArr[valueArr.length - 1] - valueArr[0]) * colorArr.length)
+        return colorArr[index]
+      }
+    },
+    getLegendColor: function () {
+      this.legendList = []
+      for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+        this.legendList.push({
+          value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+          backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+        })
+      }
+    },
+    startPlay: function () {
+      if (this.playBackState) { // 播放中
+        this.playBackState = false
+        clearInterval(pid)
+        this.playBackSrc = playStopSrc
+      } else {
+        this.playBackState = true
+        this.playBackSrc = playBackSrc
+        if (this.playBackIndex >= this.playBackDate.length - 1) {
+          this.playBackIndex = 0
+        }
+        pid = setInterval(() => {
+          this.playBackIndex++
+          const playBackDate = this.playBackDate[this.playBackIndex]
+          this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
+            this.updataMapData()
+          })
+          if (this.playBackIndex === this.playBackDate.length - 1) {
+            clearInterval(pid)
+          }
+        }, 800)
+      }
+    },
+    fmtraneValue: function (arr, n) {
+      var getArr = []
+      for (var i in arr) {
+        getArr.push(arr[i] * n)
+      }
+      return getArr
+    }
+  },
+  mounted () {
+    this.initMap()
+  }
 }
 </script>
