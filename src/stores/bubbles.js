@@ -59,7 +59,16 @@ export default {
           state.bubblesData.bubbleColor.push(item.bubbleColor)
           state.bubblesData.innerCode.push(item.innerCode)
           state.bubblesData.name.push(item.name)
-          state.bubblesData.seriesData.push([item.xData, item.yData])
+          if (state.parameterData.xData === 'chi_spel' && state.parameterData.yData === 'chi_spel') {
+            state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
+          } else {
+            if (state.parameterData.xData === 'chi_spel') {
+              state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+            } else if (state.parameterData.yData === 'chi_spel') {
+              state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
+            }
+            state.bubblesData.seriesData.push([item.xData, item.yData])
+          }
         }
       } else {
         state.bubblesData = {

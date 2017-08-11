@@ -43,9 +43,10 @@
         bubblesData: state => state.bubbles.bubblesData,
         parameterData: state => state.bubbles.parameterData,
         xAxis: function (state) {
+          const that = this
           let x
           if (state.bubbles.parameterData.xData === 'sw_indu_name') {
-            x = this.industryArr
+            x = that.industryArr
           } else if (state.bubbles.parameterData.xData === 'chi_spel') {
             x = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
           } else {
@@ -55,16 +56,26 @@
           return {
             type: type ? 'category' : 'value',
             axisLabel: {
+              formatter: function (v) {
+                return that.convertNumBySelect('xData', v)
+              },
               textStyle: {
                 color: '#fff'
               },
               interval: 0,
               rotate: (type ? 'category' : 'value') === 'category' ? 40 : 0
             },
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#32343D'
+              }
+            },
             data: x
           }
         },
         yAxis: function (state) {
+          const that = this
           let y
           if (state.bubbles.parameterData.yData === 'sw_indu_name') {
             y = this.industryArr
@@ -76,6 +87,20 @@
           const type = !!(state.bubbles.parameterData.yData === 'sw_indu_name' || state.bubbles.parameterData.yData === 'chi_spel')
           return {
             type: type ? 'category' : 'value',
+            axisLabel: {
+              textStyle: {
+                color: '#fff'
+              },
+              formatter: function (v) {
+                return that.convertNumBySelect('yData', v)
+              }
+            },
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#32343D'
+              }
+            },
             data: y
           }
         }
