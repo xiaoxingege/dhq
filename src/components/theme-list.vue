@@ -4,7 +4,7 @@
       text-align: justify;
     }
     body{
-
+        font-size: 12px;
     }
     h3{
       font-weight: 400;
@@ -71,6 +71,7 @@
         border-radius: 3px;
         border: 1px solid #e5e5e5;
         background: #fff;
+        
 
     }
     .top-content{
@@ -80,7 +81,10 @@
     }
     .bar-txt{
       line-height: 17px;
-      margin: 18px 0 22px 0;
+      /* margin: 18px 0 10% 0; */
+      margin-top: 18px;
+      height: 90px;
+      overflow: hidden;
     }
 
     .bar-tit span{
@@ -92,16 +96,22 @@
       text-align: center;
       display: inline-block;
     }
-    .txt-con{
+    .txt-con span{
       /* height: 70px;
       width: 100%;
       white-space: nowrap;  
       overflow: hidden;  
       text-overflow: ellipsis; */ 
+      /* color: green; */
      
     }
+   
+
     .txt-srcName{
       
+    }
+    .new-text:hover{
+      /* color: red; */
     }
     .theme-bar-title{
       font-size: 14px;
@@ -118,42 +128,42 @@
       border-top:1px solid #e5e5e5;
     }
     .bottom-Market{
-      width: 60px;
+      width: 15%;
       text-align: center;
       display: inline-block;
     }
     .bottom-Market2{
-      width: 40px;
+      width: 10%;
       text-align: center;
       display: inline-block;
 
     }
     .bottom-Market3{
-      width: 20px;
+      width: 5%;
       text-align: center;
       display: inline-block;
 
     }
 </style>
 <template>
-<div class="theme-list">
+<div class="theme-list clearfix">
     <div class="hot-top">
         <span>精选热点主题概念</span>
         <div class="fr top-content">
             <span>平台实时精选主题概念  </span><span class="blue topic-num">{{summary.topicNum}}</span>,其中上涨<span class="red topic-num">{{summary.topicUpNum}}</span>,下跌<span class="green topic-num3" >{{summary.topicDownNum}}</span>
         </div>
     </div>
-    <ul class="theme-list-ul display-box">
+    <ul class="theme-list-ul display-box clearfix">
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
           <div class="bar-tit">
             <a class="theme-bar-title blue">{{topic.topicName}}</a>
             <span class="blue bar-title2">主题简介</span>
           </div>
-          <div class="bar-txt">
+          <div class="bar-txt clearfix">
             <strong>最新事件：</strong>
             <span class="txt-con">
-               <span>{{cutStr(topic.topicDesc,320)}}</span>
-              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
+              <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> <span>{{cutStr(topic.topicDesc,160)}}</span>
+              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）</router-link>
             </span>
           </div>
           <div class="li-bottom">
@@ -167,8 +177,7 @@
 
 <script>
  import { mapState } from 'vuex'
- import { formatDate } from 'utils/date'
- import { cutString } from 'utils/date'
+ import { formatDate, cutString } from 'utils/date'
  export default {
    data () {
      return {}
@@ -184,7 +193,7 @@
        return formatDate(date)
      },
      changeTofixed (num) {
-       return num > 0 ? '+' + num.toFixed(2) + '%' : num.toFixed(2) + '%'
+       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      },
      cutStr (str, len) {
        return cutString(str, len)
