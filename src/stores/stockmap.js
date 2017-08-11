@@ -14,6 +14,7 @@ const getters = {
 const mutationsTypes = {
   QUERY_RANGE_BY_CODE: 'QUERY_RANGE_BY_CODE',
   UPDATE_DATA: 'UPDATE_DATA',
+  STOCK_CHART_DATA: 'STOCK_CHART_DATA',
   ERROR: 'ERROR'
 }
     // actions
@@ -47,6 +48,14 @@ const actions = {
     }).then((data) => {
       commit(mutationsTypes.UPDATE_DATA, data)
     }).catch(() => { commit(mutationsTypes.ERROR) })
+  },
+  stockChartData ({ commit, state }, { id, code }) {
+    const url = 'http://www.z3quant.com/openapi/industries/' + id + '.json?indexCode=' + code
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((data) => {
+      commit(mutations.STOCK_CHART_DATA, data)
+    })
   }
 }
 // mutations
@@ -56,6 +65,9 @@ const mutations = {
   },
   [mutationsTypes.UPDATE_DATA] (state, stockData) {
     state.stockData = stockData
+  },
+  [mutationsTypes.STOCK_CHART_DATA] (state, stockChartData) {
+    state.stockChartData = stockChartData
   }
 }
 
