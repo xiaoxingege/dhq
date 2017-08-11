@@ -341,14 +341,14 @@
                     borderWidth: 1,
                     borderType: 'solid',
                     color: function (params) {
-                      let tmpValue = 0
                       const colorType = that.$store.state.bubbles.parameterData.bubbleColor
                       const bubbleColorData = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
-                      const colorArr = that.groupArr[colorType].color
-                      const conditionArr = that.groupArr[colorType].condition
                       if (colorType === '' || bubbleColorData === null) {
                         return that.defaultColor
                       }
+                      let tmpValue = 0
+                      const colorArr = that.groupArr[colorType].color
+                      const conditionArr = that.groupArr[colorType].condition
 
                       if (colorType === 'sw_indu_name') { // 行业
                         var len = (that.industryArr.indexOf(bubbleColorData)) % 7
