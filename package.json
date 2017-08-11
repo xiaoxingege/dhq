@@ -66,6 +66,7 @@
     "log4js": "^1.1.1",
     "node-fetch": "^1.7.1",
     "pify": "^3.0.0",
+    "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.3.4"
   }
 }
