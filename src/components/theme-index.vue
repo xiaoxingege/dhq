@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
  import ThemeList from './theme-list'
  import AllTopic from './theme-alltopic'
  export default {

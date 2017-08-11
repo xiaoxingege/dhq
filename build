@@ -5,6 +5,8 @@ export BUILD_ID=dontKillMePlease
 uname=`uname`
 user=`whoami`
 
+echo $user
+
 function p() {
   if [ "$user" = "jenkins" ]; then
     echo $1
@@ -59,25 +61,25 @@ port=3000
 
 errstr="__error__"
 
-filecontent=$(cat package.json)
-version=1.0.0
-if [ "$uname" = "Linux" ]; then
-  version=$(echo $filecontent | jq -r '.version')
-fi
+
+version=$(cat package.json | grep -oE '"version":.*' | awk -F '"' '{print $4}')
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
-err=$errstr
-while [ "$err" = "$errstr" ]
+yarn config set registry https://registry.npm.taobao.org
+code="1"
+while [ "$code" != "0" ]
 do
-  err=$(yarn install 1>/dev/null 2>/dev/null || echo $errstr)
-  if [ "$err" = "$errstr" ]; then
+  yarn install
+  code=$?
+  if [ "$code" != "0" ]; then
     pinfo 'retry install modules...'
     rm -rf node_modules
     sleep 5s
   fi
 done
 pinfo 'yarn install done.'
+
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
@@ -152,31 +154,28 @@ mput *
 bye
 f3
   fi
-  for file in ${newfiles[*]}
-  do
-    if [ -f $file ]; then
-      filename=${file##*/}
-      status="404"
-      pinfo "waiting for $filename"
-      while [ "$status" != "200" ]
-      do
-        status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
-        wait
-        if [ "$status" != "200" ]; then
-          sleep 5s
-        fi
-      done
-    fi
-  done
-  pm2name=$feature"_"$branch
-  pinfo 'pm2 name: '$pm2name
-  pm2 reload $pm2name
-  if [ "$?" != "0" ]; then
-    get_port
-    pinfo 'using port: '$port
-    pm2 start -n $pm2name dist/$feature/server/index.js -- $port
-  fi
-else
-  perr 'no files changed'
-  exit 1
+  # for file in ${newfiles[*]}
+  # do
+  #   if [ -f $file ]; then
+  #     filename=${file##*/}
+  #     status="404"
+  #     pinfo "waiting for $filename"
+  #     while [ "$status" != "200" ]
+  #     do
+  #       status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
+  #       wait
+  #       if [ "$status" != "200" ]; then
+  #         sleep 5s
+  #       fi
+  #     done
+  #   fi
+  # done
+  # pm2name=$feature"_"$branch
+  # pinfo 'pm2 name: '$pm2name
+  # pm2 reload $pm2name
+  # if [ "$?" != "0" ]; then
+  #   get_port
+  #   pinfo 'using port: '$port
+  #   pm2 start -n $pm2name dist/$feature/server/index.js -- $port
+  # fi
 fi
