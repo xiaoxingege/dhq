@@ -403,7 +403,6 @@
       },
       methods: {
         initChart () {
-          debugger
          /* this.chart = echarts.init(this.refs.chart)*/
           this.chart = echarts.init(this.$refs.chart)
           this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
