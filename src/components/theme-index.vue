@@ -10,6 +10,7 @@
    <div class="theme-index">
        <ThemeList/>  
        <AllTopic />
+       <Pagination/>
    </div>
        
 </template>

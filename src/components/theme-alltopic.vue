@@ -6,9 +6,7 @@
     em,i{
       font-style: normal;
     }
-    strong,b{
-      font-weight: 400;
-    }
+    
     .blue{
       color: #2388da;
       font-size: 12px;
@@ -62,15 +60,16 @@
     span{
       color: #191919;
     }
-    .alltopic h4{
+    .topic-head{
       font-weight: normal;
       padding-left: 15px;
+      margin:12px 0 -4px 0; 
     }
-    .alltopic h4 em{
+    .topic-head em{
       padding-right: 65px;
       font-size: 12px;
     }
-    .alltopic h4 span{
+    .topic-head span{
       width: 82px; 
       height: 20px;
       line-height: 20px;
@@ -83,6 +82,19 @@
       margin-left: 14px;
       /* padding: 4px 8px 5px 15px; */
     }
+    .alltopic span.active{
+      color: #2388da;
+      background: #fff;
+      border: 1px solid #2388da;
+    }
+    span.active .hot_icon{
+      background-position: -2px 1px;
+
+    }
+    span.active .time_icon{
+      background-position: 1px -34px;
+
+    }
     .hot_icon,.time_icon{
       height: 10px;
       display: inline-block;
@@ -90,21 +102,41 @@
     }
     .hot_icon{
       width: 6px;
-      background-position: -2px 1px;
+      background-position: -2px -10px;
       margin-left: 5px;
     }
     .time_icon{
       width: 11px;
-      background-position: 0px -10px;
+      background-position: 1px -22px;
       margin-left: 4px;
     }
     .changelist{
-      float: right;
+      margin-right: 12px;
+      margin-top: 5px;
+    }
+    .changelist a{
+      width: 11px;
+      height: 11px;
+      display: inline-block;
+      background: url(../assets/images/z3img/theme_icon.png) no-repeat 1px -45px;
+    }
+    a.list_icon{
+      background-position: 1px -45px;
+      margin-right: 10px;
+    }
+    a.kuai_icon{
+      background-position: 1px -69px;
+    }
+    .list_icon.active{
+      background-position: 1px -57px;
+    }
+    .kuai_icon.active{
+      background-position: 1px -82px;
     }
     .con-left{
       width: 36%;
       float: left;
-      margin-right: 74px;
+      margin-right: 5%;
     }
     .content{
       line-height: 24px;
@@ -138,15 +170,11 @@
       margin-bottom: 8px;
       border: 1px solid #e5e5e5;
     }
-    .alltopic span.active{
-      color: #2388da;
-      background: #fff;
-      border: 1px solid #2388da;
-    }
+    
     .topic-name{
       font-weight: 900;
       width: 36%;
-      margin-right: 74px;
+      margin-right: 5%;
       float: left;
 
     }
@@ -180,13 +208,13 @@
       text-align: left;
     }
     .equ-price{
-      width: 60px;
+      width: 26%;
       display: inline-block;
       text-align: center;
 
     }
     .new-tit{
-      width: 294px;
+      width: 50%;
       text-align: left;
       float: left;
       white-space: nowrap;  
@@ -202,8 +230,13 @@
     }
 </style>
 <template>
-<div class="alltopic">
-    <h4><em>全部主题概念</em><span @click="query('hot')" :class="sortField==='hot'?'active':''">热度排序<i class="hot_icon"></i></span><span :class="sortField==='time'?'active':''" @click="query('time')">时间排序<i class="time_icon"></i></span><span :class="sortField==='updown'?'active':''" @click="query('updown')">涨跌幅排序<i class="hot_icon"></i></span><p class="changelist">切换列表</p></h4>
+<div class="alltopic clearfix">
+    <div class="clearfix topic-head">
+       <div class="fl">
+        <em>全部主题概念</em><span @click="query('hot')" :class="sortField==='hot'?'active':''" >热度排序<i class="hot_icon"></i></span><span :class="sortField==='time'?'active':''" @click="query('time')">时间排序<i class="time_icon"></i></span><span :class="sortField==='updown'?'active':''" @click="query('updown')">涨跌幅排序<i class="hot_icon"></i></span>
+        </div>
+        <div class="fr changelist"><a href="#" class="list_icon active"></a><a href="#" class="kuai_icon"></a></div>
+    </div>
      <ol class="topic-ol">
         <li v-for="allTopic of themeList" class="clearfix">
            <div class="content-head clearfix">
@@ -211,7 +244,7 @@
                   <span class="blue "> {{ allTopic.topicName }}</span>
                 </div>
                 <div class="topic-time">
-                    <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}值</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
+                    <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
                     <span>今日涨跌</span>
                     <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket.stkDownNum}}</span>
                 </div>
@@ -221,7 +254,7 @@
                    <strong>主题简介:</strong><span class='content'>{{allTopic.topicDesc}}</span>
                </div>
                <div  class="con-cen">
-                  <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{equity.name}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{changeTofixed(equity.curChngPct)}}</span></div>
+                  <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{equity.name}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span></div>
                </div>
                <div  class="con-right" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
@@ -242,7 +275,7 @@
  export default {
    data () {
      return {
-       FIELDS: { hot: 'chngPctWeek', time: 'declareDate', updown: 'chngPct' },
+       FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
        sortField: ''
      }
    },
@@ -263,7 +296,7 @@
        return formatDate(date)
      },
      changeTofixed (num) {
-       return num > 0 ? '+' + num.toFixed(2) + '%' : num.toFixed(2) + '%'
+       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      }
  
    },
