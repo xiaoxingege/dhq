@@ -1,14 +1,27 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
+    .masks{
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        position: absolute;
+        z-index:999;
+    }
     .dialog{
         width:754px;
         height:198px;
         border:1px solid #8C8C8C;
-        z-index: 99;
+        z-index: 9999;
         background:#fff;
         font-size:12px;
         color:#000;
         position: absolute;
+        left:50%;
+        top:50%;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        -moz-transform: translate3d(-50%, -50%, 0);
+        -ms-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
     }
     .header{
         height:28px;
@@ -36,17 +49,23 @@
         border:1px solid #CCCCCC;
         color:#CCCCCC;
     }
-    select{
+    select,input{
         width:106px;
+        height:20px;
+        line-height: 20px;
         border-radius: 3px;
         margin-left: 5px;
-        color:#ccc;
+        color:#999;
         border-color:#ccc;
+    }
+    input{
+        border:1px solid #ccc;
+        height:18px;
+        padding-left:5px;
     }
     .dialogMain{
         padding:0 45px;
         text-align: center;
-        height:108px;
     }
     .dialogMain>span{
         float: left;
@@ -63,15 +82,16 @@
 
 </style>
 <template>
-    <div class="dialog">
+    <div class="masks">
+        <div class="dialog">
         <div class="header clearfix">{{title}}<span class="fr closed" @click="hideDialog">×</span></div>
 
-        <slot></slot>
+        <slot name="content"></slot>
 
         <div class="footer">
-            <button class="sureBtn">确定</button>
-            <button class="cancleBtn" @click="hideDialog">取消</button>
+            <slot name="footer"></slot>
         </div>
+    </div>
     </div>
 </template>
 <script>
@@ -84,11 +104,11 @@
       },
       methods: {
         hideDialog () {
-          this.$emit('hideDialogToFather', false)
+          this.$emit('toHideDialog', false)
         }
       },
       mounted () {
-    
-      }
+
+  }
     }
 </script>

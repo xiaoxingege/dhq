@@ -1,4 +1,4 @@
-<style>
+<style lang="scss" scoped>
 .searchBox{
     width: 500px;
     left:50%;

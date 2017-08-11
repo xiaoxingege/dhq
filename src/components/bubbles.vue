@@ -13,26 +13,73 @@
 </template>
 <script>
     import echarts from 'echarts'
+    import * as Data from '../z3tougu/constant/siwei.js'
+    import { mapState } from 'vuex'
 
     export default{
+      props: ['options'],
       data () {
         return {
-          industryArr: ['采掘', '传媒', '电气设备', '电子', '房地产', '纺织服装', '非银金融', '钢铁', '公用事业', '国防军工', '化工', '建筑材料', '建筑装饰', '交通运输', '家用电器', '计算机', '机械设备', '农林牧渔', '汽车', '轻工制造', '商业贸易', '食品饮料', '通信', '休闲服务', '银行', '医药生物', '有色金属', '综合'],
+          colorUnit: 10000,
           defaultColor: '#2F323D',
-          rgColor: ['#00d641', '#1aa448', '#0e6f2f', '#085421', '#424453', '#6d1414', '#961010', '#be0808', '#e41414'],
-          quoteChange: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
-          colorUnit: 10000
+          industryArr: Data.industryArr,
+          rgColor: Data.chgColor,
+          quoteChange: Data.quoteChange,
+          groupArr: Data.groupArr,
+          xSelectData: Data.xSelectData
         }
       },
       components: {
 
       },
       watch: {
-
-      },
-      computed: {
-
-      },
+        'options': {
+          deep: true,
+          handler: function () {
+            this.updateBubbles()
+          }
+        }},
+      computed: mapState({
+        bubblesData: state => state.bubbles.bubblesData,
+        parameterData: state => state.bubbles.parameterData,
+        xAxis: function (state) {
+          let x
+          if (state.bubbles.parameterData.xData === 'sw_indu_name') {
+            x = this.industryArr
+          } else if (state.bubbles.parameterData.xData === 'chi_spel') {
+            x = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+          } else {
+            x = state.bubbles.bubblesData.xData
+          }
+          const type = !!(state.bubbles.parameterData.xData === 'sw_indu_name' || state.bubbles.parameterData.xData === 'chi_spel')
+          return {
+            type: type ? 'category' : 'value',
+            axisLabel: {
+              textStyle: {
+                color: '#fff'
+              },
+              interval: 0,
+              rotate: (type ? 'category' : 'value') === 'category' ? 40 : 0
+            },
+            data: x
+          }
+        },
+        yAxis: function (state) {
+          let y
+          if (state.bubbles.parameterData.yData === 'sw_indu_name') {
+            y = this.industryArr
+          } else if (state.bubbles.parameterData.yData === 'chi_spel') {
+            y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+          } else {
+            y = state.bubbles.bubblesData.yData
+          }
+          const type = !!(state.bubbles.parameterData.yData === 'sw_indu_name' || state.bubbles.parameterData.yData === 'chi_spel')
+          return {
+            type: type ? 'category' : 'value',
+            data: y
+          }
+        }
+      }),
       methods: {
         convertUnit (selectName) {
           if (selectName === 'mkt_idx.volume' || selectName === 'perf_idx.avg_vol_3month' || selectName === 'fin_idx.tot_revenue' || selectName === 'fin_idx.sale') {
@@ -43,10 +90,65 @@
             return 1
           }
         },
+        convertNumBySelect (select, showData) {
+          if (isNaN(Number(showData))) {
+            return showData
+          } else {
+            var tmpSelect = this.xSelectData[this.parameterData[select]]
+            if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0) {
+              return Number(showData).toFixed(2) + '%'
+            } else {
+              var selectVal = this.parameterData[select]
+              if (selectVal === 'fcst_idx.rating_syn') {
+                if (showData === 5) {
+                  return '卖出'
+                } else if (showData === 4) {
+                  return '减持'
+                } else if (showData === 3) {
+                  return '中性'
+                } else if (showData === 2) {
+                  return '增持'
+                } else if (showData === 1) {
+                  return '买入'
+                } else {
+                  return '暂无观点'
+                }
+              } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
+                return (Number(showData) / 100000000).toFixed(2) + '亿'
+              } else if (selectVal === 'mkt_idx.volume' || selectVal === 'perf_idx.avg_vol_3month') {
+                return (Number(showData) / 10000).toFixed(0) + '万'
+              } else if (selectVal === 'order' || selectVal === 'staff_num') {
+                return Number(showData).toFixed(0)
+              } else {
+                return Number(showData).toFixed(2)
+              }
+            }
+          }
+        },
         initBubbles () {
           this.chart = echarts.init(this.$refs.bubbles)
-          this.$store.dispatch('bubbles/getBubblesData', {}).then(() => {
+          this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             const that = this
+            const xData = this.$store.state.bubbles.parameterData.xData
+            const yData = this.$store.state.bubbles.parameterData.yData
+            const xType = !!(xData === 'sw_indu_name' || xData === 'chi_spel')
+            const yType = !!(yData === 'sw_indu_name' || yData === 'chi_spel')
+            let x
+            if (that.parameterData.xData === 'sw_indu_name') {
+              x = that.industryArr
+            } else if (that.parameterData.xData === 'chi_spel') {
+              x = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+            } else {
+              x = that.bubblesData.xData
+            }
+            let y
+            if (that.parameterData.yData === 'sw_indu_name') {
+              y = that.industryArr
+            } else if (that.parameterData.yData === 'chi_spel') {
+              y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+            } else {
+              y = that.bubblesData.yData
+            }
             this.chart.setOption({
               backgroundColor: '#23252D',
               grid: {
@@ -56,7 +158,7 @@
                 bottom: 50
               },
               xAxis: {
-                type: 'category',
+                type: xType ? 'category' : 'value',
                     // name: '日期',
                 nameGap: 16,
                 nameTextStyle: {
@@ -79,19 +181,21 @@
                   show: false
                 },
                 axisLabel: {
-
+                  formatter: function (v) {
+                    return that.convertNumBySelect('xData', v)
+                  },
                   textStyle: {
                     color: '#fff'
                   },
 
                   interval: 0,
-                  rotate: 40
+                  rotate: (xType ? 'category' : 'value') === 'category' ? 40 : 0
                 },
-                data: this.industryArr
+                data: x
 
               },
               yAxis: {
-                type: 'value',
+                type: yType ? 'category' : 'value',
                     // name: 'AQI指数',
                 nameLocation: 'end',
                 nameGap: 20,
@@ -116,10 +220,13 @@
                 axisLabel: {
                   textStyle: {
                     color: '#fff'
+                  },
+                  formatter: function (v) {
+                    return that.convertNumBySelect('yData', v)
                   }
 
                 },
-                data: this.$store.state.bubbles.bubblesData.yData
+                data: y
 
               },
               dataZoom: [
@@ -197,7 +304,6 @@
                 }
               ],
               series: [{
-                name: '北京',
                 type: 'scatter',
                 itemStyle: {
                   normal: {
@@ -210,45 +316,45 @@
                     borderWidth: 1,
                     borderType: 'solid',
                     color: function (params) {
-                      var typeInfo = 'perf_idx.chng_pct_month'
-                      if (typeInfo === '' || that.$store.state.bubbles.bubblesData.bubbleColor === null) {
+                      let tmpValue = 0
+                      const colorType = that.$store.state.bubbles.parameterData.bubbleColor
+                      const bubbleColorData = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
+                      const colorArr = that.groupArr[colorType].color
+                      const conditionArr = that.groupArr[colorType].condition
+                      if (colorType === '' || bubbleColorData === null) {
                         return that.defaultColor
                       }
 
-                      var tmpColor = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
-                      var colorArr = that.rgColor
-                      var conditionArr = that.quoteChange
-                      var tmpValue = 0
-                      if (typeInfo === 'sw_indu_name') {
-                              // 行业
-                        var len = (that.industryArr.indexOf(tmpColor)) % 7
+                      if (colorType === 'sw_indu_name') { // 行业
+                        var len = (that.industryArr.indexOf(bubbleColorData)) % 7
                         return colorArr[len]
-                      } else if (typeInfo === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
-                        if (tmpColor === 5) {
+                      } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
+                        if (bubbleColorData === 5) {
                           return colorArr[0]
-                        } else if (tmpColor === 4) {
+                        } else if (bubbleColorData === 4) {
                           return colorArr[1]
-                        } else if (tmpColor === 3) {
+                        } else if (bubbleColorData === 3) {
                           return colorArr[2]
-                        } else if (tmpColor === 2) {
+                        } else if (bubbleColorData === 2) {
                           return colorArr[3]
-                        } else if (tmpColor === 1) {
+                        } else if (bubbleColorData === 1) {
                           return colorArr[4]
                         } else {
                           return '#2F323D'
                         }
-                      } else if (typeInfo === 'mkt_idx.tcap' || typeInfo === 'mkt_idx.mktcap' || typeInfo === 'mkt_idx.volume' || typeInfo === 'perf_idx.avg_vol_3month' || typeInfo === 'mkt_idx.relaVolume' || typeInfo === 'mkt_idx.rela_volume') {
-                        that.colorUnit = that.convertUnit(typeInfo)
-                        tmpValue = tmpColor / that.colorUnit
+                      } else if (colorType === 'mkt_idx.tcap' || colorType === 'mkt_idx.mktcap' || colorType === 'mkt_idx.volume' || colorType === 'perf_idx.avg_vol_3month' || colorType === 'mkt_idx.relaVolume' || colorType === 'mkt_idx.rela_volume') {
+                        that.colorUnit = that.convertUnit(colorType)
+                        tmpValue = bubbleColorData / that.colorUnit
                       } else {
-                        var ratioArr = 3
-                        tmpValue = tmpColor / ratioArr
+                        var ratioArr = that.groupArr[colorType].ratio
+                        tmpValue = bubbleColorData / ratioArr
                       }
-                      if (typeInfo !== 'sw_indu_name' && typeInfo !== 'fcst_idx.rating_syn') {
-                        if (typeInfo === 'mkt_idx.rela_volume') {
-                          var num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
+                      if (colorType !== 'sw_indu_name' && colorType !== 'fcst_idx.rating_syn') {
+                        let num
+                        if (colorType === 'mkt_idx.rela_volume') {
+                          num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
                         } else {
-                          var num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
+                          num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
                         }
                         if (tmpValue < (conditionArr[1] - num)) {
                           return colorArr[0]
@@ -275,7 +381,7 @@
                 },
                 data: this.$store.state.bubbles.bubblesData.seriesData,
                 symbolSize: function (params, value) {
-                  var tmpSize = 'mkt_idx.mktcap'
+                  const tmpSize = that.$store.state.bubbles.parameterData.bubblesSize
                   if (tmpSize === '') {
                     return 32
                   }
@@ -299,8 +405,13 @@
             this.chart.hideLoading()
           })
           this.chart.showLoading()
+        },
+        updateBubbles () {
+          this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
+            this.chart && this.chart.setOption({ xAxis: this.xAxis, yAxis: this.yAxis, series: [{ data: this.bubblesData.seriesData }] })
+          })
         }
-    
+
       },
       mounted () {
         this.initBubbles()
