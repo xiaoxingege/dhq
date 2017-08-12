@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/app'
+import App from 'components/ques-search'
 
 /*
  * 引入vuex
@@ -15,12 +15,10 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-import sync from 'stores/sync'
-import async from 'stores/async'
+import quesSearch from 'stores/ques-search'
 const store = new Vuex.Store({
   modules: {
-    sync,
-    async
+    quesSearch
   }
 })
 
