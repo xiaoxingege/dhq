@@ -1,11 +1,12 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
+    .app{
+        width:100%;
+        height:100%;
+    }
     .siwei{
         background:#000;
-        padding-left:17px;
-        padding-top: 6px;
-        width:1280px;
-        height:806px;
+        width:100%;
     }
     .bubbles-bar{
         font-size:12px;
@@ -130,13 +131,13 @@
                             <span class="mr-10">
                                 X轴
                                 <select ref="xData" v-model="dimensionOptions.xDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="dimensionOptions.yDefault==='order' && key==='order'">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
                                 Y轴
                                 <select ref="yData" v-model="dimensionOptions.yDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="dimensionOptions.xDefault==='order' && key==='order'">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
@@ -209,12 +210,12 @@
           colorData: '近1月涨跌幅',
           templateList: {
             'demoTmp1': {
-              name: '流通市值与近期股价关系1',
+              name: '模板1',
               options: {
-                xDefault: 'sw_indu_name',
-                yDefault: 'mkt_idx.cur_chng_pct',
+                xDefault: 'mkt_idx.pe_ttm',
+                yDefault: 'fin_idx.sale',
                 sizeDefault: 'mkt_idx.mktcap',
-                colorDefault: 'perf_idx.chng_pct_month',
+                colorDefault: 'mkt_idx.chng_pct_week',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
@@ -222,12 +223,38 @@
               }
             },
             'demoTmp2': {
-              name: '流通市值与近期股价关系2',
+              name: '模板2',
               options: {
-                xDefault: 'order',
-                yDefault: 'chi_spel',
+                xDefault: 'fin_idx.eps_qua_rr',
+                yDefault: 'mkt_idx.pe_ttm',
                 sizeDefault: 'mkt_idx.mktcap',
-                colorDefault: 'perf_idx.chng_pct_month',
+                colorDefault: 'mkt_idx.chng_pct_week',
+                indexRangeDefault: '',
+                industryRangeDefault: '',
+                marketValueDefault: 'gpltsz_all',
+                historyValueRangeDefault: 'lscjl_all'
+              }
+            },
+            'demoTmp3': {
+              name: '模板3',
+              options: {
+                xDefault: 'mkt_idx.chng_pct_week',
+                yDefault: 'mkt_idx.rela_ma20',
+                sizeDefault: 'mkt_idx.mktcap',
+                colorDefault: 'mkt_idx.chng_pct_week',
+                indexRangeDefault: '',
+                industryRangeDefault: '',
+                marketValueDefault: 'gpltsz_all',
+                historyValueRangeDefault: 'lscjl_all'
+              }
+            },
+            'demoTmp4': {
+              name: '模板4',
+              options: {
+                xDefault: 'mkt_idx.chng_pct_week',
+                yDefault: 'mkt_idx.rela_ma20',
+                sizeDefault: 'mkt_idx.mktcap',
+                colorDefault: 'sw_indu_name',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
@@ -235,7 +262,6 @@
               }
             }
           }
-
         }
       },
       components: {
