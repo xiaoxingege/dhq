@@ -482,6 +482,7 @@ export default {
       })
     },
     miaosha (v) {
+      alert(123)
       this.tongji01()
       if (v.currentTarget.className === 'gray') {
         this.layerguoqishow = true
