@@ -11,11 +11,15 @@ export default {
   namespaced: true,
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更新
-    CodeData: null
+    CodeData: null,
+    askTimes: '0'
   },
   mutations: {
     setData (state, res) {
       state.CodeData = res.CodeData
+    },
+    setAsk (state, res) {
+      state.askTimes = res.askTimes
     },
     setError (state, err) {
       state.err = err
@@ -28,15 +32,18 @@ export default {
         url: `http://code.jrjimg.cn/code?1=1&item=5&type=cn&typepri=s|i&areapri=cn&inc=utf8&otc=utf8&key=${options.key}&d=105301`,
         dataType: 'script',
         success: function () {
-          console.log(window.SCodeData.CodeData)
-          commit('setData', window.SCodeData.CodeData)
+          commit('setData', window.SCodeData)
         }
       })
-    //   fetch('/package.json').then((res) => {
-    //     return res.json()
-    //   }).then(body => {
-    //     commit('fetch', body.name)
-    //   })
+    },
+    ask ({ commit }) {
+      fetch('http://itougu.jrj.com.cn/ques/askTimes.jspa', {
+        credentials: 'include'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        commit('setAsk', json)
+      })
     }
   }
 }
