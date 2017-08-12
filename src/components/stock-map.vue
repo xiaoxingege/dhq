@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-//  import Vue from 'vue'
+/* import Vue from 'vue'*/
 import playBackSrc from '../assets/images/stock-map/playback.png'
 import playStopSrc from '../assets/images/stock-map/playstop.png'
 import echarts from 'echarts'
@@ -334,16 +334,16 @@ export default{
                       })
                       this.chart.hideLoading()
                       this.chart.on('mouseover', (params) => {
-                      //   const tootipvm = new Vue({
-                      //     template: '<div><StockList /></div>',
-                      //     el: '#hoverwrapperxxx',
-                      //     data: {
-                      //       stock: '888'
-                      //     },
-                      //     components: {
-                      //       StockList
-                      //     }
-                      //   })
+                        /* const tootipvm = new Vue({
+                          template: '<div><StockList /></div>',
+                          el: '#hoverwrapperxxx',
+                          data: {
+                            stock: '888'
+                          },
+                          components: {
+                            StockList
+                          }
+                        })*/
                         // console.log(document.getElementById('test'))
 //                        tootipvm.$mount().$appendTo('c')
                       })

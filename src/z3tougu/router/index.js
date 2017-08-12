@@ -18,6 +18,6 @@ export default [
     { path: '/themeList', name: 'themelist', component: ThemeList },
     { path: '/themeIndex', name: 'themeindex', component: ThemeIndex },
     { path: '/siwei', name: 'bubbles', component: Siwei },
-    { path: '/themeInformat', name: 'themeInformat', component: ThemeInformat },
+    { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail }
 ]

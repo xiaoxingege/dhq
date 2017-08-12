@@ -188,7 +188,7 @@ export default {
       }).then(result => {
         console.log(result)
         if (result.errCode === 0) {
-          commit('updateAllCharts', result.data)
+          commit('updateAllCharts', result.data.reverse())
         }
       })
     },

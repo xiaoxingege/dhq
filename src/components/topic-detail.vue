@@ -165,7 +165,7 @@
       border-left-color: #8eb6dd;
       display: inline-block;
       position: absolute;
-      top: 2px;
+      top: 1px;
       left: 51px;
     }
     .main-right{
@@ -226,6 +226,7 @@
      position: absolute;
      right: 2%;
      top: 3%;
+     z-index: 9999;
     }
     .time-ul li{
       float: left;
@@ -236,6 +237,7 @@
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
       border-radius: 2px;
+      cursor: pointer;
     }
     .chart-title{
       position: absolute;
@@ -273,13 +275,13 @@
                       <div class="left-con2 mb-8">
                         <div class="chart-title">雄安新区风分股累计收益率</div>
                         <ul class="time-ul">
-                            <li @click="renderCharts($event)">日内</li>
-                            <li >近1月</li>
-                            <li >近3月</li>
-                            <li >近6月</li>
-                            <li >近1年</li>
-                            <li >近3年</li>
-                            <li  class="active">全部</li>
+                            <li >日内</li>
+                            <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
+                            <li @click="renderCharts('M03')" :class="this.period==='M03'?'active':''">近3月</li>
+                            <li @click="renderCharts('M06')" :class="this.period==='M06'?'active':''">近6月</li>
+                            <li @click="renderCharts('M12')" :class="this.period==='M12'?'active':''">近1年</li>
+                            <li @click="renderCharts('M36')" :class="this.period==='M36'?'active':''">近3年</li>
+                            <li @click="renderCharts('ALL')" :class="this.period==='ALL'?'active':''">全部</li>
                         </ul>
                           <div class="chart" ref="chart"></div>
                       </div>
@@ -293,7 +295,7 @@
                               </a>
                               
                           </div>
-                          <div class="view-all blue fr"><span>查看全部</span><i></i></div>
+                          <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList"><router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link></div>
                       </div>
                   </div>
                   <div class="main-right fl">
@@ -349,7 +351,7 @@
     export default{
       data () {
         return {
-          period: 'ALL',
+          period: { all: 'ALL', M01: 'M01', M03: 'M03', M06: 'M06', M12: 'M12', M36: 'M36', day: 'day' },
           topicCode: this.$route.params.topicId
         }
       },
@@ -366,9 +368,9 @@
             const hs300ReturnRate = []
             const tradeDate = []
             chartData && chartData.forEach(item => {
-              topicReturnRate.push(item.topicReturnRate)
-              hs300ReturnRate.push(item.hs300ReturnRate)
-              tradeDate.unshift(item.tradeDate)
+              topicReturnRate.push(parseFloat(item.topicReturnRate).toFixed(2))
+              hs300ReturnRate.push(parseFloat(item.hs300ReturnRate).toFixed(2))
+              tradeDate.push(item.tradeDate)
 
   // return {
   //   topicName: item.topicName,
@@ -403,8 +405,8 @@
       },
       methods: {
         initChart () {
-         /* this.chart = echarts.init(this.refs.chart)*/
           this.chart = echarts.init(this.$refs.chart)
+          this.period = 'ALL'
           this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                       .then(() => {
                         this.chart.setOption({
@@ -544,7 +546,149 @@
                         })
                       })
         },
+        renderCharts (type) {
+          this.period = type
+          console.log(type)
+          this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
+                 .then(() => {
+                   this.chart.setOption({
+                     tooltip: {
+                       trigger: 'axis',
+                       formatter: function (params) {
+                         if (params.length) {
+                           if (params[0].value !== '') {
+                             var boxHtml = '<div>' + params[0].name + '<br/>'
+                           }
+                           for (var i = 0; i < params.length; i++) {
+                             var param = params[i]
+                             if (param.value !== '') {
+                               boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span>' + ' ' + param.seriesName + ': ' + param.value + '%<br/></div>'
+                             }
+                           }
+                           return boxHtml
+                         }
+                       }
+                     },
+                     legend: {
+                       left: '3%',
+                       top: 30,
+                       itemWidth: 15,
+                       itemHeight: 8,
+                       data: [{
+                         name: '策略累计收益率',
+                         icon: 'pin'
+                       },
+                       {
+                         name: '沪深300',
+                         icon: 'pin'
+                       }]
     
+                     },
+                     toolbox: {
+                       show: false
+                     },
+                     calculable: true,
+                     xAxis: [
+                       {
+                         type: 'category',
+                         boundaryGap: false,
+                         data: this.chartData.tradeDate,
+                         axisLabel: {
+                                                    // X轴刻度配置
+                           interval: 'auto' // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+                         }
+                       }
+                     ],
+                     yAxis: [
+                       {
+                         type: 'value',
+                         axisLabel: {
+                           formatter: '{value}%'
+                         }
+                       }
+                     ],
+                     grid: {
+                              /* width: '97%',*/
+                       left: '1%',
+                       right: '1%',
+                             /* bottom: '50',*/
+                       containLabel: true
+                     },
+                     dataZoom: [
+                       {
+                         show: true,
+                         showDetail: false,
+                         type: 'slider',
+                         y: '88%',
+                         start: 0,
+                         end: 100
+                       }
+                     ],
+                     series: [{
+                       name: '策略累计收益率',
+                       type: 'line',
+                       smooth: true,
+                       data: this.chartData.topicReturnRate,
+                       lineStyle: {// 网格线
+                         normal: {
+                           color: '#5597d3'
+                         }
+                       },
+                       itemStyle: {// 折线拐点标志的样式
+                         normal: {
+                           opacity: 0,
+                           color: '#5597d3'
+                         }
+                       },
+                       markPoint: {// 图标标注
+                         data: [
+                                                { type: 'max', name: '最大值' },
+                                                { type: 'min', name: '最小值' }
+                         ],
+                         label: {
+                           normal: {
+                             show: false
+                           }
+                         },
+                         symbolSize: 10, // 标记大小
+                         symbol: ''// 标记的图形
+                       }
+                     },
+                     {
+                       name: '沪深300',
+                       type: 'line',
+                       smooth: true,
+                       data: this.chartData.hs300ReturnRate,
+                       lineStyle: {
+                         normal: {
+                           color: '#f1975d'
+                         }
+                       },
+                       itemStyle: {
+                         normal: {
+                           opacity: 0,
+                           color: '#f1975d'
+                         }
+                       },
+                       markPoint: {// 图标标注
+                         data: [
+                                                { type: 'max', name: '最大值' },
+                                                { type: 'min', name: '最小值' }
+                         ],
+                         label: {
+                           normal: {
+                             show: false
+                           }
+                         },
+                         symbolSize: 10, // 标记大小
+                         symbol: ''// 标记的图形
+                       }
+                     }]
+    
+                   })
+                 })
+           // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+        },
         updateChart () {
 
         },
