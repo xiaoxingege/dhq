@@ -138,6 +138,7 @@
       },
       methods: {
         getDetailPages () {
+          debugger
           const id = this.$route.params.id
           const detailType = this.$route.params.detailType
           this.$store.dispatch('zhikuanDetailPages/getDetailPages', { id, detailType }).then(() => {

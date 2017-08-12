@@ -117,16 +117,16 @@
 <template>
       <div class="informat-list">
           <div class="infor-top">
-             <a href="#" class="blue">< 返回主题详情</a>
+             <a href="#" class="blue" @click="routerBack">< 返回主题详情</a>
           </div>
           <div class="informat-content">
               <div class="informat-main">
                    <strong class="in-title" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}相关资讯</strong>
                    <div class="in-content">
-                      <div class="clearfix" v-if="informatList && informatList.length > 0" v-for="infor of informatList">
-                        <a> <span class="new-tit">{{infor.title}}</span>
+                      <div class="clearfix" v-if="informatList && informatList.length > 0" v-for="infor of informatList"><!-- <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> -->
+                        <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}"> <span class="new-tit">{{infor.title}}</span>
                          <span class="new-date">{{format(infor.declareDate)}}</span>
-                         <span class="new-srcname">{{infor.srcName}}</span></a>
+                         <span class="new-srcname">{{infor.srcName}}</span></router-link>
                       </div>
                    </div>
                    
@@ -141,7 +141,7 @@
  export default {
    data () {
      return {
- 
+       topicCode: this.$route.params.inforId
      }
    },
    computed: mapState({
@@ -149,12 +149,15 @@
    }),
    components: {},
    methods: {
+     routerBack () {
+       this.$router.go(-1)
+     },
      format (date) {
        return formatDate(date)
      }
    },
    mounted () {
-     this.$store.dispatch('topic/queryInformatList')
+     this.$store.dispatch('topic/queryInformatList', { topicCode: this.topicCode })
    }
  
  }

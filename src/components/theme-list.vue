@@ -76,25 +76,26 @@
     }
     .top-content{
     }
-    .bar-tit{
-
-    }
+    
     .bar-txt{
       line-height: 17px;
       /* margin: 18px 0 10% 0; */
       margin-top: 18px;
       height: 90px;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .bar-tit span{
-      width: 57px;
+      /* width: 57px;
       height: 18px;
       line-height: 18px;
+      text-align: center; */
+      padding: 2px 3px 2px 5px;
       border-radius: 3px;
       border: 1px solid #2388da;
-      text-align: center;
       display: inline-block;
+      cursor: pointer;
     }
     .txt-con span{
       /* height: 70px;
@@ -114,10 +115,11 @@
       /* color: red; */
     }
     .theme-bar-title{
-      font-size: 14px;
+      font-size: 12px;
       display: inline-block; 
       text-align: left;
       line-height: 18px;
+      cursor: pointer;
     }
     span{
       text-align: left;
@@ -157,7 +159,7 @@
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
           <div class="bar-tit">
             <a class="theme-bar-title blue">{{topic.topicName}}</a>
-            <span class="blue bar-title2">主题简介</span>
+            <span class="blue bar-title2" :title="topic.topicDesc">主题简介</span>
           </div>
           <div class="bar-txt clearfix">
             <strong>最新事件：</strong>
