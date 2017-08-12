@@ -20,12 +20,12 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    fetch ({ commit }) {
+    fetch ({ commit, rootState, dispatch }, options) {
       $.ajax({
-        url: 'http://code.jrjimg.cn/code?1=1&item=5&type=cn&typepri=s|i&areapri=cn&inc=utf8&otc=utf8&key=6&d=105301',
+        url: `http://code.jrjimg.cn/code?1=1&item=5&type=cn&typepri=s|i&areapri=cn&inc=utf8&otc=utf8&key=${options.key}&d=105301`,
         dataType: 'script',
         success: function () {
-          alert(1)
+
         }
       })
     //   fetch('/package.json').then((res) => {

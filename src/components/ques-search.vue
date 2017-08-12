@@ -55,7 +55,7 @@ export default {
   methods: {
     searchInput (value) {
       this.$store.dispatch('quesSearch/fetch', {
-
+        key: value
       })
     }
   },
