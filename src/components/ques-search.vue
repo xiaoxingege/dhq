@@ -35,6 +35,11 @@
 <div class="ques-search">
     <i></i>
     <input type="text" name="" value="" placeholder="输入股票代码/简拼" v-model="value" @input="searchInput(value)"/>
+
+
+    <div v-for="item in CodeData">
+        {{item.name}}
+    </div>
 </div>
 </template>
 <script>
@@ -47,7 +52,7 @@ export default {
     return {}
   },
   computed: mapState({
-    content: state => state.quesSearch.content
+    CodeData: state => state.quesSearch.CodeData
   }),
   components: {
 
