@@ -80,6 +80,7 @@
       text-align: center;
       background: #fff;
       margin-left: 14px;
+      cursor: pointer;
       /* padding: 4px 8px 5px 15px; */
     }
     .alltopic span.active{
@@ -159,6 +160,7 @@
       width: 40%;
       float: left;
       line-height: 24px;
+      cursor: pointer;
     }
     .topic-ol{
       padding-left: 9px;
@@ -176,6 +178,7 @@
       width: 36%;
       margin-right: 5%;
       float: left;
+      cursor: pointer;
 
     }
     
@@ -228,6 +231,13 @@
       line-height: 24px;
       float: left;
     }
+    .new-srcname{
+      color: #7e7e7e;
+      margin-left: 18px;
+      line-height: 24px;
+      float: left;
+
+    }
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -241,7 +251,7 @@
         <li v-for="allTopic of themeList" class="clearfix">
            <div class="content-head clearfix">
                 <div class="topic-name">
-                  <span class="blue "> {{ allTopic.topicName }}</span>
+                 <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue "> {{ allTopic.topicName }}</router-link>
                 </div>
                 <div class="topic-time">
                     <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
@@ -251,21 +261,22 @@
            </div>
            <div class="content-box clearfix">
                <div  class="con-left">
-                   <strong>主题简介:</strong><span class='content'>{{allTopic.topicDesc}}</span>
+                   <strong>主题简介:</strong><span class='content' :title="allTopic.topicDesc">{{allTopic.topicDesc}}</span>
                </div>
                <div  class="con-cen">
                   <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{equity.name}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span></div>
                </div>
                <div  class="con-right" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
-                       <span class="new-tit">{{news.title}}</span>
+                       <span class="new-tit" :title="news.title">{{news.title}}</span>
                        <span class="new-date">{{format(news.declareDate)}}</span>
-                       <span class="new-date">{{news.srcName}}</span>
+                       <span class="new-srcname">{{news.srcName}}</span>
                     </div>
                 </div>
            </div>
         </li>
     </ol>
+     
 </div>
 </template>
 
@@ -283,7 +294,8 @@
    computed: mapState({
      themeList: state => state.topic.themeList
    }),
-   components: {},
+   components: {
+   },
    methods: {
      query (type) {
        if (this.sortField === type) {

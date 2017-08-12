@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .searchBox{
-    width: 500px;
+    width: 300px;
     left:50%;
     background: #fff;
     box-shadow: 2px 2px 7px 0 #bfbfbf;
@@ -9,6 +9,10 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    -webkit-transform: translate3d(-50%, 0, 0);
+    -moz-transform: translate3d(-50%, 0, 0);
+    -ms-transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
 }
 </style>
 <template>

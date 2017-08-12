@@ -1,14 +1,13 @@
-<style>
+<style lang="scss" scoped>
     .bubblesChart{
-        width:1280px;
-        height:768px;
+        width:100%;
     }
 
 </style>
 <template>
     <div class="bubbles">
         <div></div>
-        <div class="bubblesChart" ref="bubbles"></div>
+        <div class="bubblesChart" ref="bubbles" v-bind:style="{height:height+'px'}"></div>
     </div>
 </template>
 <script>
@@ -26,7 +25,8 @@
           rgColor: Data.chgColor,
           quoteChange: Data.quoteChange,
           groupArr: Data.groupArr,
-          xSelectData: Data.xSelectData
+          xSelectData: Data.xSelectData,
+          height: window.innerHeight - 32
         }
       },
       components: {
@@ -38,7 +38,8 @@
           handler: function () {
             this.updateBubbles()
           }
-        }},
+        }
+      },
       computed: mapState({
         bubblesData: state => state.bubbles.bubblesData,
         parameterData: state => state.bubbles.parameterData,
@@ -427,6 +428,13 @@
 
               }]
             })
+            window.onresize = function () {
+              that.chart.resize({
+                height: window.innerHeight - 32
+              })
+              that.height = window.innerHeight - 32
+            }
+
             this.chart.hideLoading()
           })
           this.chart.showLoading()
