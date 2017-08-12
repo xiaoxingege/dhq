@@ -13,7 +13,7 @@
 }
 
 .item2 {
-  background-image: url(../assets/images/neicanms/h5_02.jpg);
+  background-image: url(../assets/images/neicanms/h5_02a.jpg);
     height: 14.28rem;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .item6 {
-  background-image: url(../assets/images/neicanms/h5_06.jpg);
+  background-image: url(../assets/images/neicanms/h5_06a.jpg);
   height: 10.91rem;
 }
 
