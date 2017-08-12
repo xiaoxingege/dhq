@@ -330,7 +330,7 @@ import {
 export default {
   data () {
     return {
-      opentime: '2017-08-08 14:55:00',
+      opentime: '2017-08-14 10:00:00',
       layerczshow: false,
       layerguoqishow: false,
       tougjinum01: 0,

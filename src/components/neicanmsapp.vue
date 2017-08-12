@@ -441,13 +441,11 @@ export default {
   },
   computed: mapState({
     ssoId: state => state.user.ssoId
-    // ssoId: state => '141122010023949343'
   }),
   mounted () {
     this.$store.dispatch('user/fetch')
     document.title = '内参秒杀'
     this.timebtn()
-    console.log(this.ssoId)
     setInterval(this.timebtn, 1000)
     this.tongji01()
     this.tongji02()
