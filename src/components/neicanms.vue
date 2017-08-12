@@ -322,6 +322,7 @@ color: #fff;
 
 <script>
 import neicanKuaibao from 'components/neican-kuaibao'
+import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
@@ -329,7 +330,7 @@ import {
 export default {
   data () {
     return {
-      opentime: '2017-08-08 13:53:00',
+      opentime: '2017-08-08 14:55:00',
       layerczshow: false,
       layerguoqishow: false,
       tougjinum01: 0,

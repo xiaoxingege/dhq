@@ -20,7 +20,6 @@
 .item3 {
   background-image: url(../assets/images/neicanms/h5_03.jpg);
   height: 9.69rem;
-  position: relative;
 }
 
 .item4 {
@@ -122,28 +121,26 @@ padding-top: .15rem;
 height: .8rem;
 }
 
-.item3 a {
-  position: absolute;
-top: 1.5rem;
+.item3 a {display: block;
 width: 3rem;
 height: 1rem;
 z-index: 2;
 right: 0;
+    margin-left: 4.1rem;
 }
 
-.item3 span {
-  position: absolute;
-    right: .5rem;
-    top: 6.38rem;
+.item3 span {display: block;
     text-align: center;
     width: 3.7rem;
     color: #fdf06e;
-    font-size: .35rem;
+    font-size: .27rem;margin-top: 1rem;
+    margin-left: 3.3rem;line-height: .5rem
 }
 
 .item3 b {
-  position: absolute;
-  top:5.3rem
+  width:.1rem;
+  height: .1rem;
+  display: block;margin-top: 3rem;
 }
 
 .navbar {
@@ -156,7 +153,7 @@ right: 0;
   background-size:100% auto;
 }
 
-.navbar a {
+.navbar span {
   display: block;
   height: .7rem;
 }
@@ -245,6 +242,8 @@ right: 0;
 .item6 a:nth-child(2) {
   height: .8rem;
 }
+
+.item3 .in{padding-top: 1.3rem;}
 </style>
 
 <template>
@@ -273,9 +272,11 @@ right: 0;
     </div>
   </div>
   <div class="item item3" id="two">
-    <a href="http://itougu.jrj.com.cn/tips/10655.jspa"></a>
-    <b id="three"></b>
-    <span>已有{{tougjinum02}}人参与购买</span>
+    <div class="in">
+      <a href="http://itougu.jrj.com.cn/tips/10655.jspa"></a>
+      <b id="three"></b>
+      <span>已有{{tougjinum02}}人参与购买</span>
+    </div>
   </div>
   <div class="item item4">
     <div class="in">
@@ -299,10 +300,14 @@ right: 0;
     </div>
   </div>
   <div class="navbar">
-    <a href="#one"></a>
+    <!-- <a href="#one"></a>
     <a href="#two"></a>
     <a href="#three"></a>
-    <a href="#four"></a>
+    <a href="#four"></a> -->
+    <span @click="goscroll($event)" dataid="one"></span>
+    <span @click="goscroll($event)" dataid="two"></span>
+    <span @click="goscroll($event)" dataid="three"></span>
+    <span @click="goscroll($event)" dataid="four"></span>
   </div>
   <div class="mask" v-if="layerczshow===true || layerguoqishow===true"></div>
   <!--抽中-->
@@ -318,6 +323,7 @@ right: 0;
 
 <script>
 import neicanKuaibao from 'components/neican-kuaibao'
+import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
@@ -325,7 +331,7 @@ import {
 export default {
   data () {
     return {
-      opentime: '2017-08-10 09:53:00',
+      opentime: '2017-08-14 10:00:00',
       layerczshow: false,
       layerguoqishow: false,
       tougjinum01: 0,
@@ -482,7 +488,6 @@ export default {
       })
     },
     miaosha (v) {
-      alert(123)
       this.tongji01()
       if (v.currentTarget.className === 'gray') {
         this.layerguoqishow = true
@@ -522,6 +527,11 @@ export default {
       }).then(v => {
         this.tougjinum02 = v.num
       })
+    },
+    goscroll (v) {
+      var id = v.currentTarget.getAttribute('dataid')
+      var div = document.getElementById(id)
+      document.body.scrollTop = div.offsetTop
     }
 
   }
