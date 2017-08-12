@@ -1,99 +1,107 @@
 <style>
 @import '../assets/css/reset.css';
-.in {
-  width: 1000px;
-  margin: 0 auto;
-}
+
 
 .item {
-  background: url(../assets/images/neicanms/web_01.jpg) no-repeat center top;
-  height: 941px;
+  background: url(../assets/images/neicanms/h5_01.jpg)  no-repeat center top;
+  background-size:100% auto;
+  height: 7.49rem;
 }
 
 .item1 {
-  background-image: url(../assets/images/neicanms/web_01.jpg);
+  background-image: url(../assets/images/neicanms/h5_01.jpg);
 }
 
 .item2 {
-  background-image: url(../assets/images/neicanms/web_02.jpg);
-  height: 758px;
+  background-image: url(../assets/images/neicanms/h5_02.jpg);
+    height: 14.28rem;
 }
 
 .item3 {
-  background-image: url(../assets/images/neicanms/web_03.jpg);
-  height: 699px;
+  background-image: url(../assets/images/neicanms/h5_03.jpg);
+  height: 9.69rem;
   position: relative;
 }
 
 .item4 {
-  background-image: url(../assets/images/neicanms/web_04.jpg);
-  height: 830px;
+  background-image: url(../assets/images/neicanms/h5_04.jpg);
+  height: 12.27rem
 }
 
 .item5 {
-  background-image: url(../assets/images/neicanms/web_05.jpg);
-  height: 579px;
+  background-image: url(../assets/images/neicanms/h5_05.jpg);
+  height: 8.36rem;
 }
 
 .item6 {
-  background-image: url(../assets/images/neicanms/web_06.jpg);
-  height: 831px;
+  background-image: url(../assets/images/neicanms/h5_06.jpg);
+  height: 10.91rem;
 }
 
 .item1 .in {
-  padding-top: 770px;
+  padding-top: 6.9rem;
 }
 
 .item2 .in {
-  padding-top: 85px;
+  padding-top: 1.88rem;
   text-align: center;
-  width: 1010px;
 }
 
 .kuaibao {
   color: #782501;
-  font-size: 30px;
-  padding-left: 200px;
+  font-size: .25rem;
+  padding-left: 2.5rem;
 }
 
 .total01 {
   color: #f79e20;
+  font-size: .3rem;
 }
-
-.timebox {
-  width: 1020px;
-}
+.timebox ul{ width:7.08rem;margin:0 auto; position: relative;}
 
 .timebox li {
   float: left;
-  width: 203px;
+  width: 32%;
 }
 
 .timebox a {
   display: block;
-  height: 188px;
+  height: 2.21rem;
 }
 
 .timebox a:nth-child(2) {
-  height: 97px;
+  height: 1.2rem;
 }
 
 .timebox li:nth-child(2) {
-  padding-top: 33px;
+  padding-top: 1.6rem;
+  margin-left:.13rem;
 }
 
 .timebox li:nth-child(3) {
-  padding-top: 67px;
+  padding-top: -0.5rem;
+  float: right;
 }
 
 .timebox li:nth-child(4) {
-  padding-top: 33px;
+  position: absolute;
+    top: 4.55rem;
+    left: 0;
+}
+
+.timebox li:nth-child(5) {
+  position: absolute;
+    top: 4.55rem;
+    right: 0;
 }
 
 .timebox span {
   display: block;
-  height: 77px;
+  width:2.24rem;
+  margin:0 auto;
+  height: .9rem;
   background: url(../assets/images/neicanms/webbtn.png) no-repeat;
+  background-size:100% auto;
   cursor: pointer;
 }
 
@@ -102,61 +110,57 @@
 }
 
 .timebox .gray {
-  background-position: 0 -167px;
+  background-position: 0 -2rem;
 }
 
 .timebox .time {
-  background-position: 0 -83px;
-  line-height: 20px;
-  font-size: 18px;
-padding-top: 11px;
-height: 66px;
+  background-position: 0 -0.96rem;
+line-height: .3rem;
+font-size: .25rem;
 color: #fff;
+padding-top: .15rem;
+height: .8rem;
 }
 
 .item3 a {
   position: absolute;
-  left: 50%;
-  top: 233px;
-  width: 216px;
-  height: 57px;
-  margin-left: -416px;
+top: 1.5rem;
+width: 3rem;
+height: 1rem;
+z-index: 2;
+right: 0;
 }
 
 .item3 span {
   position: absolute;
-  left: 50%;
-  top: 400px;
-  margin-left: 32px;
-  text-align: center;
-  width: 210px;
-  color: #fdf06e;
-  font-size: 19px;
+    right: .5rem;
+    top: 6.38rem;
+    text-align: center;
+    width: 3.7rem;
+    color: #fdf06e;
+    font-size: .35rem;
 }
 
 .item3 b {
   position: absolute;
-  top: 380px;
+  top:5.3rem
 }
 
 .navbar {
   position: fixed;
-  width: 170px;
-  height: 213px;
-  background: url(../assets/images/neicanms/weblay03.png) no-repeat;
-  top: 20px;
-  right: 20px;
-  padding-top: 200px;
+  width: 1.72rem;
+  height: 2.87rem;
+  background: url(../assets/images/neicanms/h5lay03.png) no-repeat;
+  top: .60rem;
+  right: 0;
+  background-size:100% auto;
 }
 
 .navbar a {
   display: block;
-  height: 48px;
+  height: .7rem;
 }
 
-.navbar a:nth-child(1) {
-  height: 78px;
-}
 
 
 /*弹层*/
@@ -174,13 +178,13 @@ color: #fff;
 }
 
 .layer {
-  width: 578px;
-  height: 212px;
+  width: 5.78rem;
+  height: 2.12rem;
   position: fixed;
   top: 50%;
   left: 50%;
-  margin-top: -106px;
-  margin-left: -289px;
+  margin-top: -1.06rem;
+  margin-left: -2.89rem;
   z-index: 21;
   animation: haha .6s cubic-bezier(1, -0.49, 0, 1.5);
   background: url(../assets/images/neicanms/weblay01.png);
@@ -202,8 +206,8 @@ color: #fff;
 
 .closebtn {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: .6rem;
+  height: .6rem;
   cursor: pointer;
   right: 0;
   top: 0;
@@ -212,37 +216,34 @@ color: #fff;
 .item4 li {
   float: left;
   width: 50%;
-  margin-bottom: 23px;
+  margin-bottom: .15rem;
 }
 
 .item4 a {
-  width: 38%;
-  height: 253px;
-  float: left;
+  height: 1.95rem;
+  display: block;
 }
 
 .item4 a:nth-child(2) {
-  width: 57%;
-  float: right;
+  height: 2rem
 }
 
 .item6 .in {
-  padding-top: 280px;
+  padding-top: 3.5rem;
 }
 
 .item6 li {
   float: left;
-  width: 25%;
-  margin-bottom: 23px;
+  width:50%;
 }
 
 .item6 a {
   display: block;
-  height: 260px;
+  height: 1.84rem;
 }
 
 .item6 a:nth-child(2) {
-  height: 100px;
+  height: .8rem;
 }
 </style>
 
@@ -262,14 +263,9 @@ color: #fff;
       </div>
       <div class="timebox">
         <ul class="clearfix">
-          <!-- <li><span class="open"></span></li>
-          <li><span class="gray"></span></li>
-          <li><span class="time"></span></li>
-          <li><span class="time"></span></li>
-          <li><span class="time"></span></li> -->
           <li v-for="(item,index) in urlbox.url01">
-            <a :href="item.touxiang" target="_blank" @click="tongji01"></a>
-            <a :href="item.neican" target="_blank" @click="tongji01"></a>
+            <a :href="item.touxiang" @click="tongji01"></a>
+            <a :href="item.neican" @click="tongji01"></a>
             <span :class="item.classtr" v-html="item.timestr" :tgId="item.tgId" :dataindex="index" @click="miaosha($event)"></span>
           </li>
         </ul>
@@ -277,7 +273,7 @@ color: #fff;
     </div>
   </div>
   <div class="item item3" id="two">
-    <a href="http://itougu.jrj.com.cn/tips/10655.jspa" target="_blank"></a>
+    <a href="http://itougu.jrj.com.cn/tips/10655.jspa"></a>
     <b id="three"></b>
     <span>已有{{tougjinum02}}人参与购买</span>
   </div>
@@ -285,8 +281,8 @@ color: #fff;
     <div class="in">
       <ul>
         <li v-for="item in urlbox.url02">
-          <a :href="item.touxiang" target="_blank"></a>
-          <a :href="item.neican" target="_blank" @click="tongji02"></a>
+          <a :href="item.touxiang"></a>
+          <a :href="item.neican" @click="tongji02"></a>
         </li>
       </ul>
     </div>
@@ -296,8 +292,8 @@ color: #fff;
     <div class="in">
       <ul class="clearfix">
         <li v-for="item in urlbox.url03">
-          <a :href="item.touxiang" target="_blank"></a>
-          <a :href="item.neican" target="_blank" @click="tongji02"></a>
+          <a :href="item.touxiang"></a>
+          <a :href="item.neican" @click="tongji02"></a>
         </li>
       </ul>
     </div>
@@ -329,7 +325,7 @@ import {
 export default {
   data () {
     return {
-      opentime: '2017-08-08 13:53:00',
+      opentime: '2017-08-10 09:53:00',
       layerczshow: false,
       layerguoqishow: false,
       tougjinum01: 0,
@@ -481,7 +477,7 @@ export default {
         }
         if (leftTime > 0) {
           item.classtr = 'time'
-          item.timestr = '倒计时<br />' + day1 + '天' + hour + '小时' + minute + '分' + second + '秒'
+          item.timestr = '倒计时:' + day1 + '天' + hour + '小时<br />' + minute + '分' + second + '秒'
         }
       })
     },
@@ -491,20 +487,19 @@ export default {
         this.layerguoqishow = true
       } else if (v.currentTarget.className === 'open') {
         if ((this.ssoId + '').length < 18) {
-          window.location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + location.href + '&fromId=JRJ'
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
         } else {
           var tgId = v.currentTarget.getAttribute('tgid')
           fetch('http://itougu.jrj.com.cn/marketing/secondKillTips.jspa?adviserId=' + tgId + '&userId=' + this.ssoId).then((res) => {
             return res.json()
           }).then(v => {
-            console.log(v)
             if (v.retCode === 0) {
               this.layerczshow = true
             } else {
               this.layerguoqishow = true
             }
-          }).catch(v2 => {
-            console.log(v2)
           })
         }
       }
@@ -518,8 +513,6 @@ export default {
         return res.json()
       }).then(v => {
         this.tougjinum01 = v.num
-      }).catch(v2 => {
-        console.log(v2)
       })
     },
     tongji02 () {
@@ -527,8 +520,6 @@ export default {
         return res.json()
       }).then(v => {
         this.tougjinum02 = v.num
-      }).catch(v2 => {
-        console.log(v2)
       })
     }
 
