@@ -276,33 +276,48 @@
            </div>
         </li>
     </ol>
-     
+     <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
 </div>
 </template>
 
 <script>
  import { mapState } from 'vuex'
  import { formatDate } from 'utils/date'
+ import Pagination from './pagination'
  export default {
    data () {
      return {
        FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
-       sortField: ''
+       sortField: '',
+       page: '',
+       pagesize: ''
      }
    },
-   props: ['placeholder'],
+ 
    computed: mapState({
-     themeList: state => state.topic.themeList
+     themeList: state => state.topic.themeList,
+     totalPage: state => state.topic.total
+     /*,
+     tota
+     page: state => state.topic.page,
+     pagesize: state => state.topic.pagesize,
+     totalPage: state => state.topic.totalPage*/
    }),
    components: {
+     Pagination
    },
    methods: {
-     query (type) {
-       if (this.sortField === type) {
-         return
-       }
+     query (type, page) {
+       // if (this.sortField === type && page) {
+       //   return
+       // }
        this.sortField = type
-       this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+      // sortField, page, pagesize, totalPages
+       // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+       this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField], page: this.page, pagesize: this.pagesize })
+     },
+     goToPage (page) {
+       this.page = page
      },
      format (date) {
        return formatDate(date)
@@ -311,6 +326,11 @@
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      }
  
+   },
+   watch: {
+     page () {
+       this.query(this.sortField, this.page)
+     }
    },
    mounted () {
      this.query('hot')
