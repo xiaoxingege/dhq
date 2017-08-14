@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/allpeoplevl'
+import App from 'components/allpeoplelv'
 
 /*
  * 引入vuex
