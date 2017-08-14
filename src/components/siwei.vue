@@ -20,7 +20,18 @@
         border:0;
     }
     .template select:focus { outline: none; }
-
+    .legend{
+        color:#fff;
+        height:50px;
+    }
+    .legend ul li{
+        float: left;
+        width:60px;
+        height:20px;
+        line-height: 20px;
+        text-align: center;
+        font-size:12px;
+    }
     button{
         height:20px;
         line-height: 20px;
@@ -108,16 +119,16 @@
                             </span>
                             <span class="mr-15">
                                 筛股策略
-                                <select>
+                                <select v-model="stockRangeOptions.strategyDefault">
                                     <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
                                 </select>
                             </span>
                             <span>
-                    股票池
-                    <select>
-                         <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-                    </select>
-                </span>
+                                股票池
+                                <select v-model="stockRangeOptions.stockPoolDefault">
+                                    <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                     <div slot="footer" class="mt-20">
@@ -162,6 +173,35 @@
             </div>
         </div>
         <bubbles :options="options"></bubbles>
+        <div class="legend clearfix">
+            <p class="fl">温馨提示：双击鼠标进入个股页面。</p>
+            <div class="fr" style="margin-top: 5px;">
+                <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
+                    <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
+                </ul>
+                <ul v-if="options.colorDefault==='mkt_idx.tcap' || options.colorDefault==='mkt_idx.mktcap'" class="clearfix">
+                    <li v-for="(item,index) in marketArr" :style="{'background':volumeColor[index]}">{{item}}亿</li>
+                </ul>
+                <ul v-if="options.colorDefault==='mkt_idx.volume' || options.colorDefault==='perf_idx.avg_vol_3month'" class="clearfix">
+                    <li v-for="(item,index) in volumeArr" :style="{'background':volumeColor[index]}">{{item}}万</li>
+                </ul>
+                <ul v-if="options.colorDefault==='mkt_idx.rela_volume'" class="clearfix">
+                    <li v-for="(item,index) in relaVolume" :style="{'background':volumeColor[index]}">{{item}}</li>
+                </ul>
+                <ul  class="clearfix">
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.chng_pct_week'">{{item*2}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_month'">{{item*3}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_3month'">{{item*6}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_6month'">{{item*8}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year'">{{item*9}}%</li>
+                    <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year_sofar'">{{item*8}}%</li>
+                </ul>
+                <ul v-if="options.colorDefault==='fcst_idx.rating_syn'" class="clearfix">
+                    <li v-for="(item,index) in analystPoint" :style="{'background':analystColor[index]}">{{item}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -181,20 +221,32 @@
           industryRangeList: Data.industryRange,
           marketValueList: Data.marketValueRange,
           historyValueList: Data.historyValueRange,
+          analystPoint: Data.pointArr,
+          quoteChange: Data.quoteChange,
+          marketArr: Data.marketArr,
+          volumeArr: Data.volumeArr,
+          industryArr: Data.industryArr,
+          relaVolume: Data.relaVolume,
+          industryColor: Data.industryColor,
+          volumeColor: Data.volumeColor,
+          chgColor: Data.chgColor,
+          analystColor: Data.AnalystColor,
           tmpId: 'demoTmp1',
           options: {
-            xDefault: 'sw_indu_name',
-            yDefault: 'mkt_idx.mktcap',
+            xDefault: 'mkt_idx.pe_ttm',
+            yDefault: 'fin_idx.sale',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month',
             indexRangeDefault: '',
             industryRangeDefault: '',
             marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all'
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: ''
           },
           dimensionOptions: {
-            xDefault: 'sw_indu_name',
-            yDefault: 'mkt_idx.mktcap',
+            xDefault: 'mkt_idx.pe_ttm',
+            yDefault: 'fin_idx.sale',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month'
           },
@@ -202,10 +254,12 @@
             indexRangeDefault: '',
             industryRangeDefault: '',
             marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all'
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: ''
           },
-          xData: '行业',
-          yData: '涨跌幅',
+          xData: '市盈率(TTM)',
+          yData: '营业收入',
           sizeData: '流通市值',
           colorData: '近1月涨跌幅',
           templateList: {
@@ -292,6 +346,14 @@
         changeTmp (e) {
           const tmpValue = e.target.value
           this.options = this.templateList[tmpValue].options
+          this.xData = this.xDataList[this.templateList[tmpValue].options.xDefault]
+          this.yData = this.xDataList[this.templateList[tmpValue].options.yDefault]
+          this.sizeData = this.bubbleSizeList[this.templateList[tmpValue].options.sizeDefault]
+          this.colorData = this.bubbleColorList[this.templateList[tmpValue].options.colorDefault]
+          this.dimensionOptions.xDefault = this.templateList[tmpValue].options.xDefault
+          this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
+          this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
+          this.dimensionOptions.colorDefault = this.templateList[tmpValue].options.colorDefault
         }
       },
       computed: {

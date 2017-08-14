@@ -109,7 +109,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         method: 'post',
-        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=`
+        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`
       }).then((res) => {
         return res.json()
       }).then(body => {

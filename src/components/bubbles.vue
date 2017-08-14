@@ -26,7 +26,7 @@
           quoteChange: Data.quoteChange,
           groupArr: Data.groupArr,
           xSelectData: Data.xSelectData,
-          height: window.innerHeight - 32
+          height: window.innerHeight - 85
         }
       },
       components: {
@@ -428,13 +428,15 @@
 
               }]
             })
+            that.chart.on('dblclick', function (params) {
+              window.open('/dbus/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
+            })
             window.onresize = function () {
               that.chart.resize({
-                height: window.innerHeight - 32
+                height: window.innerHeight - 85
               })
-              that.height = window.innerHeight - 32
+              that.height = window.innerHeight - 85
             }
-
             this.chart.hideLoading()
           })
           this.chart.showLoading()
@@ -442,7 +444,9 @@
         updateBubbles () {
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             this.chart && this.chart.setOption({ xAxis: this.xAxis, yAxis: this.yAxis, series: [{ data: this.bubblesData.seriesData }] })
+            this.chart.hideLoading()
           })
+          this.chart.showLoading()
         }
 
       },
