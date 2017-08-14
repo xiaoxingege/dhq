@@ -73,7 +73,7 @@ export default {
   actions: {
     search ({ commit }, { keyword, page, pagesize }) {
       commit('setSearchOptions', { keyword, page, pagesize })
-      fetch(`http://10.77.4.80:8899/openapi/search/stock.shtml?w=${keyword}`, {
+      fetch(`http://www.z3quant.com/openapi/search/stock.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -83,7 +83,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://10.77.4.80:8899/openapi/search/theme.shtml?w=${keyword}`, {
+      fetch(`http://www.z3quant.com/openapi/search/theme.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -93,7 +93,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://10.77.4.80:8899/openapi/search/infor.shtml?w=${keyword}`, {
+      fetch(`http://www.z3quant.com/openapi/search/infor.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -103,7 +103,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://10.77.4.80:8899/openapi/search/report.shtml?w=${keyword}`, {
+      fetch(`http://www.z3quant.com/openapi/search/report.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -113,7 +113,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://10.77.4.80:8899/openapi/search/signal.shtml?w=${keyword}`, {
+      fetch(`http://www.z3quant.com/openapi/search/signal.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -125,7 +125,7 @@ export default {
       })
     },
     quotaList ({ commit }, { keyword }) {
-      return fetch(`http://10.77.4.80:8899/openapi/search/quota.shtml?w=${keyword}`, {
+      return fetch(`http://www.z3quant.com/openapi/search/quota.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
