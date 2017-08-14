@@ -49,6 +49,7 @@ export default {
       console.log(options)
       state.pagesize = options.size || PAGE_SIZE
       state.page = options.page || 1
+      state.total = options.totalPages
     },
     updateInformat (state, infor) {
       state.informatList = infor
@@ -110,18 +111,20 @@ export default {
         }
       })
     },
-    queryAllTopic ({ commit }, { sortField, page, pagesize }) {
+    queryAllTopic ({ commit }, { sortField, page, pagesize, totalPages }) {
       page = page || 0
       pagesize = pagesize || PAGE_SIZE
-      fetch(`http://www.z3quant.com/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
+      return fetch(`http://www.z3quant.com/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
+        console.log(result)
         // console.log(result.data.content[0].relatedEquity)
         if (result.errCode === 0) {
           commit('updateAllTopic', result.data.content)
-          commit('updatePage', { page, pagesize })
+          // commit('updatePage', result.data)
+          commit('updatePage', { page: result.data.number, pageSize: result.data.pagesize, totalPages: result.data.totalPages })
           console.log(page)
         }
       })

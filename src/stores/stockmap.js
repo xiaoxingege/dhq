@@ -15,6 +15,7 @@ const mutationsTypes = {
   QUERY_RANGE_BY_CODE: 'QUERY_RANGE_BY_CODE',
   UPDATE_DATA: 'UPDATE_DATA',
   STOCK_CHART_DATA: 'STOCK_CHART_DATA',
+  CALENDARS_DATA: 'CALENDARS_DATA',
   ERROR: 'ERROR'
 }
     // actions
@@ -55,7 +56,15 @@ const actions = {
       return res.json()
     }).then((data) => {
       commit(mutations.STOCK_CHART_DATA, data)
-    })
+    }).catch(() => { commit(mutationsTypes.ERROR) })
+  },
+  calendarsData ({ commit, state }, { id, code }) {
+    const url = 'http://www.z3quant.com/openapi/calendars'
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((data) => {
+      commit(mutations.CALENDARS_DATA, data)
+    }).catch(() => { commit(mutationsTypes.ERROR) })
   }
 }
 // mutations
@@ -68,6 +77,9 @@ const mutations = {
   },
   [mutationsTypes.STOCK_CHART_DATA] (state, stockChartData) {
     state.stockChartData = stockChartData
+  },
+  [mutationsTypes.CALENDARS_DATA] (state, calendarsData) {
+    state.calendarsData = calendarsData
   }
 }
 

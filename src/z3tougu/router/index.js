@@ -1,6 +1,6 @@
 import Index from 'components/components-list'
 import Search from 'components/search'
-import Map from 'components/stock-map'
+import Map from 'components/z3tougu-map'
 import SearchBox from 'components/search-box'
 import DetailPages from 'components/detail-pages'
 import ThemeList from 'components/theme-list'
