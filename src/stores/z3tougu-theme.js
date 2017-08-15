@@ -30,7 +30,8 @@ export default {
     page: 1,
     total: 0,
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
-    allCharts: []
+    allCharts: [],
+    realtimeCharts: []
    /* topicReturnRate: [],
     hs300ReturnRate: [],
     tradeDate: []*/ // 全部charts
@@ -46,8 +47,8 @@ export default {
       state.themeList = themeList
     },
     updatePage (state, options) {
-      console.log(options)
-      state.pagesize = options.size || PAGE_SIZE
+      console.log(options.totalPages)
+      state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
     },
@@ -68,6 +69,9 @@ export default {
         state.hs300ReturnRate.push(item.hs300ReturnRate)
         state.tradeDate.push(item.tradeDate)
       })*/
+    },
+    updateRealtimeCharts (state, realtime) {
+      state.realtimeCharts = realtime
     },
     [mutationTypes.UPDATE_TOPIC_SUMMARY] (state, detail) {
       /* state.topic || (state.topic = {})
@@ -119,13 +123,13 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        console.log(result)
+        // console.log(result)
         // console.log(result.data.content[0].relatedEquity)
         if (result.errCode === 0) {
           commit('updateAllTopic', result.data.content)
           // commit('updatePage', result.data)
-          commit('updatePage', { page: result.data.number, pageSize: result.data.pagesize, totalPages: result.data.totalPages })
-          console.log(page)
+          commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
+          // console.log(result.data.size)
         }
       })
     },
@@ -189,9 +193,22 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        console.log(result)
+        // console.log(result)
         if (result.errCode === 0) {
           commit('updateAllCharts', result.data.reverse())
+        }
+      })
+    },
+    queryRealtimeCharts ({ commit }, { period, topicCode }) {
+      return fetch(`http://www.z3quant.com/openapi/topic/realtime/${topicCode}.shtml?period=${period}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        console.log(result)
+        if (result.errCode === 0) {
+          console.log(result.data.tradeMin)
+          commit('updateRealtimeCharts', result.data.reverse())
         }
       })
     },

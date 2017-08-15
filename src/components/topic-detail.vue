@@ -257,7 +257,7 @@
             <div class="topic-time fr">
                  <span class="">发布时间</span><span class="blue time-num">{{format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
                  <span>今日涨跌</span>
-                 <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{detail.topicMarket.chngPct}}</span><span>上涨股票</span><span class="red time-num4">{{detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket.stkDownNum}}</span>
+                 <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket.stkDownNum}}</span>
             </div>
         </div>
         <div class="detail-content">
@@ -275,7 +275,7 @@
                       <div class="left-con2 mb-8">
                         <div class="chart-title">雄安新区风分股累计收益率</div>
                         <ul class="time-ul">
-                            <li >日内</li>
+                            <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
                             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
                             <li @click="renderCharts('M03')" :class="this.period==='M03'?'active':''">近3月</li>
                             <li @click="renderCharts('M06')" :class="this.period==='M06'?'active':''">近6月</li>
@@ -368,21 +368,54 @@
             const hs300ReturnRate = []
             const tradeDate = []
             chartData && chartData.forEach(item => {
-              topicReturnRate.push(parseFloat(item.topicReturnRate).toFixed(2))
-              hs300ReturnRate.push(parseFloat(item.hs300ReturnRate).toFixed(2))
+              topicReturnRate.push(Number(item.topicReturnRate).toFixed(2))
+              hs300ReturnRate.push(Number(item.hs300ReturnRate).toFixed(2))
               tradeDate.push(item.tradeDate)
-
-  // return {
-  //   topicName: item.topicName,
-  //   tradeDate: item.tradeDate,
-  //   topicReturnRate: item.topicReturnRate,
-  //   hs300ReturnRate: item.hs300ReturnRate
-  // }
             })
             return {
               topicReturnRate: topicReturnRate,
               hs300ReturnRate: hs300ReturnRate,
               tradeDate: tradeDate
+            }
+          },
+          realTimeData: state => {
+            const realtimeCharts = state.topic.realtimeCharts
+            const topicChgPct = []
+            const hs300ChgPct = []
+            const tradeMin = []
+            const arr = [9, 10, 11, 13, 14, 15]
+            let start = null
+            let end = null
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i] === 9) {
+                start = 30
+                end = 60
+              } else if (arr[i] === 11) {
+                start = 0
+                end = 31
+              } else if (arr[i] === 15) {
+                start = 0
+                end = 1
+              } else {
+                start = 0
+                end = 60
+              }
+              for (var j = start; j < end; j++) {
+                j = j < 10 ? '0' + j : j
+                tradeMin.push(arr[i] + ':' + j)
+              }
+            }
+            console.log(tradeMin)
+            realtimeCharts && realtimeCharts.forEach(item => {
+          /* const tradeMinDate = item.tradeMin.toString().replace(/\d{2}$/g, ':$&')*/
+              topicChgPct.push(Number(item.topicChgPct).toFixed(2))
+              hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+              /* tradeMin.push(tradeMinDate)*/
+            })
+            return {
+              topicChgPct: topicChgPct,
+              hs300ChgPct: hs300ChgPct,
+              tradeMin: tradeMin
             }
           }
         //   stockNum: state => state.topic.stockList.length,
@@ -409,285 +442,23 @@
           this.period = 'ALL'
           this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                       .then(() => {
-                        this.chart.setOption({
-                          tooltip: {
-                            trigger: 'axis',
-                            formatter: function (params) {
-                              if (params.length) {
-                                if (params[0].value !== '') {
-                                  var boxHtml = '<div>' + params[0].name + '<br/>'
-                                }
-                                for (var i = 0; i < params.length; i++) {
-                                  var param = params[i]
-                                  if (param.value !== '') {
-                                    boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span>' + ' ' + param.seriesName + ': ' + param.value + '%<br/></div>'
-                                  }
-                                }
-                                return boxHtml
-                              }
-                            }
-                          },
-                          legend: {
-                            left: '3%',
-                            top: 30,
-                            itemWidth: 15,
-                            itemHeight: 8,
-                            data: [{
-                              name: '策略累计收益率',
-                              icon: 'pin'
-                            },
-                            {
-                              name: '沪深300',
-                              icon: 'pin'
-                            }]
-    
-                          },
-                          toolbox: {
-                            show: false
-                          },
-                          calculable: true,
-                          xAxis: [
-                            {
-                              type: 'category',
-                              boundaryGap: false,
-                              data: this.chartData.tradeDate,
-                              axisLabel: {
-                                                    // X轴刻度配置
-                                interval: 'auto' // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
-                              }
-                            }
-                          ],
-                          yAxis: [
-                            {
-                              type: 'value',
-                              axisLabel: {
-                                formatter: '{value}%'
-                              }
-                            }
-                          ],
-                          grid: {
-                              /* width: '97%',*/
-                            left: '1%',
-                            right: '1%',
-                             /* bottom: '50',*/
-                            containLabel: true
-                          },
-                          dataZoom: [
-                            {
-                              show: true,
-                              showDetail: false,
-                              type: 'slider',
-                              y: '88%',
-                              start: 0,
-                              end: 100
-                            }
-                          ],
-                          series: [{
-                            name: '策略累计收益率',
-                            type: 'line',
-                            smooth: true,
-                            data: this.chartData.topicReturnRate,
-                            lineStyle: {// 网格线
-                              normal: {
-                                color: '#5597d3'
-                              }
-                            },
-                            itemStyle: {// 折线拐点标志的样式
-                              normal: {
-                                opacity: 0,
-                                color: '#5597d3'
-                              }
-                            },
-                            markPoint: {// 图标标注
-                              data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
-                              ],
-                              label: {
-                                normal: {
-                                  show: false
-                                }
-                              },
-                              symbolSize: 10, // 标记大小
-                              symbol: ''// 标记的图形
-                            }
-                          },
-                          {
-                            name: '沪深300',
-                            type: 'line',
-                            smooth: true,
-                            data: this.chartData.hs300ReturnRate,
-                            lineStyle: {
-                              normal: {
-                                color: '#f1975d'
-                              }
-                            },
-                            itemStyle: {
-                              normal: {
-                                opacity: 0,
-                                color: '#f1975d'
-                              }
-                            },
-                            markPoint: {// 图标标注
-                              data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
-                              ],
-                              label: {
-                                normal: {
-                                  show: false
-                                }
-                              },
-                              symbolSize: 10, // 标记大小
-                              symbol: ''// 标记的图形
-                            }
-                          }]
-    
-                        })
+                        this.drawCharts(this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
                       })
         },
         renderCharts (type) {
           this.period = type
           console.log(type)
-          this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
-                 .then(() => {
-                   this.chart.setOption({
-                     tooltip: {
-                       trigger: 'axis',
-                       formatter: function (params) {
-                         if (params.length) {
-                           if (params[0].value !== '') {
-                             var boxHtml = '<div>' + params[0].name + '<br/>'
-                           }
-                           for (var i = 0; i < params.length; i++) {
-                             var param = params[i]
-                             if (param.value !== '') {
-                               boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span>' + ' ' + param.seriesName + ': ' + param.value + '%<br/></div>'
-                             }
-                           }
-                           return boxHtml
-                         }
-                       }
-                     },
-                     legend: {
-                       left: '3%',
-                       top: 30,
-                       itemWidth: 15,
-                       itemHeight: 8,
-                       data: [{
-                         name: '策略累计收益率',
-                         icon: 'pin'
-                       },
-                       {
-                         name: '沪深300',
-                         icon: 'pin'
-                       }]
-    
-                     },
-                     toolbox: {
-                       show: false
-                     },
-                     calculable: true,
-                     xAxis: [
-                       {
-                         type: 'category',
-                         boundaryGap: false,
-                         data: this.chartData.tradeDate,
-                         axisLabel: {
-                                                    // X轴刻度配置
-                           interval: 'auto' // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
-                         }
-                       }
-                     ],
-                     yAxis: [
-                       {
-                         type: 'value',
-                         axisLabel: {
-                           formatter: '{value}%'
-                         }
-                       }
-                     ],
-                     grid: {
-                              /* width: '97%',*/
-                       left: '1%',
-                       right: '1%',
-                             /* bottom: '50',*/
-                       containLabel: true
-                     },
-                     dataZoom: [
-                       {
-                         show: true,
-                         showDetail: false,
-                         type: 'slider',
-                         y: '88%',
-                         start: 0,
-                         end: 100
-                       }
-                     ],
-                     series: [{
-                       name: '策略累计收益率',
-                       type: 'line',
-                       smooth: true,
-                       data: this.chartData.topicReturnRate,
-                       lineStyle: {// 网格线
-                         normal: {
-                           color: '#5597d3'
-                         }
-                       },
-                       itemStyle: {// 折线拐点标志的样式
-                         normal: {
-                           opacity: 0,
-                           color: '#5597d3'
-                         }
-                       },
-                       markPoint: {// 图标标注
-                         data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
-                         ],
-                         label: {
-                           normal: {
-                             show: false
-                           }
-                         },
-                         symbolSize: 10, // 标记大小
-                         symbol: ''// 标记的图形
-                       }
-                     },
-                     {
-                       name: '沪深300',
-                       type: 'line',
-                       smooth: true,
-                       data: this.chartData.hs300ReturnRate,
-                       lineStyle: {
-                         normal: {
-                           color: '#f1975d'
-                         }
-                       },
-                       itemStyle: {
-                         normal: {
-                           opacity: 0,
-                           color: '#f1975d'
-                         }
-                       },
-                       markPoint: {// 图标标注
-                         data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
-                         ],
-                         label: {
-                           normal: {
-                             show: false
-                           }
-                         },
-                         symbolSize: 10, // 标记大小
-                         symbol: ''// 标记的图形
-                       }
-                     }]
-    
-                   })
-                 })
-           // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+          if (type === 'day') {
+            this.$store.dispatch('topic/queryRealtimeCharts', { period: this.period, topicCode: this.topicCode }).then(() => {
+              this.drawCharts(this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+            })
+          } else {
+            this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
+                     .then(() => {
+                       this.drawCharts(this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+                     })
+               // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+          }
         },
         updateChart () {
 
@@ -698,9 +469,147 @@
         initNews () {
 
         },
+        drawCharts (tradeDate, topicReturnRate, hs300ReturnRate) {
+          this.chart.setOption({
+            tooltip: {
+              trigger: 'axis',
+              formatter: function (params) {
+                if (params.length) {
+                  if (params[0].value !== '') {
+                    var boxHtml = '<div>' + params[0].name + '<br/>'
+                  }
+                  for (var i = 0; i < params.length; i++) {
+                    var param = params[i]
+                    if (param.value !== '') {
+                      boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span>' + ' ' + param.seriesName + ': ' + param.value + '%<br/></div>'
+                    }
+                  }
+                  return boxHtml
+                }
+              }
+            },
+            legend: {
+              left: '3%',
+              top: 30,
+              itemWidth: 15,
+              itemHeight: 8,
+              data: [{
+                name: '策略累计收益率',
+                icon: 'pin'
+              },
+              {
+                name: '沪深300',
+                icon: 'pin'
+              }]
+    
+            },
+            toolbox: {
+              show: false
+            },
+            calculable: true,
+            xAxis: [
+              {
+                type: 'category',
+                boundaryGap: false,
+                data: tradeDate,
+                axisLabel: {
+                                                    // X轴刻度配置
+                  interval: 'auto' // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+                }
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value',
+                axisLabel: {
+                  formatter: '{value}%'
+                }
+              }
+            ],
+            grid: {
+                              /* width: '97%',*/
+              left: '1%',
+              right: '1%',
+                             /* bottom: '50',*/
+              containLabel: true
+            },
+            dataZoom: [
+              {
+                show: true,
+                showDetail: false,
+                type: 'slider',
+                y: '88%',
+                start: 0,
+                end: 100
+              }
+            ],
+            series: [{
+              name: '策略累计收益率',
+              type: 'line',
+              smooth: true,
+              data: topicReturnRate,
+              lineStyle: {// 网格线
+                normal: {
+                  color: '#5597d3'
+                }
+              },
+              itemStyle: {// 折线拐点标志的样式
+                normal: {
+                  opacity: 0,
+                  color: '#5597d3'
+                }
+              },
+              markPoint: {// 图标标注
+                data: [
+                                                { type: 'max', name: '最大值' },
+                                                { type: 'min', name: '最小值' }
+                ],
+                label: {
+                  normal: {
+                    show: false
+                  }
+                },
+                symbolSize: 10, // 标记大小
+                symbol: ''// 标记的图形
+              }
+            },
+            {
+              name: '沪深300',
+              type: 'line',
+              smooth: true,
+              data: hs300ReturnRate,
+              lineStyle: {
+                normal: {
+                  color: '#f1975d'
+                }
+              },
+              itemStyle: {
+                normal: {
+                  opacity: 0,
+                  color: '#f1975d'
+                }
+              },
+              markPoint: {// 图标标注
+                data: [
+                                                { type: 'max', name: '最大值' },
+                                                { type: 'min', name: '最小值' }
+                ],
+                label: {
+                  normal: {
+                    show: false
+                  }
+                },
+                symbolSize: 10, // 标记大小
+                symbol: ''// 标记的图形
+              }
+            }]
+    
+          })
+        },
         format (date) {
           return formatDate(date)
         },
+    
         changeTofixed (num) {
           return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
         }/* this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
