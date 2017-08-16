@@ -65,22 +65,9 @@ body {
   height: .2rem;
 }
 
-.data_hd:before,
-.alldata li:before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.data_hd,
+.alldata li{
   border-bottom: 1px solid #e6e6e6;
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  pointer-events: none;
-  -webkit-transform: scale(.5);
-  transform: scale(.5);
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 200%;
 }
 .data_zuo,.data_you{padding-top: .77rem;}
 .alldata li {
@@ -195,7 +182,7 @@ body {
         <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}"  v-if="typeurl == 2">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
           <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='6'>领涨股<i class="icon"></i></span>
+          <span data-index='6'>领涨股</span>
           <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
           <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
@@ -204,7 +191,7 @@ body {
         <div class="data_hd clearfix datahd3"  :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' "  @click="paixu($event)">主力净流入<i class="icon "></i></span>
           <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='6'>领涨股<i class="icon"></i></span>
+          <span data-index='6'>领涨股</span>
           <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
           <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
