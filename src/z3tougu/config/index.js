@@ -7,4 +7,6 @@ export default {
   ma120Color: ''
 }
 const domain = 'http://www.z3quant.com'
+// const domain = 'http://10.77.4.84:8899'
 export { domain }
+

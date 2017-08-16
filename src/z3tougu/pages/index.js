@@ -6,6 +6,7 @@ import initVue from 'utils/initVue'
 import routes from '../router'
 import store from '../store'
 import vueCookie from 'vue-cookie'
+
 Vue.use(vueCookie)
 /*
  * 实例化vue对象，渲染页面

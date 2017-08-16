@@ -5,6 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 const PAGE_SIZE = 20
 
@@ -73,7 +74,7 @@ export default {
   actions: {
     search ({ commit }, { keyword, page, pagesize }) {
       commit('setSearchOptions', { keyword, page, pagesize })
-      fetch(`http://www.z3quant.com/openapi/search/stock.shtml?w=${keyword}`, {
+      fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -83,7 +84,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://www.z3quant.com/openapi/search/theme.shtml?w=${keyword}`, {
+      fetch(`${domain}/openapi/search/theme.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -93,7 +94,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://www.z3quant.com/openapi/search/infor.shtml?w=${keyword}`, {
+      fetch(`${domain}/openapi/search/infor.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -103,7 +104,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://www.z3quant.com/openapi/search/report.shtml?w=${keyword}`, {
+      fetch(`${domain}/openapi/search/report.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -113,7 +114,7 @@ export default {
           result: body
         })
       })
-      fetch(`http://www.z3quant.com/openapi/search/signal.shtml?w=${keyword}`, {
+      fetch(`${domain}/openapi/search/signal.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -125,7 +126,7 @@ export default {
       })
     },
     quotaList ({ commit }, { keyword }) {
-      return fetch(`http://www.z3quant.com/openapi/search/quota.shtml?w=${keyword}`, {
+      return fetch(`${domain}/openapi/search/quota.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

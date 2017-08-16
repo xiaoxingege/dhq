@@ -78,7 +78,6 @@
 
 <script>
     import Pagination from 'components/pagination.vue'
-    import { mapState } from 'vuex'
     export default{
       // props: ['linkText'],
       data () {
@@ -93,9 +92,9 @@
       components: {
         Pagination
       },
-      cumputed: mapState({
+      cumputed: {
 
-      }),
+      },
       methods: {
         showSearchList (currentPage) {
           const keyword = this.$store.state.zhikuanSearch.keyword === '' ? this.$route.params.keyword : this.$store.state.zhikuanSearch.keyword

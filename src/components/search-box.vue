@@ -58,9 +58,10 @@
             linkText: 'theme',
             count: searchResult.total.theme,
             list: searchResult.result.theme && searchResult.result.theme.map(item => {
+              const id = item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))
               return {
                 title: item.themeName,
-                link: item.themeUrl
+                link: id
               }
             })
           }, {
@@ -78,9 +79,10 @@
             linkText: 'infor',
             count: searchResult.total.infor,
             list: searchResult.result.infor && searchResult.result.infor.map(item => {
+              const id = item.newsUrl.substring((item.newsUrl.lastIndexOf('/') + 1), item.newsUrl.indexOf('.'))
               return {
                 title: item.newsTitle,
-                link: item.newsUrl
+                link: id
               }
             })
           }, {
@@ -88,9 +90,10 @@
             linkText: 'report',
             count: searchResult.total.report,
             list: searchResult.result.report && searchResult.result.report.map(item => {
+              const id = item.reportUrl.substring((item.reportUrl.lastIndexOf('/') + 1), item.reportUrl.indexOf('.'))
               return {
                 title: item.reportTitle,
-                link: item.reportUrl
+                link: id
               }
             })
           }]
