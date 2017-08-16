@@ -360,7 +360,7 @@
       //   }
       // },
       mounted () {
-        if (this.stockCode) {
+        if (!this.stockCode) {
           console.error('[component:stock-kline]:stockCode is necessary!')
         }
         this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
