@@ -16,9 +16,11 @@ Vue.use(Vuex)
  * 实例化store
  */
 import user from 'stores/user'
+import error from 'stores/error'
 const store = new Vuex.Store({
   modules: {
-    user
+    user,
+    error
   }
 })
 
