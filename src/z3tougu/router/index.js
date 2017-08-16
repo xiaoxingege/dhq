@@ -8,6 +8,7 @@ import ThemeIndex from 'components/theme-index'
 import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
+import StockTest from 'components/test-stock'
 
 export default [
     { path: '/', name: 'home', component: Index },
@@ -19,5 +20,6 @@ export default [
     { path: '/themeIndex', name: 'themeindex', component: ThemeIndex },
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
-    { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail }
+    { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
+    { path: '/test/stock', name: 'teststock', component: StockTest }
 ]

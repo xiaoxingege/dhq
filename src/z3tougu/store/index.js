@@ -6,6 +6,7 @@ import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
 import topic from 'stores/z3tougu-theme'
 import bubbles from 'stores/bubbles'
+import stock from 'stores/stock'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     stockMap,
     zhikuanDetailPages,
     topic,
-    bubbles
+    bubbles,
+    stock
   }
 })
