@@ -14,10 +14,10 @@ body {
   right: .5rem;
   z-index: 1
 }
-.up{width:6.93rem; display: block;margin:.4rem auto 0;}
+.up{width:6.93rem; display: block;margin:.2rem auto 0;}
 .center { margin-top: .4rem;}
 .center img{width:9.19rem;}
-.btn a{ display: block;width:6.14rem;height: 1.4rem;margin:.7rem auto 0;background: url(../assets/images/allpeoplelv/btntwo.png);background-size: 100% auto;font-size: .38rem;color: #330601;text-align: center;line-height: 1.4rem;}
+.btn a{ display: block;width:6.14rem;height: 1.4rem;margin-top:.5rem;margin-left: auto;margin-right:auto;background: url(../assets/images/allpeoplelv/btntwo.png);background-size: 100% auto;font-size: .38rem;color: #330601;text-align: center;line-height: 1.4rem;}
 .btn .gray{color:#fff;background-position: 0 -1.4rem;}
 .center{margin-left: .3rem;}
 .center .img{overflow-x: auto;}
