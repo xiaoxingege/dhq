@@ -172,12 +172,12 @@ f3
 fi
 
 get_port
-ssh admin@127.0.0.1 -p 62222 <<ssh
+pinfo 'using port: '$port
 pm2name=$feature"_"$branch
 pinfo 'pm2 name: '$pm2name
+ssh -t admin@127.0.0.1 -p 62222 <<ssh
 pm2 reload $pm2name
 if [ "$?" != "0" ]; then
-pinfo 'using port: '$port
 pm2 start -n $pm2name dist/$feature/server/index.js -- $port
 fi
 ssh
