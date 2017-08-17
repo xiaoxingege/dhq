@@ -175,7 +175,7 @@ get_port
 pinfo 'using port: '$port
 pm2name=$feature"_"$branch
 pinfo 'pm2 name: '$pm2name
-ssh -t admin@127.0.0.1 -p 62222 <<ssh
+ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
 pm2 reload $pm2name
 if [ "$?" != "0" ]; then
 echo 'start pm2'
