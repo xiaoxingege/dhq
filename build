@@ -124,7 +124,6 @@ if [ -d dist/$feature/images ]; then
       status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/images/$filename")
       if [ $status = 404 ]; then
         pinfo "$filename transfered"
-        newfiles[${#newfiles[@]}]=$file
         mkdir -p dist/$feature/ftp/images/
         cp $file dist/$feature/ftp/images/
       fi
@@ -154,28 +153,30 @@ mput *
 bye
 f3
   fi
-  # for file in ${newfiles[*]}
-  # do
-  #   if [ -f $file ]; then
-  #     filename=${file##*/}
-  #     status="404"
-  #     pinfo "waiting for $filename"
-  #     while [ "$status" != "200" ]
-  #     do
-  #       status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
-  #       wait
-  #       if [ "$status" != "200" ]; then
-  #         sleep 5s
-  #       fi
-  #     done
-  #   fi
-  # done
-  # pm2name=$feature"_"$branch
-  # pinfo 'pm2 name: '$pm2name
-  # pm2 reload $pm2name
-  # if [ "$?" != "0" ]; then
-  #   get_port
-  #   pinfo 'using port: '$port
-  #   pm2 start -n $pm2name dist/$feature/server/index.js -- $port
-  # fi
+  for file in ${newfiles[*]}
+  do
+    if [ -f $file ]; then
+      filename=${file##*/}
+      status="404"
+      pinfo "waiting for $filename"
+      while [ "$status" != "200" ]
+      do
+        status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
+        wait
+        if [ "$status" != "200" ]; then
+          sleep 5s
+        fi
+      done
+    fi
+  done
+  get_port
+  ssh admin@127.0.0.1 -p 62222 <<ssh
+pm2name=$feature"_"$branch
+pinfo 'pm2 name: '$pm2name
+pm2 reload $pm2name
+if [ "$?" != "0" ]; then
+  pinfo 'using port: '$port
+  pm2 start -n $pm2name dist/$feature/server/index.js -- $port
+fi
+ssh
 fi
