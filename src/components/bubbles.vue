@@ -362,15 +362,15 @@
                         var len = (that.industryArr.indexOf(bubbleColorData)) % 7
                         return colorArr[len]
                       } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
-                        if (bubbleColorData === 5) {
+                        if (Number(bubbleColorData) === 5) {
                           return colorArr[0]
-                        } else if (bubbleColorData === 4) {
+                        } else if (Number(bubbleColorData) === 4) {
                           return colorArr[1]
-                        } else if (bubbleColorData === 3) {
+                        } else if (Number(bubbleColorData) === 3) {
                           return colorArr[2]
-                        } else if (bubbleColorData === 2) {
+                        } else if (Number(bubbleColorData) === 2) {
                           return colorArr[3]
-                        } else if (bubbleColorData === 1) {
+                        } else if (Number(bubbleColorData) === 1) {
                           return colorArr[4]
                         } else {
                           return '#2F323D'
