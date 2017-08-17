@@ -9,7 +9,18 @@ var path = require('path'),
 /*
  * 指定项目名
  */
-let featureName = process.env.JRJ_FEATURE || 'activity';
+let featureName = 'demo';
+let port = 8080;
+process.argv.some(function(arg) {
+  let arr = arg.match(/\-\-env=([a-zA-Z0-9\-_,]+)/);
+  if (arr) {
+    let config = arr[1].split(',');
+    featureName = config[0];
+    if (config[1]) {
+      port = config[1];
+    }
+  }
+});
 
 const buildEntry = function() {
   let entryPathes = [`./src/${featureName}/pages`]
@@ -108,6 +119,9 @@ module.exports = {
       index: `/dist/${featureName}/`
     },
     host: '0.0.0.0',
+    port: port,
+    hot: true,
+    inline: true,
     disableHostCheck: true
   }
 }

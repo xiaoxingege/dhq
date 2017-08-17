@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env JRJ_FEATURE=z3tougu webpack-dev-server --inline --hot --port=82",
+    "dev": "webpack-dev-server",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
-    "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js",
-    "deploy": ""
+    "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js"
   },
   "author": "yang.li",
   "license": "MIT",
