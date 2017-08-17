@@ -152,7 +152,6 @@
           }
         },
         initBubbles () {
-          debugger
           this.chart = echarts.init(this.$refs.bubbles)
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             const that = this
