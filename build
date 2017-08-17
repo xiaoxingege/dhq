@@ -171,6 +171,7 @@ f3
   done
 fi
 
+if [ "$feature" != "z3tougu" ]; then
 get_port
 pinfo 'using port: '$port
 pm2name=$feature"_"$branch
@@ -182,3 +183,4 @@ echo 'start pm2'
 pm2 start -n $pm2name dist/$feature/server/index.js -- $port
 fi
 ssh
+fi
