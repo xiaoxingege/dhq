@@ -26,7 +26,7 @@
           quoteChange: Data.quoteChange,
           groupArr: Data.groupArr,
           xSelectData: Data.xSelectData,
-          height: window.innerHeight - 85
+          height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
         }
       },
       components: {
@@ -152,6 +152,7 @@
           }
         },
         initBubbles () {
+          debugger
           this.chart = echarts.init(this.$refs.bubbles)
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             const that = this
@@ -182,6 +183,12 @@
                 left: 90,
                 right: 50,
                 bottom: 50
+              },
+              tooltip: {
+                triggerOn: 'none',
+                formatter: function (params) {
+                  return '<p style="background: red; width:200px; height:200px">hello</p>'
+                }
               },
               xAxis: {
                 type: xType ? 'category' : 'value',
@@ -429,13 +436,25 @@
               }]
             })
             that.chart.on('dblclick', function (params) {
-              window.open('/dbus/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
+              window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
+            })
+            that.chart.on('mouseover', function (params) {
+              that.chart.dispatchAction({
+                type: 'showTip',
+                dataIndex: params.dataIndex
+
+              })
+            })
+            that.chart.on('mouseout', function (params) {
+              that.chart.dispatchAction({
+                type: 'hideTip'
+              })
             })
             window.onresize = function () {
               that.chart.resize({
-                height: window.innerHeight - 85
+                height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
               })
-              that.height = window.innerHeight - 85
+              that.height = (window.innerHeight - 85) / (window.devicePixelRatio || 1)
             }
             this.chart.hideLoading()
           })
