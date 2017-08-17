@@ -28,6 +28,11 @@
     }
     .newList li a{
         color:#000;
+        display: inline-block;
+        width: 280px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     .newList li a:hover{
         text-decoration: underline;
@@ -42,7 +47,7 @@
                 <router-link :to="{name:'search' , params:{ linkText : block.linkText, keyword : keyword}}" class="fr" target="_blank">共{{block.count}}条相关{{block.title}}&gt;&gt;</router-link>
             </p>
             <ul class="newList" v-if="block.linkText==='stock'">
-                <li v-for="article of block.list"><a :href="article.link" target="_blank">{{article.title}}</a></li>
+                <li v-for="article of block.list"><a :href="article.link" target="_blank">{{article.title}}[{{article.code}}]</a></li>
             </ul>
             <ul class="newList" v-if="block.linkText==='theme'">
                     <li v-for="article of block.list"><router-link :to="{ name:'topicDetail' , params:{ topicId : article.link}}" target="_blank">{{article.title}}</router-link></li>

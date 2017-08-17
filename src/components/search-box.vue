@@ -50,7 +50,8 @@
             list: searchResult.result.stock && searchResult.result.stock.map(item => {
               return {
                 title: item.stockName,
-                link: item.stockUrl
+                link: item.stockUrl,
+                code: item.stockCode
               }
             })
           }, {
