@@ -26,7 +26,7 @@
           quoteChange: Data.quoteChange,
           groupArr: Data.groupArr,
           xSelectData: Data.xSelectData,
-          height: window.innerHeight - 85
+          height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
         }
       },
       components: {
@@ -182,6 +182,12 @@
                 left: 90,
                 right: 50,
                 bottom: 50
+              },
+              tooltip: {
+                triggerOn: 'none',
+                formatter: function (params) {
+                  return '<p style="background: red; width:200px; height:200px">hello</p>'
+                }
               },
               xAxis: {
                 type: xType ? 'category' : 'value',
@@ -355,15 +361,15 @@
                         var len = (that.industryArr.indexOf(bubbleColorData)) % 7
                         return colorArr[len]
                       } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
-                        if (bubbleColorData === 5) {
+                        if (Number(bubbleColorData) === 5) {
                           return colorArr[0]
-                        } else if (bubbleColorData === 4) {
+                        } else if (Number(bubbleColorData) === 4) {
                           return colorArr[1]
-                        } else if (bubbleColorData === 3) {
+                        } else if (Number(bubbleColorData) === 3) {
                           return colorArr[2]
-                        } else if (bubbleColorData === 2) {
+                        } else if (Number(bubbleColorData) === 2) {
                           return colorArr[3]
-                        } else if (bubbleColorData === 1) {
+                        } else if (Number(bubbleColorData) === 1) {
                           return colorArr[4]
                         } else {
                           return '#2F323D'
@@ -429,13 +435,25 @@
               }]
             })
             that.chart.on('dblclick', function (params) {
-              window.open('/dbus/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
+              window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
+            })
+            that.chart.on('mouseover', function (params) {
+              that.chart.dispatchAction({
+                type: 'showTip',
+                dataIndex: params.dataIndex
+
+              })
+            })
+            that.chart.on('mouseout', function (params) {
+              that.chart.dispatchAction({
+                type: 'hideTip'
+              })
             })
             window.onresize = function () {
               that.chart.resize({
-                height: window.innerHeight - 85
+                height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
               })
-              that.height = window.innerHeight - 85
+              that.height = (window.innerHeight - 85) / (window.devicePixelRatio || 1)
             }
             this.chart.hideLoading()
           })
