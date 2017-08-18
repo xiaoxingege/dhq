@@ -59,7 +59,7 @@
         <div id="hover-wrapper" v-if="showHover">
             <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code"></StockList>
         </div>
-        <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}"></div>
+        <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}" v-on:mousemove="move($event)"></div>
         <div class="chart_bottom clearfix">
             <div class="clearfix playback">
                 <div class="playback_btn perday"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
@@ -327,10 +327,10 @@
                         }
                         this.hoverNode.titleName = params.treePathInfo[1].name
                         this.showHover = true
-                        this.offsetX = params.event.offsetX
-                        this.offsetY = params.event.offsetY
+                        // this.offsetX = params.event.offsetX
+                        // this.offsetY = params.event.offsetY
                       })
-                      /* this.chart.on('mouseout', (params) => {
+                     /* this.chart.on('mouseout', (params) => {
                         this.showHover = false
                       })*/
                     }).then(() => {
@@ -528,11 +528,11 @@
             getArr.push(m + '.' + toTime.substring(6))
           }
           return getArr
-        }
-        /* move: function (event) {
+        },
+        move: function (event) {
           this.offsetX = event.offsetX
           this.offsetY = event.offsetY
-        }*/
+        }
       },
       mounted () {
         this.initMap()

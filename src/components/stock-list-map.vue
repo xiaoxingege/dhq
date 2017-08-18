@@ -30,10 +30,10 @@
         border-bottom: none;
         height: 21px;
     }
-    .hover-wrapper table .hovered td{
+    /*.hover-wrapper table .hovered td{
         padding-top: 14px;
         line-height: 18px;
-    }
+    }*/
     .hover-wrapper table tr{
         border-bottom: 2px solid #e3e4e9;
         height: 30px;
@@ -78,14 +78,16 @@
             <tbody>
             <tr class="hovered" :style="{background:bgColor}">
                 <td class="tiker">{{titleStockName}}</td>
-                <td><div class="stocklist-chart" v-stockline="{lineData:titleChartData,color:'#fff'}"></div></td>
+                <!--<td><div class="stocklist-chart" v-stockline="{lineData:titleChartData,color:'#fff'}"></div></td>-->
+                <td><div class="stocklist-chart" ref="chartTitle"></div></td>
                 <td class="price">{{titlePrice}}</td>
                 <td class="change">{{titleStockCondtion}}</td>
             </tr>
             <tr class="hovered is-description" :style="{background:bgColor}"><td colspan="4" class="description"></td></tr>
             <tr v-for="stock of stockList">
                 <td class="tiker">{{stock.name}}</td>
-                <td><div class="stocklist-chart"  v-stockline="{lineData:stock.chartData}"></div></td>
+                <!--<td><div class="stocklist-chart"  v-stockline="{lineData:stockChartData,stockName:stock.name}"></div></td>-->
+                <td><div class="stocklist-chart" ref="chart"></div></td>
                 <td class="price">{{stock.price}}</td>
                 <td class="change" :style="{color:stock.itemStyle.normal.color}">{{stock.perfText}}</td>
             </tr>
@@ -94,131 +96,210 @@
     </div>
 </template>
 <script type="text/javascript">
-    import echarts from 'echarts'
-    export default{
-      props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
-      data () {
-        return {
-          listPosition: {
-            left: this.offsetX + 10,
-            top: this.offsetY + 10
-          },
-          stockList: []
-        }
-      },
-      watch: {
-        stockId () {
-          this.updateChart()
-        }
-      },
-      computed: {
-        position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
-        stockId () { return this.parent.id },
-        bgColor () { return this.node.itemStyle.normal.color },
-        titleStockName () { return this.node.name },
-        titleStockCondtion () { return this.node.perfText },
-        titleName () { return this.node.titleName },
-        titleNameLel2 () { return this.parent.name },
-        titlePrice () { return this.node.price },
-        titleChartData () { return this.node.chartData },
-        stockListLeft: 0,
-        stockListTop: 0,
-        stockChartData: function () {
-          const stockChartData = this.$store.state.stockMap.stockChartData
-          return stockChartData
-        }
-      },
-      directives: {
-        stockline: {
-          bind: function (el, bind) {
-
-          },
-          componentUpdated: (el, bind) => {
-            const lineData = bind.value.lineData
-            let chart = echarts.getInstanceByDom(el)
-            if (chart) {
-              chart.dispose()
-            }
-            chart = echarts.init(el)
-            chart.setOption({
-              grid: {
-                show: false,
-                left: 5,
-                top: 5,
-                bottom: 5,
-                right: 5
-              },
-              xAxis: [{
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                type: 'category',
-                data: new Array(17)
-              }],
-              yAxis: [{
-                type: 'value',
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                min: 'dataMin',
-                max: 'dataMax'
-              }],
-              series: [{
-                type: 'line',
-                smooth: true,
-                itemStyle: {
-                  normal: {
-                    color: function (params) {
-
-                    }
-                  }
-                },
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#666'
-                  }
-                },
-                data: lineData
-              }]
-            })
-            if (bind.value.color) {
-              chart.setOption({
-                color: bind.value.color
-              })
-            }
-          }
-        }
-      },
-      methods: {
-        updateChart: function () {
-          this.$store.dispatch('stockMap/stockChartData', { stockId: this.stockId, code: this.indexCode })
-                  .then(() => {
-                    const _this = this
-                    this.parent.children.forEach(function (stock) {
-                      stock.chartData = _this.stockChartData[stock.name]
-                      const stockDetailLength = stock.chartData.length
-                      if (stock.chartData[stockDetailLength - 1]) {
-                        stock.price = stock.chartData[stockDetailLength - 1]
-                      } else {
-                        stock.price = '--'
+     import echarts from 'echarts'
+export default{
+       props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
+       data () {
+         return {
+           listPosition: {
+             left: this.offsetX + 10,
+             top: this.offsetY + 10
+           },
+           stockList: [],
+           stockListLeft: 0,
+           stockListTop: 0
+         }
+       },
+       watch: {
+         stockId () {
+           this.updateChart()
+         }
+       },
+       computed: {
+         position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
+         stockId () { return this.parent.id },
+         bgColor () { return this.node.itemStyle.normal.color },
+         titleStockName () { return this.node.name },
+         titleStockCondtion () { return this.node.perfText },
+         titleName () { return this.node.titleName },
+         titleNameLel2 () { return this.parent.name },
+         titlePrice () { return this.node.price },
+         titleChartData () { return this.node.chartData },
+         stockChartData: function () {
+           const stockChartData = this.$store.state.stockMap.stockChartData
+           return stockChartData
+         }
+       },
+        /* directives: {
+         stockline: {
+         componentUpdated: (el, bind) => {
+         if (bind.value.lineData) {
+         const lineData = bind.value.lineData[bind.value.stockName]
+         let chart = echarts.getInstanceByDom(el)
+         if (chart) {
+         chart.dispose()
+         }
+         chart = echarts.init(el)
+         chart.setOption({
+         grid: {
+         show: false,
+         left: 5,
+         top: 5,
+         bottom: 5,
+         right: 5
+         },
+         xAxis: [{
+         axisLine: false,
+         splitLine: {
+         show: false
+         },
+         type: 'category',
+         data: new Array(17)
+         }],
+         yAxis: [{
+         type: 'value',
+         axisLine: false,
+         splitLine: {
+         show: false
+         },
+         min: 'dataMin',
+         max: 'dataMax'
+         }],
+         series: [{
+             type: 'line',
+             smooth: true,
+             showSymbol: false,
+             lineStyle: {
+                 normal: {
+                 color: '#666'
+                 }
+             },
+             data: lineData
+         }]
+         })
+         }
+         /!* if (bind.value.color) {
+         chart.setOption({
+         color: bind.value.color
+         })
+         }*!/
+         }
+         }
+         },*/
+       methods: {
+         updateChart: function () {
+           this.$store.dispatch('stockMap/stockChartData', { stockId: this.stockId, code: this.indexCode })
+                    .then(() => {
+                      const _this = this
+                        // 悬浮框的表头
+                      this.node.chartData = this.stockChartData[this.node.name]
+                      if (this.node.chartData) {
+                        const nodeLength = this.node.chartData.length
+                        if (this.node.chartData[nodeLength - 1]) {
+                          this.node.price = this.node.chartData[nodeLength - 1]
+                        } else {
+                          this.node.price = '--'
+                        }
                       }
+                        // 悬浮框股票列表
+                      this.parent.children.forEach(function (stock) {
+                        stock.chartData = _this.stockChartData[stock.name]
+                        if (stock.chartData) {
+                          const stockDetailLength = stock.chartData.length
+                          if (stock.chartData[stockDetailLength - 1]) {
+                            stock.price = stock.chartData[stockDetailLength - 1]
+                          } else {
+                            stock.price = '--'
+                          }
+                        }
+                      })
+                      this.stockList = this.parent.children
+                      this.$nextTick(() => {
+                        // console.log(this.$refs.chart)
+                        for (const i in this.stockList) {
+                          this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
+                          this.stockList[i].chart.setOption({
+                            grid: {
+                              show: false,
+                              left: 5,
+                              top: 5,
+                              bottom: 5,
+                              right: 5
+                            },
+                            xAxis: [{
+                              axisLine: false,
+                              splitLine: {
+                                show: false
+                              },
+                              type: 'category',
+                              data: new Array(17)
+                            }],
+                            yAxis: [{
+                              type: 'value',
+                              axisLine: false,
+                              splitLine: {
+                                show: false
+                              },
+                              min: 'dataMin',
+                              max: 'dataMax'
+                            }],
+                            series: [{
+                              type: 'line',
+                              smooth: true,
+                              showSymbol: false,
+                              lineStyle: {
+                                normal: {
+                                  color: '#666'
+                                }
+                              },
+                              data: this.stockList[i].chartData
+                            }]
+                          })
+                        }
+                      })
+                      this.chart.setOption({
+                        grid: {
+                          show: false,
+                          left: 5,
+                          top: 5,
+                          bottom: 5,
+                          right: 5
+                        },
+                        xAxis: [{
+                          axisLine: false,
+                          splitLine: {
+                            show: false
+                          },
+                          type: 'category',
+                          data: new Array(17)
+                        }],
+                        yAxis: [{
+                          type: 'value',
+                          axisLine: false,
+                          splitLine: {
+                            show: false
+                          },
+                          min: 'dataMin',
+                          max: 'dataMax'
+                        }],
+                        series: [{
+                          type: 'line',
+                          smooth: true,
+                          showSymbol: false,
+                          lineStyle: {
+                            normal: {
+                              color: '#fff'
+                            }
+                          },
+                          data: this.node.chartData
+                        }]
+                      })
                     })
-                    this.stockList = this.parent.children
-                    this.node.chartData = this.stockChartData[this.node.name]
-                    const nodeLength = this.node.chartData.length
-                    if (this.node.chartData[nodeLength - 1]) {
-                      this.node.price = this.node.chartData[nodeLength - 1]
-                    } else {
-                      this.node.price = '--'
-                    }
-                  })
-        }
-      },
-      mounted () {
-        this.updateChart()
-      }
-    }
+         }
+       },
+       mounted () {
+         this.updateChart()
+         this.chart = echarts.init(this.$refs.chartTitle)
+       }
+}
 </script>
