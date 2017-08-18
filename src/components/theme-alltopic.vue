@@ -112,7 +112,7 @@
       margin-left: 4px;
     }
     .changelist{
-      margin-right: 12px;
+      margin-right: 16px;
       margin-top: 5px;
     }
     .changelist a{
@@ -163,7 +163,8 @@
       cursor: pointer;
     }
     .topic-ol{
-      padding-left: 9px;
+      padding-left: 8px;
+      padding-right: 8px;
     }
     .topic-ol li{
       padding: 10px 15px 40px 13px;
@@ -238,6 +239,30 @@
       float: left;
 
     }
+    .sortaz-wrap{
+     /*  display: none; */
+      padding: 0 8px;
+      margin-top: 12px;
+    }
+    .az-main{
+        background: #fff;
+        border-radius: 3px;
+        border-top:1px solid #e5e5e5;
+    }
+    .sort-hot{
+      width: 62%;
+      margin: 13px auto 13px;
+
+    }
+    .hot-name{
+     /*  margin-left: 19px; */
+     width: 10%;
+     display: inline-block;
+     text-align: center;
+    }
+    .page{
+      text-align: center;
+    }
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -245,9 +270,10 @@
        <div class="fl">
         <em>全部主题概念</em><span @click="query('hot')" :class="sortField==='hot'?'active':''" >热度排序<i class="hot_icon"></i></span><span :class="sortField==='time'?'active':''" @click="query('time')">时间排序<i class="time_icon"></i></span><span :class="sortField==='updown'?'active':''" @click="query('updown')">涨跌幅排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a href="#" class="list_icon active"></a><a href="#" class="kuai_icon"></a></div>
+        <div class="fr changelist"><a @click="toggleShow()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="toggleShow()" :class="this.isShow==!true?'active':''"></a></div>
     </div>
-     <ol class="topic-ol">
+    <div class="main-list" v-show="isShow">
+      <ol class="topic-ol" >
         <li v-for="allTopic of themeList" class="clearfix">
            <div class="content-head clearfix">
                 <div class="topic-name">
@@ -256,7 +282,7 @@
                 <div class="topic-time">
                     <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
                     <span>今日涨跌</span>
-                    <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket.stkDownNum}}</span>
+                    <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ allTopic.topicMarket==null || allTopic.topicMarket.chngPct==null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkUpNum ==null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkDownNum ==null?'--':allTopic.topicMarket.stkDownNum}}</span>
                 </div>
            </div>
            <div class="content-box clearfix">
@@ -275,8 +301,17 @@
                 </div>
            </div>
         </li>
-    </ol>
+      </ol>
      <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
+    </div>
+    <div class="sortaz-wrap clearfix" v-show="!isShow">
+      <div class="az-main">
+            <div class="sort-hot" >
+                 <a class="blue hot-name" v-for="allTopic of themeList">{{allTopic.topicName}}</a>
+            </div>
+            <ThemeSortAz/>
+      </div>
+    </div>
 </div>
 </template>
 
@@ -284,13 +319,15 @@
  import { mapState } from 'vuex'
  import { formatDate } from 'utils/date'
  import Pagination from './pagination'
+ import ThemeSortAz from './theme-sort-az'
  export default {
    data () {
      return {
        FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
        sortField: '',
        page: '',
-       pagesize: ''
+       pagesize: '',
+       isShow: true
      }
    },
  
@@ -304,7 +341,8 @@
      totalPage: state => state.topic.totalPage*/
    }),
    components: {
-     Pagination
+     Pagination,
+     ThemeSortAz
    },
    methods: {
      query (type, page) {
@@ -319,6 +357,9 @@
      goToPage (page) {
        this.page = page
      },
+     toggleShow () {
+       this.isShow = !this.isShow
+     },
      format (date) {
        return formatDate(date)
      },
@@ -330,7 +371,10 @@
    watch: {
      page () {
        this.query(this.sortField, this.page)
-     }
+     }/*,
+     isShow: function (val) {
+       val ? this.btnStyle = 'Primary' : this.btnStyle = 'Default'
+     }*/
    },
    mounted () {
      this.query('hot')

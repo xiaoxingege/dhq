@@ -5,6 +5,7 @@
         color: #191919;
         width: 100%;
     }
+    
 </style>
 <template> 
    <div class="theme-index">

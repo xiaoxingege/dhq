@@ -52,7 +52,10 @@
       -o-box-flex: 4;
       box-flex: 4;
     }
-    span{
+   /*  span{
+      color: #191919;
+    } */
+    a{
       color: #191919;
     }
     html,body{
@@ -109,10 +112,9 @@
       width: 12%;
       text-align: center;
     }
-    a:hover{
-      color: #2388da;
+    .new-tit:hover{
+      color:#2388da;
     }
-   
 </style>
 <template>
       <div class="informat-list">
@@ -123,7 +125,7 @@
               <div class="informat-main">
                    <strong class="in-title" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}相关资讯</strong>
                    <div class="in-content">
-                      <div class="clearfix" v-if="informatList && informatList.length > 0" v-for="infor of informatList"><!-- <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> -->
+                      <div class="clearfix alink" v-if="informatList && informatList.length > 0" v-for="infor of informatList">
                         <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}"> <span class="new-tit">{{infor.title}}</span>
                          <span class="new-date">{{format(infor.declareDate)}}</span>
                          <span class="new-srcname">{{infor.srcName}}</span></router-link>
