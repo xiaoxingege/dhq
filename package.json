@@ -69,7 +69,7 @@
     "pify": "^3.0.0",
     "vue": "^2.4.2",
     "vue-cookie": "^1.1.4",
-    "vue-server-renderer": "^2.3.4",
+    "vue-server-renderer": "^2.4.2",
     "vue-template-compiler": "^2.4.2"
   }
 }
