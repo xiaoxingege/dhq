@@ -114,6 +114,7 @@
 
 <template>
 <div class="ques-box">
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
     <div class="ques-success">
         <div class="ques-success-box">
             <i></i>
@@ -172,10 +173,14 @@
 import {
     mapState
 } from 'vuex'
+import quesNav from 'components/ques-nav'
 
 export default {
   data () {
-    return {}
+    return {
+      quesNavTitle: '问股',
+      btnTxt: '再问一个'
+    }
   },
   computed: mapState({
         // CodeData: state => {
@@ -183,27 +188,18 @@ export default {
         // }
   }),
   components: {
-
+    quesNav
   },
   methods: {
-        // searchInput (value) {
-        //   this.$store.dispatch('quesSearch/fetch', {
-        //     key: value
-        //   })
-        // }
+    navBak () {
+      alert('navBak')
+    },
+    navEvents () {
+      alert('submit')
+    }
   },
   mounted () {
     document.title = '问答详情'
-        // this.$watch('CodeData', CodeData => {
-        //   this.searchDataType = true
-        //   if (CodeData.length === 0) {
-        //     this.searchNo = true
-        //     this.dataType = false
-        //   } else {
-        //     this.searchNo = false
-        //     this.dataType = true
-        //   }
-        // })
   }
 }
 </script>

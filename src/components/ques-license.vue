@@ -1,65 +1,115 @@
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
 
-// .ques-ask-box {
-//     width: 100%;
-//     position: relative;
-// }
-// .ques-ask-box textarea {
-//     width: 95%;
-//     padding: 0.2rem 2.5%;
-//     font-size: 0.3rem;
-//     color: #333;
-//     height: 3.3rem;
-//     resize: none;
-//     outline: none;
-//     float: left;
-// }
-// .ques-ask-box textarea::placeholder {
-//     color: #999;
-// }
-// .ques-text－num {
-//     font-size: 0.28rem;
-//     position: absolute;
-//     top: 4.2rem;
-//     right: 0.2rem;
-//     color: #999;
-// }
-// .ques-text－num span {
-//     color: #555;
-// }
-// .askTimes {
-//     height: 0.77rem;
-//     line-height: 0.77rem;
-//     font-size: 0.28rem;
-//     color: #999;
-//     width: 95%;
-//     padding: 0 2.5%;
-//     border-top: 1px #e6e6e6 solid;
-//     background-color: #fff;
-//     float: left;
-// }
-// .askTimes span { color: #ff4040; }
+.ques-license {
+    width: 90%;
+    position: fixed;
+    top: 50%;
+    left: 5%;
+    height: 4.3rem;
+    margin-top: -2.15rem;
+    background-color: #fff;
+    border-radius: 0.1rem;
+    z-index: 11;
+}
+.close {
+    width: 0.28rem;
+    height: 0.28rem;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.27rem;
+    background: url("../assets/images/ques-alading/close.png") no-repeat;
+    background-size: 100% 100%;
+}
+.ques-license-user {
+    width: 90%;
+    padding: 0 5%;
+    float: left;
+    padding-top: 0.6rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+}
+.ques-license-user img {
+    width: 0.6rem;
+    height: 0.6rem;
+    float: left;
+    border-radius: 50%;
+}
+.ques-license-user strong {
+    font-size: 0.3rem;
+    color: #333;
+    float: left;
+    margin-left: 0.24rem;
+}
+.ques-license-user a {
+    font-size: 0.26rem;
+    color: #2e7cd7;
+    float: right;
+}
+.ques-license button {
+    width: 90%;
+    background-color: #3388ff;
+    height: 0.9rem;
+    border: none;
+    margin: 0.35rem 5%;
+    float: left;
+    color: #fff;
+    border-radius: 0.1rem;
+    outline: none;
+    line-height: 0.9rem;
+    font-size: 0.32rem;
+}
+.ques-license p {
+    font-size: 0.26rem;
+    color: #555;
+    width: 90%;
+    padding: 0 5%;
+    float: left;
+}
+.ques-license-checkbox {
+    width: 90%;
+    float: left;
+    padding: 0.3rem 5%;
+    height: 0.3rem;
+}
+.ques-license-checkbox input {
+    width: 0.3rem;
+    height: 0.3rem;
+    float: left;
+}
+.ques-license-checkbox span {
+    font-size: 0.24rem;
+    color: #999;
+    float: left;
+    margin-left: 0.2rem;
+}
 </style>
 
 <template>
-<!-- <div class="ques-ask-box">
-    <ques-search />
-    <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
-    <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
-    <p class="askTimes">今日您还剩余<span>10</span>次提问机会</p>
-</div> -->
+<div class="ques-license">
+    <i class="close" @click="close"></i>
+    <div class="ques-license-user">
+        <img src="../assets/images/ques-alading/img1.png" />
+        <strong>空空道人</strong>
+        <a href="javascript:;">切换账号</a>
+    </div>
+    <button type="button" name="button">授权</button>
+    <p>允许 “金融界官方号” 应用进行以下操作：</p>
+    <div class="ques-license-checkbox">
+        <input type="checkbox" />
+        <span>获取你的公开信息（昵称、头像等）</span>
+    </div>
+</div>
 </template>
 <script>
 import {
     mapState
 } from 'vuex'
-// import quesSearch from 'components/ques-search'
 
 export default {
   data () {
     return {
-      txtVal: '0'
+            //   txtVal: '0'
     }
   },
   computed: mapState({
@@ -68,34 +118,15 @@ export default {
         // }
   }),
   components: {
-    // quesSearch
+        // quesSearch
   },
   methods: {
-    // descInput () {
-    //   if (this.text) {
-    //     var txtVal = this.text.length
-    //     var _this = this
-    //     if (txtVal > 300) {
-    //       _this.text = (_this.text + '').substring(0, 300)
-    //     }
-    //     this.txtVal = this.text.length
-    //   } else {
-    //     this.txtVal = '0'
-    //   }
-    // }
+    close () {
+      this.$emit('licenseClose')
+    }
   },
   mounted () {
-        // this.$store.dispatch('quesSearch/ask')
-        // this.$watch('CodeData', CodeData => {
-        //   this.searchDataType = true
-        //   if (CodeData.length === 0) {
-        //     this.searchNo = true
-        //     this.dataType = false
-        //   } else {
-        //     this.searchNo = false
-        //     this.dataType = true
-        //   }
-        // })
+
   }
 }
 </script>

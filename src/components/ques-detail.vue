@@ -129,6 +129,7 @@
 
 <template>
 <div class="ques-box">
+    <ques-nav :title="quesNavTitle" @navBak="navBak" />
     <div class="ques-detail">
         <div>
             <p><i></i>上证指数<span>（000001）</span>王老师明天大盘觉得怎么样？今天真的走微放量吗，但是尾盘刻意拉高，明天会是黑色星期五吗？</p>
@@ -177,16 +178,25 @@
         </ul>
         <p><i></i>以上内容仅代表个人观点，不构成投资建议<i></i></p>
     </div>
+    <fix-bg v-if="fixBgShow"/>
+    <ques-focus v-if="quesFocusShow" @focusClose="focusClose"/>
 </div>
 </template>
 <script>
 import {
     mapState
 } from 'vuex'
+import fixBg from 'components/fix-bg'
+import quesFocus from 'components/ques-focus'
+import quesNav from 'components/ques-nav'
 
 export default {
   data () {
-    return {}
+    return {
+      fixBgShow: true,
+      quesFocusShow: true,
+      quesNavTitle: '问答详情'
+    }
   },
   computed: mapState({
         // CodeData: state => {
@@ -194,27 +204,21 @@ export default {
         // }
   }),
   components: {
-
+    fixBg,
+    quesFocus,
+    quesNav
   },
   methods: {
-        // searchInput (value) {
-        //   this.$store.dispatch('quesSearch/fetch', {
-        //     key: value
-        //   })
-        // }
+    focusClose () {
+      this.fixBgShow = false
+      this.quesFocusShow = false
+    },
+    navBak () {
+      alert('navBak')
+    }
   },
   mounted () {
     document.title = '问答详情'
-        // this.$watch('CodeData', CodeData => {
-        //   this.searchDataType = true
-        //   if (CodeData.length === 0) {
-        //     this.searchNo = true
-        //     this.dataType = false
-        //   } else {
-        //     this.searchNo = false
-        //     this.dataType = true
-        //   }
-        // })
   }
 }
 </script>

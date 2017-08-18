@@ -46,10 +46,13 @@
 
 <template>
 <div class="ques-ask-box">
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
     <ques-search />
     <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
     <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
     <p class="askTimes">今日您还剩余<span>10</span>次提问机会</p>
+    <fix-bg v-if="fixBgShow"/>
+    <ques-license @licenseClose="licenseClose" v-if="quesLicenseShow"/>
 </div>
 </template>
 <script>
@@ -57,11 +60,18 @@ import {
     mapState
 } from 'vuex'
 import quesSearch from 'components/ques-search'
+import fixBg from 'components/fix-bg'
+import quesLicense from 'components/ques-license'
+import quesNav from 'components/ques-nav'
 
 export default {
   data () {
     return {
-      txtVal: '0'
+      txtVal: '0',
+      fixBgShow: true,
+      quesLicenseShow: true,
+      quesNavTitle: '问股',
+      btnTxt: '提问'
     }
   },
   computed: mapState({
@@ -70,7 +80,10 @@ export default {
         // }
   }),
   components: {
-    quesSearch
+    quesSearch,
+    fixBg,
+    quesLicense,
+    quesNav
   },
   methods: {
     descInput () {
@@ -84,20 +97,19 @@ export default {
       } else {
         this.txtVal = '0'
       }
+    },
+    licenseClose () {
+      this.fixBgShow = false
+      this.quesLicenseShow = false
+    },
+    navBak () {
+      alert('navBak')
+    },
+    navEvents () {
+      alert('submit')
     }
   },
   mounted () {
-        // this.$store.dispatch('quesSearch/ask')
-        // this.$watch('CodeData', CodeData => {
-        //   this.searchDataType = true
-        //   if (CodeData.length === 0) {
-        //     this.searchNo = true
-        //     this.dataType = false
-        //   } else {
-        //     this.searchNo = false
-        //     this.dataType = true
-        //   }
-        // })
   }
 }
 </script>
