@@ -39,14 +39,16 @@
     background-color: #fff;
     float: left;
 }
-.askTimes span { color: #ff4040; }
+.askTimes span {
+    color: #ff4040;
+}
 </style>
 
 <template>
 <div class="ques-ask-box">
     <ques-search />
-    <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text"></textarea>
-    <div class="ques-text－num"><span>0</span>/200</div>
+    <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
+    <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
     <p class="askTimes">今日您还剩余<span>10</span>次提问机会</p>
 </div>
 </template>
@@ -58,7 +60,9 @@ import quesSearch from 'components/ques-search'
 
 export default {
   data () {
-    return {}
+    return {
+      txtVal: '0'
+    }
   },
   computed: mapState({
         // CodeData: state => {
@@ -69,11 +73,18 @@ export default {
     quesSearch
   },
   methods: {
-        // searchInput (value) {
-        //   this.$store.dispatch('quesSearch/fetch', {
-        //     key: value
-        //   })
-        // }
+    descInput () {
+      if (this.text) {
+        var txtVal = this.text.length
+        var _this = this
+        if (txtVal > 300) {
+          _this.text = (_this.text + '').substring(0, 300)
+        }
+        this.txtVal = this.text.length
+      } else {
+        this.txtVal = '0'
+      }
+    }
   },
   mounted () {
         // this.$store.dispatch('quesSearch/ask')
