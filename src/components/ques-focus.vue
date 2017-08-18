@@ -22,10 +22,35 @@
     background: url("../assets/images/ques-alading/close.png") no-repeat;
     background-size: 100% 100%;
 }
-.ques-focus-box img { width: 1.5rem; height: 1.5rem; border-radius: 50%; margin-top: 1rem; }
-.ques-focus-box h3 { font-size: 0.34rem; color: #333; margin-top: 0.3rem; }
-.ques-focus-box p { font-size: 0.28rem; color: #888; margin: 0.25rem 0; }
-.ques-focus-box button { width: 80%; margin: 0.25rem 10%; background-color: #3388ff; height: 0.9rem; line-height: 0.9rem; color: #fff; border-radius: 0.1rem; border: none; outline: none; float: left; }
+.ques-focus-box img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    margin-top: 1rem;
+}
+.ques-focus-box h3 {
+    font-size: 0.34rem;
+    color: #333;
+    margin-top: 0.3rem;
+}
+.ques-focus-box p {
+    font-size: 0.28rem;
+    color: #888;
+    margin: 0.25rem 0;
+}
+.ques-focus-box button {
+    width: 80%;
+    margin: 0.25rem 10%;
+    background-color: #3388ff;
+    height: 0.9rem;
+    line-height: 0.9rem;
+    color: #fff;
+    border-radius: 0.1rem;
+    border: none;
+    outline: none;
+    float: left;
+    font-size: 0.32rem;
+}
 </style>
 
 <template>
@@ -61,7 +86,6 @@ export default {
       this.$emit('focusClose')
     }
   },
-  mounted () {
-  }
+  mounted () {}
 }
 </script>

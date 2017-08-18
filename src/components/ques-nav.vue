@@ -18,8 +18,19 @@
     top: 0.23rem;
     left: 3%;
 }
-.ques-nav h1 { font-size: 0.36rem; font-weight: normal; color: #333; text-align: center; }
-.ques-nav span { position: absolute; top: 0.23rem; right: 0.3rem; font-size: 0.3rem; color: #333; }
+.ques-nav h1 {
+    font-size: 0.36rem;
+    font-weight: normal;
+    color: #333;
+    text-align: center;
+}
+.ques-nav span {
+    position: absolute;
+    top: 0.23rem;
+    right: 0.3rem;
+    font-size: 0.3rem;
+    color: #333;
+}
 </style>
 
 <template>
