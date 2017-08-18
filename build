@@ -83,7 +83,7 @@ pinfo 'yarn install done.'
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
-npm run build
+npm run build -- --env=$feature
 if [ "$?" != "0" ]; then
   exit 1
 fi
