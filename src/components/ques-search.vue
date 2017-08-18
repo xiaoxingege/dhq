@@ -6,6 +6,7 @@
     border-bottom: 0.01rem #e6e6e6 solid;
     padding: 0 5%;
     position: relative;
+    background-color: #fff;
 }
 .ques-search i {
     width: 0.42rem;
@@ -36,6 +37,7 @@
     top: 1rem;
     left: 0;
     background-color: #fff;
+    z-index: 1;
 }
 .ques-search ul li {
     width: 80%;
@@ -65,11 +67,8 @@
 <template>
 <div class="ques-search">
     <i></i>
-
     <!-- <input type="text" name="" placeholder="输入股票代码/简拼" v-model="value" @input="searchInput(value)" @blur="inputBlur()" @focus="inputFocus()"/> -->
     <input type="text" name="" placeholder="输入股票代码/简拼" v-model="value" @input="searchInput(value)" :stid="stid" />
-
-
     <ul v-if="searchDataType">
         <li>
             <p>品种</p>

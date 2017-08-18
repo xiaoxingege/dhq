@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/ques-search'
+import App from 'components/ques-ask'
 
 /*
  * 引入vuex
