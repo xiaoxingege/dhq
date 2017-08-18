@@ -5,6 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config/'
 const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
   UPDATE_TOPIC_SUMMARY: 'UPDATE_TOPIC_SUMMARY',
@@ -31,7 +32,8 @@ export default {
     total: 0,
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
     allCharts: [],
-    realtimeCharts: []
+    realtimeCharts: [],
+    groupTopics: []
    /* topicReturnRate: [],
     hs300ReturnRate: [],
     tradeDate: []*/ // 全部charts
@@ -73,6 +75,9 @@ export default {
     updateRealtimeCharts (state, realtime) {
       state.realtimeCharts = realtime
     },
+    updateGroupTopics (state, group) {
+      state.groupTopics = group
+    },
     [mutationTypes.UPDATE_TOPIC_SUMMARY] (state, detail) {
       /* state.topic || (state.topic = {})
       state.topic = topic*/
@@ -94,7 +99,7 @@ export default {
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
     queryHot ({ commit }) {
-      fetch('http://www.z3quant.com/openapi/topic/hotTopic.shtml', {
+      fetch(`${domain}/openapi/topic/hotTopic.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -105,7 +110,7 @@ export default {
       })
     },
     querySummary ({ commit }) {
-      fetch('http://www.z3quant.com/openapi/topic/topicStat.shtml', {
+      fetch(`${domain}/openapi/topic/topicStat.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -118,7 +123,7 @@ export default {
     queryAllTopic ({ commit }, { sortField, page, pagesize, totalPages }) {
       page = page || 0
       pagesize = pagesize || PAGE_SIZE
-      return fetch(`http://www.z3quant.com/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
+      return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -135,7 +140,7 @@ export default {
     },
     queryInformatList ({ commit }, { topicCode }) {
       // fetch('http://www.z3quant.com/openapi/news/topic/topicCode.shtml?page=1&size=10', {
-      fetch(`http://www.z3quant.com/openapi/news/topic/${topicCode}.shtml?page=0&size=20`, {
+      fetch(`${domain}/openapi/news/topic/${topicCode}.shtml?page=0&size=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -158,13 +163,13 @@ export default {
       })
     },*/
     queryTopicLineData ({ commit }, { topicId, period }) {
-      const url = `http://www.z3quant.com/openapi/topic/${topicId}.sthml?period=${period}`
+      const url = `${domain}/openapi/topic/${topicId}.sthml?period=${period}`
       fetch(url, { mode: 'cors' }).then(res => res.json).then(result => {
         commit(mutationTypes.UPDATE_TOPIC_LINEDATA)
       })
     },
     queryStockList ({ commit }, { topicCode }) {
-      fetch(`http://www.z3quant.com/openapi/topic/${topicCode}/stock.shtml`, {
+      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -176,7 +181,7 @@ export default {
       })
     },
     queryDetailHead ({ commit }, { topicCode }) {
-      fetch(`http://www.z3quant.com/openapi/topic/${topicCode}.shtml`, {
+      fetch(`${domain}/openapi/topic/${topicCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -188,7 +193,7 @@ export default {
       })
     },
     queryAllCharts ({ commit }, { period, topicCode }) {
-      return fetch(`http://www.z3quant.com/openapi/topic/history/${topicCode}.shtml?period=${period}`, {
+      return fetch(`${domain}/openapi/topic/history/${topicCode}.shtml?period=${period}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -200,15 +205,27 @@ export default {
       })
     },
     queryRealtimeCharts ({ commit }, { period, topicCode }) {
-      return fetch(`http://www.z3quant.com/openapi/topic/realtime/${topicCode}.shtml?period=${period}`, {
+      return fetch(`${domain}/openapi/topic/realtime/${topicCode}.shtml?period=${period}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         console.log(result)
         if (result.errCode === 0) {
-          console.log(result.data.tradeMin)
+          // console.log(result.data.tradeMin)
           commit('updateRealtimeCharts', result.data.reverse())
+        }
+      })
+    },
+    queryGroupTopics ({ commit }) {
+      fetch(`${domain}/openapi/topic/groupTopics.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          console.log(result.data)
+          commit('updateGroupTopics', result.data)
         }
       })
     },

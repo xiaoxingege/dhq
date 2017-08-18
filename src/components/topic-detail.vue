@@ -288,7 +288,7 @@
                       <div class="left-con3 clearfix">
                           <strong class="mb-8" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}</strong><strong>相关资讯</strong>
                           <div class="in-content">
-                              <a class="new-link clearfix" v-if="informatList && informatList.length > 0" v-for="infor of informatList">
+                              <a class="new-link clearfix"  v-if="informatList && index < 5" v-for="(infor,index) of informatList">
                                 <span class="new-tit">{{infor.title}}</span>
                                  <span class="new-date">{{format(infor.declareDate)}}</span>
                                  <span class="new-srcname">{{infor.srcName}}</span>
@@ -386,6 +386,7 @@
             const arr = [9, 10, 11, 13, 14, 15]
             let start = null
             let end = null
+            let realTime = null
             for (var i = 0; i < arr.length; i++) {
               if (arr[i] === 9) {
                 start = 30
@@ -402,7 +403,14 @@
               }
               for (var j = start; j < end; j++) {
                 j = j < 10 ? '0' + j : j
-                tradeMin.push(arr[i] + ':' + j)
+                if (arr[i] === 11 && j === 30) {
+                  break
+                } else if (arr[i] === 13 && j === '00') {
+                  realTime = '11:30' + '/' + arr[i] + ':' + j
+                } else {
+                  realTime = arr[i] + ':' + j
+                }
+                tradeMin.push(realTime)
               }
             }
             console.log(tradeMin)

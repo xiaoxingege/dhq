@@ -46,7 +46,7 @@
       font-size: 12px;
       width: 100%;
     }
-    .hot-top{
+     .hot-top{
       padding: 15px 30px 11px 15px; 
       color: #191919;
     }
@@ -63,56 +63,59 @@
         padding-right: 2px;
     }
     .theme-bar-li{
-        width: 22%;
-        background: #fff;
-        padding: 11px;
-       /*  float: left; */
-        margin-right: 6px;
-        border-radius: 3px;
-        border: 1px solid #e5e5e5;
-        background: #fff;
-        
+      width: 22px;
+      background: #fff;
+      border-radius: 3px;
+      border: 1px solid #e5e5e5;
+      margin-right: 6px;
+      padding-top: 11px;
+      padding-bottom: 3px;
+     /*  padding-left: 11px; 
+      padding-right: 11px; */
+      /*  */
+      /* padding-left: 11px;
+      padding-right: 11px; */
+    }
+    .li-nei{
+      width: 95%;
+      margin: 0 auto;
+    }
+    .bar-tit{
+      /* margin-top: 11px;
+      margin-left: 11px; */
+      /* padding-left: 11px; */
 
     }
-    .top-content{
-    }
-    
-    .bar-txt{
-      line-height: 17px;
-      /* margin: 18px 0 10% 0; */
-      margin-top: 18px;
-      height: 90px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
     .bar-tit span{
-      /* width: 57px;
-      height: 18px;
-      line-height: 18px;
-      text-align: center; */
       padding: 2px 3px 2px 5px;
       border-radius: 3px;
       border: 1px solid #2388da;
       display: inline-block;
       cursor: pointer;
+    } 
+    .bar-txt{
+      line-height: 17px;
+      /* margin: 18px 0 10% 0; */
+      margin-top: 18px;
+      margin-bottom: 27px;
+      /* height: 90px; */
+      /* padding-bottom: 27px; */
+      overflow: hidden;
+      cursor: pointer;
     }
-    .txt-con span{
-      /* height: 70px;
-      width: 100%;
-      white-space: nowrap;  
-      overflow: hidden;  
-      text-overflow: ellipsis; */ 
-      /* color: green; */
-     
+    .theme-bar-title{
+      font-size: 12px;
+      display: inline-block; 
+      text-align: left;
+      line-height: 18px;
+      cursor: pointer;
     }
-   
-
+    
     .txt-srcName{
       
     }
-    .new-text:hover{
-      /* color: red; */
+    .event:hover{
+      color: #2388da;
     }
     .theme-bar-title{
       font-size: 12px;
@@ -126,8 +129,9 @@
       color: #191919;
     }
     .li-bottom{
-      padding:11px 0 3px 0;
-      border-top:1px solid #e5e5e5;
+     /*  padding:11px 0 3px 0; */
+     line-height: 34px;
+     border-top:1px solid #e5e5e5;
     }
     .bottom-Market{
       width: 15%;
@@ -157,6 +161,7 @@
     </div>
     <ul class="theme-list-ul display-box clearfix">
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
+         <div class="li-nei">
           <div class="bar-tit">
             <a class="theme-bar-title blue">{{topic.topicName}}</a>
             <span class="blue bar-title2" :title="topic.topicDesc">主题简介</span>
@@ -164,13 +169,14 @@
           <div class="bar-txt clearfix">
             <strong>最新事件：</strong>
             <span class="txt-con">
-              <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> <span>{{cutStr(topic.topicDesc,160)}}</span>
+              <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> <span class="event">{{topic.drivenEvent}}</span>
               （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）</router-link>
             </span>
           </div>
           <div class="li-bottom">
-              今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{ changeTofixed(topic.topicMarket.chngPct)}}</a>
-              上涨股票<span class="red bottom-Market2">{{topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket.stkDownNum}}</span>
+              今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
+              上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
+          </div>
           </div>
          </li>
     </ul>
