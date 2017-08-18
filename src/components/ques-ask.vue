@@ -110,6 +110,7 @@ export default {
     }
   },
   mounted () {
+    document.title = '问股'
   }
 }
 </script>
