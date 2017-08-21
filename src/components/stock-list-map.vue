@@ -59,7 +59,7 @@
     .stocklist-chart{width: 100%;height:100%}
 </style>
 <template>
-    <div class="hover-wrapper" :style="position">
+    <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
         <h3>{{titleName}}--{{titleNameLel2}}</h3>
         <table>
             <tbody>
@@ -102,7 +102,6 @@ export default{
          }
        },
        computed: {
-         position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
          stockId () {
            if (this.parent && this.parent.id) {
              return this.parent.id

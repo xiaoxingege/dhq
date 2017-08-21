@@ -16,7 +16,7 @@
         float: right;
     }
     .map_legend .step {
-        width: 50px;
+      /*  width: 50px;*/
         height: 25px;
         line-height: 26px;
         cursor: default;
@@ -67,7 +67,7 @@
                 <div v-for="date of playBackDateShow" class="perday">{{date}}</div>
             </div>
             <div class="map_legend map_legend_min clearfix">
-                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor}">{{legend.value}}</div>
+                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}">{{legend.value}}</div>
             </div>
         </div>
     </div>
@@ -158,7 +158,8 @@
           playBackSrc: playStopSrc,
           mapHeight: window.innerHeight - 80,
           showHover: false,
-          hoverNode: null
+          hoverNode: null,
+          legendWidth: 50
         }
       },
       watch: {
@@ -496,6 +497,7 @@
         getLegendColor: function () {
           this.legendList = []
           if (this.condition === 'act_date') {
+            this.legendWidth = 60
             this.legendList.push({
               value: '业绩公布前',
               backgroundColor: '#20A29A'
@@ -505,6 +507,7 @@
               backgroundColor: '#BA5297'
             })
           } else {
+            this.legendWidth = 50
             for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
               this.legendList.push({
                 value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
