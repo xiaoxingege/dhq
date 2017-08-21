@@ -95,6 +95,8 @@
 .di .box-con a:hover {
     background: url("../assets/images/pay-video-activity/btn-h.png") no-repeat;
 }
+.pay-nav { width: 216px; height: 323px; position: fixed; top: 50%; right: 50px; margin-top: -161px; background: url("../assets/images/pay-video-activity/web-nav-bg.png") no-repeat; z-index: 5; }
+.pay-nav a {width: 216px; height: 80px; float: left; }
 </style>
 
 <template>
@@ -102,7 +104,7 @@
     <div class="bg1">
 
     </div>
-    <div class="bg2">
+    <div class="bg2" id="d1">
         <div class="box-con">
             <!-- <button type="button" name="button"></button> -->
             <a href="javascript:;"></a>
@@ -114,10 +116,10 @@
     <div class="bg4">
 
     </div>
-    <div class="bg5">
+    <div class="bg5" id="d2">
 
     </div>
-    <div class="bg6">
+    <div class="bg6" id="d3">
 
     </div>
     <div class="bg7">
@@ -130,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="bg9">
+    <div class="bg9" id="d4">
 
     </div>
     <div class="bg10">
@@ -144,10 +146,18 @@
             <a href="javascript:;"></a>
         </div>
     </div>
+    <div class="pay-nav">
+        <a href="javascript:;" @click="navClick('d1')"></a>
+        <a href="javascript:;" @click="navClick('d2')"></a>
+        <a href="javascript:;" @click="navClick('d3')"></a>
+        <a href="javascript:;" @click="navClick('d4')"></a>
+    </div>
 </div>
 </template>
 <script>
 import activitySlider from 'components/activity-slider'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 
 export default {
   data () {
@@ -195,13 +205,21 @@ export default {
     activitySlider
   },
   methods: {
-        // closeChapterDialog () {
-        //   this.addChapterShow = false
-        //   this.fixBgShow = false
-        // }
+    navClick (num) {
+      var pos = $('#' + num).offset().top
+      if (num === 'd3') {
+        $('html,body').stop().animate({ scrollTop: pos + 250 }, 500)
+      } else {
+        $('html,body').stop().animate({ scrollTop: pos }, 500)
+      }
+    }
   },
   mounted () {
     document.title = '付费视频专题'
+    setTimeout(function () {
+      var pos = $('#d3').offset().top
+      $('html,body').stop().animate({ scrollTop: pos + 250 }, 500)
+    }, 3000)
   }
 }
 </script>
