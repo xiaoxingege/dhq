@@ -80,8 +80,8 @@
                 <button @click="showDialog">股票范围</button>
                 <button @click="showSelfRange">自定义</button>
             </div>
-            <div class="fl">
-                <span class="times"></span>
+            <div class="fr">
+                <span class="times">{{currentTime}}</span>
             </div>
             <div>
                 <Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="股票范围">
@@ -96,7 +96,7 @@
                             <span class="mr-10">
                                  行业
                                  <select v-model="stockRangeOptions.industryRangeDefault">
-                                    <option v-for="(val,key) in industryRangeList" :value="key">{{val}}</option>
+                                    <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
@@ -142,13 +142,13 @@
                             <span class="mr-10">
                                 X轴
                                 <select ref="xData" v-model="dimensionOptions.xDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="dimensionOptions.yDefault==='order' && key==='order'">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="(dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order'">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
                                 Y轴
                                 <select ref="yData" v-model="dimensionOptions.yDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="dimensionOptions.xDefault==='order' && key==='order'">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="(dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order'">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
@@ -242,7 +242,8 @@
             marketValueDefault: 'gpltsz_all',
             historyValueRangeDefault: 'lscjl_all',
             strategyDefault: '',
-            stockPoolDefault: ''
+            stockPoolDefault: '',
+            innerCode: ''
           },
           dimensionOptions: {
             xDefault: 'mkt_idx.pe_ttm',
@@ -256,7 +257,8 @@
             marketValueDefault: 'gpltsz_all',
             historyValueRangeDefault: 'lscjl_all',
             strategyDefault: '',
-            stockPoolDefault: ''
+            stockPoolDefault: '',
+            innerCode: ''
           },
           xData: '市盈率(TTM)',
           yData: '营业收入',
@@ -273,7 +275,10 @@
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
-                historyValueRangeDefault: 'lscjl_all'
+                historyValueRangeDefault: 'lscjl_all',
+                strategyDefault: '',
+                stockPoolDefault: '',
+                innerCode: ''
               }
             },
             'demoTmp2': {
@@ -286,7 +291,10 @@
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
-                historyValueRangeDefault: 'lscjl_all'
+                historyValueRangeDefault: 'lscjl_all',
+                strategyDefault: '',
+                stockPoolDefault: '',
+                innerCode: ''
               }
             },
             'demoTmp3': {
@@ -299,7 +307,10 @@
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
-                historyValueRangeDefault: 'lscjl_all'
+                historyValueRangeDefault: 'lscjl_all',
+                strategyDefault: '',
+                stockPoolDefault: '',
+                innerCode: ''
               }
             },
             'demoTmp4': {
@@ -312,10 +323,14 @@
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
-                historyValueRangeDefault: 'lscjl_all'
+                historyValueRangeDefault: 'lscjl_all',
+                strategyDefault: '',
+                stockPoolDefault: '',
+                innerCode: ''
               }
             }
-          }
+          },
+          currentTime: ''
         }
       },
       components: {
@@ -329,6 +344,16 @@
         hideDialog () {
           this.showStockRangeDialog = false
           this.showSelfRangeDialog = false
+          this.dimensionOptions.xDefault = this.options.xDefault
+          this.dimensionOptions.yDefault = this.options.yDefault
+          this.dimensionOptions.sizeDefault = this.options.sizeDefault
+          this.dimensionOptions.colorDefault = this.options.colorDefault
+          this.stockRangeOptions.indexRangeDefault = this.options.indexRangeDefault
+          this.stockRangeOptions.industryRangeDefault = this.options.industryRangeDefault
+          this.stockRangeOptions.marketValueDefault = this.options.marketValueDefault
+          this.stockRangeOptions.historyValueRangeDefault = this.options.historyValueRangeDefault
+          this.stockRangeOptions.strategyDefault = this.options.strategyDefault
+          this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
         },
         showSelfRange () {
           this.showSelfRangeDialog = true
@@ -354,6 +379,28 @@
           this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
           this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
           this.dimensionOptions.colorDefault = this.templateList[tmpValue].options.colorDefault
+        },
+        getTime () {
+          var date = new Date()
+          var seperator2 = ':'
+          var month = date.getMonth() + 1
+          var strDate = date.getDate()
+          var strHour = date.getHours()
+          var strMin = date.getMinutes()
+          if (month >= 1 && month <= 9) {
+            month = '0' + month
+          }
+          if (strDate >= 0 && strDate <= 9) {
+            strDate = '0' + strDate
+          }
+          if (strHour >= 0 && strHour <= 9) {
+            strHour = '0' + strHour
+          }
+          if (strMin >= 0 && strMin <= 9) {
+            strMin = '0' + strMin
+          }
+          var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
+          this.currentTime = currentdate
         }
       },
       computed: {
@@ -366,9 +413,17 @@
       },
       mounted () {
         const userId = this.$cookie.get('userId')
-        console.log(userId)
-        this.$store.dispatch('bubbles/getStockPool', {})
-        this.$store.dispatch('bubbles/getStrategy', {})
+        this.$store.dispatch('bubbles/getStockPool', { userId })
+        this.$store.dispatch('bubbles/getStrategy', { userId })
+        const that = this
+        setInterval(function () {
+          that.getTime()
+        }, 1000)
+        if (window.FiterToWeb) {
+          window.FiterToWeb.SndStockPoolInfo((data) => {
+            that.stockRangeOptions.innerCode = data
+          })
+        }
   }
     }
 </script>
