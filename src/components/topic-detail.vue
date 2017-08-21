@@ -130,7 +130,7 @@
 
     }
     .new-date{
-     /*  color: #7e7e7e; */
+      color: #7e7e7e;
       line-height: 24px;
       float: left;
       width: 12%;
@@ -141,6 +141,7 @@
       float: left;
       width: 12%;
       text-align: right;
+      color: #7e7e7e;
     }
     .in-content a:hover{
       color: #2388da;
