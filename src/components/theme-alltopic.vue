@@ -72,15 +72,17 @@
     .topic-head span{
       width: 82px; 
       height: 20px;
+      float: right;
       line-height: 20px;
+      /* display: inline-block; */
       border-radius: 3px;
       border: 1px solid #e5e5e5;
-      display: inline-block;
       color: #4f5256;
       text-align: center;
       background: #fff;
       margin-left: 14px;
       cursor: pointer;
+      font-size: 12px;
       /* padding: 4px 8px 5px 15px; */
     }
     .alltopic span.active{
@@ -120,6 +122,7 @@
       height: 11px;
       display: inline-block;
       background: url(../assets/images/z3img/theme_icon.png) no-repeat 1px -45px;
+      cursor: pointer;
     }
     a.list_icon{
       background-position: 1px -45px;
@@ -141,7 +144,10 @@
     }
     .content{
       line-height: 24px;
-
+      cursor: pointer;
+    }
+    .content:hover{
+      color: #2388da;
     }
     .content-head{
       margin-bottom: 20px;
@@ -160,7 +166,7 @@
       width: 40%;
       float: left;
       line-height: 24px;
-      cursor: pointer;
+     
     }
     .topic-ol{
       padding-left: 8px;
@@ -224,7 +230,11 @@
       white-space: nowrap;  
       overflow: hidden;  
       text-overflow: ellipsis; 
+      cursor: pointer;
 
+    }
+    .new-tit:hover{
+      color:#2388da;
     }
     .new-date{
       color: #7e7e7e;
@@ -260,17 +270,22 @@
      display: inline-block;
      text-align: center;
     }
-    .page{
+    .alltopic .page{
       text-align: center;
+      padding: 0;
+      background: #f2f2f2;
     }
 </style>
 <template>
 <div class="alltopic clearfix">
     <div class="clearfix topic-head">
        <div class="fl">
-        <em>全部主题概念</em><span @click="query('hot')" :class="sortField==='hot'?'active':''" >热度排序<i class="hot_icon"></i></span><span :class="sortField==='time'?'active':''" @click="query('time')">时间排序<i class="time_icon"></i></span><span :class="sortField==='updown'?'active':''" @click="query('updown')">涨跌幅排序<i class="hot_icon"></i></span>
+            <em>全部主题概念</em>
+            <span :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></span>
+            <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
+            <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="toggleShow()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="toggleShow()" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="toggleShow()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="toggleShow('kuai')" :class="this.isShow==!true?'active':''"></a></div>
     </div>
     <div class="main-list" v-show="isShow">
       <ol class="topic-ol" >
@@ -287,16 +302,16 @@
            </div>
            <div class="content-box clearfix">
                <div  class="con-left">
-                   <strong>主题简介:</strong><span class='content' :title="allTopic.topicDesc">{{allTopic.topicDesc}}</span>
+                   <strong>主题简介:</strong><router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" ><span class='content' :title="allTopic.topicDesc" ref="txtheight">{{allTopic.topicDesc}}</span></router-link>
                </div>
                <div  class="con-cen">
                   <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{equity.name}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span></div>
                </div>
                <div  class="con-right" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
-                       <span class="new-tit" :title="news.title">{{news.title}}</span>
+                      <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title}}</span>
                        <span class="new-date">{{format(news.declareDate)}}</span>
-                       <span class="new-srcname">{{news.srcName}}</span>
+                       <span class="new-srcname">{{news.srcName}}</span></router-link>
                     </div>
                 </div>
            </div>
@@ -307,7 +322,7 @@
     <div class="sortaz-wrap clearfix" v-show="!isShow">
       <div class="az-main">
             <div class="sort-hot" >
-                 <a class="blue hot-name" v-for="allTopic of themeList">{{allTopic.topicName}}</a>
+                 <a class="blue hot-name" v-for="(allTopic,index) of themeList">{{allTopic.topicName}}</a>
             </div>
             <ThemeSortAz/>
       </div>
@@ -327,7 +342,8 @@
        sortField: '',
        page: '',
        pagesize: '',
-       isShow: true
+       isShow: true,
+       isStyle: ''
      }
    },
  
@@ -357,8 +373,19 @@
      goToPage (page) {
        this.page = page
      },
-     toggleShow () {
+     init () {
+      /* this.H = this.$refs.txtheight.style.cssText
+       alert(this.H)*/
+     },
+     toggleShow (type) {
        this.isShow = !this.isShow
+       if (type === 'kuai') {
+         this.query('updown')
+         this.isStyle = 'none'
+       } else {
+         this.query('hot')
+         this.isStyle = ''
+       }
      },
      format (date) {
        return formatDate(date)
@@ -366,7 +393,6 @@
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      }
- 
    },
    watch: {
      page () {
@@ -378,6 +404,7 @@
    },
    mounted () {
      this.query('hot')
+     this.init()
    }
  
  }
