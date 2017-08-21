@@ -194,7 +194,7 @@
                 if (stockData) {
                   if (_this.condition === 'act_date') {
                     stock.perf = stockData[stock.name]
-                    if (stock.perf) {
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       const pbDate = new Date(stock.perf)
                       const nowDate = new Date()
                       stock.perfText = _this.dateFormatUtil(pbDate)
@@ -208,9 +208,9 @@
                     }
                   } else {
                     stock.perf = stockData[stock.id] || stockData[stock.name]
-                    if (stock.perf) {
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       if (_this.isUnit[_this.condition] === '%') {
-                        if (stock.perf > 0) {
+                        if (stock.perf >= 0) {
                           stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                         } else {
                           stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
@@ -292,7 +292,7 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 1000,
+                            visibleMin: 500,
                             // childrenVisibleMin: 10,
                             width: '100%',
                             height: '100%',
@@ -300,7 +300,7 @@
                               normal: {
                                 show: true,
                                 formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf != null) {
+                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
                                     return params.name + '\n' + params.data.perfText
                                   }
                                 },
