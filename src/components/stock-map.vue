@@ -200,7 +200,7 @@
                       stock.perfText = _this.dateFormatUtil(pbDate)
                       stock.itemStyle = {
                         normal: {
-                          color: nowDate < pbDate ? '#20A29A' : '#BA5297'
+                          color: nowDate < pbDate ? '#20A29A' : '#BA5297' || '#2f323d'
                         }
                       }
                     } else {
@@ -218,16 +218,17 @@
                       } else {
                         stock.perfText = parseFloat(stock.perf).toFixed(2)
                       }
-                      stock.itemStyle = { normal: {
-                        color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
-                      }}
                     } else {
                       stock.perfText = '--'
-                      stock.itemStyle = { normal: {
-                        color: '#2f323d'
-                      }}
                     }
+                    stock.itemStyle = { normal: {
+                      color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
+                    }}
                   }
+                } else {
+                  stock.itemStyle = { normal: {
+                    color: '#2f323d'
+                  }}
                 }
               })
             })
@@ -249,15 +250,13 @@
                     totalScale += stock.value
                   })
                   lvl2.perf = totalPerf / totalScale
-                  if (lvl2.perf !== 0) {
-                    lvl2.itemStyle = { normal: {
-                      borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf)
-                    }}
-                  } else {
-                    lvl2.itemStyle = { normal: {
-                      borderColor: '#2f323d'
-                    }}
-                  }
+                  lvl2.itemStyle = { normal: {
+                    borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf) || '#2f323d'
+                  }}
+                } else {
+                  lvl2.itemStyle = { normal: {
+                    borderColor: '#2f323d'
+                  }}
                 }
               }
             })
@@ -496,11 +495,22 @@
         },
         getLegendColor: function () {
           this.legendList = []
-          for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+          if (this.condition === 'act_date') {
             this.legendList.push({
-              value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
-              backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              value: '业绩公布前',
+              backgroundColor: '#20A29A'
             })
+            this.legendList.push({
+              value: '业绩公布后',
+              backgroundColor: '#BA5297'
+            })
+          } else {
+            for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+              this.legendList.push({
+                value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            }
           }
         },
         startPlay: function () {
