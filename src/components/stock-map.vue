@@ -292,7 +292,7 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 500,
+                            visibleMin: 1000,
                             // childrenVisibleMin: 10,
                             width: '100%',
                             height: '100%',

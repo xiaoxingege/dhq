@@ -103,13 +103,41 @@ export default{
        },
        computed: {
          position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
-         stockId () { return this.parent.id },
-         bgColor () { return this.node.itemStyle.normal.color },
-         nodeId () { return this.node.id },
-         titleStockName () { return this.node.name },
-         titleStockCondtion () { return this.node.perfText },
-         titleName () { return this.node.titleName },
-         titleNameLel2 () { return this.parent.name },
+         stockId () {
+           if (this.parent && this.parent.id) {
+             return this.parent.id
+           }
+         },
+         bgColor () {
+           if (this.node && this.node.itemStyle) {
+             return this.node.itemStyle.normal.color
+           }
+         },
+         nodeId () {
+           if (this.node && this.node.id) {
+             return this.node.id
+           }
+         },
+         titleStockName () {
+           if (this.node && this.node.name) {
+             return this.node.name
+           }
+         },
+         titleStockCondtion () {
+           if (this.node && this.node.perfText) {
+             return this.node.perfText
+           }
+         },
+         titleName () {
+           if (this.node && this.node.titleName) {
+             return this.node.titleName
+           }
+         },
+         titleNameLel2 () {
+           if (this.parent && this.parent.name) {
+             return this.parent.name
+           }
+         },
          titleChartData () { return this.node.chartData },
          stockChartData: function () {
            const stockChartData = this.$store.state.stockMap.stockChartData
