@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../assets/css/reset.css';
 .tit {
   border-bottom: 1px solid green;

@@ -1,6 +1,8 @@
-<style scoped>
+<style>
 @import "../assets/plugins/laydate/laydate.css";
 .dadian-time .up:after{ display: block;content: ''; clear: both;}
+input{font-size: 16px;width:190px;}
+#laydate_today{display: none !important;}
 </style>
 <template>
 <div class="dadian-time">

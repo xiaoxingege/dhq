@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../assets/css/reset.css';
 .tit {
   border-bottom: 1px solid green;
@@ -21,7 +21,7 @@ color:#fff;
 cursor: pointer;}
 .item  li{ margin-bottom: 30px;}
 .item span {
-  width: 100px;line-height: 26px; padding-left: 40px;
+  width: 140px;line-height: 26px; padding-left: 40px;
 }
 .item select,.item input{ width:200px; height: 26px;font-size: 18px; outline: none;}
 .item .long{ width:400px;}
@@ -47,7 +47,7 @@ cursor: pointer;}
     </ul>
     <a href="javascript:;" class="btn" @click="webbtn1">检索</a>
   </div>
-  <div class="tit">语句查询</div>
+  <div class="tit">语句查询哈哈</div>
   <div class="item">
     <textarea name="name" class="text">
       select * from appcms_parquet
