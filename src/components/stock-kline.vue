@@ -354,12 +354,14 @@
           return formatDateStr(datestr, 'yyyyMMdd', 'yyyy-MM-dd')
         }
       },
-      // watch:{
-      //   stockCode(){
+      watch: {
+        stockCode () {
+          this.initChart()
+        }
 
-      //   }
-      // },
-      mounted () {
+      },
+
+  mounted () {
         if (!this.stockCode) {
           console.error('[component:stock-kline]:stockCode is necessary!')
         }
@@ -396,7 +398,7 @@
       color:#f6bc4d
     }
     .chart{
-        width:100%;
-        height:100%;
+        width:300px;
+        height:200px;
     }
 </style>
