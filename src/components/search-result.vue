@@ -43,7 +43,7 @@
         </ul>
         <ul v-if="searchType == 'theme'">
             <li  v-for="item of resultData">
-                <a :href="item.themeUrl">{{item.themeName}}</a>
+                <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}</router-link>
                 <p class="searchInfo">{{item.themeExplain}}</p>
                 <p class="searchTime">{{item.themeTime}}</p>
             </li>
