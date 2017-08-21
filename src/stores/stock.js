@@ -1,10 +1,19 @@
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+import config, { domain } from '../z3tougu/config'
 
 // initial state
 const state = {
-  stockCode: null,
-  stockKlineData: []
+  stockKlineData: [],
+  stock: {
+    stockCode: config.emptyValue,
+    stockName: config.emptyValue,
+    ma20: config.emptyValue,
+    ma60: config.emptyValue,
+    ma120: config.emptyValue,
+    lastPx: config.emptyValue,
+    chgPx: config.emptyValue,
+    chgPctPx: config.emptyValue
+  }
 }
 
 // getters
@@ -32,6 +41,21 @@ const actions = {
 const mutations = {
   [mutationsTypes.UPDATE_KLINE_DATA] (state, kline) {
     state.stockKlineData = kline
+    if (kline && kline.length > 0) {
+      const lastRecord = kline[kline.length - 1]
+      const chgPx = (lastRecord.closePx - lastRecord.prevClosePx).toFixed(2)
+      const chgPctPx = (chgPx / lastRecord.prevClosePx * 100).toFixed(2)
+      state.stock = {
+        stockCode: lastRecord.name,
+        stockName: lastRecord.innerCode,
+        ma20: lastRecord.ma20,
+        ma60: lastRecord.ma60,
+        ma120: lastRecord.ma120,
+        lastPx: lastRecord.closePx,
+        chgPx: chgPx,
+        chgPctPx: chgPctPx + '%'
+      }
+    }
   }
 }
 
