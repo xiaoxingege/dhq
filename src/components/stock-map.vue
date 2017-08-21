@@ -16,7 +16,7 @@
         float: right;
     }
     .map_legend .step {
-        width: 60px;
+        width: 50px;
         height: 25px;
         line-height: 26px;
         cursor: default;
@@ -348,7 +348,7 @@
                         if (params.treePathInfo.length <= 2) {
                           return
                         } else {
-                          // this.showHover = false
+                          this.showHover = false
                         }
                       })
                     }).then(() => {
