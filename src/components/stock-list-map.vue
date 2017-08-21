@@ -43,6 +43,7 @@
         padding-left: 10px;
         width: 94px;
     }
+    .change{width: 84px;}
     td{padding:0}
     .hover-wrapper table .price{
         text-align: right;
@@ -103,23 +104,27 @@ export default{
          return {
            stockList: [],
            stockListLeft: 0,
-           stockListTop: 0
+           stockListTop: 0,
+           titlePrice: 0
          }
        },
        watch: {
          stockId () {
            this.updateChart()
+         },
+         nodeId () {
+           this.updateHoverTitle()
          }
        },
        computed: {
          position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
          stockId () { return this.parent.id },
          bgColor () { return this.node.itemStyle.normal.color },
+         nodeId () { return this.node.id },
          titleStockName () { return this.node.name },
          titleStockCondtion () { return this.node.perfText },
          titleName () { return this.node.titleName },
          titleNameLel2 () { return this.parent.name },
-         titlePrice () { return this.node.price },
          titleChartData () { return this.node.chartData },
          stockChartData: function () {
            const stockChartData = this.$store.state.stockMap.stockChartData
@@ -192,9 +197,9 @@ export default{
                       if (this.node.chartData) {
                         const nodeLength = this.node.chartData.length
                         if (this.node.chartData[nodeLength - 1]) {
-                          this.node.price = this.node.chartData[nodeLength - 1]
+                          this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
                         } else {
-                          this.node.price = '--'
+                          this.titlePrice = '--'
                         }
                       }
                         // 悬浮框股票列表
@@ -203,7 +208,7 @@ export default{
                         if (stock.chartData) {
                           const stockDetailLength = stock.chartData.length
                           if (stock.chartData[stockDetailLength - 1]) {
-                            stock.price = stock.chartData[stockDetailLength - 1]
+                            stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
                           } else {
                             stock.price = '--'
                           }
@@ -211,46 +216,49 @@ export default{
                       })
                       this.stockList = this.parent.children
                       this.$nextTick(() => {
-                        // console.log(this.$refs.chart)
                         for (const i in this.stockList) {
-                          this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
-                          this.stockList[i].chart.setOption({
-                            grid: {
-                              show: false,
-                              left: 5,
-                              top: 5,
-                              bottom: 5,
-                              right: 5
-                            },
-                            xAxis: [{
-                              axisLine: false,
-                              splitLine: {
-                                show: false
+                          if (this.$refs.chart && this.$refs.chart.length > 0) {
+                            this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
+                            this.stockList[i].chart.setOption({
+                              grid: {
+                                show: false,
+                                left: 5,
+                                top: 5,
+                                bottom: 5,
+                                right: 5
                               },
-                              type: 'category',
-                              data: new Array(17)
-                            }],
-                            yAxis: [{
-                              type: 'value',
-                              axisLine: false,
-                              splitLine: {
-                                show: false
-                              },
-                              min: 'dataMin',
-                              max: 'dataMax'
-                            }],
-                            series: [{
-                              type: 'line',
-                              smooth: true,
-                              showSymbol: false,
-                              lineStyle: {
-                                normal: {
-                                  color: '#666'
-                                }
-                              },
-                              data: this.stockList[i].chartData
-                            }]
-                          })
+                              xAxis: [{
+                                axisLine: false,
+                                splitLine: {
+                                  show: false
+                                },
+                                type: 'category',
+                                data: new Array(17)
+                              }],
+                              yAxis: [{
+                                type: 'value',
+                                axisLine: false,
+                                splitLine: {
+                                  show: false
+                                },
+                                min: 'dataMin',
+                                max: 'dataMax'
+                              }],
+                              series: [{
+                                type: 'line',
+                                smooth: true,
+                                showSymbol: false,
+                                lineStyle: {
+                                  normal: {
+                                    color: '#666'
+                                  }
+                                },
+                                data: this.stockList[i].chartData
+                              }]
+                            })
+                          } else {
+                            // debugger
+                          }
                         }
                       })
                       this.chart.setOption({
@@ -291,6 +299,55 @@ export default{
                         }]
                       })
                     })
+         },
+         updateHoverTitle: function () {
+                       // 悬浮框的表头
+           this.node.chartData = this.stockChartData[this.node.name]
+           if (this.node.chartData) {
+             const nodeLength = this.node.chartData.length
+             if (this.node.chartData[nodeLength - 1]) {
+               this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
+             } else {
+               this.titlePrice = '--'
+             }
+           }
+           this.chart.setOption({
+             grid: {
+               show: false,
+               left: 5,
+               top: 5,
+               bottom: 5,
+               right: 5
+             },
+             xAxis: [{
+               axisLine: false,
+               splitLine: {
+                 show: false
+               },
+               type: 'category',
+               data: new Array(17)
+             }],
+             yAxis: [{
+               type: 'value',
+               axisLine: false,
+               splitLine: {
+                 show: false
+               },
+               min: 'dataMin',
+               max: 'dataMax'
+             }],
+             series: [{
+               type: 'line',
+               smooth: true,
+               showSymbol: false,
+               lineStyle: {
+                 normal: {
+                   color: '#fff'
+                 }
+               },
+               data: this.node.chartData
+             }]
+           })
          }
        },
        mounted () {

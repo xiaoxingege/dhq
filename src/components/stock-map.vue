@@ -330,13 +330,13 @@
                         // this.offsetX = params.event.offsetX
                         // this.offsetY = params.event.offsetY
                       })
-                      /* this.chart.on('mouseout', (params) => {
+                      this.chart.on('mouseout', (params) => {
                         if (params.treePathInfo.length <= 2) {
                           return
                         } else {
                           this.showHover = false
                         }
-                      })*/
+                      })
                     }).then(() => {
                       this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
                         this.chart.setOption({ series: [{ data: this.stockData }] })
@@ -538,17 +538,18 @@
           this.offsetY = event.clientY + 50
           const windowWidth = window.innerWidth
           const windowHeight = window.innerHeight
-          const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
-          const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
-          console.log(wrapHeight)
-          if (windowWidth - this.offsetX <= wrapWidth) {
-            this.offsetX = this.offsetX - wrapWidth - 50
-          }
-          if (windowHeight - this.offsetY <= wrapHeight) {
-            this.offsetY = windowHeight - wrapHeight
-          }
-          if (this.offsetY < 0) {
-            this.offsetY = 0
+          if (document.getElementsByClassName('hover-wrapper').length > 0) {
+            const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
+            const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+            if (windowWidth - this.offsetX <= wrapWidth) {
+              this.offsetX = this.offsetX - wrapWidth - 50
+            }
+            if (windowHeight - this.offsetY <= wrapHeight) {
+              this.offsetY = windowHeight - wrapHeight
+            }
+            if (this.offsetY < 0) {
+              this.offsetY = 0
+            }
           }
         }
       },
