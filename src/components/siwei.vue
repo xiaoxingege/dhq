@@ -32,15 +32,39 @@
         text-align: center;
         font-size:12px;
     }
-    button{
-        height:20px;
-        line-height: 20px;
-        border:1px solid #0088E1;
-        color:#0088E1;
-        padding:0 15px;
-        background: #000;
-        border-radius: 3px;
+    .masks{
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        position: absolute;
+        top:0;
+        left:0;
+        bottom: 0;
+        right:0;
+        z-index:999;
+    }
+    .themeList{
+        width:80%;
+        background:#fff;
+        position: absolute;
+        left:50%;
+        top:50%;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        -moz-transform: translate3d(-50%, -50%, 0);
+        -ms-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+    }
+    .closeTheme{
+        display: inline-block;
+        position: absolute;
+        top:0;
+        right:0;
+        width: 30px;
+        line-height: 25px;
+        text-align: center;
         cursor: pointer;
+        font-size: 27px;
+        color: #999;
     }
     .mr-20{
         margin-right: 20px;
@@ -59,6 +83,16 @@
     }
     .mt-10{
         margin-top: 10px;
+    }
+    button{
+        height:20px;
+        line-height: 20px;
+        border:1px solid #0088E1;
+        color:#0088E1;
+        padding:0 15px;
+        background: #000;
+        border-radius: 3px;
+        cursor: pointer;
     }
 </style>
 <template>
@@ -101,7 +135,7 @@
                             </span>
                             <span class="mr-10">
                                 主题
-                                <input type="text" value="全部"/>
+                                <input @click="showTheme()" style="cursor: pointer" type="text" value="全部" readonly/>
                             </span>
                             <span>
                                 流通市值
@@ -202,13 +236,19 @@
                 </ul>
             </div>
         </div>
+        <div class="masks" v-show="isShowTheme">
+            <div class="themeList">
+                <span class="closeTheme" @click="closeTheme()">×</span>
+                <ThemeSortAz/>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     import Dialog from 'components/dialog'
     import * as Data from '../z3tougu/constant/siwei.js'
     import Bubbles from 'components/bubbles'
-
+    import ThemeSortAz from 'components/theme-sort-az'
     export default{
       data () {
         return {
@@ -330,12 +370,15 @@
               }
             }
           },
-          currentTime: ''
+          currentTime: '',
+          isShowTheme: false
         }
       },
       components: {
+        ThemeSortAz,
         Bubbles,
         Dialog
+
       },
       methods: {
         showDialog () {
@@ -401,6 +444,13 @@
           }
           var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
           this.currentTime = currentdate
+        },
+        showTheme () {
+          this.isShowTheme = true
+          this.showStockRangeDialog = false
+        },
+        closeTheme () {
+          this.isShowTheme = false
         }
       },
       computed: {

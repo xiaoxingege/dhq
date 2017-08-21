@@ -106,7 +106,12 @@
      line-height: 20px;
      color: #191919;
      display: inline-block;
+     cursor: pointer;
    }
+    .every-name a:hover{
+       text-decoration: underline;
+    }
+
 </style>
 <template>
    <div class="every-topical-wrap">

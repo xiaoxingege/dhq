@@ -35,7 +35,14 @@
 </style>
 <template>
     <div class="dialog">
-        <div class="top"><span>{{dialogOptions.stockName}}[{{dialogOptions.stockCode}}]</span></div>
+        <div class="top clearfix">
+            <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode}}]</span>
+            <span class="fr">
+                <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
+                <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
+                <span :style="{color:colorS}">({{hoverStock.chgPctPx}})</span>
+            </span>
+        </div>
         <div class="bottom clearfix">
             <div class="bottomLeft fl">
                <div v-show="xData !== 'sw_indu_name' && xData !== 'chi_spel' && xData !== 'order'">
@@ -56,7 +63,7 @@
                 </div>
             </div>
             <div class="bottomRight fl">
-                <Stockkline :stockCode="dialogOptions.stockCode"></Stockkline>
+                <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="300" :chartHeight="200"></Stockkline>
             </div>
         </div>
     </div>
@@ -85,7 +92,17 @@
         xData: state => state.bubbles.parameterData.xData,
         yData: state => state.bubbles.parameterData.yData,
         bubbleSize: state => state.bubbles.parameterData.bubblesSize,
-        bubbleColor: state => state.bubbles.parameterData.bubbleColor
+        bubbleColor: state => state.bubbles.parameterData.bubbleColor,
+        hoverStock: state => state.stock.stock,
+        colorS: function () {
+          if (Number(this.hoverStock.chgPx) > 0) {
+            return '#ef232a'
+          } else if (Number(this.hoverStock.chgPx) < 0) {
+            return '#14b143'
+          } else {
+            return ''
+          }
+        }
       }),
       methods: {
 
