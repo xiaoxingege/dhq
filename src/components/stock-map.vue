@@ -56,9 +56,9 @@
 </style>
 <template>
     <div class="map_wrap">
-        <div id="hover-wrapper" v-if="showHover">
-            <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code"></StockList>
-        </div>
+        <!--<div id="hover-wrapper" v-if="showHover">-->
+            <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
+       <!-- </div>-->
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}" v-on:mousemove="move($event)"></div>
         <div class="chart_bottom clearfix">
             <div class="clearfix playback">
@@ -196,12 +196,12 @@
                   if (stock.perf) {
                     if (_this.isUnit[_this.condition] === '%') {
                       if (stock.perf > 0) {
-                        stock.perfText = '+' + stock.perf + '%'
+                        stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                       } else {
-                        stock.perfText = stock.perf + '%'
+                        stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                       }
                     } else {
-                      stock.perfText = stock.perf
+                      stock.perfText = parseFloat(stock.perf).toFixed(2)
                     }
                   } else {
                     stock.perfText = '--'
@@ -330,8 +330,12 @@
                         // this.offsetX = params.event.offsetX
                         // this.offsetY = params.event.offsetY
                       })
-                     /* this.chart.on('mouseout', (params) => {
-                        this.showHover = false
+                      /* this.chart.on('mouseout', (params) => {
+                        if (params.treePathInfo.length <= 2) {
+                          return
+                        } else {
+                          this.showHover = false
+                        }
                       })*/
                     }).then(() => {
                       this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
@@ -530,8 +534,22 @@
           return getArr
         },
         move: function (event) {
-          this.offsetX = event.offsetX
-          this.offsetY = event.offsetY
+          this.offsetX = event.clientX + 50
+          this.offsetY = event.clientY + 50
+          const windowWidth = window.innerWidth
+          const windowHeight = window.innerHeight
+          const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
+          const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+          console.log(wrapHeight)
+          if (windowWidth - this.offsetX <= wrapWidth) {
+            this.offsetX = this.offsetX - wrapWidth - 50
+          }
+          if (windowHeight - this.offsetY <= wrapHeight) {
+            this.offsetY = windowHeight - wrapHeight
+          }
+          if (this.offsetY < 0) {
+            this.offsetY = 0
+          }
         }
       },
       mounted () {

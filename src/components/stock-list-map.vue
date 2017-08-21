@@ -101,10 +101,6 @@ export default{
        props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
        data () {
          return {
-           listPosition: {
-             left: this.offsetX + 10,
-             top: this.offsetY + 10
-           },
            stockList: [],
            stockListLeft: 0,
            stockListTop: 0
