@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
-
+@import '../assets/css/animate.min.css';
 .box {
     width: 100%;
 }
@@ -30,6 +30,7 @@
     float: left;
     margin: 442px 0 0 93px;
     display: inline;
+    background-color: #000;
 }
 .bg6 {
     background: url("../assets/images/pay-video-activity/bg6.jpg") center 0 no-repeat;
@@ -41,6 +42,7 @@
     float: left;
     margin: 522px 0 0 93px;
     display: inline;
+    background-color: #000;
 }
 .bg7 {
     background: url("../assets/images/pay-video-activity/bg7.jpg") center 0 no-repeat;
@@ -134,7 +136,7 @@
     <div class="bg2" id="d1">
         <div class="box-con">
             <!-- <button type="button" name="button"></button> -->
-            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite"></a>
         </div>
     </div>
     <div class="bg3">
@@ -145,14 +147,14 @@
     </div>
     <div class="bg5" id="d2">
         <div class="box-con">
-            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/20170822sdsqpt-1.mp4" controls="controls">
                 您的浏览器不支持 video 标签。
             </video>
         </div>
     </div>
     <div class="bg6" id="d3">
         <div class="box-con">
-            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170822hqsx.mp4" controls="controls">
                 您的浏览器不支持 video 标签。
             </video>
         </div>
@@ -178,7 +180,7 @@
     </div>
     <div class="di">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite"></a>
         </div>
     </div>
     <div class="pay-nav">

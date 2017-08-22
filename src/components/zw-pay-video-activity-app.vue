@@ -77,7 +77,7 @@
 .bg2 .box-con a {
     width: 2.44rem;
     height: 0.88rem;
-    background: url("../assets/images/pay-video-activity/btn.png") no-repeat;
+    background: url("../assets/images/pay-video-activity/btn-h1.png") no-repeat;
     background-size: 100% 100%;
     position: absolute;
     border: none;
@@ -85,6 +85,10 @@
     bottom: 0.4rem;
     right: 0.2rem;
     outline: none;
+    font-size: 0.22rem;
+    color: #fff;
+    text-align: center;
+    line-height: 0.78rem;
 }
 .slider {
     margin-top: 11.2rem;
@@ -94,17 +98,23 @@
 .di {
     width: 100%;
     height: 2rem;
-    background: url("../assets/images/pay-video-activity/m-di.png") no-repeat;
+    background: url("../assets/images/pay-video-activity/m-di1.png") no-repeat;
     background-size: 100%;
     position: fixed;
     bottom: 0;
     z-index: 1;
 }
 .di .box-con a {
-    width: 1.81rem;
-    height: 0.53rem;
+    width: 2.44rem;
+    height: 0.88rem;
+    background: url("../assets/images/pay-video-activity/btn-h1.png") no-repeat;
+    background-size: 100% 100%;
     float: left;
-    margin: 0.96rem 0 0 4.39rem;
+    margin: 0.8rem 0 0 4.3rem;
+    font-size: 0.22rem;
+    color: #fff;
+    text-align: center;
+    line-height: 0.78rem;
 }
 </style>
 
@@ -114,7 +124,7 @@
     </div>
     <div class="bg2" id="d1">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite">立即查看</a>
         </div>
     </div>
     <div class="bg3">
@@ -155,7 +165,7 @@
     </div>
     <div class="di">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite">立即查看</a>
         </div>
     </div>
 </div>
