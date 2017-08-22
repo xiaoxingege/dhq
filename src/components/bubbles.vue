@@ -37,7 +37,8 @@
           xSelectData: Data.xSelectData,
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
-          height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),
+         /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
+          height: window.innerHeight - 85,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',
@@ -496,9 +497,9 @@
             })
             window.onresize = function () {
               that.chart.resize({
-                height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+                height: window.innerHeight - 85
               })
-              that.height = (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+              that.height = window.innerHeight - 85
             }
             this.chart.hideLoading()
           })
