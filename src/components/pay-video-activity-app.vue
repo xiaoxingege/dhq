@@ -29,10 +29,22 @@
     background-size: 100% 100%;
     height: 8.16rem;
 }
+.bg5 .box-con video {
+    width: 6.9rem;
+    height: 3.79rem;
+    float: left;
+    margin: 4.25rem 0 0 0.3rem;
+}
 .bg6 {
     background: url("../assets/images/pay-video-activity/m-bg6.jpg") no-repeat;
     background-size: 100% 100%;
     height: 9.97rem;
+}
+.bg6 .box-con video {
+    width: 6.87rem;
+    height: 3.79rem;
+    float: left;
+    margin: 6rem 0 0 0.32rem;
 }
 .bg7 {
     background: url("../assets/images/pay-video-activity/m-bg7.jpg") no-repeat;
@@ -100,7 +112,7 @@
     </div>
     <div class="bg2" id="d1">
         <div class="box-con">
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
         </div>
     </div>
     <div class="bg3">
@@ -110,10 +122,18 @@
 
     </div>
     <div class="bg5" id="d2">
-
+        <div class="box-con">
+            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
     </div>
     <div class="bg6" id="d3">
-
+        <div class="box-con">
+            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
     </div>
     <div class="bg7">
         <div class="box-con">
@@ -133,7 +153,7 @@
     </div>
     <div class="di">
         <div class="box-con">
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
         </div>
     </div>
 </div>
@@ -144,60 +164,59 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data () {
-    return {
-      listData: {
-        conWidth: '7rem',
-        conHeight: '3.78rem',
-        conPadding: '0',
-        pagShow: true,
-        arrowShow: false,
-        loop: true,
-        prev: {
-          imgUrl: require('assets/images/pay-video-activity/prev.png'),
-          width: '64px',
-          height: '64px',
-          marginTop: '-32px'
-        },
-        next: {
-          imgUrl: require('assets/images/pay-video-activity/next.png'),
-          width: '64px',
-          height: '64px',
-          marginTop: '-32px'
-        },
-        list: [{
-          imgUrl: require('assets/images/pay-video-activity/slider-img1.jpg'),
-          link: ''
-        },
-        {
-          imgUrl: require('assets/images/pay-video-activity/slider-img2.jpg'),
-          link: ''
-        },
-        {
-          imgUrl: require('assets/images/pay-video-activity/slider-img3.jpg'),
-          link: ''
-        },
-        {
-          imgUrl: require('assets/images/pay-video-activity/slider-img4.jpg'),
-          link: ''
+    data() {
+        return {
+            listData: {
+                conWidth: '7rem',
+                conHeight: '3.78rem',
+                conPadding: '0',
+                pagShow: true,
+                arrowShow: false,
+                loop: true,
+                prev: {
+                    imgUrl: require('assets/images/pay-video-activity/prev.png'),
+                    width: '64px',
+                    height: '64px',
+                    marginTop: '-32px'
+                },
+                next: {
+                    imgUrl: require('assets/images/pay-video-activity/next.png'),
+                    width: '64px',
+                    height: '64px',
+                    marginTop: '-32px'
+                },
+                list: [{
+                        imgUrl: require('assets/images/pay-video-activity/slider-img1.jpg'),
+                        link: ''
+                    },
+                    {
+                        imgUrl: require('assets/images/pay-video-activity/slider-img2.jpg'),
+                        link: ''
+                    },
+                    {
+                        imgUrl: require('assets/images/pay-video-activity/slider-img3.jpg'),
+                        link: ''
+                    },
+                    {
+                        imgUrl: require('assets/images/pay-video-activity/slider-img4.jpg'),
+                        link: ''
+                    }
+                ]
+            }
         }
-        ]
-      }
+    },
+    components: {
+        activitySlider
+    },
+    methods: {},
+    mounted() {
+        document.title = '付费视频专题'
+        setTimeout(function() {
+            var pos = $('#d2').offset().top
+            $('html,body').stop().animate({
+                scrollTop: pos
+            }, 500)
+        }, 3000)
     }
-  },
-  components: {
-    activitySlider
-  },
-  methods: {
-  },
-  mounted () {
-    document.title = '付费视频专题'
-    setTimeout(function () {
-      var pos = $('#d2').offset().top
-      $('html,body').stop().animate({
-        scrollTop: pos
-      }, 500)
-    }, 3000)
-  }
 }
 </script>

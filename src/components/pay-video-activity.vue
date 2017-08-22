@@ -24,9 +24,23 @@
     background: url("../assets/images/pay-video-activity/bg5.jpg") center 0 no-repeat;
     height: 882px;
 }
+.bg5 .box-con video {
+    width: 811px;
+    height: 422px;
+    float: left;
+    margin: 442px 0 0 93px;
+    display: inline;
+}
 .bg6 {
     background: url("../assets/images/pay-video-activity/bg6.jpg") center 0 no-repeat;
     height: 964px;
+}
+.bg6 .box-con video {
+    width: 811px;
+    height: 422px;
+    float: left;
+    margin: 522px 0 0 93px;
+    display: inline;
 }
 .bg7 {
     background: url("../assets/images/pay-video-activity/bg7.jpg") center 0 no-repeat;
@@ -95,8 +109,21 @@
 .di .box-con a:hover {
     background: url("../assets/images/pay-video-activity/btn-h.png") no-repeat;
 }
-.pay-nav { width: 216px; height: 323px; position: fixed; top: 50%; right: 50px; margin-top: -161px; background: url("../assets/images/pay-video-activity/web-nav-bg.png") no-repeat; z-index: 5; }
-.pay-nav a {width: 216px; height: 80px; float: left; }
+.pay-nav {
+    width: 216px;
+    height: 323px;
+    position: fixed;
+    top: 50%;
+    right: 50px;
+    margin-top: -161px;
+    background: url("../assets/images/pay-video-activity/web-nav-bg.png") no-repeat;
+    z-index: 5;
+}
+.pay-nav a {
+    width: 216px;
+    height: 80px;
+    float: left;
+}
 </style>
 
 <template>
@@ -107,7 +134,7 @@
     <div class="bg2" id="d1">
         <div class="box-con">
             <!-- <button type="button" name="button"></button> -->
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
         </div>
     </div>
     <div class="bg3">
@@ -117,10 +144,18 @@
 
     </div>
     <div class="bg5" id="d2">
-
+        <div class="box-con">
+            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
     </div>
     <div class="bg6" id="d3">
-
+        <div class="box-con">
+            <video src="http://103.254.188.44/flvdata.jrj.com.cn/2012/2017/qita/20170511zd.mp4?wsiphost=local" controls="controls">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
     </div>
     <div class="bg7">
 
@@ -143,7 +178,7 @@
     </div>
     <div class="di">
         <div class="box-con">
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
         </div>
     </div>
     <div class="pay-nav">
@@ -208,17 +243,23 @@ export default {
     navClick (num) {
       var pos = $('#' + num).offset().top
       if (num === 'd3') {
-        $('html,body').stop().animate({ scrollTop: pos + 250 }, 500)
+        $('html,body').stop().animate({
+          scrollTop: pos + 250
+        }, 500)
       } else {
-        $('html,body').stop().animate({ scrollTop: pos }, 500)
+        $('html,body').stop().animate({
+          scrollTop: pos
+        }, 500)
       }
     }
   },
   mounted () {
     document.title = '付费视频专题'
     setTimeout(function () {
-      var pos = $('#d3').offset().top
-      $('html,body').stop().animate({ scrollTop: pos + 250 }, 500)
+      var pos = $('#d2').offset().top
+      $('html,body').stop().animate({
+        scrollTop: pos
+      }, 500)
     }, 3000)
   }
 }
