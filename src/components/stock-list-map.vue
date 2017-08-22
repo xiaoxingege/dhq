@@ -22,18 +22,13 @@
         border-collapse: collapse;
         border-spacing: 0;
     }
-    .hover-wrapper table.is-small tr{height: 23px;}
     .hover-wrapper table .hovered{
         color: #fff;
         font-size: 21px;
         font-weight: 700;
         border-bottom: none;
-        height: 21px;
+        height: 52px;
     }
-    /*.hover-wrapper table .hovered td{
-        padding-top: 14px;
-        line-height: 18px;
-    }*/
     .hover-wrapper table tr{
         border-bottom: 2px solid #e3e4e9;
         height: 30px;
@@ -42,8 +37,9 @@
     .tiker{
         padding-left: 10px;
         width: 94px;
+        text-align: left;
     }
-    .change{width: 84px;}
+   /* .change{width: 84px;}*/
     td{padding:0}
     .hover-wrapper table .price{
         text-align: right;
@@ -61,30 +57,20 @@
     .hover-wrapper table tr td:nth-child(3){
         width: 70px;
     }
-    .is-description{height:16px;}
-    .description{
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 12px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        padding-top: 6px;
-    }
     .stocklist-chart{width: 100%;height:100%}
 </style>
 <template>
-    <div class="hover-wrapper" :style="position">
+    <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
         <h3>{{titleName}}--{{titleNameLel2}}</h3>
         <table>
             <tbody>
             <tr class="hovered" :style="{background:bgColor}">
                 <td class="tiker">{{titleStockName}}</td>
                 <!--<td><div class="stocklist-chart" v-stockline="{lineData:titleChartData,color:'#fff'}"></div></td>-->
-                <td><div class="stocklist-chart" ref="chartTitle"></div></td>
+                <td><div class="stocklist-chart" ref="chartTitle" style="height:40px"></div></td>
                 <td class="price">{{titlePrice}}</td>
                 <td class="change">{{titleStockCondtion}}</td>
             </tr>
-            <tr class="hovered is-description" :style="{background:bgColor}"><td colspan="4" class="description"></td></tr>
             <tr v-for="stock of stockList">
                 <td class="tiker">{{stock.name}}</td>
                 <!--<td><div class="stocklist-chart"  v-stockline="{lineData:stockChartData,stockName:stock.name}"></div></td>-->
@@ -117,14 +103,41 @@ export default{
          }
        },
        computed: {
-         position () { return 'left:' + this.offsetX + 'px;top:' + this.offsetY + 'px' },
-         stockId () { return this.parent.id },
-         bgColor () { return this.node.itemStyle.normal.color },
-         nodeId () { return this.node.id },
-         titleStockName () { return this.node.name },
-         titleStockCondtion () { return this.node.perfText },
-         titleName () { return this.node.titleName },
-         titleNameLel2 () { return this.parent.name },
+         stockId () {
+           if (this.parent && this.parent.id) {
+             return this.parent.id
+           }
+         },
+         bgColor () {
+           if (this.node && this.node.itemStyle) {
+             return this.node.itemStyle.normal.color
+           }
+         },
+         nodeId () {
+           if (this.node && this.node.id) {
+             return this.node.id
+           }
+         },
+         titleStockName () {
+           if (this.node && this.node.name) {
+             return this.node.name
+           }
+         },
+         titleStockCondtion () {
+           if (this.node && this.node.perfText) {
+             return this.node.perfText
+           }
+         },
+         titleName () {
+           if (this.node && this.node.titleName) {
+             return this.node.titleName
+           }
+         },
+         titleNameLel2 () {
+           if (this.parent && this.parent.name) {
+             return this.parent.name
+           }
+         },
          titleChartData () { return this.node.chartData },
          stockChartData: function () {
            const stockChartData = this.$store.state.stockMap.stockChartData

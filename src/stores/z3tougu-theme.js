@@ -224,7 +224,7 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
+          // console.log(result.data)
           commit('updateGroupTopics', result.data)
         }
       })

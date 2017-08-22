@@ -12,11 +12,8 @@
         top:0px;
         right:0px;
     }
-    .map_legend_min {
-        float: right;
-    }
     .map_legend .step {
-        width: 60px;
+      /*  width: 50px;*/
         height: 25px;
         line-height: 26px;
         cursor: default;
@@ -26,10 +23,9 @@
         margin-left: 4px;
     }
     .playback{
-        float: left;
         display:inline-block;
         position: absolute;
-        top: 10px;
+        top: 0px;
         left: 0px;
         background: #2c2e31;
         color: #fff;
@@ -38,6 +34,21 @@
         margin-top:10px;
         position: relative;
         height: 25px;
+    }
+    .chart_bottom_enlarge{position: absolute;bottom: 0px;height: 41px;width: 100%;}
+    .chart_bottom_enlarge .playback{
+        background-color: rgba(0,0,0,0.5);
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 10px;
+        padding-bottom: 8px;
+    }
+    .chart_bottom_enlarge .map_legend{
+        background-color: rgba(0,0,0,0.5);
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 10px;
+        padding-bottom: 8px;
     }
     .perday {
         width: 35px;
@@ -53,21 +64,44 @@
     }
     .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
     .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
+    .chart_bottom_enlarge .play_line{top: 8px;}
+    .enlarge {width: 200px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;}
+    .enlarge span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
+    #enlarge, #narrow {cursor: pointer;}
+    .enlarge img{opacity:0.6;}
+    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 233px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
+    .narrow span{margin-right: 20px;}
+    #narrow{width: 20px;height: 20px;position: relative;top: 3px;}
+    #narrow img{width: 20px;}
+    .currentTime{color:#fff;}
+    .map_wrap{position: relative;}
+    .enlarge{position: absolute;top: -32px;right: 0px;}
+    .legend-switch {margin-right: 5px;float: left;width: 16px;margin-top: 4px;cursor: pointer;}
 </style>
 <template>
     <div class="map_wrap">
-        <!--<div id="hover-wrapper" v-if="showHover">-->
-            <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
-       <!-- </div>-->
+         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
+        <div class="enlarge" v-if="!isEnlarge">
+            <span class="currentTime">2017-08-22 11:45</span>
+            <a id="enlarge" v-on:click="enlargeMap"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+        </div>
+        <div class="narrow" v-if="isEnlarge">
+            <span class="currentTime">2017-08-22 11:45</span>
+            <a id="narrow" v-on:click="enlargeMap"><img src="../assets/images/stock-map/narrow.png"/></a>
+        </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}" v-on:mousemove="move($event)"></div>
-        <div class="chart_bottom clearfix">
+        <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
             <div class="clearfix playback">
-                <div class="playback_btn perday"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-                <div class="play_line" ref="playLine" :style="{left:playBackIndex*39+46.5+'px'}"></div>
-                <div v-for="date of playBackDateShow" class="perday">{{date}}</div>
+                <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
+                <div class="play_line" ref="playLine" :style="{left:playBackIndex*39+46.5+'px'}" v-if="!isEnlarge || isPlaybackShow"></div>
+                <div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div>
+                <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
+                <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && isPlaybackShow" v-on:click="switchPlayback">
             </div>
-            <div class="map_legend map_legend_min clearfix">
-                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor}">{{legend.value}}</div>
+            <div class="map_legend clearfix">
+                <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && isLegendShow" v-on:click="switchLegend">
+                <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && !isLegendShow" v-on:click="switchLegend">
+                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="!isEnlarge || isLegendShow">{{legend.value}}</div>
             </div>
         </div>
     </div>
@@ -158,7 +192,11 @@
           playBackSrc: playStopSrc,
           mapHeight: window.innerHeight - 80,
           showHover: false,
-          hoverNode: null
+          hoverNode: null,
+          legendWidth: 50,
+          isEnlarge: false,
+          isLegendShow: true,
+          isPlaybackShow: true
         }
       },
       watch: {
@@ -192,23 +230,39 @@
             industry.children && industry.children.forEach(function (lvl2) {
               lvl2.children && lvl2.children.forEach(function (stock) {
                 if (stockData) {
-                  stock.perf = stockData[stock.id] || stockData[stock.name]
-                  if (stock.perf) {
-                    if (_this.isUnit[_this.condition] === '%') {
-                      if (stock.perf > 0) {
-                        stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
-                      } else {
-                        stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                  if (_this.condition === 'act_date') {
+                    stock.perf = stockData[stock.name]
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
+                      const pbDate = new Date(stock.perf)
+                      const nowDate = new Date()
+                      stock.perfText = _this.dateFormatUtil(pbDate)
+                      stock.itemStyle = {
+                        normal: {
+                          color: nowDate < pbDate ? '#20A29A' : '#BA5297' || '#2f323d'
+                        }
                       }
                     } else {
-                      stock.perfText = parseFloat(stock.perf).toFixed(2)
+                      stock.perfText = '--'
                     }
                   } else {
-                    stock.perfText = '--'
+                    stock.perf = stockData[stock.id] || stockData[stock.name]
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
+                      if (_this.isUnit[_this.condition] === '%') {
+                        if (stock.perf >= 0) {
+                          stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                        } else {
+                          stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                        }
+                      } else {
+                        stock.perfText = parseFloat(stock.perf).toFixed(2)
+                      }
+                    } else {
+                      stock.perfText = '--'
+                    }
+                    stock.itemStyle = { normal: {
+                      color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
+                    }}
                   }
-                  stock.itemStyle = { normal: {
-                    color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
-                  }}
                 } else {
                   stock.itemStyle = { normal: {
                     color: '#2f323d'
@@ -219,23 +273,29 @@
           })
           map.forEach(function (industry) {
             industry.children.forEach(function (lvl2) {
-              var totalPerf = 0
-              var totalScale = 0
-              if (stockData) {
-                lvl2.children.forEach(function (stock) {
-                  if (stock.perf) {
-                    totalPerf += stock.value * stock.perf
-                  }
-                  totalScale += stock.value
-                })
-                lvl2.perf = totalPerf / totalScale
-                lvl2.itemStyle = { normal: {
-                  borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf)
-                }}
-              } else {
+              if (_this.condition === 'act_date') {
                 lvl2.itemStyle = { normal: {
                   borderColor: '#000'
                 }}
+              } else {
+                let totalPerf = 0
+                let totalScale = 0
+                if (stockData) {
+                  lvl2.children.forEach(function (stock) {
+                    if (stock.perf) {
+                      totalPerf += stock.value * stock.perf
+                    }
+                    totalScale += stock.value
+                  })
+                  lvl2.perf = totalPerf / totalScale
+                  lvl2.itemStyle = { normal: {
+                    borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf) || '#2f323d'
+                  }}
+                } else {
+                  lvl2.itemStyle = { normal: {
+                    borderColor: '#2f323d'
+                  }}
+                }
               }
             })
           })
@@ -270,23 +330,15 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 300,
-                                    // childrenVisibleMin: 10,
+                            visibleMin: 500,
+                            // childrenVisibleMin: 10,
                             width: '100%',
                             height: '100%',
                             label: {
                               normal: {
                                 show: true,
                                 formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf != null) {
-                                    /* if (_this.isUnit[_this.condition] === '%') {
-                                      if (params.data.perf > 0) {
-                                        return params.name + '\n' + '+' + params.data.perf.toFixed(2) + '%'
-                                      }
-                                      return params.name + '\n' + params.data.perf.toFixed(2) + '%'
-                                    } else {
-                                      return params.name + '\n' + params.data.perf.toFixed(2)
-                                    }*/
+                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
                                     return params.name + '\n' + params.data.perfText
                                   }
                                 },
@@ -368,11 +420,11 @@
         },
         updateData: function () {
           this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
-            this.updataMapData()
+            this.updateMapData()
           })
           this.getLegendColor()
         },
-        updataMapData: function () {
+        updateMapData: function () {
           this.chart.setOption({ series: [{ data: this.stockData }] })
         },
         getStockChartData: function () {
@@ -405,7 +457,7 @@
                   gapWidth: 1// 第二层矩形间距
                 },
                 emphasis: {
-                                // borderColor: 'transparant'
+
                 }
               },
               silent: true,
@@ -416,7 +468,7 @@
                 emphasis: {
                   offset: [3, 0],
                   formatter: function (params) {
-                                    // console.log(params)
+
                   }
                 }
               }
@@ -434,13 +486,16 @@
               },
               upperLabel: {
                 normal: {
-                  offset: [10, 0],
+                  offset: [5, 0],
+                  textStyle: {
+                    ellipsis: false
+                  },
                   formatter: function (params) {
-                                    // console.log(params)
+
                   }
                 },
                 emphasis: {
-                  offset: [10, 0],
+                  offset: [5, 0],
                   textStyle: {
                     color: '#333'
                   }
@@ -456,7 +511,7 @@
                   color: '#2f323d'
                 },
                 emphasis: {
-                                // color: 'red'
+                     // color: 'red'
                 }
               },
               silent: true
@@ -478,11 +533,24 @@
         },
         getLegendColor: function () {
           this.legendList = []
-          for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+          if (this.condition === 'act_date') {
+            this.legendWidth = 60
             this.legendList.push({
-              value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
-              backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              value: '业绩公布前',
+              backgroundColor: '#20A29A'
             })
+            this.legendList.push({
+              value: '业绩公布后',
+              backgroundColor: '#BA5297'
+            })
+          } else {
+            this.legendWidth = 50
+            for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+              this.legendList.push({
+                value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            }
           }
         },
         startPlay: function () {
@@ -499,7 +567,7 @@
             pid = setInterval(() => {
               const playBackDate = this.playBackDate[this.playBackIndex]
               this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
-                this.updataMapData()
+                this.updateMapData()
               })
               this.playBackIndex++
               if (this.playBackIndex >= this.playBackDate.length - 1) {
@@ -550,6 +618,61 @@
             if (this.offsetY < 0) {
               this.offsetY = 0
             }
+          }
+        },
+        dateFormatUtil: function (date) {
+          var dateTypeDate = ''
+          dateTypeDate += date.getFullYear() // 年
+          dateTypeDate += '-' + this.getMonth(date) // 月
+          dateTypeDate += '-' + this.getDay(date) // 日
+          return dateTypeDate
+        },
+        getMonth: function (date) {
+          var month = ''
+          month = date.getMonth() + 1 // getMonth()得到的月份是0-11
+          if (month < 10) {
+            month = '0' + month
+          }
+          return month
+        },
+        getDay: function (date) {
+          var day = ''
+          day = date.getDate()
+          if (day < 10) {
+            day = '0' + day
+          }
+          return day
+        },
+        enlargeMap: function () {
+          if (this.isEnlarge) {
+            this.isEnlarge = false// 非全屏
+            this.mapHeight = window.innerHeight - 80
+            this.chart.resize({
+              height: window.innerHeight - 80,
+              width: window.innerWidth - 40
+            })
+          } else {
+            this.isEnlarge = true// 全屏
+            this.mapHeight = window.innerHeight
+            this.chart.resize({
+              height: window.innerHeight,
+              width: window.innerWidth
+            })
+          }
+          this.$emit('isEnlarge', this.isEnlarge)
+        },
+        switchLegend: function () {
+          if (this.isLegendShow) {
+            this.isLegendShow = false
+          } else {
+            this.isLegendShow = true
+          }
+        },
+        switchPlayback: function () {
+          if (this.isPlaybackShow) {
+            this.isPlaybackShow = false
+          } else {
+            this.isPlaybackShow = true
           }
         }
       },
