@@ -935,6 +935,10 @@ bem-sha1@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/bem-sha1/-/bem-sha1-1.0.2.tgz#fba6c2d4580a91163cc2470899939bb18b06bd9c"
 
+bem-sha1@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/bem-sha1/-/bem-sha1-1.0.3.tgz#fd73a33c521470158e89678d2169a07ad6f0b4d9"
+
 bemcloud-storage@^1.0.40:
   version "1.0.40"
   resolved "https://registry.npmjs.org/bemcloud-storage/-/bemcloud-storage-1.0.40.tgz#db0e370780560d45d2fc988b9b18ab02fa42aeca"
