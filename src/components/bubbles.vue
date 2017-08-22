@@ -2,18 +2,27 @@
     .bubblesChart{
         width:100%;
     }
-
+    .siweiDialog{
+        width:450px;
+        height:247px;
+        position: absolute;
+    }
 </style>
 <template>
     <div class="bubbles">
-        <div></div>
+        <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
+            <Siweidialog :dialogOptions="dialogOptions" v-show="isShowDialog"></Siweidialog>
+        </div>
         <div class="bubblesChart" ref="bubbles" v-bind:style="{height:height+'px'}"></div>
     </div>
 </template>
+
 <script>
+
     import echarts from 'echarts'
     import * as Data from '../z3tougu/constant/siwei.js'
     import { mapState } from 'vuex'
+    import Siweidialog from 'components/siwei-dialog'
 
     export default{
       props: ['options'],
@@ -26,11 +35,28 @@
           quoteChange: Data.quoteChange,
           groupArr: Data.groupArr,
           xSelectData: Data.xSelectData,
-          height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+          bubbleSizeSelect: Data.bubbleSizeSelect,
+          bubbleColorSelect: Data.bubbleColorSelect,
+         /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
+          height: window.innerHeight - 85,
+          isShowDialog: false,
+          dialogOptions: {
+            stockName: '',
+            stockCode: '',
+            leftList: {
+              xData: { value: '' },
+              yData: { value: '' },
+              bubbleSize: { value: '' },
+              bubbleColor: { value: '' }
+            }
+          },
+          offsetX: '',
+          offsetY: '',
+          zIndex: ''
         }
       },
       components: {
-
+        Siweidialog
       },
       watch: {
         'options': {
@@ -120,7 +146,14 @@
           if (isNaN(Number(showData))) {
             return showData
           } else {
-            var tmpSelect = this.xSelectData[this.parameterData[select]]
+            var tmpSelect = ''
+            if (select === 'bubblesSize') {
+              tmpSelect = this.bubbleSizeSelect[this.parameterData[select]]
+            } else if (select === 'bubbleColor') {
+              tmpSelect = this.bubbleColorSelect[this.parameterData[select]]
+            } else {
+              tmpSelect = this.xSelectData[this.parameterData[select]]
+            }
             if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0) {
               return Number(showData).toFixed(2) + '%'
             } else {
@@ -438,22 +471,35 @@
               window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
             })
             that.chart.on('mouseover', function (params) {
-              that.chart.dispatchAction({
-                type: 'showTip',
-                dataIndex: params.dataIndex
+              if ((params.event.offsetX + 450) > that.$refs.bubbles.clientWidth) {
+                that.offsetX = params.event.offsetX - 480
+              } else {
+                that.offsetX = params.event.offsetX + 20
+              }
 
-              })
+              if ((params.event.offsetY + 247) > that.$refs.bubbles.clientHeight) {
+                that.offsetY = that.$refs.bubbles.clientHeight - 247
+              } else {
+                that.offsetY = params.event.offsetY
+              }
+              that.zIndex = 999999
+              that.dialogOptions.stockCode = that.$store.state.bubbles.bubblesData.innerCode[params.dataIndex]
+              that.dialogOptions.stockName = that.$store.state.bubbles.bubblesData.name[params.dataIndex]
+              that.dialogOptions.leftList.xData.value = that.convertNumBySelect('xData', that.$store.state.bubbles.bubblesData.xData[params.dataIndex])
+              that.dialogOptions.leftList.yData.value = that.convertNumBySelect('yData', that.$store.state.bubbles.bubblesData.yData[params.dataIndex])
+              that.dialogOptions.leftList.bubbleSize.value = that.convertNumBySelect('bubblesSize', that.$store.state.bubbles.bubblesData.bubbleSize[params.dataIndex])
+              that.dialogOptions.leftList.bubbleColor.value = that.convertNumBySelect('bubbleColor', that.$store.state.bubbles.bubblesData.bubbleColor[params.dataIndex])
+              that.isShowDialog = true
             })
             that.chart.on('mouseout', function (params) {
-              that.chart.dispatchAction({
-                type: 'hideTip'
-              })
+              that.zIndex = ''
+              that.isShowDialog = false
             })
             window.onresize = function () {
               that.chart.resize({
-                height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+                height: window.innerHeight - 85
               })
-              that.height = (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+              that.height = window.innerHeight - 85
             }
             this.chart.hideLoading()
           })

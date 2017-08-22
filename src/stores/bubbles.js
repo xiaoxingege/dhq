@@ -22,7 +22,8 @@ export default {
       industryScope: '',
       topicScope: '',
       marketValue: '',
-      historyVolume: ''
+      historyVolume: '',
+      innerCode: ''
     },
     userId: '',
     stockPool: null,
@@ -39,6 +40,7 @@ export default {
       state.parameterData.topicScope = options.topicScope
       state.parameterData.marketValue = options.marketValueDefault
       state.parameterData.historyVolume = options.historyValueRangeDefault
+      state.parameterData.innerCode = options.innerCode
     },
     setBubblesData (state, result) {
       const data = result.data
@@ -63,9 +65,9 @@ export default {
             state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
           } else {
             if (state.parameterData.xData === 'chi_spel') {
-              state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+              if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
             } else if (state.parameterData.yData === 'chi_spel') {
-              state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
+              if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
             }
             state.bubblesData.seriesData.push([item.xData, item.yData])
           }
@@ -87,6 +89,7 @@ export default {
     },
     setStockPool (state, result) {
       if (result.errCode === 0) {
+        result.data.unshift({ poolId: '', poolName: '全部' })
         state.stockPool = result.data
       }
     },
@@ -95,6 +98,7 @@ export default {
     },
     setStrategy (state, result) {
       if (result.errCode === 0) {
+        result.data.unshift({ id: '', strategyName: '全部' })
         state.userStrategy = result.data
       }
     }
@@ -109,7 +113,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         method: 'post',
-        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`
+        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=${options.topic}&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=${options.innerCode}&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`
       }).then((res) => {
         return res.json()
       }).then(body => {
@@ -117,8 +121,8 @@ export default {
       })
     },
     getStockPool ({ commit }, { userId }) {
-      // commit('setStockOptions', userId)
-      return fetch('http://www.z3quant.com/openapi/filter/stock/listEquityPool.shtml?userId=dc59c4c5-c174-417d-9c34-ccabf738c1fe', {
+      commit('setStockOptions', userId)
+      return fetch(`http://www.z3quant.com/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -127,8 +131,8 @@ export default {
       })
     },
     getStrategy ({ commit }, { userId }) {
-        // commit('setStrategyOptions', userId)
-      return fetch('http://www.z3quant.com/openapi/filter/member/userStrategy.shtml?userId=dc59c4c5-c174-417d-9c34-ccabf738c1fe', {
+      commit('setStrategyOptions', userId)
+      return fetch(`http://www.z3quant.com/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

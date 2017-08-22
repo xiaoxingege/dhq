@@ -101,7 +101,7 @@
       /* height: 90px; */
       /* padding-bottom: 27px; */
       overflow: hidden;
-      cursor: pointer;
+      /* cursor: pointer; */
     }
     .theme-bar-title{
       font-size: 12px;
@@ -163,14 +163,14 @@
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
          <div class="li-nei">
           <div class="bar-tit">
-            <a class="theme-bar-title blue">{{topic.topicName}}</a>
+            <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" class="theme-bar-title blue">{{topic.topicName}}</router-link>
             <span class="blue bar-title2" :title="topic.topicDesc">主题简介</span>
           </div>
           <div class="bar-txt clearfix">
             <strong>最新事件：</strong>
             <span class="txt-con">
-              <router-link class="new-text" :to="{name:'topicDetail',params:{topicId:topic.topicCode}}"> <span class="event">{{topic.drivenEvent}}</span>
-              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）</router-link>
+              <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.drivenEvent}}</span></router-link>
+              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
             </span>
           </div>
           <div class="li-bottom">

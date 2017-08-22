@@ -1,7 +1,7 @@
 <template>
     <div class="stock-kline">
         <div class="ma"><span class="ma20">MA20：{{stock.ma20}}</span><span class="ma60">MA60：{{stock.ma60}}</span><span class="ma120">MA120：{{stock.ma120}}</span><div></div></div>
-        <div class="chart" ref="chart"></div>
+        <div class="chart" ref="chart" :style="{width:chartWidth+'px', height:chartHeight+'px'}"></div>
     </div>
 </template>
 
@@ -11,7 +11,20 @@
     import { formatDateStr } from 'utils/date'
     import config from '../z3tougu/config'
     export default({
-      props: ['stockCode'],
+      props: {
+        stockCode: {
+          type: String
+        },
+        chartWidth: {
+          type: Number,
+          default: 300
+        },
+        chartHeight: {
+          type: Number,
+          default: 200
+        }
+      },
+//        props:  ['stockCode', 'chartWidth', 'chartHeight'],
       data () {
         return {
           klineType: 'day', // day||week...
@@ -354,12 +367,14 @@
           return formatDateStr(datestr, 'yyyyMMdd', 'yyyy-MM-dd')
         }
       },
-      // watch:{
-      //   stockCode(){
+      watch: {
+        stockCode () {
+          this.initChart()
+        }
 
-      //   }
-      // },
-      mounted () {
+      },
+
+  mounted () {
         if (!this.stockCode) {
           console.error('[component:stock-kline]:stockCode is necessary!')
         }
@@ -395,8 +410,8 @@
       padding-right:15px;
       color:#f6bc4d
     }
-    .chart{
-        width:100%;
-        height:100%;
-    }
+    /*.chart{
+        width:50%;
+        height:50%;
+    }*/
 </style>
