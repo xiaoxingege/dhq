@@ -60,11 +60,18 @@
         top:0;
         right:0;
         width: 30px;
-        line-height: 25px;
+        line-height: 35px;
         text-align: center;
         cursor: pointer;
         font-size: 27px;
+    }
+    .themeTitle{
+        height:35px;
+        line-height: 35px;
         color: #999;
+        font-size: 18px;
+        background: #F2F2F2;
+        padding-left: 20px;
     }
     .mr-20{
         margin-right: 20px;
@@ -135,7 +142,8 @@
                             </span>
                             <span class="mr-10">
                                 主题
-                                <input @click="showTheme()" style="cursor: pointer" type="text" value="全部" readonly/>
+                                <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value="" readonly/>
+                                <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName" readonly/>
                             </span>
                             <span>
                                 流通市值
@@ -238,8 +246,11 @@
         </div>
         <div class="masks" v-show="isShowTheme">
             <div class="themeList">
-                <span class="closeTheme" @click="closeTheme()">×</span>
-                <ThemeSortAz/>
+                <div class="themeTitle clearfix">
+                    <span class="fl">主题列表</span>
+                    <span class="closeTheme" @click="closeTheme()">×</span>
+                </div>
+                <ThemeSortAz v-on:getThemeValue="getThemeVal"/>
             </div>
         </div>
     </div>
@@ -283,7 +294,8 @@
             historyValueRangeDefault: 'lscjl_all',
             strategyDefault: '',
             stockPoolDefault: '',
-            innerCode: ''
+            innerCode: '',
+            topic: ''
           },
           dimensionOptions: {
             xDefault: 'mkt_idx.pe_ttm',
@@ -298,7 +310,8 @@
             historyValueRangeDefault: 'lscjl_all',
             strategyDefault: '',
             stockPoolDefault: '',
-            innerCode: ''
+            innerCode: '',
+            topic: ''
           },
           xData: '市盈率(TTM)',
           yData: '营业收入',
@@ -318,7 +331,8 @@
                 historyValueRangeDefault: 'lscjl_all',
                 strategyDefault: '',
                 stockPoolDefault: '',
-                innerCode: ''
+                innerCode: '',
+                topic: ''
               }
             },
             'demoTmp2': {
@@ -334,7 +348,8 @@
                 historyValueRangeDefault: 'lscjl_all',
                 strategyDefault: '',
                 stockPoolDefault: '',
-                innerCode: ''
+                innerCode: '',
+                topic: ''
               }
             },
             'demoTmp3': {
@@ -350,7 +365,8 @@
                 historyValueRangeDefault: 'lscjl_all',
                 strategyDefault: '',
                 stockPoolDefault: '',
-                innerCode: ''
+                innerCode: '',
+                topic: ''
               }
             },
             'demoTmp4': {
@@ -366,12 +382,14 @@
                 historyValueRangeDefault: 'lscjl_all',
                 strategyDefault: '',
                 stockPoolDefault: '',
-                innerCode: ''
+                innerCode: '',
+                topic: ''
               }
             }
           },
           currentTime: '',
-          isShowTheme: false
+          isShowTheme: false,
+          topicName: '全部'
         }
       },
       components: {
@@ -397,6 +415,8 @@
           this.stockRangeOptions.historyValueRangeDefault = this.options.historyValueRangeDefault
           this.stockRangeOptions.strategyDefault = this.options.strategyDefault
           this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
+          this.stockRangeOptions.topic = this.options.topic
+          this.topicName = '全部'
         },
         showSelfRange () {
           this.showSelfRangeDialog = true
@@ -447,10 +467,14 @@
         },
         showTheme () {
           this.isShowTheme = true
-          this.showStockRangeDialog = false
         },
         closeTheme () {
           this.isShowTheme = false
+        },
+        getThemeVal (data) {
+          this.stockRangeOptions.topic = data[0]
+          this.topicName = data[1]
+          this.closeTheme()
         }
       },
       computed: {
