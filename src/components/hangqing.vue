@@ -201,7 +201,7 @@ body {
           <li class="clearfix" v-for="item in dataarr1"  @click="gotostock(item.stockName,item.stockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi  }}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.currentPrice}}</span>
-            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
             <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
             <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
             <span>{{item.dealBalance | changyi }}</span>
@@ -214,7 +214,7 @@ body {
         <ul class="data_you datayou2" v-if="typeurl == 2">
           <li class="clearfix" v-for="item in dataarr2"  @click="gotostock(item.leaderStockName,item.leaderStockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi}}</span>
-            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
             <span>{{item.leaderStockName}}</span>
             <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
             <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
@@ -225,7 +225,7 @@ body {
         <ul class="data_you datayou3" v-if="typeurl == 3">
           <li class="clearfix" v-for="item in dataarr3"  @click="gotostock(item.leaderStockName,item.leaderStockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi }}</span>
-            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}</span>
+            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
             <span>{{item.leaderStockName}}</span>
             <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
             <span :class="addcolor(item.mainForceOutflow)">{{item.mainForceOutflow | changyi }}</span>
