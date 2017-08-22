@@ -60,11 +60,18 @@
         top:0;
         right:0;
         width: 30px;
-        line-height: 25px;
+        line-height: 35px;
         text-align: center;
         cursor: pointer;
         font-size: 27px;
+    }
+    .themeTitle{
+        height:35px;
+        line-height: 35px;
         color: #999;
+        font-size: 18px;
+        background: #F2F2F2;
+        padding-left: 20px;
     }
     .mr-20{
         margin-right: 20px;
@@ -239,7 +246,10 @@
         </div>
         <div class="masks" v-show="isShowTheme">
             <div class="themeList">
-                <span class="closeTheme" @click="closeTheme()">×</span>
+                <div class="themeTitle clearfix">
+                    <span class="fl">主题列表</span>
+                    <span class="closeTheme" @click="closeTheme()">×</span>
+                </div>
                 <ThemeSortAz v-on:getThemeValue="getThemeVal"/>
             </div>
         </div>
