@@ -117,7 +117,7 @@
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" :class="g.topicMarket.chngPct>0?'red':'green'">{{g.topicName}}</a></div>
+         <div class="fl every-name"><a @click="passValue($event)" v-for="g of groupTopics[key]" :class="g.topicMarket.chngPct>0?'red':'green'" :value="g.topicCode">{{g.topicName}}</a></div>
       </div>
       
    </div>
@@ -154,6 +154,9 @@
    methods: {
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+     },
+     passValue (e) {
+       this.$emit('getThemeValue', [e.target.getAttribute('value'), e.target.innerHTML])
      }
    },
    watch: {
