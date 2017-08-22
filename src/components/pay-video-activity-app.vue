@@ -195,7 +195,7 @@ export default {
     setTimeout(function () {
       var pos = $('#d2').offset().top
       $('html,body').stop().animate({
-        scrollTop: pos + 250
+        scrollTop: pos
       }, 500)
     }, 3000)
   }

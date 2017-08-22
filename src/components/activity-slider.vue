@@ -11,7 +11,7 @@
         </div>
 
         <!-- Add Pagination -->
-        <div class="swiper-pagination" v-if="listData.pagShow"></div>
+        <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
 
         <!-- Add Arrows -->
         <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
