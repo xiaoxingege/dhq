@@ -62,6 +62,7 @@
     width: 0.6rem;
     height: 0.6rem;
     float: left;
+    border-radius: 50%;
 }
 .ques-detail-list-box div {
     width: 6.12rem;
@@ -132,33 +133,33 @@
     <ques-nav :title="quesNavTitle" @navBak="navBak" />
     <div class="ques-detail">
         <div>
-            <p><i></i>{{textContent}}</p>
-            <strong>{{answeredTimes}}个回答<i></i>2017年07月13日14:23</strong>
+            <p><i></i>{{askData.textContent}}</p>
+            <strong>{{askData.answeredTimes}}个回答<i></i>{{moment(parseInt(askData.ctime),'YYYY年MM月DD日 HH:mm')}}</strong>
         </div>
     </div>
     <div class="ques-detail-list">
-        <h3>以下为投顾回答（2）</h3>
+        <h3>以下为投顾回答</h3>
         <ul>
-            <li>
+            <li v-for="item in dataList">
                 <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
+                    <img :src="item.adviserUser.headImage" />
                     <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>关注<a href="javascript:;">金融界</a>，查看回答详情</p>
-                        <strong>2107-02-13  14:31</strong>
+                        <h5>{{item.adviserUser.userName}}<span>-{{item.adviserUser.company}}</span></h5>
+                        <p>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
+                        <!-- <p>{{item.textContent}}</p> -->
+                        <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
                         <span class="focus"><i></i>关注</span>
                         <!-- <span>已关注</span> -->
                     </div>
                 </div>
             </li>
-            <li>
+            <!-- <li>
                 <div class="ques-detail-list-box clearfix">
                     <img src="../assets/images/ques-alading/tg-i4.png" />
                     <div>
                         <h5>不败女王<span>-深圳新兰德</span></h5>
                         <p>比较强势，中线可以持有</p>
                         <strong>2107-02-13  14:31</strong>
-                        <!-- <span class="focus"><i></i>关注</span> -->
                         <span>已关注</span>
                     </div>
                 </div>
@@ -170,31 +171,34 @@
                         <h5>不败女王<span>-深圳新兰德</span></h5>
                         <p>平安银行这只股有做中线的价值吗，我有5000 股先成本8.05元后边如何操作</p>
                         <strong>2107-02-13  14:31</strong>
-                        <!-- <span class="focus"><i></i>关注</span> -->
                         <span>已关注</span>
                     </div>
                 </div>
-            </li>
+            </li> -->
         </ul>
         <p><i></i>以上内容仅代表个人观点，不构成投资建议<i></i></p>
     </div>
     <fix-bg v-if="fixBgShow"/>
     <ques-focus v-if="quesFocusShow" @focusClose="focusClose"/>
+    <ques-license @licenseClose="licenseClose" v-if="quesLicenseShow"/>
 </div>
 </template>
 <script>
 import {
     mapState
 } from 'vuex'
+import moment from 'moment'
 import fixBg from 'components/fix-bg'
 import quesFocus from 'components/ques-focus'
 import quesNav from 'components/ques-nav'
+import quesLicense from 'components/ques-license'
 
 export default {
   data () {
     return {
-      fixBgShow: true,
-      quesFocusShow: true,
+      fixBgShow: false,
+      quesFocusShow: false,
+      quesLicenseShow: false,
       quesNavTitle: '问答详情'
     }
   },
@@ -202,25 +206,35 @@ export default {
     dataList: state => {
       return state.quesDetail.dataList
     },
-    textContent: state => {
-      return state.quesDetail.textContent
-    },
-    answeredTimes: state => {
-      return state.quesDetail.answeredTimes
+    askData: state => {
+      return state.quesDetail.askData
     }
   }),
   components: {
     fixBg,
     quesFocus,
-    quesNav
+    quesNav,
+    quesLicense
   },
   methods: {
+    moment (time, format) {
+      return moment(time).format(format)
+    },
     focusClose () {
       this.fixBgShow = false
       this.quesFocusShow = false
     },
+    licenseClose () {
+      this.fixBgShow = false
+      this.quesLicenseShow = false
+    },
     navBak () {
       alert('navBak')
+    },
+    authorize () {
+      var url = window.location.href
+      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
+    //   this.$store.dispatch('quesDetail/authorize')
     }
   },
   mounted () {

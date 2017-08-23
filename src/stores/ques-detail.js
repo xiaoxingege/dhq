@@ -12,16 +12,24 @@ import 'whatwg-fetch'
 export default {
   namespaced: true,
   state: {
-    dataList: null,
-    textContent: '',
-    answeredTimes: '',
+    dataList: [],
+    askData: {
+      textContent: '',
+      answeredTimes: '',
+      ctime: ''
+    },
+    baiduUserData: null,
     err: null
   },
   mutations: {
     setData (state, res) {
       state.dataList = res.answers
-      state.textContent = res.textContent
-      state.answeredTimes = res.answeredTimes
+      state.askData.textContent = res.textContent
+      state.askData.answeredTimes = res.answeredTimes
+      state.askData.ctime = res.ctime
+    },
+    setBaiduData (state, res) {
+      state.baiduUserData = res
     },
     setError (state, err) {
       state.err = err
@@ -38,6 +46,22 @@ export default {
       }).then(json => {
         if (json.resCode === 0) {
           commit('setData', json.data)
+        } else {
+          commit('setError', {
+            retCode: json.retCode,
+            msg: json.msg
+          })
+        }
+      })
+    },
+    authorize ({ commit, rootState }, options) {
+      fetch(`http://wx.jrj.com.cn/api/baidu.jsp?action=get_userinfo&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&code=${options.code}&redirect_uri=${options.redirect_uri}`, {
+        // credentials: 'include'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        if (json.resCode === 0) {
+          commit('setBaiduData', json.data)
         } else {
           commit('setError', {
             retCode: json.retCode,
