@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import initVue from 'utils/initVue'
 import Index from 'components/index'
 import ComponentsList from 'components/components-list'
+import ProjectsDashboard from 'components/projects-dashboard'
 // import Search from 'components/search'
 
 /*
@@ -19,18 +20,18 @@ Vue.use(Vuex)
  */
 const routes = [
   { path: '/', component: Index },
-  { path: '/components', component: ComponentsList }
-  // { path: '/search', component: Search }
+  { path: '/components', component: ComponentsList },
+  { path: '/projects/:nickname?', component: ProjectsDashboard }
 ]
 
 /*
  * 实例化store
  */
 
-import zhikuanSearch from 'stores/zhikuan-search'
+import projects from 'stores/projects'
 const store = new Vuex.Store({
   modules: {
-    zhikuanSearch
+    projects
   }
 })
 

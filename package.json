@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.30",
+  "version": "0.0.36",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -57,6 +57,8 @@
     "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
+    "bem-sha1": "^1.0.3",
+    "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
     "echarts": "^3.6.2",
     "fetch": "^1.1.0",
@@ -65,6 +67,7 @@
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "log4js": "^1.1.1",
+    "moment": "^2.18.1",
     "node-fetch": "^1.7.1",
     "pify": "^3.0.0",
     "vue-cookie": "^1.1.4",

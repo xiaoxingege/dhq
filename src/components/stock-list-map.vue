@@ -37,6 +37,7 @@
     .tiker{
         padding-left: 10px;
         width: 94px;
+        text-align: left;
     }
    /* .change{width: 84px;}*/
     td{padding:0}
