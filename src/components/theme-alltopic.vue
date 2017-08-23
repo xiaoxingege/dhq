@@ -305,7 +305,7 @@
                    <strong>主题简介:</strong><router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" ><span class='content' :title="allTopic.topicDesc" ref="txtheight">{{allTopic.topicDesc}}</span></router-link>
                </div>
                <div  class="con-cen">
-                  <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{equity.name}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span><span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span></div>
+                  <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{relatedStocks[equity.innerCode].name}}</span><span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span><span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span></div>
                </div>
                <div  class="con-right" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
@@ -335,7 +335,10 @@
  import { formatDate } from 'utils/date'
  import Pagination from './pagination'
  import ThemeSortAz from './theme-sort-az'
- export default {
+ import { mutationTypes } from 'stores/z3tougu-theme'
+ import z3websocket from '../z3tougu/z3socket'
+ import config from '../z3tougu/config'
+export default {
    data () {
      return {
        FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
@@ -349,12 +352,23 @@
  
    computed: mapState({
      themeList: state => state.topic.themeList,
-     totalPage: state => state.topic.total
-     /*,
-     tota
-     page: state => state.topic.page,
-     pagesize: state => state.topic.pagesize,
-     totalPage: state => state.topic.totalPage*/
+     totalPage: state => state.topic.total,
+     relatedStocks: state => state.topic.relatedStocks,
+     stockMessage: state => {
+       const msg = state.z3sockjs.message
+       if (msg && msg.data && msg.data.subject === 'snapshot') {
+         const record = msg.data
+         return {
+           innerCode: record.stockCode,
+           name: record.stockName || config.emptyValue,
+           price: record.lastPx || config.emptyValue,
+           chg: record.pxchg || config.emptyValue,
+           curChngPct: record.pxchgratio || config.emptyValue
+         }
+       } else {
+         return null
+       }
+     }
    }),
    components: {
      Pagination,
@@ -392,20 +406,38 @@
      },
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+     },
+     updateStock (stock) {
+       this.$store.commit('z3tougu-theme/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+     },
+     subscribeStock () {
+       this.$store.dispatch('z3sockjs/init').then(() => {
+         const msg = {
+           subject: 'snapshot',
+           type: '1',
+           actionType: '1',
+           stockCodeList: Object.keys(this.relatedStocks),
+           token: ''
+         }
+         this.$store.dispatch('z3sockjs/send', msg)
+       })
      }
    },
    watch: {
      page () {
        this.query(this.sortField, this.page)
-     }/*,
-     isShow: function (val) {
-       val ? this.btnStyle = 'Primary' : this.btnStyle = 'Default'
-     }*/
+     },
+     relatedStocks () {
+       z3websocket.ws && z3websocket.ws.close()
+       this.subscribeStock()
+     },
+     stockMessage () {
+      //  this.updateStock()
+     }
    },
    mounted () {
      this.query('hot')
      this.init()
    }
- 
  }
 </script>
