@@ -59,9 +59,9 @@
     height: 12.4rem;
 }
 .bg9 {
-    background: url("../assets/images/pay-video-activity/m-bg9.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/m-bg11.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 12.4rem;
+    height: 9.83rem;
 }
 .bg10 {
     background: url("../assets/images/pay-video-activity/m-bg10.jpg") no-repeat;
