@@ -192,6 +192,7 @@ import fixBg from 'components/fix-bg'
 import quesFocus from 'components/ques-focus'
 import quesNav from 'components/ques-nav'
 import quesLicense from 'components/ques-license'
+import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
@@ -208,6 +209,9 @@ export default {
     },
     askData: state => {
       return state.quesDetail.askData
+    },
+    baiduUserData: state => {
+      return state.quesDetail.baiduUserData
     }
   }),
   components: {
@@ -229,12 +233,11 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      alert('navBak')
+      history.go(-1)
     },
     authorize () {
       var url = window.location.href
       window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
-    //   this.$store.dispatch('quesDetail/authorize')
     }
   },
   mounted () {
@@ -243,7 +246,18 @@ export default {
     //   userId: window.basicUserInfo.userId,
     //   courseId: getQueryString('courseId')
     // })
-    this.$store.dispatch('quesDetail/fetch')
+    this.$store.dispatch('quesDetail/fetch', {
+      askid: getQueryString('askid')
+    })
+    if (getQueryString('code')) {
+      this.$store.dispatch('quesDetail/authorize', {
+        code: getQueryString('code'),
+        redirectUri: window.location.href
+      })
+    }
+    this.$watch('baiduUserData', baiduUserData => {
+      console.log(baiduUserData)
+    })
   }
 }
 </script>

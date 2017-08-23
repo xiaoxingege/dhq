@@ -15,10 +15,12 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
+import quesAsk from 'stores/ques-ask'
 import quesSearch from 'stores/ques-search'
 const store = new Vuex.Store({
   modules: {
-    quesSearch
+    quesSearch,
+    quesAsk
   }
 })
 

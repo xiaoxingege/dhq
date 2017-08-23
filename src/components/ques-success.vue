@@ -110,13 +110,128 @@
     margin: 0.1rem;
     float: left;
 }
+// 111
+.circleProgress_wrapper {
+    width: 2.46rem;
+    height: 3.4rem;
+    position: relative;
+    float: left;
+    margin: 0.2rem 0 0 2.51rem;
+}
+
+.wrapper {
+    width: 1.24rem;
+    height: 2.6rem;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+
+.right {
+    right: 0;
+}
+
+.left {
+    left: 0;
+}
+
+.circleProgress {
+    width: 2.23rem;
+    height: 2.23rem;
+    border: 0.13rem solid #ffc85e;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    -webkit-transform: rotate(45deg);
+    overflow: hidden;
+}
+
+.rightcircle {
+    border-top: 0.13rem solid #fc7c77;
+    border-right: 0.13rem solid #fc7c77;
+    right: 0;
+    -webkit-animation: circleProgressLoad_right 1s linear infinite;
+}
+
+.leftcircle {
+    border-bottom: 0.13rem solid #fc7c77;
+    border-left: 0.13rem solid #fc7c77;
+    left: 0;
+    -webkit-animation: circleProgressLoad_left 1s linear infinite;
+}
+
+@-webkit-keyframes circleProgressLoad_right {
+    0% {
+        -webkit-transform: rotate(45deg);
+    }
+    50% {
+        -webkit-transform: rotate(225deg);
+    }
+    100% {
+        -webkit-transform: rotate(225deg);
+    }
+}
+
+@-webkit-keyframes circleProgressLoad_left {
+    0% {
+        -webkit-transform: rotate(45deg);
+    }
+    50% {
+        -webkit-transform: rotate(45deg);
+    }
+    100% {
+        -webkit-transform: rotate(225deg);
+    }
+}
+
+.ques-success-load {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    background-color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 0.1rem;
+    left: 0.08rem;
+    box-shadow: 0 0 0.1rem #ccc;
+}
+
+.ques-success-load h3 {
+    font-size: 0.6rem;
+    color: #ff5e33;
+    margin-top: 0.4rem;
+}
+
+.ques-success-load p {
+    font-size: 0.26rem;
+    color: #ff5e33;
+}
+.ques-success-load-desc { position: absolute; bottom: 0; left: -0.7rem; width: 3.8rem; text-align: center; }
+.ques-success-load-desc h3 { font-size: 0.38rem; color: #fff; font-weight: normal; }
+.ques-success-load-desc p { font-size: 0.24rem; color: #fff; }
 </style>
 
 <template>
 <div class="ques-box">
     <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
     <div class="ques-success">
-        <div class="ques-success-box">
+        <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
+            <div class="wrapper right">
+                <div class="circleProgress rightcircle"></div>
+            </div>
+            <div class="wrapper left">
+                <div class="circleProgress leftcircle"></div>
+            </div>
+            <div class="ques-success-load">
+                <h3>1815</h3>
+                <p>位投顾已推送</p>
+            </div>
+            <div class="ques-success-load-desc">
+                <h3>正在努力</h3>
+                <p>把你的提问推送给每一位投顾</p>
+            </div>
+        </div>
+        <div class="ques-success-box" v-else>
             <i></i>
             <div>
                 <h3>提问成功</h3>
@@ -127,10 +242,7 @@
                 <p>有回答时，会第一时间推送通知您 10:52</p>
             </div>
         </div>
-        <!-- <div>
-            <p><i></i>上证指数<span>（000001）</span>王老师明天大盘觉得怎么样？今天真的走微放量吗，但是尾盘刻意拉高，明天会是黑色星期五吗？</p>
-            <strong>沉沉浮浮<i></i>2017年07月13日14:23</strong>
-        </div> -->
+
     </div>
     <div class="ques-detail-list">
         <h3>其他精彩回答</h3>
@@ -177,9 +289,12 @@ import quesNav from 'components/ques-nav'
 
 export default {
   data () {
+    var _this = this
+    setTimeout(function () { _this.quesSuccessLoadShow = false }, 1000)
     return {
       quesNavTitle: '问股',
-      btnTxt: '再问一个'
+      btnTxt: '再问一个',
+      quesSuccessLoadShow: true
     }
   },
   computed: mapState({

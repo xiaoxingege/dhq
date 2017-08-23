@@ -17,7 +17,7 @@
     width: 1.1rem;
     height: 1.1rem;
     float: left;
-    border-radius: 0.5rem;
+    border-radius: 50%;
 }
 .ques-tg-top div {
     float: left;
@@ -113,11 +113,15 @@
     padding-bottom: 0.2rem;
     font-weight: normal;
 }
+.ques-tg-list-box h5 a {
+    color: #333;
+}
 .ques-tg-list-box img {
     width: 0.6rem;
     height: 0.6rem;
     float: left;
     margin-top: 0.32rem;
+    border-radius: 50%;
 }
 .ques-tg-list-box p {
     width: 6rem;
@@ -153,40 +157,40 @@
 
 <template>
 <div class="ques-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak"/>
+    <ques-nav :title="quesNavTitle" @navBak="navBak" />
     <div class="ques-tg">
         <div class="ques-tg-top clearfix">
-            <img src="../assets/images/ques-alading/tg-i2.png" />
+            <img :src="userInfo.headImage" />
             <div>
                 <p>
-                    <strong>空空道人</strong>
-                    <span>资深达人</span>
+                    <strong>{{userInfo.userName}}</strong>
+                    <span>{{userInfo.typeDesc}}</span>
                     <i></i>
                     <em>231粉丝</em>
                 </p>
                 <button type="button" name="button" class="ques-tg-focus"><i></i>关注</button>
-                <button type="button" name="button" class="ques-tg-btn">问顾</button>
+                <button type="button" name="button" class="ques-tg-btn" @click="search">问股</button>
             </div>
         </div>
-        <p class="ques-msg">介绍：曾担任某私募操盘手，拥有十余年的私募操盘经验，精资金管理，波浪理论，趋势分析等精资金管理，波浪理论，趋势分析等精资金管理，波浪理论，趋势分析等精资金管理，波浪理论，趋势分析等</p>
+        <p class="ques-msg">介绍：{{userInfo.intro}}</p>
     </div>
     <div class="ques-tg-list">
         <h3>看看TA的精彩回答</h3>
         <ul>
-            <li>
+            <li v-for="item in dataList">
                 <div class="ques-tg-list-box clearfix">
-                    <h5>你好老师，平安银行这只股有做中线的价值吗， 我有500股先成本8.05元后边如何操作？ </h5>
+                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId">{{item.content}}</a></h5>
                     <div>
-                        <img src="../assets/images/ques-alading/tg-i4.png" />
+                        <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
                         <p>
-                            <span>空道人</span>
-                            <em>今天 14:31</em>
-                            <strong>震荡反弹中，但是反弹力度较弱</strong>
+                            <span>{{item.lastedAnswer.adviserUser.userName}}</span>
+                            <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
+                            <strong>{{item.lastedAnswer.content}}</strong>
                         </p>
                     </div>
                 </div>
             </li>
-            <li>
+            <!-- <li>
                 <div class="ques-tg-list-box clearfix">
                     <h5>你好老师，平安银行这只股有做中线的价值吗， 我有500股先成本8.05元后边如何操作？ </h5>
                     <div>
@@ -198,7 +202,7 @@
                         </p>
                     </div>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>
@@ -208,6 +212,7 @@ import {
     mapState
 } from 'vuex'
 import quesNav from 'components/ques-nav'
+import moment from 'moment'
 
 export default {
   data () {
@@ -216,20 +221,38 @@ export default {
     }
   },
   computed: mapState({
-        // CodeData: state => {
-        //   return state.quesSearch.CodeData
-        // }
+    dataList: state => {
+      return state.quesTg.dataList
+    },
+    userInfo: state => {
+      return state.quesTg.userInfo
+    }
   }),
   components: {
     quesNav
   },
   methods: {
+    moment (time, format) {
+      return moment(time).locale('zh-cn').calendar(null, {
+        sameDay: '[今天] HH:mm',
+        nextDay: '[明天] HH:mm',
+        nextWeek: '下周',
+        lastDay: '[昨天] HH:mm',
+        lastWeek: '[上周] dddd',
+        sameElse: 'DD/MM/YYYY'
+      })
+    },
     navBak () {
-      alert('navBak')
+      history.go(-1)
+    //   alert('navBak')
+    },
+    search () {
+      window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
     }
   },
   mounted () {
     document.title = '投顾问答'
+    this.$store.dispatch('quesTg/fetch')
   }
 }
 </script>

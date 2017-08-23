@@ -39,7 +39,7 @@ export default {
   actions: {
     fetch ({ commit, rootState }, options) {
     //   fetch(`http://itougu.jrj.com.cn/xlive/course/getCourseDetail.jspa?courseId=${options.courseId}&tgUserId=${options.userId}`, {
-      fetch('http://itougu.jrj.com.cn/ques/ask/baidu/detail.jspa?askid=5402&passportId=141120010079383950', {
+      fetch(`http://itougu.jrj.com.cn/ques/ask/baidu/detail.jspa?askid=${options.askid}&passportId=141120010079383950`, {
         credentials: 'include'
       }).then(res => {
         return res.json()
@@ -55,17 +55,18 @@ export default {
       })
     },
     authorize ({ commit, rootState }, options) {
-      fetch(`http://wx.jrj.com.cn/api/baidu.jsp?action=get_userinfo&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&code=${options.code}&redirect_uri=${options.redirect_uri}`, {
+      fetch('http://sso.jrj.com.cn/sso/baidu/loginJRJ?code=' + options.code + '&redirect_uri=' + encodeURI(options.redirectUri) + '&bizSource=', {
         // credentials: 'include'
       }).then(res => {
         return res.json()
       }).then(json => {
-        if (json.resCode === 0) {
+        if (json.resultCode === 0) {
           commit('setBaiduData', json.data)
         } else {
+          console.log(json.resultCode)
           commit('setError', {
-            retCode: json.retCode,
-            msg: json.msg
+            retCode: json.resultCode,
+            msg: json.resultMsg
           })
         }
       })

@@ -50,7 +50,7 @@
     <ques-search />
     <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
     <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
-    <p class="askTimes">今日您还剩余<span>10</span>次提问机会</p>
+    <p class="askTimes">今日您还剩余<span>{{askTimes}}</span>次提问机会</p>
     <fix-bg v-if="fixBgShow"/>
     <ques-license @licenseClose="licenseClose" v-if="quesLicenseShow"/>
 </div>
@@ -68,16 +68,16 @@ export default {
   data () {
     return {
       txtVal: '0',
-      fixBgShow: true,
-      quesLicenseShow: true,
+      fixBgShow: false,
+      quesLicenseShow: false,
       quesNavTitle: '问股',
       btnTxt: '提问'
     }
   },
   computed: mapState({
-        // CodeData: state => {
-        //   return state.quesSearch.CodeData
-        // }
+    askTimes: state => {
+      return state.quesAsk.askTimes
+    }
   }),
   components: {
     quesSearch,
@@ -103,7 +103,7 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      alert('navBak')
+      history.go(-1)
     },
     navEvents () {
       alert('submit')
@@ -111,6 +111,7 @@ export default {
   },
   mounted () {
     document.title = '问股'
+    this.$store.dispatch('quesAsk/ask')
   }
 }
 </script>
