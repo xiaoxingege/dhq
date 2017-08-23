@@ -132,8 +132,8 @@
     <ques-nav :title="quesNavTitle" @navBak="navBak" />
     <div class="ques-detail">
         <div>
-            <p><i></i>上证指数<span>（000001）</span>王老师明天大盘觉得怎么样？今天真的走微放量吗，但是尾盘刻意拉高，明天会是黑色星期五吗？</p>
-            <strong>沉沉浮浮<i></i>2017年07月13日14:23</strong>
+            <p><i></i>{{textContent}}</p>
+            <strong>{{answeredTimes}}个回答<i></i>2017年07月13日14:23</strong>
         </div>
     </div>
     <div class="ques-detail-list">
@@ -199,9 +199,15 @@ export default {
     }
   },
   computed: mapState({
-        // CodeData: state => {
-        //   return state.quesSearch.CodeData
-        // }
+    dataList: state => {
+      return state.quesDetail.dataList
+    },
+    textContent: state => {
+      return state.quesDetail.textContent
+    },
+    answeredTimes: state => {
+      return state.quesDetail.answeredTimes
+    }
   }),
   components: {
     fixBg,
@@ -219,6 +225,11 @@ export default {
   },
   mounted () {
     document.title = '问答详情'
+    // this.$store.dispatch('quesDetail/fetch', {
+    //   userId: window.basicUserInfo.userId,
+    //   courseId: getQueryString('courseId')
+    // })
+    this.$store.dispatch('quesDetail/fetch')
   }
 }
 </script>
