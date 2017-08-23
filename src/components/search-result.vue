@@ -9,9 +9,13 @@
     }
     .searchResult ul{
         background:#fff;
-        padding-left: 7px;
+    }
+    .searchResult ul>p{
+        background:#F2F2F2;
+        padding-bottom: 10px;
     }
     .searchResult ul li{
+        padding-left: 7px;
         text-align: left;
         width:70%;
         border-bottom: 1px solid #F7F7F7;
@@ -34,14 +38,15 @@
 <template>
 
     <div class="searchResult">
-        <p>搜索股票数：<span>{{total}}</span></p>
         <ul v-if="searchType == 'stock'">
+            <p>搜索股票数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
-                <a :href="item.stockUrl">{{item.stockName}}[{{item.stockCode}}]</a>
+                <a :href="item.stockUrl" target="_blank">{{item.stockName}}[{{item.stockCode}}]</a>
                 <p class="searchInfo">{{item.stockIntro}}</p>
             </li>
         </ul>
         <ul v-if="searchType == 'theme'">
+            <p>搜索主题数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
                 <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}</router-link>
                 <p class="searchInfo">{{item.themeExplain}}</p>
@@ -49,12 +54,14 @@
             </li>
         </ul>
         <ul v-if="searchType == 'signal'">
+            <p>搜索信号数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
-                <a :href="item.signalUrl">{{item.signalName}}</a>
+                <a :href="item.signalUrl" target="_blank">{{item.signalName}}</a>
                 <p class="searchInfo">{{item.signalExplain}}</p>
             </li>
         </ul>
         <ul v-if="searchType == 'infor'">
+            <p>搜索资讯数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
                 <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}">{{item.newsTitle}}</router-link>
                 <p class="searchInfo">{{item.newsSummary}}</p>
@@ -62,6 +69,7 @@
             </li>
         </ul>
         <ul v-if="searchType == 'report'">
+            <p>搜索研报数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
                 <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}">{{item.reportTitle}}</router-link>
                 <p class="searchInfo">{{item.reportSummary}}</p>
