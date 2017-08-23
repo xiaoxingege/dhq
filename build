@@ -178,6 +178,7 @@ pm2name=$feature"_"$branch
 pinfo 'pm2 name: '$pm2name
 ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
 pm2 reload $pm2name
+echo $?
 if [ "$?" != "0" ]; then
 echo 'start pm2'
 pm2 start -n $pm2name dist/$feature/server/index.js -- $port
