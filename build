@@ -117,20 +117,20 @@ f1
 #   fi
 # done
 
-if [ -d dist/$feature/images ]; then
-  for file in $(ls dist/$feature/images/*)
-  do
-    if [ -f $file ]; then
-      filename=${file##*/}
-      status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/images/$filename")
-      if [ $status = 404 ]; then
-        pinfo "$filename transfered"
-        mkdir -p dist/$feature/ftp/images/
-        cp $file dist/$feature/ftp/images/
-      fi
-    fi
-  done
-fi
+# if [ -d dist/$feature/images ]; then
+#   for file in $(ls dist/$feature/images/*)
+#   do
+#     if [ -f $file ]; then
+#       filename=${file##*/}
+#       status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/images/$filename")
+#       if [ $status = 404 ]; then
+#         pinfo "$filename transfered"
+#         mkdir -p dist/$feature/ftp/images/
+#         cp $file dist/$feature/ftp/images/
+#       fi
+#     fi
+#   done
+# fi
 
 if [ ${#newfiles[@]} -gt 0 ]; then
   pinfo 'has new files.'
@@ -184,7 +184,7 @@ ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
 pm2 list | grep '^│ '${pm2name} | wc -l
 export name=$pm2name
 export exist=`pm2 list | grep '^│ '$name | wc -l`
-if [ "$exist" == "1" ]; then
+if [ "${exist}" == "1" ]; then
   pm2 reload $pm2name
 else
   echo 'start pm2'
