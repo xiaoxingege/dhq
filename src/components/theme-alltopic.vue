@@ -262,7 +262,6 @@
     .sort-hot{
       width: 62%;
       margin: 13px auto 13px;
-
     }
     .hot-name{
      /*  margin-left: 19px; */
@@ -438,6 +437,9 @@ export default {
    mounted () {
      this.query('hot')
      this.init()
+   },
+   destroyed () {
+     z3websocket.ws && z3websocket.ws.close()
    }
  }
 </script>
