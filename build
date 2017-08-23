@@ -182,5 +182,7 @@ if [ "$?" != "0" ]; then
 echo 'start pm2'
 pm2 start -n $pm2name dist/$feature/server/index.js -- $port
 fi
+exit
+
 ssh
 fi
