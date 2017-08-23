@@ -80,15 +80,15 @@ do
 done
 pinfo 'yarn install done.'
 
-rm -rf dist/$feature/*.*
-rm -rf dist/$feature/ftp
+# rm -rf dist/$feature/*.*
+# rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
-npm run build -- --env=$feature
+# npm run build -- --env=$feature
 if [ "$?" != "0" ]; then
   exit 1
 fi
 pinfo 'npm build done.'
-npm run buildserver
+# npm run buildserver
 if [ "$?" != "0" ]; then
   exit 1
 fi
@@ -103,19 +103,19 @@ mkdir jrjimg/assets/$feature/images
 bye
 f1
 
-for file in $(ls dist/$feature/*)
-do
-  if [ -f $file ]; then
-    filename=${file##*/}
-    status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
-    if [ $status = 404 ]; then
-      pinfo "$filename transfered"
-      newfiles[${#newfiles[@]}]=$file
-      mkdir -p dist/$feature/ftp/
-      cp $file dist/$feature/ftp/
-    fi
-  fi
-done
+# for file in $(ls dist/$feature/*)
+# do
+#   if [ -f $file ]; then
+#     filename=${file##*/}
+#     status=$(curl -I -w %{http_code} -o /dev/null -s "http://i0.jrjimg.cn/assets/$feature/$filename")
+#     if [ $status = 404 ]; then
+#       pinfo "$filename transfered"
+#       newfiles[${#newfiles[@]}]=$file
+#       mkdir -p dist/$feature/ftp/
+#       cp $file dist/$feature/ftp/
+#     fi
+#   fi
+# done
 
 if [ -d dist/$feature/images ]; then
   for file in $(ls dist/$feature/images/*)
@@ -183,8 +183,7 @@ scp -r -P 62222 * admin@127.0.0.1:/home/admin/code/$feature/
 ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
 pm2 list | grep '^│ '${pm2name} | wc -l
 export name=$pm2name
-echo $name
-exist=`pm2 list | grep '^│ '$name | wc -l`
+export exist=`pm2 list | grep '^│ '$name | wc -l`
 if [ "$exist" == "1" ]; then
   pm2 reload $pm2name
 else
