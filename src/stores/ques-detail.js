@@ -55,7 +55,7 @@ export default {
       })
     },
     authorize ({ commit, rootState }, options) {
-      fetch('http://sso.jrj.com.cn/sso/baidu/loginJRJ?code=' + options.code + '&redirect_uri=' + encodeURI(options.redirectUri) + '&bizSource=', {
+      fetch('http://sso.jrj.com.cn/sso/baidu/loginJRJ?code=' + options.code + '&redirect_uri=' + encodeURI(options.redirectUri) + '&bizSource=TG_Msite_Baidu', {
         // credentials: 'include'
       }).then(res => {
         return res.json()
