@@ -181,7 +181,6 @@ ssh admin@127.0.0.1 -p 62222 'mkdir -p /home/admin/code/'$feature
 ssh admin@127.0.0.1 -p 62222 'rm -rf /home/admin/code/'$feature'/*'
 scp -r -P 62222 * admin@127.0.0.1:/home/admin/code/$feature/
 ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
-pm2 list | grep '^│ '${pm2name} | wc -l
 export name=$pm2name
 if [ "`pm2 list | grep '^│ '$name | wc -l`" == "1" ]; then
   pm2 reload $pm2name
@@ -189,6 +188,7 @@ else
   echo 'start pm2'
   cd /home/admin/code/$feature
   pm2 start -n $pm2name dist/$feature/server/index.js -- $port
+  pm2 save
 fi
 exit
 ssh
