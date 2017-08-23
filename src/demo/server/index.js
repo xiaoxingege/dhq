@@ -33,6 +33,7 @@ const templateMap = {
   default: fs.readFileSync(path.join(templatePath, 'index.html')).toString()
 }
 app.use(async function(ctx, next) {
+  this.type = 'text/html';
   ctx.body = templateMap[ctx.template || 'default'].replace(/<!--content-->/, ctx.body);
   await next();
 });

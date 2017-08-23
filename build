@@ -93,6 +93,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 pinfo 'npm buildserver done.'
+pinfo 'checking for new files'
 newfiles=()
 ftp -n 117.121.12.155 <<f1 >>/dev/null
 quote USER shihuang.piao.ftp.img
