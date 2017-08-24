@@ -51,7 +51,7 @@
             const chgPctPx = (chgPx / d.prevClosePx * 100).toFixed(2)
             return {
               stockCode: d.name,
-              stockName: d.innerCode,
+              stockName: d.innerCode || config.emptyValue,
               ma20: d.ma20,
               ma60: d.ma60,
               ma120: d.ma120,
@@ -176,192 +176,192 @@
       methods: {
         initChart () {
           this.chart = echarts.init(this.$refs.chart)
-          this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
-            const lineData = this.lineData
-            const opt = {
-              toolbox: { show: false },
-              animation: false,
-              axisPointer: {
-                link: { xAxisIndex: 'all' },
-                label: {
-                  backgroundColor: '#777'
-                }
+//          this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
+          const lineData = this.lineData
+          const opt = {
+            toolbox: { show: false },
+            animation: false,
+            axisPointer: {
+              link: { xAxisIndex: 'all' },
+              label: {
+                backgroundColor: '#777'
+              }
+            },
+            grid: [
+              {
+                left: 35,
+                right: 10,
+                top: 35,
+                height: '60%',
+                show: false
               },
-              grid: [
-                {
-                  left: 35,
-                  right: 10,
-                  top: 35,
-                  height: '60%',
-                  show: false
-                },
-                {
-                  left: 35,
-                  right: 10,
-                  bottom: 0,
-                  height: '15%',
-                  show: false
-                }
-              ],
-              xAxis: [
-                {
-                  show: this.showX,
-                  type: 'category',
-                  data: lineData.times,
-                  scale: true,
-                  axisTick: { show: false },
-                  boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
-                  axisLine: {
-                    lineStyle: {
-                      type: 'dashed',
-                      color: '#808080'
-                    }
-                  },
-                  splitLine: {
-                    show: false,
-                    lineStyle: {
-                      type: 'dashed',
-                      color: '#e0e0e0'
-                    }
-                  },
-                  min: 'dataMin',
-                  max: 'dataMax',
-                  axisLabel: {
-                    interval: this.xLabelInterval,
-                    showMinLabel: true
+              {
+                left: 35,
+                right: 10,
+                bottom: 0,
+                height: '15%',
+                show: false
+              }
+            ],
+            xAxis: [
+              {
+                show: this.showX,
+                type: 'category',
+                data: lineData.times,
+                scale: true,
+                axisTick: { show: false },
+                boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+                axisLine: {
+                  lineStyle: {
+                    type: 'dashed',
+                    color: '#808080'
                   }
                 },
-                {
-                  type: 'category',
-                  gridIndex: 1,
-                  data: lineData.times,
-                  scale: true,
-                  boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
-                  axisTick: { show: false },
-                  splitLine: { show: false },
-                  axisLabel: { show: false },
-                  min: 'dataMin',
-                  max: 'dataMax',
-                  axisPointer: {
-                    label: {
-                      formatter: function (params) {
-                        var seriesValue = (params.seriesData[0] || {}).value
-                        return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
-                      }
-                    }
-                  }
-                }
-              ],
-              yAxis: [
-                {
-                  scale: true,
-                  axisTick: { show: false },
-                  splitArea: {
-                    show: false
-                  },
-                  axisLine: {
-                    lineStyle: {
-                      type: 'dashed',
-                      color: '#808080'
-                    }
-                  },
-                  splitLine: {
-                    show: true,
-                    lineStyle: {
-                      color: '#e0e0e0'
-                    }
+                splitLine: {
+                  show: false,
+                  lineStyle: {
+                    type: 'dashed',
+                    color: '#e0e0e0'
                   }
                 },
-                {
-                  scale: true,
-                  gridIndex: 1,
-                  splitNumber: 2,
-                  axisLabel: {
-                    show: false
-                  },
-                  axisLine: { show: false },
-                  axisTick: { show: false },
-                  splitLine: { show: false }
-                }
-              ],
-              brush: {
-                xAxisIndex: 'all',
-                brushLink: 'all',
-                outOfBrush: {
-                  colorAlpha: 0.1
-                }
-              },
-              series: [{
-                name: 'K线',
-                type: 'candlestick',
-                data: lineData.kdata,
-                // barCategoryGap: '3',
-                    // barWidth : data.length<30?8:3.5,//柱图宽度
-                itemStyle: {
-                  normal: {
-                    color: config.upColor,
-                    color0: config.downColor,
-                    borderColor: config.upColor,
-                    borderColor0: config.downColor
-                  }
+                min: 'dataMin',
+                max: 'dataMax',
+                axisLabel: {
+                  interval: this.xLabelInterval,
+                  showMinLabel: true
                 }
               },
               {
-                name: 'MA20',
-                type: 'line',
-                data: lineData.ma20,
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#e75443',
-                    opacity: 0.5
-                  }
-                }
-              },
-              {
-                name: 'MA60',
-                type: 'line',
-                data: lineData.ma60,
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#6999d1',
-                    opacity: 0.5
-                  }
-                }
-              },
-              {
-                name: 'MA120',
-                type: 'line',
-                data: lineData.ma120,
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#f6bc4d',
-                    opacity: 0.5
-                  }
-                }
-              },
-              {
-                name: '成交量',
-                type: 'bar',
-                xAxisIndex: 1,
-                yAxisIndex: 1,
-                data: lineData.vols,
-                barCategoryGap: '3', // 需要根据宽度定
-                itemStyle: {
-                  normal: {
-                    color: function (params) {
-                      return lineData.kdata[params.dataIndex][1] > lineData.kdata[params.dataIndex][0] ? config.upColor : config.downColor
+                type: 'category',
+                gridIndex: 1,
+                data: lineData.times,
+                scale: true,
+                boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+                axisTick: { show: false },
+                splitLine: { show: false },
+                axisLabel: { show: false },
+                min: 'dataMin',
+                max: 'dataMax',
+                axisPointer: {
+                  label: {
+                    formatter: function (params) {
+                      var seriesValue = (params.seriesData[0] || {}).value
+                      return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
                     }
                   }
                 }
               }
-    
-              ]
+            ],
+            yAxis: [
+              {
+                scale: true,
+                axisTick: { show: false },
+                splitArea: {
+                  show: false
+                },
+                axisLine: {
+                  lineStyle: {
+                    type: 'dashed',
+                    color: '#808080'
+                  }
+                },
+                splitLine: {
+                  show: true,
+                  lineStyle: {
+                    color: '#e0e0e0'
+                  }
+                }
+              },
+              {
+                scale: true,
+                gridIndex: 1,
+                splitNumber: 2,
+                axisLabel: {
+                  show: false
+                },
+                axisLine: { show: false },
+                axisTick: { show: false },
+                splitLine: { show: false }
+              }
+            ],
+            brush: {
+              xAxisIndex: 'all',
+              brushLink: 'all',
+              outOfBrush: {
+                colorAlpha: 0.1
+              }
+            },
+            series: [{
+              name: 'K线',
+              type: 'candlestick',
+              data: lineData.kdata,
+                // barCategoryGap: '3',
+                    // barWidth : data.length<30?8:3.5,//柱图宽度
+              itemStyle: {
+                normal: {
+                  color: config.upColor,
+                  color0: config.downColor,
+                  borderColor: config.upColor,
+                  borderColor0: config.downColor
+                }
+              }
+            },
+            {
+              name: 'MA20',
+              type: 'line',
+              data: lineData.ma20,
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#e75443',
+                  opacity: 0.5
+                }
+              }
+            },
+            {
+              name: 'MA60',
+              type: 'line',
+              data: lineData.ma60,
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#6999d1',
+                  opacity: 0.5
+                }
+              }
+            },
+            {
+              name: 'MA120',
+              type: 'line',
+              data: lineData.ma120,
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#f6bc4d',
+                  opacity: 0.5
+                }
+              }
+            },
+            {
+              name: '成交量',
+              type: 'bar',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              data: lineData.vols,
+              barCategoryGap: '3', // 需要根据宽度定
+              itemStyle: {
+                normal: {
+                  color: function (params) {
+                    return lineData.kdata[params.dataIndex][1] > lineData.kdata[params.dataIndex][0] ? config.upColor : config.downColor
+                  }
+                }
+              }
             }
-            this.chart.setOption(opt)
-          })
+    
+            ]
+          }
+          this.chart.setOption(opt)
+//          })
         },
         formatDate (datestr) {
           return formatDateStr(datestr, 'yyyyMMdd', 'yyyy-MM-dd')
@@ -369,18 +369,18 @@
       },
       watch: {
         stockCode () {
+          this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
+        },
+        lineData () {
           this.initChart()
         }
-
       },
 
   mounted () {
         if (!this.stockCode) {
           console.error('[component:stock-kline]:stockCode is necessary!')
         }
-        this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
-          this.initChart()
-        })
+        this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
       }
     })
 </script>
