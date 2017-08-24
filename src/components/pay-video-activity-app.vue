@@ -5,68 +5,63 @@
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/pay-video-activity/m-bg1.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg1.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 5.72rem;
+    height: 6.95rem;
 }
 .bg2 {
-    background: url("../assets/images/pay-video-activity/m-bg2.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg2.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 4.88rem;
+    height: 4.74rem;
 }
 .bg3 {
-    background: url("../assets/images/pay-video-activity/m-bg3.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg3.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 6.91rem;
+    height: 7.06rem;
 }
 .bg4 {
-    background: url("../assets/images/pay-video-activity/m-bg4.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg4.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 5.53rem;
+    height: 5.5rem;
 }
 .bg5 {
-    background: url("../assets/images/pay-video-activity/m-bg5.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg5.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 8.16rem;
+    height: 8.28rem;
 }
 .bg5 .box-con video {
     width: 6.9rem;
     height: 3.79rem;
     float: left;
-    margin: 4.25rem 0 0 0.3rem;
+    margin: 4.14rem 0 0 0.3rem;
     background-color: #000;
 }
 .bg6 {
-    background: url("../assets/images/pay-video-activity/m-bg6.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg6.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 9.97rem;
+    height: 9.78rem;
 }
 .bg6 .box-con video {
-    width: 6.87rem;
-    height: 3.79rem;
+    width: 6.89rem;
+    height: 3.85rem;
     float: left;
-    margin: 6rem 0 0 0.32rem;
+    margin: 5.75rem 0 0 0.31rem;
     background-color: #000;
 }
 .bg7 {
-    background: url("../assets/images/pay-video-activity/m-bg7.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg7.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 15.1rem;
+    height: 15.33rem;
 }
 .bg8 {
-    background: url("../assets/images/pay-video-activity/m-bg8.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg8.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 12.4rem;
+    height: 11.70rem;
 }
 .bg9 {
-    background: url("../assets/images/pay-video-activity/m-bg11.jpg") no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoAppBg9.jpg") no-repeat;
     background-size: 100% 100%;
-    height: 9.83rem;
-}
-.bg10 {
-    background: url("../assets/images/pay-video-activity/m-bg10.jpg") no-repeat;
-    background-size: 100% 100%;
-    height: 3.2rem;
+    height: 13.46rem;
 }
 .box-con {
     width: 100%;
@@ -87,24 +82,30 @@
     outline: none;
 }
 .slider {
-    margin-top: 11.2rem;
+    margin-top: 11.5rem;
     float: left;
     width: 100%;
 }
 .di {
     width: 100%;
-    height: 2rem;
-    background: url("../assets/images/pay-video-activity/m-di.png") no-repeat;
+    height: 1.56rem;
+    background: url("../assets/images/pay-video-activity/payVideoAppDi.jpg") no-repeat;
     background-size: 100%;
     position: fixed;
     bottom: 0;
     z-index: 1;
 }
 .di .box-con a {
-    width: 1.81rem;
-    height: 0.53rem;
-    float: left;
-    margin: 0.96rem 0 0 4.39rem;
+    width: 2.44rem;
+    height: 0.88rem;
+    background: url("../assets/images/pay-video-activity/btn.png") no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    bottom: 0.4rem;
+    right: 0.2rem;
+    outline: none;
 }
 </style>
 
@@ -150,12 +151,9 @@
     <div class="bg9" id="d4">
 
     </div>
-    <div class="bg10">
-
-    </div>
     <div class="di">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/tips/10716.jspa"></a>
+            <a href="http://itougu.jrj.com.cn/tips/10716.jspa" class="pulse animated infinite"></a>
         </div>
     </div>
 </div>

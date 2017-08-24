@@ -5,64 +5,60 @@
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/pay-video-activity/bg1.jpg") center 0 no-repeat;
-    height: 682px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg1.jpg") center 0 no-repeat;
+    height: 795px;
 }
 .bg2 {
-    background: url("../assets/images/pay-video-activity/bg2.jpg") center 0 no-repeat;
-    height: 602px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg2.jpg") center 0 no-repeat;
+    height: 541px;
 }
 .bg3 {
-    background: url("../assets/images/pay-video-activity/bg3.jpg") center 0 no-repeat;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg3.jpg") center 0 no-repeat;
     height: 554px;
 }
 .bg4 {
-    background: url("../assets/images/pay-video-activity/bg4.jpg") center 0 no-repeat;
-    height: 468px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg4.jpg") center 0 no-repeat;
+    height: 451px;
 }
 .bg5 {
-    background: url("../assets/images/pay-video-activity/bg5.jpg") center 0 no-repeat;
-    height: 882px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg5.jpg") center 0 no-repeat;
+    height: 889px;
 }
 .bg5 .box-con video {
     width: 811px;
     height: 422px;
     float: left;
-    margin: 442px 0 0 93px;
+    margin: 451px 0 0 93px;
     display: inline;
     background-color: #000;
 }
 .bg6 {
-    background: url("../assets/images/pay-video-activity/bg6.jpg") center 0 no-repeat;
-    height: 964px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg6.jpg") center 0 no-repeat;
+    height: 967px;
 }
 .bg6 .box-con video {
     width: 811px;
     height: 422px;
     float: left;
-    margin: 522px 0 0 93px;
+    margin: 524px 0 0 93px;
     display: inline;
     background-color: #000;
 }
 .bg7 {
-    background: url("../assets/images/pay-video-activity/bg7.jpg") center 0 no-repeat;
-    height: 801px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg7.jpg") center 0 no-repeat;
+    height: 803px;
 }
 .bg8 {
-    background: url("../assets/images/pay-video-activity/bg8.jpg") center 0 no-repeat;
-    height: 590px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg8.jpg") center 0 no-repeat;
+    height: 544px;
 }
 .bg9 {
-    background: url("../assets/images/pay-video-activity/bg9.jpg") center 0 no-repeat;
-    height: 735px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg9.jpg") center 0 no-repeat;
+    height: 765px;
 }
 .bg10 {
-    background: url("../assets/images/pay-video-activity/bg10.jpg") center 0 no-repeat;
-    height: 502px;
-}
-.bg11 {
-    background: url("../assets/images/pay-video-activity/bg11.jpg") center 0 no-repeat;
-    height: 951px;
+    background: url("../assets/images/pay-video-activity/payVideoWebBg10.jpg") center 0 no-repeat;
+    height: 1091px;
 }
 .box-con {
     width: 1000px;
@@ -77,7 +73,7 @@
     position: absolute;
     border: none;
     cursor: pointer;
-    bottom: 100px;
+    bottom: 50px;
     right: 36px;
     outline: none;
 }
@@ -91,8 +87,8 @@
 }
 .di {
     width: 100%;
-    height: 203px;
-    background: url("../assets/images/pay-video-activity/di.png") center 0 no-repeat;
+    height: 142px;
+    background: url("../assets/images/pay-video-activity/payVideoWebDi.jpg") center 0 no-repeat;
     position: fixed;
     bottom: 0;
     z-index: 1;
@@ -173,9 +169,6 @@
 
     </div>
     <div class="bg10">
-
-    </div>
-    <div class="bg11">
 
     </div>
     <div class="di">
