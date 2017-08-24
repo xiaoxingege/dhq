@@ -24,6 +24,7 @@ cursor: pointer;}
   width: 100px;line-height: 26px; padding-left: 40px;
 }
 .item select,.item input{ width:200px; height: 26px;font-size: 18px; outline: none;}
+.item .appv{width:100px;}
 .item .long{ width:400px;}
 .text{ width:680px; height: 150px;padding:0 10px;resize: none; outline: none; margin-left: 40px; font-size: 14px;}
 </style>
@@ -37,7 +38,7 @@ cursor: pointer;}
       <li class="clearfix">
         <span class="fl">日期</span>
         <div class="fl">
-          <dadianTime v-bind:starttime="starttime" v-bind:endtime="endtime" v-on:starttimeChanged="startshowMsgFromChild"  v-on:endtimeChanged="endshowMsgFromChild"  />
+          <dadianTime v-bind:starttime="beginTime" v-bind:endtime="endTime" v-on:starttimeChanged="startshowMsgFromChild"  v-on:endtimeChanged="endshowMsgFromChild"  />
         </div>
       </li>
       <li class="clearfix">
@@ -47,11 +48,7 @@ cursor: pointer;}
           <option value="">Ios</option>
         </select>
         <span class="fl">appversion</span>
-        <select class="fl" name="">
-          <option value="">6.5.0</option>
-          <option value="">6.4.0</option>
-          <option value="">6.3.0</option>
-        </select>
+        <input type="text" class="fl appv" name="" value=""> <b>请输入要正确：比如6.9.0</b>
       </li>
       <li class="clearfix">
         <span class="fl">d_name</span>
@@ -62,24 +59,9 @@ cursor: pointer;}
     </ul>
     <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
   </div>
-  <div class="tit">语句查询</div>
-  <div class="item">
-    <textarea name="name" class="text">
-      select * from appcms_parquet
-          where d_name in(
-          'click_zqcx_zqfx',
-          'click_ztwz_qcx',
-          'click_jysz_wc',
-          'click_push_jysz',
-          'click_xgrl_sgxq'
-          )
-          and ds='2017-06-19'and devid in('debug-uuid-03F43EA7-12DA-4130-BBD8-3BFA91C9E110')
-          and appver='6.5.0'
-    </textarea>
-      <a href="javascript:;" class="btn">检索</a>
-  </div>
   <div class="tit">结果</div>
   <dadianTable v-bind:tabledata="tabledata" />
+  <dadianfenye :page="currentPage" :size="pageSize" :total="total" @change="turn" />
   <JichushareToast/>
 </div>
 </template>
@@ -89,16 +71,20 @@ import dadianBtn from 'components/dadian-btn'
 import dadianTime from 'components/dadian-time'
 import dadianTable from 'components/dadian-table'
 import JichushareToast from 'components/jichushare-toast'
+import dadianfenye from 'components/dadianfenye'
+import 'whatwg-fetch'
 
 export default {
   components: {
     dadianBtn,
     dadianTime,
     dadianTable,
-    JichushareToast
+    JichushareToast,
+    dadianfenye
   },
   data () {
     return {
+      total: 100,
       beginTime: this.getNowFormatDate(),
       endTime: this.getNowFormatDate(),
       currentPage: 1,
@@ -130,13 +116,25 @@ export default {
       return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
     },
     appbtn1 () {
-      alert(this.starttime + '$$' + this.endtime)
+      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
+
+      fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+      }).then((res) => {
+        return res.json()
+      }).then(v => {
+        alert(v)
+      }).catch(v2 => {
+        alert(v2)
+      })
     },
     startshowMsgFromChild (data) {
-      this.starttime = data
+      this.beginTime = data
     },
     endshowMsgFromChild (data) {
-      this.endtime = data
+      this.endTime = data
     }
   }
 }
