@@ -252,6 +252,7 @@
                           color: nowDate < pbDate ? '#20A29A' : '#BA5297' || '#2f323d'
                         }
                       }
+                      stock.actDateFlag = nowDate < pbDate ? 0 : 1 // 业绩公布日前0:业绩公布日后1
                     } else {
                       stock.perfText = '--'
                     }
@@ -284,14 +285,29 @@
           })
           map.forEach(function (industry) {
             industry.children.forEach(function (lvl2) {
-              if (_this.condition === 'act_date') {
-                lvl2.itemStyle = { normal: {
-                  borderColor: '#000'
-                }}
-              } else {
-                let totalPerf = 0
-                let totalScale = 0
-                if (stockData) {
+              if (stockData) {
+                if (_this.condition === 'act_date') {
+                  let actDateBefore = 0
+                  let acrDateAfter = 0
+                  lvl2.children.forEach(function (stock) {
+                    if (stock.actDateFlag === 0) { // 业绩公布日前
+                      actDateBefore++
+                    } else if (stock.actDateFlag === 1) { // 业绩公布日后
+                      acrDateAfter++
+                    }
+                  })
+                  if (actDateBefore >= acrDateAfter) {
+                    lvl2.itemStyle = { normal: {
+                      borderColor: '#20A29A'
+                    }}
+                  } else {
+                    lvl2.itemStyle = { normal: {
+                      borderColor: '#BA5297'
+                    }}
+                  }
+                } else {
+                  let totalPerf = 0
+                  let totalScale = 0
                   lvl2.children.forEach(function (stock) {
                     if (stock.perf) {
                       totalPerf += stock.value * stock.perf
@@ -302,11 +318,11 @@
                   lvl2.itemStyle = { normal: {
                     borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], lvl2.perf) || '#2f323d'
                   }}
-                } else {
-                  lvl2.itemStyle = { normal: {
-                    borderColor: '#2f323d'
-                  }}
                 }
+              } else {
+                lvl2.itemStyle = { normal: {
+                  borderColor: '#2f323d'
+                }}
               }
             })
           })
