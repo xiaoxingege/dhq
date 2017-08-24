@@ -143,14 +143,14 @@
     </div>
     <div class="bg5" id="d2">
         <div class="box-con">
-            <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/20170822sdsqpt-1.mp4" controls="controls">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170824sq.mp4" controls="controls">
                 您的浏览器不支持 video 标签。
             </video>
         </div>
     </div>
     <div class="bg6" id="d3">
         <div class="box-con">
-            <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170822hqsx.mp4" controls="controls">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170824sxs.mp4" controls="controls">
                 您的浏览器不支持 video 标签。
             </video>
         </div>
