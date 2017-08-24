@@ -181,7 +181,7 @@ ssh admin@127.0.0.1 -p 62222 'mkdir -p /home/admin/code/'$feature
 ssh admin@127.0.0.1 -p 62222 'rm -rf /home/admin/code/'$feature'/*'
 scp -r -P 62222 * admin@127.0.0.1:/home/admin/code/$feature/
 ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
-sudo pm2 list | sudo grep '^│ '$pm2name | sudo wc -l
+sudo pm2 list | sudo grep '^│ '$pm2name | sudo wc -l 
 if [ "`sudo pm2 list | sudo grep '^│ '$pm2name | sudo wc -l`" == "1" ]; then
   sudo pm2 reload $pm2name
 else
