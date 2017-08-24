@@ -196,6 +196,9 @@ import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
+    // document.getElementsByTagName('head')[0].remove()
+    // document.getElementById('getBasicUserInfo').remove()
+
     return {
       fixBgShow: false,
       quesFocusShow: false,
@@ -210,7 +213,11 @@ export default {
     },
     askData: state => {
       return state.quesDetail.askData
-    }
+    },
+    userShow: state => {
+      return state.quesDetail.userShow
+    },
+    userId: state => state.user.ssoId
   }),
   components: {
     fixBg,
@@ -234,24 +241,29 @@ export default {
       history.go(-1)
     },
     authorize () {
-      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html'
+      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
     }
   },
   mounted () {
     document.title = '问答详情'
-    if (window.basicUserInfo.userId) {
+    this.$store.dispatch('user/fetchFromBasicUserInfo')
+    if (this.userId) {
       this.userShow = true
     } else {
       this.userShow = false
       if (getQueryString('code')) {
         this.$store.dispatch('quesDetail/authorize', {
           code: getQueryString('code'),
-          redirectUri: 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html'
+          redirectUri: window.location.href
         })
       }
     }
     this.$store.dispatch('quesDetail/fetch', {
       askid: getQueryString('askid')
+    })
+
+    this.$watch('userId', userId => {
+      this.userShow = !!userId
     })
   }
 }

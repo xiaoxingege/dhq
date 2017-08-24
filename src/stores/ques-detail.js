@@ -5,7 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-import getCookie from 'utils/getCookie'
+// import getCookie from 'utils/getCookie'
 
 // const PAGE_SIZE = 10
 
@@ -19,6 +19,7 @@ export default {
       ctime: ''
     },
     baiduUserData: null,
+    userShow: false,
     err: null
   },
   mutations: {
@@ -28,6 +29,9 @@ export default {
       state.askData.answeredTimes = res.answeredTimes
       state.askData.ctime = res.ctime
     },
+    userShow (state, res) {
+      state.userShow = res.userShow
+    },
     setError (state, err) {
       state.err = err
     }
@@ -35,7 +39,6 @@ export default {
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
     fetch ({ commit, rootState }, options) {
-    //   fetch(`http://itougu.jrj.com.cn/xlive/course/getCourseDetail.jspa?courseId=${options.courseId}&tgUserId=${options.userId}`, {
       fetch(`http://itougu.jrj.com.cn/ques/ask/baidu/detail.jspa?askid=${options.askid}&passportId=141120010079383950`, {
         credentials: 'include'
       }).then(res => {
@@ -51,18 +54,15 @@ export default {
         }
       })
     },
-    authorize ({ commit, rootState }, options) {
+    authorize ({ commit, rootState, dispatch }, options) {
       fetch('http://sso.jrj.com.cn/sso/baidu/loginJRJ?code=' + options.code + '&redirect_uri=' + encodeURI(options.redirectUri) + '&bizSource=TG_Msite_Baidu', {
         credentials: 'include'
       }).then(res => {
         return res.json()
       }).then(json => {
-        console.log(getCookie('JRJ.SSOPASSPORT'))
         if (json.resultCode === '0') {
-          location.reload()
-          // commit('setBaiduData', json.data)
+          dispatch('user/fetchFromBasicUserInfo', null, { root: true })
         } else {
-          console.log(json.resultCode)
           commit('setError', {
             retCode: json.resultCode,
             msg: json.resultMsg

@@ -254,7 +254,6 @@ export default {
     },
     authorize () {
       var url = window.location.href
-      debugger
       window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
     }
   },

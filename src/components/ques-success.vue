@@ -266,7 +266,7 @@
                 </div>
             </li> -->
 
-            <li v-for="item in dataList">
+            <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
                     <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId" v-html="item.content"></a></h5>
                     <div>
@@ -275,6 +275,19 @@
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
                             <strong>{{item.lastedAnswer.content}}</strong>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li v-else>
+                <div class="ques-tg-list-box clearfix">
+                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId" v-html="item.askContent"></a></h5>
+                    <div>
+                        <img :src="item.userInfo.headImage" :userId="item.userInfo.userId"/>
+                        <p>
+                            <span>{{item.userInfo.userName}}</span>
+                            <em>{{moment(parseInt(item.answerTime))}}</em>
+                            <strong>{{item.answerContent}}</strong>
                         </p>
                     </div>
                 </div>
@@ -320,7 +333,8 @@ export default {
     return {
       quesNavTitle: '问股',
       btnTxt: '再问一个',
-      quesSuccessLoadShow: true
+      quesSuccessLoadShow: true,
+      jchdShow: false
     }
   },
   computed: mapState({
@@ -351,9 +365,11 @@ export default {
   mounted () {
     document.title = '问答详情'
     console.log(getQueryString('stockCode'))
-    if (getQueryString('stockCode') === '') {
+    if (getQueryString('stockCode') === '' || !getQueryString('stockCode')) {
+      this.jchdShow = false
       this.$store.dispatch('quesSuccess/jchd')
     } else {
+      this.jchdShow = true
       this.$store.dispatch('quesSuccess/fetch', {
         stockCode: getQueryString('stockCode')
       })

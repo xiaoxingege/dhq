@@ -18,14 +18,34 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    fetch ({
-      commit
-    }, options) {
+    fetch ({ commit }, options) {
       options = options || {}
       commit('fetch', {
         ssoId: window.ssoId,
         spToken: window.spToken
       })
+    },
+    fetchFromBasicUserInfo ({ commit }) {
+      var script = document.getElementById('getBasicUserInfo')
+      if (script) {
+        document.getElementsByTagName('head')[0].removeChild(script)
+      }
+      script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa'
+      script.id = 'getBasicUserInfo'
+      script.onload = function () {
+        if (window.basicUserInfo) {
+          commit('fetch', {
+            ssoId: window.basicUserInfo.userId
+          })
+        } else {
+          commit('fetch', {
+            ssoId: ''
+          })
+        }
+      }
+      document.getElementsByTagName('head')[0].appendChild(script)
     }
   }
 }
