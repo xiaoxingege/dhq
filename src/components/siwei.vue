@@ -494,11 +494,6 @@
         setInterval(function () {
           that.getTime()
         }, 1000)
-        if (window.FiterToWeb) {
-          window.FiterToWeb.SndStockPoolInfo((data) => {
-            that.stockRangeOptions.innerCode = data
-          })
-        }
   }
     }
 </script>
