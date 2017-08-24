@@ -17,6 +17,8 @@ export default [
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
     { path: '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
     { path: '/map', name: 'map', component: Map },
+    { path: '/map/fullScreen', name: 'map', component: Map },
+    { path: '/map/normal', name: 'map', component: Map },
     { path: '/themeList', name: 'themelist', component: ThemeList },
     { path: '/themeIndex', name: 'themeindex', component: ThemeIndex },
     { path: '/siwei', name: 'bubbles', component: Siwei },

@@ -65,31 +65,33 @@
     .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
     .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
     .chart_bottom_enlarge .play_line{top: 8px;}
-    .enlarge {width: 200px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;}
-    .enlarge span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
+    .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
+    .enlarge span,.narrow span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
     #enlarge, #narrow {cursor: pointer;}
+    .enlarge a span,.narrow a span{cursor: pointer}
     .enlarge img{opacity:0.6;}
-    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 233px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
+    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
     .narrow span{margin-right: 20px;}
     #narrow{width: 20px;height: 20px;position: relative;top: 3px;}
-    #narrow img{width: 20px;}
+    .narrow img{width: 20px;}
     .currentTime{color:#fff;}
     .map_wrap{position: relative;}
-    .enlarge{position: absolute;top: -32px;right: 0px;}
     .legend-switch {margin-right: 5px;float: left;width: 16px;margin-top: 4px;cursor: pointer;}
 </style>
 <template>
     <div class="map_wrap">
          <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
         <div class="enlarge" v-if="!isEnlarge">
-            <span class="currentTime">2017-08-22 11:45</span>
-            <a id="enlarge" v-on:click="enlargeMap"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+            <a v-on:click="restoreMap"><span>恢复默认</span></a>
+            <span class="currentTime">{{currentTime}}</span>
+            <a href="/map/fullScreen" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
         </div>
         <div class="narrow" v-if="isEnlarge">
-            <span class="currentTime">2017-08-22 11:45</span>
-            <a id="narrow" v-on:click="enlargeMap"><img src="../assets/images/stock-map/narrow.png"/></a>
+            <a v-on:click="restoreMap"><span>恢复默认</span></a>
+            <span class="currentTime">{{currentTime}}</span>
+            <a href="/map/normal"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
-        <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}" v-on:mousemove="move($event)"></div>
+        <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
         <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
             <div class="clearfix playback">
                 <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
@@ -117,10 +119,11 @@
     const valueRange1d = [-4, -3, -2, -1, 0, 1, 2, 3, 4] // 图例1日涨跌幅数值
     const valueRangeRelvol = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8]// 图例相对成交量数值
     const valueRangeGX = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6] // 股息率
+    const valueRangeSJ = [0, 1.2, 2.4, 3.6, 4.8, 6, 7.2, 8.4, 9.6] // 股息率
     const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
     let pid
     export default{
-      props: ['rangeCode', 'condition'], // 从父组件传下来
+      props: ['rangeCode', 'condition', 'focusStockId'], // 从父组件传下来
       components: {
         StockList
       },
@@ -159,7 +162,7 @@
             'mkt_idx.rela_volume': valueRangeRelvol, // 相对成交量
             'mkt_idx.peg': this.fmtraneValue(valueRangeGX, 2.5), // PEG
             'mkt_idx.ps': this.fmtraneValue(valueRangeGX, 10), // 市销率
-            'mkt_idx.pb': this.fmtraneValue(valueRangeGX, 6), // 市净率
+            'mkt_idx.pb': valueRangeSJ, // 市净率
             'mkt_idx.div_rate': valueRangeGX, // 股息率
             'mkt_idx.pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
             'mkt_idx.fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
@@ -190,13 +193,18 @@
           playBackIndex: 19,
           playBackState: false, // 默认是停止不回放
           playBackSrc: playStopSrc,
-          mapHeight: window.innerHeight - 80,
+          mapHeight: this.$route.fullPath === '/map/fullScreen' ? window.innerHeight : window.innerHeight - 80,
+          mapWidth: this.$route.fullPath === '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
           showHover: false,
           hoverNode: null,
           legendWidth: 50,
           isEnlarge: false,
           isLegendShow: true,
-          isPlaybackShow: true
+          isPlaybackShow: true,
+          intervalTime: 10,
+          updateDataPid: null,
+          updateTimePid: null,
+          currentTime: ''
         }
       },
       watch: {
@@ -205,6 +213,9 @@
         },
         condition () {
           this.updateData()
+        },
+        focusStockId () {
+          this.focusStock()
         }
       },
       computed: {
@@ -322,6 +333,7 @@
           const _this = this
           this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
+                      console.log(this.mapHeight, this.mapWidth)
                       this.chart.setOption({
                         tooltip: {
                           triggerOn: 'none'
@@ -355,13 +367,16 @@
                               }
                             },
                             itemStyle: {
-                              normal: {
-
-                              }
+                              normal: {}
                             },
                             breadcrumb: {
                               show: false
                             },
+                            /* nodeClick: 'link',
+                            silent: {
+                              link: 'https://www.baidu.com/'
+                            },*/
+                            // roam: false,
                             levels: this.getLevelOption(),
                             data: this.mapData
                           }
@@ -372,6 +387,7 @@
                         if (params.treePathInfo.length <= 2) {
                           return
                         }
+                        // this.updateMapData()
                         if (params.treePathInfo.length === 3) {
                           this.hoverNode = params.data.children[0]
                         } else if (params.treePathInfo.length === 4) {
@@ -379,8 +395,6 @@
                         }
                         this.hoverNode.titleName = params.treePathInfo[1].name
                         this.showHover = true
-                        // this.offsetX = params.event.offsetX
-                        // this.offsetY = params.event.offsetY
                       })
                       this.chart.on('mouseout', (params) => {
                         if (params.treePathInfo.length <= 2) {
@@ -408,6 +422,8 @@
             })
             _this.mapHeight = window.innerHeight - 80
           }
+          this.autoUpdateData()
+          this.updateTime()
         },
         updateMap: function () {
                 /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
@@ -426,6 +442,32 @@
         },
         updateMapData: function () {
           this.chart.setOption({ series: [{ data: this.stockData }] })
+        },
+        autoUpdateData: function () {
+          const _this = this
+          if (this.updateDataPid) {
+            clearInterval(this.updateDataPid)
+          } else {
+            this.updateDataPid = setInterval(function () {
+              _this.updateData()
+            }, 1000 * _this.intervalTime)
+          }
+        },
+        focusStock: function () {
+          const _this = this
+          const focusStockData = this.stockData
+          focusStockData.forEach(function (industry) {
+            industry.children.forEach(function (lvl2) {
+              lvl2.children.forEach(function (stock) {
+                if (stock.id === _this.focusStockId) {
+                  stock.itemStyle.normal.borderColor = '#ffd614'
+                  stock.itemStyle.normal.borderWidth = 2
+                  lvl2.itemStyle.normal.borderColor = '#ffd614'
+                }
+              })
+            })
+          })
+          this.chart.setOption({ series: [{ data: focusStockData }] })
         },
         getStockChartData: function () {
           this.$store.dispatch('stockMap/stockChartData', { code: this.rangeCode, id: this.id }).then
@@ -466,17 +508,14 @@
                   offset: [3, 0]
                 },
                 emphasis: {
-                  offset: [3, 0],
-                  formatter: function (params) {
-
-                  }
+                  offset: [3, 0]
                 }
               }
             },
             {// 第二层
               itemStyle: {
                 normal: {
-                  borderWidth: 0,
+                  borderWidth: 3,
                   gapWidth: 0,
                   borderColor: '#000'
                 },
@@ -489,9 +528,6 @@
                   offset: [5, 0],
                   textStyle: {
                     ellipsis: false
-                  },
-                  formatter: function (params) {
-
                   }
                 },
                 emphasis: {
@@ -511,12 +547,26 @@
                   color: '#2f323d'
                 },
                 emphasis: {
-                     // color: 'red'
+                  borderWidth: 2,
+                  borderColor: '#ffd614'
                 }
               },
               silent: true
             }
           ]
+        },
+        isFullScreen: function () {
+          if (this.$route.fullPath === '/map/fullScreen') {
+            this.isEnlarge = true// 全屏
+            this.mapHeight = window.innerHeight
+            this.mapWidth = window.innerWidth
+            this.$emit('isEnlarge', this.isEnlarge)
+          } else if (this.$route.fullPath === '/map/normal') {
+            this.isEnlarge = false// 非全屏
+            this.mapHeight = window.innerHeight - 80
+            this.mapWidth = window.innerWidth - 40
+            this.$emit('isEnlarge', this.isEnlarge)
+          }
         },
         showColor: function (colorArr, valueArr, value) {
           if (value == null) {
@@ -628,7 +678,7 @@
           return dateTypeDate
         },
         getMonth: function (date) {
-          var month = ''
+          let month = ''
           month = date.getMonth() + 1 // getMonth()得到的月份是0-11
           if (month < 10) {
             month = '0' + month
@@ -636,14 +686,14 @@
           return month
         },
         getDay: function (date) {
-          var day = ''
+          let day = ''
           day = date.getDate()
           if (day < 10) {
             day = '0' + day
           }
           return day
         },
-        enlargeMap: function () {
+       /* enlargeMap: function () {
           if (this.isEnlarge) {
             this.isEnlarge = false// 非全屏
             this.mapHeight = window.innerHeight - 80
@@ -660,7 +710,7 @@
             })
           }
           this.$emit('isEnlarge', this.isEnlarge)
-        },
+        },*/
         switchLegend: function () {
           if (this.isLegendShow) {
             this.isLegendShow = false
@@ -674,9 +724,49 @@
           } else {
             this.isPlaybackShow = true
           }
+        },
+        restoreMap: function () {
+          this.chart.resize({
+            height: this.$refs.treemap.offsetHeight,
+            width: this.$refs.treemap.offsetWidth
+          })
+        },
+        getTime: function () {
+          const date = new Date()
+          const seperator2 = ':'
+          let month = date.getMonth() + 1
+          let strDate = date.getDate()
+          let strHour = date.getHours()
+          let strMin = date.getMinutes()
+          if (month >= 1 && month <= 9) {
+            month = '0' + month
+          }
+          if (strDate >= 0 && strDate <= 9) {
+            strDate = '0' + strDate
+          }
+          if (strHour >= 0 && strHour <= 9) {
+            strHour = '0' + strHour
+          }
+          if (strMin >= 0 && strMin <= 9) {
+            strMin = '0' + strMin
+          }
+          const currentDate = date.getFullYear() + '-' + month + '-' + strDate + ' ' +
+                  strHour + seperator2 + strMin
+          return currentDate
+        },
+        updateTime: function () {
+          const _this = this
+          if (this.updateTimePid) {
+            clearInterval(this.updateTimePid)
+          } else {
+            this.updateTimePid = setInterval(function () {
+              _this.currentTime = _this.getTime()
+            }, 1000)
+          }
         }
       },
       mounted () {
+        this.isFullScreen()
         this.initMap()
       }
     }
