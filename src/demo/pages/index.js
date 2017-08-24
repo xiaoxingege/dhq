@@ -45,7 +45,6 @@ initVue({
     routes,
     historyMode: 'history',
     beforeEach (to, from, next) {
-      store.dispatch('projects/fetch', {})
       next()
     }
   }

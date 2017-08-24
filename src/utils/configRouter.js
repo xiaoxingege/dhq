@@ -4,7 +4,7 @@
 
 import VueRouter from 'vue-router'
 
-export function configRouter ({ routes, historyMode, beforeEach }) {
+export function configRouter ({ routes, historyMode, beforeEach, afterEach, onReady }) {
   const promise = new Promise(function (resolve) {
     const router = new VueRouter({
       routes,
@@ -12,6 +12,12 @@ export function configRouter ({ routes, historyMode, beforeEach }) {
     })
     if (beforeEach) {
       router.beforeEach(beforeEach)
+    }
+    if (afterEach) {
+      router.afterEach(afterEach)
+    }
+    if (onReady) {
+      router.onReady(onReady)
     }
     resolve(router)
   })
