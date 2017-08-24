@@ -54,11 +54,11 @@
                     <p>{{dialogOptions.leftList.yData.value}}</p>
                 </div>
                 <div v-show="bubbleSize !== ''">
-                    <p>{{xSelectData[bubbleSize]}}</p>
+                    <p>{{bubbleSizeSelect[bubbleSize]}}</p>
                     <p>{{dialogOptions.leftList.bubbleSize.value}}</p>
                 </div>
                 <div v-show="bubbleColor !== '' && bubbleColor !== 'sw_indu_name'">
-                    <p>{{xSelectData[bubbleColor]}}</p>
+                    <p>{{bubbleColorSelect[bubbleColor]}}</p>
                     <p>{{dialogOptions.leftList.bubbleColor.value}}</p>
                 </div>
             </div>
