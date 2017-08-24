@@ -1,19 +1,11 @@
-<style lang="scss" scoped>
-@import "../main/css/common.scss";
+<style  scoped>
 
 .pagination {
     width: 100%;
     margin: 0;
-    & > a {
-        vertical-align: bottom;
-    }
 }
 .glyphicon {
-    font-size: 0.3rem;
-    color: white;
-    &:hover {
-        color: darken(white,5%);
-    }
+    color: #14c767;
 }
 .disabled.glyphicon {
     color: #ccc;
@@ -22,23 +14,22 @@
 .curr-page {
     outline: 0;
     border: 0 none;
-    width: 0.5rem;
-    padding: 0.05rem 0;
-    font-size: 0.2rem;
     vertical-align: bottom;
     text-align: center;
     color: #999;
+    width:50px;
+    border:1px solid #000;
 }
 .disabled {}
 </style>
 
 <template>
-<div class="pagination" :style="{textAlign:align||'right'}">
-  <a href="javascript:;" title="第一页"><i @click="turn(1)" :class="'glyphicon glyphicon-step-backward' + (page === 1 ? ' disabled' : '')"></i></a>
-  <a href="javascript:;" title="上一页"><i @click="prev($event)" :class="'glyphicon glyphicon-triangle-left' + (page === 1 ? ' disabled' : '')"></i></a>
+<div class="pagination" :style="{textAlign:align||'center'}">
+  <a href="javascript:;" title="第一页"><i @click="turn(1)" :class="'glyphicon glyphicon-step-backward' + (page === 1 ? ' disabled' : '')">第一页</i></a>
+  <a href="javascript:;" title="上一页"><i @click="prev($event)" :class="'glyphicon glyphicon-triangle-left' + (page === 1 ? ' disabled' : '')">上一页</i></a>
   <input @input="go($event)" class="curr-page" :value="page||1" />
-  <a href="javascript:;" title="下一页"><i @click="next($event)" :class="'glyphicon glyphicon-triangle-right' + (page === totalPage ? ' disabled' : '')"></i></a>
-  <a href="javascript:;" title="最后一页"><i @click="turn(totalPage)" :class="'glyphicon glyphicon-step-forward' + (page === totalPage ? ' disabled' : '')"></i></a>
+  <a href="javascript:;" title="下一页"><i @click="next($event)" :class="'glyphicon glyphicon-triangle-right' + (page === totalPage ? ' disabled' : '')">下一页</i></a>
+  <a href="javascript:;" title="最后一页"><i @click="turn(totalPage)" :class="'glyphicon glyphicon-step-forward' + (page === totalPage ? ' disabled' : '')">最后一页</i></a>
 </div>
 </template>
 

@@ -43,18 +43,18 @@ cursor: pointer;}
       </li>
       <li class="clearfix">
         <span class="fl">系统</span>
-        <select class="fl" name="">
-          <option value="">Android</option>
-          <option value="">Ios</option>
+        <select class="fl" name="" v-model="osType">
+          <option value="2" selected="">Android</option>
+          <option value="1">Ios</option>
         </select>
         <span class="fl">appversion</span>
-        <input type="text" class="fl appv" name="" value=""> <b>请输入要正确：比如6.9.0</b>
+        <input type="text" class="fl appv" name="" v-model="appVersion" value="6.8.0"> <b>请输入要正确：比如6.9.0</b>
       </li>
       <li class="clearfix">
         <span class="fl">d_name</span>
-        <input type="text" class="fl" name="" value="">
+        <input type="text" class="fl" name="" value="click_zxgdy_xw" v-model="searchKey">
         <span class="fl">devid</span>
-        <input type="text" class="fl long" name="" >
+        <input type="text" class="fl long" name="" value="353952071425941" v-model="devId" >
       </li>
     </ul>
     <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
@@ -89,10 +89,10 @@ export default {
       endTime: this.getNowFormatDate(),
       currentPage: 1,
       pageSize: 20,
-      osType: 1,
-      appVersion: '6.7.0',
-      searchKey: 'click_sy_yhtx',
-      devId: 'uuid-110BAE64-0F1D-43D1-A7D3-985FCD6AEBB5',
+      osType: '2',
+      appVersion: '6.8.0',
+      searchKey: 'click_zxgdy_xw',
+      devId: '353952071425941',
       tabledata: {
         th: ['哈哈', '呵呵', '嘎嘎', '嘻嘻', '嘿嘿', '槑', '恩', '哼'],
         td: [
@@ -107,7 +107,7 @@ export default {
 
   },
   mounted () {
-
+    document.title = '打点'
   },
   methods: {
     pad2 (n) { return n < 10 ? '0' + n : n },
@@ -116,7 +116,7 @@ export default {
       return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
     },
     appbtn1 () {
-      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
+      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=2017/8/21 15:37:7&endTime=2017/8/24 12:18:36&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
 
       fetch(url, {
         method: 'GET',
@@ -135,6 +135,9 @@ export default {
     },
     endshowMsgFromChild (data) {
       this.endTime = data
+    },
+    turn () {
+
     }
   }
 }

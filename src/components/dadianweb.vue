@@ -47,15 +47,7 @@ cursor: pointer;}
     </ul>
     <a href="javascript:;" class="btn" @click="webbtn1">检索</a>
   </div>
-  <div class="tit">语句查询哈哈</div>
-  <div class="item">
-    <textarea name="name" class="text">
-      select * from appcms_parquet
-      where url like'%i.jrj.com.cn/app/myfund%'
-      and ds='2017-06-30'
-    </textarea>
-      <a href="javascript:;" class="btn">检索</a>
-  </div>
+  
   <div class="tit">结果</div>
   <dadianTable v-bind:tabledata="tabledata"/>
   <JichushareToast/>
