@@ -99,8 +99,14 @@ export default {
   },
   data () {
     return {
-      starttime: this.getNowFormatDate(),
-      endtime: this.getNowFormatDate(),
+      beginTime: this.getNowFormatDate(),
+      endTime: this.getNowFormatDate(),
+      currentPage: 1,
+      pageSize: 20,
+      osType: 1,
+      appVersion: '6.7.0',
+      searchKey: 'click_sy_yhtx',
+      devId: 'uuid-110BAE64-0F1D-43D1-A7D3-985FCD6AEBB5',
       tabledata: {
         th: ['哈哈', '呵呵', '嘎嘎', '嘻嘻', '嘿嘿', '槑', '恩', '哼'],
         td: [
