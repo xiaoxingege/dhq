@@ -10,7 +10,8 @@ export default {
   namespaced: true,
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更新
-    askTimes: '0'
+    askTimes: '10',
+    err: null
   },
   mutations: {
     setAsk (state, res) {
@@ -22,13 +23,31 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    ask ({ commit }) {
-      fetch('http://itougu.jrj.com.cn/ques/ask/baidu/askNum.jspa?passportId=141120010079383950', {
+    ask ({ commit, rootState }, options) {
+      fetch('http://itougu.jrj.com.cn/ques/ask/baidu/askNum.jspa?passportId=' + options.userId, {
         credentials: 'include'
       }).then(res => {
         return res.json()
       }).then(json => {
         commit('setAsk', json)
+      })
+    },
+    askto ({ commit, rootState }, options) {
+      fetch('http://itougu.jrj.com.cn/ques/ask/baidu/askto.jspa?textcont=' + encodeURI(options.textCont) + '&passportId=' + options.passportId + '&isopen=1', {
+
+        credentials: 'include'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        // commit('setAsk', json)
+        if (json.retCode === 0 || json.retCode === 1) {
+          window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-success.html?stockCode=' + json.stockCode
+        } else {
+          commit('setError', {
+            retCode: json.retCode,
+            msg: json.msg
+          })
+        }
       })
     }
   }

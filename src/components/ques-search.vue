@@ -118,10 +118,12 @@ export default {
       })
     },
     searchDataClick (index) {
-      this.value = this.CodeData[index].name + '(' + this.CodeData[index].code + ')'
-
+      var value = this.CodeData[index].name + '(' + this.CodeData[index].code + ')'
+      this.value = value
       this.stid = this.CodeData[index].stid
       this.searchDataType = false
+
+      this.$emit('searchVal', value)
     },
     inputBlur () {
       this.searchDataType = false
@@ -131,7 +133,6 @@ export default {
     }
   },
   mounted () {
-        // this.$store.dispatch('quesSearch/ask')
     this.$watch('CodeData', CodeData => {
       this.searchDataType = true
       if (CodeData.length === 0) {

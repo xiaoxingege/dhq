@@ -16,9 +16,11 @@ Vue.use(Vuex)
  * 实例化store
  */
 import quesTg from 'stores/ques-tg'
+import quesDetail from 'stores/ques-detail'
 const store = new Vuex.Store({
   modules: {
-    quesTg
+    quesTg,
+    quesDetail
   }
 })
 

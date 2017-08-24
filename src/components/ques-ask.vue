@@ -21,7 +21,7 @@
 .ques-text－num {
     font-size: 0.28rem;
     position: absolute;
-    top: 4.2rem;
+    top: 5rem;
     right: 0.2rem;
     color: #999;
 }
@@ -47,7 +47,7 @@
 <template>
 <div class="ques-ask-box">
     <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
-    <ques-search />
+    <ques-search @searchVal="searchVal"/>
     <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
     <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
     <p class="askTimes">今日您还剩余<span>{{askTimes}}</span>次提问机会</p>
@@ -63,6 +63,7 @@ import quesSearch from 'components/ques-search'
 import fixBg from 'components/fix-bg'
 import quesLicense from 'components/ques-license'
 import quesNav from 'components/ques-nav'
+import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
@@ -71,12 +72,17 @@ export default {
       fixBgShow: false,
       quesLicenseShow: false,
       quesNavTitle: '问股',
-      btnTxt: '提问'
+      btnTxt: '提问',
+      searchValue: '',
+      userShow: false
     }
   },
   computed: mapState({
     askTimes: state => {
       return state.quesAsk.askTimes
+    },
+    err: state => {
+      return state.quesAsk.err
     }
   }),
   components: {
@@ -106,12 +112,52 @@ export default {
       history.go(-1)
     },
     navEvents () {
-      alert('submit')
+      if (this.userShow === false) {
+        // var url = window.location.href
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+        return
+      }
+      var searchValue = this.searchValue
+      var textCont = searchValue + '' + this.text
+      var passportId = window.basicUserInfo.userId
+      console.log(textCont)
+      if (!this.text) {
+        alert('内容不可为空')
+        return
+      } else if (!passportId) {
+        alert('用户未登录')
+        return
+      }
+
+      this.$store.dispatch('quesAsk/askto', {
+        textCont: textCont,
+        passportId: passportId
+      })
+    //   alert('submit')
+    },
+    searchVal (val) {
+      this.searchValue = val
     }
   },
   mounted () {
     document.title = '问股'
-    this.$store.dispatch('quesAsk/ask')
+    if (window.basicUserInfo.userId) {
+      this.userShow = true
+      this.$store.dispatch('quesAsk/ask', {
+        userId: window.basicUserInfo.userId
+      })
+    } else {
+      this.userShow = false
+      if (getQueryString('code')) {
+        this.$store.dispatch('quesDetail/authorize', {
+          code: getQueryString('code'),
+          redirectUri: 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+        })
+      }
+    }
+    this.$watch('err', err => {
+      alert(err.msg)
+    })
   }
 }
 </script>

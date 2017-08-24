@@ -24,15 +24,15 @@
     margin: 0 0 0.5rem 0.3rem;
     color: #fff;
 }
-.ques-success-box div h3{
+.ques-success-box div h3 {
     font-size: 0.42rem;
     font-weight: normal;
 }
-.ques-success-box div h4{
+.ques-success-box div h4 {
     font-size: 0.32rem;
     font-weight: normal;
 }
-.ques-success-box div p{
+.ques-success-box div p {
     font-size: 0.26rem;
 }
 .ques-detail-list {
@@ -52,63 +52,57 @@
     background-color: #fff;
     margin-bottom: 0.2rem;
 }
-.ques-detail-list li .ques-detail-list-box {
+.ques-tg-list-box {
     width: 95%;
     padding: 0.3rem 2.5%;
 }
-.ques-detail-list-box img {
+.ques-tg-list-box h5 {
+    font-size: 0.34rem;
+    color: #333;
+    line-height: 0.5rem;
+    border-bottom: 1px #e6e6e6 solid;
+    padding-bottom: 0.2rem;
+    font-weight: normal;
+}
+.ques-tg-list-box h5 a {
+    color: #333;
+}
+.ques-tg-list-box img {
     width: 0.6rem;
     height: 0.6rem;
     float: left;
+    margin-top: 0.32rem;
+    border-radius: 50%;
 }
-.ques-detail-list-box div {
-    width: 6.12rem;
+.ques-tg-list-box p {
+    width: 6rem;
     float: left;
-    margin-left: 0.18rem;
+    margin: 0.3rem 0 0 0.2rem;
     position: relative;
 }
-.ques-detail-list-box div h5 {
+.ques-tg-list-box p span {
     font-size: 0.26rem;
     color: #666;
-    font-weight: normal;
-}
-.ques-detail-list-box div h5 span {
-    color: #aaa;
-}
-.ques-detail-list-box div p {
-    font-size: 0.28rem;
-    color: #555;
-    line-height: 0.4rem;
-    margin-top: 0.2rem;
-}
-.ques-detail-list-box div p a {
-    color: #2e7cd7;
-}
-.ques-detail-list-box div strong {
-    display: block;
-    font-size: 0.24rem;
-    color: #aaa;
-    font-weight: normal;
-}
-.ques-detail-list-box div > span {
-    font-size: 0.24rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    line-height: 0.35rem;
-    color: #aaa;
-}
-.ques-detail-list-box div > span.focus {
-    color: #ff4040;
-
-}
-.ques-detail-list-box div > span.focus i {
-    width: 0.14rem;
-    height: 0.14rem;
-    background: url("../assets/images/ques-alading/tg-i3.png") no-repeat;
-    background-size: 100% 100%;
-    margin: 0.1rem;
     float: left;
+    width: 100%;
+}
+.ques-tg-list-box p em {
+    font-size: 0.24rem;
+    color: #aaa;
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.ques-tg-list-box p strong {
+    font-size: 0.3rem;
+    color: #555;
+    float: left;
+    font-weight: normal;
+    margin-top: 0.1rem;
+}
+.ques-tg-list-box p strong a {
+    color: #2e7cd7;
 }
 // 111
 .circleProgress_wrapper {
@@ -159,7 +153,6 @@
     left: 0;
     -webkit-animation: circleProgressLoad_left 1s linear infinite;
 }
-
 @-webkit-keyframes circleProgressLoad_right {
     0% {
         -webkit-transform: rotate(45deg);
@@ -171,7 +164,6 @@
         -webkit-transform: rotate(225deg);
     }
 }
-
 @-webkit-keyframes circleProgressLoad_left {
     0% {
         -webkit-transform: rotate(45deg);
@@ -206,14 +198,30 @@
     font-size: 0.26rem;
     color: #ff5e33;
 }
-.ques-success-load-desc { position: absolute; bottom: 0; left: -0.7rem; width: 3.8rem; text-align: center; }
-.ques-success-load-desc h3 { font-size: 0.38rem; color: #fff; font-weight: normal; }
-.ques-success-load-desc p { font-size: 0.24rem; color: #fff; }
+.ques-success-load-desc {
+    position: absolute;
+    bottom: 0;
+    left: -0.7rem;
+    width: 3.8rem;
+    text-align: center;
+}
+.ques-success-load-desc h3 {
+    font-size: 0.38rem;
+    color: #fff;
+    font-weight: normal;
+}
+.ques-success-load-desc p {
+    font-size: 0.24rem;
+    color: #fff;
+}
+
+
+
 </style>
 
 <template>
 <div class="ques-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" />
     <div class="ques-success">
         <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
             <div class="wrapper right">
@@ -247,7 +255,31 @@
     <div class="ques-detail-list">
         <h3>其他精彩回答</h3>
         <ul>
-            <li>
+            <!-- <li v-for="item in dataList">
+                <div class="ques-detail-list-box clearfix">
+                    <img src="../assets/images/ques-alading/tg-i4.png" />
+                    <div>
+                        <h5>不败女王<span>-深圳新兰德</span></h5>
+                        <p>投资达人空空空道人已回答该问题，<a href="javascript:;">点击查看 > </a></p>
+                        <span>今天 14:31</span>
+                    </div>
+                </div>
+            </li> -->
+
+            <li v-for="item in dataList">
+                <div class="ques-tg-list-box clearfix">
+                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId" v-html="item.content"></a></h5>
+                    <div>
+                        <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
+                        <p>
+                            <span>{{item.lastedAnswer.adviserUser.userName}}</span>
+                            <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
+                            <strong>{{item.lastedAnswer.content}}</strong>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <!-- <li>
                 <div class="ques-detail-list-box clearfix">
                     <img src="../assets/images/ques-alading/tg-i4.png" />
                     <div>
@@ -266,17 +298,7 @@
                         <span>今天 14:31</span>
                     </div>
                 </div>
-            </li>
-            <li>
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>投资达人空空空道人已回答该问题，<a href="javascript:;">点击查看 > </a></p>
-                        <span>今天 14:31</span>
-                    </div>
-                </div>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>
@@ -286,11 +308,15 @@ import {
     mapState
 } from 'vuex'
 import quesNav from 'components/ques-nav'
+import moment from 'moment'
+import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
     var _this = this
-    setTimeout(function () { _this.quesSuccessLoadShow = false }, 1000)
+    setTimeout(function () {
+      _this.quesSuccessLoadShow = false
+    }, 1000)
     return {
       quesNavTitle: '问股',
       btnTxt: '再问一个',
@@ -298,23 +324,40 @@ export default {
     }
   },
   computed: mapState({
-        // CodeData: state => {
-        //   return state.quesSearch.CodeData
-        // }
+    dataList: state => {
+      return state.quesSuccess.dataList
+    }
   }),
   components: {
     quesNav
   },
   methods: {
+    moment (time, format) {
+      return moment(time).locale('zh-cn').calendar(null, {
+        sameDay: '[今天] HH:mm',
+        nextDay: '[明天] HH:mm',
+        nextWeek: '下周',
+        lastDay: '[昨天] HH:mm',
+        lastWeek: '[上周] dddd'
+      })
+    },
     navBak () {
-      alert('navBak')
+      history.go(-1)
     },
     navEvents () {
-      alert('submit')
+      window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
     }
   },
   mounted () {
     document.title = '问答详情'
+    console.log(getQueryString('stockCode'))
+    if (getQueryString('stockCode') === '') {
+      this.$store.dispatch('quesSuccess/jchd')
+    } else {
+      this.$store.dispatch('quesSuccess/fetch', {
+        stockCode: getQueryString('stockCode')
+      })
+    }
   }
 }
 </script>

@@ -145,8 +145,8 @@
                     <img :src="item.adviserUser.headImage" />
                     <div>
                         <h5>{{item.adviserUser.userName}}<span>-{{item.adviserUser.company}}</span></h5>
-                        <p>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
-                        <!-- <p>{{item.textContent}}</p> -->
+                        <p v-if="userShow">{{item.textContent}}</p>
+                        <p v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
                         <span class="focus"><i></i>关注</span>
                         <!-- <span>已关注</span> -->
@@ -200,7 +200,8 @@ export default {
       fixBgShow: false,
       quesFocusShow: false,
       quesLicenseShow: false,
-      quesNavTitle: '问答详情'
+      quesNavTitle: '问答详情',
+      userShow: false
     }
   },
   computed: mapState({
@@ -209,9 +210,6 @@ export default {
     },
     askData: state => {
       return state.quesDetail.askData
-    },
-    baiduUserData: state => {
-      return state.quesDetail.baiduUserData
     }
   }),
   components: {
@@ -236,27 +234,24 @@ export default {
       history.go(-1)
     },
     authorize () {
-      var url = window.location.href
-      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
+      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html'
     }
   },
   mounted () {
     document.title = '问答详情'
-    // this.$store.dispatch('quesDetail/fetch', {
-    //   userId: window.basicUserInfo.userId,
-    //   courseId: getQueryString('courseId')
-    // })
+    if (window.basicUserInfo.userId) {
+      this.userShow = true
+    } else {
+      this.userShow = false
+      if (getQueryString('code')) {
+        this.$store.dispatch('quesDetail/authorize', {
+          code: getQueryString('code'),
+          redirectUri: 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html'
+        })
+      }
+    }
     this.$store.dispatch('quesDetail/fetch', {
       askid: getQueryString('askid')
-    })
-    if (getQueryString('code')) {
-      this.$store.dispatch('quesDetail/authorize', {
-        code: getQueryString('code'),
-        redirectUri: window.location.href
-      })
-    }
-    this.$watch('baiduUserData', baiduUserData => {
-      console.log(baiduUserData)
     })
   }
 }

@@ -185,7 +185,8 @@
                         <p>
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong>{{item.lastedAnswer.content}}</strong>
+                            <strong v-if="userShow">{{item.lastedAnswer.content}}</strong>
+                            <strong v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
                         </p>
                     </div>
                 </div>
@@ -213,11 +214,13 @@ import {
 } from 'vuex'
 import quesNav from 'components/ques-nav'
 import moment from 'moment'
+import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
     return {
-      quesNavTitle: '投顾问答'
+      quesNavTitle: '投顾问答',
+      userShow: false
     }
   },
   computed: mapState({
@@ -248,11 +251,25 @@ export default {
     },
     search () {
       window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+    },
+    authorize () {
+      var url = window.location.href
+      debugger
+      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
     }
   },
   mounted () {
+    if (window.basicUserInfo.userId) {
+      this.userShow = true
+    }
     document.title = '投顾问答'
     this.$store.dispatch('quesTg/fetch')
+    if (getQueryString('code')) {
+      this.$store.dispatch('quesDetail/authorize', {
+        code: getQueryString('code'),
+        redirectUri: window.location.href
+      })
+    }
   }
 }
 </script>
