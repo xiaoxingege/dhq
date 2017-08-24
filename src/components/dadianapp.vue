@@ -61,7 +61,7 @@ cursor: pointer;}
   </div>
   <div class="tit">结果</div>
   <dadianTable v-bind:tabledata="tabledata" />
-  <dadianfenye :page="currentPage" :size="pageSize" :total="total" @change="turn" />
+  <pagination :page="currentPage" :size="pageSize" :total="total" @change="turn" />
   <JichushareToast/>
 </div>
 </template>
@@ -71,7 +71,7 @@ import dadianBtn from 'components/dadian-btn'
 import dadianTime from 'components/dadian-time'
 import dadianTable from 'components/dadian-table'
 import JichushareToast from 'components/jichushare-toast'
-import dadianfenye from 'components/dadianfenye'
+import pagination from 'components/pagination'
 import 'whatwg-fetch'
 
 export default {
@@ -80,7 +80,7 @@ export default {
     dadianTime,
     dadianTable,
     JichushareToast,
-    dadianfenye
+    pagination
   },
   data () {
     return {
