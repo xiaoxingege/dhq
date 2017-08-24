@@ -93,6 +93,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 pinfo 'npm buildserver done.'
+pinfo 'checking for new files'
 newfiles=()
 ftp -n 117.121.12.155 <<f1 >>/dev/null
 quote USER shihuang.piao.ftp.img
@@ -176,11 +177,19 @@ get_port
 pinfo 'using port: '$port
 pm2name=$feature"_"$branch
 pinfo 'pm2 name: '$pm2name
+ssh admin@127.0.0.1 -p 62222 'mkdir -p /home/admin/code/'$feature
+ssh admin@127.0.0.1 -p 62222 'rm -rf /home/admin/code/'$feature'/*'
+scp -r -P 62222 * admin@127.0.0.1:/home/admin/code/$feature/
 ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
-pm2 reload $pm2name
-if [ "$?" != "0" ]; then
-echo 'start pm2'
-pm2 start -n $pm2name dist/$feature/server/index.js -- $port
+export name=$pm2name
+if [ "`sudo pm2 list | grep '^│ '$name | wc -l`" == "1" ]; then
+  sudo pm2 reload $pm2name
+else
+  echo 'start pm2'
+  cd /home/admin/code/$feature
+  sudo pm2 start -n $pm2name dist/$feature/server/index.js -- $port
+  sudo pm2 save
 fi
+exit
 ssh
 fi

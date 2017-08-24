@@ -206,7 +206,6 @@
      cutStr (str, len) {
        return cutString(str, len)
      }
- 
    },
    mounted () {
      this.$store.dispatch('topic/queryHot')

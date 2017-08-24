@@ -2,15 +2,16 @@
     @import '../assets/css/base.css';
    html,body .app{height: 100%;}
     *{box-sizing: border-box;}
-    .map{background-color: #000;height: 100%;padding: 0 20px;min-width: 1217px;}
+    .map{background-color: #000;height: 100%;min-width: 1217px;}
+    .map_pad{padding: 0 20px;}
     .condition{text-align: left;display: inline-block;}
-    .condition{color:#fff;font-size:14px;opacity: 0.8}
+    .condition{color:#fff;font-size:14px;opacity: 0.8;}
     .condition select{color:#2f5b7d;background-color: #000;border: none;opacity: 1}
     .condition_wrap{text-align: left;margin:10px 0 5px;}
 </style>
 <template>
-    <div class="map">
-        <div class="condition_wrap">
+    <div class="map" v-bind:class="{'map_pad':showCondition}">
+        <div class="condition_wrap" v-if="showCondition">
             <div class="condition">
                 股票范围：
                 <select v-model="rangeCode">
@@ -44,7 +45,7 @@
             </div>
             <StockSearch :rangeCode="rangeCode" :condition="condition"></StockSearch>
         </div>
-        <StockMap :rangeCode="rangeCode" :condition="condition"></StockMap>
+        <StockMap :rangeCode="rangeCode" :condition="condition" @isEnlarge="isShow"></StockMap>
     </div>
 </template>
 <script type="text/javascript">
@@ -55,13 +56,23 @@ export default{
         return {
           rangeCode: '',
           condition: 'mkt_idx.cur_chng_pct',
-          keyword: ''
+          keyword: '',
+          showCondition: true
         }
       },
       props: [''],
       components: {
         StockMap,
         StockSearch
+      },
+      methods: {
+        isShow: function (msg) {
+          if (msg) {
+            this.showCondition = false// 全屏
+          } else {
+            this.showCondition = true// 非全屏
+          }
+        }
       },
       mounted () {
 

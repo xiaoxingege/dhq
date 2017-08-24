@@ -6,12 +6,14 @@
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
 import { domain } from '../z3tougu/config/'
-const mutationTypes = {
+
+export const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
   UPDATE_TOPIC_SUMMARY: 'UPDATE_TOPIC_SUMMARY',
   UPDATE_TOPIC_LINEDATA: 'UPDATE_TOPIC_LINEDATA',
   UPDATE_TOPIC_NEWS: 'UPDATE_TOPIC_NEWS',
-  UPDATE_TOPIC_STOCKLIST: 'UPDATE_TOPIC_STOCKLIST'
+  UPDATE_TOPIC_STOCKLIST: 'UPDATE_TOPIC_STOCKLIST',
+  UPDATE_TOPIC_RELSTOCK: 'UPDATE_TOPIC_RELSTOCK'
 }
 const PAGE_SIZE = 10
 
@@ -33,7 +35,7 @@ export default {
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
     allCharts: [],
     realtimeCharts: [],
-    groupTopics: []
+    relatedStocks: {}
    /* topicReturnRate: [],
     hs300ReturnRate: [],
     tradeDate: []*/ // 全部charts
@@ -47,6 +49,14 @@ export default {
     },
     updateAllTopic (state, themeList) {
       state.themeList = themeList
+      const stocks = {}
+      for (const topic of themeList) {
+        const relatedEquity = topic.relatedEquity
+        for (const stock of relatedEquity) {
+          stocks[stock.innerCode] = stock
+        }
+      }
+      state.relatedStocks = stocks
     },
     updatePage (state, options) {
       console.log(options.totalPages)
@@ -94,6 +104,10 @@ export default {
     [mutationTypes.UPDATE_TOPIC_STOCKLIST] (state, news) {
       state.topic || (state.topic = {})
       state.topic.news = news
+    },
+    [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
+      const stocks = state.topic.relatedStocks
+      state.topic.relatedStocks = { ...stocks, stock }
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -224,7 +238,7 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
+          // console.log(result.data)
           commit('updateGroupTopics', result.data)
         }
       })

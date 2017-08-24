@@ -16,6 +16,8 @@ Vue.use(vueCookie)
 initVue({
   el: 'app',
   store,
-  routes,
-  historyMode: 'history'
+  route: {
+    routes,
+    historyMode: 'history'
+  }
 })

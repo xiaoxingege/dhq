@@ -37,7 +37,8 @@
           xSelectData: Data.xSelectData,
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
-          height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),
+         /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
+          height: window.innerHeight - 85,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',
@@ -154,19 +155,19 @@
               tmpSelect = this.xSelectData[this.parameterData[select]]
             }
             if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0) {
-              return Number(showData).toFixed(2) + '%'
+              return showData === null ? '--' : Number(showData).toFixed(2) + '%'
             } else {
               var selectVal = this.parameterData[select]
               if (selectVal === 'fcst_idx.rating_syn') {
-                if (showData === 5) {
+                if (Number(showData) === 5) {
                   return '卖出'
-                } else if (showData === 4) {
+                } else if (Number(showData) === 4) {
                   return '减持'
-                } else if (showData === 3) {
+                } else if (Number(showData) === 3) {
                   return '中性'
-                } else if (showData === 2) {
+                } else if (Number(showData) === 2) {
                   return '增持'
-                } else if (showData === 1) {
+                } else if (Number(showData) === 1) {
                   return '买入'
                 } else {
                   return '暂无观点'
@@ -336,7 +337,7 @@
                   xAxisIndex: [0],
                   top: 10,
                         // right:80,
-                  left: 40,
+                  left: 100,
                   start: 0,
                   end: 100,
                   textStyle: {
@@ -483,6 +484,7 @@
               }
               that.zIndex = 999999
               that.dialogOptions.stockCode = that.$store.state.bubbles.bubblesData.innerCode[params.dataIndex]
+              that.$store.dispatch('stock/queryKline', { stockCode: that.dialogOptions.stockCode })
               that.dialogOptions.stockName = that.$store.state.bubbles.bubblesData.name[params.dataIndex]
               that.dialogOptions.leftList.xData.value = that.convertNumBySelect('xData', that.$store.state.bubbles.bubblesData.xData[params.dataIndex])
               that.dialogOptions.leftList.yData.value = that.convertNumBySelect('yData', that.$store.state.bubbles.bubblesData.yData[params.dataIndex])
@@ -496,9 +498,9 @@
             })
             window.onresize = function () {
               that.chart.resize({
-                height: (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+                height: window.innerHeight - 85
               })
-              that.height = (window.innerHeight - 85) / (window.devicePixelRatio || 1)
+              that.height = window.innerHeight - 85
             }
             this.chart.hideLoading()
           })
@@ -510,6 +512,7 @@
             this.chart.hideLoading()
           })
           this.chart.showLoading()
+          this.$emit('toHideDialog', false)
         }
 
       },

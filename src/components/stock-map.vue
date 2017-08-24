@@ -12,11 +12,8 @@
         top:0px;
         right:0px;
     }
-    .map_legend_min {
-        float: right;
-    }
     .map_legend .step {
-        width: 50px;
+      /*  width: 50px;*/
         height: 25px;
         line-height: 26px;
         cursor: default;
@@ -26,10 +23,9 @@
         margin-left: 4px;
     }
     .playback{
-        float: left;
         display:inline-block;
         position: absolute;
-        top: 10px;
+        top: 0px;
         left: 0px;
         background: #2c2e31;
         color: #fff;
@@ -38,6 +34,21 @@
         margin-top:10px;
         position: relative;
         height: 25px;
+    }
+    .chart_bottom_enlarge{position: absolute;bottom: 0px;height: 41px;width: 100%;}
+    .chart_bottom_enlarge .playback{
+        background-color: rgba(0,0,0,0.5);
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 10px;
+        padding-bottom: 8px;
+    }
+    .chart_bottom_enlarge .map_legend{
+        background-color: rgba(0,0,0,0.5);
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 10px;
+        padding-bottom: 8px;
     }
     .perday {
         width: 35px;
@@ -53,21 +64,44 @@
     }
     .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
     .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
+    .chart_bottom_enlarge .play_line{top: 8px;}
+    .enlarge {width: 200px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;}
+    .enlarge span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
+    #enlarge, #narrow {cursor: pointer;}
+    .enlarge img{opacity:0.6;}
+    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 233px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
+    .narrow span{margin-right: 20px;}
+    #narrow{width: 20px;height: 20px;position: relative;top: 3px;}
+    #narrow img{width: 20px;}
+    .currentTime{color:#fff;}
+    .map_wrap{position: relative;}
+    .enlarge{position: absolute;top: -32px;right: 0px;}
+    .legend-switch {margin-right: 5px;float: left;width: 16px;margin-top: 4px;cursor: pointer;}
 </style>
 <template>
     <div class="map_wrap">
-        <!--<div id="hover-wrapper" v-if="showHover">-->
-            <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
-       <!-- </div>-->
+         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
+        <div class="enlarge" v-if="!isEnlarge">
+            <span class="currentTime">2017-08-22 11:45</span>
+            <a id="enlarge" v-on:click="enlargeMap"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+        </div>
+        <div class="narrow" v-if="isEnlarge">
+            <span class="currentTime">2017-08-22 11:45</span>
+            <a id="narrow" v-on:click="enlargeMap"><img src="../assets/images/stock-map/narrow.png"/></a>
+        </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px'}" v-on:mousemove="move($event)"></div>
-        <div class="chart_bottom clearfix">
+        <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
             <div class="clearfix playback">
-                <div class="playback_btn perday"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-                <div class="play_line" ref="playLine" :style="{left:playBackIndex*39+46.5+'px'}"></div>
-                <div v-for="date of playBackDateShow" class="perday">{{date}}</div>
+                <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
+                <div class="play_line" ref="playLine" :style="{left:playBackIndex*39+46.5+'px'}" v-if="!isEnlarge || isPlaybackShow"></div>
+                <div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div>
+                <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
+                <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && isPlaybackShow" v-on:click="switchPlayback">
             </div>
-            <div class="map_legend map_legend_min clearfix">
-                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor}">{{legend.value}}</div>
+            <div class="map_legend clearfix">
+                <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && isLegendShow" v-on:click="switchLegend">
+                <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && !isLegendShow" v-on:click="switchLegend">
+                <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="!isEnlarge || isLegendShow">{{legend.value}}</div>
             </div>
         </div>
     </div>
@@ -158,7 +192,11 @@
           playBackSrc: playStopSrc,
           mapHeight: window.innerHeight - 80,
           showHover: false,
-          hoverNode: null
+          hoverNode: null,
+          legendWidth: 50,
+          isEnlarge: false,
+          isLegendShow: true,
+          isPlaybackShow: true
         }
       },
       watch: {
@@ -194,7 +232,7 @@
                 if (stockData) {
                   if (_this.condition === 'act_date') {
                     stock.perf = stockData[stock.name]
-                    if (stock.perf) {
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       const pbDate = new Date(stock.perf)
                       const nowDate = new Date()
                       stock.perfText = _this.dateFormatUtil(pbDate)
@@ -208,9 +246,9 @@
                     }
                   } else {
                     stock.perf = stockData[stock.id] || stockData[stock.name]
-                    if (stock.perf) {
+                    if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       if (_this.isUnit[_this.condition] === '%') {
-                        if (stock.perf > 0) {
+                        if (stock.perf >= 0) {
                           stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                         } else {
                           stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
@@ -292,7 +330,7 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 1000,
+                            visibleMin: 500,
                             // childrenVisibleMin: 10,
                             width: '100%',
                             height: '100%',
@@ -300,7 +338,7 @@
                               normal: {
                                 show: true,
                                 formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf != null) {
+                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
                                     return params.name + '\n' + params.data.perfText
                                   }
                                 },
@@ -382,11 +420,11 @@
         },
         updateData: function () {
           this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
-            this.updataMapData()
+            this.updateMapData()
           })
           this.getLegendColor()
         },
-        updataMapData: function () {
+        updateMapData: function () {
           this.chart.setOption({ series: [{ data: this.stockData }] })
         },
         getStockChartData: function () {
@@ -496,6 +534,7 @@
         getLegendColor: function () {
           this.legendList = []
           if (this.condition === 'act_date') {
+            this.legendWidth = 60
             this.legendList.push({
               value: '业绩公布前',
               backgroundColor: '#20A29A'
@@ -505,6 +544,7 @@
               backgroundColor: '#BA5297'
             })
           } else {
+            this.legendWidth = 50
             for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
               this.legendList.push({
                 value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
@@ -527,7 +567,7 @@
             pid = setInterval(() => {
               const playBackDate = this.playBackDate[this.playBackIndex]
               this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
-                this.updataMapData()
+                this.updateMapData()
               })
               this.playBackIndex++
               if (this.playBackIndex >= this.playBackDate.length - 1) {
@@ -602,6 +642,38 @@
             day = '0' + day
           }
           return day
+        },
+        enlargeMap: function () {
+          if (this.isEnlarge) {
+            this.isEnlarge = false// 非全屏
+            this.mapHeight = window.innerHeight - 80
+            this.chart.resize({
+              height: window.innerHeight - 80,
+              width: window.innerWidth - 40
+            })
+          } else {
+            this.isEnlarge = true// 全屏
+            this.mapHeight = window.innerHeight
+            this.chart.resize({
+              height: window.innerHeight,
+              width: window.innerWidth
+            })
+          }
+          this.$emit('isEnlarge', this.isEnlarge)
+        },
+        switchLegend: function () {
+          if (this.isLegendShow) {
+            this.isLegendShow = false
+          } else {
+            this.isLegendShow = true
+          }
+        },
+        switchPlayback: function () {
+          if (this.isPlaybackShow) {
+            this.isPlaybackShow = false
+          } else {
+            this.isPlaybackShow = true
+          }
         }
       },
       mounted () {
