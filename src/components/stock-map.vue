@@ -531,7 +531,7 @@
             {// 第二层
               itemStyle: {
                 normal: {
-                  borderWidth: 3,
+                  borderWidth: 0,
                   gapWidth: 0,
                   borderColor: '#000'
                 },
@@ -549,7 +549,8 @@
                 emphasis: {
                   offset: [5, 0],
                   textStyle: {
-                    color: '#333'
+                    color: '#333',
+                    ellipsis: false
                   }
                 }
               },
