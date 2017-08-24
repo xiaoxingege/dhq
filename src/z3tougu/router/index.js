@@ -9,7 +9,7 @@ import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
-import GoldStrategy from 'components/gold-strategy'
+/* import GoldStrategy from 'components/gold-strategy'*/
 
 export default [
     { path: '/', name: 'home', component: Index },
@@ -24,6 +24,6 @@ export default [
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
-    { path: '/test/stock', name: 'teststock', component: StockTest },
-    { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy }
+    { path: '/test/stock', name: 'teststock', component: StockTest }/*,
+    { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy }*/
 ]
