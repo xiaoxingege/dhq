@@ -185,6 +185,12 @@
           }
         },
         initBubbles () {
+          const that = this
+          if (window.FiterToWeb) {
+            window.FiterToWeb.SndStockPoolInfo((data) => {
+              that.options.innerCode = data
+            })
+          }
           this.chart = echarts.init(this.$refs.bubbles)
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             const that = this

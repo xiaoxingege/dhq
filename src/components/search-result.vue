@@ -63,7 +63,7 @@
         <ul v-if="searchType == 'infor'">
             <p>搜索资讯数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
-                <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}">{{item.newsTitle}}</router-link>
+                <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}" target="_blank">{{item.newsTitle}}</router-link>
                 <p class="searchInfo">{{item.newsSummary}}</p>
                 <p class="searchTime">{{item.newsTime}}<span class="newsSource">{{item.newsSource}}</span></p>
             </li>
@@ -71,7 +71,7 @@
         <ul v-if="searchType == 'report'">
             <p>搜索研报数：<span>{{total}}</span></p>
             <li  v-for="item of resultData">
-                <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}">{{item.reportTitle}}</router-link>
+                <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}" target="_blank">{{item.reportTitle}}</router-link>
                 <p class="searchInfo">{{item.reportSummary}}</p>
                 <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
             </li>
