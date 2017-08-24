@@ -184,13 +184,13 @@
                             <span class="mr-10">
                                 X轴
                                 <select ref="xData" v-model="dimensionOptions.xDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="(dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order'">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
                                 Y轴
                                 <select ref="yData" v-model="dimensionOptions.yDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :disabled="(dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order'">{{val}}</option>
+                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
                                 </select>
                             </span>
                             <span class="mr-10">
@@ -214,7 +214,7 @@
                 </Dialog>
             </div>
         </div>
-        <bubbles :options="options"></bubbles>
+        <bubbles :options="options" v-on:toHideDialog="hideAlert"></bubbles>
         <div class="legend clearfix">
             <p class="fl">温馨提示：双击鼠标进入个股页面。</p>
             <div class="fr" style="margin-top: 5px;">
@@ -427,9 +427,6 @@
           this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
           this.colorData = this.options.colorDefault === '' ? '常规' : this.bubbleColorList[this.dimensionOptions.colorDefault]
           this.options = { ...this.dimensionOptions, ...this.stockRangeOptions }
-    
-          this.showStockRangeDialog = false
-          this.showSelfRangeDialog = false
         },
         changeTmp (e) {
           const tmpValue = e.target.value
@@ -475,6 +472,10 @@
           this.stockRangeOptions.topic = data[0]
           this.topicName = data[1]
           this.closeTheme()
+        },
+        hideAlert (data) {
+          this.showStockRangeDialog = data
+          this.showSelfRangeDialog = data
         }
       },
       computed: {
