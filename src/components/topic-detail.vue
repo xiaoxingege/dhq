@@ -53,7 +53,7 @@
         background: #f2f2f2;
         font-size: 12px;
         color: #191919;
-       /*  height: 100%; */
+        height: 100%;
     }
     .header{
       padding: 19px 0 6px 18px;
@@ -86,7 +86,9 @@
     .detail-content{
       margin: 9px;
     }
-
+    .detail-main{
+      
+    }
     .main-left{
       width: 60%;
     }
@@ -102,6 +104,9 @@
       padding-bottom: 3px;
       display: inline-block;
     }
+    .left-con1 a:hover{
+      color:#2388da;
+    }
     .left-con2{
       background: #fff;
       border-radius: 3px;
@@ -114,11 +119,17 @@
       border-radius: 3px;
       padding: 13px 25px 10px 13px;
     }
+    .left-con3-1{
+      height: 421px;
+    }
     .in-content{
       line-height: 18px;
     }
     .in-title{
       line-height: 62px;
+    }
+    .new-link span{
+      line-height: 18px;
     }
     .new-tit{
       width: 70%;
@@ -126,20 +137,21 @@
       float: left;
       white-space: nowrap;  
       overflow: hidden;  
-      text-overflow: ellipsis; 
+      text-overflow: ellipsis;
+      line-height: 25px; 
 
     }
     .new-date{
       color: #7e7e7e;
-      line-height: 24px;
+      line-height: 25px;
       float: left;
       width: 12%;
       text-align: right;
     }
     .new-srcname{
-      line-height: 24px;
+      line-height: 25px;
       float: left;
-      width: 12%;
+      width: 14%;
       text-align: right;
       color: #7e7e7e;
     }
@@ -152,12 +164,13 @@
     .view-all{
       position:relative;
       margin-top: 10px;
-      margin-right: 7%;
+      /* margin-right: 7%; */
+      margin-right: 5%;
       cursor: pointer;
       background: #fff;
     }
     .view-all2{
-
+      margin-right:9%;
     }
     .view-all i{
       width: 0;
@@ -171,6 +184,13 @@
     }
     .main-right{
       width: 39%;
+      /* max-height: 898px; */
+      background: #fff;
+      /* max-height: 74.7em; 
+      height: 55.7rem;*/
+    }
+    .main-right2{
+      height:896px; 
     }
     .right-con{
        background: #fff;
@@ -185,7 +205,8 @@
     }
     .right-con th{
       background: #eff3f8;
-      padding: 11px 0 8px 0;
+      /* padding: 11px 0 8px 0; */
+      padding: 13px 0 12px 0;
       text-align: center;
       width: 100%;
     }
@@ -200,6 +221,7 @@
       border-bottom: 1px solid #e5e5e5;
     }
    .right-con tbody tr td{
+     /* line-height: 42px; */
      line-height: 42px;
     }
     .td-tit1{
@@ -261,20 +283,22 @@
                  <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket.stkDownNum}}</span>
             </div>
         </div>
-        <div class="detail-content">
-              <div class="detail-main">
+        <div class="detail-content clearfix">
+              <div class="detail-main clearfix">
                   <div class="main-left fl mr-8">
                       <div class="left-con1 mb-8">
                           <strong>最新事件</strong>
-                          <div><span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span>
+                          <div>
+                            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> 
+                              <span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span></router-link>
                           </div>
                           <div>
-                             <span>{{detail.summary}}</span>
+                             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{detail.summary}}</span></router-link>
                             （<span>{{detail.srcName}}</span>）
                           </div>
                       </div>
                       <div class="left-con2 mb-8">
-                        <div class="chart-title">雄安新区风分股累计收益率</div>
+                        <div class="chart-title">{{detail.topicName}}分股累计收益率</div>
                         <ul class="time-ul">
                             <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
                             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
@@ -286,24 +310,25 @@
                         </ul>
                           <div class="chart" ref="chart"></div>
                       </div>
-                      <div class="left-con3 clearfix">
+                      <div class="left-con3 clearfix" :class="informatList.length<15 && inforPageSize>9?'left-con3-1':''">
                           <strong class="mb-8" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}</strong><strong>相关资讯</strong>
                           <div class="in-content">
-                              <a class="new-link clearfix"  v-if="informatList && index < 5" v-for="(infor,index) of informatList">
-                                <span class="new-tit">{{infor.title}}</span>
+                              <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> 
+                               <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList"> 
+                                 <span class="new-tit">{{infor.title}}</span>
                                  <span class="new-date">{{format(infor.declareDate)}}</span>
                                  <span class="new-srcname">{{infor.srcName}}</span>
-                              </a>
-                              
+                                </a>
+                               </router-link>  
                           </div>
                           <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList"><router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link></div>
                       </div>
                   </div>
-                  <div class="main-right fl">
+                  <div class="main-right fl" :class="stockList.length<15&&size>13?'main-right2':''">
                         <table class="right-con clearfix">
                           <thead>
                              <th class="fl mb-8">
-                               <td class="td1">雄安新区相关股票</td>
+                               <td class="td1">{{detail.topicName}}相关股票</td>
                                <td>最新价</td>
                                <td>涨跌幅</td>
                                <td>所属申万行业</td>
@@ -353,7 +378,10 @@
       data () {
         return {
           period: { all: 'ALL', M01: 'M01', M03: 'M03', M06: 'M06', M12: 'M12', M36: 'M36', day: 'day' },
-          topicCode: this.$route.params.topicId
+          topicCode: this.$route.params.topicId,
+          fullHeight: document.documentElement.clientHeight,
+          size: 12,
+          inforPageSize: 5
         }
       },
       computed: {
@@ -368,15 +396,20 @@
             const topicReturnRate = []
             const hs300ReturnRate = []
             const tradeDate = []
+            let topicName = ''
+            let time = ''
             chartData && chartData.forEach(item => {
+              time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
               topicReturnRate.push(Number(item.topicReturnRate).toFixed(2))
               hs300ReturnRate.push(Number(item.hs300ReturnRate).toFixed(2))
-              tradeDate.push(item.tradeDate)
+              tradeDate.push(time)
+              topicName = item.topicName
             })
             return {
               topicReturnRate: topicReturnRate,
               hs300ReturnRate: hs300ReturnRate,
-              tradeDate: tradeDate
+              tradeDate: tradeDate,
+              topicName: topicName
             }
           },
           realTimeData: state => {
@@ -415,17 +448,32 @@
               }
             }
             console.log(tradeMin)
-            realtimeCharts && realtimeCharts.forEach(item => {
-          /* const tradeMinDate = item.tradeMin.toString().replace(/\d{2}$/g, ':$&')*/
-              topicChgPct.push(Number(item.topicChgPct).toFixed(2))
-              hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+            realtimeCharts && realtimeCharts.forEach((item, index) => {
+          // console.log(index === 0)
+              if (index === 0) {
+                topicChgPct.push(0)
+                hs300ChgPct.push(0)
+              } else {
+                topicChgPct.push(Number(item.topicChgPct).toFixed(2))
+                hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+              }
               /* tradeMin.push(tradeMinDate)*/
             })
             return {
               topicChgPct: topicChgPct,
               hs300ChgPct: hs300ChgPct,
-              tradeMin: tradeMin
+              tradeMin: tradeMin,
+              topicTimeName: realtimeCharts[0].topicName
             }
+          },
+          xLabelInterval () {
+            let interval = 'auto'
+            if (this.period === 'day') {
+              interval = 14
+            } else {
+              interval = 'auto'
+            }
+            return interval
           }
         //   stockNum: state => state.topic.stockList.length,
         //   newsNum: state => state.topic.news.length
@@ -451,34 +499,47 @@
           this.period = 'ALL'
           this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                       .then(() => {
-                        this.drawCharts(this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+                        this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
                       })
+          // console.log(this.handleResize)
         },
         renderCharts (type) {
           this.period = type
           console.log(type)
           if (type === 'day') {
             this.$store.dispatch('topic/queryRealtimeCharts', { period: this.period, topicCode: this.topicCode }).then(() => {
-              this.drawCharts(this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+              this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
             })
           } else {
             this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                      .then(() => {
-                       this.drawCharts(this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+                       this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
                      })
                // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
           }
         },
+        handleResize (event) {
+          this.fullHeight = document.documentElement.clientHeight
+          // console.log(this.fullHeight > 710 ? this.size = 20 : this.size = 12)
+          // console.log(this.fullHeight)
+      /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
+        },
         updateChart () {
 
         },
-        initStockList () {
+        initStockList (size) {
         //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
+          console.log(this.fullHeight)
+          this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
+          console.log(this.size)
+          this.$store.dispatch('topic/queryStockList', { topicCode: this.topicCode, size: this.size })
         },
-        initNews () {
+        initInformatList (inforPageSize) {
+          this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5
 
+          this.$store.dispatch('topic/queryInformatList', { topicCode: this.topicCode, inforPageSize: this.inforPageSize })
         },
-        drawCharts (tradeDate, topicReturnRate, hs300ReturnRate) {
+        drawCharts (topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
           this.chart.setOption({
             tooltip: {
               trigger: 'axis',
@@ -503,7 +564,7 @@
               itemWidth: 15,
               itemHeight: 8,
               data: [{
-                name: '策略累计收益率',
+                name: topicName,
                 icon: 'pin'
               },
               {
@@ -523,7 +584,7 @@
                 data: tradeDate,
                 axisLabel: {
                                                     // X轴刻度配置
-                  interval: 'auto' // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+                  interval: this.xLabelInterval // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
                 }
               }
             ],
@@ -537,8 +598,8 @@
             ],
             grid: {
                               /* width: '97%',*/
-              left: '1%',
-              right: '1%',
+              left: '2%',
+              right: '3%',
                              /* bottom: '50',*/
               containLabel: true
             },
@@ -553,7 +614,7 @@
               }
             ],
             series: [{
-              name: '策略累计收益率',
+              name: topicName,
               type: 'line',
               smooth: true,
               data: topicReturnRate,
@@ -628,14 +689,19 @@
           const myChart = echarts.init(document.getElementById('chart'))*/
     
       },
+      created () {
+        window.addEventListener('resize', this.handleResize)
+      },
       mounted () {
         this.initChart()
-        /* this.initStockList()
-        this.initNews()*/
-        this.$store.dispatch('topic/queryInformatList', { topicCode: this.topicCode })
-        this.$store.dispatch('topic/queryStockList', { topicCode: this.topicCode })
+        this.initStockList()
+        this.initInformatList()
+        console.log(this.inforPageSize)
         this.$store.dispatch('topic/queryDetailHead', { topicCode: this.topicCode })
         // this.drawCharts()
+      },
+      beforeDestroy () {
+        window.removeEventListener('resize', this.handleResize)
       }
     }
 </script>

@@ -216,6 +216,7 @@
       width: 60px;
       display: inline-block;
       text-align: left;
+      cursor: pointer;
     }
     .equ-price{
       width: 26%;
@@ -271,9 +272,48 @@
     }
     .alltopic .page{
       text-align: center;
-      padding: 0;
+      padding: 0 0 20px 0;
       background: #f2f2f2;
     }
+
+    .tooltip-box {
+    position: absolute;
+    background: #fff;
+    padding: 25px 10px 10px;
+    border: 1px solid #eee;
+    z-index: 999
+  }
+
+.tooltip-box .lenged_l {
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    font-size: 14px;
+    color: #000;
+    z-index: 999
+}
+
+.tooltip-box .name {
+    position: absolute;
+    top: 14px;
+    left: 23px;
+    font-size: 14px;
+    color: #666;
+    z-index: 9
+}
+
+.tooltip-box .txt {
+    position: absolute;
+    top: 38px;
+    left: 3px;
+    font-size: 12px;
+    z-index: 9
+}
+
+.tooltip-box .txt>div {
+    float: left;
+    margin-right: 10px
+}
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -284,7 +324,7 @@
             <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
             <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="toggleShow()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="toggleShow('kuai')" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="listChange()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChange('kuai')" :class="this.isShow==!true?'active':''"></a></div>
     </div>
     <div class="main-list" v-show="isShow">
       <ol class="topic-ol" >
@@ -304,7 +344,21 @@
                    <strong>主题简介:</strong><router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" ><span class='content' :title="allTopic.topicDesc" ref="txtheight">{{allTopic.topicDesc}}</span></router-link>
                </div>
                <div  class="con-cen">
-                  <div v-for="equity of allTopic.relatedEquity"><span class="blue equ-name">{{relatedStocks[equity.innerCode].name}}</span><span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span><span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span></div>
+                  <div v-for="equity of allTopic.relatedEquity">
+                      <span class="blue equ-name" ref="equityname" v-stock-popup="{equity:equity.innerCode,name:equity.name,price:equity.price,chg:equity.chg,curChngPct:equity.curChngPct}">{{equity.name}}</span>
+                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span>
+                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span>
+                      
+                  </div>
+                  <div class="tooltip-box clearfix" v-if="hoverChartShow">
+                            <a href="##" target="_blank" class="name" v-stock-popup.name="direName"></a>
+                            <Stockkline :chartWidth="300" :chartHeight="200" ></Stockkline>
+                            <div class="lenged_l">
+                              <span class="mr-10" >--</span>
+                              <span class="mr-10" >--</span>
+                              <span id="curChngPctTip">--</span>
+                            </div>
+                    </div>
                </div>
                <div  class="con-right" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
@@ -337,6 +391,7 @@
  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
  import config from '../z3tougu/config'
+ import Stockkline from 'components/stock-kline'
 export default {
    data () {
      return {
@@ -345,7 +400,9 @@ export default {
        page: '',
        pagesize: '',
        isShow: true,
-       isStyle: ''
+       isStyle: '',
+       hoverChartShow: false,
+       direName: ''
      }
    },
  
@@ -371,7 +428,8 @@ export default {
    }),
    components: {
      Pagination,
-     ThemeSortAz
+     ThemeSortAz,
+     Stockkline
    },
    methods: {
      query (type, page) {
@@ -384,13 +442,16 @@ export default {
        this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField], page: this.page, pagesize: this.pagesize })
      },
      goToPage (page) {
-       this.page = page
+       this.page = Number(page) - 1
      },
      init () {
       /* this.H = this.$refs.txtheight.style.cssText
        alert(this.H)*/
      },
-     toggleShow (type) {
+     updateVal () {
+       this.direName = 'df'
+     },
+     listChange (type) {
        this.isShow = !this.isShow
        if (type === 'kuai') {
          this.query('updown')
@@ -407,7 +468,7 @@ export default {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      },
      updateStock (stock) {
-       this.$store.commit('z3tougu-theme/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+       this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
      },
      subscribeStock () {
        this.$store.dispatch('z3sockjs/init').then(() => {
