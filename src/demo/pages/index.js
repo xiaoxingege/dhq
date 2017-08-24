@@ -41,6 +41,12 @@ const store = new Vuex.Store({
 initVue({
   el: 'app',
   store,
-  routes,
-  historyMode: 'history'
+  route: {
+    routes,
+    historyMode: 'history',
+    beforeEach (to, from, next) {
+      store.dispatch('projects/fetch', {})
+      next()
+    }
+  }
 })
