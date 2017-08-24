@@ -84,7 +84,7 @@ export default {
       }
     }
     this.jindoustutas()
-    document.title = '全民体验Lv2'
+    document.title = '全民体验Level-2极速行情'
   },
   methods: {
     pad2 (n) { return n < 10 ? '0' + n : n },

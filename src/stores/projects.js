@@ -23,22 +23,32 @@ const actions = {
     let query = new Bem.Query('Project')
     if (params.nickname) {
       const userQuery = new Bem.Query('_User')
-      userQuery.equalTo('nickname', params.nickname).find().then(users => {
-        const user = users[0]
-        if (!params.finish) {
-          query = query.notEqualTo('finish', true)
-        } else {
-          query = query.equalTo('finish', true)
-        }
-        return query.equalTo('user', user).include('user').find()
-      }).then(projects => {
-        projects = projects.map(prj => {
-          const json = prj.toJSON()
-          json.user = prj.get('user').toJSON()
-          return json
+      if (params.nickname === '未分配') {
+        query.doesNotExist('user').find().then(projects => {
+          projects = projects.map(prj => {
+            const json = prj.toJSON()
+            return json
+          })
+          commit('fetch', projects)
         })
-        commit('fetch', projects)
-      })
+      } else {
+        userQuery.equalTo('nickname', params.nickname).find().then(users => {
+          const user = users[0]
+          if (!params.finish) {
+            query = query.notEqualTo('finish', true)
+          } else {
+            query = query.equalTo('finish', true)
+          }
+          return query.equalTo('user', user).include('user').find()
+        }).then(projects => {
+          projects = projects.map(prj => {
+            const json = prj.toJSON()
+            json.user = prj.get('user').toJSON()
+            return json
+          })
+          commit('fetch', projects)
+        })
+      }
     } else {
       if (!params.finish) {
         query = query.notEqualTo('finish', true)
@@ -48,7 +58,9 @@ const actions = {
       query.include('user').find().then(projects => {
         projects = projects.map(prj => {
           const json = prj.toJSON()
-          json.user = prj.get('user').toJSON()
+          if (prj.get('user')) {
+            json.user = prj.get('user').toJSON()
+          }
           return json
         })
         commit('fetch', projects)

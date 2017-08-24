@@ -4,15 +4,21 @@
 
 import VueRouter from 'vue-router'
 
-export function configRouter (routes, historyMode) {
+export function configRouter ({ routes, historyMode, beforeEach, afterEach, onReady }) {
   const promise = new Promise(function (resolve) {
     const router = new VueRouter({
       routes,
       mode: historyMode || 'hash'
     })
-    router.beforeEach((to, from, next) => {
-      next()
-    })
+    if (beforeEach) {
+      router.beforeEach(beforeEach)
+    }
+    if (afterEach) {
+      router.afterEach(afterEach)
+    }
+    if (onReady) {
+      router.onReady(onReady)
+    }
     resolve(router)
   })
   return promise
