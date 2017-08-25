@@ -43,9 +43,9 @@
                 <option value="act_date">业绩公布日</option>
             </select>
             </div>
-            <StockSearch :rangeCode="rangeCode" :condition="condition"></StockSearch>
+            <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStockId="getFocusStockId"></StockSearch>
         </div>
-        <StockMap :rangeCode="rangeCode" :condition="condition" @isEnlarge="isShow"></StockMap>
+        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow"></StockMap>
     </div>
 </template>
 <script type="text/javascript">
@@ -57,7 +57,10 @@ export default{
           rangeCode: '',
           condition: 'mkt_idx.cur_chng_pct',
           keyword: '',
-          showCondition: true
+          showCondition: true,
+          focusStockId: '',
+          mapHeight: 0,
+          mapWidth: 0
         }
       },
       props: [''],
@@ -72,10 +75,13 @@ export default{
           } else {
             this.showCondition = true// 非全屏
           }
+        },
+        getFocusStockId: function (msg) {
+          this.focusStockId = msg
         }
       },
       mounted () {
-
+    
       }
 
     }
