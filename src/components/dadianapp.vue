@@ -7,29 +7,73 @@
   margin-left: 10px;
   margin-bottom: 20px;
 }
-.item { position: relative; margin-bottom: 60px;}
-.btn{ position: absolute; left:800px; top:20px;width: 100px;
-text-align: center;
-font-size: 16px;
-color: #3e0f11;
-float: left;
-background: #00e2d4;
-line-height: 40px;
-border-radius: 10px;
-box-shadow: 0 5px 0 0 #02867d;
-color:#fff;
-cursor: pointer;}
-.btn:active{background: #474a4a}
-.item  li{ margin-bottom: 30px;}
-.item span {
-  width: 100px;line-height: 26px; padding-left: 40px;
-}
-.item select,.item input{ width:200px; height: 26px;font-size: 18px; outline: none;}
-.item .appv{width:100px;}
-.item .long{ width:400px;}
-.text{ width:680px; height: 150px;padding:0 10px;resize: none; outline: none; margin-left: 40px; font-size: 14px;}
-.nosresult{text-align: center; font-size: 20px;}
 
+.item {
+  position: relative;
+  margin-bottom: 60px;
+}
+
+.btn {
+  position: absolute;
+  left: 800px;
+  top: 20px;
+  width: 100px;
+  text-align: center;
+  font-size: 16px;
+  color: #3e0f11;
+  float: left;
+  background: #00e2d4;
+  line-height: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 0 0 #02867d;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn:active {
+  background: #474a4a
+}
+
+.item li {
+  margin-bottom: 30px;
+}
+
+.item span {
+  width: 100px;
+  line-height: 26px;
+  padding-left: 25px;
+}
+
+.item select,
+.item input {
+  width: 200px;
+  height: 26px;
+  font-size: 18px;
+  outline: none;
+}
+
+.item .appv {
+  width: 100px;
+}
+
+.item .long {
+  width: 400px;
+}
+
+.text {
+  width: 680px;
+  height: 150px;
+  padding: 0 10px;
+  resize: none;
+  outline: none;
+  margin-left: 40px;
+  font-size: 14px;
+}
+
+.nosresult {
+  text-align: center;
+  font-size: 20px;
+}
 </style>
 
 <template>
@@ -41,30 +85,30 @@ cursor: pointer;}
       <li class="clearfix">
         <span class="fl">日期</span>
         <div class="fl">
-          <dadianTime v-bind:starttime="beginTime" v-bind:endtime="endTime" v-on:starttimeChanged="startshowMsgFromChild"  v-on:endtimeChanged="endshowMsgFromChild"  />
+          <dadianTime v-bind:starttime="beginTime" v-bind:endtime="endTime" v-on:starttimeChanged="startshowMsgFromChild" v-on:endtimeChanged="endshowMsgFromChild" />
         </div>
       </li>
       <li class="clearfix">
         <span class="fl">系统</span>
         <select class="fl" name="" v-model="osType">
-          <option value="2" selected="">Android</option>
-          <option value="1">Ios</option>
+          <option value="1" selected="">Ios</option>
+          <option value="2">Android</option>
         </select>
         <span class="fl">appversion</span>
-        <input type="text" class="fl appv" name="" v-model="appVersion" value="6.8.0"> <b>请输入要正确：比如6.9.0</b>
+        <input type="text" class="fl appv" name="" v-model="appVersion" value=""> <b>请输入要正确：比如6.9.0</b>
       </li>
       <li class="clearfix">
         <span class="fl">d_name</span>
-        <input type="text" class="fl" name="" value="click_zxgdy_xw" v-model="searchKey">
+        <input type="text" class="fl" name="" value="" v-model="searchKey">
         <span class="fl">devid</span>
-        <input type="text" class="fl long" name="" value="353952071425941" v-model="devId" >
+        <input type="text" class="fl long" name="" value="" v-model="devId">
       </li>
     </ul>
     <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
   </div>
   <div class="tit">结果(<span>总共{{total}}条</span>)(<span>总共{{totalPage}}页</span>)</div>
   <div v-if="totalPage>1">
-      <pagination :page="currentPage" :size="pageSize" :total="total"  @change="turn" />
+    <pagination :page="currentPage" :size="pageSize" :total="total" @change="turn" />
   </div>
   <dadianTable v-bind:tabledata="tabledata" />
   <JichushareToast/>
@@ -97,12 +141,14 @@ export default {
       currentPage: 1,
       pageSize: 30,
       totalPage: 0,
-      osType: '2',
-      appVersion: '6.8.0',
-      searchKey: 'click_zxgdy_xw',
-      devId: '353952071425941',
+      osType: '1',
+      appVersion: '',
+      searchKey: '',
+      devId: '',
       tabledata: {
-        th: ['brand', 'model', 'pixel', 'network', 'ip', 'passportId', 'idfa', 'mac', 'channelId', 'appVer', 'devId', 'platId', 'productId', 'localizedModel', 'systemName', 'systemVersion', 'accessToken', 'appId', 'verifyCode', 'mobile', 'dName', 'dResult', 'dTime', 'other', 'dDate'],
+        th: ['brand', 'model', 'pixel', 'network', 'ip', 'passportId', 'idfa', 'mac', 'channelId', 'appVer', 'devId', 'platId', 'productId', 'localizedModel', 'systemName', 'systemVersion', 'accessToken', 'appId', 'verifyCode', 'mobile', 'dName',
+          'dResult', 'dTime', 'other', 'dDate'
+        ],
         td: []
       }
     }
@@ -126,13 +172,20 @@ export default {
     })
   },
   methods: {
-    pad2 (n) { return n < 10 ? '0' + n : n },
+    pad2 (n) {
+      return n < 10 ? '0' + n : n
+    },
     getNowFormatDate () {
       var date = new Date()
       return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
     },
     appbtn1 () {
-      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
+      if (!this.CompareDate(this.beginTime, this.endTime)) {
+        alert('结束时间必须大于开始时间')
+        return
+      }
+      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&osType=' + this.osType + '&appVersion=' + this.appVersion +
+        '&searchKey=' + this.searchKey + '&devId=' + this.devId
 
       fetch(url, {
         method: 'GET',
@@ -157,7 +210,9 @@ export default {
 
           for (var i = 0; i < v.data.list.length; i++) {
             var o = v.data.list[i]
-            this.tabledata.td.push([o.brand, o.model, o.pixel, o.network, o.ip, o.passportId, o.idfa, o.mac, o.channelId, o.appVer, o.devId, o.platId, o.productId, o.localizedModel, o.systemName, o.systemVersion, o.accessToken, o.appId, o.verifyCode, o.mobile, o.dName, o.dResult, o.dTime, o.other, o.dDate])
+            this.tabledata.td.push([o.brand, o.model, o.pixel, o.network, o.ip, o.passportId, o.idfa, o.mac, o.channelId, o.appVer, o.devId, o.platId, o.productId, o.localizedModel, o.systemName, o.systemVersion, o.accessToken, o.appId, o.verifyCode,
+              o.mobile, o.dName, o.dResult, o.dTime, o.other, o.dDate
+            ])
           }
         } else if (v.retCode === 48) {
           alert('结束时间必须大于开始时间')
@@ -179,6 +234,9 @@ export default {
     turn (page) {
       this.currentPage = page
       this.appbtn1()
+    },
+    CompareDate (d1, d2) {
+      return ((new Date(d1.replace(/-/g, '\/'))) < (new Date(d2.replace(/-/g, '\/'))))
     }
   }
 }

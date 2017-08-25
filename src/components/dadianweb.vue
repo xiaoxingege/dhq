@@ -46,7 +46,7 @@ cursor: pointer;}
       </li>
       <li class="clearfix">
         <span class="fl">URL中包含</span>
-        <input type="text" class="fl long" name="" value="wyb/index/getInformationList" v-model="searchKey">
+        <input type="text" class="fl long" name="" value="" v-model="searchKey">
       </li>
     </ul>
     <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
@@ -86,7 +86,7 @@ export default {
       currentPage: 1,
       pageSize: 30,
       totalPage: 0,
-      searchKey: 'wyb/index/getInformationList',
+      searchKey: '',
       tabledata: {
         th: ['visitTime', 'firstTime', 'wtid', 'isFirstVisit', 'isLogin', 'userId', 'loginPage', 'returnPage', 'loginTime', 'ssUid', 'ip', 'urlHost', 'url', 'refHost', 'refer', 'sessionId', 'language', 'color', 'flashVersion', 'title', 'os', 'browser', 'status', 'screen', 'source', 'seDomain', 'keyWord', 'urlGroup', 'refGroup', 'site', 'wtidJrj', 'wtidSs'],
         td: []
@@ -109,6 +109,10 @@ export default {
       return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
     },
     appbtn1 () {
+      if (!this.CompareDate(this.beginTime, this.endTime)) {
+        alert('结束时间必须大于开始时间')
+        return
+      }
       var url = 'http://appcms.jrj.com.cn/admin/queryH5Log.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&searchKey=' + this.searchKey
 
       fetch(url, {
@@ -156,6 +160,9 @@ export default {
     turn (page) {
       this.currentPage = page
       this.appbtn1()
+    },
+    CompareDate (d1, d2) {
+      return ((new Date(d1.replace(/-/g, '\/'))) < (new Date(d2.replace(/-/g, '\/'))))
     }
   }
 }
