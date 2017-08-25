@@ -29,6 +29,7 @@ cursor: pointer;}
 .item .long{ width:400px;}
 .text{ width:680px; height: 150px;padding:0 10px;resize: none; outline: none; margin-left: 40px; font-size: 14px;}
 .nosresult{text-align: center; font-size: 20px;}
+
 </style>
 
 <template>
@@ -63,7 +64,7 @@ cursor: pointer;}
   </div>
   <div class="tit">结果(<span>总共{{total}}条</span>)(<span>总共{{totalPage}}页</span>)</div>
   <div v-if="totalPage>1">
-      <pagination :page="currentPage" :size="pageSize" :total="total" @change="turn" />
+      <pagination :page="currentPage" :size="pageSize" :total="total"  @change="turn" />
   </div>
   <dadianTable v-bind:tabledata="tabledata" />
   <JichushareToast/>
@@ -76,7 +77,7 @@ import dadianBtn from 'components/dadian-btn'
 import dadianTime from 'components/dadian-time'
 import dadianTable from 'components/dadian-table'
 import JichushareToast from 'components/jichushare-toast'
-import pagination from 'components/pagination'
+import pagination from 'components/paginationnum'
 import 'whatwg-fetch'
 
 export default {
@@ -94,7 +95,7 @@ export default {
       beginTime: this.getNowFormatDate(),
       endTime: this.getNowFormatDate(),
       currentPage: 1,
-      pageSize: 20,
+      pageSize: 30,
       totalPage: 0,
       osType: '2',
       appVersion: '6.8.0',
@@ -110,7 +111,7 @@ export default {
 
   },
   mounted () {
-    document.title = '打点'
+    document.title = 'app打点'
     this.$watch('appVersion', (appVersion) => {
       this.currentPage = 1
     })
@@ -143,7 +144,7 @@ export default {
         if (v.retCode === 1) {
           this.tabledata.td = []
           if (this.currentPage === 1) {
-            this.total = v.data.pageSize * v.data.totalPage
+            this.total = v.data.totalCount
             this.totalPage = v.data.totalPage
           }
           if (this.currentPage === 1 && v.data.totalPage === 0) {
@@ -160,6 +161,8 @@ export default {
           }
         } else if (v.retCode === 48) {
           alert('结束时间必须大于开始时间')
+        } else {
+          alert(v.msg)
         }
       }).catch(v2 => {
         alert(v2)

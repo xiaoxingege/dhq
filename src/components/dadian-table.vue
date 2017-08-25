@@ -4,6 +4,7 @@ table{border-collapse: collapse;width:100%}
 table tr:nth-child(1){background: #ccc}
 td{border:1px solid #919191;}
 td,th{max-width: 50px;word-break:break-all}
+td div{padding:5px;}
 </style>
 <template>
 <div class="dadian-table">
@@ -14,7 +15,9 @@ td,th{max-width: 50px;word-break:break-all}
       </td>
     </tr>
       <tr v-for="(item,index) in tabledata.td">
-        <td v-for="(item2,index2) in item">{{item2}}</td>
+        <td v-for="(item2,index2) in item"><div class="">
+          {{item2}}
+        </div></td>
       </tr>
   </table>
 
