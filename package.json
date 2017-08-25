@@ -1,11 +1,11 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.50",
+  "version": "0.0.52",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --devtool eval --progress --inline --hot --colors --content-base build",
+    "dev": "webpack-dev-server --inline --hot",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
