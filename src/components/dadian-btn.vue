@@ -14,6 +14,7 @@
   color:#fff;
   cursor: pointer;
 }
+.btn1:active{background: #474a4a}
 .router-link-active{ background: #009F95;box-shadow: 0 5px 0 0 #026760 ;}
 </style>
 <template>

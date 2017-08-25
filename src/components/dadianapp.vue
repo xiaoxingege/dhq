@@ -19,6 +19,7 @@ border-radius: 10px;
 box-shadow: 0 5px 0 0 #02867d;
 color:#fff;
 cursor: pointer;}
+.btn:active{background: #474a4a}
 .item  li{ margin-bottom: 30px;}
 .item span {
   width: 100px;line-height: 26px; padding-left: 40px;
@@ -27,6 +28,7 @@ cursor: pointer;}
 .item .appv{width:100px;}
 .item .long{ width:400px;}
 .text{ width:680px; height: 150px;padding:0 10px;resize: none; outline: none; margin-left: 40px; font-size: 14px;}
+.nosresult{text-align: center; font-size: 20px;}
 </style>
 
 <template>
@@ -59,10 +61,13 @@ cursor: pointer;}
     </ul>
     <a href="javascript:;" class="btn" @click="appbtn1">检索</a>
   </div>
-  <div class="tit">结果</div>
+  <div class="tit">结果(<span>总共{{total}}条</span>)(<span>总共{{totalPage}}页</span>)</div>
+  <div v-if="totalPage>1">
+      <pagination :page="currentPage" :size="pageSize" :total="total" @change="turn" />
+  </div>
   <dadianTable v-bind:tabledata="tabledata" />
-  <pagination :page="currentPage" :size="pageSize" :total="total" @change="turn" />
   <JichushareToast/>
+  <p v-if="nosresult" class="nosresult">暂无搜索结果</p>
 </div>
 </template>
 
@@ -84,22 +89,20 @@ export default {
   },
   data () {
     return {
-      total: 100,
+      nosresult: false,
+      total: 0,
       beginTime: this.getNowFormatDate(),
       endTime: this.getNowFormatDate(),
       currentPage: 1,
       pageSize: 20,
+      totalPage: 0,
       osType: '2',
       appVersion: '6.8.0',
       searchKey: 'click_zxgdy_xw',
       devId: '353952071425941',
       tabledata: {
-        th: ['哈哈', '呵呵', '嘎嘎', '嘻嘻', '嘿嘿', '槑', '恩', '哼'],
-        td: [
-            ['哈哈1', '呵呵4', '嘎嘎6', '嘻嘻', '嘿45嘿', '435槑', '恩54', '哼657'],
-            ['哈哈2', '呵呵', '嘎7嘎', '嘻87嘻', '嘿45嘿', '45槑', '恩34', '756'],
-            ['哈哈3', '呵呵5', '嘎8嘎', '嘻43嘻', '嘿453嘿', '槑34', '恩', '8678哼']
-        ]
+        th: ['brand', 'model', 'pixel', 'network', 'ip', 'passportId', 'idfa', 'mac', 'channelId', 'appVer', 'devId', 'platId', 'productId', 'localizedModel', 'systemName', 'systemVersion', 'accessToken', 'appId', 'verifyCode', 'mobile', 'dName', 'dResult', 'dTime', 'other', 'dDate'],
+        td: []
       }
     }
   },
@@ -108,6 +111,18 @@ export default {
   },
   mounted () {
     document.title = '打点'
+    this.$watch('appVersion', (appVersion) => {
+      this.currentPage = 1
+    })
+    this.$watch('osType', (osType) => {
+      this.currentPage = 1
+    })
+    this.$watch('searchKey', (searchKey) => {
+      this.currentPage = 1
+    })
+    this.$watch('devId', (devId) => {
+      this.currentPage = 1
+    })
   },
   methods: {
     pad2 (n) { return n < 10 ? '0' + n : n },
@@ -116,7 +131,7 @@ export default {
       return date.getFullYear().toString() + '-' + this.pad2(date.getMonth() + 1) + '-' + this.pad2(date.getDate()) + ' ' + this.pad2(date.getHours()) + ':' + this.pad2(date.getMinutes()) + ':' + this.pad2(date.getSeconds())
     },
     appbtn1 () {
-      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=2017/8/21 15:37:7&endTime=2017/8/24 12:18:36&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
+      var url = 'http://appcms.jrj.com.cn/admin/queryAppLog.jspa?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize + '&beginTime=' + this.beginTime + '&endTime=' + this.endTime + '&osType=' + this.osType + '&appVersion=' + this.appVersion + '&searchKey=' + this.searchKey + '&devId=' + this.devId
 
       fetch(url, {
         method: 'GET',
@@ -125,19 +140,42 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(v => {
-        alert(v)
+        if (v.retCode === 1) {
+          this.tabledata.td = []
+          if (this.currentPage === 1) {
+            this.total = v.data.pageSize * v.data.totalPage
+            this.totalPage = v.data.totalPage
+          }
+          if (this.currentPage === 1 && v.data.totalPage === 0) {
+            this.nosresult = true
+            this.currentPage = 1
+            this.total = 0
+            return
+          }
+          this.nosresult = false
+
+          for (var i = 0; i < v.data.list.length; i++) {
+            var o = v.data.list[i]
+            this.tabledata.td.push([o.brand, o.model, o.pixel, o.network, o.ip, o.passportId, o.idfa, o.mac, o.channelId, o.appVer, o.devId, o.platId, o.productId, o.localizedModel, o.systemName, o.systemVersion, o.accessToken, o.appId, o.verifyCode, o.mobile, o.dName, o.dResult, o.dTime, o.other, o.dDate])
+          }
+        } else if (v.retCode === 48) {
+          alert('结束时间必须大于开始时间')
+        }
       }).catch(v2 => {
         alert(v2)
       })
     },
     startshowMsgFromChild (data) {
       this.beginTime = data
+      this.currentPage = 1
     },
     endshowMsgFromChild (data) {
       this.endTime = data
+      this.currentPage = 1
     },
-    turn () {
-
+    turn (page) {
+      this.currentPage = page
+      this.appbtn1()
     }
   }
 }

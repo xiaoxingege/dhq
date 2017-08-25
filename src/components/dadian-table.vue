@@ -3,6 +3,7 @@
 table{border-collapse: collapse;width:100%}
 table tr:nth-child(1){background: #ccc}
 td{border:1px solid #919191;}
+td,th{max-width: 50px;word-break:break-all}
 </style>
 <template>
 <div class="dadian-table">
