@@ -51,6 +51,7 @@
     width: 100%;
     background-color: #fff;
     margin-bottom: 0.2rem;
+    position: relative;
 }
 .ques-tg-list-box {
     width: 95%;
@@ -64,8 +65,17 @@
     padding-bottom: 0.2rem;
     font-weight: normal;
 }
-.ques-tg-list-box h5 a {
+.ques-tg-list-box h5 a{
     color: #333;
+}
+.ques-tg-list-box .niceLink {
+    color: #333;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index: 1;
 }
 .ques-tg-list-box img {
     width: 0.6rem;
@@ -231,7 +241,7 @@
                 <div class="circleProgress leftcircle"></div>
             </div>
             <div class="ques-success-load">
-                <h3>1815</h3>
+                <h3 v-text="num"></h3>
                 <p>位投顾已推送</p>
             </div>
             <div class="ques-success-load-desc">
@@ -243,11 +253,11 @@
             <i></i>
             <div>
                 <h3>提问成功</h3>
-                <p>2017年04月23日 10:52</p>
+                <p>{{moment(parseInt(showTime),'YYYY年MM月DD日 HH:mm')}}</p>
             </div>
             <div>
                 <h4>预计会在10分钟内被回答</h4>
-                <p>有回答时，会第一时间推送通知您 10:52</p>
+                <p>有回答时，会第一时间推送通知您 {{moment(parseInt(showTime),'HH:mm')}}</p>
             </div>
         </div>
 
@@ -268,26 +278,27 @@
 
             <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
-                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId" v-html="item.content"></a></h5>
+                    <h5 v-html="item.content"></h5>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" ></a>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
                         <p>
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong>{{item.lastedAnswer.content}}</strong>
+                            <strong v-html="item.lastedAnswer.content"></strong>
                         </p>
                     </div>
                 </div>
             </li>
             <li v-else>
                 <div class="ques-tg-list-box clearfix">
-                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId" v-html="item.askContent"></a></h5>
+                    <h5><a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" v-html="item.askContent"></a></h5>
                     <div>
                         <img :src="item.userInfo.headImage" :userId="item.userInfo.userId"/>
                         <p>
                             <span>{{item.userInfo.userName}}</span>
                             <em>{{moment(parseInt(item.answerTime))}}</em>
-                            <strong>{{item.answerContent}}</strong>
+                            <strong v-html="item.answerContent"></strong>
                         </p>
                     </div>
                 </div>
@@ -329,12 +340,18 @@ export default {
     var _this = this
     setTimeout(function () {
       _this.quesSuccessLoadShow = false
+      clearInterval(numAdSet)
     }, 1000)
+    var numAdSet = setInterval(function () {
+      _this.numAdd()
+    }, 100)
     return {
       quesNavTitle: '问股',
       btnTxt: '再问一个',
       quesSuccessLoadShow: true,
-      jchdShow: false
+      jchdShow: false,
+      showTime: '1503625474595',
+      num: 0
     }
   },
   computed: mapState({
@@ -347,25 +364,32 @@ export default {
   },
   methods: {
     moment (time, format) {
-      return moment(time).locale('zh-cn').calendar(null, {
-        sameDay: '[今天] HH:mm',
-        nextDay: '[明天] HH:mm',
-        nextWeek: '下周',
-        lastDay: '[昨天] HH:mm',
-        lastWeek: '[上周] dddd'
-      })
+      if (format) {
+        return moment(time).format(format)
+      } else {
+        return moment(time).locale('zh-cn').calendar(null, {
+          sameDay: '[今天] HH:mm',
+          nextDay: '[明天] HH:mm',
+          nextWeek: '下周',
+          lastDay: '[昨天] HH:mm',
+          lastWeek: '[上周] dddd'
+        })
+      }
     },
     navBak () {
       history.go(-1)
     },
     navEvents () {
-      window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+    },
+    numAdd () {
+      this.num = this.num + Math.floor(Math.random() * 900) + 100
     }
   },
   mounted () {
     document.title = '问答详情'
     console.log(getQueryString('stockCode'))
-    if (getQueryString('stockCode') === '' || !getQueryString('stockCode')) {
+    if (getQueryString('stockCode') === '' || !getQueryString('stockCode') || getQueryString('stockCode') === 'undefined') {
       this.jchdShow = false
       this.$store.dispatch('quesSuccess/jchd')
     } else {
@@ -373,6 +397,9 @@ export default {
       this.$store.dispatch('quesSuccess/fetch', {
         stockCode: getQueryString('stockCode')
       })
+    }
+    if (getQueryString('showTime')) {
+      this.showTime = getQueryString('showTime')
     }
   }
 }

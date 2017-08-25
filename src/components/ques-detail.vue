@@ -148,7 +148,7 @@
                         <p v-if="userShow">{{item.textContent}}</p>
                         <p v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
-                        <span class="focus"><i></i>关注</span>
+                        <!-- <span class="focus"><i></i>关注</span> -->
                         <!-- <span>已关注</span> -->
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                 </div>
             </li> -->
         </ul>
-        <p><i></i>以上内容仅代表个人观点，不构成投资建议<i></i></p>
+        <p @click="aaa"><i></i>以上内容仅代表个人观点，不构成投资建议<i></i></p>
     </div>
     <fix-bg v-if="fixBgShow"/>
     <ques-focus v-if="quesFocusShow" @focusClose="focusClose"/>
@@ -196,9 +196,6 @@ import getQueryString from 'utils/getQueryString'
 
 export default {
   data () {
-    // document.getElementsByTagName('head')[0].remove()
-    // document.getElementById('getBasicUserInfo').remove()
-
     return {
       fixBgShow: false,
       quesFocusShow: false,
@@ -213,9 +210,6 @@ export default {
     },
     askData: state => {
       return state.quesDetail.askData
-    },
-    userShow: state => {
-      return state.quesDetail.userShow
     },
     userId: state => state.user.ssoId
   }),
@@ -265,6 +259,7 @@ export default {
     this.$watch('userId', userId => {
       this.userShow = !!userId
     })
+    // this.$store.dispatch('quesDetail/jsSdk')
   }
 }
 </script>

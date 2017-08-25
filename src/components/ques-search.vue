@@ -21,9 +21,9 @@
     width: 80%;
     float: left;
     font-size: 0.3rem;
-    line-height: 1rem;
-    height: 1rem;
-    padding: 0 10%;
+    line-height: 0.5rem;
+    height: 0.5rem;
+    padding: 0.25rem 10%;
     border: none;
     outline: none;
 }
@@ -47,7 +47,7 @@
     line-height: 1rem;
 }
 .ques-search ul li p {
-    width: 25%;
+    width: 33%;
     float: left;
     text-align: center;
     font-size: 0.2rem;
@@ -74,7 +74,7 @@
             <p>品种</p>
         </li>
         <li v-for="item,index in CodeData" v-if="dataType" @click="searchDataClick(index)">
-            <p><span>沪市</span></p>
+            <!-- <p><span>沪市</span></p> -->
             <p>{{item.name}}</p>
             <p>{{item.code}}</p>
             <p>{{item.shrt}}</p>
@@ -103,9 +103,6 @@ export default {
   computed: mapState({
     CodeData: state => {
       return state.quesSearch.CodeData
-    },
-    askTimes: state => {
-      return state.quesSearch.askTimes
     }
   }),
   components: {
@@ -134,13 +131,14 @@ export default {
   },
   mounted () {
     this.$watch('CodeData', CodeData => {
-      this.searchDataType = true
       if (CodeData.length === 0) {
         this.searchNo = true
         this.dataType = false
+        this.searchDataType = false
       } else {
         this.searchNo = false
         this.dataType = true
+        this.searchDataType = true
       }
     })
   }

@@ -14,6 +14,7 @@
     resize: none;
     outline: none;
     float: left;
+    border: none;
 }
 .ques-ask-box textarea::placeholder {
     color: #999;
@@ -83,7 +84,9 @@ export default {
     },
     err: state => {
       return state.quesAsk.err
-    }
+    },
+    userId: state => state.user.ssoId
+
   }),
   components: {
     quesSearch,
@@ -114,13 +117,12 @@ export default {
     navEvents () {
       if (this.userShow === false) {
         // var url = window.location.href
-        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
         return
       }
       var searchValue = this.searchValue
       var textCont = searchValue + '' + this.text
       var passportId = window.basicUserInfo.userId
-      console.log(textCont)
       if (!this.text) {
         alert('内容不可为空')
         return
@@ -141,22 +143,26 @@ export default {
   },
   mounted () {
     document.title = '问股'
-    if (window.basicUserInfo.userId) {
-      this.userShow = true
-      this.$store.dispatch('quesAsk/ask', {
-        userId: window.basicUserInfo.userId
-      })
-    } else {
-      this.userShow = false
-      if (getQueryString('code')) {
-        this.$store.dispatch('quesDetail/authorize', {
-          code: getQueryString('code'),
-          redirectUri: 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
-        })
-      }
-    }
+    this.$store.dispatch('user/fetchFromBasicUserInfo')
     this.$watch('err', err => {
       alert(err.msg)
+    })
+    this.$watch('userId', userId => {
+      this.userShow = !!userId
+      if (this.userId) {
+        this.userShow = true
+        this.$store.dispatch('quesAsk/ask', {
+          userId: this.userId
+        })
+      } else {
+        this.userShow = false
+        if (getQueryString('code')) {
+          this.$store.dispatch('quesDetail/authorize', {
+            code: getQueryString('code'),
+            redirectUri: 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+          })
+        }
+      }
     })
   }
 }

@@ -39,9 +39,8 @@ export default {
       }).then(res => {
         return res.json()
       }).then(json => {
-        // commit('setAsk', json)
         if (json.retCode === 0 || json.retCode === 1) {
-          window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-success.html?stockCode=' + json.stockCode
+          window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-success.jspa?stockCode=' + json.stockCode + '&showTime=' + json.showTime
         } else {
           commit('setError', {
             retCode: json.retCode,

@@ -179,7 +179,7 @@
         <ul>
             <li v-for="item in dataList">
                 <div class="ques-tg-list-box clearfix">
-                    <h5><a :href="'http://a.jrj.com.cn:8081/dist/ques_alading/ques-detail.html?askid='+item.askId">{{item.content}}</a></h5>
+                    <h5><a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId">{{item.content}}</a></h5>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
                         <p>
@@ -229,7 +229,9 @@ export default {
     },
     userInfo: state => {
       return state.quesTg.userInfo
-    }
+    },
+    userId: state => state.user.ssoId
+
   }),
   components: {
     quesNav
@@ -250,7 +252,7 @@ export default {
     //   alert('navBak')
     },
     search () {
-      window.location.href = 'http://a.jrj.com.cn:8081/dist/ques_alading/ques-ask.html'
+      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
     authorize () {
       var url = window.location.href
@@ -258,17 +260,32 @@ export default {
     }
   },
   mounted () {
-    if (window.basicUserInfo.userId) {
-      this.userShow = true
-    }
-    document.title = '投顾问答'
+    this.$store.dispatch('user/fetchFromBasicUserInfo')
+    this.$watch('userId', userId => {
+      if (userId !== '') {
+        this.userShow = true
+      } else {
+        this.userShow = false
+        if (getQueryString('code')) {
+          this.$store.dispatch('quesDetail/authorize', {
+            code: getQueryString('code'),
+            redirectUri: window.location.href
+          })
+        }
+      }
+    })
     this.$store.dispatch('quesTg/fetch')
-    if (getQueryString('code')) {
-      this.$store.dispatch('quesDetail/authorize', {
-        code: getQueryString('code'),
-        redirectUri: window.location.href
-      })
-    }
+    document.title = '投顾问答'
+
+    // if (window.basicUserInfo.userId) {
+    //   this.userShow = true
+    // }
+    // if (getQueryString('code')) {
+    //   this.$store.dispatch('quesDetail/authorize', {
+    //     code: getQueryString('code'),
+    //     redirectUri: window.location.href
+    //   })
+    // }
   }
 }
 </script>
