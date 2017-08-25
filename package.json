@@ -60,7 +60,7 @@
     "bem-sha1": "^1.0.3",
     "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
-    "echarts": "^3.6.2",
+    "echarts": "^3.7.0",
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
     "jquery": "^3.2.1",

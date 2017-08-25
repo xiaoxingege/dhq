@@ -390,14 +390,13 @@
  import ThemeSortAz from './theme-sort-az'
  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
- import config from '../z3tougu/config'
  import Stockkline from 'components/stock-kline'
 export default {
    data () {
      return {
        FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
        sortField: '',
-       page: '',
+       page: 0,
        pagesize: '',
        isShow: true,
        isStyle: '',
@@ -410,16 +409,17 @@ export default {
      themeList: state => state.topic.themeList,
      totalPage: state => state.topic.total,
      relatedStocks: state => state.topic.relatedStocks,
+     socketState: state => state.z3sockjs.readystate,
      stockMessage: state => {
        const msg = state.z3sockjs.message
        if (msg && msg.data && msg.data.subject === 'snapshot') {
          const record = msg.data
          return {
            innerCode: record.stockCode,
-           name: record.stockName || config.emptyValue,
-           price: record.lastPx || config.emptyValue,
-           chg: record.pxchg || config.emptyValue,
-           curChngPct: record.pxchgratio || config.emptyValue
+           name: record.stockName,
+           price: record.lastPx,
+           chg: record.pxchg,
+           curChngPct: record.pxchgratio
          }
        } else {
          return null
@@ -444,10 +444,6 @@ export default {
      goToPage (page) {
        this.page = Number(page) - 1
      },
-     init () {
-      /* this.H = this.$refs.txtheight.style.cssText
-       alert(this.H)*/
-     },
      updateVal () {
        this.direName = 'df'
      },
@@ -471,16 +467,14 @@ export default {
        this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
      },
      subscribeStock () {
-       this.$store.dispatch('z3sockjs/init').then(() => {
-         const msg = {
-           subject: 'snapshot',
-           type: '1',
-           actionType: '1',
-           stockCodeList: Object.keys(this.relatedStocks),
-           token: ''
-         }
-         this.$store.dispatch('z3sockjs/send', msg)
-       })
+       const msg = {
+         subject: 'snapshot',
+         type: '1',
+         actionType: '1',
+         stockCodeList: Object.keys(this.relatedStocks),
+         token: ''
+       }
+       this.$store.dispatch('z3sockjs/send', msg)
      }
    },
    watch: {
@@ -488,16 +482,29 @@ export default {
        this.query(this.sortField, this.page)
      },
      relatedStocks () {
-       z3websocket.ws && z3websocket.ws.close()
-       this.subscribeStock()
+       if (z3websocket.ws) {
+         z3websocket.ws && z3websocket.ws.close()
+       } else {
+         this.$store.dispatch('z3sockjs/init')
+       }
      },
      stockMessage () {
-      //  this.updateStock()
+       if (this.stockMessage) {
+         this.updateStock()
+       }
+     },
+     socketState () {
+       if (this.socketState === 1) {
+         // 建立连接
+         this.subscribeStock()
+       } else if (this.socketState === 3) {
+         // 断开连接，重新建立连接
+         this.$store.dispatch('z3sockjs/init')
+       }
      }
    },
    mounted () {
      this.query('hot')
-     this.init()
    },
    destroyed () {
      z3websocket.ws && z3websocket.ws.close()

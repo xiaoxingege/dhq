@@ -5,7 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config/'
+import { domain } from '../z3tougu/config'
 
 export const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
@@ -117,7 +117,10 @@ export default {
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
       const stocks = state.topic.relatedStocks
-      state.topic.relatedStocks = { ...stocks, stock }
+      stocks[stock.innerCode].price = stock.price
+      stocks[stock.innerCode].chg = stock.chg
+      stocks[stock.innerCode].curChngPct = stock.curChngPct
+      // state.topic.relatedStocks = { ...stocks, stock }
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
