@@ -120,8 +120,6 @@ module.exports = {
     },
     host: '0.0.0.0',
     port: port,
-    hot: true,
-    inline: true,
     disableHostCheck: true
   }
 }
