@@ -435,10 +435,17 @@
           this.chart.showLoading()
           this.getLegendColor()
           window.onresize = function () {
+            if (_this.$route.fullPath === '/map/fullScreen') {
+              _this.mapHeight = window.innerHeight
+              _this.mapWidth = window.innerWidth
+            } else {
+              _this.mapHeight = window.innerHeight - 80
+              _this.mapWidth = window.innerWidth - 40
+            }
             _this.chart.resize({
-              height: window.innerHeight - 80
+              height: _this.mapHeight,
+              width: _this.mapWidth
             })
-            _this.mapHeight = window.innerHeight - 80
           }
           this.autoUpdateData()
           this.updateTime()
