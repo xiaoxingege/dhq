@@ -16,7 +16,7 @@ export const mutationTypes = {
   UPDATE_TOPIC_RELSTOCK: 'UPDATE_TOPIC_RELSTOCK'
 }
 const PAGE_SIZE = 10
-
+const INFOR_PAGESIZE = 10
 export default {
   namespaced: true,
   state: {
@@ -35,7 +35,11 @@ export default {
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
     allCharts: [],
     realtimeCharts: [],
-    relatedStocks: {}
+    relatedStocks: {},
+    groupTopics: [],
+    inforPage: 0,
+    inforPageSize: INFOR_PAGESIZE,
+    inforTotal: 0
    /* topicReturnRate: [],
     hs300ReturnRate: [],
     tradeDate: []*/ // 全部charts
@@ -63,6 +67,12 @@ export default {
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
+    },
+    updateInforPage (state, options) {
+      console.log(options)
+      state.inforPageSize = options.inforPageSize || INFOR_PAGESIZE
+      state.inforPage = options.inforPage || 1
+      state.inforTotal = options.inforTotal
     },
     updateInformat (state, infor) {
       state.informatList = infor
@@ -152,9 +162,11 @@ export default {
         }
       })
     },
-    queryInformatList ({ commit }, { topicCode }) {
+    queryInformatList ({ commit }, { topicCode, inforPage, inforPageSize }) {
+      inforPage = inforPage || 0
+      inforPageSize = inforPageSize || INFOR_PAGESIZE
       // fetch('http://www.z3quant.com/openapi/news/topic/topicCode.shtml?page=1&size=10', {
-      fetch(`${domain}/openapi/news/topic/${topicCode}.shtml?page=0&size=20`, {
+      fetch(`${domain}/openapi/news/topic/${topicCode}.shtml?page=${inforPage}&size=${inforPageSize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -162,6 +174,7 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.content[0].topicName)
           commit('updateInformat', result.data.content)
+          commit('updateInforPage', { inforPage: result.data.number, inforPageSize: result.data.size, inforTotal: result.data.totalPages })
         }
       })
     },
@@ -182,8 +195,8 @@ export default {
         commit(mutationTypes.UPDATE_TOPIC_LINEDATA)
       })
     },
-    queryStockList ({ commit }, { topicCode }) {
-      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml`, {
+    queryStockList ({ commit }, { topicCode, size }) {
+      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml?sort=file,desc&page=0&size=${size}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
