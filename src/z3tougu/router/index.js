@@ -10,7 +10,7 @@ import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
 // import GoldStrategy from 'components/gold-strategy'
-import Kgraph from 'components/kgraph'
+// import Kgraph from 'components/kgraph'
 
 export default [
     { path: '/', name: 'home', component: Index },
@@ -25,7 +25,7 @@ export default [
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
-    { path: '/test/stock', name: 'teststock', component: StockTest },
+    { path: '/test/stock', name: 'teststock', component: StockTest }
     // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
-    { path: '/kgraph', name: 'Kgraph', component: Kgraph }
+    // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]

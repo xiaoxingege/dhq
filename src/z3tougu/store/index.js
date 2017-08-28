@@ -9,7 +9,7 @@ import bubbles from 'stores/bubbles'
 import stock from 'stores/stock'
 import z3sockjs from 'stores/z3sockjs'
 // import goldStrategy from 'stores/gold-strategy'
-import kgraph from 'stores/kgraph'
+// import kgraph from 'stores/kgraph'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -21,8 +21,8 @@ export default new Vuex.Store({
     topic,
     bubbles,
     stock,
-    z3sockjs,
+    z3sockjs
     // goldStrategy,
-    kgraph
+    /* kgraph*/
   }
 })
