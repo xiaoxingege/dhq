@@ -324,7 +324,7 @@
             <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
             <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="listChange()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChange('kuai')" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="listChangeClick()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChangeClick('kuai')" :class="this.isShow==!true?'active':''"></a></div>
     </div>
     <div class="main-list" v-show="isShow">
       <ol class="topic-ol" >
@@ -345,8 +345,8 @@
                </div>
                <div  class="con-cen">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <span class="blue equ-name" ref="equityname" v-stock-popup="{equity:equity.innerCode,name:equity.name,price:equity.price,chg:equity.chg,curChngPct:equity.curChngPct}">{{equity.name}}</span>
-                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':equity.price}}</span>
+                      <a :href="`/stock/equity.innerCode`" class="blue equ-name" ref="equityname" v-stock-popup="{equity:equity.innerCode,name:equity.name,price:equity.price,chg:equity.chg,curChngPct:equity.curChngPct}" :value="equity.name">{{equity.name}}</a>
+                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':parseFloat(equity.price).toFixed(2)}}</span>
                       <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span>
                       
                   </div>
@@ -375,7 +375,7 @@
     <div class="sortaz-wrap clearfix" v-show="!isShow">
       <div class="az-main">
             <div class="sort-hot" >
-                 <a class="blue hot-name" v-for="(allTopic,index) of themeList">{{allTopic.topicName}}</a>
+                 <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
             </div>
             <ThemeSortAz/>
       </div>
@@ -390,36 +390,46 @@
  import ThemeSortAz from './theme-sort-az'
  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
- import config from '../z3tougu/config'
  import Stockkline from 'components/stock-kline'
 export default {
    data () {
      return {
        FIELDS: { hot: 'topicMarket.realChngPctWeek', time: 'declareDate', updown: 'topicMarket.chngPct' },
        sortField: '',
-       page: '',
+       page: 0,
        pagesize: '',
        isShow: true,
        isStyle: '',
        hoverChartShow: false,
-       direName: ''
+       direName: '',
+       equity: {
+         code: '',
+         name: '',
+         price: '',
+         chg: '',
+         curChngPct: ''
+
+       }
      }
    },
  
    computed: mapState({
      themeList: state => state.topic.themeList,
+   /*  themeEquity:state => state.*/
      totalPage: state => state.topic.total,
+     listChange: state => state.topic.listChange,
      relatedStocks: state => state.topic.relatedStocks,
+     socketState: state => state.z3sockjs.readystate,
      stockMessage: state => {
        const msg = state.z3sockjs.message
        if (msg && msg.data && msg.data.subject === 'snapshot') {
          const record = msg.data
          return {
            innerCode: record.stockCode,
-           name: record.stockName || config.emptyValue,
-           price: record.lastPx || config.emptyValue,
-           chg: record.pxchg || config.emptyValue,
-           curChngPct: record.pxchgratio || config.emptyValue
+           name: record.stockName,
+           price: record.lastPx,
+           chg: record.pxchg,
+           curChngPct: record.pxchgratio
          }
        } else {
          return null
@@ -441,20 +451,20 @@ export default {
        // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
        this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField], page: this.page, pagesize: this.pagesize })
      },
+     list (type, page) {
+       this.$store.dispatch('topic/queryListChange', { sortField: this.FIELDS.updown, page: this.page, pagesize: this.pagesize })
+     },
      goToPage (page) {
        this.page = Number(page) - 1
-     },
-     init () {
-      /* this.H = this.$refs.txtheight.style.cssText
-       alert(this.H)*/
      },
      updateVal () {
        this.direName = 'df'
      },
-     listChange (type) {
+     listChangeClick (type) {
        this.isShow = !this.isShow
        if (type === 'kuai') {
-         this.query('updown')
+         debugger
+         this.list('updown')
          this.isStyle = 'none'
        } else {
          this.query('hot')
@@ -471,16 +481,14 @@ export default {
        this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
      },
      subscribeStock () {
-       this.$store.dispatch('z3sockjs/init').then(() => {
-         const msg = {
-           subject: 'snapshot',
-           type: '1',
-           actionType: '1',
-           stockCodeList: Object.keys(this.relatedStocks),
-           token: ''
-         }
-         this.$store.dispatch('z3sockjs/send', msg)
-       })
+       const msg = {
+         subject: 'snapshot',
+         type: '1',
+         actionType: '1',
+         stockCodeList: Object.keys(this.relatedStocks),
+         token: ''
+       }
+       this.$store.dispatch('z3sockjs/send', msg)
      }
    },
    watch: {
@@ -488,16 +496,29 @@ export default {
        this.query(this.sortField, this.page)
      },
      relatedStocks () {
-       z3websocket.ws && z3websocket.ws.close()
-       this.subscribeStock()
+       if (z3websocket.ws) {
+         z3websocket.ws && z3websocket.ws.close()
+       } else {
+         this.$store.dispatch('z3sockjs/init')
+       }
      },
      stockMessage () {
-      //  this.updateStock()
+       if (this.stockMessage) {
+         this.updateStock()
+       }
+     },
+     socketState () {
+       if (this.socketState === 1) {
+         // 建立连接
+         this.subscribeStock()
+       } else if (this.socketState === 3) {
+         // 断开连接，重新建立连接
+         this.$store.dispatch('z3sockjs/init')
+       }
      }
    },
    mounted () {
      this.query('hot')
-     this.init()
    },
    destroyed () {
      z3websocket.ws && z3websocket.ws.close()

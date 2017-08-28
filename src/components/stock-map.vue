@@ -89,13 +89,13 @@
         <div class="narrow" v-if="isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a href="/map/normal"><img src="../assets/images/stock-map/narrow.png"/></a>
+            <a href="/map/normal" target="_blank"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
         <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
             <div class="clearfix playback">
                 <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-                <div class="play_line" ref="playLine" :style="{left:playBackIndex*39+46.5+'px'}" v-if="!isEnlarge || isPlaybackShow"></div>
+                <div class="play_line" ref="playLine" :style="{left:playLineIndex*39+playLineLeft+'px'}" v-if="(!isEnlarge || isPlaybackShow) && playLineIndex>=0"></div>
                 <div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div>
                 <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
                 <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && isPlaybackShow" v-on:click="switchPlayback">
@@ -204,7 +204,9 @@
           intervalTime: 10,
           updateDataPid: null,
           updateTimePid: null,
-          currentTime: ''
+          currentTime: '',
+          playLineIndex: 19,
+          playLineLeft: this.$route.fullPath === '/map/fullScreen' ? 54.5 : 46.5
         }
       },
       watch: {
@@ -433,10 +435,17 @@
           this.chart.showLoading()
           this.getLegendColor()
           window.onresize = function () {
+            if (_this.$route.fullPath === '/map/fullScreen') {
+              _this.mapHeight = window.innerHeight
+              _this.mapWidth = window.innerWidth
+            } else {
+              _this.mapHeight = window.innerHeight - 80
+              _this.mapWidth = window.innerWidth - 40
+            }
             _this.chart.resize({
-              height: window.innerHeight - 80
+              height: _this.mapHeight,
+              width: _this.mapWidth
             })
-            _this.mapHeight = window.innerHeight - 80
           }
           this.autoUpdateData()
           this.updateTime()
@@ -621,6 +630,8 @@
           }
         },
         startPlay: function () {
+          clearInterval(this.updateDataPid)
+          this.updateDataPid = null
           if (this.playBackState) { // 播放中
             this.playBackState = false
             clearInterval(pid)
@@ -631,20 +642,29 @@
             if (this.playBackIndex >= this.playBackDate.length - 1) {
               this.playBackIndex = 0
             }
+            if (this.playLineIndex >= this.playBackDate.length - 1) {
+              this.playLineIndex = -1
+            }
             pid = setInterval(() => {
               const playBackDate = this.playBackDate[this.playBackIndex]
               this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
                 this.updateMapData()
+                this.playLineIndex++
               })
               this.playBackIndex++
+              if (this.playLineIndex >= this.playBackDate.length - 1) {
+                this.playLineIndex = this.playBackDate.length - 1
+              }
               if (this.playBackIndex >= this.playBackDate.length - 1) {
                 this.playBackIndex = this.playBackDate.length - 1
                 this.playBackState = false
                 this.playBackSrc = playStopSrc
                 clearInterval(pid)
                 this.updateData()
+                this.playLineIndex++
+                this.autoUpdateData()
               }
-            }, 800)
+            }, 500)
           }
         },
         fmtraneValue: function (arr, n) {

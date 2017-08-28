@@ -338,7 +338,7 @@
                           <tbody>
                               <tr class="fl" v-for="stock of stockList">
                                  <td class="td1 td-tit1"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
-                                 <td :class="stock.price>0 ? 'red':'green'">{{stock.price==null?'--':stock.price}}</td>
+                                 <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
                                  <td>{{stock.industryName}}</td>
                                  <td class="blue" :title="stock.topicMark">关联原因</td>
@@ -346,7 +346,7 @@
                              
                           </tbody>
                           <tfoot>
-                                <div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></td>
+                                <a :href="`http://www.z3quant.com/dbus/filter.shtml?from=topic&&topicCode=detail.topicCode`"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
                         
@@ -421,6 +421,7 @@
             let start = null
             let end = null
             let realTime = null
+            let topicTimeName = ''
             for (var i = 0; i < arr.length; i++) {
               if (arr[i] === 9) {
                 start = 30
@@ -450,6 +451,7 @@
             console.log(tradeMin)
             realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
+              topicTimeName = item.topicName
               if (index === 0) {
                 topicChgPct.push(0)
                 hs300ChgPct.push(0)
@@ -463,7 +465,7 @@
               topicChgPct: topicChgPct,
               hs300ChgPct: hs300ChgPct,
               tradeMin: tradeMin,
-              topicTimeName: realtimeCharts[0].topicName
+              topicTimeName: topicTimeName
             }
           },
           xLabelInterval () {
