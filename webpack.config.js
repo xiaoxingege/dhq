@@ -148,7 +148,6 @@ module.exports.plugins = buildHTML().concat([
   }),
   new webpack.HashedModuleIdsPlugin()
 ]);
-module.exports.devtool = 'cheap-source-map'
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
@@ -165,4 +164,6 @@ if (process.env.NODE_ENV === 'production') {
     new BomPlugin(true),
     new ExtractTextPlugin(featureName + "/[name].[chunkhash:12].css")
   ]);
+} else {
+  module.exports.devtool = 'cheap-source-map'
 }
