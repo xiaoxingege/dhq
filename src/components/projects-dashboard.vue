@@ -46,7 +46,6 @@ export default {
     next()
   },
   beforeRouteUpdate (to, from, next) {
-    debugger
     if (to.params.nickname) {
       document.title = `${to.params.nickname}的项目进度`
     } else {
