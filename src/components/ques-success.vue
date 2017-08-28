@@ -279,7 +279,8 @@
             <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.content"></h5>
-                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" ></a>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" v-if="focusResult"></a>
+                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
                         <p>
@@ -293,7 +294,9 @@
             </li>
             <li v-else>
                 <div class="ques-tg-list-box clearfix">
-                    <h5><a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" v-html="item.askContent"></a></h5>
+                    <h5 v-html="item.askContent"></h5>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" v-if="focusResult"></a>
+                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
                         <img :src="item.userInfo.headImage" :userId="item.userInfo.userId"/>
                         <p>

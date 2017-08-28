@@ -61,6 +61,11 @@
     color: #ff4040;
     margin-right: 0.36rem;
 }
+.ques-tg-top div button.ques-tg-focus.alr-focus {
+    border: 1px #727488 solid;
+    color: #727488;
+    margin-right: 0.36rem;
+}
 .ques-tg-top div button.ques-tg-btn {
     border: 1px #e5e8f9 solid;
     color: #e5e8f9;
@@ -168,7 +173,8 @@
                     <i></i>
                     <em>231粉丝</em>
                 </p>
-                <button type="button" name="button" class="ques-tg-focus" @click="authorize"><i></i>关注</button>
+                <button type="button" name="button" class="ques-tg-focus alr-focus" v-if="focusResult">已关注</button>
+                <button type="button" name="button" class="ques-tg-focus" @click="authorize" v-else><i></i>关注</button>
                 <button type="button" name="button" class="ques-tg-btn" @click="search">问股</button>
             </div>
         </div>

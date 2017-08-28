@@ -23,7 +23,7 @@ export default {
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
     fetch ({ commit, rootState }, options) {
-      fetch('http://mapi.itougu.jrj.com.cn/wireless/ssearch/baidu/niceques.jspa?type=qanda&keyword=' + options.stockCode + '&size=20', {
+      fetch('http://mapi.itougu.jrj.com.cn/wireless/ssearch/baidu/niceques.jspa?type=qanda&keyword=' + options.stockCode + '&size=3', {
         credentials: 'include'
       }).then(res => {
         return res.json()
