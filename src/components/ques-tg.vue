@@ -168,7 +168,7 @@
                     <i></i>
                     <em>231粉丝</em>
                 </p>
-                <button type="button" name="button" class="ques-tg-focus"><i></i>关注</button>
+                <button type="button" name="button" class="ques-tg-focus" @click="authorize"><i></i>关注</button>
                 <button type="button" name="button" class="ques-tg-btn" @click="search">问股</button>
             </div>
         </div>
@@ -185,7 +185,7 @@
                         <p>
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong v-if="userShow">{{item.lastedAnswer.content}}</strong>
+                            <strong v-if="focusResult">{{item.lastedAnswer.content}}</strong>
                             <strong v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
                         </p>
                     </div>
@@ -230,8 +230,8 @@ export default {
     userInfo: state => {
       return state.quesTg.userInfo
     },
-    userId: state => state.user.ssoId
-
+    userId: state => state.user.ssoId,
+    focusResult: state => state.quesFocus.focusResult
   }),
   components: {
     quesNav
@@ -255,8 +255,30 @@ export default {
       window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
     authorize () {
-      var url = window.location.href
-      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + url
+      if (this.userId) {
+        window.cambrian.subscribe({ data: {
+          type: 'force', // 类型，optional-弱关注 force-强关注
+          title: '金融界官方号', // 标题文字，字数限制：4-6个字
+          describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+          button: '关注并继续' // 按钮文字，字数限制：2-6个字
+        },
+          success: function (res) {
+            location.reload()
+                // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+                // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+          },
+          fail: function (res) {
+                // res结构如下，可通过status、msg判断错误原因
+                // 如：{"status": 100, "msg":"not login", "result": 0}
+          },
+          complete: function (res) {
+                // res结构如下，
+                // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+          }
+        })
+      } else {
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
+      }
     }
   },
   mounted () {
@@ -276,16 +298,7 @@ export default {
     })
     this.$store.dispatch('quesTg/fetch')
     document.title = '投顾问答'
-
-    // if (window.basicUserInfo.userId) {
-    //   this.userShow = true
-    // }
-    // if (getQueryString('code')) {
-    //   this.$store.dispatch('quesDetail/authorize', {
-    //     code: getQueryString('code'),
-    //     redirectUri: window.location.href
-    //   })
-    // }
+    this.$store.dispatch('quesFocus/jsSdk')
   }
 }
 </script>

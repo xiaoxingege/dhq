@@ -16,9 +16,16 @@ Vue.use(Vuex)
  * 实例化store
  */
 import quesSuccess from 'stores/ques-success'
+import user from 'stores/user'
+import quesFocus from 'stores/ques-focus'
+import quesDetail from 'stores/ques-detail'
+
 const store = new Vuex.Store({
   modules: {
-    quesSuccess
+    quesSuccess,
+    user,
+    quesFocus,
+    quesDetail
   }
 })
 

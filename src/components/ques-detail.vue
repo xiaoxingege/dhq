@@ -145,11 +145,11 @@
                     <img :src="item.adviserUser.headImage" />
                     <div>
                         <h5>{{item.adviserUser.userName}}<span>-{{item.adviserUser.company}}</span></h5>
-                        <p v-if="userShow">{{item.textContent}}</p>
+                        <p v-if="focusResult">{{item.textContent}}</p>
                         <p v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
-                        <!-- <span class="focus"><i></i>关注</span> -->
-                        <!-- <span>已关注</span> -->
+                        <span v-if="focusResult">已关注</span>
+                        <span class="focus" v-else><i></i>关注</span>
                     </div>
                 </div>
             </li>
@@ -211,7 +211,8 @@ export default {
     askData: state => {
       return state.quesDetail.askData
     },
-    userId: state => state.user.ssoId
+    userId: state => state.user.ssoId,
+    focusResult: state => state.quesFocus.focusResult
   }),
   components: {
     fixBg,
@@ -235,7 +236,30 @@ export default {
       history.go(-1)
     },
     authorize () {
-      window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
+      if (this.userId) {
+        window.cambrian.subscribe({ data: {
+          type: 'force', // 类型，optional-弱关注 force-强关注
+          title: '金融界官方号', // 标题文字，字数限制：4-6个字
+          describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+          button: '关注并继续' // 按钮文字，字数限制：2-6个字
+        },
+          success: function (res) {
+            location.reload()
+            // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+          },
+          fail: function (res) {
+            // res结构如下，可通过status、msg判断错误原因
+            // 如：{"status": 100, "msg":"not login", "result": 0}
+          },
+          complete: function (res) {
+            // res结构如下，
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+          }
+        })
+      } else {
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
+      }
     }
   },
   mounted () {
@@ -259,7 +283,7 @@ export default {
     this.$watch('userId', userId => {
       this.userShow = !!userId
     })
-    // this.$store.dispatch('quesDetail/jsSdk')
+    this.$store.dispatch('quesFocus/jsSdk')
   }
 }
 </script>

@@ -5,8 +5,6 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-// import $ from 'jquery'
-// import sha1 from 'js-sha1'
 
 // const PAGE_SIZE = 10
 
@@ -83,6 +81,13 @@ export default {
     //     var s = document.createElement('script')
     //     s.type = 'text/javascript'
     //     s.charset = 'utf-8'
+    //     s.onload = function () {
+    //       window.cambrian.isSubscribe({
+    //         success: v => {
+    //           console.log(v)
+    //         }
+    //       })
+    //     }
     //     s.src = '//msite.baidu.com/sdk/c.js?' +
     //             'appid=' + '1569626229411689' +
     //             '&timestamp=' + ts +
