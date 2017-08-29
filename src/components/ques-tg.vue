@@ -162,7 +162,7 @@
 
 <template>
 <div class="ques-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" />
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :bakShow="bakShow"/>
     <div class="ques-tg">
         <div class="ques-tg-top clearfix">
             <img :src="userInfo.headImage" />
@@ -226,7 +226,8 @@ export default {
   data () {
     return {
       quesNavTitle: '投顾问答',
-      userShow: false
+      userShow: false,
+      bakShow: true
     }
   },
   computed: mapState({

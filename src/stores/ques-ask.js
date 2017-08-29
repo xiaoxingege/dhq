@@ -24,7 +24,9 @@ export default {
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
     ask ({ commit, rootState }, options) {
+      const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
       fetch('http://itougu.jrj.com.cn/ques/ask/baidu/askNum.jspa?passportId=' + options.userId, {
+        mode,
         credentials: 'include'
       }).then(res => {
         return res.json()
@@ -33,12 +35,14 @@ export default {
       })
     },
     askto ({ commit, rootState }, options) {
+      const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
       fetch('http://itougu.jrj.com.cn/ques/ask/baidu/askto.jspa?textcont=' + encodeURI(options.textCont) + '&passportId=' + options.passportId + '&isopen=1', {
-
+        mode,
         credentials: 'include'
       }).then(res => {
         return res.json()
       }).then(json => {
+        localStorage.clear()
         if (json.retCode === 0 || json.retCode === 1) {
           window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-success.jspa?stockCode=' + json.stockCode + '&showTime=' + json.showTime
         } else {

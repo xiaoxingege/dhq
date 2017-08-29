@@ -130,7 +130,7 @@
 
 <template>
 <div class="ques-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" />
+    <ques-nav :title="quesNavTitle" @navBak="navBak" v-if='navShow' :bakShow="bakShow"/>
     <div class="ques-detail">
         <div>
             <p><i></i>{{askData.textContent}}</p>
@@ -201,7 +201,9 @@ export default {
       quesFocusShow: false,
       quesLicenseShow: false,
       quesNavTitle: '问答详情',
-      userShow: false
+      userShow: false,
+      navShow: true,
+      bakShow: true
     }
   },
   computed: mapState({
@@ -233,7 +235,11 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      history.go(-1)
+      if (getQueryString('source') === 'success') {
+        window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+      } else {
+        history.go(-1)
+      }
     },
     authorize () {
       if (this.userId) {
@@ -264,6 +270,9 @@ export default {
   },
   mounted () {
     document.title = '问答详情'
+    if (getQueryString('form')) {
+      this.navShow = false
+    }
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     if (this.userId) {
       this.userShow = true

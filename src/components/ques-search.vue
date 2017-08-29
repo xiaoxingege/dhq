@@ -7,6 +7,7 @@
     padding: 0 5%;
     position: relative;
     background-color: #fff;
+    z-index: 2;
 }
 .ques-search i {
     width: 0.42rem;
@@ -31,26 +32,30 @@
     color: #999;
 }
 .ques-search ul {
-    border-bottom: 1px #e6e6e6 solid;
+    border-bottom: 0.01rem #e6e6e6 solid;
     width: 100%;
     position: absolute;
-    top: 1rem;
+    top: 1.02rem;
     left: 0;
     background-color: #fff;
     z-index: 1;
 }
 .ques-search ul li {
-    width: 80%;
-    padding: 0 10%;
+    width: 90%;
+    margin: 0 5%;
     height: 1rem;
-    font-size: 0.2rem;
+    font-size: 0.3rem;
     line-height: 1rem;
+    border-bottom: 0.01rem #e6e6e6 solid;
+}
+.ques-search ul li:last-child {
+    border-bottom: none;
 }
 .ques-search ul li p {
     width: 33%;
     float: left;
     text-align: center;
-    font-size: 0.2rem;
+    font-size: 0.3rem;
 }
 .ques-search ul li p span {
     color: #6284e6;
@@ -100,6 +105,7 @@ export default {
       stid: ''
     }
   },
+  props: ['value'],
   computed: mapState({
     CodeData: state => {
       return state.quesSearch.CodeData

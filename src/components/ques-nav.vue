@@ -35,7 +35,7 @@
 
 <template>
 <div class="ques-nav">
-    <i @click="navBak"></i>
+    <i @click="navBak" v-if="bakShow"></i>
     <h1>{{title}}</h1>
     <span @click="events" v-if="eventShow">{{btnTxt}}</span>
 </div>
@@ -51,11 +51,8 @@ export default {
       eventShow: false
     }
   },
-  props: ['title', 'btnTxt'],
+  props: ['title', 'btnTxt', 'bakShow'],
   computed: mapState({
-        // CodeData: state => {
-        //   return state.quesSearch.CodeData
-        // }
   }),
   components: {
         // quesSearch

@@ -279,7 +279,7 @@
             <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.content"></h5>
-                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" v-if="focusResult"></a>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
                     <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
@@ -295,7 +295,7 @@
             <li v-else>
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.askContent"></h5>
-                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId" class="niceLink" v-if="focusResult"></a>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
                     <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
                         <img :src="item.userInfo.headImage" :userId="item.userInfo.userId"/>
@@ -422,6 +422,7 @@ export default {
   },
   mounted () {
     document.title = '问答详情'
+    this.$store.dispatch('user/fetchFromBasicUserInfo')
     if (getQueryString('stockCode') === '' || !getQueryString('stockCode') || getQueryString('stockCode') === 'undefined') {
       this.jchdShow = false
       this.$store.dispatch('quesSuccess/jchd')

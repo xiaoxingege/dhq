@@ -46,9 +46,9 @@
 </style>
 
 <template>
-<div class="ques-ask-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents"/>
-    <ques-search @searchVal="searchVal"/>
+<div class="ques-ask-box" v-if="!tmpQues || err">
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow"/>
+    <ques-search @searchVal="searchVal" :value="searchValue"/>
     <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
     <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
     <p class="askTimes">今日您还剩余<span>{{askTimes}}</span>次提问机会</p>
@@ -75,7 +75,8 @@ export default {
       quesNavTitle: '问股',
       btnTxt: '提问',
       searchValue: '',
-      userShow: false
+      userShow: false,
+      bakShow: true
     }
   },
   computed: mapState({
@@ -85,8 +86,10 @@ export default {
     err: state => {
       return state.quesAsk.err
     },
-    userId: state => state.user.ssoId
-
+    userId: state => state.user.ssoId,
+    tmpQues: () => {
+      return localStorage.text
+    }
   }),
   components: {
     quesSearch,
@@ -115,19 +118,19 @@ export default {
       history.go(-1)
     },
     navEvents () {
-      if (this.userShow === false) {
-        // var url = window.location.href
-        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
-        return
-      }
       var searchValue = this.searchValue
       var textCont = searchValue + '' + this.text
       var passportId = window.basicUserInfo.userId
       if (!this.text) {
         alert('内容不可为空')
         return
-      } else if (!passportId) {
-        alert('用户未登录')
+      }
+      if (this.userShow === false) {
+        // var url = window.location.href
+        if (searchValue) { localStorage.searchValue = searchValue }
+        if (this.text) { localStorage.text = this.text }
+
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
         return
       }
 
@@ -145,17 +148,25 @@ export default {
     document.title = '问股'
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     this.$watch('err', err => {
-      alert(err.msg)
+      setTimeout(() => {
+        alert(err.msg)
+      })
     })
     this.$watch('userId', userId => {
-      this.userShow = !!userId
-      if (this.userId) {
+      if (userId) {
         this.userShow = true
         this.$store.dispatch('quesAsk/ask', {
-          userId: this.userId
+          userId: userId
         })
+        if (this.tmpQues) {
+          var searchValue = localStorage.searchValue
+          var textCont = searchValue + '' + localStorage.text
+          this.$store.dispatch('quesAsk/askto', {
+            textCont: textCont,
+            passportId: userId
+          })
+        }
       } else {
-        this.userShow = false
         if (getQueryString('code')) {
           this.$store.dispatch('quesDetail/authorize', {
             code: getQueryString('code'),
