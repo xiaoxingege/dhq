@@ -153,28 +153,6 @@
                     </div>
                 </div>
             </li>
-            <!-- <li>
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>比较强势，中线可以持有</p>
-                        <strong>2107-02-13  14:31</strong>
-                        <span>已关注</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>平安银行这只股有做中线的价值吗，我有5000 股先成本8.05元后边如何操作</p>
-                        <strong>2107-02-13  14:31</strong>
-                        <span>已关注</span>
-                    </div>
-                </div>
-            </li> -->
         </ul>
         <p @click="aaa"><i></i>以上内容仅代表个人观点，不构成投资建议<i></i></p>
     </div>

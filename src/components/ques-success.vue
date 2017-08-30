@@ -257,7 +257,7 @@
             </div>
             <div>
                 <h4>预计会在10分钟内被回答</h4>
-                <p>有回答时，会第一时间推送通知您 {{moment(parseInt(showTime),'HH:mm')}}</p>
+                <p>有回答时，会第一时间推送通知您</p>
             </div>
         </div>
 
@@ -265,17 +265,6 @@
     <div class="ques-detail-list">
         <h3>其他精彩回答</h3>
         <ul>
-            <!-- <li v-for="item in dataList">
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>投资达人空空空道人已回答该问题，<a href="javascript:;">点击查看 > </a></p>
-                        <span>今天 14:31</span>
-                    </div>
-                </div>
-            </li> -->
-
             <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.content"></h5>
@@ -308,26 +297,6 @@
                     </div>
                 </div>
             </li>
-            <!-- <li>
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>投资达人空空空道人已回答该问题，<a href="javascript:;">点击查看 > </a></p>
-                        <span>今天 14:31</span>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="ques-detail-list-box clearfix">
-                    <img src="../assets/images/ques-alading/tg-i4.png" />
-                    <div>
-                        <h5>不败女王<span>-深圳新兰德</span></h5>
-                        <p>投资达人空空空道人已回答该问题，<a href="javascript:;">点击查看 > </a></p>
-                        <span>今天 14:31</span>
-                    </div>
-                </div>
-            </li> -->
         </ul>
     </div>
 </div>

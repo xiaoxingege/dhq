@@ -69,33 +69,5 @@ export default {
         }
       })
     }
-    // jsSdk ({ commit }) {
-    //   $.getJSON('http://wx.jrj.com.cn/api/baidu.jsp?action=get_ticket&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&rnd=' + Math.random() + '&callback=?', function (data) {
-    //     var nonce = '1234567890'
-    //     var ts = Math.round($.now() / 1000)
-    //     var link = location.href.split('#')[0]
-    //     var str = 'jsapi_ticket=' + data.data.ticket + '&noncestr=' + nonce + '&timestamp=' + ts + '&url=' + link
-    //     var hash = sha1.create()
-    //     hash.update(str)
-    //     var sign = hash.hex()
-    //     var s = document.createElement('script')
-    //     s.type = 'text/javascript'
-    //     s.charset = 'utf-8'
-    //     s.onload = function () {
-    //       window.cambrian.isSubscribe({
-    //         success: v => {
-    //           console.log(v)
-    //         }
-    //       })
-    //     }
-    //     s.src = '//msite.baidu.com/sdk/c.js?' +
-    //             'appid=' + '1569626229411689' +
-    //             '&timestamp=' + ts +
-    //             '&nonce_str=' + nonce +
-    //             '&signature=' + sign +
-    //             '&url=' + encodeURIComponent(link)
-    //     document.body.appendChild(s)
-    //   })
-    // }
   }
 }

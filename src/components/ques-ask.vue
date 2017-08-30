@@ -46,7 +46,7 @@
 </style>
 
 <template>
-<div class="ques-ask-box" v-if="!tmpQues || err">
+<div class="ques-ask-box" v-if="show">
     <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow"/>
     <ques-search @searchVal="searchVal" :value="searchValue"/>
     <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
@@ -76,7 +76,8 @@ export default {
       btnTxt: '提问',
       searchValue: '',
       userShow: false,
-      bakShow: true
+      bakShow: true,
+      show: false
     }
   },
   computed: mapState({
@@ -86,10 +87,7 @@ export default {
     err: state => {
       return state.quesAsk.err
     },
-    userId: state => state.user.ssoId,
-    tmpQues: () => {
-      return localStorage.text
-    }
+    userId: state => state.user.ssoId
   }),
   components: {
     quesSearch,
@@ -148,6 +146,7 @@ export default {
     document.title = '问股'
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     this.$watch('err', err => {
+      this.show = true
       setTimeout(() => {
         alert(err.msg)
       })
@@ -159,14 +158,18 @@ export default {
           userId: userId
         })
         if (this.tmpQues) {
+          this.show = false
           var searchValue = localStorage.searchValue
           var textCont = searchValue + '' + localStorage.text
           this.$store.dispatch('quesAsk/askto', {
             textCont: textCont,
             passportId: userId
           })
+        } else {
+          this.show = true
         }
       } else {
+        this.show = true
         if (getQueryString('code')) {
           this.$store.dispatch('quesDetail/authorize', {
             code: getQueryString('code'),

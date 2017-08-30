@@ -197,19 +197,6 @@
                     </div>
                 </div>
             </li>
-            <!-- <li>
-                <div class="ques-tg-list-box clearfix">
-                    <h5>你好老师，平安银行这只股有做中线的价值吗， 我有500股先成本8.05元后边如何操作？ </h5>
-                    <div>
-                        <img src="../assets/images/ques-alading/tg-i4.png" />
-                        <p>
-                            <span>空道人</span>
-                            <em>今天 14:31</em>
-                            <strong>关注<a href="javascript:;">金融界</a>，查看回答详情</strong>
-                        </p>
-                    </div>
-                </div>
-            </li> -->
         </ul>
     </div>
 </div>
