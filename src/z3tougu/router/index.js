@@ -9,6 +9,8 @@ import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
+import foundpoollist from 'components/foundpoollist'
+
 // import GoldStrategy from 'components/gold-strategy'
 // import Kgraph from 'components/kgraph'
 
@@ -25,7 +27,8 @@ export default [
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
-    { path: '/test/stock', name: 'teststock', component: StockTest }
+    { path: '/test/stock', name: 'teststock', component: StockTest },
+    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist }
     // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
     // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]
