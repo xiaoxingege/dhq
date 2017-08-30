@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../assets/animate.css';
 html,
 body,

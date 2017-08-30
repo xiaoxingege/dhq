@@ -48,7 +48,10 @@
               }
             }
             const chgPx = (d.closePx - d.prevClosePx).toFixed(2)
-            const chgPctPx = (chgPx / d.prevClosePx * 100).toFixed(2)
+            let chgPctPx = '--'
+            if (d.prevClosePx !== 0 && d.prevClosePx !== config.emptyValue) {
+              chgPctPx = (chgPx / d.prevClosePx * 100).toFixed(2)
+            }
             return {
               stockCode: d.name,
               stockName: d.innerCode || config.emptyValue,
@@ -175,7 +178,7 @@
       },
       methods: {
         initChart () {
-          this.chart = echarts.init(this.$refs.chart)
+          this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
 //          this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
           const lineData = this.lineData
           const opt = {
@@ -369,6 +372,10 @@
       },
       watch: {
         stockCode () {
+          if (!this.stockCode) {
+            console.info('[component:stock-kline]:stockCode is necessary!')
+            return
+          }
           this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
         },
         lineData () {
@@ -378,7 +385,7 @@
 
   mounted () {
         if (!this.stockCode) {
-          console.error('[component:stock-kline]:stockCode is necessary!')
+          return
         }
         this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
       }
