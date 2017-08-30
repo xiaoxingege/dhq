@@ -44,10 +44,13 @@ const mutations = {
     if (kline && kline.length > 0) {
       const lastRecord = kline[kline.length - 1]
       const chgPx = (lastRecord.closePx - lastRecord.prevClosePx).toFixed(2)
-      const chgPctPx = (chgPx / lastRecord.prevClosePx * 100).toFixed(2)
+      let chgPctPx = config.emptyValue
+      if (lastRecord.prevClosePx !== config.emptyValue && lastRecord.prevClosePx !== 0) {
+        chgPctPx = (chgPx / lastRecord.prevClosePx * 100).toFixed(2)
+      }
       state.stock = {
-        stockCode: lastRecord.name,
-        stockName: lastRecord.innerCode,
+        stockCode: lastRecord.innerCode,
+        stockName: lastRecord.name,
         ma20: lastRecord.ma20,
         ma60: lastRecord.ma60,
         ma120: lastRecord.ma120,

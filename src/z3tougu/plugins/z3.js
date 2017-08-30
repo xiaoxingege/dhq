@@ -1,3 +1,4 @@
+import config from '../config'
 export default{
   install(Vue, options) {
     // 1. 添加全局方法或属性
@@ -5,21 +6,34 @@ export default{
     //   // 逻辑...
     // }
     // 2. 添加全局资源
-    Vue.directive('stock-popup', {
+    Vue.directive('z3-stock',{
       bind (el, binding, vnode, oldVnode) {
-        let code = binding.value.code
-        let name = binding.value.name
-        let price = binding.value.price===null?'--':binding.value.price
-        let chg = binding.value.chg===null?'--':binding.value.chg//成份股涨跌
-        let curChngPct = binding.value.curChngPct===null?'--':binding.value.curChngPct//成份股涨跌幅
-        //vnode.context.text.stock-popup.name=binding.oldVnode
-        el.addEventListener('mouseover',(event)=>{
-          /*this.hoverChartShow = true*/
+        let popup = binding.value.ref;
+        let code = binding.value.code;
+        let vm = vnode.context;
+        let popupVm = vm.$refs[popup];
 
-          console.log(el.getAttribute("value"))
-          console.log(document.getElementsByClassName('tooltip-box'))
+        el.addEventListener('mouseover' ,(event)=>{
+          popupVm.$props.left = event.x + 40;
+          popupVm.$props.top = event.y - 20;
+          popupVm.isShow = true;
+          popupVm.$props.stockCode = code;
+        });
+        el.addEventListener('mouseout',(event)=>{
+          popupVm.isShow = false;
+          console.info('mouseout');
         })
       }
+    });
+    Vue.directive('z3-updowncolor',(el, binding, vnode, oldVnode)=>{
+        var flag = binding.value;
+        if(flag>0){
+          el.style.color = config.upColor
+        }else if(flag === 0){
+          el.style.color = config.flatColor
+        }else{
+          el.style.color = config.downColor
+        }
     })
     // 3. 注入组件
     // Vue.mixin({

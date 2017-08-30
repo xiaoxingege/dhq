@@ -10,7 +10,7 @@ import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
 import foundpoollist from 'components/foundpoollist'
-
+import z3TouguIndex from 'components/z3tougu-index'
 // import GoldStrategy from 'components/gold-strategy'
 // import Kgraph from 'components/kgraph'
 
@@ -20,15 +20,16 @@ export default [
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
     { path: '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
     { path: '/map', name: 'map', component: Map },
-    { path: '/map/fullScreen', name: 'map', component: Map },
-    { path: '/map/normal', name: 'map', component: Map },
+    { path: '/map/fullScreen', name: 'bigmap', component: Map },
+    { path: '/map/normal', name: 'normalmap', component: Map },
     { path: '/themeList', name: 'themelist', component: ThemeList },
     { path: '/themeIndex', name: 'themeindex', component: ThemeIndex },
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
     { path: '/test/stock', name: 'teststock', component: StockTest },
-    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist }
+    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
+    { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex }
     // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
     // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]

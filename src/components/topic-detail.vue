@@ -373,7 +373,8 @@
     import { mapState } from 'vuex'
     import echarts from 'echarts'
     import { formatDate } from 'utils/date'
-
+    import { mutationTypes } from 'stores/z3tougu-theme'
+    import z3websocket from '../z3tougu/z3socket'
     export default{
       data () {
         return {
@@ -386,6 +387,22 @@
       },
       computed: {
         ...mapState({
+          relatedStocks: state => state.topic.relatedStocks,
+          stockMessage: state => {
+            const msg = state.z3sockjs.message
+            if (msg && msg.data && msg.data.subject === 'snapshot') {
+              const record = msg.data
+              return {
+                innerCode: record.stockCode,
+                name: record.stockName,
+                price: record.lastPx,
+                chg: record.pxchg,
+                curChngPct: record.pxchgratio
+              }
+            } else {
+              return null
+            }
+          },
           lineData: state => state.topic.lineData,
           news: state => state.topic.news,
           informatList: state => state.topic.informatList,
@@ -483,17 +500,27 @@
         })
       },
       watch: {
-      /*  period () {
-           if (this.period != 'day') {
-
+        relatedStocks () {
+          if (z3websocket.ws) {
+            z3websocket.ws && z3websocket.ws.close()
           } else {
-            this.updateChart()
+            this.$store.dispatch('z3sockjs/init')
           }
-        },*/
-        /* chartData () {
-          监测setOption
-        }*/
-    
+        },
+        stockMessage () {
+          if (this.stockMessage) {
+            this.updateStock()
+          }
+        },
+        socketState () {
+          if (this.socketState === 1) {
+            // 建立连接
+            this.subscribeStock()
+          } else if (this.socketState === 3) {
+            // 断开连接，重新建立连接
+            this.$store.dispatch('z3sockjs/init')
+          }
+        }
       },
       methods: {
         initChart () {
@@ -681,7 +708,19 @@
         format (date) {
           return formatDate(date)
         },
-    
+        updateStock (stock) {
+          this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+        },
+        subscribeStock () {
+          const msg = {
+            subject: 'snapshot',
+            type: '1',
+            actionType: '1',
+            stockCodeList: Object.keys(this.relatedStocks),
+            token: ''
+          }
+          this.$store.dispatch('z3sockjs/send', msg)
+        },
         changeTofixed (num) {
           return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
         }/* this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })

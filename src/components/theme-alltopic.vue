@@ -12,10 +12,10 @@
       font-size: 12px;
     }
     .red{
-      color:#e6363a !important;
+      color:#e6363a 
     }
     .green {
-      color:#48a854 !important;
+      color:#48a854 
     }
     .display-box {
       display: -webkit-box;
@@ -345,10 +345,9 @@
                </div>
                <div  class="con-cen">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <a :href="`/stock/equity.innerCode`" class="blue equ-name" ref="equityname" v-stock-popup="{equity:equity.innerCode,name:equity.name,price:equity.price,chg:equity.chg,curChngPct:equity.curChngPct}" :value="equity.name">{{equity.name}}</a>
-                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.price==null?'--':parseFloat(equity.price).toFixed(2)}}</span>
-                      <span class="equ-price" :class="equity.curChngPct>0 ? 'red':'green'">{{equity.curChngPct==null?'--':changeTofixed(equity.curChngPct)}}</span>
-                      
+                      <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
+                      <span class="equ-price" v-z3-updowncolor="1" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
+                      <span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
                   <div class="tooltip-box clearfix" v-if="hoverChartShow">
                             <a href="##" target="_blank" class="name" v-stock-popup.name="direName"></a>
@@ -380,7 +379,9 @@
             <ThemeSortAz/>
       </div>
     </div>
+    <StockBox ref="stockbox"></StockBox>
 </div>
+
 </template>
 
 <script>
@@ -390,7 +391,7 @@
  import ThemeSortAz from './theme-sort-az'
  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
- import Stockkline from 'components/stock-kline'
+ import StockBox from 'components/stock-box'
 export default {
    data () {
      return {
@@ -439,7 +440,7 @@ export default {
    components: {
      Pagination,
      ThemeSortAz,
-     Stockkline
+     StockBox
    },
    methods: {
      query (type, page) {
@@ -496,6 +497,7 @@ export default {
        this.query(this.sortField, this.page)
      },
      relatedStocks () {
+       console.log(this.relatedStocks)
        if (z3websocket.ws) {
          z3websocket.ws && z3websocket.ws.close()
        } else {
