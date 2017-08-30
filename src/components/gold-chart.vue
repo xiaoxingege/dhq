@@ -12,6 +12,7 @@
     }
     .syqxt,.dryk,.mrcc,.syytj,.sylfb,.mrjy,.dqxg{
         min-height:420px;
+        width:100%;
     }
 </style>
 <template>
@@ -19,19 +20,19 @@
         <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
         <div>
             <div v-if="type === 'syqxt'" class="syqxt">
-                <Linechart></Linechart>
+                <Linechart :strategyId="strategyId"></Linechart>
             </div>
             <div v-if="type === 'dryk'" class="dryk">
-                <Barupdown></Barupdown>
+                <Barupdown :strategyId="strategyId"></Barupdown>
             </div>
             <div v-if="type === 'mrcc'" class="mrcc">
-                <Onelinechart></Onelinechart>
+                <Onelinechart :strategyId="strategyId"></Onelinechart>
             </div>
             <div v-if="type === 'syytj'" class="syytj">
-                <Twobarchart></Twobarchart>
+                <Twobarchart :strategyId="strategyId"></Twobarchart>
             </div>
             <div v-if="type === 'sylfb'" class="sylfb">
-                <Onebarchart></Onebarchart>
+                <Onebarchart :strategyId="strategyId"></Onebarchart>
             </div>
             <div v-if="type === 'mrjy'" class="mrjy">
                 <table cellpadding="0" cellspacing="0">
@@ -81,7 +82,7 @@
     import Pagination from 'components/pagination'
 
     export default{
-      props: ['data'],
+      props: ['data', 'strategyId'],
       data () {
         return {
           navText: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb'], ['每日交易', 'mrjy'], ['当前选股', 'dqxg']],

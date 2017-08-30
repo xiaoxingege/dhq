@@ -9,9 +9,10 @@
 <script>
     import echarts from 'echarts'
     export default{
+      props: ['strategyId'],
       methods: {
         initMrccChart () {
-          this.$store.dispatch('goldStrategy/getMrccData', {}).then(() => {
+          this.$store.dispatch('goldStrategy/getMrccData', { strategyId: this.strategyId }).then(() => {
             const mrccData = this.$store.state.goldStrategy.mrccData
             this.chart = echarts.init(document.getElementsByClassName('lineChart')[0])
             this.chart.setOption({

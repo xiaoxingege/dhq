@@ -9,9 +9,10 @@
 <script>
     import echarts from 'echarts'
     export default{
+      props: ['strategyId'],
       methods: {
         initdrykChart () {
-          this.$store.dispatch('goldStrategy/getDrykData', {}).then(() => {
+          this.$store.dispatch('goldStrategy/getDrykData', { strategyId: this.strategyId }).then(() => {
             const barData = this.$store.state.goldStrategy.drykData
             this.chart = echarts.init(document.getElementsByClassName('barChart')[0])
             this.chart.setOption({

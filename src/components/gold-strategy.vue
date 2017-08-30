@@ -55,9 +55,6 @@
         <div class="strategyHeader">
             <div>
                 <span>{{goldResult.strategyName}}</span>
-                <img class="attention" src="../assets/images/gold-attention.png">
-                <span><a>一键模拟</a><span style="color:#191919;">/模拟中</span></span>
-                <span style="margin-left: 50px;"><a>一键回测</a></span>
             </div>
             <div>
 
@@ -76,7 +73,7 @@
             <div class="radarChart"></div>
         </div>
         <div>
-            <Goldchart></Goldchart>
+            <Goldchart :strategyId="strategyId"></Goldchart>
         </div>
     </div>
 </template>
@@ -91,6 +88,7 @@
 export default{
   data () {
         return {
+          strategyId: ''
         }
   },
   components: {
@@ -269,10 +267,11 @@ export default{
         }
   }),
   mounted () {
-        this.$store.dispatch('goldStrategy/getGoldStrategyData', {}).then(() => {
+        this.strategyId = this.$route.params.strategyId
+        this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId }).then(() => {
 
         })
-        this.$store.dispatch('goldStrategy/getMrjyData', {}).then(() => {
+        this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId }).then(() => {
 
         })
   }

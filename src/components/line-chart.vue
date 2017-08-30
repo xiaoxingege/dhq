@@ -11,7 +11,7 @@
     import { mapState } from 'vuex'
 
     export default{
-      props: ['options'],
+      props: ['options', 'strategyId'],
       data () {
         return {
 
@@ -25,7 +25,7 @@
       }),
       methods: {
         initChart () {
-          this.$store.dispatch('goldStrategy/getSyqxtData', {}).then(() => {
+          this.$store.dispatch('goldStrategy/getSyqxtData', { strategyId: this.strategyId }).then(() => {
             const lineData = this.$store.state.goldStrategy.syqxtData
             this.chart = echarts.init(document.getElementsByClassName('lineChart')[0])
             this.chart.setOption({

@@ -9,9 +9,10 @@
 <script>
     import echarts from 'echarts'
     export default{
+      props: ['strategy'],
       methods: {
         initSylfbChart () {
-          this.$store.dispatch('goldStrategy/getSylfbData', {}).then(() => {
+          this.$store.dispatch('goldStrategy/getSylfbData', { strategyId: this.strategyId }).then(() => {
             const sylfbData = this.$store.state.goldStrategy.sylfbData
             this.chart = echarts.init(document.getElementsByClassName('barChart')[0])
             this.chart.setOption({

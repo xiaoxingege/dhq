@@ -8,7 +8,11 @@
     zoom: 1;
     clear: both
 }
-
+ul{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
 p {
     text-align: justify;
 }

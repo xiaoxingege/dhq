@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
     .goldRecommend{
-        font-size: 0.24rem;
+        font-size: 0.12rem;
     }
     .strategyHeader{
         height:0.64rem;
@@ -234,8 +234,10 @@
         }
       }),
       mounted () {
-        document.getElementsByTagName('html')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'
-        document.getElementsByTagName('body')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'
+//        document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 640 * 625 + '%'
+
+          /* document.getElementsByTagName('html')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'
+        document.getElementsByTagName('body')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'*/
 
         this.$store.dispatch('goldStrategy/getGoldStrategyData', {}).then(() => {
 
