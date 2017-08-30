@@ -78,8 +78,13 @@ export default {
     updateInformat (state, infor) {
       state.informatList = infor
     },
-    updateStockList (state, stock) {
-      state.stockList = stock
+    updateStockList (state, stockList) {
+      state.stockList = stockList
+      const stocks = {}
+      for (const stock of stockList) {
+        stocks[stock.innerCode] = stock
+      }
+      state.relatedStocks = stocks
     },
     updateDetailHead (state, detailHead) {
       state.detail = detailHead
