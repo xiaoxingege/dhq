@@ -14,7 +14,7 @@
 .ques-success-box i {
     width: 0.88rem;
     height: 2.2rem;
-    background: url("../assets/images/ques-alading/success-i2.png") no-repeat;
+    background: url("../assets/images/ques-alading/success-i2-1.png") no-repeat;
     background-size: 100% 100%;
     float: left;
 }
@@ -61,9 +61,8 @@
     font-size: 0.34rem;
     color: #333;
     line-height: 0.5rem;
-    border-bottom: 1px #e6e6e6 solid;
+    border-bottom: 0.01rem #e6e6e6 solid;
     padding-bottom: 0.2rem;
-    font-weight: normal;
 }
 .ques-tg-list-box h5 a{
     color: #333;

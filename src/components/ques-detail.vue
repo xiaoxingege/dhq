@@ -10,7 +10,7 @@
     background-color: #fff;
 }
 .ques-detail div p {
-    font-size: 0.3rem;
+    font-size: 0.34rem;
 }
 .ques-detail div p span {
     color: #2e7cd7;
@@ -21,7 +21,8 @@
     float: left;
     background: url("../assets/images/ques-alading/detail-i1.png") no-repeat;
     background-size: 100% 100%;
-    margin-top: 0.05rem;
+    margin-top: 0.1rem;
+    margin-right: 0.05rem;
 }
 .ques-detail div strong {
     font-size: 0.24rem;

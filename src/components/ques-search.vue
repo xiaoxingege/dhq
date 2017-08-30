@@ -27,6 +27,7 @@
     padding: 0.25rem 10%;
     border: none;
     outline: none;
+    color: #333;
 }
 .ques-search input::-webkit-input-placeholder {
     color: #999;
