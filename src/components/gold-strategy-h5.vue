@@ -20,7 +20,7 @@
         color:#2388da;
     }
     .radarChart{
-        width:4.56rem;
+        width:100%;
         height:3.75rem;
         background:#000;
     }
