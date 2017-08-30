@@ -11,6 +11,9 @@ import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
+import foundpoollist from 'components/foundpoollist'
+
+// import Kgraph from 'components/kgraph'
 
 export default [
     { path: '/', name: 'home', component: Index },
@@ -27,5 +30,8 @@ export default [
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
-    { path: '/gold-strategy-h5', name: 'goldStrategyH5', component: GoldStrategyH5 }
+    { path: '/gold-strategy-h5', name: 'goldStrategyH5', component: GoldStrategyH5 },
+    { path: '/test/stock', name: 'teststock', component: StockTest },
+    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist }
+    // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]

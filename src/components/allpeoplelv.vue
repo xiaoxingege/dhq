@@ -53,10 +53,10 @@ import JichushareToast from 'components/jichushare-toast'
 export default {
   data () {
     return {
-      message: `1.活动期间，每位用户可领取一次“15天Lv2极速行情”，领取即视为报名参加本活动<br />
-2.自报名之日起，每位用户在金豆中心签到，除领金豆外，可额外再获赠一天Lv2极速行情使用天数；<br />
-3.对每自然周（周一00:00至周日23:59）累计签到达3天以上的用户，将额外奖励7天Lv2使用天数；<br />
-4.赠送的Lv2极速行情使用天数为自然日天数，可包含非交易日；<br />
+      message: `1.活动期间，每位用户可领取一次“15天Lv2极速行情”（Lv2为Level-2简称），领取即视为报名参加本活动；<br />
+2.自报名之日起，每位用户在金豆中心签到，除领取金豆外，可额外再获赠一天Lv2极速行情使用天数；<br />
+3.对每自然周（周一00:00至周日23:59）累计签到3天以上的用户，将额外奖励7天Lv2极速行情使用天数；<br />
+4.赠送的Lv2极速行情使用天数为自然日天数（即可能包含非交易日天数）；<br />
 5.最终解释权归金融界所有。`,
       lingqudone: false,
       myInit: {
@@ -84,7 +84,7 @@ export default {
       }
     }
     this.jindoustutas()
-    document.title = '全民体验Level-2极速行情'
+    document.title = '全民体验Lv2行情'
   },
   methods: {
     pad2 (n) { return n < 10 ? '0' + n : n },

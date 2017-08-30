@@ -15,6 +15,9 @@ export default{
         //vnode.context.text.stock-popup.name=binding.oldVnode
         el.addEventListener('mouseover',(event)=>{
           /*this.hoverChartShow = true*/
+
+          console.log(el.getAttribute("value"))
+          console.log(document.getElementsByClassName('tooltip-box'))
         })
       }
     })

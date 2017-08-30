@@ -1,11 +1,11 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.50",
+  "version": "0.0.53",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --devtool eval --progress --inline --hot --colors --content-base build",
+    "dev": "webpack-dev-server --inline --hot",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
     "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
@@ -60,7 +60,7 @@
     "bem-sha1": "^1.0.3",
     "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
-    "echarts": "^3.6.2",
+    "echarts": "^3.7.0",
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
     "jquery": "^3.2.1",

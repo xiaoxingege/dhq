@@ -5,7 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config/'
+import { domain } from '../z3tougu/config'
 
 export const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
@@ -34,6 +34,7 @@ export default {
     total: 0,
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
     allCharts: [],
+    listChange: [],
     realtimeCharts: [],
     relatedStocks: {},
     groupTopics: [],
@@ -92,6 +93,9 @@ export default {
         state.tradeDate.push(item.tradeDate)
       })*/
     },
+    updateListChange (state, listChange) {
+      state.listChange = listChange
+    },
     updateRealtimeCharts (state, realtime) {
       state.realtimeCharts = realtime
     },
@@ -117,7 +121,10 @@ export default {
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
       const stocks = state.topic.relatedStocks
-      state.topic.relatedStocks = { ...stocks, stock }
+      stocks[stock.innerCode].price = stock.price
+      stocks[stock.innerCode].chg = stock.chg
+      stocks[stock.innerCode].curChngPct = stock.curChngPct
+      // state.topic.relatedStocks = { ...stocks, stock }
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -156,6 +163,24 @@ export default {
         // console.log(result.data.content[0].relatedEquity)
         if (result.errCode === 0) {
           commit('updateAllTopic', result.data.content)
+          // commit('updatePage', result.data)
+          commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
+          // console.log(result.data.size)
+        }
+      })
+    },
+    queryListChange ({ commit }, { sortField, page, pagesize, totalPages }) {
+      page = page || 0
+      pagesize = pagesize || PAGE_SIZE
+      return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        // console.log(result)
+        // console.log(result.data.content[0].relatedEquity)
+        if (result.errCode === 0) {
+          commit('updateListChange', result.data.content)
           // commit('updatePage', result.data)
           commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
           // console.log(result.data.size)

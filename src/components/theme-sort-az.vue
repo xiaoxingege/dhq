@@ -91,7 +91,7 @@
    }
    .letter{
      line-height: 20px;
-     width: 3%;
+     width: 5%;
    }
    .letter i{
     margin-left: 8px;

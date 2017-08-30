@@ -6,24 +6,27 @@ const mutationTypes = {
   'UPDATE_MESSAGE': 'UPDATE_MESSAGE'
 }
 const state = {
-  isConnection: false,
+  readystate: 0,
   message: ''
 }
 
 const actions = {
   init ({ state, commit }) {
-    return new Promise((resolve, reject) => {
-      z3websocket.initWebsocket()
-      z3websocket.ws.onopen = () => {
-        commit(mutationTypes.UPDATE_CONNECTION_STATUS, true)
-        resolve()
-      }
-      z3websocket.ws.onmessage = (event) => {
+    z3websocket.initWebsocket().then((ws) => {
+      commit(mutationTypes.UPDATE_CONNECTION_STATUS, ws.readyState)
+      console.info('[websocket:open]')
+      ws.onmessage = (event) => {
         commit(mutationTypes.UPDATE_MESSAGE, event.data)
       }
-      z3websocket.ws.onclose = () => {
-        commit(mutationTypes.UPDATE_CONNECTION_STATUS, false)
+      ws.onclose = () => {
+        commit(mutationTypes.UPDATE_CONNECTION_STATUS, ws.readyState)
+        console.info('[websocket:closed]')
       }
+      ws.onerror = () => {
+        console.info('[websocket:error]')
+      }
+    }).catch((e) => {
+      console.log(e)
     })
   },
   send ({ state, commit }, msg) {
@@ -37,7 +40,7 @@ const mutations = {
     state.message = JSON.parse(msg)
   },
   [mutationTypes.UPDATE_CONNECTION_STATUS] (state, status) {
-    state.isConnection = status
+    state.readystate = status
   }
 }
 
