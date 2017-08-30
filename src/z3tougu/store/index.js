@@ -8,6 +8,7 @@ import topic from 'stores/z3tougu-theme'
 import bubbles from 'stores/bubbles'
 import stock from 'stores/stock'
 import z3sockjs from 'stores/z3sockjs'
+import z3touguIndex from 'stores/z3tougu-index'
 // import goldStrategy from 'stores/gold-strategy'
 // import kgraph from 'stores/kgraph'
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     topic,
     bubbles,
     stock,
-    z3sockjs
+    z3sockjs,
+    z3touguIndex
     // goldStrategy,
     /* kgraph*/
   }
