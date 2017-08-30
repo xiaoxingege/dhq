@@ -43,6 +43,7 @@
 .askTimes span {
     color: #ff4040;
 }
+.footer { font-size: 0.26rem; color: #bbb; text-align: center; margin: 0.5rem 0; width: 100%; float: left; }
 </style>
 
 <template>
@@ -52,6 +53,7 @@
   <textarea placeholder="请详细描述问题，可以获得更有针对性的解答" maxlength="200" v-model="text" @input="descInput" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
   <div class="ques-text－num"><span>{{txtVal}}</span>/200</div>
   <p class="askTimes">今日您还剩余<span>{{askTimes}}</span>次提问机会</p>
+  <p class="footer">- 本服务由金融界提供 -</p>
   <fix-bg v-if="fixBgShow" />
   <ques-license @licenseClose="licenseClose" v-if="quesLicenseShow" />
 </div>
@@ -67,7 +69,7 @@ import quesNav from 'components/ques-nav'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data() {
+  data () {
     return {
       txtVal: '0',
       fixBgShow: false,
@@ -88,8 +90,8 @@ export default {
       return state.quesAsk.err
     },
     userId: state => state.user.ssoId,
-    tmpQues() {
-      return localStorage.text;
+    tmpQues () {
+      return localStorage.text
     }
   }),
   components: {
@@ -99,7 +101,7 @@ export default {
     quesNav
   },
   methods: {
-    descInput() {
+    descInput () {
       if (this.text) {
         var txtVal = this.text.length
         var _this = this
@@ -111,14 +113,14 @@ export default {
         this.txtVal = '0'
       }
     },
-    licenseClose() {
+    licenseClose () {
       this.fixBgShow = false
       this.quesLicenseShow = false
     },
-    navBak() {
+    navBak () {
       history.go(-1)
     },
-    navEvents() {
+    navEvents () {
       var searchValue = this.searchValue
       var textCont = searchValue + '' + this.text
       var passportId = window.basicUserInfo.userId
@@ -145,11 +147,11 @@ export default {
       })
       //   alert('submit')
     },
-    searchVal(val) {
+    searchVal (val) {
       this.searchValue = val
     }
   },
-  mounted() {
+  mounted () {
     document.title = '问股'
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     this.$watch('err', err => {
