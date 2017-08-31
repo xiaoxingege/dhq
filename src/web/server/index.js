@@ -33,6 +33,7 @@ const templateMap = {}
 app.use(async function(ctx, next) {
   let template = templateMap[ctx.template || 'default'];
   if (template) {
+    ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
   }
   await next();
