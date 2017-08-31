@@ -7,12 +7,22 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --inline --hot",
     "server": "webpack --config=webpack.server.config.js  --progress --watch",
-    "activityserver": "cross-env JRJ_FEATURE=activity webpack --config=webpack.server.config.js  --progress --watch",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
     "buildserver": "cross-env NODE_ENV=production webpack --config=webpack.server.config.js"
   },
   "author": "yang.li",
   "license": "MIT",
+  "deployConfig": {
+    "demo": {
+      "port": 3000
+    },
+    "h5": {
+      "port": 8080
+    },
+    "web": {
+      "port": 8081
+    }
+  },
   "devDependencies": {
     "alloyfinger": "^0.1.7",
     "babel": "^6.23.0",

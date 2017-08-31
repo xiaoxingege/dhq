@@ -40,29 +40,18 @@ function pinfo() {
 }
 
 function get_port() {
-  is_use="0"
-  if [ "$uname" = "Linux" ];then
-    is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
-  else
-    is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
-  fi
-  while [ $is_use = "1" ]
-  do
-    let "port+=1"
-    if [ "$uname" = "Linux" ];then
-      is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
-    else
-      is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
-    fi
-  done
+  port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig.$1 ? data.deployConfig.$1.port : '')")
 }
-
-port=3000
+get_port $feature
+if [ "$port" = "" ]; then
+  echo '不支持的项目名'
+  exit 1
+fi
 
 errstr="__error__"
 
 
-version=$(cat package.json | grep -oE '"version":.*' | awk -F '"' '{print $4}')
+version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.version)")
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
@@ -88,7 +77,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 pinfo 'npm build done.'
-npm run buildserver
+npm run buildserver -- --env=$feature,$port
 if [ "$?" != "0" ]; then
   exit 1
 fi
@@ -173,22 +162,7 @@ f3
 fi
 
 if [ "$feature" != "z3tougu" ]; then
-get_port
-pinfo 'using port: '$port
-pm2name=$feature"_"$branch
-pinfo 'pm2 name: '$pm2name
-ssh admin@127.0.0.1 -p 62222 'mkdir -p /home/admin/code/'$feature
-ssh admin@127.0.0.1 -p 62222 'rm -rf /home/admin/code/'$feature'/*'
-scp -r -P 62222 * admin@127.0.0.1:/home/admin/code/$feature/
-ssh -t -t admin@127.0.0.1 -p 62222 <<ssh
-if [ "`sudo pm2 list | sudo grep '^│ '$pm2name | sudo wc -l`" == "1" ]; then
-  sudo pm2 reload $pm2name
-else
-  echo 'start pm2'
-  cd /home/admin/code/$feature
-  sudo pm2 start -n $pm2name dist/$feature/server/index.js -- $port
-  sudo pm2 save
-fi
-exit
-ssh
+  tar -cjf $feature-$version.tar.bzip2 *
+  ftp -u "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/releases/"$feature-$version.tar.bzip2 $feature-$version.tar.bzip2
+  rm -f $feature-$version.tar.bzip2
 fi
