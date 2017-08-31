@@ -24,7 +24,8 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('*', async(ctx, next) => {
+  router.get('/neicanmsapp', async(ctx, next) => {
+    ctx.template = 'neicanmsapp';
     // 渲染vue对象为html字符串
     let html = '';
     // 向浏览器输出完整的html

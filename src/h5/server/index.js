@@ -29,7 +29,9 @@ app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
-const templateMap = {}
+const templateMap = {
+  neicanmsapp: fs.readFileSync(path.join(templatePath, 'neicanmsapp.html')).toString()
+}
 app.use(async function(ctx, next) {
   let template = templateMap[ctx.template || 'default'];
   if (template) {
