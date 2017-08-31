@@ -12,7 +12,7 @@ import StockTest from 'components/test-stock'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
 import foundpoollist from 'components/foundpoollist'
-
+import Filter from 'components/filter/filter'
 import z3TouguIndex from 'components/z3tougu-index'
 // import GoldStrategy from 'components/gold-strategy'
 // import Kgraph from 'components/kgraph'
@@ -36,7 +36,8 @@ export default [
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
-    { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex }
+    { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
+    { path: '/filter', name: 'filter', component: Filter }
     // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
     // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]
