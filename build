@@ -163,6 +163,13 @@ fi
 
 if [ "$feature" != "z3tougu" ]; then
   tar -cjf $feature-$version.tar.bzip2 *
-  ftp -u "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/releases/"$feature-$version.tar.bzip2 $feature-$version.tar.bzip2
+  ftp -n 117.121.12.155 <<f3 >>/dev/null
+quote USER shihuang.piao.ftp.img
+quote PASS n6i7&FOy^q
+prompt
+cd jrjimg/fe/releases/
+mput $feature-$version.tar.bzip2
+bye
+f3
   rm -f $feature-$version.tar.bzip2
 fi
