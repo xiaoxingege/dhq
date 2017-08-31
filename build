@@ -169,7 +169,7 @@ if [ "$feature" != "z3tougu" ]; then
   done
   touch /tmp/version.lock
   curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/releases/version"
-  count = $(cat version | grep "^"$feature" " | wc -l)
+  count=$(cat version | grep "^"$feature" " | wc -l)
   if [ "$count" = "0" ]; then
     echo $feature" "$version >> version
   else
