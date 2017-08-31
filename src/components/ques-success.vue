@@ -416,6 +416,7 @@ export default {
       }
     }
     this.$store.dispatch('quesFocus/jsSdk')
+    window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_success', 'WT.ti', 'TG_Msite_Baidu_success')
   }
 }
 </script>

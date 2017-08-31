@@ -128,6 +128,7 @@ export default {
         alert('内容不可为空')
         return
       }
+      window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
       if (this.userShow === false) {
         // var url = window.location.href
         if (searchValue) {
@@ -187,6 +188,7 @@ export default {
         }
       }
     })
+    window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask', 'WT.ti', 'TG_Msite_Baidu_ask')
   }
 }
 </script>

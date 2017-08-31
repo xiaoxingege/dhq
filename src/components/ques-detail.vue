@@ -272,6 +272,7 @@ export default {
       this.userShow = !!userId
     })
     this.$store.dispatch('quesFocus/jsSdk')
+    window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_detail', 'WT.ti', 'TG_Msite_Baidu_detail')
   }
 }
 </script>
