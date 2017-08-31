@@ -182,7 +182,7 @@ quote PASS n6i7&FOy^q
 prompt
 cd jrjimg/fe/releases/
 mput $feature-$version.tar.bzip2
-mput $version
+mput version
 bye
 f3
   rm -f $feature-$version.tar.bzip2
