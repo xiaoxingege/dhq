@@ -185,5 +185,6 @@ mput $feature-$version.tar.bzip2
 mput version
 bye
 f3
+  rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 fi
