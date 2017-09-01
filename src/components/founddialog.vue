@@ -94,9 +94,9 @@
                   </li>
           </ul>
         </div>
-            <div class="up up2"  v-if="content===2">
-              <span>新基金池名称</span><input type="text" name="" value="请输入基金池名称">
-            </div>
+        <div class="up up2"  v-if="content===2">
+          <span>新基金池名称</span><input type="text" name="" value="请输入基金池名称">
+        </div>
         <div class="up up3" v-if="content===3">
             您确认删除回测【<a href="#">{{dataname}}</a>】吗？
         </div>
