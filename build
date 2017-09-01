@@ -5,7 +5,7 @@ export BUILD_ID=dontKillMePlease
 uname=`uname`
 user=`whoami`
 
-echo $user
+echo $user,$feature,$env
 
 function p() {
   if [ "$user" = "jenkins" ]; then
