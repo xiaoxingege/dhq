@@ -45,7 +45,7 @@ export default {
     if (to.params.nickname) {
       document.title = `${to.params.nickname}的项目进度`
     } else {
-      document.title = '全部项目进度'
+      document.title = '当前项目进度'
     }
     next()
   },
@@ -53,7 +53,7 @@ export default {
     if (to.params.nickname) {
       document.title = `${to.params.nickname}的项目进度`
     } else {
-      document.title = '全部项目进度'
+      document.title = '当前项目进度'
     }
     next()
   }
