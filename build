@@ -168,7 +168,7 @@ if [ "$feature" != "z3tougu" ]; then
     sleep 5s
   done
   touch /tmp/version.lock
-  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/releases/version"
+  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
   count=$(cat version | grep "^"$feature" " | wc -l)
   if [ "$count" = "0" ]; then
     echo $feature" "$version >> version
@@ -180,14 +180,14 @@ if [ "$feature" != "z3tougu" ]; then
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
-cd jrjimg/fe/releases/
+cd jrjimg/fe/$env
 mput $feature-$version.tar.bzip2
 mput version
 bye
 f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
-  if [ "$feature" = "demo" ]; then
+  if [ "$env" = "test" ]; then
     ssh -p 62222 admin@127.0.0.1 "sh /home/admin/pull.sh"
   fi
 fi
