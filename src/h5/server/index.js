@@ -30,11 +30,15 @@ app.use(router.routes());
 /* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
 const templateMap = {
-  default: fs.readFileSync(path.join(templatePath, 'index.html')).toString()
+  neicanmsapp: fs.readFileSync(path.join(templatePath, 'neicanmsapp.html')).toString()
 }
 app.use(async function(ctx, next) {
-  ctx.body = templateMap[ctx.template || 'default'].replace(/<!--content-->/, ctx.body);
+  let template = templateMap[ctx.template || 'default'];
+  if (template) {
+    ctx.type = 'text/html';
+    ctx.body = template.replace(/<!--content-->/, ctx.body);
+  }
   await next();
 });
 
-app.listen(process.argv[2]||3000);
+app.listen(PORT || 3000);

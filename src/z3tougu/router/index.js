@@ -9,8 +9,15 @@ import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import StockTest from 'components/test-stock'
+import GoldStrategy from 'components/gold-strategy'
+import GoldStrategyH5 from 'components/gold-strategy-h5'
 import foundpoollist from 'components/foundpoollist'
+import Filter from 'components/filter/filter'
 import z3TouguIndex from 'components/z3tougu-index'
+import BacktestFilter from 'components/backtest-filter'
+import BacktestFilterH5 from 'components/backtest-filter-h5'
+import BacktestTime from 'components/backtest-time'
+import BacktestTimeH5 from 'components/backtest-time-h5'
 // import GoldStrategy from 'components/gold-strategy'
 // import Kgraph from 'components/kgraph'
 
@@ -28,8 +35,17 @@ export default [
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
     { path: '/test/stock', name: 'teststock', component: StockTest },
+    { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
+    { path: '/gold-strategy-h5', name: 'goldStrategyH5', component: GoldStrategyH5 },
+    { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
-    { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex }
+    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
+    { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
+    { path: '/filter', name: 'filter', component: Filter },
+    { path: '/backtestFilter', name: 'backtestfilter', component: BacktestFilter },
+    { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
+    { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
+    { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 }
     // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
     // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]

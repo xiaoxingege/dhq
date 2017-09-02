@@ -931,10 +931,6 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bem-sha1@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/bem-sha1/-/bem-sha1-1.0.2.tgz#fba6c2d4580a91163cc2470899939bb18b06bd9c"
-
 bem-sha1@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/bem-sha1/-/bem-sha1-1.0.3.tgz#fd73a33c521470158e89678d2169a07ad6f0b4d9"

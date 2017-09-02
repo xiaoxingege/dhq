@@ -1,0 +1,165 @@
+<style>
+    .choseStock{
+        padding-top:20px;
+    }
+    .sellCondition{
+        padding:15px 15px;
+    }
+    .controlStrategy{
+        padding:20px 15px;
+        font-size:14px;
+}
+</style>
+<template>
+    <div>
+        <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
+
+        <div v-if="type === 'choseStock'" class="choseStock">
+            <Tablelist :data="choseStockData"></Tablelist>
+        </div>
+        <div v-if="type === 'sellCondition'" class="sellCondition">
+            <div style="margin-bottom: 20px;">
+                <div>买入条件</div>
+                <Tablelist :data="sellConditionData.buyData"></Tablelist>
+                <div>买入表达式：{{data.sellConditiondata.buy.buyConExp}}</div>
+            </div>
+            <div>
+                <div>卖出条件</div>
+                <Tablelist :data="sellConditionData.sellData"></Tablelist>
+                <div>卖出表达式：{{data.sellConditiondata.sell.sellConExp}}</div>
+            </div>
+        </div>
+        <div v-if="type === 'controlStrategy'" class="controlStrategy">
+            {{data.positionModel.modelName}}：<span style="color:#666;">{{data.positionModel.modelValue}}</span>
+        </div>
+        <div v-if="type === 'tradeParams'">
+            <Tablelist :data="tradeParamData"></Tablelist>
+        </div>
+    </div>
+</template>
+<script>
+    import Navbar from 'components/nav-bar'
+    import Tablelist from 'components/table-list'
+
+    export default{
+      props: ['data'],
+      data () {
+        return {
+          navText: [['选股条件', 'choseStock'], ['买卖条件', 'sellCondition'], ['仓控策略', 'controlStrategy'], ['交易参数', 'tradeParams']],
+          type: 'choseStock'
+        }
+      },
+      components: {
+        Navbar,
+        Tablelist
+      },
+      computed: {
+        choseStockData: function () {
+          const choseStockTable = this.data.choseStockData.filterSummary
+          const arr1 = []
+          const arr2 = []
+          if (choseStockTable.gkzbList.length > 0) {
+            for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+              arr1.push(choseStockTable.gkzbList[i].indexName)
+              arr2.push(choseStockTable.gkzbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.jbmzbList.length > 0) {
+            for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+              arr1.push(choseStockTable.jbmzbList[i].indexName)
+              arr2.push(choseStockTable.jbmzbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.jszbList.length > 0) {
+            for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+              arr1.push(choseStockTable.jszbList[i].indexName)
+              arr2.push(choseStockTable.jszbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.xgfwList.length > 0) {
+            for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+              arr1.push(choseStockTable.xgfwList[i].indexName)
+              arr2.push(choseStockTable.xgfwList[i].indexValue)
+            }
+          }
+
+          return [arr1, arr2]
+        },
+        sellConditionData: function () {
+          const buyData = [
+                    ['序号', '指标', '参数', '运算符', '数值']
+          ]
+          const sellData = [
+                    ['序号', '指标', '参数', '运算符', '数值']
+          ]
+          const buyConditionTable = this.data.sellConditiondata.buy.buyStrategyIndexList
+          const sellConditionTable = this.data.sellConditiondata.sell.sellStrategyIndexList
+
+          if (buyConditionTable.length > 0) {
+            for (var i = 0; i < buyConditionTable.length; i++) {
+              const parms = buyConditionTable[i].indexParams.period
+              const parmsPeriod = []
+              if (parms === 'day') {
+                parmsPeriod.push('日线')
+              } else if (parms === 'week') {
+                parmsPeriod.push('周线')
+              } else if (parms === 'month') {
+                parmsPeriod.push('月线')
+              }
+              if (parms.T) {
+                parmsPeriod.push(parms.T)
+              }
+              if (parms.M) {
+                parmsPeriod.push(parms.M)
+              }
+              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
+            }
+          }
+          if (sellConditionTable.length > 0) {
+            for (var j = 0; j < sellConditionTable.length; j++) {
+              const parms = JSON.parse(sellConditionTable[j].indexParams)
+              const parmsPeriod = []
+              if (parms.period === 'day') {
+                parmsPeriod.push('日线')
+              } else if (parms.period === 'week') {
+                parmsPeriod.push('周线')
+              } else if (parms.period === 'month') {
+                parmsPeriod.push('月线')
+              }
+              if (parms.T) {
+                parmsPeriod.push(parms.T)
+              }
+              if (parms.M) {
+                parmsPeriod.push(parms.M)
+              }
+              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+            }
+          }
+          return {
+            buyData: buyData,
+            sellData: sellData
+          }
+        },
+        tradeParamData: function () {
+          const tableData = this.data.tradeParamsData
+          return [
+                    ['初始金额', '资金分配', '买入价格', '卖出价格', '回测时间'],
+                    [tableData.initFund, tableData.fundAllocate, tableData.buyPriceType, tableData.sellPriceType, tableData.backtestDate],
+                    ['最大持仓', '个股最大仓位', '条件优先序', '交易费用', '调仓周期'],
+                    [tableData.maxHolding, tableData.stockMaxHolding, tableData.conPriority, tableData.commission, tableData.tradeCycle],
+                    ['买卖滑点', '收益基准', '无风险利率'],
+                    [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio]
+          ]
+        }
+
+      },
+      methods: {
+        changeNavType (data) {
+          this.type = data
+        }
+      },
+      mounted () {
+        console.log(this.data.choseStockData.filterSummary)
+      }
+    }
+</script>

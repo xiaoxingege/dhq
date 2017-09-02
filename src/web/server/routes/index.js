@@ -24,9 +24,9 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('/components', async(ctx, next) => {
+  router.get('*', async(ctx, next) => {
     // 渲染vue对象为html字符串
-    let html = await renderToString(app);
+    let html = '';
     // 向浏览器输出完整的html
     ctx.body = html;
     // 继续执行后面的中间件

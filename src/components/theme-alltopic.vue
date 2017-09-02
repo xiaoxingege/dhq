@@ -464,7 +464,6 @@ export default {
      listChangeClick (type) {
        this.isShow = !this.isShow
        if (type === 'kuai') {
-         debugger
          this.list('updown')
          this.isStyle = 'none'
        } else {

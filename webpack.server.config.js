@@ -1,11 +1,35 @@
 const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
+const webpack = require('webpack');
 const baseConfig = require('./webpack.config.js')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const path = require('path');
 const fs = require('fs');
 
-let featureName = process.env.JRJ_FEATURE || 'demo';
+const config = {
+  demo: {
+    port: 3000
+  },
+  web: {
+    port: 8080
+  },
+  h5: {
+    port: 8081
+  }
+}
+
+let featureName = 'demo';
+let port = 8080;
+process.argv.some(function(arg) {
+  let arr = arg.match(/\-\-env=([a-zA-Z0-9\-_,]+)/);
+  if (arr) {
+    let config = arr[1].split(',');
+    featureName = config[0];
+    if (config[1]) {
+      port = config[1];
+    }
+  }
+});
 
 module.exports = merge({}, {
   // Point entry to your app's server entry file
@@ -80,5 +104,9 @@ module.exports = merge({}, {
   // This is the plugin that turns the entire output of the server build
   // into a single JSON file. The default file name will be
   // `vue-ssr-server-bundle.json`
-  plugins: []
+  plugins: [
+    new webpack.DefinePlugin({
+      'PORT': port
+    })
+  ]
 })
