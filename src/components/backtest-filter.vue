@@ -207,7 +207,8 @@
        tradePage: 0,
        tradePagesize: '',
        showNowTrade: true,
-       showTradeDay: false
+       showTradeDay: false,
+       strategyId: this.$route.params.strategyId
      }
    },
    computed: mapState({
@@ -222,8 +223,8 @@
    },
    methods: {
      initData (stockPage, tradePage) {
-       this.$store.dispatch('backtestDetail/queryNowStock', { stockPage: this.stockPage, stockPagesize: this.stockPagesize })
-       this.$store.dispatch('backtestDetail/queryTradeDetail', { tradePage: this.tradePage, tradePagesize: this.tradePagesize })
+       this.$store.dispatch('backtestDetail/queryNowStock', { strategyId: this.strategyId, stockPage: this.stockPage, stockPagesize: this.stockPagesize })
+       this.$store.dispatch('backtestDetail/queryTradeDetail', { strategyId: this.strategyId, tradePage: this.tradePage, tradePagesize: this.tradePagesize })
      },
      nowTrade () {
        this.showNowTrade = true

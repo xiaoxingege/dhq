@@ -141,8 +141,8 @@
                   </div>
                   <div class="desc-title">选股条件：</div>
                   <ul class="clearfix desc-ul">
-                        <li class="fl desc-txt"><span>失灵率1</span><span class="desc-num">10%</span></li>
-                        <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
+                        <li class="fl desc-txt" v-for="sum of filterSummary.sum"><span>{{sum}}</span><span class="desc-num">10%</span></li>
+                        <!-- <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
@@ -198,14 +198,42 @@
  
  export default {
    data () {
-     return {}
+     return {
+       strategyId: this.$route.params.strategyId
+     }
    },
  
-   computed: mapState({
-     basicFilter: state => state.backtestDetail.basicFilter,
-     eval: state => state.backtestDetail.basicFilter.evaluationIndexs,
-     filterSummary: state => state.backtestDetail.basicFilter.filterSummary
-   }),
+   computed: {
+     ...mapState({
+       basicFilter: state => state.backtestDetail.basicFilter,
+       eval: state => state.backtestDetail.basicFilter.evaluationIndexs,
+       filterSummary: state => {
+         const summary = state.backtestDetail.basicFilter.filterSummary
+         // const arr = []
+         /* const indexName = ''
+         const indexValue = ''*/
+         const sum = ''
+         for (const key in summary) {
+           console.log(summary[key])
+           sum === summary[key]
+           /* return sum*/
+           /* for (const i in sum) {
+             console.log(sum[i].indexName)
+             indexName === sum[i].indexName
+             indexValue === sum[i].indexValue
+           }*/
+           // arr.push(key)
+         }
+         return {
+           sum: sum
+          /* indexName: indexName,
+           indexValue: indexValue*/
+
+         }
+         // return Object.keys(groupData).sort()
+       }
+     })
+   },
    components: {},
    methods: {
      changePer (num) {
@@ -217,7 +245,7 @@
 
    },
    mounted () {
-     this.$store.dispatch('backtestDetail/queryBasicFilter')
+     this.$store.dispatch('backtestDetail/queryBasicFilter', { strategyId: this.strategyId })
    }
  
  }

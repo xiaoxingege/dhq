@@ -23,7 +23,8 @@ export default {
       createDate: '',
       backtestStartDate: '',
       backtestEndDate: '',
-      evaluationIndexs: {}
+      evaluationIndexs: {},
+      filterSummary: {}
     },
     tradeDetail: [], // 当日交易
     nowStock: [], // 当前选股
@@ -64,6 +65,7 @@ export default {
     updateBasicFilter (state, filterdetail) {
       // console.log(filterdetail)
       state.basicFilter = filterdetail
+      state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
       // console.log(state.basicFilter)
 
      /* state.themeList = themeList
@@ -102,21 +104,21 @@ export default {
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    queryBasicFilter ({ commit }) {
-      fetch(`${domain}/openapi/backtest/filterStrategy/basicAndIndex.shtml?strategyId=8fd07573-2963-489d-ad60-26cd72670865`, {
+    queryBasicFilter ({ commit }, { strategyId }) {
+      fetch(`${domain}/openapi/backtest/filterStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data.filterSummary)
+          // console.log(result.data.filterSummary)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateBasicFilter', result.data)
         }
       })
     },
-    queryTradeDetail ({ commit }, { tradePage, tradePagesize, tradeTotalPages }) {
-      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=8fd07573-2963-489d-ad60-26cd72670865&pageSize=${tradePagesize}&pageNum=${tradePage}`, {
+    queryTradeDetail ({ commit }, { tradePage, tradePagesize, tradeTotalPages, strategyId }) {
+      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&pageSize=${tradePagesize}&pageNum=${tradePage}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -128,10 +130,10 @@ export default {
         }
       })
     },
-    queryNowStock ({ commit }, { stockPage, stockPagesize, totalPages }) {
+    queryNowStock ({ commit }, { stockPage, stockPagesize, totalPages, strategyId }) {
       stockPage = stockPage || 0
       stockPagesize = stockPagesize || STOCK_PAGE_SIZE
-      fetch(`${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=8fd07573-2963-489d-ad60-26cd72670865&pageSize=${stockPagesize}&pageNum=${stockPage}`, {
+      fetch(`${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=${strategyId}&pageSize=${stockPagesize}&pageNum=${stockPage}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -144,8 +146,8 @@ export default {
         }
       })
     },
-    queryTimeStrategy ({ commit }) {
-      fetch(`${domain}/openapi/backtest/timeStrategy/8fd07573-2963-489d-ad60-26cd72670865.shtml`, {
+    queryTimeStrategy ({ commit }, { strategyId }) {
+      fetch(`${domain}/openapi/backtest/timeStrategy/${strategyId}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

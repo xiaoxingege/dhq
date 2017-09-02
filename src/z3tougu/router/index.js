@@ -43,9 +43,9 @@ export default [
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
-    { path: '/backtestFilter', name: 'backtestfilter', component: BacktestFilter },
+    { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
     { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
-    { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
+    { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/:newsType', name: 'newslist', component: NewsList },
     { path: '/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }

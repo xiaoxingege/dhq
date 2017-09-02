@@ -212,7 +212,9 @@
  
  export default {
    data () {
-     return {}
+     return {
+       strategyId: this.$route.params.strategyId
+     }
    },
  
    computed: mapState({
@@ -230,7 +232,7 @@
 
    },
    mounted () {
-     this.$store.dispatch('backtestDetail/queryTimeStrategy')
+     this.$store.dispatch('backtestDetail/queryTimeStrategy', { strategyId: this.strategyId })
    }
  
  }
