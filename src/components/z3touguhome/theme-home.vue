@@ -22,15 +22,15 @@
             <li class="theme-title tl">{{topicName}}</li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
-                <span :class="">+5.46%</span>
+                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct}}</span>
             </li>
             <li class="up-stock tr">
                 <span>上涨股票</span>
-                <span class="c_up">21</span>
+                <span class="c_up">{{stkUpNum}}</span>
             </li>
             <li class="down-stock tr">
                 <span>下跌股票</span>
-                <span class="c_down">5</span>
+                <span class="c_down">{{stkDownNum}}</span>
             </li>
         </ul>
         <div style="text-align: justify;">
@@ -53,7 +53,10 @@
           drivenEvent: '',
           newsDeclareDate: '',
           srcName: '',
-          topicName: ''
+          topicName: '',
+          chngPct: '',
+          stkUpNum: 0,
+          stkDownNum: 0
         }
       },
       computed: mapState({
@@ -70,6 +73,9 @@
             this.newsDeclareDate = this.topicData.newsDeclareDate
             this.srcName = this.topicData.srcName
             this.topicName = this.topicData.topicName
+            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : '-' + this.topicData.topicMarket.toFixed(2)
+            this.stkUpNum = this.topicData.topicMarket.stkUpNum
+            this.stkDownNum = this.topicData.topicMarket.stkDownNum
           })
         }
       },
