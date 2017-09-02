@@ -20,7 +20,7 @@ import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 // import GoldStrategy from 'components/gold-strategy'
-// import Kgraph from 'components/kgraph'
+import Kgraph from 'components/kgraph'
 
 export default [
     { path: '/', name: 'home', component: z3TouguIndex },
@@ -49,6 +49,4 @@ export default [
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/:newsType', name: 'newslist', component: NewsList },
     { path: '/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
-    // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
-    // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]
