@@ -42,7 +42,11 @@ export default {
 
   },
   beforeRouteEnter (to, from, next) {
-    document.title = '当前项目进度'
+    if (to.params.nickname) {
+      document.title = `${to.params.nickname}的项目进度`
+    } else {
+      document.title = '当前项目进度'
+    }
     next()
   },
   beforeRouteUpdate (to, from, next) {
