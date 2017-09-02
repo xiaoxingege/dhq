@@ -130,7 +130,7 @@ a {
 .tr {
     text-align: right;
 }
-
+a{text-decoration: none;}
 .tc {
     text-align: center;
 }
