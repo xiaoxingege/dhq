@@ -74,6 +74,7 @@
 </template>
 <script type="text/javascript">
     import echarts from 'echarts'
+
 export default {
       props: ['strategyListHeight'],
       data () {
