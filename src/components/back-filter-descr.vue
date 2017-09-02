@@ -142,7 +142,7 @@
                   <div class="desc-title">选股条件：</div>
                   <ul class="clearfix desc-ul">
                         <li class="fl desc-txt" v-for="sum of filterSummary.sum"><span>{{sum}}</span><span class="desc-num">10%</span></li>
-                        <!-- <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
+                        <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
