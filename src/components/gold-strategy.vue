@@ -2,6 +2,7 @@
     @import '../assets/css/base.css';
     .goldRecommend{
         font-size: 12px;
+        background: #F2F2F2;
     }
     .strategyHeader{
       height:32px;
@@ -35,7 +36,6 @@
     .radarChart{
       width:456px;
       height:375px;
-      background:#000;
     }
     .attention{
       margin-left: 20px;
@@ -70,7 +70,9 @@
                     <Goldrecommends :data="recommendData"></Goldrecommends>
                 </div>
             </div>
-            <div class="radarChart"></div>
+            <div class="radarChart">
+                <Radarchart :strategyId="strategyId"></Radarchart>
+            </div>
         </div>
         <div>
             <Goldchart :strategyId="strategyId"></Goldchart>
@@ -84,6 +86,7 @@
     import Goldrecommends from 'components/gold-recommends'
     import Navbar from 'components/nav-bar'
     import Goldchart from 'components/gold-chart'
+    import Radarchart from 'components/radar-chart'
 
 export default{
   data () {
@@ -96,7 +99,8 @@ export default{
         Tablelist,
         Goldrecommends,
         Navbar,
-        Goldchart
+        Goldchart,
+        Radarchart
       },
   computed: mapState({
         goldResult: state => state.goldStrategy.goldResult,
@@ -272,6 +276,9 @@ export default{
 
         })
         this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId }).then(() => {
+
+        })
+        this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId }).then(() => {
 
         })
   }

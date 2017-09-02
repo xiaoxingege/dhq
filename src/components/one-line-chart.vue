@@ -1,5 +1,12 @@
 <style lang="scss" scoped>
     .lineChart{height:420px;}
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .lineChart{
+            width:100%;
+            height:4.2rem;
+            padding-bottom: 0.1rem;
+        }
+    }
 </style>
 <template>
     <div class="lineChart">
@@ -55,9 +62,12 @@
               ],
               color: ['#16be69'],
               grid: {
-                width: '94%',
-                left: 68,
-                bottom: 70
+                width: '97%',
+                height: '80%',
+                left: 0,
+                top: '10%',
+                bottom: '8%',
+                containLabel: true
               },
               dataZoom: [
                 {
@@ -66,7 +76,7 @@
                   showDetail: false,
                   xAxisIndex: [0],
                   bottom: 0,
-                  left: 68,
+                  left: '1.5%',
                   start: 0,
                   end: 100,
                   textStyle: {
@@ -74,7 +84,7 @@
                   },
                                 // borderColor: '#d5dbe4',
                   width: '94%',
-                  height: '30',
+                  height: '8%',
                   handleSize: '100%',
                   dataBackground: {
                     areaStyle: {
