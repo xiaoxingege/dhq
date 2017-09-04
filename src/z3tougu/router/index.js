@@ -21,6 +21,7 @@ import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 
 export default [
+    { path: '/', name: 'homeRoot', component: z3TouguIndex },
     { path: '/', name: 'home', component: z3TouguIndex },
     { path: '/search-box', name: 'search-box', component: SearchBox },
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
@@ -43,6 +44,6 @@ export default [
     { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
     { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
-    { path: '/:newsType', name: 'newslist', component: NewsList },
-    { path: '/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
+    { path: '/home/:newsType', name: 'newslist', component: NewsList },
+    { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
 ]
