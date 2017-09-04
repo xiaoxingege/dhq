@@ -423,12 +423,14 @@ export default {
      socketState: state => state.z3sockjs.readystate,
      stockMessage: state => {
        const msg = state.z3sockjs.message
+       debugger
        if (msg && msg.data && msg.data.subject === 'snapshot') {
          const record = msg.data
+         console.log(record)
          return {
            innerCode: record.stockCode,
-           name: record.stockName,
-           price: record.lastPx,
+          //  name: record.stockName,
+           price: record.lastpx,
            chg: record.pxchg,
            curChngPct: record.pxchgratio
          }
@@ -504,8 +506,9 @@ export default {
        }
      },
      stockMessage () {
+       console.log(this.stockMessage)
        if (this.stockMessage) {
-         this.updateStock()
+         this.updateStock(this.stockMessage)
        }
      },
      socketState () {

@@ -105,6 +105,7 @@ export default {
   },
   actions: {
     getBubblesData ({ commit }, { options }) {
+      alert(`xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=${options.topic}&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=${options.innerCode}&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`)
       commit('setBubblesOptions', options)
       return fetch('http://www.z3quant.com/openapi/findBubbles', {
         mode: 'cors',

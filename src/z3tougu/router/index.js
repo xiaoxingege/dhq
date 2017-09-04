@@ -1,4 +1,3 @@
-import Index from 'components/components-list'
 import Search from 'components/search'
 import Map from 'components/z3tougu-map'
 import SearchBox from 'components/search-box'
@@ -13,12 +12,18 @@ import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
 import foundpoollist from 'components/foundpoollist'
 import Filter from 'components/filter/filter'
-import z3TouguIndex from 'components/z3tougu-index'
+import BacktestFilter from 'components/backtest-filter'
+import BacktestFilterH5 from 'components/backtest-filter-h5'
+import BacktestTime from 'components/backtest-time'
+import BacktestTimeH5 from 'components/backtest-time-h5'
+import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
+import NewsList from 'components/z3touguhome/newslist'
+import NewsDetails from 'components/z3touguhome/news-details'
 // import GoldStrategy from 'components/gold-strategy'
-// import Kgraph from 'components/kgraph'
+import Kgraph from 'components/kgraph'
 
 export default [
-    { path: '/', name: 'home', component: Index },
+    { path: '/', name: 'home', component: z3TouguIndex },
     { path: '/search-box', name: 'search-box', component: SearchBox },
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
     { path: '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
@@ -32,12 +37,16 @@ export default [
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
-    { path: '/gold-strategy-h5', name: 'goldStrategyH5', component: GoldStrategyH5 },
+    { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
-    { path: '/filter', name: 'filter', component: Filter }
-    // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
-    // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
+    { path: '/filter', name: 'filter', component: Filter },
+    { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
+    { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
+    { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
+    { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
+    { path: '/:newsType', name: 'newslist', component: NewsList },
+    { path: '/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
 ]
