@@ -423,7 +423,6 @@ export default {
      socketState: state => state.z3sockjs.readystate,
      stockMessage: state => {
        const msg = state.z3sockjs.message
-       debugger
        if (msg && msg.data && msg.data.subject === 'snapshot') {
          const record = msg.data
          console.log(record)
