@@ -83,7 +83,56 @@
         </tbody>
       </table>
     </div>
-
+    <div v-if="typeIndex == 1">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>类型</th>
+            <th>涨跌幅</th>
+            <th>
+              <select>
+                <option>近1个月收益</option>
+                <option>近3个月收益</option>
+                <option>近3个月收益</option>
+                <option>近1年收益</option>
+                <option>近2年收益</option>
+                <option>近3年收益</option>
+                <option>近4年收益</option>
+                <option>近5年收益</option>
+              </select>
+            </th>
+            <th>起购金额</th>
+            <th>交易成本</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='item in foundPoolList'>
+            <td>{{item.id}}</td>
+            <td><a href="##">{{item.code}}</a></td>
+            <td><a href="##">{{item.name}}</a></td>
+            <td>{{item.data}}</td>
+            <td>{{item.gm}}</td>
+            <td>{{item.rzsj}}</td>
+            <td>{{item.type}}</td>
+            <td><span class="cGreen">{{item.zdf}}</span></td>
+            <td><span class='cRed'>{{item.sy}}</span></td>
+            <td>{{item.qgje}}</td>
+            <td>{{item.jycb}}</td>
+            <td>
+              <a  href="javascript:;" class="add_button button" @click ='addlsPoolList(item.id)'>加基金池</a>
+              <a  href="javascript:;" class="remove_button button" @click='delFoundPoolList(item.id)'>移除</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <!-- 弹框 -->
   <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
@@ -285,9 +334,6 @@ select{
     border-bottom: 1px solid $colorBorder;
     a{
       color: #666;
-      &:hover{
-        color: #2388da;
-      }
     }
     .button{
       display: inline-block;
@@ -356,7 +402,7 @@ select{
     height: 22px;
     .icon_search{
       position: absolute;
-      top: 10px;
+      top: 8px;
       left: 8px;
       display: block;
       width: 13px;
