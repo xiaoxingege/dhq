@@ -74,7 +74,7 @@
             this.newsDeclareDate = this.topicData.newsDeclareDate
             this.srcName = this.topicData.srcName
             this.topicName = this.topicData.topicName
-            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : '-' + this.topicData.topicMarket.chngPct.toFixed(2)
+            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : this.topicData.topicMarket.chngPct.toFixed(2)
             this.stkUpNum = this.topicData.topicMarket.stkUpNum
             this.stkDownNum = this.topicData.topicMarket.stkDownNum
             this.topicCode = this.topicData.topicCode
