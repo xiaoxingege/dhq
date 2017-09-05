@@ -23,6 +23,9 @@ import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
 // import FundArchives from 'components/fund-archives/basic-info'
+import FundRecommend from 'components/fund-recommend'
+// import GoldStrategy from 'components/gold-strategy'
+/* import Kgraph from 'components/kgraph'*/
 
 export default [
     { path: '/', name: 'homeRoot', component: z3TouguIndex },
@@ -47,10 +50,11 @@ export default [
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
-    { path: '/backtestFilter', name: 'backtestfilter', component: BacktestFilter },
+    { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
     { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
-    { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
+    { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
+    { path: '/fundRecommend', name: 'fundrecommend', component: FundRecommend },
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },

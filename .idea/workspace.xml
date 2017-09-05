@@ -2,17 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-alltopic.vue" afterPath="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-sort-az.vue" afterPath="$PROJECT_DIR$/src/components/theme-sort-az.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/topic-detail.vue" afterPath="$PROJECT_DIR$/src/components/topic-detail.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/z3tougu-theme.js" afterPath="$PROJECT_DIR$/src/stores/z3tougu-theme.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/z3tougu/plugins/z3.js" afterPath="$PROJECT_DIR$/src/z3tougu/plugins/z3.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/z3tougu/constant/directive.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-filter-descr.vue" afterPath="$PROJECT_DIR$/src/components/back-filter-descr.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/backtest-time.vue" afterPath="$PROJECT_DIR$/src/components/backtest-time.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/backtest-detail.js" afterPath="$PROJECT_DIR$/src/stores/backtest-detail.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/z3tougu/router/index.js" afterPath="$PROJECT_DIR$/src/z3tougu/router/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/z3tougu/store/index.js" afterPath="$PROJECT_DIR$/src/z3tougu/store/index.js" />
     </list>
     <ignored path="vue.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="E:\work2\vue\.idea\shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.4125178">
-              <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+            <state vertical-scroll-proportion="-9.682927">
+              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -55,7 +55,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1504616307947" expanded="true" signature="55864:55952" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -82,10 +84,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-5.627812">
               <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
               <folding />
             </state>
@@ -96,7 +98,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="509" column="16" selection-start-line="509" selection-start-column="16" selection-end-line="509" selection-end-column="16" />
+              <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -116,8 +118,10 @@
         <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-              <folding />
+              <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+              <folding>
+                <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -126,7 +130,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/bubbles.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -158,10 +162,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="1" />
+    <option name="y" value="1" />
+    <option name="width" value="1918" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -194,6 +198,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -202,9 +207,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files" />
       </pane>
@@ -218,6 +232,220 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="js-jscs-nodeInterpreter" value="D:\软件\node\node.exe" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
+  </component>
+  <component name="RestoreUpdateTree" date="片刻 之前" ActionInfo="更新 (_U)">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="从服务器更新" />
+        <option name="myStatusName" value="在服务器上已改变" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="已更新" />
+          <option name="myStatusName" value="已改变" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/common/variable.scss</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/base.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/article-list.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/bubbles.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-select.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-chart.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy-h5.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pagination.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/stock-map.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/theme-alltopic.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/topic-detail.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/recommed-strategy-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/theme-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/z3tougu-index.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/z3tougu-theme.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/router/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/store/index.js</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="已创建" />
+          <option name="myStatusName" value="已创建" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/animate.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/swiper.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/shortmessage.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/weChat.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg10.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg11.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg8.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg9.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h1.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/di.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg10.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg11.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg8.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg9.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di1.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/next.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg8.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg9.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppDi.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg10.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg8.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg9.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebDi.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/prev.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/web-nav-bg.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/plugins/activity-slider/swiper.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/activity-slider.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-dialog.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/basic-info.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-bubble.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-buy-info.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-chart.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolList.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolListDialog.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/zw-pay-video-activity-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/pay-video-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/zw-pay-video-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-archives.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-record.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/smartPool.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/activity-slider.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/pay-video-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/constant/filter.js</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="已删除" />
+          <option name="myStatusName" value="已删除" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/fundPool-intelligent.vue</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="已恢复" />
+          <option name="myStatusName" value="将被恢复" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已修改" />
+        <option name="myStatusName" value="已修改" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已跳过" />
+        <option name="myStatusName" value="已跳过" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="合并冲突" />
+        <option name="myStatusName" value="将被合并冲突" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已合并树冲突" />
+        <option name="myStatusName" value="已合并树冲突" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已合并属性冲突" />
+        <option name="myStatusName" value="将被合并属性冲突" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已合并" />
+        <option name="myStatusName" value="将被合并" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="在库里没有" />
+        <option name="myStatusName" value="在库里没有" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="本地已添加" />
+        <option name="myStatusName" value="本地已添加" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="本地已移除" />
+        <option name="myStatusName" value="本地已移除" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="已切换" />
+        <option name="myStatusName" value="已切换" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunManager">
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -292,16 +520,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
+    <frame x="1" y="1" width="1918" height="1038" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15595363" sideWeight="0.4841772" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1574468" sideWeight="0.4841772" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37297297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16432433" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42825606" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -337,7 +565,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-          <folding />
+          <folding>
+            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -409,7 +639,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
-          <folding />
+          <folding>
+            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -488,7 +720,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
-          <folding />
+          <folding>
+            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -566,7 +800,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
-          <folding />
+          <folding>
+            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -655,15 +891,17 @@
     <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-          <folding />
+          <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+          <folding>
+            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/bubbles.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -679,15 +917,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="509" column="16" selection-start-line="509" selection-start-column="16" selection-end-line="509" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
+          <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -704,7 +934,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1504616307947" expanded="true" signature="55864:55952" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -728,8 +960,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.4125178">
-          <caret line="53" column="39" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+        <state vertical-scroll-proportion="-9.682927">
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.627812">
+          <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
           <folding />
         </state>
       </provider>

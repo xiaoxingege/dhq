@@ -23,8 +23,7 @@ export default {
       createDate: '',
       backtestStartDate: '',
       backtestEndDate: '',
-      evaluationIndexs: {},
-      filterSummary: {}
+      evaluationIndexs: {}
     },
     tradeDetail: [], // 当日交易
     nowStock: [], // 当前选股
@@ -39,8 +38,7 @@ export default {
       sellStrategyIndexList: [],
       buyConExp: '',
       sellConExp: '',
-      evaluationIndexs: {},
-      filterSummary: {}
+      evaluationIndexs: {}
 
     },
     kLineData: {},
@@ -63,20 +61,8 @@ export default {
   },
   mutations: {
     updateBasicFilter (state, filterdetail) {
-      // console.log(filterdetail)
+      console.log(filterdetail)
       state.basicFilter = filterdetail
-      state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
-      // console.log(state.basicFilter)
-
-     /* state.themeList = themeList
-      const stocks = {}
-      for (const topic of themeList) {
-        const relatedEquity = topic.relatedEquity
-        for (const stock of relatedEquity) {
-          stocks[stock.innerCode] = stock
-        }
-      }
-      state.relatedStocks = stocks*/
     },
     updateTradeDetail (state, tradeDetail) {
       state.tradeDetail = tradeDetail
@@ -111,7 +97,7 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          // console.log(result.data.filterSummary)
+          console.log(result.data)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateBasicFilter', result.data)
         }
