@@ -19,7 +19,7 @@
             <p class="fr tr more-theme"><router-link :to="{name:'themeindex'}">全部</router-link></p>
         </div>
         <ul class="theme-con-title clearfix">
-            <li class="theme-title tl">{{topicName}}</li>
+            <li class="theme-title tl"><router-link :to="{name:'topicDetail',params:{topicId:topicCode}}">{{topicName}}</router-link></li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
                 <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct}}</span>
@@ -56,7 +56,8 @@
           topicName: '',
           chngPct: '',
           stkUpNum: 0,
-          stkDownNum: 0
+          stkDownNum: 0,
+          topicCode: ''
         }
       },
       computed: mapState({
@@ -73,9 +74,10 @@
             this.newsDeclareDate = this.topicData.newsDeclareDate
             this.srcName = this.topicData.srcName
             this.topicName = this.topicData.topicName
-            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : '-' + this.topicData.topicMarket.toFixed(2)
+            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : this.topicData.topicMarket.chngPct.toFixed(2)
             this.stkUpNum = this.topicData.topicMarket.stkUpNum
             this.stkDownNum = this.topicData.topicMarket.stkDownNum
+            this.topicCode = this.topicData.topicCode
           })
         }
       },

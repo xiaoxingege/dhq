@@ -21,7 +21,7 @@
 <script type="text/javascript">
     import echarts from 'echarts'
     export default {
-      props: ['RecommendStrategyWidth'],
+      props: ['RecommendStrategyWidth', 'benchmarkObj'],
       data () {
         return {
           sort: 'totalReturn',
@@ -39,10 +39,10 @@
           recommendStrategy.backtestDate = []
           recommendStrategy.totalReturn = []
           recommendStrategy.benchmarkPeriodReturn = []
-          for (let i = 0; i < recommendStrategy.returns.length; i++) {
-            recommendStrategy.backtestDate.push(recommendStrategy.returns[i].backtestDate)// 时间
-            recommendStrategy.totalReturn.push(recommendStrategy.returns[i].totalReturn)// 总收益率
-            recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+          for (let i = 0; i < recommendStrategy.strategy.returns.length; i++) {
+            recommendStrategy.backtestDate.push(recommendStrategy.strategy.returns[i].backtestDate)// 时间
+            recommendStrategy.totalReturn.push(recommendStrategy.strategy.returns[i].totalReturn)// 总收益率
+            recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
           }
           return recommendStrategy
         }
@@ -53,7 +53,7 @@
           this.$store.dispatch('z3touguIndex/getStrategyList', { sort: this.sort, direction: this.direction, size: this.size })
                     .then(() => {
                       const _this = this
-                      this.recommendStrategyName = this.recommendStrategyDetail.strategyName
+                      this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
                       this.recommendChart.setOption({
                         legend: {
                           left: 'center',
@@ -64,7 +64,7 @@
                               icon: 'circle'
                             },
                             {
-                              name: this.recommendStrategyDetail.benchmark,
+                              name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                               icon: 'circle'
                             }
                           ]
@@ -127,7 +127,7 @@
                             data: this.recommendStrategyDetail.totalReturn
                           },
                           {
-                            name: this.recommendStrategyDetail.benchmark,
+                            name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,

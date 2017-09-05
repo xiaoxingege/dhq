@@ -494,9 +494,6 @@
           })
           this.chart.setOption({ series: [{ data: focusStockData }] })
         },
-        getStockChartData: function () {
-          this.$store.dispatch('stockMap/stockChartData', { code: this.rangeCode, id: this.id }).then
-        },
         getLevelOption: function () {
           return [
             {// 第一层外

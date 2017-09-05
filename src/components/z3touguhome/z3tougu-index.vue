@@ -23,9 +23,9 @@
             </div>
             <ThemeHome :themeWidth="themeWidth" :themeHeight="themeHeight"></ThemeHome>
         </div>
-        <StrategyListHome :strategyListHeight="strategyListHeight"></StrategyListHome>
+        <StrategyListHome :strategyListHeight="strategyListHeight" :benchmarkObj="benchmarkObj"></StrategyListHome>
         <div class="strategy-map clearfix">
-            <RecommendStrategyHome :RecommendStrategyWidth="RecommendStrategyWidth"></RecommendStrategyHome>
+            <RecommendStrategyHome :RecommendStrategyWidth="RecommendStrategyWidth" :benchmarkObj="benchmarkObj"></RecommendStrategyHome>
             <MapHome :mapWidth="mapWidth" :mapHeight="mapHeight"></MapHome>
         </div>
     </div>
@@ -52,7 +52,18 @@
           newsName1: '财经要闻',
           newsName2: '上市公司',
           ywType: 'ywnews',
-          companyType: 'companynews'
+          companyType: 'companynews',
+          benchmarkObj: {
+            '000300': '沪深300',
+            '000001': '上证指数',
+            '399001': '深圳成指',
+            '399006': '创业板指',
+            '399005': '中小板指',
+            '000016': '上证50',
+            '399905': '中证500',
+            '399906': '中证800',
+            '000852': '中证1000'
+          }
         }
       },
       props: [''],

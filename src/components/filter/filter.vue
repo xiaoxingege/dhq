@@ -10,19 +10,13 @@
         </ul>
       </div>
       <!-- 筛选条件 -->
-      <filter-select></filter-select>
+      <filter-select @selectType = 'selectType'></filter-select>
     </div>
     <!-- 临时基金池 -->
     <div class="fundPool fl">
-      <p class="tr"><a href="javascript:;" class="btn">保存基金池</a></p>
+      <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
       <ul class="fundPoolList">
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
-        <li><a href="##" class="code">000001</a><span class="name">华夏优势增长混合</span><i class="close"></i></li>
+        <li v-for='item in foundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(item.id)'></i></li>
       </ul>
     </div>
   </div>
@@ -39,7 +33,7 @@
         仅显示代销基金
       </label>
     </div>
-    <div>
+    <div v-if="typeIndex == 0">
       <table class="table tc">
         <thead>
           <tr>
@@ -69,46 +63,153 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href="##">1661724</a></td>
-            <td><a href="##">招商中证煤炭等权指数</a></td>
-            <td>2011-03-20</td>
-            <td>2亿</td>
-            <td>1年50天</td>
-            <td>股票型</td>
-            <td><span class="cGreen">-2.31%</span></td>
-            <td><span class='cRed'>2.31%</span></td>
-            <td>1.00元</td>
-            <td>1.31%</td>
-            <td><a href="javascript:;" class="add_button button">加基金池</a></td>
+          <tr v-for='item in foundPoolList'>
+            <td>{{item.id}}</td>
+            <td><a href="##">{{item.code}}</a></td>
+            <td><a href="##">{{item.name}}</a></td>
+            <td>{{item.data}}</td>
+            <td>{{item.gm}}</td>
+            <td>{{item.rzsj}}</td>
+            <td>{{item.type}}</td>
+            <td><span class="cGreen">{{item.zdf}}</span></td>
+            <td><span class='cRed'>{{item.sy}}</span></td>
+            <td>{{item.qgje}}</td>
+            <td>{{item.jycb}}</td>
+            <td>
+              <a  href="javascript:;" class="add_button button" @click ='addlsPoolList(item.id)'>加基金池</a>
+              <a  href="javascript:;" class="remove_button button" @click='delFoundPoolList(item.id)'>移除</a>
+            </td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-if="typeIndex == 1">
+      <table class="table tc">
+        <thead>
           <tr>
-            <td>1</td>
-            <td><a href="##">1661724</a></td>
-            <td><a href="##">招商中证煤炭等权指数</a></td>
-            <td>2011-03-20</td>
-            <td>2亿</td>
-            <td>1年50天</td>
-            <td>股票型</td>
-            <td><span class="cGreen">-2.31%</span></td>
-            <td><span class='cRed'>2.31%</span></td>
-            <td>1.00元</td>
-            <td>1.31%</td>
-            <td><a href="javascript:;" class="remove_button button">移除</a></td>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>类型</th>
+            <th>涨跌幅</th>
+            <th>
+              <select>
+                <option>近1个月收益</option>
+                <option>近3个月收益</option>
+                <option>近3个月收益</option>
+                <option>近1年收益</option>
+                <option>近2年收益</option>
+                <option>近3年收益</option>
+                <option>近4年收益</option>
+                <option>近5年收益</option>
+              </select>
+            </th>
+            <th>起购金额</th>
+            <th>交易成本</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='item in foundPoolList'>
+            <td>{{item.id}}</td>
+            <td><a href="##">{{item.code}}</a></td>
+            <td><a href="##">{{item.name}}</a></td>
+            <td>{{item.data}}</td>
+            <td>{{item.gm}}</td>
+            <td>{{item.rzsj}}</td>
+            <td>{{item.type}}</td>
+            <td><span class="cGreen">{{item.zdf}}</span></td>
+            <td><span class='cRed'>{{item.sy}}</span></td>
+            <td>{{item.qgje}}</td>
+            <td>{{item.jycb}}</td>
+            <td>
+              <a  href="javascript:;" class="add_button button" @click ='addlsPoolList(item.id)'>加基金池</a>
+              <a  href="javascript:;" class="remove_button button" @click='delFoundPoolList(item.id)'>移除</a>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <!-- 弹框 -->
+  <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
 </div>
 </template>
 
 <script>
 import FilterSelect from '../../components/filter/filter-select'
+import FilterDialog from '../../components/filter/filter-dialog'
 export default {
+  data () {
+    return {
+      lsfoundPoolList: [],
+      foundPoolList: [
+        { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
+      ],
+      strategyParams: '',
+      dialogShow: false,
+      btnStatus: false,
+      popTitle: '',
+      tsTxt: '',
+      content: 1,
+      okbtntxt: '保存',
+      typeIndex: 0
+    }
+  },
   components: {
-    FilterSelect
+    FilterSelect,
+    FilterDialog
+  },
+  methods: {
+    addlsPoolList ($index) {
+
+    },
+    delFoundPoolList ($index) {
+      for (let i = 0; i < this.foundPoolList.length; i++) {
+        if (this.foundPoolList[i].id === $index) {
+          this.foundPoolList.splice(i, 1)
+        }
+      }
+    },
+    showDialogFn (content) {
+      const length = this.foundPoolList.length
+      this.dialogShow = true
+      this.content = content
+      if (length > 0) {
+        if (content === 1) {
+          this.popTitle = '保存当前基金池'
+          this.tsTxt = '基金池为空，无法保存！'
+        }
+      }
+      if (length === 0) {
+        this.content = 2
+        if (content === 2) {
+          this.popTitle = '提示'
+          this.tsTxt = '基金池为空，无法保存！'
+          this.okbtntxt = '确认'
+        }
+      }
+    },
+    dialogCloseFn () {
+      this.dialogShow = false
+    },
+    dialogOkFn () {
+      if (this.content === 1) {
+        alert('保存')
+        this.dialogShow = false
+      } else if (this.content === 2) {
+        this.dialogShow = false
+      }
+    },
+    selectType (index) {
+      this.typeIndex = index
+    }
   }
 }
 </script>
@@ -150,6 +251,7 @@ select{
 }
 .filterTop {
     width: 100%;
+    height: 230px;
 }
 .filterBox {
     width: 70%;
@@ -199,7 +301,7 @@ select{
                 display: block;
                 position: absolute;
                 right: 10px;
-                top: 0;
+                top:8px;
                 cursor: pointer;
             }
             .code {
@@ -232,9 +334,6 @@ select{
     border-bottom: 1px solid $colorBorder;
     a{
       color: #666;
-      &:hover{
-        color: #2388da;
-      }
     }
     .button{
       display: inline-block;
@@ -262,7 +361,7 @@ select{
   width: 181px;
   position: absolute;
   top: -55px;
-  left:25%;
+  left:21px;
   line-height: 1.4;
   border: 1px solid #ccc;
   padding: 10px;
@@ -303,7 +402,7 @@ select{
     height: 22px;
     .icon_search{
       position: absolute;
-      top: 10px;
+      top: 8px;
       left: 8px;
       display: block;
       width: 13px;

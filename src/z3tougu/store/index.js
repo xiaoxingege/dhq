@@ -11,8 +11,7 @@ import z3sockjs from 'stores/z3sockjs'
 import goldStrategy from 'stores/gold-strategy'
 import z3touguIndex from 'stores/z3tougu-index'
 import backtestDetail from 'stores/backtest-detail'
-// import goldStrategy from 'stores/gold-strategy'
-// import kgraph from 'stores/kgraph'
+import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 
 Vue.use(Vuex)
@@ -29,7 +28,7 @@ export default new Vuex.Store({
     goldStrategy,
     z3touguIndex,
     backtestDetail,
+    funcArchives,
     fundRecord
-    /* kgraph*/
   }
 })

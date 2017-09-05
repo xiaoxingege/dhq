@@ -123,8 +123,9 @@
        ma5: '--',
        ma10: '--',
        ma20: '--',
-       ma30: '--'
- 
+       ma30: '--',
+       strategyId: this.$route.params.strategyId
+
      }
    },
    computed: mapState({
@@ -165,7 +166,7 @@
    methods: {
      init () {
        this.chart = echarts.init(this.$refs.kcharts)
-       this.$store.dispatch('backtestDetail/queryKline', { })
+       this.$store.dispatch('backtestDetail/queryKline', { strategyId: this.strategyId })
             .then(() => {
               this.drawCharts(this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30)
             })
