@@ -11,7 +11,7 @@ import z3sockjs from 'stores/z3sockjs'
 import goldStrategy from 'stores/gold-strategy'
 import z3touguIndex from 'stores/z3tougu-index'
 import backtestDetail from 'stores/backtest-detail'
-
+import smartPool from 'stores/smartPool'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -25,6 +25,7 @@ export default new Vuex.Store({
     z3sockjs,
     goldStrategy,
     z3touguIndex,
-    backtestDetail
+    backtestDetail,
+    smartPool
   }
 })

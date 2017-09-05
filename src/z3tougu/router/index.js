@@ -19,6 +19,7 @@ import BacktestTimeH5 from 'components/backtest-time-h5'
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
+import SmartPoolList from 'components/smartPool/smartPoolList'
 
 export default [
     { path: '/', name: 'homeRoot', component: z3TouguIndex },
@@ -45,5 +46,7 @@ export default [
     { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
-    { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
+    { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
+    { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList }
+
 ]

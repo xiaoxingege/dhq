@@ -6,16 +6,16 @@
     em,i{
       font-style: normal;
     }
-    
+
     .blue{
       color: #2388da;
       font-size: 12px;
     }
     .red{
-      color:#e6363a 
+      color:#e6363a
     }
     .green {
-      color:#48a854 
+      color:#48a854
     }
     .display-box {
       display: -webkit-box;
@@ -63,14 +63,14 @@
     .topic-head{
       font-weight: normal;
       padding-left: 15px;
-      margin:12px 0 -4px 0; 
+      margin:12px 0 -4px 0;
     }
     .topic-head em{
       padding-right: 65px;
       font-size: 12px;
     }
     .topic-head span{
-      width: 82px; 
+      width: 82px;
       height: 20px;
       float: right;
       line-height: 20px;
@@ -166,7 +166,7 @@
       width: 40%;
       float: left;
       line-height: 24px;
-     
+
     }
     .topic-ol{
       padding-left: 8px;
@@ -179,7 +179,7 @@
       margin-bottom: 8px;
       border: 1px solid #e5e5e5;
     }
-    
+
     .topic-name{
       font-weight: 900;
       width: 36%;
@@ -188,7 +188,7 @@
       cursor: pointer;
 
     }
-    
+
     .topic-time{
       float: left;
 
@@ -228,9 +228,9 @@
       width: 50%;
       text-align: left;
       float: left;
-      white-space: nowrap;  
-      overflow: hidden;  
-      text-overflow: ellipsis; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       cursor: pointer;
 
     }
@@ -413,7 +413,7 @@ export default {
        }
      }
    },
- 
+
    computed: mapState({
      themeList: state => state.topic.themeList,
    /*  themeEquity:state => state.*/

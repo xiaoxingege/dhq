@@ -4,7 +4,7 @@
     <div class="filter-item clearfix">
       <span class="label">分类筛选：</span>
       <ul class="classify">
-        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' @click='selectType(index)'>{{type}}</li>
+        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' @click='selectType(index)' :value="type.value">{{type.name}}</li>
       </ul>
     </div>
     <!-- 全部 -->
@@ -13,20 +13,20 @@
         <span class="label">通用条件：</span>
         <ul class="selectBox">
           <li>
-            <label>交易状态：</label>
-            <select><option v-for="(val,key) in descRips" :value="key">{{val}}</option></select>
+            <label><div class="pr tsk">交易状态：<div class="text">交易日15点前显示当天基金交易状态，15点后显示下个交易日基金交易状态</div></div></label>
+            <select @change="changeTmp($event,'tytj')" :disabled='isDisabled'><option v-for="(val,key) in descRips" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label>基金规模</label>
-            <select><option v-for="(val,key) in jjgm" :value="key">{{val}}</option></select>
+            <label class="pr tsk">基金规模：<div class="text">根据最近一次基金季报/年报获得</div></label>
+            <select @change="changeTmp($event,'yjbx')" :disabled='isDisabled'><option v-for="(val,key) in jjgm" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label>成立时间</label>
-            <select><option v-for="(val,key) in foundedTime" :value="key">{{val}}</option></select>
+            <label class="pr tsk">成立时间：<div class="text">基金公布的成立时间</div></label>
+            <select :disabled='isDisabled'><option v-for="(val,key) in foundedTime" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label>大额限制</label>
-            <select><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <label class="pr tsk">大额限制：<div class="text">基金大额申购限制</div></label>
+            <select :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
           </li>
         </ul>
       </div>
@@ -34,16 +34,16 @@
         <span class="label">业绩表现：</span>
         <ul class="selectBox">
           <li>
-            <label>收益率表现1：</label>
-            <select><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <label class="pr tsk">收益率表现1：<div class="text">一段自然日内基金的涨跌幅</div></label>
+            <select :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label>收益率表现2：</label>
-            <select><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <label class="pr tsk">收益率表现2：<div class="text">一段自然日内基金的涨跌幅</div></label>
+            <select :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label>年化收益率：</label>
-            <select><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <label class="pr tsk">年化收益率：<div class="text">根据基金历史年化收益计算，基金成立不足1年此数据仅供参考</div></label>
+            <select :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
           </li>
         </ul>
       </div>
@@ -52,134 +52,104 @@
         <!-- 全部 -->
         <ul v-if="typeIndex ==0" class="fltj selectBox">
           <li>
-            <label>行业：</label>
-            <select>
+            <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
+            <select :disabled='isDisabled'>
               <option v-for='(val,key) in trades'>{{val}}</option>
             </select>
           </li>
           <li>
-            <label>投资风格：</label>
-            <select>
+            <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
+            <select :disabled='isDisabled'>
               <option v-for='(val,key) in investmentStyle'>{{val}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">机会期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select>
+            <select :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity'>{{val}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金减仓时机</div></label>
-            <select>
+            <select :disabled='isDisabled'>
                 <option v-for='(val,key) in riskTime'>{{val}}</option>
             </select>
           </li>
           <li>
-            <label>最大回撤：</label>
-            <select>
+            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
           <li>
-            <label>夏普比：</label>
-            <select>
+            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
           <li>
-            <label>超额收益：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-        </ul>
-        <!-- 股票型 -->
-        <ul v-if="typeIndex ==1" class="fltj selectBox">
-          <li>
-            <label>行业：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>投资风格：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>增持点：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>减持点:</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>最大回撤：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>夏普比：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>超额收益：</label>
-            <select>
+            <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
         </ul>
-         <!-- 混合型 债券型 指数型 -->
-        <ul v-if="typeIndex ==2 || typeIndex ==3 || typeIndex ==4" class="fltj selectBox">
+        <!-- 股票型 混合型-->
+        <ul v-if="typeIndex ==1 || typeIndex ==2 " class="fltj selectBox">
           <li>
-            <label>最大回撤：</label>
-            <select>
+            <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
+            <select :disabled='isDisabled'>
+              <option v-for='(val,key) in trades'>{{val}}</option>
+            </select>
+          </li>
+          <li>
+            <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
+            <select :disabled='isDisabled'>
+              <option v-for='(val,key) in investmentStyle'>{{val}}</option>
+            </select>
+          </li>
+          <li>
+            <label class="pr tsk">机会期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
+            <select :disabled='isDisabled'>
+              <option v-for='(val,key) in opportunity'>{{val}}</option>
+            </select>
+          </li>
+          <li>
+            <label class="pr tsk">风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金减仓时机</div></label>
+            <select :disabled='isDisabled'>
+                <option v-for='(val,key) in riskTime'>{{val}}</option>
+            </select>
+          </li>
+          <li>
+            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
           <li>
-            <label>夏普比：</label>
-            <select>
+            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
+            <select :disabled='isDisabled'>
+              <option>全部</option>
+            </select>
+          </li>
+          <li>
+            <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
         </ul>
-        <!-- QDII型 -->
-        <ul v-if="typeIndex ==5" class="fltj selectBox">
+         <!--债券型 指数型 QDII型-->
+        <ul v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5" class="fltj selectBox">
           <li>
-            <label>最大回撤：</label>
-            <select>
+            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
           <li>
-            <label>夏普比：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-        </ul>
-          <!-- 货币型 -->
-        <ul v-if="typeIndex ==6" class="fltj selectBox">
-          <li>
-            <label>最大回撤：</label>
-            <select>
-              <option>全部</option>
-            </select>
-          </li>
-          <li>
-            <label>夏普比：</label>
-            <select>
+            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
             </select>
           </li>
@@ -187,8 +157,8 @@
         <!-- 理财型 -->
         <ul v-if="typeIndex ==7" class="fltj selectBox">
           <li>
-            <label>封闭期：</label>
-            <select>
+            <label class="pr tsk">封闭期：<div class="text">理财型基金封闭周期</div></label>
+            <select :disabled='isDisabled'>
               <option>全部</option>
               <option>T+0</option>
               <option>T+1</option>
@@ -204,12 +174,11 @@
 
 <script>
 // 股票范围——指数下拉框数据
-
 import * as Data from '../../z3tougu/constant/filter.js'
 export default {
   data () {
     return {
-      filterType: ['全部', '股票型', '混合型', '债券型', '指数型', 'QDII型', '货币型', '理财型'],
+      filterType: [{ name: '全部', value: 'jjlx_all' }, { name: '股票型', value: 'jjlx_gpx' }, { name: '混合型', value: 'jjlx_hhx' }, { name: '债券型', value: 'jjlx_zqx' }, { name: '指数型', value: 'jjlx_zsx' }, { name: 'QDII型', value: 'jjlx_qdiix' }, { name: '货币型', value: 'jjlx_hbx' }, { name: '理财型', value: 'jjlx_lcx' }],
       typeIndex: 0,
       descRips: Data.descrips,
       jjgm: Data.jjgm,
@@ -218,13 +187,23 @@ export default {
       trades: Data.trades,
       investmentStyle: Data.investmentStyle,
       opportunity: Data.opportunity,
-      riskTime: Data.riskTime
+      riskTime: Data.riskTime,
+      selected: '',
+      isDisabled: true,
+      params: []
     }
   },
   methods: {
     selectType (index) {
       this.typeIndex = index
       this.$emit('selectType', index)
+      if (this.typeIndex === 0 || this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
+        this.isDisabled = false
+      }
+    },
+    changeTmp (event, type) {
+      const selectValue = event.target.value
+      console.log(selectValue)
     }
   },
   mounted () {
@@ -306,12 +285,14 @@ export default {
             border:1px solid #ccc;
             background: url('../../assets/images/selectArrow.png') no-repeat 55px 9px;
             @include border_radius(3px);
-            padding: 0 18px 0 0;
+            padding: 0 18px 0 4px;
+            text-indent: 4px;
           }
           label{
             .text{
-              top: -74px;
-              left: -67px;
+              left: 31%;
+              top:50%;
+              transform: translate(-50%,-134%);
             }
           }
         }
