@@ -33,6 +33,7 @@
         仅显示代销基金
       </label>
     </div>
+    <!-- 全部 -->
     <div v-if="typeIndex == 0">
       <table class="table tc">
         <thead>
@@ -58,7 +59,7 @@
               </select>
             </th>
             <th>起购金额</th>
-            <th>交易成本</th>
+            <th class="pr tsk">交易成本<div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
             <th>操作</th>
           </tr>
         </thead>
@@ -76,14 +77,50 @@
             <td>{{item.qgje}}</td>
             <td>{{item.jycb}}</td>
             <td>
-              <a  href="javascript:;" class="add_button button" @click ='addlsPoolList(item.id)'>加基金池</a>
-              <a  href="javascript:;" class="remove_button button" @click='delFoundPoolList(item.id)'>移除</a>
+              <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)">加基金池</a>
+              <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div v-if="typeIndex == 1">
+    <!-- 股票型、混合型 -->
+    <div v-if="typeIndex == 1 || typeIndex == 2">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>行业</th>
+            <th>基金风格</th>
+            <th>涨跌幅</th>
+            <th>
+              <select>
+                <option>近1个月收益</option>
+                <option>近3个月收益</option>
+                <option>近3个月收益</option>
+                <option>近1年收益</option>
+                <option>近2年收益</option>
+                <option>近3年收益</option>
+                <option>近4年收益</option>
+                <option>近5年收益</option>
+              </select>
+            </th>
+            <th>起购金额</th>
+            <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- 债券型 -->
+    <div v-if="typeIndex == 3">
       <table class="table tc">
         <thead>
           <tr>
@@ -108,28 +145,123 @@
               </select>
             </th>
             <th>起购金额</th>
-            <th>交易成本</th>
+            <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for='item in foundPoolList'>
-            <td>{{item.id}}</td>
-            <td><a href="##">{{item.code}}</a></td>
-            <td><a href="##">{{item.name}}</a></td>
-            <td>{{item.data}}</td>
-            <td>{{item.gm}}</td>
-            <td>{{item.rzsj}}</td>
-            <td>{{item.type}}</td>
-            <td><span class="cGreen">{{item.zdf}}</span></td>
-            <td><span class='cRed'>{{item.sy}}</span></td>
-            <td>{{item.qgje}}</td>
-            <td>{{item.jycb}}</td>
-            <td>
-              <a  href="javascript:;" class="add_button button" @click ='addlsPoolList(item.id)'>加基金池</a>
-              <a  href="javascript:;" class="remove_button button" @click='delFoundPoolList(item.id)'>移除</a>
-            </td>
+        </tbody>
+      </table>
+    </div>
+    <!-- 指数型 -->
+    <div v-if="typeIndex == 4">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>涨跌幅</th>
+            <th>
+              <select>
+                <option>近1个月收益</option>
+                <option>近3个月收益</option>
+                <option>近3个月收益</option>
+                <option>近1年收益</option>
+                <option>近2年收益</option>
+                <option>近3年收益</option>
+                <option>近4年收益</option>
+                <option>近5年收益</option>
+              </select>
+            </th>
+            <th>跟踪误差</th>
+            <th>起购金额</th>
+            <th>操作</th>
           </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- QDII型 -->
+    <div v-if="typeIndex == 5">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>涨跌幅</th>
+            <th>
+              <select>
+                <option>近1个月收益</option>
+                <option>近3个月收益</option>
+                <option>近3个月收益</option>
+                <option>近1年收益</option>
+                <option>近2年收益</option>
+                <option>近3年收益</option>
+                <option>近4年收益</option>
+                <option>近5年收益</option>
+              </select>
+            </th>
+            <th>跟踪误差</th>
+            <th>业绩比较基准</th>
+            <th>起购金额</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- 货币型 -->
+    <div v-if="typeIndex == 6">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>静态收益</th>
+            <th>七日年化收益率</th>
+            <th>万份收益</th>
+            <th>起购金额</th>
+            <th>排名</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- 理财型 -->
+    <div v-if="typeIndex == 7">
+      <table class="table tc">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>基金代码</th>
+            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+            <th>成立日期</th>
+            <th>规模</th>
+            <th>基金经理任值时间</th>
+            <th>封闭期</th>
+            <th>七日年化收益率</th>
+            <th>万份收益</th>
+            <th>起购金额</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
         </tbody>
       </table>
     </div>
@@ -154,7 +286,7 @@ export default {
       ],
       strategyParams: '',
       dialogShow: false,
-      btnStatus: false,
+      btnStatus: true,
       popTitle: '',
       tsTxt: '',
       content: 1,
@@ -166,19 +298,16 @@ export default {
     FilterSelect,
     FilterDialog
   },
+  computed: {
+
+  },
   methods: {
-    addlsPoolList ($index) {
+    addIinterimFunds (item) {
 
     },
-    delFoundPoolList ($index) {
-      for (let i = 0; i < this.foundPoolList.length; i++) {
-        if (this.foundPoolList[i].id === $index) {
-          this.foundPoolList.splice(i, 1)
-        }
-      }
-    },
     showDialogFn (content) {
-      const length = this.foundPoolList.length
+      const length = this.lsfoundPoolList.length
+      console.log(length)
       this.dialogShow = true
       this.content = content
       if (length > 0) {
@@ -210,247 +339,251 @@ export default {
     selectType (index) {
       this.typeIndex = index
     }
+  },
+  mounted () {
+
   }
+
 }
 </script>
 <style lang="scss" scoped>
-@import '../../assets/common/variable.scss';
-@import '../../assets/css/reset.css';
-@import '../../assets/css/base.css';
-@mixin border_radius($num){-webkit-border-radius: $num;-moz-border-radius: $num;border-radius: $num;}
-.app>*{
-  width: auto;
-  position: static;
-  text-align: left;
-}
-.cGreen{color:$colorFontFall}
-.cRed{color:$colorFontRise}
-select{
-  -webkit-appearance: none;
-  appearance: none;
-  outline: 0;
-  border: 0;
-  background: 0;
-}
-.filter {
-    background-color: #fff;
-    font-size: $fontSize12;
-    color: $colorFontTheme;
-    padding: 10px;
-}
-.btn {
-    display: inline-block;
-    font-size: $fontSize12;
-    color: $colorFontBlue;
-    padding: 0 10px;
-    height: 22px;
-    line-height: 22px;
-    background-color: $colorBackground;
-    text-align: center;
-    @include border_radius(3px);
-}
-.filterTop {
-    width: 100%;
-    height: 230px;
-}
-.filterBox {
-    width: 70%;
-    .topBar {
-        height: 24px;
-        border-bottom: 1px solid $colorFontBlue;
-    }
-}
-.tabList {
-    font-size: 0;
-    height: 24px;
-    li {
-        display: inline-block;
-        font-size: $fontSize12;
-        color: $colorFontBlue;
-        height: 24px;
-        line-height: 24px;
-        padding: 0 15px;
-        cursor: pointer;
-        &.active {
-            color: #fff;
-            background-color: #2388da;
-        }
-    }
-}
-.fundPool {
-    width: 28%;
-    height:175px;
-    ul {
-        display: block;
-        height: 178px;
-        overflow: hidden;
-        overflow-y: auto;
-        margin-top: 20px;
-        li {
-            position: relative;
-            font-size: $fontSize12;
-            text-align: left;
-            padding-left: 37px;
-            height: 25px;
-            line-height: 25px;
-            span {
-                display: inline-block;
-                overflow: hidden;
-            }
-            .close {
-                display: block;
-                position: absolute;
-                right: 10px;
-                top:8px;
-                cursor: pointer;
-            }
-            .code {
-                width: 20%;
-                display: block;
-                float: left;
-            }
-            .name {
-                width: 76%;
-                white-space: pre;
-                text-overflow: ellipsis;
-            }
-        }
-    }
-}
-.table{
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  th{
-    font-weight: normal;
-    color: #666;
-    height: 30px;
-    line-height: 30px;
-    background-color: #f2f2f2;
+  @import '../../assets/common/variable.scss';
+  @import '../../assets/css/reset.css';
+  @import '../../assets/css/base.css';
+  @mixin border_radius($num){-webkit-border-radius: $num;-moz-border-radius: $num;border-radius: $num;}
+  .app>*{
+    width: auto;
+    position: static;
+    text-align: left;
   }
-  td{
-    color: $colorFontTheme;
-    height: 40px;
-    border-bottom: 1px solid $colorBorder;
-    a{
-      color: #666;
-    }
-    .button{
+  .cGreen{color:$colorFontFall}
+  .cRed{color:$colorFontRise}
+  select{
+    -webkit-appearance: none;
+    appearance: none;
+    outline: 0;
+    border: 0;
+    background: 0;
+  }
+  .filter {
+      background-color: #fff;
+      font-size: $fontSize12;
+      color: $colorFontTheme;
+      padding: 10px;
+  }
+  .btn {
       display: inline-block;
-      width:72px;
+      font-size: $fontSize12;
+      color: $colorFontBlue;
+      padding: 0 10px;
       height: 22px;
       line-height: 22px;
+      background-color: $colorBackground;
       text-align: center;
-      border: 1px solid #ccc;
-      @include  border_radius(3px);
+      @include border_radius(3px);
+  }
+  .filterTop {
+      width: 100%;
+      height: 230px;
+  }
+  .filterBox {
+      width: 70%;
+      .topBar {
+          height: 24px;
+          border-bottom: 1px solid $colorFontBlue;
+      }
+  }
+  .tabList {
+      font-size: 0;
+      height: 24px;
+      li {
+          display: inline-block;
+          font-size: $fontSize12;
+          color: $colorFontBlue;
+          height: 24px;
+          line-height: 24px;
+          padding: 0 15px;
+          cursor: pointer;
+          &.active {
+              color: #fff;
+              background-color: #2388da;
+          }
+      }
+  }
+  .fundPool {
+      width: 28%;
+      height:175px;
+      ul {
+          display: block;
+          height: 178px;
+          overflow: hidden;
+          overflow-y: auto;
+          margin-top: 20px;
+          li {
+              position: relative;
+              font-size: $fontSize12;
+              text-align: left;
+              padding-left: 37px;
+              height: 25px;
+              line-height: 25px;
+              span {
+                  display: inline-block;
+                  overflow: hidden;
+              }
+              .close {
+                  display: block;
+                  position: absolute;
+                  right: 10px;
+                  top:8px;
+                  cursor: pointer;
+              }
+              .code {
+                  width: 20%;
+                  display: block;
+                  float: left;
+              }
+              .name {
+                  width: 76%;
+                  white-space: pre;
+                  text-overflow: ellipsis;
+              }
+          }
+      }
+  }
+  .table{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    th{
+      font-weight: normal;
+      color: #666;
+      height: 30px;
+      line-height: 30px;
+      background-color: #f2f2f2;
     }
-    .add_button{
-      border-color: #2388da;
-      color: #2388da;
+    td{
+      color: $colorFontTheme;
+      height: 40px;
+      border-bottom: 1px solid $colorBorder;
+      a{
+        color: #666;
+      }
+      .button{
+        display: inline-block;
+        width:72px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        border: 1px solid #ccc;
+        @include  border_radius(3px);
+      }
+      .add_button{
+        border-color: #2388da;
+        color: #2388da;
+      }
+    }
+    select{
+      width:92px;
+      height: 40px;
+      color: #666;
+      background: url(../../assets/images/arrows.png) no-repeat right;
     }
   }
-  select{
-    width:92px;
-    height: 40px;
-    color: #666;
-    background: url(../../assets/images/arrows.png) no-repeat right;
-  }
-}
-.text{
-  display:none;
-  width: 181px;
-  position: absolute;
-  top: -55px;
-  left:21px;
-  line-height: 1.4;
-  border: 1px solid #ccc;
-  padding: 10px;
-  @include border_radius(3px);
-  background-color: #fff;
-  color: #666;
-  text-align: left;
-  &:after{
-    content: '';
+  .text{
+    display:none;
+    width: 181px;
     position: absolute;
-    bottom: -16px;
-    left: 85px;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-top-color: #fff;
-  }
-  &:before{
-    content: '';
-    position: absolute;
-    bottom: -17px;
-    left: 85px;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-top-color: #ccc;
-  }
-}
-.filterCon{
-  .top{
-    height: 30px;
-    line-height: 30px;
+    top: -55px;
+    left:21px;
+    line-height: 1.4;
+    border: 1px solid #ccc;
+    padding: 10px;
+    @include border_radius(3px);
+    background-color: #fff;
     color: #666;
-    margin-bottom: 5px;
-  }
-  .search{
-    width: 120px;
-    height: 22px;
-    .icon_search{
+    text-align: left;
+    &:after{
+      content: '';
       position: absolute;
-      top: 8px;
-      left: 8px;
-      display: block;
-      width: 13px;
-      height:13px;
-      background: url(../../assets/images/search.png) no-repeat;
+      bottom: -16px;
+      left: 85px;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-top-color: #fff;
     }
-    .searchInput{
+    &:before{
+      content: '';
+      position: absolute;
+      bottom: -17px;
+      left: 85px;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-top-color: #ccc;
+    }
+  }
+  .filterCon{
+    .top{
+      height: 30px;
+      line-height: 30px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    .search{
       width: 120px;
       height: 22px;
-      border: 1px solid #ccc;
-      @include border_radius(3px);
-      text-indent: 25px;
+      .icon_search{
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        display: block;
+        width: 13px;
+        height:13px;
+        background: url(../../assets/images/search.png) no-repeat;
+      }
+      .searchInput{
+        width: 120px;
+        height: 22px;
+        border: 1px solid #ccc;
+        @include border_radius(3px);
+        text-indent: 25px;
+      }
+    }
+    label{
+      color: $colorFontTheme;
+      cursor: pointer;
+      input{
+        vertical-align: -3px;
+      }
+    }
+    select{
+      padding: 5px;
     }
   }
-  label{
-    color: $colorFontTheme;
+  .icon_help{
+    display: inline-block;
+    width: 15px;
+    height:15px;
+    background: url(../../assets/images/help.png) no-repeat;
+    vertical-align: -3px;
+    margin-left: 4px;
+  }
+  .close{
+    display: inline-block;
+    width: 9px;
+    height:9px;
+    background: url(../../assets/images/f_close.png) no-repeat;
+    vertical-align: -3px;
+    margin-left: 4px;
     cursor: pointer;
-    input{
-      vertical-align: -3px;
+  }
+  .show{display: block;}
+  .tsk{
+    &:hover{
+      + div,>div{
+        display: block;
+      }
     }
   }
-  select{
-    padding: 5px;
-  }
-}
-.icon_help{
-  display: inline-block;
-  width: 15px;
-  height:15px;
-  background: url(../../assets/images/help.png) no-repeat;
-  vertical-align: -3px;
-  margin-left: 4px;
-}
-.close{
-  display: inline-block;
-  width: 9px;
-  height:9px;
-  background: url(../../assets/images/f_close.png) no-repeat;
-  vertical-align: -3px;
-  margin-left: 4px;
-  cursor: pointer;
-}
-.show{display: block;}
-.tsk{
-  &:hover{
-    + div,>div{
-      display: block;
-    }
-  }
-}
 </style>
