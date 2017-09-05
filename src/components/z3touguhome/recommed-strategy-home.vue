@@ -21,7 +21,7 @@
 <script type="text/javascript">
     import echarts from 'echarts'
     export default {
-      props: ['RecommendStrategyWidth'],
+      props: ['RecommendStrategyWidth', 'benchmarkObj'],
       data () {
         return {
           sort: 'totalReturn',
@@ -64,7 +64,7 @@
                               icon: 'circle'
                             },
                             {
-                              name: this.recommendStrategyDetail.strategy.benchmark,
+                              name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                               icon: 'circle'
                             }
                           ]
@@ -127,7 +127,7 @@
                             data: this.recommendStrategyDetail.totalReturn
                           },
                           {
-                            name: this.recommendStrategyDetail.strategy.benchmark,
+                            name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,

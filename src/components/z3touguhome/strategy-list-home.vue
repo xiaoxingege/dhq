@@ -51,7 +51,7 @@
     import echarts from 'echarts'
 
 export default {
-      props: ['strategyListHeight'],
+      props: ['strategyListHeight', 'benchmarkObj'],
       data () {
         return {
           sort: 'createDate',
@@ -100,7 +100,7 @@ export default {
                           orient: 'vertical',
                           data: [
                             {
-                              name: this.strategyList[i].strategy.benchmark,
+                              name: this.benchmarkObj[this.strategyList[i].strategy.benchmark],
                               icon: 'circle'
                             },
                             {
@@ -142,7 +142,7 @@ export default {
                         color: ['#e8311f', '#4076b4'],
                         series: [
                           {
-                            name: this.strategyList[i].strategy.benchmark,
+                            name: this.benchmarkObj[this.strategyList[i].strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,
