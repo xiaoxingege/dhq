@@ -158,7 +158,6 @@
         }
       },
       mounted () {
-        alert(this.showType)
       }
     }
 </script>
