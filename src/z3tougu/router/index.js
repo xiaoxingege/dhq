@@ -39,6 +39,7 @@ export default [
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
+    { path: '/gold-strategy/:strategyId/:showType', name: 'goldStrategyType', component: GoldStrategy },
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },

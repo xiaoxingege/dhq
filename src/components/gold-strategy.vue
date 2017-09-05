@@ -75,7 +75,7 @@
             </div>
         </div>
         <div>
-            <Goldchart :strategyId="strategyId"></Goldchart>
+            <Goldchart :strategyId="strategyId" :showType="type"></Goldchart>
         </div>
     </div>
 </template>
@@ -91,7 +91,8 @@
 export default{
   data () {
         return {
-          strategyId: ''
+          strategyId: '',
+          type: ''
         }
   },
   components: {
@@ -301,6 +302,7 @@ export default{
   }),
   mounted () {
         this.strategyId = this.$route.params.strategyId
+        this.type = this.$route.params.showType
 
         this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId }).then(() => {
 

@@ -31,9 +31,15 @@
     .exchrHld .main ul li{
         line-height: 30px;
     }
+    .fundChart{
+        width:804px;
+        height:421px;
+        border:1px solid #DEDEDE;
+    }
 </style>
 <template>
-    <div class="clearfix">
+    <div>
+        <div class="clearfix">
         <div class="fl">
             <Fundbuyinfo></Fundbuyinfo>
         </div>
@@ -60,11 +66,17 @@
                 </ul>
             </div>
         </div> <!--换手率-->
+        </div>
+        <div class="fundChart">
+
+            <Fundchart></Fundchart>
+        </div>
     </div>
 </template>
 <script>
     import Fundbuyinfo from 'components/fund-buy-info'
     import Fundbubble from 'components/fund-bubble'
+    import Fundchart from 'components/fund-chart'
 
     export default{
       data () {
@@ -74,7 +86,8 @@
       },
       components: {
         Fundbuyinfo,
-        Fundbubble
+        Fundbubble,
+        Fundchart
       },
       computed: {
         fundFeatureData: function () {
