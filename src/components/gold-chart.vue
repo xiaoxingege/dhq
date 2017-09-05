@@ -83,8 +83,8 @@
                         <th>市盈率</th>
                         <th>市净率</th>
                         <th>市销率</th>
-                        <th>总市值</th>
-                        <th>流通市值</th>
+                        <th>总市值（亿）</th>
+                        <th>流通市值（亿）</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -98,13 +98,13 @@
                         <td>{{Number(item.peTtm).toFixed(2)}}</td>
                         <td>{{Number(item.pb).toFixed(2)}}</td>
                         <td>{{Number(item.pc).toFixed(2)}}</td>
-                        <td>{{item.tcap === null ? '--':Number(item.tcap/100000000).toFixed(0)+' 亿'}} </td>
-                        <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(0)+' 亿'}}</td>
+                        <td>{{item.tcap === null ? '--':Number(item.tcap/100000000).toFixed(0)}} </td>
+                        <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(0)}}</td>
                     </tr>
                     </tbody>
 
                 </table>
-                <Pagination v-if="mrjyData.totalPages > 1" :totalPage="dqxgData.totalPages" v-on:getPageFromChild="goDqxgPage"></Pagination>
+                <Pagination v-if="dqxgData.totalPages > 1" :totalPage="dqxgData.totalPages" v-on:getPageFromChild="goDqxgPage"></Pagination>
             </div>
         </div>
     </div>

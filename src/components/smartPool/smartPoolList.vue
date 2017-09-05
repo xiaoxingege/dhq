@@ -19,7 +19,7 @@
             <td>{{item.updateTime}}</td>
             <td><span v-for="fsiList in item.fundStrategyInfoList" :class='{blue:item.userByStrategy == 1}'>[{{fsiList.name}}]</span></td>
             <td>
-              <a href="javascript:;" class="button copy_button" @click='copy'>复制</a>
+              <a href="javascript:;" class="button copy_button" @click='showDialog'>复制</a>
             </td>
           </tr>
       </table>
@@ -58,7 +58,7 @@
       })
     },
     methods: {
-      copy () {
+      showDialog () {
         this.show = true
       },
       close () {

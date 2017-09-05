@@ -197,8 +197,10 @@ export default {
     selectType (index) {
       this.typeIndex = index
       this.$emit('selectType', index)
-      if (this.typeIndex === 0 || this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
+      if (this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
         this.isDisabled = false
+      } else {
+        this.isDisabled = true
       }
     },
     changeTmp (event, type) {
@@ -377,5 +379,9 @@ export default {
         width: 106%;
       }
     }
+  }
+  .yellow{
+    background-color: yellow;
+    color: #fff;
   }
 </style>

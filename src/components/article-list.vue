@@ -1,4 +1,4 @@
-:<style lang="scss" scoped>
+<style lang="scss" scoped>
     @import '../assets/css/base.css';
     .article-list{
         width:100%;

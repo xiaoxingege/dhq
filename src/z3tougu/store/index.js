@@ -12,6 +12,8 @@ import goldStrategy from 'stores/gold-strategy'
 import z3touguIndex from 'stores/z3tougu-index'
 import backtestDetail from 'stores/backtest-detail'
 import smartPool from 'stores/smartPool'
+import funcArchives from 'stores/fund-archives'
+import fundRecord from 'stores/fund-record'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -26,6 +28,8 @@ export default new Vuex.Store({
     goldStrategy,
     z3touguIndex,
     backtestDetail,
-    smartPool
+    smartPool,
+    funcArchives,
+    fundRecord
   }
 })
