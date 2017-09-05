@@ -16,10 +16,12 @@ import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
 import BacktestTime from 'components/backtest-time'
 import BacktestTimeH5 from 'components/backtest-time-h5'
+import FundChart from 'components/fund-chart'
+import FundFile from 'components/fund-file'
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
-// import GoldStrategy from 'components/gold-strategy'
+
 // import Kgraph from 'components/kgraph'
 
 export default [
@@ -47,8 +49,9 @@ export default [
     { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
     { path: '/backtestTime', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
+    { path: '/fund-chart', name: 'fundchart', component: FundChart },
+    { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/:newsType', name: 'newslist', component: NewsList },
     { path: '/:newsType/:newsId', name: 'newsdetails', component: NewsDetails }
-    // { path: '/gold-strategy', name: 'goldStrategy', component: GoldStrategy },
     // { path: '/kgraph', name: 'Kgraph', component: Kgraph }
 ]

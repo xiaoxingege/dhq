@@ -1,10 +1,11 @@
 <style  lang="scss" scoped>
     .page{
-        /* width:720px;*/
+        width:720px;
         background: #fff;
         font-family: "Microsoft YaHei","微软雅黑";
         font-size: 14px;
         padding:40px 0;
+        margin: 0 auto;
     }
     span{
 
@@ -52,11 +53,12 @@
     }
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .page{
-            /* width:720px;*/
+            width:7.2rem;
             background: #fff;
             font-family: "Microsoft YaHei","微软雅黑";
             font-size: 0.14rem;
             padding:0.2rem 0;
+            margin:0 auto;
         }
         span{
 

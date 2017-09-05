@@ -189,7 +189,6 @@
           if (window.FiterToWeb) {
             window.FiterToWeb.SndStockPoolInfo((data) => {
               that.options.innerCode = data
-              alert(that.options.innerCode)
             })
           }
           this.chart = echarts.init(this.$refs.bubbles)

@@ -185,9 +185,6 @@
                 <Tablelist :data="tradeParamData"></Tablelist>
             </div>
         </div>
-
-
-
     </div>
 </template>
 <script>
