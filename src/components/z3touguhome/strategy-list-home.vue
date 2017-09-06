@@ -21,7 +21,7 @@
         <ul class="clearfix">
             <li v-for="item of strategyList">
                 <div class="strategy-title clearfix">
-                    <p class="strategy-name">{{item.strategyName}}</p>
+                    <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:item.strategy.strategyId}}">{{item.strategy.strategyName}}</router-link></p>
                     <p class="strategy-create-time">关注{{item.followCnt}}</p>
                 </div>
                 <div class="strategy-chart" ref="chartList"></div>
