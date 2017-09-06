@@ -77,8 +77,8 @@
             <td>{{item.qgje}}</td>
             <td>{{item.jycb}}</td>
             <td>
-              <a :class="{show}" href="javascript:;" class="add_button button"   @click="addIinterimFunds(item.id)">加基金池</a>
-              <a v-if='typeBtn == 2' href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
+              <a v-if="btnStatus == true" href="javascript:;" class="add_button button"   @click="addIinterimFunds(item.id)">加基金池</a>
+              <a v-if='btnStatus == false' href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
             </td>
           </tr>
         </tbody>
