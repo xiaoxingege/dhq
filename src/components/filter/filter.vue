@@ -16,7 +16,7 @@
     <div class="fundPool fl">
       <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
       <ul class="fundPoolList">
-        <li v-for='item in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(item.id)'></i></li>
+        <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
       </ul>
     </div>
   </div>
@@ -77,8 +77,8 @@
             <td>{{item.qgje}}</td>
             <td>{{item.jycb}}</td>
             <td>
-              <a :class="{show}" href="javascript:;" class="add_button button"   @click="addIinterimFunds(item.id)">加基金池</a>
-              <a v-if='typeBtn == 2' href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
+              <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
+              <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
             </td>
           </tr>
         </tbody>
@@ -280,12 +280,12 @@ export default {
   data () {
     return {
       lsfoundPoolList: [],
-      // foundPoolList: [
-        // { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        // { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        // { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        // { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
-      // ],
+      foundPoolList: [
+        { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
+      ],
       dialogShow: false,
       btnStatus: true,
       popTitle: '',
@@ -309,16 +309,25 @@ export default {
     })
   },
   methods: {
-    addIinterimFunds (id) {
-      for (let i = 0; i < this.foundPoolList.length; i++) {
-        if (this.foundPoolList[i].id === id) {
-          this.foundPoolList[i].typeBtn = 2
-          // var item = this.foundPoolList[i]
-          // this.foundPoolList.splice(i, 1)
-          console.log(this.foundPoolList[i])
-          break
-        }
-      }
+    // addIinterimFunds (id) {
+    //   for (let i = 0; i < this.foundPoolList.length; i++) {
+    //     if (this.foundPoolList[i].id === id) {
+    //       this.foundPoolList[i].typeBtn = 2
+    //       // var item = this.foundPoolList[i]
+    //       // this.foundPoolList.splice(i, 1)
+    //       console.log(this.foundPoolList[i])
+    //       break
+    //     }
+    //   }
+    // },
+    addIinterimFunds (item) {
+      this.lsfoundPoolList.push(item)
+      item.inTempPool = true
+    },
+    isInTempPoollist (fundid) {
+      return this.lsfoundPoolList.some((fund) => {
+        return fund.id === fundid
+      })
     },
     showDialogFn (content) {
       const length = this.lsfoundPoolList.length
@@ -353,10 +362,32 @@ export default {
     },
     selectType (index) {
       this.typeIndex = index
+    },
+    delFoundPoolList (index, item) {
+      this.foundPoolList.some((fund) => {
+        if (fund.id === item.id) {
+          fund.inTempPool = false
+          return true
+        }
+      })
+      this.lsfoundPoolList.splice(index, 1)
+    },
+    removeInterimFunds (item) {
+      item.inTempPool = false
+      this.lsfoundPoolList.some((fund, index) => {
+        if (fund.id === item.id) {
+          this.lsfoundPoolList.splice(index, 1)
+          return true
+        }
+      })
     }
   },
   mounted () {
     this.$store.dispatch('getFundPool')
+    this.foundPoolList = this.foundPoolList.map((fund) => {
+      const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
+      return tempFund
+    })
   }
 
 }

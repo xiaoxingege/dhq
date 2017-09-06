@@ -24,7 +24,6 @@
           default: 200
         }
       },
-//        props:  ['stockCode', 'chartWidth', 'chartHeight'],
       data () {
         return {
           klineType: 'day', // day||week...
