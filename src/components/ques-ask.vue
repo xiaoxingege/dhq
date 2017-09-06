@@ -129,18 +129,17 @@ export default {
         return
       }
       window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
-      if (this.userShow === false) {
-        // var url = window.location.href
-        if (searchValue) {
-          localStorage.searchValue = searchValue
-        }
-        if (this.text) {
-          localStorage.text = this.text
-        }
-
-        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
-        return
-      }
+    //   if (this.userShow === false) {
+    //     // var url = window.location.href
+    //     if (searchValue) {
+    //       localStorage.searchValue = searchValue
+    //     }
+    //     if (this.text) {
+    //       localStorage.text = this.text
+    //     }
+      //
+    //     return
+    //   }
 
       this.$store.dispatch('quesAsk/askto', {
         textCont: textCont,
@@ -164,20 +163,21 @@ export default {
     this.$watch('userId', userId => {
       if (userId) {
         this.userShow = true
+        this.show = true
         this.$store.dispatch('quesAsk/ask', {
           userId: userId
         })
-        if (this.tmpQues) {
-          this.show = false
-          var searchValue = localStorage.searchValue
-          var textCont = searchValue + '' + localStorage.text
-          this.$store.dispatch('quesAsk/askto', {
-            textCont: textCont,
-            passportId: userId
-          })
-        } else {
-          this.show = true
-        }
+        // if (this.tmpQues) {
+        //   this.show = false
+        //   var searchValue = localStorage.searchValue
+        //   var textCont = searchValue + '' + localStorage.text
+        //   this.$store.dispatch('quesAsk/askto', {
+        //     textCont: textCont,
+        //     passportId: userId
+        //   })
+        // } else {
+        //   this.show = true
+        // }
       } else {
         this.show = true
         if (getQueryString('code')) {
@@ -185,6 +185,8 @@ export default {
             code: getQueryString('code'),
             redirectUri: 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
           })
+        } else {
+          window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
         }
       }
     })
