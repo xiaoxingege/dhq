@@ -3,7 +3,7 @@
     .map-home div{width: 100%;height:100%;}
 </style>
 <template>
-    <a class="map-home" href="http://10.77.4.80:3000/map" :style="{width:mapWidth,height:mapHeight}"><div class="" ref="mapChart"></div></a>
+    <a class="map-home" href="/map" :style="{width:mapWidth,height:mapHeight}"><div class="" ref="mapChart"></div></a>
 </template>
 <script type="text/javascript">
     import echarts from 'echarts'
