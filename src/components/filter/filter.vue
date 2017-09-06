@@ -16,7 +16,7 @@
     <div class="fundPool fl">
       <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
       <ul class="fundPoolList">
-        <li v-for='item in foundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(item.id)'></i></li>
+        <li v-for='item in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(item.id)'></i></li>
       </ul>
     </div>
   </div>
@@ -66,19 +66,19 @@
         <tbody>
           <tr v-for='item in foundPoolList'>
             <td>{{item.id}}</td>
-            <td><a href="##">{{item.code}}</a></td>
+            <td><a href="##">{{item.symbol}}</a></td>
             <td><a href="##">{{item.name}}</a></td>
-            <td>{{item.data}}</td>
-            <td>{{item.gm}}</td>
-            <td>{{item.rzsj}}</td>
-            <td>{{item.type}}</td>
-            <td><span class="cGreen">{{item.zdf}}</span></td>
-            <td><span class='cRed'>{{item.sy}}</span></td>
+            <td>{{item.estabDate}}</td>
+            <td>{{item.fundScale}}</td>
+            <td>{{item.managerDurationMax}}</td>
+            <td>{{item.fundFav }}</td>
+            <td><span :class="item.chgPct >0 ?'cRed':'cGreen'">{{item.chgPct}}</span></td>
+            <td><span :class="item.chgPct >0 ?'cRed':'cGreen'">{{item.sy}}</span></td>
             <td>{{item.qgje}}</td>
             <td>{{item.jycb}}</td>
             <td>
-              <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)">加基金池</a>
-              <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
+              <a :class="{show}" href="javascript:;" class="add_button button"   @click="addIinterimFunds(item.id)">加基金池</a>
+              <a v-if='typeBtn == 2' href="javascript:;" class="remove_button button" @click="removeInterimFunds(item.id)">移除</a>
             </td>
           </tr>
         </tbody>
@@ -274,24 +274,26 @@
 <script>
 import FilterSelect from '../../components/filter/filter-select'
 import FilterDialog from '../../components/filter/filter-dialog'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
       lsfoundPoolList: [],
-      foundPoolList: [
-        { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
-      ],
-      strategyParams: '',
+      // foundPoolList: [
+        // { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        // { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        // { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
+        // { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
+      // ],
       dialogShow: false,
       btnStatus: true,
       popTitle: '',
       tsTxt: '',
       content: 1,
       okbtntxt: '保存',
-      typeIndex: 0
+      typeIndex: 0,
+      typeBtn: 1
     }
   },
   components: {
@@ -299,11 +301,24 @@ export default {
     FilterDialog
   },
   computed: {
-
+    ...mapState([
+      'foundPoolList'
+    ]),
+    ...mapGetters({
+      foundPoolList: 'foundPoolList'
+    })
   },
   methods: {
-    addIinterimFunds (item) {
-
+    addIinterimFunds (id) {
+      for (let i = 0; i < this.foundPoolList.length; i++) {
+        if (this.foundPoolList[i].id === id) {
+          this.foundPoolList[i].typeBtn = 2
+          // var item = this.foundPoolList[i]
+          // this.foundPoolList.splice(i, 1)
+          console.log(this.foundPoolList[i])
+          break
+        }
+      }
     },
     showDialogFn (content) {
       const length = this.lsfoundPoolList.length
@@ -341,7 +356,7 @@ export default {
     }
   },
   mounted () {
-
+    this.$store.dispatch('getFundPool')
   }
 
 }
