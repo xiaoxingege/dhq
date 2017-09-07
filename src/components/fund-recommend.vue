@@ -76,7 +76,7 @@
 
 <script>
  import { mapState } from 'vuex'
- /* import FundRecomLine from './fund-recom-line'*/
+ import FundRecomLine from './fund-recom-line'
  import FundRecomTable from './fund-recom-table'
  import IntellRecomLine from './intell-recom-line'
  import intellRecomTable from './intell-recom-table'
@@ -90,7 +90,7 @@
  
    }),
    components: {
-     /* FundRecomLine,*/
+     FundRecomLine,
      FundRecomTable,
      IntellRecomLine,
      intellRecomTable

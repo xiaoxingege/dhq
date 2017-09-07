@@ -30,6 +30,7 @@
     }
     .bfilter-main{
        padding: 0 10px 0;
+       position: relative;
     }
     
     .bfilter-bottom{
@@ -115,11 +116,31 @@
     .backtest-filter .page{
       text-align: center;
     }
+    .icon{
+      position: absolute;
+      right: 15px;
+      top: 3px;
+    }
+    .weixin{
+      height: 18px;
+      width: 22px;
+      display: inline-block;
+      background: url(../assets/images/z3img/back-weixin.png) no-repeat;
+      margin-right: 12px;
+      cursor:pointer;
+    }
+    .copy{
+      height: 22px;
+      width: 22px;
+      display: inline-block;
+      background: url(../assets/images/z3img/back-copy.png) no-repeat;
+      cursor:pointer;
+    }
 </style>
 <template> 
    <div class="backtest-filter">
       <div class="bfilter-main">
-        
+        <div class="fr icon"><a class="weixin"></a><a class="copy"></a></div>
         <BackFilterDescr/> 
         <div class="bfilter-bottom">
           <ul class="bfilter-ul clearfix">

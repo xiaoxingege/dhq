@@ -88,23 +88,21 @@
                 <div class="fund-hot1 box-flex-1" v-for="recom of recommend">
                    <div class="fundchart2" ref="fundchart2"></div>
                    <div class="recom-content">
-                       <div class="hui">今年以来:<span class="red">12.12%
+                       <div class="hui">今年以来:<span class="red">{{recom.since_this_year_income_rate}}%
                        </span></div>
                        <div>
-                           <span class="hui">0000001
-                           </span><span class="blue">华夏成长混合型
+                           <span class="blue">{{recom.fportfolio_name}}
                            </span>
                        </div>
                        <div>
-                          <span class="hui">类型：</span><span>混合型</span>
-                          <span class="hui">风险：</span><span>搞</span>
+                          <span class="hui">起投金额：</span><span>{{recom.min_purchase_amount}}元</span>
+                          <span class="hui">风险：</span><span>{{recom.risk_level_name}}</span>
                        </div>
                        
-                       <div class="reson-title hui">推荐理由</div>
+                       <div class="reson-title hui">组合特色:</div>
                        <ul>
-                           <li>1、时不时地稍等会速度还是的稍等会是看的</li>
-                           <li>2、时不时地稍等会速度还是的稍等会是看的</li>
-                           <li>3、时不时地稍等会速度还是的稍等会是看的</li>
+                           <li v-for="(info,index) of recom.recommend_info">{{index+1}}、{{info}}</li>
+                          
                        </ul>
                    </div>
                 </div>  
