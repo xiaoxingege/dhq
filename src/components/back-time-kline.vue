@@ -37,15 +37,16 @@
       background: #fff;
       margin-top: 10px;
       padding: 14px 10px 14px 11px;
+      position: relative;
     }
     .time-inp{
       padding-left: 6px;
     }
     .ana-btn{
       width: 40px;
-      height: 20px;
+      height: 18px;
       text-align: center;
-      line-height: 20px;
+      line-height: 18px;
       border: 1px solid #e5e5e5;
       display: inline-block;
       background: #f2f2f2;
@@ -69,6 +70,7 @@
       top: 10%;
       left: 3%;
       width: 50%;
+
     }
     .ma5{
       color: #e75443;
@@ -86,19 +88,50 @@
       width: 6%;
       display: inline-block;
     }
-    
+    .search-ul{
+        /* width: 206px; */
+        width: 208px;
+        position: absolute;
+        /* left: 14.7%; */
+        left: 276px;
+        /* left: 50%;
+        margin-left: -26.7%; */
+        top: 77%;
+        z-index: 99999;
+        color: #191919;
+        font-size: 14px;
+        background: #f2f2f2;
+        padding: 0 10px;
+    }
+    .search-ul li{
+      line-height: 28px;
+      /* border-bottom: 1px solid #262931; */
+      border-bottom: 1px solid #e5e5e5;
+      cursor: pointer;
+    }
+    .search-ul li span:first-child {
+      margin-right: 10px;
+    }
 </style>
 <template> 
    <div class="time-kline-wrap">
       
            <div class="time-inp-box">
                <label class="label-txt">全部A股中，单只股票近一年买卖点分析</label>
-               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp">
-               <span class="ana-btn">分析</span>
+               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message">
+               <span class="ana-btn" @click="search($event)">分析</span>
+               <ul class="search-ul" v-if="searchList && searchList.length > 0 && message!=''" v-show="showSearchList">
+                  <li v-for="list of searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
+                  
+               </ul>
+               <!-- <ul class="search-ul" v-else="message===''">
+                  <li>暂无数据</li>
+                  
+               </ul> -->
            </div>
            <div class="k-line-box"> 
                 <!-- <div>格力电器买卖点分析</div> -->
-                 <div class="ma-box">
+                 <div class="ma-box" v-show="showMa">
                      <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
                      <div></div>
                  </div>
@@ -119,24 +152,31 @@
        ma5: '--',
        ma10: '--',
        ma20: '--',
-       ma30: '--'
+       ma30: '--',
+       message: '',
+       showSearchList: true,
+       innerCode: '',
+       showMa: false
 
      }
    },
    computed: mapState({
+     searchList: state => state.backtestDetail.searchList,
      kLineDataAll: state => {
        const dataAll = state.backtestDetail.kLineData
        const kLine = dataAll.kLine.reverse()
        const sellData = dataAll.sellDay
- 
+       const buyData = dataAll.buyDay
+       console.log(sellData)
        const kLineXdata = []
        const kLineYdata = []
        const ma5 = []
        const ma10 = []
        const ma20 = []
        const ma30 = []
-       const sellDay = []
- 
+       let name = ''
+       let code = ''
+       const pointData = []
        kLine && kLine.forEach(item => {
          const openPx = item.openPx// 开盘价
          const closePx = item.closePx// 收盘价
@@ -148,24 +188,51 @@
          ma10.push(item.ma10)
          ma20.push(item.ma20)
          ma30.push(item.ma30)
-       })
-       sellData && sellData.forEach(item => {
-         const items = item + ''
-         sellDay.push({
-           name: 'XX标点',
-           coord: [items],
-           symbol: '',
-           symbolSize: 10,
-           itemStyle: {
-             /* normal: { color: 'rgb(41,60,85)' }*/
-             color: 'red'
+         name = item.name
+         code = item.innerCode
+         // console.log(sellData[0])
+         // console.log(sellData[0] === item.endDate)
+         for (let i = 0; i < sellData.length; i++) {
+           // console.log(sellData[i] === item.endDate)
+           if (sellData[i] === item.endDate) {
+             const ss = sellData[i]
+             console.log(ss)
+             const point = {
+               name: 'XX标点',
+               coord: [item.endDate + '', highPx],
+               value: 0,
+               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-green.png',
+               symbolSize: 20,
+               itemStyle: {
+                 normal: { color: 'rgb(41,60,85)' }
+               }
+             }
+             pointData.push(point)
+             console.log(pointData)
            }
-         })
+         }
+         for (let i = 0; i < buyData.length; i++) {
+           // console.log(sellData[i] === item.endDate)
  
-         /* console.log(sellday)*/
-
-         /* coord:[i, kData[i][3]],*/
+           if (buyData[i] === item.endDate) {
+             const ss = buyData[i]
+             console.log(ss)
+             const point = {
+               name: 'XX标点',
+               coord: [item.endDate + '', lowPx],
+               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-red.png',
+               symbolSize: 20,
+               value: 0,
+               itemStyle: {
+                 normal: { color: 'rgb(41,60,85)' }
+               }
+             }
+             pointData.push(point)
+             console.log(pointData)
+           }
+         }
        })
+ 
        return {
          kLineXdata: kLineXdata,
          kLineYdata: kLineYdata,
@@ -173,7 +240,9 @@
          ma10: ma10,
          ma20: ma20,
          ma30: ma30,
-         sellDay: sellDay
+         name: name,
+         code: code,
+         pointData: pointData
        }
      }
    }),
@@ -183,17 +252,47 @@
    methods: {
      init () {
        this.chart = echarts.init(this.$refs.kcharts)
-       this.$store.dispatch('backtestDetail/queryKline')
+ 
+       // console.log(this.message)
+       this.innerCode = this.message
+       this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode })
             .then(() => {
-              this.drawCharts(this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.sellDay)
+              this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData)
             })
      },
-     drawCharts (kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, sellDay) {
+     search (e) {
+       e.preventDefault()
+       const keyword = this.$refs.keyword.value
+       this.message = keyword
+       this.$store.dispatch('backtestDetail/querySearch', { keyword })
+       this.init()
+          // this.filterStocks(keyword)
+     },
+     focusStock: function (e) {
+       const focusStockId = e.currentTarget.children[0].innerText
+       this.$emit('focusStockId', focusStockId)
+       this.message = focusStockId
+       this.showSearchList = false
+       this.showMa = true
+       // this.searchList = []
+       // console.log(this.message)
+       
+       this.init()
+       
+     },
+     keyEnter (e) {
+       if (e.keyCode === 13) {
+         const keyword = this.$refs.keyword.value
+         this.message = keyword
+         this.$store.dispatch('backtestDetail/querySearch', { keyword })
+       }
+     },
+     drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData) {
        const self = this
        self.chart.setOption({
          title: {
-           text: '格力电器买卖点分析',
-           left: '1%',
+           text: name + '买卖点分析',
+           left: '2.2%',
            textStyle: {
              color: '#191919',
              fontFamily: '宋体',
@@ -218,7 +317,7 @@
              self.ma10 = t[2].value
              self.ma20 = t[3].value
              self.ma30 = t[4].value
-             console.log(self.ma5)
+            // console.log(self.ma5)
              for (var i = 0; i < t.length; i++) {
                if (t[i].seriesName === 'MA5') {
                  var ma5 = t[i].value
@@ -259,7 +358,8 @@
          grid: {
            left: '2.5%',
            right: '2%',
-           bottom: '10%'
+           bottom: '10%'/*,
+           containLabel: true*/
          },
  
          xAxis: {
@@ -288,9 +388,15 @@
            axisLine: {
              show: false
            },
+           type: 'value',
            axisLabel: {
-             show: false
+             formatter: '{value}'
            }
+           /* axisLabel: {
+             formatter: function (val) {
+               return val
+             }
+           }*/
          },
  
          series: [
@@ -308,22 +414,20 @@
                }
              },
              markPoint: {/* image://src/assets/images/z3img/kline-red.png*/
-               /* symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
-               symbolSize: 25,
+               // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
                label: {
                  normal: {
                    formatter: function (param) {
                      return param != null ? Math.round(param.value) : ''
                    }
                  }
-               },*/
-               data: sellDay/*,
+               },
+               data: pointData,
                tooltip: {
                  formatter: function (param) {
-                   console.log(param)
                    return param.name + '<br>' + (param.data.coord || '')
                  }
-               }*/
+               }
              }
            },
            {
@@ -387,7 +491,7 @@
 
    },
    mounted () {
-     this.init()
+     // this.init()
      // this.$store.dispatch('')
    }
  

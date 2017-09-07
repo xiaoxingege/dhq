@@ -22,8 +22,22 @@ export default {
       fundReturn: [],
       huShenReturn: []
     },
-    excellentSelectPlan: []// 优选定投
-
+    excellentSelectPlan: [], // 优选定投
+    excellentSelectMoneyFund: [], // 优选货基
+    revenueChampion: [],
+    recommend: []
+   /* recommend: {
+      portfolio_id: '',
+      portfolio_name: '',
+      risk_level: '',
+      risk_level_name: '',
+      income_index: '',
+      income_index_name: '',
+      income_index_value: '',
+      min_purchase_amount: '',
+      recommend_info: [],
+      kline: { run_date: '', date: [], hs300: [], portfolio: [] }
+    }*/
   },
   mutations: {
     updateFundRecommendInfo (state, recommendInfo) {
@@ -32,6 +46,15 @@ export default {
     },
     updateExcellentSelectPlan (state, selectPlan) {
       state.excellentSelectPlan = selectPlan
+    },
+    updateSelectMoneyFund (state, moneyFund) {
+      state.excellentSelectMoneyFund = moneyFund
+    },
+    updateRevenueChampion (state, champion) {
+      state.revenueChampion = champion
+    },
+    updateRecommend (state, recommend) {
+      state.recommend = recommend
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -61,8 +84,46 @@ export default {
           commit('updateExcellentSelectPlan', result.data)
         }
       })
+    },
+    querySelectMoneyFund ({ commit }) {
+      return fetch(`${domain}/openapi/fund/excellentSelectMoneyFund.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          console.log(result.data[0].name)
+          // console.log(result.data.evaluationIndexs.winRatio)
+          commit('updateSelectMoneyFund', result.data)
+        }
+      })
+    },
+    queryRevenueChampion ({ commit }) {
+      return fetch(`${domain}/openapi/fund/revenueChampion.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          console.log(result.data[0].name)
+          // console.log(result.data.evaluationIndexs.winRatio)
+          commit('updateRevenueChampion', result.data)
+        }
+      })
+    },
+    queryRecommend ({ commit }) {
+      return fetch(`${domain}/openapi/fintechportfolio/recommend.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data)
+          // console.log(result.data.evaluationIndexs.winRatio)
+          commit('updateRecommend', result.data)
+        }
+      })
     }
-
   }
 }
 

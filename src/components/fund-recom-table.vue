@@ -106,8 +106,8 @@
          <ul class="bfilter-ul clearfix">
             <li class="fl blue active" >热门主题基金</li>
             <li class="fl blue" @click="excellentPlan" :class="showPlan===true?'active':''">优选定投</li>
-            <li class="fl blue" >优选货基</li>
-            <li class="fl blue" >收益冠军</li>
+            <li class="fl blue" @click="moneyFund" :class="showMoneyFund===true?'active':''">优选货基</li>
+            <li class="fl blue" @click="revenueChampion" :class="showChampion===true?'active':''">收益冠军</li>
          </ul>
          <div class="bfilter-table clearfix" v-show="false">
             <div class="table-head">
@@ -130,7 +130,7 @@
             </div>
            
          </div>
-         <div class="bfilter-table clearfix">
+         <div class="bfilter-table clearfix" v-show="showPlan">
             <div class="table-head">
                  <span class="order-num">基金代码
                  </span><span>基金简称
@@ -152,6 +152,50 @@
             </div>
            
          </div>
+         <div class="bfilter-table clearfix" v-show="showMoneyFund">
+            <div class="table-head">
+                 <span class="order-num">基金代码
+                 </span><span>基金简称
+                 </span><span>万份收益
+                 </span><span>7日年化
+                 </span><span>年化收益
+                 </span><span>静态收益
+                 </span>
+            </div>
+            <div class="clearfix table-body" v-for="moneyFund of selectMoneyFund">
+
+                 <span class="order-num">{{moneyFund.symbol}}
+                 </span><span>{{moneyFund.name}}
+                 </span><span>{{moneyFund.tenthouUnitIncm}}
+                 </span><span>{{moneyFund.yearYld}}
+                 </span><span>{{moneyFund.yearYieldEstab}}
+                 </span><span>{{moneyFund.staticYield}}
+                 </span>
+            </div>
+           
+         </div>
+         <div class="bfilter-table clearfix" v-show="showChampion">
+            <div class="table-head">
+                 <span class="order-num">基金代码
+                 </span><span>基金简称
+                 </span><span>单位净值
+                 </span><span>年化收益
+                 </span><span>基金类型
+                 </span><span>同类收益表现
+                 </span>
+            </div>
+            <div class="clearfix table-body" v-for="champion of revChampion">
+
+                 <span class="order-num">{{champion.symbol}}
+                 </span><span>{{champion.name}}
+                 </span><span>{{champion.unitNet}}
+                 </span><span>{{champion.yearYieldEstab}}
+                 </span><span>{{champion.fundTypeName}}
+                 </span><span>{{champion.sameTypeMark}}
+                 </span>
+            </div>
+           
+         </div>
       </div>
 
 </template>
@@ -162,11 +206,15 @@
  export default {
    data () {
      return {
-       showPlan: true
+       showPlan: false,
+       showMoneyFund: false,
+       showChampion: false
      }
    },
    computed: mapState({
-     excellPlan: state => state.fundIntell.excellentSelectPlan
+     excellPlan: state => state.fundIntell.excellentSelectPlan,
+     selectMoneyFund: state => state.fundIntell.excellentSelectMoneyFund,
+     revChampion: state => state.fundIntell.revenueChampion
    }),
    components: {
  
@@ -178,6 +226,14 @@
      excellentPlan () {
        this.showPlan = true
        this.$store.dispatch('fundIntell/queryExcellentSelectPlan')
+     }, /**/
+     moneyFund () {
+       this.showMoneyFund = true
+       this.$store.dispatch('fundIntell/querySelectMoneyFund')
+     },
+     revenueChampion () {
+       this.showChampion = true
+       this.$store.dispatch('fundIntell/queryRevenueChampion')
      },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'
