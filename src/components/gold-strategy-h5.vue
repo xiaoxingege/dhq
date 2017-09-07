@@ -1,48 +1,190 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
+    .app{
+        width:100%;
+    }
     .goldRecommend{
         font-size: 0.12rem;
+        background:#F2F2F2;
     }
     .strategyHeader{
-        height:0.64rem;
+        height:0.32rem;
         text-align: left;
     }
     .strategyDesc{
         text-align: left;
-        padding: 0.2rem 0.1rem;
+        padding: 0.15rem 0.05rem;
         background: #fff;
-        margin-bottom: 0.1rem;
+        margin-bottom: 0.05rem;
     }
     .strategyHeader span{
         display: inline-block;
-        height:0.64rem;
-        line-height: 0.64rem;
+        height:0.32rem;
+        line-height: 0.32rem;
         color:#2388da;
     }
     .radarChart{
         width:100%;
-        height:3.75rem;
-        background:#000;
+        height:5rem;
+        margin-bottom: 0.05rem;
     }
-
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .choseStock{
+            background:#fff;
+        }
+        .sellCondition{
+            background:#fff;
+            text-align: left;
+            font-size:0.18rem;
+        }
+        .tableList{
+            padding-top:0.2rem;
+            padding-bottom:0.2rem;
+        }
+        .controlStrategy{
+            background:#fff;
+            font-size:0.18rem;
+            text-align: left;
+        }
+        .recommendTitle{
+            text-align: left;
+            font-size:0.2rem;
+            background:#fff;
+            line-height: 0.4rem;
+            padding-left:0.2rem;
+            background:#F2F2F2;
+        }
+        .syqxt,.dryk,.mrcc,.syytj,.sylfb{
+            min-height:4.2rem;
+            width:100%;
+        }
+        .mrjy,.dqxg{  padding:0.1rem 0;  background: #fff; width:100%;}
+        .mrjy table,.dqxg table{ width:100%; font-size:0.16rem; margin-top: 0.2rem;}
+        .mrjy table thead tr th,.dqxg table thead tr th{ height:0.25rem; line-height: 0.25rem}
+        .mrjy table  tr td,.dqxg table  tr td{ text-align: center; height:0.35rem; line-height:0.35rem;}
+        .red{
+            color:#d7453e;
+        }
+        .green{
+            color:#61a65b;
+        }
+    }
 </style>
 <template>
     <div class="goldRecommend">
-        <div class="strategyHeader">
+        <div v-show="false" class="strategyHeader">
            <span>{{goldResult.strategyName}}</span>
         </div>
         <div class="strategyDesc">
         <Titlecontent :data="articleData"></Titlecontent>
         </div>
-        <div class="radarChart"></div>
-        <Tablelist :data="tableData"></Tablelist>
-        <div style="width:100%;">
-            <Goldchart></Goldchart>
+        <div class="radarChart">
+            <Radarchart :strategyId="strategyId"></Radarchart>
         </div>
-        <Goldrecommends :data="recommendData"></Goldrecommends>
+        <Tablelist :data="tableData"></Tablelist>
+        <div style="width:100%; margin-top:0.1rem;">
+            <div style="width:100%">
+                <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
+                <div style="margin-bottom: 0.05rem;">
+                    <div v-if="type === 'syqxt'" class="syqxt">
+                        <Linechart :strategyId="strategyId"></Linechart>
+                    </div>
+                    <div v-if="type === 'dryk'" class="dryk">
+                        <Barupdown :strategyId="strategyId"></Barupdown>
+                    </div>
+                    <div v-if="type === 'mrcc'" class="mrcc">
+                        <Onelinechart :strategyId="strategyId"></Onelinechart>
+                    </div>
+                    <div v-if="type === 'syytj'" class="syytj">
+                        <Twobarchart :strategyId="strategyId"></Twobarchart>
+                    </div>
+                    <div v-if="type === 'sylfb'" class="sylfb">
+                        <Onebarchart :strategyId="strategyId"></Onebarchart>
+                    </div>
+                </div>
+                <div class="mrjy">
+                    <div class="recommendTitle">每日交易</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>股票简称</th>
+                            <th>买/卖</th>
+                            <th>成交价格（元）</th>
+                            <th>成交股数</th>
+                            <th>佣金（元）</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item of mrjyData.content">
+                            <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
+                            <td>{{item.name}}</td>
+                            <td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>
+                            <td>{{Number(item.price).toFixed(2)}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{Number(item.commission).toFixed(2)}}</td>
+                        </tr>
+                        </tbody>
 
+                    </table>
+                    <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+                </div>
+                <div class="dqxg">
+                    <div class="recommendTitle">当前选股</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>股票简称</th>
+                            <th>价格（元）</th>
+                            <th>涨跌</th>
+                            <th>涨跌幅</th>
+                            <th>市盈率</th>
+                            <th>流通市值</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item of dqxgData.content">
+                            <td>{{item.name}}</td>
+                            <td :class="item.price >= 0 ? item.price === 0 ?'':'red':'green'">{{item.price === null ? '--':Number(item.price).toFixed(2)}}</td>
+                            <td :class="item.chg >= 0 ? item.chg === 0 ?'':'red':'green'">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+                            <td :class="item.curChngPct >= 0 ? item.curChngPct === 0 ?'':'red':'green'">{{item.curChngPct === null ? '--':Number(item.curChngPct).toFixed(2)+'%'}}</td>
+                            <td>{{Number(item.peTtm).toFixed(2)}}</td>
+                            <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(0)+' 亿'}}</td>
+                        </tr>
+                        </tbody>
 
-
+                    </table>
+                    <Pagination v-if="dqxgData.totalPages > 1" :totalPage="dqxgData.totalPages" v-on:getPageFromChild="goDqxgPage"></Pagination>
+                </div>
+            </div>
+            <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
+        </div>
+        <div>
+            <div class="choseStock">
+                <div class="recommendTitle">选股条件</div>
+                <Tablelist :data="choseStockData"></Tablelist>
+            </div>
+            <div class="sellCondition">
+                <div>
+                    <div class="recommendTitle">买入条件</div>
+                    <Tablelist :data="sellConditionData.buyData"></Tablelist>
+                    <div style="padding: 0.1rem 0.2rem;">买入表达式：{{recommendData.sellConditiondata.buy.buyConExp}}</div>
+                </div>
+                <div>
+                    <div class="recommendTitle">卖出条件</div>
+                    <Tablelist :data="sellConditionData.sellData"></Tablelist>
+                    <div style="padding: 0.1rem 0.2rem;">卖出表达式：{{recommendData.sellConditiondata.sell.sellConExp}}</div>
+                </div>
+            </div>
+            <div class="controlStrategy">
+                <div class="recommendTitle" >仓控策略</div>
+                <div style="padding: 0.3rem 0.2rem;">{{recommendData.positionModel.modelName}}：<span style="color:#666;">{{recommendData.positionModel.modelValue}}</span></div>
+            </div>
+            <div class="tradeParams">
+                <div class="recommendTitle">交易参数</div>
+                <Tablelist :data="tradeParamData"></Tablelist>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -52,10 +194,20 @@
     import Goldrecommends from 'components/gold-recommends'
     import Navbar from 'components/nav-bar'
     import Goldchart from 'components/gold-chart'
+    import Radarchart from 'components/radar-chart'
+    import Linechart from 'components/line-chart'
+    import Barupdown from 'components/bar-up-down'
+    import Onelinechart from 'components/one-line-chart'
+    import Onebarchart from 'components/one-bar-chart'
+    import Twobarchart from 'components/two-bar-chart'
+    import Pagination from 'components/pagination'
 
     export default{
       data () {
         return {
+          navText: [['选股条件', 'choseStock'], ['买卖条件', 'sellCondition'], ['仓控策略', 'controlStrategy'], ['交易参数', 'tradeParams']],
+          navText1: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb']],
+          type: 'syqxt'
         }
       },
       components: {
@@ -63,7 +215,14 @@
         Tablelist,
         Goldrecommends,
         Navbar,
-        Goldchart
+        Goldchart,
+        Radarchart,
+        Linechart,
+        Barupdown,
+        Onelinechart,
+        Onebarchart,
+        Twobarchart,
+        Pagination
       },
       computed: mapState({
         goldResult: state => state.goldStrategy.goldResult,
@@ -231,20 +390,129 @@
               riskFreeRatio: Number(this.goldResult.riskFreeRatio * 100).toFixed(2) + '%'
             }
           }
+        },
+        choseStockData: function () {
+          const choseStockTable = this.recommendData.choseStockData.filterSummary
+          const arr1 = []
+          const arr2 = []
+          if (choseStockTable.gkzbList.length > 0) {
+            for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+              arr1.push(choseStockTable.gkzbList[i].indexName)
+              arr2.push(choseStockTable.gkzbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.jbmzbList.length > 0) {
+            for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+              arr1.push(choseStockTable.jbmzbList[i].indexName)
+              arr2.push(choseStockTable.jbmzbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.jszbList.length > 0) {
+            for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+              arr1.push(choseStockTable.jszbList[i].indexName)
+              arr2.push(choseStockTable.jszbList[i].indexValue)
+            }
+          }
+          if (choseStockTable.xgfwList.length > 0) {
+            for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+              arr1.push(choseStockTable.xgfwList[i].indexName)
+              arr2.push(choseStockTable.xgfwList[i].indexValue)
+            }
+          }
+
+          return [arr1, arr2]
+        },
+        sellConditionData: function () {
+          const buyData = [
+                  ['序号', '指标', '参数', '运算符', '数值']
+          ]
+          const sellData = [
+                  ['序号', '指标', '参数', '运算符', '数值']
+          ]
+          const buyConditionTable = this.recommendData.sellConditiondata.buy.buyStrategyIndexList
+          const sellConditionTable = this.recommendData.sellConditiondata.sell.sellStrategyIndexList
+
+          if (buyConditionTable.length > 0) {
+            for (var i = 0; i < buyConditionTable.length; i++) {
+              const parms = buyConditionTable[i].indexParams.period
+              const parmsPeriod = []
+              if (parms === 'day') {
+                parmsPeriod.push('日线')
+              } else if (parms === 'week') {
+                parmsPeriod.push('周线')
+              } else if (parms === 'month') {
+                parmsPeriod.push('月线')
+              }
+              if (parms.T) {
+                parmsPeriod.push(parms.T)
+              }
+              if (parms.M) {
+                parmsPeriod.push(parms.M)
+              }
+              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
+            }
+          }
+          if (sellConditionTable.length > 0) {
+            for (var j = 0; j < sellConditionTable.length; j++) {
+              const parms = JSON.parse(sellConditionTable[j].indexParams)
+              const parmsPeriod = []
+              if (parms.period === 'day') {
+                parmsPeriod.push('日线')
+              } else if (parms.period === 'week') {
+                parmsPeriod.push('周线')
+              } else if (parms.period === 'month') {
+                parmsPeriod.push('月线')
+              }
+              if (parms.T) {
+                parmsPeriod.push(parms.T)
+              }
+              if (parms.M) {
+                parmsPeriod.push(parms.M)
+              }
+              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+            }
+          }
+          return {
+            buyData: buyData,
+            sellData: sellData
+          }
+        },
+        tradeParamData: function () {
+          const tableData = this.recommendData.tradeParamsData
+          return [
+                  ['初始金额', '资金分配', '买入价格', '卖出价格', '回测时间'],
+                  [tableData.initFund, tableData.fundAllocate, tableData.buyPriceType, tableData.sellPriceType, tableData.backtestDate],
+                  ['最大持仓', '个股最大仓位', '条件优先序', '交易费用', '调仓周期'],
+                  [tableData.maxHolding, tableData.stockMaxHolding, tableData.conPriority, tableData.commission, tableData.tradeCycle],
+                  ['买卖滑点', '收益基准', '无风险利率'],
+                  [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio]
+          ]
+        },
+        mrjyData: function () {
+          return this.$store.state.goldStrategy.mrjyData
+        },
+        dqxgData: function () {
+          return this.$store.state.goldStrategy.dqxgData
         }
       }),
+      methods: {
+        changeNavType (data) {
+          this.type = data
+        },
+        goMrjyPage (data) {
+          this.$store.dispatch('gold Strategy/getMrjyData', { strategyId: this.strategyId, page: data - 1 }).then(() => {})
+        },
+        goDqxgPage (data) {
+          this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId, pageNum: data - 1 }).then(() => {})
+        }
+      },
       mounted () {
-//        document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 640 * 625 + '%'
+        document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
-          /* document.getElementsByTagName('html')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'
-        document.getElementsByTagName('body')[0].style.fontSize = 2 * 65 * window.innerWidth / 375 + '%'*/
-
-        this.$store.dispatch('goldStrategy/getGoldStrategyData', {}).then(() => {
-
-        })
-        this.$store.dispatch('goldStrategy/getMrjyData', {}).then(() => {
-
-        })
+        this.strategyId = this.$route.params.strategyId
+        this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId }).then(() => {})
+        this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId }).then(() => {})
+        this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId }).then(() => {})
       }
     }
 </script>

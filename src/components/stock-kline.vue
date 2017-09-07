@@ -24,7 +24,6 @@
           default: 200
         }
       },
-//        props:  ['stockCode', 'chartWidth', 'chartHeight'],
       data () {
         return {
           klineType: 'day', // day||week...
@@ -157,6 +156,18 @@
               }
               data.vols.push(newVols)
             })
+            if (klineData.length < 60) {
+              for (var i = 0; i < 60 - klineData.length; i++) {
+                data.times.push('')
+                data.tradeTimeArr.push('')
+                const dt = []
+                data.kdata.push(dt)
+                data.ma20.push('')
+                data.ma60.push('')
+                data.ma120.push('')
+                data.vols.push('')
+              }
+            }
             return data
           },
           xLabelInterval () {

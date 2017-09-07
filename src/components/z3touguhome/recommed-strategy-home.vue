@@ -11,8 +11,8 @@
 <template>
     <div class="recommend-strategy" :style="{width:RecommendStrategyWidth}">
         <div class="recommend-strategy-title clearfix">
-            <p class="strategy-name">{{recommendStrategyName}}</p>
-            <p class="more-strategy"><a href="">更多推荐策略</a></p>
+            <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}">{{recommendStrategyName}}</router-link></p>
+            <p class="more-strategy"><a v-on:click="moreGoldList">更多推荐策略</a></p>
         </div>
         <div class="recommend-strategy-chart" ref="recChart"></div>
         <div class="strategy-description"><p>今年以来大盘动向同以往，该策略是平台通过智能量化计算推出的对当下行情适用度较高的交易策略。</p></div>
@@ -21,13 +21,14 @@
 <script type="text/javascript">
     import echarts from 'echarts'
     export default {
-      props: ['RecommendStrategyWidth'],
+      props: ['RecommendStrategyWidth', 'benchmarkObj'],
       data () {
         return {
           sort: 'totalReturn',
           direction: 'desc',
           size: 1,
-          recommendStrategyName: ''
+          recommendStrategyName: '',
+          strategyId: ''
         }
       },
       watch: {
@@ -39,10 +40,10 @@
           recommendStrategy.backtestDate = []
           recommendStrategy.totalReturn = []
           recommendStrategy.benchmarkPeriodReturn = []
-          for (let i = 0; i < recommendStrategy.returns.length; i++) {
-            recommendStrategy.backtestDate.push(recommendStrategy.returns[i].backtestDate)// 时间
-            recommendStrategy.totalReturn.push(recommendStrategy.returns[i].totalReturn)// 总收益率
-            recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+          for (let i = 0; i < recommendStrategy.strategy.returns.length; i++) {
+            recommendStrategy.backtestDate.push(recommendStrategy.strategy.returns[i].backtestDate)// 时间
+            recommendStrategy.totalReturn.push(recommendStrategy.strategy.returns[i].totalReturn)// 总收益率
+            recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
           }
           return recommendStrategy
         }
@@ -53,7 +54,8 @@
           this.$store.dispatch('z3touguIndex/getStrategyList', { sort: this.sort, direction: this.direction, size: this.size })
                     .then(() => {
                       const _this = this
-                      this.recommendStrategyName = this.recommendStrategyDetail.strategyName
+                      this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
+                      this.strategyId = this.recommendStrategyDetail.strategy.strategyId
                       this.recommendChart.setOption({
                         legend: {
                           left: 'center',
@@ -64,7 +66,7 @@
                               icon: 'circle'
                             },
                             {
-                              name: this.recommendStrategyDetail.benchmark,
+                              name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                               icon: 'circle'
                             }
                           ]
@@ -127,7 +129,7 @@
                             data: this.recommendStrategyDetail.totalReturn
                           },
                           {
-                            name: this.recommendStrategyDetail.benchmark,
+                            name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,
@@ -146,6 +148,9 @@
             m = toTime.substring(4, 6)
           }
           return m + '.' + toTime.substring(6)
+        },
+        moreGoldList: function () {
+          window.open('goldList')
         }
       },
       mounted () {

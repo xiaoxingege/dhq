@@ -21,33 +21,8 @@
         <ul class="clearfix">
             <li v-for="item of strategyList">
                 <div class="strategy-title clearfix">
-                    <p class="strategy-name">{{item.strategyName}}</p>
-                    <p class="strategy-create-time">关注{{}}</p>
-                </div>
-                <div class="strategy-chart" ref="chartList"></div>
-                <ul class="rate-labels clearfix">
-                    <li>
-                        <span>年化收益率</span>
-                        <span>{{item.annualReturn}}</span>
-                    </li>
-                    <li>
-                        <span>夏普比率</span>
-                        <span>{{item.sharpe}}</span>
-                    </li>
-                    <li>
-                        <span>胜率</span>
-                        <span>{{item.winRatio}}</span>
-                    </li>
-                    <li>
-                        <span>最大回撤</span>
-                        <span>{{item.maxDrawdown}}</span>
-                    </li>
-                </ul>
-            </li>
-            <li v-for="item of strategyList">
-                <div class="strategy-title clearfix">
-                    <p class="strategy-name">{{item.strategyName}}</p>
-                    <p class="strategy-create-time">关注{{}}</p>
+                    <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:item.strategy.strategyId}}">{{item.strategy.strategyName}}</router-link></p>
+                    <p class="strategy-create-time">关注{{item.followCnt}}</p>
                 </div>
                 <div class="strategy-chart" ref="chartList"></div>
                 <ul class="rate-labels clearfix">
@@ -74,8 +49,9 @@
 </template>
 <script type="text/javascript">
     import echarts from 'echarts'
+
 export default {
-      props: ['strategyListHeight'],
+      props: ['strategyListHeight', 'benchmarkObj'],
       data () {
         return {
           sort: 'createDate',
@@ -94,14 +70,14 @@ export default {
             strategy.backtestDate = []
             strategy.totalReturn = []
             strategy.benchmarkPeriodReturn = []
-            strategy.winRatio = strategy.evaluationIndexs.winRatio.toFixed(2) + '%'// 胜率
-            strategy.maxDrawdown = strategy.evaluationIndexs.maxDrawdown.toFixed(2) + '%'// 最大回撤
-            strategy.annualReturn = strategy.evaluationIndexs.annualReturn.toFixed(2) + '%'// 年化收益率
-            strategy.sharpe = strategy.evaluationIndexs.sharpe.toFixed(2) + '%'// 夏普比率
-            for (let i = 0; i < strategy.returns.length; i++) {
-              strategy.backtestDate.push(strategy.returns[i].backtestDate)// 时间
-              strategy.totalReturn.push(strategy.returns[i].totalReturn)// 总收益率
-              strategy.benchmarkPeriodReturn.push(strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+            strategy.winRatio = this.formatData(strategy.strategy.evaluationIndexs.winRatio)// 胜率
+            strategy.maxDrawdown = this.formatData(strategy.strategy.evaluationIndexs.maxDrawdown)// 最大回撤
+            strategy.annualReturn = this.formatData(strategy.strategy.evaluationIndexs.annualReturn)// 年化收益率
+            strategy.sharpe = this.formatData(strategy.strategy.evaluationIndexs.sharpe)// 夏普比率
+            for (let i = 0; i < strategy.strategy.returns.length; i++) {
+              strategy.backtestDate.push(strategy.strategy.returns[i].backtestDate)// 时间
+              strategy.totalReturn.push(strategy.strategy.returns[i].totalReturn)// 总收益率
+              strategy.benchmarkPeriodReturn.push(strategy.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
             }
           })
           return strategyList
@@ -124,7 +100,7 @@ export default {
                           orient: 'vertical',
                           data: [
                             {
-                              name: this.strategyList[i].benchmark,
+                              name: this.benchmarkObj[this.strategyList[i].strategy.benchmark],
                               icon: 'circle'
                             },
                             {
@@ -166,7 +142,7 @@ export default {
                         color: ['#e8311f', '#4076b4'],
                         series: [
                           {
-                            name: this.strategyList[i].benchmark,
+                            name: this.benchmarkObj[this.strategyList[i].strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,
@@ -185,6 +161,15 @@ export default {
                   }
                 })
               })
+        },
+        formatData: function (val) {
+          let getVal
+          if (val) {
+            getVal = val.toFixed(2) + '%'
+          } else {
+            getVal = '--'
+          }
+          return getVal
         }
       },
       mounted () {

@@ -4,13 +4,9 @@
     .theme-home-top p{display: inline-block;width: 50%;}
     .more-theme{color:#4c8cca;cursor: pointer;}
     .theme-home-title{font-weight: bold;color:#666;}
-    .theme-con-title li{float: left;display: inline-block;}
     .theme-title{width: 31%;color:#4c8cca;font-weight: bold;}
-    .c_up{color:#ff0000;}
-    .c_down{color:#48a854;}
-    .c_txt{color:#666;}
     .theme-con-title{height:15%;padding-top:5px;}
-    .theme-con-title li{height:100%;}
+    .theme-con-title li{height:100%;float: left;display: inline-block;}
     .theme-con-title li span:nth-child(1){padding-right:5px;}
     .updown-rate,.up-stock,.down-stock{width: 23%;}
     .event:hover{color: #2388da;}
@@ -23,18 +19,18 @@
             <p class="fr tr more-theme"><router-link :to="{name:'themeindex'}">全部</router-link></p>
         </div>
         <ul class="theme-con-title clearfix">
-            <li class="theme-title tl">川藏铁路</li>
+            <li class="theme-title tl"><router-link :to="{name:'topicDetail',params:{topicId:topicCode}}">{{topicName}}</router-link></li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
-                <span :class="">+5.46%</span>
+                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct}}</span>
             </li>
             <li class="up-stock tr">
                 <span>上涨股票</span>
-                <span class="c_up">21</span>
+                <span class="c_up">{{stkUpNum}}</span>
             </li>
             <li class="down-stock tr">
                 <span>下跌股票</span>
-                <span class="c_down">5</span>
+                <span class="c_down">{{stkDownNum}}</span>
             </li>
         </ul>
         <div style="text-align: justify;">
@@ -56,7 +52,12 @@
           newsId: '',
           drivenEvent: '',
           newsDeclareDate: '',
-          srcName: ''
+          srcName: '',
+          topicName: '',
+          chngPct: '',
+          stkUpNum: 0,
+          stkDownNum: 0,
+          topicCode: ''
         }
       },
       computed: mapState({
@@ -72,6 +73,11 @@
             this.drivenEvent = this.topicData.drivenEvent
             this.newsDeclareDate = this.topicData.newsDeclareDate
             this.srcName = this.topicData.srcName
+            this.topicName = this.topicData.topicName
+            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : this.topicData.topicMarket.chngPct.toFixed(2)
+            this.stkUpNum = this.topicData.topicMarket.stkUpNum
+            this.stkDownNum = this.topicData.topicMarket.stkDownNum
+            this.topicCode = this.topicData.topicCode
           })
         }
       },

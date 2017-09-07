@@ -1,5 +1,18 @@
 <style lang="scss" scoped>
-    .barChart{height:420px;}
+    .barChart{
+        height:420px;
+        width:100%;
+        padding-top:20px;
+    }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .barChart{
+            width:100%;
+            height:4.2rem;
+            padding-top:0;
+            padding-bottom: 0.1rem;
+        }
+    }
+
 </style>
 <template>
     <div class="barChart">
@@ -18,8 +31,8 @@
             this.chart.setOption({
               backgroundColor: '#fff',
               legend: {
-                left: 63,
-                top: 10,
+                left: '1%',
+                top: 0,
                 itemWidth: 8,
                 data: [
                   {
@@ -31,14 +44,6 @@
                     icon: 'circle'
                   }
                 ]
-              },
-              tooltip: {
-                trigger: 'axis',
-                textStyle: { align: 'left' },
-                showContent: false,
-                axisPointer: {
-
-                }
               },
               xAxis: {
                 type: 'category',
@@ -83,9 +88,11 @@
               ],
               color: ['#fd6d6b', '#41bd6a'],
               grid: {
-                width: '94%',
-                left: 68,
-                bottom: 70
+                width: '97%',
+                height: '75%',
+                left: 0,
+                top: '15%',
+                containLabel: true
               },
               dataZoom: [
                 {
@@ -94,7 +101,7 @@
                   showDetail: false,
                   xAxisIndex: [0],
                   bottom: 0,
-                  left: 68,
+                  left: '1.5%',
                   start: 0,
                   end: 100,
                   textStyle: {
@@ -102,7 +109,7 @@
                   },
                                 // borderColor: '#d5dbe4',
                   width: '94%',
-                  height: '30',
+                  height: '8%',
                   handleSize: '100%',
                   dataBackground: {
                     areaStyle: {

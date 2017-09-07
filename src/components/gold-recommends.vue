@@ -9,6 +9,23 @@
         padding:20px 15px;
         font-size:14px;
 }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .choseStock{
+            padding-top:0.2rem;
+            background:#fff;
+        }
+        .sellCondition{
+            background:#fff;
+            text-align: left;
+            padding:0.3rem 0.15rem;
+        }
+        .controlStrategy{
+            background:#fff;
+            padding:0.2rem 0.15rem;
+            font-size:0.18rem;
+            text-align: left;
+        }
+    }
 </style>
 <template>
     <div>

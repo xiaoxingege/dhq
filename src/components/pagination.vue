@@ -1,10 +1,11 @@
 <style  lang="scss" scoped>
     .page{
-        /* width:720px;*/
+        width:720px;
         background: #fff;
         font-family: "Microsoft YaHei","微软雅黑";
         font-size: 14px;
         padding:40px 0;
+        margin: 0 auto;
     }
     span{
 
@@ -49,6 +50,56 @@
     .active{
         background: #0088E1;
         color:#fff;
+    }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .page{
+            width:7.2rem;
+            background: #fff;
+            font-family: "Microsoft YaHei","微软雅黑";
+            font-size: 0.14rem;
+            padding:0.2rem 0;
+            margin:0 auto;
+        }
+        span{
+
+            display: inline-block;
+            height:0.3rem;
+            line-height: 0.3rem;
+            border:1px solid #ddd;
+            padding:0 0.12rem;
+        }
+        ul{
+            display: inline-block;
+            position: relative;
+            top: 0.11rem;
+            left: -0.05rem;
+        }
+        ul li{
+            float:left;
+            color: #666;
+            border: 1px solid #ddd;
+            border-right: none;
+            background-color: #fff;
+            width:0.34rem;
+            height:0.3rem;
+            line-height: 0.3rem;
+            text-align:center;
+            cursor: pointer;
+        }
+        select{
+
+            color: #999999;
+            font-size: 0.14rem;
+            padding: 0.06rem 0;
+        }
+        .totals{
+            border:none;
+            margin-right: 0.1rem;
+        }
+        .nextPage{
+            position:relative;
+            left:-0.1rem;
+        }
     }
 </style>
 <template>
