@@ -25,12 +25,19 @@ const actions = {
   queryRangeByCode ({ commit, state }, { code }) {
     let url
     if (code === '') {
-      url = 'http://www.z3quant.com/openapi/dbus-web/src/main/webapp/json/' + code + '.json'
+      url = 'http://www.z3quant.com/openapi/openjson/tx/' + code + '.json'
     } else {
-      url = 'http://www.z3quant.com/openapi/dbus-web/src/main/webapp/json/auth/' + code + '.json'
+      url = 'http://www.z3quant.com/openapi/openjson/tx/auth/' + code + '.json'
     }
-    /* const url = 'mock/' + code + '.json'*/
-    return fetch(url).then((res) => {
+    /* code = 'all'
+    const url = 'mock/' + code + '.json'*/
+    return fetch(url, {
+      method: 'get',
+      headers: {
+        'Content-type': 'application:/x-www-form-urlencoded:charset=UTF-8'
+      }
+    }).then((res) => {
+      console.log(res.headers.get('Content-Type'))
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.QUERY_RANGE_BY_CODE, data.children)
@@ -45,7 +52,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   updateDataByDate ({ commit, state }, { date, code }) {
-    const url = 'http://www.z3quant.com/openapi/dbus-web/src/main/webapp/json/' + date + '.json'
+    const url = 'http://www.z3quant.com/openapi/openjson/tx/' + date + '.json'
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
