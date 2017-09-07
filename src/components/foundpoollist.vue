@@ -298,7 +298,7 @@ export default {
   computed: mapState({}),
   mounted () {
     this.getdate()
-    this.touzifsfn()
+    // this.touzifsfn()
   },
   methods: {
     showmsg (m) {
