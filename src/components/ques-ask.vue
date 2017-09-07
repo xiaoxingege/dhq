@@ -162,8 +162,6 @@ export default {
     })
     this.$watch('userId', userId => {
       if (userId) {
-        this.userShow = true
-        this.show = true
         this.$store.dispatch('quesAsk/ask', {
           userId: userId
         })
@@ -187,8 +185,15 @@ export default {
           })
         } else {
           window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+
+        //   'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
         }
       }
+    })
+    this.$watch('askTimes', askTimes => {
+      console.log(askTimes)
+      this.userShow = true
+      this.show = true
     })
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask', 'WT.ti', 'TG_Msite_Baidu_ask')
   }

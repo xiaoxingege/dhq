@@ -161,7 +161,7 @@
 </style>
 
 <template>
-<div class="ques-box">
+<div class="ques-box" v-if="show">
     <ques-nav :title="quesNavTitle" @navBak="navBak" :bakShow="bakShow"/>
     <div class="ques-tg">
         <div class="ques-tg-top clearfix">
@@ -214,7 +214,8 @@ export default {
     return {
       quesNavTitle: '投顾问答',
       userShow: false,
-      bakShow: true
+      bakShow: true,
+      show: false
     }
   },
   computed: mapState({
@@ -290,9 +291,16 @@ export default {
         }
       }
     })
-    this.$store.dispatch('quesTg/fetch')
+    this.$store.dispatch('quesTg/fetch', {
+      tgid: getQueryString('tgid')
+    })
     document.title = '投顾问答'
     this.$store.dispatch('quesFocus/jsSdk')
+    this.$watch('userInfo', userInfo => {
+      this.show = true
+    }, {
+      deep: true
+    })
   }
 }
 </script>

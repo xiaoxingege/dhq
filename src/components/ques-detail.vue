@@ -130,7 +130,7 @@
 </style>
 
 <template>
-<div class="ques-box">
+<div class="ques-box" v-if="show">
     <ques-nav :title="quesNavTitle" @navBak="navBak" v-if='navShow' :bakShow="bakShow"/>
     <div class="ques-detail">
         <div>
@@ -143,9 +143,12 @@
         <ul>
             <li v-for="item in dataList">
                 <div class="ques-detail-list-box clearfix">
-                    <img :src="item.adviserUser.headImage" />
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-tg.jspa?tgid='+item.adviserUser.userId">
+                    <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-tg.html?tgid='+item.adviserUser.userId"> -->
+                        <img :src="item.adviserUser.headImage" />
+                    </a>
                     <div>
-                        <h5>{{item.adviserUser.userName}}<span>-{{item.adviserUser.company}}</span></h5>
+                        <h5>{{item.adviserUser.userName}}<span>{{item.adviserUser.company === '' ? '' : '-'+item.adviserUser.company}}</span></h5>
                         <p v-if="focusResult">{{item.textContent}}</p>
                         <p v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
@@ -182,7 +185,8 @@ export default {
       quesNavTitle: '问答详情',
       userShow: false,
       navShow: true,
-      bakShow: true
+      bakShow: true,
+      show: false
     }
   },
   computed: mapState({
@@ -214,11 +218,12 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      if (getQueryString('source') === 'success') {
-        window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
-      } else {
-        history.go(-1)
-      }
+    //   if (getQueryString('source') === 'success') {
+    //     window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+    //   } else {
+    //     history.go(-1)
+    //   }
+      history.go(-1)
     },
     authorize () {
       if (this.userId) {
@@ -273,6 +278,11 @@ export default {
     })
     this.$store.dispatch('quesFocus/jsSdk')
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_detail', 'WT.ti', 'TG_Msite_Baidu_detail')
+    this.$watch('askData', askData => {
+      this.show = true
+    }, {
+      deep: true
+    })
   }
 }
 </script>

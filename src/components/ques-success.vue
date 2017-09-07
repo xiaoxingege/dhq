@@ -230,7 +230,7 @@
 
 <template>
 <div class="ques-box">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" />
+    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow" />
     <div class="ques-success">
         <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
             <div class="wrapper right">
@@ -255,8 +255,8 @@
                 <p>{{moment(parseInt(showTime),'YYYY年MM月DD日 HH:mm')}}</p>
             </div>
             <div>
-                <h4>预计会在10分钟内被回答</h4>
-                <p>有回答时，会第一时间推送通知您</p>
+                <!-- <h4>有回答时，会通过百度消息通知您</h4> -->
+                <p>有回答时，会通过百度消息通知您</p>
             </div>
         </div>
 
@@ -268,6 +268,8 @@
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.content"></h5>
                     <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
+                    <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
+
                     <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
@@ -283,6 +285,7 @@
             <li v-else>
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.askContent"></h5>
+                    <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
                     <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
                     <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
                     <div>
@@ -325,7 +328,8 @@ export default {
       jchdShow: false,
       showTime: '1503625474595',
       num: 0,
-      userShow: false
+      userShow: false,
+      bakShow: true
     }
   },
   computed: mapState({
@@ -353,7 +357,8 @@ export default {
       }
     },
     navBak () {
-      history.go(-1)
+    //   history.go(-1)
+      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
     navEvents () {
       window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
@@ -389,6 +394,12 @@ export default {
     }
   },
   mounted () {
+    if (getQueryString('success') === 'true') {
+      this.quesSuccessLoadShow = false
+    } else {
+      history.replaceState(null, '问答详情', window.location.href + '&success=true')
+    }
+
     document.title = '问答详情'
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     if (getQueryString('stockCode') === '' || !getQueryString('stockCode') || getQueryString('stockCode') === 'undefined') {
@@ -417,6 +428,30 @@ export default {
     }
     this.$store.dispatch('quesFocus/jsSdk')
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_success', 'WT.ti', 'TG_Msite_Baidu_success')
+    this.$watch('focusResult', focusResult => {
+      if (focusResult === false) {
+        window.cambrian.subscribe({ data: {
+          type: 'force', // 类型，optional-弱关注 force-强关注
+          title: '金融界官方号', // 标题文字，字数限制：4-6个字
+          describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+          button: '关注并继续' // 按钮文字，字数限制：2-6个字
+        },
+          success: function (res) {
+            location.reload()
+                      // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+                      // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+          },
+          fail: function (res) {
+                      // res结构如下，可通过status、msg判断错误原因
+                      // 如：{"status": 100, "msg":"not login", "result": 0}
+          },
+          complete: function (res) {
+                      // res结构如下，
+                      // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+          }
+        })
+      }
+    })
   }
 }
 </script>
