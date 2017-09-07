@@ -286,7 +286,6 @@
       methods: {
         investColor (v) {
           const colorVal = v * 100
-          debugger
           if (colorVal > 50) {
             return '#F2953D'
           } else if (colorVal > 25 && colorVal <= 50) {
