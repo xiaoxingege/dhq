@@ -11,6 +11,8 @@ import StockTest from 'components/test-stock'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
 import foundpoollist from 'components/foundpoollist'
+import foundpooldetail from 'components/foundpooldetail'
+import ownstrategylist from 'components/ownstrategylist'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
@@ -47,7 +49,8 @@ export default [
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
     { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
-    { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
+    { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
+    { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
     { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },

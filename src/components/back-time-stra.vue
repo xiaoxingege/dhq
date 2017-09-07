@@ -145,7 +145,7 @@
     <div class="describe-box">
          <div class="bfilter-header clearfix">
               <div class="blue header-title fl"><span>{{timeStrategy.strategyName}}</span><i></i></div> 
-              <div class="fr"><span>推送给客户：</span><a></a><a></a></div>
+              
          </div>
          <div class="describe-wrap clearfix display-box">
         

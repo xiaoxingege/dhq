@@ -25,7 +25,8 @@ export default {
     excellentSelectPlan: [], // 优选定投
     excellentSelectMoneyFund: [], // 优选货基
     revenueChampion: [],
-    recommend: []
+    recommend: [],
+    byRisk: []
    /* recommend: {
       portfolio_id: '',
       portfolio_name: '',
@@ -55,6 +56,9 @@ export default {
     },
     updateRecommend (state, recommend) {
       state.recommend = recommend
+    },
+    updateRecommendByRisk (state, risk) {
+      state.byRisk = risk
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -110,7 +114,7 @@ export default {
           commit('updateRevenueChampion', result.data)
         }
       })
-    },
+    }, /* http://www.z3quant.com/openapi/fintechportfolio/getRecommendByRisk.shtml?risk=1&page=1&page_num=8*/
     queryRecommend ({ commit }) {
       return fetch(`${domain}/openapi/fintechportfolio/recommend.shtml`, {
         mode: 'cors'
@@ -118,12 +122,25 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          // console.log(result.data)
+          console.log(result.data[0].recommend_info)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateRecommend', result.data)
         }
       })
+    },
+    queryRecommendByRisk ({ commit }) {
+      return fetch(`${domain}/openapi/openapi/fintechportfolio/getRecommendByRisk.shtml?risk=2&page=1&page_num=8`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data.evaluationIndexs.winRatio)
+          commit('updateRecommendByRisk', result.data)
+        }
+      })
     }
+
   }
 }
 

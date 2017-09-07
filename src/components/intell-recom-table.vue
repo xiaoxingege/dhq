@@ -104,7 +104,7 @@
     
       <div class="recom-fund-table">
                      <ul class="bfilter-ul bfilter-ul2 clearfix">
-                        <li class="fl blue active" >高风险组合</li>
+                        <li class="fl blue" :class="this.road==='high'?'active':''" @click="risk('high')">高风险组合</li>
                         <li class="fl blue" >中风险组合</li>
                         <li class="fl blue" >低风险组合</li>
                      </ul>
@@ -139,11 +139,11 @@
  export default {
    data () {
      return {
- 
+       road: { high: 1, middle: 1, low: 3 }
      }
    },
    computed: mapState({
- 
+     byRisk: state => state.fundIntell.byRisk
    }),
    components: {
  
@@ -152,7 +152,10 @@
      init () {
  
      },
- 
+     risk (type) {
+       console.log(this.road[type])
+        /* this.$store.dispatch('topic/queryAllTopic', { sortField: this.road[this.sortField], page: this.page, pagesize: this.pagesize })*/
+     },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'
      },
@@ -162,7 +165,7 @@
 
    },
    mounted () {
-     this.init()
+     this.risk('high')
    }
  
  }
