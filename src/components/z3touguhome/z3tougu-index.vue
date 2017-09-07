@@ -1,5 +1,6 @@
 <style>
     @import '../../assets/css/base.css';
+    .app{height: 100%;}
     *{box-sizing: border-box;font-family: '微软雅黑';font-size:12px;}
     p{margin: 0px;}
     html,body{height:100%;}

@@ -421,6 +421,14 @@
                           this.showHover = false
                         }
                       })
+                      this.chart.on('dblclick', (params) => {
+                        if (params.treePathInfo.length <= 2) {
+                          return
+                        } else {
+                          // this.$router.push({ path: 'stock/' + params.data.id })
+                          window.open('stock/' + params.data.id)
+                        }
+                      })
                     }).then(() => {
                       this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
                         this.chart.setOption({ series: [{ data: this.stockData }] })

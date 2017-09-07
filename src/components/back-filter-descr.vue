@@ -130,7 +130,7 @@
     <div class="describe-box">
          <div class="bfilter-header clearfix">
               <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div> 
-              <div class="fr"><span>推送给客户：</span><a></a><a></a></div>
+              
          </div>
          <div class="describe-wrap clearfix display-box">
         
@@ -141,7 +141,7 @@
                   </div>
                   <div class="desc-title">选股条件：</div>
                   <ul class="clearfix desc-ul">
-                        <li class="fl desc-txt" v-for="sum of filterSummary.sum"><span>{{sum}}</span><span class="desc-num">10%</span></li>
+                        <li class="fl desc-txt"><span>失灵率</span><span class="desc-num">10%</span></li>
                         <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
@@ -206,32 +206,7 @@
    computed: {
      ...mapState({
        basicFilter: state => state.backtestDetail.basicFilter,
-       eval: state => state.backtestDetail.basicFilter.evaluationIndexs,
-       filterSummary: state => {
-         const summary = state.backtestDetail.basicFilter.filterSummary
-         // const arr = []
-         /* const indexName = ''
-         const indexValue = ''*/
-         const sum = ''
-         for (const key in summary) {
-           console.log(summary[key])
-           sum === summary[key]
-           /* return sum*/
-           /* for (const i in sum) {
-             console.log(sum[i].indexName)
-             indexName === sum[i].indexName
-             indexValue === sum[i].indexValue
-           }*/
-           // arr.push(key)
-         }
-         return {
-           sum: sum
-          /* indexName: indexName,
-           indexValue: indexValue*/
-
-         }
-         // return Object.keys(groupData).sort()
-       }
+       eval: state => state.backtestDetail.basicFilter.evaluationIndexs
      })
    },
    components: {},

@@ -6,7 +6,7 @@
     <i @click="dialogClose" class="close"></i>
     <div class="con">
         <div class="up">
-          <span>复制当前基金池</span><input type="text" name="" placeholder="请输入基金池名称">
+          <span>复制当前基金池</span><input v-model='poolName' type="text" name="" placeholder="请输入基金池名称">
         </div>
       <div class="down">
           <a href="javascript:;" @click='dialogOk'>保存</a>
@@ -19,6 +19,7 @@
 export default {
   data () {
     return {
+      poolName: ''
     }
   },
   props: [],
