@@ -119,11 +119,11 @@
     .icon{
       position: absolute;
       right: 15px;
-      top: 3px;
+      top: 8px;
     }
     .weixin{
-      height: 18px;
-      width: 22px;
+      height: 22px;
+      width: 24px;
       display: inline-block;
       background: url(../assets/images/z3img/back-weixin.png) no-repeat;
       margin-right: 12px;
@@ -136,11 +136,18 @@
       background: url(../assets/images/z3img/back-copy.png) no-repeat;
       cursor:pointer;
     }
+    .qrcode{
+      position:absolute;
+      top:40px;
+      right:10px;
+      box-shadow:4px 4px 4px 2px #eee;
+      border:1px solid #eee
+    }
 </style>
 <template> 
    <div class="backtest-filter">
       <div class="bfilter-main">
-        <div class="fr icon"><a class="weixin"></a><a class="copy"></a></div>
+        <div class="fr icon"><span class="weixin"  @click="showQrcode"></span><span class="copy"></span></div>
         <BackFilterDescr/> 
         <div class="bfilter-bottom">
           <ul class="bfilter-ul clearfix">
@@ -210,8 +217,9 @@
           </div>
         </div> 
       </div>
-      
-      
+      <div v-show="showQrcodeBox" class="qrcode" >
+          <div><canvas ref="qrcode"></canvas></div>
+      </div>
    </div>
        
 </template>
@@ -220,6 +228,7 @@
  import { mapState } from 'vuex'
  import BackFilterDescr from './back-filter-descr'
  import Pagination from './pagination'
+ import qrcode from 'qrcode'
  export default {
    data () {
      return {
@@ -229,7 +238,8 @@
        tradePagesize: '',
        showNowTrade: true,
        showTradeDay: false,
-       strategyId: this.$route.params.strategyId
+       strategyId: this.$route.params.strategyId,
+       showQrcodeBox: false
      }
    },
    computed: mapState({
@@ -272,8 +282,10 @@
      },
      changeDate (time) {
        return (time + '').substring(0, 4) + '.' + (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+     },
+     showQrcode () {
+       this.showQrcodeBox = !this.showQrcodeBox
      }
-
    },
    watch: {
      stockPage () {
@@ -286,6 +298,8 @@
    },
    mounted () {
      this.initData()
+     const url = window.location.protocol + '//' + window.location.host + '/backtestFilterH5/' + this.strategyId
+     qrcode.toDataURL(this.$refs.qrcode, url, function () {})
    }
  
  }
