@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
     .searchResult{
+        background:#fff;
         font-size:12px;
         color:#191919;
         font-family: "宋体";
