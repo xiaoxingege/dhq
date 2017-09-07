@@ -276,9 +276,8 @@
        this.showMa = true
        // this.searchList = []
        // console.log(this.message)
-       
+ 
        this.init()
-       
      },
      keyEnter (e) {
        if (e.keyCode === 13) {
