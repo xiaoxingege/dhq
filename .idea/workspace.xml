@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-kline.vue" afterPath="$PROJECT_DIR$/src/components/back-time-kline.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recom-table.vue" afterPath="$PROJECT_DIR$/src/components/fund-recom-table.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-filter-descr.vue" afterPath="$PROJECT_DIR$/src/components/back-filter-descr.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-stra.vue" afterPath="$PROJECT_DIR$/src/components/back-time-stra.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/backtest-filter.vue" afterPath="$PROJECT_DIR$/src/components/backtest-filter.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/backtest-time.vue" afterPath="$PROJECT_DIR$/src/components/backtest-time.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recom-line.vue" afterPath="$PROJECT_DIR$/src/components/fund-recom-line.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recommend.vue" afterPath="$PROJECT_DIR$/src/components/fund-recommend.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/intell-recom-line.vue" afterPath="$PROJECT_DIR$/src/components/intell-recom-line.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/backtest-detail.js" afterPath="$PROJECT_DIR$/src/stores/backtest-detail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/intell-recom-table.vue" afterPath="$PROJECT_DIR$/src/components/intell-recom-table.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/fund-intell.js" afterPath="$PROJECT_DIR$/src/stores/fund-intell.js" />
     </list>
     <ignored path="vue.iws" />
@@ -33,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-9.682927">
-              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+              <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -55,7 +59,7 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1504748006020" expanded="true" signature="55776:55864" placeholder="..." />
+                <marker date="1504758325427" expanded="true" signature="56587:56675" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -83,11 +87,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.627812">
-              <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="445" column="13" selection-start-line="445" selection-start-column="13" selection-end-line="445" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="back-time-kline.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/back-time-kline.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
+              <caret line="514" column="16" selection-start-line="514" selection-start-column="16" selection-end-line="514" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -109,18 +123,6 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
-              <folding>
-                <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -246,26 +248,14 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/common/variable.scss</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/base.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/article-list.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/bubbles.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-select.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-chart.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy-h5.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pagination.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/stock-map.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/theme-alltopic.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/topic-detail.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/recommed-strategy-home.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list-home.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/theme-home.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/z3tougu-index.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/z3tougu-theme.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/back-time-kline.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/founddialog.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpoollist.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/routed-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/stockmap.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/router/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/store/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn-error.log</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn.lock</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已创建" />
@@ -273,90 +263,13 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/animate.min.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/swiper.min.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/shortmessage.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/weChat.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg11.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/di.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg11.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/next.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppDi.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebDi.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/prev.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/web-nav-bg.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/plugins/activity-slider/swiper.min.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/activity-slider.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-dialog.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/basic-info.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-bubble.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-buy-info.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-chart.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity-app.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolList.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolListDialog.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/zw-pay-video-activity-app.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/zw-pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-archives.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-record.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/smartPool.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/activity-slider.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/constant/filter.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/z3img/ques.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/z3img/wdx.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/editstrategy.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpooldetail.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fundPoolRelevance.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/ownstrategylist.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/toast.vue</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已删除" />
@@ -364,7 +277,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/fundPool-intelligent.vue</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已恢复" />
@@ -520,15 +432,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1918" height="1038" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1574468" sideWeight="0.4841772" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42825606" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6567329" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -560,16 +472,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/bubbles.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -639,7 +541,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
           <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -720,7 +622,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
           <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -800,7 +702,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
           <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -890,9 +792,9 @@
     <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
           <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
+            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -916,7 +818,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
+          <caret line="514" column="16" selection-start-line="514" selection-start-column="16" selection-end-line="514" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -934,7 +836,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1504748006020" expanded="true" signature="55776:55864" placeholder="..." />
+            <marker date="1504758325427" expanded="true" signature="56587:56675" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -960,15 +862,23 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.682927">
-          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.627812">
-          <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="445" column="13" selection-start-line="445" selection-start-column="13" selection-end-line="445" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/back-time-kline.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

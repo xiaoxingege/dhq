@@ -101,7 +101,7 @@
                                 <span class="hui">风险：</span><span>{{info.riskLevelName}}</span>
                              </div>
                              
-                             <div class="reson-title hui">推荐理由</div>
+                             <div class="reson-title hui">基金特色:</div>
                              <ul>
                                  <li v-for="(reason,index) of info.reasonList">{{index+1}}、{{reason}}</li>
                                  
