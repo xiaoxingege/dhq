@@ -64,18 +64,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for='item in foundPoolList'>
-            <td>{{item.id}}</td>
-            <td><a href="##">{{item.symbol}}</a></td>
+          <tr v-for='(item,index) in foundPoolList'>
+            <td>{{index}}</td>
+            <td><a href="##">{{item.innerCode}}</a></td>
             <td><a href="##">{{item.name}}</a></td>
             <td>{{item.estabDate}}</td>
             <td>{{item.fundScale}}</td>
             <td>{{item.managerDurationMax}}</td>
-            <td>{{item.fundFav }}</td>
-            <td><span :class="item.chgPct >0 ?'cRed':'cGreen'">{{item.chgPct}}</span></td>
-            <td><span :class="item.chgPct >0 ?'cRed':'cGreen'">{{item.sy}}</span></td>
-            <td>{{item.qgje}}</td>
-            <td>{{item.jycb}}</td>
+            <td>{{item.fundTypeName }}</td>
+            <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct}}</span></td>
+            <td><span v-z3-updowncolor="item.startAmount">{{item.startAmount}}</span></td>
+            <td>{{item.startAmount}}</td>
+            <td>{{item.tradeCost}}</td>
             <td>
               <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
               <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
@@ -265,6 +265,7 @@
         </tbody>
       </table>
     </div>
+    <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
   </div>
   <!-- 弹框 -->
   <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
@@ -272,33 +273,30 @@
 </template>
 
 <script>
-import FilterSelect from '../../components/filter/filter-select'
-import FilterDialog from '../../components/filter/filter-dialog'
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
+import FilterSelect from '../../components/filter/filter-select'
+import FilterDialog from '../../components/filter/filter-dialog'
+import Pagination from '../../components/pagination'
 export default {
   data () {
     return {
       lsfoundPoolList: [],
-      foundPoolList: [
-        { id: 1, code: '000001', name: '华夏优势增长混合1', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 2, code: '000001', name: '华夏优势增长混合2', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 3, code: '000001', name: '华夏优势增长混合3', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' },
-        { id: 4, code: '000001', name: '华夏优势增长混合4', data: '2011-03-20', gm: '2亿', rzsj: '1年50天', type: '股票型', zdf: '-2.31', sy: '-2.31', qgje: '1.00', jycb: '1.00' }
-      ],
       dialogShow: false,
-      btnStatus: true,
       popTitle: '',
       tsTxt: '',
       content: 1,
       okbtntxt: '保存',
       typeIndex: 0,
-      typeBtn: 1
+      sortField: '',
+      page: 0,
+      pagesize: ''
     }
   },
   components: {
     FilterSelect,
-    FilterDialog
+    FilterDialog,
+    Pagination
   },
   computed: {
     ...mapState([
@@ -309,17 +307,6 @@ export default {
     })
   },
   methods: {
-    // addIinterimFunds (id) {
-    //   for (let i = 0; i < this.foundPoolList.length; i++) {
-    //     if (this.foundPoolList[i].id === id) {
-    //       this.foundPoolList[i].typeBtn = 2
-    //       // var item = this.foundPoolList[i]
-    //       // this.foundPoolList.splice(i, 1)
-    //       console.log(this.foundPoolList[i])
-    //       break
-    //     }
-    //   }
-    // },
     addIinterimFunds (item) {
       this.lsfoundPoolList.push(item)
       item.inTempPool = true
@@ -380,14 +367,25 @@ export default {
           return true
         }
       })
+    },
+    goToPage (page) {
+      this.page = Number(page) - 1
+    },
+    query (page) {
+      this.$store.dispatch('getFundPool', { page: this.page, pagesize: this.pagesize })
     }
   },
   mounted () {
-    this.$store.dispatch('getFundPool')
+    this.query()
     this.foundPoolList = this.foundPoolList.map((fund) => {
       const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
       return tempFund
     })
+  },
+  watch: {
+    page () {
+      this.query(this.page)
+    }
   }
 
 }

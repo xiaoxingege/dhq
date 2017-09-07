@@ -48,6 +48,7 @@ export default {
     tradePage: 0,
     tradePageSize: TRADE_PAGE_SIZE,
     tradeTotalPage: 0,
+    searchList: []
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
@@ -57,7 +58,7 @@ export default {
       maxWin:'',
       maxLoss:''
     },*/
-    detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}}
+
   },
   mutations: {
     updateBasicFilter (state, filterdetail) {
@@ -86,6 +87,9 @@ export default {
     updateTradePage (state, options) {
       console.log(options.totalPages)
       state.tradeTotalPage = options.totalPages
+    },
+    updateSearch (state, search) {
+      state.searchList = search
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -144,8 +148,8 @@ export default {
         }
       })
     },
-    queryKline ({ commit }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?innerCode=002109.SZ`, {
+    queryKline ({ commit }, { innerCode }) {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -153,6 +157,18 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
           commit('updateKline', result.data)
+        }
+      })
+    },
+    querySearch ({ commit }, { keyword }) {
+      return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data.kLine)
+          commit('updateSearch', result.data.list)
         }
       })
     }
