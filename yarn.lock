@@ -931,7 +931,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bem-sha1@^1.0.3:
+bem-sha1@^1.0.2, bem-sha1@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/bem-sha1/-/bem-sha1-1.0.3.tgz#fd73a33c521470158e89678d2169a07ad6f0b4d9"
 
@@ -3990,7 +3990,7 @@ node-pre-gyp@^0.6.36:
 
 node-sass@^4.5.3:
   version "4.5.3"
-  resolved "https://registry.npmjs.org/node-sass/-/node-sass-4.5.3.tgz#d09c9d1179641239d1b97ffc6231fdcec53e1568"
+  resolved "http://registry.npm.taobao.org/node-sass/download/node-sass-4.5.3.tgz#d09c9d1179641239d1b97ffc6231fdcec53e1568"
   dependencies:
     async-foreach "^0.1.3"
     chalk "^1.1.1"
