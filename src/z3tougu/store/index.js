@@ -14,6 +14,7 @@ import backtestDetail from 'stores/backtest-detail'
 import smartPool from 'stores/smartPool'
 import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
+import backtestDetailH5 from 'stores/backtest-detail-h5'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     backtestDetail,
     smartPool,
     funcArchives,
-    fundRecord
+    fundRecord,
+    backtestDetailH5
   }
 })

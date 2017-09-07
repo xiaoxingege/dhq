@@ -1,6 +1,6 @@
 <style>
     .fundChart{
-        height:500px;
+        height:200px;
         width:100%;
     }
 
