@@ -23,7 +23,8 @@ export default {
       createDate: '',
       backtestStartDate: '',
       backtestEndDate: '',
-      evaluationIndexs: {}
+      evaluationIndexs: {},
+      filterSummary: {}
     },
     tradeDetail: [], // 当日交易
     nowStock: [], // 当前选股
@@ -62,8 +63,9 @@ export default {
   },
   mutations: {
     updateBasicFilter (state, filterdetail) {
-      console.log(filterdetail)
+      console.log(filterdetail.filterSummary)
       state.basicFilter = filterdetail
+      state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
     },
     updateTradeDetail (state, tradeDetail) {
       state.tradeDetail = tradeDetail
@@ -101,7 +103,7 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
+          // console.log(result.data)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateBasicFilter', result.data)
         }

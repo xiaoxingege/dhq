@@ -150,7 +150,7 @@ export default {
       })
     },
     queryRecommendByRisk ({ commit }, { risk }) {
-      return fetch(`${domain}/openapi/fintechportfolio/getRecommendByRisk.shtml?risk=${risk}&page=1&page_num=8`, {
+      return fetch(`${domain}/openapi/fintechportfolio/getRecommendByRisk.shtml??orgCode=254520720&risk=${risk}&page=1&page_num=8`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -162,7 +162,7 @@ export default {
       })
     },
     queryPortfolioList ({ commit }) {
-      return fetch(`${domain}/openapi/fintechportfolio/list.shtml?page=1&page_num=20`, {
+      return fetch(`${domain}/openapi/fintechportfolio/59b0b78d0cf5bf4b20c4e3ee.shtml?page=1&page_num=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

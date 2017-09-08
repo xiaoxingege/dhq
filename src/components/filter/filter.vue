@@ -1,394 +1,380 @@
 <template>
-<div class="filter">
-  <div class="filterTop clearfix">
-    <div class="filterBox fl">
-      <div class="topBar cleafix">
-        <a href="javascript:;" class="fr btn">导出基金</a>
-        <ul class="tabList fl">
-          <li class="active">筛选条件</li>
-          <li>条件重置</li>
+  <div class="filter">
+    <div class="filterTop clearfix">
+      <div class="filterBox fl">
+        <div class="topBar cleafix">
+          <a href="javascript:;" class="fr btn">导出基金</a>
+          <ul class="tabList fl">
+            <li class="active">筛选条件</li>
+          </ul>
+        </div>
+        <!-- 筛选条件 -->
+        <filter-select @selectType = 'selectType'></filter-select>
+      </div>
+      <!-- 临时基金池 -->
+      <div class="fundPool fl">
+        <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
+        <ul class="fundPoolList">
+          <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
         </ul>
       </div>
-      <!-- 筛选条件 -->
-      <filter-select @selectType = 'selectType'></filter-select>
     </div>
-    <!-- 临时基金池 -->
-    <div class="fundPool fl">
-      <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
-      <ul class="fundPoolList">
-        <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
-      </ul>
-    </div>
-  </div>
-  <!-- 筛选内容 -->
-  <div class='filterCon'>
-    <div class='top clearfix'>
-      <span class="fl">找到基金数：2000</span>
-      <div class="search pr fr ml-20">
-        <i class="icon_search"></i>
-        <input class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索'>
+    <!-- 筛选内容 -->
+    <div class='filterCon'>
+      <div class='top clearfix'>
+        <span class="fl">找到基金数：2000</span>
+        <div class="search pr fr ml-20">
+          <i class="icon_search"></i>
+          <input class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索'>
+        </div>
+        <label for="jdx" class="fr">
+          <input id="jdx" type="checkbox" name="name" value="">
+          仅显示代销基金
+        </label>
       </div>
-      <label for="jdx" class="fr">
-        <input id="jdx" type="checkbox" name="name" value="">
-        仅显示代销基金
-      </label>
+      <!-- 全部 -->
+      <div v-if="typeIndex == 0">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>类型</th>
+              <th>涨跌幅</th>
+              <th>
+                <select>
+                  <option>近1个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近1年收益</option>
+                  <option>近2年收益</option>
+                  <option>近3年收益</option>
+                  <option>近4年收益</option>
+                  <option>近5年收益</option>
+                </select>
+              </th>
+              <th>起购金额</th>
+              <th class="pr tsk">交易成本<div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for='(item,index) in foundPoolList'>
+              <td>{{index}}</td>
+              <td><a href="##">{{item.innerCode}}</a></td>
+              <td><a href="##">{{item.name}}</a></td>
+              <td>{{item.estabDate}}</td>
+              <td>{{item.fundScale}}</td>
+              <td>{{item.managerDurationMax}}</td>
+              <td>{{item.fundTypeName }}</td>
+              <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct}}</span></td>
+              <td><span v-z3-updowncolor="item.startAmount">{{item.startAmount}}</span></td>
+              <td>{{item.startAmount}}</td>
+              <td>{{item.tradeCost}}</td>
+              <td>
+                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
+                <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 股票型、混合型 -->
+      <div v-if="typeIndex == 1 || typeIndex == 2">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>行业</th>
+              <th>基金风格</th>
+              <th>涨跌幅</th>
+              <th>
+                <select>
+                  <option>近1个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近1年收益</option>
+                  <option>近2年收益</option>
+                  <option>近3年收益</option>
+                  <option>近4年收益</option>
+                  <option>近5年收益</option>
+                </select>
+              </th>
+              <th>起购金额</th>
+              <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- 债券型 -->
+      <div v-if="typeIndex == 3">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>类型</th>
+              <th>涨跌幅</th>
+              <th>
+                <select>
+                  <option>近1个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近1年收益</option>
+                  <option>近2年收益</option>
+                  <option>近3年收益</option>
+                  <option>近4年收益</option>
+                  <option>近5年收益</option>
+                </select>
+              </th>
+              <th>起购金额</th>
+              <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- 指数型 -->
+      <div v-if="typeIndex == 4">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>涨跌幅</th>
+              <th>
+                <select>
+                  <option>近1个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近1年收益</option>
+                  <option>近2年收益</option>
+                  <option>近3年收益</option>
+                  <option>近4年收益</option>
+                  <option>近5年收益</option>
+                </select>
+              </th>
+              <th>跟踪误差</th>
+              <th>起购金额</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- QDII型 -->
+      <div v-if="typeIndex == 5">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>涨跌幅</th>
+              <th>
+                <select>
+                  <option>近1个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近3个月收益</option>
+                  <option>近1年收益</option>
+                  <option>近2年收益</option>
+                  <option>近3年收益</option>
+                  <option>近4年收益</option>
+                  <option>近5年收益</option>
+                </select>
+              </th>
+              <th>跟踪误差</th>
+              <th>业绩比较基准</th>
+              <th>起购金额</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- 货币型 -->
+      <div v-if="typeIndex == 6">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>静态收益</th>
+              <th>七日年化收益率</th>
+              <th>万份收益</th>
+              <th>起购金额</th>
+              <th>排名</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <!-- 理财型 -->
+      <div v-if="typeIndex == 7">
+        <table class="table tc">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>基金代码</th>
+              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th>成立日期</th>
+              <th>规模</th>
+              <th>基金经理任值时间</th>
+              <th>封闭期</th>
+              <th>七日年化收益率</th>
+              <th>万份收益</th>
+              <th>起购金额</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
     </div>
-    <!-- 全部 -->
-    <div v-if="typeIndex == 0">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>类型</th>
-            <th>涨跌幅</th>
-            <th>
-              <select>
-                <option>近1个月收益</option>
-                <option>近3个月收益</option>
-                <option>近3个月收益</option>
-                <option>近1年收益</option>
-                <option>近2年收益</option>
-                <option>近3年收益</option>
-                <option>近4年收益</option>
-                <option>近5年收益</option>
-              </select>
-            </th>
-            <th>起购金额</th>
-            <th class="pr tsk">交易成本<div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='(item,index) in foundPoolList'>
-            <td>{{index}}</td>
-            <td><a href="##">{{item.innerCode}}</a></td>
-            <td><a href="##">{{item.name}}</a></td>
-            <td>{{item.estabDate}}</td>
-            <td>{{item.fundScale}}</td>
-            <td>{{item.managerDurationMax}}</td>
-            <td>{{item.fundTypeName }}</td>
-            <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct}}</span></td>
-            <td><span v-z3-updowncolor="item.startAmount">{{item.startAmount}}</span></td>
-            <td>{{item.startAmount}}</td>
-            <td>{{item.tradeCost}}</td>
-            <td>
-              <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
-              <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- 股票型、混合型 -->
-    <div v-if="typeIndex == 1 || typeIndex == 2">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>行业</th>
-            <th>基金风格</th>
-            <th>涨跌幅</th>
-            <th>
-              <select>
-                <option>近1个月收益</option>
-                <option>近3个月收益</option>
-                <option>近3个月收益</option>
-                <option>近1年收益</option>
-                <option>近2年收益</option>
-                <option>近3年收益</option>
-                <option>近4年收益</option>
-                <option>近5年收益</option>
-              </select>
-            </th>
-            <th>起购金额</th>
-            <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <!-- 债券型 -->
-    <div v-if="typeIndex == 3">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>类型</th>
-            <th>涨跌幅</th>
-            <th>
-              <select>
-                <option>近1个月收益</option>
-                <option>近3个月收益</option>
-                <option>近3个月收益</option>
-                <option>近1年收益</option>
-                <option>近2年收益</option>
-                <option>近3年收益</option>
-                <option>近4年收益</option>
-                <option>近5年收益</option>
-              </select>
-            </th>
-            <th>起购金额</th>
-            <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <!-- 指数型 -->
-    <div v-if="typeIndex == 4">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>涨跌幅</th>
-            <th>
-              <select>
-                <option>近1个月收益</option>
-                <option>近3个月收益</option>
-                <option>近3个月收益</option>
-                <option>近1年收益</option>
-                <option>近2年收益</option>
-                <option>近3年收益</option>
-                <option>近4年收益</option>
-                <option>近5年收益</option>
-              </select>
-            </th>
-            <th>跟踪误差</th>
-            <th>起购金额</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <!-- QDII型 -->
-    <div v-if="typeIndex == 5">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>涨跌幅</th>
-            <th>
-              <select>
-                <option>近1个月收益</option>
-                <option>近3个月收益</option>
-                <option>近3个月收益</option>
-                <option>近1年收益</option>
-                <option>近2年收益</option>
-                <option>近3年收益</option>
-                <option>近4年收益</option>
-                <option>近5年收益</option>
-              </select>
-            </th>
-            <th>跟踪误差</th>
-            <th>业绩比较基准</th>
-            <th>起购金额</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <!-- 货币型 -->
-    <div v-if="typeIndex == 6">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>静态收益</th>
-            <th>七日年化收益率</th>
-            <th>万份收益</th>
-            <th>起购金额</th>
-            <th>排名</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <!-- 理财型 -->
-    <div v-if="typeIndex == 7">
-      <table class="table tc">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>基金代码</th>
-            <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-            <th>成立日期</th>
-            <th>规模</th>
-            <th>基金经理任值时间</th>
-            <th>封闭期</th>
-            <th>七日年化收益率</th>
-            <th>万份收益</th>
-            <th>起购金额</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
+    <!-- 弹框 -->
+    <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
   </div>
-  <!-- 弹框 -->
-  <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
-</div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
-import FilterSelect from '../../components/filter/filter-select'
-import FilterDialog from '../../components/filter/filter-dialog'
-import Pagination from '../../components/pagination'
-export default {
-  data () {
-    return {
-      lsfoundPoolList: [],
-      dialogShow: false,
-      popTitle: '',
-      tsTxt: '',
-      content: 1,
-      okbtntxt: '保存',
-      typeIndex: 0,
-      sortField: '',
-      page: 0,
-      pagesize: ''
-    }
-  },
-  components: {
-    FilterSelect,
-    FilterDialog,
-    Pagination
-  },
-  computed: {
-    ...mapState([
-      'foundPoolList'
-    ]),
-    ...mapGetters({
-      foundPoolList: 'foundPoolList'
-    })
-  },
-  methods: {
-    addIinterimFunds (item) {
-      this.lsfoundPoolList.push(item)
-      item.inTempPool = true
+  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
+  import FilterSelect from 'components/filter/filter-select'
+  import FilterDialog from 'components/filter/filter-dialog'
+  import Pagination from 'components/pagination'
+  export default {
+    data () {
+      return {
+        lsfoundPoolList: [],
+        dialogShow: false,
+        popTitle: '',
+        tsTxt: '',
+        content: 1,
+        okbtntxt: '保存',
+        typeIndex: 0,
+        sortField: '',
+        page: 0,
+        pagesize: ''
+      }
     },
-    isInTempPoollist (fundid) {
-      return this.lsfoundPoolList.some((fund) => {
-        return fund.id === fundid
+    components: {
+      FilterSelect,
+      FilterDialog,
+      Pagination
+    },
+    computed: {
+      ...mapState([
+        'foundPoolList'
+      ]),
+      ...mapGetters({
+        foundPoolList: 'foundPoolList'
       })
     },
-    showDialogFn (content) {
-      const length = this.lsfoundPoolList.length
-      console.log(length)
-      this.dialogShow = true
-      this.content = content
-      if (length > 0) {
-        if (content === 1) {
-          this.popTitle = '保存当前基金池'
-          this.tsTxt = '基金池为空，无法保存！'
-        }
-      }
-      if (length === 0) {
-        this.content = 2
-        if (content === 2) {
-          this.popTitle = '提示'
-          this.tsTxt = '基金池为空，无法保存！'
-          this.okbtntxt = '确认'
-        }
-      }
-    },
-    dialogCloseFn () {
-      this.dialogShow = false
-    },
-    dialogOkFn () {
-      if (this.content === 1) {
-        alert('保存')
+    methods: {
+      addIinterimFunds (item) {
+        this.lsfoundPoolList.push(item)
+        item.inTempPool = true
+      },
+      isInTempPoollist (fundid) {
+        return this.lsfoundPoolList.some((fund) => {
+          return fund.id === fundid
+        })
+      },
+      showDialogFn (content) {
+        // const length = this.lsfoundPoolList.length
+        this.dialogShow = true
+        this.content = content
+        this.popTitle = '保存当前基金池'
+        this.tsTxt = '基金池为空，无法保存！'
+      },
+      dialogCloseFn () {
         this.dialogShow = false
-      } else if (this.content === 2) {
-        this.dialogShow = false
+      },
+      dialogOkFn () {
+        if (this.content === 1) {
+          alert('保存')
+          this.dialogShow = false
+        } else if (this.content === 2) {
+          this.dialogShow = false
+        }
+      },
+      selectType (index) {
+        this.typeIndex = index
+      },
+      delFoundPoolList (index, item) {
+        this.foundPoolList.some((fund) => {
+          if (fund.id === item.id) {
+            fund.inTempPool = false
+            return true
+          }
+        })
+        this.lsfoundPoolList.splice(index, 1)
+      },
+      removeInterimFunds (item) {
+        item.inTempPool = false
+        this.lsfoundPoolList.some((fund, index) => {
+          if (fund.id === item.id) {
+            this.lsfoundPoolList.splice(index, 1)
+            return true
+          }
+        })
+      },
+      goToPage (page) {
+        this.page = Number(page) - 1
+      },
+      query (page) {
+        // this.$store.dispatch('getFundPool', { sortField: this.sortField, page: this.page, pagesize: this.pagesize })
       }
     },
-    selectType (index) {
-      this.typeIndex = index
-    },
-    delFoundPoolList (index, item) {
-      this.foundPoolList.some((fund) => {
-        if (fund.id === item.id) {
-          fund.inTempPool = false
-          return true
-        }
-      })
-      this.lsfoundPoolList.splice(index, 1)
-    },
-    removeInterimFunds (item) {
-      item.inTempPool = false
-      this.lsfoundPoolList.some((fund, index) => {
-        if (fund.id === item.id) {
-          this.lsfoundPoolList.splice(index, 1)
-          return true
-        }
+    mounted () {
+      this.query()
+      this.foundPoolList = this.foundPoolList.map((fund) => {
+        const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
+        return tempFund
       })
     },
-    goToPage (page) {
-      this.page = Number(page) - 1
-    },
-    query (page) {
-      this.$store.dispatch('getFundPool', { page: this.page, pagesize: this.pagesize })
+    watch: {
+      page () {
+        this.query(this.page)
+      }
     }
-  },
-  mounted () {
-    this.query()
-    this.foundPoolList = this.foundPoolList.map((fund) => {
-      const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
-      return tempFund
-    })
-  },
-  watch: {
-    page () {
-      this.query(this.page)
-    }
-  }
 
-}
+  }
 </script>
 <style lang="scss" scoped>
   @import '../../assets/common/variable.scss';

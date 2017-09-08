@@ -90,6 +90,13 @@
     }
     .desc-ul{
         padding: 0 0 26px 0;
+        width: 100%;
+    }
+    .desc-ul tr:nth-child(2) td{
+      padding-top: 12px;
+    }
+    .desc-ul td{
+      /* width: 20%; */
     }
     .desc-txt{
       position:relative;
@@ -129,8 +136,7 @@
 <template>
     <div class="describe-box">
          <div class="bfilter-header clearfix">
-              <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div> 
-              
+              <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div>  
          </div>
          <div class="describe-wrap clearfix display-box">
         
@@ -140,14 +146,21 @@
                       {{ basicFilter.strategyDesc}}
                   </div>
                   <div class="desc-title">选股条件：</div>
-                  <ul class="clearfix desc-ul">
+                    
+                 <!--  <ul class="clearfix desc-ul">
                         <li class="fl desc-txt"><span>失灵率</span><span class="desc-num">10%</span></li>
                         <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率6</span><span class="desc-num">11%</span></li>
-                  </ul>
+                  </ul> -->
+                  <table class="desc-ul">
+                      <tr v-for="trItem in filterSummary">
+                          <td v-for="tdItem in trItem">{{tdItem}}</td>
+                      </tr>
+                  </table>
+                  
              </div>
              <div class="describe-right box-flex-2">
                  <div class="desc-title">策略表现：</div>
@@ -206,7 +219,42 @@
    computed: {
      ...mapState({
        basicFilter: state => state.backtestDetail.basicFilter,
-       eval: state => state.backtestDetail.basicFilter.evaluationIndexs
+       eval: state => state.backtestDetail.basicFilter.evaluationIndexs,
+       filterSummary: state => {
+         const choseStockTable = state.backtestDetail.basicFilter.filterSummary
+         const arr1 = []
+         const arr2 = []
+         console.log(choseStockTable)
+         if (choseStockTable.gkzbList.length > 0) {
+           for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+             arr1.push(choseStockTable.gkzbList[i].indexName)
+             arr2.push(choseStockTable.gkzbList[i].indexValue)
+           }
+         }
+         if (choseStockTable.jbmzbList.length > 0) {
+           for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+             arr1.push(choseStockTable.jbmzbList[i].indexName)
+             arr2.push(choseStockTable.jbmzbList[i].indexValue)
+           }
+         }
+         if (choseStockTable.jszbList.length > 0) {
+           debugger
+           for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+             arr1.push(choseStockTable.jszbList[i].indexName)
+             arr2.push(choseStockTable.jszbList[i].indexValue)
+           }
+         } else {
+           console.log('lent')
+         }
+         if (choseStockTable.xgfwList.length > 0) {
+           for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+             arr1.push(choseStockTable.xgfwList[i].indexName)
+             arr2.push(choseStockTable.xgfwList[i].indexValue)
+           }
+         }
+
+         return [arr1, arr2]
+       }
      })
    },
    components: {},
@@ -221,6 +269,7 @@
    },
    mounted () {
      this.$store.dispatch('backtestDetail/queryBasicFilter', { strategyId: this.strategyId })
+     // console.log(state.backtestDetail.basicFilter.filterSummary)
    }
  
  }

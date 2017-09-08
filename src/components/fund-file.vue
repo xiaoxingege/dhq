@@ -104,6 +104,7 @@
     .rectStability{
         width:315px;
         margin:10px auto;
+        margin-bottom: 0;
     }
     .stability{
         display: inline-block;
@@ -150,6 +151,25 @@
         position: relative;
         padding-bottom: 26px;
     }
+    .triangle{
+       width:315px;
+       margin:0 auto;
+    }
+    .triangle span{
+        width:0;
+        height:0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 8px solid #679FF9;
+        margin: 0 auto;
+        display: block;
+    }
+    .triangle>div{
+        display: inline-block;
+        width:86px;
+        height:15px;
+        float: right;
+    }
 </style>
 <template>
     <div>
@@ -184,9 +204,9 @@
                 <p class="title">投资风格</p>
                 <div class="main">
                     <div class="rectTime clearfix">
-                        <span><</span>
-                        <span class="date">2017-07</span>
-                        <span>></span>
+                        <span :class=""><</span>
+                        <span class="date" ref="investTime">{{date}}</span>
+                        <span :class="investTimeActive('left')">></span>
                     </div>
                     <div class="clearfix rect">
                         <div class="investRect fl">
@@ -214,7 +234,7 @@
                         <div class="fr rectLegend">
                             <ul>
                                 <li>投资比例</li>
-                                <li><span style="background:#F2953D"></span>&gt;50%</li>
+                                <li><span style="background:#F2953D"></span>≥50%</li>
                                 <li><span style="background:#F8C390"></span>25-50%</li>
                                 <li><span style="background:#FEE0C4"></span>10-25%</li>
                                 <li><span style="background:#FFF7EB"></span>0-10%</li>
@@ -227,13 +247,18 @@
                         </div>
                     </div>
                     <div class="rectStability">
-                        <span>稳定度</span>
+                        <span style="position: relative; top: -5px;">稳定度</span>
                         <img src="../assets/images/help.png" style="margin-top: 2px;">
                         <div class="stability clearfix">
                             <span class="fl" style="background: #4481E5">高</span>
                             <span class="fl" style="background: #64A0F9">中</span>
                             <span class="fl" style="background: #9CC2FF">低</span>
                         </div>
+                    </div>
+                    <div class="triangle clearfix">
+                        <div v-show="investStreng('low')"><span></span></div>
+                        <div v-show="investStreng('middle')"><span></span></div>
+                        <div v-show="investStreng('high')"><span></span></div>
                     </div>
                 </div>
             </div> <!--投资风格-->
@@ -257,7 +282,6 @@
       data () {
         return {
           color: '#fff'
-
         }
       },
       components: {
@@ -275,9 +299,8 @@
         date: function () {
           const time = new Date()
           const year = time.getFullYear()
-          const month = time.getMonth() + 1
-          const day = time.getDate()
-          return year + '-' + month + '-' + day
+          const month = (time.getMonth() + 1).length > 1 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
+          return year + '-' + month
         },
         investStyleData: function () {
           return this.$store.state.fundRecord.investStyleData
@@ -286,16 +309,36 @@
       methods: {
         investColor (v) {
           const colorVal = v * 100
-          if (colorVal > 50) {
+          if (colorVal >= 50) {
             return '#F2953D'
-          } else if (colorVal > 25 && colorVal <= 50) {
+          } else if (colorVal >= 25 && colorVal < 50) {
             return '#F8C390'
-          } else if (colorVal > 10 && colorVal <= 25) {
+          } else if (colorVal >= 10 && colorVal < 25) {
             return '#FEE0C4'
-          } else if (colorVal > 0 && colorVal <= 10) {
+          } else if (colorVal >= 0 && colorVal < 10) {
             return '#FFF7EB'
           }
+        },
+        investStreng (type) {
+          const data = this.investStyleData
+          if (type === 'high') {
+            if (data.sds_high <= data.sds < data.sds_hm) {
+              return true
+            }
+          } else if (type === 'middle') {
+            if (data.sds_hm <= data.sds < data.sds_ml) {
+              return true
+            }
+          } else if (type === 'low') {
+            if (data.sds_low <= data.sds < data.ml) {
+              return true
+            }
+          }
+        },
+        investTimeActive (type) {
+
         }
+
       },
       mounted () {
         this.$store.dispatch('fundRecord/getFeatureData', { innerCode: '000001.CW' }).then(() => {
