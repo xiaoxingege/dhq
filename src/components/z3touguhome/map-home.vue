@@ -42,7 +42,11 @@
               if (stockData) {
                 lvl2.perf = stockData[lvl2.name]
                 if (lvl2.perf !== null && typeof (lvl2.perf) !== 'undefined') {
-                  lvl2.perfText = parseFloat(lvl2.perf).toFixed(2)
+                  if (lvl2.perf >= 0) {
+                    lvl2.perfText = '+' + parseFloat(lvl2.perf).toFixed(2) + '%'
+                  } else {
+                    lvl2.perfText = parseFloat(lvl2.perf).toFixed(2) + '%'
+                  }
                 } else {
                   lvl2.perfText = '--'
                 }
@@ -75,6 +79,8 @@
                             type: 'treemap',
                             width: '100%',
                             height: '100%',
+                            visibleMin: 50,
+                            childrenVisibleMin: 50,
                             label: {
                               normal: {
                                 show: true,
