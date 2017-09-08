@@ -7,7 +7,7 @@
     .condition{text-align: left;display: inline-block;}
     .condition{color:#fff;font-size:14px;opacity: 0.8;}
     .condition select{color:#2f5b7d;background-color: #000;border: none;opacity: 1}
-    .condition_wrap{text-align: left;margin:10px 0 5px;}
+    .condition_wrap{text-align: left;}
 </style>
 <template>
     <div class="map" v-bind:class="{'map_pad':showCondition}">
