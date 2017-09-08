@@ -20,7 +20,7 @@ export default{
     smartPoolList: state => state.smartPoolList,
     smartPoolListDetails: state => state.smartPoolListDetails,
     relevancedata: state => state.relevancedata,
-    fundPoolHeadData: state => state.fundPoolHead
+    fundPoolHeadData: state => state.fundPoolHeadData
   },
   mutations: {
     [types.SET_SMARTPOOLLIST] (state, list) {
@@ -61,12 +61,12 @@ export default{
     },
     // 获取基金池详情头部内容
     getSmartPoolListDetailsTop ({ commit }, { fundPoolId }) {
-      console.log(fundPoolId)
-      const url = `${domain}/openapi/fund/fundPoolHead.shtml&fundPoolId=${fundPoolId}`
+      const url = `${domain}/openapi/fund/fundPoolHead.shtml?fundPoolId=${fundPoolId}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
+          console.log(result)
           commit(types.SET_FUNDPOOLHEAD, result.data)
         }
       })

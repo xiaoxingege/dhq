@@ -4,7 +4,7 @@
     <div class="filter-item clearfix">
       <span class="label">分类筛选：</span>
       <ul class="classify">
-        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' @click='selectType(index)' :value="type.value">{{type.name}}</li>
+        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' @click='selectType($event,index)' :value="type.value">{{type.name}}</li>
       </ul>
     </div>
     <!-- 全部 -->
@@ -35,15 +35,15 @@
         <ul class="selectBox">
           <li>
             <label class="pr tsk">收益率表现1：<div class="text">一段自然日内基金的涨跌幅</div></label>
-            <select  v-model='filterParams.sylbx1' :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <select  v-model='filterParams.sylbx1' :disabled='isDisabled'><option v-for="item in sylbx" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
           <li>
             <label class="pr tsk">收益率表现2：<div class="text">一段自然日内基金的涨跌幅</div></label>
-            <select v-model='filterParams.sylbx2' :disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <select v-model='filterParams.sylbx2' :disabled='isDisabled'><option v-for="item in sylbx" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
           <li>
             <label class="pr tsk">年化收益率：<div class="text">根据基金历史年化收益计算，基金成立不足1年此数据仅供参考</div></label>
-            <select v-model='filterParams.nhsyl':disabled='isDisabled'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
+            <select v-model='filterParams.nhsyl':disabled='isDisabled'><option v-for="item in nhsyl" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
         </ul>
       </div>
@@ -78,19 +78,19 @@
           <li>
             <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled'>
-              <option>全部</option>
+              <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
-            <select v-model='filterParams.xpl' :disabled='isDisabled'>
-              <option>全部</option>
+            <select v-model='filterParams.xpb' :disabled='isDisabled'>
+              <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
-            <select v-model='filterParams.cesy' :disabled='isDisabled'>
-              <option>全部</option>
+            <select v-model='filterParams.cesyl' :disabled='isDisabled'>
+              <option v-for="item in cesyl" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
         </ul>
@@ -123,19 +123,19 @@
           <li>
             <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled'>
-              <option>全部</option>
+              <option v-for="item in zdhc" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
             <select v-model='filterParams.xpb' :disabled='isDisabled'>
-              <option>全部</option>
+              <option v-for="item in xpb" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
-            <select v-model='filterParams.cesy' :disabled='isDisabled'>
-              <option>全部</option>
+            <select v-model='filterParams.cesyl' :disabled='isDisabled'>
+              <option v-for="item in cesyl" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
         </ul>
@@ -144,13 +144,13 @@
           <li>
             <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled'>
-              <option>全部</option>
+              <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li>
             <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
             <select v-model='filterParams.xpb' :disabled='isDisabled'>
-              <option>全部</option>
+              <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
         </ul>
@@ -159,8 +159,8 @@
           <li>
             <label class="pr tsk">封闭期：<div class="text">理财型基金封闭周期</div></label>
             <select v-model='filterParams.fbq' :disabled='isDisabled'>
-              <option>全部</option>
-              <option>T+0</option>
+              <option value='fbq_all'>全部</option>
+              <option >T+0</option>
               <option>T+1</option>
               <option>其它</option>
             </select>
@@ -168,17 +168,16 @@
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 // 股票范围——指数下拉框数据
 import * as Data from '../../z3tougu/constant/filter.js'
+import { mapState, mapGetters } from 'Vuex'
 export default {
   data () {
     return {
-      checkedNames: [],
       filterType: [{ name: '全部', value: 'jjlx_all' }, { name: '股票型', value: 'jjlx_gpx' }, { name: '混合型', value: 'jjlx_hhx' }, { name: '债券型', value: 'jjlx_zqx' }, { name: '指数型', value: 'jjlx_zsx' }, { name: 'QDII型', value: 'jjlx_qdiix' }, { name: '货币型', value: 'jjlx_hbx' }, { name: '理财型', value: 'jjlx_lcx' }],
       typeIndex: 0,
       descRips: Data.descrips,
@@ -191,14 +190,15 @@ export default {
       riskTime: Data.riskTime,
       selected: '',
       isDisabled: true,
+      type: 'jjlx_all',
       filterParams: {
-        jjlx: 'jyzt_all',
+        jjlx: 'jylx_all',
         jyzt: 'jyzt_all',
         jjgm: 'jjgm_all',
         clsj: 'clsj_all',
         dexz: 'dexz_all',
-        sylbx1: 'sylbx1_all',
-        sylbx2: 'sylbx2_all',
+        sylbx1: 'sylbx_all',
+        sylbx2: 'sylbx_all',
         nhsyl: 'nhsyl_all',
         hy: 'hy_all',
         tzfg: 'tzfg_all',
@@ -206,13 +206,14 @@ export default {
         fxq: 'fxq_all',
         zdhc: 'zdhc_all',
         xpb: 'xpb_all',
-        cesyl: 'cesyl_all',
+        cesyl: 'cesy_all',
         fbq: 'fbq_all'
       }
     }
   },
   methods: {
-    selectType (index) {
+    selectType (e, index) {
+      this.type = e.target.attributes.value.value
       this.typeIndex = index
       this.$emit('selectType', index)
       if (this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
@@ -220,13 +221,34 @@ export default {
       } else {
         this.isDisabled = true
       }
+      this.getOptionData()
     },
-    changeTmp (event, type) {
-      const selectValue = event.target.value
-      console.log(selectValue)
+    getOptionData () {
+      this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })
+      this.$store.dispatch('getNhsyl', { idxId: 'nhsyl', jjlx: this.type })
+      this.$store.dispatch('getZdhc', { idxId: 'zdhc', jjlx: this.type })
+      this.$store.dispatch('getXpb', { idxId: 'xpb', jjlx: this.type })
+      this.$store.dispatch('getCesyl', { idxId: 'cesyl', jjlx: this.type })
     }
   },
   mounted () {
+    this.getOptionData()
+  },
+  computed: {
+    ...mapState([
+      'sylbx',
+      'nhsyl',
+      'zdhc',
+      'xpb',
+      'cesyl'
+    ]),
+    ...mapGetters({
+      sylbx: 'sylbx',
+      nhsyl: 'nhsyl',
+      zdhc: 'zdhc',
+      xpb: 'xpb',
+      cesyl: 'cesyl'
+    })
   }
 }
 </script>

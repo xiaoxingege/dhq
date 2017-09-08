@@ -15,13 +15,22 @@ export default {
     page: 1,
     total: 0,
     themeList: [],
-    relatedStocks: {}
+    relatedStocks: {},
+    sylbx: [], // 收益率表现
+    nhsyl: [], // 年化收益率
+    zdhc: [], // 最大回撤
+    xpb: [], // 夏普率
+    cesyl: []// 超额收益率
   },
   getters: {
     foundPoolList: state => state.foundPoolList,
     themeList: state => state.themeList,
     relatedStocks: state => state.relatedStocks,
-    totalPage: state => state.total
+    sylbx: state => state.sylbx,
+    nhsyl: state => state.nhsyl,
+    zdhc: state => state.zdhc,
+    xpb: state => state.xpb,
+    cesyl: state => state.cesyl
   },
   mutations: {
     [types.ADD_FUNDPOLL] (state, list) {
@@ -32,21 +41,25 @@ export default {
       state.page = options.page || 1
       state.total = options.totalPages
     },
-    updateAllTopic (state, themeList) {
-      state.themeList = themeList
-      const stocks = {}
-      for (const topic of themeList) {
-        const relatedEquity = topic.relatedEquity
-        for (const stock of relatedEquity) {
-          stocks[stock.innerCode] = stock
-        }
-      }
-      state.relatedStocks = stocks
-    },
     updatePage (state, options) {
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
+    },
+    getSylbx (state, options) {
+      state.sylbx = options
+    },
+    getNhsyl (state, options) {
+      state.nhsyl = options
+    },
+    getZdhc (state, options) {
+      state.zdhc = options
+    },
+    getXpb (state, options) {
+      state.xpb = options
+    },
+    getCesyl (state, options) {
+      state.cesyl = options
     }
   },
   actions: {
@@ -56,6 +69,46 @@ export default {
         return res.json()
       }).then(result => {
         commit(types.ADD_FUNDPOLL, result.data)
+      })
+    },
+    getSylbx ({ commit }, { idxId, jjlx }) {
+      const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
+        return res.json()
+      }).then(result => {
+        commit('getSylbx', result.data)
+      })
+    },
+    getNhsyl ({ commit }, { idxId, jjlx }) {
+      const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
+        return res.json()
+      }).then(result => {
+        commit('getNhsyl', result.data)
+      })
+    },
+    getZdhc ({ commit }, { idxId, jjlx }) {
+      const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
+        return res.json()
+      }).then(result => {
+        commit('getZdhc', result.data)
+      })
+    },
+    getXpb ({ commit }, { idxId, jjlx }) {
+      const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
+        return res.json()
+      }).then(result => {
+        commit('getXpb', result.data)
+      })
+    },
+    getCesyl ({ commit }, { idxId, jjlx }) {
+      const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
+        return res.json()
+      }).then(result => {
+        commit('getCesyl', result.data)
       })
     }
     // getFundPool ({ commit }, { sortField, page, pagesize, totalPages }) {

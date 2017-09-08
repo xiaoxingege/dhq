@@ -92,7 +92,6 @@
         return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
           return res.json()
         }).then(result => {
-          console.log(result)
           if (result.errCode === 0) {
             this.show = false
             this.$router.push({ path: '/smartPoolListDetails/' + result.data })

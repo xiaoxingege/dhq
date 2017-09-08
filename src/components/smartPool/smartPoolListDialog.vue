@@ -26,7 +26,6 @@ export default {
       msgshow: false
     }
   },
-  props: ['poolName'],
   components: {
     toast
   },
@@ -42,14 +41,6 @@ export default {
     },
     dialogClose () {
       this.$emit('close')
-    },
-    sendFoundName: function () {
-      if (!this.poolName) {
-        this.showmsg('请输入基金池名称')
-        return
-      } else {
-        this.$emit('saveFound', this.poolName)
-      }
     }
   },
   mounted () {
