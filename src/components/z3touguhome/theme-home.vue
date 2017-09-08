@@ -37,13 +37,12 @@
             <strong>最新事件：</strong>
             <span class="txt-con">
               <router-link :to="{name:'detailPages',params:{id : newsId, detailType:'news'}}" class="new-text"><span class="event c_txt tl">{{drivenEvent}}</span></router-link>
-                （<span class="c_txt">{{format(newsDeclareDate)}}</span>   <span class="c_txt">{{srcName}}</span>）
+                （<span class="c_txt">{{newsDeclareDate}}</span>   <span class="c_txt">{{srcName}}</span>）
             </span>
         </div>
     </div>
 </template>
 <script type="text/javascript">
-    import { mapState } from 'vuex'
     import { formatDate } from 'utils/date'
     export default {
       props: ['themeHeight', 'themeWidth'],
@@ -60,24 +59,29 @@
           topicCode: ''
         }
       },
-      computed: mapState({
-        topicData: state => state.topic.hotlist[0]
-      }),
+      computed: {
+        topicData: function () {
+          const topicData = this.$store.state.topic.hotlist
+          return topicData
+        }
+      },
       methods: {
         format (date) {
           return formatDate(date)
         },
         initTopic () {
           this.$store.dispatch('topic/queryHot').then(() => {
-            this.newsId = this.topicData.newsId
-            this.drivenEvent = this.topicData.drivenEvent
-            this.newsDeclareDate = this.topicData.newsDeclareDate
-            this.srcName = this.topicData.srcName
-            this.topicName = this.topicData.topicName
-            this.chngPct = this.topicData.topicMarket.chngPct > 0 ? '+' + this.topicData.topicMarket.chngPct.toFixed(2) : this.topicData.topicMarket.chngPct.toFixed(2)
-            this.stkUpNum = this.topicData.topicMarket.stkUpNum
-            this.stkDownNum = this.topicData.topicMarket.stkDownNum
-            this.topicCode = this.topicData.topicCode
+            if (this.topicData) {
+              this.newsId = this.topicData[0].newsId
+              this.drivenEvent = this.topicData[0].drivenEvent
+              this.newsDeclareDate = this.format(this.topicData[0].newsDeclareDate)
+              this.srcName = this.topicData[0].srcName
+              this.topicName = this.topicData[0].topicName
+              this.chngPct = this.topicData[0].topicMarket.chngPct > 0 ? '+' + this.topicData[0].topicMarket.chngPct.toFixed(2) : this.topicData[0].topicMarket.chngPct.toFixed(2)
+              this.stkUpNum = this.topicData[0].topicMarket.stkUpNum
+              this.stkDownNum = this.topicData[0].topicMarket.stkDownNum
+              this.topicCode = this.topicData[0].topicCode
+            }
           })
         }
       },
