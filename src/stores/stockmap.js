@@ -25,18 +25,13 @@ const actions = {
   queryRangeByCode ({ commit, state }, { code }) {
     let url
     if (code === '') {
-      url = 'http://www.z3quant.com/openapi/openjson/tx/' + code + '.json'
+      url = 'http://test.z3quant.com/openapi/openjson/tx/' + code + '.json'
     } else {
-      url = 'http://www.z3quant.com/openapi/openjson/tx/auth/' + code + '.json'
+      url = 'http://test.z3quant.com/openapi/openjson/tx/auth/' + code + '.json'
     }
     /* code = 'all'
     const url = 'mock/' + code + '.json'*/
-    return fetch(url, {
-      method: 'get',
-      headers: {
-        'Content-type': 'application:/x-www-form-urlencoded:charset=UTF-8'
-      }
-    }).then((res) => {
+    return fetch(url).then((res) => {
       console.log(res.headers.get('Content-Type'))
       return res.json()
     }).then((data) => {
@@ -44,7 +39,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   updateData ({ commit, state }, { isContinue, condition, code }) {
-    const url = `http://www.z3quant.com/openapi/timedQueryMap?isContinue=${isContinue}&condition=${condition}&code=${code}`
+    const url = `http://test.z3quant.com/openapi/timedQueryMap?isContinue=${isContinue}&condition=${condition}&code=${code}`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -52,7 +47,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   updateDataByDate ({ commit, state }, { date, code }) {
-    const url = 'http://www.z3quant.com/openapi/openjson/tx/' + date + '.json'
+    const url = 'http://test.z3quant.com/openapi/openjson/tx/' + date + '.json'
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -60,7 +55,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   stockChartData ({ commit, state }, { stockId, code }) {
-    const url = 'http://www.z3quant.com/openapi/industries/' + stockId + '.json?indexCode=' + code
+    const url = 'http://test.z3quant.com/openapi/industries/' + stockId + '.json?indexCode=' + code
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -68,7 +63,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   queryCalendarsData ({ commit, state }) {
-    const url = 'http://www.z3quant.com/openapi/calendars'
+    const url = 'http://test.z3quant.com/openapi/calendars'
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {

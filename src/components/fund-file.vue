@@ -336,7 +336,7 @@
           }
         },
         investTimeActive (type) {
-    
+
         }
 
       },

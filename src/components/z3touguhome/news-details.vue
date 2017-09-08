@@ -3,13 +3,20 @@
     *{box-sizing: border-box;font-family:'微软雅黑';font-size:12px;}
     html,body{height:100%;}
     .news-wrap{padding:10px 95px 0px 95px;background-color: #fff;min-height: 100%;}
-    .new-title{text-align: center;}
-    .new-txt{padding-bottom: 20px;}
-    .new-txt{padding-left: 5px;}
+    .new-title{text-align: center;padding-bottom: 40px;}
+    .new-txt{padding-bottom: 20px;padding-left: 5px;text-align: right;}
     .source-warn{text-align: center;}
     .new-main{padding-bottom: 40px;}
     .new-main p a{display: inline-block;width: 100%;height:100%;text-align: center;}
     .duty-name{padding-bottom: 80px;}
+    iframe{
+        height: 20px !important;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        width: 605px;
+    }
 </style>
 <template>
         <div class="news-wrap">
