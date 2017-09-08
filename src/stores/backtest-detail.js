@@ -150,8 +150,8 @@ export default {
         }
       })
     },
-    queryKline ({ commit }, { innerCode }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?innerCode=${innerCode}`, {
+    queryKline ({ commit }, { innerCode, strategyId }) {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
