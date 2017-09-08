@@ -10,6 +10,7 @@
     background-color: #fff;
 }
 .ques-detail div p {
+    font-weight: bold;
     font-size: 0.34rem;
 }
 .ques-detail div p span {
@@ -149,11 +150,12 @@
                     </a>
                     <div>
                         <h5>{{item.adviserUser.userName}}<span>{{item.adviserUser.company === '' ? '' : '-'+item.adviserUser.company}}</span></h5>
-                        <p v-if="focusResult">{{item.textContent}}</p>
-                        <p v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
+                        <p v-if="focusResult && focusShow">{{item.textContent}}</p>
+                        <p v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
+                        <p v-else>请在百度APP中查看</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
-                        <span v-if="focusResult">已关注</span>
-                        <span class="focus" v-else><i></i>关注</span>
+                        <span v-if="focusResult && focusShow">已关注</span>
+                        <span class="focus" v-else-if="!focusResult && focusShow"><i></i>关注</span>
                     </div>
                 </div>
             </li>
@@ -186,7 +188,8 @@ export default {
       userShow: false,
       navShow: true,
       bakShow: true,
-      show: false
+      show: false,
+      focusShow: false
     }
   },
   computed: mapState({
@@ -278,10 +281,25 @@ export default {
     })
     this.$store.dispatch('quesFocus/jsSdk')
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_detail', 'WT.ti', 'TG_Msite_Baidu_detail')
-    this.$watch('askData', askData => {
-      this.show = true
-    }, {
-      deep: true
+    // this.$watch('askData', askData => {
+    //   this.show = true
+    // }, {
+    //   deep: true
+    // })
+    var _this = this
+    this.$watch('focusResult', focusResult => {
+      window.cambrian.isBox({
+        success: function (res) {
+                  // res结构如下，result字段，在手百环境返回ture，否则返回false
+                  // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
+          if (res.result) {
+            _this.focusShow = true
+          } else {
+            _this.focusShow = false
+          }
+          _this.show = true
+        }
+      })
     })
   }
 }

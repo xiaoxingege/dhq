@@ -229,7 +229,7 @@
 </style>
 
 <template>
-<div class="ques-box">
+<div class="ques-box" v-if="show">
     <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow" />
     <div class="ques-success">
         <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
@@ -256,7 +256,7 @@
             </div>
             <div>
                 <!-- <h4>有回答时，会通过百度消息通知您</h4> -->
-                <p>有回答时，会通过百度消息通知您</p>
+                <p style="margin-top:0.3rem">有回答时，会通过百度消息通知您</p>
             </div>
         </div>
 
@@ -267,17 +267,18 @@
             <li v-for="item in dataList" v-if="jchdShow">
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.content"></h5>
-                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a>
                     <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
 
-                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
+                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
                     <div>
                         <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId"/>
                         <p>
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong v-html="item.lastedAnswer.content" v-if="focusResult"></strong>
-                            <strong v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-html="item.lastedAnswer.content" v-if="focusResult && focusShow"></strong>
+                            <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-else>请在百度APP中查看</strong>
                         </p>
                     </div>
                 </div>
@@ -286,15 +287,16 @@
                 <div class="ques-tg-list-box clearfix">
                     <h5 v-html="item.askContent"></h5>
                     <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
-                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a>
-                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else></a>
+                    <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a>
+                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
                     <div>
                         <img :src="item.userInfo.headImage" :userId="item.userInfo.userId"/>
                         <p>
                             <span>{{item.userInfo.userName}}</span>
                             <em>{{moment(parseInt(item.answerTime))}}</em>
-                            <strong v-html="item.answerContent" v-if="focusResult"></strong>
-                            <strong v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-html="item.answerContent" v-if="focusResult && focusShow"></strong>
+                            <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-else>请在百度APP中查看</strong>
                         </p>
                     </div>
                 </div>
@@ -329,7 +331,9 @@ export default {
       showTime: '1503625474595',
       num: 0,
       userShow: false,
-      bakShow: true
+      bakShow: true,
+      focusShow: false,
+      show: false
     }
   },
   computed: mapState({
@@ -428,6 +432,7 @@ export default {
     }
     this.$store.dispatch('quesFocus/jsSdk')
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_success', 'WT.ti', 'TG_Msite_Baidu_success')
+    var _this = this
     this.$watch('focusResult', focusResult => {
       if (focusResult === false) {
         window.cambrian.subscribe({ data: {
@@ -451,6 +456,18 @@ export default {
           }
         })
       }
+      window.cambrian.isBox({
+        success: function (res) {
+                // res结构如下，result字段，在手百环境返回ture，否则返回false
+                // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
+          if (res.result) {
+            _this.focusShow = true
+          } else {
+            _this.focusShow = false
+          }
+          _this.show = true
+        }
+      })
     })
   }
 }

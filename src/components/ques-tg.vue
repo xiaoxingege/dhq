@@ -57,17 +57,17 @@
     margin-top: 0.05rem;
 }
 .ques-tg-top div button.ques-tg-focus {
-    border: 1px #ff4040 solid;
+    border: 0.01rem #ff4040 solid;
     color: #ff4040;
     margin-right: 0.36rem;
 }
 .ques-tg-top div button.ques-tg-focus.alr-focus {
-    border: 1px #727488 solid;
+    border: 0.01rem #727488 solid;
     color: #727488;
     margin-right: 0.36rem;
 }
 .ques-tg-top div button.ques-tg-btn {
-    border: 1px #e5e8f9 solid;
+    border: 0.01rem #e5e8f9 solid;
     color: #e5e8f9;
 }
 .ques-tg-top div button i {
@@ -114,11 +114,12 @@
     font-size: 0.34rem;
     color: #333;
     line-height: 0.5rem;
-    border-bottom: 1px #e6e6e6 solid;
+    border-bottom: 0.01rem #e6e6e6 solid;
     padding-bottom: 0.2rem;
     font-weight: normal;
 }
 .ques-tg-list-box h5 a {
+    font-weight: bold;
     color: #333;
 }
 .ques-tg-list-box img {
@@ -191,8 +192,9 @@
                         <p>
                             <span>{{item.lastedAnswer.adviserUser.userName}}</span>
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong v-if="focusResult">{{item.lastedAnswer.content}}</strong>
-                            <strong v-else>关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-if="focusResult && focusShow">{{item.lastedAnswer.content}}</strong>
+                            <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+                            <strong v-else>请在百度APP中查看</strong>
                         </p>
                     </div>
                 </div>
@@ -215,7 +217,8 @@ export default {
       quesNavTitle: '投顾问答',
       userShow: false,
       bakShow: true,
-      show: false
+      show: false,
+      focusShow: false
     }
   },
   computed: mapState({
@@ -296,10 +299,25 @@ export default {
     })
     document.title = '投顾问答'
     this.$store.dispatch('quesFocus/jsSdk')
-    this.$watch('userInfo', userInfo => {
-      this.show = true
-    }, {
-      deep: true
+    // this.$watch('userInfo', userInfo => {
+    //   this.show = true
+    // }, {
+    //   deep: true
+    // })
+    var _this = this
+    this.$watch('focusResult', focusResult => {
+      window.cambrian.isBox({
+        success: function (res) {
+                  // res结构如下，result字段，在手百环境返回ture，否则返回false
+                  // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
+          if (res.result) {
+            _this.focusShow = true
+          } else {
+            _this.focusShow = false
+          }
+          _this.show = true
+        }
+      })
     })
   }
 }

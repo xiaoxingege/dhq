@@ -79,7 +79,8 @@ export default {
       searchValue: '',
       userShow: false,
       bakShow: true,
-      show: false
+      show: false,
+      focusShow: false
     }
   },
   computed: mapState({
@@ -92,7 +93,8 @@ export default {
     userId: state => state.user.ssoId,
     tmpQues () {
       return localStorage.text
-    }
+    },
+    focusResult: state => state.quesFocus.focusResult
   }),
   components: {
     quesSearch,
@@ -121,6 +123,10 @@ export default {
       history.go(-1)
     },
     navEvents () {
+      if (!this.focusShow) {
+        alert('请在百度APP中使用')
+        return
+      }
       var searchValue = this.searchValue
       var textCont = searchValue + '' + this.text
       var passportId = window.basicUserInfo.userId
@@ -193,9 +199,24 @@ export default {
     this.$watch('askTimes', askTimes => {
       console.log(askTimes)
       this.userShow = true
-      this.show = true
     })
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask', 'WT.ti', 'TG_Msite_Baidu_ask')
+    this.$store.dispatch('quesFocus/jsSdk')
+    var _this = this
+    this.$watch('focusResult', focusResult => {
+      window.cambrian.isBox({
+        success: function (res) {
+                  // res结构如下，result字段，在手百环境返回ture，否则返回false
+                  // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
+          if (res.result) {
+            _this.focusShow = true
+          } else {
+            _this.focusShow = false
+          }
+          _this.show = true
+        }
+      })
+    })
   }
 }
 </script>

@@ -13,7 +13,7 @@ import sha1 from 'js-sha1'
 export default {
   namespaced: true,
   state: {
-    focusResult: false,
+    focusResult: null,
     err: null
   },
   mutations: {
