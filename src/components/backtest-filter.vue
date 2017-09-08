@@ -207,7 +207,7 @@
                      </span><span>{{changeDate(tradeDay.backtestDate)}}
                      </span><span>{{tradeDay.sellStockNums}}
                      </span><span>{{changeDate(tradeDay.buyDate)}}
-                     </span><span>{{tradeDay.winLossRatio}}
+                     </span><span>{{tradeDay.winLossRatio==null?'--':changeFix(tradeDay.winLossRatio)}}
                      </span><span>{{changePer(tradeDay.winRatio)}}
                      </span><span :class="tradeDay.avgReturn>=0 ? tradeDay.avgReturn===0||tradeDay.avgReturn==null?'':'red':'green'">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
                      </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{changePer(tradeDay.avgReturnExcess)}}
@@ -274,6 +274,9 @@
      /* goToPage (page) {
        this.page = Number(page) - 1
      },*/
+     changeFix (num) {
+       return Number(num).toFixed(2) + '%'
+     },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'
      },
@@ -286,6 +289,7 @@
      showQrcode () {
        this.showQrcodeBox = !this.showQrcodeBox
      }
+
    },
    watch: {
      stockPage () {

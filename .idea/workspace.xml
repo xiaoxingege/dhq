@@ -4,14 +4,14 @@
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-filter-descr.vue" afterPath="$PROJECT_DIR$/src/components/back-filter-descr.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-stra.vue" afterPath="$PROJECT_DIR$/src/components/back-time-stra.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/backtest-filter.vue" afterPath="$PROJECT_DIR$/src/components/backtest-filter.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/backtest-time.vue" afterPath="$PROJECT_DIR$/src/components/backtest-time.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recom-line.vue" afterPath="$PROJECT_DIR$/src/components/fund-recom-line.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recommend.vue" afterPath="$PROJECT_DIR$/src/components/fund-recommend.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recom-table.vue" afterPath="$PROJECT_DIR$/src/components/fund-recom-table.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/intell-recom-line.vue" afterPath="$PROJECT_DIR$/src/components/intell-recom-line.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/intell-recom-table.vue" afterPath="$PROJECT_DIR$/src/components/intell-recom-table.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/fund-intell.js" afterPath="$PROJECT_DIR$/src/stores/fund-intell.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/z3tougu/config/index.js" afterPath="$PROJECT_DIR$/src/z3tougu/config/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/z3tougu/router/index.js" afterPath="$PROJECT_DIR$/src/z3tougu/router/index.js" />
     </list>
     <ignored path="vue.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-9.682927">
-              <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -59,7 +59,7 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1504758325427" expanded="true" signature="56587:56675" placeholder="..." />
+                <marker date="1504834753686" expanded="true" signature="46699:46787" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -248,13 +248,28 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/back-time-kline.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/founddialog.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpoollist.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/routed-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/package.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-filter.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-time.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/basic-info.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-chart.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/line-chart.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/search-box.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/search-result.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/news-details.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/z3tougu-index.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/bubbles.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-archives.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-record.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/gold-strategy.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/stockmap.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/z3tougu-index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/zhikuan-detail-pages.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/zhikuan-search-list.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/config/index.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/router/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn-error.log</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/store/index.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn.lock</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
@@ -263,13 +278,12 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/z3img/ques.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/z3img/wdx.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/editstrategy.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpooldetail.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fundPoolRelevance.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/ownstrategylist.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/toast.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-detail-h5.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/allocation-pie.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/fund-archives.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/fund-periodrise.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/scale-bar.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/backtest-detail-h5.js</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已删除" />
@@ -432,15 +446,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1918" height="1038" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1574468" sideWeight="0.4841772" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6567329" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6567329" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -541,7 +555,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
           <folding>
-            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
+            <marker date="1504835037406" expanded="true" signature="4415:4491" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -622,7 +636,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
           <folding>
-            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
+            <marker date="1504835037406" expanded="true" signature="4415:4491" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -702,7 +716,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
           <folding>
-            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
+            <marker date="1504835037406" expanded="true" signature="4415:4491" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -794,7 +808,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
           <folding>
-            <marker date="1504758320048" expanded="true" signature="3761:4215" placeholder="[...]" />
+            <marker date="1504835037406" expanded="true" signature="4415:4491" placeholder="[...]" />
           </folding>
         </state>
       </provider>
@@ -836,7 +850,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1504758325427" expanded="true" signature="56587:56675" placeholder="..." />
+            <marker date="1504834753686" expanded="true" signature="46699:46787" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -862,7 +876,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.682927">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
           <folding />
         </state>
       </provider>
