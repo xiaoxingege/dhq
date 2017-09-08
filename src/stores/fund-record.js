@@ -81,7 +81,7 @@ export default {
   actions: {
     getFundLjjzData ({ commit }, { innerCode }) {
       // commit('setFundOptions', innerCode)
-      return fetch(`${domain}/openapi/fund/fundVal/000001.CW/?fundType=4`, {
+      return fetch(`${domain}/openapi/fund/fundVal/000001.CW.shtml/?fundType=4`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
