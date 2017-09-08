@@ -118,13 +118,13 @@
       
            <div class="time-inp-box">
                <label class="label-txt">全部A股中，单只股票近一年买卖点分析</label>
-               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message">
+               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
                <span class="ana-btn" @click="search($event)">分析</span>
                <ul class="search-ul" v-if="searchList && searchList.length > 0 && message!=''" v-show="showSearchList">
                   <li v-for="list of searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
                   
                </ul>
-               <!-- <ul class="search-ul" v-else="message===''">
+               <!-- <ul class="search-ul" v-else>
                   <li>暂无数据</li>
                   
                </ul> -->

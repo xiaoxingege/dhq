@@ -27,6 +27,7 @@ import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
 import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
+import IntellCombList from 'components/intell-comb-list'
 // import GoldStrategy from 'components/gold-strategy'
 /* import Kgraph from 'components/kgraph'*/
 
