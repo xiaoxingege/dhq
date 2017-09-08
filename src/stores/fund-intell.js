@@ -26,7 +26,9 @@ export default {
     excellentSelectMoneyFund: [], // 优选货基
     revenueChampion: [],
     recommend: [],
-    byRisk: []
+    byRisk: [],
+    hotTopicRecommend: [],
+    portfolioList: []
    /* recommend: {
       portfolio_id: '',
       portfolio_name: '',
@@ -59,12 +61,18 @@ export default {
     },
     updateRecommendByRisk (state, risk) {
       state.byRisk = risk
+    },
+    updatehotTopicRecommend (state, hotRecom) {
+      state.hotTopicRecommend = hotRecom
+    },
+    updatePortfolioList (state, portfolioList) {
+      state.portfolioList = portfolioList
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
     queryfundRecommendInfo ({ commit }) {
-      return fetch(`${domain}/openapi/fund/fundRecommendInfo.shtml`, {
+      return fetch(`${domain}/openapi/fund/fundRecommendInfo.shtml?orgCode=200180365`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -77,7 +85,7 @@ export default {
       })
     },
     queryExcellentSelectPlan ({ commit }) {
-      return fetch(`${domain}/openapi/fund/excellentSelectPlan.shtml`, {
+      return fetch(`${domain}/openapi/fund/excellentSelectPlan.shtml?orgCode=200180365`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -89,8 +97,21 @@ export default {
         }
       })
     },
+    queryhotTopicRecommend ({ commit }) {
+      return fetch(`${domain}/openapi/fund/hotTopicRecommend.shtml?orgCode=200180365`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          console.log(result.data[0].name)
+          // console.log(result.data.evaluationIndexs.winRatio)
+          commit('updatehotTopicRecommend', result.data)
+        }
+      })
+    },
     querySelectMoneyFund ({ commit }) {
-      return fetch(`${domain}/openapi/fund/excellentSelectMoneyFund.shtml`, {
+      return fetch(`${domain}/openapi/fund/excellentSelectMoneyFund.shtml?orgCode=200180365`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -103,7 +124,7 @@ export default {
       })
     },
     queryRevenueChampion ({ commit }) {
-      return fetch(`${domain}/openapi/fund/revenueChampion.shtml`, {
+      return fetch(`${domain}/openapi/fund/revenueChampion.shtml?orgCode=200180365`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -122,14 +143,14 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data[0].recommend_info)
+          console.log(result.data[0].kline)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateRecommend', result.data)
         }
       })
     },
-    queryRecommendByRisk ({ commit }) {
-      return fetch(`${domain}/openapi/openapi/fintechportfolio/getRecommendByRisk.shtml?risk=2&page=1&page_num=8`, {
+    queryRecommendByRisk ({ commit }, { risk }) {
+      return fetch(`${domain}/openapi/fintechportfolio/getRecommendByRisk.shtml?risk=${risk}&page=1&page_num=8`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -137,6 +158,19 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateRecommendByRisk', result.data)
+        }
+      })
+    },
+    queryPortfolioList ({ commit }) {
+      return fetch(`${domain}/openapi/fintechportfolio/list.shtml?page=1&page_num=20`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data.evaluationIndexs.winRatio)
+          console.log(result.data)
+          commit('updatePortfolioList', result.data)
         }
       })
     }

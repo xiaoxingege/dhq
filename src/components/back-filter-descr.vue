@@ -170,7 +170,7 @@
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>持有天数</span>
-                         <span class="desc-num">{{eval.holdDay}}</span>
+                         <span class="desc-num">{{eval.holdDay==null?'--':eval.holdDay}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大盈利</span>

@@ -8,6 +8,7 @@ export default {
   emptyValue: '--'
 }
 const domain = '//test.z3quant.com'
+// const domain = '//www.z3quant.com'
 // const domain = '//10.77.4.84:8899'
 export { domain }
 
