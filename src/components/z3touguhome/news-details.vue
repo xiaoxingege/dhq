@@ -2,7 +2,7 @@
     @import '../../assets/css/base.css';
     *{box-sizing: border-box;font-family:'微软雅黑';font-size:12px;}
     html,body{height:100%;}
-    .news-wrap{padding:10px 95px 0px 95px;background-color: #fff;min-height: 100%;}
+    .news-wrap{padding:10px 95px 0px 95px;background-color: #fff;min-height: 100%;    overflow: auto;}
     .new-title{text-align: center;padding-bottom: 40px;}
     .new-txt{padding-bottom: 20px;padding-left: 5px;text-align: right;}
     .source-warn{text-align: center;}
