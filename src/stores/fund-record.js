@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 // initial state
 export default {
@@ -14,7 +15,8 @@ export default {
       name: []
     },
     fundFeatureData: null,
-    exchrHldData: null
+    exchrHldData: null,
+    investStyleData: null
   },
   mutations: {
     setFundOptions (state, result) {
@@ -67,12 +69,19 @@ export default {
       } else {
         state.exchrHldData = null
       }
+    },
+    setInvestStyleData (state, result) {
+      if (result.errCode === 0) {
+        state.investStyleData = result.data[0]
+      } else {
+        state.investStyleData = null
+      }
     }
   },
   actions: {
     getFundLjjzData ({ commit }, { innerCode }) {
       // commit('setFundOptions', innerCode)
-      return fetch('http://www.z3quant.com/openapi/fund/fundVal/000001.CW/?fundType=4', {
+      return fetch(`${domain}/openapi/fund/fundVal/000001.CW/?fundType=4`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -82,7 +91,7 @@ export default {
     },
     getFundBuyData ({ commit }, { innerCode }) {
       // commit('setFundOptions', innerCode)
-      return fetch(`http://www.z3quant.com/openapi/fund/fundbuy/${innerCode}.shtml`, {
+      return fetch(`${domain}/openapi/fund/fundbuy/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -92,7 +101,7 @@ export default {
     },
     getBubbleData ({ commit }, { innerCode }) {
           // commit('setFundOptions', innerCode)
-      return fetch('http://www.z3quant.com/openapi/fund/riskAndProceedsMap.shtml?innerCode=000001.CW', {
+      return fetch(`${domain}/openapi/fund/riskAndProceedsMap.shtml?innerCode=000001.CW`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -102,7 +111,7 @@ export default {
     },
     getFeatureData ({ commit }, { innerCode }) {
           // commit('setFundOptions', innerCode)
-      return fetch('http://www.z3quant.com/openapi/fund/fundCharacteristics.shtml?innerCode=000001.CW', {
+      return fetch(`${domain}/openapi/fund/fundCharacteristics.shtml?innerCode=000001.CW`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -112,12 +121,22 @@ export default {
     },
     getExchrHldData ({ commit }, { innerCode }) {
           // commit('setFundOptions', innerCode)
-      return fetch(`http://www.z3quant.com/openapi/fund/assetExchrHld/${innerCode}.shtml?limit=5`, {
+      return fetch(`${domain}/openapi/fund/assetExchrHld/${innerCode}.shtml?limit=5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(body => {
         commit('setExchrHldData', body)
+      })
+    },
+    getInvestStyleData ({ commit }, { innerCode }) {
+          // commit('setFundOptions', innerCode)
+      return fetch(`${domain}/openapi/fund/investStyle?innerCode=000001.CW&date=2017-06-01`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setInvestStyleData', body)
       })
     }
 

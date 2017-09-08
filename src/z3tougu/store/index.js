@@ -16,6 +16,7 @@ import smartPool from 'stores/smartPool'
 import filter from 'stores/filter'
 import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
+import backtestDetailH5 from 'stores/backtest-detail-h5'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     smartPool,
     funcArchives,
     fundRecord,
-    filter
+    filter,
+    backtestDetailH5
   }
 })

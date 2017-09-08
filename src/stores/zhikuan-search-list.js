@@ -5,6 +5,7 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 const PAGE_SIZE = 20
 
@@ -54,7 +55,7 @@ export default {
   actions: {
     searchList ({ commit }, { keyword, currentPage, sortType, linkText }) {
       commit('setSearchOptions', { keyword, currentPage, sortType, linkText })
-      return fetch(`http://www.z3quant.com/openapi/search/${linkText}/list.shtml?w=${keyword}&page=${currentPage || 1}`, {
+      return fetch(`${domain}/openapi/search/${linkText}/list.shtml?w=${keyword}&page=${currentPage || 1}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

@@ -5,6 +5,8 @@
 
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
+
 export default {
   namespaced: true,
   state: {
@@ -55,7 +57,7 @@ export default {
   actions: {
     getDetailPages ({ commit }, { id, detailType }) {
       commit('setDetailOptions', { id })
-      return fetch(`http://www.z3quant.com/openapi/${detailType}/${id}.shtml`, {
+      return fetch(`${domain}/openapi/${detailType}/${id}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -67,7 +69,7 @@ export default {
       })
     },
     checkDownReport ({ commit }, { id }) {
-      return fetch(`http://www.z3quant.com/openapi/report/checkDownReportFile/${id}.shtml`, {
+      return fetch(`${domain}/openapi/report/checkDownReportFile/${id}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -76,7 +78,7 @@ export default {
       })
     },
     getInforRelate ({ commit }, { id, innerCode }) {
-      return fetch(`http://www.z3quant.com/openapi/relatedNews/${id}.shtml?innerCode=${innerCode}`, {
+      return fetch(`${domain}/openapi/relatedNews/${id}.shtml?innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -85,7 +87,7 @@ export default {
       })
     },
     getTopicRelate ({ commit }, { topicCode }) {
-      return fetch(`http://www.z3quant.com/openapi/news/topic/${topicCode}.shtml?page=0&size=3`, {
+      return fetch(`${domain}/openapi/news/topic/${topicCode}.shtml?page=0&size=3`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
