@@ -6,7 +6,6 @@
         <a href="javascript:;" class="fr btn">导出基金</a>
         <ul class="tabList fl">
           <li class="active">筛选条件</li>
-          <li>条件重置</li>
         </ul>
       </div>
       <!-- 筛选条件 -->
@@ -275,9 +274,9 @@
 <script>
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
-import FilterSelect from '../../components/filter/filter-select'
-import FilterDialog from '../../components/filter/filter-dialog'
-import Pagination from '../../components/pagination'
+import FilterSelect from 'components/filter/filter-select'
+import FilterDialog from 'components/filter/filter-dialog'
+import Pagination from 'components/pagination'
 export default {
   data () {
     return {
@@ -300,10 +299,16 @@ export default {
   },
   computed: {
     ...mapState([
-      'foundPoolList'
+      'foundPoolList',
+      'themeList',
+      'relatedStocks',
+      'totalPage'
     ]),
     ...mapGetters({
-      foundPoolList: 'foundPoolList'
+      foundPoolList: 'foundPoolList',
+      themeList: 'themeList',
+      relatedStocks: 'relatedStocks',
+      totalPage: 'totalPage'
     })
   },
   methods: {
@@ -321,20 +326,8 @@ export default {
       console.log(length)
       this.dialogShow = true
       this.content = content
-      if (length > 0) {
-        if (content === 1) {
-          this.popTitle = '保存当前基金池'
-          this.tsTxt = '基金池为空，无法保存！'
-        }
-      }
-      if (length === 0) {
-        this.content = 2
-        if (content === 2) {
-          this.popTitle = '提示'
-          this.tsTxt = '基金池为空，无法保存！'
-          this.okbtntxt = '确认'
-        }
-      }
+      this.popTitle = '保存当前基金池'
+      this.tsTxt = '基金池为空，无法保存！'
     },
     dialogCloseFn () {
       this.dialogShow = false
@@ -372,7 +365,8 @@ export default {
       this.page = Number(page) - 1
     },
     query (page) {
-      this.$store.dispatch('getFundPool', { page: this.page, pagesize: this.pagesize })
+      // this.$store.dispatch('getFundPool', { sortField: this.sortField, page: this.page, pagesize: this.pagesize })
+      this.$store.dispatch('getFundPool', { sortField: this.sortField, page: this.page, pagesize: this.pagesize })
     }
   },
   mounted () {

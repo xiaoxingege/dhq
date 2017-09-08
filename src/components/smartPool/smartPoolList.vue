@@ -13,41 +13,65 @@
             <th v-for="theader in theaders">{{theader}}</th>
           </tr>
           <tr v-for="item in smartPoolList">
-            <td :class='{blue:item.userByStrategy == 1}'>[{{item.poolName}}]</td>
+            <td :class='{blue:item.userByStrategy == 1}'>
+              <router-link :to="{path:'/smartPoolListDetails/'+ item.poolId}" class="blue">[{{item.poolName}}]<span v-if="item.isInvalid" v-text="item.isInvalid == false?'无效':''"></span></router-link>
+            </td>
             <td>{{item.fundNum | fundNum('只')}}</td>
             <td>{{item.createTime}}</td>
             <td>{{item.updateTime}}</td>
             <td><span v-for="fsiList in item.fundStrategyInfoList" :class='{blue:item.userByStrategy == 1}'>[{{fsiList.name}}]</span></td>
             <td>
-              <a href="javascript:;" class="button copy_button" @click='showDialog'>复制</a>
+              <a v-if="!item.isInvalid"  :poolName='item.poolName' :poolId = 'item.poolId' href="javascript:;" class="button copy_button" @click='showDialog($event,content)'>复制</a>
             </td>
           </tr>
       </table>
     </div>
-    <SmartPoolListDialog v-if="show"  @close='close' @dialogOkFn ='save'></SmartPoolListDialog>
+    <founddialog :title="popTitle" v-if="show" @toHideDialog="dialogclosefn">
+      <div slot='content'>
+        <div class="up" v-if="content == 1">
+          <span>复制当前基金池</span><input v-model='inputPoolName' type="text" name="" placeholder="请输入基金池名称">
+          <p class="msg">{{msg}}</p>
+        </div>
+        <div class="up" v-if="content == 2">
+          <p class="msg2 tc">{{msg}}</p>
+        </div>
+        <div class="down">
+          <button v-if="content == 1" @click='save'>保存</button>
+          <button v-if="content == 2" @click='dialogclosefn'>确认</button>
+        </div>
+      </div>
+    </founddialog>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
-  import SmartPoolListDialog from '../../components/smartPool/smartPoolListDialog'
+  import founddialog from 'components/founddialog'
+  import { domain } from '../../z3tougu/config'
   export default{
     data () {
       return {
         theaders: ['名称', '基金数(只)', '创建时间', '修改时间', '组合关联', '操作'],
         selectActive: 2,
         show: false,
-        isRecommend: 0,
+        isRecommend: 1,
         userId: '3dce11a5-7db5-42a8-b2d0-81cb70dc10dd',
-        orgCode: '200180365'
+        orgCode: '200180365',
+        poolId: '',
+        poolName: '',
+        inputPoolName: '',
+        msg: '',
+        errCode: '',
+        isInvalid: '',
+        content: 1
       }
     },
     components: {
-      SmartPoolListDialog
+      founddialog
     },
     mounted () {
-      this.$store.dispatch('getSmartPoolList', { isRecommend: this.isRecommend, userId: this.userId, orgCode: this.orgCode })
+      this._getSmartPoolList()
     },
     computed: {
       ...mapState([
@@ -58,15 +82,43 @@
       })
     },
     methods: {
-      showDialog () {
-        this.show = true
+      // 智能基金池列表
+      _getSmartPoolList () {
+        this.$store.dispatch('getSmartPoolList', { isRecommend: this.isRecommend, userId: this.userId, orgCode: this.orgCode })
       },
-      close () {
+      // 复制基金池
+      copySmartPool () {
+        const url = `${domain}/openapi/fund/copyFundPool.shtml?poolName=${this.inputPoolName}&copyPoolId=${this.poolId}&userId=${this.userId}&orgCode=${this.orgCode}`
+        return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
+          return res.json()
+        }).then(result => {
+          console.log(result)
+          if (result.errCode === 0) {
+            this.show = false
+            this.$router.push({ path: '/smartPoolListDetails/' + result.data })
+          } else if (result.errCode === 1505 || result.errCode === 1501 || result.errCode === -1) {
+            this.msg = result.msg
+            this.errCode = result.errCode
+            if (result.errCode === -1) {
+              this.content = 2
+            }
+          }
+        })
+      },
+      showDialog (e, content) {
+        this.poolName = e.target.attributes.poolname.value
+        this.poolId = e.target.attributes.poolid.value
+        this.show = true
+        this.popTitle = '复制当前基金池'
+        this.inputPoolName = ''
+      },
+      dialogclosefn () {
         this.show = false
+        this.content = 1
+        this.msg = ''
       },
       save () {
-        alert('save')
-        this.show = false
+        this.copySmartPool()
       }
     }
   }
@@ -152,4 +204,12 @@
       color: #2388da;
     }
   }
+  .up{margin: 0 auto;width:380px;}
+  .up{margin: 30px auto;width:380px;}
+  .up span{font-size: 14px;color: #191919;}
+  .up input{width:230px;height:34px; line-height: 34px; font-size: 12px; padding-left: 10px;margin-left: 10px;}
+  .down{ display: flex;justify-content: center; margin-top:30px; }
+  .down button{width:100px;line-height: 32px;background: #39c;color: #fff; text-align: center;}
+  .msg{color: red;left: 169px;position: absolute;top: 106px;}
+  .msg2{font-size: 14px;}
 </style>

@@ -32,6 +32,17 @@ export default {
       state.page = options.page || 1
       state.total = options.totalPages
     },
+    updateAllTopic (state, themeList) {
+      state.themeList = themeList
+      const stocks = {}
+      for (const topic of themeList) {
+        const relatedEquity = topic.relatedEquity
+        for (const stock of relatedEquity) {
+          stocks[stock.innerCode] = stock
+        }
+      }
+      state.relatedStocks = stocks
+    },
     updatePage (state, options) {
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
@@ -39,11 +50,9 @@ export default {
     }
   },
   actions: {
-    getFundPool ({ commit }, { sortField, page, pagesize, totalPages }) {
-      page = page || 0
-      pagesize = pagesize || PAGE_SIZE
-      const url = `${domain}/openapi/fund/strategyByParam.shtml?`
-      return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
+    getFundPool ({ commit }) {
+      const url = `${domain}/openapi/fund/strategyByParam.shtml`
+      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
         commit(types.ADD_FUNDPOLL, result.data)
@@ -57,7 +66,21 @@ export default {
     //     return res.json()
     //   }).then(result => {
     //     commit(types.ADD_FUNDPOLL, result.data)
-    //     commit('upDataPage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
+    //     commit('upDataPage', { page: 0, pageSize: 10, totalPages: 25 })
+    //   })
+    // }
+    // queryAllTopic ({ commit }, { sortField, page, pagesize, totalPages }) {
+    //   page = page || 0
+    //   pagesize = pagesize || PAGE_SIZE
+    //   return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
+    //     mode: 'cors'
+    //   }).then((res) => {
+    //     return res.json()
+    //   }).then(result => {
+    //     if (result.errCode === 0) {
+    //       commit('updateAllTopic', result.data.content)
+    //       commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
+    //     }
     //   })
     // }
   }

@@ -9,27 +9,47 @@
           <span>复制当前基金池</span><input v-model='poolName' type="text" name="" placeholder="请输入基金池名称">
         </div>
       <div class="down">
-          <a href="javascript:;" @click='dialogOk'>保存</a>
+          <a href="javascript:;" @click='sendFoundName'>保存</a>
       </div>
     </div>
   </div>
+  <toast :msg="msgtxt"  v-if="msgshow"></toast>
 </div>
 </template>
 <script>
+import toast from '../../components/toast'
 export default {
   data () {
     return {
-      poolName: ''
+      poolName: '',
+      msgtxt: '',
+      msgshow: false
     }
   },
-  props: [],
-  components: {},
+  props: ['poolName'],
+  components: {
+    toast
+  },
   methods: {
+    showmsg (m) {
+      this.msgshow = true
+      this.msgtxt = m
+      var t = this
+      clearTimeout(this.timer)
+      this.timer = setTimeout(function () {
+        t.msgshow = false
+      }, 3000)
+    },
     dialogClose () {
       this.$emit('close')
     },
-    dialogOk () {
-      this.$emit('dialogOkFn')
+    sendFoundName: function () {
+      if (!this.poolName) {
+        this.showmsg('请输入基金池名称')
+        return
+      } else {
+        this.$emit('saveFound', this.poolName)
+      }
     }
   },
   mounted () {

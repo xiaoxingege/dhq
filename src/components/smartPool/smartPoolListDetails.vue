@@ -1,12 +1,12 @@
 <template>
   <div class="smartPoolListDetails">
     <div class="top pr">
-        <span class="name">[{{fundPoolHeadData.poolName}}]</span>
-        <span>创建时间 {{fundPoolHeadData.createTime}}</span>
-        <span>修改时间 {{fundPoolHeadData.updateTime}}</span>
-        <span>基金税 {{fundPoolHeadData.fundNum}}只</span>
-        <div class="copy"><a :poolid="fundPoolHeadData.poolId" :poolname='fundPoolHeadData.poolName' href="javascript:;" class="button copy_button" @click='showDialog($event,content)'>复制</a> <span v-if="show" class="msg cRed">含未代销基金，基金池已失效，可删除基金池及关联策略。</span></div>
-        <div class="group mt-10">关联组合：<span class="name" v-for="item in fundPoolHeadData.fundStrategyInfoList">[{{item.name}}]</span></div>
+      <span class="name">[智能-基金池1号]</span>
+      <span>创建时间 2017.03.02</span>
+      <span>创建时间 2017.03.02</span>
+      <span>基金税 5只</span>
+      <div class="copy"><a :poolid="userId" :poolname='userId' href="javascript:;" class="button copy_button" @click='showDialog($event,content)'>复制</a> <span v-if="show" class="msg cRed">含未代销基金，基金池已失效，可删除基金池及关联策略。</span></div>
+      <div class="group mt-10">关联组合：<span class="name">[测试策略11号。。。]</span><span class="name">[测试策略11号。。。]</span></div>
     </div>
     <table class="table tc">
       <tr>
@@ -93,24 +93,6 @@ export default {
       errCode: '',
       isInvalid: '',
       content: 1
-      // fundPoolHeadData: {
-      //   'poolId': '59b0efcd4ce58568267f1ba5',
-      //   'poolName': '智能基金池2',
-      //   'fundNum': 3,
-      //   'createTime': '2017-09-01 11:24',
-      //   'updateTime': '2017-09-01 11:24',
-      //   'fundStrategyInfoList': [{
-      //     'strategyId': '123',
-      //     'name': '组合测试1'
-      //   },
-      //   {
-      //     'strategyId': '1233',
-      //     'name': '组合测试2'
-      //   }],
-      //   'overFiveLimit': 0,
-      //   'userByStrategy': 0,
-      //   'isInvalid': false
-      // }
     }
   },
   filters: {
@@ -172,6 +154,7 @@ export default {
     showDialog (e, content) {
       this.poolName = e.target.attributes.poolname.value
       this.poolId = e.target.attributes.poolid.value
+      console.log(this.poolName)
       this.show = true
       this.popTitle = '复制当前基金池'
     },

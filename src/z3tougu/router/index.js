@@ -25,6 +25,7 @@ import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
+import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 // import GoldStrategy from 'components/gold-strategy'
@@ -60,12 +61,13 @@ export default [
     { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5/:strategyId', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/fundRecommend', name: 'fundrecommend', component: FundRecommend },
-    { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
+    // { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
     { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
     { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
+    { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
      { path: '/fundArchives', name: 'fundArchives', component: FundArchives }
 
 ]
