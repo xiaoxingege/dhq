@@ -24,14 +24,14 @@ import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
-// import FundArchives from 'components/fund-archives/basic-info'
+import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 // import GoldStrategy from 'components/gold-strategy'
 /* import Kgraph from 'components/kgraph'*/
 
 export default [
     { path: '/', name: 'homeRoot', component: z3TouguIndex },
-    { path: '/', name: 'home', component: z3TouguIndex },
+    { path: '/home', name: 'home', component: z3TouguIndex },
     { path: '/search-box', name: 'search-box', component: SearchBox },
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
     { path: '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
@@ -62,7 +62,7 @@ export default [
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
     { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
-    { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList }
-    // { path: '/fundArchives', name: 'fundArchives', component: FundArchives }
+    { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
+     { path: '/fundArchives', name: 'fundArchives', component: FundArchives }
 
 ]
