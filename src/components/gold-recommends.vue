@@ -113,7 +113,7 @@
           const sellConditionTable = this.data.sellConditiondata.sell.sellStrategyIndexList
           if (buyConditionTable.length > 0) {
             for (var i = 0; i < buyConditionTable.length; i++) {
-              const parms = eval('(' + buyConditionTable[i].indexParams + ')')
+              const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
               const parmsPeriod = []
               for (var key in parms) {
                 if (parms[key] === 'day') {
@@ -132,7 +132,7 @@
           }
           if (sellConditionTable.length > 0) {
             for (var j = 0; j < sellConditionTable.length; j++) {
-              const parms = eval('(' + sellConditionTable[j].indexParams + ')')
+              const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
               const parmsPeriod = []
               for (var item in parms) {
                 if (parms[item] === 'day') {
