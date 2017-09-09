@@ -161,7 +161,7 @@
       props: ['totalPage', 'page'],
       data () {
         return {
-          currentPage: this.page === 'undefined' ? 1 : this.page
+          currentPage: this.page === undefined ? 1 : this.page
         }
       },
 //      watch: {
