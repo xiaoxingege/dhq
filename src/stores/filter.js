@@ -63,7 +63,8 @@ export default {
     }
   },
   actions: {
-    getFundPool ({ commit }) {
+    getFundPool ({ commit }, { type, option }) {
+      console.log(type, option)
       const url = `${domain}/openapi/fund/strategyByParam.shtml`
       return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
         return res.json()

@@ -9,7 +9,7 @@
           </ul>
         </div>
         <!-- 筛选条件 -->
-        <filter-select @selectType = 'selectType'></filter-select>
+        <filter-select @change='query' @change1='filterType' :options = 'options' @selectType = 'selectType'></filter-select>
       </div>
       <!-- 临时基金池 -->
       <div class="fundPool fl">
@@ -289,7 +289,25 @@
         typeIndex: 0,
         sortField: '',
         page: 0,
-        pagesize: ''
+        pagesize: '',
+        type2: 'jjlx_all',
+        filterParams2: {
+          jjlx: 'jylx_all',
+          jyzt: 'jyzt_all',
+          jjgm: 'jjgm_all',
+          clsj: 'clsj_all',
+          dexz: 'dexz_all',
+          sylbx1: 'sylbx_all',
+          sylbx2: 'sylbx_all',
+          nhsyl: 'nhsyl_all',
+          hy: 'hy_all',
+          tzfg: 'tzfg_all',
+          jhqfxq: 'jhfxq_all',
+          zdhc: 'zdhc_all',
+          xpb: 'xpb_all',
+          cesyl: 'cesy_all',
+          fbq: 'fbq_all'
+        }
       }
     },
     components: {
@@ -333,8 +351,10 @@
           this.dialogShow = false
         }
       },
-      selectType (index) {
+      selectType (index, type) {
         this.typeIndex = index
+        this.type2 = type
+        this.query(this.filterParams2, this.page, this.type2)
       },
       delFoundPoolList (index, item) {
         this.foundPoolList.some((fund) => {
@@ -357,12 +377,17 @@
       goToPage (page) {
         this.page = Number(page) - 1
       },
-      query (page) {
-        // this.$store.dispatch('getFundPool', { sortField: this.sortField, page: this.page, pagesize: this.pagesize })
+      filterType (type) {
+        this.type2 = type
+      },
+      query (filterParams, page, type) {
+        this.filterParams2 = filterParams
+        // console.log(this.type2 + '==============')
+        this.$store.dispatch('getFundPool', { type: type, option: filterParams })
       }
     },
     mounted () {
-      this.query()
+      this.query(this.filterParams2, this.page, this.type2)
       this.foundPoolList = this.foundPoolList.map((fund) => {
         const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
         return tempFund

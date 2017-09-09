@@ -4,7 +4,7 @@
     <div class="filter-item clearfix">
       <span class="label">分类筛选：</span>
       <ul class="classify">
-        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' @click='selectType($event,index)' :value="type.value">{{type.name}}</li>
+        <li v-for="(type,index) in filterType" :class='{"active": index==typeIndex}' v-on:click="change1"  @click='selectType($event,index)' :value="type.value">{{type.name}}</li>
       </ul>
     </div>
     <!-- 全部 -->
@@ -14,7 +14,7 @@
         <ul class="selectBox">
           <li>
             <label><div class="pr tsk">交易状态：<div class="text">交易日15点前显示当天基金交易状态，15点后显示下个交易日基金交易状态</div></div></label>
-            <select v-model='filterParams.jyzt' :disabled='isDisabled'><option v-for="(val,key) in descRips" :value="key">{{val}}</option></select>
+            <select v-model='filterParams.jyzt  ' :disabled='isDisabled'><option v-for="(val,key) in descRips" :value="key">{{val}}</option></select>
           </li>
           <li>
             <label class="pr tsk">基金规模：<div class="text">根据最近一次基金季报/年报获得</div></label>
@@ -64,15 +64,9 @@
             </select>
           </li>
           <li>
-            <label class="pr tsk">机会期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select v-model='filterParams.jhq' :disabled='isDisabled'>
+            <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
+            <select v-model='filterParams.jhqfxq' :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金减仓时机</div></label>
-            <select v-model='filterParams.fxq' :disabled='isDisabled'>
-                <option v-for='(val,key) in riskTime' :value='key'>{{val}}</option>
             </select>
           </li>
           <li>
@@ -109,15 +103,9 @@
             </select>
           </li>
           <li>
-            <label class="pr tsk">机会期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select v-model='filterParams.jhq' :disabled='isDisabled'>
+            <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
+            <select v-model='filterParams.jhqfxq' :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金减仓时机</div></label>
-            <select :disabled='isDisabled'>
-                <option v-for='(val,key) in riskTime' :value='key'>{{val}}</option>
             </select>
           </li>
           <li>
@@ -159,10 +147,7 @@
           <li>
             <label class="pr tsk">封闭期：<div class="text">理财型基金封闭周期</div></label>
             <select v-model='filterParams.fbq' :disabled='isDisabled'>
-              <option value='fbq_all'>全部</option>
-              <option >T+0</option>
-              <option>T+1</option>
-              <option>其它</option>
+              <option v-for="(val,key) in fbq" :value="key">{{val}}</option>
             </select>
           </li>
         </ul>
@@ -187,7 +172,7 @@ export default {
       trades: Data.trades,
       investmentStyle: Data.investmentStyle,
       opportunity: Data.opportunity,
-      riskTime: Data.riskTime,
+      fbq: Data.fbq,
       selected: '',
       isDisabled: true,
       type: 'jjlx_all',
@@ -202,8 +187,7 @@ export default {
         nhsyl: 'nhsyl_all',
         hy: 'hy_all',
         tzfg: 'tzfg_all',
-        jhq: 'jhq_all',
-        fxq: 'fxq_all',
+        jhqfxq: 'jhfxq_all',
         zdhc: 'zdhc_all',
         xpb: 'xpb_all',
         cesyl: 'cesy_all',
@@ -215,7 +199,7 @@ export default {
     selectType (e, index) {
       this.type = e.target.attributes.value.value
       this.typeIndex = index
-      this.$emit('selectType', index)
+      this.$emit('selectType', index, this.type)
       if (this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
         this.isDisabled = false
       } else {
@@ -229,6 +213,13 @@ export default {
       this.$store.dispatch('getZdhc', { idxId: 'zdhc', jjlx: this.type })
       this.$store.dispatch('getXpb', { idxId: 'xpb', jjlx: this.type })
       this.$store.dispatch('getCesyl', { idxId: 'cesyl', jjlx: this.type })
+    },
+    change1 (e) {
+      this.type = e.target.attributes.value.value
+    },
+    change2 (e) {
+      // console.log(e.target.value)
+      // this.type = e.target.attributes.value.value
     }
   },
   mounted () {
@@ -249,6 +240,20 @@ export default {
       xpb: 'xpb',
       cesyl: 'cesyl'
     })
+  },
+  watch: {
+    'type': {
+      deep: true,
+      handler: function (oldVal, newVal) {
+        this.$emit('change1', newVal)
+      }
+    },
+    'filterParams': {
+      deep: true,
+      handler: function (oldVal, newVal) {
+        this.$emit('change', newVal)
+      }
+    }
   }
 }
 </script>
