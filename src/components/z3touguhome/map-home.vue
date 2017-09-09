@@ -90,7 +90,7 @@
                                   }
                                 },
                                 textStyle: {
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   ellipsis: false
                                 }
                               }
@@ -119,8 +119,8 @@
               itemStyle: {
                 normal: {
                   borderColor: '#000',
-                  borderWidth: 1,
-                  gapWidth: 5
+                  borderWidth: 0.5,
+                  gapWidth: 1
                 }
               },
               upperLabel: {
