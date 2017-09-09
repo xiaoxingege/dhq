@@ -78,17 +78,23 @@ const investmentStyle = {
   'tzfg_czxm': '成长型/中盘',
   'tzfg_czxs': '成长型/小盘'
 }
-// 机会期
+// 机会/风险期
 const opportunity = {
-  'jhq_all': '全部',
-  'jhq_yes': '处于机会期',
-  'jhq_no': '非机会期'
+  'jhfxq_all': '全部',
+  'jhfxq_jh': '机会期基金',
+  'jhfxq_fx': '风险期基金'
 }
-// 风险期
-const riskTime = {
-  'fxq_all': '全部',
-  'fxq_yes': '处于风险期',
-  'fxq_no': '非风险期'
+// 封闭期
+const fbq = {
+  'fbq_all': '全部',
+  'fbq_7day': '7天',
+  'fbq_14day': '14天',
+  'fbq_21day': '21天',
+  'fbq_28day': '28天',
+  'fbq_1mon': '1个月',
+  'fbq_2mon': '2个月',
+  'fbq_3mon': '3个月',
+  'fbq_6mon': '6个月'
 }
 export {
   descrips,
@@ -98,5 +104,5 @@ export {
   trades,
   investmentStyle,
   opportunity,
-  riskTime
+  fbq
 }
