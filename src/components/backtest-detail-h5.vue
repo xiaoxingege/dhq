@@ -45,7 +45,7 @@
         Pagination
       },
       computed: mapState({
-    
+
         backtestResult: state => state.backtestDetailH5.backtestResult,
         strategyResult: state => state.backtestDetailH5.strategyResult,
         syqxtData: state => state.backtestDetailH5.syqxtData,

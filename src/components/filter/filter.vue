@@ -15,7 +15,7 @@
       <div class="fundPool fl">
         <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
         <ul class="fundPoolList">
-          <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.code}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
+          <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
         </ul>
       </div>
     </div>
@@ -25,7 +25,7 @@
         <span class="fl">找到基金数：2000</span>
         <div class="search pr fr ml-20">
           <i class="icon_search"></i>
-          <input class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索'>
+          <input v-model='searchVal' class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索'>
         </div>
         <label for="jdx" class="fr">
           <input id="jdx" type="checkbox" name="name" value="">
@@ -64,7 +64,7 @@
           </thead>
           <tbody>
             <tr v-for='(item,index) in foundPoolList'>
-              <td>{{index}}</td>
+              <td>{{index+1}}</td>
               <td><a href="##">{{item.innerCode}}</a></td>
               <td><a href="##">{{item.name}}</a></td>
               <td>{{item.estabDate}}</td>
@@ -280,7 +280,6 @@
   export default {
     data () {
       return {
-        lsfoundPoolList: [],
         dialogShow: false,
         popTitle: '',
         tsTxt: '',
@@ -289,38 +288,56 @@
         typeIndex: 0,
         sortField: '',
         page: 0,
-        pagesize: '',
+        pageSize: 20,
+        orgCode: 200180365,
         type2: 'jjlx_all',
+        searchVal: '',
+        isConsignment: 0,
+        sort: 'symbol,asc',
         filterParams2: {
-          jjlx: 'jylx_all',
-          jyzt: 'jyzt_all',
-          jjgm: 'jjgm_all',
-          clsj: 'clsj_all',
-          dexz: 'dexz_all',
-          sylbx1: 'sylbx_all',
-          sylbx2: 'sylbx_all',
-          nhsyl: 'nhsyl_all',
-          hy: 'hy_all',
-          tzfg: 'tzfg_all',
-          jhqfxq: 'jhfxq_all',
-          zdhc: 'zdhc_all',
-          xpb: 'xpb_all',
-          cesyl: 'cesy_all',
-          fbq: 'fbq_all'
+          jjlx: 'jylx_all', // 基金类型
+          jyzt: 'jyzt_all', // 交易状态
+          jjgm: 'jjgm_all', // 基金规模
+          clsj: 'clsj_all', // 成立时间
+          dexz: 'dexz_all', // 大额限制
+          sylbx1: 'sylbx_all', // 收益率表现1
+          sylbx2: 'sylbx_all', // 收益率表现2
+          nhsyl: 'nhsyl_all', // 年化收益率
+          hy: 'hy_all', // 行业
+          tzfg: 'tzfg_all', // 投资风格
+          jhfxq: 'jhfxq_all', // 机会期风险期
+          zdhc: 'zdhc_all', // 最大回撤
+          xpb: 'xpb_all', // 夏普比
+          cesyl: 'cesy_all', // 超额收益
+          fbq: 'fbq_all'// 封闭期
         }
       }
+    },
+    filters: {
+
     },
     components: {
       FilterSelect,
       FilterDialog,
       Pagination
     },
+    // computed: {
+    //   ...mapState({
+    //     foundPoolList: state => state.filter.foundPoolList,
+    //     lsfoundPoolList: state => state.filter.lsfoundPoolList,
+    //     totalPage: state => state.filter.total
+    //   })
+    // },
     computed: {
       ...mapState([
-        'foundPoolList'
+        'foundPoolList',
+        'lsfoundPoolList',
+        'totalPage'
       ]),
       ...mapGetters({
-        foundPoolList: 'foundPoolList'
+        foundPoolList: 'foundPoolList',
+        lsfoundPoolList: 'lsfoundPoolList',
+        totalPage: 'totalPage'
       })
     },
     methods: {
@@ -330,11 +347,10 @@
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
-          return fund.id === fundid
+          return fund.innerCode === fundid
         })
       },
       showDialogFn (content) {
-        // const length = this.lsfoundPoolList.length
         this.dialogShow = true
         this.content = content
         this.popTitle = '保存当前基金池'
@@ -354,11 +370,15 @@
       selectType (index, type) {
         this.typeIndex = index
         this.type2 = type
+        this.page = 0
         this.query(this.filterParams2, this.page, this.type2)
+        if (this.type2 === 'jjlx_all') {
+          this.init()
+        }
       },
       delFoundPoolList (index, item) {
         this.foundPoolList.some((fund) => {
-          if (fund.id === item.id) {
+          if (fund.innerCode === item.innerCode) {
             fund.inTempPool = false
             return true
           }
@@ -368,7 +388,7 @@
       removeInterimFunds (item) {
         item.inTempPool = false
         this.lsfoundPoolList.some((fund, index) => {
-          if (fund.id === item.id) {
+          if (fund.innerCode === item.innerCode) {
             this.lsfoundPoolList.splice(index, 1)
             return true
           }
@@ -380,25 +400,43 @@
       filterType (type) {
         this.type2 = type
       },
-      query (filterParams, page, type) {
+      query (filterParams, type) {
         this.filterParams2 = filterParams
-        // console.log(this.type2 + '==============')
-        this.$store.dispatch('getFundPool', { type: type, option: filterParams })
+        this.$store.dispatch('getFundPool', { type: this.type2, option: this.filterParams2, isConsignment: this.isConsignment, searchVal: this.searchVal, page: this.page, pageSize: this.pageSize, orgCode: this.orgCode, sort: this.sort })
+      },
+      init () {
+        this.filterParams2.jyzt = 'jyzt_all'
+        this.filterParams2.jjlx = 'jylx_all' // 基金类型
+        this.filterParams2.jyzt = 'jyzt_all' // 交易状态
+        this.filterParams2.jjgm = 'jjgm_all' // 基金规模
+        this.filterParams2.clsj = 'clsj_all'// 成立时间
+        this.filterParams2.dexz = 'dexz_all' // 大额限制
+        this.filterParams2.sylbx1 = 'sylbx_all' // 收益率表现1
+        this.filterParams2.sylbx2 = 'sylbx_all' // 收益率表现2
+        this.filterParams2.nhsyl = 'nhsyl_all' // 年化收益率
+        this.filterParams2.hy = 'hy_all'  // 行业
+        this.filterParams2.tzfg = 'tzfg_all' // 投资风格
+        this.filterParams2.jhfxq = 'jhfxq_all' // 机会期风险期
+        this.filterParams2.zdhc = 'zdhc_all' // 最大回撤
+        this.filterParams2.xpb = 'xpb_all' // 夏普比
+        this.filterParams2.cesyl = 'cesy_all' // 超额收益
+        this.filterParams2.fbq = 'fbq_all'// 封闭期
       }
     },
     mounted () {
-      this.query(this.filterParams2, this.page, this.type2)
-      this.foundPoolList = this.foundPoolList.map((fund) => {
-        const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.id) }
-        return tempFund
+      this.$nextTick(function () {
+        this.query(this.filterParams2, this.page, this.type2)
+        this.foundPoolList = this.foundPoolList.map((fund, index) => {
+          const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.innerCode) }
+          return tempFund
+        })
       })
     },
     watch: {
       page () {
-        this.query(this.page)
+        this.query(this.filterParams2, this.page, this.type2)
       }
     }
-
   }
 </script>
 <style lang="scss" scoped>

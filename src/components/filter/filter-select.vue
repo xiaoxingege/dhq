@@ -65,7 +65,7 @@
           </li>
           <li>
             <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select v-model='filterParams.jhqfxq' :disabled='isDisabled'>
+            <select v-model='filterParams.jhfxq' :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
             </select>
           </li>
@@ -104,7 +104,7 @@
           </li>
           <li>
             <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select v-model='filterParams.jhqfxq' :disabled='isDisabled'>
+            <select v-model='filterParams.jhfxq' :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
             </select>
           </li>
@@ -187,7 +187,7 @@ export default {
         nhsyl: 'nhsyl_all',
         hy: 'hy_all',
         tzfg: 'tzfg_all',
-        jhqfxq: 'jhfxq_all',
+        jhfxq: 'jhfxq_all',
         zdhc: 'zdhc_all',
         xpb: 'xpb_all',
         cesyl: 'cesy_all',
@@ -216,10 +216,6 @@ export default {
     },
     change1 (e) {
       this.type = e.target.attributes.value.value
-    },
-    change2 (e) {
-      // console.log(e.target.value)
-      // this.type = e.target.attributes.value.value
     }
   },
   mounted () {
@@ -242,12 +238,6 @@ export default {
     })
   },
   watch: {
-    'type': {
-      deep: true,
-      handler: function (oldVal, newVal) {
-        this.$emit('change1', newVal)
-      }
-    },
     'filterParams': {
       deep: true,
       handler: function (oldVal, newVal) {
