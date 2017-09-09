@@ -28,6 +28,7 @@ import SmartPoolList from 'components/smartPool/smartPoolList'
 import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
+import StrategyList from 'components/z3touguhome/strategy-list'
 // import GoldStrategy from 'components/gold-strategy'
 /* import Kgraph from 'components/kgraph'*/
 
@@ -67,6 +68,7 @@ export default [
     { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
     { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
     { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
-     { path: '/fundArchives', name: 'fundArchives', component: FundArchives }
+     { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
+    { path: '/strategyList', name: 'strategyList', component: StrategyList }
 
 ]

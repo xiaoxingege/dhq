@@ -14,8 +14,8 @@
     }
     .map_legend .step {
       /*  width: 50px;*/
-        height: 25px;
-        line-height: 26px;
+        height: 20px;
+        line-height: 20px;
         cursor: default;
         display: inline-block;
         float: left;
@@ -197,7 +197,7 @@
           mapWidth: this.$route.fullPath === '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
           showHover: false,
           hoverNode: null,
-          legendWidth: 50,
+          legendWidth: 36,
           isEnlarge: false,
           isLegendShow: true,
           isPlaybackShow: true,
@@ -615,7 +615,7 @@
         getLegendColor: function () {
           this.legendList = []
           if (this.condition === 'act_date') {
-            this.legendWidth = 60
+            this.legendWidth = 36
             this.legendList.push({
               value: '业绩公布前',
               backgroundColor: '#20A29A'
@@ -625,7 +625,7 @@
               backgroundColor: '#BA5297'
             })
           } else {
-            this.legendWidth = 50
+            this.legendWidth = 36
             for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
               this.legendList.push({
                 value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
