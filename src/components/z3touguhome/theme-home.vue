@@ -72,15 +72,15 @@
         initTopic () {
           this.$store.dispatch('topic/queryHot').then(() => {
             if (this.topicData) {
-              this.newsId = this.topicData[0].newsId
-              this.drivenEvent = this.topicData[0].drivenEvent
-              this.newsDeclareDate = this.format(this.topicData[0].newsDeclareDate)
-              this.srcName = this.topicData[0].srcName
-              this.topicName = this.topicData[0].topicName
-              this.chngPct = this.topicData[0].topicMarket.chngPct > 0 ? '+' + this.topicData[0].topicMarket.chngPct.toFixed(2) : this.topicData[0].topicMarket.chngPct.toFixed(2)
-              this.stkUpNum = this.topicData[0].topicMarket.stkUpNum
-              this.stkDownNum = this.topicData[0].topicMarket.stkDownNum
-              this.topicCode = this.topicData[0].topicCode
+              this.newsId = this.topicData[1].newsId
+              this.drivenEvent = this.topicData[1].drivenEvent
+              this.newsDeclareDate = this.format(this.topicData[1].newsDeclareDate)
+              this.srcName = this.topicData[1].srcName
+              this.topicName = this.topicData[1].topicName
+              this.chngPct = this.topicData[1].topicMarket.chngPct > 0 ? '+' + this.topicData[1].topicMarket.chngPct.toFixed(2) : this.topicData[1].topicMarket.chngPct.toFixed(2)
+              this.stkUpNum = this.topicData[1].topicMarket.stkUpNum
+              this.stkDownNum = this.topicData[1].topicMarket.stkDownNum
+              this.topicCode = this.topicData[1].topicCode
             }
           })
         }
