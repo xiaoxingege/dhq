@@ -510,7 +510,7 @@
                   borderColor: '#000', // 第一层矩形间隔线颜色
                   borderWidth: 0,
                   color: '#000',
-                  gapWidth: 5// 第一层块间隔距离
+                  gapWidth: 2// 第一层块间隔距离
                 }
               },
               upperLabel: {
