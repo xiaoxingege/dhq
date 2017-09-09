@@ -2,6 +2,8 @@
     @import '../assets/css/base.css';
     *{
       text-align: justify;
+      box-sizing: border-box;
+      font-size: 12px;
     }
     body{
       font-size: 12px;
