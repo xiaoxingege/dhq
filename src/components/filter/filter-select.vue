@@ -159,7 +159,7 @@
 <script>
 // 股票范围——指数下拉框数据
 import * as Data from '../../z3tougu/constant/filter.js'
-import { mapState, mapGetters } from 'Vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   data () {
     return {
