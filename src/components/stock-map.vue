@@ -181,7 +181,7 @@
             'mkt_idx.peg': '', // PEG
             'mkt_idx.ps': '', // 市销率
             'mkt_idx.pb': '', // 市净率
-            'mkt_idx.div_rate': '', // 股息率
+            'mkt_idx.div_rate': '%', // 股息率
             'mkt_idx.pe_ttm': '', // 市盈率(TTM)
             'mkt_idx.fir_fcst_pe': '', // 预测市盈率
             'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
