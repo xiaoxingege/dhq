@@ -15,9 +15,9 @@ import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
 import Filter from 'components/filter/filter'
-import BacktestFilter from 'components/backtest-filter'
+// import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
-import BacktestTime from 'components/backtest-time'
+// import BacktestTime from 'components/backtest-time'
 import BacktestTimeH5 from 'components/backtest-time-h5'
 import FundChart from 'components/fund-chart'
 import FundFile from 'components/fund-file'
@@ -55,12 +55,12 @@ export default [
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
-    { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
+    /* { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },*/
     { path: '/backtestFilterH5/:strategyId', name: 'backtestfilterh5', component: BacktestFilterH5 },
-    { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
+    // { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5/:strategyId', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/fundRecommend', name: 'fundrecommend', component: FundRecommend },
-    { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
+    /* { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },*/
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },

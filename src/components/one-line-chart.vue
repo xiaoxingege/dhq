@@ -45,7 +45,7 @@
                 type: 'value',
                 axisLabel: {
                   formatter: function (val) {
-                    return val + '%'
+                    return val * 100 + '%'
                   }
                 },
                 position: 'left'

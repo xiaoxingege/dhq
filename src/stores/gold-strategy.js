@@ -248,6 +248,16 @@ export default {
       }).then(body => {
         commit('setRadarData', body)
       })
+    },
+    exportMrjyData ({ commit }, { strategyId, type }) {
+      // commit('setGoldOptions', strategyId)
+      return fetch(`${domain}/openapi/excel/excelByType.shtml?id=${strategyId}&type=${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        // commit('setRadarData', body)
+      })
     }
   }
 }
