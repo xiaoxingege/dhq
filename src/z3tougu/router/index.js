@@ -60,7 +60,7 @@ export default [
     { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
     { path: '/backtestTimeH5/:strategyId', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/fundRecommend', name: 'fundrecommend', component: FundRecommend },
-    { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
+    // { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
