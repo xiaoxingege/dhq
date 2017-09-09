@@ -49,15 +49,23 @@
     .topNav ul li>span{
         width:75px;
     }
+    .recommend img{
+        position: relative;
+        top:7px;
+        height:20px;
+        cursor: pointer;
+    }
 </style>
 <template>
     <div class="goldRecommend">
-        <div class="strategyHeader">
-            <div>
+        <div class="strategyHeader clear">
+            <div class="fl">
                 <span>{{goldResult.strategyName}}</span>
             </div>
-            <div>
-
+            <div class="fr mr-15 recommend">
+                <span>推荐给客户：</span>
+                <img class="mr-10" src="../assets/images/z3img/back-weixin.png">
+                <img src="../assets/images/z3img/back-copy.png">
             </div>
         </div>
         <div class="strategyTop display-box">
