@@ -14,6 +14,15 @@
         min-height:420px;
         width:100%;
     }
+    .export{
+        position: absolute; right:20px; height:23px; line-height: 23px; color:#2388DA;
+    }
+    .export img{
+        position: relative; top:2px;
+    }
+    .export a{
+        display: inline-block; cursor: pointer;
+    }
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .syqxt,.dryk,.mrcc,.syytj,.sylfb,.mrjy,.dqxg{
             min-height:4.2rem;
@@ -23,6 +32,10 @@
 </style>
 <template>
     <div style="width:100%">
+        <div v-if="type === 'mrjy' || type === 'dqxg'" class="export">
+            <img src="../assets/images/z3img/export-icon.png">
+            <a @click="exportData(type)">导出</a>
+        </div>
         <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
         <div>
             <div v-if="type === 'syqxt'" class="syqxt">
@@ -58,11 +71,11 @@
                     <tr v-for="item of mrjyData.content">
                         <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
                         <td>{{item.innerCode}}</td>
-                        <td><a :href="'/stock/'+ item.name" target="_blank">{{item.name}}</a></td>
+                        <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
                         <td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>
                         <td>{{Number(item.price).toFixed(2)}}</td>
-                        <td>{{item.quantity}}</td>
-                        <td>{{Number(item.amount).toFixed(2)}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{(Number(item.quantity)/10000).toFixed(2)}}</td>
                         <td>{{Number(item.commission).toFixed(2)}}</td>
                     </tr>
                     </tbody>
@@ -91,15 +104,15 @@
                     <tr v-for="(item,index) of dqxgData.content">
                         <td>{{index+1}}</td>
                         <td>{{item.innerCode}}</td>
-                        <td>{{item.name}}</td>
+                        <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
                         <td :class="item.price >= 0 ? item.price === 0 ?'':'red':'green'">{{item.price === null ? '--':Number(item.price).toFixed(2)}}</td>
                         <td :class="item.chg >= 0 ? item.chg === 0 ?'':'red':'green'">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
                         <td :class="item.curChngPct >= 0 ? item.curChngPct === 0 ?'':'red':'green'">{{item.curChngPct === null ? '--':Number(item.curChngPct).toFixed(2)+'%'}}</td>
                         <td>{{Number(item.peTtm).toFixed(2)}}</td>
                         <td>{{Number(item.pb).toFixed(2)}}</td>
                         <td>{{Number(item.pc).toFixed(2)}}</td>
-                        <td>{{item.tcap === null ? '--':Number(item.tcap/100000000).toFixed(0)}} </td>
-                        <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(0)}}</td>
+                        <td>{{item.tcap === null ? '--':Number(item.tcap/100000000).toFixed(2)}} </td>
+                        <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(2)}}</td>
                     </tr>
                     </tbody>
 
@@ -155,6 +168,13 @@
         },
         goDqxgPage (data) {
           this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId, pageNum: data - 1 }).then(() => {})
+        },
+        exportData (type) {
+          if (type === 'mrjy') {
+            this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldDetail' })
+          } else if (type === 'dqxg') {
+            this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldStock' })
+          }
         }
       },
       mounted () {

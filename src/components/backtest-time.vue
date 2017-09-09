@@ -25,7 +25,7 @@
     }
     .backtest-time{
         background: #f2f2f2;
-        color: #191919;
+        color: #696969;
         width: 100%;
         font-size: 12px;
     }

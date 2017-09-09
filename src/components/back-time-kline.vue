@@ -25,7 +25,7 @@
     }
     .time-kline-wrap{
         background: #f2f2f2;
-        color: #191919;
+        color: #696969;
         width: 100%;
         font-size: 12px;
     }
@@ -98,7 +98,7 @@
         margin-left: -26.7%; */
         top: 77%;
         z-index: 99999;
-        color: #191919;
+        color: #696969;
         font-size: 14px;
         background: #f2f2f2;
         padding: 0 10px;
@@ -120,7 +120,7 @@
                <label class="label-txt">全部A股中，单只股票近一年买卖点分析</label>
                <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
                <span class="ana-btn" @click="search($event)">分析</span>
-               <ul class="search-ul" v-if="searchList && searchList.length > 0 && message!=''" v-show="showSearchList">
+               <ul class="search-ul" v-if="searchList && searchList.length > 0 && message!=''">
                   <li v-for="list of searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
                   
                </ul>
@@ -156,7 +156,8 @@
        message: '',
        showSearchList: true,
        innerCode: '',
-       showMa: false
+       showMa: false,
+       strategyId: this.$route.params.strategyId
 
      }
    },
@@ -255,7 +256,7 @@
  
        // console.log(this.message)
        this.innerCode = this.message
-       this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode })
+       this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode, strategyId: this.strategyId })
             .then(() => {
               this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData)
             })
@@ -274,7 +275,7 @@
        this.message = focusStockId
        this.showSearchList = false
        this.showMa = true
-       // this.searchList = []
+       this.searchList = []
        // console.log(this.message)
  
        this.init()
@@ -293,7 +294,7 @@
            text: name + '买卖点分析',
            left: '2.2%',
            textStyle: {
-             color: '#191919',
+             color: '#696969',
              fontFamily: '宋体',
              fontSize: 12,
              fontStyle: 'normal',

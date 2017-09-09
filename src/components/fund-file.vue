@@ -204,9 +204,9 @@
                 <p class="title">投资风格</p>
                 <div class="main">
                     <div class="rectTime clearfix">
-                        <span :class=""><</span>
+                        <span :class="" @click="leftTime"><</span>
                         <span class="date" ref="investTime">{{date}}</span>
-                        <span :class="investTimeActive('left')">></span>
+                        <span :class="" @click="rightTime">></span>
                     </div>
                     <div class="clearfix rect">
                         <div class="investRect fl">
@@ -335,8 +335,37 @@
             }
           }
         },
-        investTimeActive (type) {
-
+        leftTime () {
+          const time = this.$refs.investTime.innerHTML.split('-')
+          const val = Number(time[1]) - 1
+          if (val === 0) {
+            this.$refs.investTime.innerHTML = Number(time[0]) - 1 + '-' + ((12 + val).length > 1 ? '0' + (12 + val) : (12 + val))
+          } else {
+            this.$refs.investTime.innerHTML = time[0] + '-' + (String(val).length > 1 ? val : '0' + val)
+          }
+//          const val = Number(time[1]) - 3
+//          if (val > 0) {
+//            this.$refs.investTime.innerHTML = time[0] + '-' + (String(val).length > 1 ? val : '0' + val)
+//          } else {
+//            this.$refs.investTime.innerHTML = Number(time[0]) - 1 + '-' + ((12 + val).length > 1 ? '0' + (12 + val) : (12 + val))
+//          }
+        },
+        rightTime () {
+          const time = this.$refs.investTime.innerHTML.split('-')
+          const val = Number(time[1]) + 1
+          if (val > 12) {
+            this.$refs.investTime.innerHTML = Number(time[0]) + 1 + '-' + ((val - 12).length > 1 ? (val - 12) : '0' + (val - 12))
+          } else {
+            this.$refs.investTime.innerHTML = Number(time[0]) + '-' + (String(val).length > 1 ? val : '0' + val)
+          }
+//          const val = Number(time[1]) + 3
+//          if (val > 12) {
+//            this.$refs.investTime.innerHTML = Number(time[0]) + 1 + '-' + ((val - 12).length > 1 ? (val - 12) : '0' + (val - 12))
+//          } else {
+//            this.$refs.investTime.innerHTML = Number(time[0]) + '-' + (String(val).length > 1 ? val : '0' + val)
+//          }
+        },
+        isActive (type) {
         }
 
       },

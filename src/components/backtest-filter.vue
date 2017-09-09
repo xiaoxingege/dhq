@@ -25,7 +25,7 @@
     }
     .backtest-filter{
         background: #f2f2f2;
-        color: #191919;
+        color: #696969;
         width: 100%;
     }
     .bfilter-main{
@@ -37,10 +37,11 @@
       margin-top: 14px;
       background: #fff;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     .bfilter-ul{
       border-bottom: 1px solid #2388da;
+      position: relative;
     }
     .bfilter-ul li{
       padding: 7px 15px 5px 14px;
@@ -60,9 +61,7 @@
     .table-head{
        background: #f2f2f2;
        padding: 9px 0;
-    }
-    .table-head{
-      width: 100%;
+       width: 100%;
     }
     .table-head span{
       width: 9%;
@@ -90,19 +89,19 @@
       width: 12%;
     }
     span.order-num{
-      width: 6%;
+      /* width: 6%; */
     }
     .bfilter-table .export{
        width: 4%;
        
     }
-    .table-head{
+    /* .table-head{
       position: relative;
-    }
+    } */
     .export{
       position: absolute;
       right: 1%;
-      top: 2px;
+      top: 0;
     }
     .export i{
       background: url(../assets/images/z3img/export-icon.png) no-repeat;
@@ -141,7 +140,7 @@
       top:40px;
       right:10px;
       box-shadow:4px 4px 4px 2px #eee;
-      border:1px solid #eee
+      border:1px solid #eee;
     }
 </style>
 <template> 
@@ -153,6 +152,7 @@
           <ul class="bfilter-ul clearfix">
               <li class="fl blue" @click="nowTrade" :class="showNowTrade===true?'active':''">当前选股</li>
               <li class="fl blue" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
+              <li><span class="export blue"><i></i>导出</span></li>
           </ul>
           <div class="bfilter-table" v-show="showNowTrade">
               <div>
@@ -170,22 +170,20 @@
                    </span><span>市销率
                    </span><span>总市值
                    </span><span>流通市值
-                   </span><span class="export blue"><i>
-                   </i>导出
                    </span>
               </div>
               <div class="clearfix table-body" v-for="(stock,index) of nowStock">
                    <span class="order-num">{{index+1}}
                    </span><span>{{stock.innerCode}}
                    </span><span>{{stock.name}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.price}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.chg}}
+                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.price==null?'--':stock.price}}
+                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.chg==null?'--':stock.chg}}
                    </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
-                   </span><span>{{stock.peTtm.toFixed(2)}}
-                   </span><span>{{stock.pb.toFixed(2)}}
-                   </span><span>1223
-                   </span><span>{{stock.tcap}}
-                   </span><span>{{stock.mktcap}}
+                   </span><span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}
+                   </span><span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}
+                   </span><span>{{stock.ps==null?'--':stock.ps.toFixed(2)}}
+                   </span><span>{{stock.tcap==null?'--':changeYi(stock.tcap)}}
+                   </span><span>{{stock.mktcap==null?'--':changeYi(stock.mktcap)}}
                    </span>
               </div>
               <Pagination  @getPageFromChild="goToStockPage" :totalPage="totalPage"/>
@@ -204,13 +202,13 @@
                  </div>
                  <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail">
                      <span>{{index+1}}
-                     </span><span>{{changeDate(tradeDay.backtestDate)}}
-                     </span><span>{{tradeDay.sellStockNums}}
-                     </span><span>{{changeDate(tradeDay.buyDate)}}
-                     </span><span>{{tradeDay.winLossRatio==null?'--':changeFix(tradeDay.winLossRatio)}}
-                     </span><span>{{changePer(tradeDay.winRatio)}}
+                     </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
+                     </span><span>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}
+                     </span><span>{{tradeDay.buyDate==null?'--':changeDate(tradeDay.buyDate)}}
+                     </span><span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
+                     </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
                      </span><span :class="tradeDay.avgReturn>=0 ? tradeDay.avgReturn===0||tradeDay.avgReturn==null?'':'red':'green'">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
-                     </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{changePer(tradeDay.avgReturnExcess)}}
+                     </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
                      </span>
                  </div>
                  <Pagination  @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage"/>
@@ -274,6 +272,9 @@
      /* goToPage (page) {
        this.page = Number(page) - 1
      },*/
+     changeYi (num) {
+       return (Number(num) / 100000000).toFixed(2) + '亿'
+     },
      changeFix (num) {
        return Number(num).toFixed(2) + '%'
      },
