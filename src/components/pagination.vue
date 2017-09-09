@@ -158,10 +158,10 @@
 
 <script>
     export default{
-      props: ['totalPage'],
+      props: ['totalPage', 'page'],
       data () {
         return {
-          currentPage: 1
+          currentPage: this.page === 'undefined' ? 1 : this.page
         }
       },
 //      watch: {
@@ -212,7 +212,7 @@
         }
       },
       mounted () {
-    
-      }
+        alert(this.currentPage)
+  }
     }
 </script>
