@@ -65,13 +65,14 @@
 <template> 
    <div class="backtest-time">
       <div class="btime-main">
-           <div class="fr icon"><span class="weixin" @click="showQrcode"></span><span class="copy"></span></div>
+           <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享"></span><span class="copy" title="复制分享链接" ref='copy2share'></span></div>
            <BackTimeStra/> 
            <BackTimeKline/>     
       </div>
       <div v-show="showQrcodeBox" class="qrcode" >
           <div><canvas ref="qrcode"></canvas></div>
       </div>
+      <toast :msg="toastmsg"  v-if="showToast"></toast>
    </div>
        
 </template>
@@ -81,11 +82,15 @@
  import BackTimeStra from './back-time-stra'
  import BackTimeKline from './back-time-kline'
  import qrcode from 'qrcode'
+ import Clipboard from 'clipboard'
+ import toast from 'components/toast'
  export default {
    data () {
      return {
        showQrcodeBox: false,
-       strategyId: this.$route.params.strategyId
+       strategyId: this.$route.params.strategyId,
+       toastmsg: '',
+       showToast: false
      }
    },
    computed: mapState({
@@ -93,7 +98,8 @@
    }),
    components: {
      BackTimeStra,
-     BackTimeKline
+     BackTimeKline,
+     toast
    },
    methods: {
      showQrcode () {
@@ -104,7 +110,25 @@
      const url = window.location.protocol + '//' + window.location.host + '/backtestTimeH5/' + this.strategyId
      console.info(url)
      qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+     const clipboard = new Clipboard(this.$refs.copy2share, {
+       text: function () {
+         return url
+       }
+     })
+     clipboard.on('success', (e) => {
+       this.toastmsg = '分享地址已拷贝!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
+     clipboard.on('error', (e) => {
+       this.toastmsg = '分享地址拷贝失败!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
    }
- 
  }
 </script>
