@@ -67,7 +67,7 @@
     .describe-wrap{
       width: 100%;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     .bfilter-header{
       padding: 11px 0 9px 6px;
@@ -90,6 +90,13 @@
     }
     .desc-ul{
         padding: 0 0 26px 0;
+        width: 100%;
+    }
+    .desc-ul tr:nth-child(2) td{
+      padding-top: 12px;
+    }
+    .desc-ul td{
+      /* width: 20%; */
     }
     .desc-txt{
       position:relative;
@@ -129,8 +136,7 @@
 <template>
     <div class="describe-box">
          <div class="bfilter-header clearfix">
-              <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div> 
-              
+              <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div>  
          </div>
          <div class="describe-wrap clearfix display-box">
         
@@ -140,33 +146,40 @@
                       {{ basicFilter.strategyDesc}}
                   </div>
                   <div class="desc-title">选股条件：</div>
-                  <ul class="clearfix desc-ul">
+                    
+                 <!--  <ul class="clearfix desc-ul">
                         <li class="fl desc-txt"><span>失灵率</span><span class="desc-num">10%</span></li>
                         <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
                         <li class="fl desc-txt"><span>失灵率6</span><span class="desc-num">11%</span></li>
-                  </ul>
+                  </ul> -->
+                  <table class="desc-ul">
+                      <tr v-for="trItem in filterSummary">
+                          <td v-for="tdItem in trItem">{{tdItem}}</td>
+                      </tr>
+                  </table>
+                  
              </div>
              <div class="describe-right box-flex-2">
                  <div class="desc-title">策略表现：</div>
                  <div class="clearfix evaluat-box">
                      <div class="desc-txt desc-txt2 desc-txt4 fl">
                          <span>胜率</span>
-                         <span class="desc-num" :class="eval.winRatio>=0 ? eval.winRatio===0?'':'red':'green'">{{changePer(eval.winRatio)}}</span>
+                         <span class="desc-num" :class="eval.winRatio>=0 ? eval.winRatio===0?'':'red':'green'">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 desc-txt5 fl">
                          <span>平均超额收益</span>
-                         <span class="desc-num" :class="eval.avgReturnExcess>=0 ? eval.avgReturnExcess===0?'':'red':'green'">{{changePer(eval.avgReturnExcess)}}</span>
+                         <span class="desc-num" :class="eval.avgReturnExcess>=0 ? eval.avgReturnExcess===0?'':'red':'green'">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>平均收益</span>
-                         <span class="desc-num" :class="eval.avgReturn>=0 ? eval.avgReturn===0?'':'red':'green'">{{changePer(eval.avgReturn)}}</span>
+                         <span class="desc-num" :class="eval.avgReturn>=0 ? eval.avgReturn===0?'':'red':'green'">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>盈亏比</span>
-                         <span class="desc-num" >{{Number(eval.winLossRatio).toFixed(2)}}</span>
+                         <span class="desc-num" >{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>持有天数</span>
@@ -174,15 +187,15 @@
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大盈利</span>
-                         <span class="desc-num" :class="eval.maxWin>=0 ? eval.maxWin===0?'':'red':'green'">{{changePer(eval.maxWin)}}</span>
+                         <span class="desc-num" :class="eval.maxWin>=0 ? eval.maxWin===0?'':'red':'green'">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大亏损</span>
-                         <span class="desc-num" :class="eval.maxLoss>=0 ? eval.maxLoss===0?'':'red':'green'">{{changePer(eval.maxLoss)}}</span>
+                         <span class="desc-num" :class="eval.maxLoss>=0 ? eval.maxLoss===0?'':'red':'green'">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 desc-txt3 fl">
                          <span>回测区间</span>
-                         <span class="desc-num">{{changeDate(basicFilter.backtestStartDate)}}-{{changeDate(basicFilter.backtestEndDate)}}</span>
+                         <span class="desc-num">{{basicFilter.backtestStartDate==null?'--':changeDate(basicFilter.backtestStartDate)}}-{{basicFilter.backtestEndDate==null?'--':changeDate(basicFilter.backtestEndDate)}}</span>
                      </div>
                  </div>
                 
@@ -206,7 +219,39 @@
    computed: {
      ...mapState({
        basicFilter: state => state.backtestDetail.basicFilter,
-       eval: state => state.backtestDetail.basicFilter.evaluationIndexs
+       eval: state => state.backtestDetail.basicFilter.evaluationIndexs,
+       filterSummary: state => {
+         const choseStockTable = state.backtestDetail.basicFilter.filterSummary
+         const arr1 = []
+         const arr2 = []
+         if (choseStockTable.jszbList != null || choseStockTable.gkzbList != null || choseStockTable.jbmzbList != null || choseStockTable.xgfwList != null) {
+           if (choseStockTable.jszbList.length > 0) {
+             for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+               arr1.push(choseStockTable.jszbList[i].indexName)
+               arr2.push(choseStockTable.jszbList[i].indexValue)
+             }
+           }
+           if (choseStockTable.gkzbList.length > 0) {
+             for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+               arr1.push(choseStockTable.gkzbList[i].indexName)
+               arr2.push(choseStockTable.gkzbList[i].indexValue)
+             }
+           }
+           if (choseStockTable.jbmzbList.length > 0) {
+             for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+               arr1.push(choseStockTable.jbmzbList[i].indexName)
+               arr2.push(choseStockTable.jbmzbList[i].indexValue)
+             }
+           }
+           if (choseStockTable.xgfwList.length > 0) {
+             for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+               arr1.push(choseStockTable.xgfwList[i].indexName)
+               arr2.push(choseStockTable.xgfwList[i].indexValue)
+             }
+           }
+         }
+         return [arr1, arr2]
+       }
      })
    },
    components: {},
@@ -221,6 +266,7 @@
    },
    mounted () {
      this.$store.dispatch('backtestDetail/queryBasicFilter', { strategyId: this.strategyId })
+     // console.log(state.backtestDetail.basicFilter.filterSummary)
    }
  
  }

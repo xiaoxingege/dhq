@@ -79,7 +79,6 @@
                           tooltip: {
                             trigger: 'axis',
                             formatter: function (params) {
-                              console.log(params)
                               return _this.formatDateYear(params[0].name) + '</br>净资产规模：' + params[0].value + '亿元'
                             }
                           },
