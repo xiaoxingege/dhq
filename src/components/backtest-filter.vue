@@ -218,6 +218,7 @@
       <div v-show="showQrcodeBox" class="qrcode" >
           <div><canvas ref="qrcode"></canvas></div>
       </div>
+      <toast :msg="toastmsg"  v-if="showToast"></toast>
    </div>
        
 </template>
@@ -227,6 +228,8 @@
  import BackFilterDescr from './back-filter-descr'
  import Pagination from './pagination'
  import qrcode from 'qrcode'
+ import Clipboard from 'clipboard'
+ import toast from 'components/toast'
  export default {
    data () {
      return {
@@ -237,7 +240,9 @@
        showNowTrade: true,
        showTradeDay: false,
        strategyId: this.$route.params.strategyId,
-       showQrcodeBox: false
+       showQrcodeBox: false,
+       toastmsg: '',
+       showToast: false
      }
    },
    computed: mapState({
@@ -248,7 +253,8 @@
    }),
    components: {
      BackFilterDescr,
-     Pagination
+     Pagination,
+     toast
    },
    methods: {
      initData (stockPage, tradePage) {
@@ -305,6 +311,25 @@
      this.initData()
      const url = window.location.protocol + '//' + window.location.host + '/backtestFilterH5/' + this.strategyId
      qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+     const clipboard = new Clipboard('.copy', {
+       text: function () {
+         return url
+       }
+     })
+     clipboard.on('success', (e) => {
+       this.toastmsg = '分享地址已拷贝!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
+     clipboard.on('error', (e) => {
+       this.toastmsg = '分享地址拷贝失败!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
    }
  
  }

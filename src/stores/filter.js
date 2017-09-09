@@ -9,13 +9,12 @@ export const types = {
 export default {
   state: {
     topic: null,
+    lsfoundPoolList: [],
     foundPoolList: [],
     desc: true,   // 降序
-    pagesize: PAGE_SIZE,
     page: 1,
     total: 0,
-    themeList: [],
-    relatedStocks: {},
+    pagesize: PAGE_SIZE,
     sylbx: [], // 收益率表现
     nhsyl: [], // 年化收益率
     zdhc: [], // 最大回撤
@@ -24,24 +23,24 @@ export default {
   },
   getters: {
     foundPoolList: state => state.foundPoolList,
+    lsfoundPoolList: state => state.lsfoundPoolList,
     themeList: state => state.themeList,
     relatedStocks: state => state.relatedStocks,
     sylbx: state => state.sylbx,
     nhsyl: state => state.nhsyl,
     zdhc: state => state.zdhc,
     xpb: state => state.xpb,
-    cesyl: state => state.cesyl
+    cesyl: state => state.cesyl,
+    totalPage: state => state.total
   },
   mutations: {
     [types.ADD_FUNDPOLL] (state, list) {
       state.foundPoolList = list
     },
-    upDataPage (state, options) {
-      state.pagesize = options.pageSize || PAGE_SIZE
-      state.page = options.page || 1
-      state.total = options.totalPages
+    getLSFoundPoolList (state, list) {
+      state.lsfoundPoolList = list
     },
-    updatePage (state, options) {
+    upDataPage (state, options) {
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
@@ -63,12 +62,19 @@ export default {
     }
   },
   actions: {
-    getFundPool ({ commit }) {
-      const url = `${domain}/openapi/fund/strategyByParam.shtml`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+
+    getFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+      const url = `${domain}/openapi/fund/strategyByParam.shtml?jjlx=${type}&jyzt=${option.jyzt}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}&sort=${sort}`
+      console.log(url)
+      return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
-        commit(types.ADD_FUNDPOLL, result.data)
+        console.log(result)
+        if (result.errCode === 0) {
+          commit(types.ADD_FUNDPOLL, result.data.fundList.content)
+          commit('getLSFoundPoolList', result.data.fundForPoolList)
+          commit('upDataPage', { page: result.data.fundList.number, pageSize: result.data.fundList.size, totalPages: result.data.fundList.totalPages })
+        }
       })
     },
     getSylbx ({ commit }, { idxId, jjlx }) {
