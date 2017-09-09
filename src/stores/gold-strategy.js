@@ -251,7 +251,7 @@ export default {
     },
     exportMrjyData ({ commit }, { strategyId, type }) {
       // commit('setGoldOptions', strategyId)
-      return fetch(`${domain}/openapi/excel/excelByType.shtml?id=${strategyId}&type=${type}`, {
+      return fetch(`${domain}/openapi/excels/excelByType.shtml?id=${strategyId}&type=${type}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

@@ -212,7 +212,6 @@
         }
       },
       mounted () {
-        alert(this.currentPage)
   }
     }
 </script>
