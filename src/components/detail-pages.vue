@@ -73,10 +73,10 @@
     <div v-if="this.type === 'news'" class="newsDiv">
         <p class="newTitle">{{result.news.title}}</p>
     <div class="newDetail">
-        <span class="borderR">{{result.news.createTime}}</span>
+        <span class="borderR">{{date}}</span>
         <span class="borderR ml-15">来源：{{result.news.srcName}}</span>
-        <span v-if="result.equityNews.length!==0" class="ml-15">相关股票：<span class="mr-15" v-for="item in result.equityNews"><a href="">{{item.name}} [{{item.innerCode}}]</a></span></span>
-        <span v-if="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><a href="">{{item.topicName}} [{{item.topicCode}}]</a></span></span>
+        <span v-if="result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
+        <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><a href="">{{item.topicName}}</a></span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent" ></div>
     <span class="moreNews">更多相关资讯</span>
@@ -129,7 +129,11 @@
           })
           return con
         },
-        urlId: function () { return this.$route.params.id }
+        urlId: function () { return this.$route.params.id },
+        date: function () {
+          const date = new Date(this.result.news.createTime)
+          return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
+        }
       },
       watch: {
         urlId: function () {

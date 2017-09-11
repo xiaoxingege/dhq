@@ -78,7 +78,7 @@
                 <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
                 <div style="margin-bottom: 0.05rem;">
                     <div v-if="type === 'syqxt'" class="syqxt">
-                        <Linechart1 :data="syqxtData"></Linechart1>
+                        <Linechartbacktest :backtestId="backtestId" :startDate="startDate" :endDate="endDate"></Linechartbacktest>
                     </div>
                     <!--<div v-if="type === 'dryk'" class="dryk">-->
                         <!--<Barupdown :strategyId="strategyId"></Barupdown>-->
@@ -132,17 +132,17 @@
                 <div>
                     <div class="recommendTitle">买入条件</div>
                     <Tablelist :data="sellConditionData.buyData"></Tablelist>
-                    <div style="padding: 0.1rem 0.2rem;">买入表达式：{{recommendData.sellConditiondata.buy.buyConExp}}</div>
+                    <div style="padding: 0.1rem 0.2rem;">买入表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.buy.buyConExp}}</div>
                 </div>
                 <div>
                     <div class="recommendTitle">卖出条件</div>
                     <Tablelist :data="sellConditionData.sellData"></Tablelist>
-                    <div style="padding: 0.1rem 0.2rem;">卖出表达式：{{recommendData.sellConditiondata.sell.sellConExp}}</div>
+                    <div style="padding: 0.1rem 0.2rem;">卖出表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.sell.sellConExp}}</div>
                 </div>
             </div>
             <div class="controlStrategy">
                 <div class="recommendTitle" >仓控策略</div>
-                <div style="padding: 0.3rem 0.2rem;">{{recommendData.positionModel.modelName}}：<span style="color:#666;">{{recommendData.positionModel.modelValue}}</span></div>
+                <div style="padding: 0.3rem 0.2rem;">{{recommendData.positionModel === null ?'':recommendData.positionModel.modelName}}：<span style="color:#666;">{{recommendData.positionModel === null ?'':recommendData.positionModel.modelValue}}</span></div>
             </div>
             <div class="tradeParams">
                 <div class="recommendTitle">交易参数</div>
@@ -154,19 +154,23 @@
 <script>
     import { mapState } from 'vuex'
     import Tablelist from 'components/table-list'
-    import Linechart1 from 'components/line-chart1'
+    import Navbar from 'components/nav-bar'
+    import Linechartbacktest from 'components/line-chart-backtest'
 
     export default{
       data () {
         return {
-          navText: [['选股条件', 'choseStock'], ['买卖条件', 'sellCondition'], ['仓控策略', 'controlStrategy'], ['交易参数', 'tradeParams']],
           navText1: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb']],
-          type: 'syqxt'
+          type: 'syqxt',
+          backtestId: '',
+          startDate: '',
+          endDate: ''
         }
       },
       components: {
         Tablelist,
-        Linechart1
+        Navbar,
+        Linechartbacktest
     
       },
       computed: mapState({
@@ -390,56 +394,57 @@
               buyData: null,
               sellData: null
             }
-          }
-          const buyData = [
+          } else {
+            const buyData = [
                     ['序号', '指标', '参数', '运算符', '数值']
-          ]
-          const sellData = [
+            ]
+            const sellData = [
                     ['序号', '指标', '参数', '运算符', '数值']
-          ]
-          const buyConditionTable = this.recommendData.sellConditiondata.buy.buyStrategyIndexList
-          const sellConditionTable = this.recommendData.sellConditiondata.sell.sellStrategyIndexList
+            ]
+            const buyConditionTable = this.recommendData.sellConditiondata.buy.buyStrategyIndexList
+            const sellConditionTable = this.recommendData.sellConditiondata.sell.sellStrategyIndexList
 
-          if (buyConditionTable.length > 0) {
-            for (var i = 0; i < buyConditionTable.length; i++) {
-              const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
-              const parmsPeriod = []
-              for (var key in parms) {
-                if (parms[key] === 'day') {
-                  parmsPeriod.push('日线')
-                } else if (parms[key] === 'week') {
-                  parmsPeriod.push('周线')
-                } else if (parms[key] === 'month') {
-                  parmsPeriod.push('月线')
-                } else {
-                  parmsPeriod.push(parms[key])
+            if (buyConditionTable.length > 0) {
+              for (var i = 0; i < buyConditionTable.length; i++) {
+                const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
+                const parmsPeriod = []
+                for (var key in parms) {
+                  if (parms[key] === 'day') {
+                    parmsPeriod.push('日线')
+                  } else if (parms[key] === 'week') {
+                    parmsPeriod.push('周线')
+                  } else if (parms[key] === 'month') {
+                    parmsPeriod.push('月线')
+                  } else {
+                    parmsPeriod.push(parms[key])
+                  }
                 }
-              }
 
-              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
-            }
-          }
-          if (sellConditionTable.length > 0) {
-            for (var j = 0; j < sellConditionTable.length; j++) {
-              const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
-              const parmsPeriod = []
-              for (var item in parms) {
-                if (parms[item] === 'day') {
-                  parmsPeriod.push('日线')
-                } else if (parms[item] === 'week') {
-                  parmsPeriod.push('周线')
-                } else if (parms[item] === 'month') {
-                  parmsPeriod.push('月线')
-                } else {
-                  parmsPeriod.push(parms[item])
-                }
+                buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
               }
-              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
             }
-          }
-          return {
-            buyData: buyData,
-            sellData: sellData
+            if (sellConditionTable.length > 0) {
+              for (var j = 0; j < sellConditionTable.length; j++) {
+                const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
+                const parmsPeriod = []
+                for (var item in parms) {
+                  if (parms[item] === 'day') {
+                    parmsPeriod.push('日线')
+                  } else if (parms[item] === 'week') {
+                    parmsPeriod.push('周线')
+                  } else if (parms[item] === 'month') {
+                    parmsPeriod.push('月线')
+                  } else {
+                    parmsPeriod.push(parms[item])
+                  }
+                }
+                sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+              }
+            }
+            return {
+              buyData: buyData,
+              sellData: sellData
+            }
           }
         },
         tradeParamData: function () {
@@ -479,18 +484,26 @@
         }
 
       }),
+      methods: {
+        changeNavType (data) {
+          this.type = data
+        }
+      },
       mounted () {
         document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
         this.strategyId = this.$route.params.strategyId
+
         this.$store.dispatch('backtestDetailH5/getStrategyData', { strategyId: this.strategyId }).then(() => {})
         this.$store.dispatch('backtestDetailH5/getBacktestInfo', { strategyId: this.strategyId }).then(() => {
-          const backtestId = this.$store.state.backtestDetailH5.backtestId
-          const startDate = this.$store.state.backtestDetailH5.backtestStartDate
-          const endDate = this.$store.state.backtestDetailH5.backtestEndDate
-
-          this.$store.dispatch('backtestDetailH5/getBacktestData', { backtestId: backtestId }).then(() => {})
-          this.$store.dispatch('backtestDetailH5/getSyqxtData', { backtestId: backtestId, startDate: startDate, endDate: endDate }).then(() => {})
+          this.backtestId = this.$store.state.backtestDetailH5.backtestId
+          this.startDate = this.$store.state.backtestDetailH5.backtestStartDate
+          this.endDate = this.$store.state.backtestDetailH5.backtestEndDate
+    
+          this.$store.dispatch('backtestDetailH5/getBacktestData', { backtestId: this.backtestId }).then(() => {})
+          this.$store.dispatch('backtestDetailH5/getSyqxtData', { backtestId: this.backtestId, startDate: this.startDate, endDate: this.endDate }).then(() => {
+    
+          })
         })
       }
     }
