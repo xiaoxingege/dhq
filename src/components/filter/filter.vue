@@ -22,30 +22,36 @@
     <!-- 筛选内容 -->
     <div class='filterCon'>
       <div class='top clearfix'>
-        <span class="fl">找到基金数：2000</span>
+        <span class="fl">找到基金数：{{fundNum}}</span>
         <div class="search pr fr ml-20">
           <i class="icon_search"></i>
-          <input v-model='searchVal' class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索'>
+          <input v-model='searchVal' class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索' @keyup.enter='search'>
         </div>
         <label for="jdx" class="fr">
-          <input id="jdx" type="checkbox" name="name" value="">
+          <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
           仅显示代销基金
         </label>
       </div>
       <!-- 全部 -->
-      <div v-if="typeIndex == 0">
+      <div>
         <table class="table tc">
           <thead>
             <tr>
-              <th>序号</th>
-              <th @click="sorts('innerCode')">基金代码</th>
-              <th @click="sorts('chiAbbr')" class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>类型</th>
-              <th>涨跌幅</th>
-              <th>
+              <th width='4%'>序号</th>
+              <th @click="sorts('innerCode')" width='7.6%'><span>基金代码</span></th>
+              <th @click="sorts('chiAbbr')" class="pr" width='12%'><span>基金简称</span><i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
+              <th @click="sorts('estabDate')" width='6%'><span>成立日期</span></th>
+              <th @click="sorts('fundScale')" width='7.6%'><span>规模</span></th>
+              <th @click="sorts('managerDurationMax')" width='9%'><span>基金经理任值时间</span></th>
+              <th width='7.6%' v-if='typeIndex === 1 || typeIndex === 2'>行业</th>
+              <th @click="sorts('fundFav')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2'><span>基金风格</span></th>
+              <th @click="sorts('fundType')" width='7.6%' v-if='typeIndex === 0 || typeIndex === 3'><span>类型</span></th>
+              <th @click="sorts('staticYield')" width='7.6%' v-if='typeIndex === 6'><span>静态收益</span></th>
+              <th @click="sorts('closedPeriod')" width='7.6%' v-if='typeIndex === 7'><span>封闭期</span></th>
+              <th @click="sorts('yearYld')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>七日年化收益率</span></th>
+              <th @click="sorts('tenthouUnitIncm')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>万份收益</span></th>
+              <th @click="sorts('chgPct')" width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5"><span>涨跌幅</span></th>
+              <th width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
                 <div class="seletetime">
                   <div @click="seletetimeshow=!seletetimeshow">
                     {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
@@ -55,22 +61,33 @@
                   </ul>
                 </div>
               </th>
-              <th>起购金额</th>
-              <th class="pr tsk">交易成本<div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
-              <th>操作</th>
+              <th @click="sorts('trackError')" width='7.6%' v-if='typeIndex ===4 || typeIndex === 5'><span>跟踪误差</span></th>
+              <th @click="sorts('performBench')" width='7.6%' v-if='typeIndex === 5'><span>业绩比较基准</span></th>
+              <th @click="sorts('firstBuyMin')" width='7.6%'><span>起购金额</span></th>
+                <th @click="sorts('fundYieldYearRank')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex === 6'><span>排名</span></th>
+              <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk"><span>交易成本</span><div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
+              <th width='7.6%'>操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for='(item,index) in foundPoolList'>
-              <td>{{index+1}}</td>
-              <td>{{item.innerCode}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.estabDate}}</td>
-              <td>{{item.fundScale}}</td>
-              <td>{{item.managerDurationMax}}</td>
-              <td>{{item.fundTypeName }}</td>
-              <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct  | filterNum("%")}}</span></td>
-              <td>
+              <td>{{number*numberOfElements+index+1}}</td>
+              <td :class="{'blue' : item.consignment == 1}">{{item.innerCode | isNull}}</td>
+              <td :class="{'blue' : item.consignment == 1}" class="tl">{{item.name | isNull}}</td>
+              <td>{{format(item.estabDate) | isNull}}</td>
+              <td>{{item.fundScale | isNull}}</td>
+              <td>{{item.managerDurationMax | isNull}}</td>
+              <td v-if='typeIndex === 1 || typeIndex === 2'>{{item.hyName | isNull}}</td>
+              <td v-if='typeIndex === 1 || typeIndex === 2'>{{item.fundFav| isNull}}</td>
+              <td v-if='typeIndex === 0 || typeIndex === 3'>{{item.fundTypeName  | isNull}}</td>
+              <td v-if='typeIndex === 6'>{{item.staticYield | isNull }}</td>
+              <td v-if='typeIndex === 7'>{{item.closedPeriod | isNull }}</td>
+              <td v-if='typeIndex === 6 || typeIndex === 7'>{{item.yearYld | isNull }}</td>
+              <td v-if='typeIndex === 6 || typeIndex === 7'>{{item.tenthouUnitIncm  | isNull}}</td>
+              <td v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
+                <span v-z3-updowncolor="item.chgPct">{{item.chgPct  | filterNum("%")}}</span>
+              </td>
+              <td v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
                 <div v-if="seletetimenum==='0'" v-z3-updowncolor="item.fundYieldMonth">{{item.fundYieldMonth  | filterNum("%")}}</div>
                 <div v-if="seletetimenum==='1'" v-z3-updowncolor="item.fundYield3Month">{{item.fundYield3Month  | filterNum("%")}}</div>
                 <div v-if="seletetimenum==='2'" v-z3-updowncolor="item.fundYield6Month">{{item.fundYield6Month  | filterNum("%")}}</div>
@@ -80,243 +97,21 @@
                 <div v-if="seletetimenum==='6'" v-z3-updowncolor="item.fundYield3Year">{{item.fundYield3Year  | filterNum("%")}}</div>
                 <div v-if="seletetimenum==='7'" v-z3-updowncolor="item.fundYield5Year">{{item.fundYield5Year  | filterNum("%")}}</div>
               </td>
+              <td v-if='typeIndex === 4 || typeIndex === 5'>{{item.trackError | isNull}}</td>
+              <td v-if='typeIndex === 5'>{{item.performBench  | isNull}}</td>
               <td>{{item.firstBuyMin | isNull}}</td>
-              <td>{{item.tradeCost | isNull}}</td>
+              <td v-if='typeIndex === 0'>{{item.tradeCost | isNull}}</td>
+              <td v-if='typeIndex === 1 || typeIndex === 2|| typeIndex === 3 || typeIndex === 6'>{{item.fundYieldYearRankName}}</td>
               <td>
-                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
+                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPools">加基金池</a>
                 <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <!-- 股票型、混合型 -->
-      <div v-if="typeIndex == 1 || typeIndex == 2">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>行业</th>
-              <th>基金风格</th>
-              <th>涨跌幅</th>
-              <th>
-                <div class="seletetime">
-                  <div @click="seletetimeshow=!seletetimeshow">
-                    {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
-                  </div>
-                  <ul v-if="seletetimeshow">
-                    <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
-                  </ul>
-                </div>
-              </th>
-              <th>起购金额</th>
-              <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for='(item,index) in foundPoolList'>
-              <td>{{index+1}}</td>
-              <td>{{item.innerCode}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.estabDate}}</td>
-              <td>{{item.fundScale}}</td>
-              <td>{{item.managerDurationMax}}</td>
-              <td>{{item.hyName }}</td>
-              <td>{{item.fundFav }}</td>
-              <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct  | filterNum("%")}}</span></td>
-              <td>
-                <div v-if="seletetimenum==='0'" v-z3-updowncolor="item.fundYieldMonth">{{item.fundYieldMonth  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='1'" v-z3-updowncolor="item.fundYield3Month">{{item.fundYield3Month  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='2'" v-z3-updowncolor="item.fundYield6Month">{{item.fundYield6Month  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='3'" v-z3-updowncolor="item.fundYieldYearSofar">{{item.fundYieldYearSofar  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='4'" v-z3-updowncolor="item.fundYieldYear">{{item.fundYieldYear  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='5'" v-z3-updowncolor="item.fundYield2Year">{{item.fundYield2Year  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='6'" v-z3-updowncolor="item.fundYield3Year">{{item.fundYield3Year  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='7'" v-z3-updowncolor="item.fundYield5Year">{{item.fundYield5Year  | filterNum("%")}}</div>
-              </td>
-              <td>{{item.firstBuyMin | isNull}}</td>
-              <td>{{item.tradeCost | isNull}}</td>
-              <td>
-                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
-                <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- 债券型 -->
-      <div v-if="typeIndex == 3">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>类型</th>
-              <th>涨跌幅</th>
-              <th>
-                <div class="seletetime">
-                  <div @click="seletetimeshow=!seletetimeshow">
-                    {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
-                  </div>
-                  <ul v-if="seletetimeshow">
-                    <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
-                  </ul>
-                </div>
-              </th>
-              <th>起购金额</th>
-              <th class="pr">排名<div class="text">根据近1年JRJ基金评价计算</div></th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for='(item,index) in foundPoolList'>
-              <td>{{index+1}}</td>
-              <td>{{item.innerCode}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.estabDate}}</td>
-              <td>{{item.fundScale}}</td>
-              <td>{{item.managerDurationMax}}</td>
-              <td>{{item.fundTypeName }}</td>
-              <td><span v-z3-updowncolor="item.chgPct">{{item.chgPct  | filterNum("%")}}</span></td>
-              <td>
-                <div v-if="seletetimenum==='0'" v-z3-updowncolor="item.fundYieldMonth">{{item.fundYieldMonth  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='1'" v-z3-updowncolor="item.fundYield3Month">{{item.fundYield3Month  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='2'" v-z3-updowncolor="item.fundYield6Month">{{item.fundYield6Month  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='3'" v-z3-updowncolor="item.fundYieldYearSofar">{{item.fundYieldYearSofar  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='4'" v-z3-updowncolor="item.fundYieldYear">{{item.fundYieldYear  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='5'" v-z3-updowncolor="item.fundYield2Year">{{item.fundYield2Year  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='6'" v-z3-updowncolor="item.fundYield3Year">{{item.fundYield3Year  | filterNum("%")}}</div>
-                <div v-if="seletetimenum==='7'" v-z3-updowncolor="item.fundYield5Year">{{item.fundYield5Year  | filterNum("%")}}</div>
-              </td>
-              <td>{{item.tradeCost | isNull}}</td>
-              <td>{{item.fundYieldYearRankName}}</td>
-              <td>
-                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
-                <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- 指数型 -->
-      <div v-if="typeIndex == 4">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>涨跌幅</th>
-              <th>
-                <div class="seletetime">
-                  <div @click="seletetimeshow=!seletetimeshow">
-                    {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
-                  </div>
-                  <ul v-if="seletetimeshow">
-                    <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
-                  </ul>
-                </div>
-              </th>
-              <th>跟踪误差</th>
-              <th>起购金额</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <!-- QDII型 -->
-      <div v-if="typeIndex == 5">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>涨跌幅</th>
-              <th>
-                <div class="seletetime">
-                  <div @click="seletetimeshow=!seletetimeshow">
-                    {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
-                  </div>
-                  <ul v-if="seletetimeshow">
-                    <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
-                  </ul>
-                </div>
-              </th>
-              <th>跟踪误差</th>
-              <th>业绩比较基准</th>
-              <th>起购金额</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <!-- 货币型 -->
-      <div v-if="typeIndex == 6">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>静态收益</th>
-              <th>七日年化收益率</th>
-              <th>万份收益</th>
-              <th>起购金额</th>
-              <th>排名</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <!-- 理财型 -->
-      <div v-if="typeIndex == 7">
-        <table class="table tc">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>基金代码</th>
-              <th class="pr">基金简称<i class="icon_help tsk"></i><div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div></th>
-              <th>成立日期</th>
-              <th>规模</th>
-              <th>基金经理任值时间</th>
-              <th>封闭期</th>
-              <th>七日年化收益率</th>
-              <th>万份收益</th>
-              <th>起购金额</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
+      <Pagination v-if="foundPoolListLength > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+      <p class="tc mt-10" v-if="foundPoolListLength === 0" >暂无数据</p>
     </div>
     <!-- 弹框 -->
     <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
@@ -332,6 +127,7 @@
   export default {
     data () {
       return {
+        lsfoundPoolList: [],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -347,9 +143,9 @@
         orgCode: 200180365,
         type2: 'jjlx_all',
         searchVal: '',
-        isConsignment: 0,
         sort: 'innerCode,asc',
         num: 0,
+        isConsignment: 0,
         filterParams2: {
           jjlx: 'jylx_all', // 基金类型
           jyzt: 'jyzt_all', // 交易状态
@@ -386,12 +182,24 @@
       ...mapState([
         'foundPoolList',
         'lsfoundPoolList',
-        'totalPage'
+        'totalPage',
+        'number',
+        'numberOfElements',
+        'fundNum',
+        'page',
+        'pageSize',
+        'foundPoolListLength'
       ]),
       ...mapGetters({
         foundPoolList: 'foundPoolList',
         lsfoundPoolList: 'lsfoundPoolList',
-        totalPage: 'totalPage'
+        totalPage: 'totalPage',
+        numberOfElements: 'numberOfElements',
+        number: 'number',
+        fundNum: 'fundNum',
+        page: 'page',
+        pageSize: 'pageSize',
+        foundPoolListLength: 'foundPoolListLength'
       })
     },
     methods: {
@@ -414,7 +222,7 @@
       },
       addIinterimFunds (item) {
         this.lsfoundPoolList.push(item)
-        item.inTempPool = true
+        item.inTempPools = true
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
@@ -441,7 +249,6 @@
       selectType (index, type) {
         this.typeIndex = index
         this.type2 = type
-        this.page = 0
         this.query(this.filterParams2, this.page, this.type2)
         if (this.type2 === 'jjlx_all') {
           this.init()
@@ -450,14 +257,14 @@
       delFoundPoolList (index, item) {
         this.foundPoolList.some((fund) => {
           if (fund.innerCode === item.innerCode) {
-            fund.inTempPool = false
+            fund.inTempPools = false
             return true
           }
         })
         this.lsfoundPoolList.splice(index, 1)
       },
       removeInterimFunds (item) {
-        item.inTempPool = false
+        item.inTempPools = false
         this.lsfoundPoolList.some((fund, index) => {
           if (fund.innerCode === item.innerCode) {
             this.lsfoundPoolList.splice(index, 1)
@@ -474,6 +281,25 @@
       query (filterParams, type) {
         this.filterParams2 = filterParams
         this.$store.dispatch('getFundPool', { type: this.type2, option: this.filterParams2, isConsignment: this.isConsignment, searchVal: this.searchVal, page: this.page, pageSize: this.pageSize, orgCode: this.orgCode, sort: this.sort })
+      },
+      format (time) {
+        if (time === null) {
+          return '--'
+        }
+        return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+      },
+      checked (e) {
+        const checked = e.target.checked
+        if (checked === true) {
+          this.isConsignment = 1
+          this.query(this.filterParams2, this.page, this.type2)
+        } else {
+          this.isConsignment = 0
+          this.query(this.filterParams2, this.page, this.type2)
+        }
+      },
+      search () {
+        this.query(this.filterParams2, this.page, this.type2)
       },
       init () {
         this.filterParams2.jyzt = 'jyzt_all'
@@ -494,18 +320,24 @@
         this.filterParams2.fbq = 'fbq_all'// 封闭期
       }
     },
+    created () {
+      this.query(this.filterParams2, this.page, this.type2)
+    },
     mounted () {
       this.$nextTick(function () {
-        this.query(this.filterParams2, this.page, this.type2)
         this.foundPoolList = this.foundPoolList.map((fund, index) => {
-          const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.innerCode) }
+          const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
           return tempFund
         })
       })
     },
     watch: {
-      page () {
-        this.query(this.filterParams2, this.page, this.type2)
+      'page': {
+        deep: true,
+        handler: function (oldVal, newVal) {
+          console.log(this.page)
+          this.query(this.filterParams2, this.page, this.type2)
+        }
       }
     }
   }
@@ -624,6 +456,9 @@
       height: 30px;
       line-height: 30px;
       background-color: #f2f2f2;
+      span{
+        cursor: pointer
+      }
     }
     td{
       color: $colorFontTheme;
@@ -632,19 +467,7 @@
       a{
         color: #666;
       }
-      .button{
-        display: inline-block;
-        width:72px;
-        height: 22px;
-        line-height: 22px;
-        text-align: center;
-        border: 1px solid #ccc;
-        @include  border_radius(3px);
-      }
-      .add_button{
-        border-color: #2388da;
-        color: #2388da;
-      }
+      &.blue{color:#2388da;}
     }
     select{
       width:92px;
@@ -652,6 +475,20 @@
       color: #666;
       background: url(../../assets/images/arrows.png) no-repeat right;
     }
+  }
+  .button{
+    display: inline-block;
+    width:72px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    @include  border_radius(3px);
+  }
+  .add_button{
+    border-color: #2388da;
+    color: #2388da;
   }
   .text{
     display:none;
@@ -718,7 +555,7 @@
       color: $colorFontTheme;
       cursor: pointer;
       input{
-        vertical-align: -3px;
+        vertical-align: middle;
       }
     }
     select{
@@ -757,4 +594,5 @@
     .downicon{border-top:6px solid transparent;border-bottom: 6px solid #2f94ee; vertical-align: 2px;}
     ul{ width: 100%;position: absolute; background: #fff;top:30px; left:0;z-index: 999;border: 1px solid #ddd;border-top:0;li{ line-height: 30px; &::hover{ background: #ccc;}}}
   }
+
 </style>

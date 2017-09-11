@@ -12,14 +12,18 @@ export default {
     lsfoundPoolList: [],
     foundPoolList: [],
     desc: true,   // 降序
-    page: 1,
+    page: 0,
     total: 0,
     pagesize: PAGE_SIZE,
     sylbx: [], // 收益率表现
     nhsyl: [], // 年化收益率
     zdhc: [], // 最大回撤
     xpb: [], // 夏普率
-    cesyl: []// 超额收益率
+    cesyl: [], // 超额收益率
+    number: 0,
+    numberOfElements: 20,
+    fundNum: 0, // 基金总条数，
+    foundPoolListLength: 0
   },
   getters: {
     foundPoolList: state => state.foundPoolList,
@@ -31,11 +35,21 @@ export default {
     zdhc: state => state.zdhc,
     xpb: state => state.xpb,
     cesyl: state => state.cesyl,
-    totalPage: state => state.total
+    totalPage: state => state.total,
+    number: state => state.number,
+    numberOfElements: state => state.numberOfElements,
+    fundNum: state => state.fundNum,
+    page: state => state.page,
+    pagesize: state => state.pagesize,
+    foundPoolListLength: state => state.foundPoolListLength
   },
   mutations: {
     [types.ADD_FUNDPOLL] (state, list) {
-      state.foundPoolList = list
+      state.foundPoolList = list.fundList.content
+      state.number = list.fundList.number
+      state.numberOfElements = list.fundList.numberOfElements
+      state.fundNum = list.fundNum
+      state.foundPoolListLength = list.fundList.content.length
     },
     getLSFoundPoolList (state, list) {
       state.lsfoundPoolList = list
@@ -70,8 +84,7 @@ export default {
       }).then(result => {
         console.log(result)
         if (result.errCode === 0) {
-          commit(types.ADD_FUNDPOLL, result.data.fundList.content)
-          commit('getLSFoundPoolList', result.data.fundForPoolList)
+          commit(types.ADD_FUNDPOLL, result.data)
           commit('upDataPage', { page: result.data.fundList.number, pageSize: result.data.fundList.size, totalPages: result.data.fundList.totalPages })
         }
       })
@@ -116,30 +129,5 @@ export default {
         commit('getCesyl', result.data)
       })
     }
-    // getFundPool ({ commit }, { sortField, page, pagesize, totalPages }) {
-    //   page = page || 0
-    //   pagesize = pagesize || PAGE_SIZE
-    //   const url = `${domain}/openapi/fund/strategyByParam.shtml?sort=desc&page=${page}&size=${pagesize}`
-    //   return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
-    //     return res.json()
-    //   }).then(result => {
-    //     commit(types.ADD_FUNDPOLL, result.data)
-    //     commit('upDataPage', { page: 0, pageSize: 10, totalPages: 25 })
-    //   })
-    // }
-    // queryAllTopic ({ commit }, { sortField, page, pagesize, totalPages }) {
-    //   page = page || 0
-    //   pagesize = pagesize || PAGE_SIZE
-    //   return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
-    //     mode: 'cors'
-    //   }).then((res) => {
-    //     return res.json()
-    //   }).then(result => {
-    //     if (result.errCode === 0) {
-    //       commit('updateAllTopic', result.data.content)
-    //       commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
-    //     }
-    //   })
-    // }
   }
 }
