@@ -104,9 +104,9 @@
     
       <div class="recom-fund-table">
                      <ul class="bfilter-ul bfilter-ul2 clearfix">
-                        <li class="fl blue active" >高风险组合</li>
-                        <li class="fl blue" >中风险组合</li>
-                        <li class="fl blue" >低风险组合</li>
+                        <li class="fl blue" :class="risksType==='high'?'active':''" @click="riskTab('high')">高风险组合</li>
+                        <li class="fl blue" :class="risksType==='middle'?'active':''" @click="riskTab('middle')">中风险组合</li>
+                        <li class="fl blue" :class="risksType==='low'?'active':''" @click="riskTab('low')">低风险组合</li>
                      </ul>
                      <div class="bfilter-table clearfix">
                         <div class="table-head">
@@ -118,13 +118,13 @@
                              </span><span>累计收益
                              </span>
                         </div>
-                        <div class="clearfix table-body" >
-                             <span class="order-num">000001
-                             </span><span>华夏混合
-                             </span><span>1.4232
-                             </span><span>10.21%
-                             </span><span>1.01
-                             </span><span>军工主题
+                        <div class="clearfix table-body" v-for="risk of byRisk">
+                             <span class="order-num">{{risk.portfolio_name}}
+                             </span><span>{{risk.max_drawdown==null?'--':risk.max_drawdown}}
+                             </span><span>{{risk.volatility==null?'--':risk.volatility}}
+                             </span><span>{{risk.sharp_rate==null?'--':risk.sharp_rate}}
+                             </span><span>{{risk.year_income_rate==null?'--':risk.year_income_rate}}
+                             </span><span>{{risk.total_income_rate==null?'--':risk.total_income_rate}}
                              </span>
                         </div>
                         
@@ -139,11 +139,12 @@
  export default {
    data () {
      return {
- 
+       risks: { high: 1, middle: 2, low: 3 },
+       risksType: ''
      }
    },
    computed: mapState({
- 
+     byRisk: state => state.fundIntell.byRisk
    }),
    components: {
  
@@ -152,7 +153,10 @@
      init () {
  
      },
- 
+     riskTab (type) {
+       this.risksType = type
+       this.$store.dispatch('fundIntell/queryRecommendByRisk', { risk: this.risks[this.risksType] })
+     },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'
      },
@@ -162,7 +166,7 @@
 
    },
    mounted () {
-     this.init()
+     this.riskTab('high')
    }
  
  }

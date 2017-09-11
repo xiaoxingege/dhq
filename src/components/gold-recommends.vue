@@ -111,43 +111,39 @@
           ]
           const buyConditionTable = this.data.sellConditiondata.buy.buyStrategyIndexList
           const sellConditionTable = this.data.sellConditiondata.sell.sellStrategyIndexList
-
           if (buyConditionTable.length > 0) {
             for (var i = 0; i < buyConditionTable.length; i++) {
-              const parms = buyConditionTable[i].indexParams.period
+              const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
               const parmsPeriod = []
-              if (parms === 'day') {
-                parmsPeriod.push('日线')
-              } else if (parms === 'week') {
-                parmsPeriod.push('周线')
-              } else if (parms === 'month') {
-                parmsPeriod.push('月线')
+              for (var key in parms) {
+                if (parms[key] === 'day') {
+                  parmsPeriod.push('日线')
+                } else if (parms[key] === 'week') {
+                  parmsPeriod.push('周线')
+                } else if (parms[key] === 'month') {
+                  parmsPeriod.push('月线')
+                } else {
+                  parmsPeriod.push(parms[key])
+                }
               }
-              if (parms.T) {
-                parmsPeriod.push(parms.T)
-              }
-              if (parms.M) {
-                parmsPeriod.push(parms.M)
-              }
+    
               buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
             }
           }
           if (sellConditionTable.length > 0) {
             for (var j = 0; j < sellConditionTable.length; j++) {
-              const parms = JSON.parse(sellConditionTable[j].indexParams)
+              const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
               const parmsPeriod = []
-              if (parms.period === 'day') {
-                parmsPeriod.push('日线')
-              } else if (parms.period === 'week') {
-                parmsPeriod.push('周线')
-              } else if (parms.period === 'month') {
-                parmsPeriod.push('月线')
-              }
-              if (parms.T) {
-                parmsPeriod.push(parms.T)
-              }
-              if (parms.M) {
-                parmsPeriod.push(parms.M)
+              for (var item in parms) {
+                if (parms[item] === 'day') {
+                  parmsPeriod.push('日线')
+                } else if (parms[item] === 'week') {
+                  parmsPeriod.push('周线')
+                } else if (parms[item] === 'month') {
+                  parmsPeriod.push('月线')
+                } else {
+                  parmsPeriod.push(parms[item])
+                }
               }
               sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
             }
@@ -176,7 +172,7 @@
         }
       },
       mounted () {
-        console.log(this.data.choseStockData.filterSummary)
+
       }
     }
 </script>

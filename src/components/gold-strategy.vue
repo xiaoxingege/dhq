@@ -49,15 +49,23 @@
     .topNav ul li>span{
         width:75px;
     }
+    .recommend img{
+        position: relative;
+        top:7px;
+        height:20px;
+        cursor: pointer;
+    }
 </style>
 <template>
     <div class="goldRecommend">
-        <div class="strategyHeader">
-            <div>
+        <div class="strategyHeader clear">
+            <div class="fl">
                 <span>{{goldResult.strategyName}}</span>
             </div>
-            <div>
-
+            <div class="fr mr-15 recommend">
+                <span>推荐给客户：</span>
+                <img class="mr-10" src="../assets/images/z3img/back-weixin.png">
+                <img src="../assets/images/z3img/back-copy.png">
             </div>
         </div>
         <div class="strategyTop display-box">
@@ -115,15 +123,15 @@ export default{
           return [
              ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
             [
-              Number(this.goldResult.evaluationIndexs.annualReturn).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.excessReturn).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.algoVolatility).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%',
               Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2),
-              Number(this.goldResult.evaluationIndexs.maxDrawdown).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%',
               Number(this.goldResult.evaluationIndexs.alpha).toFixed(2),
               Number(this.goldResult.evaluationIndexs.beta).toFixed(2),
-              Number(this.goldResult.evaluationIndexs.winRatio).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.turnover).toFixed(2) + '%'
+              (Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'
             ]
           ]
         },

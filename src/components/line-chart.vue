@@ -172,7 +172,6 @@
         updateChart () {
 
         }
-
       },
       mounted () {
         this.initChart()

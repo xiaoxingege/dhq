@@ -23,26 +23,30 @@
       },
       computed: {
         homeMapData: function () {
-          const map = [].concat(this.$store.state.stockMap.industries)
+          const map = [].concat(this.$store.state.z3touguIndex.homeMapData)
           map.forEach(function (industry) {
             industry.value = industry.scale
+            industry.children = industry.voList
             industry.children && industry.children.forEach(function (lvl2) {
               lvl2.value = lvl2.scale
-              lvl2.children = []
             })
           })
           return map
         },
         homeStockData: function () {
           const map = this.homeMapData
-          const stockData = this.$store.state.stockMap.stockData
+          const stockData = this.$store.state.z3touguIndex.homeRangeData
           const _this = this
           map.forEach(function (industry) {
             industry.children && industry.children.forEach(function (lvl2) {
               if (stockData) {
                 lvl2.perf = stockData[lvl2.name]
                 if (lvl2.perf !== null && typeof (lvl2.perf) !== 'undefined') {
-                  lvl2.perfText = parseFloat(lvl2.perf).toFixed(2)
+                  if (lvl2.perf >= 0) {
+                    lvl2.perfText = '+' + parseFloat(lvl2.perf).toFixed(2) + '%'
+                  } else {
+                    lvl2.perfText = parseFloat(lvl2.perf).toFixed(2) + '%'
+                  }
                 } else {
                   lvl2.perfText = '--'
                 }
@@ -62,7 +66,8 @@
       methods: {
         initMap: function () {
           this.mapChart = echarts.init(this.$refs.mapChart)
-          this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
+          const date = this.getTime()
+          this.$store.dispatch('z3touguIndex/getHomeMapData', { date: date })
                     .then(() => {
                       this.mapChart.setOption({
                         tooltip: {
@@ -74,6 +79,8 @@
                             type: 'treemap',
                             width: '100%',
                             height: '100%',
+                            visibleMin: 50,
+                            childrenVisibleMin: 50,
                             label: {
                               normal: {
                                 show: true,
@@ -83,7 +90,7 @@
                                   }
                                 },
                                 textStyle: {
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   ellipsis: false
                                 }
                               }
@@ -100,7 +107,7 @@
                       })
                       this.mapChart.hideLoading()
                     }).then(() => {
-                      this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
+                      this.$store.dispatch('z3touguIndex/getHomeRangeData').then(() => {
                         this.mapChart.setOption({ series: [{ data: this.homeStockData }] })
                         this.mapChart.hideLoading()
                       })
@@ -112,8 +119,8 @@
               itemStyle: {
                 normal: {
                   borderColor: '#000',
-                  borderWidth: 1,
-                  gapWidth: 5
+                  borderWidth: 0.5,
+                  gapWidth: 1
                 }
               },
               upperLabel: {
@@ -154,6 +161,19 @@
             var index = Math.round((value - valueArr[0]) / (valueArr[valueArr.length - 1] - valueArr[0]) * colorArr.length)
             return colorArr[index]
           }
+        },
+        getTime: function () {
+          const date = new Date()
+          let month = date.getMonth() + 1
+          let strDate = date.getDate()
+          if (month >= 1 && month <= 9) {
+            month = '0' + month
+          }
+          if (strDate >= 0 && strDate <= 9) {
+            strDate = '0' + strDate
+          }
+          const currentDate = date.getFullYear() + month + strDate
+          return currentDate
         }
       },
       mounted () {

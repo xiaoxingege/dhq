@@ -67,7 +67,7 @@
     .describe-wrap{
       width: 100%;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     .describe-box{
       font-size: 12px;
@@ -145,7 +145,7 @@
     <div class="describe-box">
          <div class="bfilter-header clearfix">
               <div class="blue header-title fl"><span>{{timeStrategy.strategyName}}</span><i></i></div> 
-              <div class="fr"><span>推送给客户：</span><a></a><a></a></div>
+              
          </div>
          <div class="describe-wrap clearfix display-box">
         
@@ -160,27 +160,27 @@
                  <div class="clearfix evaluat-box">
                      <div class="desc-txt desc-txt2 desc-txt4 fl">
                          <span>胜率
-                         </span><span class="desc-num" :class="timeEval.winRatio>=0 ? timeEval.winRatio===0?'':'red':'green'">{{changePer(timeEval.winRatio)}}</span>
+                         </span><span class="desc-num" :class="timeEval.winRatio>=0 ? timeEval.winRatio===0?'':'red':'green'">{{timeEval.winRatio==null?'--':changePer(timeEval.winRatio)}}</span>
                      </div>  
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大盈利
-                         </span><span class="desc-num" :class="timeEval.maxWin>=0 ? timeEval.maxWin===0?'':'red':'green'">{{changePer(timeEval.maxWin)}}</span>
+                         </span><span class="desc-num" :class="timeEval.maxWin>=0 ? timeEval.maxWin===0?'':'red':'green'">{{timeEval.maxWin==null?'--':changePer(timeEval.maxWin)}}</span>
                      </div>   
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大亏损
-                         </span><span class="desc-num" :class="timeEval.maxLoss>=0 ? timeEval.maxLoss===0?'':'red':'green'">{{changePer(timeEval.maxLoss)}}</span>
+                         </span><span class="desc-num" :class="timeEval.maxLoss>=0 ? timeEval.maxLoss===0?'':'red':'green'">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span>
                      </div>     
                      <div class="desc-txt desc-txt2 desc-txt6 fl">
                          <span>盈亏比
-                         </span><span class="desc-num" >{{Number(timeEval.winLossRatio).toFixed(2)}}</span>
+                         </span><span class="desc-num" >{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 desc-txt3 fl">
                          <span>回测区间
-                         </span><span class="desc-num">{{changeDate(timeStrategy.backtestStartDate)}}-{{changeDate(timeStrategy.backtestEndDate)}}</span>
+                         </span><span class="desc-num">{{timeStrategy.backtestStartDate==null?'--':changeDate(timeStrategy.backtestStartDate)}}-{{timeStrategy.backtestEndDate==null?'--':changeDate(timeStrategy.backtestEndDate)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>股票范围
-                         </span><span class="desc-num">全部A股</span>
+                         </span><span class="desc-num">{{timeStrategy.stockScope}}</span>
                      </div>
 
                  </div>

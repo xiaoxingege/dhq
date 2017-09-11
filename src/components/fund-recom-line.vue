@@ -56,10 +56,13 @@
         border-right: 1px solid #e5e5e5;
         width: 50%;
     }
+    .chart-box{
+      height: 210px;
+    }
     .fundchart1{
       width: 300px;
-      /* height: 110px; */
-      height: 210px;
+      height: 180px;
+      /* height: 210px; */
     }
     .recom-content{
       margin-top: 18px;
@@ -87,9 +90,9 @@
                 
                   <div class="recom-left display-box">
                       <div class="fund-hot1 box-flex-1" v-for="info of fundRecomInfo">
-                        <div class="fundchart1" ref="fundchart1"></div>
+                         <div class="chart-box"><div class="fundchart1" ref="fundchart1"></div></div>
                          <div class="recom-content">
-                             <div class="hui">今年以来:<span class="red">{{info.fundYieldYearSofar}}
+                             <div class="hui">今年以来:<span v-z3-updowncolor="info.fundYieldYearSofar">{{changeFix(info.fundYieldYearSofar)}}
                              </span></div>
                              <div>
                                  <span class="hui">{{info.symbol}}
@@ -100,8 +103,7 @@
                                 <span class="hui">类型：</span><span>{{info.fundTypeName}}</span>
                                 <span class="hui">风险：</span><span>{{info.riskLevelName}}</span>
                              </div>
-                             
-                             <div class="reson-title hui">推荐理由</div>
+                             <div class="reson-title hui">基金特色:</div>
                              <ul>
                                  <li v-for="(reason,index) of info.reasonList">{{index+1}}、{{reason}}</li>
                                  
@@ -133,17 +135,20 @@
        let xDate = null
        let fundReturn = null
        let huShenReturn = null
+       let name = null
        infoData && infoData.forEach((item, index) => {
-         console.log(item.xDate)
+         // console.log(item.xDate)
          xDate = item.xDate
          fundReturn = item.fundReturn
          huShenReturn = item.huShenReturn
+         name = item.name
        })
        /* console.log(xDate)*/
        return {
          xDate: xDate,
          fundReturn: fundReturn,
-         huShenReturn: huShenReturn
+         huShenReturn: huShenReturn,
+         name: name
        }
      }
  
@@ -157,11 +162,11 @@
        this.chart2 = echarts.init(this.$refs.fundchart1[1])
        this.$store.dispatch('fundIntell/queryfundRecommendInfo')
                       .then(() => {
-                        this.drawCharts(this.chart, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn)
-                        this.drawCharts(this.chart2, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn)
+                        this.drawCharts(this.chart, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn, this.recomInfoData.name)
+                        this.drawCharts(this.chart2, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn, this.recomInfoData.name)
                       })
      },
-     drawCharts (chart, xDate, fundReturn, huShenReturn) {
+     drawCharts (chart, xDate, fundReturn, huShenReturn, name) {
        chart.setOption({
          tooltip: {
            trigger: 'axis',
@@ -181,17 +186,17 @@
            }
          },
          legend: {
-           left: '3%',
-           top: 30,
-           itemWidth: 15,
-           itemHeight: 8,
+           left: '10%',
+           top: 0,
+           itemWidth: 22,
+           itemHeight: 3,
            data: [{
-             name: 'wewe',
-             icon: 'pin'
+             name: name,
+             icon: 'rect'
            },
            {
              name: '沪深300',
-             icon: 'pin'
+             icon: 'rect'
            }]
  
          },
@@ -219,8 +224,8 @@
            }
          ],
          grid: {
-                              /* width: '97%',*/
-           left: '0',
+           width: '100%',                   /* width: '97%',*/
+           left: '10%',
            right: '0',
            bottom: 0,                  /* bottom: '50',*/
            containLabel: true
@@ -236,7 +241,7 @@
            }
          ],*/
          series: [{
-           name: 'wewe',
+           name: name,
            type: 'line',
            smooth: true,
            data: fundReturn,
@@ -297,6 +302,9 @@
          }]
  
        })
+     },
+     changeFix (num) {
+       return Number(num).toFixed(2) + '%'
      },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'

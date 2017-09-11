@@ -3,7 +3,12 @@ import fetchJsonp from 'fetch-jsonp'
 export default {
   namespaced: true,
   state: {
-    strategyList: []
+    strategyList: [],
+    financeNewsList: [],
+    listedCompanyNewsList: [],
+    newsDetails: null,
+    homeMapData: [],
+    homeRangeData: null
   },
   mutations: {
     setStrategyList (state, options) {
@@ -23,11 +28,19 @@ export default {
     setNewsDetails (state, options) {
       const result = options.result
       state.newsDetails = result.data
+    },
+    setHomeMapData (state, options) {
+      const result = options.result
+      state.homeMapData = result.voList
+    },
+    setHomeRangeData (state, options) {
+      const result = options.result
+      state.homeRangeData = result.data
     }
   },
   actions: {
     getStrategyList ({ commit }, { sort, direction, size }) {
-      const url = `http://www.z3quant.com/openapi/backtest/goldStrategy/sort.shtml?sort=${sort}&direction=${direction}&size=${size}`
+      const url = `http://test.z3quant.com/openapi/backtest/goldStrategy/sort.shtml?sort=${sort}&direction=${direction}&size=${size}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -62,6 +75,26 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setNewsDetails', {
+          result: body
+        })
+      })
+    },
+    getHomeMapData ({ commit }, { date }) {
+      const url = 'http://test.z3quant.com/openapi/openjson/tx/chg/' + date + '.json'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setHomeMapData', {
+          result: body
+        })
+      })
+    },
+    getHomeRangeData ({ commit }) {
+      const url = 'http://test.z3quant.com/openapi/tx/chg/'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setHomeRangeData', {
           result: body
         })
       })

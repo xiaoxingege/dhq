@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-kline.vue" afterPath="$PROJECT_DIR$/src/components/back-time-kline.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fund-recom-table.vue" afterPath="$PROJECT_DIR$/src/components/fund-recom-table.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/intell-recom-line.vue" afterPath="$PROJECT_DIR$/src/components/intell-recom-line.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-filter-descr.vue" afterPath="$PROJECT_DIR$/src/components/back-filter-descr.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-alltopic.vue" afterPath="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/backtest-detail.js" afterPath="$PROJECT_DIR$/src/stores/backtest-detail.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/fund-intell.js" afterPath="$PROJECT_DIR$/src/stores/fund-intell.js" />
     </list>
     <ignored path="vue.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,53 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.682927">
-              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <marker date="1504748006020" expanded="true" signature="55776:55864" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="theme-sort-az.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/theme-sort-az.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/z3tougu/pages/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -83,53 +40,91 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vue-router.common.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.common.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vue-router.esm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="366" column="34" selection-start-line="366" selection-start-column="34" selection-end-line="366" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vue-router.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="373" column="32" selection-start-line="373" selection-start-column="32" selection-end-line="373" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vue-router.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="15241" selection-start-line="5" selection-start-column="15241" selection-end-line="5" selection-end-column="15241" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="link.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/vue-router/src/components/link.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="99" column="5" selection-start-line="99" selection-start-column="5" selection-end-line="99" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.627812">
-              <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="446" column="13" selection-start-line="446" selection-start-column="13" selection-end-line="446" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stock-map.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
+      <file leaf-file-name="back-time-kline.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/back-time-kline.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
+              <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search-bar.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/search-bar.vue">
+      <file leaf-file-name="backtest-time.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/backtest-time.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.11895911">
+              <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
+      <file leaf-file-name="backtest-filter.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/backtest-filter.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
-              <folding>
-                <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bubbles.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/bubbles.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -150,6 +145,7 @@
         <option value="$PROJECT_DIR$/src/components/stock-map.vue" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
+        <option value="$PROJECT_DIR$/src/components/backtest-time.vue" />
       </list>
     </option>
   </component>
@@ -216,6 +212,78 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="z3tougu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="z3tougu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope">
@@ -246,26 +314,31 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/common/variable.scss</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/base.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/article-list.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/bubbles.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/package.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-detail-h5.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-filter.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-time.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-select.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-chart.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-recommends.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy-h5.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/one-line-chart.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pagination.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/stock-map.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/theme-alltopic.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/topic-detail.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/recommed-strategy-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/map-home.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list-home.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/theme-home.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/z3tougu-index.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/z3tougu-theme.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/index.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/filter.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/gold-strategy.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/stock.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/constant/filter.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/router/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/store/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn.lock</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已创建" />
@@ -273,90 +346,32 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/animate.min.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/css/swiper.min.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/activity-slider/fade3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/shortmessage.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/fund/weChat.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg11.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/bg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn-h1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/btn.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/di.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg11.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-bg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/m-di1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/next.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppBg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoAppDi.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg10.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg8.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebBg9.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/payVideoWebDi.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/prev.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/slider-img4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/pay-video-activity/web-nav-bg.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/plugins/activity-slider/swiper.min.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/activity-slider.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-dialog.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-archives/basic-info.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-bubble.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-buy-info.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-chart.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity-app.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pay-video-activity.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolList.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/smartPool/smartPoolListDialog.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/zw-pay-video-activity-app.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/zw-pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-archives.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/fund-record.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/smartPool.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/activity-slider.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/pay-video-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/constant/filter.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/h5-0.0.81.tar.bzip2</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg1-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg10-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg2-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg3-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg4-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg5-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg6-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg7-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg8-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg9-m.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/btn-m.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-btn.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sept-new-activity-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sept-new-activity-web.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/sept-new-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/sept-new-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/sept-new-activity.js</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已删除" />
@@ -364,7 +379,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/fundPool-intelligent.vue</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已恢复" />
@@ -524,11 +538,11 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1574468" sideWeight="0.4841772" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3719647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2615894" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42825606" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.67108166" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15595363" sideWeight="0.51582277" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -541,7 +555,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="找到" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="找到" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35871965" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -560,73 +574,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/bubbles.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/z3tougu/pages/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="450" column="18" selection-start-line="450" selection-start-column="18" selection-end-line="450" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/z3tougu/store/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/search-bar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/components-list.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -638,9 +585,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -648,7 +592,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -663,7 +606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -688,7 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -696,7 +637,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,7 +644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -719,9 +658,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -729,7 +665,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -744,7 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="59" column="19" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -776,7 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -784,7 +717,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -799,9 +731,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -816,7 +745,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -883,17 +811,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/z3tougu/router/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
-          <folding>
-            <marker date="1504616237948" expanded="true" signature="3550:4004" placeholder="[...]" />
-          </folding>
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -901,7 +825,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -909,15 +832,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="11" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/stock-map.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="505" column="16" selection-start-line="505" selection-start-column="16" selection-end-line="505" selection-end-column="16" />
-          <folding />
+          <caret line="514" column="16" selection-start-line="514" selection-start-column="16" selection-end-line="514" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -925,7 +846,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -933,9 +853,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1504748006020" expanded="true" signature="55776:55864" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -943,17 +860,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/z3tougu/pages/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -961,14 +867,87 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.682927">
           <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.627812">
-          <caret line="353" column="40" selection-start-line="353" selection-start-column="40" selection-end-line="353" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="446" column="13" selection-start-line="446" selection-start-column="13" selection-end-line="446" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/back-time-kline.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/z3tougu/pages/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="366" column="34" selection-start-line="366" selection-start-column="34" selection-end-line="366" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="373" column="32" selection-start-line="373" selection-start-column="32" selection-end-line="373" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="15241" selection-start-line="5" selection-start-column="15241" selection-end-line="5" selection-end-column="15241" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-router/src/components/link.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="99" column="5" selection-start-line="99" selection-start-column="5" selection-end-line="99" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/backtest-filter.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/backtest-time.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11895911">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
           <folding />
         </state>
       </provider>

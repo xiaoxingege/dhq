@@ -25,21 +25,23 @@
     }
     .backtest-filter{
         background: #f2f2f2;
-        color: #191919;
+        color: #696969;
         width: 100%;
     }
     .bfilter-main{
        padding: 0 10px 0;
+       position: relative;
     }
     
     .bfilter-bottom{
       margin-top: 14px;
       background: #fff;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     .bfilter-ul{
       border-bottom: 1px solid #2388da;
+      position: relative;
     }
     .bfilter-ul li{
       padding: 7px 15px 5px 14px;
@@ -59,9 +61,7 @@
     .table-head{
        background: #f2f2f2;
        padding: 9px 0;
-    }
-    .table-head{
-      width: 100%;
+       width: 100%;
     }
     .table-head span{
       width: 9%;
@@ -89,19 +89,19 @@
       width: 12%;
     }
     span.order-num{
-      width: 6%;
+      /* width: 6%; */
     }
     .bfilter-table .export{
        width: 4%;
        
     }
-    .table-head{
+    /* .table-head{
       position: relative;
-    }
+    } */
     .export{
       position: absolute;
       right: 1%;
-      top: 2px;
+      top: 0;
     }
     .export i{
       background: url(../assets/images/z3img/export-icon.png) no-repeat;
@@ -115,18 +115,46 @@
     .backtest-filter .page{
       text-align: center;
     }
+    .icon{
+      position: absolute;
+      right: 15px;
+      top: 8px;
+    }
+    .weixin{
+      height: 22px;
+      width: 24px;
+      display: inline-block;
+      background: url(../assets/images/z3img/back-weixin.png) no-repeat;
+      margin-right: 12px;
+      cursor:pointer;
+    }
+    .copy{
+      height: 22px;
+      width: 22px;
+      display: inline-block;
+      background: url(../assets/images/z3img/back-copy.png) no-repeat;
+      cursor:pointer;
+    }
+    .qrcode{
+      position:absolute;
+      top:40px;
+      right:10px;
+      box-shadow:4px 4px 4px 2px #eee;
+      border:1px solid #eee;
+    }
 </style>
 <template> 
    <div class="backtest-filter">
       <div class="bfilter-main">
-        
+        <div class="fr icon"><span class="weixin"  @click="showQrcode"></span><span class="copy"></span></div>
         <BackFilterDescr/> 
         <div class="bfilter-bottom">
           <ul class="bfilter-ul clearfix">
-              <li class="fl blue" @click="nowTrade" :class="showNowTrade===true?'active':''">当前选股</li>
+              <li class="fl blue" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
               <li class="fl blue" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
+              <li><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li>
           </ul>
-          <div class="bfilter-table" v-show="showNowTrade">
+          <div class="bfilter-table" v-show="showNowStock">
               <div>
                   
               </div>
@@ -142,22 +170,20 @@
                    </span><span>市销率
                    </span><span>总市值
                    </span><span>流通市值
-                   </span><span class="export blue"><i>
-                   </i>导出
                    </span>
               </div>
-              <div class="clearfix table-body" v-for="(stock,index) of nowStock">
+              <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock">
                    <span class="order-num">{{index+1}}
                    </span><span>{{stock.innerCode}}
                    </span><span>{{stock.name}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.price}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.chg}}
+                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.price==null?'--':stock.price}}
+                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.chg==null?'--':stock.chg}}
                    </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
-                   </span><span>{{stock.peTtm.toFixed(2)}}
-                   </span><span>{{stock.pb.toFixed(2)}}
-                   </span><span>1223
-                   </span><span>{{stock.tcap}}
-                   </span><span>{{stock.mktcap}}
+                   </span><span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}
+                   </span><span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}
+                   </span><span>{{stock.ps==null?'--':stock.ps.toFixed(2)}}
+                   </span><span>{{stock.tcap==null?'--':changeYi(stock.tcap)}}
+                   </span><span>{{stock.mktcap==null?'--':changeYi(stock.mktcap)}}
                    </span>
               </div>
               <Pagination  @getPageFromChild="goToStockPage" :totalPage="totalPage"/>
@@ -176,21 +202,23 @@
                  </div>
                  <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail">
                      <span>{{index+1}}
-                     </span><span>{{changeDate(tradeDay.backtestDate)}}
-                     </span><span>{{tradeDay.sellStockNums}}
-                     </span><span>{{changeDate(tradeDay.buyDate)}}
-                     </span><span>{{tradeDay.winLossRatio}}
-                     </span><span>{{changePer(tradeDay.winRatio)}}
+                     </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
+                     </span><span>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}
+                     </span><span>{{tradeDay.buyDate==null?'--':changeDate(tradeDay.buyDate)}}
+                     </span><span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
+                     </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
                      </span><span :class="tradeDay.avgReturn>=0 ? tradeDay.avgReturn===0||tradeDay.avgReturn==null?'':'red':'green'">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
-                     </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{changePer(tradeDay.avgReturnExcess)}}
+                     </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
                      </span>
                  </div>
                  <Pagination  @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage"/>
           </div>
         </div> 
       </div>
-      
-      
+      <div v-show="showQrcodeBox" class="qrcode" >
+          <div><canvas ref="qrcode"></canvas></div>
+      </div>
+      <toast :msg="toastmsg"  v-if="showToast"></toast>
    </div>
        
 </template>
@@ -199,6 +227,9 @@
  import { mapState } from 'vuex'
  import BackFilterDescr from './back-filter-descr'
  import Pagination from './pagination'
+ import qrcode from 'qrcode'
+ import Clipboard from 'clipboard'
+ import toast from 'components/toast'
  export default {
    data () {
      return {
@@ -206,33 +237,42 @@
        stockPagesize: '',
        tradePage: 0,
        tradePagesize: '',
-       showNowTrade: true,
+       showNowStock: true,
        showTradeDay: false,
-       strategyId: this.$route.params.strategyId
+       strategyId: this.$route.params.strategyId,
+       showQrcodeBox: false,
+       toastmsg: '',
+       showToast: false
      }
    },
    computed: mapState({
      tradeDetail: state => state.backtestDetail.tradeDetail,
-     nowStock: state => state.backtestDetail.nowStock,
+     nowChooseStock: state => state.backtestDetail.nowStock,
      totalPage: state => state.backtestDetail.stockTotal,
      tradeTotalPage: state => state.backtestDetail.tradeTotalPage
    }),
    components: {
      BackFilterDescr,
-     Pagination
+     Pagination,
+     toast
    },
    methods: {
      initData (stockPage, tradePage) {
        this.$store.dispatch('backtestDetail/queryNowStock', { strategyId: this.strategyId, stockPage: this.stockPage, stockPagesize: this.stockPagesize })
        this.$store.dispatch('backtestDetail/queryTradeDetail', { strategyId: this.strategyId, tradePage: this.tradePage, tradePagesize: this.tradePagesize })
      },
-     nowTrade () {
-       this.showNowTrade = true
+     nowStock () {
+       this.showNowStock = true
        this.showTradeDay = false
      },
      tradeDay () {
        this.showTradeDay = true
-       this.showNowTrade = false
+       this.showNowStock = false
+     },
+     excelExport (type) {
+       const id = this.strategyId
+       const url = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + id + '&type=' + type
+       window.location.href = url
      },
      goToStockPage (page) {
        this.stockPage = Number(page) - 1
@@ -243,6 +283,12 @@
      /* goToPage (page) {
        this.page = Number(page) - 1
      },*/
+     changeYi (num) {
+       return (Number(num) / 100000000).toFixed(2) + '亿'
+     },
+     changeFix (num) {
+       return Number(num).toFixed(2) + '%'
+     },
      changePer (num) {
        return (Number(num) * 100).toFixed(2) + '%'
      },
@@ -251,6 +297,9 @@
      },
      changeDate (time) {
        return (time + '').substring(0, 4) + '.' + (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+     },
+     showQrcode () {
+       this.showQrcodeBox = !this.showQrcodeBox
      }
 
    },
@@ -265,6 +314,27 @@
    },
    mounted () {
      this.initData()
+     const url = window.location.protocol + '//' + window.location.host + '/backtestFilterH5/' + this.strategyId
+     qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+     const clipboard = new Clipboard('.copy', {
+       text: function () {
+         return url
+       }
+     })
+     clipboard.on('success', (e) => {
+       this.toastmsg = '分享地址已拷贝!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
+     clipboard.on('error', (e) => {
+       this.toastmsg = '分享地址拷贝失败!'
+       this.showToast = true
+       setTimeout(() => {
+         this.showToast = false
+       }, 2500)
+     })
    }
  
  }

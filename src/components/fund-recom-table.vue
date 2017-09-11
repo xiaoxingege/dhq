@@ -104,12 +104,12 @@
     
       <div class="recom-fund-table">
          <ul class="bfilter-ul clearfix">
-            <li class="fl blue active" >热门主题基金</li>
+            <li class="fl blue" @click="hotRecommend" :class="showHotRecommend===true?'active':''">热门主题基金</li>
             <li class="fl blue" @click="excellentPlan" :class="showPlan===true?'active':''">优选定投</li>
             <li class="fl blue" @click="moneyFund" :class="showMoneyFund===true?'active':''">优选货基</li>
             <li class="fl blue" @click="revenueChampion" :class="showChampion===true?'active':''">收益冠军</li>
          </ul>
-         <div class="bfilter-table clearfix" v-show="false">
+         <div class="bfilter-table clearfix" v-show="showHotRecommend">
             <div class="table-head">
                  <span class="order-num">基金代码
                  </span><span>基金简称
@@ -119,13 +119,13 @@
                  </span><span>所属主题
                  </span>
             </div>
-            <div class="clearfix table-body" >
-                 <span class="order-num">000001
-                 </span><span>华夏混合
-                 </span><span>1.4232
-                 </span><span>10.21%
-                 </span><span>1.01
-                 </span><span>军工主题
+            <div class="clearfix table-body" v-for="hot of hotRecomm">
+                 <span class="order-num blue">{{hot.symbol}}
+                 </span><span>{{hot.name}}
+                 </span><span>{{hot.unitNet==null?'--':hot.unitNet}}
+                 </span><span>{{hot.yearYieldEstab==null?'--':hot.yearYieldEstab}}
+                 </span><span>{{hot.statSharpeRatio==null?'--':hot.statSharpeRatio}}
+                 </span><span>{{hot.topicName==null?'--':hot.topicName}}
                  </span>
             </div>
            
@@ -142,12 +142,12 @@
             </div>
             <div class="clearfix table-body" v-for="excell of excellPlan">
 
-                 <span class="order-num">{{excell.symbol}}
+                 <span class="order-num  blue">{{excell.symbol}}
                  </span><span>{{excell.name}}
-                 </span><span>{{excell.unitNet}}
-                 </span><span>{{excell.yearYieldEstab}}
-                 </span><span>{{excell.sharpeRatioEstab}}
-                 </span><span>{{excell.estab}}
+                 </span><span>{{excell.unitNet==null?'--':excell.unitNet}}
+                 </span><span>{{excell.yearYieldEstab==null?'--':excell.yearYieldEstab}}
+                 </span><span>{{excell.sharpeRatioEstab==null?'--':excell.sharpeRatioEstab}}
+                 </span><span>{{excell.estab==null?'--':excell.estab}}
                  </span>
             </div>
            
@@ -164,12 +164,12 @@
             </div>
             <div class="clearfix table-body" v-for="moneyFund of selectMoneyFund">
 
-                 <span class="order-num">{{moneyFund.symbol}}
+                 <span class="order-num blue">{{moneyFund.symbol}}
                  </span><span>{{moneyFund.name}}
-                 </span><span>{{moneyFund.tenthouUnitIncm}}
-                 </span><span>{{moneyFund.yearYld}}
-                 </span><span>{{moneyFund.yearYieldEstab}}
-                 </span><span>{{moneyFund.staticYield}}
+                 </span><span>{{moneyFund.tenthouUnitIncm==null?'--':moneyFund.tenthouUnitIncm}}
+                 </span><span>{{moneyFund.yearYld==null?'--':moneyFund.yearYld}}
+                 </span><span>{{moneyFund.yearYieldEstab==null?'--':moneyFund.yearYieldEstab}}
+                 </span><span>{{moneyFund.staticYield==null?'--':moneyFund.staticYield}}
                  </span>
             </div>
            
@@ -186,12 +186,12 @@
             </div>
             <div class="clearfix table-body" v-for="champion of revChampion">
 
-                 <span class="order-num">{{champion.symbol}}
+                 <span class="order-num blue">{{champion.symbol}}
                  </span><span>{{champion.name}}
-                 </span><span>{{champion.unitNet}}
-                 </span><span>{{champion.yearYieldEstab}}
-                 </span><span>{{champion.fundTypeName}}
-                 </span><span>{{champion.sameTypeMark}}
+                 </span><span>{{champion.unitNet==null?'--':champion.unitNet}}
+                 </span><span>{{champion.yearYieldEstab==null?'--':champion.yearYieldEstab}}
+                 </span><span>{{champion.fundTypeName==null?'--':champion.fundTypeName}}
+                 </span><span>{{champion.sameTypeMark==null?'--':champion.champion.sameTypeMark}}
                  </span>
             </div>
            
@@ -208,13 +208,15 @@
      return {
        showPlan: false,
        showMoneyFund: false,
-       showChampion: false
+       showChampion: false,
+       showHotRecommend: false
      }
    },
    computed: mapState({
      excellPlan: state => state.fundIntell.excellentSelectPlan,
      selectMoneyFund: state => state.fundIntell.excellentSelectMoneyFund,
-     revChampion: state => state.fundIntell.revenueChampion
+     revChampion: state => state.fundIntell.revenueChampion,
+     hotRecomm: state => state.fundIntell.hotTopicRecommend
    }),
    components: {
  
@@ -223,15 +225,31 @@
      init () {
        // this.$store.dispatch('fundIntell/queryExcellentSelectPlan')
      },
+     hotRecommend () {
+       this.showHotRecommend = true
+       this.showPlan = false
+       this.showMoneyFund = false
+       this.showChampion = false
+       this.$store.dispatch('fundIntell/queryhotTopicRecommend')
+     },
      excellentPlan () {
        this.showPlan = true
+       this.showMoneyFund = false
+       this.showChampion = false
+       this.showHotRecommend = false
        this.$store.dispatch('fundIntell/queryExcellentSelectPlan')
      }, /**/
      moneyFund () {
        this.showMoneyFund = true
+       this.showHotRecommend = false
+       this.showPlan = false
+       this.showChampion = false
        this.$store.dispatch('fundIntell/querySelectMoneyFund')
      },
      revenueChampion () {
+       this.showHotRecommend = false
+       this.showPlan = false
+       this.showMoneyFund = false
        this.showChampion = true
        this.$store.dispatch('fundIntell/queryRevenueChampion')
      },
@@ -244,7 +262,7 @@
 
    },
    mounted () {
-     this.init()
+     this.hotRecommend()
    }
  
  }

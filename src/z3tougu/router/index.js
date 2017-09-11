@@ -7,9 +7,9 @@ import ThemeIndex from 'components/theme-index'
 import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
-import StockTest from 'components/test-stock'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
+import BacktestDetailH5 from 'components/backtest-detail-h5'
 import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
@@ -25,14 +25,14 @@ import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
-// import FundArchives from 'components/fund-archives/basic-info'
+import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
+import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
-// import GoldStrategy from 'components/gold-strategy'
-/* import Kgraph from 'components/kgraph'*/
+import StrategyList from 'components/z3touguhome/strategy-list'
 
 export default [
     { path: '/', name: 'homeRoot', component: z3TouguIndex },
-    { path: '/', name: 'home', component: z3TouguIndex },
+    { path: '/home', name: 'home', component: z3TouguIndex },
     { path: '/search-box', name: 'search-box', component: SearchBox },
     { path: '/search/:linkText/:keyword', name: 'search', component: Search },
     { path: '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
@@ -44,11 +44,10 @@ export default [
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
-    { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
     { path: '/gold-strategy/:strategyId/:showType', name: 'goldStrategyType', component: GoldStrategy },
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
-    { path: '/test/stock', name: 'teststock', component: StockTest },
+    { path: '/backtest-detail-h5/:strategyId', name: 'BacktestDetailH5', component: BacktestDetailH5 },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
@@ -56,15 +55,18 @@ export default [
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
     { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
-    { path: '/backtestFilterH5', name: 'backtestfilterh5', component: BacktestFilterH5 },
+    { path: '/backtestFilterH5/:strategyId', name: 'backtestfilterh5', component: BacktestFilterH5 },
     { path: '/backtestTime/:strategyId', name: 'backtesttime', component: BacktestTime },
-    { path: '/backtestTimeH5', name: 'backtesttimeh5', component: BacktestTimeH5 },
+    { path: '/backtestTimeH5/:strategyId', name: 'backtesttimeh5', component: BacktestTimeH5 },
     { path: '/fundRecommend', name: 'fundrecommend', component: FundRecommend },
+    // { path: '/intellCombList', name: 'intellcomblist', component: IntellCombList },
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
     { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
-    { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList }
-    // { path: '/fundArchives', name: 'fundArchives', component: FundArchives }
+    { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
+    { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
+     { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
+    { path: '/strategyList', name: 'strategyList', component: StrategyList }
 
 ]

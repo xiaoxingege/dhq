@@ -84,27 +84,26 @@
 </style>
 <template> 
         <div class="recom-fund-body">
+           
             <div class="recom-left display-box">
-                <div class="fund-hot1 box-flex-1" v-for="recom of recommend">
+                <div class="fund-hot1 box-flex-1" v-if="index<=1" v-for="(recom,index) of recommendData">
                    <div class="fundchart2" ref="fundchart2"></div>
                    <div class="recom-content">
-                       <div class="hui">今年以来:<span class="red">12.12%
+                       <div class="hui">今年以来:<span class="red">{{recom.since_this_year_income_rate}}%
                        </span></div>
                        <div>
-                           <span class="hui">0000001
-                           </span><span class="blue">华夏成长混合型
+                           <span class="blue">{{recom.fportfolio_name}}
                            </span>
                        </div>
                        <div>
-                          <span class="hui">类型：</span><span>混合型</span>
-                          <span class="hui">风险：</span><span>搞</span>
+                          <span class="hui">起投金额：</span><span>{{recom.min_purchase_amount}}元</span>
+                          <span class="hui">风险：</span><span>{{recom.risk_level_name}}</span>
                        </div>
                        
-                       <div class="reson-title hui">推荐理由</div>
+                       <div class="reson-title hui">组合特色:</div>
                        <ul>
-                           <li>1、时不时地稍等会速度还是的稍等会是看的</li>
-                           <li>2、时不时地稍等会速度还是的稍等会是看的</li>
-                           <li>3、时不时地稍等会速度还是的稍等会是看的</li>
+                           <li v-for="(info,index) of recom.recommend_info">{{index+1}}、{{info}}</li>
+                          
                        </ul>
                    </div>
                 </div>  
@@ -123,23 +122,26 @@
      }
    },
    computed: mapState({
-     recommend: state => state.fundIntell.recommend,
-     recomInfoData: state => {
-       const infoData = state.fundIntell.fundRecommendInfo
+     recommendData: state => state.fundIntell.recommend,
+     itellRecomLine: state => {
+       const itellData = state.fundIntell.recommend
+       // console.log(itellData.length)
        let xDate = null
-       let fundReturn = null
-       let huShenReturn = null
-       infoData && infoData.forEach((item, index) => {
-         console.log(item.xDate)
-         xDate = item.xDate
-         fundReturn = item.fundReturn
-         huShenReturn = item.huShenReturn
+       let portfolio = null
+       let hs = null
+       itellData && itellData.forEach((item, index) => {
+         // if (index <= 1) {
+         xDate = item.kline.date
+         portfolio = item.kline.portfolio
+         hs = item.kline.hs300
+         // console.log(item.kline.hs300)
+         // }
        })
-       /* console.log(xDate)*/
+       // console.log(xDate)
        return {
          xDate: xDate,
-         fundReturn: fundReturn,
-         huShenReturn: huShenReturn
+         portfolio: portfolio,
+         hs: hs
        }
      }
  
@@ -149,15 +151,15 @@
    },
    methods: {
      init () {
-       this.chart = echarts.init(this.$refs.fundchart1[0])
-       this.chart2 = echarts.init(this.$refs.fundchart1[1])
-       this.$store.dispatch('fundIntell/queryfundRecommendInfo')
+       this.chart = echarts.init(this.$refs.fundchart2[0])
+       this.chart2 = echarts.init(this.$refs.fundchart2[1])
+       this.$store.dispatch('fundIntell/queryRecommend')
                       .then(() => {
-                        this.drawCharts(this.chart, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn)
-                        this.drawCharts(this.chart2, this.recomInfoData.xDate, this.recomInfoData.fundReturn, this.recomInfoData.huShenReturn)
+                        this.drawCharts(this.chart, this.itellRecomLine.xDate, this.itellRecomLine.portfolio, this.itellRecomLine.hs)
+                        this.drawCharts(this.chart2, this.itellRecomLine.xDate, this.itellRecomLine.portfolio, this.itellRecomLine.hs)
                       })
      },
-     drawCharts (chart, xDate, fundReturn, huShenReturn) {
+     drawCharts (chart, xDate, portfolio, hs) {
        chart.setOption({
          tooltip: {
            trigger: 'axis',
@@ -235,7 +237,7 @@
            name: 'wewe',
            type: 'line',
            smooth: true,
-           data: fundReturn,
+           data: portfolio,
            lineStyle: {// 网格线
              normal: {
                color: '#5597d3'
@@ -265,7 +267,7 @@
            name: '沪深300',
            type: 'line',
            smooth: true,
-           data: huShenReturn,
+           data: hs,
            lineStyle: {
              normal: {
                color: '#f1975d'
@@ -302,10 +304,15 @@
      }
 
    },
+   watch: {
+ 
+   },
    mounted () {
-     // this.$store.dispatch('fundfundIntell/queryfundRecommendInfo')
+     var self = this
      this.$store.dispatch('fundIntell/queryRecommend')
-     // this.init()
+                      .then(() => {
+                        self.init()
+                      })
    }
  
  }

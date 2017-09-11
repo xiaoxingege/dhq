@@ -2,6 +2,8 @@
     @import '../assets/css/base.css';
     *{
       text-align: justify;
+      box-sizing: border-box;
+      font-size: 12px;
     }
     body{
       font-size: 12px;
@@ -25,7 +27,7 @@
     }
     .time-kline-wrap{
         background: #f2f2f2;
-        color: #191919;
+        color: #696969;
         width: 100%;
         font-size: 12px;
     }
@@ -90,7 +92,8 @@
     }
     .search-ul{
         /* width: 206px; */
-        width: 208px;
+        /* width: 208px; */
+        width: 204px;
         position: absolute;
         /* left: 14.7%; */
         left: 276px;
@@ -98,8 +101,8 @@
         margin-left: -26.7%; */
         top: 77%;
         z-index: 99999;
-        color: #191919;
-        font-size: 14px;
+        color: #696969;
+        font-size: 12px;
         background: #f2f2f2;
         padding: 0 10px;
     }
@@ -118,13 +121,12 @@
       
            <div class="time-inp-box">
                <label class="label-txt">全部A股中，单只股票近一年买卖点分析</label>
-               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message">
-               <span class="ana-btn" @click="search($event)">分析</span>
-               <ul class="search-ul" v-if="searchList && searchList.length > 0 && message!=''" v-show="showSearchList">
-                  <li v-for="list of searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
-                  
+               <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
+               <span class="ana-btn" @click="submitSearch($event)">分析</span>
+               <ul class="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
+                  <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
                </ul>
-               <!-- <ul class="search-ul" v-else="message===''">
+               <!-- <ul class="search-ul" v-else>
                   <li>暂无数据</li>
                   
                </ul> -->
@@ -156,18 +158,26 @@
        message: '',
        showSearchList: true,
        innerCode: '',
-       showMa: false
-
+       showMa: false,
+       strategyId: this.$route.params.strategyId,
+       searchList: []
      }
    },
    computed: mapState({
-     searchList: state => state.backtestDetail.searchList,
+    // searchList: state => state.backtestDetail.searchList,
+     searchData: state => {
+       const listData = state.backtestDetail.searchList
+       return {
+         searchList: listData
+ 
+       }
+     },
      kLineDataAll: state => {
        const dataAll = state.backtestDetail.kLineData
        const kLine = dataAll.kLine.reverse()
        const sellData = dataAll.sellDay
        const buyData = dataAll.buyDay
-       console.log(sellData)
+      // console.log(sellData)
        const kLineXdata = []
        const kLineYdata = []
        const ma5 = []
@@ -195,20 +205,32 @@
          for (let i = 0; i < sellData.length; i++) {
            // console.log(sellData[i] === item.endDate)
            if (sellData[i] === item.endDate) {
-             const ss = sellData[i]
-             console.log(ss)
+             // const ss = sellData[i]
+             console.log(highPx)
              const point = {
                name: 'XX标点',
                coord: [item.endDate + '', highPx],
-               value: 0,
                symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-green.png',
-               symbolSize: 20,
+               symbolSize: 30,
                itemStyle: {
                  normal: { color: 'rgb(41,60,85)' }
+               },
+               label: {
+                 normal: {
+                   show: true,
+                   formatter: function (params, ticket, callback) {
+                     return ''
+                   },
+                   textStyle: {
+                     fontSize: 0
+                   }
+                 }
                }
+
              }
              pointData.push(point)
-             console.log(pointData)
+ 
+             // console.log(pointData)
            }
          }
          for (let i = 0; i < buyData.length; i++) {
@@ -221,14 +243,25 @@
                name: 'XX标点',
                coord: [item.endDate + '', lowPx],
                symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-red.png',
-               symbolSize: 20,
-               value: 0,
+               symbolSize: 30,
                itemStyle: {
                  normal: { color: 'rgb(41,60,85)' }
+               },
+               label: {
+                 normal: {
+                   show: true,
+                   formatter: function (params, ticket, callback) {
+                     return ''
+                   },
+                   textStyle: {
+                     fontSize: 0
+                   }
+                 }
                }
              }
              pointData.push(point)
-             console.log(pointData)
+ 
+             // console.log(pointData)
            }
          }
        })
@@ -255,7 +288,7 @@
  
        // console.log(this.message)
        this.innerCode = this.message
-       this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode })
+       this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode, strategyId: this.strategyId })
             .then(() => {
               this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData)
             })
@@ -265,18 +298,28 @@
        const keyword = this.$refs.keyword.value
        this.message = keyword
        this.$store.dispatch('backtestDetail/querySearch', { keyword })
-       this.init()
-          // this.filterStocks(keyword)
+ 
+       if (this.message === '') {
+         this.showMa = false
+       } else {
+         this.init()
+       }
+       // this.filterStocks(keyword)
      },
-     focusStock: function (e) {
+     focusStock (e) {
        const focusStockId = e.currentTarget.children[0].innerText
        this.$emit('focusStockId', focusStockId)
        this.message = focusStockId
        this.showSearchList = false
-       this.showMa = true
-       // this.searchList = []
-       // console.log(this.message)
  
+       // this.searchList = []
+       this.searchData.searchList = []
+       console.log(this.searchData.searchList)
+       // this.init()
+     },
+     submitSearch (e) {
+       e.preventDefault()
+       this.showMa = true
        this.init()
      },
      keyEnter (e) {
@@ -293,7 +336,7 @@
            text: name + '买卖点分析',
            left: '2.2%',
            textStyle: {
-             color: '#191919',
+             color: '#696969',
              fontFamily: '宋体',
              fontSize: 12,
              fontStyle: 'normal',
@@ -351,9 +394,9 @@
                     '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--')
            }
          },
-         legend: {
+         /* legend: {
            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
-         },
+         },*/
          grid: {
            left: '2.5%',
            right: '2%',
@@ -476,7 +519,19 @@
                  color: '#2388da'
                }
              }
-           }
+           }/*,
+           {
+             name: 'MA40',
+             type: 'line',
+             data: buySell,
+             smooth: true,
+             lineStyle: {
+               normal: {
+                 opacity: 0.5,
+                 color: '#000'
+               }
+             }
+           }*/
 
          ]
        })
@@ -492,6 +547,7 @@
    mounted () {
      // this.init()
      // this.$store.dispatch('')
+ 
    }
  
  }

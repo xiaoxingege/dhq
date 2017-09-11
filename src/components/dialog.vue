@@ -79,6 +79,9 @@
         font-size: 27px;
         color:#999;
     }
+    .footer{
+        text-align: center;
+    }
 
 </style>
 <template>

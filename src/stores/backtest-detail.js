@@ -23,7 +23,9 @@ export default {
       createDate: '',
       backtestStartDate: '',
       backtestEndDate: '',
-      evaluationIndexs: {}
+      holdDay: '',
+      evaluationIndexs: {},
+      filterSummary: {}
     },
     tradeDetail: [], // 当日交易
     nowStock: [], // 当前选股
@@ -62,8 +64,9 @@ export default {
   },
   mutations: {
     updateBasicFilter (state, filterdetail) {
-      console.log(filterdetail)
+      console.log(filterdetail.filterSummary)
       state.basicFilter = filterdetail
+      state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
     },
     updateTradeDetail (state, tradeDetail) {
       state.tradeDetail = tradeDetail
@@ -77,7 +80,7 @@ export default {
       // console.log(state.timeStrategy.buyStrategyIndexList[0].indexParams)
     },
     updateKline (state, kLineData) {
-      console.log(kLineData)
+      // console.log(kLineData)
       state.kLineData = kLineData
     },
     updateStockPage (state, options) {
@@ -101,14 +104,14 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
+          // console.log(result.data)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateBasicFilter', result.data)
         }
       })
     },
     queryTradeDetail ({ commit }, { tradePage, tradePagesize, tradeTotalPages, strategyId }) {
-      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&pageSize=${tradePagesize}&pageNum=${tradePage}`, {
+      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&size=${tradePagesize}&page=${tradePage}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -148,8 +151,8 @@ export default {
         }
       })
     },
-    queryKline ({ commit }, { innerCode }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?innerCode=${innerCode}`, {
+    queryKline ({ commit }, { innerCode, strategyId }) {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

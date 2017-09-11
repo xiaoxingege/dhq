@@ -14,8 +14,8 @@
     }
     .map_legend .step {
       /*  width: 50px;*/
-        height: 25px;
-        line-height: 26px;
+        height: 20px;
+        line-height: 20px;
         cursor: default;
         display: inline-block;
         float: left;
@@ -63,6 +63,7 @@
         background-color: #262626;
     }
     .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
+    .playback_btn img{vertical-align: baseline;}
     .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
     .chart_bottom_enlarge .play_line{top: 8px;}
     .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
@@ -181,7 +182,7 @@
             'mkt_idx.peg': '', // PEG
             'mkt_idx.ps': '', // 市销率
             'mkt_idx.pb': '', // 市净率
-            'mkt_idx.div_rate': '', // 股息率
+            'mkt_idx.div_rate': '%', // 股息率
             'mkt_idx.pe_ttm': '', // 市盈率(TTM)
             'mkt_idx.fir_fcst_pe': '', // 预测市盈率
             'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
@@ -197,7 +198,7 @@
           mapWidth: this.$route.fullPath === '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
           showHover: false,
           hoverNode: null,
-          legendWidth: 50,
+          legendWidth: 36,
           isEnlarge: false,
           isLegendShow: true,
           isPlaybackShow: true,
@@ -510,7 +511,7 @@
                   borderColor: '#000', // 第一层矩形间隔线颜色
                   borderWidth: 0,
                   color: '#000',
-                  gapWidth: 5// 第一层块间隔距离
+                  gapWidth: 2// 第一层块间隔距离
                 }
               },
               upperLabel: {
@@ -615,7 +616,7 @@
         getLegendColor: function () {
           this.legendList = []
           if (this.condition === 'act_date') {
-            this.legendWidth = 60
+            this.legendWidth = 36
             this.legendList.push({
               value: '业绩公布前',
               backgroundColor: '#20A29A'
@@ -625,7 +626,7 @@
               backgroundColor: '#BA5297'
             })
           } else {
-            this.legendWidth = 50
+            this.legendWidth = 36
             for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
               this.legendList.push({
                 value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],

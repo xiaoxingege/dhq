@@ -150,6 +150,10 @@
       display: inline-block;
 
     }
+    .theme-list .router-link-active {
+        background: none;
+        color: #191919;
+    }
 </style>
 <template>
 <div class="theme-list clearfix">
