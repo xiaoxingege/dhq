@@ -352,7 +352,6 @@
           const _this = this
           this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
-                      console.log(this.mapHeight, this.mapWidth)
                       this.chart.setOption({
                         tooltip: {
                           triggerOn: 'none'
