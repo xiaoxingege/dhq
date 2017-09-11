@@ -29,7 +29,7 @@
         </div>
         <label for="jdx" class="fr">
           <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
-          仅显示代销基金{{foundPoolListLength}}
+          仅显示代销基金
         </label>
       </div>
       <!-- 全部 -->
@@ -103,7 +103,7 @@
               <td v-if='typeIndex === 0'>{{item.tradeCost | isNull}}</td>
               <td v-if='typeIndex === 1 || typeIndex === 2|| typeIndex === 3 || typeIndex === 6'>{{item.fundYieldYearRankName}}</td>
               <td>
-                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPool">加基金池</a>
+                <a href="javascript:;" class="add_button button"   @click="addIinterimFunds(item)" v-if="!item.inTempPools">加基金池</a>
                 <a href="javascript:;" class="remove_button button" @click="removeInterimFunds(item)" v-else>移除</a>
               </td>
             </tr>
@@ -127,6 +127,7 @@
   export default {
     data () {
       return {
+        lsfoundPoolList: [],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -221,7 +222,7 @@
       },
       addIinterimFunds (item) {
         this.lsfoundPoolList.push(item)
-        item.inTempPool = true
+        item.inTempPools = true
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
@@ -256,14 +257,14 @@
       delFoundPoolList (index, item) {
         this.foundPoolList.some((fund) => {
           if (fund.innerCode === item.innerCode) {
-            fund.inTempPool = false
+            fund.inTempPools = false
             return true
           }
         })
         this.lsfoundPoolList.splice(index, 1)
       },
       removeInterimFunds (item) {
-        item.inTempPool = false
+        item.inTempPools = false
         this.lsfoundPoolList.some((fund, index) => {
           if (fund.innerCode === item.innerCode) {
             this.lsfoundPoolList.splice(index, 1)
@@ -319,11 +320,13 @@
         this.filterParams2.fbq = 'fbq_all'// 封闭期
       }
     },
+    created () {
+      this.query(this.filterParams2, this.page, this.type2)
+    },
     mounted () {
       this.$nextTick(function () {
-        this.query(this.filterParams2, this.page, this.type2)
         this.foundPoolList = this.foundPoolList.map((fund, index) => {
-          const tempFund = { ...fund, inTempPool: this.isInTempPoollist(fund.innerCode) }
+          const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
           return tempFund
         })
       })
