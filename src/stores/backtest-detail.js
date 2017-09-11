@@ -23,6 +23,7 @@ export default {
       createDate: '',
       backtestStartDate: '',
       backtestEndDate: '',
+      holdDay: '',
       evaluationIndexs: {},
       filterSummary: {}
     },
