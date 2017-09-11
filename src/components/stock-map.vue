@@ -258,6 +258,12 @@
                       stock.actDateFlag = nowDate < pbDate ? 0 : 1 // 业绩公布日前0:业绩公布日后1
                     } else {
                       stock.perfText = '--'
+                      stock.itemStyle = {
+                        normal: {
+                          color: '#2f323d'
+                        }
+                      }
+                      stock.actDateFlag = -1
                     }
                   } else {
                     stock.perf = stockData[stock.id] || stockData[stock.name]
@@ -294,9 +300,9 @@
                   let acrDateAfter = 0
                   lvl2.children.forEach(function (stock) {
                     if (stock.actDateFlag === 0) { // 业绩公布日前
-                      actDateBefore++
+                      actDateBefore += stock.value * 1
                     } else if (stock.actDateFlag === 1) { // 业绩公布日后
-                      acrDateAfter++
+                      acrDateAfter += stock.value * 1
                     }
                   })
                   if (actDateBefore >= acrDateAfter) {
