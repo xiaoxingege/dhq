@@ -236,15 +236,15 @@
           return [
                     ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
             [
-              Number(this.goldResult.evaluationIndexs.annualReturn).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.excessReturn).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.algoVolatility).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%',
               Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2),
-              Number(this.goldResult.evaluationIndexs.maxDrawdown).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%',
               Number(this.goldResult.evaluationIndexs.alpha).toFixed(2),
               Number(this.goldResult.evaluationIndexs.beta).toFixed(2),
-              Number(this.goldResult.evaluationIndexs.winRatio).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.turnover).toFixed(2) + '%'
+              (Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%',
+              (Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'
             ]
           ]
         },
@@ -355,7 +355,35 @@
             mName = '高低价模型'
             MValue = '依据江恩理论第九条，即：“当市价开创新高，表示市势向上，可以追市买入；当市价下破新底，表示市势向下，可以追沽”，进行2档仓位控制。T日大盘（上证指数）创近20日新高时，满仓；T日大盘创近10日新低时，空仓。'
           }
-
+          const commission = this.goldResult.commission
+          let commisVal = ''
+          if (commission === 0.0002) {
+            commisVal = '万二'
+          } else if (commission === 0.00025) {
+            commisVal = '万二点五'
+          } else if (commission === 0.0003) {
+            commisVal = '万三'
+          } else if (commission === 0.0004) {
+            commisVal = '万四'
+          } else if (commission === 0.0005) {
+            commisVal = '万五'
+          } else if (commission === 0.0006) {
+            commisVal = '万六 '
+          } else if (commission === 0.0007) {
+            commisVal = '万七'
+          } else if (commission === 0.0008) {
+            commisVal = '万八'
+          } else if (commission === 0.001) {
+            commisVal = '千一'
+          } else if (commission === 0.002) {
+            commisVal = '千二'
+          } else if (commission === 0.003) {
+            commisVal = '千三'
+          } else if (commission === 0.004) {
+            commisVal = '千四'
+          } else if (commission === 0.005) {
+            commisVal = '千五'
+          }
           return {
             choseStockData: {
               filterSummary: JSON.parse(this.goldResult.filterSummary)
@@ -381,9 +409,9 @@
               sellPriceType: this.goldResult.sellPriceType === 'open' ? '开盘价' : '收盘价',
               backtestDate: startDate.substring(0, 4) + '.' + startDate.substring(4, 6) + '.' + startDate.substring(6) + '-' + endDate.substring(0, 4) + '.' + endDate.substring(4, 6) + '.' + endDate.substring(6),
               maxHolding: this.goldResult.maxHolding,
-              stockMaxHolding: this.goldResult.stockMaxHolding,
+              stockMaxHolding: this.goldResult.stockMaxHolding + '%',
               conPriority: this.goldResult.conPriority === 'time_first' ? '择时条件优先' : '仓位条件优先',
-              commission: this.goldResult.commission * 100 + '%',
+              commission: commisVal,
               tradeCycle: tradeCycle,
               slippage: slipData,
               benchmark: markData,

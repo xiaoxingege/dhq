@@ -171,9 +171,11 @@
         },
         exportData (type) {
           if (type === 'mrjy') {
-            this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldDetail' })
+            // this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldDetail' })
+            window.location.href = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + this.strategyId + '&type=goldDetail'
           } else if (type === 'dqxg') {
-            this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldStock' })
+            // this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldStock' })
+            window.location.href = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + this.strategyId + '&type=goldStock'
           }
         }
       },

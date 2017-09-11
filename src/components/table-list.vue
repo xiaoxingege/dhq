@@ -46,6 +46,8 @@
 </template>
 <script>
 export default{
-  props: ['data']
+  props: ['data'],
+  mounted () {
+  }
 }
 </script>
