@@ -37,4 +37,4 @@ app.use(async function(ctx, next) {
   await next();
 });
 
-app.listen(process.argv[2]||3000);
+app.listen(3001);
