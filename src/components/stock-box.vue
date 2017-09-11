@@ -31,10 +31,8 @@
     }
 </script>
 
-<style scope>
+<style scoped>
     .stock-box{
-        width:360px;
-        height:250px;
         position:absolute;
         padding:10px;
         padding-top:25px;

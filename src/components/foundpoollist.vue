@@ -223,6 +223,7 @@ import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
+import { domain } from '../z3tougu/config'
 
 export default {
   data () {
@@ -352,7 +353,7 @@ export default {
       // this.dialogShow = false
     },
     getdate () {
-      fetch('http://www.z3quant.com/openapi/fund/showFundPool.shtml?isRecommend=0&userId=' + this.uuserId + '&orgCode=' + this.orgCode, {
+      fetch(`${domain}/openapi/fund/showFundPool.shtml?isRecommend=0&userId=` + this.uuserId + '&orgCode=' + this.orgCode, {
         method: 'GET',
         mode: 'cors',
         cache: 'default'
@@ -377,7 +378,7 @@ export default {
         this.showmsg('请输入基金池名称')
         return
       }
-      fetch('http://www.z3quant.com/openapi/fund/copyFundPool.shtml?poolName=' + this.copypoolName + '&copyPoolId=' + this.poolId + '&userId=' + this.userId + '&orgCode=200180365', {
+      fetch(`${domain}/openapi/fund/copyFundPool.shtml?poolName=` + this.copypoolName + '&copyPoolId=' + this.poolId + '&userId=' + this.userId + '&orgCode=' + this.orgCode, {
         method: 'POST',
         mode: 'cors',
         cache: 'default'
@@ -395,7 +396,7 @@ export default {
       })
     },
     deleteFundPool () {
-      fetch('http://www.z3quant.com/openapi/fund/' + this.poolId + '.shtml?userId=' + this.userId + '&orgCode=' + this.orgCode, {
+      fetch(`${domain}/openapi/fund/` + this.poolId + '.shtml?userId=' + this.userId + '&orgCode=' + this.orgCode, {
         method: 'POST',
         mode: 'cors',
         cache: 'default'
@@ -410,7 +411,7 @@ export default {
       })
     },
     touzifsfn () {
-      fetch('http://www.z3quant.com/tp/zsfnd/getorgmny?orgCode=' + this.orgCode, {
+      fetch(`${domain}/tp/zsfnd/getorgmny?orgCode=` + this.orgCode, {
         method: 'get',
         mode: 'cors',
         cache: 'default'
@@ -431,7 +432,7 @@ export default {
       }
       var str = 'fundPoolId=' + this.select1 + '&fundPoolName=' + this.poolsbox.find(item => item.poolId === this.select1)['poolName'] + '&cashFund=' + this.select2 + '&investType=' + this.$refs.touzifangshi.value + '&originPrice=' + this.$refs.qitoujine.value + '&name=' + this.createStrategyname + '&userId=' + this.userId + '&brokerId=' + this.orgCode
 
-      fetch('http://www.z3quant.com/openapi/fund/createStrategy.shtml?' + str, {
+      fetch(`${domain}/openapi/fund/createStrategy.shtml?` + str, {
         method: 'post',
         mode: 'cors',
         cache: 'default'

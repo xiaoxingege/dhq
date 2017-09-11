@@ -7,13 +7,13 @@ import ThemeIndex from 'components/theme-index'
 import Siwei from 'components/siwei'
 import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
-// import StockTest from 'components/test-stock'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
 import BacktestDetailH5 from 'components/backtest-detail-h5'
 import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
+import editstrategy from 'components/editstrategy'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
@@ -29,8 +29,6 @@ import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
-// import GoldStrategy from 'components/gold-strategy'
-/* import Kgraph from 'components/kgraph'*/
 
 export default [
     { path: '/', name: 'homeRoot', component: z3TouguIndex },
@@ -46,7 +44,6 @@ export default [
     { path: '/siwei', name: 'bubbles', component: Siwei },
     { path: '/informatList/:inforId', name: 'themeInformat', component: ThemeInformat },
     { path: '/topic/:topicId', name: 'topicDetail', component: TopicDetail },
-    // { path: '/test/stock', name: 'teststock', component: StockTest },
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
     { path: '/gold-strategy/:strategyId/:showType', name: 'goldStrategyType', component: GoldStrategy },
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
@@ -54,6 +51,7 @@ export default [
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
+    { path: '/editstrategy', name: 'editstrategy', component: editstrategy },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
     { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
