@@ -12,6 +12,11 @@ a,
 .blue {
   color: #2a8ae1;
 }
+
+.editstrategy{font-size: 12px;}
+.color66{color: #666;}
+.color19{color: #191919}
+.colorblue{color:#2388da}
 .subhd li{float:left;}
 .section01{width:25%;background: #f2f2f2;padding: 5px;box-sizing: border-box;}
 .section01 h3{ line-height: 28px;font-size: 14px;}
@@ -26,6 +31,14 @@ a,
 
 .section02{width:35%}
 .section03{width:40%}
+
+.sec_03_bd ul{height: 270px;overflow-y: auto;}
+.sec_03_bd li{ line-height: 30px;}
+.sec_03_bd li *{ float: left;}
+.sec_03_bd li i{ margin-right: 28px;}
+  .sec_03_bd li b{width:48px;height:18px;background:url(../assets/images/z3img/wdx.png);margin-top:5px; }
+    .sec_03_bd li input{width:200px;height: 30px;margin:0 5px;}
+.sec_03_bd li i{}
 </style>
 <template>
 <div class="editstrategy">
@@ -77,10 +90,115 @@ a,
         <progressbar></progressbar>
       </div>
       <div class="section02 fl">
-
+          我是圆饼图
       </div>
       <div class="section03 fl">
-
+          <div class="sec_03">
+            <b class="color19">现金：</b>
+            <span class="color66">482002 工银货币</span>
+          </div>
+          <div class="sec_03_bd">
+            <ul>
+              <li class="clearfix">
+                  <i class="colorblue">000021</i>
+                  <span>华夏优势增长混合</span>
+                  <b></b>
+                  <input type="range" name="" value="0">
+                  <span>0%</span>
+              </li>
+              <li class="clearfix">
+                    <i class="colorblue">000021</i>
+                    <span>华夏优势增长混合</span>
+                    <b></b>
+                    <input type="range" name="" value="0">
+                    <span>0%</span>
+                </li>
+                  <li class="clearfix">
+                      <i class="colorblue">000021</i>
+                      <span>华夏优势增长混合</span>
+                      <b></b>
+                      <input type="range" name="" value="0">
+                      <span>0%</span>
+                  </li>
+                  <li class="clearfix">
+                        <i class="colorblue">000021</i>
+                        <span>华夏优势增长混合</span>
+                        <b></b>
+                        <input type="range" name="" value="0">
+                        <span>0%</span>
+                    </li>
+                      <li class="clearfix">
+                          <i class="colorblue">000021</i>
+                          <span>华夏优势增长混合</span>
+                          <b></b>
+                          <input type="range" name="" value="0">
+                          <span>0%</span>
+                      </li>
+                      <li class="clearfix">
+                            <i class="colorblue">000021</i>
+                            <span>华夏优势增长混合</span>
+                            <b></b>
+                            <input type="range" name="" value="0">
+                            <span>0%</span>
+                        </li>
+                          <li class="clearfix">
+                              <i class="colorblue">000021</i>
+                              <span>华夏优势增长混合</span>
+                              <b></b>
+                              <input type="range" name="" value="0">
+                              <span>0%</span>
+                          </li>
+                          <li class="clearfix">
+                                <i class="colorblue">000021</i>
+                                <span>华夏优势增长混合</span>
+                                <b></b>
+                                <input type="range" name="" value="0">
+                                <span>0%</span>
+                            </li>
+                              <li class="clearfix">
+                                  <i class="colorblue">000021</i>
+                                  <span>华夏优势增长混合</span>
+                                  <b></b>
+                                  <input type="range" name="" value="0">
+                                  <span>0%</span>
+                              </li>
+                              <li class="clearfix">
+                                    <i class="colorblue">000021</i>
+                                    <span>华夏优势增长混合</span>
+                                    <b></b>
+                                    <input type="range" name="" value="0">
+                                    <span>0%</span>
+                                </li>
+                                  <li class="clearfix">
+                                      <i class="colorblue">000021</i>
+                                      <span>华夏优势增长混合</span>
+                                      <b></b>
+                                      <input type="range" name="" value="0">
+                                      <span>0%</span>
+                                  </li>
+                                  <li class="clearfix">
+                                        <i class="colorblue">000021</i>
+                                        <span>华夏优势增长混合</span>
+                                        <b></b>
+                                        <input type="range" name="" value="0">
+                                        <span>0%</span>
+                                    </li>
+                                      <li class="clearfix">
+                                          <i class="colorblue">000021</i>
+                                          <span>华夏优势增长混合</span>
+                                          <b></b>
+                                          <input type="range" name="" value="0">
+                                          <span>0%</span>
+                                      </li>
+                                      <li class="clearfix">
+                                            <i class="colorblue">000021</i>
+                                            <span>华夏优势增长混合</span>
+                                            <b></b>
+                                            <input type="range" name="" value="0">
+                                            <span>0%</span>
+                                        </li>
+            </ul>
+          </div>
       </div>
     </div>
   </div>

@@ -1268,7 +1268,7 @@ cli-width@^2.0.0:
 
 clipboard@^1.7.1:
   version "1.7.1"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
+  resolved "http://registry.npm.taobao.org/clipboard/download/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -4876,7 +4876,7 @@ qiniu@^6.1.11:
 
 qrcode@^0.9.0:
   version "0.9.0"
-  resolved "https://registry.yarnpkg.com/qrcode/-/qrcode-0.9.0.tgz#4bdc1d21ad655c3101b5bb29e2e4c9d6416825fb"
+  resolved "http://registry.npm.taobao.org/qrcode/download/qrcode-0.9.0.tgz#4bdc1d21ad655c3101b5bb29e2e4c9d6416825fb"
   dependencies:
     colors "*"
     dijkstrajs "^1.0.1"
