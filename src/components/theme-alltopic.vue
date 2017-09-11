@@ -385,7 +385,7 @@
     </div>
     <div class="sortaz-wrap clearfix" v-show="!isShow">
       <div class="az-main">
-            <div class="sort-title">精选主题</div>
+            <div class="sort-title">推荐主题</div>
             <div class="sort-hot" >
                  <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
             </div>

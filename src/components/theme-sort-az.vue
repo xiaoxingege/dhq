@@ -120,8 +120,7 @@
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" v-z3-updowncolor="g.topicMarket.chngPct" :value="g.topicCode">{{g.topicName}}</a></div><!-- :class="g.topicMarket.chngPct>0?'red':'green'" -->
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" @click="getVal($event)" :class="g.topicMarket.chngPct>0?'red':'green'" :value="g.topicCode">{{g.topicName}}</a></div>
+         <div class="fl every-name"><a v-for="g of groupTopics[key]" v-z3-updowncolor="g.topicMarket.chngPct" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a></div>
       </div>
       
    </div>
