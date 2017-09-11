@@ -50,101 +50,56 @@
       <div class="filter-item clearfix">
         <span class="label">分类条件：</span>
         <!-- 全部 -->
-        <ul v-if="typeIndex ==0" class="fltj selectBox">
-          <li>
+        <ul class="fltj selectBox">
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
             <select v-model='filterParams.hy' :disabled='isDisabled'>
               <option v-for='(val,key) in trades' :value='key'>{{val}}</option>
             </select>
           </li>
-          <li>
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
             <select v-model='filterParams.tzfg' :disabled='isDisabled'>
               <option v-for='(val,key) in investmentStyle' :value='key'>{{val}}</option>
             </select>
           </li>
-          <li>
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
             <select v-model='filterParams.jhfxq' :disabled='isDisabled'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
             </select>
           </li>
-          <li>
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled'>
               <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
-          <li>
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
             <select v-model='filterParams.xpb' :disabled='isDisabled'>
               <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
-          <li>
+          <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
             <select v-model='filterParams.cesyl' :disabled='isDisabled'>
               <option v-for="item in cesyl" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
-        </ul>
-        <!-- 股票型 混合型-->
-        <ul v-if="typeIndex ==1 || typeIndex ==2 " class="fltj selectBox">
-          <li>
-            <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
-            <select v-model='filterParams.hy' :disabled='isDisabled'>
-              <option v-for='(val,key) in trades' :value='key'>{{val}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
-            <select v-model='filterParams.tzfg' :disabled='isDisabled'>
-              <option v-for='(val,key) in investmentStyle' :value='key'>{{val}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
-            <select v-model='filterParams.jhfxq' :disabled='isDisabled'>
-              <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
-            <select v-model='filterParams.zdhc' :disabled='isDisabled'>
-              <option v-for="item in zdhc" :value="item.itemId">{{item.itemName}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
-            <select v-model='filterParams.xpb' :disabled='isDisabled'>
-              <option v-for="item in xpb" :value="item.itemId">{{item.itemName}}</option>
-            </select>
-          </li>
-          <li>
-            <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
-            <select v-model='filterParams.cesyl' :disabled='isDisabled'>
-              <option v-for="item in cesyl" :value="item.itemId">{{item.itemName}}</option>
-            </select>
-          </li>
-        </ul>
-         <!--债券型 指数型 QDII型-->
-        <ul v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5" class="fltj selectBox">
-          <li>
+          <li v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5">
             <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled'>
               <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
-          <li>
+          <li v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5">
             <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
             <select v-model='filterParams.xpb' :disabled='isDisabled'>
               <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
-        </ul>
-        <!-- 理财型 -->
-        <ul v-if="typeIndex ==7" class="fltj selectBox">
-          <li>
+          <li v-if="typeIndex ==7">
             <label class="pr tsk">封闭期：<div class="text">理财型基金封闭周期</div></label>
             <select v-model='filterParams.fbq' :disabled='isDisabled'>
               <option v-for="(val,key) in fbq" :value="key">{{val}}</option>
