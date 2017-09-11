@@ -65,7 +65,7 @@ export default [
     { path: '/fund-chart', name: 'fundchart', component: FundChart },
     { path: '/fund-file', name: 'fundfile', component: FundFile },
     { path: '/home/:newsType', name: 'newslist', component: NewsList },
-    { path: '/home/:newsType/:newsId', name: 'newsdetails', component: NewsDetails },
+    { path: '/home/:newsType/newsDetail/:newsId', name: 'newsdetails', component: NewsDetails },
     { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
     { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
      { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
