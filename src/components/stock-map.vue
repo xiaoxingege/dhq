@@ -63,6 +63,7 @@
         background-color: #262626;
     }
     .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
+    .playback_btn img{vertical-align: baseline;}
     .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
     .chart_bottom_enlarge .play_line{top: 8px;}
     .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}

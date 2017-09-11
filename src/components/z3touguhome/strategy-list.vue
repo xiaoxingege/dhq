@@ -1,18 +1,18 @@
-<style >
+<style>
     @import '../../assets/css/base.css';
     .app{height: 100%;}
     *{box-sizing: border-box;font-family: '微软雅黑';font-size:12px;}
     body{background-color: #ebecee;}
     p{margin: 0px;}
     html,body{height:100%;}
-    .strategy-wrap{height: 100%;padding: 8px;min-width: 1217px;min-height: 704px;background-color: #ebecee}
-    .strategy-wrap>ul{height:100%;}
-    .strategy-wrap>ul>li{background-color: #fff;margin-right:0.5%;padding: 10px 10px 0px 10px;width: 33%;float: left;display: inline-block;height:32.8%;margin-bottom: 0.5%;}
-    .strategy-wrap li:nth-child(3),.strategy-wrap li:nth-child(6),.strategy-wrap li:nth-child(9){margin-right: 0px;}
-    .strategy-wrap li:nth-child(7),.strategy-wrap li:nth-child(8),.strategy-wrap li:nth-child(9){margin-bottom: 0px;}
+    .strategy-wrap1{height: 100%;padding: 8px;min-width: 1217px;min-height: 704px;background-color: #ebecee}
+    .strategy-wrap1>ul{height:100%;}
+    .strategy-wrap1>ul>li{background-color: #fff;margin-right:0.5%;padding: 10px 10px 0px 10px;width: 33%;float: left;display: inline-block;height:32.8%;margin-bottom: 0.5%;}
+    .strategy-wrap1 li:nth-child(3),.strategy-wrap li:nth-child(6),.strategy-wrap li:nth-child(9){margin-right: 0px;}
+    .strategy-wrap1 li:nth-child(7),.strategy-wrap li:nth-child(8),.strategy-wrap li:nth-child(9){margin-bottom: 0px;}
 </style>
 <template>
-    <div class="strategy-wrap">
+    <div class="strategy-wrap1">
         <ul class="clearfix">
             <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
             <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
