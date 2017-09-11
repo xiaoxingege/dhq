@@ -79,7 +79,7 @@ export default {
       // console.log(state.timeStrategy.buyStrategyIndexList[0].indexParams)
     },
     updateKline (state, kLineData) {
-      console.log(kLineData)
+      // console.log(kLineData)
       state.kLineData = kLineData
     },
     updateStockPage (state, options) {
@@ -110,7 +110,7 @@ export default {
       })
     },
     queryTradeDetail ({ commit }, { tradePage, tradePagesize, tradeTotalPages, strategyId }) {
-      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&pageSize=${tradePagesize}&pageNum=${tradePage}`, {
+      fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&size=${tradePagesize}&page=${tradePage}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
