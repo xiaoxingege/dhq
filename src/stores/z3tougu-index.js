@@ -8,13 +8,20 @@ export default {
     listedCompanyNewsList: [],
     newsDetails: null,
     homeMapData: [],
-    homeRangeData: null
+    homeRangeData: null,
+    strategyBlock: null
   },
   mutations: {
     setStrategyList (state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
+      }
+    },
+    setStrategyBlock (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyBlock = result.data
       }
     },
     setFinanceNews (state, options) {
@@ -45,6 +52,16 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setStrategyList', {
+          result: body
+        })
+      })
+    },
+    getStrategyBlock ({ commit }, { query, size, page }) {
+      const url = `http://test.z3quant.com/openapi/backtest/goldStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setStrategyBlock', {
           result: body
         })
       })

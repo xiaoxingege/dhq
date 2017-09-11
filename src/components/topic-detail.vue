@@ -7,7 +7,7 @@
       font-style: normal;
     }
     a{
-      color: #191919;
+      color: #696969;
     }
     .blue{
       color: #2388da;
@@ -52,7 +52,7 @@
         width: 100%;
         background: #f2f2f2;
         font-size: 12px;
-        color: #191919;
+        color: #696969;
         height: 100%;
     }
     .header{
@@ -170,7 +170,8 @@
       background: #fff;
     }
     .view-all2{
-      margin-right:9%;
+      /* margin-right:9%; */
+      margin-right: 6%;
     }
     .view-all i{
       width: 0;
@@ -212,7 +213,8 @@
     }
     .right-con td{
       text-align: center;
-      width: 18%;
+      /* width: 18%; */
+      width: 19%;
       float: left;
       font-weight: 400;
     }
@@ -228,18 +230,23 @@
       position: relative;
     }
     .txt-td{
-      position: absolute;
+     /*  position: absolute;
       top: -5px;
-      left: 31%;
+      left: 31%; */
+      position: relative;
+      top: -5px;
+      left: 5px;
     }
     .num-td{
       position: absolute;
       top: 10px;
-      left: 34%;
+      /* left: 34%; */
+      left: 39%;
       font-size: 12px;
     }
     .right-con .td1{
-      width: 22%;
+      /* width: 22%; */
+      width: 24%;
     }
     .chart{
        height: 100%;
