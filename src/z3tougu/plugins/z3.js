@@ -73,7 +73,6 @@ export default{
             }
         }
     );
-    });
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"
