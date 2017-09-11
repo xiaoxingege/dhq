@@ -55,10 +55,10 @@
     .alltopic{
       width: 100%;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     span{
-      color: #191919;
+      color: #696969;
     }
     .topic-head{
       font-weight: normal;
@@ -77,7 +77,8 @@
       /* display: inline-block; */
       border-radius: 3px;
       border: 1px solid #e5e5e5;
-      color: #4f5256;
+     /*  color: #4f5256; */
+     color: #696969;
       text-align: center;
       background: #fff;
       margin-left: 14px;
@@ -138,8 +139,8 @@
       background-position: 1px -82px;
     }
     .con-left{
-      width: 36%;
-      float: left;
+      /* width: 36%; */
+      width: 37%;
       margin-right: 5%;
     }
     .content{
@@ -156,15 +157,15 @@
 
     }
     .con-cen{
-      width: 18%;
-      float: left;
+      /* width: 18%; */
+      width: 25%;
       line-height: 24px;
      /*  margin-top: -6px; */
 
     }
     .con-right{
-      width: 40%;
-      float: left;
+      /* width: 41%; */
+      width: 35%;
       line-height: 24px;
 
     }
@@ -226,7 +227,9 @@
 
     }
     .new-tit{
-      width: 50%;
+      /* width: 50%; */
+      /* width: 61%; */
+      width: 56%;
       text-align: left;
       float: left;
       white-space: nowrap;
@@ -246,9 +249,11 @@
     }
     .new-srcname{
       color: #7e7e7e;
-      margin-left: 18px;
+      /* margin-left: 18px; */
       line-height: 24px;
-      float: left;
+      float: right;
+     /*  width: 18%; */
+       margin-right: 5px;
 
     }
     .sortaz-wrap{
@@ -260,6 +265,7 @@
         background: #fff;
         border-radius: 3px;
         border-top:1px solid #e5e5e5;
+        position:relative;
     }
     .sort-hot{
       width: 62%;
@@ -278,43 +284,48 @@
     }
 
     .tooltip-box {
-    position: absolute;
-    background: #fff;
-    padding: 25px 10px 10px;
-    border: 1px solid #eee;
-    z-index: 999
-  }
+      position: absolute;
+      background: #fff;
+      padding: 25px 10px 10px;
+      border: 1px solid #eee;
+      z-index: 999
+    }
 
-.tooltip-box .lenged_l {
-    position: absolute;
-    right: 10px;
-    top: 14px;
-    font-size: 14px;
-    color: #000;
-    z-index: 999
-}
+    .tooltip-box .lenged_l {
+        position: absolute;
+        right: 10px;
+        top: 14px;
+        font-size: 14px;
+        color: #000;
+        z-index: 999
+    }
 
-.tooltip-box .name {
-    position: absolute;
-    top: 14px;
-    left: 23px;
-    font-size: 14px;
-    color: #666;
-    z-index: 9
-}
+    .tooltip-box .name {
+        position: absolute;
+        top: 14px;
+        left: 23px;
+        font-size: 14px;
+        color: #666;
+        z-index: 9
+    }
 
-.tooltip-box .txt {
-    position: absolute;
-    top: 38px;
-    left: 3px;
-    font-size: 12px;
-    z-index: 9
-}
+    .tooltip-box .txt {
+        position: absolute;
+        top: 38px;
+        left: 3px;
+        font-size: 12px;
+        z-index: 9
+    }
 
-.tooltip-box .txt>div {
-    float: left;
-    margin-right: 10px
-}
+    .tooltip-box .txt>div {
+        float: left;
+        margin-right: 10px
+    }
+    .sort-title{
+        position: absolute;
+        top: 1.5%;
+        left: 1%;
+    }
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -340,11 +351,11 @@
                     <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ allTopic.topicMarket==null || allTopic.topicMarket.chngPct==null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkUpNum ==null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkDownNum ==null?'--':allTopic.topicMarket.stkDownNum}}</span>
                 </div>
            </div>
-           <div class="content-box clearfix">
-               <div  class="con-left">
+           <div class="content-box clearfix display-box">
+               <div  class="con-left box-flex-3">
                    <strong>主题简介:</strong><router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" ><span class='content' :title="allTopic.topicDesc" ref="txtheight">{{allTopic.topicDesc}}</span></router-link>
                </div>
-               <div  class="con-cen">
+               <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
                       <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
@@ -360,7 +371,7 @@
                             </div>
                     </div>
                </div>
-               <div  class="con-right" >
+               <div  class="con-right box-flex-2" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
                       <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title}}</span>
                        <span class="new-date">{{format(news.declareDate)}}</span>
@@ -374,6 +385,7 @@
     </div>
     <div class="sortaz-wrap clearfix" v-show="!isShow">
       <div class="az-main">
+            <div class="sort-title">精选主题</div>
             <div class="sort-hot" >
                  <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
             </div>
