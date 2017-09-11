@@ -171,6 +171,7 @@
     .topic-ol{
       padding-left: 8px;
       padding-right: 8px;
+      margin-top: 8px;
     }
     .topic-ol li{
       padding: 10px 15px 40px 13px;
@@ -346,8 +347,8 @@
                <div  class="con-cen">
                   <div v-for="equity of allTopic.relatedEquity">
                       <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
-                      <span class="equ-price" v-z3-updowncolor="1" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
-                      <span class="equ-price" :class="relatedStocks[equity.innerCode].curChngPct>0 ? 'red':'green'">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
+                      <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
+                      <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
                   <div class="tooltip-box clearfix" v-if="hoverChartShow">
                             <a href="##" target="_blank" class="name" v-stock-popup.name="direName"></a>

@@ -150,11 +150,11 @@
         <BackFilterDescr/> 
         <div class="bfilter-bottom">
           <ul class="bfilter-ul clearfix">
-              <li class="fl blue" @click="nowTrade" :class="showNowTrade===true?'active':''">当前选股</li>
+              <li class="fl blue" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
               <li class="fl blue" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
-              <li><span class="export blue"><i></i>导出</span></li>
+              <li><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li>
           </ul>
-          <div class="bfilter-table" v-show="showNowTrade">
+          <div class="bfilter-table" v-show="showNowStock">
               <div>
                   
               </div>
@@ -172,7 +172,7 @@
                    </span><span>流通市值
                    </span>
               </div>
-              <div class="clearfix table-body" v-for="(stock,index) of nowStock">
+              <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock">
                    <span class="order-num">{{index+1}}
                    </span><span>{{stock.innerCode}}
                    </span><span>{{stock.name}}
@@ -237,7 +237,7 @@
        stockPagesize: '',
        tradePage: 0,
        tradePagesize: '',
-       showNowTrade: true,
+       showNowStock: true,
        showTradeDay: false,
        strategyId: this.$route.params.strategyId,
        showQrcodeBox: false,
@@ -247,7 +247,7 @@
    },
    computed: mapState({
      tradeDetail: state => state.backtestDetail.tradeDetail,
-     nowStock: state => state.backtestDetail.nowStock,
+     nowChooseStock: state => state.backtestDetail.nowStock,
      totalPage: state => state.backtestDetail.stockTotal,
      tradeTotalPage: state => state.backtestDetail.tradeTotalPage
    }),
@@ -261,13 +261,18 @@
        this.$store.dispatch('backtestDetail/queryNowStock', { strategyId: this.strategyId, stockPage: this.stockPage, stockPagesize: this.stockPagesize })
        this.$store.dispatch('backtestDetail/queryTradeDetail', { strategyId: this.strategyId, tradePage: this.tradePage, tradePagesize: this.tradePagesize })
      },
-     nowTrade () {
-       this.showNowTrade = true
+     nowStock () {
+       this.showNowStock = true
        this.showTradeDay = false
      },
      tradeDay () {
        this.showTradeDay = true
-       this.showNowTrade = false
+       this.showNowStock = false
+     },
+     excelExport (type) {
+       const id = this.strategyId
+       const url = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + id + '&type=' + type
+       window.location.href = url
      },
      goToStockPage (page) {
        this.stockPage = Number(page) - 1

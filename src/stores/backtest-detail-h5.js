@@ -68,6 +68,7 @@ export default {
     setStrategyData (state, result) {
       if (result.errCode === 0) {
         state.strategyResult = result.data
+        console.log(state.strategyResult)
       } else {
         state.strategyResult = null
       }
