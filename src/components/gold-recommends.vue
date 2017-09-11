@@ -172,7 +172,7 @@
         }
       },
       mounted () {
-        console.log(this.data.choseStockData.filterSummary)
+
       }
     }
 </script>
