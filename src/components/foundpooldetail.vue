@@ -81,6 +81,7 @@ import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
+import { domain } from '../z3tougu/config'
 
 export default {
   data () {
@@ -203,7 +204,7 @@ export default {
   },
   methods: {
     getdate () {
-      fetch('http://www.z3quant.com/openapi/fund/' + this.$route.params.id + '.shtml?orgCode=' + this.orgCode, {
+      fetch(`${domain}/openapi/fund/` + this.$route.params.id + '.shtml?orgCode=' + this.orgCode, {
         method: 'GET',
         mode: 'cors',
         cache: 'default'
@@ -223,7 +224,7 @@ export default {
       this.seletetimeshow = false
     },
     relevancedatafn () {
-      fetch('http://www.z3quant.com/openapi/fund/fundPoolRelevance.shtml?poolId=' + this.$route.params.id, {
+      fetch(`${domain}/openapi/fund/fundPoolRelevance.shtml?poolId=` + this.$route.params.id, {
         method: 'GET',
         mode: 'cors',
         cache: 'default'

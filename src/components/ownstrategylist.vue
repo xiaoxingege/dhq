@@ -164,7 +164,7 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
         <td>
           <div class="editbox clearfix"  :zuhename="item.name" :zuheId="item.strategyId">
             <a href="#" class="build" @click="showdialogfn($event,1)">立即运行</a><a href="#" class="copy" @click="showdialogfn($event,2)">复制</a><a href="#"
-              class="nodelete" @click="showdialogfn($event,4)" ></a>
+              class="delete" @click="showdialogfn($event,3)" ></a>
           </div>
         </td>
       </tr>
@@ -248,10 +248,9 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
             <span>新基金池名称</span><input type="text" name="" v-model="newpoolName" placeholder="请输入基金池名称">
           </li>
         </ul>
-
       </div>
       <div class="up up3" v-if="content===3">
-        您确认删除回测【<a href="#">{{poolname}}</a>】吗？
+        您确认删除回测【<a href="#">{{zuhename}}</a>】吗？
       </div>
     </div>
     <div slot="footer">
@@ -266,6 +265,7 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
 import founddialog from 'components/founddialog'
 import toast from 'components/toast'
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 import {
   mapState
 } from 'vuex'
@@ -290,6 +290,7 @@ export default {
       msgtxt: '',
       msgshow: false,
       orgCode: '200180365',
+      userId: '20170901-170354',
       isCreatePool: false,
       // 基金池列表
       pools: [
@@ -346,13 +347,15 @@ export default {
         alert('我要新建')
       } else if (this.content === 2) {
         this.copyFundPool()
+        this.getdate()
       } else if (this.content === 3) {
         this.deleteFundPool()
+        this.getdate()
       }
       // this.dialogShow = false
     },
     getdate () {
-      fetch('http://www.z3quant.com/openapi/fund/getStrategyInfoList.shtml?userId=20170901-170354', {
+      fetch(`${domain}/openapi/fund/getStrategyInfoList.shtml?userId=` + this.userId, {
         method: 'GET',
         mode: 'cors',
         cache: 'default'
@@ -373,19 +376,26 @@ export default {
         this.showmsg('请输入组合名称')
         return
       }
-      if (!this.newpoolName) {
+      if (!this.newpoolName && this.isCreatePool) {
         this.showmsg('请输入基金池名称')
         return
       }
-      var str = 'strategyId=' + this.zuheId + '&strategyName=' + this.zuhename + '&brokerId=' + this.orgCode
+      var str = 'strategyId=' + this.zuheId + '&strategyName=' + this.copyzuheName + '&brokerId=' + this.orgCode + '&userId=' + this.userId
       if (this.isCreatePool) {
-        str += '&isCreatePool=true&fundPoolName=' + this.copypoolName
+        str += '&isCreatePool=true&fundPoolName=' + this.newpoolName
+      } else {
+        str += '&isCreatePool=false'
       }
 
-      fetch('http://www.z3quant.com/openapi/fund/copyStrategy.shtml?' + str, {
+      fetch(`${domain}/openapi/fund/copyStrategy.shtml`, {
         method: 'POST',
         mode: 'cors',
-        cache: 'default'
+        cache: 'default',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: str
       }).then((res) => {
         return res.json()
       }).then(v => {
@@ -400,15 +410,15 @@ export default {
       })
     },
     deleteFundPool () {
-      fetch('http://www.z3quant.com/openapi/fund/' + this.poolId + '.shtml?userId=3dce11a5-7db5-42a8-b2d0-81cb70dc10dd&orgCode' + this.orgCode, {
-        method: 'POST',
+      fetch(`${domain}/openapi/fund/deleteStrategyInfo.shtml.shtml?userId=` + this.userId + '&strategyId' + this.orgCode, {
+        method: 'get',
         mode: 'cors',
         cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
         if (v.errCode === 0) {
-          this.showmsg(v.msg)
+          this.showmsg('删除成功')
         }
       }).catch(v2 => {
         console.log(v2)
