@@ -15,7 +15,7 @@
             <p class="more-strategy"><a v-on:click="moreGoldList">更多推荐策略</a></p>
         </div>
         <div class="recommend-strategy-chart" ref="recChart"></div>
-        <div class="strategy-description"><p>今年以来大盘动向同以往，该策略是平台通过智能量化计算推出的对当下行情适用度较高的交易策略。</p></div>
+        <div class="strategy-description"><p>{{strategyDesc}}</p></div>
     </div>
 </template>
 <script type="text/javascript">
@@ -28,7 +28,8 @@
           direction: 'desc',
           size: 1,
           recommendStrategyName: '',
-          strategyId: ''
+          strategyId: '',
+          strategyDesc: ''
         }
       },
       watch: {
@@ -56,6 +57,7 @@
                       const _this = this
                       this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
                       this.strategyId = this.recommendStrategyDetail.strategy.strategyId
+                      this.strategyDesc = this.recommendStrategyDetail.strategy.strategyDesc
                       this.recommendChart.setOption({
                         legend: {
                           left: 'center',
