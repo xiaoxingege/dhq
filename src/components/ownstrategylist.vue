@@ -10,7 +10,7 @@ body {
 .clearfix:after{ display: block;content: ''; clear: both;}
 a,
 .blue {
-  color: #2a8ae1;
+  color: #2388da;
 }
 
 .ownstrategylist {}
@@ -78,7 +78,7 @@ td div {
 
 .footer div a {
   line-height: 35px;
-  background: blue;
+  background: #2388da;
   border-radius: 4px;
   color: #fff;
   text-align: center;
@@ -88,11 +88,15 @@ td div {
 
 .up {
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 12px;
   width: 340px;
   padding-top: 20px;
+  color:#666;
 }
-
+.newzuhe li{line-height: 28px;}
+.newzuhe li div{float: left;width:120px;}
+.up1{width:380px;}
+.up1 i{display: inline-block;width:16px;height: 16px;background:url('../assets/images/z3img/ques.png') no-repeat center center;cursor: pointer;}
 .up2 {
   width: 380px;
 }

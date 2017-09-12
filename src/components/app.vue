@@ -6,7 +6,7 @@
 
 <template>
 <div class="app">
-  <index/>
+  <index></index>
 </div>
 </template>
 

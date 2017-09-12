@@ -21,7 +21,6 @@
         top:20px;
         z-index:99999;
         color: #fff;
-        font-size: 14px;
         background: #3f414b;
         padding: 0 10px;
     }
@@ -30,7 +29,6 @@
         border-bottom: 1px solid #262931;
     }
     .bubSearchResult li a{
-        border-bottom: 1px solid #262931;
         color: #929cb3;
         display: block;
         font-size: 10px;
@@ -39,7 +37,6 @@
         overflow: hidden;
     }
     .ticker{
-        font-weight: 700;
         display: inline-block;
         width: 60px;
     }

@@ -5,7 +5,7 @@
     .map_legend {
         color: #fff;
         display: inline-block;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 400;
         text-shadow: 0 1px 0 rgba(0,0,0,.25);
         position: absolute;
@@ -57,21 +57,21 @@
         cursor: default;
         display: inline-block;
         float: left;
-        font-size: 11px;
+        font-size: 12px;
         text-align: center;
         margin-left: 4px;
         background-color: #262626;
     }
-    .playback_btn{margin-left: 0;width: 25px;cursor: pointer;}
+    .playback_btn{margin-left: 0;width: 25px;cursor: pointer;line-height: 25px;}
     .playback_btn img{vertical-align: baseline;}
-    .play_line{width: 1px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
+    .play_line{width: 2px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
     .chart_bottom_enlarge .play_line{top: 8px;}
     .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
-    .enlarge span,.narrow span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
+    .enlarge span,.narrow span {color: #bdbdbd;margin-right: 24px;position: relative;top: -3px;}
     #enlarge, #narrow {cursor: pointer;}
-    .enlarge a span,.narrow a span{cursor: pointer}
+    .enlarge a,.narrow a{cursor: pointer}
     .enlarge img{opacity:0.6;}
-    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
+    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;}
     .narrow span{margin-right: 20px;}
     #narrow{width: 20px;height: 20px;position: relative;top: 3px;}
     .narrow img{width: 20px;}
@@ -85,12 +85,12 @@
         <div class="enlarge" v-if="!isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a href="/map/fullScreen" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+            <a v-on:click="toFullScreen"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
         </div>
         <div class="narrow" v-if="isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a href="/map/normal" target="_blank"><img src="../assets/images/stock-map/narrow.png"/></a>
+            <a v-on:click="toNormal"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
         <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
@@ -207,7 +207,8 @@
           updateTimePid: null,
           currentTime: '',
           playLineIndex: 19,
-          playLineLeft: this.$route.fullPath === '/map/fullScreen' ? 54.5 : 46.5
+          playLineLeft: this.$route.fullPath === '/map/fullScreen' ? 54.5 : 46.5,
+          isStopPlayback: false
         }
       },
       watch: {
@@ -379,7 +380,7 @@
                                   }
                                 },
                                 textStyle: {
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   ellipsis: false
                                 }
                               }
@@ -643,13 +644,17 @@
         startPlay: function () {
           clearInterval(this.updateDataPid)
           this.updateDataPid = null
-          if (this.playBackState) { // 播放中
+          if (this.playBackState) { // 播放中点击暂停
             this.playBackState = false
             clearInterval(pid)
             this.playBackSrc = playStopSrc
-          } else {
+            this.isStopPlayback = false
+            this.$emit('isStopPlayback', this.isStopPlayback)
+          } else { // 未播放点击开始播放
             this.playBackState = true
             this.playBackSrc = playBackSrc
+            this.isStopPlayback = true
+            this.$emit('isStopPlayback', this.isStopPlayback)
             if (this.playBackIndex >= this.playBackDate.length - 1) {
               this.playBackIndex = 0
             }
@@ -671,6 +676,8 @@
                 this.playBackState = false
                 this.playBackSrc = playStopSrc
                 clearInterval(pid)
+                this.isStopPlayback = false
+                this.$emit('isStopPlayback', this.isStopPlayback)
                 this.updateData()
                 this.playLineIndex++
                 this.autoUpdateData()
@@ -811,6 +818,12 @@
               _this.currentTime = _this.getTime()
             }, 1000)
           }
+        },
+        toFullScreen: function () {
+          window.open('/map/fullScreen')
+        },
+        toNormal: function () {
+          window.open('/map/normal')
         }
       },
       mounted () {
