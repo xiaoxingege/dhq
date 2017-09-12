@@ -6,6 +6,7 @@
     .more-strategy a{color:#4c8cca;}
     .recommend-strategy-chart{width: 100%;height:77.5%;}
     .strategy-description{color:#666;height:13%;padding-top: 15px;}
+    .strategy-description p{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight: bold;}
 </style>
 <template>
