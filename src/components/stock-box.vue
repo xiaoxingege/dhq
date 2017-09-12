@@ -1,6 +1,6 @@
 <template>
     <div class="stock-box" :style="position" v-show="isShow">
-        <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{stock.chgPx}}</span><span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span></div>
+        <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span><span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span></div>
         <div>
             <StockKline :stockCode="stockCode" chartWidth="360" chartHeight="250"></StockKline>
         </div>
@@ -10,6 +10,7 @@
 <script>
     import StockKline from 'components/stock-kline'
     import { mapState } from 'vuex'
+    import config from '../z3tougu/config'
     export default{
       props: ['stockCode', 'top', 'left'],
       data () {
@@ -26,7 +27,20 @@
         }),
         position () {
           return 'top:' + this.top + 'px;left:' + this.left + 'px'
+        },
+        updownMark () {
+          let flag = this.stock.chgPx
+          let mark = ''
+          if (flag === config.emptyValue) {
+            flag = 0
+          }
+          if (flag > 0) {
+            mark = '+'
+          }
+          return mark
         }
+      },
+      methods: {
       }
     }
 </script>

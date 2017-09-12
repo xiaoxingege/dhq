@@ -360,6 +360,8 @@
           this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
                       this.chart.setOption({
+                        hoverLayerThreshold: 10000,
+                        progressive: 1000,
                         tooltip: {
                           triggerOn: 'none'
                         },
@@ -367,8 +369,8 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 500,
-                            // childrenVisibleMin: 10,
+                            visibleMin: 0.0001,
+                            childrenVisibleMin: 500,
                             width: '100%',
                             height: '100%',
                             label: {
