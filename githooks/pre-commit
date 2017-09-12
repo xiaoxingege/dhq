@@ -4,6 +4,6 @@ cd "$(cd "$(dirname "$0")"; pwd -P)/../../"
 files=($(git status -bs | grep '^[MA]' | awk '{print $2}'))
 for file in ${files[*]}
 do
-  node .git/hooks/js/index.js $file
+  coffee beautifiers/beautify.coffee $file
 done
 exit 1
