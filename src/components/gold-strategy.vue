@@ -55,17 +55,25 @@
         height:20px;
         cursor: pointer;
     }
+    .qrcode{
+      position:absolute;
+      top:40px;
+      right:10px;
+      box-shadow:4px 4px 4px 2px #eee;
+      border:1px solid #eee;
+    }
 </style>
 <template>
     <div class="goldRecommend">
+    
         <div class="strategyHeader clear">
             <div class="fl">
                 <span>{{goldResult===null?'':goldResult.strategyName}}</span>
             </div>
             <div class="fr mr-15 recommend">
                 <span>推荐给客户：</span>
-                <img class="mr-10" src="../assets/images/z3img/back-weixin.png">
-                <img src="../assets/images/z3img/back-copy.png">
+                <img class="mr-10" src="../assets/images/z3img/back-weixin.png" @click="showQrcode"/>
+                <img src="../assets/images/z3img/back-copy.png" class="copy"/>
             </div>
         </div>
         <div class="strategyTop display-box">
@@ -85,7 +93,12 @@
         <div>
             <Goldchart :strategyId="strategyId" :type="type"></Goldchart>
         </div>
+        <div v-show="showQrcodeBox" class="qrcode" >
+          <div><canvas ref="qrcode"></canvas></div>
+        </div>
+        <toast :msg="toastmsg"  v-if="showToast"></toast>
     </div>
+    
 </template>
 <script>
     import { mapState } from 'vuex'
@@ -95,23 +108,30 @@
     import Navbar from 'components/nav-bar'
     import Goldchart from 'components/gold-chart'
     import Radarchart from 'components/radar-chart'
+    import qrcode from 'qrcode'
+    import Clipboard from 'clipboard'
+    import toast from 'components/toast'
 
-export default{
-  data () {
+    export default{
+      data () {
         return {
           strategyId: this.$route.params.strategyId,
-          type: ''
+          type: '',
+          showQrcodeBox: false,
+          toastmsg: '',
+          showToast: false
         }
-  },
-  components: {
+      },
+      components: {
         Titlecontent,
         Tablelist,
         Goldrecommends,
         Navbar,
         Goldchart,
-        Radarchart
+        Radarchart,
+        toast
       },
-  computed: mapState({
+      computed: mapState({
         goldResult: state => state.goldStrategy.goldResult,
         articleData: function () {
           return {
@@ -320,20 +340,39 @@ export default{
             }
           }
         }
-  }),
-  mounted () {
-//        this.strategyId = this.$route.params.strategyId
+      }),
+      methods: {
+        showQrcode () {
+          this.showQrcodeBox = !this.showQrcodeBox
+        }
+      },
+      mounted () {
         this.type = this.$route.params.showType
 
-        this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId }).then(() => {
-
+        this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId })
+        this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId })
+        this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId })
+        const url = window.location.protocol + '//' + window.location.host + '/gold-strategy-h5/' + this.strategyId
+        qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+        const clipboard = new Clipboard('.copy', {
+          text: function () {
+            return url
+          }
         })
-        this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId }).then(() => {
-
+        clipboard.on('success', (e) => {
+          this.toastmsg = '分享地址已拷贝!'
+          this.showToast = true
+          setTimeout(() => {
+            this.showToast = false
+          }, 2500)
         })
-        this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId }).then(() => {
-
+        clipboard.on('error', (e) => {
+          this.toastmsg = '分享地址拷贝失败!'
+          this.showToast = true
+          setTimeout(() => {
+            this.showToast = false
+          }, 2500)
         })
-  }
-}
+      }
+    }
 </script>

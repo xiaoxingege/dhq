@@ -15,7 +15,7 @@
 <template>
     <div class="strategy-wrap1">
         <ul class="clearfix">
-            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
         </ul>
         <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0"/>
     </div>
