@@ -11,7 +11,7 @@ import dadianweb from 'components/dadianweb'
 /*
  * 引入vuex
  */
-     Vue.use(Vuex)
+       Vue.use(Vuex)
 
 /*
  * 定义路由
