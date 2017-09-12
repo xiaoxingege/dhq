@@ -9,7 +9,6 @@ if [ ${#files[@]} -gt 0 ]; then
     ary=($file)
     IFS=
     len=`expr ${#ary[@]} - 1`
-    echo $len
     if [ "${ary[$len]}" = "js" -o "${ary[$len]}" = "json" -o "${ary[$len]}" = "vue" ]; then
       coffee beautifiers/beautify.coffee $file
     fi
