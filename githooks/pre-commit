@@ -8,6 +8,7 @@ if [ ${#files[@]} -gt 0 ]; then
     str=$file
     IFS=.
     ary=($file)
+    IFS=
     echo 2,$file
     if [ "${ary[1]}" = "js" ]; then
       coffee beautifiers/beautify.coffee $file

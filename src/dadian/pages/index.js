@@ -11,14 +11,19 @@ import dadianweb from 'components/dadianweb'
 /*
  * 引入vuex
  */
-           Vue.use(Vuex)
+Vue.use(Vuex)
 
 /*
  * 定义路由
  */
-const routes = [
-  { path: '/dadianapp', component: dadianapp },
-  { path: '/dadianweb', component: dadianweb }
+const routes = [{
+    path: '/dadianapp',
+    component: dadianapp
+  },
+  {
+    path: '/dadianweb',
+    component: dadianweb
+  }
 ]
 /*
  * 实例化store
