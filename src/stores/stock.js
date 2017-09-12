@@ -42,15 +42,16 @@ const mutations = {
   [mutationsTypes.UPDATE_KLINE_DATA] (state, kline) {
     state.stockKlineData = kline
     if (kline && kline.length > 0) {
-      const lastRecord = kline[kline.length - 1]
-      const chgPx = (lastRecord.closePx - lastRecord.prevClosePx).toFixed(2)
+      const lastRecord = kline[0]
+      let chgPx = config.emptyValue
       let chgPctPx = config.emptyValue
       if (lastRecord.prevClosePx !== config.emptyValue && lastRecord.prevClosePx !== 0) {
+        chgPx = (lastRecord.closePx - lastRecord.prevClosePx).toFixed(2)
         chgPctPx = (chgPx / lastRecord.prevClosePx * 100).toFixed(2)
       }
       state.stock = {
-        stockCode: lastRecord.innerCode,
-        stockName: lastRecord.name,
+        stockCode: lastRecord.innerCode || config.emptyValue,
+        stockName: lastRecord.name || config.emptyValue,
         ma20: lastRecord.ma20,
         ma60: lastRecord.ma60,
         ma120: lastRecord.ma120,
