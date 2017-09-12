@@ -5,7 +5,7 @@ files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 if [ ${#files[@]} -gt 0 ]; then
   for file in ${files[*]}
   do
-    if [ "$file" =~ ".(js|json|vue)$" ]; then
+    if [[ "$file" =~ ".(js|json|vue)$" ]]; then
       coffee beautifiers/beautify.coffee $file
     fi
   done
