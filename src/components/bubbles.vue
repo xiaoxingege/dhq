@@ -38,7 +38,7 @@
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
          /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-          height: window.innerHeight - 85,
+          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 85,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',
@@ -305,7 +305,7 @@
                   type: 'slider',
                   show: true,
                   yAxisIndex: [0],
-                  top: 40,
+                  top: '5%',
                   right: 20,
                   bottom: 0,
                   start: 0,
@@ -343,14 +343,14 @@
                   xAxisIndex: [0],
                   top: 10,
                         // right:80,
-                  left: 100,
+                  left: '5%',
                   start: 0,
                   end: 100,
                   textStyle: {
                     color: '#aed2ff'
                   },
                   borderColor: '#3c4868',
-                  width: '92%',
+                  width: '90%',
                   height: '6',
                   handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
                   handleSize: '300%',

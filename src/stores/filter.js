@@ -1,6 +1,5 @@
 import 'whatwg-fetch'
 import { domain } from '../z3tougu/config'
-
 const PAGE_SIZE = 10
 
 export const types = {
@@ -12,14 +11,18 @@ export default {
     lsfoundPoolList: [],
     foundPoolList: [],
     desc: true,   // 降序
-    page: 1,
+    page: 0,
     total: 0,
     pagesize: PAGE_SIZE,
     sylbx: [], // 收益率表现
     nhsyl: [], // 年化收益率
     zdhc: [], // 最大回撤
     xpb: [], // 夏普率
-    cesyl: []// 超额收益率
+    cesyl: [], // 超额收益率
+    number: 0,
+    numberOfElements: 20,
+    fundNum: 0, // 基金总条数，
+    foundPoolListLength: 0
   },
   getters: {
     foundPoolList: state => state.foundPoolList,
@@ -31,11 +34,21 @@ export default {
     zdhc: state => state.zdhc,
     xpb: state => state.xpb,
     cesyl: state => state.cesyl,
-    totalPage: state => state.total
+    totalPage: state => state.total,
+    number: state => state.number,
+    numberOfElements: state => state.numberOfElements,
+    fundNum: state => state.fundNum,
+    page: state => state.page,
+    pagesize: state => state.pagesize,
+    foundPoolListLength: state => state.foundPoolListLength
   },
   mutations: {
     [types.ADD_FUNDPOLL] (state, list) {
-      state.foundPoolList = list
+      state.foundPoolList = list.fundList.content
+      state.number = list.fundList.number
+      state.numberOfElements = list.fundList.numberOfElements
+      state.fundNum = list.fundNum
+      state.foundPoolListLength = list.fundList.content.length
     },
     getLSFoundPoolList (state, list) {
       state.lsfoundPoolList = list
@@ -62,20 +75,34 @@ export default {
     }
   },
   actions: {
-
+    // 获取查询数据
     getFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
       const url = `${domain}/openapi/fund/strategyByParam.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
       return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
-        console.log(result)
         if (result.errCode === 0) {
-          commit(types.ADD_FUNDPOLL, result.data.fundList.content)
-          commit('getLSFoundPoolList', result.data.fundForPoolList)
+          commit(types.ADD_FUNDPOLL, result.data)
           commit('upDataPage', { page: result.data.fundList.number, pageSize: result.data.fundList.size, totalPages: result.data.fundList.totalPages })
         }
       })
     },
+    // 导出筛选数据
+    // exportFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+    //   const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
+    //   return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+    //     return res.blob()
+    //   }).then(result => {
+    //     alert()
+    //     var date = new Date()
+    //     var url = window.URL.createObjectURL(result)
+    //     var a = document.createElement('a')
+    //     a.href = url
+    //     a.download = '巨灵智胜基金筛选' + formatDateStr(date) + '.xlsx'
+    //     a.click()
+    //   })
+    // },
+    // 收益率表现
     getSylbx ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -84,6 +111,7 @@ export default {
         commit('getSylbx', result.data)
       })
     },
+     // 年化收益率
     getNhsyl ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -92,6 +120,7 @@ export default {
         commit('getNhsyl', result.data)
       })
     },
+    // 最大回撤
     getZdhc ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -100,6 +129,7 @@ export default {
         commit('getZdhc', result.data)
       })
     },
+    // 夏普率
     getXpb ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -108,6 +138,7 @@ export default {
         commit('getXpb', result.data)
       })
     },
+     // 超额收益率
     getCesyl ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -116,30 +147,5 @@ export default {
         commit('getCesyl', result.data)
       })
     }
-    // getFundPool ({ commit }, { sortField, page, pagesize, totalPages }) {
-    //   page = page || 0
-    //   pagesize = pagesize || PAGE_SIZE
-    //   const url = `${domain}/openapi/fund/strategyByParam.shtml?sort=desc&page=${page}&size=${pagesize}`
-    //   return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
-    //     return res.json()
-    //   }).then(result => {
-    //     commit(types.ADD_FUNDPOLL, result.data)
-    //     commit('upDataPage', { page: 0, pageSize: 10, totalPages: 25 })
-    //   })
-    // }
-    // queryAllTopic ({ commit }, { sortField, page, pagesize, totalPages }) {
-    //   page = page || 0
-    //   pagesize = pagesize || PAGE_SIZE
-    //   return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
-    //     mode: 'cors'
-    //   }).then((res) => {
-    //     return res.json()
-    //   }).then(result => {
-    //     if (result.errCode === 0) {
-    //       commit('updateAllTopic', result.data.content)
-    //       commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })
-    //     }
-    //   })
-    // }
   }
 }

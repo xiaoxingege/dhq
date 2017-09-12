@@ -69,7 +69,7 @@
     .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
     .enlarge span,.narrow span {color: #bdbdbd;font-size: 16px;margin-right: 24px;position: relative;top: -3px;}
     #enlarge, #narrow {cursor: pointer;}
-    .enlarge a span,.narrow a span{cursor: pointer}
+    .enlarge a,.narrow a{cursor: pointer}
     .enlarge img{opacity:0.6;}
     .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;font-size:16px;}
     .narrow span{margin-right: 20px;}
@@ -85,12 +85,12 @@
         <div class="enlarge" v-if="!isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a href="/map/fullScreen" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+            <a v-on:click="toFullScreen"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
         </div>
         <div class="narrow" v-if="isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a href="/map/normal" target="_blank"><img src="../assets/images/stock-map/narrow.png"/></a>
+            <a v-on:click="toNormal"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
         <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
@@ -258,6 +258,12 @@
                       stock.actDateFlag = nowDate < pbDate ? 0 : 1 // 业绩公布日前0:业绩公布日后1
                     } else {
                       stock.perfText = '--'
+                      stock.itemStyle = {
+                        normal: {
+                          color: '#2f323d'
+                        }
+                      }
+                      stock.actDateFlag = -1
                     }
                   } else {
                     stock.perf = stockData[stock.id] || stockData[stock.name]
@@ -294,9 +300,9 @@
                   let acrDateAfter = 0
                   lvl2.children.forEach(function (stock) {
                     if (stock.actDateFlag === 0) { // 业绩公布日前
-                      actDateBefore++
+                      actDateBefore += stock.value * 1
                     } else if (stock.actDateFlag === 1) { // 业绩公布日后
-                      acrDateAfter++
+                      acrDateAfter += stock.value * 1
                     }
                   })
                   if (actDateBefore >= acrDateAfter) {
@@ -352,7 +358,6 @@
           const _this = this
           this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
-                      console.log(this.mapHeight, this.mapWidth)
                       this.chart.setOption({
                         tooltip: {
                           triggerOn: 'none'
@@ -806,6 +811,12 @@
               _this.currentTime = _this.getTime()
             }, 1000)
           }
+        },
+        toFullScreen: function () {
+          window.open('/map/fullScreen')
+        },
+        toNormal: function () {
+          window.open('/map/normal')
         }
       },
       mounted () {

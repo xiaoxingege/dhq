@@ -7,6 +7,8 @@
     .siwei{
         background:#000;
         width:100%;
+        min-height:710px;
+        min-width: 1217px;
     }
     .bubbles-bar{
         font-size:12px;
@@ -298,8 +300,8 @@
             topic: ''
           },
           dimensionOptions: {
-            xDefault: 'mkt_idx.pe_ttm',
-            yDefault: 'fin_idx.sale',
+            xDefault: 'perf_idx.chng_pct_month',
+            yDefault: 'fcst_idx.fcst_eps_chng_next3',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month'
           },
@@ -313,8 +315,8 @@
             innerCode: '',
             topic: ''
           },
-          xData: '市盈率(TTM)',
-          yData: '营业收入',
+          xData: '近1月涨跌幅',
+          yData: 'EPS增长率(未来3年)',
           sizeData: '流通市值',
           colorData: '近1月涨跌幅',
           templateList: {

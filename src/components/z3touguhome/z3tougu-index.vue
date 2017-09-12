@@ -30,7 +30,7 @@
         </div>
         <div class="strategy-wrap">
             <ul class="clearfix">
-                <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
+                <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
             </ul>
         </div>
         <div class="strategy-map clearfix">

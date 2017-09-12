@@ -6,7 +6,7 @@
     .map_pad{padding: 0 20px;}
     .condition{text-align: left;display: inline-block;}
     .condition{color:#fff;font-size:14px;opacity: 0.8;}
-    .condition select{color:#2f5b7d;background-color: #000;border: none;opacity: 1}
+    .condition select{color:#2388da;background-color: #000;border: none;opacity: 1}
     .condition_wrap{text-align: left;}
 </style>
 <template>

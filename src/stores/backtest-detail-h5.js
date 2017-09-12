@@ -68,7 +68,6 @@ export default {
     setStrategyData (state, result) {
       if (result.errCode === 0) {
         state.strategyResult = result.data
-        console.log(state.strategyResult)
       } else {
         state.strategyResult = null
       }
@@ -122,7 +121,7 @@ export default {
     },
     getSyqxtData ({ commit }, { backtestId, startDate, endDate }) {
       // commit('setGoldOptions', backtestId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/returns.shtml?backtestId=${backtestId}&startDate=${startDate}&endDate=${endDate}`, {
+      return fetch(`${domain}/openapi/backtest/returns.shtml?backtestId=${backtestId}&startDate=${startDate}&endDate=${endDate}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

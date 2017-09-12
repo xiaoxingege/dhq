@@ -96,8 +96,8 @@
                     </div>
                     <div class="textright">
                         <div class="trbox tl">
-                            <strong><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}">{{item.title}}</router-link></strong>
-                            <p><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}">{{item.detail}}</router-link></p>
+                            <strong><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link></strong>
+                            <p><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.detail}}</router-link></p>
                             <p v-if="item.stockcode !== ''"><b class="blod">文中涉及个股：</b><span class="red">{{item.stockname.replace(/,/g,'  ')}}</span></p>
                             <div class="img-bs" v-if="item.imgurl !== ''"><img :src="item.imgurl" :class="item.imgClickBol?'fd_move':'fdadd'" v-on:click="enlargeImg(item.imgClickBol,index)"></div>
                         </div>

@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
     @import '../assets/css/base.css';
     *{
       text-align: justify;
@@ -6,16 +6,21 @@
     em,i{
       font-style: normal;
     }
-    
+    html{
+      background: #f2f2f2;
+    }
+    body{
+      background: #f2f2f2;
+    }
     .blue{
       color: #2388da;
       font-size: 12px;
     }
     .red{
-      color:#e6363a !important;
+      color:#e6363a;
     }
     .green {
-      color:#48a854 !important;
+      color:#48a854;
     }
     .display-box {
       display: -webkit-box;
@@ -53,24 +58,23 @@
       box-flex: 4;
     }
    /*  span{
-      color: #191919;
+      color: #696969;
     } */
     a{
-      color: #191919;
+      color: #696969;
     }
-    html{
-      background: #f2f2f2;
-    }
+    
     html,body{
         background: #f2f2f2;
 
     }
+
     .informat-list{
         width: 100%;
-        background: #f2f2f2;
+        /* background: #f2f2f2; */
        /*  padding: 9px; */
         font-size: 12px;
-        color: #191919;
+        color: #696969;
 
     }
     .infor-top{
@@ -88,6 +92,7 @@
     .informat-main{
       width: 66%;
       margin: 0 auto;
+      /* min-height: 811px; */
     }
     .in-content{
       /* line-height: 20px; */
@@ -107,32 +112,34 @@
       white-space: nowrap;  
       overflow: hidden;  
       text-overflow: ellipsis; 
-      padding-bottom: 4.8%;
+      line-height: 24px;
+      /* padding-bottom: 4.8%; */
 
     }
     .new-date{
       color: #7e7e7e;
-      /* line-height: 24px; */
+      line-height: 24px;
       float: left;
       width: 12%;
       text-align: center;
-      padding-bottom: 4.8%;
+     /*  padding-bottom: 4.8%; */
     }
     .new-srcname{
-      /* line-height: 24px; */
+      line-height: 24px;
       float: left;
       width: 14%;
-      text-align: center;
+      text-align: right;
+      /* text-align: center; */
       color: #7e7e7e;
-      padding-bottom: 4.8%;
+      /* padding-bottom: 4.8%; */
     }
     .new-tit:hover{
       color:#2388da;
     }
-    .informat-list .page{
-      padding: 0;
+    .informat-list .informat-content .page{
       text-align: center;
-      margin: 13px 0 16px 0;
+      /* margin: 13px 0 16px 0; */
+      padding: 20px 0;
     }
 </style>
 <template>
@@ -141,7 +148,7 @@
              <a href="#" class="blue" @click="routerBack">< 返回主题详情</a>
           </div>
           <div class="informat-content clearfix">
-              <div class="informat-main">
+              <div class="informat-main" :style="{  minHeight: fullHeight + 'px' }">
                    <strong class="in-title" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}相关资讯</strong>
                    <div class="in-content clearfix">
                       <div class="clearfix alink" v-if="informatList && informatList.length > 0" v-for="infor of informatList">
@@ -167,7 +174,8 @@
      return {
        topicCode: this.$route.params.inforId,
        inforPage: '',
-       inforPageSize: ''
+       inforPageSize: '',
+       fullHeight: document.documentElement.clientHeight - 145
      }
    },
    computed: mapState({
@@ -199,6 +207,7 @@
    },
    mounted () {
      this.initData()
+     console.log(this.fullHeight)
    }
  
  }

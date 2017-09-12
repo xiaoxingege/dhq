@@ -2,4 +2,4 @@ dist/
 node_modules/
 .idea/
 version
-/src/components/filter/filter.vue
+*.bzip2
