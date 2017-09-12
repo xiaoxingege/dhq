@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-alltopic.vue" afterPath="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-kline.vue" afterPath="$PROJECT_DIR$/src/components/back-time-kline.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-index.vue" afterPath="$PROJECT_DIR$/src/components/theme-index.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-list.vue" afterPath="$PROJECT_DIR$/src/components/theme-list.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-sort-az.vue" afterPath="$PROJECT_DIR$/src/components/theme-sort-az.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/topic-detail.vue" afterPath="$PROJECT_DIR$/src/components/topic-detail.vue" />
     </list>
     <ignored path="vue.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,16 +87,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="99" column="5" selection-start-line="99" selection-start-column="5" selection-end-line="99" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="458" column="13" selection-start-line="458" selection-start-column="13" selection-end-line="458" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -861,7 +856,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="458" column="13" selection-start-line="458" selection-start-column="13" selection-end-line="458" selection-end-column="13" />
+          <caret line="492" column="13" selection-start-line="492" selection-start-column="13" selection-end-line="492" selection-end-column="13" />
           <folding />
         </state>
       </provider>

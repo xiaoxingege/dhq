@@ -192,23 +192,23 @@
     </div>
     <ul class="theme-list-ul display-box clearfix">
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
-         <div class="li-nei">
-          <div class="bar-tit">
-            <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" class="theme-bar-title blue">{{topic.topicName}}</router-link>
-            <span class="blue bar-title2">主题简介<i>{{topic.topicDesc}}</i></span>
-          </div>
-          <div class="bar-txt clearfix">
-            <strong>最新事件：</strong>
-            <span class="txt-con">
-              <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.summary}}</span></router-link>
-              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
-            </span>
-          </div>
-          <div class="li-bottom">
-              今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
-              上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
-          </div>
-          </div>
+             <div class="li-nei">
+                  <div class="bar-tit">
+                    <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" class="theme-bar-title blue">{{topic.topicName}}</router-link>
+                    <span class="blue bar-title2">主题简介<i>{{topic.topicDesc}}</i></span>
+                  </div>
+                  <div class="bar-txt clearfix">
+                    <strong>最新事件：</strong>
+                    <span class="txt-con">
+                      <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.summary}}</span></router-link>
+                      （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
+                    </span>
+                  </div>
+                  <div class="li-bottom">
+                      今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
+                      上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
+                  </div>
+              </div>
          </li>
     </ul>
 </div>
