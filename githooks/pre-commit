@@ -5,7 +5,9 @@ files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 if [ ${#files[@]} -gt 0 ]; then
   for file in ${files[*]}
   do
-    coffee beautifiers/beautify.coffee $file
+    if [ "$file" =~ ".(js|json|vue)$" ]; then
+      coffee beautifiers/beautify.coffee $file
+    fi
   done
   git add .
 fi
