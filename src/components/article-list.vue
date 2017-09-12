@@ -1,50 +1,46 @@
-<style lang="scss" scoped="">@import '../assets/css/base.css';
-.article-list {
-  width: 100%;
-  border-top: 1px solid #ccc;
-  background: #fff;
-  font-size: 12px;
-  z-index: 999999;
-  text-align: left;
-}
-
-.newsTitle {
-  background: #F2F2F2;
-  height: 22px;
-  line-height: 22px;
-  font-size: 12px;
-  padding: 0 9px;
-}
-
-.newsTitle a {
-  color: #000;
-}
-
-.newsTitle a:hover {
-  text-decoration: underline;
-}
-
-.newList {
-  line-height: 20px;
-  padding: 0 9px;
-  margin-bottom: 10px;
-}
-
-.newList li a {
-  color: #000;
-  display: inline-block;
-  width: 280px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.newList li a:hover {
-  text-decoration: underline;
-}</style>
+<style lang="scss" scoped>
+    @import '../assets/css/base.css';
+    .article-list {
+        width:100%;
+        border-top: 1px solid #ccc;
+        background: #fff;
+        font-size: 12px;
+        z-index: 999999;
+        text-align: left;
+    }
+    .newsTitle {
+        background:#F2F2F2;
+        height:22px;
+        line-height: 22px;
+        font-size:12px;
+        padding:0 9px;
+    }
+    .newsTitle a{
+        color:#000;
+    }
+    .newsTitle a:hover{
+        text-decoration: underline;
+    }
+    .newList{
+        line-height: 20px;
+        padding:0 9px;
+        margin-bottom: 10px;
+    }
+    .newList li a{
+        color:#000;
+        display: inline-block;
+        width: 280px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .newList li a:hover{
+        text-decoration: underline;
+    }
+</style>
 <template>
     <div class="article-list">
-        <div v-if="data &amp;&amp; data.length > 0" v-for="block of data">
+        <div v-if="data && data.length > 0" v-for="block of data">
             <template v-if="block.count != 0">
             <p class="c999 clearfix newsTitle">
                 <span class="fl title">{{block.title}}</span>
