@@ -1,7 +1,7 @@
 <style lang="scss">
     @import '../assets/css/base.css';
    html,body .app{height: 100%;}
-    *{box-sizing: border-box;font-size:12px;font-family: '宋体';}
+    *{box-sizing: border-box;font-size:12px;}
     .map{background-color: #000;height: 100%;min-width: 1217px;}
     .map_pad{padding: 0 20px;}
     .condition{text-align: left;display: inline-block;}
