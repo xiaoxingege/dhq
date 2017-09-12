@@ -134,11 +134,19 @@
     import Pagination from 'components/pagination'
 
     export default{
-      props: ['data', 'strategyId', 'showType'],
+      props: {
+        data: Object,
+        strategyId: String,
+        type: {
+          type: String,
+          default: 'syqxt'
+        }
+      },
+          // ['data', 'strategyId', 'showType'],
       data () {
         return {
-          navText: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb'], ['每日交易', 'mrjy'], ['当前选股', 'dqxg']],
-          type: this.showType === undefined ? 'syqxt' : this.showType
+          navText: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb'], ['每日交易', 'mrjy'], ['当前选股', 'dqxg']]
+          // type: this.showType === undefined ? 'syqxt' : this.showType
         }
       },
       components: {
@@ -180,6 +188,6 @@
         }
       },
       mounted () {
-      }
+  }
     }
 </script>

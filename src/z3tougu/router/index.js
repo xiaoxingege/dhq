@@ -66,7 +66,7 @@ export default [
     { path: '/home/:newsType/newsDetail/:newsId', name: 'newsdetails', component: NewsDetails },
     { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
     { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
-     { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
+    { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
     { path: '/strategyList', name: 'strategyList', component: StrategyList }
 
 ]

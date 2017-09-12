@@ -72,35 +72,39 @@
       },
       computed: {
         choseStockData: function () {
-          const choseStockTable = this.data.choseStockData.filterSummary
-          const arr1 = []
-          const arr2 = []
-          if (choseStockTable.gkzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
-              arr1.push(choseStockTable.gkzbList[i].indexName)
-              arr2.push(choseStockTable.gkzbList[i].indexValue)
+          if (this.data.choseStockData === null) {
+            return []
+          } else {
+            const choseStockTable = this.data.choseStockData.filterSummary
+            const arr1 = []
+            const arr2 = []
+            if (choseStockTable.gkzbList.length > 0) {
+              for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+                arr1.push(choseStockTable.gkzbList[i].indexName)
+                arr2.push(choseStockTable.gkzbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.jbmzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
-              arr1.push(choseStockTable.jbmzbList[i].indexName)
-              arr2.push(choseStockTable.jbmzbList[i].indexValue)
+            if (choseStockTable.jbmzbList.length > 0) {
+              for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+                arr1.push(choseStockTable.jbmzbList[i].indexName)
+                arr2.push(choseStockTable.jbmzbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.jszbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jszbList.length; i++) {
-              arr1.push(choseStockTable.jszbList[i].indexName)
-              arr2.push(choseStockTable.jszbList[i].indexValue)
+            if (choseStockTable.jszbList.length > 0) {
+              for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+                arr1.push(choseStockTable.jszbList[i].indexName)
+                arr2.push(choseStockTable.jszbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.xgfwList.length > 0) {
-            for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
-              arr1.push(choseStockTable.xgfwList[i].indexName)
-              arr2.push(choseStockTable.xgfwList[i].indexValue)
+            if (choseStockTable.xgfwList.length > 0) {
+              for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+                arr1.push(choseStockTable.xgfwList[i].indexName)
+                arr2.push(choseStockTable.xgfwList[i].indexValue)
+              }
             }
-          }
 
-          return [arr1, arr2]
+            return [arr1, arr2]
+          }
         },
         sellConditionData: function () {
           const buyData = [
@@ -126,7 +130,7 @@
                   parmsPeriod.push(parms[key])
                 }
               }
-    
+              console.log(buyConditionTable[i].operator)
               buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
             }
           }
