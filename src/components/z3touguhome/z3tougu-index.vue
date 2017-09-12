@@ -40,7 +40,7 @@
     </div>
 </template>
 <script type="text/javascript">
-    import StrategyListHome from 'components/z3touguhome/strategy-list-home'
+    import StrategyListHome from 'components/z3touguhome/strategy-box'
     import RecommendStrategyHome from 'components/z3touguhome/recommed-strategy-home'
     import MapHome from 'components/z3touguhome/map-home'
     import ThemeHome from 'components/z3touguhome/theme-home'

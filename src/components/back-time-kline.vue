@@ -174,7 +174,7 @@
      },
      kLineDataAll: state => {
        const dataAll = state.backtestDetail.kLineData
-       const kLine = dataAll.kLine.reverse()
+       const kLine = dataAll.kLine
        const sellData = dataAll.sellDay
        const buyData = dataAll.buyDay
       // console.log(sellData)
@@ -187,6 +187,7 @@
        let name = ''
        let code = ''
        const pointData = []
+       const seriesData = []
        kLine && kLine.forEach(item => {
          const openPx = item.openPx// 开盘价
          const closePx = item.closePx// 收盘价
@@ -206,7 +207,10 @@
            // console.log(sellData[i] === item.endDate)
            if (sellData[i] === item.endDate) {
              // const ss = sellData[i]
+             console.log(sellData[i])
              console.log(highPx)
+             seriesData.push([item.endDate + '', highPx])
+             console.log(seriesData)
              const point = {
                name: 'XX标点',
                coord: [item.endDate + '', highPx],
@@ -228,17 +232,18 @@
                }
 
              }
-             pointData.push(point)
  
-             // console.log(pointData)
+             pointData.push(point)
            }
          }
          for (let i = 0; i < buyData.length; i++) {
            // console.log(sellData[i] === item.endDate)
  
            if (buyData[i] === item.endDate) {
-             const ss = buyData[i]
-             console.log(ss)
+             /* const ss = buyData[i]
+             console.log(ss)*/
+             seriesData.push([item.endDate + '', lowPx])
+             console.log(seriesData[i])
              const point = {
                name: 'XX标点',
                coord: [item.endDate + '', lowPx],
@@ -259,9 +264,8 @@
                  }
                }
              }
-             pointData.push(point)
  
-             // console.log(pointData)
+             pointData.push(point)
            }
          }
        })
@@ -275,7 +279,8 @@
          ma30: ma30,
          name: name,
          code: code,
-         pointData: pointData
+         pointData: pointData,
+         seriesData: seriesData
        }
      }
    }),
@@ -290,7 +295,7 @@
        this.innerCode = this.message
        this.$store.dispatch('backtestDetail/queryKline', { innerCode: this.innerCode, strategyId: this.strategyId })
             .then(() => {
-              this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData)
+              this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
             })
      },
      search (e) {
@@ -329,7 +334,8 @@
          this.$store.dispatch('backtestDetail/querySearch', { keyword })
        }
      },
-     drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData) {
+     drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
+       console.log(seriesData)
        const self = this
        self.chart.setOption({
          title: {
@@ -355,7 +361,11 @@
              var closePx = t[0].value[2]
              var highPx = t[0].value[3]
              var lowPx = t[0].value[4]
-             self.ma5 = t[1].value
+             if (t[1].value === null) {
+               self.ma5 = '--'
+             } else {
+               self.ma5 = t[1].value
+             }
              self.ma10 = t[2].value
              self.ma20 = t[3].value
              self.ma30 = t[4].value
@@ -394,7 +404,7 @@
                     '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--')
            }
          },
-         /* legend: {
+         /*legend: {
            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
          },*/
          grid: {
@@ -470,7 +480,18 @@
                    return param.name + '<br>' + (param.data.coord || '')
                  }
                }
-             }
+             }/*,
+             markLine: {
+ 
+               data: [[{
+                 coord: [0, 3],
+                 symbol: 'none'
+               }, {
+                 coord: [10, 13],
+                 symbol: 'none'
+               }]]
+ 
+             }*/
            },
            {
              name: 'MA5',
@@ -519,19 +540,26 @@
                  color: '#2388da'
                }
              }
-           }/*,
+           },
            {
-             name: 'MA40',
+             name: 'biaoshi',
              type: 'line',
-             data: buySell,
+             data: seriesData,
              smooth: true,
+             symbol: 'circle',
+             itemStyle: {
+               normal: {
+                 borderColor: '#000'
+ 
+               }
+             },
              lineStyle: {
                normal: {
-                 opacity: 0.5,
+                 width: 3,
                  color: '#000'
                }
              }
-           }*/
+           }
 
          ]
        })
