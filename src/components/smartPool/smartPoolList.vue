@@ -136,6 +136,7 @@
     text-align: left;
   }
   #smartPoolList{
+    font-family: '宋体';
     background-color: #fff;
     font-size: 12px;
     color: #191919;
