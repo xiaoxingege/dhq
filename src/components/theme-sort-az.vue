@@ -114,7 +114,9 @@
     .every-name a:hover{
        text-decoration: underline;
     }
-
+    .block{
+      color: #696969;
+    }
 </style>
 <template>
    <div class="every-topical-wrap">
