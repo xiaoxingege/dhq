@@ -5,8 +5,10 @@ files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 if [ ${#files[@]} -gt 0 ]; then
   for file in ${files[*]}
   do
+    echo 1,$file
     IFS=.
     ary=($file)
+    echo 2,$file
     if [ "${ary[1]}" = "js" ]; then
       coffee beautifiers/beautify.coffee $file
     fi
