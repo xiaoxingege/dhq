@@ -1,16 +1,18 @@
-<style lang="scss" scoped>
+<style lang="scss">
     @import '../assets/css/base.css';
    html,body .app{height: 100%;}
-    *{box-sizing: border-box;}
+    *{box-sizing: border-box;font-size:12px;font-family: '宋体';}
     .map{background-color: #000;height: 100%;min-width: 1217px;}
     .map_pad{padding: 0 20px;}
     .condition{text-align: left;display: inline-block;}
-    .condition{color:#fff;font-size:14px;opacity: 0.8;}
+    .condition{color:#fff;opacity: 0.8;}
     .condition select{color:#2388da;background-color: #000;border: none;opacity: 1}
-    .condition_wrap{text-align: left;}
+    .condition_wrap{text-align: left;padding-top: 5px;}
+    .mask{width: 100%;position: fixed;top: 0px;left: 0px;z-index: 9999;}
 </style>
 <template>
     <div class="map" v-bind:class="{'map_pad':showCondition}">
+        <div class="mask" :style="{height:maskHeight+'px'}" v-if="isShowMask"></div>
         <div class="condition_wrap" v-if="showCondition">
             <div class="condition">
                 股票范围：
@@ -45,7 +47,7 @@
             </div>
             <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStockId="getFocusStockId"></StockSearch>
         </div>
-        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow"></StockMap>
+        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn"></StockMap>
     </div>
 </template>
 <script type="text/javascript">
@@ -60,7 +62,9 @@ export default{
           showCondition: true,
           focusStockId: '',
           mapHeight: 0,
-          mapWidth: 0
+          mapWidth: 0,
+          maskHeight: window.innerHeight - 35,
+          isShowMask: false
         }
       },
       props: [''],
@@ -76,12 +80,15 @@ export default{
             this.showCondition = true// 非全屏
           }
         },
+        isShowMaskFn: function (mag) {
+          this.isShowMask = mag
+        },
         getFocusStockId: function (msg) {
           this.focusStockId = msg
         }
       },
       mounted () {
-    
+
       }
 
     }

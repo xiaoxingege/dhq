@@ -263,7 +263,8 @@ export default{
                                 showSymbol: false,
                                 lineStyle: {
                                   normal: {
-                                    color: '#666'
+                                    color: '#666',
+                                    width: 1
                                   }
                                 },
                                 data: this.stockList[i].chartData
@@ -305,7 +306,8 @@ export default{
                           showSymbol: false,
                           lineStyle: {
                             normal: {
-                              color: '#fff'
+                              color: '#fff',
+                              width: 1.5
                             }
                           },
                           data: this.node.chartData
@@ -355,7 +357,8 @@ export default{
                showSymbol: false,
                lineStyle: {
                  normal: {
-                   color: '#fff'
+                   color: '#fff',
+                   width: 1.5
                  }
                },
                data: this.node.chartData
