@@ -10,7 +10,7 @@ body {
 
 a,
 .blue {
-  color: #2a8ae1;
+  color: #2388da;
 }
 
 .foundpoollist {}
@@ -78,7 +78,7 @@ td div {
 
 .footer div a {
   line-height: 35px;
-  background: blue;
+  background: #2388da;
   border-radius: 4px;
   color: #fff;
   text-align: center;
@@ -88,11 +88,15 @@ td div {
 
 .up {
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 12px;
   width: 340px;
   padding-top: 20px;
+  color:#666;
 }
-
+.newzuhe li{line-height: 28px;}
+.newzuhe li div{float: left;width:120px;}
+.up1{width:380px;}
+.up1 i{display: inline-block;width:16px;height: 16px;background:url('../assets/images/z3img/ques.png') no-repeat center center;cursor: pointer;}
 .up2 {
   width: 380px;
 }
@@ -154,22 +158,29 @@ td div {
       <div class="up up1" v-if="content===1">
         <ul class="newzuhe">
           <li class="clearfix">
-            <span>基金池</span>
+            <div class="">
+              <span>基金池</span>
+            </div>
             <select class="" name="" v-model="select1">
                   <option :value="item.poolId" v-for="(item,index) in poolsbox"  :selected="item.poolId===poolId" >{{item.poolName}}</option>
             </select>
           </li>
           <li class="clearfix">
-            <span>现金基金</span>
-            <i @click="tips01=!tips01">?<div class="" v-if="tips01">
-                  在构建组合时，起到现金作用的基金。建议选择推荐基金
-            </div></i>
+            <div class="">
+              <span>现金基金</span>
+              <i @click="tips01=!tips01"><div class="" v-if="tips01">
+                    在构建组合时，起到现金作用的基金。建议选择推荐基金
+              </div></i>
+            </div>
+
             <select class="" name="" v-model="select2">
                 <option :value="item.idx" v-for="(item,index) in touzifsdata">{{item.code}}</option>
             </select>
           </li>
           <li class="clearfix">
-            <span>投资方式</span>
+            <div class="">
+              <span>投资方式</span>
+            </div>
             <select class="" name=""  ref="touzifangshi">
               <option value="0">一次性投资</option>
               <option value="1">定投：每月</option>
@@ -178,10 +189,12 @@ td div {
             </select>
           </li>
           <li class="clearfix">
-            <span>起投金额/定投金额</span>
-            <i @click="tips02=!tips02">?<div class="" v-if="tips02">
-                      设置金额低于组合回测的起投金额时，回测结果可能出现问题
-            </div></i>
+            <div class="">
+              <span>起投金额/定投金额</span>
+              <i @click="tips02=!tips02"><div class="" v-if="tips02">
+                        设置金额低于组合回测的起投金额时，回测结果可能出现问题
+              </div></i>
+            </div>
             <select class="" name="" ref="qitoujine">
               <option value="500">500元</option>
               <option value="1000">1000元</option>
@@ -353,7 +366,7 @@ export default {
       // this.dialogShow = false
     },
     getdate () {
-      fetch(`${domain}/openapi/fund/showFundPool.shtml?isRecommend=0&userId=` + this.uuserId + '&orgCode=' + this.orgCode, {
+      fetch(`${domain}/openapi/fund/showFundPool.shtml?isRecommend=0&userId=` + this.userId + '&orgCode=' + this.orgCode, {
         method: 'GET',
         mode: 'cors',
         cache: 'default'
