@@ -89,7 +89,7 @@
         <div class="newDetail">
             <span>研报类型：{{result.resType}}</span>
             <span class="reportTime">发布机构：{{result.srcName}}</span>
-            <span>发布时间：{{result.declareDate}}</span>
+            <span>发布时间：{{reportDate}}</span>
         </div>
         <div class="newMain" v-html="reformatReportContent" ></div>
         <p class="reportDownload">
@@ -132,6 +132,10 @@
         urlId: function () { return this.$route.params.id },
         date: function () {
           const date = new Date(this.result.news.createTime)
+          return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
+        },
+        reportDate: function () {
+          const date = new Date(this.result.declareDate)
           return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
         }
       },
