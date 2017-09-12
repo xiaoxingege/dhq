@@ -51,6 +51,9 @@ export default {
     },
     setSyqxtData (state, result) {
       if (result.errCode === 0) {
+        state.syqxtData.xData = []
+        state.syqxtData.data1 = []
+        state.syqxtData.data2 = []
         const data = result.data
         for (var i = 0; i < data.length; i++) {
           state.syqxtData.xData.push(data[i].backtestDate)
@@ -65,6 +68,9 @@ export default {
     },
     setDrykData (state, result) {
       if (result.errCode === 0) {
+        state.drykData.xData = []
+        state.drykData.data1 = []
+        state.drykData.data2 = []
         const data = result.data
         for (var i = 0; i < data.length; i++) {
           state.drykData.xData.push(data[i].backtestDate)
@@ -87,6 +93,8 @@ export default {
     },
     setMrccData (state, result) {
       if (result.errCode === 0) {
+        state.drykData.xData = []
+        state.drykData.data1 = []
         const data = result.data
         for (var i = 0; i < data.length; i++) {
           state.mrccData.xData.push(data[i].backtestDate)
@@ -99,6 +107,9 @@ export default {
     },
     setSyytjData (state, result) {
       if (result.errCode === 0) {
+        state.syytjData.xData = []
+        state.syytjData.data1 = []
+        state.syytjData.data2 = []
         const data = result.data
         state.syytjData.xData = data.backtestDate
         state.syytjData.data1 = data.backtestData
@@ -111,6 +122,9 @@ export default {
     },
     setSylfbData (state, result) {
       if (result.errCode === 0) {
+        state.sylfbData.xData = []
+        state.sylfbData.data1 = []
+        state.sylfbData.data2 = []
         const data = result.data
         for (var i = 0; i < data.rates.length; i++) {
           state.sylfbData.xData = Number(data.rates[i]).toFixed(2) + '%'
@@ -130,6 +144,7 @@ export default {
     },
     setMrjyData (state, result) {
       if (result.errCode === 0) {
+        state.mrjyData = null
         state.mrjyData = result.data
       } else {
         state.mrjyData = null
@@ -137,6 +152,7 @@ export default {
     },
     setDqxgData (state, result) {
       if (result.errCode === 0) {
+        state.dqxgData = null
         state.dqxgData = result.data
       } else {
         state.dqxgData = null
