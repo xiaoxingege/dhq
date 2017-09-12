@@ -6,6 +6,7 @@
     .more-strategy a{color:#4c8cca;}
     .recommend-strategy-chart{width: 100%;height:77.5%;}
     .strategy-description{color:#666;height:13%;padding-top: 15px;}
+    .strategy-description p{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight: bold;}
 </style>
 <template>
@@ -104,7 +105,7 @@
                           boundaryGap: false,
                           axisLabel: {
                             formatter: function (val) {
-                              return val.toFixed(2) + '%'
+                              return 100 * val + '%'
                             }
                           }
                         },
@@ -117,7 +118,7 @@
                           formatter: function (params) {
                             var s = params[0].name
                             for (var i = 0; i < params.length; i++) {
-                              s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + params[i].value.toFixed(2) + '%'
+                              s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + (100 * params[i].value).toFixed(2) + '%'
                             }
                             return s
                           }

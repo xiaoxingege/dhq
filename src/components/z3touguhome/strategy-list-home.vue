@@ -70,7 +70,7 @@ export default {
           this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio)// 胜率
           this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown)// 最大回撤
           this.strategyData.annualReturn = this.formatData(this.strategyData.strategy.evaluationIndexs.annualReturn)// 年化收益率
-          this.strategyData.sharpe = this.formatData(this.strategyData.strategy.evaluationIndexs.sharpe)// 夏普比率
+          this.strategyData.sharpe = (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2)// 夏普比率
           for (let i = 0; i < this.strategyData.strategy.returns.length; i++) {
             this.strategyData.backtestDate.push(this.strategyData.strategy.returns[i].backtestDate)// 时间
             this.strategyData.totalReturn.push(this.strategyData.strategy.returns[i].totalReturn)// 总收益率
@@ -152,7 +152,7 @@ export default {
         formatData: function (val) {
           let getVal
           if (val) {
-            getVal = val.toFixed(2) + '%'
+            getVal = (100 * val).toFixed(2) + '%'
           } else {
             getVal = '--'
           }

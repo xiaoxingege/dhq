@@ -14,8 +14,10 @@ export default{
         let popupVm = vm.$refs[popup];
 
         el.addEventListener('mouseover' ,(event)=>{
-          popupVm.$props.left = event.x + 40;
-          popupVm.$props.top = event.y - 20;
+          let scrollTop = window.pageYOffset || window.scrollY;
+          let scrollleft = window.pageXOffset || window.scrollX;
+          popupVm.$props.left = event.x + parseInt(scrollleft) + 40;
+          popupVm.$props.top = event.y + parseInt(scrollTop) - 20;
           popupVm.isShow = true;
           popupVm.$props.stockCode = code;
         });
@@ -71,6 +73,14 @@ export default{
             }
         }
     );
+    // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
+    //   let openQrcode = function(e){
+    //     let div = "<div><canvas></canvas></div>"
+    //   }
+    //   el.addEventListener('click',(event) => {
+
+    //   })
+    // })
     // 3. 注入组件
     // Vue.mixin({
     //   created: function () {
