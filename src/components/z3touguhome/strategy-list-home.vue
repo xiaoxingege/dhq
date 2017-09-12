@@ -152,7 +152,7 @@ export default {
         formatData: function (val) {
           let getVal
           if (val) {
-            getVal = val.toFixed(2) + '%'
+            getVal = (100 * val).toFixed(2) + '%'
           } else {
             getVal = '--'
           }
