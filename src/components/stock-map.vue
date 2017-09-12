@@ -369,8 +369,8 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 0.0001,
-                            childrenVisibleMin: 500,
+                            visibleMin: 0.001,
+                            childrenVisibleMin: 0.001,
                             width: '100%',
                             height: '100%',
                             label: {
