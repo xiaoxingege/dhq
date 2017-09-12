@@ -8,7 +8,7 @@
         z-index: 999999;
         text-align: left;
     }
-    .newsTitle{
+    .newsTitle {
         background:#F2F2F2;
         height:22px;
         line-height: 22px;
