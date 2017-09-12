@@ -83,6 +83,7 @@ export default {
         initStrategy: function () {
           this.strategy = this.strategyDetail
           this.chart = echarts.getInstanceByDom(this.$refs.chartList) || echarts.init(this.$refs.chartList)
+          this.chart.showLoading()
           this.chart.setOption({
             legend: {
               left: 0,
@@ -158,6 +159,7 @@ export default {
               }
             ]
           })
+          this.chart.hideLoading()
         },
         formatData: function (val) {
           let getVal
