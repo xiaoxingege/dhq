@@ -20,13 +20,13 @@ li {
   list-style: none;
 }
 
-.app>* {
+/*.app>* {
   position: absolute;
   top: 0;
   width: 100%;
   animation-duration: .2s;
   -webkit-animation-duration: .2s;
-}
+}*/
 </style>
 
 <template>

@@ -22,6 +22,18 @@
     tr:nth-child(2n) td{
         color:#191919;
     }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .tableList{
+            background: #fff;
+            font-size:0.18rem;
+        }
+        td{
+            color:#191919;
+            text-align: center;
+            height:0.4rem;
+            line-height: 0.4rem;
+        }
+    }
 </style>
 <template>
     <div class="tableList">
@@ -34,6 +46,8 @@
 </template>
 <script>
 export default{
-  props: ['data']
+  props: ['data'],
+  mounted () {
+  }
 }
 </script>

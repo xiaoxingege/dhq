@@ -1,7 +1,17 @@
 <style>
-.lineChart{
-    height:420px;
-}
+    .lineChart{
+        width:100%;
+        height:420px;
+        padding-top:20px;
+    }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+        .lineChart{
+            width:100%;
+            height:4.2rem;
+            padding-top:0;
+            padding-bottom: 0.1rem;
+        }
+    }
 </style>
 <template>
     <div class="lineChart" ref="lineChart"></div>
@@ -27,13 +37,14 @@
         initChart () {
           this.$store.dispatch('goldStrategy/getSyqxtData', { strategyId: this.strategyId }).then(() => {
             const lineData = this.$store.state.goldStrategy.syqxtData
-            this.chart = echarts.init(document.getElementsByClassName('lineChart')[0])
+            this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], { width: window.screen.width / 100 + 'rem', height: 2.1 + 'rem' })
             this.chart.setOption({
               backgroundColor: '#fff',
               legend: {
-                left: 43,
-                top: 10,
+                left: '1%',
+                top: 0,
                 itemWidth: 8,
+                orient: 'vertical',
                 data: [{
                   name: '策略收益率',
                   icon: 'circle'
@@ -92,6 +103,9 @@
                     return val + '%'
                   }
                 },
+                nameTextStyle: {
+                  fontSize: 10
+                },
                 position: 'left',
                 min: 'dataMin',
                 max: 'dataMax'
@@ -112,11 +126,10 @@
               color: ['#5597d3', '#f1975d', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
                 'rgba(0,0,0,0)', 'rgba(0,0,0,0)'],
               grid: {
-                width: '97.7%',
-                height: '280px',
-                left: '1%',
-                x: 10,
-                x2: 10,
+                width: '97%',
+                height: '75%',
+                left: 0,
+                top: '15%',
                 containLabel: true
               },
               dataZoom: [{
@@ -125,7 +138,8 @@
                 showDetail: false,
                 xAxisIndex: [0],
                         // bottom:-10,
-                left: 46,
+                left: '2%',
+                bottom: 0,
                 start: 0,
                 end: 100,
                 textStyle: {
@@ -133,7 +147,7 @@
                 },
                         // borderColor: '#d5dbe4',
                 width: '95%',
-                height: '30',
+                height: '8%',
                 handleSize: '100%',
                 dataBackground: {
                   areaStyle: {
@@ -149,12 +163,15 @@
                 }
               }]
             })
+            const that = this
+            window.onresize = function () {
+              that.chart.resize()
+            }
           })
         },
         updateChart () {
 
         }
-
       },
       mounted () {
         this.initChart()

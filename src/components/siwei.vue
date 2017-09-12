@@ -284,8 +284,8 @@
           analystColor: Data.AnalystColor,
           tmpId: 'demoTmp1',
           options: {
-            xDefault: 'mkt_idx.pe_ttm',
-            yDefault: 'fin_idx.sale',
+            xDefault: 'perf_idx.chng_pct_month',
+            yDefault: 'fcst_idx.fcst_eps_chng_next3',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month',
             indexRangeDefault: '',
@@ -298,8 +298,8 @@
             topic: ''
           },
           dimensionOptions: {
-            xDefault: 'mkt_idx.pe_ttm',
-            yDefault: 'fin_idx.sale',
+            xDefault: 'perf_idx.chng_pct_month',
+            yDefault: 'fcst_idx.fcst_eps_chng_next3',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month'
           },
@@ -313,18 +313,18 @@
             innerCode: '',
             topic: ''
           },
-          xData: '市盈率(TTM)',
-          yData: '营业收入',
+          xData: '近1月涨跌幅',
+          yData: 'EPS增长率(未来3年)',
           sizeData: '流通市值',
           colorData: '近1月涨跌幅',
           templateList: {
             'demoTmp1': {
-              name: '模板1',
+              name: '盘面与股价涨跌关系',
               options: {
-                xDefault: 'mkt_idx.pe_ttm',
-                yDefault: 'fin_idx.sale',
+                xDefault: 'perf_idx.chng_pct_month',
+                yDefault: 'fcst_idx.fcst_eps_chng_next3',
                 sizeDefault: 'mkt_idx.mktcap',
-                colorDefault: 'mkt_idx.chng_pct_week',
+                colorDefault: 'perf_idx.chng_pct_month',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
@@ -336,12 +336,12 @@
               }
             },
             'demoTmp2': {
-              name: '模板2',
+              name: '估值与股价涨跌关系',
               options: {
-                xDefault: 'fin_idx.eps_qua_rr',
+                xDefault: 'perf_idx.chng_pct_month',
                 yDefault: 'mkt_idx.pe_ttm',
-                sizeDefault: 'mkt_idx.mktcap',
-                colorDefault: 'mkt_idx.chng_pct_week',
+                sizeDefault: '',
+                colorDefault: 'perf_idx.chng_pct_month',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',
@@ -353,11 +353,11 @@
               }
             },
             'demoTmp3': {
-              name: '模板3',
+              name: '行业与股价涨跌幅关系分析',
               options: {
-                xDefault: 'mkt_idx.chng_pct_week',
-                yDefault: 'mkt_idx.rela_ma20',
-                sizeDefault: 'mkt_idx.mktcap',
+                xDefault: 'sw_indu_name',
+                yDefault: 'mkt_idx.peg',
+                sizeDefault: '',
                 colorDefault: 'mkt_idx.chng_pct_week',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
@@ -370,12 +370,12 @@
               }
             },
             'demoTmp4': {
-              name: '模板4',
+              name: '分析师观点与股价涨跌关系',
               options: {
-                xDefault: 'mkt_idx.chng_pct_week',
-                yDefault: 'mkt_idx.rela_ma20',
-                sizeDefault: 'mkt_idx.mktcap',
-                colorDefault: 'sw_indu_name',
+                xDefault: 'fcst_idx.rating_syn',
+                yDefault: 'fcst_idx.expect_price_med',
+                sizeDefault: '',
+                colorDefault: 'mkt_idx.rela_volume',
                 indexRangeDefault: '',
                 industryRangeDefault: '',
                 marketValueDefault: 'gpltsz_all',

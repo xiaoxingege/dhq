@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 // initial state
 export default {
@@ -30,7 +31,12 @@ export default {
       data1: [],
       data2: []
     },
-    mrjyData: null
+    mrjyData: null,
+    dqxgData: null,
+    radarData: {
+      legend: [],
+      data: []
+    }
   },
   mutations: {
     setGoldOptions (state, result) {
@@ -128,12 +134,34 @@ export default {
       } else {
         state.mrjyData = null
       }
+    },
+    setDqxgData (state, result) {
+      if (result.errCode === 0) {
+        state.dqxgData = result.data
+      } else {
+        state.dqxgData = null
+      }
+    },
+    setRadarData (state, result) {
+      if (result.errCode === 0) {
+        const radarData = result.data
+        const colorArr = ['#F6B03D', '#4591FC', '#73BF1C']
+        for (var i = 0; i < radarData.length; i++) {
+          state.radarData.legend.push(radarData[i].tradeDate)
+          state.radarData.data.push(
+            {
+              value: [radarData[i].growth, radarData[i].leverage, radarData[i].liquidity, radarData[i].momentum, radarData[i].size, radarData[i].value, radarData[i].volatility, radarData[i].quality, radarData[i].analystExpect, radarData[i].shareHolder], name: radarData[i].tradeDate, itemStyle: { normal: { color: colorArr[i] }}
+            })
+        }
+      } else {
+        state.radarData = null
+      }
     }
   },
   actions: {
     getGoldStrategyData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -143,7 +171,7 @@ export default {
     },
     getSyqxtData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -153,7 +181,7 @@ export default {
     },
     getDrykData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/profits.shtml?strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/profits.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -163,7 +191,7 @@ export default {
     },
     getMrccData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/positionRatios.shtml?strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/positionRatios.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -173,7 +201,7 @@ export default {
     },
     getSyytjData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/monthProfit.shtml?strategyId=strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/monthProfit.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -183,7 +211,7 @@ export default {
     },
     getSylfbData ({ commit }, { strategyId }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/sellProfit.shtml?strategyId=strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/sellProfit.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -191,14 +219,34 @@ export default {
         commit('setSylfbData', body)
       })
     },
-    getMrjyData ({ commit }, { strategyId }) {
+    getMrjyData ({ commit }, { strategyId, page }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`http://www.z3quant.com/openapi/backtest/goldStrategy/tradeDetail.shtml?strategyId=strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/tradeDetail.shtml?strategyId=${strategyId}&size=10&page=${page || 0}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(body => {
         commit('setMrjyData', body)
+      })
+    },
+    getDqxgData ({ commit }, { strategyId, pageNum }) {
+      commit('setGoldOptions', strategyId)
+      return fetch(`${domain}/openapi/backtest/goldStrategy/stock.shtml?strategyId=${strategyId}&pageSize=10&pageNum=${pageNum || 0}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setDqxgData', body)
+      })
+    },
+    getRadarData ({ commit }, { strategyId }) {
+      commit('setGoldOptions', strategyId)
+      return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setRadarData', body)
       })
     }
   }

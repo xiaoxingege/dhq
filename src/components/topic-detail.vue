@@ -7,7 +7,7 @@
       font-style: normal;
     }
     a{
-      color: #191919;
+      color: #696969;
     }
     .blue{
       color: #2388da;
@@ -52,7 +52,7 @@
         width: 100%;
         background: #f2f2f2;
         font-size: 12px;
-        color: #191919;
+        color: #696969;
         height: 100%;
     }
     .header{
@@ -82,12 +82,12 @@
       width: 37px;
       text-align: center;
     }
-    
+
     .detail-content{
       margin: 9px;
     }
     .detail-main{
-      
+
     }
     .main-left{
       width: 60%;
@@ -135,10 +135,10 @@
       width: 70%;
       text-align: left;
       float: left;
-      white-space: nowrap;  
-      overflow: hidden;  
+      white-space: nowrap;
+      overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 25px; 
+      line-height: 25px;
 
     }
     .new-date{
@@ -170,7 +170,8 @@
       background: #fff;
     }
     .view-all2{
-      margin-right:9%;
+      /* margin-right:9%; */
+      margin-right: 6%;
     }
     .view-all i{
       width: 0;
@@ -186,11 +187,11 @@
       width: 39%;
       /* max-height: 898px; */
       background: #fff;
-      /* max-height: 74.7em; 
+      /* max-height: 74.7em;
       height: 55.7rem;*/
     }
     .main-right2{
-      height:896px; 
+      height:896px;
     }
     .right-con{
        background: #fff;
@@ -199,7 +200,7 @@
     table{
       border-spacing: 1px;
       width: 100%;
-      /* border-collapse:collapse; 
+      /* border-collapse:collapse;
       border-spacing:0;  */
       padding-bottom: 10px;
     }
@@ -212,7 +213,8 @@
     }
     .right-con td{
       text-align: center;
-      width: 18%;
+      /* width: 18%; */
+      width: 19%;
       float: left;
       font-weight: 400;
     }
@@ -228,18 +230,23 @@
       position: relative;
     }
     .txt-td{
-      position: absolute;
+     /*  position: absolute;
       top: -5px;
-      left: 31%;
+      left: 31%; */
+      position: relative;
+      top: -5px;
+      left: 5px;
     }
     .num-td{
       position: absolute;
       top: 10px;
-      left: 34%;
+      /* left: 34%; */
+      left: 39%;
       font-size: 12px;
     }
     .right-con .td1{
-      width: 22%;
+      /* width: 22%; */
+      width: 24%;
     }
     .chart{
        height: 100%;
@@ -289,7 +296,7 @@
                       <div class="left-con1 mb-8">
                           <strong>最新事件</strong>
                           <div>
-                            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> 
+                            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
                               <span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span></router-link>
                           </div>
                           <div>
@@ -313,13 +320,13 @@
                       <div class="left-con3 clearfix" :class="informatList.length<15 && inforPageSize>9?'left-con3-1':''">
                           <strong class="mb-8" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}</strong><strong>相关资讯</strong>
                           <div class="in-content">
-                              <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> 
-                               <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList"> 
+                              <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
+                               <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList">
                                  <span class="new-tit">{{infor.title}}</span>
                                  <span class="new-date">{{format(infor.declareDate)}}</span>
                                  <span class="new-srcname">{{infor.srcName}}</span>
                                 </a>
-                               </router-link>  
+                               </router-link>
                           </div>
                           <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList"><router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link></div>
                       </div>
@@ -343,13 +350,13 @@
                                  <td>{{stock.industryName}}</td>
                                  <td class="blue" :title="stock.topicMark">关联原因</td>
                               </tr>
-                             
+
                           </tbody>
                           <tfoot>
                                 <a :href="`http://www.z3quant.com/dbus/filter.shtml?from=topic&&topicCode=detail.topicCode`"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
-                        
+
                   </div>
               </div>
         </div>      
@@ -364,7 +371,7 @@
             </div>
             <div class="right">
                 <div class="stock-list"></div>
-            </div> 
+            </div>
         </div>-->
     </div>
 </template>
@@ -496,7 +503,7 @@
           }
         //   stockNum: state => state.topic.stockList.length,
         //   newsNum: state => state.topic.news.length
-    
+
         })
       },
       watch: {
@@ -600,7 +607,7 @@
                 name: '沪深300',
                 icon: 'pin'
               }]
-    
+
             },
             toolbox: {
               show: false
@@ -702,7 +709,7 @@
                 symbol: ''// 标记的图形
               }
             }]
-    
+
           })
         },
         format (date) {
@@ -728,7 +735,7 @@
                       this.chart.setOption({*/
         /* drawCharts () {
           const myChart = echarts.init(document.getElementById('chart'))*/
-    
+
       },
       created () {
         window.addEventListener('resize', this.handleResize)

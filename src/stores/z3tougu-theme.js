@@ -125,7 +125,7 @@ export default {
       state.topic.news = news
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
-      const stocks = state.topic.relatedStocks
+      const stocks = state.relatedStocks
       stocks[stock.innerCode].price = stock.price
       stocks[stock.innerCode].chg = stock.chg
       stocks[stock.innerCode].curChngPct = stock.curChngPct
@@ -291,4 +291,3 @@ export default {
     }
   }
 }
-

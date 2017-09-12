@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 // initial state
 export default {
@@ -105,8 +106,9 @@ export default {
   },
   actions: {
     getBubblesData ({ commit }, { options }) {
+      // alert(`xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=${options.topic}&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=${options.innerCode}&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`)
       commit('setBubblesOptions', options)
-      return fetch('http://www.z3quant.com/openapi/findBubbles', {
+      return fetch(`${domain}/openapi/findBubbles`, {
         mode: 'cors',
         headers: {
           'Accept': 'application/json',
@@ -122,7 +124,7 @@ export default {
     },
     getStockPool ({ commit }, { userId }) {
       commit('setStockOptions', userId)
-      return fetch(`http://www.z3quant.com/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -132,7 +134,7 @@ export default {
     },
     getStrategy ({ commit }, { userId }) {
       commit('setStrategyOptions', userId)
-      return fetch(`http://www.z3quant.com/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
+      return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

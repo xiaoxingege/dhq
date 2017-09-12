@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
     .searchResult{
+        background:#fff;
         font-size:12px;
         color:#191919;
         font-family: "宋体";
@@ -61,7 +62,7 @@
             </li>
         </ul>
         <ul v-if="searchType == 'infor'">
-            <p>搜索资讯数：<span>{{total}}</span></p>
+            <p>搜索资讯数：<span>{{total}}</span><span></span></p>
             <li  v-for="item of resultData">
                 <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}" target="_blank">{{item.newsTitle}}</router-link>
                 <p class="searchInfo">{{item.newsSummary}}</p>
@@ -69,7 +70,7 @@
             </li>
         </ul>
         <ul v-if="searchType == 'report'">
-            <p>搜索研报数：<span>{{total}}</span></p>
+            <p>搜索研报数：<span>{{total}}</span><span></span></p>
             <li  v-for="item of resultData">
                 <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}" target="_blank">{{item.reportTitle}}</router-link>
                 <p class="searchInfo">{{item.reportSummary}}</p>
