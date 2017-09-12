@@ -7,6 +7,8 @@
     .siwei{
         background:#000;
         width:100%;
+        min-height:710px;
+        min-width: 1217px;
     }
     .bubbles-bar{
         font-size:12px;
