@@ -21,7 +21,7 @@
     </div>
 </template>
 <script type="text/javascript">
-    import StrategyListHome from 'components/z3touguhome/strategy-list-home'
+    import StrategyListHome from 'components/z3touguhome/strategy-box'
     import Pagination from 'components/pagination.vue'
     export default {
       data () {
