@@ -196,7 +196,8 @@ export default {
     'filterParams': {
       deep: true,
       handler: function (oldVal, newVal) {
-        this.$emit('change', newVal)
+        this.$emit('query', newVal)
+        this.$emit('exportFoundPool', newVal)
       }
     }
   }

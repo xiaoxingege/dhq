@@ -1,6 +1,5 @@
 import 'whatwg-fetch'
 import { domain } from '../z3tougu/config'
-
 const PAGE_SIZE = 10
 
 export const types = {
@@ -76,19 +75,34 @@ export default {
     }
   },
   actions: {
-
+    // 获取查询数据
     getFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
       const url = `${domain}/openapi/fund/strategyByParam.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
       return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
-        console.log(result)
         if (result.errCode === 0) {
           commit(types.ADD_FUNDPOLL, result.data)
           commit('upDataPage', { page: result.data.fundList.number, pageSize: result.data.fundList.size, totalPages: result.data.fundList.totalPages })
         }
       })
     },
+    // 导出筛选数据
+    // exportFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+    //   const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
+    //   return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+    //     return res.blob()
+    //   }).then(result => {
+    //     alert()
+    //     var date = new Date()
+    //     var url = window.URL.createObjectURL(result)
+    //     var a = document.createElement('a')
+    //     a.href = url
+    //     a.download = '巨灵智胜基金筛选' + formatDateStr(date) + '.xlsx'
+    //     a.click()
+    //   })
+    // },
+    // 收益率表现
     getSylbx ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -97,6 +111,7 @@ export default {
         commit('getSylbx', result.data)
       })
     },
+     // 年化收益率
     getNhsyl ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -105,6 +120,7 @@ export default {
         commit('getNhsyl', result.data)
       })
     },
+    // 最大回撤
     getZdhc ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -113,6 +129,7 @@ export default {
         commit('getZdhc', result.data)
       })
     },
+    // 夏普率
     getXpb ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {
@@ -121,6 +138,7 @@ export default {
         commit('getXpb', result.data)
       })
     },
+     // 超额收益率
     getCesyl ({ commit }, { idxId, jjlx }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then(res => {

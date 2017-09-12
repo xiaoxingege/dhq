@@ -3,36 +3,40 @@
     <div class="filterTop clearfix">
       <div class="filterBox fl">
         <div class="topBar cleafix">
-          <a href="javascript:;" class="fr btn">导出基金</a>
+          <a href="javascript:;" class="fr btn" @click='exportFundPool'>导出基金</a>
           <ul class="tabList fl">
             <li class="active">筛选条件</li>
           </ul>
         </div>
         <!-- 筛选条件 -->
-        <filter-select @change='query' @change1='filterType' :options = 'options' @selectType = 'selectType'></filter-select>
+        <filter-select @query='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options = 'options' @selectType = 'selectType'></filter-select>
+        <!-- 筛选条件 end-->
       </div>
       <!-- 临时基金池 -->
       <div class="fundPool fl">
         <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
         <ul class="fundPoolList">
           <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
+          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合&nbsp;</div></li>
         </ul>
       </div>
+      <!-- 临时基金池 end-->
     </div>
-    <!-- 筛选内容 -->
+
     <div class='filterCon'>
       <div class='top clearfix'>
         <span class="fl">找到基金数：{{fundNum}}</span>
         <div class="search pr fr ml-20">
           <i class="icon_search"></i>
-          <input v-model='searchVal' class="searchInput" type="txt" name="name" value="" placeholder='在结果中搜索' @keyup.enter='search'>
+          <input v-model='searchVal' class="searchInput fl" type="txt" name="name" value="" placeholder='在结果中搜索' @keyup.enter='search'>
+          <a href="javascript:;" class="s_btn fl" @click='search'>搜索</a>
         </div>
         <label for="jdx" class="fr">
           <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
           仅显示代销基金
         </label>
       </div>
-      <!-- 全部 -->
+      <!-- 筛选数据 -->
       <div>
         <table class="table tc">
           <thead>
@@ -70,14 +74,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for='(item,index) in foundPoolList'>
+            <tr v-for='(item,index) in foundPoolListData.foundPoolList'>
               <td>{{number*numberOfElements+index+1}}</td>
               <td :class="{'blue' : item.consignment == 1}">{{item.innerCode | isNull}}</td>
               <td :class="{'blue' : item.consignment == 1}" class="tl">{{item.name | isNull}}</td>
               <td>{{format(item.estabDate) | isNull}}</td>
               <td>{{item.fundScale | isNull}}</td>
               <td>{{item.managerDurationMax | isNull}}</td>
-              <td v-if='typeIndex === 1 || typeIndex === 2'>{{item.hyName | isNull}}</td>
+              <td v-if='typeIndex === 1 || typeIndex === 2'><p class="hyname tc" :title='item.hyName'>{{item.hyName | isNull}}</p></td>
               <td v-if='typeIndex === 1 || typeIndex === 2'>{{item.fundFav| isNull}}</td>
               <td v-if='typeIndex === 0 || typeIndex === 3'>{{item.fundTypeName  | isNull}}</td>
               <td v-if='typeIndex === 6'>{{item.staticYield | isNull }}</td>
@@ -110,24 +114,46 @@
           </tbody>
         </table>
       </div>
+      <!-- 筛选数据 end-->
+      <!-- 分页 -->
       <Pagination v-if="foundPoolListLength > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
-      <p class="tc mt-10" v-if="foundPoolListLength === 0" >暂无数据</p>
+      <!-- 分页  end-->
+      <p class="zwsj tc" v-if="foundPoolListLength === 0" ><img src='../../assets/images/empty_data.png'/></p>
     </div>
     <!-- 弹框 -->
-    <filter-dialog v-if="dialogShow" @close="dialogCloseFn" @dialogOkFn='dialogOkFn' :title='popTitle' :okbtntxt='okbtntxt' :tsTxt='tsTxt' :content='content'></filter-dialog>
+    <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogCloseFn">
+      <div slot='content'>
+        <div class="up" v-if="content == 1">
+          <span>基金池名称</span><input v-model='inputPoolName' type="text" name="" placeholder="请输入基金池名称">
+          <p class="msg">{{msg}}</p>
+        </div>
+        <div class="up" v-if="content == 2">
+          <p class="msg2 tc">{{msg}}</p>
+        </div>
+        <div class="down">
+          <button v-if="content == 1" @click='save'>保存</button>
+          <button v-if="content == 2" @click='dialogCloseFn'>确认</button>
+        </div>
+      </div>
+    </founddialog>
+    <!-- 弹框 end-->
   </div>
 </template>
 
 <script>
+  import 'whatwg-fetch'
+  import { domain } from '../../z3tougu/config'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
+  import founddialog from 'components/founddialog'
   import FilterSelect from 'components/filter/filter-select'
-  import FilterDialog from 'components/filter/filter-dialog'
   import Pagination from 'components/pagination'
+  import { formatDate } from '../../utils/date'
   export default {
     data () {
       return {
         lsfoundPoolList: [],
+        foundPoolList: [],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -135,17 +161,20 @@
         popTitle: '',
         tsTxt: '',
         content: 1,
+        inputPoolName: '',
         okbtntxt: '保存',
         typeIndex: 0,
-        sortField: '',
         page: 0,
         pageSize: 20,
-        orgCode: 200180365,
         type2: 'jjlx_all',
         searchVal: '',
         sort: 'innerCode,asc',
         num: 0,
+        userId: '3dce11a5-7db5-42a8-b2d0-81cb70dc10dd',
+        orgCode: 200180365,
+        fundCodes: '',
         isConsignment: 0,
+        msg: '',
         filterParams2: {
           jjlx: 'jylx_all', // 基金类型
           jyzt: 'jyzt_all', // 交易状态
@@ -167,21 +196,19 @@
     },
     filters: {
       isNull (value) {
-        return value === null ? '--' : value
+        return value === null || value === '' ? '--' : value
       },
       filterNum (value, type) {
-        return value === null ? '--' : value.toFixed(2) + type
+        return value === null || value === '' ? '--' : value.toFixed(2) + type
       }
     },
     components: {
       FilterSelect,
-      FilterDialog,
+      founddialog,
       Pagination
     },
     computed: {
       ...mapState([
-        'foundPoolList',
-        'lsfoundPoolList',
         'totalPage',
         'number',
         'numberOfElements',
@@ -191,8 +218,6 @@
         'foundPoolListLength'
       ]),
       ...mapGetters({
-        foundPoolList: 'foundPoolList',
-        lsfoundPoolList: 'lsfoundPoolList',
         totalPage: 'totalPage',
         numberOfElements: 'numberOfElements',
         number: 'number',
@@ -200,9 +225,18 @@
         page: 'page',
         pageSize: 'pageSize',
         foundPoolListLength: 'foundPoolListLength'
+      }),
+      ...mapState({
+        foundPoolListData: state => {
+          const list = state.filter.foundPoolList
+          return {
+            foundPoolList: list
+          }
+        }
       })
     },
     methods: {
+      // 排序
       sorts (value) {
         this.num === this.num++
         if (this.num === 1) {
@@ -216,36 +250,73 @@
         }
         this.query(this.filterParams2, this.page, this.type2)
       },
+      // 下拉切换数据
       seletenumfn (v) {
         this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
         this.seletetimeshow = false
       },
+      // 加入临时基金池
       addIinterimFunds (item) {
-        this.lsfoundPoolList.push(item)
-        item.inTempPools = true
+        if (this.lsfoundPoolList.length > 50) {
+          this.dialogShow = true
+          this.content = 2
+          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
+        } else {
+          this.lsfoundPoolList.push(item)
+          item.inTempPools = true
+        }
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
+          console.log(fund.innerCode === fundid)
           return fund.innerCode === fundid
         })
       },
-      showDialogFn (content) {
+      // 显示弹框
+      showDialogFn () {
         this.dialogShow = true
-        this.content = content
         this.popTitle = '保存当前基金池'
-        this.tsTxt = '基金池为空，无法保存！'
+        if (this.lsfoundPoolList.length <= 0) {
+          this.content = 2
+          this.msg = '基金池为空，无法保存。'
+        } else if (this.lsfoundPoolList.length > 50) {
+          this.content = 2
+          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
+        } else {
+          this.content = 1
+          this.msg = ''
+        }
       },
       dialogCloseFn () {
         this.dialogShow = false
       },
-      dialogOkFn () {
-        if (this.content === 1) {
-          alert('保存')
-          this.dialogShow = false
-        } else if (this.content === 2) {
-          this.dialogShow = false
+      // 保存临时基金池
+      save () {
+        this._saveFundPool()
+        for (let i = 0; i < this.lsfoundPoolList.length; i++) {
+          this.fundCodes += this.lsfoundPoolList[i].innerCode + ','
         }
+        this.fundCodes = ''
       },
+      _saveFundPool () {
+        const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${this.fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
+        return fetch(url, { method: 'POST', mode: 'cors' }).then(res => {
+          return res.json()
+        }).then(result => {
+          console.log(result)
+          if (result.errCode === 0) {
+            this.dialogShow = false
+            this.$router.push({ path: '/foundpooldetail/' + result.data })
+          } else if (result.errCode === 1505 || result.errCode === 1501 || result.errCode === -1) {
+            this.msg = result.msg
+            this.errCode = result.errCode
+            if (result.errCode === -1) {
+              this.content = 2
+            }
+          }
+        })
+      },
+      // 筛选类型切换查询
       selectType (index, type) {
         this.typeIndex = index
         this.type2 = type
@@ -254,8 +325,9 @@
           this.init()
         }
       },
+       // 删除股票池状态
       delFoundPoolList (index, item) {
-        this.foundPoolList.some((fund) => {
+        this.foundPoolListData.foundPoolList.some((fund) => {
           if (fund.innerCode === item.innerCode) {
             fund.inTempPools = false
             return true
@@ -263,6 +335,7 @@
         })
         this.lsfoundPoolList.splice(index, 1)
       },
+      // 删除股票池数据
       removeInterimFunds (item) {
         item.inTempPools = false
         this.lsfoundPoolList.some((fund, index) => {
@@ -278,15 +351,33 @@
       filterType (type) {
         this.type2 = type
       },
+      // 获取筛选数据
       query (filterParams, type) {
         this.filterParams2 = filterParams
         this.$store.dispatch('getFundPool', { type: this.type2, option: this.filterParams2, isConsignment: this.isConsignment, searchVal: this.searchVal, page: this.page, pageSize: this.pageSize, orgCode: this.orgCode, sort: this.sort })
+      },
+      // 导出筛选数据
+      exportFundPool () {
+        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+        return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+          return res.blob()
+        }).then(result => {
+          var date = new Date()
+          var url = window.URL.createObjectURL(result)
+          var a = document.createElement('a')
+          a.href = url
+          a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
+          a.click()
+        })
       },
       format (time) {
         if (time === null) {
           return '--'
         }
         return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+      },
+      formatDates (datestr) {
+        return formatDate(datestr, 'yyMMddhhmm ')
       },
       checked (e) {
         const checked = e.target.checked
@@ -298,9 +389,11 @@
           this.query(this.filterParams2, this.page, this.type2)
         }
       },
+      // 搜索查询
       search () {
         this.query(this.filterParams2, this.page, this.type2)
       },
+      // 初始化筛选条件
       init () {
         this.filterParams2.jyzt = 'jyzt_all'
         this.filterParams2.jjlx = 'jylx_all' // 基金类型
@@ -325,18 +418,22 @@
     },
     mounted () {
       this.$nextTick(function () {
-        this.foundPoolList = this.foundPoolList.map((fund, index) => {
+        this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
           const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
           return tempFund
         })
       })
     },
     watch: {
+      // 监控页码改变
       'page': {
         deep: true,
         handler: function (oldVal, newVal) {
-          console.log(this.page)
           this.query(this.filterParams2, this.page, this.type2)
+          this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
+            const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
+            return tempFund
+          })
         }
       }
     }
@@ -351,6 +448,7 @@
     width: auto;
     position: static;
     text-align: left;
+    font-family: '宋体';
   }
   .cGreen{color:$colorFontFall}
   .cRed{color:$colorFontRise}
@@ -475,6 +573,10 @@
       color: #666;
       background: url(../../assets/images/arrows.png) no-repeat right;
     }
+    .add_button{
+      border-color: #2388da;
+      color: #2388da;
+    }
   }
   .button{
     display: inline-block;
@@ -485,10 +587,6 @@
     border: 1px solid #ccc;
     cursor: pointer;
     @include  border_radius(3px);
-  }
-  .add_button{
-    border-color: #2388da;
-    color: #2388da;
   }
   .text{
     display:none;
@@ -532,11 +630,13 @@
       margin-bottom: 5px;
     }
     .search{
-      width: 120px;
-      height: 22px;
+      width: 170px;
+      height: 24px;
+      line-height: 24px;
+      margin-top: 3px;
       .icon_search{
         position: absolute;
-        top: 8px;
+        top:6px;
         left: 8px;
         display: block;
         width: 13px;
@@ -550,12 +650,26 @@
         @include border_radius(3px);
         text-indent: 25px;
       }
+
+      .s_btn{
+        display: inline-block;
+        margin-left: -1px;
+        width: 47px;
+        height: 22px;
+        border: 1px solid #2f94ee;
+        line-height: 22px;
+        text-align: center;
+        color: #2f94ee;
+        background: #fff;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
     }
     label{
       color: $colorFontTheme;
       cursor: pointer;
       input{
-        vertical-align: middle;
+        vertical-align: -3px;
       }
     }
     select{
@@ -594,5 +708,17 @@
     .downicon{border-top:6px solid transparent;border-bottom: 6px solid #2f94ee; vertical-align: 2px;}
     ul{ width: 100%;position: absolute; background: #fff;top:30px; left:0;z-index: 999;border: 1px solid #ddd;border-top:0;li{ line-height: 30px; &::hover{ background: #ccc;}}}
   }
-
+  .zwsj{
+    padding-top: 80px;
+  }
+  .up{margin: 0 auto;width:380px;}
+  .up{margin: 30px auto;width:380px;}
+  .up span{font-size: 14px;color: #191919;}
+  .up input{width:230px;height:34px; line-height: 34px; font-size: 12px; padding-left: 10px;margin-left: 10px;}
+  .down{ display: flex;justify-content: center; margin-top:30px; }
+  .down button{width:100px;line-height: 32px;background: #39c;color: #fff; text-align: center;}
+  .msg{color: red;left: 145px;position: absolute;top: 106px;}
+  .msg2{font-size: 14px;}
+  .defaultTxt{font-size: $fontSize12;color: #666;margin-top: 30px}
+  p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;}
 </style>

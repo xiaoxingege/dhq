@@ -38,7 +38,7 @@
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
          /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-          height: window.innerHeight - 85,
+          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 85,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',

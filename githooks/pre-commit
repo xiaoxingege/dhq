@@ -1,8 +1,9 @@
 #!/bin/sh
 
 cd "$(cd "$(dirname "$0")"; pwd -P)/../../"
-files=($(git status -bs | grep '^[MA]' | awk '{print $2}'))
+files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 for file in ${files[*]}
+echo $file
 do
   coffee beautifiers/beautify.coffee $file
 done
