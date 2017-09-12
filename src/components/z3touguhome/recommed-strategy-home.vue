@@ -129,14 +129,24 @@
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,
-                            data: this.recommendStrategyDetail.totalReturn
+                            data: this.recommendStrategyDetail.totalReturn,
+                            lineStyle: {
+                              normal: {
+                                width: 1.5
+                              }
+                            }
                           },
                           {
                             name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
                             type: 'line',
                             showSymbol: false,
                             hoverAnimation: false,
-                            data: this.recommendStrategyDetail.benchmarkPeriodReturn
+                            data: this.recommendStrategyDetail.benchmarkPeriodReturn,
+                            lineStyle: {
+                              normal: {
+                                width: 1.5
+                              }
+                            }
                           }
                         ]
                       })

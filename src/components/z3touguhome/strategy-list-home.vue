@@ -137,14 +137,24 @@ export default {
                 type: 'line',
                 showSymbol: false,
                 hoverAnimation: false,
-                data: this.strategy.benchmarkPeriodReturn
+                data: this.strategy.benchmarkPeriodReturn,
+                lineStyle: {
+                  normal: {
+                    width: 1.5
+                  }
+                }
               },
               {
                 name: '策略累计收益率',
                 type: 'line',
                 showSymbol: false,
                 hoverAnimation: false,
-                data: this.strategy.totalReturn
+                data: this.strategy.totalReturn,
+                lineStyle: {
+                  normal: {
+                    width: 1.5
+                  }
+                }
               }
             ]
           })
