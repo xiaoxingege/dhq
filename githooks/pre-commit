@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cd "$(cd "$(dirname "$0")"; pwd -P)/../../"
+pwd
 files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 for file in ${files[*]}
 echo $file
