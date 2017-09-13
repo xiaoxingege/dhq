@@ -167,23 +167,23 @@ f3
   done
 fi
 
-
-while [ -f /tmp/version.lock ]
-do
-  echo 'waiting for version lock'
-  sleep 5s
-done
-touch /tmp/version.lock
-curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
-count=$(cat version | grep "^"$feature" " | wc -l)
-if [ "$count" = "0" ]; then
-  echo $feature" "$version >> version
-else
-  sed -i "s/"$feature" .*/"$feature" "$version"/g" version
-fi
-rm -f *.bzip2
-tar -cjf $feature-$version.tar.bzip2 *
-ftp -n 117.121.12.155 <<f3 >>/dev/null
+if [ "$feature" = "z3tougu" ]; then
+  while [ -f /tmp/version.lock ]
+  do
+    echo 'waiting for version lock'
+    sleep 5s
+  done
+  touch /tmp/version.lock
+  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
+  count=$(cat version | grep "^"$feature" " | wc -l)
+  if [ "$count" = "0" ]; then
+    echo $feature" "$version >> version
+  else
+    sed -i "s/"$feature" .*/"$feature" "$version"/g" version
+  fi
+  rm -f *.bzip2
+  tar -cjf $feature-$version.tar.bzip2 *
+  ftp -n 117.121.12.155 <<f3 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
@@ -192,10 +192,30 @@ mput $feature-$version.tar.bzip2
 mput version
 bye
 f3
-rm -f /tmp/version.lock
-rm -f $feature-$version.tar.bzip2
-if [ "$env" = "test" ]; then
-  if [ "$feature" = "demo" -o "$feature" = "branch-selector" ]; then
+  rm -f /tmp/version.lock
+  rm -f $feature-$version.tar.bzip2
+else
+  while [ -f /tmp/version.lock ]
+  do
+    echo 'waiting for version lock'
+    sleep 5s
+  done
+  touch /tmp/version.lock
+  ver_path="/data/www/${env}_version"
+  package_path="/data/www/packages/$env"
+  sudo touch $ver_path
+  count=$(cat $ver_path | grep "^"$feature" " | wc -l)
+  if [ "$count" = "0" ]; then
+    echo $feature" "$version >> $ver_path
+  else
+    sed -i "s/"$feature" .*/"$feature" "$version"/g" $ver_path
+  fi
+  rm -f /tmp/version.lock
+  rm -f *.bzip2
+  tar -cjf $feature-$version.tar.bzip2 *
+  sudo mkdir -p $package_path
+  sudo mv $feature-$version.tar.bzip2 $package_path
+  if [ "$env" = "test" ]; then
     ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
   fi
 fi
