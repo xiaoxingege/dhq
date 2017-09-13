@@ -21,7 +21,7 @@
     import { mapState } from 'vuex'
 
     export default{
-      props: ['backtestId', 'startDate', 'endDate'],
+      props: ['backtestId'],
       data () {
         return {
 
@@ -31,12 +31,12 @@
 
       },
       computed: mapState({
-        lineData: state => state.goldStrategy.syqxtData
+        // lineData: state => state.backtestDetailH5.syqxtData
       }),
       methods: {
         initChart () {
           this.$store.dispatch('backtestDetailH5/getSyqxtData', { backtestId: this.backtestId, startDate: this.startDate, endDate: this.Date }).then(() => {
-            const lineData = this.$store.state.goldStrategy.syqxtData
+            const lineData = this.$store.state.backtestDetailH5.syqxtData
             this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], { width: window.screen.width / 100 + 'rem', height: 2.1 + 'rem' })
             this.chart.setOption({
               backgroundColor: '#fff',
@@ -49,7 +49,7 @@
                   name: '策略收益率',
                   icon: 'circle'
                 }, {
-                  name: '泸深300',
+                  name: '沪深300',
                   icon: 'circle'
                 }]
               },
@@ -69,13 +69,13 @@
                   for (var i = 0; i < params.length; i++) {
                     if (i === 0) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                                            params[i].color + '"></span>策略累计收益率: ' +
-                                            params[i].value + '%'
+                                      params[i].color + '"></span>策略累计收益率: ' +
+                                      params[i].value + '%'
                     }
                     if (i === 1) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                                            params[i].color + '"></span>基准累计收益率: ' +
-                                            params[i].value + '%'
+                                      params[i].color + '"></span>基准累计收益率: ' +
+                                      params[i].value + '%'
                     }
                   }
                   return s
@@ -92,7 +92,7 @@
                   }
                 },
                 axisLabel: {
-                                // show:false
+                          // show:false
                 },
                 data: lineData.xData
               },
@@ -119,7 +119,7 @@
                 },
                 {
                   data: lineData.data2,
-                  name: '泸深300',
+                  name: '沪深300',
                   type: 'line',
                   symbol: 'none'
                 }],
@@ -131,46 +131,13 @@
                 left: 0,
                 top: '15%',
                 containLabel: true
-              },
-              dataZoom: [{
-                type: 'slider',
-                show: true,
-                showDetail: false,
-                xAxisIndex: [0],
-                            // bottom:-10,
-                left: '2%',
-                bottom: 0,
-                start: 0,
-                end: 100,
-                textStyle: {
-                                // color: '#aed2ff'
-                },
-                            // borderColor: '#d5dbe4',
-                width: '95%',
-                height: '8%',
-                handleSize: '100%',
-                dataBackground: {
-                  areaStyle: {
-                                    // color: '#cad2db'
-                  },
-                  lineStyle: {
-                                    /* opacity: 0.9,
-                                     color: '#a7b7cc'*/
-                  }
-                },
-                handleStyle: {
-                                // color: '#a7b7cc'
-                }
-              }]
+              }
             })
             const that = this
             window.onresize = function () {
               that.chart.resize()
             }
           })
-        },
-        updateChart () {
-
         }
       },
       mounted () {

@@ -50,7 +50,7 @@
                   name: '策略收益率',
                   icon: 'circle'
                 }, {
-                  name: '泸深300',
+                  name: '沪深300',
                   icon: 'circle'
                 }]
               },
@@ -71,12 +71,12 @@
                     if (i === 0) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>策略累计收益率: ' +
-                          (params[i].value * 100) + '%'
+                          (params[i].value * 100).toFixed(2) + '%'
                     }
                     if (i === 1) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>基准累计收益率: ' +
-                          (params[i].value * 100) + '%'
+                          (params[i].value * 100).toFixed(2) + '%'
                     }
                   }
                   return s
@@ -101,7 +101,7 @@
                 type: 'value',
                 axisLabel: {
                   formatter: function (val) {
-                    return val * 100 + '%'
+                    return (val * 100).toFixed(2) + '%'
                   }
                 },
                 nameTextStyle: {
@@ -120,7 +120,7 @@
                 },
                 {
                   data: lineData.data2,
-                  name: '泸深300',
+                  name: '沪深300',
                   type: 'line',
                   symbol: 'none'
                 }],
