@@ -19,6 +19,10 @@ import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
 Vue.use(Vuex)
 
+const mutationTypes = {
+  'REQUEST_ERROR': 'REQUEST_ERROR',
+  'UPDATE_AUTH_SETTING': 'UPDATE_AUTH_SETTING'
+}
 const state = {
   request: {
     statusCode: null,
@@ -28,21 +32,62 @@ const state = {
     authorization: null, // access_token
     clientid: null,
     deviceid: null,
+    updateTime: null, // updateTime
     expires: 0// second
   },
   user: {
     userId: null
   }
 }
-
+const getters = {
+  authHeader: state => {
+    if (state.authorization) {
+      return {
+        authorization: state.authorization,
+        clientid: state.clientid,
+        deviceid: state.deviceid
+      }
+    }
+    return {}
+  }
+}
+const actions = {
+  authSetting ({ state, commit }) {
+    return new Promise((resolve, reject) => {
+      if (window.Z3) {
+        window.Z3.SndTokenInfo((info) => {
+          alert(info)
+          const authInfo = JSON.parse(info)
+          commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
+          resolve()
+        })
+      } else {
+        resolve()
+      }
+    })
+  }
+}
 const mutations = {
-  requstError (state, error) {
-    state.error = error.message
-    // console.info()
+  [mutationTypes.REQUEST_ERROR] (state, error) {
+    // state.error = error.message
+  },
+  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
+    state.auth = {
+      authorization: state.authorization,
+      clientid: state.clientid,
+      deviceid: state.deviceid,
+      expires: state.expires,
+      updateTime: new Date().getTime()
+    }
+    state.user = {
+      userId: authInfo.userId
+    }
   }
 }
 export default new Vuex.Store({
   state,
+  getters,
+  actions,
   mutations,
   modules: {
     zhikuanSearch,

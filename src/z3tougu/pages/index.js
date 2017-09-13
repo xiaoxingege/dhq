@@ -20,6 +20,13 @@ initVue({
   store,
   route: {
     routes,
-    historyMode: 'history'
+    historyMode: 'history',
+    beforeEach (to, from, next) {
+      if (!store.state.auth.authorization) {
+        store.dispatch('authSetting').then(next).catch(next)
+      } else {
+        next()
+      }
+    }
   }
 })
