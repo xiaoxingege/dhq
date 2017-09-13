@@ -294,18 +294,19 @@
               <div class="detail-main clearfix">
                   <div class="main-left fl mr-8">
                       <div class="left-con1 mb-8">
-                          <strong>最新事件</strong>
-                          <div>
+                          <strong>最新事件:</strong>
+                          <!-- <div> -->
                             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-                              <span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span></router-link>
-                          </div>
+                              <span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span>
+                              </router-link>
+                          <!-- </div> -->
                           <div>
                              <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{detail.summary}}</span></router-link>
                             （<span>{{detail.srcName}}</span>）
                           </div>
                       </div>
                       <div class="left-con2 mb-8">
-                        <div class="chart-title">{{detail.topicName}}分股累计收益率</div>
+                        <div class="chart-title">主题<span class="blue">[{{detail.topicName}}]</span>累计收益率</div>
                         <ul class="time-ul">
                             <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
                             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
@@ -344,7 +345,7 @@
                           </thead>
                           <tbody>
                               <tr class="fl" v-for="stock of stockList">
-                                 <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><span class="blue txt-td" >{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
+                                 <td class="td1 td-tit1"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
                                  <td>{{stock.industryName}}</td>
@@ -373,9 +374,7 @@
                 <div class="stock-list"></div>
             </div>
         </div>-->
-        <StockBox ref="stockbox"></StockBox>
     </div>
-
 </template>
 
 <script>
@@ -384,7 +383,6 @@
     import { formatDate } from 'utils/date'
     import { mutationTypes } from 'stores/z3tougu-theme'
     import z3websocket from '../z3tougu/z3socket'
-    import StockBox from 'components/stock-box'
     export default{
       data () {
         return {
@@ -394,9 +392,6 @@
           size: 12,
           inforPageSize: 5
         }
-      },
-      components: {
-        StockBox
       },
       computed: {
         ...mapState({
@@ -471,7 +466,8 @@
                 if (arr[i] === 11 && j === 30) {
                   break
                 } else if (arr[i] === 13 && j === '00') {
-                  realTime = '11:30' + '/' + arr[i] + ':' + j
+                  // realTime = '11:30' + '/' + arr[i] + ':' + j
+                  realTime = arr[i] + ':' + j
                 } else {
                   realTime = arr[i] + ':' + j
                 }
@@ -641,7 +637,8 @@
             grid: {
                               /* width: '97%',*/
               left: '2%',
-              right: '3%',
+              /* right: '3%',*/
+              right: '3.5%',
                              /* bottom: '50',*/
               containLabel: true
             },
