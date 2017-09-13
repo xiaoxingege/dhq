@@ -15,16 +15,16 @@
 <template>
     <div class="strategy-wrap1">
         <ul class="clearfix">
-            <!--<StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>-->
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[0]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[1]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[2]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[3]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[4]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[5]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[6]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[7]:null"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[8]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
+            <!--<StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[0]:null" v-if="strategyList.length>0"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[1]:null" v-if="strategyList.length>1"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[2]:null" v-if="strategyList.length>2"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[3]:null" v-if="strategyList.length>3"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[4]:null" v-if="strategyList.length>4"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[5]:null" v-if="strategyList.length>5"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[6]:null" v-if="strategyList.length>6"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[7]:null" v-if="strategyList.length>7"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[8]:null" v-if="strategyList.length>8"></StrategyListHome>-->
         </ul>
         <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0"/>
     </div>
@@ -73,8 +73,8 @@
             this.query = query.query
           } else {
             console.log(query.query)
-            return
-            // this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
+           // return
+            this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
           }
           this.$store.dispatch('z3touguIndex/getStrategyBlock', { query: this.query, size: this.pageSize, page: pageNo })
                     .then(() => {

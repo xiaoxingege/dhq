@@ -10,7 +10,7 @@
     .rate-labels li:nth-child(2){width: 25%}
     .rate-labels li:nth-child(3){width: 23%}
     .rate-labels li:nth-child(4){width: 22%}
-    .rate-labels li span{display: inline-block;width: 100%;text-align: left;}
+    .rate-labels li span{display: inline-block;width: 100%;text-align: center;}
 </style>
 <template>
     <li class="li-con">
@@ -22,7 +22,7 @@
         <ul class="rate-labels clearfix">
             <li>
                 <span>年化收益率</span>
-                <span>{{strategy.annualReturn}}</span>
+                <span :class="parseFloat(strategy.annualReturn)>0 ? 'c_up':'c_down'">{{strategy.annualReturn}}</span>
             </li>
             <li>
                 <span>夏普比率</span>
@@ -106,14 +106,14 @@ export default {
                 left: 0,
                 top: 10,
                 itemWidth: 8,
-                orient: 'vertical',
+                // orient: 'vertical',
                 data: [
                   {
-                    name: this.benchmarkObj[this.strategy.benchmark],
+                    name: '策略累计收益率',
                     icon: 'circle'
                   },
                   {
-                    name: '策略累计收益率',
+                    name: this.benchmarkObj[this.strategy.benchmark],
                     icon: 'circle'
                   }
                 ]
@@ -148,14 +148,14 @@ export default {
                 min: 'dataMin',
                 max: 'dataMax'
               },
-              color: ['#f1975d', '#4076b4'],
+              color: ['#4076b4', '#f1975d'],
               series: [
                 {
-                  name: this.benchmarkObj[this.strategy.benchmark],
+                  name: '策略累计收益率',
                   type: 'line',
                   showSymbol: false,
                   hoverAnimation: false,
-                  data: this.strategy.benchmarkPeriodReturn,
+                  data: this.strategy.totalReturn,
                   lineStyle: {
                     normal: {
                       width: 1
@@ -163,11 +163,11 @@ export default {
                   }
                 },
                 {
-                  name: '策略累计收益率',
+                  name: this.benchmarkObj[this.strategy.benchmark],
                   type: 'line',
                   showSymbol: false,
                   hoverAnimation: false,
-                  data: this.strategy.totalReturn,
+                  data: this.strategy.benchmarkPeriodReturn,
                   lineStyle: {
                     normal: {
                       width: 1

@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 import fetchJsonp from 'fetch-jsonp'
+import { domain } from '../z3tougu/config'
 export default {
   namespaced: true,
   state: {
@@ -47,7 +48,7 @@ export default {
   },
   actions: {
     getStrategyList ({ commit }, { sort, direction, size }) {
-      const url = `http://test.z3quant.com/openapi/backtest/goldStrategy/sort.shtml?sort=${sort}&direction=${direction}&size=${size}`
+      const url = `${domain}/openapi/backtest/goldStrategy/sort.shtml?sort=${sort}&direction=${direction}&size=${size}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -57,7 +58,7 @@ export default {
       })
     },
     getStrategyBlock ({ commit }, { query, size, page }) {
-      const url = `http://test.z3quant.com/openapi/backtest/goldStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`
+      const url = `${domain}/openapi/backtest/goldStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -97,8 +98,8 @@ export default {
       })
     },
     getHomeMapData ({ commit }, { date }) {
-      const url = 'http://test.z3quant.com/openapi/openjson/tx/chg/' + date + '.json'
-      return fetch(url).then((res) => {
+      const url = domain + '/openapi/openjson/tx/chg/' + date + '.json'
+      return fetch(url, { headers: { 'Cache-Control': 'no-cache' }}).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setHomeMapData', {
@@ -107,7 +108,7 @@ export default {
       })
     },
     getHomeRangeData ({ commit }) {
-      const url = 'http://test.z3quant.com/openapi/tx/chg/'
+      const url = `${domain}/openapi/tx/chg/`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
