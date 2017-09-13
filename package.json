@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.85",
+  "version": "0.0.88",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,9 @@
     },
     "z3tougu": {
       "port": 3000
+    },
+    "branch-selector": {
+      "port": 3001
     }
   },
   "devDependencies": {
