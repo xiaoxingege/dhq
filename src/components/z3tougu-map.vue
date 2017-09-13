@@ -47,7 +47,7 @@
             </div>
             <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStockId="getFocusStockId"></StockSearch>
         </div>
-        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn"></StockMap>
+        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"></StockMap>
     </div>
 </template>
 <script type="text/javascript">
@@ -85,6 +85,9 @@ export default{
         },
         getFocusStockId: function (msg) {
           this.focusStockId = msg
+        },
+        toZdf: function (msg) {
+          this.condition = msg
         }
       },
       mounted () {
