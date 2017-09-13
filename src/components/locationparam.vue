@@ -37,9 +37,9 @@
     <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogclosefn">
       <div slot="content">
         <ul class="content">
-          <li>定期调仓：<input type="text" value="180"  />个交易日后，进行调仓  </li>
-          <li>止盈调仓：<input type="text" value="5"  />%后，满仓现金 </li>
-          <li>止损调仓：<input type="text" value="5"  />%后，满仓现金 </li>
+          <li>定期调仓：<input type="text" value="180" />个交易日后，进行调仓  </li>
+          <li>止盈调仓：<input type="text" value="5" />%后，满仓现金 </li>
+          <li>止损调仓：<input type="text" value="5" />%后，满仓现金 </li>
         </ul>
       </div>
       <div slot="footer">
