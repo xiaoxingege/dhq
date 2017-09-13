@@ -211,7 +211,12 @@ else
   fi
   rm -f /tmp/version.lock
   rm -f *.bzip2
-  rm -f beautifiers
+  for file in $(ls ./)
+  do
+    if [ "$file" != "dist" -a "$file" != "node_modules" ]; then
+      rm -rf $file
+    fi
+  done
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mkdir -p $package_path
   sudo mv $feature-$version.tar.bzip2 $package_path
