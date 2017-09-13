@@ -14,6 +14,8 @@ a,
 }
 
 .runstatestrategy{font-size: 12px;}
+.con_l{width:70%;float: left;}
+.con_r{width:30%;float: left;}
 </style>
 <template>
 <div class="runstatestrategy">
@@ -24,14 +26,20 @@ a,
     <span>复制</span>
     <span>删除</span>
   </div>
-  <locationparam v-bind:h4show="h4show"></locationparam>
-  <locationrecord></locationrecord>
+  <div class="con clearfix">
+      <div class="con_l">
+        我是左边内容啊
+      </div>
+      <div class="con_r">
+        <strategytab></strategytab>
+      </div>
+  </div>
+
 </div>
 </template>
 <script>
 
-import locationrecord from 'components/locationrecord'
-import locationparam from 'components/locationparam'
+import strategytab from 'components/strategytab'
 import {
   mapState
 } from 'vuex'
@@ -44,8 +52,7 @@ export default {
     }
   },
   components: {
-    locationrecord,
-    locationparam
+    strategytab
   },
   computed: mapState({}),
   mounted () {
