@@ -15,7 +15,16 @@
 <template>
     <div class="strategy-wrap1">
         <ul class="clearfix">
-            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
+            <!--<StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>-->
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[0]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[1]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[2]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[3]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[4]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[5]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[6]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[7]:null"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[8]:null"></StrategyListHome>
         </ul>
         <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0"/>
     </div>
