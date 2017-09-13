@@ -18,7 +18,32 @@ import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
 Vue.use(Vuex)
+
+const state = {
+  request: {
+    statusCode: null,
+    errMsg: null
+  },
+  auth: {
+    authorization: null, // access_token
+    clientid: null,
+    deviceid: null,
+    expires: 0// second
+  },
+  user: {
+    userId: null
+  }
+}
+
+const mutations = {
+  requstError (state, error) {
+    state.error = error.message
+    // console.info()
+  }
+}
 export default new Vuex.Store({
+  state,
+  mutations,
   modules: {
     zhikuanSearch,
     zhikuanSearchList,

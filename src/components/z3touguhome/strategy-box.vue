@@ -148,7 +148,7 @@ export default {
                 min: 'dataMin',
                 max: 'dataMax'
               },
-              color: ['#e8311f', '#4076b4'],
+              color: ['#f1975d', '#4076b4'],
               series: [
                 {
                   name: this.benchmarkObj[this.strategy.benchmark],
@@ -158,7 +158,7 @@ export default {
                   data: this.strategy.benchmarkPeriodReturn,
                   lineStyle: {
                     normal: {
-                      width: 1.5
+                      width: 1
                     }
                   }
                 },
@@ -170,7 +170,7 @@ export default {
                   data: this.strategy.totalReturn,
                   lineStyle: {
                     normal: {
-                      width: 1.5
+                      width: 1
                     }
                   }
                 }

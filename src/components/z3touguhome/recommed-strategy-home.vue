@@ -112,7 +112,7 @@
                               }
                             }
                           },
-                          color: ['#e8311f', '#4076b4'],
+                          color: ['#4076b4', '#f1975d'],
                           tooltip: {
                             trigger: 'axis',
                             padding: [10, 55, 10, 20],
@@ -135,7 +135,7 @@
                               data: this.recommendStrategyDetail.totalReturn,
                               lineStyle: {
                                 normal: {
-                                  width: 1.5
+                                  width: 1
                                 }
                               }
                             },
@@ -147,7 +147,7 @@
                               data: this.recommendStrategyDetail.benchmarkPeriodReturn,
                               lineStyle: {
                                 normal: {
-                                  width: 1.5
+                                  width: 1
                                 }
                               }
                             }

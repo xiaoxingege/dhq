@@ -7,7 +7,7 @@
     .wrap{padding: 0px 8px 8px 8px;min-width: 1217px;min-height:704px;height:100%;}
     body{background-color: #ebecee}
     .news-wrap{height: 31%;padding-top: 10px;}
-    .news-left{height:100%;width: 60%;display: inline-block;float: left;padding: 10px;background: #fff;}
+    .news-left{height:100%;width: 74.9%;display: inline-block;float: left;padding: 10px;background: #fff;}
     .news-left>div{width: 49%;height:100%;display: inline-block;float: left;}
     .news-left>div:nth-child(1){margin-right:2%;}
     .strategy-map{height:38%;padding-top:5px;}
@@ -52,10 +52,10 @@
     export default {
       data () {
         return {
-          RecommendStrategyWidth: '60%',
+          RecommendStrategyWidth: '59.9%',
           mapWidth: '39.7%',
           mapHeight: '100%',
-          themeWidth: '39.7%',
+          themeWidth: '24.7%',
           themeHeight: '100%',
           financeNewsSize: 6,
           listedCompanyNewsSize: 6,
