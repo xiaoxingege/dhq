@@ -14,6 +14,7 @@ import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
 import editstrategy from 'components/editstrategy'
+import runstatestrategy from 'components/runstatestrategy'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
@@ -52,6 +53,7 @@ export default [
     { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
     { path: '/editstrategy', name: 'editstrategy', component: editstrategy },
+    { path: '/runstatestrategy', name: 'runstatestrategy', component: runstatestrategy },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
     { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },

@@ -238,33 +238,9 @@ a,
       <p>这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。<br /><br />这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。这里介绍组合的特色，以及推荐理由，需要自动生成。</p>
       <h3>基本信息</h3>
       <p>投资方式：一次性投资<br />组合最低起购金额：10000元<br />预计调仓周期：T+5天<br />组合风险：5(中风险)<br />建仓预估手续费：0.05%<br />单次调仓预估续费：0.1%</p>
-      <h3>调仓参数</h3>
-      <p>1.定期调仓：180个交易日后，进行调仓<br />2.止盈调仓：5%后，止盈，收组合继续运转<br />3.止损调仓：无</p>
-      <h3>调仓记录</h3>
-      <div class="listbox">
-        <div class="list">
-          <div class="jilu1 clearfix">
-              <span>2017-02-01</span>
-              <i class="close"></i>
-          </div>
-          <div class="jilu2">
-            <p class="clearfix"><span>调仓原因</span><i>定期调仓</i></p>
-            <p class="clearfix"><span>建仓/调仓间隔</span><i>200天</i></p>
-          </div>
-          <div class="jilu3">
-            <p class="clearfix"><i>债券型</i><i>0.00%-20.00%</i></p>
-            <ul>
-              <li class="clearfix"><span>519078</span><i>汇添富增强收益债券A</i><i>0.00%-20.00%</i></li>
-              <li class="clearfix"><span>519078</span><i>汇添富增强收益债券A</i><i>0.00%-20.00%</i></li>
-            </ul>
-            <p class="clearfix"><i>债券型</i><i>0.00%-20.00%</i></p>
-            <ul>
-              <li class="clearfix"><span>519078</span><i>汇添富增强收益债券A</i><i>0.00%-20.00%</i></li>
-              <li class="clearfix"><span>519078</span><i>汇添富增强收益债券A</i><i>0.00%-20.00%</i></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+
+      <locationparam v-bind:h4show="h4show"></locationparam>
+      <locationrecord></locationrecord>
     </div>
   </div>
 </div>
@@ -274,6 +250,8 @@ import 'whatwg-fetch'
 import progressbar from 'components/progressbar'
 import dadianTime from 'components/dadian-time'
 import strategypie from 'components/strategypie'
+import locationrecord from 'components/locationrecord'
+import locationparam from 'components/locationparam'
 import {
   mapState
 } from 'vuex'
@@ -284,13 +262,16 @@ export default {
     return {
       beginTime: this.getNowFormatDate(),
       endTime: this.getNowFormatDate(),
-      datapie: 123
+      datapie: 123,
+      h4show: true // 控制调仓参数里面的h4是否显示
     }
   },
   components: {
     progressbar,
     dadianTime,
-    strategypie
+    strategypie,
+    locationrecord,
+    locationparam
   },
   computed: mapState({}),
   mounted () {
