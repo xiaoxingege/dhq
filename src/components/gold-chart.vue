@@ -1,9 +1,9 @@
 <style lang="scss" scoped>
     .mrjy,.dqxg{ background: #fff;  }
-    .mrjy table,.dqxg table{ width:100%;}
+    .mrjy table,.dqxg table{ width:99%; margin:0 auto}
     .mrjy table thead,.dqxg table thead{ background:#F2F2F2;}
     .mrjy table thead tr th,.dqxg table thead tr th{ height:25px; line-height: 25px}
-    .mrjy table  tr td,.dqxg table  tr td{ text-align: center; height:35px; line-height: 35px;}
+    .mrjy table tr td,.dqxg table tr td{ text-align: center; height:35px; line-height: 35px; border-bottom: 1px solid #e5e5e5;}
     .red{
         color:#d7453e;
     }

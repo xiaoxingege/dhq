@@ -3,6 +3,8 @@
     .goldRecommend{
         font-size: 12px;
         background: #F2F2F2;
+        padding:0 8px;
+        box-sizing: border-box;
     }
     .strategyHeader{
       height:32px;
@@ -35,7 +37,7 @@
     }
     .radarChart{
       width:456px;
-      height:375px;
+      height:auto;
     }
     .attention{
       margin-left: 20px;

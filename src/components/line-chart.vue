@@ -116,13 +116,23 @@
                   data: lineData.data1,
                   name: '策略收益率',
                   type: 'line',
-                  symbol: 'none'
+                  symbol: 'none',
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
                 },
                 {
                   data: lineData.data2,
                   name: '沪深300',
                   type: 'line',
-                  symbol: 'none'
+                  symbol: 'none',
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
                 }],
               color: ['#5597d3', '#f1975d', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
                 'rgba(0,0,0,0)', 'rgba(0,0,0,0)'],
