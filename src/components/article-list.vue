@@ -72,7 +72,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
 
     }
@@ -83,7 +83,7 @@ export default {
   }),
   components: {},
   methods: {
-    search(e) {
+    search (e) {
       e.preventDefault()
       const keyword = this.$refs.keyword.value
       this.$store.dispatch('zhikuanSearch/search', {
@@ -91,7 +91,7 @@ export default {
       })
     }
   },
-  mounted() {
+  mounted () {
     this.$watch('result', result => {
       this.$emit('searchsuccess')
     })
