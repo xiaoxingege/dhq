@@ -42,9 +42,9 @@ function pinfo() {
 function get_port() {
   port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
 }
-get_port "$feature"
+get_port $feature
 if [ "$port" = "" ]; then
-  echo '不支持的项目名'
+  echo 'feature not found'
   exit 1
 fi
 
@@ -167,23 +167,23 @@ f3
   done
 fi
 
-
-while [ -f /tmp/version.lock ]
-do
-  echo 'waiting for version lock'
-  sleep 5s
-done
-touch /tmp/version.lock
-curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
-count=$(cat version | grep "^"$feature" " | wc -l)
-if [ "$count" = "0" ]; then
-  echo $feature" "$version >> version
-else
-  sed -i "s/"$feature" .*/"$feature" "$version"/g" version
-fi
-rm -f *.bzip2
-tar -cjf $feature-$version.tar.bzip2 *
-ftp -n 117.121.12.155 <<f3 >>/dev/null
+if [ "$feature" = "z3tougu" ]; then
+  while [ -f /tmp/version.lock ]
+  do
+    echo 'waiting for version lock'
+    sleep 5s
+  done
+  touch /tmp/version.lock
+  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
+  count=$(cat version | grep "^"$feature" " | wc -l)
+  if [ "$count" = "0" ]; then
+    echo $feature" "$version >> version
+  else
+    sed -i "s/"$feature" .*/"$feature" "$version"/g" version
+  fi
+  rm -f *.bzip2
+  tar -cjf $feature-$version.tar.bzip2 *
+  ftp -n 117.121.12.155 <<f3 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
@@ -192,10 +192,40 @@ mput $feature-$version.tar.bzip2
 mput version
 bye
 f3
-rm -f /tmp/version.lock
-rm -f $feature-$version.tar.bzip2
-if [ "$env" = "test" ]; then
-  if [ "$feature" = "demo" -o "$feature" = "branch-selector" ]; then
-    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+  rm -f /tmp/version.lock
+  rm -f $feature-$version.tar.bzip2
+else
+  package_path="/data/www/packages"
+  ver_path="$package_path/$feature.$env.version"
+  sudo mkdir -p $package_path
+  if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
+    echo "package $feature-$version exists."
+    exit 1
+  fi
+  while [ -f /tmp/version.lock ]
+  do
+    echo 'waiting for version lock'
+    sleep 5s
+  done
+  touch /tmp/version.lock
+  sudo touch $ver_path
+  count=$(cat $ver_path | grep "^"$feature" " | wc -l)
+  if [ "$count" = "0" ]; then
+    sudo sh -c "echo '$feature $version' >> $ver_path"
+  else
+    sudo sed -i "s/"$feature" .*/"$feature" "$version"/g" $ver_path
+  fi
+  rm -f /tmp/version.lock
+  rm -f *.bzip2
+  for file in $(ls ./)
+  do
+    if [ "$file" != "dist" -a "$file" != "node_modules" ]; then
+      rm -rf $file
+    fi
+  done
+  tar -cjf $feature-$version.tar.bzip2 *
+  sudo mv $feature-$version.tar.bzip2 $package_path
+  if [ "$env" = "test" ]; then
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature sh /home/admin/pull.sh"
   fi
 fi

@@ -4,11 +4,11 @@
     .theme-home-top p{display: inline-block;width: 50%;}
     .more-theme{color:#4c8cca;cursor: pointer;}
     .theme-home-title{font-weight: bold;color:#666;}
-    .theme-title{width: 22%;color:#4c8cca;font-weight: bold;}
+    .theme-title{width: 25%;color:#4c8cca;font-weight: bold;}
     .theme-con-title{height:15%;padding-top:5px;}
     .theme-con-title li{height:100%;float: left;display: inline-block;}
     .theme-con-title li span:nth-child(1){}
-    .updown-rate{width: 32%;}
+    .updown-rate{width: 29%;}
     .up-stock,.down-stock{width: 23%;}
     .event:hover{color: #2388da;}
     .event{}

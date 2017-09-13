@@ -1,11 +1,12 @@
 <style lang="scss" scoped="">
-    .recommend-strategy{margin-right:0.3%;padding: 20px 10px 20px 10px;background: #fff;height:100%;display: inline-block;float: left;}
+    .recommend-strategy{margin-right:0.3%;padding: 10px 10px 10px 10px;background: #fff;height:100%;display: inline-block;float: left;}
     .recommend-strategy-title{height:9.5%;}
     .recommend-strategy-title p{color:#4c8cca;height:100%;}
     .more-strategy{float: right;text-align: right;cursor: pointer;padding-right:20px;}
     .more-strategy a{color:#4c8cca;}
-    .recommend-strategy-chart{width: 100%;height:77.5%;}
-    .strategy-description{color:#666;height:13%;padding-top: 15px;}
+    .recommend-strategy-chart-link{display:inline-block;width: 100%;height:79.5%;}
+    .recommend-strategy-chart{height: 100%;}
+    .strategy-description{color:#666;height:11%;padding-top: 8px;}
     .strategy-description p{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight: bold;}
 </style>
@@ -15,7 +16,7 @@
             <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}">{{recommendStrategyName}}</router-link></p>
             <p class="more-strategy"><a v-on:click="moreGoldList">更多推荐策略</a></p>
         </div>
-        <div class="recommend-strategy-chart" ref="recChart"></div>
+        <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="recommend-strategy-chart-link"><div class="recommend-strategy-chart" ref="recChart"></div></router-link>
         <div class="strategy-description"><p>{{strategyDesc}}</p></div>
     </div>
 </template>
@@ -64,7 +65,8 @@
                         this.strategyDesc = this.recommendStrategyDetail.strategy.strategyDesc
                         this.recommendChart.setOption({
                           legend: {
-                            left: 'center',
+                           // left: 'center',
+                            left: 0,
                             itemWidth: 8,
                             data: [
                               {
@@ -80,8 +82,8 @@
                           grid: {
                             show: true,
                             left: 0,
-                            top: 30,
-                            bottom: 20,
+                            top: 35,
+                            bottom: 100,
                             right: 0,
                             width: '98%',
                             height: '82%',

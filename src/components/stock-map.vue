@@ -82,12 +82,12 @@
     <div class="map_wrap">
          <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
         <div class="enlarge" v-if="!isEnlarge">
-            <a v-on:click="restoreMap"><span>恢复默认</span></a>
+            <a v-on:click="restoreMap"><span>100%比例</span></a>
             <span class="currentTime">{{currentTime}}</span>
             <a v-on:click="toFullScreen"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
         </div>
         <div class="narrow" v-if="isEnlarge">
-            <a v-on:click="restoreMap"><span>恢复默认</span></a>
+            <a v-on:click="restoreMap"><span>100%比例</span></a>
             <span class="currentTime">{{currentTime}}</span>
             <a v-on:click="toNormal" class="narrow-link"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
@@ -213,6 +213,8 @@
       watch: {
         rangeCode () {
           this.updateMap()
+          this.playBackIndex = 19
+          this.playLineIndex = 19
         },
         condition () {
           this.updateData()
@@ -269,8 +271,12 @@
                     stock.perf = stockData[stock.id] || stockData[stock.name]
                     if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       if (_this.isUnit[_this.condition] === '%') {
-                        if (stock.perf >= 0) {
-                          stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                        if (_this.condition !== 'mkt_idx.div_rate') {
+                          if (stock.perf >= 0) {
+                            stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                          } else {
+                            stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                          }
                         } else {
                           stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                         }
@@ -476,10 +482,10 @@
           })
         },
         updateData: function () {
+          this.getLegendColor()
           this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
             this.updateMapData()
           })
-          this.getLegendColor()
         },
         updateMapData: function () {
           this.chart.setOption({ series: [{ data: this.stockData }] })
@@ -623,7 +629,7 @@
         getLegendColor: function () {
           this.legendList = []
           if (this.condition === 'act_date') {
-            this.legendWidth = 36
+            this.legendWidth = 70
             this.legendList.push({
               value: '业绩公布前',
               backgroundColor: '#20A29A'
@@ -652,6 +658,10 @@
             this.isStopPlayback = false
             this.$emit('isStopPlayback', this.isStopPlayback)
           } else { // 未播放点击开始播放
+            if (this.condition !== 'mkt_idx.cur_chng_pct') {
+              this.condition = 'mkt_idx.cur_chng_pct'
+              this.$emit('toZdfCondition', this.condition)
+            }
             this.playBackState = true
             this.playBackSrc = playBackSrc
             this.isStopPlayback = true
@@ -666,7 +676,7 @@
               const playBackDate = this.playBackDate[this.playBackIndex]
               this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
                 this.updateMapData()
-                this.playLineIndex++
+                this.playLineIndex++  // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
               })
               this.playBackIndex++
               if (this.playLineIndex >= this.playBackDate.length - 1) {
