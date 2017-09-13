@@ -55,7 +55,7 @@ export default {
   actions: {
     searchList ({ commit }, { keyword, currentPage, sortType, linkText }) {
       commit('setSearchOptions', { keyword, currentPage, sortType, linkText })
-      return fetch(`${domain}/openapi/search/${linkText}/list.shtml?w=${keyword}&page=${currentPage || 1}`, {
+      return fetch(`${domain}/openapi/search/${linkText}/list.shtml?w=${keyword}&page=${currentPage || 1}&ss=${sortType || 1}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

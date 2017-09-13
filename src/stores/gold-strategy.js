@@ -127,7 +127,7 @@ export default {
         state.sylfbData.data2 = []
         const data = result.data
         for (var i = 0; i < data.rates.length; i++) {
-          state.sylfbData.xData = Number(data.rates[i]).toFixed(2) + '%'
+          state.sylfbData.xData.push(Number(data.rates[i]).toFixed(2) + '%')
           if (data.rates[i] < 0) {
             state.sylfbData.data1.push(data.counts[i])
             state.sylfbData.data2.push(0)

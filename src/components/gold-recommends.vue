@@ -9,6 +9,12 @@
         padding:20px 15px;
         font-size:14px;
 }
+    .sellCondition tr td{
+        color:#696969 !important;
+    }
+    .sellCondition tr:first-child td{
+        color:#a5a5a5 !important;
+    }
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .choseStock{
             padding-top:0.2rem;
@@ -24,6 +30,12 @@
             padding:0.2rem 0.15rem;
             font-size:0.18rem;
             text-align: left;
+        }
+        .sellCondition tr td{
+            color:#696969 !important;
+        }
+        .sellCondition tr:first-child td{
+            color:#a5a5a5 !important;
         }
     }
 </style>
@@ -130,8 +142,8 @@
                   parmsPeriod.push(parms[key])
                 }
               }
-              console.log(buyConditionTable[i].operator)
-              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
+    
+              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].operator === null ? buyConditionTable[i].operator : buyConditionTable[i].comparisonValue])
             }
           }
           if (sellConditionTable.length > 0) {
@@ -149,7 +161,7 @@
                   parmsPeriod.push(parms[item])
                 }
               }
-              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].operator === null ? sellConditionTable[j].operator : sellConditionTable[j].comparisonValue])
             }
           }
           return {

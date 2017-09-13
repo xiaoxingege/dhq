@@ -477,7 +477,7 @@
               window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
             })
             that.chart.on('mouseover', function (params) {
-              if ((params.event.offsetX + 450) > that.$refs.bubbles.clientWidth) {
+              if ((params.event.offsetX + 460) > that.$refs.bubbles.clientWidth) {
                 that.offsetX = params.event.offsetX - 480
               } else {
                 that.offsetX = params.event.offsetX + 20

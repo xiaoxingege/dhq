@@ -62,6 +62,18 @@
       box-shadow:4px 4px 4px 2px #eee;
       border:1px solid #eee;
     }
+    .strategyDescTable{
+        width:100%;
+    }
+    .strategyDescTable tr:first-child td{
+        color:#a5a5a5;
+    }
+    .strategyDescTable td{
+        color:#191919;
+        text-align: center;
+        height:28px;
+        line-height: 28px;
+    }
 </style>
 <template>
     <div class="goldRecommend">
@@ -80,7 +92,23 @@
             <div class="strategyDesc box-flex-1">
                 <div class="strategyDescTop">
                     <Titlecontent :data="articleData"></Titlecontent>
-                    <Tablelist :data="tableData"></Tablelist>
+                    <!--<Tablelist :data="tableData"></Tablelist>-->
+                    <table class="strategyDescTable">
+                        <tr>
+                            <td v-for="item in trData">{{item}}</td>
+                        </tr>
+                        <tr>
+                            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</td>
+                            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</td>
+                            <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</td>
+                            <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</td>
+                            <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</td>
+                            <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</td>
+                            <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
+                            <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
+                            <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="strategyDescBottom">
                     <Goldrecommends :data="recommendData"></Goldrecommends>
@@ -119,7 +147,8 @@
           type: '',
           showQrcodeBox: false,
           toastmsg: '',
-          showToast: false
+          showToast: false,
+          trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率']
         }
       },
       components: {
@@ -137,26 +166,6 @@
           return {
             title: '策略描述:',
             content: this.goldResult === null ? '' : this.goldResult.strategyDesc
-          }
-        },
-        tableData: function () {
-          if (this.goldResult === null) {
-            return []
-          } else {
-            return [
-             ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
-              [
-                (Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%',
-                (Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%',
-                (Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%',
-                Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2),
-                (Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%',
-                Number(this.goldResult.evaluationIndexs.alpha).toFixed(2),
-                Number(this.goldResult.evaluationIndexs.beta).toFixed(2),
-                (Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%',
-                (Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'
-              ]
-            ]
           }
         },
         recommendData: function () {

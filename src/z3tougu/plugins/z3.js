@@ -16,8 +16,15 @@ export default{
         el.addEventListener('mouseover' ,(event)=>{
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
-          popupVm.$props.left = event.x + parseInt(scrollleft) + 40;
-          popupVm.$props.top = event.y + parseInt(scrollTop) - 20;
+          const winH = window.innerHeight;
+          let left = event.x + parseInt(scrollleft) + 40;
+          let top = event.y + parseInt(scrollTop) - 20;
+          
+          if(winH - top < 250){
+            top = winH-250;
+          }
+          popupVm.$props.left = left
+          popupVm.$props.top = top
           popupVm.isShow = true;
           popupVm.$props.stockCode = code;
         });

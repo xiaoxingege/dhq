@@ -344,7 +344,7 @@
                           </thead>
                           <tbody>
                               <tr class="fl" v-for="stock of stockList">
-                                 <td class="td1 td-tit1"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
+                                 <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><span class="blue txt-td" >{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
                                  <td>{{stock.industryName}}</td>
@@ -353,7 +353,7 @@
 
                           </tbody>
                           <tfoot>
-                                <a :href="`http://www.z3quant.com/dbus/filter.shtml?from=topic&&topicCode=detail.topicCode`"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
+                                <a :href="`/filter.shtml?from=topic&&topicCode=detail.topicCode`"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
 
@@ -373,7 +373,9 @@
                 <div class="stock-list"></div>
             </div>
         </div>-->
+        <StockBox ref="stockbox"></StockBox>
     </div>
+
 </template>
 
 <script>
@@ -382,6 +384,7 @@
     import { formatDate } from 'utils/date'
     import { mutationTypes } from 'stores/z3tougu-theme'
     import z3websocket from '../z3tougu/z3socket'
+    import StockBox from 'components/stock-box'
     export default{
       data () {
         return {
@@ -391,6 +394,9 @@
           size: 12,
           inforPageSize: 5
         }
+      },
+      components: {
+        StockBox
       },
       computed: {
         ...mapState({

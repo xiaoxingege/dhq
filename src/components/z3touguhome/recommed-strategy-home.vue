@@ -38,16 +38,18 @@
       },
       computed: {
         recommendStrategyDetail: function () {
-          const recommendStrategy = [].concat(this.$store.state.z3touguIndex.strategyList)[0]
-          recommendStrategy.backtestDate = []
-          recommendStrategy.totalReturn = []
-          recommendStrategy.benchmarkPeriodReturn = []
-          for (let i = 0; i < recommendStrategy.strategy.returns.length; i++) {
-            recommendStrategy.backtestDate.push(recommendStrategy.strategy.returns[i].backtestDate)// 时间
-            recommendStrategy.totalReturn.push(recommendStrategy.strategy.returns[i].totalReturn)// 总收益率
-            recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+          if (this.$store.state.z3touguIndex.strategyList.length > 0) {
+            const recommendStrategy = this.$store.state.z3touguIndex.strategyList[0]
+            recommendStrategy.backtestDate = []
+            recommendStrategy.totalReturn = []
+            recommendStrategy.benchmarkPeriodReturn = []
+            for (let i = 0; i < recommendStrategy.strategy.returns.length; i++) {
+              recommendStrategy.backtestDate.push(recommendStrategy.strategy.returns[i].backtestDate)// 时间
+              recommendStrategy.totalReturn.push(recommendStrategy.strategy.returns[i].totalReturn)// 总收益率
+              recommendStrategy.benchmarkPeriodReturn.push(recommendStrategy.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+            }
+            return recommendStrategy
           }
-          return recommendStrategy
         }
       },
       methods: {
@@ -56,100 +58,102 @@
           this.$store.dispatch('z3touguIndex/getStrategyList', { sort: this.sort, direction: this.direction, size: this.size })
                     .then(() => {
                       const _this = this
-                      this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
-                      this.strategyId = this.recommendStrategyDetail.strategy.strategyId
-                      this.strategyDesc = this.recommendStrategyDetail.strategy.strategyDesc
-                      this.recommendChart.setOption({
-                        legend: {
-                          left: 'center',
-                          itemWidth: 8,
-                          data: [
+                      if (this.recommendStrategyDetail) {
+                        this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
+                        this.strategyId = this.recommendStrategyDetail.strategy.strategyId
+                        this.strategyDesc = this.recommendStrategyDetail.strategy.strategyDesc
+                        this.recommendChart.setOption({
+                          legend: {
+                            left: 'center',
+                            itemWidth: 8,
+                            data: [
+                              {
+                                name: '策略累计收益率',
+                                icon: 'circle'
+                              },
+                              {
+                                name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
+                                icon: 'circle'
+                              }
+                            ]
+                          },
+                          grid: {
+                            show: true,
+                            left: 0,
+                            top: 30,
+                            bottom: 20,
+                            right: 0,
+                            width: '98%',
+                            height: '82%',
+                            containLabel: true
+                          },
+                          xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            splitLine: {
+                              show: true,
+                              lineStyle: {
+                                type: 'solid'
+                              }
+                            },
+                            axisLabel: {
+                              formatter: function (value, index) {
+                                return _this.timeFormat(value)
+                              }
+                            },
+                            data: this.recommendStrategyDetail.backtestDate
+                          },
+                          yAxis: {
+                            type: 'value',
+                            boundaryGap: false,
+                            axisLabel: {
+                              formatter: function (val) {
+                                return 100 * val + '%'
+                              }
+                            }
+                          },
+                          color: ['#e8311f', '#4076b4'],
+                          tooltip: {
+                            trigger: 'axis',
+                            padding: [10, 55, 10, 20],
+                            textStyle: { align: 'left' },
+                            showContent: true,
+                            formatter: function (params) {
+                              var s = params[0].name
+                              for (var i = 0; i < params.length; i++) {
+                                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + (100 * params[i].value).toFixed(2) + '%'
+                              }
+                              return s
+                            }
+                          },
+                          series: [
                             {
                               name: '策略累计收益率',
-                              icon: 'circle'
+                              type: 'line',
+                              showSymbol: false,
+                              hoverAnimation: false,
+                              data: this.recommendStrategyDetail.totalReturn,
+                              lineStyle: {
+                                normal: {
+                                  width: 1.5
+                                }
+                              }
                             },
                             {
                               name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
-                              icon: 'circle'
+                              type: 'line',
+                              showSymbol: false,
+                              hoverAnimation: false,
+                              data: this.recommendStrategyDetail.benchmarkPeriodReturn,
+                              lineStyle: {
+                                normal: {
+                                  width: 1.5
+                                }
+                              }
                             }
                           ]
-                        },
-                        grid: {
-                          show: true,
-                          left: 0,
-                          top: 30,
-                          bottom: 20,
-                          right: 0,
-                          width: '98%',
-                          height: '82%',
-                          containLabel: true
-                        },
-                        xAxis: {
-                          type: 'category',
-                          boundaryGap: false,
-                          splitLine: {
-                            show: true,
-                            lineStyle: {
-                              type: 'solid'
-                            }
-                          },
-                          axisLabel: {
-                            formatter: function (value, index) {
-                              return _this.timeFormat(value)
-                            }
-                          },
-                          data: this.recommendStrategyDetail.backtestDate
-                        },
-                        yAxis: {
-                          type: 'value',
-                          boundaryGap: false,
-                          axisLabel: {
-                            formatter: function (val) {
-                              return 100 * val + '%'
-                            }
-                          }
-                        },
-                        color: ['#e8311f', '#4076b4'],
-                        tooltip: {
-                          trigger: 'axis',
-                          padding: [10, 55, 10, 20],
-                          textStyle: { align: 'left' },
-                          showContent: true,
-                          formatter: function (params) {
-                            var s = params[0].name
-                            for (var i = 0; i < params.length; i++) {
-                              s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + (100 * params[i].value).toFixed(2) + '%'
-                            }
-                            return s
-                          }
-                        },
-                        series: [
-                          {
-                            name: '策略累计收益率',
-                            type: 'line',
-                            showSymbol: false,
-                            hoverAnimation: false,
-                            data: this.recommendStrategyDetail.totalReturn,
-                            lineStyle: {
-                              normal: {
-                                width: 1.5
-                              }
-                            }
-                          },
-                          {
-                            name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
-                            type: 'line',
-                            showSymbol: false,
-                            hoverAnimation: false,
-                            data: this.recommendStrategyDetail.benchmarkPeriodReturn,
-                            lineStyle: {
-                              normal: {
-                                width: 1.5
-                              }
-                            }
-                          }
-                        ]
-                      })
+                        })
+                      }
                     })
         },
         timeFormat: function (date) {

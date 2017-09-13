@@ -20,11 +20,9 @@
       "ifImp": null
     },
     "topicNews": [],
-    "equityNews": [
-      {
-        "innerCode": "600770.SH",
-        "name": "综艺股份"
-      }
-    ]
+    "equityNews": [{
+      "innerCode": "600770.SH",
+      "name": "综艺股份"
+    }]
   }
 }
