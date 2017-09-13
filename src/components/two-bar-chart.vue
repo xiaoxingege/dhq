@@ -95,7 +95,7 @@
                   type: 'bar'
                 }
               ],
-              color: ['#f7bd42', '#5c99c9'],
+              color: ['#5597d3', '#f1975d'],
               grid: {
                 width: '97%',
                 height: '80%',

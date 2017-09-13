@@ -9,6 +9,8 @@
         width:100%;
         min-height:710px;
         min-width: 1217px;
+        padding:0 8px;
+        box-sizing: border-box;
     }
     .bubbles-bar{
         font-size:12px;
@@ -75,24 +77,6 @@
         background: #F2F2F2;
         padding-left: 20px;
     }
-    .mr-20{
-        margin-right: 20px;
-    }
-    .mr-10{
-        margin-right: 10px;
-    }
-    .mr-15{
-        margin-right: 15px;
-    }
-    .mt-20{
-        margin-top: 20px;
-    }
-    .mt-40{
-        margin-top: 40px;
-    }
-    .mt-10{
-        margin-top: 10px;
-    }
     button{
         height:20px;
         line-height: 20px;
@@ -103,6 +87,7 @@
         border-radius: 3px;
         cursor: pointer;
     }
+    .tempDesc{ font-size: 12px; line-height: 24px}
 </style>
 <template>
     <div class="siwei">
@@ -218,7 +203,7 @@
         </div>
         <bubbles :options="options" v-on:toHideDialog="hideAlert"></bubbles>
         <div class="legend clearfix">
-            <p class="fl">温馨提示：双击鼠标进入个股页面。</p>
+            <p class="fl tempDesc">模板说明：{{templateList[tmpId].explain}}</p>
             <div class="fr" style="margin-top: 5px;">
                 <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
                     <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
@@ -335,7 +320,8 @@
                 stockPoolDefault: '',
                 innerCode: '',
                 topic: ''
-              }
+              },
+              explain: '从未来成长性、及盘面大小的角度，判断近1月涨幅较好的股票属于哪一类，跌幅较大的股票属于哪一类，例如：涨幅较好的股票为兼具成长性的大盘股，抑或成长性较好的小盘股？'
             },
             'demoTmp2': {
               name: '估值与股价涨跌关系',
@@ -352,7 +338,8 @@
                 stockPoolDefault: '',
                 innerCode: '',
                 topic: ''
-              }
+              },
+              explain: '从估值的角度，判断近1月涨幅较好的股票属于哪一类，跌幅较大的股票属于哪一类，例如：涨幅较好的股票主要为高估值股票，抑或估值较低的股票？'
             },
             'demoTmp3': {
               name: '行业与股价涨跌幅关系分析',
@@ -369,7 +356,8 @@
                 stockPoolDefault: '',
                 innerCode: '',
                 topic: ''
-              }
+              },
+              explain: '从行业和估值的角度，判断近1周的市场热点集中在哪几个行业，以及行业内是估值较低的股票涨得好，还是估值较高的股票涨得更好，还是较为中性的一类涨得好？'
             },
             'demoTmp4': {
               name: '分析师观点与股价涨跌关系',
@@ -386,7 +374,8 @@
                 stockPoolDefault: '',
                 innerCode: '',
                 topic: ''
-              }
+              },
+              explain: '从分析师预期和是否放量的角度寻找标的股票。例如：从分析师观点为买入或增持的股票中，挑选出具备目标价格空间较大，且近期成交量放量的股票。'
             }
           },
           currentTime: '',

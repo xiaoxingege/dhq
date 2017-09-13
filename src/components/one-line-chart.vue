@@ -57,7 +57,12 @@
                   type: 'line',
                   symbol: 'circle',
                   symbolSize: 2,
-                  showAllSymbol: true
+                  showAllSymbol: true,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
                 }
               ],
               color: ['#16be69'],
