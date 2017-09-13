@@ -40,7 +40,7 @@ function pinfo() {
 }
 
 function get_port() {
-  port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig.$1 ? data.deployConfig.$1.port : '')")
+  port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
 }
 get_port $feature
 if [ "$port" = "" ]; then
