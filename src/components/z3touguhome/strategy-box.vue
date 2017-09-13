@@ -3,7 +3,8 @@
     .strategy-title p{display: inline-block;width: 50%;height: 100%;vertical-align: middle;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight:bold;}
     .strategy-create-time{color:#666;float: right;text-align: right;}
-    .strategy-chart{height:65%;}
+    .strategy-chart-link{display: inline-block;width:100%;height:65%;}
+    .strategy-chart{height:100%;cursor: pointer;}
     .rate-labels{padding-top: 5px;height:23%;}
     .rate-labels li{display: inline-block;float: left;height:100%;}
     .rate-labels li:nth-child(1){width: 30%}
@@ -18,7 +19,7 @@
             <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}">{{strategy.strategyName}}</router-link></p>
             <p class="strategy-create-time">关注{{strategy.followCnt}}</p>
         </div>
-        <div class="strategy-chart" ref="chartList"></div>
+        <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}" class="strategy-chart-link"><div class="strategy-chart" ref="chartList"></div></router-link>
         <ul class="rate-labels clearfix">
             <li>
                 <span>年化收益率</span>
