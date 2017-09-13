@@ -109,7 +109,7 @@
                 <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
             </li>
         </ul>
-        <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0"/>
+        <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1"/>
     </div>
 
 
@@ -127,7 +127,7 @@
           total: '',
           searchType: this.$route.params.linkText,
           totalPage: '',
-          pageTo: 1,
+          pageTo: undefined,
           sortType: ''
         }
       },
