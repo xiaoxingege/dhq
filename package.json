@@ -24,6 +24,9 @@
     },
     "z3tougu": {
       "port": 3000
+    },
+    "branch-selector": {
+      "port": 3001
     }
   },
   "devDependencies": {

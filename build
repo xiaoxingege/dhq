@@ -188,6 +188,8 @@ bye
 f3
 rm -f /tmp/version.lock
 rm -f $feature-$version.tar.bzip2
-if [ "$env" = "test" -a "$feature" = "demo" ]; then
-  ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+if [ "$env" = "test" ]; then
+  if [ "$feature" = "demo" -o "$feature" = "branch-selector" ]; then
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+  fi
 fi
