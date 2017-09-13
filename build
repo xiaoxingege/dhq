@@ -195,8 +195,8 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
-  ver_path="/data/www/${env}_version"
   package_path="/data/www/packages/$env"
+  ver_path="$package_path/$feature.version"
   sudo mkdir -p $package_path
   if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
     echo "package $feature-$version exists."
