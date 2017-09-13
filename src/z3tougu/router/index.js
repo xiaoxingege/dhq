@@ -9,11 +9,12 @@ import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
-// import BacktestDetailH5 from 'components/backtest-detail-h5'
+import BacktestDetailH5 from 'components/backtest-detail-h5'
 import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
 import editstrategy from 'components/editstrategy'
+import runstatestrategy from 'components/runstatestrategy'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
@@ -47,11 +48,12 @@ export default [
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
     { path: '/gold-strategy/:strategyId/:showType', name: 'goldStrategyType', component: GoldStrategy },
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
-    // { path: '/backtest-detail-h5/:strategyId', name: 'BacktestDetailH5', component: BacktestDetailH5 },
+    { path: '/backtest-detail-h5/:strategyId/:backtestId', name: 'BacktestDetailH5', component: BacktestDetailH5 },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
     { path: '/editstrategy', name: 'editstrategy', component: editstrategy },
+    { path: '/runstatestrategy', name: 'runstatestrategy', component: runstatestrategy },
     { path: '/z3touguIndex', name: 'z3touguIndex', component: z3TouguIndex },
     { path: '/filter', name: 'filter', component: Filter },
     { path: '/backtestFilter/:strategyId', name: 'backtestfilter', component: BacktestFilter },
