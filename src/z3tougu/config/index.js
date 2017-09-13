@@ -7,8 +7,9 @@ export default {
   ma120Color: '',
   emptyValue: '--'
 }
-const domain = '//test.z3quant.com'
+const domain = 'https://test.z3quant.com'
+const ctx = '/zstgweb'
 // const domain = '//www.z3quant.com'
 // const domain = '//10.77.4.84:8899'
-export { domain }
+export { domain, ctx }
 
