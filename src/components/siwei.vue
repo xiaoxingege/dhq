@@ -479,7 +479,6 @@
         }
       },
       mounted () {
-        const userId = this.$cookie.get('userId')
         this.$store.dispatch('bubbles/getStockPool')
         this.$store.dispatch('bubbles/getStrategy')
         const that = this
