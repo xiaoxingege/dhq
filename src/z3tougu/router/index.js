@@ -9,7 +9,7 @@ import ThemeInformat from 'components/theme-informat-list'
 import TopicDetail from 'components/topic-detail'
 import GoldStrategy from 'components/gold-strategy'
 import GoldStrategyH5 from 'components/gold-strategy-h5'
-import BacktestDetailH5 from 'components/backtest-detail-h5'
+// import BacktestDetailH5 from 'components/backtest-detail-h5'
 import foundpoollist from 'components/foundpoollist'
 import foundpooldetail from 'components/foundpooldetail'
 import ownstrategylist from 'components/ownstrategylist'
@@ -47,7 +47,7 @@ export default [
     { path: '/gold-strategy/:strategyId', name: 'goldStrategy', component: GoldStrategy },
     { path: '/gold-strategy/:strategyId/:showType', name: 'goldStrategyType', component: GoldStrategy },
     { path: '/gold-strategy-h5/:strategyId', name: 'goldStrategyH5', component: GoldStrategyH5 },
-    { path: '/backtest-detail-h5/:strategyId', name: 'BacktestDetailH5', component: BacktestDetailH5 },
+    // { path: '/backtest-detail-h5/:strategyId', name: 'BacktestDetailH5', component: BacktestDetailH5 },
     { path: '/foundpoollist', name: 'foundpoollist', component: foundpoollist },
     { path: '/foundpooldetail/:id', name: 'foundpooldetail', component: foundpooldetail },
     { path: '/ownstrategylist', name: 'ownstrategylist', component: ownstrategylist },
@@ -66,7 +66,7 @@ export default [
     { path: '/home/:newsType/newsDetail/:newsId', name: 'newsdetails', component: NewsDetails },
     { path: '/smartPool', name: 'smartPoolList', component: SmartPoolList },
     { path: '/smartPoolListDetails/:id', name: 'smartPoolListDetails', component: SmartPoolListDetails },
-     { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
+    { path: '/fundArchives', name: 'fundArchives', component: FundArchives },
     { path: '/strategyList', name: 'strategyList', component: StrategyList }
 
 ]

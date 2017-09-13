@@ -3,8 +3,9 @@
     *{
       text-align: justify;
     }
-    body{
+    html,body{
         font-size: 12px;
+        height: 100%;
     }
     h3{
       font-weight: 400;
@@ -22,10 +23,10 @@
       color: #2388da;
     }
     .red{
-      color:#e6363a !important;
+      color:#e6363a;
     }
     .green {
-      color:#48a854 !important;
+      color:#48a854;
     }
     /*  */
     .display-box {
@@ -48,7 +49,7 @@
     }
      .hot-top{
       padding: 15px 30px 11px 15px; 
-      color: #191919;
+      color: #696969;
     }
     .topic-num{
       width: 30px;
@@ -98,7 +99,7 @@
       /* margin: 18px 0 10% 0; */
       margin-top: 18px;
       margin-bottom: 27px;
-      /* height: 90px; */
+      height: 50px;
       /* padding-bottom: 27px; */
       overflow: hidden;
       /* cursor: pointer; */
@@ -126,7 +127,7 @@
     }
     span{
       text-align: left;
-      color: #191919;
+      color: #696969;
     }
     .li-bottom{
      /*  padding:11px 0 3px 0; */
@@ -152,7 +153,33 @@
     }
     .theme-list .router-link-active {
         background: none;
-        color: #191919;
+        color: #696969;
+    }
+    .bar-title2{
+      position: relative
+    }
+    .bar-title2 i{
+      display: none;
+      position: absolute;
+      top: 25px;
+      left: -1px;
+      width: 220px;
+      border: 1px solid #e5e5e5;
+      color: #696969;
+      border-radius: 3px;
+      background: #fff;
+      padding: 0 5px;
+      box-shadow: 2px 3px 2px #ccc;
+      line-height: 20px;
+      min-height: 22px;
+      font-style: normal;
+    }
+    .bar-title2:hover i{
+      display: block
+    }
+    .bar-title2:hover{
+      background: #2388da;
+      color:#fff;
     }
 </style>
 <template>
@@ -165,23 +192,23 @@
     </div>
     <ul class="theme-list-ul display-box clearfix">
         <li class="theme-bar-li box-flex-1" v-for="topic of topicList">
-         <div class="li-nei">
-          <div class="bar-tit">
-            <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" class="theme-bar-title blue">{{topic.topicName}}</router-link>
-            <span class="blue bar-title2" :title="topic.topicDesc">主题简介</span>
-          </div>
-          <div class="bar-txt clearfix">
-            <strong>最新事件：</strong>
-            <span class="txt-con">
-              <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.drivenEvent}}</span></router-link>
-              （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
-            </span>
-          </div>
-          <div class="li-bottom">
-              今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
-              上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
-          </div>
-          </div>
+             <div class="li-nei">
+                  <div class="bar-tit">
+                    <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" class="theme-bar-title blue">{{topic.topicName}}</router-link>
+                    <span class="blue bar-title2">主题简介<i>{{topic.topicDesc}}</i></span>
+                  </div>
+                  <div class="bar-txt clearfix">
+                    <strong>最新事件：</strong>
+                    <span class="txt-con">
+                      <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.summary}}</span></router-link>
+                      （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
+                    </span>
+                  </div>
+                  <div class="li-bottom">
+                      今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
+                      上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
+                  </div>
+              </div>
          </li>
     </ul>
 </div>

@@ -30,7 +30,7 @@
         </div>
         <div class="strategy-wrap">
             <ul class="clearfix">
-                <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
+                <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
             </ul>
         </div>
         <div class="strategy-map clearfix">
@@ -40,7 +40,7 @@
     </div>
 </template>
 <script type="text/javascript">
-    import StrategyListHome from 'components/z3touguhome/strategy-list-home'
+    import StrategyListHome from 'components/z3touguhome/strategy-box'
     import RecommendStrategyHome from 'components/z3touguhome/recommed-strategy-home'
     import MapHome from 'components/z3touguhome/map-home'
     import ThemeHome from 'components/z3touguhome/theme-home'

@@ -102,6 +102,7 @@
                 axisTick: {
                   alignWithLabel: true
                 },
+    
                 data: sylfbData.xData
               },
               yAxis: {

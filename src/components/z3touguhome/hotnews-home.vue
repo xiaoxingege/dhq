@@ -6,7 +6,7 @@
     .finance-news-title{font-weight: bold;color:#666;}
     .finance-news-list{height:88%;}
     .finance-news-list li{height:16.66%;padding-top:8px;}
-    .newtitle{cursor: pointer;}
+    .newtitle{cursor: pointer;color:#666;}
     .newtitle:hover{color:#4c8cca;}
 </style>
 <template>
@@ -17,7 +17,7 @@
         </div>
         <ul class="finance-news-list">
             <li v-for="item of newsList" class="c_txt tl clearfix">
-                <router-link class="fl newtitle" tag="span" :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}">•{{item.title}}</router-link>
+                <router-link class="fl newtitle" :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}">•{{item.title}}</router-link>
                 <span class="fr">{{item.makedate.substring(11)}}</span>
             </li>
         </ul>

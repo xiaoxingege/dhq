@@ -8,19 +8,21 @@
     .strategy-wrap1{height: 100%;padding: 8px;min-width: 1217px;min-height: 704px;background-color: #ebecee}
     .strategy-wrap1>ul{height:100%;}
     .strategy-wrap1>ul>li{background-color: #fff;margin-right:0.5%;padding: 10px 10px 0px 10px;width: 33%;float: left;display: inline-block;height:32.8%;margin-bottom: 0.5%;}
-    .strategy-wrap1 li:nth-child(3),.strategy-wrap li:nth-child(6),.strategy-wrap li:nth-child(9){margin-right: 0px;}
-    .strategy-wrap1 li:nth-child(7),.strategy-wrap li:nth-child(8),.strategy-wrap li:nth-child(9){margin-bottom: 0px;}
+    .strategy-wrap1 li:nth-child(3),.strategy-wrap1 li:nth-child(6),.strategy-wrap1 li:nth-child(9){margin-right: 0px;}
+    .strategy-wrap1 li:nth-child(7),.strategy-wrap1 li:nth-child(8),.strategy-wrap1 li:nth-child(9){margin-bottom: 0px;}
+    .strategy-wrap1 .page{background-color: transparent !important;}
 </style>
 <template>
     <div class="strategy-wrap1">
         <ul class="clearfix">
-            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
-            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :strategyData="item"></StrategyListHome>
+            <StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>
         </ul>
+        <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0"/>
     </div>
 </template>
 <script type="text/javascript">
-    import StrategyListHome from 'components/z3touguhome/strategy-list-home'
+    import StrategyListHome from 'components/z3touguhome/strategy-box'
+    import Pagination from 'components/pagination.vue'
     export default {
       data () {
         return {
@@ -38,28 +40,46 @@
           sort: 'createDate',
           direction: 'desc',
           size: 4,
-          strategyList: []
+          strategyList: [],
+          totalPage: 0,
+          pageSize: 9,
+          query: '',
+          testQuery: ''
         }
       },
       components: {
-        StrategyListHome
+        StrategyListHome,
+        Pagination
       },
       computed: {
         strategyDetail: function () {
-          const strategyList = [].concat(this.$store.state.z3touguIndex.strategyList)
-          return strategyList
+          const strategyDetail = this.$store.state.z3touguIndex.strategyBlock
+          return strategyDetail
         }
       },
       methods: {
-        initStrategy: function () {
-          this.$store.dispatch('z3touguIndex/getStrategyList', { sort: this.sort, direction: this.direction, size: this.size })
+        initStrategy: function (pageNo) {
+          const query = this.$route.query
+          if (query && query.query) {
+            this.query = query.query
+          } else {
+            console.log(query.query)
+            return
+            // this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
+          }
+          this.$store.dispatch('z3touguIndex/getStrategyBlock', { query: this.query, size: this.pageSize, page: pageNo })
                     .then(() => {
-                      this.strategyList = this.strategyDetail
+                      this.strategyList = this.strategyDetail.content
+                      this.totalPage = this.strategyDetail.totalPages
                     })
+        },
+        goToPage (data) {
+          this.strategyList = []
+          this.initStrategy(data - 1)
         }
       },
       mounted () {
-        this.initStrategy()
-      }
+        this.initStrategy(0)
+  }
     }
 </script>

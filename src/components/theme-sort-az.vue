@@ -54,7 +54,7 @@
     }
     
     span{
-      color: #191919;
+      color: #696969;
     }
     html,body{
         background: #f2f2f2;
@@ -64,7 +64,7 @@
      /*  background: #f2f2f2;
       width: 100%;
       font-size: 12px;
-      color: #191919; */
+      color: #696969; */
    }
    .az-main{
 
@@ -82,11 +82,14 @@
      background: #ffff;
      padding-left: 11px;
      padding-right: 8px;
+     height: 100%;
+     width: 100%;
+     box-sizing: border-box;
    }
    .every-main{
      border-bottom:1px solid #e5e5e5;
      font-size: 12px;
-     color: #191919;
+     color: #696969;
      padding:7px 16px 9px 16px;
    }
    .letter{
@@ -104,20 +107,22 @@
      /* padding: 0 10px; */
      width: 10%;
      line-height: 20px;
-     color: #191919;
+     color: #696969;
      display: inline-block;
      cursor: pointer;
    }
     .every-name a:hover{
        text-decoration: underline;
     }
-
+    .block{
+      color: #696969;
+    }
 </style>
 <template>
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" :class="g.topicMarket.chngPct>0?'red':'green'" :value="g.topicCode">{{g.topicName}}</a></div>
+         <div class="fl every-name"><a v-for="g of groupTopics[key]" v-z3-updowncolor="g.topicMarket.chngPct" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a></div>
       </div>
       
    </div>
@@ -154,6 +159,11 @@
    methods: {
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+     },
+     getVal (e) {
+       const text = e.target.innerHTML
+       const val = e.target.getAttribute('value')
+       this.$emit('getThemeValue', [val, text])
      }
    },
    watch: {

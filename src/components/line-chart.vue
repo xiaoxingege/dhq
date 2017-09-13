@@ -38,6 +38,7 @@
           this.$store.dispatch('goldStrategy/getSyqxtData', { strategyId: this.strategyId }).then(() => {
             const lineData = this.$store.state.goldStrategy.syqxtData
             this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], { width: window.screen.width / 100 + 'rem', height: 2.1 + 'rem' })
+
             this.chart.setOption({
               backgroundColor: '#fff',
               legend: {
@@ -70,12 +71,12 @@
                     if (i === 0) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>策略累计收益率: ' +
-                                        params[i].value + '%'
+                          (params[i].value * 100) + '%'
                     }
                     if (i === 1) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>基准累计收益率: ' +
-                                        params[i].value + '%'
+                          (params[i].value * 100) + '%'
                     }
                   }
                   return s
@@ -100,7 +101,7 @@
                 type: 'value',
                 axisLabel: {
                   formatter: function (val) {
-                    return val + '%'
+                    return val * 100 + '%'
                   }
                 },
                 nameTextStyle: {

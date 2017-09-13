@@ -2,6 +2,11 @@
     @import '../assets/css/base.css';
     *{
       text-align: justify;
+      -webkit-tap-highlight-color:rgba(0,0,0,0);
+      -webkit-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none
     }
     em,i{
       font-style: normal;
@@ -55,10 +60,10 @@
     .alltopic{
       width: 100%;
       font-size: 12px;
-      color: #191919;
+      color: #696969;
     }
     span{
-      color: #191919;
+      color: #696969;
     }
     .topic-head{
       font-weight: normal;
@@ -77,7 +82,8 @@
       /* display: inline-block; */
       border-radius: 3px;
       border: 1px solid #e5e5e5;
-      color: #4f5256;
+     /*  color: #4f5256; */
+     color: #696969;
       text-align: center;
       background: #fff;
       margin-left: 14px;
@@ -138,17 +144,37 @@
       background-position: 1px -82px;
     }
     .con-left{
-      width: 36%;
-      float: left;
+      /* width: 36%; */
+      width: 37%;
       margin-right: 5%;
     }
     .content{
       line-height: 24px;
       cursor: pointer;
+     /*  position: relative; */
     }
     .content:hover{
       color: #2388da;
     }
+    /* .content i{
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      min-width: 400px;
+      border: 1px solid #e5e5e5;
+      color: #696969;
+      border-radius: 3px;
+      background: #fff;
+      padding: 0 5px;
+      box-shadow: 2px 3px 2px #ccc;
+      line-height: 20px;
+      min-height: 22px;
+      font-style: normal;
+    }
+    .content:hover i{
+      display: block
+    } */
     .content-head{
       margin-bottom: 20px;
     }
@@ -156,15 +182,15 @@
 
     }
     .con-cen{
-      width: 18%;
-      float: left;
+      /* width: 18%; */
+      width: 25%;
       line-height: 24px;
      /*  margin-top: -6px; */
 
     }
     .con-right{
-      width: 40%;
-      float: left;
+      /* width: 41%; */
+      width: 35%;
       line-height: 24px;
 
     }
@@ -226,7 +252,9 @@
 
     }
     .new-tit{
-      width: 50%;
+      /* width: 50%; */
+      /* width: 61%; */
+      width: 56%;
       text-align: left;
       float: left;
       white-space: nowrap;
@@ -246,9 +274,11 @@
     }
     .new-srcname{
       color: #7e7e7e;
-      margin-left: 18px;
+      /* margin-left: 18px; */
       line-height: 24px;
-      float: left;
+      float: right;
+     /*  width: 18%; */
+       margin-right: 5px;
 
     }
     .sortaz-wrap{
@@ -260,16 +290,39 @@
         background: #fff;
         border-radius: 3px;
         border-top:1px solid #e5e5e5;
+        /* position:relative; */
+    }
+    .sort-title{
+        /* position: absolute;
+        top: 1.5%; */
+        /* left: 1%; */
+        /* left: 1.5%; */
+        line-height: 20px;
+        width: 5.4%;
+        text-align: center;
+    }
+    .sort-hot-wrap{
+      
+     font-size: 12px;
+     padding:7px 16px 9px 16px;
+     margin: 13px auto 13px
     }
     .sort-hot{
-      width: 62%;
-      margin: 13px auto 13px;
+     /*  width: 62%;
+      margin: 13px auto 13px; */
+      width: 90%;
+      padding-left: 3.7%;
     }
     .hot-name{
      /*  margin-left: 19px; */
-     width: 10%;
+     /* width: 10%;
      display: inline-block;
-     text-align: center;
+     text-align: center; */
+     width: 10%;
+     line-height: 20px;
+     display: inline-block;
+     cursor: pointer;
+       
     }
     .alltopic .page{
       text-align: center;
@@ -278,43 +331,44 @@
     }
 
     .tooltip-box {
-    position: absolute;
-    background: #fff;
-    padding: 25px 10px 10px;
-    border: 1px solid #eee;
-    z-index: 999
-  }
+      position: absolute;
+      background: #fff;
+      padding: 25px 10px 10px;
+      border: 1px solid #eee;
+      z-index: 999
+    }
 
-.tooltip-box .lenged_l {
-    position: absolute;
-    right: 10px;
-    top: 14px;
-    font-size: 14px;
-    color: #000;
-    z-index: 999
-}
+    .tooltip-box .lenged_l {
+        position: absolute;
+        right: 10px;
+        top: 14px;
+        font-size: 14px;
+        color: #000;
+        z-index: 999
+    }
 
-.tooltip-box .name {
-    position: absolute;
-    top: 14px;
-    left: 23px;
-    font-size: 14px;
-    color: #666;
-    z-index: 9
-}
+    .tooltip-box .name {
+        position: absolute;
+        top: 14px;
+        left: 23px;
+        font-size: 14px;
+        color: #666;
+        z-index: 9
+    }
 
-.tooltip-box .txt {
-    position: absolute;
-    top: 38px;
-    left: 3px;
-    font-size: 12px;
-    z-index: 9
-}
+    .tooltip-box .txt {
+        position: absolute;
+        top: 38px;
+        left: 3px;
+        font-size: 12px;
+        z-index: 9
+    }
 
-.tooltip-box .txt>div {
-    float: left;
-    margin-right: 10px
-}
+    .tooltip-box .txt>div {
+        float: left;
+        margin-right: 10px
+    }
+
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -325,7 +379,7 @@
             <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
             <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="listChangeClick()" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChangeClick('kuai')" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="listChangeClick('list',$event)" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChangeClick('kuai',$event)" :class="this.isShow==!true?'active':''"></a></div>
     </div>
     <div class="main-list" v-show="isShow">
       <ol class="topic-ol" >
@@ -340,11 +394,15 @@
                     <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ allTopic.topicMarket==null || allTopic.topicMarket.chngPct==null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkUpNum ==null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkDownNum ==null?'--':allTopic.topicMarket.stkDownNum}}</span>
                 </div>
            </div>
-           <div class="content-box clearfix">
-               <div  class="con-left">
-                   <strong>主题简介:</strong><router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" ><span class='content' :title="allTopic.topicDesc" ref="txtheight">{{allTopic.topicDesc}}</span></router-link>
+           <div class="content-box clearfix display-box">
+               <div  class="con-left box-flex-3">
+                   <strong>主题简介:</strong>
+                   <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" >
+                    <span class='content' ref="txtheight" :title="allTopic.topicDesc">{{allTopic.topicDesc}}
+                    </span>
+                  </router-link>
                </div>
-               <div  class="con-cen">
+               <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
                       <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
@@ -360,7 +418,7 @@
                             </div>
                     </div>
                </div>
-               <div  class="con-right" >
+               <div  class="con-right box-flex-2" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
                       <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title}}</span>
                        <span class="new-date">{{format(news.declareDate)}}</span>
@@ -374,8 +432,11 @@
     </div>
     <div class="sortaz-wrap clearfix" v-show="!isShow">
       <div class="az-main">
-            <div class="sort-hot" >
-                 <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
+            <div class="sort-hot-wrap">
+                <div class="sort-title fl">推荐主题 ></div>
+                <div class="sort-hot fl">
+                     <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
+                </div>
             </div>
             <ThemeSortAz/>
       </div>
@@ -463,7 +524,8 @@ export default {
      updateVal () {
        this.direName = 'df'
      },
-     listChangeClick (type) {
+     listChangeClick (type, e) {
+       e.preventDefault()
        this.isShow = !this.isShow
        if (type === 'kuai') {
          this.list('updown')

@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe885a4a-6809-4243-b94a-dc341523f871" name="默认的" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-filter-descr.vue" afterPath="$PROJECT_DIR$/src/components/back-filter-descr.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-alltopic.vue" afterPath="$PROJECT_DIR$/src/components/theme-alltopic.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stores/backtest-detail.js" afterPath="$PROJECT_DIR$/src/stores/backtest-detail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/back-time-kline.vue" afterPath="$PROJECT_DIR$/src/components/back-time-kline.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-index.vue" afterPath="$PROJECT_DIR$/src/components/theme-index.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-list.vue" afterPath="$PROJECT_DIR$/src/components/theme-list.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/theme-sort-az.vue" afterPath="$PROJECT_DIR$/src/components/theme-sort-az.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/topic-detail.vue" afterPath="$PROJECT_DIR$/src/components/topic-detail.vue" />
     </list>
     <ignored path="vue.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,16 +92,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme-alltopic.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="446" column="13" selection-start-line="446" selection-start-column="13" selection-end-line="446" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="back-time-kline.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/back-time-kline.vue">
           <provider selected="true" editor-type-id="text-editor">
@@ -113,8 +105,8 @@
       <file leaf-file-name="backtest-time.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/backtest-time.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11895911">
-              <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+            <state vertical-scroll-proportion="1.4275093">
+              <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -315,28 +307,30 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/package.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/activity/server/index.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-detail-h5.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-filter.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/backtest-time.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/editstrategy.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter-select.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/filter/filter.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/fund-file.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpooldetail.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/foundpoollist.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-chart.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-recommends.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy-h5.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/gold-strategy.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/one-line-chart.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/pagination.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/ownstrategylist.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/routed-app.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/siwei.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/stock-box.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/stock-map.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/map-home.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list-home.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/theme-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/table-list.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/theme-sort-az.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/recommed-strategy-home.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list.vue</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/z3tougu-index.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/index.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/backtest-detail-h5.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/filter.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/gold-strategy.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/stock.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/constant/filter.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/z3tougu-index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/plugins/z3.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/z3tougu/router/index.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn.lock</PATH>
         </FILE-GROUP>
@@ -346,32 +340,19 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/h5-0.0.81.tar.bzip2</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg1-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg10-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg2-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg3-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg4-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg5-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg6-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg7-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg8-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/bg9-m.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/btn-m.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg2.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg3.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg4.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg5.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg6.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-bg7.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/images/sept-new-activity/sept-btn.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sept-new-activity-app.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sept-new-activity-web.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/z3touguhome/strategy-list.vue</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/h5/pages/sept-new-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/stores/sept-new-activity.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/web/pages/sept-new-activity.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/plugins/laydate/laydate.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/assets/plugins/laydate/laydate.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dadian-btn.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dadian-table.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dadian-time.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dadianapp.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dadianweb.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/paginationnum.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/progressbar.vue</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/dadian/index.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/dadian/pages/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/dadian/server/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/dadian/server/routes/index.js</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已删除" />
@@ -379,6 +360,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/yarn-error.log</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="已恢复" />
@@ -860,6 +842,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -873,7 +856,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/theme-alltopic.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="446" column="13" selection-start-line="446" selection-start-column="13" selection-end-line="446" selection-end-column="13" />
+          <caret line="492" column="13" selection-start-line="492" selection-start-column="13" selection-end-line="492" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -946,8 +929,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/backtest-time.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11895911">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        <state vertical-scroll-proportion="1.4275093">
+          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
           <folding />
         </state>
       </provider>

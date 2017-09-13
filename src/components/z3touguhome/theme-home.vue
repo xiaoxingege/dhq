@@ -22,7 +22,7 @@
             <li class="theme-title tl"><router-link :to="{name:'topicDetail',params:{topicId:topicCode}}">{{topicName}}</router-link></li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
-                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct}}</span>
+                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPctFmt}}</span>
             </li>
             <li class="up-stock tr">
                 <span>上涨股票</span>
@@ -77,7 +77,8 @@
               this.newsDeclareDate = this.format(this.topicData[1].newsDeclareDate)
               this.srcName = this.topicData[1].srcName
               this.topicName = this.topicData[1].topicName
-              this.chngPct = this.topicData[1].topicMarket.chngPct > 0 ? '+' + this.topicData[1].topicMarket.chngPct.toFixed(2) : this.topicData[1].topicMarket.chngPct.toFixed(2)
+              this.chngPct = this.topicData[1].topicMarket.chngPct
+              this.chngPctFmt = this.topicData[1].topicMarket.chngPct > 0 ? '+' + (100 * this.topicData[1].topicMarket.chngPct).toFixed(2) + '%' : (100 * this.topicData[1].topicMarket.chngPct).toFixed(2) + '%'
               this.stkUpNum = this.topicData[1].topicMarket.stkUpNum
               this.stkDownNum = this.topicData[1].topicMarket.stkDownNum
               this.topicCode = this.topicData[1].topicCode

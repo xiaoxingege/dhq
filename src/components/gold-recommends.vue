@@ -9,6 +9,12 @@
         padding:20px 15px;
         font-size:14px;
 }
+    .sellCondition tr td{
+        color:#696969 !important;
+    }
+    .sellCondition tr:first-child td{
+        color:#a5a5a5 !important;
+    }
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .choseStock{
             padding-top:0.2rem;
@@ -24,6 +30,12 @@
             padding:0.2rem 0.15rem;
             font-size:0.18rem;
             text-align: left;
+        }
+        .sellCondition tr td{
+            color:#696969 !important;
+        }
+        .sellCondition tr:first-child td{
+            color:#a5a5a5 !important;
         }
     }
 </style>
@@ -72,35 +84,39 @@
       },
       computed: {
         choseStockData: function () {
-          const choseStockTable = this.data.choseStockData.filterSummary
-          const arr1 = []
-          const arr2 = []
-          if (choseStockTable.gkzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
-              arr1.push(choseStockTable.gkzbList[i].indexName)
-              arr2.push(choseStockTable.gkzbList[i].indexValue)
+          if (this.data.choseStockData === null) {
+            return []
+          } else {
+            const choseStockTable = this.data.choseStockData.filterSummary
+            const arr1 = []
+            const arr2 = []
+            if (choseStockTable.gkzbList.length > 0) {
+              for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
+                arr1.push(choseStockTable.gkzbList[i].indexName)
+                arr2.push(choseStockTable.gkzbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.jbmzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
-              arr1.push(choseStockTable.jbmzbList[i].indexName)
-              arr2.push(choseStockTable.jbmzbList[i].indexValue)
+            if (choseStockTable.jbmzbList.length > 0) {
+              for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
+                arr1.push(choseStockTable.jbmzbList[i].indexName)
+                arr2.push(choseStockTable.jbmzbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.jszbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jszbList.length; i++) {
-              arr1.push(choseStockTable.jszbList[i].indexName)
-              arr2.push(choseStockTable.jszbList[i].indexValue)
+            if (choseStockTable.jszbList.length > 0) {
+              for (let i = 0; i < choseStockTable.jszbList.length; i++) {
+                arr1.push(choseStockTable.jszbList[i].indexName)
+                arr2.push(choseStockTable.jszbList[i].indexValue)
+              }
             }
-          }
-          if (choseStockTable.xgfwList.length > 0) {
-            for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
-              arr1.push(choseStockTable.xgfwList[i].indexName)
-              arr2.push(choseStockTable.xgfwList[i].indexValue)
+            if (choseStockTable.xgfwList.length > 0) {
+              for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
+                arr1.push(choseStockTable.xgfwList[i].indexName)
+                arr2.push(choseStockTable.xgfwList[i].indexValue)
+              }
             }
-          }
 
-          return [arr1, arr2]
+            return [arr1, arr2]
+          }
         },
         sellConditionData: function () {
           const buyData = [
@@ -127,7 +143,7 @@
                 }
               }
     
-              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
+              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].operator === null ? buyConditionTable[i].operator : buyConditionTable[i].comparisonValue])
             }
           }
           if (sellConditionTable.length > 0) {
@@ -145,7 +161,7 @@
                   parmsPeriod.push(parms[item])
                 }
               }
-              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].operator === null ? sellConditionTable[j].operator : sellConditionTable[j].comparisonValue])
             }
           }
           return {
