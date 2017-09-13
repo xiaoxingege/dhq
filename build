@@ -44,7 +44,7 @@ function get_port() {
 }
 get_port $feature
 if [ "$port" = "" ]; then
-  echo '不支持的项目名'
+  echo 'feature not found'
   exit 1
 fi
 
