@@ -56,7 +56,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
-          alert(info)
           const authInfo = JSON.parse(info)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
           resolve()
