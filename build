@@ -52,6 +52,7 @@ errstr="__error__"
 
 
 version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.version)")
+echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
 yarn config set registry https://registry.npm.taobao.org
@@ -194,14 +195,19 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
+  ver_path="/data/www/${env}_version"
+  package_path="/data/www/packages/$env"
+  sudo mkdir -p $package_path
+  if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
+    echo "package $feature-$version exists."
+    exit 1
+  fi
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
     sleep 5s
   done
   touch /tmp/version.lock
-  ver_path="/data/www/${env}_version"
-  package_path="/data/www/packages/$env"
   sudo touch $ver_path
   count=$(cat $ver_path | grep "^"$feature" " | wc -l)
   if [ "$count" = "0" ]; then
@@ -218,7 +224,6 @@ else
     fi
   done
   tar -cjf $feature-$version.tar.bzip2 *
-  sudo mkdir -p $package_path
   sudo mv $feature-$version.tar.bzip2 $package_path
   if [ "$env" = "test" ]; then
     ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
