@@ -72,10 +72,16 @@ pinfo 'yarn install done.'
 rm -rf dist/$feature/*.*
 rm -rf dist/$feature/ftp
 export JRJ_FEATURE=$feature
+
+pinfo 'JRJ_FEATURE='$JRJ_FEATURE
+pinfo 'JRJ_FEATURE='JRJ_FEATURE
+
 npm run build -- --env=$feature
 if [ "$?" != "0" ]; then
   exit 1
 fi
+
+
 pinfo 'npm build done.'
 npm run buildserver -- --env=$feature,$port
 if [ "$?" != "0" ]; then
