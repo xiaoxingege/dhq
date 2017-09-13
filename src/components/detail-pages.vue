@@ -1,10 +1,11 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
     .news{
         color:#191919;
         padding-top: 50px;
         font-family: "宋体";
         font-size:12px;
         text-align: left;
+        background:#fff;
     }
     .newTitle{
         text-align: center;
