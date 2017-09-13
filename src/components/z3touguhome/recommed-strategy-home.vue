@@ -4,7 +4,8 @@
     .recommend-strategy-title p{color:#4c8cca;height:100%;}
     .more-strategy{float: right;text-align: right;cursor: pointer;padding-right:20px;}
     .more-strategy a{color:#4c8cca;}
-    .recommend-strategy-chart{width: 100%;height:79.5%;}
+    .recommend-strategy-chart-link{display:inline-block;width: 100%;height:79.5%;}
+    .recommend-strategy-chart{height: 100%;}
     .strategy-description{color:#666;height:11%;padding-top: 8px;}
     .strategy-description p{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight: bold;}
@@ -15,7 +16,7 @@
             <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}">{{recommendStrategyName}}</router-link></p>
             <p class="more-strategy"><a v-on:click="moreGoldList">更多推荐策略</a></p>
         </div>
-        <div class="recommend-strategy-chart" ref="recChart"></div>
+        <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="recommend-strategy-chart-link"><div class="recommend-strategy-chart" ref="recChart"></div></router-link>
         <div class="strategy-description"><p>{{strategyDesc}}</p></div>
     </div>
 </template>

@@ -271,8 +271,12 @@
                     stock.perf = stockData[stock.id] || stockData[stock.name]
                     if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                       if (_this.isUnit[_this.condition] === '%') {
-                        if (stock.perf >= 0) {
-                          stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                        if (_this.condition !== 'mkt_idx.div_rate') {
+                          if (stock.perf >= 0) {
+                            stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                          } else {
+                            stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                          }
                         } else {
                           stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                         }
