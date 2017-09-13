@@ -186,8 +186,8 @@
         },
         initBubbles () {
           const that = this
-          if (window.FiterToWeb) {
-            window.FiterToWeb.SndStockPoolInfo((data) => {
+          if (window.Z3) {
+            window.Z3.SndStockPoolInfo((data) => {
               that.options.innerCode = data
             })
           }

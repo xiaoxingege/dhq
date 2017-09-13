@@ -37,7 +37,7 @@
         <div style="text-align: justify;">
             <strong>最新事件：</strong>
             <span class="txt-con">
-              <router-link :to="{name:'detailPages',params:{id : newsId, detailType:'news'}}" class="new-text"><span class="event c_txt tl">{{drivenEvent}}</span></router-link>
+              <router-link :to="{name:'detailPages',params:{id : newsId, detailType:'news'}}" class="new-text"><span class="event c_txt tl">{{summary}}</span></router-link>
                 （<span class="c_txt">{{newsDeclareDate}}</span>   <span class="c_txt">{{srcName}}</span>）
             </span>
         </div>
@@ -50,7 +50,7 @@
       data () {
         return {
           newsId: '',
-          drivenEvent: '',
+          summary: '',
           newsDeclareDate: '',
           srcName: '',
           topicName: '',
@@ -74,7 +74,7 @@
           this.$store.dispatch('topic/queryHot').then(() => {
             if (this.topicData) {
               this.newsId = this.topicData[1].newsId
-              this.drivenEvent = this.topicData[1].drivenEvent
+              this.summary = this.topicData[1].summary
               this.newsDeclareDate = this.format(this.topicData[1].newsDeclareDate)
               this.srcName = this.topicData[1].srcName
               this.topicName = this.topicData[1].topicName

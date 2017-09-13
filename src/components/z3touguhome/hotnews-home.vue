@@ -28,7 +28,7 @@
         </div>
         <ul class="finance-news-list">
             <li v-for="item of newsList" class="c_txt tl clearfix">
-                <router-link class="fl newtitle" :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}">{{item.title}}</router-link>
+                <router-link class="fl newtitle" :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link>
                 <span class="fr">{{item.makedate.substring(11)}}</span>
             </li>
         </ul>
