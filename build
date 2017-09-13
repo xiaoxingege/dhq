@@ -195,8 +195,8 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
-  package_path="/data/www/packages/$env"
-  ver_path="$package_path/$feature.version"
+  package_path="/data/www/packages"
+  ver_path="$package_path/$feature.$env.version"
   sudo mkdir -p $package_path
   if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
     echo "package $feature-$version exists."
@@ -226,6 +226,6 @@ else
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
   if [ "$env" = "test" ]; then
-    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature sh /home/admin/pull.sh"
   fi
 fi
