@@ -4,11 +4,12 @@
     .theme-home-top p{display: inline-block;width: 50%;}
     .more-theme{color:#4c8cca;cursor: pointer;}
     .theme-home-title{font-weight: bold;color:#666;}
-    .theme-title{width: 31%;color:#4c8cca;font-weight: bold;}
+    .theme-title{width: 22%;color:#4c8cca;font-weight: bold;}
     .theme-con-title{height:15%;padding-top:5px;}
     .theme-con-title li{height:100%;float: left;display: inline-block;}
-    .theme-con-title li span:nth-child(1){padding-right:5px;}
-    .updown-rate,.up-stock,.down-stock{width: 23%;}
+    .theme-con-title li span:nth-child(1){}
+    .updown-rate{width: 32%;}
+    .up-stock,.down-stock{width: 23%;}
     .event:hover{color: #2388da;}
     .event{}
 </style>
@@ -78,7 +79,7 @@
               this.srcName = this.topicData[1].srcName
               this.topicName = this.topicData[1].topicName
               this.chngPct = this.topicData[1].topicMarket.chngPct
-              this.chngPctFmt = this.topicData[1].topicMarket.chngPct > 0 ? '+' + (100 * this.topicData[1].topicMarket.chngPct).toFixed(2) + '%' : (100 * this.topicData[1].topicMarket.chngPct).toFixed(2) + '%'
+              this.chngPctFmt = this.topicData[1].topicMarket.chngPct > 0 ? '+' + (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%' : (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%'
               this.stkUpNum = this.topicData[1].topicMarket.stkUpNum
               this.stkDownNum = this.topicData[1].topicMarket.stkDownNum
               this.topicCode = this.topicData[1].topicCode

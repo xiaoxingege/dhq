@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 
 // initial state
 const state = {
@@ -25,9 +26,9 @@ const actions = {
   queryRangeByCode ({ commit, state }, { code }) {
     let url
     if (code === '') {
-      url = 'http://test.z3quant.com/openapi/openjson/tx/' + code + '.json'
+      url = domain + '/openapi/openjson/tx/' + code + '.json'
     } else {
-      url = 'http://test.z3quant.com/openapi/openjson/tx/auth/' + code + '.json'
+      url = domain + '/openapi/openjson/tx/auth/' + code + '.json'
     }
     /* code = 'all'
     const url = 'mock/' + code + '.json'*/
@@ -39,7 +40,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   updateData ({ commit, state }, { isContinue, condition, code }) {
-    const url = `http://test.z3quant.com/openapi/timedQueryMap?isContinue=${isContinue}&condition=${condition}&code=${code}`
+    const url = `${domain}/openapi/timedQueryMap?isContinue=${isContinue}&condition=${condition}&code=${code}`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -47,7 +48,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   updateDataByDate ({ commit, state }, { date, code }) {
-    const url = 'http://test.z3quant.com/openapi/openjson/tx/' + date + '.json'
+    const url = domain + '/openapi/openjson/tx/' + date + '.json'
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -55,7 +56,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   stockChartData ({ commit, state }, { stockId, code }) {
-    const url = 'http://test.z3quant.com/openapi/industries/' + stockId + '.json?indexCode=' + code
+    const url = domain + '/openapi/industries/' + stockId + '.json?indexCode=' + code
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -63,7 +64,7 @@ const actions = {
     }).catch(() => { commit(mutationsTypes.ERROR) })
   },
   queryCalendarsData ({ commit, state }) {
-    const url = 'http://test.z3quant.com/openapi/calendars'
+    const url = `${domain}/openapi/calendars`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {

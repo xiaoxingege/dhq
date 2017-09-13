@@ -20,11 +20,11 @@
 <script>
     import echarts from 'echarts'
     export default{
-      props: ['strategyId'],
+      props: ['backtestId'],
       methods: {
         initSyytjChart () {
-          this.$store.dispatch('goldStrategy/getSyytjData', { strategyId: this.strategyId }).then(() => {
-            const syytjData = this.$store.state.goldStrategy.syytjData
+          this.$store.dispatch('backtestDetailH5/getSyytjData', { backtestId: this.backtestId }).then(() => {
+            const syytjData = this.$store.state.backtestDetailH5.syytjData
             this.chart = echarts.init(document.getElementsByClassName('barChart')[0])
             this.chart.setOption({
               backgroundColor: '#fff',

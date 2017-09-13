@@ -40,9 +40,9 @@ function pinfo() {
 }
 
 function get_port() {
-  port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig.$1 ? data.deployConfig.$1.port : '')")
+  port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
 }
-get_port $feature
+get_port "$feature"
 if [ "$port" = "" ]; then
   echo '不支持的项目名'
   exit 1
@@ -194,6 +194,8 @@ bye
 f3
 rm -f /tmp/version.lock
 rm -f $feature-$version.tar.bzip2
-if [ "$env" = "test" -a "$feature" = "demo" ]; then
-  ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+if [ "$env" = "test" ]; then
+  if [ "$feature" = "demo" -o "$feature" = "branch-selector" ]; then
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test sh /home/admin/pull.sh"
+  fi
 fi

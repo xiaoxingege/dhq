@@ -161,7 +161,7 @@ a,
           <li>
             <span>对比基准：</span>
             <select class="" name="">
-              <option value="0">泸深300</option>
+              <option value="0">沪深300</option>
               <option value="1">标普500</option>
               <option value="2">上证指数</option>
               <option value="3">上证企债</option>
