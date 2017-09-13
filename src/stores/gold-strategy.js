@@ -93,16 +93,16 @@ export default {
     },
     setMrccData (state, result) {
       if (result.errCode === 0) {
-        state.drykData.xData = []
-        state.drykData.data1 = []
+        state.mrccData.xData = []
+        state.mrccData.data1 = []
         const data = result.data
         for (var i = 0; i < data.length; i++) {
           state.mrccData.xData.push(data[i].backtestDate)
           state.mrccData.data1.push(Number(data[i].positionRatio).toFixed(2))
         }
       } else {
-        state.drykData.xData = []
-        state.drykData.data1 = []
+        state.mrccData.xData = []
+        state.mrccData.data1 = []
       }
     },
     setSyytjData (state, result) {
@@ -127,7 +127,7 @@ export default {
         state.sylfbData.data2 = []
         const data = result.data
         for (var i = 0; i < data.rates.length; i++) {
-          state.sylfbData.xData = Number(data.rates[i]).toFixed(2) + '%'
+          state.sylfbData.xData.push(Number(data.rates[i]).toFixed(2) + '%')
           if (data.rates[i] < 0) {
             state.sylfbData.data1.push(data.counts[i])
             state.sylfbData.data2.push(0)

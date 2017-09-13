@@ -40,7 +40,7 @@
             <span class="fr">
                 <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
                 <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
-                <span :style="{color:colorS}">({{hoverStock.chgPctPx}})</span>
+                <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
             </span>
         </div>
         <div class="bottom clearfix">

@@ -176,6 +176,11 @@
 //          }
 //        }
 //      },
+      watch: {
+        'page': function () {
+          this.currentPage = this.page
+        }
+      },
       methods: {
         getCurrentPage (e) {
           this.$emit('getPageFromChild', e.target.innerText)

@@ -28,6 +28,7 @@
         height:5rem;
         margin-bottom: 0.05rem;
     }
+
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .choseStock{
             background:#fff;
@@ -68,6 +69,11 @@
         .green{
             color:#61a65b;
         }
+        .choseStockMain{
+            padding: 0.2rem 0.4rem;
+            color:rgb(102, 102, 102);
+            font-size: 0.18rem;
+        }
     }
 </style>
 <template>
@@ -78,56 +84,33 @@
                 <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
                 <div style="margin-bottom: 0.05rem;">
                     <div v-if="type === 'syqxt'" class="syqxt">
-                        <Linechartbacktest :backtestId="backtestId" :startDate="startDate" :endDate="endDate"></Linechartbacktest>
+                        <Linechartbacktest :backtestId="this.$route.params.backtestId"></Linechartbacktest>
                     </div>
-                    <!--<div v-if="type === 'dryk'" class="dryk">-->
-                        <!--<Barupdown :strategyId="strategyId"></Barupdown>-->
-                    <!--</div>-->
-                    <!--<div v-if="type === 'mrcc'" class="mrcc">-->
-                        <!--<Onelinechart :strategyId="strategyId"></Onelinechart>-->
-                    <!--</div>-->
-                    <!--<div v-if="type === 'syytj'" class="syytj">-->
-                        <!--<Twobarchart :strategyId="strategyId"></Twobarchart>-->
-                    <!--</div>-->
-                    <!--<div v-if="type === 'sylfb'" class="sylfb">-->
-                        <!--<Onebarchart :strategyId="strategyId"></Onebarchart>-->
-                    <!--</div>-->
+                    <div v-if="type === 'dryk'" class="dryk">
+                        <Barbacktestdryk :backtestId="this.$route.params.backtestId"></Barbacktestdryk>
+                    </div>
+                    <div v-if="type === 'mrcc'" class="mrcc">
+                        <Onelinebacktest :backtestId="this.$route.params.backtestId"></Onelinebacktest>
+                    </div>
+                    <div v-if="type === 'syytj'" class="syytj">
+                        <Twobarbacktest :backtestId="this.$route.params.backtestId"></Twobarbacktest>
+                    </div>
+                    <div v-if="type === 'sylfb'" class="sylfb">
+                        <Onebarbacktest :backtestId="this.$route.params.backtestId"></Onebarbacktest>
+                    </div>
                 </div>
-                <!--<div class="mrjy">-->
-                    <!--<div class="recommendTitle">每日交易</div>-->
-                    <!--<table cellpadding="0" cellspacing="0">-->
-                        <!--<thead>-->
-                        <!--<tr>-->
-                            <!--<th>日期</th>-->
-                            <!--<th>股票简称</th>-->
-                            <!--<th>买/卖</th>-->
-                            <!--<th>成交价格（元）</th>-->
-                            <!--<th>成交股数</th>-->
-                            <!--<th>佣金（元）</th>-->
-                        <!--</tr>-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                        <!--<tr v-for="item of mrjyData.content">-->
-                            <!--<td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>-->
-                            <!--<td>{{item.name}}</td>-->
-                            <!--<td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>-->
-                            <!--<td>{{Number(item.price).toFixed(2)}}</td>-->
-                            <!--<td>{{item.quantity}}</td>-->
-                            <!--<td>{{Number(item.commission).toFixed(2)}}</td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-
-                    <!--</table>-->
-                    <!--<Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>-->
-                <!--</div>-->
             </div>
-            <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
         </div>
         <div>
-            <!--<div class="choseStock">
+            <div class="choseStock">
                 <div class="recommendTitle">选股条件</div>
-                <Tablelist :data="choseStockData"></Tablelist>
-            </div>-->
+                <div class="choseStockMain" v-if="goldResult.stockStrategyId !== null && goldResult.stockStrategyId !== ''">
+                    <p>筛股条件：<span>{{strategyIdData.strategyName}}</span></p>
+                </div>
+                <div class="choseStockMain" v-if="goldResult.stockPoolId !== null && goldResult.stockPoolId !== ''">
+                    <p>股票池：<span>{{stockIdData.poolName}}</span></p>
+                </div>
+            </div>
             <div class="sellCondition">
                 <div>
                     <div class="recommendTitle">买入条件</div>
@@ -156,7 +139,10 @@
     import Tablelist from 'components/table-list'
     import Navbar from 'components/nav-bar'
     import Linechartbacktest from 'components/line-chart-backtest'
-
+    import Barbacktestdryk from 'components/bar-backtest-dryk'
+    import Onelinebacktest from 'components/one-line-backtest'
+    import Twobarbacktest from 'components/two-bar-backtest'
+    import Onebarbacktest from 'components/one-bar-backtest'
     export default{
       data () {
         return {
@@ -170,7 +156,11 @@
       components: {
         Tablelist,
         Navbar,
-        Linechartbacktest
+        Linechartbacktest,
+        Barbacktestdryk,
+        Onelinebacktest,
+        Twobarbacktest,
+        Onebarbacktest
     
       },
       computed: mapState({
@@ -357,37 +347,6 @@
             }
           }
         },
-        /* choseStockData: function () {
-          const choseStockTable = this.recommendData.choseStockData.filterSummary
-          const arr1 = []
-          const arr2 = []
-          if (choseStockTable.gkzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.gkzbList.length; i++) {
-              arr1.push(choseStockTable.gkzbList[i].indexName)
-              arr2.push(choseStockTable.gkzbList[i].indexValue)
-            }
-          }
-          if (choseStockTable.jbmzbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jbmzbList.length; i++) {
-              arr1.push(choseStockTable.jbmzbList[i].indexName)
-              arr2.push(choseStockTable.jbmzbList[i].indexValue)
-            }
-          }
-          if (choseStockTable.jszbList.length > 0) {
-            for (let i = 0; i < choseStockTable.jszbList.length; i++) {
-              arr1.push(choseStockTable.jszbList[i].indexName)
-              arr2.push(choseStockTable.jszbList[i].indexValue)
-            }
-          }
-          if (choseStockTable.xgfwList.length > 0) {
-            for (let i = 0; i < choseStockTable.xgfwList.length; i++) {
-              arr1.push(choseStockTable.xgfwList[i].indexName)
-              arr2.push(choseStockTable.xgfwList[i].indexValue)
-            }
-          }
-
-          return [arr1, arr2]
-        },*/
         sellConditionData: function () {
           if (this.recommendData.sellConditiondata === null) {
             return {
@@ -481,8 +440,9 @@
               ]
             ]
           }
-        }
-
+        },
+        stockIdData: state => state.backtestDetailH5.stockIdData,
+        strategyIdData: state => state.backtestDetailH5.strategyIdData
       }),
       methods: {
         changeNavType (data) {
@@ -493,19 +453,19 @@
         document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
         this.strategyId = this.$route.params.strategyId
+        this.backtestId = this.$route.params.backtestId
 
-        this.$store.dispatch('backtestDetailH5/getStrategyData', { strategyId: this.strategyId }).then(() => {})
-        this.$store.dispatch('backtestDetailH5/getBacktestInfo', { strategyId: this.strategyId }).then(() => {
-          this.backtestId = this.$store.state.backtestDetailH5.backtestId
-          this.startDate = this.$store.state.backtestDetailH5.backtestStartDate
-          this.endDate = this.$store.state.backtestDetailH5.backtestEndDate
-    
-          this.$store.dispatch('backtestDetailH5/getBacktestData', { backtestId: this.backtestId }).then(() => {})
-          this.$store.dispatch('backtestDetailH5/getSyqxtData', { backtestId: this.backtestId, startDate: this.startDate, endDate: this.endDate }).then(() => {
-    
-          })
+        this.$store.dispatch('backtestDetailH5/getStrategyData', { strategyId: this.strategyId }).then(() => {
+          if (this.goldResult.stockStrategyId !== null && this.goldResult.stockStrategyId !== '') {
+            this.$store.dispatch('backtestDetailH5/getStockStrategyIdData', { strategyId: this.goldResult.stockStrategyId }).then(() => {})
+          }
+          if (this.goldResult.stockPoolId !== null && this.goldResult.stockPoolId !== '') {
+            this.$store.dispatch('backtestDetailH5/getStockPoolIdData', { poolId: this.goldResult.stockPoolId }).then(() => {})
+          }
         })
-      }
+        this.$store.dispatch('backtestDetailH5/getBacktestData', { backtestId: this.backtestId }).then(() => {})
+        this.$store.dispatch('backtestDetailH5/getSyqxtData', { backtestId: this.backtestId }).then(() => {})
+  }
     }
 
 </script>

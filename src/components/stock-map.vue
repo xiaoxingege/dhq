@@ -68,12 +68,11 @@
     .chart_bottom_enlarge .play_line{top: 8px;}
     .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
     .enlarge span,.narrow span {color: #bdbdbd;margin-right: 24px;position: relative;top: -3px;}
-    #enlarge, #narrow {cursor: pointer;}
     .enlarge a,.narrow a{cursor: pointer}
     .enlarge img{opacity:0.6;}
-    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);padding-top: 18px;padding-left: 18px;color:#fff;}
+    .narrow{position: fixed;top: 16px;right:22px;z-index: 9999;width: 288px;height: 56px;background-color: rgba(0,0,0,0.5);color:#fff;line-height: 56px;}
+    .narrow-link{display: inline-block;width: 20px;height: 20px;position: relative;top: 15px;}
     .narrow span{margin-right: 20px;}
-    #narrow{width: 20px;height: 20px;position: relative;top: 3px;}
     .narrow img{width: 20px;}
     .currentTime{color:#fff;}
     .map_wrap{position: relative;}
@@ -90,7 +89,7 @@
         <div class="narrow" v-if="isEnlarge">
             <a v-on:click="restoreMap"><span>恢复默认</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a v-on:click="toNormal"><img src="../assets/images/stock-map/narrow.png"/></a>
+            <a v-on:click="toNormal" class="narrow-link"><img src="../assets/images/stock-map/narrow.png"/></a>
         </div>
         <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
         <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
@@ -360,6 +359,8 @@
           this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
                     .then(() => {
                       this.chart.setOption({
+                        hoverLayerThreshold: 10000,
+                        progressive: 1000,
                         tooltip: {
                           triggerOn: 'none'
                         },
@@ -367,8 +368,8 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 500,
-                            // childrenVisibleMin: 10,
+                            visibleMin: 0.001,
+                            childrenVisibleMin: 0.001,
                             width: '100%',
                             height: '100%',
                             label: {

@@ -48,7 +48,7 @@ export default {
         return {
           strategy: {
             strategyName: '',
-            followCnt: 0,
+            followCnt: '',
             annualReturn: '',
             sharpe: '',
             winRatio: '',
@@ -58,108 +58,126 @@ export default {
         }
       },
       watch: {
-
+        strategyData () {
+          this.initStrategy()
+        }
       },
       computed: {
         strategyDetail: function () {
-          this.strategyData.backtestDate = []
-          this.strategyData.totalReturn = []
-          this.strategyData.benchmarkPeriodReturn = []
-          this.strategyData.strategyName = this.strategyData.strategy.strategyName
-          this.strategyData.strategyId = this.strategyData.strategy.strategyId
-          this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio)// 胜率
-          this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown)// 最大回撤
-          this.strategyData.annualReturn = this.formatData(this.strategyData.strategy.evaluationIndexs.annualReturn)// 年化收益率
-          this.strategyData.sharpe = (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2)// 夏普比率
-          for (let i = 0; i < this.strategyData.strategy.returns.length; i++) {
-            this.strategyData.backtestDate.push(this.strategyData.strategy.returns[i].backtestDate)// 时间
-            this.strategyData.totalReturn.push(this.strategyData.strategy.returns[i].totalReturn)// 总收益率
-            this.strategyData.benchmarkPeriodReturn.push(this.strategyData.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+          if (this.strategyData) {
+            this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio)// 胜率
+            this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown)// 最大回撤
+            this.strategyData.annualReturn = this.formatData(this.strategyData.strategy.evaluationIndexs.annualReturn)// 年化收益率
+            this.strategyData.sharpe = (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2)// 夏普比率
+            this.strategyData.strategyName = this.strategyData.strategy.strategyName
+            this.strategyData.strategyId = this.strategyData.strategy.strategyId
+            this.strategyData.benchmark = this.strategyData.strategy.benchmark
+
+            this.strategyData.backtestDate = []
+            this.strategyData.totalReturn = []
+            this.strategyData.benchmarkPeriodReturn = []
+            for (let i = 0; i < this.strategyData.strategy.returns.length; i++) {
+              this.strategyData.backtestDate.push(this.strategyData.strategy.returns[i].backtestDate)// 时间
+              this.strategyData.totalReturn.push(this.strategyData.strategy.returns[i].totalReturn)// 总收益率
+              this.strategyData.benchmarkPeriodReturn.push(this.strategyData.strategy.returns[i].benchmarkPeriodReturn)// 基准收益率
+            }
+          } else {
+            /* this.strategyData = {}
+            this.strategyData.winRatio = '--'// 胜率
+            this.strategyData.maxDrawdown = '--'// 最大回撤
+            this.strategyData.annualReturn = '--'// 年化收益率
+            this.strategyData.sharpe = '--'// 夏普比率
+            this.strategyData.benchmark = ''
+            this.strategyData.backtestDate = []
+            this.strategyData.totalReturn = []
+            this.strategyData.benchmarkPeriodReturn = []*/
           }
           return this.strategyData
         }
       },
       methods: {
         initStrategy: function () {
-          this.strategy = this.strategyDetail
-          this.chart = echarts.getInstanceByDom(this.$refs.chartList) || echarts.init(this.$refs.chartList)
-          this.chart.showLoading()
-          this.chart.setOption({
-            legend: {
-              left: 0,
-              top: 10,
-              itemWidth: 8,
-              orient: 'vertical',
-              data: [
+          if (this.strategyDetail) {
+            this.strategy = this.strategyDetail
+            this.chart = echarts.getInstanceByDom(this.$refs.chartList) || echarts.init(this.$refs.chartList)
+            this.chart.showLoading()
+            this.chart.setOption({
+              legend: {
+                left: 0,
+                top: 10,
+                itemWidth: 8,
+                orient: 'vertical',
+                data: [
+                  {
+                    name: this.benchmarkObj[this.strategy.benchmark],
+                    icon: 'circle'
+                  },
+                  {
+                    name: '策略累计收益率',
+                    icon: 'circle'
+                  }
+                ]
+              },
+              grid: {
+                show: false,
+                left: 0,
+                top: 45,
+                bottom: 20,
+                right: 5,
+                width: '100%',
+                height: '61%'
+              },
+              xAxis: {
+                type: 'category',
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLine: false,
+                data: this.strategy.backtestDate
+              },
+              yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                  show: false
+                },
+                axisLine: false,
+                min: 'dataMin',
+                max: 'dataMax'
+              },
+              color: ['#f1975d', '#4076b4'],
+              series: [
                 {
-                  name: this.benchmarkObj[this.strategy.strategy.benchmark],
-                  icon: 'circle'
+                  name: this.benchmarkObj[this.strategy.benchmark],
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.strategy.benchmarkPeriodReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
                 },
                 {
                   name: '策略累计收益率',
-                  icon: 'circle'
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.strategy.totalReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
                 }
               ]
-            },
-            grid: {
-              show: false,
-              left: 0,
-              top: 45,
-              bottom: 20,
-              right: 5,
-              width: '100%',
-              height: '61%'
-            },
-            xAxis: {
-              type: 'category',
-              splitLine: {
-                show: false
-              },
-              axisTick: {
-                show: false
-              },
-              axisLine: false,
-              data: this.strategy.backtestDate
-            },
-            yAxis: {
-              type: 'value',
-              boundaryGap: [0, '100%'],
-              splitLine: {
-                show: false
-              },
-              axisLine: false,
-              min: 'dataMin',
-              max: 'dataMax'
-            },
-            color: ['#e8311f', '#4076b4'],
-            series: [
-              {
-                name: this.benchmarkObj[this.strategy.strategy.benchmark],
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: this.strategy.benchmarkPeriodReturn,
-                lineStyle: {
-                  normal: {
-                    width: 1.5
-                  }
-                }
-              },
-              {
-                name: '策略累计收益率',
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: this.strategy.totalReturn,
-                lineStyle: {
-                  normal: {
-                    width: 1.5
-                  }
-                }
-              }
-            ]
-          })
-          this.chart.hideLoading()
+            })
+            this.chart.hideLoading()
+          }
         },
         formatData: function (val) {
           let getVal
