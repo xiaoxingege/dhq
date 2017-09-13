@@ -136,7 +136,7 @@ export default {
         commit('setStockPool', body)
       })
     },
-    getStrategy ({ commit }) {
+    getStrategy ({ commit, state, rootState }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStrategy', [])
