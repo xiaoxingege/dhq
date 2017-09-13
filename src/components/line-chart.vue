@@ -71,12 +71,12 @@
                     if (i === 0) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>策略累计收益率: ' +
-                                        params[i].value + '%'
+                          (params[i].value * 100) + '%'
                     }
                     if (i === 1) {
                       s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                                         params[i].color + '"></span>基准累计收益率: ' +
-                                        params[i].value + '%'
+                          (params[i].value * 100) + '%'
                     }
                   }
                   return s
@@ -101,7 +101,7 @@
                 type: 'value',
                 axisLabel: {
                   formatter: function (val) {
-                    return val + '%'
+                    return val * 100 + '%'
                   }
                 },
                 nameTextStyle: {
