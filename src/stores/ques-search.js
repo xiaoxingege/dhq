@@ -16,6 +16,12 @@ export default {
   },
   mutations: {
     setData (state, res) {
+    //   var arr = []
+    //   for (var i = 0; i < res.CodeData.length; i++) {
+    //     if (res.CodeData[i].stat === '1') {
+    //       arr.push(res.CodeData[i])
+    //     }
+    //   }
       state.CodeData = res.CodeData
     },
     setAsk (state, res) {

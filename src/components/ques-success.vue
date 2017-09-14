@@ -278,7 +278,7 @@
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
                             <strong v-html="item.lastedAnswer.content" v-if="focusResult && focusShow"></strong>
                             <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
-                            <strong v-else>请在百度APP中查看</strong>
+                            <strong v-else>请在手机百度APP中查看</strong>
                         </p>
                     </div>
                 </div>
@@ -296,7 +296,7 @@
                             <em>{{moment(parseInt(item.answerTime))}}</em>
                             <strong v-html="item.answerContent" v-if="focusResult && focusShow"></strong>
                             <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
-                            <strong v-else>请在百度APP中查看</strong>
+                            <strong v-else>请在手机百度APP中查看</strong>
                         </p>
                     </div>
                 </div>

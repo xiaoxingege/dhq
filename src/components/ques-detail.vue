@@ -152,10 +152,10 @@
                         <h5>{{item.adviserUser.userName}}<span>{{item.adviserUser.company === '' ? '' : '-'+item.adviserUser.company}}</span></h5>
                         <p v-if="focusResult && focusShow">{{item.textContent}}</p>
                         <p v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
-                        <p v-else>请在百度APP中查看</p>
+                        <p v-else>请在手机百度APP中查看</p>
                         <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
                         <span v-if="focusResult && focusShow">已关注</span>
-                        <span class="focus" v-else-if="!focusResult && focusShow"><i></i>关注</span>
+                        <span class="focus" v-else-if="!focusResult && focusShow" @click="authorize"><i></i>关注</span>
                     </div>
                 </div>
             </li>

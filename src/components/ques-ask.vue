@@ -80,7 +80,8 @@ export default {
       userShow: false,
       bakShow: true,
       show: false,
-      focusShow: false
+      focusShow: false,
+      quesBtnClickType: true
     }
   },
   computed: mapState({
@@ -120,7 +121,8 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      history.go(-1)
+    //   history.go(-1)
+      history.back()
     },
     navEvents () {
       if (!this.focusShow) {
@@ -134,7 +136,7 @@ export default {
         alert('内容不可为空')
         return
       }
-      window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
+
     //   if (this.userShow === false) {
     //     // var url = window.location.href
     //     if (searchValue) {
@@ -146,11 +148,16 @@ export default {
       //
     //     return
     //   }
-
+      if (this.quesBtnClickType === false) {
+        alert('提交中')
+        return
+      }
+      this.quesBtnClickType = false
       this.$store.dispatch('quesAsk/askto', {
         textCont: textCont,
         passportId: passportId
       })
+      window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
       //   alert('submit')
     },
     searchVal (val) {
@@ -162,6 +169,7 @@ export default {
     this.$store.dispatch('user/fetchFromBasicUserInfo')
     this.$watch('err', err => {
       this.show = true
+      this.quesBtnClickType = true
       setTimeout(() => {
         alert(err.msg)
       })

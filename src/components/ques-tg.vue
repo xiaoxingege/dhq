@@ -194,7 +194,7 @@
                             <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
                             <strong v-if="focusResult && focusShow">{{item.lastedAnswer.content}}</strong>
                             <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
-                            <strong v-else>请在百度APP中查看</strong>
+                            <strong v-else>请在手机百度APP中查看</strong>
                         </p>
                     </div>
                 </div>
@@ -250,30 +250,38 @@ export default {
     //   alert('navBak')
     },
     search () {
-      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+      if (this.focusShow) {
+        window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+      } else {
+        alert('请在手机百度APP中使用')
+      }
     },
     authorize () {
       if (this.userId) {
-        window.cambrian.subscribe({ data: {
-          type: 'force', // 类型，optional-弱关注 force-强关注
-          title: '金融界官方号', // 标题文字，字数限制：4-6个字
-          describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
-          button: '关注并继续' // 按钮文字，字数限制：2-6个字
-        },
-          success: function (res) {
-            location.reload()
-                // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
-                // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+        if (this.focusShow) {
+          window.cambrian.subscribe({ data: {
+            type: 'force', // 类型，optional-弱关注 force-强关注
+            title: '金融界官方号', // 标题文字，字数限制：4-6个字
+            describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+            button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          fail: function (res) {
-                // res结构如下，可通过status、msg判断错误原因
-                // 如：{"status": 100, "msg":"not login", "result": 0}
-          },
-          complete: function (res) {
-                // res结构如下，
-                // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
-          }
-        })
+            success: function (res) {
+              location.reload()
+                    // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+                    // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+            },
+            fail: function (res) {
+                    // res结构如下，可通过status、msg判断错误原因
+                    // 如：{"status": 100, "msg":"not login", "result": 0}
+            },
+            complete: function (res) {
+                    // res结构如下，
+                    // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+            }
+          })
+        } else {
+          alert('请在手机百度APP中使用')
+        }
       } else {
         window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
       }
