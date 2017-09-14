@@ -9,6 +9,7 @@
     color:#191919;
     margin-bottom: 15px;
     font-size:12px;
+    font-weight: bold;
 }
     .content{
         color:#666;
