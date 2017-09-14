@@ -40,19 +40,26 @@
       margin-top: 10px;
       padding: 14px 10px 14px 11px;
       position: relative;
+
     }
     .time-inp{
-      padding-left: 6px;
+        padding-left: 6px;
+        height: 22px;
+        border: 1px solid #2388da;
+        border-radius: 3px;
+        width: 190px;
     }
     .ana-btn{
-      width: 40px;
-      height: 18px;
-      text-align: center;
-      line-height: 18px;
-      border: 1px solid #e5e5e5;
-      display: inline-block;
-      background: #f2f2f2;
-      cursor: pointer;
+         width: 66px;
+        height: 22px;
+        text-align: center;
+        line-height: 22px;
+        display: inline-block;
+        background: #2388da;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+        border-radius: 3px;
     }
     .label-txt{
       padding-right: 50px;
@@ -93,7 +100,8 @@
     .search-ul{
         /* width: 206px; */
         /* width: 208px; */
-        width: 204px;
+        /* width: 204px; */
+        width: 227px;
         position: absolute;
         /* left: 14.7%; */
         left: 276px;
@@ -120,7 +128,7 @@
    <div class="time-kline-wrap">
       
            <div class="time-inp-box">
-               <label class="label-txt">全部A股中，单只股票近一年买卖点分析</label>
+               <label class="label-txt">{{timeStrategy.stockScope}}中，单只股票近一年买卖点分析</label>
                <input type="text" name="inp" placeholder="请输入股票名称/代码" class="time-inp" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
                <span class="ana-btn" @click="submitSearch($event)">分析</span>
                <ul class="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
@@ -133,10 +141,10 @@
            </div>
            <div class="k-line-box"> 
                 <!-- <div>格力电器买卖点分析</div> -->
-                 <div class="ma-box" v-show="showMa">
+                 <!-- <div class="ma-box" v-show="showMa">
                      <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
                      <div></div>
-                 </div>
+                 </div> -->
                 <div class="kcharts" ref="kcharts"></div>
            </div> 
               
@@ -158,13 +166,14 @@
        message: '',
        showSearchList: true,
        innerCode: '',
-       showMa: false,
+      // showMa: false,
        strategyId: this.$route.params.strategyId,
        searchList: []
      }
    },
    computed: mapState({
     // searchList: state => state.backtestDetail.searchList,
+     timeStrategy: state => state.backtestDetail.timeStrategy,
      searchData: state => {
        const listData = state.backtestDetail.searchList
        return {
@@ -214,8 +223,9 @@
              const point = {
                name: 'XX标点',
                coord: [item.endDate + '', highPx],
-               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-green.png',
-               symbolSize: 30,
+               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-green2.png',
+               symbolSize: [35, 45],
+               symbolOffset: ['-40%', '-50%'],
                itemStyle: {
                  normal: { color: 'rgb(41,60,85)' }
                },
@@ -232,7 +242,30 @@
                }
 
              }
- 
+             pointData.push({
+               name: 'XX标点',
+               coord: [item.endDate + '', highPx],
+               symbol: 'circle',
+               symbolSize: 10,
+               itemStyle: {
+                 normal: {
+                   color: '#fff',
+                   borderColor: '#000',
+                   borderWidth: 3
+                 }
+               },
+               label: {
+                 normal: {
+                   show: true,
+                   formatter: function (params, ticket, callback) {
+                     return ''
+                   },
+                   textStyle: {
+                     fontSize: 0
+                   }
+                 }
+               }
+             })
              pointData.push(point)
            }
          }
@@ -243,12 +276,14 @@
              /* const ss = buyData[i]
              console.log(ss)*/
              seriesData.push([item.endDate + '', lowPx])
+             // seriesData.push([item.endDate + '', lowPx])
              console.log(seriesData[i])
              const point = {
                name: 'XX标点',
                coord: [item.endDate + '', lowPx],
-               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-red.png',
-               symbolSize: 30,
+               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-red2.png',
+               symbolSize: [35, 47],
+               symbolOffset: ['-40%', '50%'],
                itemStyle: {
                  normal: { color: 'rgb(41,60,85)' }
                },
@@ -264,7 +299,30 @@
                  }
                }
              }
- 
+             pointData.push({
+               name: 'XX标点',
+               coord: [item.endDate + '', lowPx],
+               symbol: 'circle',
+               symbolSize: 10,
+               itemStyle: {
+                 normal: {
+                   color: '#fff',
+                   borderColor: '#000',
+                   borderWidth: 3
+                 }
+               },
+               label: {
+                 normal: {
+                   show: true,
+                   formatter: function (params, ticket, callback) {
+                     return ''
+                   },
+                   textStyle: {
+                     fontSize: 0
+                   }
+                 }
+               }
+             })
              pointData.push(point)
            }
          }
@@ -303,9 +361,8 @@
        const keyword = this.$refs.keyword.value
        this.message = keyword
        this.$store.dispatch('backtestDetail/querySearch', { keyword })
- 
        if (this.message === '') {
-         this.showMa = false
+         // this.showMa = false
        } else {
          this.init()
        }
@@ -316,7 +373,6 @@
        this.$emit('focusStockId', focusStockId)
        this.message = focusStockId
        this.showSearchList = false
- 
        // this.searchList = []
        this.searchData.searchList = []
        console.log(this.searchData.searchList)
@@ -324,7 +380,7 @@
      },
      submitSearch (e) {
        e.preventDefault()
-       this.showMa = true
+       // this.showMa = true
        this.init()
      },
      keyEnter (e) {
@@ -361,53 +417,53 @@
              var closePx = t[0].value[2]
              var highPx = t[0].value[3]
              var lowPx = t[0].value[4]
-             if (t[1].value === null) {
+             /* if (t[1].value === null) {
                self.ma5 = '--'
              } else {
                self.ma5 = t[1].value
              }
              self.ma10 = t[2].value
              self.ma20 = t[3].value
-             self.ma30 = t[4].value
+             self.ma30 = t[4].value*/
             // console.log(self.ma5)
-             for (var i = 0; i < t.length; i++) {
+             /* for (var i = 0; i < t.length; i++) {
                if (t[i].seriesName === 'MA5') {
-                 var ma5 = t[i].value
+                 var ma5 = t[i].value*/
 
                  // this.ma5 = t[1].value
  
                            // 更新ma20
                 // $('#kma20').html(ma20)
-               } else if (t[i].seriesName === 'MA10') {
-                 var ma10 = t[i].value
+               /* } else if (t[i].seriesName === 'MA10') {
+                 var ma10 = t[i].value*/
                  // this.ma10 = t[2].value
  
                           // 更新ma60
                  // $('#kma60').html(ma60)
-               } else if (t[i].seriesName === 'MA20') {
-                 var ma20 = t[i].value
+               /* } else if (t[i].seriesName === 'MA20') {
+                 var ma20 = t[i].value*/
                  // this.ma20 = t[3].value
  
                           // 更新ma120
                  // $('#kma120').html(ma120)
-               } else if (t[i].seriesName === 'MA30') {
-                 var ma30 = t[i].value
+               /* } else if (t[i].seriesName === 'MA30') {
+                 var ma30 = t[i].value*/
                  // this.ma30 = t[4].value
  
                           // 更新ma120
                  // $('#kma120').html(ma120)
-               }
-             }
+             /*  }
+             }*/
              // return 123
              return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
-                    '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') +
-                    '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--')
+                    '<br/>最低价：' + (lowPx || '--') + '<br/>'
            }
          },
          /* legend: {
-           data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+           data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30', 'pointLine']
          },*/
          grid: {
+           /* left: '2.5%',*/
            left: '2.5%',
            right: '2%',
            bottom: '10%'/*,
@@ -493,7 +549,7 @@
  
              }*/
            },
-           {
+           /* {
              name: 'MA5',
              type: 'line',
              data: ma5,
@@ -540,19 +596,10 @@
                  color: '#2388da'
                }
              }
-           },
+           },*/
            {
-             name: 'biaoshi',
              type: 'line',
              data: seriesData,
-             smooth: true,
-             symbol: 'circle',
-             itemStyle: {
-               normal: {
-                 borderColor: '#000'
- 
-               }
-             },
              lineStyle: {
                normal: {
                  width: 3,

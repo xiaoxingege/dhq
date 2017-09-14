@@ -14,7 +14,7 @@
           </tr>
           <tr v-for="item in smartPoolList">
             <td :class='{blue:item.userByStrategy == 1}'>
-              <router-link :to="{path:'/smartPoolListDetails/'+ item.poolId}" class="blue">[{{item.poolName}}]<span v-if="item.isInvalid" v-text="item.isInvalid == false?'无效':''"></span></router-link>
+              <router-link :to="{path: 'smartPoolListDetails/' + item.poolId}" class="blue">[{{item.poolName}}]<span v-if="item.isInvalid" v-text="item.isInvalid == false?'无效':''"></span></router-link>
             </td>
             <td>{{item.fundNum | fundNum('只')}}</td>
             <td>{{item.createTime}}</td>
@@ -49,6 +49,7 @@
   import { mapGetters } from 'vuex'
   import founddialog from 'components/founddialog'
   import { domain } from '../../z3tougu/config'
+  import { ctx } from '../../z3tougu/config'
   export default{
     data () {
       return {
@@ -94,7 +95,7 @@
         }).then(result => {
           if (result.errCode === 0) {
             this.show = false
-            this.$router.push({ path: '/smartPoolListDetails/' + result.data })
+            this.$router.push({ path: ctx + '/smartPoolListDetails/' + result.data })
           } else if (result.errCode === 1505 || result.errCode === 1501 || result.errCode === -1) {
             this.msg = result.msg
             this.errCode = result.errCode

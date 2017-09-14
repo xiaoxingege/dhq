@@ -67,7 +67,7 @@
               </th>
               <th @click="sorts('trackError')" width='7.6%' v-if='typeIndex ===4 || typeIndex === 5'><span>跟踪误差</span></th>
               <th @click="sorts('performBench')" width='7.6%' v-if='typeIndex === 5'><span>业绩比较基准</span></th>
-              <th @click="sorts('firstBuyMin')" width='7.6%'><span>起购金额</span></th>
+              <th width='7.6%'>起购金额</th>
                 <th @click="sorts('fundYieldYearRank')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex === 6'><span>排名</span></th>
               <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk"><span>交易成本</span><div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div></th>
               <th width='7.6%'>操作</th>
@@ -137,6 +137,7 @@
       </div>
     </founddialog>
     <!-- 弹框 end-->
+    <div class="mask" v-if="maskShow"><div>加载中...</div></div>
   </div>
 </template>
 
@@ -149,6 +150,7 @@
   import FilterSelect from 'components/filter/filter-select'
   import Pagination from 'components/pagination'
   import { formatDate } from '../../utils/date'
+  import { ctx } from '../../z3tougu/config'
   export default {
     data () {
       return {
@@ -184,7 +186,7 @@
           sylbx1: 'sylbx_all', // 收益率表现1
           sylbx2: 'sylbx_all', // 收益率表现2
           nhsyl: 'nhsyl_all', // 年化收益率
-          hy: 'hy_all', // 行业
+          hy: 'all', // 行业
           tzfg: 'tzfg_all', // 投资风格
           jhfxq: 'jhfxq_all', // 机会期风险期
           zdhc: 'zdhc_all', // 最大回撤
@@ -215,7 +217,8 @@
         'fundNum',
         'page',
         'pageSize',
-        'foundPoolListLength'
+        'foundPoolListLength',
+        'maskShow'
       ]),
       ...mapGetters({
         totalPage: 'totalPage',
@@ -224,7 +227,8 @@
         fundNum: 'fundNum',
         page: 'page',
         pageSize: 'pageSize',
-        foundPoolListLength: 'foundPoolListLength'
+        foundPoolListLength: 'foundPoolListLength',
+        maskShow: 'maskShow'
       }),
       ...mapState({
         foundPoolListData: state => {
@@ -292,21 +296,26 @@
       },
       // 保存临时基金池
       save () {
-        this._saveFundPool()
-        for (let i = 0; i < this.lsfoundPoolList.length; i++) {
-          this.fundCodes += this.lsfoundPoolList[i].innerCode + ','
+        if (this.inputPoolName === '') {
+          this.msg = '请输入筛股条件名称!'
+        } else {
+          for (let i = 0; i < this.lsfoundPoolList.length; i++) {
+            this.fundCodes += this.lsfoundPoolList[i].innerCode + ','
+          }
+          var str = this.fundCodes.substring(0, this.fundCodes.length - 1)// 去除最后一个逗号
+          this._saveFundPool(str)
+          this.fundCodes = ''
         }
-        this.fundCodes = ''
       },
-      _saveFundPool () {
-        const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${this.fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
+      _saveFundPool (fundCodes) {
+        const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
         return fetch(url, { method: 'POST', mode: 'cors' }).then(res => {
           return res.json()
         }).then(result => {
           console.log(result)
           if (result.errCode === 0) {
             this.dialogShow = false
-            this.$router.push({ path: '/foundpooldetail/' + result.data })
+            this.$router.push({ path: ctx + '/foundpooldetail/' + result.data + '?orgCode=' + this.orgCode })
           } else if (result.errCode === 1505 || result.errCode === 1501 || result.errCode === -1) {
             this.msg = result.msg
             this.errCode = result.errCode
@@ -404,7 +413,7 @@
         this.filterParams2.sylbx1 = 'sylbx_all' // 收益率表现1
         this.filterParams2.sylbx2 = 'sylbx_all' // 收益率表现2
         this.filterParams2.nhsyl = 'nhsyl_all' // 年化收益率
-        this.filterParams2.hy = 'hy_all'  // 行业
+        this.filterParams2.hy = 'all'  // 行业
         this.filterParams2.tzfg = 'tzfg_all' // 投资风格
         this.filterParams2.jhfxq = 'jhfxq_all' // 机会期风险期
         this.filterParams2.zdhc = 'zdhc_all' // 最大回撤
@@ -460,10 +469,11 @@
     background: 0;
   }
   .filter {
-      background-color: #fff;
+      font-family: '宋体';
       font-size: $fontSize12;
       color: $colorFontTheme;
       padding: 10px;
+      background-color: #fff;
   }
   .btn {
       display: inline-block;
@@ -719,6 +729,17 @@
   .down button{width:100px;line-height: 32px;background: #39c;color: #fff; text-align: center;}
   .msg{color: red;left: 145px;position: absolute;top: 106px;}
   .msg2{font-size: 14px;}
-  .defaultTxt{font-size: $fontSize12;color: #666;margin-top: 30px}
-  p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;}
+  .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
+  p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
+  .mask{width: 100%;height: 100%;background: rgba(0,0,0,0.3);position: fixed;top: 0;left:0;z-index: 9999;
+    div{
+      width: 100px;
+      height:100px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color:#fff;
+      transform: translate(-50%,-50%);
+    }
+  }
 </style>

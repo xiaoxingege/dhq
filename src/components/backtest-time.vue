@@ -86,6 +86,7 @@
  import qrcode from 'qrcode'
  import Clipboard from 'clipboard'
  import toast from 'components/toast'
+ import { ctx } from '../z3tougu/config'
  export default {
    data () {
      return {
@@ -109,7 +110,7 @@
      }
    },
    mounted () {
-     const url = window.location.protocol + '//' + window.location.host + '/backtestTimeH5/' + this.strategyId
+     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
      console.info(url)
      qrcode.toDataURL(this.$refs.qrcode, url, function () {})
      const clipboard = new Clipboard(this.$refs.copy2share, {
