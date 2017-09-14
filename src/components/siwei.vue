@@ -431,6 +431,15 @@
           this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
           this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
           this.dimensionOptions.colorDefault = this.templateList[tmpValue].options.colorDefault
+          this.stockRangeOptions.indexRangeDefault = this.templateList[tmpValue].options.indexRangeDefault
+          this.stockRangeOptions.industryRangeDefault = this.templateList[tmpValue].options.industryRangeDefault
+          this.stockRangeOptions.marketValueDefault = this.templateList[tmpValue].options.marketValueDefault
+          this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
+          this.stockRangeOptions.strategyDefault = this.templateList[tmpValue].options.strategyDefault
+          this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
+          this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
+          this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
+          this.topicName = '全部'
         },
         getTime () {
           var date = new Date()
