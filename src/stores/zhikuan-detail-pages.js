@@ -51,6 +51,13 @@ export default {
       } else {
         state.moreData = null
       }
+    },
+    setTopicRelateNews (state, result) {
+      if (result.errCode === 0) {
+        state.moreData = result.data.content
+      } else {
+        state.moreData = null
+      }
     }
   },
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -92,7 +99,7 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setRelateNews', body)
+        commit('setTopicRelateNews', body)
       })
     }
 
