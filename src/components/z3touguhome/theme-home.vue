@@ -23,15 +23,15 @@
             <li class="theme-title tl"><router-link :to="{name:'topicDetail',params:{topicId:topicCode}}">{{topicName}}</router-link></li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
-                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPctFmt}}</span>
+                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct === null?'--':chngPctFmt}}</span>
             </li>
             <li class="up-stock tr">
                 <span>上涨股票</span>
-                <span class="c_up">{{stkUpNum}}</span>
+                <span class="c_up">{{stkUpNum === null?'--':stkUpNum}}</span>
             </li>
             <li class="down-stock tr">
                 <span>下跌股票</span>
-                <span class="c_down">{{stkDownNum}}</span>
+                <span class="c_down">{{stkDownNum===null?'--':stkDownNum}}</span>
             </li>
         </ul>
         <div style="text-align: justify;">

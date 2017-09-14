@@ -296,6 +296,7 @@ export default {
       orgCode: '200180365',
       userId: '20170901-170354',
       isCreatePool: false,
+      zuheId: '',
       // 基金池列表
       pools: [
         {
@@ -414,7 +415,7 @@ export default {
       })
     },
     deleteFundPool () {
-      fetch(`${domain}/openapi/fund/deleteStrategyInfo.shtml.shtml?userId=` + this.userId + '&strategyId' + this.orgCode, {
+      fetch(`${domain}/openapi/fund/deleteStrategyInfo.shtml.shtml?userId=` + this.userId + '&strategyId=' + this.zuheId, {
         method: 'get',
         mode: 'cors',
         cache: 'default'
