@@ -76,6 +76,9 @@
         .strategyDescTable tr:first-child td{
             color:#a5a5a5;
         }
+        .strategyDescTable tr:last-child td{
+            font-weight: bold;
+        }
         .strategyDescTable td{
             color:#191919;
             text-align: center;

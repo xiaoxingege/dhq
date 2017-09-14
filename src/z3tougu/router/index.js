@@ -38,7 +38,7 @@ export default [
     { path: ctx + '/home', name: 'home', component: z3TouguIndex },
     { path: ctx + '/search-box', name: 'search-box', component: SearchBox },
     { path: ctx + '/search/:linkText/:keyword', name: 'search', component: Search },
-    { path: ctx + '/detail-pages/:id/:detailType', name: 'detailPages', component: DetailPages },
+    { path: ctx + '/detail-pages/:detailType/:id', name: 'detailPages', component: DetailPages },
     { path: ctx + '/map', name: 'map', component: Map },
     { path: ctx + '/map/fullScreen', name: 'bigmap', component: Map },
     { path: ctx + '/map/normal', name: 'normalmap', component: Map },
