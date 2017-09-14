@@ -145,7 +145,6 @@
           this.$store.dispatch('z3touguIndex/' + newsApi, { size: this.listSize })
                   .then(() => {
                     this.newsList = this.newsListData
-                    debugger
                     this.cTime = this.newsListData[0].makedate.substring(0, 11)
                   })
         },
