@@ -747,8 +747,8 @@
             if (windowWidth - this.offsetX <= wrapWidth) {
               this.offsetX = this.offsetX - wrapWidth - 50
             }
-            if (windowHeight - this.clientY <= wrapHeight) {
-              this.offsetY = windowHeight - wrapHeight
+            if (windowHeight - 17 - this.clientY <= wrapHeight) {
+              this.offsetY = windowHeight - wrapHeight - 17
             }
             if (this.offsetY < 0) {
               this.offsetY = 0
