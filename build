@@ -41,6 +41,23 @@ function pinfo() {
 
 function get_port() {
   port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
+  if [ "$port" != "" ]; then
+    is_use="0"
+    if [ "$uname" = "Linux" ];then
+      is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
+    else
+      is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
+    fi
+    while [ $is_use = "1" ]
+    do
+      let "port+=1"
+      if [ "$uname" = "Linux" ];then
+        is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
+      else
+        is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
+      fi
+    done
+  fi
 }
 get_port $feature
 if [ "$port" = "" ]; then
@@ -52,6 +69,15 @@ errstr="__error__"
 
 
 version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.version)")
+if [ "$feature" != "z3tougu" ]; then
+  package_path="/data/www/packages"
+  ver_path="$package_path/$feature.$env.version"
+  sudo mkdir -p $package_path
+  if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
+    echo "package $feature-$version exists."
+    exit 1
+  fi
+fi
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
@@ -195,13 +221,6 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
-  package_path="/data/www/packages"
-  ver_path="$package_path/$feature.$env.version"
-  sudo mkdir -p $package_path
-  if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
-    echo "package $feature-$version exists."
-    exit 1
-  fi
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
@@ -209,11 +228,11 @@ else
   done
   touch /tmp/version.lock
   sudo touch $ver_path
-  count=$(cat $ver_path | grep "^"$feature" " | wc -l)
+  count=$(cat $ver_path | grep "^"$feature:$branch:$port" " | wc -l)
   if [ "$count" = "0" ]; then
-    sudo sh -c "echo '$feature $version' >> $ver_path"
+    sudo sh -c "echo '$feature:$branch:$port $version' >> $ver_path"
   else
-    sudo sed -i "s/"$feature" .*/"$feature" "$version"/g" $ver_path
+    sudo sed -i "s/"$feature:$branch:$port" .*/"$feature:$branch:$port" "$version"/g" $ver_path
   fi
   rm -f /tmp/version.lock
   rm -f *.bzip2
