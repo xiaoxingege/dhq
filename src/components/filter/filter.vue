@@ -17,7 +17,7 @@
         <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
         <ul class="fundPoolList">
           <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
-          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合&nbsp;</div></li>
+          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div></li>
         </ul>
       </div>
       <!-- 临时基金池 end-->
@@ -137,7 +137,15 @@
       </div>
     </founddialog>
     <!-- 弹框 end-->
-    <div class="mask" v-if="maskShow"><div>加载中...</div></div>
+    <<div class="loading" v-if="maskShow">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
+    </div>
   </div>
 </template>
 
