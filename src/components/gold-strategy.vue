@@ -141,6 +141,7 @@
     import qrcode from 'qrcode'
     import Clipboard from 'clipboard'
     import toast from 'components/toast'
+    import { ctx } from '../z3tougu/config'
 
     export default{
       data () {
@@ -363,7 +364,7 @@
         this.$store.dispatch('goldStrategy/getGoldStrategyData', { strategyId: this.strategyId })
         this.$store.dispatch('goldStrategy/getMrjyData', { strategyId: this.strategyId })
         this.$store.dispatch('goldStrategy/getDqxgData', { strategyId: this.strategyId })
-        const url = window.location.protocol + '//' + window.location.host + '/gold-strategy-h5/' + this.strategyId
+        const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
         qrcode.toDataURL(this.$refs.qrcode, url, function () {})
         const clipboard = new Clipboard('.copy', {
           text: function () {

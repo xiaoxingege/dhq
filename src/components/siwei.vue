@@ -479,9 +479,8 @@
         }
       },
       mounted () {
-        const userId = this.$cookie.get('userId')
-        this.$store.dispatch('bubbles/getStockPool', { userId })
-        this.$store.dispatch('bubbles/getStrategy', { userId })
+        this.$store.dispatch('bubbles/getStockPool')
+        this.$store.dispatch('bubbles/getStrategy')
         const that = this
         setInterval(function () {
           that.getTime()
