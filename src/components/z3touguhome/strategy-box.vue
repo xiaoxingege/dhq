@@ -17,7 +17,7 @@
     <li class="li-con">
         <div class="strategy-title clearfix">
             <p class="strategy-name"><router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}">{{strategy.strategyName}}</router-link></p>
-            <p class="strategy-create-time">关注{{strategy.followCnt}}</p>
+            <p class="strategy-create-time">关注{{strategy.followCnt === null?0:strategy.followCnt}}</p>
         </div>
         <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}" class="strategy-chart-link"><div class="strategy-chart" ref="chartList"></div></router-link>
         <ul class="rate-labels clearfix">
