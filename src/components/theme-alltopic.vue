@@ -299,8 +299,11 @@
         /* left: 1.5%; */
         line-height: 20px;
         width: 5.4%;
-        text-align: center;
+        /* text-align: center; */
     }
+    .sort-title i{
+      margin-left: 5px;
+     }
     .sort-hot-wrap{
       
      font-size: 12px;
@@ -311,7 +314,7 @@
      /*  width: 62%;
       margin: 13px auto 13px; */
       width: 90%;
-      padding-left: 3.7%;
+      padding-left: 2.1%;
     }
     .hot-name{
      /*  margin-left: 19px; */
@@ -379,9 +382,9 @@
             <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
             <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="listChangeClick('list',$event)" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChangeClick('kuai',$event)" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="listClick($event)" class="list_icon" :class="this.showList==true?'active':''"></a><a class="kuai_icon" @click="azClick($event)" :class="this.showAz==true?'active':''"></a></div>
     </div>
-    <div class="main-list" v-show="isShow">
+    <div class="main-list" v-show="showList">
       <ol class="topic-ol" >
         <li v-for="allTopic of themeList" class="clearfix">
            <div class="content-head clearfix">
@@ -404,7 +407,7 @@
                </div>
                <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
+                      <a :href="`/stock/equity.innerCode`"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
@@ -430,10 +433,11 @@
       </ol>
      <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
     </div>
-    <div class="sortaz-wrap clearfix" v-show="!isShow">
+    <div class="sortaz-wrap clearfix" v-show="showAz">
       <div class="az-main">
             <div class="sort-hot-wrap">
                 <div class="sort-title fl">推荐主题 ></div>
+                <!-- <div class="sort-title fl">推荐主题<i>></i></div> -->
                 <div class="sort-hot fl">
                      <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
                 </div>
@@ -463,6 +467,8 @@ export default {
        pagesize: '',
        isShow: true,
        isStyle: '',
+       showList: true,
+       showAz: false,
        hoverChartShow: false,
        direName: '',
        equity: {
@@ -523,8 +529,23 @@ export default {
      },
      updateVal () {
        this.direName = 'df'
+     }, /* showList: false,
+       showAz: false,*/
+     listClick (e) {
+       e.preventDefault()
+       this.showList = true
+       this.showAz = false
+       this.query('hot')
+       this.isStyle = ''
      },
-     listChangeClick (type, e) {
+     azClick (e) {
+       e.preventDefault()
+       this.showList = false
+       this.showAz = true
+       this.list('updown')
+       this.isStyle = 'none'
+     },
+     /* listChangeClick (type, e) {
        e.preventDefault()
        this.isShow = !this.isShow
        if (type === 'kuai') {
@@ -534,7 +555,7 @@ export default {
          this.query('hot')
          this.isStyle = ''
        }
-     },
+     },*/
      format (date) {
        return formatDate(date)
      },

@@ -36,11 +36,13 @@
       display: initial;
     }
     .backtest-time2 .describe-wrap .describe-left{
-      width: 100%;
-      padding: 14px 0px 0 10px;
+      /* width: 100%;
+      padding: 14px 0px 0 10px; */
+      width: 95%;
     }
     .backtest-time2 .describe-wrap .describe-right{
-      width: 100%;
+     /*  width: 100%; */
+      width: 98%;
       margin-top: 10px;
       margin-left: 0;
       padding: 14px 0px 0 10px;
@@ -52,7 +54,19 @@
       -o-box-flex: 1;
       box-flex: 1;
     }
-    
+    .backtest-time2 .describe-wrap .desc-txt{
+      text-align: left;
+      color: #a5a5a5;
+    }
+    .describe-wrap .desc-txt .desc-num{
+      position: absolute;
+      top: 20px;
+      left: 0;
+      color: #696969;
+      line-height: 15px;
+      text-align: left;
+      width: 100%;
+    }
     .backtest-filter2 .describe-wrap .desc-txt2{
       width: 20%;
       height: 4rem;
@@ -72,6 +86,9 @@
     }
     .bfilter-main .describe-box{
       width: 97.5%;
+    }
+    .backtest-time2 .time-bottom .express-buy{
+      color: #696969;
     }
 </style>
 <template> 
