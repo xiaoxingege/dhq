@@ -3345,6 +3345,10 @@ jpeg-js@^0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.1.2.tgz#135b992c0575c985cfa0f494a3227ed238583ece"
 
+jquery@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
