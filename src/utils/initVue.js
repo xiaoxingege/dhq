@@ -17,7 +17,7 @@ module.exports = function (opts) {
   // 如果定义了路由配置，则用routed-app作为根组件
   if (route) {
     Vue.use(VueRouter)
-    const transition = !!route.transition
+    const transition = route.transition === undefined ? true : !!route.transition
     configRouter(route).then((router) => {
       const app = new Vue({
         template: `<App :animate=${transition}></App>`,
