@@ -421,6 +421,7 @@
         },
         changeTmp (e) {
           const tmpValue = e.target.value
+          this.tmpId = tmpValue
           this.options = this.templateList[tmpValue].options
           this.xData = this.xDataList[this.templateList[tmpValue].options.xDefault]
           this.yData = this.xDataList[this.templateList[tmpValue].options.yDefault]
@@ -478,9 +479,8 @@
         }
       },
       mounted () {
-        const userId = this.$cookie.get('userId')
-        this.$store.dispatch('bubbles/getStockPool', { userId })
-        this.$store.dispatch('bubbles/getStrategy', { userId })
+        this.$store.dispatch('bubbles/getStockPool')
+        this.$store.dispatch('bubbles/getStrategy')
         const that = this
         setInterval(function () {
           that.getTime()

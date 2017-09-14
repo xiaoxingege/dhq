@@ -661,6 +661,8 @@
             if (this.condition !== 'mkt_idx.cur_chng_pct') {
               this.condition = 'mkt_idx.cur_chng_pct'
               this.$emit('toZdfCondition', this.condition)
+              this.playBackIndex = 19
+              this.playLineIndex = 19
             }
             this.playBackState = true
             this.playBackSrc = playBackSrc
