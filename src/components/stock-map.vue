@@ -66,7 +66,7 @@
     .playback_btn img{vertical-align: baseline;}
     .play_line{width: 2px;height: 20px;background: #e34842;position: absolute;top: 0px;left:786px;}
     .chart_bottom_enlarge .play_line{top: 8px;}
-    .enlarge {width: 300px;height: 25px;padding-right: 20px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
+    .enlarge {width: 250px;height: 25px;padding-top: 10px;box-sizing: border-box;position: absolute;top: -32px;right: 0px;}
     .enlarge span,.narrow span {color: #bdbdbd;margin-right: 24px;position: relative;top: -3px;}
     .enlarge a,.narrow a{cursor: pointer}
     .enlarge img{opacity:0.6;}
@@ -77,6 +77,7 @@
     .currentTime{color:#fff;}
     .map_wrap{position: relative;}
     .legend-switch {margin-right: 5px;float: left;width: 16px;margin-top: 4px;cursor: pointer;}
+    .enlarge-link{position: absolute;top: 10px;right: 0px;}
 </style>
 <template>
     <div class="map_wrap">
@@ -84,7 +85,7 @@
         <div class="enlarge" v-if="!isEnlarge">
             <a v-on:click="restoreMap"><span>100%比例</span></a>
             <span class="currentTime">{{currentTime}}</span>
-            <a v-on:click="toFullScreen"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
+            <a v-on:click="toFullScreen" class="enlarge-link"><img src="../assets/images/stock-map/enlarge.png" alt=""/></a>
         </div>
         <div class="narrow" v-if="isEnlarge">
             <a v-on:click="restoreMap"><span>100%比例</span></a>

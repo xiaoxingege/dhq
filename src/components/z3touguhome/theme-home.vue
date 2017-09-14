@@ -34,7 +34,7 @@
                 <span class="c_down">{{stkDownNum===null?'--':stkDownNum}}</span>
             </li>
         </ul>
-        <div style="text-align: justify;">
+        <div style="text-align: justify;line-height: 205%;">
             <strong>最新事件：</strong>
             <span class="txt-con">
               <router-link :to="{name:'detailPages',params:{id : newsId, detailType:'news'}}" class="new-text"><span class="event c_txt tl">{{summary}}</span></router-link>
