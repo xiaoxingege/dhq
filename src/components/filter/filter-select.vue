@@ -200,6 +200,7 @@ export default {
         this.checkDisabled = true
       }
       if (this.typeIndex === 0) { this.seleteCheckboxShow = false }
+      this.getOptionData()
     },
     getOptionData () {
       this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })
