@@ -444,7 +444,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('user/fetch')
-    document.title = '内参秒杀test'
+    document.title = '内参秒杀'
     this.timebtn()
     console.log(this.ssoId)
     setInterval(this.timebtn, 1000)

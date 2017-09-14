@@ -1,10 +1,8 @@
 <style>
 @import '../assets/css/reset.css';
-
-
 .item {
-  background: url(../assets/images/neicanms/h5_01.jpg)  no-repeat center top;
-  background-size:100% auto;
+  background: url(../assets/images/neicanms/h5_01.jpg) no-repeat center top;
+  background-size: 100% auto;
   height: 7.49rem;
 }
 
@@ -14,7 +12,7 @@
 
 .item2 {
   background-image: url(../assets/images/neicanms/h5_02a.jpg);
-    height: 14.28rem;
+  height: 14.28rem;
 }
 
 .item3 {
@@ -56,7 +54,12 @@
   color: #f79e20;
   font-size: .3rem;
 }
-.timebox ul{ width:7.08rem;margin:0 auto; position: relative;}
+
+.timebox ul {
+  width: 7.08rem;
+  margin: 0 auto;
+  position: relative;
+}
 
 .timebox li {
   float: left;
@@ -74,7 +77,7 @@
 
 .timebox li:nth-child(2) {
   padding-top: 1.6rem;
-  margin-left:.13rem;
+  margin-left: .13rem;
 }
 
 .timebox li:nth-child(3) {
@@ -84,23 +87,23 @@
 
 .timebox li:nth-child(4) {
   position: absolute;
-    top: 4.55rem;
-    left: 0;
+  top: 4.55rem;
+  left: 0;
 }
 
 .timebox li:nth-child(5) {
   position: absolute;
-    top: 4.55rem;
-    right: 0;
+  top: 4.55rem;
+  right: 0;
 }
 
 .timebox span {
   display: block;
-  width:2.24rem;
-  margin:0 auto;
+  width: 2.24rem;
+  margin: 0 auto;
   height: .9rem;
   background: url(../assets/images/neicanms/webbtn.png) no-repeat;
-  background-size:100% auto;
+  background-size: 100% auto;
   cursor: pointer;
 }
 
@@ -114,33 +117,38 @@
 
 .timebox .time {
   background-position: 0 -0.96rem;
-line-height: .3rem;
-font-size: .25rem;
-color: #fff;
-padding-top: .15rem;
-height: .8rem;
+  line-height: .3rem;
+  font-size: .25rem;
+  color: #fff;
+  padding-top: .15rem;
+  height: .8rem;
 }
 
-.item3 a {display: block;
-width: 3rem;
-height: 1rem;
-z-index: 2;
-right: 0;
-    margin-left: 4.1rem;
+.item3 a {
+  display: block;
+  width: 3rem;
+  height: 1rem;
+  z-index: 2;
+  right: 0;
+  margin-left: 4.1rem;
 }
 
-.item3 span {display: block;
-    text-align: center;
-    width: 3.7rem;
-    color: #fdf06e;
-    font-size: .27rem;margin-top: 1rem;
-    margin-left: 3.3rem;line-height: .5rem
+.item3 span {
+  display: block;
+  text-align: center;
+  width: 3.7rem;
+  color: #fdf06e;
+  font-size: .27rem;
+  margin-top: 1rem;
+  margin-left: 3.3rem;
+  line-height: .5rem
 }
 
 .item3 b {
-  width:.1rem;
+  width: .1rem;
   height: .1rem;
-  display: block;margin-top: 3rem;
+  display: block;
+  margin-top: 3rem;
 }
 
 .navbar {
@@ -150,14 +158,13 @@ right: 0;
   background: url(../assets/images/neicanms/h5lay03.png) no-repeat;
   top: .60rem;
   right: 0;
-  background-size:100% auto;
+  background-size: 100% auto;
 }
 
 .navbar span {
   display: block;
   height: .7rem;
 }
-
 
 
 /*弹层*/
@@ -187,9 +194,11 @@ right: 0;
   background: url(../assets/images/neicanms/weblay01.png);
   background-size: 100% 100%;
 }
-.layer_guoqi{
-  background-image:url(../assets/images/neicanms/weblay02.png);
+
+.layer_guoqi {
+  background-image: url(../assets/images/neicanms/weblay02.png);
 }
+
 @keyframes haha {
   from {
     transform: scale(6);
@@ -231,7 +240,7 @@ right: 0;
 
 .item6 li {
   float: left;
-  width:50%;
+  width: 50%;
 }
 
 .item6 a {
@@ -243,7 +252,9 @@ right: 0;
   height: .8rem;
 }
 
-.item3 .in{padding-top: 1.3rem;}
+.item3 .in {
+  padding-top: 1.3rem;
+}
 </style>
 
 <template>
@@ -329,7 +340,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       opentime: '2017-08-14 10:00:00',
       layerczshow: false,
@@ -338,43 +349,42 @@ export default {
       tougjinum02: 0,
       urlbox: {
         url01: [{
-          touxiang: 'http://itougu.jrj.com.cn/live/26',
-          neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '130718010073409548'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/611',
-          neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141120010079383950'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/117',
-          neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '120217010043425631'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/70',
-          neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '091124010076736396'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/1238',
-          neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141218010033191581'
-        }
-        ],
-        url02: [
+            touxiang: 'http://itougu.jrj.com.cn/live/26',
+            neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '130718010073409548'
+          },
           {
+            touxiang: 'http://itougu.jrj.com.cn/live/611',
+            neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141120010079383950'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/117',
+            neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '120217010043425631'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/70',
+            neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '091124010076736396'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/1238',
+            neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141218010033191581'
+          }
+        ],
+        url02: [{
             touxiang: 'http://itougu.jrj.com.cn/live/62',
             neican: 'http://itougu.jrj.com.cn/tips/10661.jspa'
           },
@@ -415,8 +425,7 @@ export default {
             neican: 'http://itougu.jrj.com.cn/tips/10672.jspa'
           }
         ],
-        url03: [
-          {
+        url03: [{
             touxiang: 'http://itougu.jrj.com.cn/live/1198',
             neican: 'http://itougu.jrj.com.cn/tips/10668.jspa'
           },
@@ -442,16 +451,16 @@ export default {
   computed: mapState({
     ssoId: state => state.user.ssoId
   }),
-  mounted () {
+  mounted() {
     this.$store.dispatch('user/fetch')
-    document.title = '内参秒杀'
+    document.title = '内参秒杀test'
     this.timebtn()
     setInterval(this.timebtn, 1000)
     this.tongji01()
     this.tongji02()
   },
   methods: {
-    timebtn () {
+    timebtn() {
       var now = new Date()
       var year = this.opentime.split('-')[0]
       var month = this.opentime.split('-')[1]
@@ -461,7 +470,7 @@ export default {
       var se = this.opentime.split(' ')[1].split(':')[2]
       var endDate = new Date(year, month - 1, day, hour, min, se)
 
-      this.urlbox.url01.forEach(function (item, index) {
+      this.urlbox.url01.forEach(function(item, index) {
         var leftTime = endDate.getTime() - now.getTime()
 
         leftTime = leftTime + 86400000 * index
@@ -485,7 +494,7 @@ export default {
         }
       })
     },
-    miaosha (v) {
+    miaosha(v) {
       this.tongji01()
       if (v.currentTarget.className === 'gray') {
         this.layerguoqishow = true
@@ -508,25 +517,25 @@ export default {
         }
       }
     },
-    closelayer () {
+    closelayer() {
       this.layerguoqishow = false
       this.layerczshow = false
     },
-    tongji01 () {
+    tongji01() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillAndViewTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
         this.tougjinum01 = v.num
       })
     },
-    tongji02 () {
+    tongji02() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillBuyTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
         this.tougjinum02 = v.num
       })
     },
-    goscroll (v) {
+    goscroll(v) {
       var id = v.currentTarget.getAttribute('dataid')
       var div = document.getElementById(id)
       document.body.scrollTop = div.offsetTop
