@@ -34,7 +34,6 @@ const actions = {
     })
   },
   queryMkt ({ commit }, { stockCode }) {
-    debugger
     const url = `${domain}/openapi/equity/${stockCode}.shtml`
     return fetch(url, { mode: 'cors', headers: { 'Cache-Control': 'no-cache' }}).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
