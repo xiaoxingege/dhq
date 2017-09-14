@@ -195,8 +195,8 @@
           playBackIndex: 19,
           playBackState: false, // 默认是停止不回放
           playBackSrc: playStopSrc,
-          mapHeight: this.$route.fullPath === '/map/fullScreen' ? window.innerHeight : window.innerHeight - 80,
-          mapWidth: this.$route.fullPath === '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
+          mapHeight: this.$route.fullPath === ctx + '/map/fullScreen' ? window.innerHeight : window.innerHeight - 63,
+          mapWidth: this.$route.fullPath === ctx + '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
           showHover: false,
           hoverNode: null,
           legendWidth: 36,
@@ -208,7 +208,7 @@
           updateTimePid: null,
           currentTime: '',
           playLineIndex: 19,
-          playLineLeft: this.$route.fullPath === '/map/fullScreen' ? 54.5 : 46.5,
+          playLineLeft: this.$route.fullPath === ctx + '/map/fullScreen' ? 54.5 : 46.5,
           isStopPlayback: false
         }
       },
@@ -421,6 +421,7 @@
                         if (params.treePathInfo.length <= 2) {
                           return
                         }
+                        this.showHover = true
                         // this.updateMapData()
                         if (params.treePathInfo.length === 3) {
                           this.hoverNode = params.data.children[0]
@@ -428,7 +429,6 @@
                           this.hoverNode = params.data
                         }
                         this.hoverNode.titleName = params.treePathInfo[1].name
-                        this.showHover = true
                       })
                       this.chart.on('mouseout', (params) => {
                         if (params.treePathInfo.length <= 2) {
@@ -459,11 +459,11 @@
           this.chart.showLoading()
           this.getLegendColor()
           window.onresize = function () {
-            if (_this.$route.fullPath === '/map/fullScreen') {
+            if (_this.$route.fullPath === ctx + '/map/fullScreen') {
               _this.mapHeight = window.innerHeight
               _this.mapWidth = window.innerWidth
             } else {
-              _this.mapHeight = window.innerHeight - 80
+              _this.mapHeight = window.innerHeight - 63
               _this.mapWidth = window.innerWidth - 40
             }
             _this.chart.resize({
@@ -603,14 +603,14 @@
           ]
         },
         isFullScreen: function () {
-          if (this.$route.fullPath === '/map/fullScreen') {
+          if (this.$route.fullPath === ctx + '/map/fullScreen') {
             this.isEnlarge = true// 全屏
             this.mapHeight = window.innerHeight
             this.mapWidth = window.innerWidth
             this.$emit('isEnlarge', this.isEnlarge)
-          } else if (this.$route.fullPath === '/map/normal') {
+          } else if (this.$route.fullPath === ctx + '/map/normal') {
             this.isEnlarge = false// 非全屏
-            this.mapHeight = window.innerHeight - 80
+            this.mapHeight = window.innerHeight - 63
             this.mapWidth = window.innerWidth - 40
             this.$emit('isEnlarge', this.isEnlarge)
           }
