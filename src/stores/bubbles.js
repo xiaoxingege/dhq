@@ -122,8 +122,12 @@ export default {
         commit('setBubblesData', body)
       })
     },
-    getStockPool ({ commit }, { userId }) {
-      commit('setStockOptions', userId)
+    getStockPool ({ commit, state, rootState }) {
+      const userId = rootState.user.userId
+      if (!userId) {
+        commit('setStockPool', [])
+        return
+      }
       return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
@@ -132,8 +136,12 @@ export default {
         commit('setStockPool', body)
       })
     },
-    getStrategy ({ commit }, { userId }) {
-      commit('setStrategyOptions', userId)
+    getStrategy ({ commit, state, rootState }) {
+      const userId = rootState.user.userId
+      if (!userId) {
+        commit('setStrategy', [])
+        return
+      }
       return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
