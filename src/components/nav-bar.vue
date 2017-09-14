@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
     .topNav{ height:23px; border-bottom:1px solid #D2D2D2; background:#EEF3F7;}
+    .goldH5 .topNav ul li{ float: left; width:20%}
     .topNav ul li{ float: left;}
     .topNav ul li>span{ font-size:12px; display: block; height:23px; line-height: 23px; width:75px; text-align: center; cursor: pointer;}
     .active{ background:#2388da; color:#fff;}

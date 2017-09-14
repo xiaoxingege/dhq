@@ -17,41 +17,6 @@
     .green {
       color:#48a854 !important;
     }
-    .display-box {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -o-box;
-      display: box;
-    }
-    .box-flex-1 {
-      -webkit-box-flex: 1;
-      -moz-box-flex: 1;
-      -ms-flex: 1;
-      -o-box-flex: 1;
-      box-flex: 1;
-    }
-    .box-flex-2 {
-      -webkit-box-flex: 2;
-      -moz-box-flex: 2;
-      -ms-flex: 2;
-      -o-box-flex: 2;
-      box-flex: 2;
-    }
-    .box-flex-3 {
-      -webkit-box-flex: 3;
-      -moz-box-flex: 3;
-      -ms-flex: 3;
-      -o-box-flex: 3;
-      box-flex: 3;
-    }
-     .box-flex-4 {
-      -webkit-box-flex: 4;
-      -moz-box-flex: 4;
-      -ms-flex: 4;
-      -o-box-flex: 4;
-      box-flex: 4;
-    }
     
     span{
       color: #696969;
@@ -85,6 +50,8 @@
      height: 100%;
      width: 100%;
      box-sizing: border-box;
+      min-height:50px;
+      overflow-y: scroll;
    }
    .every-main{
      border-bottom:1px solid #e5e5e5;

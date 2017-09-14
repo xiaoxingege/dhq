@@ -79,7 +79,7 @@ const mutations = {
       updateTime: new Date().getTime()
     }
     state.user = {
-      userId: authInfo.userId
+      userId: authInfo.userid
     }
   }
 }

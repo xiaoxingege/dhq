@@ -38,7 +38,7 @@
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
          /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 85,
+          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',
@@ -246,7 +246,7 @@
                 } else if (Number(showData) === 1) {
                   return '买入'
                 } else {
-                  return '暂无观点'
+                  return ''
                 }
               } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
                 return (Number(showData) / 100000000).toFixed(2) + '亿'

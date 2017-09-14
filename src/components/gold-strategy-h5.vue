@@ -59,31 +59,41 @@
             width:100%;
         }
         .mrjy,.dqxg{  padding:0.1rem 0;  background: #fff; width:100%;}
-        .mrjy table,.dqxg table{ width:100%; font-size:0.16rem; margin-top: 0.2rem;}
-        .mrjy table thead tr th,.dqxg table thead tr th{ height:0.25rem; line-height: 0.25rem}
+        .mrjy table,.dqxg table{ width:100%; font-size:0.16rem; }
+        .mrjy table thead tr th,.dqxg table thead tr th{ height:0.6rem; line-height: 0.6rem; }
         .mrjy table  tr td,.dqxg table  tr td{ text-align: center; height:0.35rem; line-height:0.35rem;}
-        .red{
-            color:#d7453e;
-        }
-        .green{
-            color:#61a65b;
-        }
-        .strategyDescTable{
+        .strategyDescTable,.tradeParams table{
             width:100%;
             background: #fff;
             font-size:0.18rem;
         }
-        .strategyDescTable tr:first-child td{
+        .strategyDescTable tr:first-child td,.tradeParams table tr:first-child th{
             color:#a5a5a5;
         }
         .strategyDescTable tr:last-child td{
             font-weight: bold;
         }
-        .strategyDescTable td{
-            color:#191919;
+        .strategyDescTable td,.tradeParams table tr td{
+            color:#696969;
             text-align: center;
             height:0.4rem;
             line-height: 0.4rem;
+        }
+        .tradeParams table{
+            margin-top:0.2rem;
+        }
+        .tradeParams table tr td{
+            width:25%;
+            text-align: left;
+            padding-left:0.2rem;
+        }
+        .tradeParams table tr:first-child th{
+            text-align: left;
+            font-weight: normal;
+            padding-left:0.2rem;
+        }
+        .tradeParams{
+            background: #fff;
         }
     }
 </style>
@@ -126,7 +136,7 @@
         </div>
         <!--<Tablelist :data="tableData"></Tablelist>-->
         <div style="width:100%; margin-top:0.1rem;">
-            <div style="width:100%">
+            <div style="width:100%" class="goldH5">
                 <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
                 <div style="margin-bottom: 0.05rem;">
                     <div v-if="type === 'syqxt'" class="syqxt">
@@ -151,7 +161,7 @@
                         <thead>
                         <tr>
                             <th>股票简称</th>
-                            <th>价格（元）</th>
+                            <th>价格<span style="font-size:0.14rem">(元)</span></th>
                             <th>涨跌</th>
                             <th>涨跌幅</th>
                             <th>市盈率</th>
@@ -180,9 +190,9 @@
                             <th>日期</th>
                             <th>股票简称</th>
                             <th>买/卖</th>
-                            <th>成交价格（元）</th>
+                            <th>成交价格(元)</th>
                             <th>成交股数</th>
-                            <th>佣金（元）</th>
+                            <th>佣金(元)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -226,7 +236,78 @@
             </div>
             <div class="tradeParams">
                 <div class="recommendTitle">交易参数</div>
-                <Tablelist :data="tradeParamData"></Tablelist>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>初始金额</th>
+                        <th>资金分配</th>
+                        <th>买入价格</th>
+                        <th>卖出价格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{tableData.initFund}}</td>
+                        <td>{{tableData.fundAllocate}}</td>
+                        <td>{{tableData.buyPriceType}}</td>
+                        <td>{{tableData.sellPriceType}}</td>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>最大持仓</th>
+                        <th>个股最大仓位</th>
+                        <th>条件优先序</th>
+                        <th>交易费用</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{tableData.maxHolding}}</td>
+                        <td>{{tableData.stockMaxHolding}}</td>
+                        <td>{{tableData.conPriority}}</td>
+                        <td>{{tableData.commission}}</td>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>调仓周期</th>
+                        <th>买卖滑点</th>
+                        <th>收益基准</th>
+                        <th>无风险利率</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{tableData.tradeCycle}}</td>
+                        <td>{{tableData.slippage}}</td>
+                        <td>{{tableData.benchmark}}</td>
+                        <td>{{tableData.riskFreeRatio}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>回测时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{tableData.backtestDate}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
             </div>
         </div>
     </div>
@@ -252,8 +333,7 @@
           navText: [['选股条件', 'choseStock'], ['买卖条件', 'sellCondition'], ['仓控策略', 'controlStrategy'], ['交易参数', 'tradeParams']],
           navText1: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb']],
           type: 'syqxt',
-          trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta']
-        }
+          trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta'] }
       },
       components: {
         Titlecontent,
@@ -531,16 +611,8 @@
             sellData: sellData
           }
         },
-        tradeParamData: function () {
-          const tableData = this.recommendData.tradeParamsData
-          return [
-                  ['初始金额', '资金分配', '买入价格', '卖出价格', '回测时间'],
-                  [tableData.initFund, tableData.fundAllocate, tableData.buyPriceType, tableData.sellPriceType, tableData.backtestDate],
-                  ['最大持仓', '个股最大仓位', '条件优先序', '交易费用', '调仓周期'],
-                  [tableData.maxHolding, tableData.stockMaxHolding, tableData.conPriority, tableData.commission, tableData.tradeCycle],
-                  ['买卖滑点', '收益基准', '无风险利率'],
-                  [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio]
-          ]
+        tableData: function () {
+          return this.recommendData.tradeParamsData
         },
         mrjyData: function () {
           return this.$store.state.goldStrategy.mrjyData
