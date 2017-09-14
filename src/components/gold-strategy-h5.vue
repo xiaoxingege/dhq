@@ -68,6 +68,20 @@
         .green{
             color:#61a65b;
         }
+        .strategyDescTable{
+            width:100%;
+            background: #fff;
+            font-size:0.18rem;
+        }
+        .strategyDescTable tr:first-child td{
+            color:#a5a5a5;
+        }
+        .strategyDescTable td{
+            color:#191919;
+            text-align: center;
+            height:0.4rem;
+            line-height: 0.4rem;
+        }
     }
 </style>
 <template>
@@ -81,7 +95,33 @@
         <div class="radarChart">
             <Radarchart :strategyId="strategyId"></Radarchart>
         </div>
-        <Tablelist :data="tableData"></Tablelist>
+        <div style="background:#fff;">
+        <table class="strategyDescTable">
+            <tr>
+                <td v-for="item in trData">{{item}}</td>
+            </tr>
+            <tr>
+                <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</td>
+                <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</td>
+                <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</td>
+                <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</td>
+                <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</td>
+                <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</td>
+                <td>{{this.goldResult === null?'':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
+            </tr>
+        </table>
+        <table class="strategyDescTable" style="width:33%;">
+            <tr>
+                <td>胜率</td>
+                <td>换手率</td>
+            </tr>
+            <tr>
+                <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
+                <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
+            </tr>
+        </table>
+        </div>
+        <!--<Tablelist :data="tableData"></Tablelist>-->
         <div style="width:100%; margin-top:0.1rem;">
             <div style="width:100%">
                 <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
@@ -101,33 +141,6 @@
                     <div v-if="type === 'sylfb'" class="sylfb">
                         <Onebarchart :strategyId="strategyId"></Onebarchart>
                     </div>
-                </div>
-                <div class="mrjy">
-                    <div class="recommendTitle">每日交易</div>
-                    <table cellpadding="0" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>股票简称</th>
-                            <th>买/卖</th>
-                            <th>成交价格（元）</th>
-                            <th>成交股数</th>
-                            <th>佣金（元）</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="item of mrjyData.content">
-                            <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
-                            <td>{{item.name}}</td>
-                            <td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>
-                            <td>{{Number(item.price).toFixed(2)}}</td>
-                            <td>{{item.quantity}}</td>
-                            <td>{{Number(item.commission).toFixed(2)}}</td>
-                        </tr>
-                        </tbody>
-
-                    </table>
-                    <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
                 </div>
                 <div class="dqxg">
                     <div class="recommendTitle">当前选股</div>
@@ -156,6 +169,34 @@
                     </table>
                     <Pagination v-if="dqxgData.totalPages > 1" :totalPage="dqxgData.totalPages" v-on:getPageFromChild="goDqxgPage"></Pagination>
                 </div>
+                <div class="mrjy">
+                    <div class="recommendTitle">交易详情</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>股票简称</th>
+                            <th>买/卖</th>
+                            <th>成交价格（元）</th>
+                            <th>成交股数</th>
+                            <th>佣金（元）</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item of mrjyData.content">
+                            <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
+                            <td>{{item.name}}</td>
+                            <td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>
+                            <td>{{Number(item.price).toFixed(2)}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>{{Number(item.commission).toFixed(2)}}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+                </div>
+
             </div>
             <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
         </div>
@@ -207,7 +248,8 @@
         return {
           navText: [['选股条件', 'choseStock'], ['买卖条件', 'sellCondition'], ['仓控策略', 'controlStrategy'], ['交易参数', 'tradeParams']],
           navText1: [['收益曲线图', 'syqxt'], ['当日盈亏', 'dryk'], ['每日持仓', 'mrcc'], ['收益月统计', 'syytj'], ['收益率分布', 'sylfb']],
-          type: 'syqxt'
+          type: 'syqxt',
+          trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta']
         }
       },
       components: {
@@ -231,22 +273,6 @@
             title: '策略描述:',
             content: this.goldResult.strategyDesc
           }
-        },
-        tableData: function () {
-          return [
-                    ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
-            [
-              (Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%',
-              (Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%',
-              (Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2),
-              (Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%',
-              Number(this.goldResult.evaluationIndexs.alpha).toFixed(2),
-              Number(this.goldResult.evaluationIndexs.beta).toFixed(2),
-              (Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%',
-              (Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'
-            ]
-          ]
         },
         recommendData: function () {
           const startDate = String(this.goldResult.backtestStartDate)
@@ -476,7 +502,7 @@
                 }
               }
 
-              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
+              buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].operator === null ? buyConditionTable[i].operator : buyConditionTable[i].comparisonValue])
             }
           }
           if (sellConditionTable.length > 0) {
@@ -494,7 +520,7 @@
                   parmsPeriod.push(parms[item])
                 }
               }
-              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].comparisonValue])
+              sellData.push([sellConditionTable[j].pageOrder, sellConditionTable[j].indexName, '(' + parmsPeriod.join('，') + ')', sellConditionTable[j].operator, sellConditionTable[j].operator === null ? sellConditionTable[j].operator : sellConditionTable[j].comparisonValue])
             }
           }
           return {
