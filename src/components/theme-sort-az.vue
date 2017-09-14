@@ -89,7 +89,10 @@
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" v-z3-updowncolor="g.topicMarket.chngPct" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a></div>
+         <div class="fl every-name">
+              <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a>
+         </div>
+        
       </div>
       
    </div>
@@ -126,6 +129,19 @@
    methods: {
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+     },
+     checkClass (str) {
+       console.log(str)
+       if (str === null) {
+         str = 'block'
+       } else if (str > 0) {
+         str = 'red'
+       } else if (str === 0) {
+         str = 'block'
+       } else {
+         str = 'green'
+       }
+       return str
      },
      getVal (e) {
        const text = e.target.innerHTML
