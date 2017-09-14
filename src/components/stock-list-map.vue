@@ -229,6 +229,12 @@ export default{
                       })
                       this.stockList = this.parent.children
                       this.$nextTick(() => {
+                        let wrapHeight
+                        if (document.getElementsByClassName('hover-wrapper').length > 0) {
+                          wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+                          console.log(wrapHeight)
+                          this.$emit('updateWrapHeight', wrapHeight)
+                        }
                         for (const i in this.stockList) {
                           if (this.$refs.chart && this.$refs.chart.length > 0) {
                             this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])

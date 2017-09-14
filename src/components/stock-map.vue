@@ -81,7 +81,7 @@
 </style>
 <template>
     <div class="map_wrap">
-         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
+         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
         <div class="enlarge" v-if="!isEnlarge">
             <a v-on:click="restoreMap"><span>100%比例</span></a>
             <span class="currentTime">{{currentTime}}</span>
@@ -209,7 +209,10 @@
           currentTime: '',
           playLineIndex: 19,
           playLineLeft: this.$route.fullPath === ctx + '/map/fullScreen' ? 54.5 : 46.5,
-          isStopPlayback: false
+          isStopPlayback: false,
+          wrapHeight: 0,
+          clientX: 0,
+          clientY: 0
         }
       },
       watch: {
@@ -721,18 +724,30 @@
           }
           return getArr
         },
+        changeWrapHeight: function (wrapHeight) {
+          this.wrapHeight = wrapHeight
+          if (this.wrapHeight > 52) {
+            this.move()
+          }
+        },
         move: function (event) {
-          this.offsetX = event.clientX + 50
-          this.offsetY = event.clientY + 50
+          if (event) {
+            this.clientX = event.clientX + 50
+            this.clientY = event.clientY + 50
+            this.offsetX = event.clientX + 50
+            this.offsetY = event.clientY + 50
+          }
           const windowWidth = window.innerWidth
           const windowHeight = window.innerHeight
           if (document.getElementsByClassName('hover-wrapper').length > 0) {
             const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
-            const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+            // const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+            const wrapHeight = this.wrapHeight
+            console.log(wrapHeight)
             if (windowWidth - this.offsetX <= wrapWidth) {
               this.offsetX = this.offsetX - wrapWidth - 50
             }
-            if (windowHeight - this.offsetY <= wrapHeight) {
+            if (windowHeight - this.clientY <= wrapHeight) {
               this.offsetY = windowHeight - wrapHeight
             }
             if (this.offsetY < 0) {
