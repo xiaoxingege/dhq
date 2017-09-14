@@ -59,6 +59,7 @@
     .backtest-time2 .describe-wrap .desc-txt{
       text-align: left;
       color: #a5a5a5;
+      width: 16%;
     }
     .describe-wrap .desc-txt .desc-num{
       position: absolute;
@@ -75,13 +76,14 @@
       padding-bottom:0;
     }
     .backtest-time2 .describe-wrap .desc-txt3{
-      width: 32%;
+      /* width: 32%; */
+      width: 23%;
     }
     .backtest-time2 .describe-wrap .desc-txt6{
       width: 12%;
     }
-    .backtest-filter2 .describe-wrap .desc-txt4{
-      width: 18%;
+    .backtest-time2 .describe-wrap .desc-txt4{
+      width: 14%;
     }
     .backtest-filter2 .describe-wrap .desc-txt5{
       width: 22%;
