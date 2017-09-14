@@ -37,7 +37,8 @@
     }
     .backtest-filter2 .describe-wrap .describe-left{
       /* width: 100%; */
-      width: 95%;
+      width: 100%;
+      box-sizing: border-box;
      /*  padding: 14px 0px 0 10px; */
     }
     .backtest-filter2 .describe-wrap .describe-right{

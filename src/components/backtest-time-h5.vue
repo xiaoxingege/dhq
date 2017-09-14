@@ -38,11 +38,13 @@
     .backtest-time2 .describe-wrap .describe-left{
       /* width: 100%;
       padding: 14px 0px 0 10px; */
-      width: 95%;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 10px 0 11px;
     }
     .backtest-time2 .describe-wrap .describe-right{
      /*  width: 100%; */
-      width: 98%;
+      width: 100%;
       margin-top: 10px;
       margin-left: 0;
       padding: 14px 0px 0 10px;
