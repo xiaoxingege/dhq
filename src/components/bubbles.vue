@@ -594,7 +594,7 @@
             this.chart.hideLoading()
           })
           this.chart.showLoading()
-          this.$emit('toHideDialog', false)
+          setTimeout(() => { this.$emit('toHideDialog', false) }, 0)
         }
 
       },
