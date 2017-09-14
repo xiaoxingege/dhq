@@ -1,6 +1,7 @@
-import 'whatwg-fetch'
+// import 'whatwg-fetch'
 import fetchJsonp from 'fetch-jsonp'
 import { domain } from '../z3tougu/config'
+import fetch from '../z3tougu/util/z3fetch'
 export default {
   namespaced: true,
   state: {

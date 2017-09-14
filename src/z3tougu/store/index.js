@@ -41,11 +41,11 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.authorization) {
+    if (state.auth.authorization) {
       return {
-        authorization: state.authorization,
-        clientid: state.clientid,
-        deviceid: state.deviceid
+        authorization: state.auth.authorization,
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid
       }
     }
     return {}
