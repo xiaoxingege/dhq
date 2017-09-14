@@ -1,9 +1,9 @@
 <style lang="scss" scoped="">
-    .strategy-title{height:12%;border-bottom: 1px solid #ddd;}
+    .strategy-title{height:10%;border-bottom: 1px solid #ddd;}
     .strategy-title p{display: inline-block;width: 50%;height: 100%;vertical-align: middle;}
     .strategy-name{color:#4c8cca;float: left;text-align: left;font-weight:bold;}
     .strategy-create-time{color:#666;float: right;text-align: right;}
-    .strategy-chart-link{display: inline-block;width:100%;height:65%;}
+    .strategy-chart-link{display: inline-block;width:100%;height:67%;}
     .strategy-chart{height:100%;cursor: pointer;}
     .rate-labels{padding-top: 5px;height:23%;}
     .rate-labels li{display: inline-block;float: left;height:100%;}
@@ -123,7 +123,7 @@ export default {
                 show: false,
                 left: 0,
                 top: 45,
-                bottom: 20,
+                bottom: 0,
                 right: 5,
                 width: '100%',
                 height: '61%'

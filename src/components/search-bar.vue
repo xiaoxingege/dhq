@@ -34,6 +34,8 @@
 </template>
 <script>
     import { mapState } from 'vuex'
+    import { ctx } from '../z3tougu/config'
+
 export default {
       data () {
         return {}
@@ -57,7 +59,7 @@ export default {
                 if (this.$store.state.zhikuanSearch.isQuota) {
                   window.open(this.$store.state.zhikuanSearch.isQuota)
                 } else {
-                  window.open(`/search/stock/${keyword}`)
+                  window.open(`${ctx}+ /search/stock/${keyword}`)
                 }
               })
             }
