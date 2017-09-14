@@ -76,6 +76,7 @@ import fundPoolRelevance from 'components/fundPoolRelevance'
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import { domain } from '../../z3tougu/config'
+import { ctx } from '../../z3tougu/config'
 export default {
   data () {
     return {
@@ -140,7 +141,7 @@ export default {
       }).then(result => {
         if (result.errCode === 0) {
           this.show = false
-          this.$router.push({ path: '/foundpooldetail/' + result.data })
+          this.$router.push({ path: ctx + '/foundpooldetail/' + result.data })
         } else if (result.errCode === 1505 || result.errCode === 1501 || result.errCode === -1) {
           this.msg = result.msg
           this.errCode = result.errCode
