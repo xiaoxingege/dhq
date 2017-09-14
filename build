@@ -42,7 +42,23 @@ function pinfo() {
 function get_port() {
   port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
 }
+
+function get_valid_port() {
+  count=$(cat $ver_path | grep "^"$feature:$branch" " | wc -l)
+  if [ "$count" != "0" ]; then
+    port=`cat $ver_path | grep "^"$feature:$branch" " | awk '{print $3}'`
+  else
+    is_use="1"
+    while [ $is_use = "1" ]
+    do
+      let "port+=1"
+      is_use=$(cat $ver_path | grep "^"$feature:".* $port$" | wc -l)
+    done
+  fi
+}
+
 get_port $feature
+
 if [ "$port" = "" ]; then
   echo 'feature not found'
   exit 1
@@ -60,6 +76,7 @@ if [ "$feature" != "z3tougu" ]; then
     echo "package $feature-$version exists."
     exit 1
   fi
+  get_valid_port
 fi
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
@@ -215,7 +232,7 @@ else
   if [ "$count" = "0" ]; then
     sudo sh -c "echo '$feature:$branch $version $port' >> $ver_path"
   else
-    sudo sed -i "s/"$feature:$branch" .*/"$feature:$branch" "$version"/g" $ver_path
+    sudo sed -i "s/"$feature:$branch" .*/"$feature:$branch" "$version" "$port"/g" $ver_path
   fi
   rm -f /tmp/version.lock
   rm -f *.bzip2
