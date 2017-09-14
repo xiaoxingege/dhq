@@ -6,6 +6,7 @@
           <a href="javascript:;" class="fr btn" @click='exportFundPool'>导出基金</a>
           <ul class="tabList fl">
             <li class="active">筛选条件</li>
+            {{foundPoolListData.foundPoolList}}
           </ul>
         </div>
         <!-- 筛选条件 -->
@@ -280,7 +281,6 @@
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
-          console.log(fund.innerCode === fundid)
           return fund.innerCode === fundid
         })
       },
@@ -387,6 +387,7 @@
           a.click()
         })
       },
+      // 日期格式化
       format (time) {
         if (time === null) {
           return '--'
@@ -447,10 +448,6 @@
         deep: true,
         handler: function (oldVal, newVal) {
           this.query(this.filterParams2, this.page, this.type2)
-          this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
-            const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
-            return tempFund
-          })
         }
       }
     }
@@ -739,15 +736,4 @@
   .msg2{font-size: 14px;}
   .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
   p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
-  .mask{width: 100%;height: 100%;background: rgba(0,0,0,0.3);position: fixed;top: 0;left:0;z-index: 9999;
-    div{
-      width: 100px;
-      height:100px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      color:#fff;
-      transform: translate(-50%,-50%);
-    }
-  }
 </style>
