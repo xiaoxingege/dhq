@@ -81,7 +81,7 @@
 </style>
 <template>
     <div class="map_wrap">
-         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" v-if="showHover"></StockList>
+         <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
         <div class="enlarge" v-if="!isEnlarge">
             <a v-on:click="restoreMap"><span>100%比例</span></a>
             <span class="currentTime">{{currentTime}}</span>
@@ -195,8 +195,8 @@
           playBackIndex: 19,
           playBackState: false, // 默认是停止不回放
           playBackSrc: playStopSrc,
-          mapHeight: this.$route.fullPath === '/map/fullScreen' ? window.innerHeight : window.innerHeight - 80,
-          mapWidth: this.$route.fullPath === '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
+          mapHeight: this.$route.fullPath === ctx + '/map/fullScreen' ? window.innerHeight : window.innerHeight - 63,
+          mapWidth: this.$route.fullPath === ctx + '/map/fullScreen' ? window.innerWidth : window.innerWidth - 40,
           showHover: false,
           hoverNode: null,
           legendWidth: 36,
@@ -208,8 +208,11 @@
           updateTimePid: null,
           currentTime: '',
           playLineIndex: 19,
-          playLineLeft: this.$route.fullPath === '/map/fullScreen' ? 54.5 : 46.5,
-          isStopPlayback: false
+          playLineLeft: this.$route.fullPath === ctx + '/map/fullScreen' ? 54.5 : 46.5,
+          isStopPlayback: false,
+          wrapHeight: 0,
+          clientX: 0,
+          clientY: 0
         }
       },
       watch: {
@@ -421,6 +424,7 @@
                         if (params.treePathInfo.length <= 2) {
                           return
                         }
+                        this.showHover = true
                         // this.updateMapData()
                         if (params.treePathInfo.length === 3) {
                           this.hoverNode = params.data.children[0]
@@ -428,7 +432,6 @@
                           this.hoverNode = params.data
                         }
                         this.hoverNode.titleName = params.treePathInfo[1].name
-                        this.showHover = true
                       })
                       this.chart.on('mouseout', (params) => {
                         if (params.treePathInfo.length <= 2) {
@@ -459,11 +462,11 @@
           this.chart.showLoading()
           this.getLegendColor()
           window.onresize = function () {
-            if (_this.$route.fullPath === '/map/fullScreen') {
+            if (_this.$route.fullPath === ctx + '/map/fullScreen') {
               _this.mapHeight = window.innerHeight
               _this.mapWidth = window.innerWidth
             } else {
-              _this.mapHeight = window.innerHeight - 80
+              _this.mapHeight = window.innerHeight - 63
               _this.mapWidth = window.innerWidth - 40
             }
             _this.chart.resize({
@@ -603,14 +606,14 @@
           ]
         },
         isFullScreen: function () {
-          if (this.$route.fullPath === '/map/fullScreen') {
+          if (this.$route.fullPath === ctx + '/map/fullScreen') {
             this.isEnlarge = true// 全屏
             this.mapHeight = window.innerHeight
             this.mapWidth = window.innerWidth
             this.$emit('isEnlarge', this.isEnlarge)
-          } else if (this.$route.fullPath === '/map/normal') {
+          } else if (this.$route.fullPath === ctx + '/map/normal') {
             this.isEnlarge = false// 非全屏
-            this.mapHeight = window.innerHeight - 80
+            this.mapHeight = window.innerHeight - 63
             this.mapWidth = window.innerWidth - 40
             this.$emit('isEnlarge', this.isEnlarge)
           }
@@ -721,18 +724,30 @@
           }
           return getArr
         },
+        changeWrapHeight: function (wrapHeight) {
+          this.wrapHeight = wrapHeight
+          if (this.wrapHeight > 52) {
+            this.move()
+          }
+        },
         move: function (event) {
-          this.offsetX = event.clientX + 50
-          this.offsetY = event.clientY + 50
+          if (event) {
+            this.clientX = event.clientX + 50
+            this.clientY = event.clientY + 50
+            this.offsetX = event.clientX + 50
+            this.offsetY = event.clientY + 50
+          }
           const windowWidth = window.innerWidth
           const windowHeight = window.innerHeight
           if (document.getElementsByClassName('hover-wrapper').length > 0) {
             const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
-            const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+            // const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
+            const wrapHeight = this.wrapHeight
+            console.log(wrapHeight)
             if (windowWidth - this.offsetX <= wrapWidth) {
               this.offsetX = this.offsetX - wrapWidth - 50
             }
-            if (windowHeight - this.offsetY <= wrapHeight) {
+            if (windowHeight - this.clientY <= wrapHeight) {
               this.offsetY = windowHeight - wrapHeight
             }
             if (this.offsetY < 0) {

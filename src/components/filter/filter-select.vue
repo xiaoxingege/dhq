@@ -53,7 +53,7 @@
         <ul class="fltj selectBox">
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2' class="pr">
             <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
-            <div @click='toggleShow' class="select" :class="{'disabled':this.type ==='jjlx_all'}">行业</div>
+            <div @click='toggleShow' class="select" :class="{'disabled':this.type ==='jjlx_all'}">{{checkName}}</div>
             <div v-if="seleteCheckboxShow" class='checkedBox'>
               <ul>
                 <li><label><input v-model='checkedVal' type="checkbox" name="name" value='all' @click="checkAll($event)" :disabled='checkDisabled'/>全部</label></li>
@@ -163,6 +163,7 @@ export default {
       checkedVal: ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000'],
       checkDisabled: true,
       checkedSelect: true,
+      checkName: '全部',
       type: 'jjlx_all',
       hyStr: 'all',
       seleteCheckboxShow: false,
@@ -199,6 +200,7 @@ export default {
         this.checkDisabled = true
       }
       if (this.typeIndex === 0) { this.seleteCheckboxShow = false }
+      this.getOptionData()
     },
     getOptionData () {
       this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })

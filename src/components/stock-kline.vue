@@ -1,6 +1,6 @@
 <template>
     <div class="stock-kline">
-        <div class="ma"><span class="ma20">MA20：{{stock.ma20}}</span><span class="ma60">MA60：{{stock.ma60}}</span><span class="ma120">MA120：{{stock.ma120}}</span><div></div></div>
+        <div class="ma"><span class="ma20">MA20：{{lastKData.ma20}}</span><span class="ma60">MA60：{{lastKData.ma60}}</span><span class="ma120">MA120：{{lastKData.ma120}}</span><div></div></div>
         <div class="chart" ref="chart" :style="{width:chartWidth+'px', height:chartHeight+'px'}"></div>
     </div>
 </template>
@@ -32,34 +32,17 @@
       },
       computed: {
         ...mapState({
-          stock (state) {
-            const d = state.stock.stockKlineData && state.stock.stockKlineData[0]
-            if (!d) {
+          stock: state => state.stock.stock,
+          lastKData: state => {
+            const record = state.stock.stockKlineData[0]
+            if (record) {
+              return record
+            } else {
               return {
-                stockCode: config.emptyValue,
-                stockName: config.emptyValue,
                 ma20: config.emptyValue,
                 ma60: config.emptyValue,
-                ma120: config.emptyValue,
-                lastPx: config.emptyValue,
-                chgPx: config.emptyValue,
-                chgPctPx: config.emptyValue
+                ma120: config.emptyValue
               }
-            }
-            const chgPx = (d.closePx - d.prevClosePx).toFixed(2)
-            let chgPctPx = '--'
-            if (d.prevClosePx !== 0 && d.prevClosePx !== config.emptyValue) {
-              chgPctPx = (chgPx / d.prevClosePx * 100).toFixed(2)
-            }
-            return {
-              stockCode: d.name,
-              stockName: d.innerCode || config.emptyValue,
-              ma20: d.ma20,
-              ma60: d.ma60,
-              ma120: d.ma120,
-              lastPx: d.closePx,
-              chgPx: chgPx,
-              chgPctPx: chgPctPx + '%'
             }
           },
           lineData (state) {
@@ -388,6 +371,7 @@
             return
           }
           this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
+          this.$store.dispatch('stock/queryMkt', { stockCode: this.stockCode })
         },
         lineData () {
           this.initChart()
@@ -399,6 +383,7 @@
           return
         }
         this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode })
+        this.$store.dispatch('stock/queryMkt', { stockCode: this.stockCode })
       }
     })
 </script>
@@ -428,8 +413,4 @@
       padding-right:15px;
       color:#f6bc4d
     }
-    /*.chart{
-        width:50%;
-        height:50%;
-    }*/
 </style>

@@ -381,7 +381,7 @@
     import { mapState } from 'vuex'
     import echarts from 'echarts'
     import { formatDate } from 'utils/date'
-    import { mutationTypes } from 'stores/z3tougu-theme'
+    // import { mutationTypes } from 'stores/z3tougu-theme'
     import z3websocket from '../z3tougu/z3socket'
     export default{
       data () {
@@ -719,7 +719,7 @@
           return formatDate(date)
         },
         updateStock (stock) {
-          this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+          this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
         },
         subscribeStock () {
           const msg = {

@@ -6,6 +6,7 @@
           <a href="javascript:;" class="fr btn" @click='exportFundPool'>导出基金</a>
           <ul class="tabList fl">
             <li class="active">筛选条件</li>
+            {{foundPoolListData.foundPoolList}}
           </ul>
         </div>
         <!-- 筛选条件 -->
@@ -17,7 +18,7 @@
         <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
         <ul class="fundPoolList">
           <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
-          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合&nbsp;</div></li>
+          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div></li>
         </ul>
       </div>
       <!-- 临时基金池 end-->
@@ -137,7 +138,15 @@
       </div>
     </founddialog>
     <!-- 弹框 end-->
-    <div class="mask" v-if="maskShow"><div>加载中...</div></div>
+    <<div class="loading" v-if="maskShow">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
+    </div>
   </div>
 </template>
 
@@ -272,7 +281,6 @@
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
-          console.log(fund.innerCode === fundid)
           return fund.innerCode === fundid
         })
       },
@@ -379,6 +387,7 @@
           a.click()
         })
       },
+      // 日期格式化
       format (time) {
         if (time === null) {
           return '--'
@@ -439,10 +448,6 @@
         deep: true,
         handler: function (oldVal, newVal) {
           this.query(this.filterParams2, this.page, this.type2)
-          this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
-            const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
-            return tempFund
-          })
         }
       }
     }
@@ -731,15 +736,4 @@
   .msg2{font-size: 14px;}
   .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
   p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
-  .mask{width: 100%;height: 100%;background: rgba(0,0,0,0.3);position: fixed;top: 0;left:0;z-index: 9999;
-    div{
-      width: 100px;
-      height:100px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      color:#fff;
-      transform: translate(-50%,-50%);
-    }
-  }
 </style>

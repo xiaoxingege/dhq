@@ -23,15 +23,15 @@
             <li class="theme-title tl"><router-link :to="{name:'topicDetail',params:{topicId:topicCode}}">{{topicName}}</router-link></li>
             <li class="updown-rate">
                 <span>今日涨跌</span>
-                <span :class="chngPct>0 ? 'c_up':'c_down'">{{chngPct === null?'--':chngPctFmt}}</span>
+                <span :class="chngPct === '--'?'c_txt':(chngPct>0 ? 'c_up':'c_down')">{{chngPctFmt}}</span>
             </li>
             <li class="up-stock tr">
                 <span>上涨股票</span>
-                <span class="c_up">{{stkUpNum === null?'--':stkUpNum}}</span>
+                <span :class="stkUpNum === '--'?'c_txt':'c_up'">{{stkUpNum}}</span>
             </li>
             <li class="down-stock tr">
                 <span>下跌股票</span>
-                <span class="c_down">{{stkDownNum===null?'--':stkDownNum}}</span>
+                <span :class="stkDownNum === '--'?'c_txt':'c_down'">{{stkDownNum}}</span>
             </li>
         </ul>
         <div style="text-align: justify;line-height: 205%;">
@@ -55,8 +55,8 @@
           srcName: '',
           topicName: '',
           chngPct: '',
-          stkUpNum: 0,
-          stkDownNum: 0,
+          stkUpNum: '',
+          stkDownNum: '',
           topicCode: ''
         }
       },
@@ -78,10 +78,10 @@
               this.newsDeclareDate = this.format(this.topicData[1].newsDeclareDate)
               this.srcName = this.topicData[1].srcName
               this.topicName = this.topicData[1].topicName
-              this.chngPct = this.topicData[1].topicMarket.chngPct
-              this.chngPctFmt = this.topicData[1].topicMarket.chngPct > 0 ? '+' + (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%' : (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%'
-              this.stkUpNum = this.topicData[1].topicMarket.stkUpNum
-              this.stkDownNum = this.topicData[1].topicMarket.stkDownNum
+              this.chngPct = this.topicData[1].topicMarket.chngPct === null ? '--' : this.topicData[1].topicMarket.chngPct
+              this.chngPctFmt = this.topicData[1].topicMarket.chngPct === null ? '--' : (this.topicData[1].topicMarket.chngPct > 0 ? '+' + (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%' : (this.topicData[1].topicMarket.chngPct).toFixed(2) + '%')
+              this.stkUpNum = this.topicData[1].topicMarket.stkUpNum === null ? '--' : this.topicData[1].topicMarket.stkUpNum
+              this.stkDownNum = this.topicData[1].topicMarket.stkDownNum === null ? '--' : this.topicData[1].topicMarket.stkDownNum
               this.topicCode = this.topicData[1].topicCode
             }
           })
