@@ -10,7 +10,7 @@ export default function (url, options) {
   const updateTime = authInfo.updateTime
   const now = new Date().getTime()
 
-  if (now - updateTime < expires * 1000) {
+  if (expires !== -1 && now - updateTime < expires * 1000) {
     options = insertAuthHeader(options)
     return originFetch(url, options)
   }
@@ -21,7 +21,6 @@ export default function (url, options) {
 }
 
 function insertAuthHeader (options) {
-  debugger
   const authHeader = store.getters.authHeader
   let headers = {}
   if (!options) {
