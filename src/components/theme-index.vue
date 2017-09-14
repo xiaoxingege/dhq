@@ -5,9 +5,7 @@
         color: #191919;
         width: 100%;
     }
-    .every-main .letter{
-      padding-left: 1.6%;
-    }
+    
 </style>
 <template> 
    <div class="theme-index">
