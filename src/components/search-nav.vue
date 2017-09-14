@@ -1,4 +1,4 @@
-<style>
+<style lang="scss" scoped>
     @import '../assets/css/base.css';
     .topNav{ height:23px; border-bottom:1px solid #0799E5; background:#fff;}
     .topNav ul li{ float: left;}
