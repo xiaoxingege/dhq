@@ -65,7 +65,8 @@ export default {
       prevButton: '.swiper-button-prev',
       loop: _this.listData.loop,
       paginationClickable: _this.listData.paginationClickable,
-      autoplay: _this.listData.autoplay
+      autoplay: _this.listData.autoplay,
+      autoplayDisableOnInteraction: _this.listData.autoplayDisableOnInteraction
     })
   }
 }

@@ -32,8 +32,9 @@ export default {
           aid: options.aid,
           activityUserName: options.userName,
           mobile: options.phone,
-          bizsource: 'HD_ZNTF_PC',
-          tgcode: 'L54MST72'
+          bizsource: options.bizsource,
+          tgqdcode: options.tgqdcode,
+          source: options.source
         },
         beforeSend: function () {
          // Handle the beforeSend event

@@ -325,6 +325,7 @@ export default {
         paginationClickable: true,
         loop: true,
         autoplay: 2000,
+        autoplayDisableOnInteraction: false,
         prev: {
           imgUrl: require('assets/images/pay-video-activity/prev.png'),
           width: '64px',
@@ -416,9 +417,12 @@ export default {
         return
       }
       this.$store.dispatch('reservation/fetch', {
-        aid: '774288813405614080',
+        aid: '774663343076651008',
         userName: this.userName,
-        phone: this.phone
+        phone: this.phone,
+        bizsource: 'HD_ZNTF_H5',
+        source: '4',
+        tgqdcode: 'L54MST72'
       })
     }
   },

@@ -421,9 +421,12 @@ export default {
         return
       }
       this.$store.dispatch('reservation/fetch', {
-        aid: '774288813405614080',
+        aid: '774663343076651008',
         userName: this.userName,
-        phone: this.phone
+        phone: this.phone,
+        bizsource: 'HD_ZNTF_PC',
+        source: '1',
+        tgqdcode: 'L54MST72'
       })
     },
     fJoinSubmit () {
@@ -451,9 +454,12 @@ export default {
         return
       }
       this.$store.dispatch('reservation/fetch', {
-        aid: '774288813405614080',
+        aid: '774663343076651008',
         userName: this.fUserName,
-        phone: this.fPhone
+        phone: this.fPhone,
+        bizsource: 'HD_ZNTF_PC',
+        source: '1',
+        tgqdcode: 'L54MST72'
       })
     }
   },
