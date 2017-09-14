@@ -257,6 +257,7 @@ export default{
                                 min: 'dataMin',
                                 max: 'dataMax'
                               }],
+                              animation: false,
                               series: [{
                                 type: 'line',
                                 smooth: true,
@@ -300,6 +301,7 @@ export default{
                           min: 'dataMin',
                           max: 'dataMax'
                         }],
+                        animation: false,
                         series: [{
                           type: 'line',
                           smooth: true,
