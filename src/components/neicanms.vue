@@ -109,9 +109,9 @@
   background-position: 0 -83px;
   line-height: 20px;
   font-size: 18px;
-padding-top: 11px;
-height: 66px;
-color: #fff;
+  padding-top: 11px;
+  height: 66px;
+  color: #fff;
 }
 
 .item3 a {
@@ -186,9 +186,11 @@ color: #fff;
   background: url(../assets/images/neicanms/weblay01.png);
   background-size: 100% 100%;
 }
-.layer_guoqi{
-  background-image:url(../assets/images/neicanms/weblay02.png);
+
+.layer_guoqi {
+  background-image: url(../assets/images/neicanms/weblay02.png);
 }
+
 @keyframes haha {
   from {
     transform: scale(6);
@@ -328,7 +330,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       opentime: '2017-08-14 10:00:00',
       layerczshow: false,
@@ -337,43 +339,42 @@ export default {
       tougjinum02: 0,
       urlbox: {
         url01: [{
-          touxiang: 'http://itougu.jrj.com.cn/live/26',
-          neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '130718010073409548'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/611',
-          neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141120010079383950'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/117',
-          neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '120217010043425631'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/70',
-          neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '091124010076736396'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/1238',
-          neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141218010033191581'
-        }
-        ],
-        url02: [
+            touxiang: 'http://itougu.jrj.com.cn/live/26',
+            neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '130718010073409548'
+          },
           {
+            touxiang: 'http://itougu.jrj.com.cn/live/611',
+            neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141120010079383950'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/117',
+            neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '120217010043425631'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/70',
+            neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '091124010076736396'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/1238',
+            neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141218010033191581'
+          }
+        ],
+        url02: [{
             touxiang: 'http://itougu.jrj.com.cn/live/62',
             neican: 'http://itougu.jrj.com.cn/tips/10661.jspa'
           },
@@ -414,8 +415,7 @@ export default {
             neican: 'http://itougu.jrj.com.cn/tips/10672.jspa'
           }
         ],
-        url03: [
-          {
+        url03: [{
             touxiang: 'http://itougu.jrj.com.cn/live/1198',
             neican: 'http://itougu.jrj.com.cn/tips/10668.jspa'
           },
@@ -442,9 +442,9 @@ export default {
     ssoId: state => state.user.ssoId
     // ssoId: state => '141122010023949343'
   }),
-  mounted () {
+  mounted() {
     this.$store.dispatch('user/fetch')
-    document.title = '内参秒杀'
+    document.title = '内参秒杀test'
     this.timebtn()
     console.log(this.ssoId)
     setInterval(this.timebtn, 1000)
@@ -452,7 +452,7 @@ export default {
     this.tongji02()
   },
   methods: {
-    timebtn () {
+    timebtn() {
       var now = new Date()
       var year = this.opentime.split('-')[0]
       var month = this.opentime.split('-')[1]
@@ -462,7 +462,7 @@ export default {
       var se = this.opentime.split(' ')[1].split(':')[2]
       var endDate = new Date(year, month - 1, day, hour, min, se)
 
-      this.urlbox.url01.forEach(function (item, index) {
+      this.urlbox.url01.forEach(function(item, index) {
         var leftTime = endDate.getTime() - now.getTime()
 
         leftTime = leftTime + 86400000 * index
@@ -486,7 +486,7 @@ export default {
         }
       })
     },
-    miaosha (v) {
+    miaosha(v) {
       this.tongji01()
       if (v.currentTarget.className === 'gray') {
         this.layerguoqishow = true
@@ -510,11 +510,11 @@ export default {
         }
       }
     },
-    closelayer () {
+    closelayer() {
       this.layerguoqishow = false
       this.layerczshow = false
     },
-    tongji01 () {
+    tongji01() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillAndViewTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
@@ -523,7 +523,7 @@ export default {
         console.log(v2)
       })
     },
-    tongji02 () {
+    tongji02() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillBuyTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
