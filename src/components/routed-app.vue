@@ -31,14 +31,21 @@ li {
 
 <template>
 <div class="app">
-  <transition :enter-active-class="`animated ${enter}`" :leave-active-class="`animated ${leave}`">
+  <transition :enter-active-class="`animated ${enter}`" :leave-active-class="`animated ${leave}`" v-if="animate">
     <router-view></router-view>
   </transition>
+  <router-view v-else></router-view>
 </div>
 </template>
 
 <script>
 export default {
+  props: {
+    animate: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
       enter: 'fadeInRight',
@@ -48,6 +55,9 @@ export default {
   },
   watch: {
     '$route' (to, from) {
+      if (!this.animate) {
+        return
+      }
       this.enter = this.last.path === to.path ? 'fadeInLeft' : 'fadeInRight'
       this.leave = this.last.path === to.path ? 'fadeOutRight' : 'fadeOutLeft'
       if (this.last.path !== to.path) {

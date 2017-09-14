@@ -19,6 +19,7 @@ initVue({
   el: 'app',
   store,
   route: {
+    transition: false,
     routes,
     historyMode: 'history',
     beforeEach (to, from, next) {
