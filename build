@@ -5,7 +5,7 @@
 uname=`uname`
 user=`whoami`
 
-echo $user,$feature,$env
+echo $user,$env,$feature,$branch
 
 function p() {
   if [ "$user" = "jenkins" ]; then
@@ -41,23 +41,6 @@ function pinfo() {
 
 function get_port() {
   port=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.deployConfig['$1'] ? data.deployConfig['$1'].port : '')")
-  if [ "$port" != "" ]; then
-    is_use="0"
-    if [ "$uname" = "Linux" ];then
-      is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
-    else
-      is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
-    fi
-    while [ $is_use = "1" ]
-    do
-      let "port+=1"
-      if [ "$uname" = "Linux" ];then
-        is_use=`netstat -nltp | grep ':'$port' ' | wc -l`
-      else
-        is_use=`sudo lsof -P -itcp:$port | grep ':'$port' (LISTEN)' | wc -l`
-      fi
-    done
-  fi
 }
 get_port $feature
 if [ "$port" = "" ]; then
@@ -228,11 +211,11 @@ else
   done
   touch /tmp/version.lock
   sudo touch $ver_path
-  count=$(cat $ver_path | grep "^"$feature:$branch:$port" " | wc -l)
+  count=$(cat $ver_path | grep "^"$feature:$branch" " | wc -l)
   if [ "$count" = "0" ]; then
-    sudo sh -c "echo '$feature:$branch:$port $version' >> $ver_path"
+    sudo sh -c "echo '$feature:$branch $version $port' >> $ver_path"
   else
-    sudo sed -i "s/"$feature:$branch:$port" .*/"$feature:$branch:$port" "$version"/g" $ver_path
+    sudo sed -i "s/"$feature:$branch" .*/"$feature:$branch" "$version"/g" $ver_path
   fi
   rm -f /tmp/version.lock
   rm -f *.bzip2
@@ -245,6 +228,6 @@ else
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
   if [ "$env" = "test" ]; then
-    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature sh /home/admin/pull.sh"
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature branch=$branch port=$port sh /home/admin/pull.sh"
   fi
 fi

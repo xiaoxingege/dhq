@@ -73,8 +73,8 @@
             this.query = query.query
           } else {
             console.log(query.query)
-           // return
-            this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
+            return
+            // this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
           }
           this.$store.dispatch('z3touguIndex/getStrategyBlock', { query: this.query, size: this.pageSize, page: pageNo })
                     .then(() => {
