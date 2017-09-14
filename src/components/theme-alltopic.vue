@@ -455,7 +455,7 @@
  import { formatDate } from 'utils/date'
  import Pagination from './pagination'
  import ThemeSortAz from './theme-sort-az'
- import { mutationTypes } from 'stores/z3tougu-theme'
+//  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
  import StockBox from 'components/stock-box'
 export default {
@@ -563,7 +563,7 @@ export default {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      },
      updateStock (stock) {
-       this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
      },
      subscribeStock () {
        const msg = {
