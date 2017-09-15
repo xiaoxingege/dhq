@@ -99,6 +99,7 @@
       /* height: 82px; */
       height: auto;
       line-height: 18px;
+      box-sizing: border-box;
     }
     .left-con1 strong{
       padding-bottom: 3px;
@@ -287,7 +288,7 @@
             <div class="topic-time fr">
                  <span class="">发布时间</span><span class="blue time-num">{{format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
                  <span>今日涨跌</span>
-                 <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket.stkDownNum}}</span>
+                 <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{checkNull(detail.topicMarket.stkUpNum)}}</span><span>下跌股票</span><span class="green time-num4">{{checkNull(detail.topicMarket.stkDownNum)}}</span>
             </div>
         </div>
         <div class="detail-content clearfix">
@@ -297,12 +298,12 @@
                           <strong>最新事件:</strong>
                           <!-- <div> -->
                             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-                              <span>{{detail.title}}</span>  <span>{{format(detail.newsDeclareDate)}}</span>
+                              <span>{{checkNull(detail.title)}}</span>  <span>{{detail.newsDeclareDate==null?'--':format(detail.newsDeclareDate)}}</span>
                               </router-link>
                           <!-- </div> -->
                           <div>
-                             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{detail.summary}}</span></router-link>
-                            （<span>{{detail.srcName}}</span>）
+                             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{checkNull(detail.summary)}}</span></router-link>
+                            （<span>{{checkNull(detail.srcName)}}</span>）
                           </div>
                       </div>
                       <div class="left-con2 mb-8">
@@ -323,9 +324,9 @@
                           <div class="in-content">
                               <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
                                <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList">
-                                 <span class="new-tit">{{infor.title}}</span>
-                                 <span class="new-date">{{format(infor.declareDate)}}</span>
-                                 <span class="new-srcname">{{infor.srcName}}</span>
+                                 <span class="new-tit">{{checkNull(infor.title)}}</span>
+                                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
+                                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
                                 </a>
                                </router-link>
                           </div>
@@ -345,7 +346,7 @@
                           </thead>
                           <tbody>
                               <tr class="fl" v-for="stock of stockList">
-                                 <td class="td1 td-tit1"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></td>
+                                 <td class="td1 td-tit1"><a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></a></td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
                                  <td>{{stock.industryName}}</td>
@@ -354,7 +355,7 @@
 
                           </tbody>
                           <tfoot>
-                                <a :href="`/filter.shtml?from=topic&&topicCode=detail.topicCode`"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
+                                <a :href="`/filter.shtml?from=topic&&topicCode=detail.topicCode`" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
 
@@ -638,7 +639,7 @@
                               /* width: '97%',*/
               left: '2%',
               /* right: '3%',*/
-              right: '3.5%',
+              right: '3.6%',
                              /* bottom: '50',*/
               containLabel: true
             },
@@ -717,6 +718,13 @@
         },
         format (date) {
           return formatDate(date)
+        },
+        checkNull (str) {
+          if (str === null) {
+            return '--'
+          } else {
+            return str
+          }
         },
         updateStock (stock) {
           this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)

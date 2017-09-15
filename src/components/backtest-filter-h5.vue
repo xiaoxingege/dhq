@@ -76,13 +76,19 @@
       padding-bottom:0;
     }
     .backtest-filter2 .describe-wrap .desc-txt3{
-      width: 34%;
+      /* width: 34%; */
+        width: 42%;
     }
     .backtest-filter2 .describe-wrap .desc-txt4{
-      width: 18%;
+      /* width: 18%; */
+      width: 16%;
     }
     .backtest-filter2 .describe-wrap .desc-txt5{
-      width: 22%;
+     /*  width: 22%; */
+      width: 26%;
+    }
+    .backtest-filter2 .describe-wrap .desc-txt6{
+      width: 16%;
     }
     /* .bfilter-main .describe-box{
       width: 97.5%;

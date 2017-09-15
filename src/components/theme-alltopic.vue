@@ -76,7 +76,7 @@
     }
     .topic-head span{
       width: 82px;
-      height: 20px;
+      /* height: 20px; */
       float: right;
       line-height: 20px;
       /* display: inline-block; */
@@ -254,7 +254,8 @@
     .new-tit{
       /* width: 50%; */
       /* width: 61%; */
-      width: 56%;
+      /* width: 56%; */
+      width: 55%;
       text-align: left;
       float: left;
       white-space: nowrap;
@@ -407,7 +408,7 @@
                </div>
                <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <a :href="`/stock/equity.innerCode`"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
+                      <a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
