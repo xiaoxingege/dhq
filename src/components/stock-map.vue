@@ -489,6 +489,9 @@
         updateData: function () {
           this.getLegendColor()
           this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
+            if (this.playLineIndex >= 18) {
+              this.playLineIndex = 19
+            }
             this.updateMapData()
           })
         },
@@ -680,15 +683,6 @@
               this.playLineIndex = -1
             }
             pid = setInterval(() => {
-              const playBackDate = this.playBackDate[this.playBackIndex]
-              this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
-                this.updateMapData()
-                this.playLineIndex++  // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
-              })
-              this.playBackIndex++
-              if (this.playLineIndex >= this.playBackDate.length - 1) {
-                this.playLineIndex = this.playBackDate.length - 1
-              }
               if (this.playBackIndex >= this.playBackDate.length - 1) {
                 this.playBackIndex = this.playBackDate.length - 1
                 this.playBackState = false
@@ -697,8 +691,21 @@
                 this.isStopPlayback = false
                 this.$emit('isStopPlayback', this.isStopPlayback)
                 this.updateData()
-                this.playLineIndex++
+              /*  setTimeout(() => {
+                  this.playLineIndex++
+                }, 280)*/
                 this.autoUpdateData()
+              }
+              if (this.playLineIndex >= this.playBackDate.length - 1) {
+                this.playLineIndex = this.playBackDate.length - 1
+              }
+              const playBackDate = this.playBackDate[this.playBackIndex]
+              if (this.playBackIndex < 19) {
+                this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
+                  this.updateMapData()
+                  this.playLineIndex++  // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
+                  this.playBackIndex++
+                })
               }
             }, 500)
           }
