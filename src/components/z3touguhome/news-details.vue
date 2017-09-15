@@ -17,6 +17,7 @@
         border-left-width: 0px;
         width: 605px;
     }
+    .stbu{color:red}
 </style>
 <template>
         <div class="news-wrap">
@@ -61,7 +62,7 @@
                       this.newsTitle = this.newsDetailData.title
                       this.makeDate = this.newsDetailData.makedate
                       this.source = this.newsDetailData.source
-                      this.newsContxt = this.newsDetailData.context
+                      this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa')
                       this.keyword = this.newsDetailData.keyword.replace(',', ' ')
                       this.dutyname = this.newsDetailData.dutyname
                     })
