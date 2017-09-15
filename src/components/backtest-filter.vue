@@ -40,8 +40,9 @@
       color: #696969;
     }
     .bfilter-ul{
-      border-bottom: 1px solid #2388da;
+      border-bottom: 1px solid #DFE2E5;
       position: relative;
+      background: #EEF3F7;
     }
     .bfilter-ul li{
       padding: 7px 15px 5px 14px;
@@ -83,7 +84,7 @@
     .table-body2{
       /* padding: 12px 0; */
       padding: 13px 0 11px 0;
-      border: none;
+      border-bottom: 1px solid #e5e5e5;
     }
     .table-body2 span{
       width: 12%;
@@ -176,9 +177,9 @@
                    <span class="order-num">{{index+1}}
                    </span><span>{{stock.innerCode}}
                    </span><span>{{stock.name}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.price==null?'--':stock.price}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.chg==null?'--':stock.chg}}
-                   </span><span :class="stock.curChngPct>=0 ? stock.curChngPct===0?'':'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
+                   </span><span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}
+                   </span><span v-z3-updowncolor="stock.curChngPct">{{stock.chg==null?'--':stock.chg}}
+                   </span><span v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
                    </span><span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}
                    </span><span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}
                    </span><span>{{stock.ps==null?'--':stock.ps.toFixed(2)}}
@@ -207,8 +208,8 @@
                      </span><span>{{tradeDay.buyDate==null?'--':changeDate(tradeDay.buyDate)}}
                      </span><span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
                      </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
-                     </span><span :class="tradeDay.avgReturn>=0 ? tradeDay.avgReturn===0||tradeDay.avgReturn==null?'':'red':'green'">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
-                     </span><span :class="tradeDay.avgReturnExcess>=0 ? tradeDay.avgReturnExcess===0?'':'red':'green'">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
+                     </span><span v-z3-updowncolor="tradeDay.avgReturn">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
+                     </span><span v-z3-updowncolor="tradeDay.avgReturnExcess">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
                      </span>
                  </div>
                  <Pagination  @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage"/>

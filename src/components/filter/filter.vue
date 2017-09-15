@@ -6,6 +6,7 @@
           <a href="javascript:;" class="fr btn" @click='exportFundPool'>导出基金</a>
           <ul class="tabList fl">
             <li class="active">筛选条件</li>
+            {{foundPoolListData.foundPoolList}}
           </ul>
         </div>
         <!-- 筛选条件 -->
@@ -17,7 +18,7 @@
         <p class="tr"><a href="javascript:;" class="btn" @click="showDialogFn(content)">保存基金池</a></p>
         <ul class="fundPoolList">
           <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
-          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合&nbsp;</div></li>
+          <li v-if="lsfoundPoolList.length === 0"><div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div></li>
         </ul>
       </div>
       <!-- 临时基金池 end-->
@@ -137,7 +138,16 @@
       </div>
     </founddialog>
     <!-- 弹框 end-->
-    <div class="mask" v-if="maskShow"><div>加载中...</div></div>
+    <div class="loading" v-if="maskShow">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
+    </div>
+    <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
   </div>
 </template>
 
@@ -155,7 +165,7 @@
     data () {
       return {
         lsfoundPoolList: [],
-        foundPoolList: [],
+        foundPoolList: ['1'],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -231,10 +241,13 @@
         maskShow: 'maskShow'
       }),
       ...mapState({
-        foundPoolListData: state => {
+        foundPoolListData: function (state) {
           const list = state.filter.foundPoolList
           return {
-            foundPoolList: list
+            foundPoolList: list.map((fund, index) => {
+              const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
+              return tempFund
+            })
           }
         }
       })
@@ -259,20 +272,8 @@
         this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
         this.seletetimeshow = false
       },
-      // 加入临时基金池
-      addIinterimFunds (item) {
-        if (this.lsfoundPoolList.length > 50) {
-          this.dialogShow = true
-          this.content = 2
-          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
-        } else {
-          this.lsfoundPoolList.push(item)
-          item.inTempPools = true
-        }
-      },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
-          console.log(fund.innerCode === fundid)
           return fund.innerCode === fundid
         })
       },
@@ -334,7 +335,18 @@
           this.init()
         }
       },
-       // 删除股票池状态
+      // 加入临时基金池
+      addIinterimFunds (item) {
+        if (this.lsfoundPoolList.length > 50) {
+          this.dialogShow = true
+          this.content = 2
+          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
+        } else {
+          this.lsfoundPoolList.push(item)
+          item.inTempPools = true
+        }
+      },
+       //  删除股票池数据
       delFoundPoolList (index, item) {
         this.foundPoolListData.foundPoolList.some((fund) => {
           if (fund.innerCode === item.innerCode) {
@@ -344,7 +356,7 @@
         })
         this.lsfoundPoolList.splice(index, 1)
       },
-      // 删除股票池数据
+      // 删除股票池状态
       removeInterimFunds (item) {
         item.inTempPools = false
         this.lsfoundPoolList.some((fund, index) => {
@@ -379,6 +391,7 @@
           a.click()
         })
       },
+      // 日期格式化
       format (time) {
         if (time === null) {
           return '--'
@@ -425,24 +438,13 @@
     created () {
       this.query(this.filterParams2, this.page, this.type2)
     },
-    mounted () {
-      this.$nextTick(function () {
-        this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
-          const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
-          return tempFund
-        })
-      })
-    },
+    mounted () {},
     watch: {
       // 监控页码改变
       'page': {
         deep: true,
         handler: function (oldVal, newVal) {
           this.query(this.filterParams2, this.page, this.type2)
-          this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
-            const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
-            return tempFund
-          })
         }
       }
     }
@@ -731,15 +733,117 @@
   .msg2{font-size: 14px;}
   .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
   p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
-  .mask{width: 100%;height: 100%;background: rgba(0,0,0,0.3);position: fixed;top: 0;left:0;z-index: 9999;
-    div{
-      width: 100px;
-      height:100px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      color:#fff;
-      transform: translate(-50%,-50%);
-    }
-  }
+  /*加载中*/
+@-webkit-keyframes pacman-balls {
+  75% {
+    opacity: 0.7; }
+
+  100% {
+    -webkit-transform: translate(-100px, -6.25px);
+            transform: translate(-100px, -6.25px); } }
+
+@keyframes pacman-balls {
+  75% {
+    opacity: 0.7; }
+
+  100% {
+    -webkit-transform: translate(-100px, -6.25px);
+            transform: translate(-100px, -6.25px); } }
+  .pacman > div:nth-child(2) {
+    -webkit-animation: pacman-balls 1s 0s infinite linear;
+            animation: pacman-balls 1s 0s infinite linear; }
+  .pacman > div:nth-child(3) {
+    -webkit-animation: pacman-balls 1s 0.33s infinite linear;
+            animation: pacman-balls 1s 0.33s infinite linear; }
+  .pacman > div:nth-child(4) {
+    -webkit-animation: pacman-balls 1s 0.66s infinite linear;
+            animation: pacman-balls 1s 0.66s infinite linear; }
+  .pacman > div:nth-child(5) {
+    -webkit-animation: pacman-balls 1s 0.99s infinite linear;
+            animation: pacman-balls 1s 0.99s infinite linear; }
+  .pacman > div:first-of-type {
+    width: 0px;
+    height: 0px;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #2388da;
+    border-left: 25px solid #2388da;
+    border-bottom: 25px solid #2388da;
+    border-radius: 25px;
+    -webkit-animation: rotate_pacman_half_up 0.5s 0s infinite;
+            animation: rotate_pacman_half_up 0.5s 0s infinite; }
+  .pacman > div:nth-child(2) {
+    width: 0px;
+    height: 0px;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #2388da;
+    border-left: 25px solid #2388da;
+    border-bottom: 25px solid #2388da;
+    border-radius: 25px;
+    -webkit-animation: rotate_pacman_half_down 0.5s 0s infinite;
+            animation: rotate_pacman_half_down 0.5s 0s infinite;
+    margin-top: -50px; }
+  .pacman > div:nth-child(3), .pacman > div:nth-child(4), .pacman > div:nth-child(5), .pacman > div:nth-child(6) {
+    background-color: #2388da;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    margin: 2px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    -webkit-transform: translate(0, -6.25px);
+        -ms-transform: translate(0, -6.25px);
+            transform: translate(0, -6.25px);
+    top: 25px;
+    left: 100px; }
+@-webkit-keyframes rotate_pacman_half_up {
+  0% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); }
+
+  50% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); }
+
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); } }
+
+@keyframes rotate_pacman_half_up {
+  0% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); }
+
+  50% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); }
+
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); } }
+            @-webkit-keyframes rotate_pacman_half_down {
+  0% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
+
+@keyframes rotate_pacman_half_down {
+  0% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
 </style>

@@ -1,6 +1,7 @@
-import 'whatwg-fetch'
+// import 'whatwg-fetch'
 import fetchJsonp from 'fetch-jsonp'
 import { domain } from '../z3tougu/config'
+import fetch from '../z3tougu/util/z3fetch'
 export default {
   namespaced: true,
   state: {
@@ -68,7 +69,7 @@ export default {
       })
     },
     getFinanceNews  ({ commit }, { size }) {
-      const url = 'http://finance.jrj.com.cn/zs/yw/top' + size + '.js'
+      const url = '//finance.jrj.com.cn/zs/yw/top' + size + '.js'
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
         return res.json()
       }).then((body) => {
@@ -78,7 +79,7 @@ export default {
       })
     },
     getListedCompanyNews  ({ commit }, { size }) {
-      const url = 'http://finance.jrj.com.cn/zs/company/top' + size + '.js'
+      const url = '//finance.jrj.com.cn/zs/company/top' + size + '.js'
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
         return res.json()
       }).then((body) => {
@@ -88,7 +89,7 @@ export default {
       })
     },
     getNewsDetails  ({ commit }, { newsId }) {
-      const url = 'http://finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      const url = '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
         return res.json()
       }).then((body) => {

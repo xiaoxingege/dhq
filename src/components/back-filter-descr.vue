@@ -92,21 +92,36 @@
         padding: 0 0 26px 0;
         width: 100%;
     }
+    
     .desc-ul tr:nth-child(2) td{
       padding-top: 12px;
+      color: #696969;
     }
     .desc-ul td{
       /* width: 20%; */
+      color: #a5a5a5;
+      text-align: center;
+
     }
+  
     .desc-txt{
       position:relative;
       width: 16%;
+      color: #a5a5a5;
+      text-align: center;
       
     }
     .desc-num{
-      position: absolute;
+     /*  position: absolute;
       top: 20px;
+      left: 0; */
+      color: #696969;
+      position: absolute;
+      top: 0;
       left: 0;
+      line-height: 60px;
+      text-align: center;
+      width: 100%;
     }
     .describe-right{
       margin-left: 8px;
@@ -132,6 +147,7 @@
     .desc-txt3{
       width: 28%;
     }
+
 </style>
 <template>
     <div class="describe-box">
@@ -156,8 +172,8 @@
                         <li class="fl desc-txt"><span>失灵率6</span><span class="desc-num">11%</span></li>
                   </ul> -->
                   <table class="desc-ul">
-                      <tr v-for="trItem in filterSummary">
-                          <td v-for="tdItem in trItem">{{tdItem}}</td>
+                      <tr v-for="trItem in filterSummary" class="trtxt">
+                          <td v-for="tdItem in trItem" class="tdtxt">{{tdItem}}</td>
                       </tr>
                   </table>
                   
@@ -167,17 +183,17 @@
                  <div class="clearfix evaluat-box">
                      <div class="desc-txt desc-txt2 desc-txt4 fl">
                          <span>胜率</span>
-                         <span class="desc-num" :class="eval.winRatio>=0 ? eval.winRatio===0?'':'red':'green'">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
+                         <span class="desc-num" v-z3-updowncolor="eval.winRatio">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 desc-txt5 fl">
                          <span>平均超额收益</span>
-                         <span class="desc-num" :class="eval.avgReturnExcess>=0 ? eval.avgReturnExcess===0?'':'red':'green'">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span>
+                         <span class="desc-num" v-z3-updowncolor="eval.avgReturnExcess">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>平均收益</span>
-                         <span class="desc-num" :class="eval.avgReturn>=0 ? eval.avgReturn===0?'':'red':'green'">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
+                         <span class="desc-num" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
                      </div>
-                     <div class="desc-txt desc-txt2 fl">
+                     <div class="desc-txt desc-txt2 desc-txt6 fl">
                          <span>盈亏比</span>
                          <span class="desc-num" >{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span>
                      </div>
@@ -187,11 +203,11 @@
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大盈利</span>
-                         <span class="desc-num" :class="eval.maxWin>=0 ? eval.maxWin===0?'':'red':'green'">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
+                         <span class="desc-num" v-z3-updowncolor="eval.maxWin">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大亏损</span>
-                         <span class="desc-num" :class="eval.maxLoss>=0 ? eval.maxLoss===0?'':'red':'green'">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
+                         <span class="desc-num" v-z3-updowncolor="eval.maxLoss">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
                      </div>
                      <div class="desc-txt desc-txt2 desc-txt3 fl">
                          <span>回测区间</span>

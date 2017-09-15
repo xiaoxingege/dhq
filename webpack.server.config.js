@@ -6,18 +6,6 @@ const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const path = require('path');
 const fs = require('fs');
 
-const config = {
-  demo: {
-    port: 3000
-  },
-  web: {
-    port: 8080
-  },
-  h5: {
-    port: 8081
-  }
-}
-
 let featureName = 'demo';
 let port = 8080;
 process.argv.some(function(arg) {

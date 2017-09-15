@@ -153,9 +153,9 @@
                    <div class="in-content clearfix">
                       <div class="clearfix alink" v-if="informatList && informatList.length > 0" v-for="infor of informatList">
                         <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom"> 
-                         <span class="new-tit">{{infor.title}}</span>
-                         <span class="new-date">{{format(infor.declareDate)}}</span>
-                         <span class="new-srcname">{{infor.srcName}}</span></router-link>
+                         <span class="new-tit">{{infor.title==null?'--':infor.title}}</span>
+                         <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
+                         <span class="new-srcname">{{infor.srcName==null?'--':infor.srcName}}</span></router-link>
                       </div>
                    </div>
                    

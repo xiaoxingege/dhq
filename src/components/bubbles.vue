@@ -38,7 +38,7 @@
           bubbleSizeSelect: Data.bubbleSizeSelect,
           bubbleColorSelect: Data.bubbleColorSelect,
          /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 85,
+          height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82,
           isShowDialog: false,
           dialogOptions: {
             stockName: '',
@@ -130,6 +130,82 @@
             },
             data: y
           }
+        },
+        dataZoom: function () {
+          return [
+            {
+              type: 'slider',
+              show: true,
+              yAxisIndex: [0],
+              top: '5%',
+              right: 20,
+              bottom: 0,
+              start: 0,
+              end: 100,
+              textStyle: {
+                color: '#aed2ff'
+              },
+              borderColor: '#3c4868',
+              width: '6',
+              height: '90%',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '300%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              showDetail: false,
+              realtime: false
+            },
+            {
+              type: 'slider',
+              show: true,
+              xAxisIndex: [0],
+              top: 10,
+                    // right:80,
+              left: '5%',
+              start: 0,
+              end: 100,
+              textStyle: {
+                color: '#aed2ff'
+              },
+              borderColor: '#3c4868',
+              width: '90%',
+              height: '6',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '300%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              showDetail: false,
+              realtime: false
+            }
+          ]
         }
       }),
       methods: {
@@ -170,7 +246,7 @@
                 } else if (Number(showData) === 1) {
                   return '买入'
                 } else {
-                  return '暂无观点'
+                  return ''
                 }
               } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
                 return (Number(showData) / 100000000).toFixed(2) + '亿'
@@ -216,6 +292,7 @@
             }
             this.chart.setOption({
               backgroundColor: '#23252D',
+              animation: false,
               grid: {
                 top: 40,
                 left: 90,
@@ -514,11 +591,11 @@
         },
         updateBubbles () {
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
-            this.chart && this.chart.setOption({ xAxis: this.xAxis, yAxis: this.yAxis, series: [{ data: this.bubblesData.seriesData }] })
+            this.chart && this.chart.setOption({ xAxis: this.xAxis, yAxis: this.yAxis, series: [{ data: this.bubblesData.seriesData }], dataZoom: this.dataZoom })
             this.chart.hideLoading()
           })
           this.chart.showLoading()
-          this.$emit('toHideDialog', false)
+          setTimeout(() => { this.$emit('toHideDialog', false) }, 0)/* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
         }
 
       },

@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@types/node@^6.0.46":
+  version "6.0.88"
+  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-6.0.88.tgz#f618f11a944f6a18d92b5c472028728a3e3d4b66"
+
+abab@^1.0.3:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/abab/download/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -19,7 +27,7 @@ acorn-dynamic-import@^2.0.0:
   dependencies:
     acorn "^4.0.3"
 
-acorn-globals@^3.0.0:
+acorn-globals@^3.0.0, acorn-globals@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/acorn-globals/-/acorn-globals-3.1.0.tgz#fd8270f71fbb4996b004fa880ee5d46573a731bf"
   dependencies:
@@ -142,6 +150,10 @@ arr-diff@^2.0.0:
 arr-flatten@^1.0.1:
   version "1.0.3"
   resolved "https://registry.npmjs.org/arr-flatten/-/arr-flatten-1.0.3.tgz#a274ed85ac08849b6bd7847c4580745dc51adfb1"
+
+array-equal@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/array-equal/download/array-equal-1.0.0.tgz#8c2a5ef2472fd9ea742b04c77a75093ba2757c93"
 
 array-find-index@^1.0.1:
   version "1.0.2"
@@ -1079,7 +1091,11 @@ browserslist@^1.3.6, browserslist@^1.5.2, browserslist@^1.7.6:
 
 buffer-concat@0.0.1:
   version "0.0.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/buffer-concat/-/buffer-concat-0.0.1.tgz#43e1e3c77f3d22fb55bea6890a92d03778c4c10a"
+=======
+  resolved "http://registry.npm.taobao.org/buffer-concat/download/buffer-concat-0.0.1.tgz#43e1e3c77f3d22fb55bea6890a92d03778c4c10a"
+>>>>>>> nineteenActivity
 
 buffer-xor@^1.0.2:
   version "1.0.3"
@@ -1156,7 +1172,11 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
 
 caseless@~0.11.0:
   version "0.11.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
+=======
+  resolved "http://registry.npm.taobao.org/caseless/download/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
+>>>>>>> nineteenActivity
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1268,7 +1288,11 @@ cli-width@^2.0.0:
 
 clipboard@^1.7.1:
   version "1.7.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
+=======
+  resolved "http://registry.npm.taobao.org/clipboard/download/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
+>>>>>>> nineteenActivity
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -1381,13 +1405,21 @@ commondir@^1.0.1:
 
 component-cookie@^1.1.3:
   version "1.1.3"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/component-cookie/-/component-cookie-1.1.3.tgz#053e14a3bd7748154f55724fd39a60c01994ebed"
+=======
+  resolved "http://registry.npm.taobao.org/component-cookie/download/component-cookie-1.1.3.tgz#053e14a3bd7748154f55724fd39a60c01994ebed"
+>>>>>>> nineteenActivity
   dependencies:
     debug "*"
 
 component-emitter@^1.2.0:
   version "1.2.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
+=======
+  resolved "http://registry.npm.taobao.org/component-emitter/download/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
+>>>>>>> nineteenActivity
 
 compressible@~2.0.8:
   version "2.0.10"
@@ -1474,6 +1506,10 @@ content-disposition@0.5.2, content-disposition@~0.5.0:
   version "0.5.2"
   resolved "https://registry.npmjs.org/content-disposition/-/content-disposition-0.5.2.tgz#0cf68bb9ddf5f2be7961c3a85178cb85dba78cb4"
 
+content-type-parser@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/content-type-parser/download/content-type-parser-1.0.1.tgz#c3e56988c53c65127fb46d4032a3a900246fdc94"
+
 content-type@^1.0.0, content-type@~1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/content-type/-/content-type-1.0.2.tgz#b7d113aee7a8dd27bd21133c4dc2529df1721eed"
@@ -1498,7 +1534,11 @@ cookie@0.3.1:
 
 cookiejar@^2.0.6:
   version "2.1.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/cookiejar/-/cookiejar-2.1.1.tgz#41ad57b1b555951ec171412a81942b1e8200d34a"
+=======
+  resolved "http://registry.npm.taobao.org/cookiejar/download/cookiejar-2.1.1.tgz#41ad57b1b555951ec171412a81942b1e8200d34a"
+>>>>>>> nineteenActivity
 
 cookies@~0.7.0:
   version "0.7.0"
@@ -1529,7 +1569,11 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
 
 crc32@0.2.2:
   version "0.2.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/crc32/-/crc32-0.2.2.tgz#7ad220d6ffdcd119f9fc127a7772cacea390a4ba"
+=======
+  resolved "http://registry.npm.taobao.org/crc32/download/crc32-0.2.2.tgz#7ad220d6ffdcd119f9fc127a7772cacea390a4ba"
+>>>>>>> nineteenActivity
 
 create-ecdh@^4.0.0:
   version "4.0.0"
@@ -1706,6 +1750,16 @@ csso@~2.3.1:
     clap "^1.0.9"
     source-map "^0.5.3"
 
+cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
+  version "0.3.2"
+  resolved "http://registry.npm.taobao.org/cssom/download/cssom-0.3.2.tgz#b8036170c79f07a90ff2f16e22284027a243848b"
+
+"cssstyle@>= 0.2.37 < 0.3.0":
+  version "0.2.37"
+  resolved "http://registry.npm.taobao.org/cssstyle/download/cssstyle-0.2.37.tgz#541097234cb2513c83ceed3acddc27ff27987d54"
+  dependencies:
+    cssom "0.3.x"
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -1770,7 +1824,11 @@ debug@*, debug@2.6.8, debug@^2.1.1, debug@^2.2.0, debug@^2.6.8:
 
 debug@0.7.2:
   version "0.7.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/debug/-/debug-0.7.2.tgz#056692c86670977f115de82917918b8e8b9a10f0"
+=======
+  resolved "http://registry.npm.taobao.org/debug/download/debug-0.7.2.tgz#056692c86670977f115de82917918b8e8b9a10f0"
+>>>>>>> nineteenActivity
 
 debug@2.6.7:
   version "2.6.7"
@@ -1833,7 +1891,11 @@ delayed-stream@~1.0.0:
 
 delegate@^3.1.2:
   version "3.1.3"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/delegate/-/delegate-3.1.3.tgz#9a8251a777d7025faa55737bc3b071742127a9fd"
+=======
+  resolved "http://registry.npm.taobao.org/delegate/download/delegate-3.1.3.tgz#9a8251a777d7025faa55737bc3b071742127a9fd"
+>>>>>>> nineteenActivity
 
 delegates@^1.0.0:
   version "1.0.0"
@@ -1874,7 +1936,11 @@ diffie-hellman@^5.0.0:
 
 dijkstrajs@^1.0.1:
   version "1.0.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/dijkstrajs/-/dijkstrajs-1.0.1.tgz#d3cd81221e3ea40742cfcde556d4e99e98ddc71b"
+=======
+  resolved "http://registry.npm.taobao.org/dijkstrajs/download/dijkstrajs-1.0.1.tgz#d3cd81221e3ea40742cfcde556d4e99e98ddc71b"
+>>>>>>> nineteenActivity
 
 doctrine@^1.2.2:
   version "1.5.0"
@@ -1964,7 +2030,11 @@ ecc-jsbn@~0.1.1:
 
 echarts@^3.7.0:
   version "3.7.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/echarts/-/echarts-3.7.1.tgz#fad25d4b1cbb7ec28f1b0fa890e9a0d86056b2d5"
+=======
+  resolved "http://registry.npm.taobao.org/echarts/download/echarts-3.7.1.tgz#fad25d4b1cbb7ec28f1b0fa890e9a0d86056b2d5"
+>>>>>>> nineteenActivity
   dependencies:
     zrender "^3.6.1"
 
@@ -2132,6 +2202,17 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
+escodegen@^1.6.1:
+  version "1.9.0"
+  resolved "http://registry.npm.taobao.org/escodegen/download/escodegen-1.9.0.tgz#9811a2f265dc1cd3894420ee3717064b632b8852"
+  dependencies:
+    esprima "^3.1.3"
+    estraverse "^4.2.0"
+    esutils "^2.0.2"
+    optionator "^0.8.1"
+  optionalDependencies:
+    source-map "~0.5.6"
+
 escodegen@~0.0.24:
   version "0.0.28"
   resolved "https://registry.npmjs.org/escodegen/-/escodegen-0.0.28.tgz#0e4ff1715f328775d6cab51ac44a406cd7abffd3"
@@ -2253,7 +2334,7 @@ esprima@^2.6.0:
   version "2.7.3"
   resolved "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
 
-esprima@^3.1.1, esprima@~3.1.0:
+esprima@^3.1.1, esprima@^3.1.3, esprima@~3.1.0:
   version "3.1.3"
   resolved "https://registry.npmjs.org/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
 
@@ -2553,7 +2634,11 @@ forever-agent@~0.6.1:
 
 form-data@1.0.0-rc4:
   version "1.0.0-rc4"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/form-data/-/form-data-1.0.0-rc4.tgz#05ac6bc22227b43e4461f488161554699d4f8b5e"
+=======
+  resolved "http://registry.npm.taobao.org/form-data/download/form-data-1.0.0-rc4.tgz#05ac6bc22227b43e4461f488161554699d4f8b5e"
+>>>>>>> nineteenActivity
   dependencies:
     async "^1.5.2"
     combined-stream "^1.0.5"
@@ -2569,11 +2654,19 @@ form-data@~2.1.1:
 
 formidable@^1.0.17:
   version "1.1.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
 formstream@0.0.7:
   version "0.0.7"
   resolved "https://registry.npmjs.org/formstream/-/formstream-0.0.7.tgz#981d0036743596c54820ee3dfb44baca18349788"
+=======
+  resolved "http://registry.npm.taobao.org/formidable/download/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
+
+formstream@0.0.7:
+  version "0.0.7"
+  resolved "http://registry.npm.taobao.org/formstream/download/formstream-0.0.7.tgz#981d0036743596c54820ee3dfb44baca18349788"
+>>>>>>> nineteenActivity
   dependencies:
     buffer-concat "0.0.1"
     mime "1.2.9"
@@ -2737,7 +2830,11 @@ globule@^1.0.0:
 
 good-listener@^1.2.2:
   version "1.2.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
+=======
+  resolved "http://registry.npm.taobao.org/good-listener/download/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
+>>>>>>> nineteenActivity
   dependencies:
     delegate "^3.1.2"
 
@@ -2870,6 +2967,12 @@ html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npmjs.org/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"
 
+html-encoding-sniffer@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/html-encoding-sniffer/download/html-encoding-sniffer-1.0.1.tgz#79bf7a785ea495fe66165e734153f363ff5437da"
+  dependencies:
+    whatwg-encoding "^1.0.1"
+
 html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.npmjs.org/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
@@ -2939,7 +3042,11 @@ http-assert@^1.1.0:
 
 http-basic@^2.5.1:
   version "2.5.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/http-basic/-/http-basic-2.5.1.tgz#8ce447bdb5b6c577f8a63e3fa78056ec4bb4dbfb"
+=======
+  resolved "http://registry.npm.taobao.org/http-basic/download/http-basic-2.5.1.tgz#8ce447bdb5b6c577f8a63e3fa78056ec4bb4dbfb"
+>>>>>>> nineteenActivity
   dependencies:
     caseless "~0.11.0"
     concat-stream "^1.4.6"
@@ -2976,7 +3083,11 @@ http-proxy@^1.16.2:
 
 http-response-object@^1.0.0, http-response-object@^1.0.1, http-response-object@^1.1.0:
   version "1.1.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/http-response-object/-/http-response-object-1.1.0.tgz#a7c4e75aae82f3bb4904e4f43f615673b4d518c3"
+=======
+  resolved "http://registry.npm.taobao.org/http-response-object/download/http-response-object-1.1.0.tgz#a7c4e75aae82f3bb4904e4f43f615673b4d518c3"
+>>>>>>> nineteenActivity
 
 http-signature@~1.1.0:
   version "1.1.1"
@@ -2989,6 +3100,10 @@ http-signature@~1.1.0:
 https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
+
+iconv-lite@0.4.13:
+  version "0.4.13"
+  resolved "http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
 iconv-lite@~0.4.13:
   version "0.4.18"
@@ -3317,7 +3432,11 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
 
 isarray@^2.0.1:
   version "2.0.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/isarray/-/isarray-2.0.2.tgz#5aa99638daf2248b10b9598b763a045688ece3ee"
+=======
+  resolved "http://registry.npm.taobao.org/isarray/download/isarray-2.0.2.tgz#5aa99638daf2248b10b9598b763a045688ece3ee"
+>>>>>>> nineteenActivity
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -3344,6 +3463,14 @@ jpeg-js@0.0.4:
 jpeg-js@^0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.1.2.tgz#135b992c0575c985cfa0f494a3227ed238583ece"
+
+jquery@^3.2.1:
+  version "3.2.1"
+<<<<<<< HEAD
+  resolved "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+=======
+  resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+>>>>>>> nineteenActivity
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.1.9"
@@ -3383,6 +3510,32 @@ js-yaml@~3.7.0:
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
+
+"jsdom@>= 0.1.0":
+  version "11.2.0"
+  resolved "http://registry.npm.taobao.org/jsdom/download/jsdom-11.2.0.tgz#4f6b8736af3357c3af7227a3b54a5bda1c513fd6"
+  dependencies:
+    abab "^1.0.3"
+    acorn "^4.0.4"
+    acorn-globals "^3.1.0"
+    array-equal "^1.0.0"
+    content-type-parser "^1.0.1"
+    cssom ">= 0.3.2 < 0.4.0"
+    cssstyle ">= 0.2.37 < 0.3.0"
+    escodegen "^1.6.1"
+    html-encoding-sniffer "^1.0.1"
+    nwmatcher "^1.4.1"
+    parse5 "^3.0.2"
+    pn "^1.0.0"
+    request "^2.79.0"
+    request-promise-native "^1.0.3"
+    sax "^1.2.1"
+    symbol-tree "^3.2.1"
+    tough-cookie "^2.3.2"
+    webidl-conversions "^4.0.0"
+    whatwg-encoding "^1.0.1"
+    whatwg-url "^6.1.0"
+    xml-name-validator "^2.0.1"
 
 jsesc@^1.3.0:
   version "1.3.0"
@@ -3599,7 +3752,11 @@ loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
 
 localstorage-memory@^1.0.1:
   version "1.0.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/localstorage-memory/-/localstorage-memory-1.0.2.tgz#cd4a8f210e55dd519c929f4b4cc82829b58f9a51"
+=======
+  resolved "http://registry.npm.taobao.org/localstorage-memory/download/localstorage-memory-1.0.2.tgz#cd4a8f210e55dd519c929f4b4cc82829b58f9a51"
+>>>>>>> nineteenActivity
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -3625,6 +3782,10 @@ lodash.mergewith@^4.6.0:
   version "4.6.0"
   resolved "https://registry.npmjs.org/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz#150cf0a16791f5903b8891eab154609274bdea55"
 
+lodash.sortby@^4.7.0:
+  version "4.7.0"
+  resolved "http://registry.npm.taobao.org/lodash.sortby/download/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
+
 lodash.tail@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
@@ -3646,7 +3807,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -3792,15 +3953,35 @@ miller-rabin@^4.0.0:
   version "1.27.0"
   resolved "https://registry.npmjs.org/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
 
+<<<<<<< HEAD
 mime-types@^2.0.1, mime-types@^2.0.7, mime-types@^2.1.10, mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.7:
+=======
+mime-db@~1.30.0:
+  version "1.30.0"
+  resolved "http://registry.npm.taobao.org/mime-db/download/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
+
+mime-types@^2.0.1, mime-types@^2.0.7, mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.7:
+>>>>>>> nineteenActivity
   version "2.1.15"
   resolved "https://registry.npmjs.org/mime-types/-/mime-types-2.1.15.tgz#a4ebf5064094569237b8cf70046776d09fc92aed"
   dependencies:
     mime-db "~1.27.0"
 
+<<<<<<< HEAD
 mime@1.2.9:
   version "1.2.9"
   resolved "https://registry.npmjs.org/mime/-/mime-1.2.9.tgz#009cd40867bd35de521b3b966f04e2f8d4d13d09"
+=======
+mime-types@^2.1.10:
+  version "2.1.17"
+  resolved "http://registry.npm.taobao.org/mime-types/download/mime-types-2.1.17.tgz#09d7a393f03e995a79f8af857b70a9e0ab16557a"
+  dependencies:
+    mime-db "~1.30.0"
+
+mime@1.2.9:
+  version "1.2.9"
+  resolved "http://registry.npm.taobao.org/mime/download/mime-1.2.9.tgz#009cd40867bd35de521b3b966f04e2f8d4d13d09"
+>>>>>>> nineteenActivity
 
 mime@1.3.4:
   version "1.3.4"
@@ -3847,7 +4028,11 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
 
 moment@^2.18.1:
   version "2.18.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+=======
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+>>>>>>> nineteenActivity
 
 ms@0.7.1:
   version "0.7.1"
@@ -4097,6 +4282,10 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
+nwmatcher@^1.4.1:
+  version "1.4.1"
+  resolved "http://registry.npm.taobao.org/nwmatcher/download/nwmatcher-1.4.1.tgz#7ae9b07b0ea804db7e25f05cb5fe4097d4e4949f"
+
 oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
@@ -4186,7 +4375,7 @@ optimist@^0.6.1, optimist@~0.6.0:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
 
-optionator@^0.8.2:
+optionator@^0.8.1, optionator@^0.8.2:
   version "0.8.2"
   resolved "https://registry.npmjs.org/optionator/-/optionator-0.8.2.tgz#364c5e409d3f4d6301d6c0b4c05bba50180aeb64"
   dependencies:
@@ -4277,6 +4466,12 @@ parse-json@^2.2.0:
   dependencies:
     error-ex "^1.2.0"
 
+parse5@^3.0.2:
+  version "3.0.2"
+  resolved "http://registry.npm.taobao.org/parse5/download/parse5-3.0.2.tgz#05eff57f0ef4577fb144a79f8b9a967a6cc44510"
+  dependencies:
+    "@types/node" "^6.0.46"
+
 parseurl@^1.3.0, parseurl@~1.3.1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/parseurl/-/parseurl-1.3.1.tgz#c8ab8c9223ba34888aa64a297b28853bec18da56"
@@ -4336,7 +4531,11 @@ path-type@^1.0.0:
 
 pause-stream@>=0.0.10:
   version "0.0.11"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/pause-stream/-/pause-stream-0.0.11.tgz#fe5a34b0cbce12b5aa6a2b403ee2e73b602f1445"
+=======
+  resolved "http://registry.npm.taobao.org/pause-stream/download/pause-stream-0.0.11.tgz#fe5a34b0cbce12b5aa6a2b403ee2e73b602f1445"
+>>>>>>> nineteenActivity
   dependencies:
     through "~2.3"
 
@@ -4399,6 +4598,10 @@ pkg-dir@^1.0.0:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
+
+pn@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/pn/download/pn-1.0.0.tgz#1cf5a30b0d806cd18f88fc41a6b5d4ad615b3ba9"
 
 pngjs-nozlib@^1.0.0:
   version "1.0.0"
@@ -4726,6 +4929,12 @@ promise@^7.0.1, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+promise@^7.1.1:
+  version "7.3.1"
+  resolved "http://registry.npm.taobao.org/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+  dependencies:
+    asap "~2.0.3"
+
 proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://registry.npmjs.org/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
@@ -4860,13 +5069,21 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
+punycode@^2.1.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/punycode/download/punycode-2.1.0.tgz#5f863edc89b96db09074bad7947bf09056ca4e7d"
+
 q@^1.1.2:
   version "1.5.0"
   resolved "https://registry.npmjs.org/q/-/q-1.5.0.tgz#dd01bac9d06d30e6f219aecb8253ee9ebdc308f1"
 
 qiniu@^6.1.11:
   version "6.1.13"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/qiniu/-/qiniu-6.1.13.tgz#57f5d60974c64d8871d80f27df7d43211ae34f03"
+=======
+  resolved "http://registry.npm.taobao.org/qiniu/download/qiniu-6.1.13.tgz#57f5d60974c64d8871d80f27df7d43211ae34f03"
+>>>>>>> nineteenActivity
   dependencies:
     crc32 "0.2.2"
     formstream "0.0.7"
@@ -4876,16 +5093,28 @@ qiniu@^6.1.11:
 
 qrcode@^0.9.0:
   version "0.9.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/qrcode/-/qrcode-0.9.0.tgz#4bdc1d21ad655c3101b5bb29e2e4c9d6416825fb"
+=======
+  resolved "http://registry.npm.taobao.org/qrcode/download/qrcode-0.9.0.tgz#4bdc1d21ad655c3101b5bb29e2e4c9d6416825fb"
+>>>>>>> nineteenActivity
   dependencies:
     colors "*"
     dijkstrajs "^1.0.1"
     isarray "^2.0.1"
     pngjs "^2.3.1"
 
+<<<<<<< HEAD
 qs@6.4.0, qs@^6.1.0, qs@~6.4.0:
+=======
+qs@6.4.0, qs@~6.4.0:
+>>>>>>> nineteenActivity
   version "6.4.0"
   resolved "https://registry.npmjs.org/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
+
+qs@^6.1.0:
+  version "6.5.1"
+  resolved "http://registry.npm.taobao.org/qs/download/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
 query-string@^4.1.0:
   version "4.3.4"
@@ -4893,6 +5122,12 @@ query-string@^4.1.0:
   dependencies:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
+
+query@^0.2.0:
+  version "0.2.0"
+  resolved "http://registry.npm.taobao.org/query/download/query-0.2.0.tgz#da557f609a9a9be2007994d7c5e5c496b79afe53"
+  dependencies:
+    jsdom ">= 0.1.0"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -5137,6 +5372,20 @@ replace-ext@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/replace-ext/-/replace-ext-0.0.1.tgz#29bbd92078a739f0bcce2b4ee41e837953522924"
 
+request-promise-core@1.1.1:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/request-promise-core/download/request-promise-core-1.1.1.tgz#3eee00b2c5aa83239cfb04c5700da36f81cd08b6"
+  dependencies:
+    lodash "^4.13.1"
+
+request-promise-native@^1.0.3:
+  version "1.0.4"
+  resolved "http://registry.npm.taobao.org/request-promise-native/download/request-promise-native-1.0.4.tgz#86988ec8eee408e45579fce83bfd05b3adf9a155"
+  dependencies:
+    request-promise-core "1.1.1"
+    stealthy-require "^1.1.0"
+    tough-cookie ">=2.3.0"
+
 request@2, request@^2.44.0, request@^2.79.0, request@^2.81.0:
   version "2.81.0"
   resolved "https://registry.npmjs.org/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
@@ -5229,7 +5478,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
 
 rsvp@^3.2.1:
   version "3.6.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
+=======
+  resolved "http://registry.npm.taobao.org/rsvp/download/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
+>>>>>>> nineteenActivity
 
 run-async@^0.1.0:
   version "0.1.0"
@@ -5270,7 +5523,11 @@ sass-loader@^6.0.6:
 
 sass@^1.0.0-beta.2:
   version "1.0.0-beta.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/sass/-/sass-1.0.0-beta.2.tgz#910071f16ddcde0b946392aadfa12d347128eb5d"
+=======
+  resolved "http://registry.npm.taobao.org/sass/download/sass-1.0.0-beta.2.tgz#910071f16ddcde0b946392aadfa12d347128eb5d"
+>>>>>>> nineteenActivity
 
 save-pixels@~2.3.0:
   version "2.3.4"
@@ -5283,6 +5540,10 @@ save-pixels@~2.3.0:
     ndarray-ops "^1.2.2"
     pngjs-nozlib "^1.0.0"
     through "^2.3.4"
+
+sax@^1.2.1:
+  version "1.2.4"
+  resolved "http://registry.npm.taobao.org/sax/download/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
 sax@~1.2.1:
   version "1.2.2"
@@ -5307,7 +5568,11 @@ select-hose@^2.0.0:
 
 select@^1.1.2:
   version "1.1.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
+=======
+  resolved "http://registry.npm.taobao.org/select/download/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
+>>>>>>> nineteenActivity
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
@@ -5478,7 +5743,11 @@ sort-keys@^1.0.0:
 
 sortablejs@^1.6.0:
   version "1.6.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/sortablejs/-/sortablejs-1.6.1.tgz#d120d103fbb9f60c7db27814a1384072e6c6e083"
+=======
+  resolved "http://registry.npm.taobao.org/sortablejs/download/sortablejs-1.6.1.tgz#d120d103fbb9f60c7db27814a1384072e6c6e083"
+>>>>>>> nineteenActivity
 
 source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
@@ -5513,6 +5782,10 @@ source-map@~0.1.33:
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
   dependencies:
     amdefine ">=0.0.4"
+
+source-map@~0.5.6:
+  version "0.5.7"
+  resolved "http://registry.npm.taobao.org/source-map/download/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
 spdx-correct@~1.0.0:
   version "1.0.2"
@@ -5621,6 +5894,10 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
+stealthy-require@^1.1.0:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/stealthy-require/download/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
+
 stream-browserify@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/stream-browserify/-/stream-browserify-2.0.1.tgz#66266ee5f9bdb9940a4e4514cafb43bb71e5c9db"
@@ -5715,7 +5992,11 @@ strip-json-comments@~2.0.1:
 
 superagent@^2.0.0:
   version "2.3.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/superagent/-/superagent-2.3.0.tgz#703529a0714e57e123959ddefbce193b2e50d115"
+=======
+  resolved "http://registry.npm.taobao.org/superagent/download/superagent-2.3.0.tgz#703529a0714e57e123959ddefbce193b2e50d115"
+>>>>>>> nineteenActivity
   dependencies:
     component-emitter "^1.2.0"
     cookiejar "^2.0.6"
@@ -5757,9 +6038,19 @@ swap-case@^1.1.0:
     lower-case "^1.1.1"
     upper-case "^1.1.1"
 
+<<<<<<< HEAD
 sync-request@3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/sync-request/-/sync-request-3.0.1.tgz#caa1235aaf889ba501076a1834c436830a82fb73"
+=======
+symbol-tree@^3.2.1:
+  version "3.2.2"
+  resolved "http://registry.npm.taobao.org/symbol-tree/download/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
+
+sync-request@3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/sync-request/download/sync-request-3.0.1.tgz#caa1235aaf889ba501076a1834c436830a82fb73"
+>>>>>>> nineteenActivity
   dependencies:
     concat-stream "^1.4.7"
     http-response-object "^1.0.1"
@@ -5811,7 +6102,11 @@ text-table@~0.2.0:
 
 then-request@^2.0.1:
   version "2.2.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/then-request/-/then-request-2.2.0.tgz#6678b32fa0ca218fe569981bbd8871b594060d81"
+=======
+  resolved "http://registry.npm.taobao.org/then-request/download/then-request-2.2.0.tgz#6678b32fa0ca218fe569981bbd8871b594060d81"
+>>>>>>> nineteenActivity
   dependencies:
     caseless "~0.11.0"
     concat-stream "^1.4.7"
@@ -5846,11 +6141,19 @@ timers-browserify@^2.0.2:
 
 tiny-cookie@^1.0:
   version "1.0.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/tiny-cookie/-/tiny-cookie-1.0.1.tgz#753786079c642a3c3d0b2accad600f8de119ac2a"
 
 tiny-emitter@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
+=======
+  resolved "http://registry.npm.taobao.org/tiny-cookie/download/tiny-cookie-1.0.1.tgz#753786079c642a3c3d0b2accad600f8de119ac2a"
+
+tiny-emitter@^2.0.0:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/tiny-emitter/download/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
+>>>>>>> nineteenActivity
 
 title-case@^2.1.0:
   version "2.1.1"
@@ -5875,11 +6178,17 @@ toposort@^1.0.0:
   version "1.0.3"
   resolved "https://registry.npmjs.org/toposort/-/toposort-1.0.3.tgz#f02cd8a74bd8be2fc0e98611c3bacb95a171869c"
 
-tough-cookie@~2.3.0:
+tough-cookie@>=2.3.0, tough-cookie@^2.3.2, tough-cookie@~2.3.0:
   version "2.3.2"
   resolved "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.3.2.tgz#f081f76e4c85720e6c37a5faced737150d84072a"
   dependencies:
     punycode "^1.4.1"
+
+tr46@^1.0.0:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/tr46/download/tr46-1.0.1.tgz#a8b13fd6bfd2489519674ccde55ba3693b706d09"
+  dependencies:
+    punycode "^2.1.0"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
@@ -5972,7 +6281,11 @@ underscore.string@~3.0.3:
 
 underscore@^1.8.3:
   version "1.8.3"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
+=======
+  resolved "http://registry.npm.taobao.org/underscore/download/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
+>>>>>>> nineteenActivity
 
 underscore@~1.4.2:
   version "1.4.4"
@@ -6036,7 +6349,11 @@ url@^0.11.0:
 
 urllib@0.5.1:
   version "0.5.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/urllib/-/urllib-0.5.1.tgz#9e256b2b703dfe0a59637cb0dbb4308ed571971b"
+=======
+  resolved "http://registry.npm.taobao.org/urllib/download/urllib-0.5.1.tgz#9e256b2b703dfe0a59637cb0dbb4308ed571971b"
+>>>>>>> nineteenActivity
   dependencies:
     buffer-concat "0.0.1"
     debug "0.7.2"
@@ -6137,7 +6454,11 @@ void-elements@^2.0.1:
 
 vue-cookie@^1.1.4:
   version "1.1.4"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/vue-cookie/-/vue-cookie-1.1.4.tgz#b8b46d112bda9f93a2f47017c2ed5282d2064fda"
+=======
+  resolved "http://registry.npm.taobao.org/vue-cookie/download/vue-cookie-1.1.4.tgz#b8b46d112bda9f93a2f47017c2ed5282d2064fda"
+>>>>>>> nineteenActivity
   dependencies:
     tiny-cookie "^1.0"
 
@@ -6178,8 +6499,13 @@ vue-router@^2.5.3:
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-2.5.3.tgz#073783f564b6aece6c8a59c63e298dc2aabfb51b"
 
 vue-server-renderer@^2.4.2:
+<<<<<<< HEAD
   version "2.4.2"
   resolved "https://registry.npmjs.org/vue-server-renderer/-/vue-server-renderer-2.4.2.tgz#0ba0f984181ea1c455362b09bddf60bc0e0a03fa"
+=======
+  version "2.4.3"
+  resolved "http://registry.npm.taobao.org/vue-server-renderer/download/vue-server-renderer-2.4.3.tgz#8df5a51246195a9dc35ef150378da7e89045e926"
+>>>>>>> nineteenActivity
   dependencies:
     chalk "^1.1.3"
     hash-sum "^1.0.2"
@@ -6198,8 +6524,13 @@ vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
     loader-utils "^1.0.2"
 
 vue-template-compiler@^2.4.2:
+<<<<<<< HEAD
   version "2.4.2"
   resolved "https://registry.npmjs.org/vue-template-compiler/-/vue-template-compiler-2.4.2.tgz#5a45d843f148b098f6c1d1e35ac20c4956d30ad1"
+=======
+  version "2.4.3"
+  resolved "http://registry.npm.taobao.org/vue-template-compiler/download/vue-template-compiler-2.4.3.tgz#ecf25f1f076d765de55789c124321fd8db042204"
+>>>>>>> nineteenActivity
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -6209,12 +6540,21 @@ vue-template-es2015-compiler@^1.2.2:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.2.tgz#a0a6c50c941d2a4abda963f2f42c337ac450ee95"
 
 vue@^2.4.2:
+<<<<<<< HEAD
   version "2.4.2"
   resolved "https://registry.npmjs.org/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
 vuedraggable@^2.14.1:
   version "2.14.1"
   resolved "https://registry.npmjs.org/vuedraggable/-/vuedraggable-2.14.1.tgz#034e1e052e25b9388429ae96db9eb6f2c3b10d87"
+=======
+  version "2.4.3"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.4.3.tgz#55fee0ec509cf2e10aa73b34b15219e92a9ab9ea"
+
+vuedraggable@^2.14.1:
+  version "2.14.1"
+  resolved "http://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.14.1.tgz#034e1e052e25b9388429ae96db9eb6f2c3b10d87"
+>>>>>>> nineteenActivity
   dependencies:
     sortablejs "^1.6.0"
 
@@ -6243,6 +6583,10 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   resolved "https://registry.npmjs.org/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+webidl-conversions@^4.0.0, webidl-conversions@^4.0.1:
+  version "4.0.2"
+  resolved "http://registry.npm.taobao.org/webidl-conversions/download/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
 webpack-core@~0.6.9:
   version "0.6.9"
@@ -6387,9 +6731,23 @@ websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
 
+whatwg-encoding@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/whatwg-encoding/download/whatwg-encoding-1.0.1.tgz#3c6c451a198ee7aec55b1ec61d0920c67801a5f4"
+  dependencies:
+    iconv-lite "0.4.13"
+
 whatwg-fetch@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
+
+whatwg-url@^6.1.0:
+  version "6.2.1"
+  resolved "http://registry.npm.taobao.org/whatwg-url/download/whatwg-url-6.2.1.tgz#db8fb96d7f02661af266e3cefc18425923900a00"
+  dependencies:
+    lodash.sortby "^4.7.0"
+    tr46 "^1.0.0"
+    webidl-conversions "^4.0.1"
 
 whet.extend@~0.9.9:
   version "0.9.9"
@@ -6454,6 +6812,10 @@ write@^0.2.1:
 xml-char-classes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/xml-char-classes/-/xml-char-classes-1.0.0.tgz#64657848a20ffc5df583a42ad8a277b4512bbc4d"
+
+xml-name-validator@^2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/xml-name-validator/download/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
@@ -6532,4 +6894,8 @@ yargs@~3.10.0:
 
 zrender@^3.6.1:
   version "3.6.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/zrender/-/zrender-3.6.1.tgz#362e8c4eb6c970a8d97c84daa8d65f37921b826b"
+=======
+  resolved "http://registry.npm.taobao.org/zrender/download/zrender-3.6.1.tgz#362e8c4eb6c970a8d97c84daa8d65f37921b826b"
+>>>>>>> nineteenActivity

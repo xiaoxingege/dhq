@@ -97,12 +97,20 @@
     .desc-txt{
       position:relative;
       width: 16%;
-      
+      color: #a5a5a5;
+      text-align: center;
     }
     .desc-num{
-      position: absolute;
+     /*  position: absolute;
       top: 20px;
+      left: 0; */
+      color: #696969;
+      position: absolute;
+      top: 0;
       left: 0;
+      line-height: 60px;
+      text-align: center;
+      width: 100%;
     }
     .describe-right{
       /* margin-left: 8px; */
@@ -160,15 +168,15 @@
                  <div class="clearfix evaluat-box">
                      <div class="desc-txt desc-txt2 desc-txt4 fl">
                          <span>胜率
-                         </span><span class="desc-num" :class="timeEval.winRatio>=0 ? timeEval.winRatio===0?'':'red':'green'">{{timeEval.winRatio==null?'--':changePer(timeEval.winRatio)}}</span>
+                         </span><span class="desc-num" v-z3-updowncolor="timeEval.winRatio">{{timeEval.winRatio==null?'--':changePer(timeEval.winRatio)}}</span>
                      </div>  
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大盈利
-                         </span><span class="desc-num" :class="timeEval.maxWin>=0 ? timeEval.maxWin===0?'':'red':'green'">{{timeEval.maxWin==null?'--':changePer(timeEval.maxWin)}}</span>
+                         </span><span class="desc-num" v-z3-updowncolor="timeEval.maxWin">{{timeEval.maxWin==null?'--':changePer(timeEval.maxWin)}}</span>
                      </div>   
                      <div class="desc-txt desc-txt2 fl">
                          <span>最大亏损
-                         </span><span class="desc-num" :class="timeEval.maxLoss>=0 ? timeEval.maxLoss===0?'':'red':'green'">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span>
+                         </span><span class="desc-num" v-z3-updowncolor="timeEval.maxLoss">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span>
                      </div>     
                      <div class="desc-txt desc-txt2 desc-txt6 fl">
                          <span>盈亏比

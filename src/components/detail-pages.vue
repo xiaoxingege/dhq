@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
     .news{
         color:#191919;
-        padding-top: 50px;
+        padding: 50px 0;
         font-family: "宋体";
         font-size:12px;
         text-align: left;
@@ -18,6 +18,7 @@
     }
     .newDetail{
         text-align: center;
+        margin: 10px 0;
     }
     .newDetail span,.newDetail a{
         display: inline-block;
@@ -43,6 +44,9 @@
         margin-top: 50px;
         margin-bottom: 25px;
     }
+    .moreNewsList{
+        margin:0 0 0 -40px;
+    }
     .moreNewsList li{
         height:27px;
         line-height: 27px;
@@ -53,6 +57,7 @@
     }
     a{
         color:#2388da;
+        text-decoration: none;
     }
     a:hover{
         text-decoration: underline;
@@ -77,7 +82,7 @@
         <span class="borderR">{{date}}</span>
         <span class="borderR ml-15">来源：{{result.news.srcName}}</span>
         <span v-if="result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
-        <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><a href="">{{item.topicName}}</a></span></span>
+        <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent" ></div>
     <span class="moreNews">更多相关资讯</span>
@@ -155,8 +160,12 @@
               this.$store.dispatch('zhikuanDetailPages/getInforRelate', { id, innerCode }).then(() => {
                 this.moreInfor = this.$store.state.zhikuanDetailPages.moreData
               })
-            }
-            if (this.result.equityNews.length === 0) {
+            } else if (this.result.equityNews.length === 0) {
+              const topicCode = this.$store.state.zhikuanDetailPages.dataList[this.type].topicNews[0].topicCode
+              this.$store.dispatch('zhikuanDetailPages/getTopicRelate', { topicCode }).then(() => {
+                this.moreInfor = this.$store.state.zhikuanDetailPages.moreData
+              })
+            } else {
               const topicCode = this.$store.state.zhikuanDetailPages.dataList[this.type].topicNews[0].topicCode
               this.$store.dispatch('zhikuanDetailPages/getTopicRelate', { topicCode }).then(() => {
                 this.moreInfor = this.$store.state.zhikuanDetailPages.moreData

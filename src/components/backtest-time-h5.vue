@@ -36,10 +36,14 @@
       display: initial;
     }
     .backtest-time2 .describe-wrap .describe-left{
+      /* width: 100%;
+      padding: 14px 0px 0 10px; */
       width: 100%;
-      padding: 14px 0px 0 10px;
+      box-sizing: border-box;
+      padding: 14px 10px 0 11px;
     }
     .backtest-time2 .describe-wrap .describe-right{
+     /*  width: 100%; */
       width: 100%;
       margin-top: 10px;
       margin-left: 0;
@@ -52,26 +56,43 @@
       -o-box-flex: 1;
       box-flex: 1;
     }
-    
+    .backtest-time2 .describe-wrap .desc-txt{
+      text-align: left;
+      color: #a5a5a5;
+      width: 16%;
+    }
+    .describe-wrap .desc-txt .desc-num{
+      position: absolute;
+      top: 20px;
+      left: 0;
+      color: #696969;
+      line-height: 15px;
+      text-align: left;
+      width: 100%;
+    }
     .backtest-filter2 .describe-wrap .desc-txt2{
       width: 20%;
       height: 4rem;
       padding-bottom:0;
     }
     .backtest-time2 .describe-wrap .desc-txt3{
-      width: 32%;
+      /* width: 32%; */
+      width: 23%;
     }
     .backtest-time2 .describe-wrap .desc-txt6{
       width: 12%;
     }
-    .backtest-filter2 .describe-wrap .desc-txt4{
-      width: 18%;
+    .backtest-time2 .describe-wrap .desc-txt4{
+      width: 14%;
     }
     .backtest-filter2 .describe-wrap .desc-txt5{
       width: 22%;
     }
     .bfilter-main .describe-box{
       width: 97.5%;
+    }
+    .backtest-time2 .time-bottom .express-buy{
+      color: #696969;
     }
 </style>
 <template> 

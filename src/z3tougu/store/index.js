@@ -29,11 +29,11 @@ const state = {
     errMsg: null
   },
   auth: {
-    authorization: null, // access_token
-    clientid: null,
-    deviceid: null,
+    authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+    clientid: 'test_client_id',
+    deviceid: 'test_device_id',
     updateTime: null, // updateTime
-    expires: 0// second
+    expires: -1// second
   },
   user: {
     userId: null
@@ -41,11 +41,11 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.authorization) {
+    if (state.auth.authorization) {
       return {
-        authorization: state.authorization,
-        clientid: state.clientid,
-        deviceid: state.deviceid
+        authorization: state.auth.authorization,
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid
       }
     }
     return {}
@@ -72,14 +72,14 @@ const mutations = {
   },
   [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
     state.auth = {
-      authorization: state.authorization,
-      clientid: state.clientid,
-      deviceid: state.deviceid,
-      expires: state.expires,
+      authorization: authInfo.authorization,
+      clientid: authInfo.clientid,
+      deviceid: authInfo.deviceid,
+      expires: authInfo.expires,
       updateTime: new Date().getTime()
     }
     state.user = {
-      userId: authInfo.userId
+      userId: authInfo.userid
     }
   }
 }

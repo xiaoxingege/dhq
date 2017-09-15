@@ -48,7 +48,7 @@
         z-index:999;
     }
     .themeList{
-        width:80%;
+        width:90%;
         background:#fff;
         position: absolute;
         left:50%;
@@ -57,6 +57,9 @@
         -moz-transform: translate3d(-50%, -50%, 0);
         -ms-transform: translate3d(-50%, -50%, 0);
         transform: translate3d(-50%, -50%, 0);
+        height: 670px;
+        overflow: hidden;
+        padding-bottom: 30px;
     }
     .closeTheme{
         display: inline-block;
@@ -87,7 +90,7 @@
         border-radius: 3px;
         cursor: pointer;
     }
-    .tempDesc{ font-size: 12px; line-height: 24px}
+    .tempDesc{ font-size: 12px; line-height: 24px; }
 </style>
 <template>
     <div class="siwei">
@@ -203,7 +206,7 @@
         </div>
         <bubbles :options="options" v-on:toHideDialog="hideAlert"></bubbles>
         <div class="legend clearfix">
-            <p class="fl tempDesc">模板说明：{{templateList[tmpId].explain}}</p>
+            <p class="fl tempDesc" :style="{width: colorData==='行业'? '50%' :''}">模板说明：{{templateList[tmpId].explain}}</p>
             <div class="fr" style="margin-top: 5px;">
                 <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
                     <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
@@ -431,6 +434,15 @@
           this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
           this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
           this.dimensionOptions.colorDefault = this.templateList[tmpValue].options.colorDefault
+          this.stockRangeOptions.indexRangeDefault = this.templateList[tmpValue].options.indexRangeDefault
+          this.stockRangeOptions.industryRangeDefault = this.templateList[tmpValue].options.industryRangeDefault
+          this.stockRangeOptions.marketValueDefault = this.templateList[tmpValue].options.marketValueDefault
+          this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
+          this.stockRangeOptions.strategyDefault = this.templateList[tmpValue].options.strategyDefault
+          this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
+          this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
+          this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
+          this.topicName = '全部'
         },
         getTime () {
           var date = new Date()

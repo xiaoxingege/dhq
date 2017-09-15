@@ -28,16 +28,18 @@
         color: #696969;
         width: 100%;
     }
-    .bfilter-main{
+   /*  .bfilter-main{
        padding: 0 10px 0;
-    }
+    } */
    
     .backtest-filter2 .describe-wrap.display-box{
       display: initial;
     }
     .backtest-filter2 .describe-wrap .describe-left{
+      /* width: 100%; */
       width: 100%;
-      padding: 14px 0px 0 10px;
+      box-sizing: border-box;
+     /*  padding: 14px 0px 0 10px; */
     }
     .backtest-filter2 .describe-wrap .describe-right{
       width: 100%;
@@ -52,24 +54,45 @@
       -o-box-flex: 1;
       box-flex: 1;
     }
-    
+    .backtest-filter2 .describe-wrap .desc-txt{
+      text-align: left;
+      color: #a5a5a5;
+    }
+    .describe-wrap .desc-txt .desc-num{
+      position: absolute;
+      top: 20px;
+      left: 0;
+      color: #696969;
+      line-height: 15px;
+      text-align: left;
+      width: 100%;
+    }
+    .backtest-filter2 .describe-wrap .desc-ul td{
+       text-align: left;
+    }
     .backtest-filter2 .describe-wrap .desc-txt2{
       width: 20%;
       height: 4rem;
       padding-bottom:0;
     }
     .backtest-filter2 .describe-wrap .desc-txt3{
-      width: 34%;
+      /* width: 34%; */
+        width: 42%;
     }
     .backtest-filter2 .describe-wrap .desc-txt4{
-      width: 18%;
+      /* width: 18%; */
+      width: 16%;
     }
     .backtest-filter2 .describe-wrap .desc-txt5{
-      width: 22%;
+     /*  width: 22%; */
+      width: 26%;
     }
-    .bfilter-main .describe-box{
+    .backtest-filter2 .describe-wrap .desc-txt6{
+      width: 16%;
+    }
+    /* .bfilter-main .describe-box{
       width: 97.5%;
-    }
+    } */
 </style>
 <template> 
    <div class="backtest-filter backtest-filter2">

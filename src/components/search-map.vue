@@ -46,7 +46,7 @@
 </style>
 <template>
     <div class="search_wrap">
-        <input type="text" @input="search($event)" ref="keyword" class="search_box"  placeholder="输入代码/简称/简拼定位个股" autocomplete="off" v-model="message"/>
+        <input type="text" @input="search($event)" @blur="foldUp" ref="keyword" class="search_box"  placeholder="输入代码/简称/简拼定位个股" autocomplete="off" v-model="message"/>
         <ul class="bubSearchResult" v-if="stockSelectList && stockSelectList.length > 0 && message!=''">
             <li v-for="stock in stockSelectList"  v-on:click="focusStock($event)">
                 <a href="#">
@@ -96,6 +96,10 @@
           const focusStockId = e.currentTarget.children[0].children[0].innerText
           this.$emit('focusStockId', focusStockId)
           this.message = focusStockId
+          this.stockSelectList = []
+        },
+        foldUp: function () {
+          this.message = ''
           this.stockSelectList = []
         }
       }

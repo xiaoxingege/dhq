@@ -76,7 +76,7 @@
     }
     .topic-head span{
       width: 82px;
-      height: 20px;
+      /* height: 20px; */
       float: right;
       line-height: 20px;
       /* display: inline-block; */
@@ -190,7 +190,8 @@
     }
     .con-right{
       /* width: 41%; */
-      width: 35%;
+      /* width: 35%; */
+      width: 35.4%;
       line-height: 24px;
 
     }
@@ -254,7 +255,8 @@
     .new-tit{
       /* width: 50%; */
       /* width: 61%; */
-      width: 56%;
+      /* width: 56%; */
+      width: 55%;
       text-align: left;
       float: left;
       white-space: nowrap;
@@ -299,8 +301,11 @@
         /* left: 1.5%; */
         line-height: 20px;
         width: 5.4%;
-        text-align: center;
+        /* text-align: center; */
     }
+    .sort-title i{
+      margin-left: 5px;
+     }
     .sort-hot-wrap{
       
      font-size: 12px;
@@ -311,7 +316,7 @@
      /*  width: 62%;
       margin: 13px auto 13px; */
       width: 90%;
-      padding-left: 3.7%;
+      padding-left: 2.1%;
     }
     .hot-name{
      /*  margin-left: 19px; */
@@ -379,9 +384,9 @@
             <span :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></span>
             <span @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></span>
         </div>
-        <div class="fr changelist"><a @click="listChangeClick('list',$event)" class="list_icon" :class="this.isShow==true?'active':''"></a><a class="kuai_icon" @click="listChangeClick('kuai',$event)" :class="this.isShow==!true?'active':''"></a></div>
+        <div class="fr changelist"><a @click="listClick($event)" class="list_icon" :class="this.showList==true?'active':''"></a><a class="kuai_icon" @click="azClick($event)" :class="this.showAz==true?'active':''"></a></div>
     </div>
-    <div class="main-list" v-show="isShow">
+    <div class="main-list" v-show="showList">
       <ol class="topic-ol" >
         <li v-for="allTopic of themeList" class="clearfix">
            <div class="content-head clearfix">
@@ -389,7 +394,7 @@
                  <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue "> {{ allTopic.topicName }}</router-link>
                 </div>
                 <div class="topic-time">
-                    <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
+                    <span class="">发布时间</span><span class="blue time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
                     <span>今日涨跌</span>
                     <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ allTopic.topicMarket==null || allTopic.topicMarket.chngPct==null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkUpNum ==null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkDownNum ==null?'--':allTopic.topicMarket.stkDownNum}}</span>
                 </div>
@@ -404,7 +409,7 @@
                </div>
                <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span>
+                      <a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
@@ -420,9 +425,9 @@
                </div>
                <div  class="con-right box-flex-2" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
-                      <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title}}</span>
-                       <span class="new-date">{{format(news.declareDate)}}</span>
-                       <span class="new-srcname">{{news.srcName}}</span></router-link>
+                      <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title==null?'--':news.title}}</span>
+                       <span class="new-date">{{news.declareDate==null?'--':format(news.declareDate)}}</span>
+                       <span class="new-srcname">{{news.srcName==null?'--':news.srcName}}</span></router-link>
                     </div>
                 </div>
            </div>
@@ -430,10 +435,11 @@
       </ol>
      <Pagination  @getPageFromChild="goToPage" :totalPage="totalPage"/>
     </div>
-    <div class="sortaz-wrap clearfix" v-show="!isShow">
+    <div class="sortaz-wrap clearfix" v-show="showAz">
       <div class="az-main">
             <div class="sort-hot-wrap">
                 <div class="sort-title fl">推荐主题 ></div>
+                <!-- <div class="sort-title fl">推荐主题<i>></i></div> -->
                 <div class="sort-hot fl">
                      <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
                 </div>
@@ -451,7 +457,7 @@
  import { formatDate } from 'utils/date'
  import Pagination from './pagination'
  import ThemeSortAz from './theme-sort-az'
- import { mutationTypes } from 'stores/z3tougu-theme'
+//  import { mutationTypes } from 'stores/z3tougu-theme'
  import z3websocket from '../z3tougu/z3socket'
  import StockBox from 'components/stock-box'
 export default {
@@ -463,6 +469,8 @@ export default {
        pagesize: '',
        isShow: true,
        isStyle: '',
+       showList: true,
+       showAz: false,
        hoverChartShow: false,
        direName: '',
        equity: {
@@ -523,8 +531,23 @@ export default {
      },
      updateVal () {
        this.direName = 'df'
+     }, /* showList: false,
+       showAz: false,*/
+     listClick (e) {
+       e.preventDefault()
+       this.showList = true
+       this.showAz = false
+       this.query('hot')
+       this.isStyle = ''
      },
-     listChangeClick (type, e) {
+     azClick (e) {
+       e.preventDefault()
+       this.showList = false
+       this.showAz = true
+       this.list('updown')
+       this.isStyle = 'none'
+     },
+     /* listChangeClick (type, e) {
        e.preventDefault()
        this.isShow = !this.isShow
        if (type === 'kuai') {
@@ -534,7 +557,7 @@ export default {
          this.query('hot')
          this.isStyle = ''
        }
-     },
+     },*/
      format (date) {
        return formatDate(date)
      },
@@ -542,7 +565,7 @@ export default {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      },
      updateStock (stock) {
-       this.$store.commit('topic/' + mutationTypes.UPDATE_TOPIC_RELSTOCK, stock)
+       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
      },
      subscribeStock () {
        const msg = {
