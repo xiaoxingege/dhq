@@ -126,7 +126,7 @@ td div {
     </tr>
     <tr v-for="(item,index) in tabledata.td">
       <td>
-        <router-link :to="{path:'/foundpooldetail/'+ item.poolId}" class="blue">{{item.poolName}}</router-link>
+        <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link>
       </td>
       <td>
         <div>{{item.fundNum}}</div>
