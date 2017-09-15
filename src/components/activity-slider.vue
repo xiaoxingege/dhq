@@ -63,7 +63,10 @@ export default {
       grabCursor: true,
       nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
-      loop: _this.listData.loop
+      loop: _this.listData.loop,
+      paginationClickable: _this.listData.paginationClickable,
+      autoplay: _this.listData.autoplay,
+      autoplayDisableOnInteraction: _this.listData.autoplayDisableOnInteraction
     })
   }
 }

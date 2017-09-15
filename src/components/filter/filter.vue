@@ -165,7 +165,7 @@
     data () {
       return {
         lsfoundPoolList: [],
-        foundPoolList: [],
+        foundPoolList: ['1'],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -241,10 +241,13 @@
         maskShow: 'maskShow'
       }),
       ...mapState({
-        foundPoolListData: state => {
+        foundPoolListData: function (state) {
           const list = state.filter.foundPoolList
           return {
-            foundPoolList: list
+            foundPoolList: list.map((fund, index) => {
+              const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
+              return tempFund
+            })
           }
         }
       })
@@ -271,7 +274,6 @@
       },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
-          console.log(fund.innerCode, fundid)
           return fund.innerCode === fundid
         })
       },
@@ -436,14 +438,7 @@
     created () {
       this.query(this.filterParams2, this.page, this.type2)
     },
-    mounted () {
-      this.$nextTick(function () {
-        this.foundPoolList = this.foundPoolListData.foundPoolList.map((fund, index) => {
-          const tempFund = { ...fund, inTempPools: this.isInTempPoollist(fund.innerCode) }
-          return tempFund
-        })
-      })
-    },
+    mounted () {},
     watch: {
       // 监控页码改变
       'page': {

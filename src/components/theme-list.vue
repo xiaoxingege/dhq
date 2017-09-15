@@ -202,7 +202,7 @@
                     <strong>最新事件：</strong>
                     <span class="txt-con">
                       <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.summary}}</span></router-link>
-                      （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
+                      （<span>{{topic.newsDeclareDate==null?'--':format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
                     </span>
                   </div>
                    <div class="li-bottom" v-if="topic.topicMarket==null">
@@ -237,7 +237,7 @@
        return formatDate(date)
      },
      checkNull (str) {
-       if (str === null || isNaN(str)) {
+       if (str === null) {
          return '--'
        } else {
          return str
