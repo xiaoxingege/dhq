@@ -59,7 +59,7 @@ export default {
                 if (this.$store.state.zhikuanSearch.isQuota) {
                   window.open(this.$store.state.zhikuanSearch.isQuota)
                 } else {
-                  window.open(`${ctx}+ /search/stock/${keyword}`)
+                  window.open(`${ctx}/search/stock/${keyword}`)
                 }
               })
             }
