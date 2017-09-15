@@ -57,7 +57,7 @@
         -moz-transform: translate3d(-50%, -50%, 0);
         -ms-transform: translate3d(-50%, -50%, 0);
         transform: translate3d(-50%, -50%, 0);
-        height: 670px;
+        min-height: 500px;
         overflow: hidden;
         padding-bottom: 30px;
     }
@@ -488,6 +488,24 @@
         },
         userStrategy: function () {
           return this.$store.state.bubbles.userStrategy
+        }
+      },
+      watch: {
+        'dimensionOptions.xDefault': function () {
+          if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
+            this.dimensionOptions.xDefault = 'sw_indu_name'
+          }
+          if ((this.dimensionOptions.yDefault === 'order' && (this.dimensionOptions.xDefault === 'sw_indu_name' || this.dimensionOptions.xDefault === 'chi_spel' || this.dimensionOptions.xDefault === 'order'))) {
+            this.dimensionOptions.yDefault = 'sw_indu_name'
+          }
+        },
+        'dimensionOptions.yDefault': function () {
+          if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
+            this.dimensionOptions.xDefault = 'sw_indu_name'
+          }
+          if ((this.dimensionOptions.yDefault === 'order' && (this.dimensionOptions.xDefault === 'sw_indu_name' || this.dimensionOptions.xDefault === 'chi_spel' || this.dimensionOptions.xDefault === 'order'))) {
+            this.dimensionOptions.yDefault = 'sw_indu_name'
+          }
         }
       },
       mounted () {

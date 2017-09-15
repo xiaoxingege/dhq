@@ -131,7 +131,6 @@
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
      },
      checkClass (str) {
-       console.log(str)
        if (str === null) {
          str = 'block'
        } else if (str > 0) {

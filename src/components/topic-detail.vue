@@ -2,6 +2,7 @@
     @import '../assets/css/base.css';
     *{
       text-align: justify;
+      box-sizing: border-box;
     }
     em,i{
       font-style: normal;
@@ -346,7 +347,7 @@
                           </thead>
                           <tbody>
                               <tr class="fl" v-for="stock of stockList">
-                                 <td class="td1 td-tit1"><a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></a></td>
+                                 <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></a></td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
                                  <td>{{checkNull(stock.industryName)}}</td>
@@ -355,26 +356,15 @@
 
                           </tbody>
                           <tfoot>
-                                <a :href="`/filter.shtml?from=topic&&topicCode=detail.topicCode`" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
+                                <a :href="'/filter.shtml?from=topic&&topicCode='+detail.topicCode" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
 
                   </div>
               </div>
         </div>      
-        <!--<div class="con">
-             <div class="left">
-                <div class="desc"></div>
-                <div class="yield">
-                    <div><ul><li>日内</li><li>近一月</li><li>近三月</li><li>近六月</li><li>近一年</li><li>近三年</li><li>全部</li></ul></div>
-                    <div class="chart" ref="chart"></div>
-                </div>
-                <div class="news"></div>
-            </div>
-            <div class="right">
-                <div class="stock-list"></div>
-            </div>
-        </div>-->
+        
+        <StockBox ref="stockbox"></StockBox>
     </div>
 </template>
 
@@ -384,6 +374,7 @@
     import { formatDate } from 'utils/date'
     // import { mutationTypes } from 'stores/z3tougu-theme'
     import z3websocket from '../z3tougu/z3socket'
+    import StockBox from 'components/stock-box'
     export default{
       data () {
         return {
@@ -393,6 +384,9 @@
           size: 12,
           inforPageSize: 5
         }
+      },
+      components: {
+        StockBox
       },
       computed: {
         ...mapState({
@@ -639,7 +633,7 @@
                               /* width: '97%',*/
               left: '2%',
               /* right: '3%',*/
-              right: '3.6%',
+              right: '4%',
                              /* bottom: '50',*/
               containLabel: true
             },
