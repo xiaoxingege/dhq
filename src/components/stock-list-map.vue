@@ -244,7 +244,7 @@ export default{
                                 left: 5,
                                 top: 5,
                                 bottom: 5,
-                                right: 5
+                                right: 0
                               },
                               xAxis: [{
                                 axisLine: false,
@@ -340,7 +340,7 @@ export default{
                left: 5,
                top: 5,
                bottom: 5,
-               right: 5
+               right: 0
              },
              xAxis: [{
                axisLine: false,
