@@ -70,7 +70,7 @@
     width: 91%;
     padding-left: 2%;
    }
-   .every-name a{
+   .every-name .tname{
      /* padding: 0 10px; */
      width: 10%;
      line-height: 20px;
@@ -89,10 +89,15 @@
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name">
-              <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a>
+         <div class="fl every-name" v-if="routeName === 'themeindex'">
+              <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
+                  <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" >
+                  {{g.topicName}}</router-link>
+              </a>
          </div>
-        
+         <div class="fl every-name" v-else>
+                <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)" class="tname">{{g.topicName}}</a>
+        </div>
       </div>
       
    </div>
@@ -105,7 +110,7 @@
  export default {
    data () {
      return {
- 
+       routeName: this.$route.name
      }
    },
    computed: mapState({
