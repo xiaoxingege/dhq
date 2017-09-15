@@ -45,7 +45,7 @@
         margin-bottom: 25px;
     }
     .moreNewsList{
-        margin:0 0 0 -40px;
+        /*margin:0 0 0 -40px;*/
     }
     .moreNewsList li{
         height:27px;
