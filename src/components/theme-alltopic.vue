@@ -409,7 +409,7 @@
                </div>
                <div  class="con-cen box-flex-1">
                   <div v-for="equity of allTopic.relatedEquity">
-                      <a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
+                      <a :href="'/stock/'+equity.innerCode" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
                       <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
                   </div>
