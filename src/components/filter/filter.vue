@@ -138,7 +138,7 @@
       </div>
     </founddialog>
     <!-- 弹框 end-->
-    <<div class="loading" v-if="maskShow">
+    <div class="loading" v-if="maskShow">
       <div>
         <div class="c1"></div>
         <div class="c2"></div>
@@ -147,6 +147,7 @@
       </div>
       <span>loading...</span>
     </div>
+    <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
   </div>
 </template>
 
@@ -268,19 +269,9 @@
         this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
         this.seletetimeshow = false
       },
-      // 加入临时基金池
-      addIinterimFunds (item) {
-        if (this.lsfoundPoolList.length > 50) {
-          this.dialogShow = true
-          this.content = 2
-          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
-        } else {
-          this.lsfoundPoolList.push(item)
-          item.inTempPools = true
-        }
-      },
       isInTempPoollist (fundid) {
         return this.lsfoundPoolList.some((fund) => {
+          console.log(fund.innerCode, fundid)
           return fund.innerCode === fundid
         })
       },
@@ -342,7 +333,18 @@
           this.init()
         }
       },
-       // 删除股票池状态
+      // 加入临时基金池
+      addIinterimFunds (item) {
+        if (this.lsfoundPoolList.length > 50) {
+          this.dialogShow = true
+          this.content = 2
+          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
+        } else {
+          this.lsfoundPoolList.push(item)
+          item.inTempPools = true
+        }
+      },
+       //  删除股票池数据
       delFoundPoolList (index, item) {
         this.foundPoolListData.foundPoolList.some((fund) => {
           if (fund.innerCode === item.innerCode) {
@@ -352,7 +354,7 @@
         })
         this.lsfoundPoolList.splice(index, 1)
       },
-      // 删除股票池数据
+      // 删除股票池状态
       removeInterimFunds (item) {
         item.inTempPools = false
         this.lsfoundPoolList.some((fund, index) => {
@@ -736,4 +738,117 @@
   .msg2{font-size: 14px;}
   .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
   p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
+  /*加载中*/
+@-webkit-keyframes pacman-balls {
+  75% {
+    opacity: 0.7; }
+
+  100% {
+    -webkit-transform: translate(-100px, -6.25px);
+            transform: translate(-100px, -6.25px); } }
+
+@keyframes pacman-balls {
+  75% {
+    opacity: 0.7; }
+
+  100% {
+    -webkit-transform: translate(-100px, -6.25px);
+            transform: translate(-100px, -6.25px); } }
+  .pacman > div:nth-child(2) {
+    -webkit-animation: pacman-balls 1s 0s infinite linear;
+            animation: pacman-balls 1s 0s infinite linear; }
+  .pacman > div:nth-child(3) {
+    -webkit-animation: pacman-balls 1s 0.33s infinite linear;
+            animation: pacman-balls 1s 0.33s infinite linear; }
+  .pacman > div:nth-child(4) {
+    -webkit-animation: pacman-balls 1s 0.66s infinite linear;
+            animation: pacman-balls 1s 0.66s infinite linear; }
+  .pacman > div:nth-child(5) {
+    -webkit-animation: pacman-balls 1s 0.99s infinite linear;
+            animation: pacman-balls 1s 0.99s infinite linear; }
+  .pacman > div:first-of-type {
+    width: 0px;
+    height: 0px;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #2388da;
+    border-left: 25px solid #2388da;
+    border-bottom: 25px solid #2388da;
+    border-radius: 25px;
+    -webkit-animation: rotate_pacman_half_up 0.5s 0s infinite;
+            animation: rotate_pacman_half_up 0.5s 0s infinite; }
+  .pacman > div:nth-child(2) {
+    width: 0px;
+    height: 0px;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #2388da;
+    border-left: 25px solid #2388da;
+    border-bottom: 25px solid #2388da;
+    border-radius: 25px;
+    -webkit-animation: rotate_pacman_half_down 0.5s 0s infinite;
+            animation: rotate_pacman_half_down 0.5s 0s infinite;
+    margin-top: -50px; }
+  .pacman > div:nth-child(3), .pacman > div:nth-child(4), .pacman > div:nth-child(5), .pacman > div:nth-child(6) {
+    background-color: #2388da;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    margin: 2px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    -webkit-transform: translate(0, -6.25px);
+        -ms-transform: translate(0, -6.25px);
+            transform: translate(0, -6.25px);
+    top: 25px;
+    left: 100px; }
+@-webkit-keyframes rotate_pacman_half_up {
+  0% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); }
+
+  50% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); }
+
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); } }
+
+@keyframes rotate_pacman_half_up {
+  0% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); }
+
+  50% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); }
+
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg); } }
+            @-webkit-keyframes rotate_pacman_half_down {
+  0% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
+
+@keyframes rotate_pacman_half_down {
+  0% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
 </style>
