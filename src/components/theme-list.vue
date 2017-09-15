@@ -138,6 +138,7 @@
       width: 15%;
       text-align: center;
       display: inline-block;
+      color: #696969;
     }
     .bottom-Market2{
       width: 10%;
@@ -187,7 +188,7 @@
     <div class="hot-top">
         <span>精选热点主题概念</span>
         <div class="fr top-content">
-            <span>平台实时精选主题概念  </span><span class="blue topic-num">{{summary.topicNum}}</span>,其中上涨<span class="red topic-num">{{summary.topicUpNum}}</span>,下跌<span class="green topic-num3" >{{summary.topicDownNum}}</span>
+            <span>平台实时精选主题概念  </span><span class="blue topic-num">{{checkNull(summary.topicNum)}}</span>,其中上涨<span class="red topic-num">{{checkNull(summary.topicUpNum)}}</span>,下跌<span class="green topic-num3" >{{checkNull(summary.topicDownNum)}}</span>
         </div>
     </div>
     <ul class="theme-list-ul display-box clearfix">
@@ -201,11 +202,15 @@
                     <strong>最新事件：</strong>
                     <span class="txt-con">
                       <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{topic.summary}}</span></router-link>
-                      （<span>{{format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
+                      （<span>{{topic.newsDeclareDate==null?'--':format(topic.newsDeclareDate)}}</span>   <span>{{topic.srcName}}</span>）
                     </span>
                   </div>
-                  <div class="li-bottom">
-                      今日涨跌<a class="bottom-Market" :class="topic.topicMarket.chngPct>0 ? 'red':'green'">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
+                   <div class="li-bottom" v-if="topic.topicMarket==null">
+                      今日涨跌<a class="bottom-Market" >--</a>
+                      上涨股票<span class="bottom-Market2">--</span>下跌股票<span class="bottom-Market3">--</span>
+                  </div>
+                  <div class="li-bottom" v-else>
+                      今日涨跌<a class="bottom-Market" v-z3-updowncolor="topic.topicMarket.chngPct">{{topic.topicMarket==null || topic.topicMarket.chngPct==null?'--':changeTofixed(topic.topicMarket.chngPct)}}</a>
                       上涨股票<span class="red bottom-Market2">{{topic.topicMarket==null || topic.topicMarket.stkUpNum==null?'--':topic.topicMarket.stkUpNum}}</span>下跌股票<span class="green bottom-Market3">{{topic.topicMarket==null || topic.topicMarket.stkDownNum==null?'--':topic.topicMarket.stkDownNum}}</span>
                   </div>
               </div>
@@ -230,6 +235,13 @@
    methods: {
      format (date) {
        return formatDate(date)
+     },
+     checkNull (str) {
+       if (str === null) {
+         return '--'
+       } else {
+         return str
+       }
      },
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'

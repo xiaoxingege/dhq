@@ -22,10 +22,10 @@
     <div class="fundPoolRelevance">
 
       <div class="hd">
-          <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarr[item.fundType]}"><i>{{index}}</i></span>
+          <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :index="item.index" :style="{'background':colorarrfn(item.fundType,item.index)}"><i>{{index}}</i></span>
       </div>
       <div class="lhd">
-        <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarr[item.fundType]}"><span v-if="index<9">{{index}}</span><i>{{item.symbol}}</i><i>{{item.name}}</i></div>
+        <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarrfn(item.fundType,item.index)}"><span v-if="index<9">{{index}}</span><i>{{item.symbol}}/{{item.fundType}}</i><i>{{item.name}}</i></div>
       </div>
       <div class="tablebox">
         <span class="line"><i>正相关</i><i>负相关</i></span>
@@ -35,44 +35,69 @@
           </tr>
         </table>
       </div>
-
     </div>
 </template>
 <script>
-    export default{
-      props: ['relevancedata'],
-      data () {
-        return {
-          colorarr: ['yellow', 'yellow', 'yellow', '#7cbe39', '#cc5159', '#3a71a3', '#cf4b8d', '#c96b37', 'yellow', 'yellow', 'yellow', '#7e58af', '#35a392'],
-          creatediv: ''
-        }
-      },
-      filters: {
-        floatfn (v) {
-          return (v / 1).toFixed(2)
-        }
-      },
-      methods: {
-        bgcolor (v) {
-          var n = 0.5 - (v / 2)
-          return n
-        },
-        dataDetails (v) {
-          var dataindexw = v.currentTarget.getAttribute('dataindexw')
-          var dataindexi = v.currentTarget.getAttribute('dataindexi')
+import { gradientColor } from 'utils/gradientColor'
 
-          this.creatediv = document.createElement('div')             // 创建一个div
-          this.creatediv.style.cssText = 'width:250px;background:rgba(0,0,0,.3);text-align:center;left:50%;margin-left:-125px;position:absolute;top:-50px; z-index:2;line-height: 20px;font-size: 14px;padding: 5px;color:#fff;'
-          var o1 = this.relevancedata.fundInfoList[dataindexw]
-          var o2 = this.relevancedata.fundInfoList[dataindexi]
-          this.creatediv.innerHTML = o1.name + ' (' + o1.symbol + ')' + '与' + o2.name + ' (' + o2.symbol + ')' + '的相关性比较'
-          v.currentTarget.appendChild(this.creatediv)            // 在div内创建一个span
-        },
-        hiddenDetail (v) {
-          v.currentTarget.removeChild(this.creatediv)
+export default{
+  props: ['relevancedata'],
+  data () {
+    return {
+      colorarr: ['yellow', 'yellow', 'yellow', ['#7cbe39', '#c4e0a9'], ['#cc5159', '#cea6a8'], ['#3a71a3', '#8ea2b4'], ['#cf4b8d', '#ddb3c8'], ['#c96b37', '#deb29a'], 'yellow', 'yellow', 'yellow', ['#7e58af', '#bcb1c9'], ['#35a392', '#9ac0ba']],
+      creatediv: '',
+      colorjson: {}
+    }
+  },
+  filters: {
+    floatfn (v) {
+      return (v / 1).toFixed(2)
+    }
+  },
+  methods: {
+    bgcolor (v) {
+      var n = 0.5 - (v / 2)
+      return n
+    },
+    dataDetails (v) {
+      var dataindexw = v.currentTarget.getAttribute('dataindexw')
+      var dataindexi = v.currentTarget.getAttribute('dataindexi')
+
+      this.creatediv = document.createElement('div')             // 创建一个div
+      this.creatediv.style.cssText = 'width:250px;background:rgba(0,0,0,.3);text-align:center;left:50%;margin-left:-125px;position:absolute;top:-50px; z-index:2;line-height: 20px;font-size: 14px;padding: 5px;color:#fff;'
+      var o1 = this.relevancedata.fundInfoList[dataindexw]
+      var o2 = this.relevancedata.fundInfoList[dataindexi]
+      this.creatediv.innerHTML = o1.name + ' (' + o1.symbol + ')' + '与' + o2.name + ' (' + o2.symbol + ')' + '的相关性比较'
+      v.currentTarget.appendChild(this.creatediv)            // 在div内创建一个span
+    },
+    hiddenDetail (v) {
+      v.currentTarget.removeChild(this.creatediv)
+    },
+    colorarrfn (v, a) {
+      return this.colorarr[v][a]
+    },
+    splitcolor () {
+      for (var i = 0; i < this.relevancedata.fundInfoList.length; i++) {
+        var fundType = this.relevancedata.fundInfoList[i].fundType
+        if (this.colorjson[fundType]) {
+          this.relevancedata.fundInfoList[i]['index'] = this.colorjson[fundType]
+          this.colorjson[fundType]++
+        } else {
+          this.colorjson[fundType] = 1
+          this.relevancedata.fundInfoList[i]['index'] = 0
         }
-      },
-      mounted () {
+      }
+      for (var p in this.colorjson) {
+        var o = gradientColor(this.colorarr[p][0], this.colorarr[p][1], this.colorjson[p])
+        this.colorarr[p] = o
       }
     }
+  },
+  created () {
+    this.splitcolor()
+  },
+  mounted () {
+
+  }
+}
 </script>

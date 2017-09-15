@@ -17,41 +17,6 @@
     .green {
       color:#48a854 !important;
     }
-    .display-box {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -o-box;
-      display: box;
-    }
-    .box-flex-1 {
-      -webkit-box-flex: 1;
-      -moz-box-flex: 1;
-      -ms-flex: 1;
-      -o-box-flex: 1;
-      box-flex: 1;
-    }
-    .box-flex-2 {
-      -webkit-box-flex: 2;
-      -moz-box-flex: 2;
-      -ms-flex: 2;
-      -o-box-flex: 2;
-      box-flex: 2;
-    }
-    .box-flex-3 {
-      -webkit-box-flex: 3;
-      -moz-box-flex: 3;
-      -ms-flex: 3;
-      -o-box-flex: 3;
-      box-flex: 3;
-    }
-     .box-flex-4 {
-      -webkit-box-flex: 4;
-      -moz-box-flex: 4;
-      -ms-flex: 4;
-      -o-box-flex: 4;
-      box-flex: 4;
-    }
     
     span{
       color: #696969;
@@ -85,6 +50,8 @@
      height: 100%;
      width: 100%;
      box-sizing: border-box;
+      min-height:50px;
+      overflow-y: scroll;
    }
    .every-main{
      border-bottom:1px solid #e5e5e5;
@@ -122,7 +89,10 @@
    <div class="every-topical-wrap">
       <div class="every-main clearfix" v-for="key of sortList" >
          <div class="fl letter"><span >{{key}}</span><i>></i></div>
-         <div class="fl every-name"><a v-for="g of groupTopics[key]" v-z3-updowncolor="g.topicMarket.chngPct" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a></div>
+         <div class="fl every-name">
+              <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)">{{g.topicName}}</a>
+         </div>
+        
       </div>
       
    </div>
@@ -159,6 +129,18 @@
    methods: {
      changeTofixed (num) {
        return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+     },
+     checkClass (str) {
+       if (str === null) {
+         str = 'block'
+       } else if (str > 0) {
+         str = 'red'
+       } else if (str === 0) {
+         str = 'block'
+       } else {
+         str = 'green'
+       }
+       return str
      },
      getVal (e) {
        const text = e.target.innerHTML

@@ -4,8 +4,7 @@
  */
 
 // whatwg-fetch仅能在浏览器环境使用。
-// import 'whatwg-fetch'
-import fetch from '../z3tougu/util/z3fetch'
+import 'whatwg-fetch'
 import { domain } from '../z3tougu/config'
 
 export const mutationTypes = {

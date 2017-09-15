@@ -45,7 +45,7 @@
         margin-bottom: 25px;
     }
     .moreNewsList{
-        margin:0 0 0 -40px;
+        /*margin:0 0 0 -40px;*/
     }
     .moreNewsList li{
         height:27px;
@@ -82,7 +82,7 @@
         <span class="borderR">{{date}}</span>
         <span class="borderR ml-15">来源：{{result.news.srcName}}</span>
         <span v-if="result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
-        <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><a href="">{{item.topicName}}</a></span></span>
+        <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent" ></div>
     <span class="moreNews">更多相关资讯</span>

@@ -72,14 +72,14 @@ const mutations = {
   },
   [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
     state.auth = {
-      authorization: state.authorization,
-      clientid: state.clientid,
-      deviceid: state.deviceid,
-      expires: state.expires,
+      authorization: authInfo.authorization,
+      clientid: authInfo.clientid,
+      deviceid: authInfo.deviceid,
+      expires: authInfo.expires,
       updateTime: new Date().getTime()
     }
     state.user = {
-      userId: authInfo.userId
+      userId: authInfo.userid
     }
   }
 }

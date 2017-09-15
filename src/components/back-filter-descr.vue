@@ -193,7 +193,7 @@
                          <span>平均收益</span>
                          <span class="desc-num" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
                      </div>
-                     <div class="desc-txt desc-txt2 fl">
+                     <div class="desc-txt desc-txt2 desc-txt6 fl">
                          <span>盈亏比</span>
                          <span class="desc-num" >{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span>
                      </div>
