@@ -744,8 +744,8 @@
             // const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
             const wrapHeight = this.wrapHeight
             console.log(wrapHeight)
-            if (windowWidth - this.offsetX <= wrapWidth) {
-              this.offsetX = this.offsetX - wrapWidth - 50
+            if (windowWidth - this.clientX <= wrapWidth) {
+              this.offsetX = this.clientX - wrapWidth - 100
             }
             if (windowHeight - 17 - this.clientY <= wrapHeight) {
               this.offsetY = windowHeight - wrapHeight - 17

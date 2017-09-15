@@ -36,7 +36,7 @@
     }
     .tiker{
         padding-left: 10px;
-        width: 94px;
+        width: 85px;
         text-align: left;
     }
    /* .change{width: 84px;}*/
@@ -51,11 +51,11 @@
         padding-right: 10px;
     }
     .hover-wrapper table tr td:nth-child(2){
-        width: 104px;
+        width: 110px;
         height:30px;
     }
     .hover-wrapper table tr td:nth-child(3){
-        width: 70px;
+        width: 60px;
     }
     .stocklist-chart{width: 100%;height:100%}
 </style>
@@ -288,7 +288,7 @@ export default{
                           left: 5,
                           top: 5,
                           bottom: 5,
-                          right: 5
+                          right: 0
                         },
                         xAxis: [{
                           axisLine: false,
