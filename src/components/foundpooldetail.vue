@@ -136,6 +136,174 @@ export default {
           'name': '华夏双re债C',
           'fundType': 4,
           'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 12,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 12,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 3,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 6,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 12,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 11,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 11,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 11,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 6,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 6,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 5,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 3,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 3,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 7,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 6,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 6,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 5,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 3,
+          'fundTypeName': '股票型'
+        },
+        {
+          'innerCode': '000048.CW',
+          'symbol': '000048',
+          'name': '华夏双re债C',
+          'fundType': 3,
+          'fundTypeName': '股票型'
         }
       ],
         'relevance': [

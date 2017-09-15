@@ -1,7 +1,8 @@
 <style lang="scss" scoped>
     @import '../assets/css/base.css';
-    .fundPoolRelevance{ position: relative; padding-left: 113px; padding-top: 38px; border:1px solid #e6e6e6;  margin-left:40px; margin-top:20px;}
-    .fundPoolRelevance .line{ position: absolute;width: 7px;height:100%; background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(35, 136, 218));left:-130px;}
+    .fundPoolRelevance{ position: relative;}
+    .fundPoolRelevance .in{ position: relative;overflow-x: auto;   min-width: 800px;  padding-left: 113px; padding-top: 38px; border:1px solid #e6e6e6;  margin-left:40px; margin-top:20px;}
+    .fundPoolRelevance .line{ position: absolute;width: 7px;height:100%; background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(35, 136, 218));left:22px;}
     .fundPoolRelevance .line i{ position: absolute; left:-15px;font-size: 14px;}
     .fundPoolRelevance .line i:nth-child(1){top:0;}
     .fundPoolRelevance .line i:nth-child(2){bottom:0;}
@@ -20,20 +21,21 @@
 </style>
 <template>
     <div class="fundPoolRelevance">
-
-      <div class="hd">
-          <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :index="item.index" :style="{'background':colorarrfn(item.fundType,item.index)}"><i>{{index}}</i></span>
-      </div>
-      <div class="lhd">
-        <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarrfn(item.fundType,item.index)}"><span v-if="index<9">{{index}}</span><i>{{item.symbol}}/{{item.fundType}}</i><i>{{item.name}}</i></div>
-      </div>
-      <div class="tablebox">
-        <span class="line"><i>正相关</i><i>负相关</i></span>
-        <table>
-          <tr v-for="(item,index) in relevancedata.relevance">
-            <td v-for="(item2,index2) in item" ><div v-on:mouseenter="dataDetails($event)" v-on:mouseleave="hiddenDetail($event)" :dataindexw="index" :dataindexi="index2"><i :style="{'opacity':bgcolor(item2)}"></i><span>{{item2 | floatfn}}</span></div></td>
-          </tr>
-        </table>
+      <span class="line"><i>正相关</i><i>负相关</i></span>
+      <div class="in">
+        <div class="hd" :style="{width:relevancedata.fundInfoList.length*47+'px'}">
+            <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :index="item.index" :style="{'background':colorarrfn(item.fundType,item.index)}"><i>{{index}}</i></span>
+        </div>
+        <div class="lhd">
+          <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarrfn(item.fundType,item.index)}"><span v-if="index<9">{{index}}</span><i>{{item.symbol}}/{{item.fundType}}</i><i>{{item.name}}</i></div>
+        </div>
+        <div class="tablebox">
+          <table>
+            <tr v-for="(item,index) in relevancedata.relevance">
+              <td v-for="(item2,index2) in item" ><div v-on:mouseenter="dataDetails($event)" v-on:mouseleave="hiddenDetail($event)" :dataindexw="index" :dataindexi="index2"><i :style="{'opacity':bgcolor(item2)}"></i><span>{{item2 | floatfn}}</span></div></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
 </template>
