@@ -18,7 +18,7 @@
     ul{
         display: inline-block;
         position: relative;
-        top: 11px;
+        top: 9px;
         left: -5px;
     }
     ul li{
@@ -37,7 +37,7 @@
 
         color: #999999;
         font-size: 14px;
-        padding: 6px 0;
+        height:32px;
     }
     .totals{
         border:none;
@@ -71,7 +71,7 @@
         ul{
             display: inline-block;
             position: relative;
-            top: 0.11rem;
+            top: 0.9rem;
             left: -0.05rem;
         }
         ul li{
@@ -90,7 +90,7 @@
 
             color: #999999;
             font-size: 0.14rem;
-            padding: 0.06rem 0;
+            height:0.32rem;
         }
         .totals{
             border:none;
