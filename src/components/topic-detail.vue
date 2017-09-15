@@ -286,7 +286,7 @@
         <div class="header clearfix">
             <strong>{{detail.topicName}}</strong>
             <div class="topic-time fr">
-                 <span class="">发布时间</span><span class="blue time-num">{{format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
+                 <span class="">发布时间</span><span class="blue time-num">{{detail.declareDate==null?'--':format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
                  <span>今日涨跌</span>
                  <span class="time-num3" :class="detail.topicMarket.chngPct>0 ? 'red':'green'">{{detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{checkNull(detail.topicMarket.stkUpNum)}}</span><span>下跌股票</span><span class="green time-num4">{{checkNull(detail.topicMarket.stkDownNum)}}</span>
             </div>
@@ -349,7 +349,7 @@
                                  <td class="td1 td-tit1"><a :href="`/stock/equity.innerCode`" target="_blank"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></a></td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
                                  <td :class="stock.curChngPct>0 ? 'red':'green'">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
-                                 <td>{{stock.industryName}}</td>
+                                 <td>{{checkNull(stock.industryName)}}</td>
                                  <td class="blue" :title="stock.topicMark">关联原因</td>
                               </tr>
 

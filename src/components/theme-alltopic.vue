@@ -190,7 +190,8 @@
     }
     .con-right{
       /* width: 41%; */
-      width: 35%;
+      /* width: 35%; */
+      width: 35.4%;
       line-height: 24px;
 
     }
@@ -393,7 +394,7 @@
                  <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue "> {{ allTopic.topicName }}</router-link>
                 </div>
                 <div class="topic-time">
-                    <span class="">发布时间</span><span class="blue time-num">{{format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
+                    <span class="">发布时间</span><span class="blue time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
                     <span>今日涨跌</span>
                     <span class="time-num3" :class="allTopic.topicMarket.chngPct>0 ? 'red':'green'">{{ allTopic.topicMarket==null || allTopic.topicMarket.chngPct==null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span><span class="red time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkUpNum ==null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket==null || allTopic.topicMarket.stkDownNum ==null?'--':allTopic.topicMarket.stkDownNum}}</span>
                 </div>
@@ -424,9 +425,9 @@
                </div>
                <div  class="con-right box-flex-2" >
                    <div v-for="news of allTopic.relatedNews" class="clearfix">
-                      <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title}}</span>
-                       <span class="new-date">{{format(news.declareDate)}}</span>
-                       <span class="new-srcname">{{news.srcName}}</span></router-link>
+                      <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title==null?'--':news.title}}</span>
+                       <span class="new-date">{{news.declareDate==null?'--':format(news.declareDate)}}</span>
+                       <span class="new-srcname">{{news.srcName==null?'--':news.srcName}}</span></router-link>
                     </div>
                 </div>
            </div>
