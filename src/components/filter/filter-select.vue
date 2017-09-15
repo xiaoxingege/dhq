@@ -245,7 +245,7 @@ export default {
       for (let i = 0; i < vLength; i++) {
         this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
       }
-      if (vLength > 28) {
+      if (vLength > 27) {
         this.filterParams.hy = 'all'
       }
     },

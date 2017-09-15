@@ -86,7 +86,6 @@ export default {
       return fetch(url, { method: 'POST', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
-        console.log(result)
         if (result.errCode === 0) {
           commit('setMask', false)
           commit(types.ADD_FUNDPOLL, result.data)

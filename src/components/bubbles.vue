@@ -292,6 +292,7 @@
             }
             this.chart.setOption({
               backgroundColor: '#23252D',
+              animation: false,
               grid: {
                 top: 40,
                 left: 90,
@@ -594,7 +595,7 @@
             this.chart.hideLoading()
           })
           this.chart.showLoading()
-          setTimeout(() => { this.$emit('toHideDialog', false) }, 0)
+          setTimeout(() => { this.$emit('toHideDialog', false) }, 0)/* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
         }
 
       },
