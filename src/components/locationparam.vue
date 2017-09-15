@@ -37,9 +37,9 @@
     <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogclosefn">
       <div slot="content">
         <ul class="content">
-          <li>定期调仓：<input type="text" value="180" />个交易日后，进行调仓  </li>
-          <li>止盈调仓：<input type="text" value="5" />%后，满仓现金 </li>
-          <li>止损调仓：<input type="text" value="5" />%后，满仓现金 </li>
+          <li>定期调仓：<input type="text" v-model="regular" />个交易日后，进行调仓  </li>
+          <li>止盈调仓：<input type="text" v-model="stopProfit" />%后，满仓现金 </li>
+          <li>止损调仓：<input type="text" v-model="stopLoss" />%后，满仓现金 </li>
         </ul>
       </div>
       <div slot="footer">
@@ -54,6 +54,8 @@
 <script>
 import founddialog from 'components/founddialog'
 import toast from 'components/toast'
+import 'whatwg-fetch'
+import { domain } from '../z3tougu/config'
 export default{
   props: ['h4show'],
   data () {
@@ -63,7 +65,11 @@ export default{
       closebtnshow: true,
       popTitle: '提示',
       msgtxt: '',
-      msgshow: false
+      msgshow: false,
+      strategyId: '',
+      regular: '',
+      stopProfit: '',
+      stopLoss: ''
     }
   },
   computed: {
@@ -80,8 +86,41 @@ export default{
     dialogclosefn () {
       this.dialogShow = false
     },
+    showmsg (m) {
+      this.msgshow = true
+      this.msgtxt = m
+      var t = this
+      clearTimeout(this.timer)
+      this.timer = setTimeout(function () {
+        t.msgshow = false
+      }, 3000)
+    },
     dialogokfn () {
-      alert(1212)
+      if (!this.regular) {
+        this.showmsg('请输入定期调仓交易日')
+        return
+      }
+      if (!this.stopProfit) {
+        this.showmsg('请输入止盈调仓')
+        return
+      }
+      if (!this.stopLoss) {
+        this.showmsg('请输入止损调仓')
+        return
+      }
+      fetch(`${domain}/openapi/fund/adjustmentParam.shtml?strategyId=` + this.strategyId + '&regular=' + this.regular + '&stopProfit=' + this.stopProfit + '&stopLoss=' + this.stopLoss, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+      }).then((res) => {
+        return res.json()
+      }).then(v => {
+        if (v.errCode === 0) {
+          console.log(v)
+        }
+      }).catch(v2 => {
+        console.log(v2)
+      })
     }
   },
   mounted () {
