@@ -337,6 +337,7 @@ export default {
       } else if (content === 2) {
         this.popTitle = '复制组合'
         this.closebtnshow = false
+        this.isCreatePool = false
         this.okbtntxt = '保存'
       } else if (content === 3) {
         this.popTitle = '删除组合'

@@ -53,40 +53,42 @@
         <ul class="fltj selectBox">
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2' class="pr">
             <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
-            <div @click='toggleShow' class="select" :class="{'disabled':this.type ==='jjlx_all'}">{{checkName}}</div>
-            <div v-if="seleteCheckboxShow" class='checkedBox'>
-              <ul>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='all' @click="checkAll($event)" :disabled='checkDisabled'/>全部</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_210000' @change="checkBox($event)" :disabled='checkDisabled' />采掘</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_720000' @change="checkBox($event)" :disabled='checkDisabled' />传媒</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_630000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>电气设备</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_270000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>电子</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_430000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>房地产</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_350000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>纺织服装</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_490000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>非银金融</label></li>
-                <li><label><input v-model='checkedVal' type="checkbox" name="name" value='hy_230000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>钢铁</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_410000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>公用事业</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_650000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>国防军工</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_220000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>化工</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_640000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>机械设备</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_710000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>计算机</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_330000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>家用电器</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_610000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>建筑材料</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_620000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>建筑装饰</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_420000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>交通运输</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_110000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>农林牧渔</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_280000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>汽车</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_360000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>轻工制造</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_450000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>商业贸易</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_340000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>食品饮料</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_730000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>通信</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_460000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>休闲服务</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_370000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>医药生物</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_480000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>银行</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_240000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>有色金属</label></li>
-                <li><label><input v-model='checkedVal'  type="checkbox" name="name" value='hy_510000' @change="checkBox($event)" :disabled='checkDisabled' :checked='checkedSelect'/>综合</label></li>
-              </ul>
-            </div>
+            <div @click='toggleShow' class="select"  :class="{'yellow': !yellow,'disabled':checkDisabled}">{{checkName}}</div>
+            <transition name="fade2">
+              <div v-if="seleteCheckboxShow" class='checkedBox'>
+                <ul>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="全部" value='all' @click="checkBox($event)" :disabled='checkDisabled'/>全部</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="采掘" value='hy_210000' @change="checkBox($event)" :disabled='checkDisabled' />采掘</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="传媒" value='hy_720000' @change="checkBox($event)" :disabled='checkDisabled' />传媒</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="电气设备" value='hy_630000' @change="checkBox($event)" :disabled='checkDisabled'/>电气设备</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="电子" value='hy_270000' @change="checkBox($event)" :disabled='checkDisabled'/>电子</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="房地产" value='hy_430000' @change="checkBox($event)" :disabled='checkDisabled'/>房地产</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="纺织服装" value='hy_350000' @change="checkBox($event)" :disabled='checkDisabled'/>纺织服装</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="非银金融" value='hy_490000' @change="checkBox($event)" :disabled='checkDisabled'/>非银金融</label></li>
+                  <li><label><input v-model='checkedVal' type="checkbox" name="钢铁" value='hy_230000' @change="checkBox($event)" :disabled='checkDisabled'/>钢铁</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="公用事业" value='hy_410000' @change="checkBox($event)" :disabled='checkDisabled'/>公用事业</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="国防军工" value='hy_650000' @change="checkBox($event)" :disabled='checkDisabled'/>国防军工</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="化工" value='hy_220000' @change="checkBox($event)" :disabled='checkDisabled'/>化工</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="机械设备" value='hy_640000' @change="checkBox($event)" :disabled='checkDisabled'/>机械设备</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="计算机" value='hy_710000' @change="checkBox($event)" :disabled='checkDisabled'/>计算机</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="家用电器" value='hy_330000' @change="checkBox($event)" :disabled='checkDisabled'/>家用电器</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="建筑材料" value='hy_610000' @change="checkBox($event)" :disabled='checkDisabled'/>建筑材料</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="建筑装饰" value='hy_620000' @change="checkBox($event)" :disabled='checkDisabled'/>建筑装饰</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="交通运输" value='hy_420000' @change="checkBox($event)" :disabled='checkDisabled'/>交通运输</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="农林牧渔" value='hy_110000' @change="checkBox($event)" :disabled='checkDisabled'/>农林牧渔</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="汽车" value='hy_280000' @change="checkBox($event)" :disabled='checkDisabled'/>汽车</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="轻工制造" value='hy_360000' @change="checkBox($event)" :disabled='checkDisabled'/>轻工制造</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="商业贸易" value='hy_450000' @change="checkBox($event)" :disabled='checkDisabled'/>商业贸易</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="食品饮料" value='hy_340000' @change="checkBox($event)" :disabled='checkDisabled'/>食品饮料</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="通信" value='hy_730000' @change="checkBox($event)" :disabled='checkDisabled'/>通信</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="休闲服务" value='hy_460000' @change="checkBox($event)" :disabled='checkDisabled'/>休闲服务</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="医药生物" value='hy_370000' @change="checkBox($event)" :disabled='checkDisabled'/>医药生物</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="银行" value='hy_480000' @change="checkBox($event)" :disabled='checkDisabled'/>银行</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="有色金属" value='hy_240000' @change="checkBox($event)" :disabled='checkDisabled'/>有色金属</label></li>
+                  <li><label><input v-model='checkedVal'  type="checkbox" name="综合" value='hy_510000' @change="checkBox($event)" :disabled='checkDisabled'/>综合</label></li>
+                </ul>
+              </div>
+            </transition>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
             <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
@@ -160,12 +162,13 @@ export default {
       opportunity: Data.opportunity,
       fbq: Data.fbq,
       isDisabled: true,
-      checkedVal: ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000'],
+      checkedVal: [],
       checkDisabled: true,
-      checkedSelect: true,
+      checkedNameVal: [],
       checkName: '全部',
       type: 'jjlx_all',
       hyStr: 'all',
+      yellow: 'false',
       seleteCheckboxShow: false,
       filterParams: {
         jjlx: 'jylx_all',
@@ -191,7 +194,7 @@ export default {
       this.type = e.target.attributes.value.value
       this.typeIndex = index
       this.$emit('selectType', index, this.type)
-      if (this.typeIndex === 1 || this.typeIndex === 2 || this.typeIndex === 3 || this.typeIndex === 4 || this.typeIndex === 5 || this.typeIndex === 6 || this.typeIndex === 7) {
+      if (this.typeIndex !== 0) {
         this.isDisabled = false
         this.checkDisabled = false
         this.seleteCheckboxShow = false
@@ -199,10 +202,15 @@ export default {
         this.isDisabled = true
         this.checkDisabled = true
       }
-      if (this.typeIndex === 0) { this.seleteCheckboxShow = false }
+
+      if (this.typeIndex === 0) {
+        this.seleteCheckboxShow = false
+        this.initCheckedVal()
+        this.yellow = true
+      }
       this.getOptionData()
     },
-    getOptionData () {
+    getOptionData () { // 获取下拉数据
       this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })
       this.$store.dispatch('getNhsyl', { idxId: 'nhsyl', jjlx: this.type })
       this.$store.dispatch('getZdhc', { idxId: 'zdhc', jjlx: this.type })
@@ -212,18 +220,18 @@ export default {
     change1 (e) {
       this.type = e.target.attributes.value.value
     },
-    checkAll (e) {
+    checkBox (e) {
       var value = e.target.value
       var checked = e.target.checked
+      console.log(value)
       if (value === 'all') {
+        this.checkName = '全部'
         this.initCheckedVal()
       }
       if (value === 'all' && checked === false) {
         this.checkedVal = []
         this.filterParams.hy = ''
       }
-    },
-    checkBox (e) {
       var vLength = this.checkedVal.length
       var isHyAll = this.checkedVal.indexOf('all')
       if (isHyAll > -1) {
@@ -238,6 +246,7 @@ export default {
         }
       }
       this.hyStrPj()
+      this.isHasElementTwo(this.checkedVal, value)
     },
     hyStrPj () { // 下拉复选框拼接
       var vLength = this.checkedVal.length
@@ -245,23 +254,46 @@ export default {
       for (let i = 0; i < vLength; i++) {
         this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
       }
-      if (vLength > 27) {
+      this.yellow = false
+      if (vLength > 28) {
+        this.filterParams.hy = 'all'
+        if (this.filterParams.hy === 'all') {
+          this.yellow = true
+        }
+      }
+      if (vLength <= 0) {
         this.filterParams.hy = 'all'
       }
     },
     toggleShow () {
       this.seleteCheckboxShow = !this.seleteCheckboxShow
-      if (this.seleteCheckboxShow === false) {
-        this.initCheckedVal()
-      }
     },
     initCheckedVal () { // 初始化下拉复选框
       this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
       this.filterParams.hy = 'all'
+    },
+    tradesVal () {
+      for (var key in this.trades) {
+        this.checkedVal.push(key)
+        this.checkedNameVal.push(this.trades[key])
+      }
+    },
+    isHasElementTwo (arr, value) {
+      var str = arr.toString()
+      var index = str.indexOf(value)
+      if (index >= 0) {
+        // 存在返回索引
+        var reg1 = new RegExp('((^|,)' + value + '(,|$))', 'gi')
+        return str.replace(reg1, '$2@$3').replace(/[^,@]/g, '').indexOf('@')
+      } else {
+        return -1// 不存在此项
+      }
     }
   },
   mounted () {
     this.getOptionData()
+    this.tradesVal()
+    this.hyStrPj()
   },
   computed: {
     ...mapState([
@@ -500,5 +532,11 @@ export default {
         width: 106%;
       }
     }
+  }
+  .fade2-enter-active, .fade2-leave-active {
+    transition: opacity .5s
+  }
+  .fade2-enter, .fade2-leave-active {
+    opacity: 0
   }
 </style>
