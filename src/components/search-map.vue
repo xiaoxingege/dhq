@@ -65,13 +65,8 @@
           message: ''
         }
       },
-      props: ['isClickSelect'],
-      watch: {
-        isClickSelect () {
-          this.message = ''
-          this.stockSelectList = []
-        }
-      },
+      props: [],
+      watch: {},
       methods: {
         search (e) {
           e.preventDefault()
@@ -108,6 +103,14 @@
         foldUp: function () {
           this.message = ''
           this.stockSelectList = []
+        }
+      },
+      mounted () {
+        const _this = this
+        document.getElementsByTagName('body')[0].onclick = function (e) {
+          e.stopPropagation()
+          _this.message = ''
+          _this.stockSelectList = []
         }
       }
     }
