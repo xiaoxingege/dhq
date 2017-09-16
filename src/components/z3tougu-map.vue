@@ -45,9 +45,9 @@
                 <option value="act_date">业绩公布日</option>
             </select>
             </div>
-            <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStockId="getFocusStockId"></StockSearch>
+            <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
         </div>
-        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockId="focusStockId" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"></StockMap>
+        <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockName="focusStockName" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"></StockMap>
     </div>
 </template>
 <script type="text/javascript">
@@ -60,7 +60,7 @@ export default{
           condition: 'mkt_idx.cur_chng_pct',
           keyword: '',
           showCondition: true,
-          focusStockId: '',
+          focusStockName: '',
           mapHeight: 0,
           mapWidth: 0,
           maskHeight: window.innerHeight - 35,
@@ -83,8 +83,8 @@ export default{
         isShowMaskFn: function (mag) {
           this.isShowMask = mag
         },
-        getFocusStockId: function (msg) {
-          this.focusStockId = msg
+        getFocusStockName: function (msg) {
+          this.focusStockName = msg
         },
         toZdf: function (msg) {
           this.condition = msg

@@ -52,16 +52,16 @@
                 },
                 radar: {
                   indicator: [
-                              { name: '成长性因子', max: 50 }, // 10 ~ -10
-                              { name: '杠杆因子', max: 50 },
-                              { name: '流动性因子', max: 50 },
-                              { name: '动量因子', max: 50 },
-                              { name: '规模因子', max: 50 },
-                              { name: '估值因子', max: 50 },
-                              { name: '波动因子', max: 50 },
-                              { name: '质量因子', max: 50 },
-                              { name: '分析师预期因子', max: 50 },
-                              { name: '股东因子', max: 50 }
+                              { name: '成长性因子', max: 5, min: -5 }, // 10 ~ -10
+                              { name: '杠杆因子', max: 5, min: -5 },
+                              { name: '流动性因子', max: 5, min: -5 },
+                              { name: '动量因子', max: 5, min: -5 },
+                              { name: '规模因子', max: 5, min: -5 },
+                              { name: '估值因子', max: 5, min: -5 },
+                              { name: '波动因子', max: 5, min: -5 },
+                              { name: '质量因子', max: 5, min: -5 },
+                              { name: '分析师预期因子', max: 5, min: -5 },
+                              { name: '股东因子', max: 5, min: -5 }
                   ],
                   radius: '60%',
                   nameGap: 10,

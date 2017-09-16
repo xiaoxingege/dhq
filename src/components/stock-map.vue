@@ -113,6 +113,7 @@
     import playBackSrc from '../assets/images/stock-map/playback.png'
     import playStopSrc from '../assets/images/stock-map/playstop.png'
     import echarts from 'echarts'
+    // import treemapHelper from 'echarts/lib/chart/treemap/helper'
     import StockList from 'components/stock-list-map'
     import { ctx } from '../z3tougu/config'
     const colorsList1 = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
@@ -125,7 +126,7 @@
     const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
     let pid
     export default{
-      props: ['rangeCode', 'condition', 'focusStockId'], // 从父组件传下来
+      props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
       components: {
         StockList
       },
@@ -224,7 +225,7 @@
         condition () {
           this.updateData()
         },
-        focusStockId () {
+        focusStockName () {
           this.focusStock()
         }
       },
@@ -372,6 +373,7 @@
                       this.chart.setOption({
                         hoverLayerThreshold: 10000,
                         progressive: 1000,
+                        squareRatio: 0.5,
                         tooltip: {
                           triggerOn: 'none'
                         },
@@ -379,12 +381,13 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 0.001,
-                            childrenVisibleMin: 0.001,
+                            visibleMin: -1,
+                            childrenVisibleMin: 20,
                             width: '100%',
                             height: '100%',
                             label: {
                               normal: {
+                                ellipsis: true,
                                 show: true,
                                 formatter: function (params) {
                                   if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
@@ -392,8 +395,7 @@
                                   }
                                 },
                                 textStyle: {
-                                  fontSize: 12,
-                                  ellipsis: false
+                                  fontSize: 12
                                 }
                               }
                             },
@@ -409,6 +411,7 @@
                             breadcrumb: {
                               show: false
                             },
+                            // nodeClick: 'zoomToNode',
                             /* nodeClick: 'link',
                             silent: {
                               link: 'https://www.baidu.com/'
@@ -510,19 +513,36 @@
         },
         focusStock: function () {
           const _this = this
-          const focusStockData = this.stockData
-          focusStockData.forEach(function (industry) {
+          // const focusStockData = this.stockData
+          const chartView = this.chart._chartsViews[0]
+          const treeRoot = chartView.seriesModel._viewRoot
+          treeRoot.children.forEach(function (industry) {
             industry.children.forEach(function (lvl2) {
               lvl2.children.forEach(function (stock) {
-                if (stock.id === _this.focusStockId) {
-                  stock.itemStyle.normal.borderColor = '#ffd614'
-                  stock.itemStyle.normal.borderWidth = 2
-                  lvl2.itemStyle.normal.borderColor = '#ffd614'
+                if (stock.name === _this.focusStockName) {
+                  // stock.itemStyle.normal.borderColor = '#ffd614'
+                  // stock.itemStyle.normal.borderWidth = 2
+                  // lvl2.itemStyle.normal.borderColor = '#ffd614'
+                  chartView._zoomToNode({ node: stock })
+                  // treemapHelper.retrieveTargetInfo({type:'treemapZoomToNode',targetId:});
                 }
               })
             })
           })
-          this.chart.setOption({ series: [{ data: focusStockData }] })
+          // focusStockData.forEach(function (industry) {
+          //   industry.children.forEach(function (lvl2) {
+          //     lvl2.children.forEach(function (stock) {
+          //       if (stock.id === _this.focusStockName) {
+          //         stock.itemStyle.normal.borderColor = '#ffd614'
+          //         stock.itemStyle.normal.borderWidth = 2
+          //         lvl2.itemStyle.normal.borderColor = '#ffd614'
+          //         debugger
+          //     // treemapHelper.retrieveTargetInfo({type:'treemapZoomToNode',targetId:});
+          //       }
+          //     })
+          //   })
+          // })
+          // this.chart.setOption({ series: [{ data: focusStockData }] })
         },
         getLevelOption: function () {
           return [
@@ -577,16 +597,12 @@
               },
               upperLabel: {
                 normal: {
-                  offset: [5, 0],
-                  textStyle: {
-                    ellipsis: false
-                  }
+                  offset: [5, 0]
                 },
                 emphasis: {
                   offset: [5, 0],
                   textStyle: {
-                    color: '#333',
-                    ellipsis: false
+                    color: '#333'
                   }
                 }
               },
