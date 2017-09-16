@@ -257,8 +257,8 @@ export default {
       }
     },
     authorize () {
-      if (this.userId) {
-        if (this.focusShow) {
+      if (this.focusShow) {
+        if (this.userId) {
           window.cambrian.subscribe({ data: {
             type: 'force', // 类型，optional-弱关注 force-强关注
             title: '金融界官方号', // 标题文字，字数限制：4-6个字
@@ -267,23 +267,23 @@ export default {
           },
             success: function (res) {
               location.reload()
-                    // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
-                    // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+                        // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
             },
             fail: function (res) {
-                    // res结构如下，可通过status、msg判断错误原因
-                    // 如：{"status": 100, "msg":"not login", "result": 0}
+                        // res结构如下，可通过status、msg判断错误原因
+                        // 如：{"status": 100, "msg":"not login", "result": 0}
             },
             complete: function (res) {
-                    // res结构如下，
-                    // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+                        // res结构如下，
+                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
             }
           })
         } else {
-          alert('请在手机百度APP中使用')
+          window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
         }
       } else {
-        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
+        alert('请在手机百度APP中使用')
       }
     }
   },
