@@ -126,8 +126,8 @@ export default {
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price ? stock.price.toFixed(2) : config.emptyValue
-      stocks[stock.innerCode].chg = stock.chg ? stock.chg.toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].price = stock.price !== null ? stock.price.toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].chg = stock.chg !== null ? stock.chg.toFixed(2) : config.emptyValue
       stocks[stock.innerCode].curChngPct = stock.curChngPct !== null ? stock.curChngPct.toFixed(2) : config.emptyValue
       // state.topic.relatedStocks = { ...stocks, stock }
     }
