@@ -232,7 +232,6 @@ export default{
                         let wrapHeight
                         if (document.getElementsByClassName('hover-wrapper').length > 0) {
                           wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
-                          console.log(wrapHeight)
                           this.$emit('updateWrapHeight', wrapHeight)
                         }
                         for (const i in this.stockList) {
