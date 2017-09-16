@@ -707,7 +707,7 @@
                   this.playBackIndex++
                 })
               }
-            }, 500)
+            }, 250)
           }
         },
         fmtraneValue: function (arr, n) {
