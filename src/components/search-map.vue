@@ -65,7 +65,13 @@
           message: ''
         }
       },
-      props: [''],
+      props: ['isClickSelect'],
+      watch: {
+        isClickSelect () {
+          this.message = ''
+          this.stockSelectList = []
+        }
+      },
       methods: {
         search (e) {
           e.preventDefault()
