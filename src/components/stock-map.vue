@@ -411,7 +411,7 @@
                             breadcrumb: {
                               show: false
                             },
-                            // nodeClick: 'zoomToNode',
+                            nodeClick: false,
                             /* nodeClick: 'link',
                             silent: {
                               link: 'https://www.baidu.com/'

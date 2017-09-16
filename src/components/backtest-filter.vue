@@ -176,7 +176,7 @@
               <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock">
                    <span class="order-num">{{index+1}}
                    </span><span>{{stock.innerCode}}
-                   </span><span>{{stock.name}}
+                   </span><span><a :href="'/stock/'+ stock.innerCode" target="_blank">{{stock.name}}</a>
                    </span><span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}
                    </span><span v-z3-updowncolor="stock.curChngPct">{{stock.chg==null?'--':stock.chg}}
                    </span><span v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
