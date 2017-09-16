@@ -16,7 +16,8 @@ export default{
         el.addEventListener('mouseover' ,(event)=>{
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
-          const winH = document.body.offsetHeight;
+          const winH = window.document.body.offsetHeight;
+          console.info("[z3 plugin]:"+winH);
           let left = event.x + parseInt(scrollleft) + 40;
           let top = event.y + parseInt(scrollTop) - 20;
           if(winH - top < 300){

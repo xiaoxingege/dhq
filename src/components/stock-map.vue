@@ -387,12 +387,23 @@
                             height: '100%',
                             label: {
                               normal: {
-                                ellipsis: true,
+                                distance: 0,
+                                ellipsis: false,
                                 show: true,
-                                formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                                    return params.name + '\n' + params.data.perfText
+                                formatter: (params) => {
+                                  const node = this.getNode(params)
+                                  const nodeLayout = node.getLayout()
+                                  let formatterText = ''
+                                  if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
+                                    formatterText += params.name
                                   }
+                                  if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                    formatterText += '\n' + params.data.perfText
+                                  }
+                                  return formatterText
+                                  // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                  //   return params.name + '\n' + params.data.perfText
+                                  // }
                                 },
                                 textStyle: {
                                   fontSize: 12
@@ -402,6 +413,18 @@
                             upperLabel: {
                               normal: {
                                 show: true,
+                                formatter: (params) => {
+                                  const node = this.getNode(params)
+                                  const nodeLayout = node.getLayout()
+                                  let formatterText = ''
+                                  if (nodeLayout.width > 48 && nodeLayout.height > 20) {
+                                    formatterText += params.name
+                                  }
+                                  return formatterText
+                                  // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                  //   return params.name + '\n' + params.data.perfText
+                                  // }
+                                },
                                 height: 20
                               }
                             },
@@ -412,11 +435,7 @@
                               show: false
                             },
                             nodeClick: false,
-                            /* nodeClick: 'link',
-                            silent: {
-                              link: 'https://www.baidu.com/'
-                            },*/
-                            // roam: false,
+                            roam: true,
                             levels: this.getLevelOption(),
                             data: this.mapData
                           }
@@ -876,6 +895,11 @@
         },
         toNormal: function () {
           window.open(ctx + '/map/normal')
+        },
+        getNode: function (params) {
+          const chartView = this.chart._chartsViews[0]
+          const treeRoot = chartView.seriesModel._viewRoot
+          return treeRoot.hostTree._nodes[params.dataIndex]
         }
       },
       mounted () {

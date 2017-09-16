@@ -55,7 +55,7 @@ const mutations = {
       stockName: stock.name,
       lastPx: stock.price ? stock.price.toFixed(2) : config.emptyValue,
       chgPx: stock.chg ? stock.chg.toFixed(2) : config.emptyValue,
-      chgPctPx: (stock.curChngPct ? stock.chg.toFixed(2) : config.emptyValue) + '%'
+      chgPctPx: (stock.curChngPct ? stock.curChngPct.toFixed(2) : config.emptyValue) + '%'
     }
   }
 }
