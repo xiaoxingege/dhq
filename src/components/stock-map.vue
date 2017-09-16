@@ -395,15 +395,13 @@
                                   }
                                 },
                                 textStyle: {
-                                  fontSize: 12,
-                                  ellipsis: false
+                                  fontSize: 12
                                 }
                               }
                             },
                             upperLabel: {
                               normal: {
                                 show: true,
-                                ellipsis: false,
                                 height: 20
                               }
                             },
@@ -599,16 +597,12 @@
               },
               upperLabel: {
                 normal: {
-                  offset: [5, 0],
-                  textStyle: {
-                    ellipsis: false
-                  }
+                  offset: [5, 0]
                 },
                 emphasis: {
                   offset: [5, 0],
                   textStyle: {
-                    color: '#333',
-                    ellipsis: false
+                    color: '#333'
                   }
                 }
               },
