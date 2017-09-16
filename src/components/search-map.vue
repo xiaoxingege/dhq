@@ -94,6 +94,7 @@
           })
         },
         focusStock: function (e) {
+          e.stopPropagation()
           const focusStockId = e.currentTarget.children[0].children[0].innerText
           const focusStockName = e.currentTarget.children[0].children[1].innerText
           this.$emit('focusStock', focusStockName)

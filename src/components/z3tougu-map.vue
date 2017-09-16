@@ -45,7 +45,7 @@
                 <option value="act_date">业绩公布日</option>
             </select>
             </div>
-            <StockSearch :rangeCode="rangeCode" :condition="condition" :isClickSelect="isClickSelectCount" @focusStock="getFocusStockName"></StockSearch>
+            <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
         </div>
         <StockMap :rangeCode="rangeCode" :condition="condition"  :focusStockName="focusStockName" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"></StockMap>
     </div>
@@ -64,8 +64,7 @@ export default{
           mapHeight: 0,
           mapWidth: 0,
           maskHeight: window.innerHeight - 35,
-          isShowMask: false,
-          isClickSelectCount: 0
+          isShowMask: false
         }
       },
       props: [''],
@@ -89,9 +88,6 @@ export default{
         },
         toZdf: function (msg) {
           this.condition = msg
-        },
-        isClickSelect: function () {
-          this.isClickSelectCount++
         }
       },
       mounted () {
