@@ -70,7 +70,7 @@ export default {
     },
     getFinanceNews  ({ commit }, { size }) {
       const timestamp = new Date().getTime()
-      const url = 'http://finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
+      const url = '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp', cache: 'reload' }).then((res) => {
         return res.json()
       }).then((body) => {
@@ -81,7 +81,7 @@ export default {
     },
     getListedCompanyNews  ({ commit }, { size }) {
       const timestamp = new Date().getTime()
-      const url = 'http://finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
+      const url = '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
         return res.json()
       }).then((body) => {
@@ -91,7 +91,7 @@ export default {
       })
     },
     getNewsDetails  ({ commit }, { newsId }) {
-      const url = 'http://finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      const url = '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
       return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
         return res.json()
       }).then((body) => {
