@@ -57,7 +57,7 @@
             <transition name="fade2">
               <div v-if="seleteCheckboxShow" class='checkedBox'>
                 <ul>
-                  <li v-for="item in trades"><label><input v-model='checkedVal' type="checkbox" :name="item.name" :value='item.value' @click="checkBox($event)" :disabled='checkDisabled'/>{{item.name}}</label></li>
+                  <li v-for="item in trades"><label><input v-model='checkedVal' type="checkbox" :name="item.name" :value='item.value' @click="checkBox($event,item)" :disabled='checkDisabled'/>{{item.name}}</label></li>
                 </ul>
               </div>
             </transition>
@@ -192,48 +192,48 @@ export default {
     change1 (e) {
       this.type = e.target.attributes.value.value
     },
-    checkBox (e) {
-      const vLength = this.checkedVal.length
-      const isHyAll = this.checkedVal.indexOf('all')
-      const value = e.target.value
-      const checked = e.target.checked
-      if (value === 'all') {
-        this.checkName = '全部'
+    checkBox (e, item) {
+      var value = e.target.value
+      var checked = e.target.checked
+      if (value === 'all' && checked === true) {
         this.initCheckedVal()
       }
       if (value === 'all' && checked === false) {
         this.checkedVal = []
         this.filterParams.hy = 'all'
       }
-      if (isHyAll > -1) { // 删除all
+      var vLength = this.checkedVal.length
+      var isHyAll = this.checkedVal.indexOf('all')
+      if (isHyAll > -1) {
         if (vLength === 28) {
-          const index = this.checkedVal.indexOf('all')
+          var index = this.checkedVal.indexOf('all')
           this.checkedVal.splice(index, 1)
         }
       }
-      if (isHyAll < 0) { // 初始化
+      if (isHyAll < 0) {
         if (vLength === 28) {
           this.initCheckedVal()
         }
       }
       this.hyStrPj()
+      this.checkBoxName(e, item)
     },
     hyStrPj () { // 下拉复选框拼接
-      const vLength = this.checkedVal.length
+      var vLength = this.checkedVal.length
       this.filterParams.hy = ''
       for (let i = 0; i < vLength; i++) {
         this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
       }
       this.filterParams.hy = this.filterParams.hy.substring(0, this.filterParams.hy.length - 1)
       this.yellow = false
-      if (vLength <= 0) {
-        this.filterParams.hy = 'all'
-      }
       if (vLength > 28) {
         this.filterParams.hy = 'all'
         if (this.filterParams.hy === 'all') {
           this.yellow = true
         }
+      }
+      if (vLength <= 0) {
+        this.filterParams.hy = 'all'
       }
     },
     toggleShow () {
@@ -242,11 +242,38 @@ export default {
     initCheckedVal () { // 初始化下拉复选框
       this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
       this.filterParams.hy = 'all'
+      this.checkName = '全部'
     },
     tradesVal () { // 初始化下拉复选框value值
       for (let i = 0; i < this.trades.length; i++) {
         this.checkedVal.push(this.trades[i].value)
+        this.checkedNameVal.push(this.trades[i].name)
       }
+    },
+    checkBoxName (e, item) {
+      var checked = e.target.checked
+      this.trades.some((fund, index) => {
+        var _this = this
+        if (fund.value === item.value) {
+          if (checked === false) {
+            const _name = this.trades[index].name
+            this.checkedNameVal.some((checkedName, index) => {
+              if (checkedName === _name) {
+                this.checkedNameVal.splice(index, 1)
+                _this.checkName = ''
+                this.checkedNameVal.forEach(function (item, index) {
+                  _this.checkName += item + ','
+                  if (item === '全部') {
+                    _this.checkName = ''
+                  }
+                })
+              }
+            })
+          } else {
+            this.checkedNameVal.push(this.trades[index].name)
+          }
+        }
+      })
     }
   },
   mounted () {
@@ -371,6 +398,7 @@ export default {
             color: $colorFontTheme;
             padding-left: 5px;
             cursor: pointer;
+            overflow: hidden;
           }
           select:disabled,.select.disabled{
             color:$colorFontH
