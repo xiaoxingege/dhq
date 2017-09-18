@@ -410,7 +410,6 @@
           this.stockRangeOptions.strategyDefault = this.options.strategyDefault
           this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
           this.stockRangeOptions.topic = this.options.topic
-          this.topicName = '全部'
         },
         showSelfRange () {
           this.showSelfRangeDialog = true
@@ -509,8 +508,9 @@
         }
       },
       mounted () {
-        this.$store.dispatch('bubbles/getStockPool')
         this.$store.dispatch('bubbles/getStrategy')
+        this.$store.dispatch('bubbles/getStockPool')
+
         const that = this
         setInterval(function () {
           that.getTime()
