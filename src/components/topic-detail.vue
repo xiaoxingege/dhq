@@ -356,7 +356,7 @@
 
                           </tbody>
                           <tfoot>
-                                <a :href="'/filter.shtml?from=topic&&topicCode='+detail.topicCode" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
+                                <a :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
 

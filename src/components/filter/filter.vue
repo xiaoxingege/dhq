@@ -381,7 +381,7 @@
       },
       // 导出筛选数据
       exportFundPool () {
-        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
         return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
           return res.blob()
         }).then(result => {
@@ -389,7 +389,7 @@
           var url = window.URL.createObjectURL(result)
           var a = document.createElement('a')
           a.href = url
-          a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
+          a.download = '巨灵智胜基金筛选-' + this.formatDates(date) + '.xlsx'
           a.click()
         })
       },

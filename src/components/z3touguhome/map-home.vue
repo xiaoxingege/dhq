@@ -71,7 +71,18 @@
                     .then(() => {
                       this.mapChart.setOption({
                         tooltip: {
-                          triggerOn: 'none'
+                          padding: [8, 12, 8, 12],
+                          formatter: function (info) {
+                            const perfText = info.data.perfText
+                            const treePathInfo = info.treePathInfo
+                            const treePath = []
+                            for (let i = 1; i < treePathInfo.length; i++) {
+                              treePath.push(treePathInfo[i].name)
+                            }
+                            return [
+                              '<div class="tooltip-title">' + treePath.join('/') + '</div>', perfText
+                            ].join('')
+                          }
                         },
                         series: [
                           {
@@ -84,14 +95,24 @@
                             label: {
                               normal: {
                                 show: true,
-                                formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                                    return params.name + '\n' + params.data.perfText
+                                ellipsis: false,
+                                formatter: (params) => {
+                                  const node = this.getNode(params)
+                                  const nodeLayout = node.getLayout()
+                                  let formatterText = ''
+                                  if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
+                                    formatterText += params.name
                                   }
+                                  if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                    formatterText += '\n' + params.data.perfText
+                                  }
+                                  return formatterText
+                                  /* if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                    return params.name + '\n' + params.data.perfText
+                                  }*/
                                 },
                                 textStyle: {
-                                  fontSize: 12,
-                                  ellipsis: false
+                                  fontSize: 12
                                 }
                               }
                             },
@@ -174,6 +195,11 @@
           }
           const currentDate = date.getFullYear() + month + strDate
           return currentDate
+        },
+        getNode: function (params) {
+          const chartView = this.mapChart._chartsViews[0]
+          const treeRoot = chartView.seriesModel._viewRoot
+          return treeRoot.hostTree._nodes[params.dataIndex]
         }
       },
       mounted () {

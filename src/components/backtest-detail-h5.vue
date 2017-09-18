@@ -104,11 +104,11 @@
         <div>
             <div class="choseStock">
                 <div class="recommendTitle">选股条件</div>
-                <div class="choseStockMain" v-if="goldResult.stockStrategyId !== null && goldResult.stockStrategyId !== ''">
+                <div class="choseStockMain" v-if="goldResult !== null && goldResult !== '' && goldResult.stockStrategyId !== null && goldResult.stockStrategyId !== ''">
                     <p>筛股条件：<span>{{strategyIdData.strategyName}}</span></p>
                 </div>
-                <div class="choseStockMain" v-if="goldResult.stockPoolId !== null && goldResult.stockPoolId !== ''">
-                    <p>股票池：<span>{{stockIdData.poolName}}</span></p>
+                <div class="choseStockMain" v-if="goldResult !== null && goldResult !== '' && goldResult.stockPoolId !== null && goldResult.stockPoolId !== ''">
+                    <p>股票池：<span>{{stockIdData === null? '':stockIdData.poolName}}</span></p>
                 </div>
             </div>
             <div class="sellCondition">
@@ -363,7 +363,7 @@
             const buyConditionTable = this.recommendData.sellConditiondata.buy.buyStrategyIndexList
             const sellConditionTable = this.recommendData.sellConditiondata.sell.sellStrategyIndexList
 
-            if (buyConditionTable.length > 0) {
+            if (buyConditionTable !== null && buyConditionTable.length > 0) {
               for (var i = 0; i < buyConditionTable.length; i++) {
                 const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
                 const parmsPeriod = []
@@ -382,7 +382,7 @@
                 buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].comparisonValue])
               }
             }
-            if (sellConditionTable.length > 0) {
+            if (sellConditionTable !== null && sellConditionTable.length > 0) {
               for (var j = 0; j < sellConditionTable.length; j++) {
                 const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
                 const parmsPeriod = []
@@ -422,7 +422,7 @@
           }
         },
         tableData: function () {
-          if (this.backtestResult === null) {
+          if (this.backtestResult === null || this.backtestResult === '') {
             return []
           } else {
             return [
@@ -456,10 +456,10 @@
         this.backtestId = this.$route.params.backtestId
 
         this.$store.dispatch('backtestDetailH5/getStrategyData', { strategyId: this.strategyId }).then(() => {
-          if (this.goldResult.stockStrategyId !== null && this.goldResult.stockStrategyId !== '') {
+          if (this.goldResult !== null && this.goldResult.stockStrategyId !== null && this.goldResult.stockStrategyId !== '') {
             this.$store.dispatch('backtestDetailH5/getStockStrategyIdData', { strategyId: this.goldResult.stockStrategyId }).then(() => {})
           }
-          if (this.goldResult.stockPoolId !== null && this.goldResult.stockPoolId !== '') {
+          if (this.goldResult !== null && this.goldResult.stockPoolId !== null && this.goldResult.stockPoolId !== '') {
             this.$store.dispatch('backtestDetailH5/getStockPoolIdData', { poolId: this.goldResult.stockPoolId }).then(() => {})
           }
         })

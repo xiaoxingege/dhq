@@ -97,7 +97,7 @@
         <div class="bubbles-bar clearfix">
             <div class="template fl mr-20">
                 推荐分析维度：
-                <select @change="changeTmp($event)">
+                <select @change="changeTmp($event)" v-model="tmpId">
                     <option v-for="(tmp,key) in templateList" :value="key">{{tmp.name}}</option>
                 </select>
             </div>
@@ -308,6 +308,7 @@
           sizeData: '流通市值',
           colorData: '近1月涨跌幅',
           templateList: {
+
             'demoTmp1': {
               name: '盘面与股价涨跌关系',
               options: {
@@ -379,6 +380,9 @@
                 topic: ''
               },
               explain: '从分析师预期和是否放量的角度寻找标的股票。例如：从分析师观点为买入或增持的股票中，挑选出具备目标价格空间较大，且近期成交量放量的股票。'
+            },
+            'demoTmp0': {
+              name: '自定义'
             }
           },
           currentTime: '',
@@ -410,7 +414,6 @@
           this.stockRangeOptions.strategyDefault = this.options.strategyDefault
           this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
           this.stockRangeOptions.topic = this.options.topic
-          this.topicName = '全部'
         },
         showSelfRange () {
           this.showSelfRangeDialog = true
@@ -421,6 +424,7 @@
           this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
           this.colorData = this.options.colorDefault === '' ? '常规' : this.bubbleColorList[this.dimensionOptions.colorDefault]
           this.options = { ...this.dimensionOptions, ...this.stockRangeOptions }
+          this.tmpId = 'demoTmp0'
         },
         changeTmp (e) {
           const tmpValue = e.target.value
@@ -509,8 +513,9 @@
         }
       },
       mounted () {
-        this.$store.dispatch('bubbles/getStockPool')
         this.$store.dispatch('bubbles/getStrategy')
+        this.$store.dispatch('bubbles/getStockPool')
+
         const that = this
         setInterval(function () {
           that.getTime()

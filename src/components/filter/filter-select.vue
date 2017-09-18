@@ -57,35 +57,7 @@
             <transition name="fade2">
               <div v-if="seleteCheckboxShow" class='checkedBox'>
                 <ul>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="全部" value='all' @click="checkBox($event)" :disabled='checkDisabled'/>全部</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="采掘" value='hy_210000' @change="checkBox($event)" :disabled='checkDisabled' />采掘</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="传媒" value='hy_720000' @change="checkBox($event)" :disabled='checkDisabled' />传媒</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="电气设备" value='hy_630000' @change="checkBox($event)" :disabled='checkDisabled'/>电气设备</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="电子" value='hy_270000' @change="checkBox($event)" :disabled='checkDisabled'/>电子</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="房地产" value='hy_430000' @change="checkBox($event)" :disabled='checkDisabled'/>房地产</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="纺织服装" value='hy_350000' @change="checkBox($event)" :disabled='checkDisabled'/>纺织服装</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="非银金融" value='hy_490000' @change="checkBox($event)" :disabled='checkDisabled'/>非银金融</label></li>
-                  <li><label><input v-model='checkedVal' type="checkbox" name="钢铁" value='hy_230000' @change="checkBox($event)" :disabled='checkDisabled'/>钢铁</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="公用事业" value='hy_410000' @change="checkBox($event)" :disabled='checkDisabled'/>公用事业</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="国防军工" value='hy_650000' @change="checkBox($event)" :disabled='checkDisabled'/>国防军工</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="化工" value='hy_220000' @change="checkBox($event)" :disabled='checkDisabled'/>化工</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="机械设备" value='hy_640000' @change="checkBox($event)" :disabled='checkDisabled'/>机械设备</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="计算机" value='hy_710000' @change="checkBox($event)" :disabled='checkDisabled'/>计算机</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="家用电器" value='hy_330000' @change="checkBox($event)" :disabled='checkDisabled'/>家用电器</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="建筑材料" value='hy_610000' @change="checkBox($event)" :disabled='checkDisabled'/>建筑材料</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="建筑装饰" value='hy_620000' @change="checkBox($event)" :disabled='checkDisabled'/>建筑装饰</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="交通运输" value='hy_420000' @change="checkBox($event)" :disabled='checkDisabled'/>交通运输</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="农林牧渔" value='hy_110000' @change="checkBox($event)" :disabled='checkDisabled'/>农林牧渔</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="汽车" value='hy_280000' @change="checkBox($event)" :disabled='checkDisabled'/>汽车</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="轻工制造" value='hy_360000' @change="checkBox($event)" :disabled='checkDisabled'/>轻工制造</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="商业贸易" value='hy_450000' @change="checkBox($event)" :disabled='checkDisabled'/>商业贸易</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="食品饮料" value='hy_340000' @change="checkBox($event)" :disabled='checkDisabled'/>食品饮料</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="通信" value='hy_730000' @change="checkBox($event)" :disabled='checkDisabled'/>通信</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="休闲服务" value='hy_460000' @change="checkBox($event)" :disabled='checkDisabled'/>休闲服务</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="医药生物" value='hy_370000' @change="checkBox($event)" :disabled='checkDisabled'/>医药生物</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="银行" value='hy_480000' @change="checkBox($event)" :disabled='checkDisabled'/>银行</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="有色金属" value='hy_240000' @change="checkBox($event)" :disabled='checkDisabled'/>有色金属</label></li>
-                  <li><label><input v-model='checkedVal'  type="checkbox" name="综合" value='hy_510000' @change="checkBox($event)" :disabled='checkDisabled'/>综合</label></li>
+                  <li v-for="item in trades"><label><input v-model='checkedVal' type="checkbox" :name="item.name" :value='item.value' @click="checkBox($event,item)" :disabled='checkDisabled'/>{{item.name}}</label></li>
                 </ul>
               </div>
             </transition>
@@ -220,17 +192,15 @@ export default {
     change1 (e) {
       this.type = e.target.attributes.value.value
     },
-    checkBox (e) {
+    checkBox (e, item) {
       var value = e.target.value
       var checked = e.target.checked
-      console.log(value)
-      if (value === 'all') {
-        this.checkName = '全部'
+      if (value === 'all' && checked === true) {
         this.initCheckedVal()
       }
       if (value === 'all' && checked === false) {
         this.checkedVal = []
-        this.filterParams.hy = ''
+        this.filterParams.hy = 'all'
       }
       var vLength = this.checkedVal.length
       var isHyAll = this.checkedVal.indexOf('all')
@@ -246,7 +216,7 @@ export default {
         }
       }
       this.hyStrPj()
-      this.isHasElementTwo(this.checkedVal, value)
+      this.checkBoxName(e, item)
     },
     hyStrPj () { // 下拉复选框拼接
       var vLength = this.checkedVal.length
@@ -254,6 +224,7 @@ export default {
       for (let i = 0; i < vLength; i++) {
         this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
       }
+      this.filterParams.hy = this.filterParams.hy.substring(0, this.filterParams.hy.length - 1)
       this.yellow = false
       if (vLength > 28) {
         this.filterParams.hy = 'all'
@@ -271,23 +242,38 @@ export default {
     initCheckedVal () { // 初始化下拉复选框
       this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
       this.filterParams.hy = 'all'
+      this.checkName = '全部'
     },
-    tradesVal () {
-      for (var key in this.trades) {
-        this.checkedVal.push(key)
-        this.checkedNameVal.push(this.trades[key])
+    tradesVal () { // 初始化下拉复选框value值
+      for (let i = 0; i < this.trades.length; i++) {
+        this.checkedVal.push(this.trades[i].value)
+        this.checkedNameVal.push(this.trades[i].name)
       }
     },
-    isHasElementTwo (arr, value) {
-      var str = arr.toString()
-      var index = str.indexOf(value)
-      if (index >= 0) {
-        // 存在返回索引
-        var reg1 = new RegExp('((^|,)' + value + '(,|$))', 'gi')
-        return str.replace(reg1, '$2@$3').replace(/[^,@]/g, '').indexOf('@')
-      } else {
-        return -1// 不存在此项
-      }
+    checkBoxName (e, item) {
+      var checked = e.target.checked
+      this.trades.some((fund, index) => {
+        var _this = this
+        if (fund.value === item.value) {
+          if (checked === false) {
+            const _name = this.trades[index].name
+            this.checkedNameVal.some((checkedName, index) => {
+              if (checkedName === _name) {
+                this.checkedNameVal.splice(index, 1)
+                _this.checkName = ''
+                this.checkedNameVal.forEach(function (item, index) {
+                  _this.checkName += item + ','
+                  if (item === '全部') {
+                    _this.checkName = ''
+                  }
+                })
+              }
+            })
+          } else {
+            this.checkedNameVal.push(this.trades[index].name)
+          }
+        }
+      })
     }
   },
   mounted () {
@@ -412,6 +398,7 @@ export default {
             color: $colorFontTheme;
             padding-left: 5px;
             cursor: pointer;
+            overflow: hidden;
           }
           select:disabled,.select.disabled{
             color:$colorFontH

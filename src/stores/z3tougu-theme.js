@@ -4,8 +4,9 @@
  */
 
 // whatwg-fetch仅能在浏览器环境使用。
-import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+// import 'whatwg-fetch'
+import fetch from '../z3tougu/util/z3fetch'
+import config, { domain } from '../z3tougu/config'
 
 export const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
@@ -134,9 +135,9 @@ export default {
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price
-      stocks[stock.innerCode].chg = stock.chg
-      stocks[stock.innerCode].curChngPct = stock.curChngPct
+      stocks[stock.innerCode].price = stock.price !== null ? parseFloat(stock.price).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].chg = stock.chg !== null ? parseFloat(stock.chg).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].curChngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
       // state.topic.relatedStocks = { ...stocks, stock }
     }
   },
