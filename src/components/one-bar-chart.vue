@@ -34,11 +34,11 @@
                 itemWidth: 8,
                 data: [
                   {
-                    name: '正收益次数',
+                    name: '负收益次数',
                     icon: 'circle'
                   },
                   {
-                    name: '负收益次数',
+                    name: '正收益次数',
                     icon: 'circle'
                   }
                 ]
@@ -116,18 +116,18 @@
               series: [
                 {
                   data: sylfbData.data1,
-                  name: '正收益次数',
+                  name: '负收益次数',
                   type: 'bar',
                   stack: '收益率分布'
                 },
                 {
                   data: sylfbData.data2,
-                  name: '负收益次数',
+                  name: '正收益次数',
                   type: 'bar',
                   stack: '收益率分布'
                 }
               ],
-              color: ['#fd6d6b', '#41bd6a'],
+              color: ['#41bd6a', '#fd6d6b'],
               grid: {
                 width: '97%',
                 height: '80%',
