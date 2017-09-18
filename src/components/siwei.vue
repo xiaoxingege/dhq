@@ -509,8 +509,9 @@
         }
       },
       mounted () {
-        this.$store.dispatch('bubbles/getStockPool')
         this.$store.dispatch('bubbles/getStrategy')
+        this.$store.dispatch('bubbles/getStockPool')
+
         const that = this
         setInterval(function () {
           that.getTime()

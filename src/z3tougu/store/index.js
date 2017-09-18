@@ -29,11 +29,11 @@ const state = {
     errMsg: null
   },
   auth: {
-    authorization: 'Bearer test_z3quant_accesss_token', // test access_token
-    clientid: 'test_client_id',
-    deviceid: 'test_device_id',
+    authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
+    clientid: '', // 'test_client_id',
+    deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
-    expires: -1// second
+    expires: 0// second
   },
   user: {
     userId: null

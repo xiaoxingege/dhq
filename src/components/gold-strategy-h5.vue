@@ -99,6 +99,7 @@
 </style>
 <template>
     <div class="goldRecommend">
+
         <div v-show="false" class="strategyHeader">
            <span>{{goldResult.strategyName}}</span>
         </div>
