@@ -261,12 +261,6 @@
           }
         },
         initBubbles () {
-          const that = this
-          if (window.Z3) {
-            window.Z3.SndStockPoolInfo((data) => {
-              that.options.innerCode = data
-            })
-          }
           this.chart = echarts.init(this.$refs.bubbles)
           this.$store.dispatch('bubbles/getBubblesData', { options: this.options }).then(() => {
             const that = this
@@ -600,7 +594,17 @@
 
       },
       mounted () {
-        this.initBubbles()
-      }
+        const that = this
+        const p = new Promise((resolve, reject) => {
+          if (window.Z3) {
+            window.Z3.SndStockPoolInfo((data) => {
+              that.options.innerCode = data
+              resolve()
+            })
+          }
+          resolve()
+        })
+        p.then(this.initBubbles)
+  }
 }
 </script>

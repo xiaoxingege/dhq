@@ -374,6 +374,9 @@
         margin-right: 10px
     }
 
+    .sort-hot a:hover{
+       text-decoration: underline;
+    }
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -441,7 +444,9 @@
                 <div class="sort-title fl">推荐主题 ></div>
                 <!-- <div class="sort-title fl">推荐主题<i>></i></div> -->
                 <div class="sort-hot fl">
-                     <a class="blue hot-name" v-for="(updownTopic,index) of listChange">{{updownTopic.topicName}}</a>
+                   <a class="blue hot-name" v-for="(updownTopic,index) of listChange">
+                      <router-link :to="{name:'topicDetail',params:{topicId:updownTopic.topicCode}}" >{{updownTopic.topicName}}</router-link>
+                   </a>
                 </div>
             </div>
             <ThemeSortAz/>

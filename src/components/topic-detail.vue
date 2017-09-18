@@ -356,7 +356,7 @@
 
                           </tbody>
                           <tfoot>
-                                <a :href="'/filter.shtml?from=topic&&topicCode='+detail.topicCode" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
+                                <a :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"><div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div></a>
                           </tfoot>
                         </table>
 
@@ -382,7 +382,9 @@
           topicCode: this.$route.params.topicId,
           fullHeight: document.documentElement.clientHeight,
           size: 12,
-          inforPageSize: 5
+          inforPageSize: 5,
+          endAll: '',
+          alltimers: ''
         }
       },
       components: {
@@ -391,6 +393,8 @@
       computed: {
         ...mapState({
           relatedStocks: state => state.topic.relatedStocks,
+          allLimit: state => state.topic.allLimit,
+          realtimeLimit: state => state.topic.realtimeLimit,
           stockMessage: state => {
             const msg = state.z3sockjs.message
             if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -418,18 +422,23 @@
             const tradeDate = []
             let topicName = ''
             let time = ''
+            let chartDataEnd = ''
             chartData && chartData.forEach(item => {
               time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
               topicReturnRate.push(Number(item.topicReturnRate).toFixed(2))
               hs300ReturnRate.push(Number(item.hs300ReturnRate).toFixed(2))
               tradeDate.push(time)
               topicName = item.topicName
+              // console.log(chartData.length)
+              chartDataEnd = chartData[chartData.length - 1].tradeDate
+              // console.log(chartDataEnd)
             })
             return {
               topicReturnRate: topicReturnRate,
               hs300ReturnRate: hs300ReturnRate,
               tradeDate: tradeDate,
-              topicName: topicName
+              topicName: topicName,
+              chartDataEnd: chartDataEnd
             }
           },
           realTimeData: state => {
@@ -442,6 +451,7 @@
             let end = null
             let realTime = null
             let topicTimeName = ''
+            let realTimeEnd = ''
             for (var i = 0; i < arr.length; i++) {
               if (arr[i] === 9) {
                 start = 30
@@ -473,6 +483,8 @@
             realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
               topicTimeName = item.topicName
+              realTimeEnd = realtimeCharts[realtimeCharts.length - 1].tradeMin
+              console.log(realTimeEnd)
               if (index === 0) {
                 topicChgPct.push(0)
                 hs300ChgPct.push(0)
@@ -486,7 +498,8 @@
               topicChgPct: topicChgPct,
               hs300ChgPct: hs300ChgPct,
               tradeMin: tradeMin,
-              topicTimeName: topicTimeName
+              topicTimeName: topicTimeName,
+              realTimeEnd: realTimeEnd
             }
           },
           xLabelInterval () {
@@ -529,27 +542,76 @@
       methods: {
         initChart () {
           this.chart = echarts.init(this.$refs.chart)
+          // var _this = this
           this.period = 'ALL'
-          this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
+          /* this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                       .then(() => {
                         this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
-                      })
+                        // console.log(this.chartData.tradeDate.length)
+                        // console.log(this.chartData.tradeDate[this.chartData.tradeDate.length - 1])
+                        setInterval(function () {
+                          _this.updateChartAll()
+                        }, 3000)
+                      })*/
+          this.renderCharts(this.period)
           // console.log(this.handleResize)
         },
         renderCharts (type) {
           this.period = type
           console.log(type)
+          var _this = this
           if (type === 'day') {
             this.$store.dispatch('topic/queryRealtimeCharts', { period: this.period, topicCode: this.topicCode }).then(() => {
               this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+              clearInterval(this.alltimers)
+              this.alltimers = setInterval(function () {
+                _this.updateChartRealTime()
+              }, 3000)
             })
           } else {
             this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
                      .then(() => {
                        this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+                       clearInterval(this.alltimers)
+                       this.alltimers = setInterval(function () {
+                         _this.updateChartAll()
+                       }, 3000)
                      })
                // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
           }
+        },
+        updateChartAll () {
+          this.$store.dispatch('topic/queryAllChartsLimit', { period: this.period, topicCode: this.topicCode }).then(() => {
+            console.log(this)
+            // this.endAll = this.allLimit.limitAllX
+            console.log(this.chartData.chartDataEnd)  // chartHs
+            if (this.allLimit[0].tradeDate === this.chartData.chartDataEnd) {
+              const allLimitHs = Number(this.allLimit[0].hs300ReturnRate).toFixed(2)// 新
+              const allLimitReturn = Number(this.allLimit[0].topicReturnRate).toFixed(2)
+              this.chartData.hs300ReturnRate[this.chartData.hs300ReturnRate.length - 1] = allLimitHs
+              this.chartData.topicReturnRate[this.chartData.topicReturnRate.length - 1] = allLimitReturn
+              console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
+              // console.log(chartReturn)
+              // console.log(allLimitReturn)
+            }
+          })
+        },
+        updateChartRealTime () {
+          console.log(this)
+          this.$store.dispatch('topic/queryRealtimeChartsLimit', { period: this.period, topicCode: this.topicCode }).then(() => {
+            console.log(this.realtimeLimit[0].tradeMin)
+            console.log(this.realTimeData.realTimeEnd)
+            // this.endAll = this.allLimit.limitAllX
+            // console.log(this.chartData.chartDataEnd)
+            if (this.realtimeLimit[0].tradeMin === this.realTimeData.realTimeEnd) {
+              const realTimeLimitHs = Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2)// xin
+              const realTimeLimitReturn = Number(this.realtimeLimit[0].topicChgPct).toFixed(2)
+              this.realTimeData.hs300ChgPct[this.realTimeData.hs300ChgPct.length - 1] = realTimeLimitHs
+              this.realTimeData.topicChgPct[this.realTimeData.topicChgPct.length - 1] = realTimeLimitReturn
+              /* console.log(realTimeReturn)
+              console.log(realTimeLimitReturn)*/
+            }
+          })
         },
         handleResize (event) {
           this.fullHeight = document.documentElement.clientHeight
@@ -557,14 +619,12 @@
           // console.log(this.fullHeight)
       /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
         },
-        updateChart () {
-
-        },
+    
         initStockList (size) {
         //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
-          console.log(this.fullHeight)
+          // console.log(this.fullHeight)
           this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
-          console.log(this.size)
+          // console.log(this.size)
           this.$store.dispatch('topic/queryStockList', { topicCode: this.topicCode, size: this.size })
         },
         initInformatList (inforPageSize) {
@@ -633,7 +693,8 @@
                               /* width: '97%',*/
               left: '2%',
               /* right: '3%',*/
-              right: '4%',
+              /* right: '4%',*/
+              right: '4.3%',
                              /* bottom: '50',*/
               containLabel: true
             },
@@ -665,8 +726,8 @@
               },
               markPoint: {// 图标标注
                 data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
+                          { type: 'max', name: '最大值' },
+                          { type: 'min', name: '最小值' }
                 ],
                 label: {
                   normal: {
@@ -695,8 +756,8 @@
               },
               markPoint: {// 图标标注
                 data: [
-                                                { type: 'max', name: '最大值' },
-                                                { type: 'min', name: '最小值' }
+                    { type: 'max', name: '最大值' },
+                    { type: 'min', name: '最小值' }
                 ],
                 label: {
                   normal: {
@@ -749,7 +810,7 @@
         this.initChart()
         this.initStockList()
         this.initInformatList()
-        console.log(this.inforPageSize)
+        // console.log(this.inforPageSize)
         this.$store.dispatch('topic/queryDetailHead', { topicCode: this.topicCode })
         // this.drawCharts()
       },

@@ -36,7 +36,7 @@
     }
     .tiker{
         padding-left: 10px;
-        width: 94px;
+        width: 85px;
         text-align: left;
     }
    /* .change{width: 84px;}*/
@@ -51,13 +51,14 @@
         padding-right: 10px;
     }
     .hover-wrapper table tr td:nth-child(2){
-        width: 104px;
+        width: 110px;
         height:30px;
     }
     .hover-wrapper table tr td:nth-child(3){
-        width: 70px;
+        width: 60px;
     }
     .stocklist-chart{width: 100%;height:100%}
+    .change{width: 46px;}
 </style>
 <template>
     <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
@@ -205,7 +206,7 @@ export default{
            this.$store.dispatch('stockMap/stockChartData', { stockId: this.stockId, code: this.indexCode })
                     .then(() => {
                       const _this = this
-                        // 悬浮框的表头
+                        // æ‚¬æµ®æ¡†çš„è¡¨å¤´
                       this.node.chartData = this.stockChartData[this.node.name]
                       if (this.node.chartData) {
                         const nodeLength = this.node.chartData.length
@@ -215,7 +216,7 @@ export default{
                           this.titlePrice = '--'
                         }
                       }
-                        // 悬浮框股票列表
+                        // æ‚¬æµ®æ¡†è‚¡ç¥¨åˆ—è¡¨
                       this.parent.children.forEach(function (stock) {
                         stock.chartData = _this.stockChartData[stock.name]
                         if (stock.chartData) {
@@ -232,7 +233,6 @@ export default{
                         let wrapHeight
                         if (document.getElementsByClassName('hover-wrapper').length > 0) {
                           wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
-                          console.log(wrapHeight)
                           this.$emit('updateWrapHeight', wrapHeight)
                         }
                         for (const i in this.stockList) {
@@ -244,7 +244,7 @@ export default{
                                 left: 5,
                                 top: 5,
                                 bottom: 5,
-                                right: 5
+                                right: 0
                               },
                               xAxis: [{
                                 axisLine: false,
@@ -288,7 +288,7 @@ export default{
                           left: 5,
                           top: 5,
                           bottom: 5,
-                          right: 5
+                          right: 0
                         },
                         xAxis: [{
                           axisLine: false,
@@ -324,7 +324,7 @@ export default{
                     })
          },
          updateHoverTitle: function () {
-                       // 悬浮框的表头
+                       // æ‚¬æµ®æ¡†çš„è¡¨å¤´
            this.node.chartData = this.stockChartData[this.node.name]
            if (this.node.chartData) {
              const nodeLength = this.node.chartData.length
@@ -340,7 +340,7 @@ export default{
                left: 5,
                top: 5,
                bottom: 5,
-               right: 5
+               right: 0
              },
              xAxis: [{
                axisLine: false,

@@ -4,8 +4,9 @@
  */
 
 // whatwg-fetch仅能在浏览器环境使用。
-import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+// import 'whatwg-fetch'
+import fetch from '../z3tougu/util/z3fetch'
+import config, { domain } from '../z3tougu/config'
 
 export const mutationTypes = {
   UPDATE_HOTLIST: 'UPDATE_HOTLIST',
@@ -34,6 +35,8 @@ export default {
     total: 0,
     detail: { eventNum: 0, equityNum: 0, declareDate: 0, topicMarket: {}},
     allCharts: [],
+    allLimit: [],
+    realtimeLimit: [],
     listChange: [],
     realtimeCharts: [],
     relatedStocks: {},
@@ -98,6 +101,12 @@ export default {
         state.tradeDate.push(item.tradeDate)
       })*/
     },
+    upAllChartsLimit (state, allLimit) {
+      state.allLimit = allLimit
+    },
+    updateRealtimeChartsLimit (state, realtimeLimit) {
+      state.realtimeLimit = realtimeLimit
+    },
     updateListChange (state, listChange) {
       state.listChange = listChange
     },
@@ -126,9 +135,9 @@ export default {
     },
     [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price
-      stocks[stock.innerCode].chg = stock.chg
-      stocks[stock.innerCode].curChngPct = stock.curChngPct
+      stocks[stock.innerCode].price = stock.price !== null ? parseFloat(stock.price).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].chg = stock.chg !== null ? parseFloat(stock.chg).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].curChngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
       // state.topic.relatedStocks = { ...stocks, stock }
     }
   },
@@ -261,6 +270,18 @@ export default {
         }
       })
     },
+    queryAllChartsLimit ({ commit }, { period, topicCode }) {
+      return fetch(`${domain}/openapi/topic/history/${topicCode}.shtml?period=${period}&limit=1`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        // console.log(result)
+        if (result.errCode === 0) {
+          commit('upAllChartsLimit', result.data)
+        }
+      })
+    },
     queryRealtimeCharts ({ commit }, { period, topicCode }) {
       return fetch(`${domain}/openapi/topic/realtime/${topicCode}.shtml?period=${period}`, {
         mode: 'cors'
@@ -271,6 +292,19 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.tradeMin)
           commit('updateRealtimeCharts', result.data.reverse())
+        }
+      })
+    }, /* http://test.z3quant.com/openapi/topic/realtime/400130025.shtml?limit=1*/
+    queryRealtimeChartsLimit ({ commit }, { period, topicCode }) {
+      return fetch(`${domain}/openapi/topic/realtime/${topicCode}.shtml?period=${period}&limit=1`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        console.log(result)
+        if (result.errCode === 0) {
+          // console.log(result.data.tradeMin)
+          commit('updateRealtimeChartsLimit', result.data)
         }
       })
     },

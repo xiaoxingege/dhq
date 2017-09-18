@@ -15,6 +15,9 @@
     .sellCondition tr:first-child td{
         color:#a5a5a5 !important;
     }
+    .tradeParams tr:nth-child(2n) td{
+        font-weight: bold  !important;
+    }
     @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
         .choseStock{
             padding-top:0.2rem;
@@ -61,7 +64,7 @@
         <div v-if="type === 'controlStrategy'" class="controlStrategy">
             {{data.positionModel.modelName}}：<span style="color:#666;">{{data.positionModel.modelValue}}</span>
         </div>
-        <div v-if="type === 'tradeParams'">
+        <div v-if="type === 'tradeParams'" class="tradeParams">
             <Tablelist :data="tradeParamData"></Tablelist>
         </div>
     </div>

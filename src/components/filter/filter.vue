@@ -61,9 +61,11 @@
                   <div @click="seletetimeshow=!seletetimeshow">
                     {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
                   </div>
-                  <ul v-if="seletetimeshow">
-                    <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
-                  </ul>
+                  <transition name="fade">
+                    <ul v-if="seletetimeshow">
+                      <li :seletetimenum="index2" @click="seletenumfn($event)" v-for="(item2,index2) in seletetimearr">{{item2}}</li>
+                    </ul>
+                  </transition>
                 </div>
               </th>
               <th @click="sorts('trackError')" width='7.6%' v-if='typeIndex ===4 || typeIndex === 5'><span>跟踪误差</span></th>
@@ -337,10 +339,10 @@
       },
       // 加入临时基金池
       addIinterimFunds (item) {
-        if (this.lsfoundPoolList.length > 50) {
+        if (this.lsfoundPoolList.length >= 50) {
           this.dialogShow = true
           this.content = 2
-          this.msg = '自建基金池已达到20个上限,请删除后,再新建基金池'
+          this.msg = '自建基金池已达到50个上限,请删除后,再新建基金池'
         } else {
           this.lsfoundPoolList.push(item)
           item.inTempPools = true
@@ -379,7 +381,7 @@
       },
       // 导出筛选数据
       exportFundPool () {
-        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
         return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
           return res.blob()
         }).then(result => {
@@ -387,7 +389,7 @@
           var url = window.URL.createObjectURL(result)
           var a = document.createElement('a')
           a.href = url
-          a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
+          a.download = '巨灵智胜基金筛选-' + this.formatDates(date) + '.xlsx'
           a.click()
         })
       },
@@ -734,116 +736,11 @@
   .defaultTxt{font-size: $fontSize12;color:$colorFontH;margin-top: 30px}
   p.hyname{width:120px;white-space: pre;text-overflow: ellipsis;overflow: hidden;color:$colorFontTheme}
   /*加载中*/
-@-webkit-keyframes pacman-balls {
-  75% {
-    opacity: 0.7; }
-
-  100% {
-    -webkit-transform: translate(-100px, -6.25px);
-            transform: translate(-100px, -6.25px); } }
-
-@keyframes pacman-balls {
-  75% {
-    opacity: 0.7; }
-
-  100% {
-    -webkit-transform: translate(-100px, -6.25px);
-            transform: translate(-100px, -6.25px); } }
-  .pacman > div:nth-child(2) {
-    -webkit-animation: pacman-balls 1s 0s infinite linear;
-            animation: pacman-balls 1s 0s infinite linear; }
-  .pacman > div:nth-child(3) {
-    -webkit-animation: pacman-balls 1s 0.33s infinite linear;
-            animation: pacman-balls 1s 0.33s infinite linear; }
-  .pacman > div:nth-child(4) {
-    -webkit-animation: pacman-balls 1s 0.66s infinite linear;
-            animation: pacman-balls 1s 0.66s infinite linear; }
-  .pacman > div:nth-child(5) {
-    -webkit-animation: pacman-balls 1s 0.99s infinite linear;
-            animation: pacman-balls 1s 0.99s infinite linear; }
-  .pacman > div:first-of-type {
-    width: 0px;
-    height: 0px;
-    border-right: 25px solid transparent;
-    border-top: 25px solid #2388da;
-    border-left: 25px solid #2388da;
-    border-bottom: 25px solid #2388da;
-    border-radius: 25px;
-    -webkit-animation: rotate_pacman_half_up 0.5s 0s infinite;
-            animation: rotate_pacman_half_up 0.5s 0s infinite; }
-  .pacman > div:nth-child(2) {
-    width: 0px;
-    height: 0px;
-    border-right: 25px solid transparent;
-    border-top: 25px solid #2388da;
-    border-left: 25px solid #2388da;
-    border-bottom: 25px solid #2388da;
-    border-radius: 25px;
-    -webkit-animation: rotate_pacman_half_down 0.5s 0s infinite;
-            animation: rotate_pacman_half_down 0.5s 0s infinite;
-    margin-top: -50px; }
-  .pacman > div:nth-child(3), .pacman > div:nth-child(4), .pacman > div:nth-child(5), .pacman > div:nth-child(6) {
-    background-color: #2388da;
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    margin: 2px;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    -webkit-transform: translate(0, -6.25px);
-        -ms-transform: translate(0, -6.25px);
-            transform: translate(0, -6.25px);
-    top: 25px;
-    left: 100px; }
-@-webkit-keyframes rotate_pacman_half_up {
-  0% {
-    -webkit-transform: rotate(270deg);
-            transform: rotate(270deg); }
-
-  50% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); }
-
-  100% {
-    -webkit-transform: rotate(270deg);
-            transform: rotate(270deg); } }
-
-@keyframes rotate_pacman_half_up {
-  0% {
-    -webkit-transform: rotate(270deg);
-            transform: rotate(270deg); }
-
-  50% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); }
-
-  100% {
-    -webkit-transform: rotate(270deg);
-            transform: rotate(270deg); } }
-            @-webkit-keyframes rotate_pacman_half_down {
-  0% {
-    -webkit-transform: rotate(90deg);
-            transform: rotate(90deg); }
-
-  50% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-
-  100% {
-    -webkit-transform: rotate(90deg);
-            transform: rotate(90deg); } }
-
-@keyframes rotate_pacman_half_down {
-  0% {
-    -webkit-transform: rotate(90deg);
-            transform: rotate(90deg); }
-
-  50% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-
-  100% {
-    -webkit-transform: rotate(90deg);
-            transform: rotate(90deg); } }
+ @-webkit-keyframes pacman-balls{75%{opacity:.7}100%{-webkit-transform:translate(-100px,-6.25px);transform:translate(-100px,-6.25px)}}@keyframes pacman-balls{75%{opacity:.7}100%{-webkit-transform:translate(-100px,-6.25px);transform:translate(-100px,-6.25px)}}.pacman>div:nth-child(2){-webkit-animation:pacman-balls 1s 0s infinite linear;animation:pacman-balls 1s 0s infinite linear}.pacman>div:nth-child(3){-webkit-animation:pacman-balls 1s .33s infinite linear;animation:pacman-balls 1s .33s infinite linear}.pacman>div:nth-child(4){-webkit-animation:pacman-balls 1s .66s infinite linear;animation:pacman-balls 1s .66s infinite linear}.pacman>div:nth-child(5){-webkit-animation:pacman-balls 1s .99s infinite linear;animation:pacman-balls 1s .99s infinite linear}.pacman>div:first-of-type{width:0;height:0;border-right:25px solid transparent;border-top:25px solid #2388da;border-left:25px solid #2388da;border-bottom:25px solid #2388da;border-radius:25px;-webkit-animation:rotate_pacman_half_up .5s 0s infinite;animation:rotate_pacman_half_up .5s 0s infinite}.pacman>div:nth-child(2){width:0;height:0;border-right:25px solid transparent;border-top:25px solid #2388da;border-left:25px solid #2388da;border-bottom:25px solid #2388da;border-radius:25px;-webkit-animation:rotate_pacman_half_down .5s 0s infinite;animation:rotate_pacman_half_down .5s 0s infinite;margin-top:-50px}.pacman>div:nth-child(3),.pacman>div:nth-child(4),.pacman>div:nth-child(5),.pacman>div:nth-child(6){background-color:#2388da;width:15px;height:15px;border-radius:100%;margin:2px;width:10px;height:10px;position:absolute;-webkit-transform:translate(0,-6.25px);-ms-transform:translate(0,-6.25px);transform:translate(0,-6.25px);top:25px;left:100px}@-webkit-keyframes rotate_pacman_half_up{0%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}50%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}100%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}}@keyframes rotate_pacman_half_up{0%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}50%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}100%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}}@-webkit-keyframes rotate_pacman_half_down{0%{-webkit-transform:rotate(90deg);transform:rotate(90deg)}50%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}@keyframes rotate_pacman_half_down{0%{-webkit-transform:rotate(90deg);transform:rotate(90deg)}50%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
 </style>

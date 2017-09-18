@@ -1,4 +1,4 @@
-import 'whatwg-fetch'
+import fetch from '../z3tougu/util/z3fetch'
 import { domain } from '../z3tougu/config'
 
 // initial state
