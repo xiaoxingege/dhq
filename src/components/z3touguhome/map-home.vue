@@ -71,7 +71,18 @@
                     .then(() => {
                       this.mapChart.setOption({
                         tooltip: {
-                          triggerOn: 'none'
+                          padding: [8, 12, 8, 12],
+                          formatter: function (info) {
+                            const perfText = info.data.perfText
+                            const treePathInfo = info.treePathInfo
+                            const treePath = []
+                            for (let i = 1; i < treePathInfo.length; i++) {
+                              treePath.push(treePathInfo[i].name)
+                            }
+                            return [
+                              '<div class="tooltip-title">' + treePath.join('/') + '</div>', perfText
+                            ].join('')
+                          }
                         },
                         series: [
                           {
