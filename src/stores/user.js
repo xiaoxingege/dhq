@@ -32,7 +32,7 @@ export default {
       }
       script = document.createElement('script')
       script.type = 'text/javascript'
-      script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa'
+      script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + Date.parse(new Date())
       script.id = 'getBasicUserInfo'
       script.onload = function () {
         if (window.basicUserInfo) {

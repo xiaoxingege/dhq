@@ -361,8 +361,8 @@ export default {
       }
     },
     navBak () {
-    //   history.go(-1)
-      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+      history.back()
+    //   window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
     navEvents () {
       window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'

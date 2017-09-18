@@ -121,8 +121,8 @@ export default {
       this.quesLicenseShow = false
     },
     navBak () {
-      history.go(-2)
-    //   history.back()
+    //   history.go(-2)
+      history.back()
     },
     navEvents () {
       if (!this.focusShow) {
