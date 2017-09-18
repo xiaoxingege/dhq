@@ -16,41 +16,41 @@ export default {
     strategyBlock: null
   },
   mutations: {
-    setStrategyList(state, options) {
+    setStrategyList (state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
       }
     },
-    setStrategyBlock(state, options) {
+    setStrategyBlock (state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyBlock = result.data
       }
     },
-    setFinanceNews(state, options) {
+    setFinanceNews (state, options) {
       const result = options.result
       state.financeNewsList = result.data
     },
-    setListedCompanyNews(state, options) {
+    setListedCompanyNews (state, options) {
       const result = options.result
       state.listedCompanyNewsList = result.data
     },
-    setNewsDetails(state, options) {
+    setNewsDetails (state, options) {
       const result = options.result
       state.newsDetails = result.data
     },
-    setHomeMapData(state, options) {
+    setHomeMapData (state, options) {
       const result = options.result
       state.homeMapData = result.voList
     },
-    setHomeRangeData(state, options) {
+    setHomeRangeData (state, options) {
       const result = options.result
       state.homeRangeData = result.data
     }
   },
   actions: {
-    getStrategyList({
+    getStrategyList ({
       commit
     }, {
       sort,
@@ -66,7 +66,7 @@ export default {
         })
       })
     },
-    getStrategyBlock({
+    getStrategyBlock ({
       commit
     }, {
       query,
@@ -82,7 +82,7 @@ export default {
         })
       })
     },
-    getFinanceNews({
+    getFinanceNews ({
       commit
     }, {
       size
@@ -100,7 +100,7 @@ export default {
         })
       })
     },
-    getListedCompanyNews({
+    getListedCompanyNews ({
       commit
     }, {
       size
@@ -117,7 +117,7 @@ export default {
         })
       })
     },
-    getNewsDetails({
+    getNewsDetails ({
       commit
     }, {
       newsId
@@ -133,7 +133,7 @@ export default {
         })
       })
     },
-    getHomeMapData({
+    getHomeMapData ({
       commit
     }, {
       date
@@ -151,7 +151,7 @@ export default {
         })
       })
     },
-    getHomeRangeData({
+    getHomeRangeData ({
       commit
     }) {
       const url = `${domain}/openapi/tx/chg/`
