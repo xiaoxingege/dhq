@@ -46,7 +46,7 @@
 </style>
 <template>
     <div class="search_wrap">
-        <input type="text" @input="search($event)"  ref="keyword" class="search_box"  placeholder="输入代码/简称/简拼定位个股" autocomplete="off" v-model="message" @click="focusInput"/>
+        <input type="text" @input="search($event)"  ref="keyword" class="search_box"  placeholder="输入代码/简称/简拼定位个股" autocomplete="off" v-model="message"/>
         <ul class="bubSearchResult" v-if="stockSelectList && stockSelectList.length > 0 && message!=''">
             <li v-for="stock in stockSelectList"  v-on:click="focusStock($event)">
                 <a href="#">
@@ -100,13 +100,13 @@
           this.$emit('focusStock', focusStockName)
           this.message = focusStockId
           this.stockSelectList = []
-        },
-        focusInput: function (e) {
+        }
+        /* focusInput: function (e) {
           e.preventDefault()
           const keyword = this.$refs.keyword.value
           debugger
           this.message = keyword
-        }
+        }*/
       },
       mounted () {
         const _this = this
