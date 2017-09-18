@@ -1,6 +1,8 @@
 // import 'whatwg-fetch'
 import fetchJsonp from 'fetch-jsonp'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 import fetch from '../z3tougu/util/z3fetch'
 export default {
   namespaced: true,
@@ -14,41 +16,47 @@ export default {
     strategyBlock: null
   },
   mutations: {
-    setStrategyList (state, options) {
+    setStrategyList(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
       }
     },
-    setStrategyBlock (state, options) {
+    setStrategyBlock(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyBlock = result.data
       }
     },
-    setFinanceNews (state, options) {
+    setFinanceNews(state, options) {
       const result = options.result
       state.financeNewsList = result.data
     },
-    setListedCompanyNews (state, options) {
+    setListedCompanyNews(state, options) {
       const result = options.result
       state.listedCompanyNewsList = result.data
     },
-    setNewsDetails (state, options) {
+    setNewsDetails(state, options) {
       const result = options.result
       state.newsDetails = result.data
     },
-    setHomeMapData (state, options) {
+    setHomeMapData(state, options) {
       const result = options.result
       state.homeMapData = result.voList
     },
-    setHomeRangeData (state, options) {
+    setHomeRangeData(state, options) {
       const result = options.result
       state.homeRangeData = result.data
     }
   },
   actions: {
-    getStrategyList ({ commit }, { sort, direction, size }) {
+    getStrategyList({
+      commit
+    }, {
+      sort,
+      direction,
+      size
+    }) {
       const url = `${domain}/openapi/backtest/goldStrategy/sort.shtml?sort=${sort}&direction=${direction}&size=${size}`
       return fetch(url).then((res) => {
         return res.json()
@@ -58,7 +66,13 @@ export default {
         })
       })
     },
-    getStrategyBlock ({ commit }, { query, size, page }) {
+    getStrategyBlock({
+      commit
+    }, {
+      query,
+      size,
+      page
+    }) {
       const url = `${domain}/openapi/backtest/goldStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`
       return fetch(url).then((res) => {
         return res.json()
@@ -68,10 +82,17 @@ export default {
         })
       })
     },
-    getFinanceNews  ({ commit }, { size }) {
+    getFinanceNews({
+      commit
+    }, {
+      size
+    }) {
       const timestamp = new Date().getTime()
-      const url = '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
-      return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp', cache: 'reload' }).then((res) => {
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
+      return fetchJsonp(url, {
+        jsonpCallbackFunction: 'jsonp',
+        cache: 'reload'
+      }).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setFinanceNews', {
@@ -79,10 +100,16 @@ export default {
         })
       })
     },
-    getListedCompanyNews  ({ commit }, { size }) {
+    getListedCompanyNews({
+      commit
+    }, {
+      size
+    }) {
       const timestamp = new Date().getTime()
-      const url = '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
-      return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
+      return fetchJsonp(url, {
+        jsonpCallbackFunction: 'jsonp'
+      }).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setListedCompanyNews', {
@@ -90,9 +117,15 @@ export default {
         })
       })
     },
-    getNewsDetails  ({ commit }, { newsId }) {
-      const url = '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
-      return fetchJsonp(url, { jsonpCallbackFunction: 'jsonp' }).then((res) => {
+    getNewsDetails({
+      commit
+    }, {
+      newsId
+    }) {
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      return fetchJsonp(url, {
+        jsonpCallbackFunction: 'jsonp'
+      }).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setNewsDetails', {
@@ -100,9 +133,17 @@ export default {
         })
       })
     },
-    getHomeMapData ({ commit }, { date }) {
+    getHomeMapData({
+      commit
+    }, {
+      date
+    }) {
       const url = domain + '/openapi/openjson/tx/chg/' + date + '.json'
-      return fetch(url, { headers: { 'Cache-Control': 'no-cache' }}).then((res) => {
+      return fetch(url, {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      }).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setHomeMapData', {
@@ -110,7 +151,9 @@ export default {
         })
       })
     },
-    getHomeRangeData ({ commit }) {
+    getHomeRangeData({
+      commit
+    }) {
       const url = `${domain}/openapi/tx/chg/`
       return fetch(url).then((res) => {
         return res.json()
