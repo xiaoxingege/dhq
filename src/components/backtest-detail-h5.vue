@@ -363,7 +363,7 @@
             const buyConditionTable = this.recommendData.sellConditiondata.buy.buyStrategyIndexList
             const sellConditionTable = this.recommendData.sellConditiondata.sell.sellStrategyIndexList
 
-            if (buyConditionTable.length > 0) {
+            if (buyConditionTable !== null && buyConditionTable.length > 0) {
               for (var i = 0; i < buyConditionTable.length; i++) {
                 const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
                 const parmsPeriod = []

@@ -410,7 +410,6 @@
           this.stockRangeOptions.strategyDefault = this.options.strategyDefault
           this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
           this.stockRangeOptions.topic = this.options.topic
-          this.topicName = '全部'
         },
         showSelfRange () {
           this.showSelfRangeDialog = true
