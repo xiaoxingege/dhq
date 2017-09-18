@@ -58,7 +58,7 @@
         width: 60px;
     }
     .stocklist-chart{width: 100%;height:100%}
-    .change{width: 46px;}
+    .change{min-width: 46px;}
 </style>
 <template>
     <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
