@@ -50,8 +50,8 @@
      height: 100%;
      width: 100%;
      box-sizing: border-box;
-      min-height:50px;
-      overflow-y: scroll;
+     min-height:50px;
+     overflow-y: scroll;
    }
    .every-main{
      border-bottom:1px solid #e5e5e5;

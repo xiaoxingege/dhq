@@ -70,6 +70,11 @@ a,
 .con_lup li{width:88px;float: left;text-align: center; line-height: 28px;}
 .con_lup li *{display: block;}
 .con_lup li span:first-child{color: #666;}
+input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(to left, #059CFA, white 100%, white);
+  height: 13px;
+  border-radius: 10px;
+}
 </style>
 <template>
 <div class="editstrategy">
@@ -134,8 +139,8 @@ a,
                   <i class="colorblue">000021</i>
                   <span>华夏优势增长混合</span>
                   <b></b>
-                  <input type="range" name="" value="0">
-                  <span>0%</span>
+                  <input type="range" name=""  value="0" v-model="range1">
+                  <span>{{range1}}%</span>
               </li>
             </ul>
           </div>
@@ -263,7 +268,8 @@ export default {
       beginTime: this.getNowFormatDate(),
       endTime: this.getNowFormatDate(),
       datapie: 123,
-      h4show: true // 控制调仓参数里面的h4是否显示
+      h4show: true, // 控制调仓参数里面的h4是否显示,
+      range1: 0
     }
   },
   components: {

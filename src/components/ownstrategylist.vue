@@ -12,7 +12,7 @@ a,
 .blue {
   color: #2388da;
 }
-
+.gray{color: #666 !important;border-color: #666 !important;cursor: default}
 .ownstrategylist {}
 
 table {
@@ -123,6 +123,7 @@ td div {
 .up2 span{float: left; width:100px; line-height: 34px;}
 h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
 .tit{text-align: center;line-height: 50px;}
+.runzuhe div{color: #666; line-height: 28px;}
 </style>
 <template>
 <div class="ownstrategylist">
@@ -133,41 +134,21 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
     </div>
     <table v-else>
       <tr>
-        <td v-for="(item,index) in tabledata.th">
-          {{item}}
-        </td>
+        <td v-for="(item,index) in tabledata.th">{{item}}</td>
       </tr>
       <tr v-for="(item,index) in tabledata.td">
-        <td>
-          <div class="blue">{{item.name}}</div>
-        </td>
-        <td>
-          <div>{{item.totalIncome}}</div>
-        </td>
-        <td>
-          <div>{{item.yearIncome}}</div>
-        </td>
-        <td>
-          <div>{{item.drawdown}}</div>
-        </td>
-        <td>
-          <div>{{item.fluRatio}}</div>
-        </td>
-        <td>
-          <div>{{item.sharpeRatio}}</div>
-        </td>
-        <td>
-          <div>{{item.excessIncome}}</div>
-        </td>
-        <td>
-          <div>{{item.adjustmentTime}}</div>
-        </td>
-        <td>
-          <div>{{item.backtestPeriod}}</div>
-        </td>
+        <td><div class="blue">{{item.name}}</div></td>
+        <td><div>{{item.totalIncome}}</div></td>
+        <td><div>{{item.yearIncome}}</div></td>
+        <td><div>{{item.drawdown}}</div></td>
+        <td><div>{{item.fluRatio}}</div></td>
+        <td><div>{{item.sharpeRatio}}</div></td>
+        <td><div>{{item.excessIncome}}</div></td>
+        <td><div>{{item.adjustmentTime}}</div></td>
+        <td><div>{{item.backtestPeriod}}</div></td>
         <td>
           <div class="editbox clearfix"  :zuhename="item.name" :zuheId="item.strategyId">
-            <a href="#" class="build" @click="showdialogfn($event,1)">立即运行</a><a href="#" class="copy" @click="showdialogfn($event,2)">复制</a><a href="#"
+            <a href="#" :class="item.strategyStatus === 0 ? 'gray' : '' "  @click="item.strategyStatus === 1 ? showdialogfn($event,1) : ''">立即运行</a><a href="#" class="copy" @click="showdialogfn($event,2)">复制</a><a href="#"
               class="delete" @click="showdialogfn($event,3)" ></a>
           </div>
         </td>
@@ -186,42 +167,20 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
         </td>
       </tr>
       <tr v-for="(item,index) in tabledata2.td">
-        <td>
-          <div class="blue">{{item.name}}</div>
-        </td>
-        <td>
-          <div>{{item.netValue}}</div>
-        </td>
-        <td>
-          <div>{{item.chgpct}}</div>
-        </td>
-        <td>
-          <div>{{item.yearIncome}}</div>
-        </td>
-        <td>
-          <div>{{item.totalIncome}}</div>
-        </td>
-        <td>
-          <div>{{item.fluRatio}}</div>
-        </td>
-        <td>
-          <div>{{item.drawdown}}</div>
-        </td>
-        <td>
-          <div>{{item.sharpeRatio}}</div>
-        </td>
-        <td>
-          <div>{{item.originPrice}}</div>
-        </td>
-        <td>
-          <div>{{item.runDay}}</div>
-        </td>
-        <td>
-          <div>{{item.adjustmentTime}}</div>
-        </td>
+        <td><div class="blue">{{item.name}}</div></td>
+        <td><div>{{item.netValue}}</div></td>
+        <td><div>{{item.chgpct}}</div></td>
+        <td><div>{{item.yearIncome}}</div></td>
+        <td><div>{{item.totalIncome}}</div></td>
+        <td><div>{{item.fluRatio}}</div></td>
+        <td><div>{{item.drawdown}}</div></td>
+        <td><div>{{item.sharpeRatio}}</div></td>
+        <td><div>{{item.originPrice}}</div></td>
+        <td><div>{{item.runDay}}</div></td>
+        <td><div>{{item.adjustmentTime}}</div></td>
         <td>
           <div class="editbox clearfix" :zuhename="item.name" :zuheId="item.strategyId">
-            <a href="#" class="build" @click="showdialogfn($event,1)">立即运行</a><a href="#" class="copy" @click="showdialogfn($event,2)">复制</a><a href="#"
+            <a href="#" class="copy" @click="showdialogfn($event,2)">复制</a><a href="#"
               class="delete" @click="showdialogfn($event,3)" ></a>
           </div>
         </td>
@@ -232,10 +191,12 @@ h3{ margin-top: 20px;font-size: 16px;font-weight: normal;}
   <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogclosefn" >
     <div class=""  slot="content">
       <div class="up up1" v-if="content===1">
-        <ul class="newzuhe">
-
-        </ul>
-
+        <div class="runzuhe">
+            <div class="">
+              确定运行组合【<a href="#">{{zuhename}}</a>】?
+            </div>
+            <p>组合运行后，将在近似实盘的场景下自动运转，每日更新包括收益率在内的业绩表现数据。</p>
+        </div>
       </div>
       <div class="up up2" v-if="content===2">
         <ul>
@@ -331,9 +292,9 @@ export default {
       this.dialogShow = true
       this.content = content
       if (content === 1) {
-        this.popTitle = '创建组合'
-        this.closebtnshow = false
-        this.okbtntxt = '保存，并创建组合'
+        this.popTitle = '运行组合'
+        this.closebtnshow = true
+        this.okbtntxt = '确定'
       } else if (content === 2) {
         this.popTitle = '复制组合'
         this.closebtnshow = false
@@ -350,7 +311,7 @@ export default {
     },
     dialogokfn () {
       if (this.content === 1) {
-        alert('我要新建')
+        alert('我要运行')
       } else if (this.content === 2) {
         this.copyFundPool()
         this.getdate()
