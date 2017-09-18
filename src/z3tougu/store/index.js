@@ -61,6 +61,16 @@ const actions = {
           resolve()
         })
       } else {
+        // 如果不是从客户端过来的，则给予测试信息
+        const authInfo = {
+          authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+          clientid: 'test_client_id',
+          deviceid: 'test_device_id',
+          updateTime: null, // updateTime
+          expires: -1, // second
+          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe'// test userid
+        }
+        commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
       }
     })
