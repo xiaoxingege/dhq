@@ -7,7 +7,7 @@
     .new-txt{padding-bottom: 20px;padding-left: 5px;text-align: right;}
     .source-warn{text-align: center;}
     .new-main{padding-bottom: 40px;}
-    .new-main p a{display: inline-block;width: 100%;height:100%;text-align: center;}
+    .new-main p a{display: inline-block;width: 100%;height:100%;text-align: center;color:red}
     .duty-name{padding-bottom: 80px;}
     iframe{
         height: 20px !important;
@@ -62,7 +62,8 @@
                       this.newsTitle = this.newsDetailData.title
                       this.makeDate = this.newsDetailData.makedate
                       this.source = this.newsDetailData.source
-                      this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa')
+                      this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')
+                      console.log(this.newsContxt)
                       this.keyword = this.newsDetailData.keyword.replace(',', ' ')
                       this.dutyname = this.newsDetailData.dutyname
                     })

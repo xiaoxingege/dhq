@@ -221,8 +221,14 @@
           this.updateMap()
           this.playBackIndex = 19
           this.playLineIndex = 19
+          this.chart.dispatchAction({
+            type: 'downplay'
+          })
         },
         condition () {
+          this.chart.dispatchAction({
+            type: 'downplay'
+          })
           this.updateData()
         },
         focusStockName () {
@@ -522,6 +528,9 @@
           this.chart.setOption({ series: [{ data: this.stockData }] })
         },
         autoUpdateData: function () {
+          this.chart.dispatchAction({
+            type: 'downplay'
+          })
           const _this = this
           if (this.updateDataPid) {
             clearInterval(this.updateDataPid)
@@ -530,6 +539,9 @@
               _this.updateData()
             }, 1000 * _this.intervalTime)
           }
+          this.chart.dispatchAction({
+            type: 'downplay'
+          })
         },
         focusStock: function () {
           const _this = this
