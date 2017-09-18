@@ -297,6 +297,7 @@
                     }}
                   }
                 } else {
+                  stock.perfText = '--'
                   stock.itemStyle = { normal: {
                     color: '#2f323d'
                   }}
