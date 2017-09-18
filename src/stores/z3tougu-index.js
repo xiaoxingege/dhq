@@ -88,7 +88,7 @@ export default {
       size
     }) {
       const timestamp = new Date().getTime()
-      const url = '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
       return fetchJsonp(url, {
         jsonpCallbackFunction: 'jsonp',
         cache: 'reload'
@@ -106,7 +106,7 @@ export default {
       size
     }) {
       const timestamp = new Date().getTime()
-      const url = '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
       return fetchJsonp(url, {
         jsonpCallbackFunction: 'jsonp'
       }).then((res) => {
@@ -122,7 +122,7 @@ export default {
     }, {
       newsId
     }) {
-      const url = '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
       return fetchJsonp(url, {
         jsonpCallbackFunction: 'jsonp'
       }).then((res) => {
