@@ -18,6 +18,7 @@
     .strategy-wrap>ul{height:100%;}
     .strategy-wrap>ul>li{background-color: #fff;margin-right:0.4%;padding: 10px 10px 0px 10px;width: 24.7%;float: left;display: inline-block;height:100%;}
     .strategy-wrap li:nth-child(4){margin-right: 0px;}
+    a{color:#2388da;}
 </style>
 <template>
     <div class="wrap">
