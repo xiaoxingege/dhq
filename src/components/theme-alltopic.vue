@@ -374,6 +374,9 @@
         margin-right: 10px
     }
 
+    .sort-hot a:hover{
+       text-decoration: underline;
+    }
 </style>
 <template>
 <div class="alltopic clearfix">

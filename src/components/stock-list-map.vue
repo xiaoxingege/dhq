@@ -58,7 +58,7 @@
         width: 60px;
     }
     .stocklist-chart{width: 100%;height:100%}
-    .change{min-width: 46px;}
+    .change{width: 46px;}
 </style>
 <template>
     <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
@@ -206,7 +206,7 @@ export default{
            this.$store.dispatch('stockMap/stockChartData', { stockId: this.stockId, code: this.indexCode })
                     .then(() => {
                       const _this = this
-                        // 悬浮框的表头
+                        // æ‚¬æµ®æ¡†çš„è¡¨å¤´
                       this.node.chartData = this.stockChartData[this.node.name]
                       if (this.node.chartData) {
                         const nodeLength = this.node.chartData.length
@@ -216,7 +216,7 @@ export default{
                           this.titlePrice = '--'
                         }
                       }
-                        // 悬浮框股票列表
+                        // æ‚¬æµ®æ¡†è‚¡ç¥¨åˆ—è¡¨
                       this.parent.children.forEach(function (stock) {
                         stock.chartData = _this.stockChartData[stock.name]
                         if (stock.chartData) {
@@ -324,7 +324,7 @@ export default{
                     })
          },
          updateHoverTitle: function () {
-                       // 悬浮框的表头
+                       // æ‚¬æµ®æ¡†çš„è¡¨å¤´
            this.node.chartData = this.stockChartData[this.node.name]
            if (this.node.chartData) {
              const nodeLength = this.node.chartData.length
