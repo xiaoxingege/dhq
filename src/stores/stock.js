@@ -53,9 +53,9 @@ const mutations = {
     state.stock = {
       stockCode: stock.innerCode,
       stockName: stock.name,
-      lastPx: stock.price ? stock.price.toFixed(2) : config.emptyValue,
-      chgPx: stock.chg ? stock.chg.toFixed(2) : config.emptyValue,
-      chgPctPx: (stock.curChngPct ? stock.chg.toFixed(2) : config.emptyValue) + '%'
+      lastPx: stock.price !== null ? stock.price.toFixed(2) : config.emptyValue,
+      chgPx: stock.chg !== null ? stock.chg.toFixed(2) : config.emptyValue,
+      chgPctPx: (stock.curChngPct !== null ? stock.curChngPct.toFixed(2) : config.emptyValue) + '%'
     }
   }
 }

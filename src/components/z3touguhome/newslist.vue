@@ -9,10 +9,6 @@
     .list-big{
         width: 100%;
         background: url(http://i0.jrjimg.cn/stock/724/line-y.png) repeat-y;
-        min-height: 760px;
-    }
-    .mt20 {
-        margin-top: 20px!important;
     }
     .list-big ul li {
         padding-bottom: 30px;
@@ -66,13 +62,22 @@
         line-height: 36px;
         width: 100%;
         margin: 0 auto;
-        color:#4293d9;
+    }
+    .list-nav-first{
+        color:#fff;
+        background: #c0163a;
+        margin-bottom: 20px;
+    }
+    .list-nav-notfirst{
+        color:#333;
+        background: #ececec;
     }
     .list-nav .mh-time {
         padding-left: 10px;
     }
     .list-nav .refreshBtn {
         cursor: pointer;
+        padding-right:10px;
     }
     .refreshBtn *{
         vertical-align: middle;
@@ -84,26 +89,28 @@
 </style>
 <template>
     <div class="list-wrap">
-        <div class="list-nav">
-            <div class="fr refreshBtn" v-on:click="refresh"><span class="">刷新</span><img src="../../assets/images/stock-map/refresh.png"/></div>
-            <span class="mh-time">{{cTime}}</span>
-        </div>
-        <div class="list-big">
-            <ul class="mt20">
-                <li class="jrj-clear" v-for="(item,index) of newsList">
-                    <div class="timeleft">
-                        <span>{{item.makedate.substring(11)}}</span>
-                    </div>
-                    <div class="textright">
-                        <div class="trbox tl">
-                            <strong><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link></strong>
-                            <p><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.detail}}</router-link></p>
-                            <p v-if="item.stockcode !== ''"><b class="blod">文中涉及个股：</b><span class="red">{{item.stockname.replace(/,/g,'  ')}}</span></p>
-                            <div class="img-bs" v-if="item.imgurl !== ''"><img :src="item.imgurl" :class="item.imgClickBol?'fd_move':'fdadd'" v-on:click="enlargeImg(item.imgClickBol,index)"></div>
+        <div v-for="(dailyNewsobj,key,index) in newsList ">
+            <div class="list-nav" :class="index === 0?'list-nav-first':'list-nav-notfirst'">
+                <div class="fr refreshBtn" v-on:click="refresh" v-if="index === 0"><span class="">刷新</span><img src="../../assets/images/stock-map/refresh.png"/></div>
+                <span class="mh-time">{{key}}</span>
+            </div>
+            <div class="list-big">
+                <ul class="">
+                    <li class="jrj-clear" v-for="(item,index) of dailyNewsobj">
+                        <div class="timeleft">
+                            <span>{{item.makedate.substring(11)}}</span>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                        <div class="textright">
+                            <div class="trbox tl">
+                                <strong><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link></strong>
+                                <p><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.detail}}</router-link></p>
+                                <p v-if="item.stockcode !== ''"><b class="blod">文中涉及个股：</b><span class="red">{{item.stockname.replace(/,/g,'  ')}}</span></p>
+                                <div class="img-bs" v-if="item.imgurl !== ''"><img :src="item.imgurl" :class="item.imgClickBol?'fd_move':'fdadd'" v-on:click="enlargeImg(item.imgClickBol,index)"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -129,8 +136,18 @@
           }
           newsListData.forEach(function (news) {
             news.imgClickBol = false
+            news.makedateD = news.makedate.substring(0, 11)
           })
-          return newsListData
+          const myObj = {}
+          for (let i = 0; i < newsListData.length; i++) {
+            if (newsListData[i].makedateD in myObj) {
+              myObj[newsListData[i].makedateD].push(newsListData[i])
+            } else {
+              myObj[newsListData[i].makedateD] = []
+              myObj[newsListData[i].makedateD].push(newsListData[i])
+            }
+          }
+          return myObj
         }
       },
       methods: {
@@ -145,7 +162,6 @@
           this.$store.dispatch('z3touguIndex/' + newsApi, { size: this.listSize })
                   .then(() => {
                     this.newsList = this.newsListData
-                    this.cTime = this.newsListData[0].makedate.substring(0, 11)
                   })
         },
         enlargeImg: function (bol, index) {

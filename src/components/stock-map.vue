@@ -113,6 +113,7 @@
     import playBackSrc from '../assets/images/stock-map/playback.png'
     import playStopSrc from '../assets/images/stock-map/playstop.png'
     import echarts from 'echarts'
+    // import treemapHelper from 'echarts/lib/chart/treemap/helper'
     import StockList from 'components/stock-list-map'
     import { ctx } from '../z3tougu/config'
     const colorsList1 = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
@@ -125,7 +126,7 @@
     const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
     let pid
     export default{
-      props: ['rangeCode', 'condition', 'focusStockId'], // 从父组件传下来
+      props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
       components: {
         StockList
       },
@@ -224,7 +225,7 @@
         condition () {
           this.updateData()
         },
-        focusStockId () {
+        focusStockName () {
           this.focusStock()
         }
       },
@@ -296,6 +297,7 @@
                     }}
                   }
                 } else {
+                  stock.perfText = '--'
                   stock.itemStyle = { normal: {
                     color: '#2f323d'
                   }}
@@ -372,6 +374,7 @@
                       this.chart.setOption({
                         hoverLayerThreshold: 10000,
                         progressive: 1000,
+                        squareRatio: 0.5,
                         tooltip: {
                           triggerOn: 'none'
                         },
@@ -379,27 +382,50 @@
                           {
                             name: '',
                             type: 'treemap',
-                            visibleMin: 0.001,
-                            childrenVisibleMin: 0.001,
+                            visibleMin: -1,
+                            childrenVisibleMin: 20,
                             width: '100%',
                             height: '100%',
                             label: {
                               normal: {
+                                distance: 0,
+                                ellipsis: false,
                                 show: true,
-                                formatter: function (params) {
-                                  if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                                    return params.name + '\n' + params.data.perfText
+                                formatter: (params) => {
+                                  const node = this.getNode(params)
+                                  const nodeLayout = node.getLayout()
+                                  let formatterText = ''
+                                  if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
+                                    formatterText += params.name
                                   }
+                                  if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                    formatterText += '\n' + params.data.perfText
+                                  }
+                                  return formatterText
+                                  // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                  //   return params.name + '\n' + params.data.perfText
+                                  // }
                                 },
                                 textStyle: {
-                                  fontSize: 12,
-                                  ellipsis: false
+                                  fontSize: 12
                                 }
                               }
                             },
                             upperLabel: {
                               normal: {
                                 show: true,
+                                formatter: (params) => {
+                                  const node = this.getNode(params)
+                                  const nodeLayout = node.getLayout()
+                                  let formatterText = ''
+                                  if (nodeLayout.width > 48 && nodeLayout.height > 20) {
+                                    formatterText += params.name
+                                  }
+                                  return formatterText
+                                  // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                                  //   return params.name + '\n' + params.data.perfText
+                                  // }
+                                },
                                 height: 20
                               }
                             },
@@ -409,11 +435,8 @@
                             breadcrumb: {
                               show: false
                             },
-                            /* nodeClick: 'link',
-                            silent: {
-                              link: 'https://www.baidu.com/'
-                            },*/
-                            // roam: false,
+                            nodeClick: false,
+                            roam: true,
                             levels: this.getLevelOption(),
                             data: this.mapData
                           }
@@ -489,6 +512,9 @@
         updateData: function () {
           this.getLegendColor()
           this.$store.dispatch('stockMap/updateData', { isContinue: this.isContinue, condition: this.condition, code: this.rangeCode }).then(() => {
+            if (this.playLineIndex >= 18) {
+              this.playLineIndex = 19
+            }
             this.updateMapData()
           })
         },
@@ -507,19 +533,36 @@
         },
         focusStock: function () {
           const _this = this
-          const focusStockData = this.stockData
-          focusStockData.forEach(function (industry) {
+          // const focusStockData = this.stockData
+          const chartView = this.chart._chartsViews[0]
+          const treeRoot = chartView.seriesModel._viewRoot
+          treeRoot.children.forEach(function (industry) {
             industry.children.forEach(function (lvl2) {
               lvl2.children.forEach(function (stock) {
-                if (stock.id === _this.focusStockId) {
-                  stock.itemStyle.normal.borderColor = '#ffd614'
-                  stock.itemStyle.normal.borderWidth = 2
-                  lvl2.itemStyle.normal.borderColor = '#ffd614'
+                if (stock.name === _this.focusStockName) {
+                  // stock.itemStyle.normal.borderColor = '#ffd614'
+                  // stock.itemStyle.normal.borderWidth = 2
+                  // lvl2.itemStyle.normal.borderColor = '#ffd614'
+                  chartView._zoomToNode({ node: stock })
+                  // treemapHelper.retrieveTargetInfo({type:'treemapZoomToNode',targetId:});
                 }
               })
             })
           })
-          this.chart.setOption({ series: [{ data: focusStockData }] })
+          // focusStockData.forEach(function (industry) {
+          //   industry.children.forEach(function (lvl2) {
+          //     lvl2.children.forEach(function (stock) {
+          //       if (stock.id === _this.focusStockName) {
+          //         stock.itemStyle.normal.borderColor = '#ffd614'
+          //         stock.itemStyle.normal.borderWidth = 2
+          //         lvl2.itemStyle.normal.borderColor = '#ffd614'
+          //         debugger
+          //     // treemapHelper.retrieveTargetInfo({type:'treemapZoomToNode',targetId:});
+          //       }
+          //     })
+          //   })
+          // })
+          // this.chart.setOption({ series: [{ data: focusStockData }] })
         },
         getLevelOption: function () {
           return [
@@ -574,16 +617,12 @@
               },
               upperLabel: {
                 normal: {
-                  offset: [5, 0],
-                  textStyle: {
-                    ellipsis: false
-                  }
+                  offset: [5, 0]
                 },
                 emphasis: {
                   offset: [5, 0],
                   textStyle: {
-                    color: '#333',
-                    ellipsis: false
+                    color: '#333'
                   }
                 }
               },
@@ -680,15 +719,6 @@
               this.playLineIndex = -1
             }
             pid = setInterval(() => {
-              const playBackDate = this.playBackDate[this.playBackIndex]
-              this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
-                this.updateMapData()
-                this.playLineIndex++  // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
-              })
-              this.playBackIndex++
-              if (this.playLineIndex >= this.playBackDate.length - 1) {
-                this.playLineIndex = this.playBackDate.length - 1
-              }
               if (this.playBackIndex >= this.playBackDate.length - 1) {
                 this.playBackIndex = this.playBackDate.length - 1
                 this.playBackState = false
@@ -697,10 +727,23 @@
                 this.isStopPlayback = false
                 this.$emit('isStopPlayback', this.isStopPlayback)
                 this.updateData()
-                this.playLineIndex++
+              /*  setTimeout(() => {
+                  this.playLineIndex++
+                }, 280)*/
                 this.autoUpdateData()
               }
-            }, 500)
+              if (this.playLineIndex >= this.playBackDate.length - 1) {
+                this.playLineIndex = this.playBackDate.length - 1
+              }
+              const playBackDate = this.playBackDate[this.playBackIndex]
+              if (this.playBackIndex < 19) {
+                this.$store.dispatch('stockMap/updateDataByDate', { date: playBackDate }).then(() => {
+                  this.updateMapData()
+                  this.playLineIndex++  // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
+                  this.playBackIndex++
+                })
+              }
+            }, 250)
           }
         },
         fmtraneValue: function (arr, n) {
@@ -743,9 +786,8 @@
             const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
             // const wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
             const wrapHeight = this.wrapHeight
-            console.log(wrapHeight)
-            if (windowWidth - this.offsetX <= wrapWidth) {
-              this.offsetX = this.offsetX - wrapWidth - 50
+            if (windowWidth - this.clientX <= wrapWidth) {
+              this.offsetX = this.clientX - wrapWidth - 100
             }
             if (windowHeight - 17 - this.clientY <= wrapHeight) {
               this.offsetY = windowHeight - wrapHeight - 17
@@ -854,6 +896,11 @@
         },
         toNormal: function () {
           window.open(ctx + '/map/normal')
+        },
+        getNode: function (params) {
+          const chartView = this.chart._chartsViews[0]
+          const treeRoot = chartView.seriesModel._viewRoot
+          return treeRoot.hostTree._nodes[params.dataIndex]
         }
       },
       mounted () {
