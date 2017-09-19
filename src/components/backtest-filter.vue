@@ -143,6 +143,28 @@
       box-shadow:4px 4px 4px 2px #eee;
       border:1px solid #eee;
     }
+    .bfilter-table{
+      position: relative;
+    }
+    .bfilter-table .page{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      background: none;
+    }
+    .bfilter-today{
+      position: relative;
+    }
+    .bfilter-today .page{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      background: none;
+    }
 </style>
 <template> 
    <div class="backtest-filter">
@@ -155,7 +177,7 @@
               <li class="fl blue" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
               <li><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li>
           </ul>
-          <div class="bfilter-table" v-show="showNowStock">
+          <div class="bfilter-table" v-show="showNowStock" :style="{  minHeight: fullHeight + 'px' }">
               <div>
                   
               </div>
@@ -189,7 +211,7 @@
               </div>
               <Pagination  @getPageFromChild="goToStockPage" :totalPage="totalPage"/>
           </div>
-          <div class="bfilter-today" v-show="showTradeDay">
+          <div class="bfilter-today" v-show="showTradeDay" :style="{  minHeight: fullHeight + 'px' }">
                  <div class="table-head table-head2">
                      <span>序号
                      </span><span>日期
@@ -244,7 +266,8 @@
        strategyId: this.$route.params.strategyId,
        showQrcodeBox: false,
        toastmsg: '',
-       showToast: false
+       showToast: false,
+       fullHeight: document.documentElement.clientHeight - 240
      }
    },
    computed: mapState({

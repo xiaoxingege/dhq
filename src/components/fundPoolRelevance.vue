@@ -13,7 +13,7 @@
     table td i{ position: absolute;top:0;left:0;width:100%;height: 100%;background: rgb(12,136,218)}
     table td span{ position: absolute;top:0;left:0;width:100%;height: 100%;}
     .hd{ position: absolute;top:0;left:114px;}
-    .hd span{float:left; width:46px;height:38px; text-align: center;color:#fff; line-height: 38px;background: red;border-right:1px solid #e6e6e6;}
+    .hd span{float:left; width:46px;height:38px; text-align: center;color:#fff; line-height: 38px;border-right:1px solid #e6e6e6;}
     .lhd{ position: absolute;top:39px;left:0;width:114px;}
     .lhd div{height: 38px;font-size: 14px;border-bottom: 1px solid #e6e6e6; position: relative;}
     .lhd div *{ display: block;color:#fff; line-height: 19px; margin-left:20px;}
@@ -66,7 +66,7 @@ export default{
       var dataindexi = v.currentTarget.getAttribute('dataindexi')
 
       this.creatediv = document.createElement('div')             // 创建一个div
-      this.creatediv.style.cssText = 'width:250px;background:rgba(0,0,0,.3);text-align:center;left:50%;margin-left:-125px;position:absolute;top:-50px; z-index:2;line-height: 20px;font-size: 14px;padding: 5px;color:#fff;'
+      this.creatediv.style.cssText = 'width:250px;background:rgba(0,0,0,.3);text-align:center;left:50%;margin-left:-125px;position:absolute;top:-40px; z-index:2;line-height: 18px;font-size: 14px;padding: 5px;color:#fff;'
       var o1 = this.relevancedata.fundInfoList[dataindexw]
       var o2 = this.relevancedata.fundInfoList[dataindexi]
       this.creatediv.innerHTML = o1.name + ' (' + o1.symbol + ')' + '与' + o2.name + ' (' + o2.symbol + ')' + '的相关性比较'
