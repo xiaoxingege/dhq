@@ -163,6 +163,9 @@ import Onelinechart from 'components/one-line-chart'
 import Onebarchart from 'components/one-bar-chart'
 import Twobarchart from 'components/two-bar-chart'
 import Pagination from 'components/pagination'
+import {
+  domain
+} from '../z3tougu/config'
 
 export default {
   props: {
@@ -199,12 +202,17 @@ export default {
     Pagination
   },
   computed: {
+
     mrjyData: function () {
       return this.$store.state.goldStrategy.mrjyData
     },
     dqxgData: function () {
       return this.$store.state.goldStrategy.dqxgData
+    },
+    authInfo: function () {
+      return this.$store.state.auth
     }
+
   },
   methods: {
     changeNavType (data) {
@@ -223,13 +231,29 @@ export default {
       }).then(() => {})
     },
     exportData (type) {
+      var type2 = ''
       if (type === 'mrjy') {
-        // this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldDetail' })
-        window.location.href = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + this.strategyId + '&type=goldDetail'
+        type2 = 'goldDetail'
       } else if (type === 'dqxg') {
-        // this.$store.dispatch('goldStrategy/exportMrjyData', { strategyId: this.strategyId, type: 'goldStock' })
-        window.location.href = 'http://test.z3quant.com/openapi/excels/excelByType.shtml?id=' + this.strategyId + '&type=goldStock'
+        type2 = 'goldStock'
       }
+      var url = `${domain}/openapi/excels/excelByType.shtml`
+      const id = this.strategyId
+      let token = this.authInfo.authorization // .replace(' ', '%20')
+      if (!window.Z3) {
+        token = token.split(' ')[1]
+      }
+      const clientid = this.authInfo.clientid
+      const deviceid = this.authInfo.deviceid
+      var postForm = document.createElement('form') // 表单对象
+      postForm.style.display = 'none'
+      postForm.method = 'get'
+      postForm.action = url
+      // postForm.enctype = 'application/x-www-form-urlencoded'
+      postForm.innerHTML = '<input name="id" value="' + id + '" /><input name="type" value="' + type2 + '" /><input name="access_token" value="' + token + '" /><input name="client_id" value="' + clientid + '" /><input name="device_id" value="' + deviceid + '" />'
+      document.body.appendChild(postForm)
+      postForm.submit()
+      document.body.removeChild(postForm)
     }
   },
   mounted () {}

@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 import { domain } from '../z3tougu/config'
+import fetch from '../z3tougu/util/z3fetch'
 const PAGE_SIZE = 10
 
 export const types = {
@@ -21,8 +22,7 @@ export default {
     cesyl: [], // 超额收益率
     number: 0,
     numberOfElements: 20,
-    fundNum: 0, // 基金总条数，
-    foundPoolListLength: 0
+    fundNum: 0 // 基金总条数，
   },
   getters: {
     foundPoolList: state => state.foundPoolList,
@@ -40,7 +40,6 @@ export default {
     fundNum: state => state.fundNum,
     page: state => state.page,
     pagesize: state => state.pagesize,
-    foundPoolListLength: state => state.foundPoolListLength,
     maskShow: state => state.maskShow
   },
   mutations: {
@@ -49,7 +48,6 @@ export default {
       state.number = list.fundList.number
       state.numberOfElements = list.fundList.numberOfElements
       state.fundNum = list.fundNum
-      state.foundPoolListLength = list.fundList.content.length
     },
     getLSFoundPoolList (state, list) {
       state.lsfoundPoolList = list
@@ -103,6 +101,8 @@ export default {
         return res.json()
       }).then(result => {
         commit('getSylbx', result.data)
+      }).catch(v2 => {
+        console.log(v2)
       })
     },
      // 年化收益率
@@ -112,6 +112,8 @@ export default {
         return res.json()
       }).then(result => {
         commit('getNhsyl', result.data)
+      }).catch(v2 => {
+        console.log(v2)
       })
     },
     // 最大回撤
@@ -121,6 +123,8 @@ export default {
         return res.json()
       }).then(result => {
         commit('getZdhc', result.data)
+      }).catch(v2 => {
+        console.log(v2)
       })
     },
     // 夏普率
@@ -130,6 +134,8 @@ export default {
         return res.json()
       }).then(result => {
         commit('getXpb', result.data)
+      }).catch(v2 => {
+        console.log(v2)
       })
     },
      // 超额收益率
@@ -139,6 +145,8 @@ export default {
         return res.json()
       }).then(result => {
         commit('getCesyl', result.data)
+      }).catch(v2 => {
+        console.log(v2)
       })
     }
   }
