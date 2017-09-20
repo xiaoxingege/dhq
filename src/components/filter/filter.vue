@@ -286,12 +286,21 @@ export default {
         this.sort = value + ',desc'
       }
       this.query(this.filterParams2, this.page, this.type2)
+<<<<<<< HEAD
     },
     // 下拉切换数据
     seletenumfn (v) {
       this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
       this.seletetimeshow = false
     },
+=======
+    },
+    // 下拉切换数据
+    seletenumfn (v) {
+      this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
+      this.seletetimeshow = false
+    },
+>>>>>>> aa72c6afe04f1459f93557a718397b79c91e9e42
     isInTempPoollist (fundid) {
       return this.lsfoundPoolList.some((fund) => {
         return fund.innerCode === fundid
@@ -314,6 +323,7 @@ export default {
     },
     dialogCloseFn () {
       this.dialogShow = false
+<<<<<<< HEAD
     },
     // 保存临时基金池
     save () {
@@ -328,6 +338,22 @@ export default {
         this.fundCodes = ''
       }
     },
+=======
+    },
+    // 保存临时基金池
+    save () {
+      if (this.inputPoolName === '') {
+        this.msg = '请输入筛股条件名称!'
+      } else {
+        for (let i = 0; i < this.lsfoundPoolList.length; i++) {
+          this.fundCodes += this.lsfoundPoolList[i].innerCode + ','
+        }
+        var str = this.fundCodes.substring(0, this.fundCodes.length - 1) // 去除最后一个逗号
+        this._saveFundPool(str)
+        this.fundCodes = ''
+      }
+    },
+>>>>>>> aa72c6afe04f1459f93557a718397b79c91e9e42
     _saveFundPool (fundCodes) {
       const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
       return fetch(url, {
@@ -514,6 +540,7 @@ select {
     outline: 0;
     border: 0;
     background: 0;
+<<<<<<< HEAD
   }
   .filter {
       font-family: '宋体';
@@ -603,6 +630,8 @@ select {
       }
   }
   .table{
+=======
+>>>>>>> aa72c6afe04f1459f93557a718397b79c91e9e42
 }
 .filter {
     font-family: '宋体';
