@@ -13,4 +13,7 @@ const ctx = '/zstgweb'
 // const ctx = '';
 // const domain = '//www.z3quant.com'
 // const domain = '//10.77.4.84:8899'
-export { domain, ctx }
+export {
+  domain,
+  ctx
+}

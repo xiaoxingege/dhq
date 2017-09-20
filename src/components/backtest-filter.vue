@@ -56,8 +56,7 @@ body {
 .bfilter-table {
     padding: 15px 10px 0 7px;
 }
-.bfilter-today {
-    }
+.bfilter-today {}
 .table-head {
     background: #f2f2f2;
     padding: 9px 0;
@@ -259,6 +258,7 @@ import {
 import {
   domain
 } from '../z3tougu/config'
+import store from '../z3tougu/store'
 export default {
   data () {
     return {
@@ -310,21 +310,31 @@ export default {
     },
     excelExport (type) {
       const id = this.strategyId
-      /* const url = 'http://www.z3quant.com/openapi/excels/excelByType.shtml?id=' + id + '&type=' + type
-      window.location.href = url*/
-
-      let token = this.authInfo.authorization // .replace(' ', '%20')
+      const expires = this.authInfo.expires
+      const updateTime = this.authInfo.updateTime
+      const now = new Date().getTime()
+      const clientid = this.authInfo.clientid
+      const deviceid = this.authInfo.deviceid
+      let token = this.authInfo.authorization
       if (!window.Z3) {
         token = token.split(' ')[1]
       }
-      const clientid = this.authInfo.clientid
-      const deviceid = this.authInfo.deviceid
+      if (expires !== -1 && now - updateTime < expires * 1000) {
+        console.log(0)
+        this.createForm(id, type, token, clientid, deviceid)
+      } else {
+        console.log(111111)
+        return store.dispatch('authSetting').then(() => {
+          this.createForm(id, type, token, clientid, deviceid)
+        })
+      }
+    },
+    createForm (id, type, token, clientid, deviceid) {
       var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
       postForm.method = 'get'
       postForm.action = url
-      // postForm.enctype = 'application/x-www-form-urlencoded'
       postForm.innerHTML = '<input name="id" value="' + id + '" /><input name="type" value="' + type + '" /><input name="access_token" value="' + token + '" /><input name="client_id" value="' + clientid + '" /><input name="device_id" value="' + deviceid + '" />'
       document.body.appendChild(postForm)
       postForm.submit()
