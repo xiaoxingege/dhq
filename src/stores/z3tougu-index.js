@@ -13,7 +13,8 @@ export default {
     newsDetails: null,
     homeMapData: [],
     homeRangeData: null,
-    strategyBlock: null
+    strategyBlock: null,
+    incomeListData: []
   },
   mutations: {
     setStrategyList(state, options) {
@@ -26,6 +27,12 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyBlock = result.data
+      }
+    },
+    setIncomeList(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.incomeListData = result.data
       }
     },
     setFinanceNews(state, options) {
@@ -78,6 +85,20 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setStrategyBlock', {
+          result: body
+        })
+      })
+    },
+    getIncomeList({
+      commit
+    }, {
+      strategyId
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setIncomeList', {
           result: body
         })
       })

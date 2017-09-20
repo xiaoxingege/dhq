@@ -278,7 +278,7 @@ export default {
         const xData = this.$store.state.bubbles.parameterData.xData
         const yData = this.$store.state.bubbles.parameterData.yData
         const xType = !!(xData === 'sw_indu_name' || xData === 'chi_spel')
-        const yType = !!(yData === 'sw_indu_name' || yData === 'chi_spel' || yData === 'fcst_idx.rating_syn')
+        const yType = !!(yData === 'sw_indu_name' || yData === 'chi_spel')
         let x
         if (that.parameterData.xData === 'sw_indu_name') {
           x = that.industryArr

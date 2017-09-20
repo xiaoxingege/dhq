@@ -1,6 +1,9 @@
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
+import fetch from '../z3tougu/util/z3fetch'
 
 export const types = {
   SET_SMARTPOOLLIST: 'SET_SMARTPOOLLIST',
@@ -9,10 +12,10 @@ export const types = {
   SET_FUNDPOOLHEAD: 'SET_FUNDPOOLHEAD'
 }
 
-export default{
+export default {
   state: {
-    smartPoolList: [],
-    smartPoolListDetails: [],
+    smartPoolList: [], // 智能股票池列表
+    smartPoolListDetails: [], // 智能股票池详情列表
     relevancedata: {},
     fundPoolHeadData: {}
   },
@@ -23,35 +26,58 @@ export default{
     fundPoolHeadData: state => state.fundPoolHeadData
   },
   mutations: {
-    [types.SET_SMARTPOOLLIST] (state, list) {
+    [types.SET_SMARTPOOLLIST](state, list) {
       state.smartPoolList = list
     },
-    [types.SET_SMARTPOOLLIST_DETAILS] (state, list) {
+    [types.SET_SMARTPOOLLIST_DETAILS](state, list) {
       state.smartPoolListDetails = list
     },
-    [types.SET_RELEVANCEDATA] (state, list) {
+    [types.SET_RELEVANCEDATA](state, list) {
       state.relevancedata = list
     },
-    [types.SET_FUNDPOOLHEAD] (state, list) {
+    [types.SET_FUNDPOOLHEAD](state, list) {
       state.fundPoolHeadData = list
     }
+
   },
   actions: {
     // 获取基金池列表
-    getSmartPoolList ({ commit }, { isRecommend, userId, orgCode }) {
+    getSmartPoolList({
+      commit
+    }, {
+      isRecommend,
+      userId,
+      orgCode
+    }) {
+      commit('setMask', true)
       const url = `${domain}/openapi/fund/showFundPool.shtml?isRecommend=${isRecommend}&userId=${userId}&orgCode=${orgCode}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
+        console.log(result)
         if (result.errCode === 0) {
           commit(types.SET_SMARTPOOLLIST, result.data)
+          commit('setMask', false)
         }
+      }).catch(log => {
+        console.log(log)
       })
     },
     // 获取基金池详情列表
-    getSmartPoolListDetails ({ commit }, { id, orgCode }) {
+    getSmartPoolListDetails({
+      commit
+    }, {
+      id,
+      orgCode
+    }) {
       const url = `${domain}/openapi/fund/${id}.shtml?&orgCode=${orgCode}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
@@ -60,9 +86,16 @@ export default{
       })
     },
     // 获取基金池详情头部内容
-    getSmartPoolListDetailsTop ({ commit }, { fundPoolId }) {
+    getSmartPoolListDetailsTop({
+      commit
+    }, {
+      fundPoolId
+    }) {
       const url = `${domain}/openapi/fund/fundPoolHead.shtml?fundPoolId=${fundPoolId}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
@@ -72,9 +105,16 @@ export default{
       })
     },
     // 获取智能基金池相关数据
-    relevancedatafn ({ commit }, { id }) {
+    relevancedatafn({
+      commit
+    }, {
+      id
+    }) {
       const url = `${domain}/openapi/fund/fundPoolRelevance.shtml?&poolId=${id}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {

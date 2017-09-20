@@ -127,9 +127,9 @@
     </div>
     <!-- 筛选数据 end-->
     <!-- 分页 -->
-    <Pagination v-if="foundPoolListLength > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+    <Pagination v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
     <!-- 分页  end-->
-    <p class="zwsj tc" v-if="foundPoolListLength === 0"><img src='../../assets/images/empty_data.png' /></p>
+    <p class="zwsj tc" v-if="foundPoolListData.foundPoolList.length === 0"><img src='../../assets/images/empty_data.png' /></p>
   </div>
   <!-- 弹框 -->
   <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogCloseFn">
@@ -247,7 +247,6 @@ export default {
       'fundNum',
       'page',
       'pageSize',
-      'foundPoolListLength',
       'maskShow'
     ]),
     ...mapGetters({
@@ -257,7 +256,6 @@ export default {
       fundNum: 'fundNum',
       page: 'page',
       pageSize: 'pageSize',
-      foundPoolListLength: 'foundPoolListLength',
       maskShow: 'maskShow'
     }),
     ...mapState({
@@ -415,7 +413,7 @@ export default {
     },
     // 导出筛选数据
     exportFundPool() {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
@@ -426,7 +424,7 @@ export default {
         var url = window.URL.createObjectURL(result)
         var a = document.createElement('a')
         a.href = url
-        a.download = '巨灵智胜基金筛选-' + this.formatDates(date) + '.xlsx'
+        a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
         a.click()
       })
     },
@@ -594,7 +592,6 @@ select {
                 width: 20%;
                 display: block;
                 float: left;
-                color: #2388da;
             }
             .name {
                 width: 76%;
@@ -760,8 +757,8 @@ select {
 }
 .tsk {
     &:hover {
-        + div,
-        > div {
+         > div,
+        + div {
             display: block;
         }
     }
