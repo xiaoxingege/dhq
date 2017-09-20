@@ -663,11 +663,20 @@ export default {
       })
     },
     updateMapData: function () {
+      /* this.chart.dispatchAction({
+        type: 'highlight',
+        dataIndex: 1039
+      })*/
       this.chart.setOption({
         series: [{
           data: this.stockData
         }]
-      })
+      }
+        /*,
+                {
+                  silent: true
+                }*/
+      )
     },
     autoUpdateData: function () {
       const _this = this

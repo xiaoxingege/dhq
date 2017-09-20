@@ -33,8 +33,7 @@ html {
       font-size: 12px;
       color: #696969; */
 }
-.az-main {
-    }
+.az-main {}
 .sort-hot {
 
     /*  width: 100%;

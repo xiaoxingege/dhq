@@ -1,6 +1,8 @@
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 import fetch from '../z3tougu/util/z3fetch'
 
 export const types = {
@@ -10,7 +12,7 @@ export const types = {
   SET_FUNDPOOLHEAD: 'SET_FUNDPOOLHEAD'
 }
 
-export default{
+export default {
   state: {
     smartPoolList: [], // 智能股票池列表
     smartPoolListDetails: [], // 智能股票池详情列表
@@ -40,10 +42,19 @@ export default{
   },
   actions: {
     // 获取基金池列表
-    getSmartPoolList ({ commit }, { isRecommend, userId, orgCode }) {
+    getSmartPoolList ({
+      commit
+    }, {
+      isRecommend,
+      userId,
+      orgCode
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/fund/showFundPool.shtml?isRecommend=${isRecommend}&userId=${userId}&orgCode=${orgCode}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         console.log(result)
@@ -56,9 +67,17 @@ export default{
       })
     },
     // 获取基金池详情列表
-    getSmartPoolListDetails ({ commit }, { id, orgCode }) {
+    getSmartPoolListDetails ({
+      commit
+    }, {
+      id,
+      orgCode
+    }) {
       const url = `${domain}/openapi/fund/${id}.shtml?&orgCode=${orgCode}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
@@ -67,9 +86,16 @@ export default{
       })
     },
     // 获取基金池详情头部内容
-    getSmartPoolListDetailsTop ({ commit }, { fundPoolId }) {
+    getSmartPoolListDetailsTop ({
+      commit
+    }, {
+      fundPoolId
+    }) {
       const url = `${domain}/openapi/fund/fundPoolHead.shtml?fundPoolId=${fundPoolId}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
@@ -79,9 +105,16 @@ export default{
       })
     },
     // 获取智能基金池相关数据
-    relevancedatafn ({ commit }, { id }) {
+    relevancedatafn ({
+      commit
+    }, {
+      id
+    }) {
       const url = `${domain}/openapi/fund/fundPoolRelevance.shtml?&poolId=${id}`
-      return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
