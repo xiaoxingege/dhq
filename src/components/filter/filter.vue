@@ -163,24 +163,15 @@
 
 <script>
 import 'whatwg-fetch'
-import {
-  domain
-} from '../../z3tougu/config'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { domain } from '../../z3tougu/config'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
-import {
-  formatDate
-} from '../../utils/date'
-import {
-  ctx
-} from '../../z3tougu/config'
+import fetch from '../../z3tougu/util/z3fetch'
+import { formatDate } from '../../utils/date'
+import { ctx } from '../../z3tougu/config'
 export default {
   data () {
     return {
@@ -413,7 +404,7 @@ export default {
     },
     // 导出筛选数据
     exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
