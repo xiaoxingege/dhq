@@ -57,7 +57,10 @@ const actions = {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
+          alert('oldToken:' + state.auth.authorization)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
+          alert('newToken:' + authInfo.authorization)
+          alert('expires:' + authInfo.expires)
           resolve()
         })
       } else {

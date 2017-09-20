@@ -56,6 +56,7 @@ export default {
         seriesData: []
       }
       if (result.errCode === 0) {
+        alert(result.errCode)
         for (var item of data) {
           state.bubblesData.xData.push(item.xData)
           state.bubblesData.yData.push(item.yData)
@@ -107,7 +108,7 @@ export default {
   },
   actions: {
     getBubblesData ({ commit }, { options }) {
-      // alert(`xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=${options.topic}&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=${options.innerCode}&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`)
+      alert(options.innerCode)
       commit('setBubblesOptions', options)
       return fetch(`${domain}/openapi/findBubbles`, {
         mode: 'cors',
@@ -129,7 +130,7 @@ export default {
         commit('setStrategy', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
+      return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=7425a515-906b-4d6a-8eb3-73e38d5dcc99`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -143,7 +144,7 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=7425a515-906b-4d6a-8eb3-73e38d5dcc99`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

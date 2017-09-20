@@ -608,7 +608,7 @@ export default {
         })
         this.chart.hideLoading()
       })
-      this.chart.showLoading()
+      // this.chart.showLoading()
       setTimeout(() => {
         this.$emit('toHideDialog', false)
       }, 0) /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
@@ -620,6 +620,7 @@ export default {
     const p = new Promise((resolve, reject) => {
       if (window.Z3) {
         window.Z3.SndStockPoolInfo((data) => {
+          alert(data)
           that.options.innerCode = data
           resolve()
         })

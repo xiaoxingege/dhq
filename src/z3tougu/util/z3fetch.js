@@ -11,6 +11,7 @@ export default function (url, options) {
   const now = new Date().getTime()
 
   if (expires !== -1 && now - updateTime < expires * 1000) {
+    alert((now - updateTime) / 1000)
     options = insertAuthHeader(options)
     return originFetch(url, options)
   }
