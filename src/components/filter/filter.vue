@@ -149,6 +149,7 @@
       </div>
       <span>loading...</span>
     </div>
+    <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
   </div>
 </template>
 
@@ -162,11 +163,11 @@
   import Pagination from 'components/pagination'
   import { formatDate } from '../../utils/date'
   import { ctx } from '../../z3tougu/config'
-  import fetch from '../../z3tougu/util/z3fetch'
   export default {
     data () {
       return {
         lsfoundPoolList: [],
+        foundPoolList: ['1'],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -312,6 +313,7 @@
         return fetch(url, { method: 'POST', mode: 'cors' }).then(res => {
           return res.json()
         }).then(result => {
+          console.log(result)
           if (result.errCode === 0) {
             this.dialogShow = false
             this.$router.push({ path: ctx + '/foundpooldetail/' + result.data + '?orgCode=' + this.orgCode })
@@ -377,7 +379,7 @@
       },
       // 导出筛选数据
       exportFundPool () {
-        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+        const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
         return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
           return res.blob()
         }).then(result => {
@@ -385,7 +387,7 @@
           var url = window.URL.createObjectURL(result)
           var a = document.createElement('a')
           a.href = url
-          a.download = '巨灵智胜基金筛选-' + this.formatDates(date) + '.xlsx'
+          a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
           a.click()
         })
       },
@@ -545,7 +547,6 @@
                   width: 20%;
                   display: block;
                   float: left;
-                  color: #2388da;
               }
               .name {
                   width: 76%;
