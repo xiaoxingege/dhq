@@ -74,7 +74,6 @@ td {
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
         <td class="tiker">{{titleStockName}}</td>
-        <!--<td><div class="stocklist-chart" v-stockline="{lineData:titleChartData,color:'#fff'}"></div></td>-->
         <td>
           <div class="stocklist-chart" ref="chartTitle" style="height:40px"></div>
         </td>
@@ -83,7 +82,6 @@ td {
       </tr>
       <tr v-for="stock of stockList">
         <td class="tiker">{{stock.name}}</td>
-        <!--<td><div class="stocklist-chart"  v-stockline="{lineData:stockChartData,stockName:stock.name}"></div></td>-->
         <td>
           <div class="stocklist-chart" ref="chart"></div>
         </td>
@@ -158,99 +156,43 @@ export default {
       return stockChartData
     }
   },
-  /* directives: {
-   stockline: {
-   componentUpdated: (el, bind) => {
-   if (bind.value.lineData) {
-   const lineData = bind.value.lineData[bind.value.stockName]
-   let chart = echarts.getInstanceByDom(el)
-   if (chart) {
-   chart.dispose()
-   }
-   chart = echarts.init(el)
-   chart.setOption({
-   grid: {
-   show: false,
-   left: 5,
-   top: 5,
-   bottom: 5,
-   right: 5
-   },
-   xAxis: [{
-   axisLine: false,
-   splitLine: {
-   show: false
-   },
-   type: 'category',
-   data: new Array(17)
-   }],
-   yAxis: [{
-   type: 'value',
-   axisLine: false,
-   splitLine: {
-   show: false
-   },
-   min: 'dataMin',
-   max: 'dataMax'
-   }],
-   series: [{
-       type: 'line',
-       smooth: true,
-       showSymbol: false,
-       lineStyle: {
-           normal: {
-           color: '#666'
-           }
-       },
-       data: lineData
-   }]
-   })
-   }
-   /!* if (bind.value.color) {
-   chart.setOption({
-   color: bind.value.color
-   })
-   }*!/
-   }
-   }
-   },*/
   methods: {
     updateChart: function () {
+      this.stockList = this.parent.children
       this.$store.dispatch('stockMap/stockChartData', {
         stockId: this.stockId,
         code: this.indexCode
       })
         .then(() => {
           const _this = this
-          // 悬浮框的表头
-          this.node.chartData = this.stockChartData[this.node.name]
-          if (this.node.chartData) {
-            const nodeLength = this.node.chartData.length
-            if (this.node.chartData[nodeLength - 1]) {
-              this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
-            } else {
-              this.titlePrice = '--'
-            }
-          }
-          // 悬浮框股票列表
-          this.parent.children.forEach(function (stock) {
-            stock.chartData = _this.stockChartData[stock.name]
-            if (stock.chartData) {
-              const stockDetailLength = stock.chartData.length
-              if (stock.chartData[stockDetailLength - 1]) {
-                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-              } else {
-                stock.price = '--'
-              }
-            }
-          })
-          this.stockList = this.parent.children
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
+            // 悬浮框的表头
+            this.node.chartData = this.stockChartData[this.node.name]
+            if (this.node.chartData) {
+              const nodeLength = this.node.chartData.length
+              if (this.node.chartData[nodeLength - 1]) {
+                this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
+              } else {
+                this.titlePrice = '--'
+              }
+            }
+            // 悬浮框股票列表
+            this.stockList.forEach(function (stock) {
+              stock.chartData = _this.stockChartData[stock.name]
+              if (stock.chartData) {
+                const stockDetailLength = stock.chartData.length
+                if (stock.chartData[stockDetailLength - 1]) {
+                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+                } else {
+                  stock.price = '--'
+                }
+              }
+            })
             for (const i in this.stockList) {
               if (this.$refs.chart && this.$refs.chart.length > 0) {
                 this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
