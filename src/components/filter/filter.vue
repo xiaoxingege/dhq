@@ -119,9 +119,9 @@
       </div>
       <!-- 筛选数据 end-->
       <!-- 分页 -->
-      <Pagination v-if="foundPoolListLength > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+      <Pagination v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
       <!-- 分页  end-->
-      <p class="zwsj tc" v-if="foundPoolListLength === 0" ><img src='../../assets/images/empty_data.png'/></p>
+      <p class="zwsj tc" v-if="foundPoolListData.foundPoolList.length === 0" ><img src='../../assets/images/empty_data.png'/></p>
     </div>
     <!-- 弹框 -->
     <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogCloseFn">
@@ -149,7 +149,6 @@
       </div>
       <span>loading...</span>
     </div>
-    <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
   </div>
 </template>
 
@@ -163,11 +162,11 @@
   import Pagination from 'components/pagination'
   import { formatDate } from '../../utils/date'
   import { ctx } from '../../z3tougu/config'
+  import fetch from '../../z3tougu/util/z3fetch'
   export default {
     data () {
       return {
         lsfoundPoolList: [],
-        foundPoolList: ['1'],
         seletetimearr: ['近1个月收益', '近3个月收益', '近6个月收益', '今年以来收益', '近1年收益', '近2年收益', '近3年收益', '近5年收益'],
         seletetimeshow: false,
         seletetimenum: '2',
@@ -229,7 +228,6 @@
         'fundNum',
         'page',
         'pageSize',
-        'foundPoolListLength',
         'maskShow'
       ]),
       ...mapGetters({
@@ -239,7 +237,6 @@
         fundNum: 'fundNum',
         page: 'page',
         pageSize: 'pageSize',
-        foundPoolListLength: 'foundPoolListLength',
         maskShow: 'maskShow'
       }),
       ...mapState({
@@ -315,7 +312,6 @@
         return fetch(url, { method: 'POST', mode: 'cors' }).then(res => {
           return res.json()
         }).then(result => {
-          console.log(result)
           if (result.errCode === 0) {
             this.dialogShow = false
             this.$router.push({ path: ctx + '/foundpooldetail/' + result.data + '?orgCode=' + this.orgCode })

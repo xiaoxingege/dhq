@@ -25,6 +25,7 @@
             </td>
           </tr>
       </table>
+      <p class="zwsj tc" v-if="smartPoolList.length === 0" ><img src='../../assets/images/empty_data.png'/></p>
     </div>
     <founddialog :title="popTitle" v-if="show" @toHideDialog="dialogclosefn">
       <div slot='content'>
@@ -41,6 +42,15 @@
         </div>
       </div>
     </founddialog>
+    <div class="loading" v-if="maskShow">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
+    </div>
   </div>
 </template>
 <script>
@@ -50,6 +60,8 @@
   import founddialog from 'components/founddialog'
   import { domain } from '../../z3tougu/config'
   import { ctx } from '../../z3tougu/config'
+  import fetch from '../../z3tougu/util/z3fetch'
+
   export default{
     data () {
       return {
@@ -76,10 +88,12 @@
     },
     computed: {
       ...mapState([
-        'smartPoolList'
+        'smartPoolList',
+        'maskShow'
       ]),
       ...mapGetters({
-        smartPoolList: 'smartPoolList'
+        smartPoolList: 'smartPoolList',
+        maskShow: 'maskShow'
       })
     },
     methods: {
@@ -213,4 +227,5 @@
   .down button{width:100px;line-height: 32px;background: #39c;color: #fff; text-align: center;}
   .msg{color: red;left: 169px;position: absolute;top: 106px;}
   .msg2{font-size: 14px;}
+  .zwsj{padding-top: 80px;}
 </style>
