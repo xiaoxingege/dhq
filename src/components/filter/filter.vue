@@ -547,6 +547,7 @@
                   width: 20%;
                   display: block;
                   float: left;
+                  color:#2388da
               }
               .name {
                   width: 76%;

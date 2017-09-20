@@ -57,7 +57,7 @@
             <transition name="fade2">
               <div v-if="seleteCheckboxShow" class='checkedBox'>
                 <ul>
-                  <li v-for="item in trades"><label><input v-model='checkedVal' type="checkbox" :name="item.name" :value='item.value' @click="checkBox($event,item)" :disabled='checkDisabled'/>{{item.name}}</label></li>
+                  <li v-for="item in trades"><label><input ref='checkAllname' v-model='checkedVal' type="checkbox" :name="item.name" :value='item.value' @click="checkBox($event,item)" :disabled='checkDisabled'/>{{item.name}}</label></li>
                 </ul>
               </div>
             </transition>
@@ -136,7 +136,6 @@ export default {
       isDisabled: true,
       checkedVal: [],
       checkDisabled: true,
-      checkedNameVal: [],
       checkName: '全部',
       type: 'jjlx_all',
       hyStr: 'all',
@@ -193,8 +192,16 @@ export default {
       this.type = e.target.attributes.value.value
     },
     checkBox (e, item) {
+      const check = this.$refs.checkAllname
       var value = e.target.value
       var checked = e.target.checked
+      this.checkName = ''
+      for (let i = 0; i < check.length; i++) {
+        if (check[i].checked === true) {
+          check[0].name = ''
+          this.checkName += check[i].name + ' '
+        }
+      }
       if (value === 'all' && checked === true) {
         this.initCheckedVal()
       }
@@ -216,7 +223,6 @@ export default {
         }
       }
       this.hyStrPj()
-      this.checkBoxName(e, item)
     },
     hyStrPj () { // 下拉复选框拼接
       var vLength = this.checkedVal.length
@@ -247,33 +253,7 @@ export default {
     tradesVal () { // 初始化下拉复选框value值
       for (let i = 0; i < this.trades.length; i++) {
         this.checkedVal.push(this.trades[i].value)
-        this.checkedNameVal.push(this.trades[i].name)
       }
-    },
-    checkBoxName (e, item) {
-      var checked = e.target.checked
-      this.trades.some((fund, index) => {
-        var _this = this
-        if (fund.value === item.value) {
-          if (checked === false) {
-            const _name = this.trades[index].name
-            this.checkedNameVal.some((checkedName, index) => {
-              if (checkedName === _name) {
-                this.checkedNameVal.splice(index, 1)
-                _this.checkName = ''
-                this.checkedNameVal.forEach(function (item, index) {
-                  _this.checkName += item + ','
-                  if (item === '全部') {
-                    _this.checkName = ''
-                  }
-                })
-              }
-            })
-          } else {
-            this.checkedNameVal.push(this.trades[index].name)
-          }
-        }
-      })
     }
   },
   mounted () {
