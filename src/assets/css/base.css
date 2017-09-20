@@ -16,7 +16,9 @@ img{ vertical-align: top; border: 0;  }
     display: block;
     clear: both
 }
-
+.app{
+    min-width: 1217px;
+}
 .clearfix {
     zoom: 1;
     clear: both

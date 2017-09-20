@@ -1,6 +1,7 @@
 // whatwg-fetch仅能在浏览器环境使用。
 import 'whatwg-fetch'
 import { domain } from '../z3tougu/config'
+import fetch from '../z3tougu/util/z3fetch'
 
 export const types = {
   SET_SMARTPOOLLIST: 'SET_SMARTPOOLLIST',
@@ -11,8 +12,8 @@ export const types = {
 
 export default{
   state: {
-    smartPoolList: [],
-    smartPoolListDetails: [],
+    smartPoolList: [], // 智能股票池列表
+    smartPoolListDetails: [], // 智能股票池详情列表
     relevancedata: {},
     fundPoolHeadData: {}
   },
@@ -35,17 +36,23 @@ export default{
     [types.SET_FUNDPOOLHEAD] (state, list) {
       state.fundPoolHeadData = list
     }
+
   },
   actions: {
     // 获取基金池列表
     getSmartPoolList ({ commit }, { isRecommend, userId, orgCode }) {
+      commit('setMask', true)
       const url = `${domain}/openapi/fund/showFundPool.shtml?isRecommend=${isRecommend}&userId=${userId}&orgCode=${orgCode}`
       return fetch(url, { method: 'GET', mode: 'cors' }).then((res) => {
         return res.json()
       }).then(result => {
+        console.log(result)
         if (result.errCode === 0) {
           commit(types.SET_SMARTPOOLLIST, result.data)
+          commit('setMask', false)
         }
+      }).catch(log => {
+        console.log(log)
       })
     },
     // 获取基金池详情列表

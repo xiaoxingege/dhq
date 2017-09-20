@@ -51,6 +51,7 @@
           <td><div >{{item.fundYieldYearRank}}</div></td>
         </tr>
     </table>
+    <p class="zwsj tc" v-if="smartPoolListDetails.length === 0" ><img src='../../assets/images/empty_data.png'/></p>
     <fundPoolRelevance :relevancedata="relevancedata"></fundPoolRelevance>
     <founddialog :title="popTitle" v-if="show" @toHideDialog="dialogclosefn">
       <div slot='content'>
@@ -67,6 +68,15 @@
         </div>
       </div>
     </founddialog>
+    <div class="loading" v-if="maskShow">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
+    </div>
   </div>
 </template>
 <script>
@@ -77,6 +87,7 @@ import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import { domain } from '../../z3tougu/config'
 import { ctx } from '../../z3tougu/config'
+import fetch from '../../z3tougu/util/z3fetch'
 export default {
   data () {
     return {
@@ -109,12 +120,14 @@ export default {
     ...mapState([
       'smartPoolListDetails',
       'relevancedata',
-      'fundPoolHeadData'
+      'fundPoolHeadData',
+      'maskShow'
     ]),
     ...mapGetters({
       smartPoolListDetails: 'smartPoolListDetails',
       relevancedata: 'relevancedata',
-      fundPoolHeadData: 'fundPoolHeadData'
+      fundPoolHeadData: 'fundPoolHeadData',
+      maskShow: 'maskShow'
     })
   },
   mounted () {
@@ -255,4 +268,5 @@ export default {
   .down button{width:100px;line-height: 32px;background: #39c;color: #fff; text-align: center;}
   .msg{color: red;left: 169px;position: absolute;top: 106px;}
   .msg2{font-size: 14px;}
+  .zwsj{padding-top: 80px;}
 </style>

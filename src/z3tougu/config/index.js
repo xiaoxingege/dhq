@@ -7,11 +7,10 @@ export default {
   ma120Color: '',
   emptyValue: '--'
 }
-// const domain = 'https://test.z3quant.com'
-const domain = 'https://www.z3quant.com' // openapi domain
+const domain = 'https://test.z3quant.com'
+// const domain = 'https://www.z3quant.com' // openapi domain
 const ctx = '/zstgweb'
 // const ctx = '';
 // const domain = '//www.z3quant.com'
 // const domain = '//10.77.4.84:8899'
 export { domain, ctx }
-

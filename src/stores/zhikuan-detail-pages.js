@@ -6,7 +6,9 @@
 // whatwg-fetch仅能在浏览器环境使用。
 // import 'whatwg-fetch'
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 export default {
   namespaced: true,
@@ -24,7 +26,7 @@ export default {
 
   },
   mutations: {
-    setDetail (state, options) {
+    setDetail(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.dataList = {
@@ -36,35 +38,42 @@ export default {
         }
       }
     },
-    setDetailOptions (state, options) {
+    setDetailOptions(state, options) {
       state.id = options.id
     },
-    setReport (state, result) {
+    setReport(state, result) {
       if (result.errCode === 0) {
         state.isReportCanDown = true
       } else {
         state.isReportCanDown = false
       }
     },
-    setRelateNews (state, result) {
+    setRelateNews(state, result) {
       if (result.errCode === 0) {
         state.moreData = result.data
       } else {
         state.moreData = null
       }
     },
-    setTopicRelateNews (state, result) {
+    setTopicRelateNews(state, result) {
       if (result.errCode === 0) {
-        state.moreData = result.data.content
+        state.moreData = result.data.list
       } else {
         state.moreData = null
       }
     }
   },
-    // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
+  // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    getDetailPages ({ commit }, { id, detailType }) {
-      commit('setDetailOptions', { id })
+    getDetailPages({
+      commit
+    }, {
+      id,
+      detailType
+    }) {
+      commit('setDetailOptions', {
+        id
+      })
       return fetch(`${domain}/openapi/${detailType}/${id}.shtml`, {
         mode: 'cors'
       }).then((res) => {
@@ -76,7 +85,11 @@ export default {
         })
       })
     },
-    checkDownReport ({ commit }, { id }) {
+    checkDownReport({
+      commit
+    }, {
+      id
+    }) {
       return fetch(`${domain}/openapi/report/checkDownReportFile/${id}.shtml`, {
         mode: 'cors'
       }).then((res) => {
@@ -85,7 +98,12 @@ export default {
         commit('setReport', body)
       })
     },
-    getInforRelate ({ commit }, { id, innerCode }) {
+    getInforRelate({
+      commit
+    }, {
+      id,
+      innerCode
+    }) {
       return fetch(`${domain}/openapi/relatedNews/${id}.shtml?innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
@@ -94,8 +112,13 @@ export default {
         commit('setRelateNews', body)
       })
     },
-    getTopicRelate ({ commit }, { topicCode }) {
-      return fetch(`${domain}/openapi/news/topic/${topicCode}.shtml?page=0&size=3`, {
+    getTopicRelate({
+      commit
+    }, {
+      topicName,
+      topicCode
+    }) {
+      return fetch(`${domain}/openapi/search/infor/more.shtml?w=${topicName}&nId=${topicCode}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
