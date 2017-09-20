@@ -89,8 +89,7 @@ html {
 .detail-content {
     margin: 9px;
 }
-.detail-main {
-    }
+.detail-main {}
 .main-left {
     width: 60%;
 }
@@ -291,8 +290,7 @@ table {
       <span class="">发布时间</span><span class="blue time-num">{{detail.declareDate==null?'--':format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
       <span>今日涨跌</span>
       <span class="time-num3" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span>
-      <span
-        class="red time-num4">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}</span>
+      <span class="red time-num4">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}</span>
     </div>
   </div>
   <div class="detail-content clearfix">
@@ -328,10 +326,10 @@ table {
           <div class="in-content">
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
               <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList">
-                                 <span class="new-tit">{{checkNull(infor.title)}}</span>
-                                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
-                                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
-                                </a>
+               <span class="new-tit">{{checkNull(infor.title)}}</span>
+               <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
+               <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
+              </a>
             </router-link>
           </div>
           <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">

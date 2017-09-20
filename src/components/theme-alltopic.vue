@@ -180,8 +180,7 @@ a.kuai_icon {
 .content-head {
     margin-bottom: 20px;
 }
-.content-box {
-    }
+.content-box {}
 .con-cen {
     /* width: 18%; */
     width: 25%;
@@ -400,8 +399,7 @@ a.kuai_icon {
             <span class="">发布时间</span><span class="blue time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
             <span>今日涨跌</span>
             <span class="time-num3" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span>
-            <span
-              class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span>
+            <span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span>
           </div>
         </div>
         <div class="content-box clearfix display-box">

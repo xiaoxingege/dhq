@@ -760,8 +760,8 @@ select {
 }
 .tsk {
     &:hover {
-         > div,
-        + div {
+        + div,
+        > div {
             display: block;
         }
     }
