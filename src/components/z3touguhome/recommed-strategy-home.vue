@@ -68,7 +68,7 @@
 import echarts from 'echarts'
 export default {
   props: ['RecommendStrategyWidth', 'benchmarkObj'],
-  data () {
+  data() {
     return {
       sort: 'totalReturn',
       direction: 'desc',
@@ -82,13 +82,13 @@ export default {
 
   },
   computed: {
-    recommendStrategyDetail: function () {
+    recommendStrategyDetail: function() {
       if (this.$store.state.z3touguIndex.strategyList.length > 0) {
         const recommendStrategy = this.$store.state.z3touguIndex.strategyList[0]
         return recommendStrategy
       }
     },
-    incomeListData: function () {
+    incomeListData: function() {
       if (this.$store.state.z3touguIndex.incomeListData.length > 0) {
         const incomeListData = this.$store.state.z3touguIndex.incomeListData
         incomeListData.backtestDate = []
@@ -104,21 +104,21 @@ export default {
     }
   },
   methods: {
-    initRecommendStrategy: function () {
+    initRecommendStrategy: function() {
       this.recommendChart = echarts.init(this.$refs.recChart)
       this.$store.dispatch('z3touguIndex/getStrategyList', {
-        sort: this.sort,
-        direction: this.direction,
-        size: this.size
-      })
+          sort: this.sort,
+          direction: this.direction,
+          size: this.size
+        })
         .then(() => {
           if (this.recommendStrategyDetail) {
             this.recommendStrategyName = this.recommendStrategyDetail.strategy.strategyName
             this.strategyId = this.recommendStrategyDetail.strategy.strategyId
             this.strategyDesc = this.recommendStrategyDetail.strategy.strategyDesc
             this.$store.dispatch('z3touguIndex/getIncomeList', {
-              strategyId: this.strategyId
-            })
+                strategyId: this.strategyId
+              })
               .then(() => {
                 const _this = this
                 this.recommendChart.showLoading()
@@ -129,13 +129,13 @@ export default {
                       left: 0,
                       itemWidth: 8,
                       data: [{
-                        name: '策略累计收益率',
-                        icon: 'circle'
-                      },
-                      {
-                        name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
-                        icon: 'circle'
-                      }
+                          name: '策略累计收益率',
+                          icon: 'circle'
+                        },
+                        {
+                          name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
+                          icon: 'circle'
+                        }
                       ]
                     },
                     grid: {
@@ -158,7 +158,7 @@ export default {
                         }
                       },
                       axisLabel: {
-                        formatter: function (value, index) {
+                        formatter: function(value, index) {
                           return _this.timeFormat(value)
                         }
                       },
@@ -168,7 +168,7 @@ export default {
                       type: 'value',
                       boundaryGap: false,
                       axisLabel: {
-                        formatter: function (val) {
+                        formatter: function(val) {
                           return 100 * val + '%'
                         }
                       }
@@ -181,7 +181,7 @@ export default {
                         align: 'left'
                       },
                       showContent: true,
-                      formatter: function (params) {
+                      formatter: function(params) {
                         var s = params[0].name
                         for (var i = 0; i < params.length; i++) {
                           s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + (100 * params[i].value).toFixed(2) + '%'
@@ -190,29 +190,29 @@ export default {
                       }
                     },
                     series: [{
-                      name: '策略累计收益率',
-                      type: 'line',
-                      showSymbol: false,
-                      hoverAnimation: false,
-                      data: this.incomeListData.totalReturn,
-                      lineStyle: {
-                        normal: {
-                          width: 1
+                        name: '策略累计收益率',
+                        type: 'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: this.incomeListData.totalReturn,
+                        lineStyle: {
+                          normal: {
+                            width: 1
+                          }
+                        }
+                      },
+                      {
+                        name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
+                        type: 'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: this.incomeListData.benchmarkPeriodReturn,
+                        lineStyle: {
+                          normal: {
+                            width: 1
+                          }
                         }
                       }
-                    },
-                    {
-                      name: this.benchmarkObj[this.recommendStrategyDetail.strategy.benchmark],
-                      type: 'line',
-                      showSymbol: false,
-                      hoverAnimation: false,
-                      data: this.incomeListData.benchmarkPeriodReturn,
-                      lineStyle: {
-                        normal: {
-                          width: 1
-                        }
-                      }
-                    }
                     ]
                   })
                   this.recommendChart.hideLoading()
@@ -221,7 +221,7 @@ export default {
           }
         })
     },
-    timeFormat: function (date) {
+    timeFormat: function(date) {
       const toTime = date.toString()
       let m
       if (toTime.substring(4, 5) === '0') {
@@ -231,11 +231,11 @@ export default {
       }
       return m + '.' + toTime.substring(6)
     },
-    moreGoldList: function () {
+    moreGoldList: function() {
       window.open('goldList')
     }
   },
-  mounted () {
+  mounted() {
     this.initRecommendStrategy()
   }
 }

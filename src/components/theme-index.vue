@@ -19,7 +19,7 @@
 import ThemeList from './theme-list'
 import AllTopic from './theme-alltopic'
 export default {
-  data () {
+  data() {
     return {}
   },
   components: {

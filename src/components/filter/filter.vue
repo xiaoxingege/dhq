@@ -46,8 +46,11 @@
           <tr>
             <th width='4%'>序号</th>
             <th @click="sorts('innerCode')" width='7.6%'><span>基金代码</span></th>
-            <th @click="sorts('chiAbbr')" class="pr" width='12%'><span>基金简称</span><i class="icon_help tsk"></i>
-              <div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+            <th @click="sorts('chiAbbr')" class="pr" width='12%'>
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">基金简称<i class="icon_help tsk"></i></div>
+                <div slot="tooltip">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+              </tooltip>
             </th>
             <th @click="sorts('estabDate')" width='6%'><span>成立日期</span></th>
             <th @click="sorts('fundScale')" width='7.6%'><span>规模</span></th>
@@ -76,8 +79,11 @@
             <th @click="sorts('performBench')" width='7.6%' v-if='typeIndex === 5'><span>业绩比较基准</span></th>
             <th width='7.6%'>起购金额</th>
             <th @click="sorts('fundYieldYearRank')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex === 6'><span>排名</span></th>
-            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk"><span>交易成本</span>
-              <div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">交易成本</div>
+                <div slot="tooltip">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+              </tooltip>
             </th>
             <th width='7.6%'>操作</th>
           </tr>
@@ -175,14 +181,16 @@ import {
 import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
+import fetch from '../../z3tougu/util/z3fetch'
 import {
   formatDate
 } from '../../utils/date'
 import {
   ctx
 } from '../../z3tougu/config'
+import Tooltip from 'components/common-components/tooltip'
 export default {
-  data () {
+  data() {
     return {
       lsfoundPoolList: [],
       foundPoolList: ['1'],
@@ -227,17 +235,18 @@ export default {
     }
   },
   filters: {
-    isNull (value) {
+    isNull(value) {
       return value === null || value === '' ? '--' : value
     },
-    filterNum (value, type) {
+    filterNum(value, type) {
       return value === null || value === '' ? '--' : value.toFixed(2) + type
     }
   },
   components: {
     FilterSelect,
     founddialog,
-    Pagination
+    Pagination,
+    Tooltip
   },
   computed: {
     ...mapState([
@@ -259,7 +268,7 @@ export default {
       maskShow: 'maskShow'
     }),
     ...mapState({
-      foundPoolListData: function (state) {
+      foundPoolListData: function(state) {
         const list = state.filter.foundPoolList
         return {
           foundPoolList: list.map((fund, index) => {
@@ -274,11 +283,11 @@ export default {
   },
   methods: {
     // 排序
-    sorts (value) {
+    sorts(value) {
       this.num === this.num++
-      if (this.num === 1) {
-        this.sort = value + ',desc'
-      }
+        if (this.num === 1) {
+          this.sort = value + ',desc'
+        }
       if (this.num === 2) {
         this.sort = value + ',asc'
       } else {
@@ -288,17 +297,17 @@ export default {
       this.query(this.filterParams2, this.page, this.type2)
     },
     // 下拉切换数据
-    seletenumfn (v) {
+    seletenumfn(v) {
       this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
       this.seletetimeshow = false
     },
-    isInTempPoollist (fundid) {
+    isInTempPoollist(fundid) {
       return this.lsfoundPoolList.some((fund) => {
         return fund.innerCode === fundid
       })
     },
     // 显示弹框
-    showDialogFn () {
+    showDialogFn() {
       this.dialogShow = true
       this.popTitle = '保存当前基金池'
       if (this.lsfoundPoolList.length <= 0) {
@@ -312,11 +321,11 @@ export default {
         this.msg = ''
       }
     },
-    dialogCloseFn () {
+    dialogCloseFn() {
       this.dialogShow = false
     },
     // 保存临时基金池
-    save () {
+    save() {
       if (this.inputPoolName === '') {
         this.msg = '请输入筛股条件名称!'
       } else {
@@ -328,7 +337,7 @@ export default {
         this.fundCodes = ''
       }
     },
-    _saveFundPool (fundCodes) {
+    _saveFundPool(fundCodes) {
       const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'POST',
@@ -352,7 +361,7 @@ export default {
       })
     },
     // 筛选类型切换查询
-    selectType (index, type) {
+    selectType(index, type) {
       this.typeIndex = index
       this.type2 = type
       this.query(this.filterParams2, this.page, this.type2)
@@ -361,7 +370,7 @@ export default {
       }
     },
     // 加入临时基金池
-    addIinterimFunds (item) {
+    addIinterimFunds(item) {
       if (this.lsfoundPoolList.length >= 50) {
         this.dialogShow = true
         this.content = 2
@@ -372,7 +381,7 @@ export default {
       }
     },
     //  删除股票池数据
-    delFoundPoolList (index, item) {
+    delFoundPoolList(index, item) {
       this.foundPoolListData.foundPoolList.some((fund) => {
         if (fund.innerCode === item.innerCode) {
           fund.inTempPools = false
@@ -382,7 +391,7 @@ export default {
       this.lsfoundPoolList.splice(index, 1)
     },
     // 删除股票池状态
-    removeInterimFunds (item) {
+    removeInterimFunds(item) {
       item.inTempPools = false
       this.lsfoundPoolList.some((fund, index) => {
         if (fund.innerCode === item.innerCode) {
@@ -391,14 +400,14 @@ export default {
         }
       })
     },
-    goToPage (page) {
+    goToPage(page) {
       this.page = Number(page) - 1
     },
-    filterType (type) {
+    filterType(type) {
       this.type2 = type
     },
     // 获取筛选数据
-    query (filterParams, type) {
+    query(filterParams, type) {
       this.filterParams2 = filterParams
       this.$store.dispatch('getFundPool', {
         type: this.type2,
@@ -412,8 +421,8 @@ export default {
       })
     },
     // 导出筛选数据
-    exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+    exportFundPool() {
+      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
@@ -429,16 +438,16 @@ export default {
       })
     },
     // 日期格式化
-    format (time) {
+    format(time) {
       if (time === null) {
         return '--'
       }
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     },
-    formatDates (datestr) {
+    formatDates(datestr) {
       return formatDate(datestr, 'yyMMddhhmm ')
     },
-    checked (e) {
+    checked(e) {
       const checked = e.target.checked
       if (checked === true) {
         this.isConsignment = 1
@@ -449,11 +458,11 @@ export default {
       }
     },
     // 搜索查询
-    search () {
+    search() {
       this.query(this.filterParams2, this.page, this.type2)
     },
     // 初始化筛选条件
-    init () {
+    init() {
       this.filterParams2.jyzt = 'jyzt_all'
       this.filterParams2.jjlx = 'jylx_all' // 基金类型
       this.filterParams2.jyzt = 'jyzt_all' // 交易状态
@@ -472,15 +481,15 @@ export default {
       this.filterParams2.fbq = 'fbq_all' // 封闭期
     }
   },
-  created () {
+  created() {
     this.query(this.filterParams2, this.page, this.type2)
   },
-  mounted () {},
+  mounted() {},
   watch: {
     // 监控页码改变
     'page': {
       deep: true,
-      handler: function (oldVal, newVal) {
+      handler: function(oldVal, newVal) {
         this.query(this.filterParams2, this.page, this.type2)
       }
     }
@@ -514,6 +523,93 @@ select {
     outline: 0;
     border: 0;
     background: 0;
+}
+.filter {
+    font-family: '宋体';
+    font-size: $fontSize12;
+    color: $colorFontTheme;
+    padding: 10px;
+    background-color: #fff;
+}
+.btn {
+    display: inline-block;
+    font-size: $fontSize12;
+    color: $colorFontBlue;
+    padding: 0 10px;
+    height: 22px;
+    line-height: 22px;
+    background-color: $colorBackground;
+    text-align: center;
+    @include border_radius(3px);
+}
+.filterTop {
+    width: 100%;
+    height: 230px;
+}
+.filterBox {
+    width: 70%;
+    .topBar {
+        height: 24px;
+        border-bottom: 1px solid $colorFontBlue;
+    }
+}
+.tabList {
+    font-size: 0;
+    height: 24px;
+    li {
+        display: inline-block;
+        font-size: $fontSize12;
+        color: $colorFontBlue;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 15px;
+        cursor: pointer;
+        &.active {
+            color: #fff;
+            background-color: #2388da;
+        }
+    }
+}
+.fundPool {
+    width: 28%;
+    height: 175px;
+    ul {
+        display: block;
+        height: 178px;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 20px;
+        li {
+            position: relative;
+            font-size: $fontSize12;
+            text-align: left;
+            padding-left: 37px;
+            height: 25px;
+            line-height: 25px;
+            span {
+                display: inline-block;
+                overflow: hidden;
+            }
+            .close {
+                display: block;
+                position: absolute;
+                right: 10px;
+                top: 8px;
+                cursor: pointer;
+            }
+            .code {
+                width: 20%;
+                display: block;
+                float: left;
+                color: #2388da;
+            }
+            .name {
+                width: 76%;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+    }
 }
 .filter {
     font-family: '宋体';
@@ -637,6 +733,9 @@ select {
         color: #2388da;
     }
 }
+.test {
+    cursor: pointer;
+}
 .button {
     display: inline-block;
     width: 72px;
@@ -646,40 +745,6 @@ select {
     border: 1px solid #ccc;
     cursor: pointer;
     @include border_radius(3px);
-}
-.text {
-    display: none;
-    width: 181px;
-    position: absolute;
-    top: -55px;
-    left: 21px;
-    line-height: 1.4;
-    border: 1px solid #ccc;
-    padding: 10px;
-    @include border_radius(3px);
-    background-color: #fff;
-    color: #666;
-    text-align: left;
-    &:after {
-        content: '';
-        position: absolute;
-        bottom: -16px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #fff;
-    }
-    &:before {
-        content: '';
-        position: absolute;
-        bottom: -17px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #ccc;
-    }
 }
 .filterCon {
     .top {

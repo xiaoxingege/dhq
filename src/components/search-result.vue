@@ -118,7 +118,7 @@
 import Pagination from 'components/pagination.vue'
 export default {
   // props: ['linkText'],
-  data () {
+  data() {
     return {
       resultData: [],
       total: '',
@@ -135,7 +135,7 @@ export default {
 
   },
   methods: {
-    showSearchList (currentPage) {
+    showSearchList(currentPage) {
       const keyword = this.$store.state.zhikuanSearch.keyword === '' ? this.$route.params.keyword : this.$store.state.zhikuanSearch.keyword
       const linkText = this.$route.params.linkText
       this.$store.dispatch('zhikuanSearchList/searchList', {
@@ -149,10 +149,10 @@ export default {
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
       })
     },
-    goToPage (data) {
+    goToPage(data) {
       this.showSearchList(data)
     },
-    relativeSort (e) {
+    relativeSort(e) {
       const relativeBtn = this.$refs.relativeBtn
       const btn = this.$refs.timeBtn
       if (relativeBtn.className === 'active') {
@@ -177,7 +177,7 @@ export default {
         this.pageTo = this.$store.state.zhikuanSearchList.currentPage
       })
     },
-    timeSort (e) {
+    timeSort(e) {
       const timeBtn = this.$refs.timeBtn
       const btn = this.$refs.relativeBtn
       if (timeBtn.className === 'active') {
@@ -204,7 +204,7 @@ export default {
 
   },
   watch: {
-    '$route': function () {
+    '$route': function() {
       const keyword = this.$route.params.keyword
       const linkText = this.$route.params.linkText
       this.searchType = this.$route.params.linkText
@@ -219,7 +219,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.showSearchList()
   }
 

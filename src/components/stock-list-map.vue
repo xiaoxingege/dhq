@@ -74,7 +74,6 @@ td {
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
         <td class="tiker">{{titleStockName}}</td>
-        <!--<td><div class="stocklist-chart" v-stockline="{lineData:titleChartData,color:'#fff'}"></div></td>-->
         <td>
           <div class="stocklist-chart" ref="chartTitle" style="height:40px"></div>
         </td>
@@ -83,7 +82,6 @@ td {
       </tr>
       <tr v-for="stock of stockList">
         <td class="tiker">{{stock.name}}</td>
-        <!--<td><div class="stocklist-chart"  v-stockline="{lineData:stockChartData,stockName:stock.name}"></div></td>-->
         <td>
           <div class="stocklist-chart" ref="chart"></div>
         </td>
@@ -98,7 +96,7 @@ td {
 import echarts from 'echarts'
 export default {
   props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
-  data () {
+  data() {
     return {
       stockList: [],
       stockListLeft: 0,
@@ -107,150 +105,133 @@ export default {
     }
   },
   watch: {
-    stockId () {
+    stockId() {
       this.updateChart()
     },
-    nodeId () {
+    nodeId() {
       this.updateHoverTitle()
     }
   },
   computed: {
-    stockId () {
+    stockId() {
       if (this.parent && this.parent.id) {
         return this.parent.id
       }
     },
-    bgColor () {
+    bgColor() {
       if (this.node && this.node.itemStyle) {
         return this.node.itemStyle.normal.color
       }
     },
-    nodeId () {
+    nodeId() {
       if (this.node && this.node.id) {
         return this.node.id
       }
     },
-    titleStockName () {
+    titleStockName() {
       if (this.node && this.node.name) {
         return this.node.name
       }
     },
-    titleStockCondtion () {
+    titleStockCondtion() {
       if (this.node && this.node.perfText) {
         return this.node.perfText
       }
     },
-    titleName () {
+    titleName() {
       if (this.node && this.node.titleName) {
         return this.node.titleName
       }
     },
-    titleNameLel2 () {
+    titleNameLel2() {
       if (this.parent && this.parent.name) {
         return this.parent.name
       }
     },
-    titleChartData () {
+    titleChartData() {
       return this.node.chartData
     },
-    stockChartData: function () {
+    stockChartData: function() {
       const stockChartData = this.$store.state.stockMap.stockChartData
       return stockChartData
     }
   },
-  /* directives: {
-   stockline: {
-   componentUpdated: (el, bind) => {
-   if (bind.value.lineData) {
-   const lineData = bind.value.lineData[bind.value.stockName]
-   let chart = echarts.getInstanceByDom(el)
-   if (chart) {
-   chart.dispose()
-   }
-   chart = echarts.init(el)
-   chart.setOption({
-   grid: {
-   show: false,
-   left: 5,
-   top: 5,
-   bottom: 5,
-   right: 5
-   },
-   xAxis: [{
-   axisLine: false,
-   splitLine: {
-   show: false
-   },
-   type: 'category',
-   data: new Array(17)
-   }],
-   yAxis: [{
-   type: 'value',
-   axisLine: false,
-   splitLine: {
-   show: false
-   },
-   min: 'dataMin',
-   max: 'dataMax'
-   }],
-   series: [{
-       type: 'line',
-       smooth: true,
-       showSymbol: false,
-       lineStyle: {
-           normal: {
-           color: '#666'
-           }
-       },
-       data: lineData
-   }]
-   })
-   }
-   /!* if (bind.value.color) {
-   chart.setOption({
-   color: bind.value.color
-   })
-   }*!/
-   }
-   }
-   },*/
   methods: {
-    updateChart: function () {
+    updateChart: function() {
+      this.stockList = this.parent.children
       this.$store.dispatch('stockMap/stockChartData', {
-        stockId: this.stockId,
-        code: this.indexCode
-      })
+          stockId: this.stockId,
+          code: this.indexCode
+        })
         .then(() => {
           const _this = this
-          // 悬浮框的表头
-          this.node.chartData = this.stockChartData[this.node.name]
-          if (this.node.chartData) {
-            const nodeLength = this.node.chartData.length
-            if (this.node.chartData[nodeLength - 1]) {
-              this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
-            } else {
-              this.titlePrice = '--'
-            }
-          }
-          // 悬浮框股票列表
-          this.parent.children.forEach(function (stock) {
-            stock.chartData = _this.stockChartData[stock.name]
-            if (stock.chartData) {
-              const stockDetailLength = stock.chartData.length
-              if (stock.chartData[stockDetailLength - 1]) {
-                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-              } else {
-                stock.price = '--'
-              }
-            }
-          })
-          this.stockList = this.parent.children
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
+            // 悬浮框的表头
+            this.node.chartData = this.stockChartData[this.node.name]
+            if (this.node.chartData) {
+              const nodeLength = this.node.chartData.length
+              if (this.node.chartData[nodeLength - 1]) {
+                this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
+              } else {
+                this.titlePrice = '--'
+              }
+            }
+            this.chart.setOption({
+              grid: {
+                show: false,
+                left: 5,
+                top: 5,
+                bottom: 5,
+                right: 0
+              },
+              xAxis: [{
+                axisLine: false,
+                splitLine: {
+                  show: false
+                },
+                type: 'category',
+                data: new Array(17)
+              }],
+              yAxis: [{
+                type: 'value',
+                axisLine: false,
+                splitLine: {
+                  show: false
+                },
+                min: 'dataMin',
+                max: 'dataMax'
+              }],
+              animation: false,
+              series: [{
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                  normal: {
+                    color: '#fff',
+                    width: 1.5
+                  }
+                },
+                data: this.node.chartData
+              }]
+            })
+            // 悬浮框股票列表
+            this.stockList.forEach(function(stock) {
+              stock.chartData = _this.stockChartData[stock.name]
+              if (stock.chartData) {
+                const stockDetailLength = stock.chartData.length
+                if (stock.chartData[stockDetailLength - 1]) {
+                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+                } else {
+                  stock.price = '--'
+                }
+              }
+            })
             for (const i in this.stockList) {
               if (this.$refs.chart && this.$refs.chart.length > 0) {
                 this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
@@ -298,48 +279,9 @@ export default {
               }
             }
           })
-          this.chart.setOption({
-            grid: {
-              show: false,
-              left: 5,
-              top: 5,
-              bottom: 5,
-              right: 0
-            },
-            xAxis: [{
-              axisLine: false,
-              splitLine: {
-                show: false
-              },
-              type: 'category',
-              data: new Array(17)
-            }],
-            yAxis: [{
-              type: 'value',
-              axisLine: false,
-              splitLine: {
-                show: false
-              },
-              min: 'dataMin',
-              max: 'dataMax'
-            }],
-            animation: false,
-            series: [{
-              type: 'line',
-              smooth: true,
-              showSymbol: false,
-              lineStyle: {
-                normal: {
-                  color: '#fff',
-                  width: 1.5
-                }
-              },
-              data: this.node.chartData
-            }]
-          })
         })
     },
-    updateHoverTitle: function () {
+    updateHoverTitle: function() {
       // 悬浮框的表头
       this.node.chartData = this.stockChartData[this.node.name]
       if (this.node.chartData) {
@@ -390,7 +332,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.updateChart()
     this.chart = echarts.init(this.$refs.chartTitle)
   }

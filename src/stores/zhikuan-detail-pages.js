@@ -26,7 +26,7 @@ export default {
 
   },
   mutations: {
-    setDetail (state, options) {
+    setDetail(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.dataList = {
@@ -38,24 +38,24 @@ export default {
         }
       }
     },
-    setDetailOptions (state, options) {
+    setDetailOptions(state, options) {
       state.id = options.id
     },
-    setReport (state, result) {
+    setReport(state, result) {
       if (result.errCode === 0) {
         state.isReportCanDown = true
       } else {
         state.isReportCanDown = false
       }
     },
-    setRelateNews (state, result) {
+    setRelateNews(state, result) {
       if (result.errCode === 0) {
         state.moreData = result.data
       } else {
         state.moreData = null
       }
     },
-    setTopicRelateNews (state, result) {
+    setTopicRelateNews(state, result) {
       if (result.errCode === 0) {
         state.moreData = result.data.list
       } else {
@@ -65,7 +65,7 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    getDetailPages ({
+    getDetailPages({
       commit
     }, {
       id,
@@ -85,7 +85,7 @@ export default {
         })
       })
     },
-    checkDownReport ({
+    checkDownReport({
       commit
     }, {
       id
@@ -98,7 +98,7 @@ export default {
         commit('setReport', body)
       })
     },
-    getInforRelate ({
+    getInforRelate({
       commit
     }, {
       id,
@@ -112,7 +112,7 @@ export default {
         commit('setRelateNews', body)
       })
     },
-    getTopicRelate ({
+    getTopicRelate({
       commit
     }, {
       topicName,

@@ -70,7 +70,7 @@ iframe {
 <script type="text/javascript">
 export default {
   props: [],
-  data () {
+  data() {
     return {
       newsDetails: null,
       newsTitle: '',
@@ -83,17 +83,17 @@ export default {
     }
   },
   computed: {
-    newsDetailData: function () {
+    newsDetailData: function() {
       const newsDetailData = [].concat(this.$store.state.z3touguIndex.newsDetails)
       return newsDetailData[0]
     }
   },
   methods: {
-    getNews: function () {
+    getNews: function() {
       this.newsId = this.$route.params.newsId
       this.$store.dispatch('z3touguIndex/getNewsDetails', {
-        newsId: this.newsId
-      })
+          newsId: this.newsId
+        })
         .then(() => {
           this.newsDetails = this.newsDetailData
           this.newsTitle = this.newsDetailData.title
@@ -106,7 +106,7 @@ export default {
         })
     }
   },
-  mounted () {
+  mounted() {
     this.getNews()
   }
 }

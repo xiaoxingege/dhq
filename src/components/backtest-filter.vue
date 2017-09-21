@@ -319,14 +319,9 @@ export default {
       // token = token
       if (expires !== -1 && now - updateTime < expires * 1000) {
         console.log(0)
-
         this.createForm(id, type, token, clientid, deviceid)
-        alert(token)
-        alert(clientid)
-        alert(deviceid)
       } else {
         console.log(111111)
-        alert(22221111)
         return store.dispatch('authSetting').then(() => {
           this.createForm(id, type, token, clientid, deviceid)
         })
