@@ -1,8 +1,7 @@
 import 'whatwg-fetch'
-import {
-  domain
-} from '../z3tougu/config'
+import { domain } from '../z3tougu/config'
 import fetch from '../z3tougu/util/z3fetch'
+import { formatDate } from '../utils/date'
 const PAGE_SIZE = 10
 
 export const types = {
@@ -101,6 +100,25 @@ export default {
         }
       }).catch(v2 => {
         console.log(v2)
+      })
+    },
+    // 导出数据
+    getExportFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+      commit('setMask', true)
+      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=hy_${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
+        return res.blob()
+      }).then(result => {
+        commit('setMask', false)
+        var date = new Date()
+        var url = window.URL.createObjectURL(result)
+        var a = document.createElement('a')
+        a.href = url
+        a.download = '巨灵智胜基金筛选-' + formatDate(date, 'yyMMddhhmm') + '.xlsx'
+        a.click()
       })
     },
     // 收益率表现

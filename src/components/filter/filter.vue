@@ -154,16 +154,17 @@
     </div>
   </founddialog>
   <!-- 弹框 end-->
-  <div class="loading" v-if="maskShow">
-    <div>
-      <div class="c1"></div>
-      <div class="c2"></div>
-      <div class="c3"></div>
-      <div class="c4"></div>
+  <div v-if="maskShow" class="mask">
+    <div class="loading">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
     </div>
-    <span>loading...</span>
   </div>
-  <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
 </div>
 </template>
 
@@ -176,7 +177,6 @@ import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
 import fetch from '../../z3tougu/util/z3fetch'
-import { formatDate } from '../../utils/date'
 import { ctx } from '../../z3tougu/config'
 import Tooltip from 'components/common-components/tooltip'
 export default {
@@ -412,19 +412,15 @@ export default {
     },
     // 导出筛选数据
     exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
-      return fetch(url, {
-        method: 'GET',
-        mode: 'cors'
-      }).then((res) => {
-        return res.blob()
-      }).then(result => {
-        var date = new Date()
-        var url = window.URL.createObjectURL(result)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
-        a.click()
+      this.$store.dispatch('getExportFundPool', {
+        type: this.type2,
+        option: this.filterParams2,
+        isConsignment: this.isConsignment,
+        searchVal: this.searchVal,
+        page: this.page,
+        pageSize: this.pageSize,
+        orgCode: this.orgCode,
+        sort: this.sort
       })
     },
     // 日期格式化
@@ -433,9 +429,6 @@ export default {
         return '--'
       }
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
-    },
-    formatDates (datestr) {
-      return formatDate(datestr, 'yyMMddhhmm ')
     },
     checked (e) {
       const checked = e.target.checked
@@ -807,14 +800,6 @@ select {
 }
 .show {
     display: block;
-}
-.tsk {
-    &:hover {
-        + div,
-        > div {
-            display: block;
-        }
-    }
 }
 .seletetime {
     position: relative;

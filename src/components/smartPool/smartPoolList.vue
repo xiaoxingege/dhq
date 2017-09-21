@@ -42,32 +42,26 @@
       </div>
     </div>
   </founddialog>
-  <div class="loading" v-if="maskShow">
-    <div>
-      <div class="c1"></div>
-      <div class="c2"></div>
-      <div class="c3"></div>
-      <div class="c4"></div>
+  <div v-if="maskShow" class="mask">
+    <div class="loading">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
     </div>
-    <span>loading...</span>
   </div>
 </div>
 </template>
 <script>
 import Vue from 'vue'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import founddialog from 'components/founddialog'
-import {
-  domain
-} from '../../z3tougu/config'
-import {
-  ctx
-} from '../../z3tougu/config'
+import { domain } from '../../z3tougu/config'
+import { ctx } from '../../z3tougu/config'
 import fetch from '../../z3tougu/util/z3fetch'
 
 export default {
