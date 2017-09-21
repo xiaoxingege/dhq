@@ -260,7 +260,7 @@ import {
 } from '../z3tougu/config'
 import store from '../z3tougu/store'
 export default {
-  data () {
+  data() {
     return {
       stockPage: 0,
       stockPagesize: '',
@@ -288,7 +288,7 @@ export default {
     toast
   },
   methods: {
-    initData (stockPage, tradePage) {
+    initData(stockPage, tradePage) {
       this.$store.dispatch('backtestDetail/queryNowStock', {
         strategyId: this.strategyId,
         stockPage: this.stockPage,
@@ -300,25 +300,22 @@ export default {
         tradePagesize: this.tradePagesize
       })
     },
-    nowStock () {
+    nowStock() {
       this.showNowStock = true
       this.showTradeDay = false
     },
-    tradeDay () {
+    tradeDay() {
       this.showTradeDay = true
       this.showNowStock = false
     },
-    excelExport (type) {
+    excelExport(type) {
       const id = this.strategyId
       const expires = this.authInfo.expires
       const updateTime = this.authInfo.updateTime
       const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
-      let token = this.authInfo.authorization
-      if (!window.Z3) {
-        token = token.split(' ')[1]
-      }
+      const token = this.authInfo.authorization.split(' ')[1]
       if (expires !== -1 && now - updateTime < expires * 1000) {
         console.log(0)
         this.createForm(id, type, token, clientid, deviceid)
@@ -329,7 +326,7 @@ export default {
         })
       }
     },
-    createForm (id, type, token, clientid, deviceid) {
+    createForm(id, type, token, clientid, deviceid) {
       var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
@@ -340,50 +337,50 @@ export default {
       postForm.submit()
       // document.body.removeChild(postForm)
     },
-    goToStockPage (page) {
+    goToStockPage(page) {
       this.stockPage = Number(page) - 1
     },
-    goTotradePage (page) {
+    goTotradePage(page) {
       this.tradePage = Number(page) - 1
     },
     /* goToPage (page) {
       this.page = Number(page) - 1
     },*/
-    changeYi (num) {
+    changeYi(num) {
       return (Number(num) / 100000000).toFixed(2) + '亿'
     },
-    changeFix (num) {
+    changeFix(num) {
       return Number(num).toFixed(2) + '%'
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '.' + (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
     },
-    showQrcode () {
+    showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox
     }
 
   },
   watch: {
-    stockPage () {
+    stockPage() {
       this.initData(this.stockPage)
     },
-    tradePage () {
+    tradePage() {
       this.initData(this.tradePage)
     }
 
   },
-  mounted () {
+  mounted() {
     this.initData()
     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+    qrcode.toDataURL(this.$refs.qrcode, url, function() {})
     const clipboard = new Clipboard('.copy', {
-      text: function () {
+      text: function() {
         return url
       }
     })

@@ -178,7 +178,7 @@ export default {
     }
   },
   // ['data', 'strategyId', 'showType'],
-  data () {
+  data() {
     return {
       navText: [
         ['收益曲线图', 'syqxt'],
@@ -204,34 +204,34 @@ export default {
   },
   computed: {
 
-    mrjyData: function () {
+    mrjyData: function() {
       return this.$store.state.goldStrategy.mrjyData
     },
-    dqxgData: function () {
+    dqxgData: function() {
       return this.$store.state.goldStrategy.dqxgData
     },
-    authInfo: function () {
+    authInfo: function() {
       return this.$store.state.auth
     }
 
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    goMrjyPage (data) {
+    goMrjyPage(data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goDqxgPage (data) {
+    goDqxgPage(data) {
       this.$store.dispatch('goldStrategy/getDqxgData', {
         strategyId: this.strategyId,
         pageNum: data - 1
       }).then(() => {})
     },
-    exportData (type) {
+    exportData(type) {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
@@ -244,10 +244,8 @@ export default {
       const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
-      let token = this.authInfo.authorization
-      if (!window.Z3) {
-        token = token.split(' ')[1]
-      }
+      const token = this.authInfo.authorization.split(' ')[1]
+
       if (expires !== -1 && now - updateTime < expires * 1000) {
         this.createForm(id, type2, token, clientid, deviceid)
       } else {
@@ -256,7 +254,7 @@ export default {
         })
       }
     },
-    createForm (id, type, token, clientid, deviceid) {
+    createForm(id, type, token, clientid, deviceid) {
       var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
@@ -268,6 +266,6 @@ export default {
       // document.body.removeChild(postForm)
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>
