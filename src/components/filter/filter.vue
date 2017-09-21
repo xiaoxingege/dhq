@@ -163,24 +163,15 @@
 
 <script>
 import 'whatwg-fetch'
-import {
-  domain
-} from '../../z3tougu/config'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { domain } from '../../z3tougu/config'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
-import {
-  formatDate
-} from '../../utils/date'
-import {
-  ctx
-} from '../../z3tougu/config'
+import fetch from '../../z3tougu/util/z3fetch'
+import { formatDate } from '../../utils/date'
+import { ctx } from '../../z3tougu/config'
 export default {
   data () {
     return {
@@ -413,7 +404,7 @@ export default {
     },
     // 导出筛选数据
     exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
+      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
@@ -514,7 +505,94 @@ select {
     outline: 0;
     border: 0;
     background: 0;
-}
+  }
+  .filter {
+      font-family: '宋体';
+      font-size: $fontSize12;
+      color: $colorFontTheme;
+      padding: 10px;
+      background-color: #fff;
+  }
+  .btn {
+      display: inline-block;
+      font-size: $fontSize12;
+      color: $colorFontBlue;
+      padding: 0 10px;
+      height: 22px;
+      line-height: 22px;
+      background-color: $colorBackground;
+      text-align: center;
+      @include border_radius(3px);
+  }
+  .filterTop {
+      width: 100%;
+      height: 230px;
+  }
+  .filterBox {
+      width: 70%;
+      .topBar {
+          height: 24px;
+          border-bottom: 1px solid $colorFontBlue;
+      }
+  }
+  .tabList {
+      font-size: 0;
+      height: 24px;
+      li {
+          display: inline-block;
+          font-size: $fontSize12;
+          color: $colorFontBlue;
+          height: 24px;
+          line-height: 24px;
+          padding: 0 15px;
+          cursor: pointer;
+          &.active {
+              color: #fff;
+              background-color: #2388da;
+          }
+      }
+  }
+  .fundPool {
+      width: 28%;
+      height:175px;
+      ul {
+          display: block;
+          height: 178px;
+          overflow: hidden;
+          overflow-y: auto;
+          margin-top: 20px;
+          li {
+              position: relative;
+              font-size: $fontSize12;
+              text-align: left;
+              padding-left: 37px;
+              height: 25px;
+              line-height: 25px;
+              span {
+                  display: inline-block;
+                  overflow: hidden;
+              }
+              .close {
+                  display: block;
+                  position: absolute;
+                  right: 10px;
+                  top:8px;
+                  cursor: pointer;
+              }
+              .code {
+                  width: 20%;
+                  display: block;
+                  float: left;
+                  color:#2388da
+              }
+              .name {
+                  width: 76%;
+                  white-space: pre;
+                  text-overflow: ellipsis;
+              }
+          }
+      }
+  }
 .filter {
     font-family: '宋体';
     font-size: $fontSize12;
