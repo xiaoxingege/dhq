@@ -33,7 +33,7 @@ const state = {
     clientid: '', // 'test_client_id',
     deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
-    expires: 0// second
+    expires: 0 // second
   },
   user: {
     userId: null
@@ -52,15 +52,15 @@ const getters = {
   }
 }
 const actions = {
-  authSetting ({ state, commit }) {
+  authSetting ({
+    state,
+    commit
+  }) {
     return new Promise((resolve, reject) => {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
-          alert('oldToken:' + state.auth.authorization)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          alert('newToken:' + authInfo.authorization)
-          alert('expires:' + authInfo.expires)
           resolve()
         })
       } else {
@@ -71,7 +71,7 @@ const actions = {
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe'// test userid
+          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

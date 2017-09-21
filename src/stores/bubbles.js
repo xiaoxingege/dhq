@@ -1,6 +1,8 @@
 // import 'whatwg-fetch'
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 // initial state
 export default {
@@ -55,8 +57,8 @@ export default {
         name: [],
         seriesData: []
       }
+      // alert(result.errCode)
       if (result.errCode === 0) {
-        alert(result.errCode)
         for (var item of data) {
           state.bubblesData.xData.push(item.xData)
           state.bubblesData.yData.push(item.yData)
@@ -65,17 +67,27 @@ export default {
           state.bubblesData.innerCode.push(item.innerCode)
           state.bubblesData.name.push(item.name)
           if (state.parameterData.xData === 'chi_spel' && state.parameterData.yData === 'chi_spel') {
+            if (item.xData === null || item.yData === null) {
+              return
+            }
             state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
           } else {
             if (state.parameterData.xData === 'chi_spel') {
+              if (item.xData === null) {
+                return
+              }
               if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
             } else if (state.parameterData.yData === 'chi_spel') {
+              if (item.yData === null) {
+                return
+              }
               if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
             }
             state.bubblesData.seriesData.push([item.xData, item.yData])
           }
         }
       } else {
+        // alert(result.msg)
         state.bubblesData = {
           xData: [],
           yData: [],
@@ -92,7 +104,10 @@ export default {
     },
     setStockPool (state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({ poolId: '', poolName: '全部' })
+        result.data.unshift({
+          poolId: '',
+          poolName: '全部'
+        })
         state.stockPool = result.data
       }
     },
@@ -101,14 +116,22 @@ export default {
     },
     setStrategy (state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({ id: '', strategyName: '全部' })
+        result.data.unshift({
+          id: '',
+          strategyName: '全部'
+        })
         state.userStrategy = result.data
       }
     }
   },
   actions: {
-    getBubblesData ({ commit }, { options }) {
-      alert(options.innerCode)
+    getBubblesData ({
+      commit
+    }, {
+      options
+    }) {
+      // alert(`&innerCode=${options.innerCode.substring(0, 20)}`)
+      // 你alert(`&innerCode=${options.innerCode}`)
       commit('setBubblesOptions', options)
       return fetch(`${domain}/openapi/findBubbles`, {
         mode: 'cors',
@@ -124,13 +147,17 @@ export default {
         commit('setBubblesData', body)
       })
     },
-    getStrategy ({ commit, state, rootState }) {
+    getStrategy ({
+      commit,
+      state,
+      rootState
+    }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStrategy', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=7425a515-906b-4d6a-8eb3-73e38d5dcc99`, {
+      return fetch(`${domain}/openapi/filter/member/userStrategy.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -138,13 +165,17 @@ export default {
         commit('setStrategy', body)
       })
     },
-    getStockPool ({ commit, state, rootState }) {
+    getStockPool ({
+      commit,
+      state,
+      rootState
+    }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=7425a515-906b-4d6a-8eb3-73e38d5dcc99`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
