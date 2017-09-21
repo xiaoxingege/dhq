@@ -239,10 +239,10 @@ table {
           <div class="table-wrap">
             <div class="clearfix table-title">
               <span class="fl" style="vertical-align: middle">股票范围指标</span>
-              <img src="../assets/images/backtest/table-close.png" alt="" class="fr table-switch">
+              <img :src="isShowTable1?closeSrc:openSrc" alt="" class="fr table-switch" v-on:click="toOpenClose(1)">
             </div>
-            <p class="line" style="display: none;"></p>
-            <table class="form-table">
+            <p class="line" v-if="!isShowTable1"></p>
+            <table class="form-table" v-if="isShowTable1">
               <thead style="">
                 <th>序号</th>
                 <th>指标名称</th>
@@ -280,10 +280,10 @@ table {
           <div class="table-wrap">
             <div class="clearfix table-title">
               <span class="fl" style="vertical-align: middle">概况类指标</span>
-              <img src="../assets/images/backtest/table-open.png" alt="" class="fr table-switch">
+              <img :src="isShowTable2?closeSrc:openSrc" alt="" class="fr table-switch" v-on:click="toOpenClose(2)">
             </div>
-            <p class="line"></p>
-            <table class="form-table" style="display: none;">
+            <p class="line" v-if="!isShowTable2"></p>
+            <table class="form-table" v-if="isShowTable2">
               <thead style="">
                 <th>序号</th>
                 <th>指标名称</th>
@@ -361,10 +361,10 @@ table {
           <div class="table-wrap">
             <div class="clearfix table-title">
               <span class="fl" style="vertical-align: middle">基本面指标</span>
-              <img src="../assets/images/backtest/table-open.png" alt="" class="fr table-switch">
+              <img :src="isShowTable3?closeSrc:openSrc" alt="" class="fr table-switch" v-on:click="toOpenClose(3)">
             </div>
-            <p class="line"></p>
-            <table class="form-table" style="display: none;">
+            <p class="line" v-if="!isShowTable3"></p>
+            <table class="form-table" v-if="isShowTable3">
               <thead style="">
                 <th>序号</th>
                 <th>指标名称</th>
@@ -522,10 +522,10 @@ table {
           <div class="table-wrap">
             <div class="clearfix table-title">
               <span class="fl" style="vertical-align: middle">技术指标</span>
-              <img src="../assets/images/backtest/table-open.png" alt="" class="fr table-switch">
+              <img :src="isShowTable4?closeSrc:openSrc" alt="" class="fr table-switch" v-on:click="toOpenClose(4)">
             </div>
-            <p class="line"></p>
-            <table class="form-table" style="display: none;">
+            <p class="line" v-if="!isShowTable4"></p>
+            <table class="form-table" v-if="isShowTable4">
               <thead style="">
                 <th>序号</th>
                 <th>指标名称</th>
@@ -1501,3 +1501,51 @@ table {
   </div>
 </section>
 </template>
+<script type="javascript">
+import showTableSrc from '../assets/images/backtest/table-open.png'
+import hideTableSrc from '../assets/images/backtest/table-close.png'
+export default {
+  data() {
+    return {
+      isShowTable1: true,
+      isShowTable2: false,
+      isShowTable3: false,
+      isShowTable4: false,
+      openSrc: showTableSrc,
+      closeSrc: hideTableSrc
+    }
+  },
+  methods: {
+    toOpenClose: function(i) {
+      if (i === 1) {
+        if (this.isShowTable1) {
+          this.isShowTable1 = false
+        } else {
+          this.isShowTable1 = true
+        }
+      }
+      if (i === 2) {
+        if (this.isShowTable2) {
+          this.isShowTable2 = false
+        } else {
+          this.isShowTable2 = true
+        }
+      }
+      if (i === 3) {
+        if (this.isShowTable3) {
+          this.isShowTable3 = false
+        } else {
+          this.isShowTable3 = true
+        }
+      }
+      if (i === 4) {
+        if (this.isShowTable4) {
+          this.isShowTable4 = false
+        } else {
+          this.isShowTable4 = true
+        }
+      }
+    }
+  }
+}
+</script>
