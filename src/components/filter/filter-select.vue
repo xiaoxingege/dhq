@@ -13,19 +13,39 @@
         <span class="label">通用条件：</span>
         <ul class="selectBox">
           <li>
-            <label><div class="pr tsk">交易状态：<div class="text">交易日15点前显示当天基金交易状态，15点后显示下个交易日基金交易状态</div></div></label>
+            <label class="top">
+                <tooltip placement="top" v-model="visible">
+                  <div slot="outlet" class="test">交易状态：</div>
+                  <div slot="tooltip">交易日15点前显示当天基金交易状态，15点后显示下个交易日基金交易状态</div>
+                </tooltip>
+            </label>
             <select v-model='filterParams.jyzt' :disabled='isDisabled' :class='{"yellow": filterParams.jyzt.indexOf("all")<0}' ><option v-for="(val,key) in descRips" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label class="pr tsk">基金规模：<div class="text">根据最近一次基金季报/年报获得</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">基金规模：</div>
+                <div slot="tooltip">根据最近一次基金季报/年报获得</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.jjgm' :disabled='isDisabled' :class='{"yellow": filterParams.jjgm.indexOf("all")<0}'><option v-for="(val,key) in jjgm" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label class="pr tsk">成立时间：<div class="text">基金公布的成立时间</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">成立时间：</div>
+                <div slot="tooltip">基金公布的成立时间</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.clsj'  :disabled='isDisabled' :class='{"yellow": filterParams.clsj.indexOf("all")<0}'><option v-for="(val,key) in foundedTime" :value="key">{{val}}</option></select>
           </li>
           <li>
-            <label class="pr tsk">大额限制：<div class="text">基金大额申购限制</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">大额限制：</div>
+                <div slot="tooltip">基金大额申购限制</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.dexz'  :disabled='isDisabled' :class='{"yellow": filterParams.dexz.indexOf("all")<0}'><option v-for="(val,key) in bigLimit" :value="key">{{val}}</option></select>
           </li>
         </ul>
@@ -34,15 +54,30 @@
         <span class="label">业绩表现：</span>
         <ul class="selectBox">
           <li>
-            <label class="pr tsk">收益率表现1：<div class="text">一段自然日内基金的涨跌幅</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">收益率表现1：</div>
+                <div slot="tooltip">一段自然日内基金的涨跌幅</div>
+              </tooltip>
+            </label>
             <select  v-model='filterParams.sylbx1' :disabled='isDisabled' :class='{"yellow": filterParams.sylbx1.indexOf("all")<0}'><option v-for="item in sylbx" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
           <li>
-            <label class="pr tsk">收益率表现2：<div class="text">一段自然日内基金的涨跌幅</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">收益率表现2：</div>
+                <div slot="tooltip">一段自然日内基金的涨跌幅</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.sylbx2' :disabled='isDisabled' :class='{"yellow": filterParams.sylbx2.indexOf("all")<0}'><option v-for="item in sylbx" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
           <li>
-            <label class="pr tsk">年化收益率：<div class="text">根据基金历史年化收益计算，基金成立不足1年此数据仅供参考</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">年化收益率：</div>
+                <div slot="tooltip">根据基金历史年化收益计算，基金成立不足1年此数据仅供参考</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.nhsyl':disabled='isDisabled' :class='{"yellow": filterParams.nhsyl.indexOf("all")<0}'><option v-for="item in nhsyl" :value="item.itemId">{{item.itemName}}</option></select>
           </li>
         </ul>
@@ -52,7 +87,12 @@
         <!-- 全部 -->
         <ul class="fltj selectBox">
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2' class="pr">
-            <label class="pr tsk">行业：<div class="text">依据基金重仓股及申万一级行业划分</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">行业：</div>
+                <div slot="tooltip">依据基金重仓股及申万一级行业划分</div>
+              </tooltip>
+            </label>
             <div @click='toggleShow' class="select"  :class="{'yellow': !yellow,'disabled':checkDisabled}">{{checkName}}</div>
             <transition name="fade2">
               <div v-if="seleteCheckboxShow" class='checkedBox'>
@@ -63,49 +103,89 @@
             </transition>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
-            <label class="pr tsk">投资风格：<div class="text">本月基金市值大小，价格/成长属性</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">投资风格：</div>
+                <div slot="tooltip">本月基金市值大小，价格/成长属性</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.tzfg' :disabled='isDisabled' :class='{"yellow": filterParams.tzfg.indexOf("all")<0}'>
               <option v-for='(val,key) in investmentStyle' :value='key'>{{val}}</option>
             </select>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
-            <label class="pr tsk">机会/风险期：<div class="text">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">机会/风险期：</div>
+                <div slot="tooltip">从基金行业、投资风格等多维度，通过智能算法模型，提供基金建仓或增仓时机</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.jhfxq' :disabled='isDisabled' :class='{"yellow": filterParams.jhfxq.indexOf("all")<0}'>
               <option v-for='(val,key) in opportunity' :value='key'>{{val}}</option>
             </select>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
-            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">最大回撤：</div>
+                <div slot="tooltip">指定自然日内，基金最大回撤</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled' :class='{"yellow": filterParams.zdhc.indexOf("all")<0}'>
               <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
-            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">夏普比：</div>
+                <div slot="tooltip">指定自然日内，基金夏普比</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.xpb' :disabled='isDisabled' :class='{"yellow": filterParams.xpb.indexOf("all")<0}'>
               <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li v-if='typeIndex ==0 || typeIndex ==1 || typeIndex ==2'>
-            <label class="pr tsk">超额收益：<div class="text">指定自然日内，基金超额收益率</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">超额收益：</div>
+                <div slot="tooltip">指定自然日内，基金超额收益率</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.cesyl' :disabled='isDisabled' :class='{"yellow": filterParams.cesyl.indexOf("all")<0}'>
               <option v-for="item in cesyl" :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5">
-            <label class="pr tsk">最大回撤：<div class="text">指定自然日内，基金最大回撤</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">最大回撤：</div>
+                <div slot="tooltip">指定自然日内，基金最大回撤</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.zdhc' :disabled='isDisabled' :class='{"yellow": filterParams.zdhc.indexOf("all")<0}'>
               <option v-for="item in zdhc"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li v-if=" typeIndex ==3 || typeIndex ==4 || typeIndex ==5">
-            <label class="pr tsk">夏普比：<div class="text">指定自然日内，基金夏普比</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">夏普比：</div>
+                <div slot="tooltip">指定自然日内，基金夏普比</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.xpb' :disabled='isDisabled' :class='{"yellow": filterParams.xpb.indexOf("all")<0}'>
               <option v-for="item in xpb"  :value="item.itemId">{{item.itemName}}</option>
             </select>
           </li>
           <li v-if="typeIndex ==7">
-            <label class="pr tsk">封闭期：<div class="text">理财型基金封闭周期</div></label>
+            <label class="top">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">封闭期：</div>
+                <div slot="tooltip">理财型基金封闭周期</div>
+              </tooltip>
+            </label>
             <select v-model='filterParams.fbq' :disabled='isDisabled' :class='{"yellow": filterParams.fbq.indexOf("all")<0}'>
               <option v-for="(val,key) in fbq" :value="key">{{val}}</option>
             </select>
@@ -120,6 +200,8 @@
 // 股票范围——指数下拉框数据
 import * as Data from '../../z3tougu/constant/filter.js'
 import { mapState, mapGetters } from 'vuex'
+import Tooltip from 'components/common-components/tooltip'
+
 export default {
   data () {
     return {
@@ -285,6 +367,9 @@ export default {
         this.$emit('exportFoundPool', newVal)
       }
     }
+  },
+  components: {
+    Tooltip
   }
 }
 </script>
@@ -452,19 +537,19 @@ export default {
       }
     }
   }
-  .text{
-    display:none;
-    width: 181px;
-    position: absolute;
-    top: -55px;
-    left:25%;
-    line-height: 1.4;
-    border: 1px solid #ccc;
-    padding: 10px;
-    @include border_radius(3px);
-    background-color: #fff;
-    color:$colorFontTheme;
-    text-align: left;
+  .arrow{
+    // display:none;
+    // width: 181px;
+    // position: absolute;
+    // top: -55px;
+    // left:25%;
+    // line-height: 1.4;
+    // border: 1px solid #ccc;
+    // padding: 10px;
+    // @include border_radius(3px);
+    // background-color: #fff;
+    // color:$colorFontTheme;
+    // text-align: left;
     &:after{
       content: '';
       position: absolute;
@@ -506,4 +591,5 @@ export default {
   .fade2-enter, .fade2-leave-active {
     opacity: 0
   }
+
 </style>
