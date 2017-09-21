@@ -244,10 +244,10 @@ export default {
       const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
-      let token = this.authInfo.authorization
-      if (!window.Z3) {
+      const token = this.authInfo.authorization.split(' ')[1]
+      /* if (!window.Z3) {
         token = token.split(' ')[1]
-      }
+      }*/
       if (expires !== -1 && now - updateTime < expires * 1000) {
         this.createForm(id, type2, token, clientid, deviceid)
       } else {

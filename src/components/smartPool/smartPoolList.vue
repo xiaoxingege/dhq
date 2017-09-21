@@ -71,7 +71,7 @@ import {
 import fetch from '../../z3tougu/util/z3fetch'
 
 export default {
-  data() {
+  data () {
     return {
       theaders: ['名称', '基金数(只)', '创建时间', '修改时间', '组合关联', '操作'],
       selectActive: 2,
@@ -91,7 +91,7 @@ export default {
   components: {
     founddialog
   },
-  mounted() {
+  mounted () {
     this._getSmartPoolList()
   },
   computed: {
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     // 智能基金池列表
-    _getSmartPoolList() {
+    _getSmartPoolList () {
       this.$store.dispatch('getSmartPoolList', {
         isRecommend: this.isRecommend,
         userId: this.userId,
@@ -114,7 +114,7 @@ export default {
       })
     },
     // 复制基金池
-    copySmartPool() {
+    copySmartPool () {
       const url = `${domain}/openapi/fund/copyFundPool.shtml?poolName=${this.inputPoolName}&copyPoolId=${this.poolId}&userId=${this.userId}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'POST',
@@ -136,24 +136,24 @@ export default {
         }
       })
     },
-    showDialog(e, content) {
+    showDialog (e, content) {
       this.poolName = e.target.attributes.poolname.value
       this.poolId = e.target.attributes.poolid.value
       this.show = true
       this.popTitle = '复制当前基金池'
       this.inputPoolName = ''
     },
-    dialogclosefn() {
+    dialogclosefn () {
       this.show = false
       this.content = 1
       this.msg = ''
     },
-    save() {
+    save () {
       this.copySmartPool()
     }
   }
 }
-Vue.filter('fundNum', function(value, type) {
+Vue.filter('fundNum', function (value, type) {
   return value + type
 })
 </script>

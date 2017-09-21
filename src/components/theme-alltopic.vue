@@ -469,7 +469,7 @@ import ThemeSortAz from './theme-sort-az'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 export default {
-  data() {
+  data () {
     return {
       FIELDS: {
         hot: 'topicMarket.realChngPctWeek',
@@ -526,7 +526,7 @@ export default {
     StockBox
   },
   methods: {
-    query(type, page) {
+    query (type, page) {
       // if (this.sortField === type && page) {
       //   return
       // }
@@ -539,29 +539,29 @@ export default {
         pagesize: this.pagesize
       })
     },
-    list(type, page) {
+    list (type, page) {
       this.$store.dispatch('topic/queryListChange', {
         sortField: this.FIELDS.updown,
         page: this.page,
         pagesize: this.pagesize
       })
     },
-    goToPage(page) {
+    goToPage (page) {
       this.page = Number(page) - 1
     },
-    updateVal() {
+    updateVal () {
       this.direName = 'df'
     },
     /* showList: false,
           showAz: false,*/
-    listClick(e) {
+    listClick (e) {
       e.preventDefault()
       this.showList = true
       this.showAz = false
       this.query('hot')
       this.isStyle = ''
     },
-    azClick(e) {
+    azClick (e) {
       e.preventDefault()
       this.showList = false
       this.showAz = true
@@ -579,16 +579,16 @@ export default {
         this.isStyle = ''
       }
     },*/
-    format(date) {
+    format (date) {
       return formatDate(date)
     },
-    changeTofixed(num) {
+    changeTofixed (num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    updateStock(stock) {
+    updateStock (stock) {
       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
     },
-    subscribeStock() {
+    subscribeStock () {
       const msg = {
         subject: 'snapshot',
         type: '1',
@@ -600,10 +600,10 @@ export default {
     }
   },
   watch: {
-    page() {
+    page () {
       this.query(this.sortField, this.page)
     },
-    relatedStocks() {
+    relatedStocks () {
       console.log(this.relatedStocks)
       if (z3websocket.ws) {
         z3websocket.ws && z3websocket.ws.close()
@@ -611,13 +611,13 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    stockMessage() {
+    stockMessage () {
       console.log(this.stockMessage)
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
     },
-    socketState() {
+    socketState () {
       if (this.socketState === 1) {
         // 建立连接
         this.subscribeStock()
@@ -627,10 +627,10 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.query('hot')
   },
-  destroyed() {
+  destroyed () {
     z3websocket.ws && z3websocket.ws.close()
   }
 }

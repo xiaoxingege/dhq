@@ -115,7 +115,7 @@ import {
 } from '../../z3tougu/config'
 import fetch from '../../z3tougu/util/z3fetch'
 export default {
-  data() {
+  data () {
     return {
       th: ['基金名称', '类型', '规模', '涨跌幅', '近6个月收益', '起购金额', '申购费折扣', '申购费率', '赎回费率', '购回确认周期', '同类排名'],
       seletetimeshow: false,
@@ -134,7 +134,7 @@ export default {
     }
   },
   filters: {
-    filterNum: function(value, type) {
+    filterNum: function (value, type) {
       return value.toFixed(2) + type
     }
   },
@@ -156,12 +156,12 @@ export default {
       maskShow: 'maskShow'
     })
   },
-  mounted() {
+  mounted () {
     this.getdate()
     this.relevancedatafn()
   },
   methods: {
-    getdate() {
+    getdate () {
       this.$store.dispatch('getSmartPoolListDetails', {
         id: this.$route.params.id,
         orgCode: this.orgCode
@@ -170,17 +170,17 @@ export default {
         fundPoolId: this.$route.params.id
       })
     },
-    seletenumfn(v) {
+    seletenumfn (v) {
       this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
       this.seletetimeshow = false
     },
-    relevancedatafn() {
+    relevancedatafn () {
       this.$store.dispatch('relevancedatafn', {
         id: this.$route.params.id
       })
     },
     // 复制基金池
-    copySmartPool() {
+    copySmartPool () {
       const url = `${domain}/openapi/fund/copyFundPool.shtml?poolName=${this.inputPoolName}&copyPoolId=${this.poolId}&userId=${this.userId}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'POST',
@@ -202,18 +202,18 @@ export default {
         }
       })
     },
-    showDialog(e) {
+    showDialog (e) {
       this.poolName = e.target.attributes.poolname.value
       this.poolId = e.target.attributes.poolid.value
       this.show = true
       this.popTitle = '复制当前基金池'
     },
-    dialogclosefn() {
+    dialogclosefn () {
       this.show = false
       this.content = 1
       this.msg = ''
     },
-    save() {
+    save () {
       this.copySmartPool()
     }
   }

@@ -149,6 +149,8 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
+        alert(`${domain}/openapi/topic/hotTopic.shtml`)
+        alert(result.data[0].topicName)
         if (result.errCode === 0) {
           commit(mutationTypes.UPDATE_HOTLIST, result.data)
         }

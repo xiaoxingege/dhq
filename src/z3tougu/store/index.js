@@ -57,11 +57,14 @@ const actions = {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
+          alert(1)
+          alert(authInfo)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          resolve()
+          resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
+        alert(2)
         const authInfo = {
           authorization: 'Bearer test_z3quant_accesss_token', // test access_token
           clientid: 'test_client_id',

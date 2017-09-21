@@ -85,7 +85,7 @@ html {
 import StockSearch from 'components/search-map'
 import StockMap from 'components/stock-map'
 export default {
-  data() {
+  data () {
     return {
       rangeCode: this.$route.query.rCode || '',
       condition: this.$route.query.condition || 'mkt_idx.cur_chng_pct',
@@ -104,24 +104,24 @@ export default {
     StockSearch
   },
   methods: {
-    isShow: function(msg) {
+    isShow: function (msg) {
       if (msg) {
         this.showCondition = false // 全屏
       } else {
         this.showCondition = true // 非全屏
       }
     },
-    isShowMaskFn: function(mag) {
+    isShowMaskFn: function (mag) {
       this.isShowMask = mag
     },
-    getFocusStockName: function(msg) {
+    getFocusStockName: function (msg) {
       this.focusStockName = msg
     },
-    toZdf: function(msg) {
+    toZdf: function (msg) {
       this.condition = msg
     }
   },
-  mounted() {
+  mounted () {
 
   }
 

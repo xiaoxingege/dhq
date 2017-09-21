@@ -315,15 +315,18 @@ export default {
       const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
-      let token = this.authInfo.authorization
-      if (!window.Z3) {
-        token = token.split(' ')[1]
-      }
+      const token = this.authInfo.authorization.split(' ')[1]
+      // token = token
       if (expires !== -1 && now - updateTime < expires * 1000) {
         console.log(0)
+
         this.createForm(id, type, token, clientid, deviceid)
+        alert(token)
+        alert(clientid)
+        alert(deviceid)
       } else {
         console.log(111111)
+        alert(22221111)
         return store.dispatch('authSetting').then(() => {
           this.createForm(id, type, token, clientid, deviceid)
         })

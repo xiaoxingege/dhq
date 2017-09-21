@@ -92,7 +92,7 @@ import echarts from 'echarts'
 
 export default {
   props: ['strategyData', 'benchmarkObj'],
-  data() {
+  data () {
     return {
       strategy: {
         strategyName: '',
@@ -106,12 +106,12 @@ export default {
     }
   },
   watch: {
-    strategyData() {
+    strategyData () {
       this.initStrategy()
     }
   },
   computed: {
-    strategyDetail: function() {
+    strategyDetail: function () {
       if (this.strategyData) {
         this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio) // 胜率
         this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown) // 最大回撤
@@ -133,7 +133,7 @@ export default {
       }
       return this.strategyData
     },
-    incomeListData: function() {
+    incomeListData: function () {
       if (this.$store.state.z3touguIndex.incomeListData.length > 0) {
         const incomeListData = this.$store.state.z3touguIndex.incomeListData
         incomeListData.backtestDate = []
@@ -149,13 +149,13 @@ export default {
     }
   },
   methods: {
-    initStrategy: function() {
+    initStrategy: function () {
       this.chart = echarts.getInstanceByDom(this.$refs.chartList) || echarts.init(this.$refs.chartList)
       if (this.strategyDetail) {
         this.strategy = this.strategyDetail
         this.$store.dispatch('z3touguIndex/getIncomeList', {
-            strategyId: this.strategy.strategyId
-          })
+          strategyId: this.strategy.strategyId
+        })
           .then(() => {
             this.chart.showLoading()
             if (this.incomeListData.length > 0) {
@@ -166,13 +166,13 @@ export default {
                   itemWidth: 8,
                   // orient: 'vertical',
                   data: [{
-                      name: '策略累计收益率',
-                      icon: 'circle'
-                    },
-                    {
-                      name: this.benchmarkObj[this.strategy.benchmark],
-                      icon: 'circle'
-                    }
+                    name: '策略累计收益率',
+                    icon: 'circle'
+                  },
+                  {
+                    name: this.benchmarkObj[this.strategy.benchmark],
+                    icon: 'circle'
+                  }
                   ]
                 },
                 grid: {
@@ -207,29 +207,29 @@ export default {
                 },
                 color: ['#4076b4', '#f1975d'],
                 series: [{
-                    name: '策略累计收益率',
-                    type: 'line',
-                    showSymbol: false,
-                    hoverAnimation: false,
-                    data: this.incomeListData.totalReturn,
-                    lineStyle: {
-                      normal: {
-                        width: 1
-                      }
-                    }
-                  },
-                  {
-                    name: this.benchmarkObj[this.strategy.benchmark],
-                    type: 'line',
-                    showSymbol: false,
-                    hoverAnimation: false,
-                    data: this.incomeListData.benchmarkPeriodReturn,
-                    lineStyle: {
-                      normal: {
-                        width: 1
-                      }
+                  name: '策略累计收益率',
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.incomeListData.totalReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
                     }
                   }
+                },
+                {
+                  name: this.benchmarkObj[this.strategy.benchmark],
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.incomeListData.benchmarkPeriodReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
+                }
                 ]
               })
               this.chart.hideLoading()
@@ -237,7 +237,7 @@ export default {
           })
       }
     },
-    formatData: function(val) {
+    formatData: function (val) {
       let getVal
       if (val) {
         getVal = (100 * val).toFixed(2) + '%'
@@ -247,7 +247,7 @@ export default {
       return getVal
     }
   },
-  mounted() {
+  mounted () {
     this.initStrategy()
   }
 }
