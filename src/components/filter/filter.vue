@@ -46,8 +46,11 @@
           <tr>
             <th width='4%'>序号</th>
             <th @click="sorts('innerCode')" width='7.6%'><span>基金代码</span></th>
-            <th @click="sorts('chiAbbr')" class="pr" width='12%'><span>基金简称</span><i class="icon_help tsk"></i>
-              <div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+            <th @click="sorts('chiAbbr')" class="pr" width='12%'>
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">基金简称<i class="icon_help tsk"></i></div>
+                <div slot="tooltip">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+              </tooltip>
             </th>
             <th @click="sorts('estabDate')" width='6%'><span>成立日期</span></th>
             <th @click="sorts('fundScale')" width='7.6%'><span>规模</span></th>
@@ -76,8 +79,11 @@
             <th @click="sorts('performBench')" width='7.6%' v-if='typeIndex === 5'><span>业绩比较基准</span></th>
             <th width='7.6%'>起购金额</th>
             <th @click="sorts('fundYieldYearRank')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex === 6'><span>排名</span></th>
-            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk"><span>交易成本</span>
-              <div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">交易成本</div>
+                <div slot="tooltip">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+              </tooltip>
             </th>
             <th width='7.6%'>操作</th>
           </tr>
@@ -172,6 +178,7 @@ import Pagination from 'components/pagination'
 import fetch from '../../z3tougu/util/z3fetch'
 import { formatDate } from '../../utils/date'
 import { ctx } from '../../z3tougu/config'
+import Tooltip from 'components/common-components/tooltip'
 export default {
   data () {
     return {
@@ -228,7 +235,8 @@ export default {
   components: {
     FilterSelect,
     founddialog,
-    Pagination
+    Pagination,
+    Tooltip
   },
   computed: {
     ...mapState([
@@ -715,6 +723,7 @@ select {
         color: #2388da;
     }
 }
+.test{cursor: pointer}
 .button {
     display: inline-block;
     width: 72px;
@@ -724,40 +733,6 @@ select {
     border: 1px solid #ccc;
     cursor: pointer;
     @include border_radius(3px);
-}
-.text {
-    display: none;
-    width: 181px;
-    position: absolute;
-    top: -55px;
-    left: 21px;
-    line-height: 1.4;
-    border: 1px solid #ccc;
-    padding: 10px;
-    @include border_radius(3px);
-    background-color: #fff;
-    color: #666;
-    text-align: left;
-    &:after {
-        content: '';
-        position: absolute;
-        bottom: -16px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #fff;
-    }
-    &:before {
-        content: '';
-        position: absolute;
-        bottom: -17px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #ccc;
-    }
 }
 .filterCon {
     .top {
