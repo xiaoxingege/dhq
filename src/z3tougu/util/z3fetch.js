@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 import store from '../store'
 const originFetch = fetch
-export default function (url, options) {
+export default function(url, options) {
   const authInfo = store.state.auth
   if (!authInfo.authorization) {
     return originFetch(url, options)
@@ -20,16 +20,21 @@ export default function (url, options) {
   })
 }
 
-function insertAuthHeader (options) {
+function insertAuthHeader(options) {
   const authHeader = store.getters.authHeader
   let headers = {}
   if (!options) {
-    options = { headers: {}}
+    options = {
+      headers: {}
+    }
   }
   if (options && options.headers) {
-    headers = { ...options.headers }
+    headers = { ...options.headers
+    }
   }
-  headers = { ...headers, ...authHeader }
+  headers = { ...headers,
+    ...authHeader
+  }
   options.headers = headers
   return options
 }

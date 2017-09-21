@@ -275,8 +275,11 @@ export default {
         options: this.options
       }).then(() => {
         const that = this
+
         const xData = this.$store.state.bubbles.parameterData.xData
+
         const yData = this.$store.state.bubbles.parameterData.yData
+
         const xType = !!(xData === 'sw_indu_name' || xData === 'chi_spel')
         const yType = !!(yData === 'sw_indu_name' || yData === 'chi_spel')
         let x
@@ -295,6 +298,7 @@ export default {
         } else {
           y = that.bubblesData.yData
         }
+
         this.chart.setOption({
           backgroundColor: '#23252D',
           animation: false,
@@ -554,6 +558,7 @@ export default {
 
           }]
         })
+
         that.chart.on('dblclick', function (params) {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
         })
@@ -591,6 +596,7 @@ export default {
           })
           that.height = window.innerHeight - 85
         }
+
         this.chart.hideLoading()
       })
     },
