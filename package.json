@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.118",
+  "version": "0.0.120",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -90,6 +90,7 @@
     "echarts": "^3.7.0",
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
+    "hsy-vue-tooltip": "^0.0.7",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "log4js": "^1.1.1",

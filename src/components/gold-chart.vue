@@ -163,6 +163,7 @@ import Onelinechart from 'components/one-line-chart'
 import Onebarchart from 'components/one-bar-chart'
 import Twobarchart from 'components/two-bar-chart'
 import Pagination from 'components/pagination'
+import store from '../z3tougu/store'
 import {
   domain
 } from '../z3tougu/config'
@@ -177,7 +178,7 @@ export default {
     }
   },
   // ['data', 'strategyId', 'showType'],
-  data () {
+  data() {
     return {
       navText: [
         ['收益曲线图', 'syqxt'],
@@ -203,59 +204,68 @@ export default {
   },
   computed: {
 
-    mrjyData: function () {
+    mrjyData: function() {
       return this.$store.state.goldStrategy.mrjyData
     },
-    dqxgData: function () {
+    dqxgData: function() {
       return this.$store.state.goldStrategy.dqxgData
     },
-    authInfo: function () {
+    authInfo: function() {
       return this.$store.state.auth
     }
 
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    goMrjyPage (data) {
+    goMrjyPage(data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goDqxgPage (data) {
+    goDqxgPage(data) {
       this.$store.dispatch('goldStrategy/getDqxgData', {
         strategyId: this.strategyId,
         pageNum: data - 1
       }).then(() => {})
     },
-    exportData (type) {
+    exportData(type) {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
       } else if (type === 'dqxg') {
         type2 = 'goldStock'
       }
-      var url = `${domain}/openapi/excels/excelByType.shtml`
       const id = this.strategyId
-      let token = this.authInfo.authorization // .replace(' ', '%20')
-      if (!window.Z3) {
-        token = token.split(' ')[1]
-      }
+      const expires = this.authInfo.expires
+      const updateTime = this.authInfo.updateTime
+      const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
+      const token = this.authInfo.authorization.split(' ')[1]
+
+      if (expires !== -1 && now - updateTime < expires * 1000) {
+        this.createForm(id, type2, token, clientid, deviceid)
+      } else {
+        return store.dispatch('authSetting').then(() => {
+          this.createForm(id, type2, token, clientid, deviceid)
+        })
+      }
+    },
+    createForm(id, type, token, clientid, deviceid) {
+      var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
       postForm.method = 'get'
       postForm.action = url
-      // postForm.enctype = 'application/x-www-form-urlencoded'
-      postForm.innerHTML = '<input name="id" value="' + id + '" /><input name="type" value="' + type2 + '" /><input name="access_token" value="' + token + '" /><input name="client_id" value="' + clientid + '" /><input name="device_id" value="' + deviceid + '" />'
+      postForm.innerHTML = '<input name="id" value="' + id + '" /><input name="type" value="' + type + '" /><input name="access_token" value="' + token + '" /><input name="client_id" value="' + clientid + '" /><input name="device_id" value="' + deviceid + '" />'
       document.body.appendChild(postForm)
       postForm.submit()
-      document.body.removeChild(postForm)
+      // document.body.removeChild(postForm)
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>
