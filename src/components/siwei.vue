@@ -306,7 +306,8 @@ export default {
         strategyDefault: '',
         stockPoolDefault: '',
         innerCode: '',
-        topic: ''
+        topic: '',
+        topicNameDefalut: '全部'
       },
       xData: '近1月涨跌幅',
       yData: 'EPS增长率(未来3年)',
@@ -419,6 +420,7 @@ export default {
       this.stockRangeOptions.strategyDefault = this.options.strategyDefault
       this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
       this.stockRangeOptions.topic = this.options.topic
+      this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
     showSelfRange () {
       this.showSelfRangeDialog = true
@@ -428,6 +430,7 @@ export default {
       this.yData = this.xDataList[this.dimensionOptions.yDefault]
       this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
       this.colorData = this.options.colorDefault === '' ? '常规' : this.bubbleColorList[this.dimensionOptions.colorDefault]
+      this.stockRangeOptions.topicNameDefalut = this.topicName
       this.options = { ...this.dimensionOptions,
         ...this.stockRangeOptions
       }

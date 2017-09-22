@@ -98,6 +98,7 @@ export default {
           textStyle: {
             color: '#fff'
           },
+          margin: 20,
           interval: 0,
           rotate: (type ? 'category' : 'value') === 'category' ? 40 : 0
         },
@@ -254,7 +255,7 @@ export default {
             } else if (Number(showData) === 1) {
               return '买入'
             } else {
-              return ''
+              return '暂无观点'
             }
           } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
             return (Number(showData) / 100000000).toFixed(2) + '亿'
@@ -344,7 +345,7 @@ export default {
               textStyle: {
                 color: '#fff'
               },
-
+              margin: 20,
               interval: 0,
               rotate: (xType ? 'category' : 'value') === 'category' ? 40 : 0
             },
