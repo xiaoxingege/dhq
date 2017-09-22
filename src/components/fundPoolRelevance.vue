@@ -24,10 +24,10 @@
       <span class="line"><i>正相关</i><i>负相关</i></span>
       <div class="in">
         <div class="hd" :style="{width:relevancedata.fundInfoList.length*47+'px'}">
-            <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :index="item.index" :style="{'background':colorarrfn(item.fundType,item.index)}"><i>{{index}}</i></span>
+            <span v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :index="item.index" :style="{'background':colorarrfn(item.fundType,item.index)}"><i>{{index+1}}</i></span>
         </div>
         <div class="lhd">
-          <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarrfn(item.fundType,item.index)}"><span v-if="index<9">{{index}}</span><i>{{item.symbol}}/{{item.fundType}}</i><i>{{item.name}}</i></div>
+          <div v-for="(item,index) in relevancedata.fundInfoList" :fundType="item.fundType" :style="{'background':colorarrfn(item.fundType,item.index)}"><span v-if="index<9">{{index+1}}</span><i>{{item.symbol}}/{{item.fundType}}</i><i>{{item.name}}</i></div>
         </div>
         <div class="tablebox">
           <table>
