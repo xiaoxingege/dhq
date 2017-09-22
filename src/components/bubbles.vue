@@ -27,7 +27,7 @@ import Siweidialog from 'components/siwei-dialog'
 
 export default {
   props: ['options'],
-  data () {
+  data() {
     return {
       colorUnit: 10000,
       defaultColor: '#2F323D',
@@ -70,7 +70,7 @@ export default {
   watch: {
     'options': {
       deep: true,
-      handler: function () {
+      handler: function() {
         this.updateBubbles()
       }
     }
@@ -78,7 +78,7 @@ export default {
   computed: mapState({
     bubblesData: state => state.bubbles.bubblesData,
     parameterData: state => state.bubbles.parameterData,
-    xAxis: function (state) {
+    xAxis: function(state) {
       const that = this
       let x
       if (state.bubbles.parameterData.xData === 'sw_indu_name') {
@@ -92,7 +92,7 @@ export default {
       return {
         type: type ? 'category' : 'value',
         axisLabel: {
-          formatter: function (v) {
+          formatter: function(v) {
             return that.convertNumBySelect('xData', v)
           },
           textStyle: {
@@ -100,7 +100,7 @@ export default {
           },
           margin: 20,
           interval: 0,
-          rotate: (type ? 'category' : 'value') === 'category' ? 40 : 0
+          rotate: (type ? 'category' : 'value') === 'category' ? 30 : 0
         },
         splitLine: {
           lineStyle: {
@@ -111,7 +111,7 @@ export default {
         data: x
       }
     },
-    yAxis: function (state) {
+    yAxis: function(state) {
       const that = this
       let y
       if (state.bubbles.parameterData.yData === 'sw_indu_name') {
@@ -128,7 +128,7 @@ export default {
           textStyle: {
             color: '#fff'
           },
-          formatter: function (v) {
+          formatter: function(v) {
             return that.convertNumBySelect('yData', v)
           }
         },
@@ -141,84 +141,84 @@ export default {
         data: y
       }
     },
-    dataZoom: function () {
+    dataZoom: function() {
       return [{
-        type: 'slider',
-        show: true,
-        yAxisIndex: [0],
-        top: '5%',
-        right: 20,
-        bottom: 0,
-        start: 0,
-        end: 100,
-        textStyle: {
-          color: '#aed2ff'
-        },
-        borderColor: '#3c4868',
-        width: '6',
-        height: '90%',
-        handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-        handleSize: '300%',
-        dataBackground: {
-          areaStyle: {
-            color: '#222445'
+          type: 'slider',
+          show: true,
+          yAxisIndex: [0],
+          top: '5%',
+          right: 20,
+          bottom: 0,
+          start: 0,
+          end: 100,
+          textStyle: {
+            color: '#aed2ff'
           },
-          lineStyle: {
-            opacity: 0.8,
-            color: '#222445'
-          }
+          borderColor: '#3c4868',
+          width: '6',
+          height: '90%',
+          handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+          handleSize: '300%',
+          dataBackground: {
+            areaStyle: {
+              color: '#222445'
+            },
+            lineStyle: {
+              opacity: 0.8,
+              color: '#222445'
+            }
+          },
+          handleStyle: {
+            color: '#aed2ff',
+            shadowBlur: 3,
+            shadowColor: 'rgba(0, 0, 0, 0.6)',
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+          },
+          showDetail: false,
+          realtime: false
         },
-        handleStyle: {
-          color: '#aed2ff',
-          shadowBlur: 3,
-          shadowColor: 'rgba(0, 0, 0, 0.6)',
-          shadowOffsetX: 2,
-          shadowOffsetY: 2
-        },
-        showDetail: false,
-        realtime: false
-      },
-      {
-        type: 'slider',
-        show: true,
-        xAxisIndex: [0],
-        top: 10,
+        {
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          top: 10,
           // right:80,
-        left: '5%',
-        start: 0,
-        end: 100,
-        textStyle: {
-          color: '#aed2ff'
-        },
-        borderColor: '#3c4868',
-        width: '90%',
-        height: '6',
-        handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-        handleSize: '300%',
-        dataBackground: {
-          areaStyle: {
-            color: '#222445'
+          left: '5%',
+          start: 0,
+          end: 100,
+          textStyle: {
+            color: '#aed2ff'
           },
-          lineStyle: {
-            opacity: 0.8,
-            color: '#222445'
-          }
-        },
-        handleStyle: {
-          color: '#aed2ff',
-          shadowBlur: 3,
-          shadowColor: 'rgba(0, 0, 0, 0.6)',
-          shadowOffsetX: 2,
-          shadowOffsetY: 2
-        },
-        showDetail: false,
-        realtime: false
-      }
+          borderColor: '#3c4868',
+          width: '90%',
+          height: '6',
+          handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+          handleSize: '300%',
+          dataBackground: {
+            areaStyle: {
+              color: '#222445'
+            },
+            lineStyle: {
+              opacity: 0.8,
+              color: '#222445'
+            }
+          },
+          handleStyle: {
+            color: '#aed2ff',
+            shadowBlur: 3,
+            shadowColor: 'rgba(0, 0, 0, 0.6)',
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+          },
+          showDetail: false,
+          realtime: false
+        }
       ]
     }
   }),
   methods: {
-    convertUnit (selectName) {
+    convertUnit(selectName) {
       if (selectName === 'mkt_idx.volume' || selectName === 'perf_idx.avg_vol_3month' || selectName === 'fin_idx.tot_revenue' || selectName === 'fin_idx.sale') {
         return 10000
       } else if (selectName === 'mkt_idx.tcap' || selectName === 'mkt_idx.mktcap') {
@@ -227,7 +227,7 @@ export default {
         return 1
       }
     },
-    convertNumBySelect (select, showData) {
+    convertNumBySelect(select, showData) {
       if (isNaN(Number(showData))) {
         return showData
       } else {
@@ -269,7 +269,7 @@ export default {
         }
       }
     },
-    initBubbles () {
+    initBubbles() {
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading()
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -311,7 +311,7 @@ export default {
           },
           tooltip: {
             triggerOn: 'none',
-            formatter: function (params) {
+            formatter: function(params) {
               return '<p style="background: red; width:200px; height:200px">hello</p>'
             }
           },
@@ -339,7 +339,7 @@ export default {
               show: false
             },
             axisLabel: {
-              formatter: function (v) {
+              formatter: function(v) {
                 return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -379,7 +379,7 @@ export default {
               textStyle: {
                 color: '#fff'
               },
-              formatter: function (v) {
+              formatter: function(v) {
                 return that.convertNumBySelect('yData', v)
               }
 
@@ -388,77 +388,77 @@ export default {
 
           },
           dataZoom: [{
-            type: 'slider',
-            show: true,
-            yAxisIndex: [0],
-            top: '5%',
-            right: 20,
-            bottom: 0,
-            start: 0,
-            end: 100,
-            textStyle: {
-              color: '#aed2ff'
-            },
-            borderColor: '#3c4868',
-            width: '6',
-            height: '90%',
-            handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-            handleSize: '300%',
-            dataBackground: {
-              areaStyle: {
-                color: '#222445'
+              type: 'slider',
+              show: true,
+              yAxisIndex: [0],
+              top: '5%',
+              right: 20,
+              bottom: 0,
+              start: 0,
+              end: 100,
+              textStyle: {
+                color: '#aed2ff'
               },
-              lineStyle: {
-                opacity: 0.8,
-                color: '#222445'
-              }
+              borderColor: '#3c4868',
+              width: '6',
+              height: '90%',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '300%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              showDetail: false,
+              realtime: false
             },
-            handleStyle: {
-              color: '#aed2ff',
-              shadowBlur: 3,
-              shadowColor: 'rgba(0, 0, 0, 0.6)',
-              shadowOffsetX: 2,
-              shadowOffsetY: 2
-            },
-            showDetail: false,
-            realtime: false
-          },
-          {
-            type: 'slider',
-            show: true,
-            xAxisIndex: [0],
-            top: 10,
+            {
+              type: 'slider',
+              show: true,
+              xAxisIndex: [0],
+              top: 10,
               // right:80,
-            left: '5%',
-            start: 0,
-            end: 100,
-            textStyle: {
-              color: '#aed2ff'
-            },
-            borderColor: '#3c4868',
-            width: '90%',
-            height: '6',
-            handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-            handleSize: '300%',
-            dataBackground: {
-              areaStyle: {
-                color: '#222445'
+              left: '5%',
+              start: 0,
+              end: 100,
+              textStyle: {
+                color: '#aed2ff'
               },
-              lineStyle: {
-                opacity: 0.8,
-                color: '#222445'
-              }
-            },
-            handleStyle: {
-              color: '#aed2ff',
-              shadowBlur: 3,
-              shadowColor: 'rgba(0, 0, 0, 0.6)',
-              shadowOffsetX: 2,
-              shadowOffsetY: 2
-            },
-            showDetail: false,
-            realtime: false
-          }
+              borderColor: '#3c4868',
+              width: '90%',
+              height: '6',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '300%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              showDetail: false,
+              realtime: false
+            }
           ],
           series: [{
             type: 'scatter',
@@ -472,7 +472,7 @@ export default {
                 borderColor: 'rgba(153,153,153,0.5)',
                 borderWidth: 1,
                 borderType: 'solid',
-                color: function (params) {
+                color: function(params) {
                   const colorType = that.$store.state.bubbles.parameterData.bubbleColor
                   const bubbleColorData = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
                   if (colorType === '' || bubbleColorData === null) {
@@ -537,7 +537,7 @@ export default {
               }
             },
             data: this.$store.state.bubbles.bubblesData.seriesData,
-            symbolSize: function (params, value) {
+            symbolSize: function(params, value) {
               const tmpSize = that.$store.state.bubbles.parameterData.bubblesSize
               if (tmpSize === '') {
                 return 32
@@ -560,10 +560,10 @@ export default {
           }]
         })
 
-        that.chart.on('dblclick', function (params) {
+        that.chart.on('dblclick', function(params) {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
         })
-        that.chart.on('mouseover', function (params) {
+        that.chart.on('mouseover', function(params) {
           if ((params.event.offsetX + 460) > that.$refs.bubbles.clientWidth) {
             that.offsetX = params.event.offsetX - 480
           } else {
@@ -587,11 +587,11 @@ export default {
           that.dialogOptions.leftList.bubbleColor.value = that.convertNumBySelect('bubbleColor', that.$store.state.bubbles.bubblesData.bubbleColor[params.dataIndex])
           that.isShowDialog = true
         })
-        that.chart.on('mouseout', function (params) {
+        that.chart.on('mouseout', function(params) {
           that.zIndex = ''
           that.isShowDialog = false
         })
-        window.onresize = function () {
+        window.onresize = function() {
           that.chart.resize({
             height: window.innerHeight - 85
           })
@@ -601,7 +601,7 @@ export default {
         this.chart.hideLoading()
       })
     },
-    updateBubbles () {
+    updateBubbles() {
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
@@ -622,7 +622,7 @@ export default {
     }
 
   },
-  mounted () {
+  mounted() {
     const that = this
     const p = new Promise((resolve, reject) => {
       if (window.Z3) {
