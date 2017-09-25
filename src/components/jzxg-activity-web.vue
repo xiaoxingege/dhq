@@ -181,8 +181,8 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data() {
-    function GetRTime() {
+  data () {
+    function GetRTime () {
       var EndTime = new Date('2017/09/29 00:00:00')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -227,21 +227,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go1.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go2.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go3.jpg',
-            link: ''
-          }
+          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go1.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go2.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go3.jpg',
+          link: ''
+        }
         ]
       },
       popHtml: '',
@@ -249,35 +249,52 @@ export default {
     }
   },
   computed: mapState({
-    // type: state => {
-    //   return state.reservation.type
-    // }
+    loginStatus: state => state.user.loginStatus,
+    riskAssessed: state => state.user.riskAssessed,
+    bindingMobile: state => state.user.bindingMobile,
+    bindingIdentity: state => state.user.bindingIdentity
   }),
   components: {
     activitySlider,
     jzxgActivityPop
   },
   methods: {
-    navFixed() {
+    navFixed () {
       var pos = $('.bg6').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    popClose() {
+    popClose () {
       this.popShow = false
       this.popHtml = ''
+      // location.href='http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent(location.href)
     },
-    submit() {
-      this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">为响应证监会监管要求，保障投资者合法权益，请您先<br /><strong>补充真实信息后再进行购买，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
-      // this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
-
-      this.popShow = true
+    submit () {
+      if (this.loginStatus === 'no') {
+        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+      } else if (this.loginStatus === 'unknown') {
+        alert('正在加载用户信息，请稍候')
+      } else {
+        if (!this.riskAssessed) {
+          this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
+          this.popShow = true
+        } else if (!this.bindingMobile || !this.bindingIdentity) {
+          this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">为响应证监会监管要求，保障投资者合法权益，请您先<br /><strong>补充真实信息后再进行购买，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
+          this.popShow = true
+        } else {
+          location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
+        }
+      }
     }
   },
-  mounted() {
+  mounted () {
     document.title = '极致选股'
+    this.$store.dispatch('user/checkLogin')
+    this.$watch('loginStatus', () => {
+      this.$store.dispatch('user/checkRiskInfo', {})
+    })
   }
 }
 </script>
