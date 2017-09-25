@@ -1,50 +1,50 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 .bg5 .box-con .swiper-container {
-    top: 102px;
-    left: 250px;
-    margin: 0;
-    overflow: visible;
+  top: 102px;
+  left: 250px;
+  margin: 0;
+  overflow: visible;
 }
 
 .bg5 .box-con .swiper-pagination {
-    width: 233px;
-    height: 319px;
-    left: -250px;
+  width: 233px;
+  height: 319px;
+  left: -250px;
 }
 
 .bg5 .box-con .swiper-pagination span {
-    width: 233px;
-    height: 69px;
-    float: left;
-    margin: 0 0 14px;
-    background: none;
+  width: 233px;
+  height: 69px;
+  float: left;
+  margin: 0 0 14px;
+  background: none;
 }
 
 .pop-top h3 {
-    font-size: 36px;
-    color: #f8ce9a;
+  font-size: 36px;
+  color: #f8ce9a;
 }
 
 .fz22 {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 .pop-top p {
-    color: #e3a75d;
-    line-height: 40px;
+  color: #e3a75d;
+  line-height: 40px;
 }
 
 .mt20 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 </style>
 <style lang="scss" scoped>
@@ -135,45 +135,45 @@ input {
 
 <template>
 <div class="box">
-    <div class="bg1">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+  </div>
+  <div class="bg3">
+  </div>
+  <div class="bg4">
+  </div>
+  <div class="bg5">
+    <div class="box-con">
+      <activity-slider :listData="listData" />
     </div>
-    <div class="bg2">
+  </div>
+  <div class="bg6">
+  </div>
+  <div class="bg7">
+  </div>
+  <div class="nav-fixed" @click="navFixed">
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <div id="divdown1">
+        <span id="t_d">00</span>
+        <span id="t_h">00</span>
+        <span id="t_m">00</span>
+        <span id="t_s">00</span>
+      </div>
+      <a href="javascript:;" @click="submit"></a>
     </div>
-    <div class="bg3">
+  </div>
+  <jzxg-activity-pop v-if="popShow" @close="popClose">
+    <div v-html="popHtml">
     </div>
-    <div class="bg4">
-    </div>
-    <div class="bg5">
-        <div class="box-con">
-            <activity-slider :listData="listData" />
-        </div>
-    </div>
-    <div class="bg6">
-    </div>
-    <div class="bg7">
-    </div>
-    <div class="nav-fixed" @click="navFixed">
-    </div>
-    <div class="footer">
-        <div class="box-con">
-            <div id="divdown1">
-                <span id="t_d">00</span>
-                <span id="t_h">00</span>
-                <span id="t_m">00</span>
-                <span id="t_s">00</span>
-            </div>
-            <a href="javascript:;" @click="submit"></a>
-        </div>
-    </div>
-    <jzxg-activity-pop v-if="popShow" @close="popClose">
-        <div v-html="popHtml">
-        </div>
-    </jzxg-activity-pop>
+  </jzxg-activity-pop>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import activitySlider from 'components/activity-slider'
 import jzxgActivityPop from 'components/jzxg-activity-pop'
@@ -213,7 +213,7 @@ export default {
       document.getElementById('t_m').innerHTML = m
       document.getElementById('t_s').innerHTML = s
     }
-        // 倒计时开关
+    // 倒计时开关
     setInterval(GetRTime, 0)
     return {
       listData: {
@@ -249,9 +249,10 @@ export default {
     }
   },
   computed: mapState({
-        // type: state => {
-        //   return state.reservation.type
-        // }
+    loginStatus: state => state.user.loginStatus,
+    riskAssessed: state => state.user.riskAssessed,
+    bindingMobile: state => state.user.bindingMobile,
+    bindingIdentity: state => state.user.bindingIdentity
   }),
   components: {
     activitySlider,
@@ -260,7 +261,7 @@ export default {
   methods: {
     navFixed () {
       var pos = $('.bg6').offset().top
-            // 实现平滑移动 1000代表时间ms
+      // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
@@ -268,16 +269,32 @@ export default {
     popClose () {
       this.popShow = false
       this.popHtml = ''
+      // location.href='http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent(location.href)
     },
     submit () {
-            //   this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">为响应证监会监管要求，保障投资者合法权益，请您先<br /><strong>补充真实信息后再进行购买，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
-      this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
-
-      this.popShow = true
+      if (this.loginStatus === 'no') {
+        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+      } else if (this.loginStatus === 'unknown') {
+        alert('正在加载用户信息，请稍候')
+      } else {
+        if (!this.riskAssessed) {
+          this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
+          this.popShow = true
+        } else if (!this.bindingMobile || !this.bindingIdentity) {
+          this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">为响应证监会监管要求，保障投资者合法权益，请您先<br /><strong>补充真实信息后再进行购买，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
+          this.popShow = true
+        } else {
+          location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
+        }
+      }
     }
   },
   mounted () {
     document.title = '极致选股'
+    this.$store.dispatch('user/checkLogin')
+    this.$watch('loginStatus', () => {
+      this.$store.dispatch('user/checkRiskInfo', {})
+    })
   }
 }
 </script>

@@ -15,10 +15,10 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-// import septNewActivity from 'stores/sept-new-activity'
+import user from 'stores/user'
 const store = new Vuex.Store({
   modules: {
-    // septNewActivity
+    user
   }
 })
 

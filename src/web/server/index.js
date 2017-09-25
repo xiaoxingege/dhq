@@ -15,21 +15,15 @@ const router = new Router();
 /*
  * 读取routes路径下的全部路由文件进行路由注册
  */
-let routesDir = path.join(__dirname, 'routes');
-let routeFiles = fs.readdirSync(routesDir);
-routeFiles.forEach(file => {
-  // 防止有一些隐藏文件对路由注册造成干扰
-  let ext = path.extname(file);
-  if (ext === '.js') {
-    require('./routes/' + file)(router);
-  }
-});
+require('./routes')(router);
 
 app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
-const templateMap = {}
+const templateMap = {
+  'jzxg-activity': fs.readFileSync(path.join(templatePath, 'jzxg-activity.html')).toString()
+}
 app.use(async function(ctx, next) {
   let template = templateMap[ctx.template || 'default'];
   if (template) {
