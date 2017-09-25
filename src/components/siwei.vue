@@ -256,7 +256,7 @@ import * as Data from '../z3tougu/constant/siwei.js'
 import Bubbles from 'components/bubbles'
 import ThemeSortAz from 'components/theme-sort-az'
 export default {
-  data() {
+  data () {
     return {
       showStockRangeDialog: false,
       showSelfRangeDialog: false,
@@ -403,10 +403,10 @@ export default {
 
   },
   methods: {
-    showDialog() {
+    showDialog () {
       this.showStockRangeDialog = true
     },
-    hideDialog() {
+    hideDialog () {
       this.showStockRangeDialog = false
       this.showSelfRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
@@ -422,10 +422,10 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelfRange() {
+    showSelfRange () {
       this.showSelfRangeDialog = true
     },
-    showSelectData() {
+    showSelectData () {
       this.xData = this.xDataList[this.dimensionOptions.xDefault]
       this.yData = this.xDataList[this.dimensionOptions.yDefault]
       this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
@@ -436,7 +436,7 @@ export default {
       }
       this.tmpId = 'demoTmp0'
     },
-    changeTmp(e) {
+    changeTmp (e) {
       const tmpValue = e.target.value
       this.tmpId = tmpValue
       if (tmpValue === 'demoTmp0') {
@@ -461,7 +461,7 @@ export default {
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
-    getTime() {
+    getTime () {
       var date = new Date()
       var seperator2 = ':'
       var month = date.getMonth() + 1
@@ -483,32 +483,32 @@ export default {
       var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
       this.currentTime = currentdate
     },
-    showTheme() {
+    showTheme () {
       this.isShowTheme = true
     },
-    closeTheme() {
+    closeTheme () {
       this.isShowTheme = false
     },
-    getThemeVal(data) {
+    getThemeVal (data) {
       this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
-    hideAlert(data) {
+    hideAlert (data) {
       this.showStockRangeDialog = data
       this.showSelfRangeDialog = data
     }
   },
   computed: {
-    stockPool: function() {
+    stockPool: function () {
       return this.$store.state.bubbles.stockPool
     },
-    userStrategy: function() {
+    userStrategy: function () {
       return this.$store.state.bubbles.userStrategy
     }
   },
   watch: {
-    'dimensionOptions.xDefault': function() {
+    'dimensionOptions.xDefault': function () {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -516,7 +516,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'dimensionOptions.yDefault': function() {
+    'dimensionOptions.yDefault': function () {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -525,12 +525,12 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 
     const that = this
-    setInterval(function() {
+    setInterval(function () {
       that.getTime()
     }, 1000)
   }
