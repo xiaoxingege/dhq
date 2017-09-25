@@ -252,7 +252,7 @@ export default {
     loginStatus: state => state.user.loginStatus,
     riskAssessed: state => state.user.riskAssessed,
     bindingMobile: state => state.user.bindingMobile,
-    bindingIdentity: state => state.user.bindingIdentity,
+    bindingIdentity: state => state.user.bindingIdentity
   }),
   components: {
     activitySlider,
@@ -272,36 +272,36 @@ export default {
       if (!this.bindingMobile) {
         location.href = 'http://i.jrj.com.cn/home/userSetting/phoneIdentity?ReturnURL=' + encodeURIComponent(location.href)
       } else if (!this.bindingIdentity) {
-        location.href = 'http://i.jrj.com.cn/home/userSetting/nameIdentity?ReturnURL=' + encodeURIComponent(location.href);
+        location.href = 'http://i.jrj.com.cn/home/userSetting/nameIdentity?ReturnURL=' + encodeURIComponent(location.href)
       } else if (!this.riskAssessed) {
         location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4')
       } else {
-        location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4';
+        location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
       }
     },
     submit() {
       if (this.loginStatus === 'no') {
         location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
       } else if (this.loginStatus === 'unknown') {
-        alert('正在加载用户信息，请稍候');
+        alert('正在加载用户信息，请稍候')
       } else {
         if (!this.bindingMobile || !this.bindingIdentity) {
           this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">为响应证监会监管要求，保障投资者合法权益，请您先<br /><strong>补充真实信息后再进行购买，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
           this.popShow = true
         } else if (!this.riskAssessed) {
           this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
-          this.popShow = true;
+          this.popShow = true
         } else {
-          location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4';
+          location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
         }
       }
     }
   },
   mounted() {
     document.title = '极致选股'
-    this.$store.dispatch('user/checkLogin');
+    this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
-      this.$store.dispatch('user/checkBindingInfo', {});
+      this.$store.dispatch('user/checkBindingInfo', {})
     })
   }
 }
