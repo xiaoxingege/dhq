@@ -181,8 +181,8 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data () {
-    function GetRTime () {
+  data() {
+    function GetRTime() {
       var EndTime = new Date('2017/09/29 00:00:00')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -227,21 +227,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go1.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go2.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go3.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go1.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go2.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go3.jpg',
+            link: ''
+          }
         ]
       },
       popHtml: '',
@@ -259,19 +259,19 @@ export default {
     jzxgActivityPop
   },
   methods: {
-    navFixed () {
+    navFixed() {
       var pos = $('.bg6').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    popClose () {
+    popClose() {
       this.popShow = false
       this.popHtml = ''
       // location.href='http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent(location.href)
     },
-    submit () {
+    submit() {
       if (this.loginStatus === 'no') {
         location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
       } else if (this.loginStatus === 'unknown') {
@@ -289,11 +289,11 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     document.title = '极致选股'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
-      this.$store.dispatch('user/checkRiskInfo', {})
+      this.$store.dispatch('user/checkBindingInfo', {})
     })
   }
 }
