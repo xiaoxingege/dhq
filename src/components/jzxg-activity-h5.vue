@@ -8,22 +8,24 @@ input {
   outline: none;
 }
 
-.bg5 .box-con .swiper-container {
-  top: 102px;
-  left: 250px;
+.bg6 .box-con .swiper-container {
+  top: 1.26rem;
+  left: .27rem;
   margin: 0;
   overflow: visible;
 }
 
-.bg5 .box-con .swiper-pagination {
-  width: 233px;
-  height: 319px;
-  left: -250px;
+.bg6 .box-con .swiper-pagination {
+  width: 6.97rem;
+  height: 1rem;
+  left: 0rem;
+  position: absolute;
+  top: -1rem;
 }
 
-.bg5 .box-con .swiper-pagination span {
-  width: 233px;
-  height: 69px;
+.bg6 .box-con .swiper-pagination span {
+  width: 5rem;
+  height: .6rem;
   float: left;
   margin: 0 0 14px;
   background: none;
@@ -137,11 +139,11 @@ input {
   <div class="bg4">
   </div>
   <div class="bg5">
+  </div>
+  <div class="bg6">
     <div class="box-con">
       <activity-slider :listData="listData" />
     </div>
-  </div>
-  <div class="bg6">
   </div>
   <div class="bg7">
     <div class="bottom-fixed" @click="submit">
@@ -163,6 +165,7 @@ import {
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
+import activitySlider from 'components/activity-slider'
 
 export default {
   data () {
@@ -201,8 +204,8 @@ export default {
     setInterval(GetRTime, 1000)
     return {
       listData: {
-        conWidth: '743px',
-        conHeight: '307px',
+        conWidth: '6.97rem',
+        conHeight: '3.18rem',
         conPadding: '0',
         pagShow: true,
         arrowShow: false,
@@ -211,19 +214,19 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg',
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
           link: ''
         },
         {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go1.jpg',
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
           link: ''
         },
         {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go2.jpg',
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
           link: ''
         },
         {
-          imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go3.jpg',
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
           link: ''
         }
         ]
@@ -233,7 +236,9 @@ export default {
     }
   },
   computed: mapState({}),
-  components: {},
+  components: {
+    activitySlider
+  },
   methods: {
     navFixed () {
       var pos = $('.bottom-fixed').offset().top
