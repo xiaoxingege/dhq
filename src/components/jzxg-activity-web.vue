@@ -269,7 +269,13 @@ export default {
     popClose() {
       this.popShow = false
       this.popHtml = ''
-      // location.href='http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent(location.href)
+      if (!this.bindingMobile || !this.bindingIdentity) {
+        location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4')
+      } else if (!this.riskAssessed) {
+        location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4')
+      } else {
+        location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
+      }
     },
     submit() {
       if (this.loginStatus === 'no') {
