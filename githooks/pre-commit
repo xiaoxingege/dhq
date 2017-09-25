@@ -1,5 +1,5 @@
 #!/bin/sh
-
+exit
 cd "$(cd "$(dirname "$0")"; pwd -P)/../../"
 files=($(git status -bs | grep '^[MAU]' | awk '{print $2}'))
 if [ ${#files[@]} -gt 0 ]; then

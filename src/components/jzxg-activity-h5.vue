@@ -168,8 +168,8 @@ window.jQuery = window.$ = jQuery
 import activitySlider from 'components/activity-slider'
 
 export default {
-  data() {
-    function GetRTime() {
+  data () {
+    function GetRTime () {
       var EndTime = new Date('2017/09/30 23:59:59')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -214,21 +214,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-            link: ''
-          }
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+          link: ''
+        }
         ]
       },
       popHtml: '',
@@ -240,18 +240,18 @@ export default {
     activitySlider
   },
   methods: {
-    navFixed() {
+    navFixed () {
       var pos = $('.bottom-fixed').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    submit() {
+    submit () {
       location.href = 'http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4'
     }
   },
-  mounted() {
+  mounted () {
     document.title = '极致选股'
   }
 }
