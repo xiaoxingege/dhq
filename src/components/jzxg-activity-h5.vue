@@ -58,43 +58,43 @@ input {
     background: url("../assets/images/jzxg-activity/section-1.jpg") center 0 no-repeat;
     height: 5.03rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg2 {
     background: url("../assets/images/jzxg-activity/section-2.jpg") center 0 no-repeat;
     height: 11.21rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg3 {
     background: url("../assets/images/jzxg-activity/section-3.jpg") center 0 no-repeat;
     height: 11.62rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg4 {
     background: url("../assets/images/jzxg-activity/section-4.jpg") center 0 no-repeat;
     height: 6.58rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg5 {
     background: url("../assets/images/jzxg-activity/section-5.jpg") center 0 no-repeat;
     height: 7.15rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg6 {
     background: url("../assets/images/jzxg-activity/section-6.jpg") center 0 no-repeat;
     height: 5.22rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .bg7 {
     background: url("../assets/images/jzxg-activity/section-7.jpg") center 0 no-repeat;
     height: 10.69rem;
     width: 7.5rem;
-    background-size: 100%;
+    background-size: 100% 100%;
     position: relative;
 }
 .nav-fixed {
