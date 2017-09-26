@@ -195,7 +195,7 @@ f3
   done
 fi
 
-if [ "$feature" = "z3tougu" ]; then
+if [ "$feature" = "z3tougu22" ]; then
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
