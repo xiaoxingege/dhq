@@ -75,9 +75,15 @@ export default {
       }
     },
     checkBindingInfo({
-      commit
+      commit,
+      state
     }) {
-      $.ajax('//itougu.jrj.com.cn/account/service/identityHasVerified.jspa').then(data => {
+      $.ajax({
+        url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
+        headers: {
+          passportId: state.ssoId
+        }
+      }).then(data => {
         commit('setBindingInfo', data.data)
       })
     }
