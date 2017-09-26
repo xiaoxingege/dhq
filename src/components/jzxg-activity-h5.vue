@@ -253,6 +253,7 @@ export default {
   },
   mounted () {
     document.title = '极致选股'
+    this.$store.dispatch('user/checkLogin')
   }
 }
 </script>
