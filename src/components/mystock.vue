@@ -607,7 +607,6 @@ export default {
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
       groupid: 4973837,
-      passportid: 160809010058171533,
       dataarr1: [],
       dataarr2: [],
       dataarr3: [],
@@ -665,16 +664,11 @@ export default {
                   method: 'get',
                   url: url,
                   params: {},
-                  header: {
-                    'passportId': 160809010058171533
-                  },
                   callback: 'callbackgobtninfo2',
                   version: '3.10.1'
                 }))
-                alert('真实数据2')
               } else {
                 window.callbackgobtninfo2(testData)
-                alert('测试数据2')
               }
             }
             t()
@@ -700,7 +694,8 @@ export default {
       var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
       var _this = this
       if (!window.jrj) {
-        setTimeout(this.jiazaidata.bind(this), 1000)
+        setTimeout(this.jiazaidata.bind(this), 100)
+        return
       }
       window.callbackgobtninfo = function(t) {
         _this.$data['dataarr' + _this.typeurl] = t.data.items
@@ -710,17 +705,11 @@ export default {
           method: 'get',
           url: url,
           params: {},
-          header: {
-            'passportId': 160809010058171533
-          },
           callback: 'callbackgobtninfo',
           version: '3.10.1'
         }))
-        alert('真实数据1')
-        alert(document.cookie)
       } else {
         window.callbackgobtninfo(testData)
-        alert('测试数据1')
       }
     },
     // 正红负绿
