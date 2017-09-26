@@ -183,7 +183,7 @@ window.jQuery = window.$ = jQuery
 export default {
   data() {
     function GetRTime() {
-      var EndTime = new Date('2017/09/29 00:00:00')
+      var EndTime = new Date('2017/09/30 23:59:59')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
       var d = 0
