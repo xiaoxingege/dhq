@@ -709,8 +709,10 @@ export default {
       var urll = this.urllink[this.typeurl]
       var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
       var _this = this
+      if (!window.jrj) {
+        setTimeout(this.jiazaidata.bind(this), 1000)
+      }
       window.callbackgobtninfo = function(t) {
-        t = window.convertToJsonObject(t)
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
       alert(window.jrj)
