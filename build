@@ -68,7 +68,7 @@ errstr="__error__"
 
 
 version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.version)")
-if [ "$feature" != "z3tougu" ]; then
+if [ "$feature" != "z3tougu22" ]; then
   package_path="/data/www/packages"
   ver_path="$package_path/$feature.$env.version"
   sudo mkdir -p $package_path
@@ -223,6 +223,7 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
+  echo 'update version file'
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
