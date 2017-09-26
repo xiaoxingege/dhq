@@ -652,7 +652,20 @@ export default {
               var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
             var t = function() {
               alert(window.jrj)
+              alert(url)
               if (window.jrj && window.jrj.jsCallNative) {
+                window.callbackgobtninfo2 = function(t) {
+                  alert(t)
+                  alert(window.convertToJsonObject + 'convertToJsonObject')
+                  t = window.convertToJsonObject(t)
+                  sw = false
+                  if (t.data.items.length === 0) {
+                    $('.loading').hide()
+                  } else {
+                    _this.$data['dataarr' + _this.typeurl] = _this['dataarr' + _this.typeurl].concat(t.data.items)
+                    sw = true
+                  }
+                }
                 window.jrj.jsCallNative('130', JSON.stringify({
                   method: 'get',
                   url: url,
@@ -660,7 +673,7 @@ export default {
                   header: {
                     'passportId': 160809010058171533
                   },
-                  callback: 'callbackgobtninfo',
+                  callback: 'callbackgobtninfo2',
                   version: '3.10.1'
                 }))
                 alert('真实数据2')
@@ -668,23 +681,11 @@ export default {
                 window.convertToJsonObject = function(obj) {
                   return obj
                 }
-                window.callbackgobtninfo(testData)
+                window.callbackgobtninfo2(testData)
                 alert('测试数据2')
               }
             }
             t()
-            window.callbackgobtninfo = function(t) {
-              alert(t)
-              alert(window.convertToJsonObject + 'convertToJsonObject')
-              t = window.convertToJsonObject(t)
-              sw = false
-              if (t.data.items.length === 0) {
-                $('.loading').hide()
-              } else {
-                _this.$data['dataarr' + _this.typeurl] = _this['dataarr' + _this.typeurl].concat(t.data.items)
-                sw = true
-              }
-            }
           }, 1000)
         }
       }
