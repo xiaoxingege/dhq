@@ -651,6 +651,7 @@ export default {
             urll.pn++
               var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
             var t = function() {
+              alert(window.jrj)
               if (window.jrj && window.jrj.jsCallNative) {
                 window.jrj.jsCallNative('130', JSON.stringify({
                   method: 'get',
@@ -673,6 +674,8 @@ export default {
             }
             t()
             window.callbackgobtninfo = function(t) {
+              alert(t)
+              alert(window.convertToJsonObject + 'convertToJsonObject')
               t = window.convertToJsonObject(t)
               sw = false
               if (t.data.items.length === 0) {
