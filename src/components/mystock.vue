@@ -645,10 +645,10 @@ export default {
             return
           }
           sw = false
-          setTimeout(() => {
+          setTimeout(function() {
             var urll = _this.urllink[_this.typeurl]
             urll.pn++
-              var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
+              var url = urll.url + '?group_id=' + _this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
             var t = function() {
               if (window.jrj && window.jrj.jsCallNative) {
                 window.callbackgobtninfo2 = function(t) {
