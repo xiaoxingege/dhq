@@ -646,7 +646,7 @@ export default {
             return
           }
           sw = false
-          setTimeout(function() {
+          setTimeout(() => {
             var urll = _this.urllink[_this.typeurl]
             urll.pn++
               var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
