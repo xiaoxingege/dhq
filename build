@@ -76,7 +76,9 @@ if [ "$feature" != "z3tougu" ]; then
     echo "package $feature-$version exists."
     exit 1
   fi
-  get_valid_port
+  if [ "$env" = "test" ]; then
+    get_valid_port
+  fi
 fi
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
@@ -245,6 +247,6 @@ else
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
   if [ "$env" = "test" ]; then
-    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature port=$port sh /home/admin/pull.sh"
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature branch=$branch port=$port sh /home/admin/pull.sh"
   fi
 fi
