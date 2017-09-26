@@ -40,7 +40,8 @@ app.use(async function(ctx, next) {
     ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
     let appid = ctx.headers.appid || '';
-    let passportId = ctx.headers.passportId || '';
+    let passportId = ctx.headers.passportid || '';
+    console.log(ctx.headers);
     if (appid) {
       ctx.body = ctx.body.replace('{{appid}}', appid).replace('{{passportId}}', passportId);
     }
