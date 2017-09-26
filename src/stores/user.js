@@ -44,10 +44,8 @@ export default {
       commit
     }) {
       // App内，通过cookie判断
-      alert(window.app.name)
       if (window.app && window.app.name && window.app.name !== '{{appid}}') {
         const passportId = window.app.passportId
-        alert(passportId)
         commit('fetch', {
           ssoId: passportId || ''
         })
