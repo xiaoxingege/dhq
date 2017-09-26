@@ -235,7 +235,9 @@ export default {
       popShow: false
     }
   },
-  computed: mapState({}),
+  computed: mapState({
+    loginStatus: state => state.user.loginStatus
+  }),
   components: {
     activitySlider
   },
@@ -248,11 +250,20 @@ export default {
       }, 500)
     },
     submit () {
-      location.href = 'http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4'
+      if (this.loginStatus === 'no') {
+        window.jrj.jsCallNative('108', JSON.stringify({
+          returnUrl: encodeURI(window.location.href)
+        }))
+      } else if (this.loginStatus === 'yes') {
+        location.href = 'http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4'
+      } else {
+        alert('正在获取用户信息，请稍候')
+      }
     }
   },
   mounted () {
     document.title = '极致选股'
+    this.$store.dispatch('user/checkLogin')
   }
 }
 </script>

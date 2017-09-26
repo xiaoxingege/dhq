@@ -3,6 +3,7 @@
  * namespaced为true，是为了避免store的module之间，getters、mutations、actions发生命名冲突
  */
 import $ from 'jquery'
+import cookie from 'component-cookie'
 
 export default {
   namespaced: true,
@@ -43,23 +44,38 @@ export default {
     checkLogin ({
       commit
     }) {
-      const script = document.createElement('script')
-      script.addEventListener('load', function () {
+      // App内，通过cookie判断
+      alert(window.app.name)
+      if (window.app && window.app.name && window.app.name !== '{{appid}}') {
+        const passportId = cookie('passportId')
+        alert(passportId)
         commit('fetch', {
-          ssoId: window.sso_userID
+          ssoId: passportId || ''
         })
-        if (window.sso_userID) {
+        if (passportId) {
           commit('setLoginStatus', 'yes')
         } else {
           commit('setLoginStatus', 'no')
         }
-        document.getElementsByTagName('head')[0].removeChild(script)
-      })
-      script.addEventListener('error', function () {
-        document.getElementsByTagName('head')[0].removeChild(script)
-      })
-      script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
-      document.getElementsByTagName('head')[0].appendChild(script)
+      } else {
+        const script = document.createElement('script')
+        script.addEventListener('load', function () {
+          commit('fetch', {
+            ssoId: window.sso_userID
+          })
+          if (window.sso_userID) {
+            commit('setLoginStatus', 'yes')
+          } else {
+            commit('setLoginStatus', 'no')
+          }
+          document.getElementsByTagName('head')[0].removeChild(script)
+        })
+        script.addEventListener('error', function () {
+          document.getElementsByTagName('head')[0].removeChild(script)
+        })
+        script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
+        document.getElementsByTagName('head')[0].appendChild(script)
+      }
     },
     checkBindingInfo ({
       commit
