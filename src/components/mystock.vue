@@ -656,6 +656,11 @@ export default {
               if (window.jrj && window.jrj.jsCallNative) {
                 window.callbackgobtninfo2 = function(t) {
                   alert(t)
+                  if (typeof t === 'object') {
+                    for (var key in t) {
+                      alert(key)
+                    }
+                  }
                   alert(window.convertToJsonObject + 'convertToJsonObject')
                   t = window.convertToJsonObject(t)
                   sw = false
@@ -678,9 +683,6 @@ export default {
                 }))
                 alert('真实数据2')
               } else {
-                window.convertToJsonObject = function(obj) {
-                  return obj
-                }
                 window.callbackgobtninfo2(testData)
                 alert('测试数据2')
               }
@@ -725,9 +727,6 @@ export default {
         }))
         alert('真实数据1')
       } else {
-        window.convertToJsonObject = function(obj) {
-          return obj
-        }
         window.callbackgobtninfo(testData)
         alert('测试数据1')
       }
