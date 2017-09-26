@@ -713,6 +713,13 @@ export default {
         setTimeout(this.jiazaidata.bind(this), 1000)
       }
       window.callbackgobtninfo = function(t) {
+        alert(t)
+        if (typeof t === 'object') {
+          for (var key in t) {
+            alert(key)
+          }
+        }
+        alert(window.convertToJsonObject + 'convertToJsonObject')
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
       alert(window.jrj)
