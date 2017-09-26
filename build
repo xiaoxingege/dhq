@@ -71,6 +71,7 @@ version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('pac
 if [ "$feature" != "z3tougu22" ]; then
   package_path="/data/www/packages"
   ver_path="$package_path/$feature.$env.version"
+  echo 'making dir'
   sudo mkdir -p $package_path
   if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
     echo "package $feature-$version exists."
@@ -247,7 +248,7 @@ else
   done
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
-  if [ "$env" = "test" ]; then
+  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
     ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature branch=$branch port=$port sh /home/admin/pull.sh"
   fi
 fi
