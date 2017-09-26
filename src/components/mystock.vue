@@ -651,18 +651,8 @@ export default {
             urll.pn++
               var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
             var t = function() {
-              alert(window.jrj)
-              alert(url)
               if (window.jrj && window.jrj.jsCallNative) {
                 window.callbackgobtninfo2 = function(t) {
-                  alert(t)
-                  if (typeof t === 'object') {
-                    for (var key in t) {
-                      alert(key)
-                    }
-                  }
-                  alert(window.convertToJsonObject + 'convertToJsonObject')
-                  t = window.convertToJsonObject(t)
                   sw = false
                   if (t.data.items.length === 0) {
                     $('.loading').hide()
@@ -713,16 +703,8 @@ export default {
         setTimeout(this.jiazaidata.bind(this), 1000)
       }
       window.callbackgobtninfo = function(t) {
-        alert(t)
-        if (typeof t === 'object') {
-          for (var key in t) {
-            alert(key)
-          }
-        }
-        alert(window.convertToJsonObject + 'convertToJsonObject')
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
-      alert(window.jrj)
       if (window.jrj && window.jrj.jsCallNative) {
         window.jrj.jsCallNative('130', JSON.stringify({
           method: 'get',
@@ -735,6 +717,7 @@ export default {
           version: '3.10.1'
         }))
         alert('真实数据1')
+        alert(document.cookie)
       } else {
         window.callbackgobtninfo(testData)
         alert('测试数据1')
