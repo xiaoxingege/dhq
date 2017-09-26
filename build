@@ -77,7 +77,7 @@ if [ "$feature" != "z3tougu22" ]; then
     echo "package $feature-$version exists."
     exit 1
   fi
-  if [ "$env" = "test" ]; then
+  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
     get_valid_port
   fi
 fi
