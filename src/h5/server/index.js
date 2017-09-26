@@ -20,7 +20,8 @@ app.use(router.routes());
 const templatePath = getTemplatePath();
 const templateMap = {
   neicanmsapp: fs.readFileSync(path.join(templatePath, 'neicanmsapp.html')).toString(),
-  'jzxg-activity': fs.readFileSync(path.join(templatePath, 'jzxg-activity.html')).toString()
+  'jzxg-activity': fs.readFileSync(path.join(templatePath, 'jzxg-activity.html')).toString(),
+  'mystock': fs.readFileSync(path.join(templatePath, 'mystock.html')).toString()
 }
 app.use(async function(ctx, next) {
   let template = templateMap[ctx.template || 'default'];
