@@ -23,11 +23,26 @@ const templateMap = {
   'jzxg-activity': fs.readFileSync(path.join(templatePath, 'jzxg-activity.html')).toString(),
   'mystock': fs.readFileSync(path.join(templatePath, 'mystock.html')).toString()
 }
+const templateCache = {};
+const loadTemplate = function(name) {
+  if (templateCache[name]) return templateCache[name];
+  try {
+    let content = fs.readFileSync(path.join(templatePath, `${name}.html`)).toString();
+    templateCache[name] = content;
+    return content;
+  } catch (e) {
+    return null;
+  }
+};
 app.use(async function(ctx, next) {
-  let template = templateMap[ctx.template || 'default'];
+  let template = loadTemplate(ctx.template || 'default');
   if (template) {
     ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
+    let appid = ctx.headers.appid;
+    if (appid) {
+      ctx.body = ctx.body.replace('{{appid}}', appid);
+    }
   }
   await next();
 });
