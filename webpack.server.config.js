@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 
 let featureName = 'demo';
-let port = 8080;
+let port = 3000;
 process.argv.some(function(arg) {
   let arr = arg.match(/\-\-env=([a-zA-Z0-9\-_,]+)/);
   if (arr) {

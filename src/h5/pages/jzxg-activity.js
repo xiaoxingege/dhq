@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/allpeoplelv'
+import App from 'components/jzxg-activity-h5'
 
 /*
  * 引入vuex
@@ -16,11 +16,9 @@ Vue.use(Vuex)
  * 实例化store
  */
 import user from 'stores/user'
-import error from 'stores/error'
 const store = new Vuex.Store({
   modules: {
-    user,
-    error
+    user
   }
 })
 

@@ -197,181 +197,181 @@
 </template>
 
 <script>
-// 股票范围——指数下拉框数据
-import * as Data from '../../z3tougu/constant/filter.js'
-import { mapState, mapGetters } from 'vuex'
-import Tooltip from 'components/common-components/tooltip'
+  // 股票范围——指数下拉框数据
+  import * as Data from '../../z3tougu/constant/filter.js'
+  import { mapState, mapGetters } from 'vuex'
+  import Tooltip from 'components/common-components/tooltip'
 
-export default {
-  data () {
-    return {
-      filterType: [{ name: '全部', value: 'jjlx_all' }, { name: '股票型', value: 'jjlx_gpx' }, { name: '混合型', value: 'jjlx_hhx' }, { name: '债券型', value: 'jjlx_zqx' }, { name: '指数型', value: 'jjlx_zsx' }, { name: 'QDII型', value: 'jjlx_qdiix' }, { name: '货币型', value: 'jjlx_hbx' }, { name: '理财型', value: 'jjlx_lcx' }],
-      typeIndex: 0,
-      descRips: Data.descrips,
-      jjgm: Data.jjgm,
-      foundedTime: Data.foundedTime,
-      bigLimit: Data.bigLimit,
-      trades: Data.trades,
-      investmentStyle: Data.investmentStyle,
-      opportunity: Data.opportunity,
-      fbq: Data.fbq,
-      isDisabled: true,
-      checkedVal: [],
-      checkDisabled: true,
-      checkName: '全部',
-      type: 'jjlx_all',
-      hyStr: 'all',
-      yellow: 'false',
-      seleteCheckboxShow: false,
-      filterParams: {
-        jjlx: 'jylx_all',
-        jyzt: 'jyzt_all',
-        jjgm: 'jjgm_all',
-        clsj: 'clsj_all',
-        dexz: 'dexz_all',
-        sylbx1: 'sylbx_all',
-        sylbx2: 'sylbx_all',
-        nhsyl: 'nhsyl_all',
-        hy: 'all',
-        tzfg: 'tzfg_all',
-        jhfxq: 'jhfxq_all',
-        zdhc: 'zdhc_all',
-        xpb: 'xpb_all',
-        cesyl: 'cesy_all',
-        fbq: 'fbq_all'
-      }
-    }
-  },
-  methods: {
-    selectType (e, index) {
-      this.type = e.target.attributes.value.value
-      this.typeIndex = index
-      this.$emit('selectType', index, this.type)
-      if (this.typeIndex !== 0) {
-        this.isDisabled = false
-        this.checkDisabled = false
-        this.seleteCheckboxShow = false
-      } else {
-        this.isDisabled = true
-        this.checkDisabled = true
-      }
-
-      if (this.typeIndex === 0) {
-        this.seleteCheckboxShow = false
-        this.initCheckedVal()
-        this.yellow = true
-      }
-      this.getOptionData()
-    },
-    getOptionData () { // 获取下拉数据
-      this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })
-      this.$store.dispatch('getNhsyl', { idxId: 'nhsyl', jjlx: this.type })
-      this.$store.dispatch('getZdhc', { idxId: 'zdhc', jjlx: this.type })
-      this.$store.dispatch('getXpb', { idxId: 'xpb', jjlx: this.type })
-      this.$store.dispatch('getCesyl', { idxId: 'cesyl', jjlx: this.type })
-    },
-    change1 (e) {
-      this.type = e.target.attributes.value.value
-    },
-    checkBox (e, item) {
-      const check = this.$refs.checkAllname
-      var value = e.target.value
-      var checked = e.target.checked
-      this.checkName = ''
-      for (let i = 0; i < check.length; i++) {
-        if (check[i].checked === true) {
-          check[0].name = ''
-          this.checkName += check[i].name + ' '
+  export default {
+    data () {
+      return {
+        filterType: [{ name: '全部', value: 'jjlx_all' }, { name: '股票型', value: 'jjlx_gpx' }, { name: '混合型', value: 'jjlx_hhx' }, { name: '债券型', value: 'jjlx_zqx' }, { name: '指数型', value: 'jjlx_zsx' }, { name: 'QDII型', value: 'jjlx_qdiix' }, { name: '货币型', value: 'jjlx_hbx' }, { name: '理财型', value: 'jjlx_lcx' }],
+        typeIndex: 0,
+        descRips: Data.descrips,
+        jjgm: Data.jjgm,
+        foundedTime: Data.foundedTime,
+        bigLimit: Data.bigLimit,
+        trades: Data.trades,
+        investmentStyle: Data.investmentStyle,
+        opportunity: Data.opportunity,
+        fbq: Data.fbq,
+        isDisabled: true,
+        checkedVal: [],
+        checkDisabled: true,
+        checkName: '全部',
+        type: 'jjlx_all',
+        hyStr: 'all',
+        yellow: 'false',
+        seleteCheckboxShow: false,
+        filterParams: {
+          jjlx: 'jylx_all',
+          jyzt: 'jyzt_all',
+          jjgm: 'jjgm_all',
+          clsj: 'clsj_all',
+          dexz: 'dexz_all',
+          sylbx1: 'sylbx_all',
+          sylbx2: 'sylbx_all',
+          nhsyl: 'nhsyl_all',
+          hy: 'all',
+          tzfg: 'tzfg_all',
+          jhfxq: 'jhfxq_all',
+          zdhc: 'zdhc_all',
+          xpb: 'xpb_all',
+          cesyl: 'cesy_all',
+          fbq: 'fbq_all'
         }
       }
-      if (value === 'all' && checked === true) {
-        this.initCheckedVal()
-      }
-      if (value === 'all' && checked === false) {
-        this.checkedVal = []
-        this.filterParams.hy = 'all'
-      }
-      var vLength = this.checkedVal.length
-      var isHyAll = this.checkedVal.indexOf('all')
-      if (isHyAll > -1) {
-        if (vLength === 28) {
-          var index = this.checkedVal.indexOf('all')
-          this.checkedVal.splice(index, 1)
+    },
+    methods: {
+      selectType (e, index) {
+        this.type = e.target.attributes.value.value
+        this.typeIndex = index
+        this.$emit('selectType', index, this.type)
+        if (this.typeIndex !== 0) {
+          this.isDisabled = false
+          this.checkDisabled = false
+          this.seleteCheckboxShow = false
+        } else {
+          this.isDisabled = true
+          this.checkDisabled = true
         }
-      }
-      if (isHyAll < 0) {
-        if (vLength === 28) {
+
+        if (this.typeIndex === 0) {
+          this.seleteCheckboxShow = false
           this.initCheckedVal()
-        }
-      }
-      this.hyStrPj()
-    },
-    hyStrPj () { // 下拉复选框拼接
-      var vLength = this.checkedVal.length
-      this.filterParams.hy = ''
-      for (let i = 0; i < vLength; i++) {
-        this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
-      }
-      this.filterParams.hy = this.filterParams.hy.substring(0, this.filterParams.hy.length - 1)
-      this.yellow = false
-      if (vLength > 28) {
-        this.filterParams.hy = 'all'
-        if (this.filterParams.hy === 'all') {
           this.yellow = true
         }
-      }
-      if (vLength <= 0) {
+        this.getOptionData()
+      },
+      getOptionData () { // 获取下拉数据
+        this.$store.dispatch('getSylbx', { idxId: 'sylbx', jjlx: this.type })
+        this.$store.dispatch('getNhsyl', { idxId: 'nhsyl', jjlx: this.type })
+        this.$store.dispatch('getZdhc', { idxId: 'zdhc', jjlx: this.type })
+        this.$store.dispatch('getXpb', { idxId: 'xpb', jjlx: this.type })
+        this.$store.dispatch('getCesyl', { idxId: 'cesyl', jjlx: this.type })
+      },
+      change1 (e) {
+        this.type = e.target.attributes.value.value
+      },
+      checkBox (e, item) {
+        const check = this.$refs.checkAllname
+        var value = e.target.value
+        var checked = e.target.checked
+        this.checkName = ''
+        for (let i = 0; i < check.length; i++) {
+          if (check[i].checked === true) {
+            check[0].name = ''
+            this.checkName += check[i].name + ' '
+          }
+        }
+        if (value === 'all' && checked === true) {
+          this.initCheckedVal()
+        }
+        if (value === 'all' && checked === false) {
+          this.checkedVal = []
+          this.filterParams.hy = 'all'
+        }
+        var vLength = this.checkedVal.length
+        var isHyAll = this.checkedVal.indexOf('all')
+        if (isHyAll > -1) {
+          if (vLength === 28) {
+            var index = this.checkedVal.indexOf('all')
+            this.checkedVal.splice(index, 1)
+          }
+        }
+        if (isHyAll < 0) {
+          if (vLength === 28) {
+            this.initCheckedVal()
+          }
+        }
+        this.hyStrPj()
+      },
+      hyStrPj () { // 下拉复选框拼接
+        var vLength = this.checkedVal.length
+        this.filterParams.hy = ''
+        for (let i = 0; i < vLength; i++) {
+          this.filterParams.hy += this.checkedVal[i].replace('hy_', '') + ','
+        }
+        this.filterParams.hy = this.filterParams.hy.substring(0, this.filterParams.hy.length - 1)
+        this.yellow = false
+        if (vLength > 28) {
+          this.filterParams.hy = 'all'
+          if (this.filterParams.hy === 'all') {
+            this.yellow = true
+          }
+        }
+        if (vLength <= 0) {
+          this.filterParams.hy = 'all'
+        }
+      },
+      toggleShow () {
+        this.seleteCheckboxShow = !this.seleteCheckboxShow
+      },
+      initCheckedVal () { // 初始化下拉复选框
+        this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
         this.filterParams.hy = 'all'
+        this.checkName = '全部'
+      },
+      tradesVal () { // 初始化下拉复选框value值
+        for (let i = 0; i < this.trades.length; i++) {
+          this.checkedVal.push(this.trades[i].value)
+        }
       }
     },
-    toggleShow () {
-      this.seleteCheckboxShow = !this.seleteCheckboxShow
+    mounted () {
+      this.getOptionData()
+      this.tradesVal()
+      this.hyStrPj()
     },
-    initCheckedVal () { // 初始化下拉复选框
-      this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
-      this.filterParams.hy = 'all'
-      this.checkName = '全部'
+    computed: {
+      ...mapState([
+        'sylbx',
+        'nhsyl',
+        'zdhc',
+        'xpb',
+        'cesyl'
+      ]),
+      ...mapGetters({
+        sylbx: 'sylbx',
+        nhsyl: 'nhsyl',
+        zdhc: 'zdhc',
+        xpb: 'xpb',
+        cesyl: 'cesyl'
+      })
     },
-    tradesVal () { // 初始化下拉复选框value值
-      for (let i = 0; i < this.trades.length; i++) {
-        this.checkedVal.push(this.trades[i].value)
+    watch: {
+      'filterParams': {
+        deep: true,
+        handler: function (oldVal, newVal) {
+          this.$emit('filterQuery', newVal)
+          this.$emit('exportFoundPool', newVal)
+        }
       }
+    },
+    components: {
+      Tooltip
     }
-  },
-  mounted () {
-    this.getOptionData()
-    this.tradesVal()
-    this.hyStrPj()
-  },
-  computed: {
-    ...mapState([
-      'sylbx',
-      'nhsyl',
-      'zdhc',
-      'xpb',
-      'cesyl'
-    ]),
-    ...mapGetters({
-      sylbx: 'sylbx',
-      nhsyl: 'nhsyl',
-      zdhc: 'zdhc',
-      xpb: 'xpb',
-      cesyl: 'cesyl'
-    })
-  },
-  watch: {
-    'filterParams': {
-      deep: true,
-      handler: function (oldVal, newVal) {
-        this.$emit('query', newVal)
-        this.$emit('exportFoundPool', newVal)
-      }
-    }
-  },
-  components: {
-    Tooltip
   }
-}
 </script>
 <style lang="scss" scoped>
   @import '../../assets/common/variable.scss';
@@ -457,6 +457,7 @@ export default {
             padding-left: 4px
           }
           .select{
+            position: absolute;
             display: inline-block;
             width: 50px;
             font-size: $fontSize12;
@@ -537,47 +538,6 @@ export default {
       }
     }
   }
-  .arrow{
-    // display:none;
-    // width: 181px;
-    // position: absolute;
-    // top: -55px;
-    // left:25%;
-    // line-height: 1.4;
-    // border: 1px solid #ccc;
-    // padding: 10px;
-    // @include border_radius(3px);
-    // background-color: #fff;
-    // color:$colorFontTheme;
-    // text-align: left;
-    &:after{
-      content: '';
-      position: absolute;
-      bottom: -16px;
-      left: 85px;
-      width: 0;
-      height: 0;
-      border: 8px solid transparent;
-      border-top-color: #fff;
-    }
-    &:before{
-      content: '';
-      position: absolute;
-      bottom: -17px;
-      left: 85px;
-      width: 0;
-      height: 0;
-      border: 8px solid transparent;
-      border-top-color: #ccc;
-    }
-  }
-  .tsk{
-    &:hover{
-      + div,>div{
-        display: block;
-      }
-    }
-  }
   @media screen and (max-width: 1220px) {
     .filterCondition {
       .filter-item{
@@ -591,5 +551,4 @@ export default {
   .fade2-enter, .fade2-leave-active {
     opacity: 0
   }
-
 </style>
