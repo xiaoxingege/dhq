@@ -309,13 +309,13 @@ export default {
                   callback: 'callbackgobtninfo',
                   version: '3.10.1'
                 }))
-                alert('真实数据2');
+                alert('真实数据2')
               } else {
                 window.convertToJsonObject = function (obj) {
                   return obj
                 }
                 window.callbackgobtninfo(testData)
-                alert('测试数据2');
+                alert('测试数据2')
               }
             }
             t()
@@ -371,7 +371,7 @@ export default {
           return obj
         }
         window.callbackgobtninfo(testData)
-        alert('测试数据1');
+        alert('测试数据1')
       }
     },
     // 正红负绿
