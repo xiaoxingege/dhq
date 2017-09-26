@@ -96,15 +96,20 @@ button {
     font-size: 12px;
     line-height: 24px;
 }
+.stockRange {
+    border-bottom: 1px solid #E5E5E5;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
 </style>
 <template>
 <div class="siwei">
   <div class="bubbles-bar clearfix">
     <div class="template fl mr-20">
       推荐分析维度：
-      <select @change="changeTmp($event)" v-model="tmpId">
-                    <option v-for="(tmp,key) in templateList" :value="key">{{tmp.name}}</option>
-                </select>
+      <select @change="changeTmp($event)" v-model="tmpId" @click="simOptionClick4IE">
+            <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}</option>
+      </select>
     </div>
     <div class="fl">
       <span class="mr-20">X轴：<span>{{xData}}</span></span>
@@ -112,97 +117,93 @@ button {
       <span class="mr-20">气泡大小：<span>{{sizeData}}</span></span>
       <span class="mr-20">气泡颜色：<span>{{colorData}}</span></span>
     </div>
-    <div class="fl">
-      <button @click="showDialog">股票范围</button>
-      <button @click="showSelfRange">自定义</button>
-    </div>
     <div class="fr">
       <span class="times">{{currentTime}}</span>
     </div>
     <div>
-      <Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="股票范围">
+      <Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="自定义">
         <div slot="content" class="dialogMain clearfix">
-          <div class="mt-20">
-            <span class="mr-10">
+          <div class="stockRange clearfix">
+            <div class="fl mt-20">股票范围：</div>
+            <div class="fr">
+              <div class="mt-20">
+                <span class="mr-10">
                                 指数
                                 <select v-model="stockRangeOptions.indexRangeDefault">
                                     <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
                                 </select>
                             </span>
-            <span class="mr-10">
+                <span class="mr-10">
                                  行业
                                  <select v-model="stockRangeOptions.industryRangeDefault">
                                     <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
                                 </select>
                             </span>
-            <span class="mr-10">
+                <span class="mr-10">
                                 主题
                                 <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value="" readonly/>
                                 <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName" readonly/>
                             </span>
-            <span>
+                <span>
                                 流通市值
                                 <select v-model="stockRangeOptions.marketValueDefault">
                                     <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
                                 </select>
                             </span>
-          </div>
-          <div class="mt-10">
-            <span class="mr-15">
+              </div>
+              <div class="mt-10">
+                <span class="mr-15">
                                 历史成交量
                                 <select v-model="stockRangeOptions.historyValueRangeDefault">
                                     <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
                                 </select>
                             </span>
-            <span class="mr-15">
+                <span class="mr-15">
                                 筛股策略
                                 <select v-model="stockRangeOptions.strategyDefault">
                                     <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
                                 </select>
                             </span>
-            <span>
+                <span>
                                 股票池
                                 <select v-model="stockRangeOptions.stockPoolDefault">
                                     <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
                                 </select>
                             </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div slot="footer" class="mt-20">
-          <button class="sureBtn mr-20" @click="showSelectData">确定</button>
-          <button class="cancleBtn" @click="hideDialog">取消</button>
-        </div>
-      </Dialog>
-      <Dialog v-on:toHideDialog="hideDialog" v-if="showSelfRangeDialog" title="自定义维度">
-        <div slot="content" class="dialogMain clearfix mt-40">
-          <div>
-            <span class="mr-10">
+          <div class="weiduRange clearfix">
+            <div class="fl">维度：</div>
+            <div class="fr">
+              <span class="mr-10">
                                 X轴
                                 <select ref="xData" v-model="dimensionOptions.xDefault">
                                     <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
                                 </select>
                             </span>
-            <span class="mr-10">
+              <span class="mr-10">
                                 Y轴
                                 <select ref="yData" v-model="dimensionOptions.yDefault">
                                     <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
                                 </select>
                             </span>
-            <span class="mr-10">
+              <span class="mr-10">
                                 气泡大小
                                 <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">
                                     <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
                                 </select>
                             </span>
-            <span>
+              <span>
                                 气泡颜色
                                 <select ref="bubbleColor" v-model="dimensionOptions.colorDefault">
                                     <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
                                 </select>
                             </span>
+            </div>
           </div>
         </div>
-        <div slot="footer" class="mt-20">
+        <div slot="footer" class="mt-20 mb-20">
           <button class="sureBtn mr-20" @click="showSelectData">确定</button>
           <button class="cancleBtn" @click="hideDialog">取消</button>
         </div>
@@ -259,7 +260,6 @@ export default {
   data () {
     return {
       showStockRangeDialog: false,
-      showSelfRangeDialog: false,
       xDataList: Data.xSelectData,
       bubbleSizeList: Data.bubbleSizeSelect,
       bubbleColorList: Data.bubbleColorSelect,
@@ -403,12 +403,26 @@ export default {
 
   },
   methods: {
-    showDialog () {
-      this.showStockRangeDialog = true
+    showOptionValue () {
+      if (this.tmpId === 'demoTmp0') {
+        this.showStockRangeDialog = true
+      } else {
+        this.showStockRangeDialog = false
+      }
+    },
+    simOptionClick4IE () {
+      const that = this
+      var evt = window.event
+      var selectObj = evt ? evt.srcElement : null
+      // IE Only
+      if (evt && selectObj && evt.offsetY && evt.button !== 2 && (evt.offsetY > selectObj.offsetHeight || evt.offsetY < 0)) {
+        // 记录原先的选中项
+        // var oldIdx = selectObj.selectedIndex
+        setTimeout(that.showOptionValue(), 60)
+      }
     },
     hideDialog () {
       this.showStockRangeDialog = false
-      this.showSelfRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
       this.dimensionOptions.yDefault = this.options.yDefault
       this.dimensionOptions.sizeDefault = this.options.sizeDefault
@@ -421,9 +435,6 @@ export default {
       this.stockRangeOptions.stockPoolDefault = this.options.stockPoolDefault
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
-    },
-    showSelfRange () {
-      this.showSelfRangeDialog = true
     },
     showSelectData () {
       this.xData = this.xDataList[this.dimensionOptions.xDefault]
@@ -496,7 +507,6 @@ export default {
     },
     hideAlert (data) {
       this.showStockRangeDialog = data
-      this.showSelfRangeDialog = data
     }
   },
   computed: {
@@ -522,6 +532,13 @@ export default {
       }
       if ((this.dimensionOptions.yDefault === 'order' && (this.dimensionOptions.xDefault === 'sw_indu_name' || this.dimensionOptions.xDefault === 'chi_spel' || this.dimensionOptions.xDefault === 'order'))) {
         this.dimensionOptions.yDefault = 'sw_indu_name'
+      }
+    },
+    'tmpId': function () {
+      if (this.tmpId === 'demoTmp0') {
+        this.showStockRangeDialog = true
+      } else {
+        this.showStockRangeDialog = false
       }
     }
   },
