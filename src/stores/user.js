@@ -3,7 +3,6 @@
  * namespaced为true，是为了避免store的module之间，getters、mutations、actions发生命名冲突
  */
 import $ from 'jquery'
-import cookie from 'component-cookie'
 
 export default {
   namespaced: true,
