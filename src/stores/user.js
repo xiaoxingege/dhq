@@ -45,8 +45,10 @@ export default {
       commit
     }) {
       // App内，通过cookie判断
-      if (window.jrj && window.jrj.jsCallNative) {
+      alert(window.app.name)
+      if (window.app && window.app.name === 'jrj') {
         const passportId = cookie('passportId')
+        alert(passportId)
         commit('fetch', {
           ssoId: passportId || ''
         })
