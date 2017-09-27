@@ -16,12 +16,12 @@
 import 'whatwg-fetch'
 
 export default {
-  data() {
+  data () {
     return {
 
     }
   },
-  mounted() {
+  mounted () {
 
   },
   filters: {
