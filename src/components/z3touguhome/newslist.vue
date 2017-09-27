@@ -52,7 +52,9 @@ p {
     margin: 10px 5px 0 0;
     border-radius: 50%;
 }
-,
+.news-active {
+    background-color: #2e4465;
+}
 .news-list-top {
     height: 25px;
 }
@@ -76,7 +78,7 @@ p {
       <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     </div>
     <ul class="news-list-con">
-      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)">
+      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
         <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
         <span class="fr">{{item.makedate.substring(11)}}</span>
       </li>
@@ -102,13 +104,14 @@ export default {
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
-      /* newsId: this.$route.query.newsId*/
-      newsId: ''
+      newsId: '',
+      newsIndex: this.$route.query.newsIndex
+      // newsId: ''
     }
   },
   watch: {
     type() {
-      this.getNews()
+      this.changeNews()
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
       }
@@ -137,14 +140,33 @@ export default {
           })
           .then(() => {
             this.newsList = this.financeNewsData
-            /* if (this.newsId === '') {
-              debugger
-              this.newsId = this.financeNewsData[0].iiid
+            if (this.newsIndex) {
+              this.newsId = this.financeNewsData[this.newsIndex].iiid
             } else {
-              debugger
-              this.newsId = this.$route.query.newsId
-            }*/
-
+              this.newsId = this.financeNewsData[0].iiid
+            }
+          })
+      } else if (this.type === 'companynews') {
+        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.listedCompanyNewsData
+            if (this.newsIndex) {
+              this.newsId = this.listedCompanyNewsData[this.newsIndex].iiid
+            } else {
+              this.newsId = this.listedCompanyNewsData[0].iiid
+            }
+          })
+      }
+    },
+    changeNews: function() {
+      if (this.type === 'ywnews') {
+        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.financeNewsData
             this.newsId = this.financeNewsData[0].iiid
           })
       } else if (this.type === 'companynews') {
@@ -152,8 +174,8 @@ export default {
             size: this.newsSize
           })
           .then(() => {
-            this.newsId = this.listedCompanyNewsData[0].iiid
             this.newsList = this.listedCompanyNewsData
+            this.newsId = this.listedCompanyNewsData[0].iiid
           })
       }
     },
