@@ -16,7 +16,7 @@
 const EMPTY_FN = () => {}
 export default {
   name: 'tooltip',
-  data() {
+  data () {
     return {
       arrowStyle: {},
       isShowing: false
@@ -66,7 +66,7 @@ export default {
     }
   },
   computed: {
-    tooltipStyle() {
+    tooltipStyle () {
       const s = {}
       if (this.minWith > 0) {
         s.minWith = this.minWith + 'px'
@@ -76,18 +76,18 @@ export default {
       }
       return s
     },
-    outletEl() {
+    outletEl () {
       return this.$el.querySelector('.outlet')
     },
-    outletInnerEl() {
+    outletInnerEl () {
       return this.$el.querySelector('.outlet > *')
     },
-    tooltipEl() {
+    tooltipEl () {
       return this.$el.querySelector('.tooltip')
     }
   },
   watch: {
-    value(newVal) {
+    value (newVal) {
       if (newVal === true && this.mode === 'manual') {
         this.show()
       } else if (newVal === false && (this.mode === 'manual' || this.mode === 'click')) {
@@ -96,7 +96,7 @@ export default {
     }
   },
   methods: {
-    updateArrowStyle() {
+    updateArrowStyle () {
       const s = {}
       const tooltipRect = this.rect(this.tooltipEl)
 
@@ -172,7 +172,7 @@ export default {
         return
       }
     },
-    place() {
+    place () {
       const containerRect = this.$el.getBoundingClientRect()
       const outletInnerRect = this.outletInnerEl.getBoundingClientRect()
       const tooltipRect = this.rect(this.tooltipEl)
@@ -217,7 +217,7 @@ export default {
         return
       }
     },
-    rect(el) {
+    rect (el) {
       let rect = el.getBoundingClientRect()
       if (rect.width !== 0 || rect.height !== 0) {
         return rect
@@ -239,20 +239,20 @@ export default {
 
       return rect
     },
-    show() {
+    show () {
       if (this.isShowing) return
       this.isShowing = true
       this.tooltipEl.style.display = 'block'
       this.updateArrowStyle()
       this.place()
     },
-    hide() {
+    hide () {
       if (!this.isShowing) return
       this.isShowing = false
       this.tooltipEl.style.display = 'none'
       this.cbHide !== EMPTY_FN && this.cbHide()
     },
-    autoShowWithMode(evt) {
+    autoShowWithMode (evt) {
       if (this.mode === 'hover') {
         if (evt.type === 'mouseover') {
           this.show()
@@ -270,7 +270,7 @@ export default {
         }
       }
     },
-    autoHideWidthMode(evt) {
+    autoHideWidthMode (evt) {
       if (this.mode === 'hover' && evt.type === 'mouseleave') {
         this.hide()
         this.$emit('input', false)
@@ -280,13 +280,13 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     if (this.mode === 'manual' && this.value) {
       this.show()
     }
     document.addEventListener('click', this.autoHideWidthMode, false)
   },
-  destroyed() {
+  destroyed () {
     document.removeEventListener('click', this.autoHideWidthMode, false)
   }
 }

@@ -26,23 +26,23 @@ export default {
     fundPoolHeadData: state => state.fundPoolHeadData
   },
   mutations: {
-    [types.SET_SMARTPOOLLIST](state, list) {
+    [types.SET_SMARTPOOLLIST] (state, list) {
       state.smartPoolList = list
     },
-    [types.SET_SMARTPOOLLIST_DETAILS](state, list) {
+    [types.SET_SMARTPOOLLIST_DETAILS] (state, list) {
       state.smartPoolListDetails = list
     },
-    [types.SET_RELEVANCEDATA](state, list) {
+    [types.SET_RELEVANCEDATA] (state, list) {
       state.relevancedata = list
     },
-    [types.SET_FUNDPOOLHEAD](state, list) {
+    [types.SET_FUNDPOOLHEAD] (state, list) {
       state.fundPoolHeadData = list
     }
 
   },
   actions: {
     // 获取基金池列表
-    getSmartPoolList({
+    getSmartPoolList ({
       commit
     }, {
       isRecommend,
@@ -67,7 +67,7 @@ export default {
       })
     },
     // 获取基金池详情列表
-    getSmartPoolListDetails({
+    getSmartPoolListDetails ({
       commit
     }, {
       id,
@@ -86,7 +86,7 @@ export default {
       })
     },
     // 获取基金池详情头部内容
-    getSmartPoolListDetailsTop({
+    getSmartPoolListDetailsTop ({
       commit
     }, {
       fundPoolId
@@ -105,7 +105,7 @@ export default {
       })
     },
     // 获取智能基金池相关数据
-    relevancedatafn({
+    relevancedatafn ({
       commit
     }, {
       id

@@ -190,7 +190,7 @@ import {
 } from '../../z3tougu/config'
 import Tooltip from 'components/common-components/tooltip'
 export default {
-  data() {
+  data () {
     return {
       lsfoundPoolList: [],
       foundPoolList: ['1'],
@@ -235,10 +235,10 @@ export default {
     }
   },
   filters: {
-    isNull(value) {
+    isNull (value) {
       return value === null || value === '' ? '--' : value
     },
-    filterNum(value, type) {
+    filterNum (value, type) {
       return value === null || value === '' ? '--' : value.toFixed(2) + type
     }
   },
@@ -268,7 +268,7 @@ export default {
       maskShow: 'maskShow'
     }),
     ...mapState({
-      foundPoolListData: function(state) {
+      foundPoolListData: function (state) {
         const list = state.filter.foundPoolList
         return {
           foundPoolList: list.map((fund, index) => {
@@ -283,11 +283,11 @@ export default {
   },
   methods: {
     // 排序
-    sorts(value) {
+    sorts (value) {
       this.num === this.num++
-        if (this.num === 1) {
-          this.sort = value + ',desc'
-        }
+      if (this.num === 1) {
+        this.sort = value + ',desc'
+      }
       if (this.num === 2) {
         this.sort = value + ',asc'
       } else {
@@ -297,17 +297,17 @@ export default {
       this.query(this.filterParams2, this.page, this.type2)
     },
     // 下拉切换数据
-    seletenumfn(v) {
+    seletenumfn (v) {
       this.seletetimenum = v.currentTarget.getAttribute('seletetimenum')
       this.seletetimeshow = false
     },
-    isInTempPoollist(fundid) {
+    isInTempPoollist (fundid) {
       return this.lsfoundPoolList.some((fund) => {
         return fund.innerCode === fundid
       })
     },
     // 显示弹框
-    showDialogFn() {
+    showDialogFn () {
       this.dialogShow = true
       this.popTitle = '保存当前基金池'
       if (this.lsfoundPoolList.length <= 0) {
@@ -321,11 +321,11 @@ export default {
         this.msg = ''
       }
     },
-    dialogCloseFn() {
+    dialogCloseFn () {
       this.dialogShow = false
     },
     // 保存临时基金池
-    save() {
+    save () {
       if (this.inputPoolName === '') {
         this.msg = '请输入筛股条件名称!'
       } else {
@@ -337,7 +337,7 @@ export default {
         this.fundCodes = ''
       }
     },
-    _saveFundPool(fundCodes) {
+    _saveFundPool (fundCodes) {
       const url = `${domain}/openapi/fund/saveFundPool.shtml?poolName=${this.inputPoolName}&fundCodes=${fundCodes}&userId=${this.userId}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'POST',
@@ -361,7 +361,7 @@ export default {
       })
     },
     // 筛选类型切换查询
-    selectType(index, type) {
+    selectType (index, type) {
       this.typeIndex = index
       this.type2 = type
       this.query(this.filterParams2, this.page, this.type2)
@@ -370,7 +370,7 @@ export default {
       }
     },
     // 加入临时基金池
-    addIinterimFunds(item) {
+    addIinterimFunds (item) {
       if (this.lsfoundPoolList.length >= 50) {
         this.dialogShow = true
         this.content = 2
@@ -381,7 +381,7 @@ export default {
       }
     },
     //  删除股票池数据
-    delFoundPoolList(index, item) {
+    delFoundPoolList (index, item) {
       this.foundPoolListData.foundPoolList.some((fund) => {
         if (fund.innerCode === item.innerCode) {
           fund.inTempPools = false
@@ -391,7 +391,7 @@ export default {
       this.lsfoundPoolList.splice(index, 1)
     },
     // 删除股票池状态
-    removeInterimFunds(item) {
+    removeInterimFunds (item) {
       item.inTempPools = false
       this.lsfoundPoolList.some((fund, index) => {
         if (fund.innerCode === item.innerCode) {
@@ -400,14 +400,14 @@ export default {
         }
       })
     },
-    goToPage(page) {
+    goToPage (page) {
       this.page = Number(page) - 1
     },
-    filterType(type) {
+    filterType (type) {
       this.type2 = type
     },
     // 获取筛选数据
-    query(filterParams, type) {
+    query (filterParams, type) {
       this.filterParams2 = filterParams
       this.$store.dispatch('getFundPool', {
         type: this.type2,
@@ -421,7 +421,7 @@ export default {
       })
     },
     // 导出筛选数据
-    exportFundPool() {
+    exportFundPool () {
       const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
       return fetch(url, {
         method: 'GET',
@@ -438,16 +438,16 @@ export default {
       })
     },
     // 日期格式化
-    format(time) {
+    format (time) {
       if (time === null) {
         return '--'
       }
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     },
-    formatDates(datestr) {
+    formatDates (datestr) {
       return formatDate(datestr, 'yyMMddhhmm ')
     },
-    checked(e) {
+    checked (e) {
       const checked = e.target.checked
       if (checked === true) {
         this.isConsignment = 1
@@ -458,11 +458,11 @@ export default {
       }
     },
     // 搜索查询
-    search() {
+    search () {
       this.query(this.filterParams2, this.page, this.type2)
     },
     // 初始化筛选条件
-    init() {
+    init () {
       this.filterParams2.jyzt = 'jyzt_all'
       this.filterParams2.jjlx = 'jylx_all' // 基金类型
       this.filterParams2.jyzt = 'jyzt_all' // 交易状态
@@ -481,15 +481,15 @@ export default {
       this.filterParams2.fbq = 'fbq_all' // 封闭期
     }
   },
-  created() {
+  created () {
     this.query(this.filterParams2, this.page, this.type2)
   },
-  mounted() {},
+  mounted () {},
   watch: {
     // 监控页码改变
     'page': {
       deep: true,
-      handler: function(oldVal, newVal) {
+      handler: function (oldVal, newVal) {
         this.query(this.filterParams2, this.page, this.type2)
       }
     }
@@ -822,8 +822,8 @@ select {
 }
 .tsk {
     &:hover {
-         > div,
-        + div {
+        + div,
+        > div {
             display: block;
         }
     }

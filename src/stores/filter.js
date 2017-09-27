@@ -45,42 +45,42 @@ export default {
     maskShow: state => state.maskShow
   },
   mutations: {
-    [types.ADD_FUNDPOLL](state, list) {
+    [types.ADD_FUNDPOLL] (state, list) {
       state.foundPoolList = list.fundList.content
       state.number = list.fundList.number
       state.numberOfElements = list.fundList.numberOfElements
       state.fundNum = list.fundNum
     },
-    getLSFoundPoolList(state, list) {
+    getLSFoundPoolList (state, list) {
       state.lsfoundPoolList = list
     },
-    upDataPage(state, options) {
+    upDataPage (state, options) {
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
     },
-    getSylbx(state, options) {
+    getSylbx (state, options) {
       state.sylbx = options
     },
-    getNhsyl(state, options) {
+    getNhsyl (state, options) {
       state.nhsyl = options
     },
-    getZdhc(state, options) {
+    getZdhc (state, options) {
       state.zdhc = options
     },
-    getXpb(state, options) {
+    getXpb (state, options) {
       state.xpb = options
     },
-    getCesyl(state, options) {
+    getCesyl (state, options) {
       state.cesyl = options
     },
-    setMask(state, type) {
+    setMask (state, type) {
       state.maskShow = type
     }
   },
   actions: {
     // 获取查询数据
-    getFundPool({
+    getFundPool ({
       commit
     }, {
       type,
@@ -115,7 +115,7 @@ export default {
       })
     },
     // 收益率表现
-    getSylbx({
+    getSylbx ({
       commit
     }, {
       idxId,
@@ -134,7 +134,7 @@ export default {
       })
     },
     // 年化收益率
-    getNhsyl({
+    getNhsyl ({
       commit
     }, {
       idxId,
@@ -153,7 +153,7 @@ export default {
       })
     },
     // 最大回撤
-    getZdhc({
+    getZdhc ({
       commit
     }, {
       idxId,
@@ -172,7 +172,7 @@ export default {
       })
     },
     // 夏普率
-    getXpb({
+    getXpb ({
       commit
     }, {
       idxId,
@@ -191,7 +191,7 @@ export default {
       })
     },
     // 超额收益率
-    getCesyl({
+    getCesyl ({
       commit
     }, {
       idxId,

@@ -33,7 +33,7 @@ const state = {
     clientid: '', // 'test_client_id',
     deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
-    expires: 0// second
+    expires: 0 // second
   },
   user: {
     userId: null
@@ -52,26 +52,26 @@ const getters = {
   }
 }
 const actions = {
-  authSetting ({ state, commit }) {
+  authSetting ({
+    state,
+    commit
+  }) {
     return new Promise((resolve, reject) => {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
-          alert(1)
-          alert(authInfo)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
           resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
-        alert(2)
         const authInfo = {
           authorization: 'Bearer test_z3quant_accesss_token', // test access_token
           clientid: 'test_client_id',
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe'// test userid
+          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

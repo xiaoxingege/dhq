@@ -206,7 +206,7 @@ import {
 import Tooltip from 'components/common-components/tooltip'
 
 export default {
-  data() {
+  data () {
     return {
       filterType: [{
         name: '全部',
@@ -270,7 +270,7 @@ export default {
     }
   },
   methods: {
-    selectType(e, index) {
+    selectType (e, index) {
       this.type = e.target.attributes.value.value
       this.typeIndex = index
       this.$emit('selectType', index, this.type)
@@ -290,7 +290,7 @@ export default {
       }
       this.getOptionData()
     },
-    getOptionData() { // 获取下拉数据
+    getOptionData () { // 获取下拉数据
       this.$store.dispatch('getSylbx', {
         idxId: 'sylbx',
         jjlx: this.type
@@ -312,10 +312,10 @@ export default {
         jjlx: this.type
       })
     },
-    change1(e) {
+    change1 (e) {
       this.type = e.target.attributes.value.value
     },
-    checkBox(e, item) {
+    checkBox (e, item) {
       const check = this.$refs.checkAllname
       var value = e.target.value
       var checked = e.target.checked
@@ -348,7 +348,7 @@ export default {
       }
       this.hyStrPj()
     },
-    hyStrPj() { // 下拉复选框拼接
+    hyStrPj () { // 下拉复选框拼接
       var vLength = this.checkedVal.length
       this.filterParams.hy = ''
       for (let i = 0; i < vLength; i++) {
@@ -366,21 +366,21 @@ export default {
         this.filterParams.hy = 'all'
       }
     },
-    toggleShow() {
+    toggleShow () {
       this.seleteCheckboxShow = !this.seleteCheckboxShow
     },
-    initCheckedVal() { // 初始化下拉复选框
+    initCheckedVal () { // 初始化下拉复选框
       this.checkedVal = ['all', 'hy_210000', 'hy_720000', 'hy_630000', 'hy_270000', 'hy_430000', 'hy_350000', 'hy_490000', 'hy_230000', 'hy_410000', 'hy_650000', 'hy_220000', 'hy_640000', 'hy_710000', 'hy_330000', 'hy_610000', 'hy_620000', 'hy_420000', 'hy_110000', 'hy_280000', 'hy_360000', 'hy_450000', 'hy_340000', 'hy_730000', 'hy_460000', 'hy_370000', 'hy_480000', 'hy_240000', 'hy_510000']
       this.filterParams.hy = 'all'
       this.checkName = '全部'
     },
-    tradesVal() { // 初始化下拉复选框value值
+    tradesVal () { // 初始化下拉复选框value值
       for (let i = 0; i < this.trades.length; i++) {
         this.checkedVal.push(this.trades[i].value)
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getOptionData()
     this.tradesVal()
     this.hyStrPj()
@@ -404,7 +404,7 @@ export default {
   watch: {
     'filterParams': {
       deep: true,
-      handler: function(oldVal, newVal) {
+      handler: function (oldVal, newVal) {
         this.$emit('query', newVal)
         this.$emit('exportFoundPool', newVal)
       }
@@ -620,8 +620,8 @@ select {
 }
 .tsk {
     &:hover {
-         > div,
-        + div {
+        + div,
+        > div {
             display: block;
         }
     }
