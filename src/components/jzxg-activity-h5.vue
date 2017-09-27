@@ -237,7 +237,9 @@ export default {
   },
   computed: mapState({
     loginStatus: state => state.user.loginStatus,
-    riskAssessed: state => state.user.riskAssessed
+    riskAssessed: state => state.user.riskAssessed,
+    bindingMobile: state => state.user.bindingMobile,
+    bindingIdentity: state => state.user.bindingIdentity
   }),
   components: {
     activitySlider

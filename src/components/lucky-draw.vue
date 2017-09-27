@@ -1,8 +1,8 @@
 <style>
 @import '../assets/css/reset.css';
-.lucky-draw{
+.lucky-draw {
   font-size: 40px;
-  color:red;
+  color: red;
 }
 </style>
 
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import jQuery from 'jquery'
 import 'whatwg-fetch'
 
 export default {
