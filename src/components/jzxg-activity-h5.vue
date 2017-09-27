@@ -254,8 +254,8 @@ export default {
       }, 500)
     },
     submit() {
-      if (window.app && window.app.name && window.app.name !== "{{appid}}") {
-        window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/activity/app/zdcpDyzx.jspa'
+      if (window.app.name === "{{appid}}") {
+        window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/jzxg-activity'
         setTimeout(function() {
           window.location = "http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95";
         }, 1500)
