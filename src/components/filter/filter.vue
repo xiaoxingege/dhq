@@ -10,7 +10,7 @@
         </ul>
       </div>
       <!-- 筛选条件 -->
-      <filter-select @query='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
+      <filter-select @filterQuery='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
       <!-- 筛选条件 end-->
     </div>
     <!-- 临时基金池 -->
@@ -19,7 +19,10 @@
       <ul class="fundPoolList">
         <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
         <li v-if="lsfoundPoolList.length === 0">
-          <div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div>
+          <div class="defaultTxt tc">
+            <p>每个基金池最多可添加50只基金，</p>
+            <p>保存基金池后，可快速创建组合</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -35,9 +38,9 @@
         <a href="javascript:;" class="s_btn fl" @click='search'>搜索</a>
       </div>
       <label for="jdx" class="fr">
-          <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
-          仅显示代销基金
-        </label>
+            <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
+            仅显示代销基金
+          </label>
     </div>
     <!-- 筛选数据 -->
     <div>
@@ -63,7 +66,7 @@
             <th @click="sorts('yearYld')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>七日年化收益率</span></th>
             <th @click="sorts('tenthouUnitIncm')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>万份收益</span></th>
             <th @click="sorts('chgPct')" width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5"><span>涨跌幅</span></th>
-            <th width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
+            <th width='9%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
               <div class="seletetime">
                 <div @click="seletetimeshow=!seletetimeshow">
                   {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
@@ -133,7 +136,7 @@
     </div>
     <!-- 筛选数据 end-->
     <!-- 分页 -->
-    <Pagination v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+    <Pagination class='pageActive' v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
     <!-- 分页  end-->
     <p class="zwsj tc" v-if="foundPoolListData.foundPoolList.length === 0"><img src='../../assets/images/empty_data.png' /></p>
   </div>
@@ -170,14 +173,22 @@
 
 <script>
 import 'whatwg-fetch'
-import { domain } from '../../z3tougu/config'
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
+import {
+  domain
+} from '../../z3tougu/config'
+import {
+  mapState
+} from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
 import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
 import fetch from '../../z3tougu/util/z3fetch'
-import { ctx } from '../../z3tougu/config'
+import {
+  ctx
+} from '../../z3tougu/config'
 import Tooltip from 'components/common-components/tooltip'
 export default {
   data () {
@@ -285,6 +296,7 @@ export default {
         this.sort = value + ',desc'
       }
       this.query(this.filterParams2, this.page, this.type2)
+      console.log('排序')
     },
     // 下拉切换数据
     seletenumfn (v) {
@@ -354,10 +366,10 @@ export default {
     selectType (index, type) {
       this.typeIndex = index
       this.type2 = type
-      this.query(this.filterParams2, this.page, this.type2)
       if (this.type2 === 'jjlx_all') {
         this.init()
       }
+      this.query(this.filterParams2, this.page, this.type2)
     },
     // 加入临时基金池
     addIinterimFunds (item) {
@@ -464,15 +476,12 @@ export default {
       this.filterParams2.fbq = 'fbq_all' // 封闭期
     }
   },
-  created () {
-    this.query(this.filterParams2, this.page, this.type2)
-  },
   mounted () {},
   watch: {
     // 监控页码改变
     'page': {
       deep: true,
-      handler: function (oldVal, newVal) {
+      handler: function () {
         this.query(this.filterParams2, this.page, this.type2)
       }
     }
@@ -506,94 +515,94 @@ select {
     outline: 0;
     border: 0;
     background: 0;
-  }
-  .filter {
-      font-family: '宋体';
-      font-size: $fontSize12;
-      color: $colorFontTheme;
-      padding: 10px;
-      background-color: #fff;
-  }
-  .btn {
-      display: inline-block;
-      font-size: $fontSize12;
-      color: $colorFontBlue;
-      padding: 0 10px;
-      height: 22px;
-      line-height: 22px;
-      background-color: $colorBackground;
-      text-align: center;
-      @include border_radius(3px);
-  }
-  .filterTop {
-      width: 100%;
-      height: 230px;
-  }
-  .filterBox {
-      width: 70%;
-      .topBar {
-          height: 24px;
-          border-bottom: 1px solid $colorFontBlue;
-      }
-  }
-  .tabList {
-      font-size: 0;
-      height: 24px;
-      li {
-          display: inline-block;
-          font-size: $fontSize12;
-          color: $colorFontBlue;
-          height: 24px;
-          line-height: 24px;
-          padding: 0 15px;
-          cursor: pointer;
-          &.active {
-              color: #fff;
-              background-color: #2388da;
-          }
-      }
-  }
-  .fundPool {
-      width: 28%;
-      height:175px;
-      ul {
-          display: block;
-          height: 178px;
-          overflow: hidden;
-          overflow-y: auto;
-          margin-top: 20px;
-          li {
-              position: relative;
-              font-size: $fontSize12;
-              text-align: left;
-              padding-left: 37px;
-              height: 25px;
-              line-height: 25px;
-              span {
-                  display: inline-block;
-                  overflow: hidden;
-              }
-              .close {
-                  display: block;
-                  position: absolute;
-                  right: 10px;
-                  top:8px;
-                  cursor: pointer;
-              }
-              .code {
-                  width: 20%;
-                  display: block;
-                  float: left;
-                  color:#2388da
-              }
-              .name {
-                  width: 76%;
-                  white-space: pre;
-                  text-overflow: ellipsis;
-              }
-          }
-      }
-  }
+}
+.filter {
+    font-family: '宋体';
+    font-size: $fontSize12;
+    color: $colorFontTheme;
+    padding: 10px;
+    background-color: #fff;
+}
+.btn {
+    display: inline-block;
+    font-size: $fontSize12;
+    color: $colorFontBlue;
+    padding: 0 10px;
+    height: 22px;
+    line-height: 22px;
+    background-color: $colorBackground;
+    text-align: center;
+    @include border_radius(3px);
+}
+.filterTop {
+    width: 100%;
+    height: 230px;
+}
+.filterBox {
+    width: 70%;
+    .topBar {
+        height: 24px;
+        border-bottom: 1px solid $colorFontBlue;
+    }
+}
+.tabList {
+    font-size: 0;
+    height: 24px;
+    li {
+        display: inline-block;
+        font-size: $fontSize12;
+        color: $colorFontBlue;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 15px;
+        cursor: pointer;
+        &.active {
+            color: #fff;
+            background-color: #2388da;
+        }
+    }
+}
+.fundPool {
+    width: 28%;
+    height: 175px;
+    ul {
+        display: block;
+        height: 178px;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 20px;
+        li {
+            position: relative;
+            font-size: $fontSize12;
+            text-align: left;
+            padding-left: 37px;
+            height: 25px;
+            line-height: 25px;
+            span {
+                display: inline-block;
+                overflow: hidden;
+            }
+            .close {
+                display: block;
+                position: absolute;
+                right: 10px;
+                top: 8px;
+                cursor: pointer;
+            }
+            .code {
+                width: 20%;
+                display: block;
+                float: left;
+                color: #2388da;
+            }
+            .name {
+                width: 76%;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
 .filter {
     font-family: '宋体';
     font-size: $fontSize12;
@@ -716,7 +725,9 @@ select {
         color: #2388da;
     }
 }
-.test{cursor: pointer}
+.test {
+    cursor: pointer;
+}
 .button {
     display: inline-block;
     width: 72px;
@@ -881,6 +892,9 @@ select {
     font-size: $fontSize12;
     color: $colorFontH;
     margin-top: 30px;
+    p {
+        padding-left: 100px;
+    }
 }
 p.hyname {
     width: 120px;

@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.120",
+  "version": "0.0.192",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -57,8 +57,10 @@
     "loophole": "^1.1.0",
     "node-sass": "^4.5.3",
     "prettydiff": "^99.0.1",
+    "promise": "^8.0.1",
     "pug": "^2.0.0-rc.2",
     "pug-beautify": "^0.1.1",
+    "qs": "^6.5.1",
     "sass-loader": "^6.0.6",
     "temp": "^0.8.3",
     "underscore-plus": "^1.6.6",

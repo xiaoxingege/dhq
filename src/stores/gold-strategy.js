@@ -1,6 +1,8 @@
 // import 'whatwg-fetch'
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 // initial state
 export default {
@@ -33,7 +35,8 @@ export default {
       data2: []
     },
     mrjyData: null,
-    dqxgData: null,
+    mrxhData: null,
+    mcxhData: null,
     radarData: {
       legend: [],
       data: []
@@ -151,32 +154,49 @@ export default {
         state.mrjyData = null
       }
     },
-    setDqxgData (state, result) {
-      if (result.errCode === 0) {
-        state.dqxgData = null
-        state.dqxgData = result.data
-      } else {
-        state.dqxgData = null
-      }
-    },
     setRadarData (state, result) {
       if (result.errCode === 0) {
         const radarData = result.data
         const colorArr = ['#F6B03D', '#4591FC', '#73BF1C']
         for (var i = 0; i < radarData.length; i++) {
           state.radarData.legend.push(radarData[i].tradeDate)
-          state.radarData.data.push(
-            {
-              value: [radarData[i].growth, radarData[i].leverage, radarData[i].liquidity, radarData[i].momentum, radarData[i].size, radarData[i].value, radarData[i].volatility, radarData[i].quality, radarData[i].analystExpect, radarData[i].shareHolder], name: radarData[i].tradeDate, itemStyle: { normal: { color: colorArr[i] }}
-            })
+          state.radarData.data.push({
+            value: [radarData[i].growth, radarData[i].leverage, radarData[i].liquidity, radarData[i].momentum, radarData[i].size, radarData[i].value, radarData[i].volatility, radarData[i].quality, radarData[i].analystExpect, radarData[i].shareHolder],
+            name: radarData[i].tradeDate,
+            itemStyle: {
+              normal: {
+                color: colorArr[i]
+              }
+            }
+          })
         }
       } else {
         state.radarData = null
       }
+    },
+    setMrxhData (state, result) {
+      if (result.errCode === 0) {
+        state.mrxhData = null
+        state.mrxhData = result.data
+      } else {
+        state.mrxhData = null
+      }
+    },
+    setMcxhData (state, result) {
+      if (result.errCode === 0) {
+        state.mcxhData = null
+        state.mcxhData = result.data
+      } else {
+        state.mcxhData = null
+      }
     }
   },
   actions: {
-    getGoldStrategyData ({ commit }, { strategyId }) {
+    getGoldStrategyData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -186,7 +206,11 @@ export default {
         commit('setGoldData', body)
       })
     },
-    getSyqxtData ({ commit }, { strategyId }) {
+    getSyqxtData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -196,7 +220,11 @@ export default {
         commit('setSyqxtData', body)
       })
     },
-    getDrykData ({ commit }, { strategyId }) {
+    getDrykData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/profits.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -206,7 +234,11 @@ export default {
         commit('setDrykData', body)
       })
     },
-    getMrccData ({ commit }, { strategyId }) {
+    getMrccData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/positionRatios.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -216,7 +248,11 @@ export default {
         commit('setMrccData', body)
       })
     },
-    getSyytjData ({ commit }, { strategyId }) {
+    getSyytjData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/monthProfit.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -226,7 +262,11 @@ export default {
         commit('setSyytjData', body)
       })
     },
-    getSylfbData ({ commit }, { strategyId }) {
+    getSylfbData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/sellProfit.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -236,7 +276,12 @@ export default {
         commit('setSylfbData', body)
       })
     },
-    getMrjyData ({ commit }, { strategyId, page }) {
+    getMrjyData ({
+      commit
+    }, {
+      strategyId,
+      page
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/goldStrategy/tradeDetail.shtml?strategyId=${strategyId}&size=10&page=${page || 0}`, {
         mode: 'cors'
@@ -246,17 +291,11 @@ export default {
         commit('setMrjyData', body)
       })
     },
-    getDqxgData ({ commit }, { strategyId, pageNum }) {
-      commit('setGoldOptions', strategyId)
-      return fetch(`${domain}/openapi/backtest/goldStrategy/stock.shtml?strategyId=${strategyId}&pageSize=10&pageNum=${pageNum || 0}`, {
-        mode: 'cors'
-      }).then((res) => {
-        return res.json()
-      }).then(body => {
-        commit('setDqxgData', body)
-      })
-    },
-    getRadarData ({ commit }, { strategyId }) {
+    getRadarData ({
+      commit
+    }, {
+      strategyId
+    }) {
       commit('setGoldOptions', strategyId)
       return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
@@ -264,6 +303,25 @@ export default {
         return res.json()
       }).then(body => {
         commit('setRadarData', body)
+      })
+    },
+    getMrxhData ({
+      commit
+    }, {
+      strategyId,
+      type,
+      page
+    }) {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/buySellSignal.shtml?strategyId=${strategyId}&buySellType=${type}&page=${page || 0}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        if (type === 'buy') {
+          commit('setMrxhData', body)
+        } else if (type === 'sell') {
+          commit('setMcxhData', body)
+        }
       })
     }
   }

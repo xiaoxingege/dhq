@@ -71,17 +71,20 @@ export default {
               continue
             }
             state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
+            continue
           } else {
             if (state.parameterData.xData === 'chi_spel') {
               if (item.xData === null) {
                 continue
               }
               if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+              continue
             } else if (state.parameterData.yData === 'chi_spel') {
               if (item.yData === null) {
                 continue
               }
               if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
+              continue
             }
             state.bubblesData.seriesData.push([item.xData, item.yData])
           }

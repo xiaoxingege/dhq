@@ -18,6 +18,7 @@ import runstatestrategy from 'components/runstatestrategy'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
+import BacktestFilterBuysell from 'components/backtest-filter-buysell'
 import BacktestTime from 'components/backtest-time'
 import BacktestTimeH5 from 'components/backtest-time-h5'
 import FundChart from 'components/fund-chart'
@@ -30,6 +31,7 @@ import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
 import backtestHelp from 'components/help'
+import indexChart from 'components/indexChart'
 import {
   ctx
 } from '../config'
@@ -164,6 +166,11 @@ export default [{
   component: BacktestFilter
 },
 {
+  path: ctx + '/backtestFilterBuysell',
+  name: 'backtestfilterbuysell',
+  component: BacktestFilterBuysell
+},
+{
   path: ctx + '/backtestFilterH5/:strategyId',
   name: 'backtestfilterh5',
   component: BacktestFilterH5
@@ -223,6 +230,11 @@ export default [{
   path: ctx + '/backtestHelp',
   name: 'backtestHelp',
   component: backtestHelp
+},
+{
+  path: ctx + '/indexChart',
+  name: 'indexChart',
+  component: indexChart
 }
 
 ]

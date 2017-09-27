@@ -68,15 +68,18 @@ errstr="__error__"
 
 
 version=$(node -e "var fs=require('fs');var data=JSON.parse(fs.readFileSync('package.json'));console.log(data.version)")
-if [ "$feature" != "z3tougu" ]; then
+if [ "$feature" != "z3tougu22" ]; then
   package_path="/data/www/packages"
   ver_path="$package_path/$feature.$env.version"
+  echo 'making dir'
   sudo mkdir -p $package_path
   if [ -f $package_path/$feature-$version.tar.bzip2 ]; then
     echo "package $feature-$version exists."
     exit 1
   fi
-  get_valid_port
+  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
+    get_valid_port
+  fi
 fi
 echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
@@ -193,7 +196,7 @@ f3
   done
 fi
 
-if [ "$feature" = "z3tougu" ]; then
+if [ "$feature" = "z3tougu22" ]; then
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
@@ -221,6 +224,7 @@ f3
   rm -f /tmp/version.lock
   rm -f $feature-$version.tar.bzip2
 else
+  echo 'update version file'
   while [ -f /tmp/version.lock ]
   do
     echo 'waiting for version lock'
@@ -244,7 +248,7 @@ else
   done
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
-  if [ "$env" = "test" ]; then
-    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature port=$port sh /home/admin/pull.sh"
+  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
+    ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature branch=$branch port=$port sh /home/admin/pull.sh"
   fi
 fi

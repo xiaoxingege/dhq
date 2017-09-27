@@ -17,6 +17,7 @@ import filter from 'stores/filter'
 import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
+import indexChart from 'stores/indexChart'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -61,7 +62,7 @@ const actions = {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          resolve()
+          resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
@@ -118,6 +119,7 @@ export default new Vuex.Store({
     funcArchives,
     fundRecord,
     filter,
-    backtestDetailH5
+    backtestDetailH5,
+    indexChart
   }
 })
