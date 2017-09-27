@@ -6,17 +6,20 @@
 // whatwg-fetch仅能在浏览器环境使用。
 // import 'whatwg-fetch'
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 const STOCK_PAGE_SIZE = 10
 const TRADE_PAGE_SIZE = 10
+const BUY_PAGE_SIZE = 10
 
 export default {
   namespaced: true,
   state: {
-        // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
+    // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
 
-    basicFilter: {// 筛股页头部
+    basicFilter: { // 筛股页头部
       strategyId: '',
       strategyName: '',
       strategyDesc: '',
@@ -51,7 +54,11 @@ export default {
     tradePage: 0,
     tradePageSize: TRADE_PAGE_SIZE,
     tradeTotalPage: 0,
-    searchList: []
+    searchList: [],
+    buyStocks: [], // 买入卖出
+    buyPageSize: BUY_PAGE_SIZE,
+    buyPage: 1,
+    buyTotalPage: 0
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
@@ -71,6 +78,13 @@ export default {
     },
     updateTradeDetail (state, tradeDetail) {
       state.tradeDetail = tradeDetail
+    },
+    updateBuyStocks (state, buyStocks) {
+      state.buyStocks = buyStocks
+    },
+    updateBuyPage (state, options) {
+      console.log(options.totalPages)
+      state.buyTotalPage = options.totalPages
     },
     updateNowStock (state, stock) {
       state.nowStock = stock
@@ -96,9 +110,13 @@ export default {
       state.searchList = search
     }
   },
-    // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
+  // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    queryBasicFilter ({ commit }, { strategyId }) {
+    queryBasicFilter ({
+      commit
+    }, {
+      strategyId
+    }) {
       fetch(`${domain}/openapi/backtest/filterStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
         mode: 'cors'
       }).then((res) => {
@@ -111,7 +129,14 @@ export default {
         }
       })
     },
-    queryTradeDetail ({ commit }, { tradePage, tradePagesize, tradeTotalPages, strategyId }) {
+    queryTradeDetail ({
+      commit
+    }, {
+      tradePage,
+      tradePagesize,
+      tradeTotalPages,
+      strategyId
+    }) {
       fetch(`${domain}/openapi/backtest/filterStrategy/tradeDetail.shtml?strategyId=${strategyId}&size=${tradePagesize}&page=${tradePage}`, {
         mode: 'cors'
       }).then((res) => {
@@ -120,11 +145,45 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateTradeDetail', result.data.content)
-          commit('updateTradePage', { totalPages: result.data.totalPages })
+          commit('updateTradePage', {
+            totalPages: result.data.totalPages
+          })
         }
       })
     },
-    queryNowStock ({ commit }, { stockPage, stockPagesize, totalPages, strategyId }) {
+    queryBuyStocks ({
+      commit
+    }, {
+      stockType,
+      strategyId,
+      backtestDate,
+      buyPage,
+      buyPageSize
+    }) {
+      buyPage = buyPage || 0
+      buyPageSize = buyPageSize || BUY_PAGE_SIZE
+      fetch(`${domain}/openapi/backtest/filterStrategy/${stockType}.shtml?strategyId=${strategyId}&backtestDate=${backtestDate}&page=${buyPage}&size=${buyPageSize}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data)
+          commit('updateBuyStocks', result.data.content)
+          commit('updateBuyPage', {
+            totalPages: result.data.totalPages
+          })
+        }
+      })
+    },
+    queryNowStock ({
+      commit
+    }, {
+      stockPage,
+      stockPagesize,
+      totalPages,
+      strategyId
+    }) {
       stockPage = stockPage || 0
       stockPagesize = stockPagesize || STOCK_PAGE_SIZE
       fetch(`${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=${strategyId}&pageSize=${stockPagesize}&pageNum=${stockPage}`, {
@@ -133,14 +192,20 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-         // console.log(result.data)
+          // console.log(result.data)
           commit('updateNowStock', result.data.content)
           /* commit('updatePage', { page: result.data.number, pageSize: result.data.size, totalPages: result.data.totalPages })*/
-          commit('updateStockPage', { totalPages: result.data.totalPages })
+          commit('updateStockPage', {
+            totalPages: result.data.totalPages
+          })
         }
       })
     },
-    queryTimeStrategy ({ commit }, { strategyId }) {
+    queryTimeStrategy ({
+      commit
+    }, {
+      strategyId
+    }) {
       fetch(`${domain}/openapi/backtest/timeStrategy/${strategyId}.shtml`, {
         mode: 'cors'
       }).then((res) => {
@@ -152,7 +217,12 @@ export default {
         }
       })
     },
-    queryKline ({ commit }, { innerCode, strategyId }) {
+    queryKline ({
+      commit
+    }, {
+      innerCode,
+      strategyId
+    }) {
       return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}`, {
         mode: 'cors'
       }).then((res) => {
@@ -164,7 +234,11 @@ export default {
         }
       })
     },
-    querySearch ({ commit }, { keyword }) {
+    querySearch ({
+      commit
+    }, {
+      keyword
+    }) {
       return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}`, {
         mode: 'cors'
       }).then((res) => {
@@ -178,4 +252,3 @@ export default {
     }
   }
 }
-

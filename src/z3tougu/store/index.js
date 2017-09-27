@@ -61,7 +61,7 @@ const actions = {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          resolve()
+          resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
