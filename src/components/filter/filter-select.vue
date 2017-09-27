@@ -405,7 +405,7 @@ export default {
     'filterParams': {
       deep: true,
       handler: function (oldVal, newVal) {
-        this.$emit('query', newVal)
+        this.$emit('filterQuery', newVal)
         this.$emit('exportFoundPool', newVal)
       }
     }
@@ -503,6 +503,7 @@ select {
                     padding-left: 4px;
                 }
                 .select {
+                    position: absolute;
                     display: inline-block;
                     width: 50px;
                     font-size: $fontSize12;
@@ -581,48 +582,6 @@ select {
                 margin-right: 4px;
                 vertical-align: -3px;
             }
-        }
-    }
-}
-.arrow {
-    // display:none;
-    // width: 181px;
-    // position: absolute;
-    // top: -55px;
-    // left:25%;
-    // line-height: 1.4;
-    // border: 1px solid #ccc;
-    // padding: 10px;
-    // @include border_radius(3px);
-    // background-color: #fff;
-    // color:$colorFontTheme;
-    // text-align: left;
-    &:after {
-        content: '';
-        position: absolute;
-        bottom: -16px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #fff;
-    }
-    &:before {
-        content: '';
-        position: absolute;
-        bottom: -17px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #ccc;
-    }
-}
-.tsk {
-    &:hover {
-        + div,
-        > div {
-            display: block;
         }
     }
 }

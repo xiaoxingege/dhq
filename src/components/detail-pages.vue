@@ -82,16 +82,16 @@ a:hover {
 <template>
 <div class="news">
   <div v-if="this.type === 'news'" class="newsDiv">
-    <p class="newTitle">{{result.news.title}}</p>
+    <p class="newTitle">{{result === null ? '':result.news.title}}</p>
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
-      <span class="borderR ml-15">来源：{{result.news.srcName}}</span>
-      <span v-if="result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews" class="mr-10"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
-      <span v-show="result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
+      <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}</span>
+      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews" class="mr-10"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
+      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews">更多相关资讯</span>
-    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result.equityNews.length !== 0">
+    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result && result.equityNews.length !== 0">
       <li value="item.newsId">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'news'}}">{{item.title}}</router-link>
       </li>
@@ -131,6 +131,9 @@ export default {
       return this.$store.state.zhikuanDetailPages.dataList[this.type]
     },
     reformatNewsContent: function () {
+      if (this.result === null || this.result.news.content === null) {
+        return
+      }
       const content = this.result.news.content.split('\n')
       let con = ''
       content.forEach((p) => {
@@ -150,6 +153,9 @@ export default {
       return this.$route.params.id
     },
     date: function () {
+      if (this.result === null) {
+        return
+      }
       const date = new Date(this.result.news.createTime)
       return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
     },

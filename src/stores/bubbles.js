@@ -1,6 +1,8 @@
 // import 'whatwg-fetch'
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 // initial state
 export default {
@@ -55,6 +57,7 @@ export default {
         name: [],
         seriesData: []
       }
+      // alert(result.errCode)
       if (result.errCode === 0) {
         for (var item of data) {
           state.bubblesData.xData.push(item.xData)
@@ -64,17 +67,30 @@ export default {
           state.bubblesData.innerCode.push(item.innerCode)
           state.bubblesData.name.push(item.name)
           if (state.parameterData.xData === 'chi_spel' && state.parameterData.yData === 'chi_spel') {
+            if (item.xData === null || item.yData === null) {
+              continue
+            }
             state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
+            continue
           } else {
             if (state.parameterData.xData === 'chi_spel') {
+              if (item.xData === null) {
+                continue
+              }
               if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+              continue
             } else if (state.parameterData.yData === 'chi_spel') {
+              if (item.yData === null) {
+                continue
+              }
               if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
+              continue
             }
             state.bubblesData.seriesData.push([item.xData, item.yData])
           }
         }
       } else {
+        // alert(result.msg)
         state.bubblesData = {
           xData: [],
           yData: [],
@@ -91,7 +107,10 @@ export default {
     },
     setStockPool (state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({ poolId: '', poolName: '全部' })
+        result.data.unshift({
+          poolId: '',
+          poolName: '全部'
+        })
         state.stockPool = result.data
       }
     },
@@ -100,14 +119,22 @@ export default {
     },
     setStrategy (state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({ id: '', strategyName: '全部' })
+        result.data.unshift({
+          id: '',
+          strategyName: '全部'
+        })
         state.userStrategy = result.data
       }
     }
   },
   actions: {
-    getBubblesData ({ commit }, { options }) {
-      // alert(`xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&indexScope=${options.indexRangeDefault}&industryScope=${options.industryRangeDefault}&topic=${options.topic}&marketValue=${options.marketValueDefault}&historyVolume=${options.historyValueRangeDefault}&innerCode=${options.innerCode}&strategy=${options.strategyDefault}&pools=${options.stockPoolDefault}`)
+    getBubblesData ({
+      commit
+    }, {
+      options
+    }) {
+      // alert(`&innerCode=${options.innerCode.substring(0, 20)}`)
+      // 你alert(`&innerCode=${options.innerCode}`)
       commit('setBubblesOptions', options)
       return fetch(`${domain}/openapi/findBubbles`, {
         mode: 'cors',
@@ -123,7 +150,11 @@ export default {
         commit('setBubblesData', body)
       })
     },
-    getStrategy ({ commit, state, rootState }) {
+    getStrategy ({
+      commit,
+      state,
+      rootState
+    }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStrategy', [])
@@ -137,7 +168,11 @@ export default {
         commit('setStrategy', body)
       })
     },
-    getStockPool ({ commit, state, rootState }) {
+    getStockPool ({
+      commit,
+      state,
+      rootState
+    }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStockPool', [])

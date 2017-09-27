@@ -306,9 +306,10 @@ export default {
     outline: none;
     z-index: 100;
     border: 1px solid #ccc;
-    padding: 10px;
-    width: 220px;
+    padding: 5px 4px;
+    width: 172px;
     text-align: left;
+    line-height: 1.5;
 }
 
 .hsy-tooltip .arrow {

@@ -24,12 +24,17 @@ function insertAuthHeader (options) {
   const authHeader = store.getters.authHeader
   let headers = {}
   if (!options) {
-    options = { headers: {}}
+    options = {
+      headers: {}
+    }
   }
   if (options && options.headers) {
-    headers = { ...options.headers }
+    headers = { ...options.headers
+    }
   }
-  headers = { ...headers, ...authHeader }
+  headers = { ...headers,
+    ...authHeader
+  }
   options.headers = headers
   return options
 }

@@ -146,7 +146,6 @@ span.order-num {
 .bfilter-table {
     position: relative;
 }
-
 /* .bfilter-table .page{
       position: absolute;
       bottom: 0;
@@ -336,7 +335,6 @@ export default {
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
       const token = this.authInfo.authorization.split(' ')[1]
-      // token = token
       if (expires !== -1 && now - updateTime < expires * 1000) {
         console.log(0)
         this.createForm(id, type, token, clientid, deviceid)

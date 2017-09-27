@@ -26,8 +26,10 @@
 }
 .dqxg,
 .dryk,
+.mcxh,
 .mrcc,
 .mrjy,
+.mrxh,
 .sylfb,
 .syqxt,
 .syytj {
@@ -111,45 +113,68 @@
             <td>{{Number(item.commission).toFixed(2)}}</td>
           </tr>
         </tbody>
-
       </table>
       <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
     </div>
-    <div v-if="type === 'dqxg'" class="dqxg">
-      <table cellpadding="0" cellspacing="0">
+    <div v-if="type === 'mrxh'" class="mrxh">
+      <div v-if="mrxhData === null || mrxhData === ''" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <table v-if="mrxhData !== null && mrxhData !== ''">
         <thead>
           <tr>
             <th>序号</th>
+            <th>日期</th>
             <th>股票代码</th>
             <th>股票简称</th>
-            <th>价格（元）</th>
+            <th>下单量(元)</th>
+            <th>最新价</th>
             <th>涨跌</th>
             <th>涨跌幅</th>
-            <th>市盈率</th>
-            <th>市净率</th>
-            <th>市销率</th>
-            <th>总市值（亿）</th>
-            <th>流通市值（亿）</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) of dqxgData.content">
-            <td>{{index+1}}</td>
+          <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
+            <td>{{index}}</td>
+            <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
-            <td :class="item.price >= 0 ? item.price === 0 ?'':'red':'green'">{{item.price === null ? '--':Number(item.price).toFixed(2)}}</td>
-            <td :class="item.chg >= 0 ? item.chg === 0 ?'':'red':'green'">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td :class="item.curChngPct >= 0 ? item.curChngPct === 0 ?'':'red':'green'">{{item.curChngPct === null ? '--':Number(item.curChngPct).toFixed(2)+'%'}}</td>
-            <td>{{Number(item.peTtm).toFixed(2)}}</td>
-            <td>{{Number(item.pb).toFixed(2)}}</td>
-            <td>{{Number(item.pc).toFixed(2)}}</td>
-            <td>{{item.tcap === null ? '--':Number(item.tcap/100000000).toFixed(2)}} </td>
-            <td>{{item.mktcap === null ? '--':Number(item.mktcap/100000000).toFixed(2)}}</td>
+            <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
+            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
           </tr>
         </tbody>
-
       </table>
-      <Pagination v-if="dqxgData.totalPages > 1" :totalPage="dqxgData.totalPages" v-on:getPageFromChild="goDqxgPage"></Pagination>
+      <Pagination v-if="mrxhData !== null && mrxhData !== ''&&mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+    </div>
+    <div v-if="type === 'mcxh'" class="mcxh">
+      <div v-if="mcxhData === null || mcxhData === ''" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <table v-if="mcxhData !== null && mcxhData !== ''">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>日期</th>
+            <th>股票代码</th>
+            <th>股票简称</th>
+            <th>下单量(股)</th>
+            <th>最新价</th>
+            <th>涨跌</th>
+            <th>涨跌幅</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
+            <td>{{index}}</td>
+            <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
+            <td>{{item.innerCode}}</td>
+            <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
+            <td>{{item.amount === null ? '--':item.amount}}</td>
+            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <Pagination v-if="mcxhData !== null && mcxhData !== ''&&mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
     </div>
   </div>
 </div>
@@ -186,8 +211,9 @@ export default {
         ['每日持仓', 'mrcc'],
         ['收益月统计', 'syytj'],
         ['收益率分布', 'sylfb'],
-        ['每日交易', 'mrjy'],
-        ['当前选股', 'dqxg']
+        ['交易详情', 'mrjy'],
+        ['今日买入信号', 'mrxh'],
+        ['今日卖出信号', 'mcxh']
       ]
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
@@ -212,6 +238,12 @@ export default {
     },
     authInfo: function () {
       return this.$store.state.auth
+    },
+    mrxhData: function () {
+      return this.$store.state.goldStrategy.mrxhData
+    },
+    mcxhData: function () {
+      return this.$store.state.goldStrategy.mcxhData
     }
 
   },
@@ -225,10 +257,18 @@ export default {
         page: data - 1
       }).then(() => {})
     },
-    goDqxgPage (data) {
-      this.$store.dispatch('goldStrategy/getDqxgData', {
+    goMrxhPage (data) {
+      this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
-        pageNum: data - 1
+        type: 'buy',
+        page: data - 1
+      }).then(() => {})
+    },
+    goMcxhPage (data) {
+      this.$store.dispatch('goldStrategy/getMrxhData', {
+        strategyId: this.strategyId,
+        type: 'sell',
+        page: data - 1
       }).then(() => {})
     },
     exportData (type) {
@@ -245,9 +285,7 @@ export default {
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
       const token = this.authInfo.authorization.split(' ')[1]
-      /* if (!window.Z3) {
-        token = token.split(' ')[1]
-      }*/
+
       if (expires !== -1 && now - updateTime < expires * 1000) {
         this.createForm(id, type2, token, clientid, deviceid)
       } else {

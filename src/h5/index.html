@@ -9,12 +9,18 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="format-detection" content="telephone=no" />
 	<script>
-    document.getElementsByTagName('html')[0].style.fontSize= document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
-  	</script>
+		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+		window.app = {
+			name: "{{appid}}",
+			passportId: "{{passportId}}"
+		};
+	</script>
 </head>
 
 <body>
-	<app><!--content--></app>
+	<app>
+		<!--content-->
+	</app>
 </body>
 
 </html>

@@ -10,7 +10,7 @@
         </ul>
       </div>
       <!-- 筛选条件 -->
-      <filter-select @query='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
+      <filter-select @filterQuery='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
       <!-- 筛选条件 end-->
     </div>
     <!-- 临时基金池 -->
@@ -19,7 +19,10 @@
       <ul class="fundPoolList">
         <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
         <li v-if="lsfoundPoolList.length === 0">
-          <div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div>
+          <div class="defaultTxt tc">
+            <p>每个基金池最多可添加50只基金，</p>
+            <p>保存基金池后，可快速创建组合</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -35,9 +38,9 @@
         <a href="javascript:;" class="s_btn fl" @click='search'>搜索</a>
       </div>
       <label for="jdx" class="fr">
-          <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
-          仅显示代销基金
-        </label>
+            <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
+            仅显示代销基金
+          </label>
     </div>
     <!-- 筛选数据 -->
     <div>
@@ -63,7 +66,7 @@
             <th @click="sorts('yearYld')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>七日年化收益率</span></th>
             <th @click="sorts('tenthouUnitIncm')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>万份收益</span></th>
             <th @click="sorts('chgPct')" width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5"><span>涨跌幅</span></th>
-            <th width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
+            <th width='9%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
               <div class="seletetime">
                 <div @click="seletetimeshow=!seletetimeshow">
                   {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
@@ -133,7 +136,7 @@
     </div>
     <!-- 筛选数据 end-->
     <!-- 分页 -->
-    <Pagination v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+    <Pagination class='pageActive' v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
     <!-- 分页  end-->
     <p class="zwsj tc" v-if="foundPoolListData.foundPoolList.length === 0"><img src='../../assets/images/empty_data.png' /></p>
   </div>
@@ -154,16 +157,17 @@
     </div>
   </founddialog>
   <!-- 弹框 end-->
-  <div class="loading" v-if="maskShow">
-    <div>
-      <div class="c1"></div>
-      <div class="c2"></div>
-      <div class="c3"></div>
-      <div class="c4"></div>
+  <div v-if="maskShow" class="mask">
+    <div class="loading">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
     </div>
-    <span>loading...</span>
   </div>
-  <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
 </div>
 </template>
 
@@ -182,9 +186,6 @@ import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
 import fetch from '../../z3tougu/util/z3fetch'
-import {
-  formatDate
-} from '../../utils/date'
 import {
   ctx
 } from '../../z3tougu/config'
@@ -295,6 +296,7 @@ export default {
         this.sort = value + ',desc'
       }
       this.query(this.filterParams2, this.page, this.type2)
+      console.log('排序')
     },
     // 下拉切换数据
     seletenumfn (v) {
@@ -364,10 +366,10 @@ export default {
     selectType (index, type) {
       this.typeIndex = index
       this.type2 = type
-      this.query(this.filterParams2, this.page, this.type2)
       if (this.type2 === 'jjlx_all') {
         this.init()
       }
+      this.query(this.filterParams2, this.page, this.type2)
     },
     // 加入临时基金池
     addIinterimFunds (item) {
@@ -422,19 +424,15 @@ export default {
     },
     // 导出筛选数据
     exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
-      return fetch(url, {
-        method: 'GET',
-        mode: 'cors'
-      }).then((res) => {
-        return res.blob()
-      }).then(result => {
-        var date = new Date()
-        var url = window.URL.createObjectURL(result)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
-        a.click()
+      this.$store.dispatch('getExportFundPool', {
+        type: this.type2,
+        option: this.filterParams2,
+        isConsignment: this.isConsignment,
+        searchVal: this.searchVal,
+        page: this.page,
+        pageSize: this.pageSize,
+        orgCode: this.orgCode,
+        sort: this.sort
       })
     },
     // 日期格式化
@@ -443,9 +441,6 @@ export default {
         return '--'
       }
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
-    },
-    formatDates (datestr) {
-      return formatDate(datestr, 'yyMMddhhmm ')
     },
     checked (e) {
       const checked = e.target.checked
@@ -481,15 +476,12 @@ export default {
       this.filterParams2.fbq = 'fbq_all' // 封闭期
     }
   },
-  created () {
-    this.query(this.filterParams2, this.page, this.type2)
-  },
   mounted () {},
   watch: {
     // 监控页码改变
     'page': {
       deep: true,
-      handler: function (oldVal, newVal) {
+      handler: function () {
         this.query(this.filterParams2, this.page, this.type2)
       }
     }
@@ -820,14 +812,6 @@ select {
 .show {
     display: block;
 }
-.tsk {
-    &:hover {
-        + div,
-        > div {
-            display: block;
-        }
-    }
-}
 .seletetime {
     position: relative;
     cursor: pointer;
@@ -908,6 +892,9 @@ select {
     font-size: $fontSize12;
     color: $colorFontH;
     margin-top: 30px;
+    p {
+        padding-left: 100px;
+    }
 }
 p.hyname {
     width: 120px;
