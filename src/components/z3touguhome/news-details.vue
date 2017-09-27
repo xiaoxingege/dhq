@@ -5,23 +5,19 @@
     font-family: '微软雅黑';
     font-size: 12px;
 }
-body,
-html {
-    height: 100%;
-}
-.news-wrap {
-    padding: 10px 95px 0;
-    background-color: #fff;
-    min-height: 100%;
+.news-detail-wrap {
+    background-color: #141518;
     overflow: auto;
+    min-height: 710px;
+    color: #c9d0d7;
 }
-.new-title {
+.news-detail-title {
     text-align: center;
     padding-bottom: 40px;
     font-weight: 700;
     font-size: 14px;
 }
-.new-txt {
+.new-detail-txt {
     padding-bottom: 20px;
     padding-left: 5px;
     text-align: right;
@@ -55,9 +51,9 @@ iframe {
 }
 </style>
 <template>
-<div class="news-wrap">
-  <p class="new-title">{{newsTitle}}</p>
-  <div class="new-txt">
+<div class="news-detail-wrap" :style="{height:wrapHeight-2+'px'}">
+  <p class="news-detail-title">{{newsTitle}}</p>
+  <div class="new-detail-txt">
     <span>{{makeDate}}</span>
     <span>来源：{{source}}</span>
   </div>
@@ -69,17 +65,22 @@ iframe {
 </template>
 <script type="text/javascript">
 export default {
-  props: [],
+  props: ['newsId'],
   data () {
     return {
       newsDetails: null,
       newsTitle: '',
-      newsId: '',
       makeDate: '',
       source: '',
       newsContxt: '',
       keyword: '',
-      dutyname: ''
+      dutyname: '',
+      wrapHeight: window.innerHeight
+    }
+  },
+  watch: {
+    newsId () {
+      this.getNews()
     }
   },
   computed: {
@@ -90,20 +91,21 @@ export default {
   },
   methods: {
     getNews: function () {
-      this.newsId = this.$route.params.newsId
-      this.$store.dispatch('z3touguIndex/getNewsDetails', {
-        newsId: this.newsId
-      })
-        .then(() => {
-          this.newsDetails = this.newsDetailData
-          this.newsTitle = this.newsDetailData.title
-          this.makeDate = this.newsDetailData.makedate
-          this.source = this.newsDetailData.source
-          this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')
-          console.log(this.newsContxt)
-          this.keyword = this.newsDetailData.keyword.replace(',', ' ')
-          this.dutyname = this.newsDetailData.dutyname
+      if (this.newsId !== '') {
+        console.log(this.newsId)
+        this.$store.dispatch('z3touguIndex/getNewsDetails', {
+          newsId: this.newsId
         })
+          .then(() => {
+            this.newsDetails = this.newsDetailData
+            this.newsTitle = this.newsDetailData.title
+            this.makeDate = this.newsDetailData.makedate
+            this.source = this.newsDetailData.source
+            this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')
+            this.keyword = this.newsDetailData.keyword.replace(',', ' ')
+            this.dutyname = this.newsDetailData.dutyname
+          })
+      }
     }
   },
   mounted () {
