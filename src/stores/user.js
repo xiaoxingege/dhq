@@ -3,6 +3,7 @@
  * namespaced为true，是为了避免store的module之间，getters、mutations、actions发生命名冲突
  */
 import $ from 'jquery'
+import Promise from 'promise'
 
 export default {
   namespaced: true,
@@ -43,45 +44,51 @@ export default {
     checkLogin({
       commit
     }) {
-      // App内，通过cookie判断
-      if (window.app && window.app.name && window.app.name !== '{{appid}}') {
-        const passportId = window.app.passportId
-        commit('fetch', {
-          ssoId: passportId || ''
-        })
-        if (passportId) {
-          commit('setLoginStatus', 'yes')
-        } else {
-          commit('setLoginStatus', 'no')
-        }
-      } else {
-        const script = document.createElement('script')
-        script.addEventListener('load', function() {
+      const promise = new Promise((resolve, reject) => {
+        // App内，通过cookie判断
+        if (window.app && window.app.name && window.app.name !== '{{appid}}') {
+          const passportId = window.app.passportId
           commit('fetch', {
-            ssoId: window.sso_userID
+            ssoId: passportId || ''
           })
-          if (window.sso_userID) {
+          if (passportId) {
             commit('setLoginStatus', 'yes')
           } else {
             commit('setLoginStatus', 'no')
           }
-          document.getElementsByTagName('head')[0].removeChild(script)
-        })
-        script.addEventListener('error', function() {
-          document.getElementsByTagName('head')[0].removeChild(script)
-        })
-        script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
-        document.getElementsByTagName('head')[0].appendChild(script)
-      }
+          resolve()
+        } else {
+          const script = document.createElement('script')
+          script.addEventListener('load', function() {
+            commit('fetch', {
+              ssoId: window.sso_userID
+            })
+            if (window.sso_userID) {
+              commit('setLoginStatus', 'yes')
+            } else {
+              commit('setLoginStatus', 'no')
+            }
+            document.getElementsByTagName('head')[0].removeChild(script)
+            resolve()
+          })
+          script.addEventListener('error', function() {
+            document.getElementsByTagName('head')[0].removeChild(script)
+            resolve()
+          })
+          script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
+          document.getElementsByTagName('head')[0].appendChild(script)
+        }
+      })
+      return promise
     },
     checkBindingInfo({
       commit,
       state
     }) {
-      $.ajax({
+      return $.ajax({
         url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
         headers: {
-          passportId: state.ssoId
+          passportId: state.ssoId || '170907010029048531'
         }
       }).then(data => {
         commit('setBindingInfo', data.data)
