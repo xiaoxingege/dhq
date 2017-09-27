@@ -316,7 +316,8 @@ a.kuai_icon {
     /*  width: 62%;
       margin: 13px auto 13px; */
     width: 90%;
-    padding-left: 2.1%;
+    /* padding-left: 2.1%; */
+    padding-left: 0.2%;
 }
 .hot-name {
     /*  margin-left: 19px; */
@@ -449,7 +450,7 @@ a.kuai_icon {
           </a>
         </div>
       </div>
-      <ThemeSortAz/>
+      <ThemeSortAz :islink="true" />
     </div>
   </div>
   <StockBox ref="stockbox"></StockBox>

@@ -68,7 +68,7 @@ html {
 }
 .every-name {
     width: 91%;
-    padding-left: 2%;
+    /* padding-left: 2%; */
 }
 .every-name .tname {
     /* padding: 0 10px; */
@@ -91,8 +91,12 @@ html {
     <div class="fl letter"><span>{{key}}</span><i>></i></div>
     <div class="fl every-name" v-if="routeName === 'themeindex'">
       <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
-        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'">
+        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" v-if="islink">
           {{g.topicName}}</router-link>
+      </a>
+
+      <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname" v-if="!islink">
+          {{g.topicName}}
       </a>
     </div>
     <div class="fl every-name" v-else>
@@ -114,6 +118,7 @@ export default {
       routeName: this.$route.name
     }
   },
+  props: ['islink'],
   computed: mapState({
     groupTopics: state => state.topic.groupTopics,
     sortList: state => {

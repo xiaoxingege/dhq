@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/mystock'
+import App from 'components/pre-pay'
 
 /*
  * 引入vuex
@@ -16,8 +16,11 @@ Vue.use(Vuex)
  * 实例化store
  */
 
+import user from 'stores/user'
 const store = new Vuex.Store({
-  modules: {}
+  modules: {
+    user
+  }
 })
 
 /*

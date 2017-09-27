@@ -216,7 +216,8 @@ table {
 .right-con td {
     text-align: center;
     /* width: 18%; */
-    width: 19%;
+    /* width: 19%; */
+    width: 10%;
     float: left;
     font-weight: 400;
 }
@@ -281,6 +282,14 @@ table {
     background-color: #2388da;
     border-color: #2388da;
 }
+.active {
+    color: #000;
+    background: pink;
+}
+.numTopic {}
+.mo {
+    display: none;
+}
 </style>
 <template>
 <div class="topic-detail">
@@ -339,22 +348,26 @@ table {
       </div>
       <div class="main-right fl" :class="stockList.length<15&&size>13?'main-right2':''">
         <table class="right-con clearfix">
+          <div :class="this.stockSort==='recommendIndex'?'active':''" class="mo">默认相关度排序</div>
           <thead>
             <th class="fl mb-8">
-              <td class="td1">{{detail.topicName}}相关股票</td>
-              <td>最新价</td>
-              <td>涨跌幅</td>
-              <td>所属申万行业</td>
+              <td class="td1" @click="sortStock('symbol')" :class="this.stockSort==='symbol'?'active':''">{{detail.topicName}}相关股票</td>
+              <td @click="sortStock('marketData.price')" :class="this.stockSort==='marketData.price'?'active':''">最新价</td>
+              <td @click="sortStock('marketData.curChngPct')" :class="this.stockSort==='marketData.curChngPct'?'active':''">涨跌幅</td>
+              <td @click="sortStock('industryName')" :class="this.stockSort==='industryName'?'active':''">所属申万行业</td>
               <td>关联说明</td>
+              <td class="blue">关联主题</td>
             </th>
           </thead>
           <tbody>
             <tr class="fl" v-for="stock of stockList">
-              <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue txt-td">{{stock.name}}</span><small class="num-td">{{stock.symbol}}</small></a></td>
+              <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue txt-td">{{stock.name==null?'--':stock.name}}</span><small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small></a></td>
               <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
               <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
               <td>{{checkNull(stock.industryName)}}</td>
               <td class="blue" :title="stock.topicMark">关联原因</td>
+              <td class="blue numTopic">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
+              <span v-for="number of numberTopic">{{number.topicName}}</span></a></td>
             </tr>
 
           </tbody>
@@ -396,12 +409,20 @@ export default {
         M36: 'M36',
         day: 'day'
       },
+      stockSort: {
+        symbol: 'symbol',
+        recommendIndex: 'recommendIndex',
+        price: 'marketData.price',
+        curChngPct: 'marketData.curChngPct',
+        industryName: 'industryName'
+      },
       topicCode: this.$route.params.topicId,
       fullHeight: document.documentElement.clientHeight,
       size: 12,
       inforPageSize: 5,
       endAll: '',
       alltimers: ''
+
     }
   },
   components: {
@@ -412,6 +433,7 @@ export default {
       relatedStocks: state => state.topic.relatedStocks,
       allLimit: state => state.topic.allLimit,
       realtimeLimit: state => state.topic.realtimeLimit,
+      numberTopic: state => state.topic.numberTopic,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -642,7 +664,6 @@ export default {
         // console.log(this.realTimeData.realData[this.realTimeData.realData.length - 1].tradeMin)
         // this.endAll = this.allLimit.limitAllX
         // console.log(this.chartData.chartDataEnd)
-        console.log(v)
         console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
         console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)
         if (this.realtimeLimit[0].tradeMin === this.realTimeData.realTimeEnd) {
@@ -668,13 +689,15 @@ export default {
       /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
     },
 
-    initStockList (size) {
+    initStockList () {
+      this.stockSort = 'recommendIndex'
       //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
+        sortField: this.stockSort,
         size: this.size
       })
     },
@@ -684,6 +707,28 @@ export default {
       this.$store.dispatch('topic/queryInformatList', {
         topicCode: this.topicCode,
         inforPageSize: this.inforPageSize
+      })
+    },
+    enterNumberTopic (e, innerCode) {
+      // const focusStockId = e.currentTarget.children[0].innerText
+      console.log(e.currentTarget.children[0])
+      console.log(innerCode)
+
+      // this.isStyle = 'block'
+      e.currentTarget.children[0].style.display = 'block'
+      this.$store.dispatch('topic/queryStockNumberTopic', {
+        innerCode: innerCode
+      })
+    },
+    leaveNumberTopic (e) {
+      e.currentTarget.children[0].style.display = 'none'
+    },
+    sortStock (type) {
+      this.stockSort = type
+      this.$store.dispatch('topic/queryStockList', {
+        topicCode: this.topicCode,
+        sortField: this.stockSort,
+        size: this.size
       })
     },
     drawCharts (topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
@@ -876,6 +921,7 @@ export default {
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
+    // console.log(this.innerCode)
     // this.drawCharts()
   },
   beforeDestroy () {

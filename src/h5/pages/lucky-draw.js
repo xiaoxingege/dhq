@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/mystock'
+import App from 'components/lucky-draw'
 
 /*
  * 引入vuex
@@ -15,9 +15,11 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-
+import user from 'stores/lucky-draw-data'
 const store = new Vuex.Store({
-  modules: {}
+  modules: {
+    user
+  }
 })
 
 /*

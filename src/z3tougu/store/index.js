@@ -53,7 +53,7 @@ const getters = {
   }
 }
 const actions = {
-  authSetting({
+  authSetting ({
     state,
     commit
   }) {
@@ -62,7 +62,7 @@ const actions = {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          resolve()
+          resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
@@ -81,10 +81,10 @@ const actions = {
   }
 }
 const mutations = {
-  [mutationTypes.REQUEST_ERROR](state, error) {
+  [mutationTypes.REQUEST_ERROR] (state, error) {
     // state.error = error.message
   },
-  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
+  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
       clientid: authInfo.clientid,

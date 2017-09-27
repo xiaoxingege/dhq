@@ -1,7 +1,11 @@
 import 'whatwg-fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 import fetch from '../z3tougu/util/z3fetch'
-import { formatDate } from '../utils/date'
+import {
+  formatDate
+} from '../utils/date'
 const PAGE_SIZE = 10
 
 export const types = {
@@ -79,7 +83,18 @@ export default {
   },
   actions: {
     // 获取查询数据
-    getFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+    getFundPool ({
+      commit
+    }, {
+      type,
+      option,
+      isConsignment,
+      searchVal,
+      page,
+      pageSize,
+      orgCode,
+      sort
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/fund/strategyByParam.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=hy_${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
       return fetch(url, {
@@ -103,7 +118,18 @@ export default {
       })
     },
     // 导出数据
-    getExportFundPool ({ commit }, { type, option, isConsignment, searchVal, page, pageSize, orgCode, sort }) {
+    getExportFundPool ({
+      commit
+    }, {
+      type,
+      option,
+      isConsignment,
+      searchVal,
+      page,
+      pageSize,
+      orgCode,
+      sort
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${type}&jyzt=${option.jyzt}&sort=${sort}&jjgm=${option.jjgm}&clsj=${option.clsj}&dexz=${option.dexz}&sylbx1=${option.sylbx1}&sylbx2=${option.sylbx2}&nhsyl=${option.nhsyl}&hy=hy_${option.hy}&tzfg=${option.tzfg}&jhfxq=${option.jhfxq}&zdhc=${option.zdhc}&xpb=${option.xpb}&cesyl=${option.cesyl}&fbq=${option.fbq}&isConsignment=${isConsignment}&searchVal=${searchVal}&page=${page}&pageSize=${pageSize}&orgCode=${orgCode}`
       return fetch(url, {
@@ -122,7 +148,12 @@ export default {
       })
     },
     // 收益率表现
-    getSylbx ({ commit }, { idxId, jjlx }) {
+    getSylbx ({
+      commit
+    }, {
+      idxId,
+      jjlx
+    }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, {
         method: 'GET',
@@ -136,7 +167,12 @@ export default {
       })
     },
     // 年化收益率
-    getNhsyl ({ commit }, { idxId, jjlx }) {
+    getNhsyl ({
+      commit
+    }, {
+      idxId,
+      jjlx
+    }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, {
         method: 'GET',
@@ -150,7 +186,12 @@ export default {
       })
     },
     // 最大回撤
-    getZdhc ({ commit }, { idxId, jjlx }) {
+    getZdhc ({
+      commit
+    }, {
+      idxId,
+      jjlx
+    }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, {
         method: 'GET',
@@ -164,7 +205,12 @@ export default {
       })
     },
     // 夏普率
-    getXpb ({ commit }, { idxId, jjlx }) {
+    getXpb ({
+      commit
+    }, {
+      idxId,
+      jjlx
+    }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, {
         method: 'GET',
@@ -178,7 +224,12 @@ export default {
       })
     },
     // 超额收益率
-    getCesyl ({ commit }, { idxId, jjlx }) {
+    getCesyl ({
+      commit
+    }, {
+      idxId,
+      jjlx
+    }) {
       const url = `${domain}/openapi/fund/indexlist.shtml?idxId=${idxId}&jjlx=${jjlx}`
       return fetch(url, {
         method: 'GET',

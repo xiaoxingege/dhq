@@ -65,8 +65,8 @@ input {
     height: 646px;
 }
 .bg4 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg4.jpg") center 0 no-repeat;
-    height: 647px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-bg4-1.jpg") center 0 no-repeat;
+    height: 646px;
 }
 .bg5 {
     background: url("../assets/images/jzxg-activity/jzxg-web-bg5.jpg") center 0 no-repeat;
