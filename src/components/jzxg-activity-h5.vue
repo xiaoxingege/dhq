@@ -277,7 +277,15 @@ export default {
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})
     })
-    this.$store.dispatch('user/checkLogin')
+    this.$store.dispatch('user/checkLogin');
+    if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+      InitWeChatShare({
+        shareTitle: "极智选股双节大礼包",
+        shareLink: window.location.href,
+        shareDesc: '国庆中秋双节将至，金融界极智选股送您万元投资礼包，快来领取~',
+        shareImg: 'http://i0.jrjimg.cn/assets/images/jzxg-300x300.jpg'
+      });
+    }
   }
 }
 </script>
