@@ -14,13 +14,36 @@ export default {
     homeMapData: [],
     homeRangeData: null,
     strategyBlock: null,
-    incomeListData: []
+    incomeListData: [],
+    strategyNames: [],
+    strategyIndexs: null,
+    tradeSignal: []
   },
   mutations: {
     setStrategyList (state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
+      }
+    },
+    setStrategyName (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyNames = result.data
+      }
+    },
+    setStrategyIndexs (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyIndexs = result.data
+      }
+    },
+    setTradeSignal (state, options) {
+      const result = options.result
+      if (result.errCode === 0 && result.data) {
+        state.tradeSignal = result.data.content
+      } else {
+        state.tradeSignal = []
       }
     },
     setStrategyBlock (state, options) {
@@ -46,14 +69,6 @@ export default {
     setNewsDetails (state, options) {
       const result = options.result
       state.newsDetails = result.data
-    },
-    setHomeMapData (state, options) {
-      const result = options.result
-      state.homeMapData = result.voList
-    },
-    setHomeRangeData (state, options) {
-      const result = options.result
-      state.homeRangeData = result.data
     }
   },
   actions: {
@@ -69,6 +84,53 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setStrategyList', {
+          result: body
+        })
+      })
+    },
+    getStrategyName ({
+      commit
+    }, {
+      sort,
+      direction,
+      size
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/top.shtml?sort=${sort}&direction=${direction}&size=${size}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setStrategyName', {
+          result: body
+        })
+      })
+    },
+    getStrategyIndexs ({
+      commit
+    }, {
+      strategyId
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/indexAndFollows.shtml?strategyId=${strategyId}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setStrategyIndexs', {
+          result: body
+        })
+      })
+    },
+    getTradeSignal ({
+      commit
+    }, {
+      strategyId,
+      buySellType,
+      page,
+      size
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/buySellSignal.shtml?strategyId=${strategyId}&buySellType=${buySellType}&page=${page}&size=${size}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setTradeSignal', {
           result: body
         })
       })
@@ -150,36 +212,6 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setNewsDetails', {
-          result: body
-        })
-      })
-    },
-    getHomeMapData ({
-      commit
-    }, {
-      date
-    }) {
-      const url = domain + '/openapi/openjson/tx/chg/' + date + '.json'
-      return fetch(url, {
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      }).then((res) => {
-        return res.json()
-      }).then((body) => {
-        commit('setHomeMapData', {
-          result: body
-        })
-      })
-    },
-    getHomeRangeData ({
-      commit
-    }) {
-      const url = `${domain}/openapi/tx/chg/`
-      return fetch(url).then((res) => {
-        return res.json()
-      }).then((body) => {
-        commit('setHomeRangeData', {
           result: body
         })
       })

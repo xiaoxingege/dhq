@@ -114,8 +114,7 @@ i {
     cursor: pointer;
 }
 
-.txt-srcName {
-    }
+.txt-srcName {}
 .event:hover {
     color: #2388da;
 }

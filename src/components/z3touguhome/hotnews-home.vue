@@ -1,55 +1,127 @@
 <style lang="scss" scoped="">
-    .finance-news{}
-    .finance-news-top{height:12%;border-bottom: 1px solid #ddd;}
-    .finance-news-top p{display: inline-block;width: 50%;}
-    .more-news{color:#4c8cca;cursor: pointer;}
-    .finance-news-title{font-weight: bold;color:#666;}
-    .finance-news-list{height:88%;}
-    .finance-news-list li{height:16.66%;padding-top:8px;}
-    .newtitle{cursor: pointer;color:#666;}
-    .newtitle:hover{color:#4c8cca;}
-    .finance-news-list>li:before{
-        float: left;
-        content: "";
-        background: #ccc;
-        width: 4px;
-        height: 4px;
-        overflow: hidden;
-        display: inline-block;
-        margin: 6px 11px 0 0;
-        border-radius: 2px;
-    }
+.finance-news {
+    background-color: #141518;
+    height: 100%;
+}
+.finance-news-list {
+    height: 85%;
+    color: #c9d0d7;
+    padding: 11px 11px 11px 14px;
+}
+.finance-news-list li {
+    height: 16.66%;
+    padding-top: 8px;
+}
+.newtitle {
+    cursor: pointer;
+    color: #c9d0d7;
+}
+.newtitle:hover {
+    color: #1984ea;
+}
+.finance-news-list > li:before {
+    float: left;
+    content: "";
+    background: #ccc;
+    width: 6px;
+    height: 6px;
+    overflow: hidden;
+    display: inline-block;
+    margin: 6px 5px 0 0;
+    border-radius: 50%;
+}
+,
+.news-top {
+    height: 15%;
+    position: relative;
+}
+.more-news {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
+.more-news a {
+    color: #808ba1;
+}
 </style>
 <template>
-    <div class="finance-news">
-        <div class="finance-news-top clearfix">
-            <p class="fl tl finance-news-title">{{newsName}}</p>
-            <p class="fr tr more-news"><router-link :to="{name:'newslist',params:{newsType:newsType}}">更多</router-link></p>
-        </div>
-        <ul class="finance-news-list">
-            <li v-for="item of newsList" class="c_txt tl clearfix">
-                <router-link class="fl newtitle" :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link>
-                <span class="fr">{{item.makedate.substring(11)}}</span>
-            </li>
-        </ul>
-    </div>
+<div class="finance-news">
+  <div class="news-top">
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <p class="fr tr more-news">
+      <router-link :to="{name:'newslist',query:{newsId:''}}">更多></router-link>
+    </p>
+  </div>
+  <ul class="finance-news-list">
+    <li v-for="item of newsList" class="c_txt tl clearfix">
+      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsId:newsId}}">{{item.title}}</router-link>
+      <span class="fr">{{item.makedate.substring(11)}}</span>
+    </li>
+  </ul>
+</div>
 </template>
 <script type="text/javascript">
-    export default {
-      props: ['newsList', 'newsName', 'newsType'],
-      data () {
-        return {
-
-        }
-      },
-      computed: {
-
-      },
-      methods: {
-
-      },
-      mounted () {
-    
-      }
+import NavBar from 'components/z3touguhome/nav-bar'
+export default {
+  props: [],
+  data () {
+    return {
+      navText: [
+        ['财经要闻', 'ywnews'],
+        ['上市公司', 'companynews']
+      ],
+      type: 'ywnews',
+      newsSize: 6,
+      newsList: [],
+      newsId: ''
     }
+  },
+  watch: {
+    type () {
+      this.getNews()
+    }
+  },
+  components: {
+    NavBar
+  },
+  computed: {
+    financeNewsData: function () {
+      const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
+      return financeNewsData
+    },
+    listedCompanyNewsData: function () {
+      const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
+      return listedCompanyNewsData
+    }
+  },
+  methods: {
+    getNews: function () {
+      if (this.type === 'ywnews') {
+        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+          size: this.newsSize
+        })
+          .then(() => {
+            this.newsId = this.financeNewsData[0].iiid
+            this.newsList = this.financeNewsData
+          })
+      } else if (this.type === 'companynews') {
+        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+          size: this.newsSize
+        })
+          .then(() => {
+            this.newsId = this.listedCompanyNewsData[0].iiid
+            this.newsList = this.listedCompanyNewsData
+          })
+      }
+    },
+    changeNavType (data) {
+      this.type = data
+    }
+  },
+  mounted () {
+    this.getNews()
+  }
+}
 </script>

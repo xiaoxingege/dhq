@@ -25,7 +25,6 @@ import FundChart from 'components/fund-chart'
 import FundFile from 'components/fund-file'
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
-import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
 import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 import FundArchives from 'components/fund-archives/fund-archives'
@@ -203,14 +202,9 @@ export default [{
   component: FundFile
 },
 {
-  path: ctx + '/home/:newsType',
+  path: ctx + '/newslist',
   name: 'newslist',
   component: NewsList
-},
-{
-  path: ctx + '/home/:newsType/newsDetail/:newsId',
-  name: 'newsdetails',
-  component: NewsDetails
 },
 {
   path: ctx + '/smartPool',
