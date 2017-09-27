@@ -77,17 +77,17 @@ th {
   padding: 5px;
 }
 
-h3 {
+.head {
   /*  margin-top: 20px; */
   /* padding:0 0 14px 3px; */
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   font-size: 16px;
   font-weight: normal;
   position: relative;
   color: #c9d0d7;
 }
 
-h3 .back {
+.head .back {
   width: 16px;
   height: 12px;
   display: inline-block;
@@ -101,6 +101,7 @@ h3 .back {
 
 .ba-name {
   padding-left: 22px;
+  font-size: 16px;
 }
 
 .shu {
@@ -113,10 +114,12 @@ h3 .back {
 
 .date-in {
   margin-left: 8px;
+  font-size: 16px;
 }
 
 .date {
   margin-left: 11px;
+  font-size: 16px;
 }
 
 .sell {
@@ -186,7 +189,7 @@ h3 .back {
 </style>
 <template>
 <div class="backt-buysell-wrap">
-  <h3><i class="back" @click="routerBack"></i><span class="ba-name">{{basicName}}</span><i class="shu"></i><em class="sell" :class="stockType==='buyStocks'?'buy':''">{{stockType==='buyStocks'?'买入':'卖出'}}</em><span class="date-in">股票列表<em class="date">{{changeDate(backtestDate)}}</em></span></h3>
+  <div class="head" style="padding-bottom: 20px;font-size: 16px;"><i class="back" @click="routerBack"></i><span class="ba-name">{{basicName}}</span><i class="shu"></i><em class="sell" :class="stockType==='buyStocks'?'buy':''">{{stockType==='buyStocks'?'买入':'卖出'}}</em><span class="date-in">股票列表<em class="date">{{changeDate(backtestDate)}}</em></span></div>
   <div class="backtestInfoList" :style="{  minHeight: fullHeight + 'px' }">
     <div class="tit" v-if="tabledata.td.length==0">
       暂无列表
