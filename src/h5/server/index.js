@@ -21,7 +21,8 @@ const templatePath = getTemplatePath();
 const templateMap = {
   neicanmsapp: fs.readFileSync(path.join(templatePath, 'neicanmsapp.html')).toString(),
   'jzxg-activity': fs.readFileSync(path.join(templatePath, 'jzxg-activity.html')).toString(),
-  'mystock': fs.readFileSync(path.join(templatePath, 'mystock.html')).toString()
+  'mystock': fs.readFileSync(path.join(templatePath, 'mystock.html')).toString(),
+  'lucky-draw': fs.readFileSync(path.join(templatePath, 'lucky-draw.html')).toString()
 }
 const templateCache = {};
 const loadTemplate = function(name) {
