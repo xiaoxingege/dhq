@@ -31,6 +31,7 @@ import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
 import backtestHelp from 'components/help'
+import indexChart from 'components/indexChart'
 import {
   ctx
 } from '../config'
@@ -229,6 +230,11 @@ export default [{
   path: ctx + '/backtestHelp',
   name: 'backtestHelp',
   component: backtestHelp
+},
+{
+  path: ctx + '/indexChart',
+  name: 'indexChart',
+  component: indexChart
 }
 
 ]

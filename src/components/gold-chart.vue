@@ -138,9 +138,9 @@
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
-            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
-            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
           </tr>
         </tbody>
       </table>
