@@ -1,14 +1,29 @@
 <style>
 @import '../assets/css/reset.css';
 .lucky-draw {
+  min-height: 20rem;
   font-size: 40px;
-  color: red;
+  color: #fff;
+  background: #ff4200;
+  width:7.5rem;
+}
+.banner{
+  width:7.5rem;
+  height: 5.24rem;
+  background: url(../assets/images/lucky-draw/banner.png) center no-repeat;
+  background-size: 100%;
+}
+.banner-top{
+  
 }
 </style>
 
 <template>
 <div class="lucky-draw">
-  金豆大转盘
+  <div class="banner">
+    <div class="banner-top"></div>
+  </div>
+  
 </div>
 </template>
 
