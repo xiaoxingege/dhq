@@ -258,11 +258,7 @@ export default {
           returnUrl: encodeURI(window.location.href)
         }))
       } else if (this.loginStatus === 'yes') {
-        if (!this.riskAssessed) {
-          location.href = `http://i.jrj.com.cn/home/app/fxcpNotes?ReturnURL=${encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')}`
-        } else {
-          location.href = 'http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4'
-        }
+        location.href = '/actm/pre-pay?payUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')
       } else {
         alert('正在获取用户信息，请稍候')
       }

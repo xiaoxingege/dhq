@@ -3,9 +3,6 @@
 
 <template>
 <div>
-  <p>{{bindingMobile}}</p>
-  <p>{{bindingIdentity}}</p>
-  <p>{{riskAssessed}}</p>
 </div>
 </template>
 
@@ -22,7 +19,7 @@ export default {
     bindingMobile: state => state.user.bindingMobile,
     bindingIdentity: state => state.user.bindingIdentity
   }),
-  mounted () {
+  mounted() {
     const query = qs.parse(location.search.substring(1))
     const payUrl = query.payUrl
     this.$store.dispatch('user/checkLogin').then(() => {
@@ -42,7 +39,8 @@ export default {
           location.href = phoneUrl
         } else if (this.bindingMobile && !this.bindingIdentity && !this.riskAssessed) {
           // 已绑定手机号未绑定实名信息未测评
-          const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(payUrl)
+          const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
+          const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(cpUrl)
           location.href = idUrl
         } else if (this.bindingMobile && this.bindingIdentity && !this.riskAssessed) {
           // 已绑手机号已验证实名未测评
@@ -51,7 +49,7 @@ export default {
         } else if (this.bindingMobile && this.bindingIdentity && this.riskAssessed) {
           location.href = payUrl
         }
-      }, 5000)
+      }, 0)
     })
   }
 }
