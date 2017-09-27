@@ -92,7 +92,7 @@ import NavBar from 'components/z3touguhome/nav-bar'
 import newsDetail from 'components/z3touguhome/news-details'
 export default {
   props: [],
-  data () {
+  data() {
     return {
       navText: [
         ['财经要闻', 'ywnews'],
@@ -102,11 +102,12 @@ export default {
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
-      newsId: this.$route.query.newsId
+      /* newsId: this.$route.query.newsId*/
+      newsId: ''
     }
   },
   watch: {
-    type () {
+    type() {
       this.getNews()
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -119,44 +120,47 @@ export default {
     newsDetail
   },
   computed: {
-    financeNewsData: function () {
+    financeNewsData: function() {
       const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
       return financeNewsData
     },
-    listedCompanyNewsData: function () {
+    listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
       return listedCompanyNewsData
     }
   },
   methods: {
-    getNews: function () {
+    getNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
-            if (this.newsId === '') {
-              this.newsId = this.financeNewsData[0].iiid
-            }
-            debugger
             this.newsList = this.financeNewsData
+            /* if (this.newsId === '') {
+              debugger
+              this.newsId = this.financeNewsData[0].iiid
+            } else {
+              debugger
+              this.newsId = this.$route.query.newsId
+            }*/
+
+            this.newsId = this.financeNewsData[0].iiid
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
-            if (this.newsId === '') {
-              this.newsId = this.listedCompanyNewsData[0].iiid
-            }
+            this.newsId = this.listedCompanyNewsData[0].iiid
             this.newsList = this.listedCompanyNewsData
           })
       }
     },
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    focusLi: function (id, index) {
+    focusLi: function(id, index) {
       this.newsId = id
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -164,7 +168,7 @@ export default {
       document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
     }
   },
-  mounted () {
+  mounted() {
     this.getNews()
   }
 }
