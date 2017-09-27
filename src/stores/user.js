@@ -16,14 +16,14 @@ export default {
     bindingIdentity: false
   },
   mutations: {
-    fetch(state, data) {
+    fetch (state, data) {
       state.ssoId = data.ssoId
       state.spToken = data.spToken
     },
-    setLoginStatus(state, loginStatus) {
+    setLoginStatus (state, loginStatus) {
       state.loginStatus = loginStatus
     },
-    setBindingInfo(state, bindingInfo) {
+    setBindingInfo (state, bindingInfo) {
       state.riskAssessed = !!bindingInfo.riskAssessed
       state.bindingMobile = !!bindingInfo.bindingMobile
       state.bindingIdentity = !!bindingInfo.bindingIdentity
@@ -31,7 +31,7 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    fetch({
+    fetch ({
       commit
     }, options) {
       options = options || {}
@@ -40,7 +40,7 @@ export default {
         spToken: window.spToken
       })
     },
-    checkLogin({
+    checkLogin ({
       commit
     }) {
       // App内，通过cookie判断
@@ -56,7 +56,7 @@ export default {
         }
       } else {
         const script = document.createElement('script')
-        script.addEventListener('load', function() {
+        script.addEventListener('load', function () {
           commit('fetch', {
             ssoId: window.sso_userID
           })
@@ -67,14 +67,14 @@ export default {
           }
           document.getElementsByTagName('head')[0].removeChild(script)
         })
-        script.addEventListener('error', function() {
+        script.addEventListener('error', function () {
           document.getElementsByTagName('head')[0].removeChild(script)
         })
         script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
         document.getElementsByTagName('head')[0].appendChild(script)
       }
     },
-    checkBindingInfo({
+    checkBindingInfo ({
       commit,
       state
     }) {
