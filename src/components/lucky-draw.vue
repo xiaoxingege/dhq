@@ -5,6 +5,7 @@
   color: #fff;
   background: #ff4200;
   padding-bottom: 2.25rem;
+  position: relative;
 }
 .banner{
   width:7.5rem;
@@ -188,6 +189,27 @@
 .award-info p{
   line-height: 0.36rem;
 }
+.mask{
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+.pop-ensure{
+  width:6.08rem;
+  height: 3.4rem;
+  position: absolute;
+  top:50%;
+  left:50%;
+  margin-left:-3.04rem;
+  margin-top:-1.7rem;
+  box-sizing:border-box;
+  background: #fff4b0;
+  border:0.1rem solid #fff100;
+  border-radius:0.3rem;
+}
 </style>
 
 <template>
@@ -257,6 +279,11 @@
     <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
+  </div>
+  <div class="mask">
+    <div class="pop-ensure">
+      
+    </div>
   </div>
 </div>
 </template>
