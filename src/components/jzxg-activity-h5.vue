@@ -110,13 +110,14 @@ input {
     cursor: pointer;
 }
 .bottom-fixed {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 7.5rem;
     height: 2rem;
     background: url("../assets/images/jzxg-activity/h5-bottom.png") center 0 no-repeat;
     background-size: 100%;
+    z-index: 10;
 }
 #divdown1 {
     position: absolute;
@@ -168,8 +169,8 @@ window.jQuery = window.$ = jQuery
 import activitySlider from 'components/activity-slider'
 
 export default {
-  data () {
-    function GetRTime () {
+  data() {
+    function GetRTime() {
       var EndTime = new Date('2017/09/30 23:59:59')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -214,21 +215,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+            link: ''
+          }
         ]
       },
       popHtml: '',
@@ -245,26 +246,33 @@ export default {
     activitySlider
   },
   methods: {
-    navFixed () {
-      var pos = $('.bottom-fixed').offset().top
+    navFixed() {
+      var pos = $('.bg7').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    submit () {
-      if (this.loginStatus === 'no') {
-        window.jrj.jsCallNative('108', JSON.stringify({
-          returnUrl: encodeURI(window.location.href)
-        }))
-      } else if (this.loginStatus === 'yes') {
-        location.href = '/actm/pre-pay?payUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')
+    submit() {
+      if (window.app && window.app.name && window.app.name !== "{{appid}}") {
+        window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/activity/app/zdcpDyzx.jspa'
+        setTimeout(function() {
+          window.location = "http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95";
+        }, 1500)
       } else {
-        alert('正在获取用户信息，请稍候')
+        if (this.loginStatus === 'no') {
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
+        } else if (this.loginStatus === 'yes') {
+          location.href = '/actm/pre-pay?payUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')
+        } else {
+          alert('正在获取用户信息，请稍候')
+        }
       }
     }
   },
-  mounted () {
+  mounted() {
     document.title = '极致选股'
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})
