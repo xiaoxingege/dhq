@@ -21,6 +21,7 @@ body,
   min-width: 1217px;
   min-height: 710px;
   height: 100%;
+  background-color: #0d0e0f;
 }
 
 body {
@@ -132,7 +133,7 @@ import StrategyBox from 'components/z3touguhome/strategy-box2'
 import NewsListHome from 'components/z3touguhome/hotnews-home'
 import tradeSignals from 'components/z3touguhome/trade-signals'
 export default {
-  data () {
+  data() {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -158,11 +159,11 @@ export default {
 
   },
   methods: {
-    passStrategyId: function (msg) {
+    passStrategyId: function(msg) {
       this.strategyId = msg
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

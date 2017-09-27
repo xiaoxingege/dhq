@@ -102,7 +102,7 @@ export default {
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
-      newsId: ''
+      newsId: this.$route.query.newsId
     }
   },
   watch: {
@@ -135,7 +135,10 @@ export default {
           size: this.newsSize
         })
           .then(() => {
-            this.newsId = this.financeNewsData[0].iiid
+            if (this.newsId === '') {
+              this.newsId = this.financeNewsData[0].iiid
+            }
+            debugger
             this.newsList = this.financeNewsData
           })
       } else if (this.type === 'companynews') {
@@ -143,7 +146,9 @@ export default {
           size: this.newsSize
         })
           .then(() => {
-            this.newsId = this.listedCompanyNewsData[0].iiid
+            if (this.newsId === '') {
+              this.newsId = this.listedCompanyNewsData[0].iiid
+            }
             this.newsList = this.listedCompanyNewsData
           })
       }
