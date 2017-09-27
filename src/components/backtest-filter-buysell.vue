@@ -172,7 +172,7 @@ th {
   /*  min-height: 500px; */
 }
 
-.footer {
+.foot-tishi {
   font-size: 12px;
   position: absolute;
   bottom: 15px;
@@ -228,7 +228,7 @@ th {
 
   </div>
   <Pagination @getPageFromChild="goToPage" :totalPage="totalPage" style="background: #141518" />
-  <p class="footer">温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p>
+  <p class="foot-tishi">温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p>
 </div>
 </template>
 <script>
