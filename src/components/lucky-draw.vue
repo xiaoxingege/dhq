@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import jQuery from 'jquery'
 import 'whatwg-fetch'
 
 export default {
