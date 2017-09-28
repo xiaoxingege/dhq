@@ -55,8 +55,8 @@
     </p>
   </div>
   <ul class="finance-news-list">
-    <li v-for="item of newsList" class="c_txt tl clearfix">
-      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsId:newsId}}">{{item.title}}</router-link>
+    <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
+      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsIndex:index}}">{{item.title}}</router-link>
       <span class="fr">{{item.makedate.substring(11)}}</span>
     </li>
   </ul>
@@ -74,8 +74,7 @@ export default {
       ],
       type: 'ywnews',
       newsSize: 6,
-      newsList: [],
-      newsId: ''
+      newsList: []
     }
   },
   watch: {
@@ -103,7 +102,6 @@ export default {
           size: this.newsSize
         })
           .then(() => {
-            this.newsId = this.financeNewsData[0].iiid
             this.newsList = this.financeNewsData
           })
       } else if (this.type === 'companynews') {
@@ -111,7 +109,6 @@ export default {
           size: this.newsSize
         })
           .then(() => {
-            this.newsId = this.listedCompanyNewsData[0].iiid
             this.newsList = this.listedCompanyNewsData
           })
       }

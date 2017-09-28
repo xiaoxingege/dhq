@@ -13,14 +13,14 @@
 }
 .news-detail-title {
     text-align: center;
-    padding-bottom: 40px;
+    padding-bottom: 23px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
 }
 .new-detail-txt {
     padding-bottom: 20px;
-    padding-left: 5px;
-    text-align: right;
+    text-align: center;
+    color: #808ba1;
 }
 .source-warn {
     text-align: center;
@@ -46,21 +46,28 @@ iframe {
     border-left-width: 0;
     width: 605px;
 }
-.stbu {
-    color: red;
+.pdlr {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.news-detail-top {
+    height: 25px;
+    background-color: #23272c;
+    margin-bottom: 20px;
 }
 </style>
 <template>
 <div class="news-detail-wrap" :style="{height:wrapHeight-2+'px'}">
+  <p class="news-detail-top"></p>
   <p class="news-detail-title">{{newsTitle}}</p>
   <div class="new-detail-txt">
     <span>{{makeDate}}</span>
     <span>来源：{{source}}</span>
   </div>
-  <div class="new-main" v-html="newsContxt"></div>
+  <div class="new-main pdlr" v-html="newsContxt"></div>
   <p class="source-warn" v-if="source === '金融界网站'">来源为金融界股票频道的作品，均为版权作品，未经书面授权禁止任何媒体转载，否则视为侵权！</p>
-  <p class="tl">关键词阅读：{{keyword}}</p>
-  <p class="tr duty-name">责任编辑：{{dutyname}}</p>
+  <p class="tl pdlr">关键词阅读：{{keyword}}</p>
+  <p class="tr duty-name pdlr">责任编辑：{{dutyname}}</p>
 </div>
 </template>
 <script type="text/javascript">
