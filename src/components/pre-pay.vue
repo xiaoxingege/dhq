@@ -19,7 +19,7 @@ export default {
     bindingMobile: state => state.user.bindingMobile,
     bindingIdentity: state => state.user.bindingIdentity
   }),
-  mounted () {
+  mounted() {
     const query = qs.parse(location.search.substring(1))
     const payUrl = query.payUrl
     this.$store.dispatch('user/checkLogin').then(() => {

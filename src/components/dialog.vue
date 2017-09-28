@@ -81,6 +81,7 @@ input {
 }
 .footer {
     text-align: center;
+    position: relative;
 }
 </style>
 <template>

@@ -181,8 +181,8 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data () {
-    function GetRTime () {
+  data() {
+    function GetRTime() {
       var EndTime = new Date('2017/09/30 23:59:59')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -227,21 +227,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+            link: ''
+          }
         ]
       },
       popHtml: '',
@@ -259,14 +259,14 @@ export default {
     jzxgActivityPop
   },
   methods: {
-    navFixed () {
+    navFixed() {
       var pos = $('.bg6').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    popClose () {
+    popClose() {
       this.popShow = false
       this.popHtml = ''
       if (!this.bindingMobile) {
@@ -279,7 +279,7 @@ export default {
         location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
       }
     },
-    submit () {
+    submit() {
       if (this.loginStatus === 'no') {
         location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
       } else if (this.loginStatus === 'unknown') {
@@ -297,7 +297,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     document.title = '极致选股'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {

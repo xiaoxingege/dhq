@@ -50,16 +50,16 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data () {
+  data() {
     return {}
   },
   computed: mapState({}),
   components: {},
   methods: {
-    close () {
+    close() {
       this.$emit('close')
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>

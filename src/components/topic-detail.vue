@@ -286,8 +286,7 @@ table {
     color: #000;
     background: pink;
 }
-.numTopic {
-    }
+.numTopic {}
 .mo {
     display: none;
 }

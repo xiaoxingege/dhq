@@ -1,192 +1,197 @@
 <style lang="scss" scoped="">
-    @import '../../assets/css/base.css';
-    *{box-sizing: border-box;font-family: '微软雅黑';font-size:12px;}
-    .list-wrap{
-        padding: 20px;
-        min-width: 1217px;
-        background-color: #fff;
-    }
-    .list-big{
-        width: 100%;
-        background: url(http://i0.jrjimg.cn/stock/724/line-y.png) repeat-y;
-    }
-    .list-big ul li {
-        padding-bottom: 30px;
-    }
-    .jrj-clear, .jrj-wrap {
-        zoom: 1;
-    }
-    .jrj-clear:after{
-        content: ".";
-        display: block;
-        height: 0;
-        visibility: hidden;
-        clear: both;
-    }
-    .list-big ul li .timeleft {
-        width: 11%;
-        padding-top: 24px;
-        float: left;
-    }
-    .list-big ul li .textright {
-        width: 89%;
-        float: right;
-    }
-    .list-big ul li .textright .trbox {
-        padding: 14px;
-        border: solid 1px #dcdcdc;
-        background: #fefef6;
-    }
-    div{text-align: justify;}
-    .img-bs{padding-left: 52px;}
-    .list-big ul li .timeleft span {
-        display: inline-block;
-        padding-left: 25px;
-        background: url(http://i0.jrjimg.cn/stock/724/time_icon.png) no-repeat 0 center;
-        height: 20px;
-        line-height: 20px;
-        font-weight: bold;
-    }
-    .red{color:#cc0000;}
-    a{color:#666;}
-    .img-bs img.fdadd {
-        cursor: url(http://i0.jrjimg.cn/stock/724/fd_add.ico),auto;
-        width: 208px;
-    }
-    .img-bs img.fd_move {
-        cursor: url(http://i0.jrjimg.cn/stock/724/fd_move.ico),auto;
-        width: auto;
-    }
-    .list-nav {
-        height: 36px;
-        line-height: 36px;
-        width: 100%;
-        margin: 0 auto;
-    }
-    .list-nav-first{
-        color:#fff;
-        background: #c0163a;
-        margin-bottom: 20px;
-    }
-    .list-nav-notfirst{
-        color:#333;
-        background: #ececec;
-    }
-    .list-nav .mh-time {
-        padding-left: 10px;
-    }
-    .list-nav .refreshBtn {
-        cursor: pointer;
-        padding-right:10px;
-    }
-    .refreshBtn *{
-        vertical-align: middle;
-    }
-    .refreshBtn img{width: 14px;}
-    .refreshBtn span{padding-right:5px;}
-    .trbox a:hover{color:#4293d9;}
-    .trbox p{margin: 12px 0;}
+* {
+    box-sizing: border-box;
+    font-family: '微软雅黑';
+    font-size: 12px;
+}
+/*html,body,.app{height:100%;}*/
+p {
+    margin: 0;
+}
+.news-list-wrap {
+    padding: 1px;
+    min-width: 1217px;
+    min-height: 710px;
+    background-color: #0d0e0f;
+}
+.news-list-wrap > div {
+    width: 50%;
+    min-height: 710px;
+}
+.news-list {
+    background-color: #141518;
+    overflow: auto;
+}
+.news-list-con {
+    color: #c9d0d7;
+    padding: 5px 0;
+}
+.news-list-con li {
+    height: 25px;
+    line-height: 25px;
+    padding: 0 20px;
+}
+.news-list-con li:nth-of-type(10n+0) {
+    margin-bottom: 20px;
+}
+.news-list-title {
+    cursor: pointer;
+    color: #c9d0d7;
+}
+.news-list-title:hover {
+    color: #1984ea;
+}
+.news-list-con > li:before {
+    float: left;
+    content: "";
+    background: #ccc;
+    width: 4px;
+    height: 4px;
+    overflow: hidden;
+    display: inline-block;
+    margin: 10px 5px 0 0;
+    border-radius: 50%;
+}
+.news-active {
+    background-color: #2e4465;
+}
+.news-list-top {
+    height: 25px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255,0,0,0.4);
+}
 </style>
 <template>
-    <div class="list-wrap">
-        <div v-for="(dailyNewsobj,key,index) in newsList ">
-            <div class="list-nav" :class="index === 0?'list-nav-first':'list-nav-notfirst'">
-                <div class="fr refreshBtn" v-on:click="refresh" v-if="index === 0"><span class="">刷新</span><img src="../../assets/images/stock-map/refresh.png"/></div>
-                <span class="mh-time">{{key}}</span>
-            </div>
-            <div class="list-big">
-                <ul class="">
-                    <li class="jrj-clear" v-for="(item,index) of dailyNewsobj">
-                        <div class="timeleft">
-                            <span>{{item.makedate.substring(11)}}</span>
-                        </div>
-                        <div class="textright">
-                            <div class="trbox tl">
-                                <strong><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.title}}</router-link></strong>
-                                <p><router-link :to="{name:'newsdetails',params:{newsId:item.iiid,newsType:newsType}}" target="_blank">{{item.detail}}</router-link></p>
-                                <p v-if="item.stockcode !== ''"><b class="blod">文中涉及个股：</b><span class="red">{{item.stockname.replace(/,/g,'  ')}}</span></p>
-                                <div class="img-bs" v-if="item.imgurl !== ''"><img :src="item.imgurl" :class="item.imgClickBol?'fd_move':'fdadd'" v-on:click="enlargeImg(item.imgClickBol,index)"></div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
+  <div class="news-list fl" :style="{height:wrapHeight-2+'px'}">
+    <div class="news-list-top">
+      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     </div>
+    <ul class="news-list-con">
+      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
+        <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
+        <span class="fr">{{item.makedate.substring(11)}}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="news-detail fl" :style="{height:wrapHeight-2+'px'}">
+    <newsDetail :newsId="newsId"></newsDetail>
+  </div>
+</div>
 </template>
 <script type="text/javascript">
-    export default{
-      props: [],
-      data () {
-        return {
-          listSize: 50,
-          newsList: [],
-          refreshPid: null,
-          cTime: '',
-          newsType: ''
-        }
-      },
-      computed: {
-        newsListData: function () {
-          let newsListData
-          if (this.newsType === 'ywnews') {
-            newsListData = [].concat(this.$store.state.z3touguIndex.financeNewsList)
-          } else if ((this.newsType === 'companynews')) {
-            newsListData = [].concat(this.$store.state.z3touguIndex.listedCompanyNewsList)
-          }
-          newsListData.forEach(function (news) {
-            news.imgClickBol = false
-            news.makedateD = news.makedate.substring(0, 11)
-          })
-          const myObj = {}
-          for (let i = 0; i < newsListData.length; i++) {
-            if (newsListData[i].makedateD in myObj) {
-              myObj[newsListData[i].makedateD].push(newsListData[i])
-            } else {
-              myObj[newsListData[i].makedateD] = []
-              myObj[newsListData[i].makedateD].push(newsListData[i])
-            }
-          }
-          return myObj
-        }
-      },
-      methods: {
-        getNews: function () {
-          this.newsType = this.$route.params.newsType
-          let newsApi
-          if (this.newsType === 'ywnews') {
-            newsApi = 'getFinanceNews'
-          } else if ((this.newsType === 'companynews')) {
-            newsApi = 'getListedCompanyNews'
-          }
-          this.$store.dispatch('z3touguIndex/' + newsApi, { size: this.listSize })
-                  .then(() => {
-                    this.newsList = this.newsListData
-                  })
-        },
-        enlargeImg: function (bol, index) {
-          if (bol) {
-            this.newsList[index].imgClickBol = false
-          } else {
-            this.newsList[index].imgClickBol = true
-          }
-        },
-        refresh: function () {
-          clearInterval(this.refreshPid)
-          this.newsList = []
-          this.getNews()
-          const _this = this
-          this.refreshPid = setInterval(function () {
-            _this.getNews()
-          }, 600000)
-        }
-      },
-      mounted () {
-        this.getNews()
-        const _this = this
-        this.refreshPid = setInterval(function () {
-          _this.getNews()
-        }, 600000)
-      }
+import NavBar from 'components/z3touguhome/nav-bar'
+import newsDetail from 'components/z3touguhome/news-details'
+export default {
+  props: [],
+  data() {
+    return {
+      navText: [
+        ['财经要闻', 'ywnews'],
+        ['上市公司', 'companynews']
+      ],
+      type: 'ywnews',
+      newsSize: 50,
+      newsList: [],
+      wrapHeight: window.innerHeight,
+      newsId: '',
+      newsIndex: this.$route.query.newsIndex
+      // newsId: ''
     }
+  },
+  watch: {
+    type() {
+      this.changeNews()
+      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
+        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
+      }
+      document.getElementsByClassName('news-con-li')[0].style.backgroundColor = '#2e4465'
+    }
+  },
+  components: {
+    NavBar,
+    newsDetail
+  },
+  computed: {
+    financeNewsData: function() {
+      const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
+      return financeNewsData
+    },
+    listedCompanyNewsData: function() {
+      const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
+      return listedCompanyNewsData
+    }
+  },
+  methods: {
+    getNews: function() {
+      if (this.type === 'ywnews') {
+        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.financeNewsData
+            if (this.newsIndex) {
+              this.newsId = this.financeNewsData[this.newsIndex].iiid
+            } else {
+              this.newsId = this.financeNewsData[0].iiid
+            }
+          })
+      } else if (this.type === 'companynews') {
+        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.listedCompanyNewsData
+            if (this.newsIndex) {
+              this.newsId = this.listedCompanyNewsData[this.newsIndex].iiid
+            } else {
+              this.newsId = this.listedCompanyNewsData[0].iiid
+            }
+          })
+      }
+    },
+    changeNews: function() {
+      if (this.type === 'ywnews') {
+        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.financeNewsData
+            this.newsId = this.financeNewsData[0].iiid
+          })
+      } else if (this.type === 'companynews') {
+        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+            size: this.newsSize
+          })
+          .then(() => {
+            this.newsList = this.listedCompanyNewsData
+            this.newsId = this.listedCompanyNewsData[0].iiid
+          })
+      }
+    },
+    changeNavType(data) {
+      this.type = data
+    },
+    focusLi: function(id, index) {
+      this.newsId = id
+      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
+        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
+      }
+      document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
+    }
+  },
+  mounted() {
+    this.getNews()
+  }
+}
 </script>
