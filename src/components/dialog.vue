@@ -81,6 +81,7 @@ input {
 }
 .footer {
     text-align: center;
+    position: relative;
 }
 </style>
 <template>
@@ -99,17 +100,17 @@ input {
 <script>
 export default {
   props: ['title'],
-  data () {
+  data() {
     return {
 
     }
   },
   methods: {
-    hideDialog () {
+    hideDialog() {
       this.$emit('toHideDialog', false)
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

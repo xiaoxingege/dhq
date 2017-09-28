@@ -47,7 +47,7 @@ a,
 
 .table-box tr:nth-child(1) {
   /* background: #f2f2f2;
-    color: #666; */
+      color: #666; */
   font-size: 12px;
 }
 
@@ -181,11 +181,11 @@ th {
 
 
 /* .desc-ul tr td{
-    border-bottom: none;
-  }
-  .backtest-filter{
-    color:#696969!important;
-  } */
+      border-bottom: none;
+    }
+    .backtest-filter{
+      color:#696969!important;
+    } */
 </style>
 <template>
 <div class="backt-buysell-wrap">
@@ -237,7 +237,7 @@ import {
 } from 'vuex'
 import Pagination from './pagination'
 export default {
-  data () {
+  data() {
     return {
       tabledata: {
         th: ['序号', '股票代码', '股票简称', '买入价格', '卖出价格', '盈亏', '收益率'],
@@ -261,7 +261,7 @@ export default {
   }),
 
   methods: {
-    init (buyPage) {
+    init(buyPage) {
       console.log(this.buyPage)
       this.$store.dispatch('backtestDetail/queryBuyStocks', {
         stockType: this.stockType,
@@ -271,20 +271,20 @@ export default {
         buyPageSize: this.buyPagesize
       })
     },
-    goToPage (page) {
+    goToPage(page) {
       this.buyPage = Number(page) - 1
     },
-    routerBack () {
+    routerBack() {
       this.$router.go(-1)
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    changeAdd (num) {
+    changeAdd(num) {
       if (num > 0) {
         return '+' + (Number(num) * 100).toFixed(2) + '%'
       } else if (num < 0) {
@@ -293,23 +293,23 @@ export default {
         return num
       }
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
   },
   watch: {
-    buyPage () {
+    buyPage() {
       this.init(this.buyPage)
     }
 
   },
-  mounted () {
+  mounted() {
     this.init()
     console.log(this.$route.query.strategyId)
   }

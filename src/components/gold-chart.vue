@@ -138,9 +138,9 @@
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
-            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
-            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
           </tr>
         </tbody>
       </table>
@@ -203,7 +203,7 @@ export default {
     }
   },
   // ['data', 'strategyId', 'showType'],
-  data () {
+  data() {
     return {
       navText: [
         ['收益曲线图', 'syqxt'],
@@ -230,48 +230,48 @@ export default {
   },
   computed: {
 
-    mrjyData: function () {
+    mrjyData: function() {
       return this.$store.state.goldStrategy.mrjyData
     },
-    dqxgData: function () {
+    dqxgData: function() {
       return this.$store.state.goldStrategy.dqxgData
     },
-    authInfo: function () {
+    authInfo: function() {
       return this.$store.state.auth
     },
-    mrxhData: function () {
+    mrxhData: function() {
       return this.$store.state.goldStrategy.mrxhData
     },
-    mcxhData: function () {
+    mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     }
 
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    goMrjyPage (data) {
+    goMrjyPage(data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goMrxhPage (data) {
+    goMrxhPage(data) {
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'buy',
         page: data - 1
       }).then(() => {})
     },
-    goMcxhPage (data) {
+    goMcxhPage(data) {
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'sell',
         page: data - 1
       }).then(() => {})
     },
-    exportData (type) {
+    exportData(type) {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
@@ -294,7 +294,7 @@ export default {
         })
       }
     },
-    createForm (id, type, token, clientid, deviceid) {
+    createForm(id, type, token, clientid, deviceid) {
       var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
@@ -306,6 +306,6 @@ export default {
       // document.body.removeChild(postForm)
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>
