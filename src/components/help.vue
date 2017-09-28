@@ -1504,6 +1504,9 @@ table {
 <script type="javascript">
 import showTableSrc from '../assets/images/backtest/table-open.png'
 import hideTableSrc from '../assets/images/backtest/table-close.png'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
+import jumpto from '../assets/plugins/activity-slider/jumpto.js'
 export default {
   data() {
     return {
@@ -1546,6 +1549,24 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    /*$(".page_container").jumpto({
+        firstLevel: "> h3",
+        secondLevel: "> h6",
+        animate: 500,
+        mainTag:"p"
+    });
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();//浏览器卷去的高度
+        var scrollHeight = $(document).height();//页面文档的高度
+        var windowHeight = $(this).height();//窗口的高度
+        if(scrollTop + windowHeight == scrollHeight){
+            $(".paper-rt-main").css("top","130px");
+        }else {
+            $(".paper-rt-main").css("top","210px");
+        }
+    });*/
   }
 }
 </script>

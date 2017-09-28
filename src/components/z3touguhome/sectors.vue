@@ -59,15 +59,15 @@
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
         <td>{{key === null?'--':key}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[0]).toFixed(2)}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)+'%'}}</td>
+        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+        <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
         <td>{{key === null?'--':key}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[0]).toFixed(2)}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)+'%'}}</td>
+        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+        <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
   </div>
