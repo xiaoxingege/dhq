@@ -65,27 +65,28 @@
         min-height: 4.2rem;
         width: 100%;
     }
-    .dqxg,
-    .mrjy {
+    .mcxh,
+    .mrxh {
         padding: 0.1rem 0;
         background: #fff;
         width: 100%;
     }
-    .dqxg table,
-    .mrjy table {
+    .mcxh table,
+    .mrxh table {
         width: 100%;
         font-size: 0.16rem;
     }
-    .dqxg table thead tr th,
-    .mrjy table thead tr th {
+    .mcxh table thead tr th,
+    .mrxh table thead tr th {
         height: 0.6rem;
         line-height: 0.6rem;
     }
-    .dqxg table tr td,
-    .mrjy table tr td {
+    .mcxh table tr td,
+    .mrxh table tr td {
         text-align: center;
-        height: 0.35rem;
-        line-height: 0.35rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        width: 25%;
     }
     .strategyDescTable,
     .tradeParams table {
@@ -171,45 +172,58 @@
         <div v-if="type === 'syqxt'" class="syqxt">
           <Linechart :strategyId="this.$route.params.strategyId"></Linechart>
         </div>
-        <div v-if="type === 'dryk'" class="dryk">
-          <Barupdown :strategyId="this.$route.params.strategyId"></Barupdown>
-        </div>
-        <div v-if="type === 'mrcc'" class="mrcc">
-          <Onelinechart :strategyId="this.$route.params.strategyId"></Onelinechart>
-        </div>
-        <div v-if="type === 'syytj'" class="syytj">
-          <Twobarchart :strategyId="this.$route.params.strategyId"></Twobarchart>
-        </div>
-        <div v-if="type === 'sylfb'" class="sylfb">
-          <Onebarchart :strategyId="this.$route.params.strategyId"></Onebarchart>
-        </div>
       </div>
-      <div class="mrjy">
-        <div class="recommendTitle">交易详情</div>
-        <table cellpadding="0" cellspacing="0">
+      <div class="mrxh">
+        <div class="recommendTitle">今日买入信号</div>
+        <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号</div>
+        <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
-              <th>日期</th>
-              <th>股票简称</th>
-              <th>买/卖</th>
-              <th>成交价格(元)</th>
-              <th>成交股数</th>
-              <th>佣金(元)</th>
+              <th>股票代码</th>
+              <th>最新价</th>
+              <th>涨跌</th>
+              <th>涨跌幅</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item of mrjyData === null ?[]:mrjyData.content">
-              <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
-              <td>{{item.name}}</td>
-              <td :class="item.buySellType === '买入'? 'red' : 'green'">{{item.buySellType}}</td>
-              <td>{{Number(item.price).toFixed(2)}}</td>
-              <td>{{item.amount}}</td>
-              <td>{{Number(item.commission).toFixed(2)}}</td>
+            <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
+              <td>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem;">{{item.name}}</p>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;">{{item.innerCode.substring(0,6)}}</p>
+              </td>
+              <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
             </tr>
           </tbody>
-
         </table>
-        <Pagination v-if="mrjyData !== null && mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      </div>
+      <div class="mcxh">
+        <div class="recommendTitle">今日买出信号</div>
+        <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号</div>
+        <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th>股票代码</th>
+              <th>最新价</th>
+              <th>涨跌</th>
+              <th>涨跌幅</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
+              <td>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem; box-sizing: border-box">{{item.name}}</p>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;" box-sizing: border-box>{{item.innerCode.substring(0,6)}}</p>
+              </td>
+              <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+              <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+              <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
       </div>
 
     </div>
@@ -312,6 +326,7 @@
       </table>
     </div>
   </div>
+  <div></div>
 </div>
 </template>
 <script>
@@ -341,11 +356,7 @@ export default {
         ['交易参数', 'tradeParams']
       ],
       navText1: [
-        ['收益曲线图', 'syqxt'],
-        ['当日盈亏', 'dryk'],
-        ['每日持仓', 'mrcc'],
-        ['收益月统计', 'syytj'],
-        ['收益率分布', 'sylfb']
+        ['收益曲线图', 'syqxt']
       ],
       type: 'syqxt',
       trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta']
@@ -643,8 +654,11 @@ export default {
     tableData: function () {
       return this.recommendData.tradeParamsData
     },
-    mrjyData: function () {
-      return this.$store.state.goldStrategy.mrjyData
+    mrxhData: function () {
+      return this.$store.state.goldStrategy.mrxhData
+    },
+    mcxhData: function () {
+      return this.$store.state.goldStrategy.mcxhData
     }
   }),
   methods: {
@@ -671,9 +685,14 @@ export default {
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
       strategyId: this.strategyId
     }).then(() => {})
-    this.$store.dispatch('goldStrategy/getMrjyData', {
-      strategyId: this.strategyId
-    }).then(() => {})
+    this.$store.dispatch('goldStrategy/getMrxhData', {
+      strategyId: this.strategyId,
+      type: 'buy'
+    })
+    this.$store.dispatch('goldStrategy/getMrxhData', {
+      strategyId: this.strategyId,
+      type: 'sell'
+    })
   }
 }
 </script>

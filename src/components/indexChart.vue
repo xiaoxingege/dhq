@@ -1,84 +1,82 @@
-<style>
+<style lang="scss" scoped>
 @import '../assets/css/base.css';
-html,
+.app,
 body,
-.app {
-  height: 100% !important;
+html {
+    height: 100% !important;
 }
 
 .index-top {
-  width: 100%;
-  height: 37%;
-  background: #0d0e0f;
+    width: 100%;
+    height: 37%;
+    background: #0d0e0f;
 }
 
 .index-chart {
-  width: 100%;
-  height: 74%;
-  background: #0d0e0f;
-  margin-bottom: 3px;
+    width: 100%;
+    height: 74%;
+    background: #0d0e0f;
+    margin-bottom: 3px;
 }
 
 .lineChart {
-  background: #141518;
-  margin-right: 1px;
-  width: 24.9%;
-  height: 100%;
-  float: left;
-  position: relative;
+    background: #141518;
+    margin-right: 1px;
+    width: 24.9%;
+    height: 100%;
+    float: left;
+    position: relative;
 }
 
 .lineChart img {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .indexChart {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .indexNum {
-  position: absolute;
-  top: 5px;
-  right: 20px;
+    position: absolute;
+    top: 5px;
+    right: 20px;
 }
 
 .chartInfo {
-  margin: 0 auto;
-  float: left;
-  width: 25%;
-  padding: 20px 20px;
-  box-sizing: border-box;
+    margin: 0 auto;
+    float: left;
+    width: 25%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .chartInfo_text {
-  color: #fff;
+    color: #fff;
 }
 
 .chart-info {
-  background: #141518;
-  font-size: 12px;
-  height: 25.9%;
+    background: #141518;
+    font-size: 12px;
+    height: 25.9%;
 }
 
 .chartInfo_bar {
-  margin-top: 10px;
-  background: #404852;
+    margin-top: 10px;
+    background: #404852;
 }
 
 .chartInfo_bar div {
-  height: 8px;
-  width: 50%;
+    height: 8px;
+    width: 50%;
 }
-
 .chartInfo_bar div:first-child {
-  background: #ca4941;
-  float: left;
+    background: #ca4941;
+    float: left;
 }
-
 .chartInfo_bar div:last-child {
-  background: #56a870;
-  float: right;
+    background: #56a870;
+    float: right;
 }
 </style>
 <template>
