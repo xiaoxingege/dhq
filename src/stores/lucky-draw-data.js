@@ -14,8 +14,6 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    getPrizeList({
-      
-    })
+
   }
 }
