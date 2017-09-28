@@ -320,10 +320,10 @@
   </div>
   <div class="award-pool">
     <ul class="awards">
-      <li class="award-item">
+      <!-- <li class="award-item" v-for="item in prizeList">
         <h4 class="award-icon award-icon1"></h4>
-        <p class="award-text">Level2月卡</p>
-      </li>
+        <p class="award-text">{{}}</p>
+      </li> -->
       <li class="award-item">
         <h4 class="award-icon award-icon2"></h4>
         <p class="award-text">18金豆</p>
@@ -369,6 +369,7 @@
     <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
+    <p>{{prizeList}}</p>
   </div>
   <div id="pop" class="mask">
     <div class="pop-ensure">
@@ -411,7 +412,8 @@ export default {
   },
   computed: mapState({
     loginStatus: state => state.user.loginStatus,
-    beanNum: state => state.user.beanNum
+    beanNum: state => state.user.beanNum,
+    prizeList: state => state.luckDrawData.pricelist
   }),
   mounted () {
     this.$store.dispatch('user/checkLogin').then(() => {
@@ -425,6 +427,7 @@ export default {
         return this.$store.dispatch('user/getBeanNum')
       }
     })
+    this.$store.dispatch('luckDrawData/getPrizeList')
   },
   filters: {
 
@@ -436,6 +439,11 @@ export default {
     },
     rotate: function () {
       alert('开始转')
+    },
+    prizeList1: function () {
+      return {
+
+      }
     }
   }
 }
