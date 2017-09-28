@@ -143,7 +143,7 @@
         </thead>
         <tbody>
           <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
-            <td>{{index}}</td>
+            <td>{{index+1}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
@@ -173,7 +173,7 @@
         </thead>
         <tbody>
           <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
-            <td>{{index}}</td>
+            <td>{{index+1}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>

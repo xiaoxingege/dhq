@@ -84,8 +84,9 @@
     .mcxh table tr td,
     .mrxh table tr td {
         text-align: center;
-        height: 0.35rem;
-        line-height: 0.35rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        width: 25%;
     }
     .strategyDescTable,
     .tradeParams table {
@@ -179,7 +180,6 @@
           <thead>
             <tr>
               <th>股票代码</th>
-              <th>股票简称</th>
               <th>最新价</th>
               <th>涨跌</th>
               <th>涨跌幅</th>
@@ -187,8 +187,10 @@
           </thead>
           <tbody>
             <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
-              <td>{{item.innerCode}}</td>
-              <td>{{item.name}}</td>
+              <td>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem;">{{item.name}}</p>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;">{{item.innerCode.substring(0,6)}}</p>
+              </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
@@ -204,7 +206,6 @@
           <thead>
             <tr>
               <th>股票代码</th>
-              <th>股票简称</th>
               <th>最新价</th>
               <th>涨跌</th>
               <th>涨跌幅</th>
@@ -212,8 +213,10 @@
           </thead>
           <tbody>
             <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
-              <td>{{item.innerCode}}</td>
-              <td>{{item.name}}</td>
+              <td>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem; box-sizing: border-box">{{item.name}}</p>
+                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;" box-sizing: border-box>{{item.innerCode.substring(0,6)}}</p>
+              </td>
               <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
               <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
