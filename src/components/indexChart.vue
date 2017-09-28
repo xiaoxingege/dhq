@@ -1,88 +1,90 @@
-<style lang="scss" scoped>
+<style>
 @import '../assets/css/base.css';
 .app,
 body,
 html {
-    height: 100% !important;
+  height: 100% !important;
 }
 
 .index-top {
-    width: 100%;
-    height: 37%;
-    background: #0d0e0f;
+  width: 100%;
+  height: 37%;
+  background: #0d0e0f;
 }
 
 .index-chart {
-    width: 100%;
-    height: 74%;
-    background: #0d0e0f;
-    margin-bottom: 3px;
+  width: 100%;
+  height: 74%;
+  background: #0d0e0f;
+  margin-bottom: 3px;
 }
 
-.lineChart {
-    background: #141518;
-    margin-right: 1px;
-    width: 24.9%;
-    height: 100%;
-    float: left;
-    position: relative;
+.line-chart {
+  background: #141518;
+  margin-right: 1px;
+  width: 24.9%;
+  height: 100%;
+  float: left;
+  position: relative;
 }
 
-.lineChart img {
-    margin-top: 5px;
+.line-chart img {
+  margin-top: 5px;
 }
 
 .indexChart {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .indexNum {
-    position: absolute;
-    top: 5px;
-    right: 20px;
+  position: absolute;
+  top: 5px;
+  right: 20px;
 }
 
 .chartInfo {
-    margin: 0 auto;
-    float: left;
-    width: 25%;
-    padding: 20px;
-    box-sizing: border-box;
+  margin: 0 auto;
+  float: left;
+  width: 25%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .chartInfo_text {
-    color: #fff;
+  color: #fff;
 }
 
 .chart-info {
-    background: #141518;
-    font-size: 12px;
-    height: 25.9%;
+  background: #141518;
+  font-size: 12px;
+  height: 25.9%;
 }
 
 .chartInfo_bar {
-    margin-top: 10px;
-    background: #404852;
+  margin-top: 10px;
+  background: #404852;
 }
 
 .chartInfo_bar div {
-    height: 8px;
-    width: 50%;
+  height: 8px;
+  width: 50%;
 }
+
 .chartInfo_bar div:first-child {
-    background: #ca4941;
-    float: left;
+  background: #ca4941;
+  float: left;
 }
+
 .chartInfo_bar div:last-child {
-    background: #56a870;
-    float: right;
+  background: #56a870;
+  float: right;
 }
 </style>
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.stockVal" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -92,7 +94,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="lsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="lsChartData.stockVal" class="mr-5">{{lsChartData.stockVal === null ? '--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -102,7 +104,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="szczChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szczChartData.stockVal" class="mr-5">{{szczChartData.stockVal === null ? '--':Number(szczChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szczChartData && szczChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -112,7 +114,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="cybzChartData !== null" class="indexNum">
         <span v-z3-updowncolor="cybzChartData.stockVal" class="mr-5">{{cybzChartData.stockVal === null ? '--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
         <img v-if="cybzChartData && cybzChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -200,6 +202,8 @@ html {
 </template>
 <script>
 import echarts from 'echarts'
+import z3websocket from '../z3tougu/z3socket'
+
 import {
   mapState
 } from 'vuex'
@@ -221,7 +225,8 @@ export default {
       } else {
         return this.barData.unchangeNum + this.barData.upNum + this.barData.downNum
       }
-    }
+    },
+    socketState: state => state.z3sockjs.readystate
   }),
   methods: {
     dealData (zeroArr) {
@@ -439,6 +444,21 @@ export default {
       return Number(x / y * 100).toFixed(n) + '%'
     }
   },
+  watch: {
+    'barData': function () {
+      if (z3websocket.ws) {
+        z3websocket.ws && z3websocket.ws.close()
+      } else {
+        this.$store.dispatch('z3sockjs/init')
+      }
+    },
+    stockMessage () {
+      console.log(this.stockMessage)
+      if (this.stockMessage) {
+        this.updateStock(this.stockMessage)
+      }
+    }
+  },
   mounted () {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
@@ -461,6 +481,9 @@ export default {
       this.refreshEcharts(this.$store.state.indexChart.cybzChartData, 3, '创业板指')
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
+  },
+  destroyed () {
+    z3websocket.ws && z3websocket.ws.close()
   }
 }
 </script>
