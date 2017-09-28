@@ -147,7 +147,7 @@ import tradeSignals from 'components/z3touguhome/trade-signals'
 import Sectors from 'components/z3touguhome/sectors'
 import TopIndustry from 'components/z3touguhome/top-industry'
 export default {
-  data() {
+  data () {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -175,11 +175,11 @@ export default {
 
   },
   methods: {
-    passStrategyId: function(msg) {
+    passStrategyId: function (msg) {
       this.strategyId = msg
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }
