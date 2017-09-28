@@ -303,7 +303,7 @@
     <div class="gold-bean-num">
       <span class="gold-bean-icon"></span>
       <p class="gold-bean-text">
-        我的金豆数：{{ownmun}}
+        我的金豆数：{{beanNum}}
       </p>
     </div>
   </div>
@@ -336,7 +336,7 @@
         <h4 class="award-icon award-icon4"></h4>
         <p class="award-text">优惠券</p>
       </li>
-      <li class="get-award" v-on:click="openModal">
+      <li class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
         <p>{{consumenum}}豆/次</p>
       </li>
       <li class="award-item-active">
@@ -370,11 +370,11 @@
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
   </div>
-  <div class="mask">
+  <div id="pop" class="mask">
     <div class="pop-ensure">
       <h3>确认消耗{{consumenum}}金豆</h3>
       <div class="ensure-hint">
-        <span class="ensure-icon-true"></span>
+        <span v-bind:class="[trueflag ? trueclass : falseclass]" v-on:click="e=>{this.trueflag=!this.trueflag}"></span>
         <p class="ensure-text">下次不再提醒</p>
       </div>
       <div class="ensure-button">
@@ -388,11 +388,13 @@
 
 <script>
 import 'whatwg-fetch'
+import {
+  mapState
+} from 'vuex'
 
 export default {
   data () {
     return {
-      ownmun: 100000,
       notificationList: [
         { user: '1', award: 'Z点操盘3日卡' },
         { user: '2', award: 'Z点操盘3日卡' },
@@ -401,18 +403,39 @@ export default {
         { user: '5', award: 'Z点操盘3日卡' },
         { user: '6', award: '其他Z点操盘3日卡' }
       ],
-      consumenum: 30
+      consumenum: 30,
+      trueflag: true, // true 下次提醒 false 下次不提醒
+      trueclass: 'ensure-icon-true',
+      falseclass: 'ensure-icon-false'
     }
   },
+  computed: mapState({
+    loginStatus: state => state.user.loginStatus,
+    beanNum: state => state.user.beanNum
+  }),
   mounted () {
-
+    this.$store.dispatch('user/checkLogin').then(() => {
+      if (this.loginStatus === 'no') {
+        if (window.jrj && window.jrj.jsCallNative) {
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
+        }
+      } else {
+        return this.$store.dispatch('user/getBeanNum')
+      }
+    })
   },
   filters: {
 
   },
   methods: {
     openModal: function () {
-
+      var pop = document.getElementById('pop')
+      pop.style.display = 'block'
+    },
+    rotate: function () {
+      alert('开始转')
     }
   }
 }
