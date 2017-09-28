@@ -76,7 +76,7 @@
 </style>
 <template>
 <div style="width:100%">
-  <div v-if="type === 'mrjy' || type === 'dqxg'" class="export">
+  <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' " class="export">
     <img src="../assets/images/z3img/export-icon.png">
     <a @click="exportData(type)">导出</a>
   </div>
@@ -112,7 +112,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item of mrjyData.content">
+          <tr v-if="mrjyData.content !== null" v-for="item of mrjyData.content">
             <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
@@ -285,8 +285,10 @@ export default {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
-      } else if (type === 'dqxg') {
-        type2 = 'goldStock'
+      } else if (type === 'mrxh') {
+        type2 = 'goldBuySignal'
+      } else if (type === 'mcxh') {
+        type2 = 'goldSellSignal'
       }
       const id = this.strategyId
       const expires = this.authInfo.expires

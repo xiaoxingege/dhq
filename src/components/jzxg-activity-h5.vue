@@ -180,8 +180,8 @@ window.jQuery = window.$ = jQuery
 import activitySlider from 'components/activity-slider'
 
 export default {
-  data () {
-    function GetRTime () {
+  data() {
+    function GetRTime() {
       var EndTime = new Date('2017/09/30 23:59:59')
       var NowTime = new Date()
       var t = EndTime.getTime() - NowTime.getTime()
@@ -226,21 +226,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+            link: ''
+          }
         ]
       },
       popHtml: '',
@@ -257,27 +257,27 @@ export default {
     activitySlider
   },
   methods: {
-    hideShareLayer () {
+    hideShareLayer() {
       this.$refs.shareLayer.style.display = 'none'
     },
-    showShareLayer () {
+    showShareLayer() {
       this.$refs.shareLayer.style.display = 'block'
       this.$refs.shareLayer.style.height = $(window).height() + 'px'
     },
-    navFixed () {
+    navFixed() {
       var pos = $('.bg7').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    submit () {
+    submit() {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/jzxg-activity'
-          setTimeout(function () {
+          setTimeout(function() {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -294,7 +294,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     document.title = '极致选股'
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})

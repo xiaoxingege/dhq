@@ -199,6 +199,8 @@ html {
 </template>
 <script>
 import echarts from 'echarts'
+import z3websocket from '../z3tougu/z3socket'
+
 import {
   mapState
 } from 'vuex'
@@ -220,7 +222,8 @@ export default {
       } else {
         return this.barData.unchangeNum + this.barData.upNum + this.barData.downNum
       }
-    }
+    },
+    socketState: state => state.z3sockjs.readystate
   }),
   methods: {
     dealData (zeroArr) {
@@ -442,6 +445,21 @@ export default {
       return Number(x / y * 100).toFixed(n) + '%'
     }
   },
+  watch: {
+    'barData': function () {
+      if (z3websocket.ws) {
+        z3websocket.ws && z3websocket.ws.close()
+      } else {
+        this.$store.dispatch('z3sockjs/init')
+      }
+    },
+    stockMessage () {
+      console.log(this.stockMessage)
+      if (this.stockMessage) {
+        this.updateStock(this.stockMessage)
+      }
+    }
+  },
   mounted () {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
@@ -464,6 +482,9 @@ export default {
       this.refreshEcharts(this.$store.state.indexChart.cybzChartData, 3, '创业板指')
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
+  },
+  destroyed () {
+    z3websocket.ws && z3websocket.ws.close()
   }
 }
 </script>
