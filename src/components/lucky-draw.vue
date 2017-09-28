@@ -5,7 +5,6 @@
   color: #fff;
   background: #ff4200;
   padding-bottom: 2.25rem;
-  position: relative;
 }
 .banner{
   width:7.5rem;
@@ -56,17 +55,24 @@
   background: url(../assets/images/lucky-draw/notification-icon.png) center no-repeat;
   background-size: 100%;
 }
-.notification-text{
+.notification-text-container{
   float: left;
-  padding-left:0.2rem;
-  width:5.59rem;
   height: 0.7rem;
+  width:5.59rem;
   box-sizing: border-box;
   background: #6b1f9f;
   border-radius: 0.02rem;
   margin:0.02rem 0.02rem 0.02rem 0;
   font-size: 0.28rem;
   line-height: 0.7rem;
+  overflow: hidden;
+  position: relative;
+}
+.notification-text{
+  height: auto;
+  position: absolute;
+  top:0;
+  left:0.2rem;
 }
 .notification-text span{
   color: #fff;
@@ -112,51 +118,75 @@
   background: url(../assets/images/lucky-draw/get-award-active.png) center no-repeat;
   background-size: 100%;
 }
+.get-award-active{
+  background: url(../assets/images/lucky-draw/get-award-active.png) center no-repeat;
+  background-size: 100%;
+}
+.get-award p{
+  margin-top:1.05rem;
+  font-size: 0.26rem;
+  text-align:center;
+  color:#fff;
+}
 .awards li .award-icon{
   
 }
-.awards .award-icon :nth-child(1){
+.awards  .award-icon1{
   width:1.52rem;
   height: 0.75rem;
-  margin:0.22rem auto 0.17rem;
-  background: url(../assets/images/lucky-draw/award-icon0.png) center no-repeat;
-  background-size: 100%;
-}
-.award-icon:nth-child(2){
-  width:1.52rem;
-  height: 0.75rem;
-  margin:0.22rem auto 0.17rem;
-  background: url(../assets/images/lucky-draw/award-icon0.png) center no-repeat;
-  background-size: 100%;
-}
-/*.awards li .award-icon:nth-child(1){
+  margin:0.22rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon1.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(2){
+.awards  .award-icon2{
+  width:0.98rem;
+  height: 0.72rem;
+  margin:0.23rem  auto 0;
   background: url(../assets/images/lucky-draw/award-icon2.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(3){
+.awards  .award-icon3{
+  width:1.52rem;
+  height: 0.75rem;
+  margin:0.21rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon3.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(4){
+.awards  .award-icon4{
+  width:1.64rem;
+  height: 0.79rem;
+  margin:0.19rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon4.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(5){
+.awards  .award-icon5{
+  width:1.18rem;
+  height: 0.76rem;
+  margin:0.22rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon5.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(6){
+.awards  .award-icon6{
+  width:1.52rem;
+  height: 0.75rem;
+  margin:0.21rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon6.png) center no-repeat;
   background-size: 100%;
 }
-.awards li .award-icon:nth-child(7){
+.awards  .award-icon7{
+  width:1.65rem;
+  height: 0.79rem;
+  margin:0.19rem auto 0;
   background: url(../assets/images/lucky-draw/award-icon7.png) center no-repeat;
   background-size: 100%;
-}*/
+}
+.awards  .award-icon8{
+  width:1.52rem;
+  height: 0.75rem;
+  margin:0.21rem auto 0;
+  background: url(../assets/images/lucky-draw/award-icon8.png) center no-repeat;
+  background-size: 100%;
+}
 .awards li .award-text{
   width:100%;
   position:absolute;
@@ -190,7 +220,8 @@
   line-height: 0.36rem;
 }
 .mask{
-  position: absolute;
+  display: none;
+  position: fixed;
   top:0;
   left:0;
   width:100%;
@@ -209,6 +240,59 @@
   background: #fff4b0;
   border:0.1rem solid #fff100;
   border-radius:0.3rem;
+  padding-top:0.47rem;
+}
+.pop-ensure{
+  font-size: 0.36rem;
+  color:#333;
+  text-align:center;
+}
+.ensure-hint{
+  height: 0.4rem;
+  width:2.2rem;
+  margin:0.2rem auto 0;
+  line-height: 0.4rem;
+  overflow:hidden;
+}
+.ensure-hint span{
+  float: left;
+  width:0.4rem;
+  height: 0.4rem;
+  margin-right: 0.12rem;
+}
+.ensure-icon-false{
+  background: url(../assets/images/lucky-draw/ensure-icon-false.png) center no-repeat;
+  background-size: 100%;
+} 
+.ensure-icon-true{
+  background: url(../assets/images/lucky-draw/ensure-icon-true.png) center no-repeat;
+  background-size: 100%;
+} 
+.ensure-text{
+  float: left;
+  font-size: 0.28rem;
+  line-height: 0.43rem;
+  color:#8d2b00;
+}
+.ensure-button{
+  width:5.08rem;
+  margin:0.62rem auto 0;
+  overflow-x: hidden;
+}
+.ensure-button span{
+  float: left;
+  width:2.34rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  color:#fff4b0;
+  border-radius: 0.1rem;
+}
+.ensure-button-close{
+  margin-right: 0.4rem;
+  background: #ff4200;
+}
+.ensure-button-true{
+  background: #2e7cd7;
 }
 </style>
 
@@ -219,57 +303,63 @@
     <div class="gold-bean-num">
       <span class="gold-bean-icon"></span>
       <p class="gold-bean-text">
-        我的金豆数：10000
+        我的金豆数：{{ownmun}}
       </p>
     </div>
   </div>
   <div class="notification">
     <span class="notification-icon"></span>
-    <p class="notification-text">
-      <span>恭喜 “网******8” 抽中</span>
-      <var>Z点操盘3日卡</var>
-    </p>
+    <div class="notification-text-container">
+      <ul class="notification-text">
+        <li v-for="item in notificationList">
+          <span>恭喜 “网******{{item.user}}” 抽中</span>
+          <var>{{item.award}}</var>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="award-pool">
     <ul class="awards">
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon1"></h4>
         <p class="award-text">Level2月卡</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon2"></h4>
         <p class="award-text">18金豆</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon3"></h4>
         <p class="award-text">Z点操盘3日卡</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon4"></h4>
         <p class="award-text">优惠券</p>
       </li>
-      <li class="get-award"></li>
+      <li class="get-award" v-on:click="openModal">
+        <p>{{consumenum}}豆/次</p>
+      </li>
       <li class="award-item-active">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon5"></h4>
         <p class="award-text">88金豆</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon6"></h4>
         <p class="award-text">Z点操盘月卡</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon7"></h4>
         <p class="award-text">优惠券</p>
       </li>
       <li class="award-item">
-        <h4 class="award-icon"></h4>
+        <h4 class="award-icon award-icon8"></h4>
         <p class="award-text">Level2年卡</p>
       </li>
     </ul>
   </div>
   <div class="award-info">
     <h2>一. 活动简介</h2>
-    <p>活动期间，用户登录进入大转盘，每次抽奖需要扣除20金豆（具体扣除以实际活动为准），扣除的金豆不退还，每天参与抽奖次数不限;</p>
+    <p>活动期间，用户登录进入大转盘，每次抽奖需要扣除{{consumenum}}金豆（具体扣除以实际活动为准），扣除的金豆不退还，每天参与抽奖次数不限;</p>
     <p>请注意：此次活动点击“开始抽奖”会立即金豆，请知晓，谢谢。</p>
     <h2>二.面向用户</h2>
     <p>金融界App所有登录用户</p>
@@ -282,7 +372,15 @@
   </div>
   <div class="mask">
     <div class="pop-ensure">
-      
+      <h3>确认消耗{{consumenum}}金豆</h3>
+      <div class="ensure-hint">
+        <span class="ensure-icon-true"></span>
+        <p class="ensure-text">下次不再提醒</p>
+      </div>
+      <div class="ensure-button">
+        <span class="ensure-button-close">取消</span>
+        <span class="ensure-button-true">确定</span>
+      </div>
     </div>
   </div>
 </div>
@@ -294,7 +392,16 @@ import 'whatwg-fetch'
 export default {
   data () {
     return {
-
+      ownmun: 100000,
+      notificationList: [
+        { user: '1', award: 'Z点操盘3日卡' },
+        { user: '2', award: 'Z点操盘3日卡' },
+        { user: '3', award: '其他Z点操盘3日卡' },
+        { user: '4', award: 'Z点操盘3日卡' },
+        { user: '5', award: 'Z点操盘3日卡' },
+        { user: '6', award: '其他Z点操盘3日卡' }
+      ],
+      consumenum: 30
     }
   },
   mounted () {
@@ -304,7 +411,9 @@ export default {
 
   },
   methods: {
+    openModal: function () {
 
+    }
   }
 }
 </script>
