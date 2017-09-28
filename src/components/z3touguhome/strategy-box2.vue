@@ -8,7 +8,7 @@
     color: #1984ea;
     background-color: #141518;
     border-radius: 3px;
-    border: 1px solid #808ba1;
+    border: 1px solid #404852;
     position: absolute;
     left: 8px;
     top: 50%;
