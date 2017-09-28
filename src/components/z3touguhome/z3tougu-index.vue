@@ -90,13 +90,26 @@ body {
   color: #c9d0d7;
 }
 
-.strategy-wrap {
-  padding-top: 5px;
+.sector-wrap {
+  padding-top: 3px;
   height: 34.5%;
 }
 
-a {
-  color: #2388da;
+.sector-wrap>div {
+  width: 50%;
+  display: inline-block;
+  float: left;
+  height: 100%;
+}
+
+.sectors {
+  padding-right: 1px;
+}
+
+.sectors>div,
+.top-industry>div {
+  background-color: #141518;
+  height: 100%;
 }
 </style>
 <template>
@@ -108,14 +121,13 @@ a {
             </div>
             <ThemeHome :themeWidth="themeWidth" :themeHeight="themeHeight"></ThemeHome>-->
   </div>
-  <div class="strategy-wrap">
-    <!--<ul class="clearfix">
-                &lt;!&ndash;<StrategyListHome :benchmarkObj="benchmarkObj" v-for="item of strategyList" :key="item" :strategyData="item"></StrategyListHome>&ndash;&gt;
-                <StrategyListHome :benchmarkObj="benchmarkObj"  :strategyData="strategyList.length>0?strategyList[0]:null"></StrategyListHome>
-                <StrategyListHome :benchmarkObj="benchmarkObj"  :strategyData="strategyList.length>0?strategyList[1]:null"></StrategyListHome>
-                <StrategyListHome :benchmarkObj="benchmarkObj"  :strategyData="strategyList.length>0?strategyList[2]:null"></StrategyListHome>
-                <StrategyListHome :benchmarkObj="benchmarkObj"  :strategyData="strategyList.length>0?strategyList[3]:null"></StrategyListHome>
-            </ul>-->
+  <div class="sector-wrap clearfix">
+    <div class="sectors">
+      <Sectors></Sectors>
+    </div>
+    <div class="top-industry">
+      <TopIndustry></TopIndustry>
+    </div>
   </div>
   <div class="con-bottom clearfix">
     <div class="con-bottom-left clearfix">
@@ -132,6 +144,8 @@ a {
 import StrategyBox from 'components/z3touguhome/strategy-box2'
 import NewsListHome from 'components/z3touguhome/hotnews-home'
 import tradeSignals from 'components/z3touguhome/trade-signals'
+import Sectors from 'components/z3touguhome/sectors'
+import TopIndustry from 'components/z3touguhome/top-industry'
 export default {
   data () {
     return {
@@ -153,7 +167,9 @@ export default {
   components: {
     StrategyBox,
     NewsListHome,
-    tradeSignals
+    tradeSignals,
+    Sectors,
+    TopIndustry
   },
   computed: {
 

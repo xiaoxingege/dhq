@@ -10,7 +10,7 @@
     border-spacing: 0;
 }
 .data-table td {
-    border: 1px solid #404852;
+    border: 1px solid #23272c;
     color: #ca4941;
     text-align: right;
     padding-right: 20px;
