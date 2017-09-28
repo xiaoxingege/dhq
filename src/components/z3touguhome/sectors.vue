@@ -4,6 +4,7 @@
 }
 .sectors-con-top {
     height: 11.5%;
+    position: relative;
 }
 .sectors-table-wrap {
     height: 88.5%;
@@ -49,45 +50,60 @@
     color: #c9d0d7;
     padding-right: 0;
 }
+.more-sectors {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
+.more-sectors a {
+    color: #808ba1;
+}
 </style>
 <template>
 <div class="sectors-con">
   <div class="sectors-con-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <p class="more-sectors" @click="toStockList(type)">
+      <a>更多></a>
+    </p>
   </div>
   <div class="sectors-table-wrap clearfix">
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
-        <td>{{key === null?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{key === null?'--':key}}</td>
         <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
-        <td>{{key === null?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{key === null?'--':key}}</td>
         <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
   </div>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
 import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
+import StockBox from 'components/stock-box'
 export default {
   props: ['strategyId'],
   data () {
     return {
       navText: [
-        ['上证A股', 'shangzheng'],
-        ['深证A股', 'shenzheng'],
-        ['中小板', 'zhongxiao'],
-        ['创业板', 'chuangye']
+        ['上证A股', 'SHQuote'],
+        ['深证A股', 'SZQuote'],
+        ['中小板', 'ZXQuote'],
+        ['创业板', 'GMEQuote']
       ],
       // type: this.showType === undefined ? 'syqxt' : this.showType
-      type: 'shangzheng',
+      type: 'SHQuote',
       page: 0,
       size: 10,
       rankUp: {},
@@ -103,7 +119,8 @@ export default {
   },
   components: {
     NavBar,
-    DataTable
+    DataTable,
+    StockBox
   },
   computed: {
     shangZRankData: function () {
@@ -132,16 +149,16 @@ export default {
         size: this.size
       })
         .then(() => {
-          if (this.type === 'shangzheng') {
+          if (this.type === 'SHQuote') {
             this.rankUp = this.shangZRankData['1']
             this.rankDown = this.shangZRankData['-1']
-          } else if (this.type === 'shenzheng') {
+          } else if (this.type === 'SZQuote') {
             this.rankUp = this.shenZRankData['1']
             this.rankDown = this.shenZRankData['-1']
-          } else if (this.type === 'zhongxiao') {
+          } else if (this.type === ' ZXQuote') {
             this.rankUp = this.zXBRankData['1']
             this.rankDown = this.zXBRankData['-1']
-          } else if (this.type === 'chuangye') {
+          } else if (this.type === 'GMEQuote') {
             this.rankUp = this.cYBRankData['1']
             this.rankDown = this.cYBRankData['-1']
           }
@@ -156,6 +173,14 @@ export default {
           _this.initSectors()
         }, 1000 * _this.intervalTime)
       }
+    },
+    linkStock: function (innerCode) {
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
+    },
+    toStockList: function (type) {
+      window.open(type)
     }
   },
   mounted () {

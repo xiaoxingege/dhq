@@ -50,7 +50,7 @@
 <div class="finance-news">
   <div class="news-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
-    <p class="fr tr more-news">
+    <p class="more-news">
       <router-link :to="{name:'newslist',query:{newsId:''}}">更多></router-link>
     </p>
   </div>

@@ -8,7 +8,6 @@ html {
 
 .index-top {
     width: 100%;
-    height: 37%;
     background: #0d0e0f;
 }
 
@@ -268,6 +267,7 @@ export default {
       return timeline
     },
     refreshEcharts (datas, index, chartName) {
+      const that = this
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -434,6 +434,9 @@ export default {
 
         }]
       })
+      window.onresize = function () {
+        that.chart.resize
+      }
     },
     toPercent (x, y, n) {
       return Number(x / y * 100).toFixed(n) + '%'
