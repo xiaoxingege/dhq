@@ -14,6 +14,7 @@ html,
 body,
 .app {
   height: 100%;
+  min-height: 710px;
 }
 
 .wrap {
@@ -30,7 +31,6 @@ body {
 
 .news-wrap {
   height: 37%;
-  padding-top: 10px;
 }
 
 .news-left {
@@ -111,15 +111,15 @@ body {
   background-color: #141518;
   height: 100%;
 }
+
+.news-wrap>div {
+  height: 100%;
+}
 </style>
 <template>
 <div class="wrap">
   <div class="news-wrap clearfix">
-    <!--<div class="clearfix news-left">
-                <NewsListHome :newsList="financeNewsList" :newsName="newsName1" :newsType="ywType"></NewsListHome>
-                <NewsListHome :newsList="listedCompanyNewsList" :newsName="newsName2" :newsType="companyType"></NewsListHome>
-            </div>
-            <ThemeHome :themeWidth="themeWidth" :themeHeight="themeHeight"></ThemeHome>-->
+    <IndexChart></IndexChart>
   </div>
   <div class="sector-wrap clearfix">
     <div class="sectors">
@@ -146,6 +146,7 @@ import NewsListHome from 'components/z3touguhome/hotnews-home'
 import tradeSignals from 'components/z3touguhome/trade-signals'
 import Sectors from 'components/z3touguhome/sectors'
 import TopIndustry from 'components/z3touguhome/top-industry'
+import IndexChart from 'components/indexChart'
 export default {
   data () {
     return {
@@ -169,7 +170,8 @@ export default {
     NewsListHome,
     tradeSignals,
     Sectors,
-    TopIndustry
+    TopIndustry,
+    IndexChart
   },
   computed: {
 

@@ -4,6 +4,7 @@
 }
 .top-industry-top {
     height: 11.5%;
+    position: relative;
 }
 .top-industry-table-wrap {
     height: 88.5%;
@@ -46,37 +47,61 @@
     color: #c9d0d7;
     padding-right: 0;
 }
+.more-industry {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
+.more-industry a {
+    color: #808ba1;
+}
+.topic-first {
+    cursor: pointer;
+}
+.topic-first:hover {
+    background-color: #2e4465;
+}
 </style>
 <template>
 <div class="top-industry-con">
   <div class="top-industry-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <!--<p class="more-industry">
+      <a>更多></a>
+    </p>-->
   </div>
   <div class="top-industry-table-wrap clearfix">
     <table class="top-industry-table" v-if="type === 'industry'">
       <tr v-for="item of industryList">
         <td>{{item.industryName === null?'--':item.industryName}}</td>
-        <td v-z3-updowncolor="item.industryChg">{{item.industryChg === null?'--':parseFloat(item.industryChg).toFixed(2)}}</td>
-        <td>{{item.stockName === null?'--':item.stockName}}</td>
+        <td v-z3-updowncolor="item.industryChg">{{item.industryChg === null?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockVal">{{item.stockVal === null?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChg">{{item.stockChg === null?'--':parseFloat(item.stockChg).toFixed(2)}}</td>
       </tr>
     </table>
     <table class="top-industry-table" v-if="type === 'topic'">
       <tr v-for="item of hotTopicList">
-        <td>{{item.topicName === null?'--':item.topicName}}</td>
-        <td v-z3-updowncolor="item.topicChngPct">{{item.topicChngPct === null?'--':parseFloat(item.topicChngPct).toFixed(2)}}</td>
-        <td @click="linkStock(item.innerCode)">{{item.stockName === null?'--':item.stockName}}</td>
+        <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{item.topicName === null?'--':item.topicName}}</td>
+        <td v-z3-updowncolor="item.topicChngPct">{{item.topicChngPct === null?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockPrice">{{item.stockPrice === null?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChngPct">{{item.stockChngPct === null?'--':parseFloat(item.stockChngPct).toFixed(2)}}</td>
       </tr>
     </table>
   </div>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
 import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
+import StockBox from 'components/stock-box'
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: ['strategyId'],
   data () {
@@ -102,7 +127,8 @@ export default {
   },
   components: {
     NavBar,
-    DataTable
+    DataTable,
+    StockBox
   },
   computed: {
     topIndustryData: function () {
@@ -147,7 +173,14 @@ export default {
       }
     },
     linkStock: function (innerCode) {
-      window.open('/stock/' + innerCode)
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
+    },
+    toTopicDetail: function (topicCode) {
+      if (topicCode) {
+        window.open(ctx + '/topic/' + topicCode)
+      }
     }
   },
   mounted () {
