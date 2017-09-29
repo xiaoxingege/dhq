@@ -66,10 +66,30 @@ td {
 .change {
     min-width: 46px;
 }
+.stock-down {
+    color: #56a870;
+    margin-left: 10px;
+}
+.stock-up {
+    color: #ca4941;
+}
+.hover-wrapper h3 img {
+    margin-left: 5px;
+}
+.stock-down img {
+    padding-top: 11px;
+}
+.stock-up img {
+    padding-top: 10px;
+}
 </style>
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
-  <h3>{{titleName}}--{{titleNameLel2}}</h3>
+  <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
+    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
+    <span class="stock-down fr">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+  </h3>
   <table>
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
@@ -101,7 +121,10 @@ export default {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
-      titlePrice: 0
+      titlePrice: 0,
+      titleChngPct: '',
+      stockUpNo: 0,
+      stockDownNo: 0
     }
   },
   watch: {
@@ -154,6 +177,10 @@ export default {
     stockChartData: function () {
       const stockChartData = this.$store.state.stockMap.stockChartData
       return stockChartData
+    },
+    industryChngPct: function () {
+      const industryChngPct = this.$store.state.stockMap.industryChngPct
+      return industryChngPct
     }
   },
   methods: {
@@ -165,73 +192,82 @@ export default {
       })
         .then(() => {
           const _this = this
+          // 悬浮框的表头
+          this.titleChngPct = this.industryChngPct
+          this.node.chartData = this.stockChartData[this.node.name]
+          if (this.node.chartData) {
+            const nodeLength = this.node.chartData.length
+            if (this.node.chartData[nodeLength - 1]) {
+              this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
+            } else {
+              this.titlePrice = '--'
+            }
+          }
+          this.chart.setOption({
+            grid: {
+              show: false,
+              left: 5,
+              top: 5,
+              bottom: 5,
+              right: 0
+            },
+            xAxis: [{
+              axisLine: false,
+              splitLine: {
+                show: false
+              },
+              type: 'category',
+              data: new Array(17)
+            }],
+            yAxis: [{
+              type: 'value',
+              axisLine: false,
+              splitLine: {
+                show: false
+              },
+              min: 'dataMin',
+              max: 'dataMax'
+            }],
+            animation: false,
+            series: [{
+              type: 'line',
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#fff',
+                  width: 1.5
+                }
+              },
+              data: this.node.chartData
+            }]
+          })
+          // 计算每只股票的最新价 上涨股票数和下跌股票数
+          this.stockUpNo = 0
+          this.stockDownNo = 0
+          this.stockList.forEach(function (stock) {
+            if (stock.perf >= 0) {
+              _this.stockUpNo++
+            } else {
+              _this.stockDownNo++
+            }
+            stock.chartData = _this.stockChartData[stock.name]
+            if (stock.chartData) {
+              const stockDetailLength = stock.chartData.length
+              if (stock.chartData[stockDetailLength - 1]) {
+                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+              } else {
+                stock.price = '--'
+              }
+            }
+          })
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
-            // 悬浮框的表头
-            this.node.chartData = this.stockChartData[this.node.name]
-            if (this.node.chartData) {
-              const nodeLength = this.node.chartData.length
-              if (this.node.chartData[nodeLength - 1]) {
-                this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
-              } else {
-                this.titlePrice = '--'
-              }
-            }
-            this.chart.setOption({
-              grid: {
-                show: false,
-                left: 5,
-                top: 5,
-                bottom: 5,
-                right: 0
-              },
-              xAxis: [{
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                type: 'category',
-                data: new Array(17)
-              }],
-              yAxis: [{
-                type: 'value',
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                min: 'dataMin',
-                max: 'dataMax'
-              }],
-              animation: false,
-              series: [{
-                type: 'line',
-                smooth: true,
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#fff',
-                    width: 1.5
-                  }
-                },
-                data: this.node.chartData
-              }]
-            })
             // 悬浮框股票列表
-            this.stockList.forEach(function (stock) {
-              stock.chartData = _this.stockChartData[stock.name]
-              if (stock.chartData) {
-                const stockDetailLength = stock.chartData.length
-                if (stock.chartData[stockDetailLength - 1]) {
-                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-                } else {
-                  stock.price = '--'
-                }
-              }
-            })
             for (const i in this.stockList) {
               if (this.$refs.chart && this.$refs.chart.length > 0) {
                 this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])

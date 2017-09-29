@@ -1,12 +1,15 @@
 import fetch from '../z3tougu/util/z3fetch'
-import { domain } from '../z3tougu/config'
+import {
+  domain
+} from '../z3tougu/config'
 
 // initial state
 const state = {
   industries: null,
   stockData: null,
   stockChartData: null,
-  calendarsData: null
+  calendarsData: null,
+  industryChngPct: ''
 }
 
 // getters
@@ -21,9 +24,14 @@ const mutationsTypes = {
   CALENDARS_DATA: 'CALENDARS_DATA',
   ERROR: 'ERROR'
 }
-    // actions
+// actions
 const actions = {
-  queryRangeByCode ({ commit, state }, { code }) {
+  queryRangeByCode ({
+    commit,
+    state
+  }, {
+    code
+  }) {
     let url
     if (code === '') {
       url = domain + '/openapi/openjson/tx/' + code + '.json'
@@ -37,39 +45,71 @@ const actions = {
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.QUERY_RANGE_BY_CODE, data.children)
-    }).catch(() => { commit(mutationsTypes.ERROR) })
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
   },
-  updateData ({ commit, state }, { isContinue, condition, code }) {
+  updateData ({
+    commit,
+    state
+  }, {
+    isContinue,
+    condition,
+    code
+  }) {
     const url = `${domain}/openapi/timedQueryMap?isContinue=${isContinue}&condition=${condition}&code=${code}`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.UPDATE_DATA, data.data)
-    }).catch(() => { commit(mutationsTypes.ERROR) })
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
   },
-  updateDataByDate ({ commit, state }, { date, code }) {
+  updateDataByDate ({
+    commit,
+    state
+  }, {
+    date,
+    code
+  }) {
     const url = domain + '/openapi/openjson/tx/' + date + '.json'
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.UPDATE_DATA, data)
-    }).catch(() => { commit(mutationsTypes.ERROR) })
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
   },
-  stockChartData ({ commit, state }, { stockId, code }) {
+  stockChartData ({
+    commit,
+    state
+  }, {
+    stockId,
+    code
+  }) {
     const url = domain + '/openapi/industries/' + stockId + '.json?indexCode=' + code
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
-      commit(mutationsTypes.STOCK_CHART_DATA, data.data)
-    }).catch(() => { commit(mutationsTypes.ERROR) })
+      commit(mutationsTypes.STOCK_CHART_DATA, data)
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
   },
-  queryCalendarsData ({ commit, state }) {
+  queryCalendarsData ({
+    commit,
+    state
+  }) {
     const url = `${domain}/openapi/calendars`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.CALENDARS_DATA, data.data.reverse())
-    }).catch(() => { commit(mutationsTypes.ERROR) })
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
   }
 }
 // mutations
@@ -80,8 +120,11 @@ const mutations = {
   [mutationsTypes.UPDATE_DATA] (state, stockData) {
     state.stockData = stockData
   },
-  [mutationsTypes.STOCK_CHART_DATA] (state, stockChartData) {
-    state.stockChartData = stockChartData
+  [mutationsTypes.STOCK_CHART_DATA] (state, result) {
+    if (result.errCode === 0) {
+      state.stockChartData = result.data
+      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2)
+    }
   },
   [mutationsTypes.CALENDARS_DATA] (state, calendarsData) {
     state.calendarsData = calendarsData
