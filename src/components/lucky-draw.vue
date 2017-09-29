@@ -92,6 +92,7 @@
 .awards {
   padding-top:0.36rem;
   width:6.48rem;
+  height:5.12rem;
   margin:0 auto;
   overflow:hidden;
   position: relative;
@@ -100,10 +101,10 @@
   width:100%;
   height: 100%;
   position:absolute;
-  top:0;
+  top:0.36rem;
   left:0;
   z-index:10;
-  background: rgba(0,0,0,0.3);
+  /*background: rgba(0,0,0,0.3);*/
 }
 .award-item{
   float: left;
@@ -119,13 +120,12 @@
   background: url(../assets/images/lucky-draw/award-item.png) center no-repeat;
   background-size: 100%;
 }
-.award-item-active{
+.awards-list   .award-item-active{
+  position: absolute;
+  width:2.08rem;
+  height: 1.68rem;`
   background: url(../assets/images/lucky-draw/award-item-active.png) center no-repeat;
   background-size: 100%;
-}
-.award-item1{
-  top:0.1rem;
-  left:0;
 }
 .get-award{
   float: left;
@@ -134,20 +134,18 @@
   margin:0 0.04rem 0.05rem;
 }
 .award-click{
-  
- /* position: absolute;
- left:0;
- top:0;*/
+  width:2.08rem;
+  height: 1.68rem;
+  position: absolute;
+  left:2.16rem;
+  top:2.09rem;
+  z-index: 100;
 }
 .get-award{
   background: url(../assets/images/lucky-draw/get-award.png) center no-repeat;
   background-size: 100%;
 }
 .get-award:active{
-  background: url(../assets/images/lucky-draw/get-award-active.png) center no-repeat;
-  background-size: 100%;
-}
-.get-award-active{
   background: url(../assets/images/lucky-draw/get-award-active.png) center no-repeat;
   background-size: 100%;
 }
@@ -158,62 +156,13 @@
   color:#fff;
 }
 .awards li .award-icon{
-  
+  height: 0.75rem;
+  width:auto;
+  margin:0.22rem auto 0;
 }
 .awards  .award-icon1{
-  width:1.52rem;
-  height: 0.75rem;
-  margin:0.22rem auto 0;
+  
   background: url(../assets/images/lucky-draw/award-icon1.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon2{
-  width:0.98rem;
-  height: 0.72rem;
-  margin:0.23rem  auto 0;
-  background: url(../assets/images/lucky-draw/award-icon2.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon3{
-  width:1.52rem;
-  height: 0.75rem;
-  margin:0.21rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon3.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon4{
-  width:1.64rem;
-  height: 0.79rem;
-  margin:0.19rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon4.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon5{
-  width:1.18rem;
-  height: 0.76rem;
-  margin:0.22rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon5.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon6{
-  width:1.52rem;
-  height: 0.75rem;
-  margin:0.21rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon6.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon7{
-  width:1.65rem;
-  height: 0.79rem;
-  margin:0.19rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon7.png) center no-repeat;
-  background-size: 100%;
-}
-.awards  .award-icon8{
-  width:1.52rem;
-  height: 0.75rem;
-  margin:0.21rem auto 0;
-  background: url(../assets/images/lucky-draw/award-icon8.png) center no-repeat;
   background-size: 100%;
 }
 .awards li .award-text{
@@ -339,7 +288,7 @@
   <div class="notification">
     <span class="notification-icon"></span>
     <div class="notification-text-container">
-      <ul class="notification-text">
+      <ul id="scroll" class="notification-text">
         <li v-for="item in LuckUsers">
           <span>恭喜 “网友 {{item.userName}}” 抽中</span>
           <var>{{item.prize}}</var>
@@ -349,52 +298,45 @@
   </div>
   <div class="award-pool">
     <div class="awards">
-      <ul class="awards-list">
-       <!--  <li class="award-item award-item1">
-          <h4 class="award-icon award-icon1"></h4>
-          <p class="award-text">32897</p>
-        </li> -->
+      <ul id="prizes" class="awards-list">
+        <li class="award-item" v-bind:style="{'top':0,'left':0}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[0].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[0].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':0,'left':'2.16rem'}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[1].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[1].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':0,'left':'4.32rem'}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[2].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[2].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':'1.73rem','left':'4.32rem'}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[3].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[3].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':'3.46rem','left':'4.32rem'}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[4].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[4].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':'3.46rem','left':'2.16rem'}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[5].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[5].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':'3.46rem','left':0}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[6].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[6].name}}</p>
+        </li>
+        <li class="award-item" v-bind:style="{'top':'1.73rem','left':0}">
+          <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[7].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
+          <p class="award-text">{{prizeList[7].name}}</p>
+        </li>
       </ul>
       <div class="award-click">
         <div class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
           <p>{{consumenum}}豆/次</p>
         </div>
       </div>
-      <li class="award-item">
-        <h4 class="award-icon award-icon1"></h4>
-        <p class="award-text">32897</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon2"></h4>
-        <p class="award-text">18金豆</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon3"></h4>
-        <p class="award-text">Z点操盘3日卡</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon4"></h4>
-        <p class="award-text">优惠券</p>
-      </li>
-       <li class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
-          <p>{{consumenum}}豆/次</p>
-        </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon5"></h4>
-        <p class="award-text">88金豆</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon6"></h4>
-        <p class="award-text">Z点操盘月卡</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon7"></h4>
-        <p class="award-text">优惠券</p>
-      </li>
-      <li class="award-item">
-        <h4 class="award-icon award-icon8"></h4>
-        <p class="award-text">Level2年卡</p>
-      </li>
     </div>
   </div>
   <div class="award-info">
@@ -409,10 +351,10 @@
     <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
-    <p>loginStatus:{{loginStatus}}</p>
-    <p>prizeList:{{prizeList}}</p>
+    <!-- <p>loginStatus:{{loginStatus}}</p> -->
+    <!-- <p>prizeList:{{prizeList}}</p> -->
     <!-- <p>LuckUsers:{{LuckUsers}}</p> -->
-    <p>draw:{{draw}}</p>
+    <!-- <p>draw:{{draw}}</p> -->
   </div>
   <div id="pop" class="mask">
     <div class="pop-ensure">
@@ -435,7 +377,7 @@ import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
-
+import 'jquery'
 export default {
   data () {
     return {
@@ -454,7 +396,8 @@ export default {
         'userName': '',
         'userid': '141120010079383950',
         'utime': 1506656283000
-      }
+      },
+      winid: 5
     }
   },
   computed: mapState({
@@ -478,12 +421,22 @@ export default {
     })
     this.$store.dispatch('luckDrawData/getPrizeList')
     this.$store.dispatch('luckDrawData/getLuckUsers')
-    this.$store.dispatch('luckDrawData/getDraw')
-  },
-  filters: {
 
+    this.scrolllist()
   },
   methods: {
+    scrolllist: function () {
+      // var Top = 0
+      // var top = 0
+      var notification = document.getElementById('scroll')
+
+      console.log(notification)
+      // setInterval(function () {
+      //   Top--
+      //   top = Top / 100
+      //   notification.style.top = top + 'rem'
+      // }, 500)
+    },
     openModal: function () {
       var pop = document.getElementById('pop')
       pop.style.display = 'block'
@@ -497,7 +450,26 @@ export default {
       this.rotate()
     },
     rotate: function () {
-      alert('开始转')
+      this.$store.dispatch('user/checkLogin').then(() => {
+        if (this.loginStatus === 'no') {
+          if (window.jrj && window.jrj.jsCallNative) {
+            window.jrj.jsCallNative('108', JSON.stringify({
+              returnUrl: encodeURI(window.location.href)
+            }))
+          }
+        } else {
+          return this.$store.dispatch('luckDrawData/getDraw')
+        }
+      })
+      // var index = 0
+      // var prizes = document.getElementById('prizes')
+      // var prizeList = prizes.childNodes
+      // prizeList[this.winid].className = 'award-item-active'
+      // console.log(prizeList[this.winid].)
+      // var timer = null
+      // timer = setInterval(function () {
+
+      // }, 100)
     }
   }
 }
