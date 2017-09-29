@@ -123,7 +123,7 @@
 .awards-list   .award-item-active{
   position: absolute;
   width:2.08rem;
-  height: 1.68rem;`
+  height: 1.68rem;
   background: url(../assets/images/lucky-draw/award-item-active.png) center no-repeat;
   background-size: 100%;
 }
@@ -307,35 +307,35 @@
   <div class="award-pool">
     <div class="awards">
       <ul id="prizes" class="awards-list" v-if="prizeList">
-        <li class="award-item" v-bind:style="{'top':0,'left':0}">
+        <li :class="['award-item',{'award-item-active': prizeList[0].active}]" v-bind:style="{'top':0,'left':0}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[0].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[0].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':0,'left':'2.16rem'}">
+        <li :class="['award-item',{'award-item-active': prizeList[1].active}]" v-bind:style="{'top':0,'left':'2.16rem'}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[1].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[1].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':0,'left':'4.32rem'}">
+        <li :class="['award-item',{'award-item-active': prizeList[2].active}]" v-bind:style="{'top':0,'left':'4.32rem'}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[2].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[2].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':'1.73rem','left':'4.32rem'}">
+        <li :class="['award-item',{'award-item-active': prizeList[3].active}]" v-bind:style="{'top':'1.73rem','left':'4.32rem'}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[3].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[3].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':'3.46rem','left':'4.32rem'}">
+        <li :class="['award-item',{'award-item-active': prizeList[4].active}]" v-bind:style="{'top':'3.46rem','left':'4.32rem'}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[4].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[4].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':'3.46rem','left':'2.16rem'}">
+        <li :class="['award-item',{'award-item-active': prizeList[5].active}]" v-bind:style="{'top':'3.46rem','left':'2.16rem'}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[5].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[5].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':'3.46rem','left':0}">
+        <li :class="['award-item',{'award-item-active': prizeList[6].active}]" v-bind:style="{'top':'3.46rem','left':0}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[6].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[6].name}}</p>
         </li>
-        <li class="award-item" v-bind:style="{'top':'1.73rem','left':0}">
+        <li :class="['award-item',{'award-item-active': prizeList[7].active}]" v-bind:style="{'top':'1.73rem','left':0}">
           <h4 class="award-icon" v-bind:style="{'background-image':`url(${prizeList[7].pic})`,'background-repeat':'no-repeat','background-size':'contain','background-position':'center'}"></h4>
           <p class="award-text">{{prizeList[7].name}}</p>
         </li>
@@ -361,7 +361,7 @@
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
     <!-- <p>loginStatus:{{loginStatus}}</p> -->
     <!-- <p>prizeList:{{prizeList}}</p> -->
-    <p>LuckUsers:{{LuckUsers}}</p>
+    <!-- <p>LuckUsers:{{LuckUsers}}</p> -->
     <p>draw:{{draw}}</p>
   </div>
   <div id="pop" class="mask">
@@ -389,6 +389,8 @@ import 'jquery'
 export default {
   data () {
     return {
+      isGO: false,
+      position: 3,
       consumenum: 30,
       trueflag: false, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
@@ -469,18 +471,60 @@ export default {
       this.rotate()
     },
     rotate: function () {
+      // console.log(this.draw)
       this.$store.dispatch('user/checkLogin').then(() => {
-        if (this.loginStatus === 'no') {
+        if (this.loginStatus === 'no') { // 未登录状态提示登录
           if (window.jrj && window.jrj.jsCallNative) {
             window.jrj.jsCallNative('108', JSON.stringify({
               returnUrl: encodeURI(window.location.href)
             }))
           }
-        } else {
-          return this.$store.dispatch('luckDrawData/getDraw')
+        } else { // 登陆后获取数据 draw
+          return this.$store.dispatch('luckDrawData/getDraw').then(() => {
+            // console.log(this.draw)
+            // this.position = this.draw.position
+            if (this.isGO) {
+              return false
+            }
+            this.isGO = true
+            this.drawPrize(this.position)
+          })// 这个是获取数据的vuex里面的
         }
       })
+    },
+    drawPrize: function (position) {
+      var _this = this
+      var timer = null
+      var count = 8 * 4 + position - 1
+      var now = 0
+      var last = 0
+      this.$set(_this.prizeList[0], 'active', true)
+      clearInterval(timer)
+      timer = setInterval(function () {
+        last = now
+        now++
+        if (now > 7) {
+          now = 0
+          last = 7
+        }
+
+        _this.$set(_this.prizeList[last], 'active', false)
+        _this.$set(_this.prizeList[now], 'active', true)
+
+        count--
+        if (count <= 0) {
+          clearInterval(timer)
+          _this.isGO = false
+        }
+      }, 100)
     }
   }
 }
 </script>
+
+
+
+
+
+
+
