@@ -8,39 +8,41 @@ import {
 export default {
   namespaced: true,
   state: {
-    szzsChartData: null,
-    lsChartData: null,
-    szczChartData: null,
-    cybzChartData: null,
+    chartData: {
+      szzsChartData: null,
+      lsChartData: null,
+      szczChartData: null,
+      cybzChartData: null
+    },
     barData: null
   },
   mutations: {
     setSzzsChartData (state, result) {
       if (result.errCode === 0) {
-        state.szzsChartData = result.data
+        state.chartData.szzsChartData = result.data
       } else {
-        state.szzsChartData = null
+        state.chartData.szzsChartData = null
       }
     },
     setLsChartData (state, result) {
       if (result.errCode === 0) {
-        state.lsChartData = result.data
+        state.chartData.lsChartData = result.data
       } else {
-        state.lsChartData = null
+        state.chartData.lsChartData = null
       }
     },
     setSzczChartData (state, result) {
       if (result.errCode === 0) {
-        state.szczChartData = result.data
+        state.chartData.szczChartData = result.data
       } else {
-        state.szczChartData = null
+        state.chartData.szczChartData = null
       }
     },
     setCybzChartData (state, result) {
       if (result.errCode === 0) {
-        state.cybzChartData = result.data
+        state.chartData.cybzChartData = result.data
       } else {
-        state.cybzChartData = null
+        state.chartData.cybzChartData = null
       }
     },
     setBarData (state, result) {
