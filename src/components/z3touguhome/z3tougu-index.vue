@@ -14,6 +14,7 @@ html,
 body,
 .app {
   height: 100%;
+  min-height: 710px;
 }
 
 .wrap {
@@ -30,7 +31,6 @@ body {
 
 .news-wrap {
   height: 37%;
-  padding-top: 10px;
 }
 
 .news-left {
