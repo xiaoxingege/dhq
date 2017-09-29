@@ -94,21 +94,50 @@
   width:6.48rem;
   margin:0 auto;
   overflow:hidden;
+  position: relative;
 }
-.awards li{
+.awards-list{
+  width:100%;
+  height: 100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:10;
+  background: rgba(0,0,0,0.3);
+}
+.award-item{
   float: left;
   width:2.08rem;
   height: 1.68rem;
   margin:0 0.04rem 0.05rem;
   position: relative;
 }
-.award-item{
+.awards-list  .award-item{
+  position: absolute;
+  width:2.08rem;
+  height: 1.68rem;
   background: url(../assets/images/lucky-draw/award-item.png) center no-repeat;
   background-size: 100%;
 }
 .award-item-active{
   background: url(../assets/images/lucky-draw/award-item-active.png) center no-repeat;
   background-size: 100%;
+}
+.award-item1{
+  top:0.1rem;
+  left:0;
+}
+.get-award{
+  float: left;
+  width:2.08rem;
+  height: 1.68rem;
+  margin:0 0.04rem 0.05rem;
+}
+.award-click{
+  
+ /* position: absolute;
+ left:0;
+ top:0;*/
 }
 .get-award{
   background: url(../assets/images/lucky-draw/get-award.png) center no-repeat;
@@ -311,19 +340,30 @@
     <span class="notification-icon"></span>
     <div class="notification-text-container">
       <ul class="notification-text">
-        <li v-for="item in notificationList">
-          <span>恭喜 “网******{{item.user}}” 抽中</span>
-          <var>{{item.award}}</var>
+        <li v-for="item in LuckUsers">
+          <span>恭喜 “网友 {{item.userName}}” 抽中</span>
+          <var>{{item.prize}}</var>
         </li>
       </ul>
     </div>
   </div>
   <div class="award-pool">
-    <ul class="awards">
-      <!-- <li class="award-item" v-for="item in prizeList">
+    <div class="awards">
+      <ul class="awards-list">
+       <!--  <li class="award-item award-item1">
+          <h4 class="award-icon award-icon1"></h4>
+          <p class="award-text">32897</p>
+        </li> -->
+      </ul>
+      <div class="award-click">
+        <div class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
+          <p>{{consumenum}}豆/次</p>
+        </div>
+      </div>
+      <li class="award-item">
         <h4 class="award-icon award-icon1"></h4>
-        <p class="award-text">{{}}</p>
-      </li> -->
+        <p class="award-text">32897</p>
+      </li>
       <li class="award-item">
         <h4 class="award-icon award-icon2"></h4>
         <p class="award-text">18金豆</p>
@@ -336,10 +376,10 @@
         <h4 class="award-icon award-icon4"></h4>
         <p class="award-text">优惠券</p>
       </li>
-      <li class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
-        <p>{{consumenum}}豆/次</p>
-      </li>
-      <li class="award-item-active">
+       <li class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
+          <p>{{consumenum}}豆/次</p>
+        </li>
+      <li class="award-item">
         <h4 class="award-icon award-icon5"></h4>
         <p class="award-text">88金豆</p>
       </li>
@@ -355,7 +395,7 @@
         <h4 class="award-icon award-icon8"></h4>
         <p class="award-text">Level2年卡</p>
       </li>
-    </ul>
+    </div>
   </div>
   <div class="award-info">
     <h2>一. 活动简介</h2>
@@ -369,7 +409,10 @@
     <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
-    <p>{{prizeList}}</p>
+    <p>loginStatus:{{loginStatus}}</p>
+    <p>prizeList:{{prizeList}}</p>
+    <!-- <p>LuckUsers:{{LuckUsers}}</p> -->
+    <p>draw:{{draw}}</p>
   </div>
   <div id="pop" class="mask">
     <div class="pop-ensure">
@@ -379,8 +422,8 @@
         <p class="ensure-text">下次不再提醒</p>
       </div>
       <div class="ensure-button">
-        <span class="ensure-button-close">取消</span>
-        <span class="ensure-button-true">确定</span>
+        <span class="ensure-button-close" v-on:click="closeModal">取消</span>
+        <span class="ensure-button-true" v-on:click="closeModalrotate">确定</span>
       </div>
     </div>
   </div>
@@ -396,24 +439,30 @@ import {
 export default {
   data () {
     return {
-      notificationList: [
-        { user: '1', award: 'Z点操盘3日卡' },
-        { user: '2', award: 'Z点操盘3日卡' },
-        { user: '3', award: '其他Z点操盘3日卡' },
-        { user: '4', award: 'Z点操盘3日卡' },
-        { user: '5', award: 'Z点操盘3日卡' },
-        { user: '6', award: '其他Z点操盘3日卡' }
-      ],
       consumenum: 30,
-      trueflag: true, // true 下次提醒 false 下次不提醒
+      trueflag: false, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
-      falseclass: 'ensure-icon-false'
+      falseclass: 'ensure-icon-false',
+      retcode: 801000,
+      data: {
+        'aid': 1009,
+        'ctime': 1506656283000,
+        'id': 559,
+        'isval': 1,
+        'pid': 147,
+        'pname': '88金豆',
+        'userName': '',
+        'userid': '141120010079383950',
+        'utime': 1506656283000
+      }
     }
   },
   computed: mapState({
     loginStatus: state => state.user.loginStatus,
     beanNum: state => state.user.beanNum,
-    prizeList: state => state.luckDrawData.pricelist
+    prizeList: state => state.luckDrawData.pricelist,
+    LuckUsers: state => state.luckDrawData.LuckUsers,
+    draw: state => state.luckDrawData.draw
   }),
   mounted () {
     this.$store.dispatch('user/checkLogin').then(() => {
@@ -428,6 +477,8 @@ export default {
       }
     })
     this.$store.dispatch('luckDrawData/getPrizeList')
+    this.$store.dispatch('luckDrawData/getLuckUsers')
+    this.$store.dispatch('luckDrawData/getDraw')
   },
   filters: {
 
@@ -437,13 +488,16 @@ export default {
       var pop = document.getElementById('pop')
       pop.style.display = 'block'
     },
+    closeModal: function () {
+      var pop = document.getElementById('pop')
+      pop.style.display = 'none'
+    },
+    closeModalrotate: function () {
+      this.closeModal()
+      this.rotate()
+    },
     rotate: function () {
       alert('开始转')
-    },
-    prizeList1: function () {
-      return {
-
-      }
     }
   }
 }
