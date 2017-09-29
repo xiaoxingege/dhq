@@ -69,7 +69,9 @@ td {
 </style>
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
-  <h3>{{titleName}}--{{titleNameLel2}}</h3>
+  <h3>{{titleName}}--{{titleNameLel2}}
+    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
+  </h3>
   <table>
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
@@ -101,7 +103,8 @@ export default {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
-      titlePrice: 0
+      titlePrice: 0,
+      titleChngPct: ''
     }
   },
   watch: {
@@ -154,6 +157,10 @@ export default {
     stockChartData: function () {
       const stockChartData = this.$store.state.stockMap.stockChartData
       return stockChartData
+    },
+    industryChngPct: function () {
+      const industryChngPct = this.$store.state.stockMap.industryChngPct
+      return industryChngPct
     }
   },
   methods: {
@@ -165,61 +172,62 @@ export default {
       })
         .then(() => {
           const _this = this
+          // 悬浮框的表头
+          this.titleChngPct = this.industryChngPct
+          this.node.chartData = this.stockChartData[this.node.name]
+          if (this.node.chartData) {
+            const nodeLength = this.node.chartData.length
+            if (this.node.chartData[nodeLength - 1]) {
+              this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
+            } else {
+              this.titlePrice = '--'
+            }
+          }
+          this.chart.setOption({
+            grid: {
+              show: false,
+              left: 5,
+              top: 5,
+              bottom: 5,
+              right: 0
+            },
+            xAxis: [{
+              axisLine: false,
+              splitLine: {
+                show: false
+              },
+              type: 'category',
+              data: new Array(17)
+            }],
+            yAxis: [{
+              type: 'value',
+              axisLine: false,
+              splitLine: {
+                show: false
+              },
+              min: 'dataMin',
+              max: 'dataMax'
+            }],
+            animation: false,
+            series: [{
+              type: 'line',
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#fff',
+                  width: 1.5
+                }
+              },
+              data: this.node.chartData
+            }]
+          })
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
-            // 悬浮框的表头
-            this.node.chartData = this.stockChartData[this.node.name]
-            if (this.node.chartData) {
-              const nodeLength = this.node.chartData.length
-              if (this.node.chartData[nodeLength - 1]) {
-                this.titlePrice = this.node.chartData[nodeLength - 1].toFixed(2)
-              } else {
-                this.titlePrice = '--'
-              }
-            }
-            this.chart.setOption({
-              grid: {
-                show: false,
-                left: 5,
-                top: 5,
-                bottom: 5,
-                right: 0
-              },
-              xAxis: [{
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                type: 'category',
-                data: new Array(17)
-              }],
-              yAxis: [{
-                type: 'value',
-                axisLine: false,
-                splitLine: {
-                  show: false
-                },
-                min: 'dataMin',
-                max: 'dataMax'
-              }],
-              animation: false,
-              series: [{
-                type: 'line',
-                smooth: true,
-                showSymbol: false,
-                lineStyle: {
-                  normal: {
-                    color: '#fff',
-                    width: 1.5
-                  }
-                },
-                data: this.node.chartData
-              }]
-            })
             // 悬浮框股票列表
             this.stockList.forEach(function (stock) {
               stock.chartData = _this.stockChartData[stock.name]
