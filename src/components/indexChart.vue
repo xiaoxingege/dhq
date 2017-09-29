@@ -415,7 +415,7 @@ export default {
             lineStyle: {
               normal: {
                 type: 'solid',
-                color: '#000000',
+                color: '#fff',
                 width: 0.3,
                 opacity: 1
               }
@@ -443,16 +443,16 @@ export default {
       })
       window.onresize = function () {
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
-          height: (window.innerHeight * 0.37) * 0.74
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[1]).resize({
-          height: (window.innerHeight * 0.37) * 0.74
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[2]).resize({
-          height: (window.innerHeight * 0.37) * 0.74
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[3]).resize({
-          height: (window.innerHeight * 0.37) * 0.74
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
       }
     },
