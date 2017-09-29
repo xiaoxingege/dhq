@@ -289,9 +289,17 @@
     <span class="notification-icon"></span>
     <div id="scroll-outer" class="notification-text-container">
       <ul id="scroll" class="notification-text">
+        <li v-if="LuckUsers">
+          <span>恭喜 “网友 {{LuckUsers[LuckUsers.length-1].userName}}” 抽中</span>
+          <var>{{LuckUsers[LuckUsers.length-1].prize}}</var>
+        </li>
         <li v-for="item in LuckUsers">
           <span>恭喜 “网友 {{item.userName}}” 抽中</span>
           <var>{{item.prize}}</var>
+        </li>
+        <li v-if="LuckUsers">
+          <span>恭喜 “网友 {{LuckUsers[0].userName}}” 抽中</span>
+          <var>{{LuckUsers[0].prize}}</var>
         </li>
       </ul>
     </div>
@@ -352,8 +360,8 @@
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
     <!-- <p>loginStatus:{{loginStatus}}</p> -->
-    <p>prizeList:{{prizeList}}</p>
-    <!-- <p>LuckUsers:{{LuckUsers}}</p> -->
+    <!-- <p>prizeList:{{prizeList}}</p> -->
+    <p>LuckUsers:{{LuckUsers}}</p>
     <p>draw:{{draw}}</p>
   </div>
   <div id="pop" class="mask">
@@ -414,6 +422,7 @@ export default {
 
   },
   mounted () {
+    const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
         if (window.jrj && window.jrj.jsCallNative) {
@@ -427,31 +436,25 @@ export default {
     })
     this.$store.dispatch('luckDrawData/getLuckUsers')
     this.$store.dispatch('luckDrawData/getPrizeList')
-    this.scrolllist()
+
+    setTimeout(_this.scrolllist, 300)
   },
   methods: {
     scrolllist: function () {
-      // var Top = 0
-      // var top = 0
       var scroll = document.getElementById('scroll')
       var scrollOuter = document.getElementById('scroll-outer')
-      console.log(scroll)
-      console.log(scrollOuter)
+
       var scrollH = scroll.offsetHeight
       var scrollOuterH = scrollOuter.offsetHeight
-      // setTimeout(function () {
-      //   var scrollH = scroll.offsetHeight
-      //   var scrollOuterH = scrollOuter.offsetHeight
-      // }, 100)
-
-      console.log(scrollH)
-      console.log(scrollOuterH)
-      // setInterval(function () {
-      //   if (Top) {}
-      //   Top--
-      //   top = Top / 100
-      //   scroll.style.top = top + 'rem'
-      // }, 100)
+      var Top = -scrollOuterH
+      var cha = (scrollH) - (scrollOuterH)
+      setInterval(function () {
+        if (Top <= -(scrollH - scrollOuterH)) {
+          Top = -scrollOuterH
+        }
+        Top = Top - 1
+        scroll.style.top = Top + 'px'
+      }, 50)
     },
     openModal: function () {
       var pop = document.getElementById('pop')
