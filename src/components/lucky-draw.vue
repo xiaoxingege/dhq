@@ -449,7 +449,7 @@ export default {
       var Top = -scrollOuterH
       var cha = (scrollH) - (scrollOuterH)
       setInterval(function () {
-        if (Top <= -(scrollH - scrollOuterH)) {
+        if (Top <= -cha) {
           Top = -scrollOuterH
         }
         Top = Top - 1
