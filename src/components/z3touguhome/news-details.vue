@@ -24,6 +24,7 @@
 }
 .source-warn {
     text-align: center;
+    margin-bottom: 10px;
 }
 .new-main {
     padding-bottom: 40px;
@@ -55,6 +56,9 @@ iframe {
     background-color: #23272c;
     margin-bottom: 20px;
 }
+.new-main p {
+    color: red;
+}
 </style>
 <template>
 <div class="news-detail-wrap" :style="{height:wrapHeight-2+'px'}">
@@ -64,13 +68,16 @@ iframe {
     <span>{{makeDate}}</span>
     <span>来源：{{source}}</span>
   </div>
-  <div class="new-main pdlr" v-html="newsContxt"></div>
-  <p class="source-warn" v-if="source === '金融界网站'">来源为金融界股票频道的作品，均为版权作品，未经书面授权禁止任何媒体转载，否则视为侵权！</p>
+  <!--<div class="new-main pdlr" v-html="newsContxt"></div>-->
+  <div class="new-main pdlr"></div>
+  <p class="source-warn" v-if="source.indexOf('金融界网站')>-1">来源为金融界股票频道的作品，均为版权作品，未经书面授权禁止任何媒体转载，否则视为侵权！</p>
   <p class="tl pdlr">关键词阅读：{{keyword}}</p>
   <p class="tr duty-name pdlr">责任编辑：{{dutyname}}</p>
 </div>
 </template>
 <script type="text/javascript">
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   props: ['newsId'],
   data () {
@@ -108,9 +115,21 @@ export default {
             this.newsTitle = this.newsDetailData.title
             this.makeDate = this.newsDetailData.makedate
             this.source = this.newsDetailData.source
-            this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')
+            /* this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')*/
+            this.newsContxt = this.newsDetailData.context
             this.keyword = this.newsDetailData.keyword.replace(',', ' ')
             this.dutyname = this.newsDetailData.dutyname
+            $('.new-main').html(this.newsContxt)
+            $('.new-main p').css({
+              'text-indent': '25px',
+              'line-height': '25px'
+            })
+            $('.new-main a').removeAttr('href')
+            $('.new-main img').css({
+              'max-width': '500px',
+              'margin': '10px auto',
+              'display': 'block'
+            })
           })
       }
     }
