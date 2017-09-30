@@ -382,7 +382,6 @@ import 'whatwg-fetch'
 import {
   mapState
 } from 'vuex'
-import 'jquery'
 export default {
   data () {
     return {
