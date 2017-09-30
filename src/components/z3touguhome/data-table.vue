@@ -41,6 +41,12 @@
     transform: translate(-50%,-50%);
     color: #808ba1;
 }
+.data-table tr td:first-child {
+    cursor: pointer;
+}
+.data-table tr td:first-child:hover {
+    background-color: #2e4465;
+}
 </style>
 <template>
 <div class="table-wrap">
@@ -49,14 +55,16 @@
   </div>
   <table v-if="!isNoData" class="data-table">
     <tr v-for="item of dataList">
-      <td>{{item.name}}</td>
-      <td>{{item.px === null?'--':item.px}}</td>
-      <td>{{formatData(item.chgPct)}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
+      <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
     </tr>
   </table>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
+import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
   data () {
@@ -75,7 +83,7 @@ export default {
     }
   },
   components: {
-
+    StockBox
   },
   methods: {
     formatData: function (val) {
