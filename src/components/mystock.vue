@@ -261,7 +261,7 @@ import jQuery from 'jquery'
 import 'whatwg-fetch'
 
 export default {
-  data() {
+  data () {
     return {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
@@ -290,24 +290,24 @@ export default {
       titlearr: ['个股', '概念', '行业']
     }
   },
-  mounted() {
+  mounted () {
     window.jQuery = window.$ = jQuery
     document.title = '自选股'
     this.fetchData()
   },
   filters: {
-    changyi(v) {
+    changyi (v) {
       return (v / 100000000).toFixed(2) + '亿'
     }
   },
   methods: {
-    getQueryString(name) {
+    getQueryString (name) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
       if (r != null) return unescape(r[2])
       return null
     },
-    fetchData() {
+    fetchData () {
       var urll = this.urllink[this.typeurl]
       var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
       var _this = this
@@ -315,9 +315,9 @@ export default {
         setTimeout(this.fetchData.bind(this), 100)
         return
       }
-      window.callbackgobtninfo = function(t) {
+      window.callbackgobtninfo = function (t) {
         if (typeof t === 'string') {
-          t = JSON.parse(t);
+          t = JSON.parse(t)
         }
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
@@ -332,17 +332,17 @@ export default {
       }
     },
     // 正红负绿
-    addcolor(v) {
+    addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
       } else {
         return 'red'
       }
     },
-    scrollLeft(v) {
+    scrollLeft (v) {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
     },
-    paixu(v) {
+    paixu (v) {
       var o = this.urllink[this.typeurl]
       o['pn'] = 1
       document.body.scrollTop = 0
@@ -363,13 +363,13 @@ export default {
       }
       this.fetchData()
     },
-    gotostock(stockName, stockCode) {
+    gotostock (stockName, stockCode) {
       window.jrj.jsCallNative('100', JSON.stringify({
         'stockName': stockName,
         'stockCode': stockCode
       }))
     },
-    gotobankuai(platname, platcode) {
+    gotobankuai (platname, platcode) {
       window.jrj.jsCallNative('161', JSON.stringify({
         'platname': platname,
         'platcode': platcode,

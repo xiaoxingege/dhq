@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/jzxg-activity-h5'
+import App from 'components/ques-success'
 
 /*
  * 引入vuex
@@ -15,10 +15,17 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
+import quesSuccess from 'stores/ques-success'
 import user from 'stores/user'
+import quesFocus from 'stores/ques-focus'
+import quesDetail from 'stores/ques-detail'
+
 const store = new Vuex.Store({
   modules: {
-    user
+    quesSuccess,
+    user,
+    quesFocus,
+    quesDetail
   }
 })
 
