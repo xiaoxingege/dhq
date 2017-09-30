@@ -202,6 +202,7 @@
   position: fixed;
   top:0;
   left:0;
+  z-index: 10000;
   width:100%;
   height: 100%;
   background: rgba(0,0,0,0.5);
@@ -391,23 +392,10 @@ export default {
     return {
       isGO: false,
       position: 3,
-      consumenum: 30,
-      trueflag: false, // true 下次提醒 false 下次不提醒
+      consumenum: 20,
+      trueflag: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
-      falseclass: 'ensure-icon-false',
-      retcode: 801000,
-      data: {
-        'aid': 1009,
-        'ctime': 1506656283000,
-        'id': 559,
-        'isval': 1,
-        'pid': 147,
-        'pname': '88金豆',
-        'userName': '',
-        'userid': '141120010079383950',
-        'utime': 1506656283000
-      },
-      winid: 5
+      falseclass: 'ensure-icon-false'
     }
   },
   computed: mapState({
@@ -471,28 +459,27 @@ export default {
       this.rotate()
     },
     rotate: function () {
-      // console.log(this.draw)
       this.$store.dispatch('user/checkLogin').then(() => {
-        if (this.loginStatus === 'no') { // 未登录状态提示登录
+        if (this.loginStatus === 'no') {
           if (window.jrj && window.jrj.jsCallNative) {
             window.jrj.jsCallNative('108', JSON.stringify({
               returnUrl: encodeURI(window.location.href)
             }))
           }
-        } else { // 登陆后获取数据 draw
+        } else {
           return this.$store.dispatch('luckDrawData/getDraw').then(() => {
-            // console.log(this.draw)
-            // this.position = this.draw.position
             if (this.isGO) {
               return false
             }
+            this.position = this.draw.data.position
             this.isGO = true
-            this.drawPrize(this.position)
-          })// 这个是获取数据的vuex里面的
+            var __this = this
+            this.drawPrize(this.position, __this)
+          })
         }
       })
     },
-    drawPrize: function (position) {
+    drawPrize: function (position, __this) {
       var _this = this
       var timer = null
       var count = 8 * 4 + position - 1
@@ -514,6 +501,7 @@ export default {
         count--
         if (count <= 0) {
           clearInterval(timer)
+          __this.$store.dispatch('user/getBeanNum')
           _this.isGO = false
         }
       }, 100)
