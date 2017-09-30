@@ -180,7 +180,7 @@ import quesLicense from 'components/ques-license'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data() {
+  data () {
     return {
       fixBgShow: false,
       quesFocusShow: false,
@@ -210,18 +210,18 @@ export default {
     quesLicense
   },
   methods: {
-    moment(time, format) {
+    moment (time, format) {
       return moment(time).format(format)
     },
-    focusClose() {
+    focusClose () {
       this.fixBgShow = false
       this.quesFocusShow = false
     },
-    licenseClose() {
+    licenseClose () {
       this.fixBgShow = false
       this.quesLicenseShow = false
     },
-    navBak() {
+    navBak () {
       //   if (getQueryString('source') === 'success') {
       //     window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
       //   } else {
@@ -229,7 +229,7 @@ export default {
       //   }
       history.go(-1)
     },
-    authorize() {
+    authorize () {
       if (this.userId) {
         window.cambrian.subscribe({
           data: {
@@ -238,16 +238,16 @@ export default {
             describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
             button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          success: function(res) {
+          success: function (res) {
             location.reload()
             // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
           },
-          fail: function(res) {
+          fail: function (res) {
             // res结构如下，可通过status、msg判断错误原因
             // 如：{"status": 100, "msg":"not login", "result": 0}
           },
-          complete: function(res) {
+          complete: function (res) {
             // res结构如下，
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
           }
@@ -257,7 +257,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     document.title = '问答详情'
     if (getQueryString('form')) {
       this.navShow = false
@@ -291,7 +291,7 @@ export default {
     var _this = this
     this.$watch('focusResult', focusResult => {
       window.cambrian.isBox({
-        success: function(res) {
+        success: function (res) {
           // res结构如下，result字段，在手百环境返回ture，否则返回false
           // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
           if (res.result) {

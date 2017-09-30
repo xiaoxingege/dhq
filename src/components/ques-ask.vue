@@ -76,7 +76,7 @@ import quesNav from 'components/ques-nav'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data() {
+  data () {
     return {
       txtVal: '0',
       fixBgShow: false,
@@ -99,7 +99,7 @@ export default {
       return state.quesAsk.err
     },
     userId: state => state.user.ssoId,
-    tmpQues() {
+    tmpQues () {
       return localStorage.text
     },
     focusResult: state => state.quesFocus.focusResult
@@ -111,7 +111,7 @@ export default {
     quesNav
   },
   methods: {
-    descInput() {
+    descInput () {
       if (this.text) {
         var txtVal = this.text.length
         var _this = this
@@ -123,15 +123,15 @@ export default {
         this.txtVal = '0'
       }
     },
-    licenseClose() {
+    licenseClose () {
       this.fixBgShow = false
       this.quesLicenseShow = false
     },
-    navBak() {
+    navBak () {
       //   history.go(-2)
       history.back()
     },
-    navEvents() {
+    navEvents () {
       if (!this.focusShow) {
         alert('请在百度APP中使用')
         return
@@ -171,11 +171,11 @@ export default {
       window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
       //   alert('submit')
     },
-    searchVal(val) {
+    searchVal (val) {
       this.searchValue = val
     }
   },
-  mounted() {
+  mounted () {
     document.title = '问股'
     this.$store.dispatch('user/checkLogin')
     this.$watch('err', err => {
@@ -224,7 +224,7 @@ export default {
     var _this = this
     this.$watch('focusResult', focusResult => {
       window.cambrian.isBox({
-        success: function(res) {
+        success: function (res) {
           // res结构如下，result字段，在手百环境返回ture，否则返回false
           // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
           if (res.result) {

@@ -17,11 +17,11 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {}
   },
   components: {},
   methods: {},
-  mounted() {}
+  mounted () {}
 }
 </script>

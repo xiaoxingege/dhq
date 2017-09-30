@@ -311,13 +311,13 @@ import moment from 'moment'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data() {
+  data () {
     var _this = this
-    setTimeout(function() {
+    setTimeout(function () {
       _this.quesSuccessLoadShow = false
       clearInterval(numAdSet)
     }, 1000)
-    var numAdSet = setInterval(function() {
+    var numAdSet = setInterval(function () {
       _this.numAdd()
     }, 100)
     return {
@@ -344,7 +344,7 @@ export default {
     quesNav
   },
   methods: {
-    moment(time, format) {
+    moment (time, format) {
       if (format) {
         return moment(time).format(format)
       } else {
@@ -357,17 +357,17 @@ export default {
         })
       }
     },
-    navBak() {
+    navBak () {
       history.back()
       //   window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
-    navEvents() {
+    navEvents () {
       window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
-    numAdd() {
+    numAdd () {
       this.num = this.num + Math.floor(Math.random() * 900) + 100
     },
-    authorize() {
+    authorize () {
       if (this.userId) {
         window.cambrian.subscribe({
           data: {
@@ -376,16 +376,16 @@ export default {
             describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
             button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          success: function(res) {
+          success: function (res) {
             location.reload()
             // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
           },
-          fail: function(res) {
+          fail: function (res) {
             // res结构如下，可通过status、msg判断错误原因
             // 如：{"status": 100, "msg":"not login", "result": 0}
           },
-          complete: function(res) {
+          complete: function (res) {
             // res结构如下，
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
           }
@@ -395,7 +395,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     if (getQueryString('success') === 'true') {
       this.quesSuccessLoadShow = false
     } else {
@@ -440,23 +440,23 @@ export default {
             describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
             button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          success: function(res) {
+          success: function (res) {
             location.reload()
             // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
           },
-          fail: function(res) {
+          fail: function (res) {
             // res结构如下，可通过status、msg判断错误原因
             // 如：{"status": 100, "msg":"not login", "result": 0}
           },
-          complete: function(res) {
+          complete: function (res) {
             // res结构如下，
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
           }
         })
       }
       window.cambrian.isBox({
-        success: function(res) {
+        success: function (res) {
           // res结构如下，result字段，在手百环境返回ture，否则返回false
           // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
           if (res.result) {

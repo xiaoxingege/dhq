@@ -107,7 +107,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       //   txtVal: '0'
     }
@@ -121,11 +121,11 @@ export default {
     // quesSearch
   },
   methods: {
-    close() {
+    close () {
       this.$emit('licenseClose')
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }

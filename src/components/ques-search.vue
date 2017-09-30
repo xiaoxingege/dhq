@@ -96,7 +96,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       searchNo: false,
       dataType: false,
@@ -116,12 +116,12 @@ export default {
 
   },
   methods: {
-    searchInput(value) {
+    searchInput (value) {
       this.$store.dispatch('quesSearch/fetch', {
         key: value
       })
     },
-    searchDataClick(index) {
+    searchDataClick (index) {
       var value = this.CodeData[index].name + '(' + this.CodeData[index].code + ')'
       this.value = value
       this.stid = this.CodeData[index].stid
@@ -129,14 +129,14 @@ export default {
 
       this.$emit('searchVal', value)
     },
-    inputBlur() {
+    inputBlur () {
       this.searchDataType = false
     },
-    inputFocus() {
+    inputFocus () {
       this.searchDataType = true
     }
   },
-  mounted() {
+  mounted () {
     this.$watch('CodeData', CodeData => {
       if (CodeData.length === 0) {
         this.searchNo = true

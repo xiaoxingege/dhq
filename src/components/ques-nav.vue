@@ -46,7 +46,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       eventShow: false
     }
@@ -57,14 +57,14 @@ export default {
     // quesSearch
   },
   methods: {
-    events() {
+    events () {
       this.$emit('navEvents')
     },
-    navBak() {
+    navBak () {
       this.$emit('navBak')
     }
   },
-  mounted() {
+  mounted () {
     if (this.btnTxt) {
       this.eventShow = true
     }

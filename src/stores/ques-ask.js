@@ -14,16 +14,16 @@ export default {
     err: null
   },
   mutations: {
-    setAsk(state, res) {
+    setAsk (state, res) {
       state.askTimes = res.askTimes
     },
-    setError(state, err) {
+    setError (state, err) {
       state.err = err
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    ask({
+    ask ({
       commit,
       rootState
     }, options) {
@@ -37,7 +37,7 @@ export default {
         commit('setAsk', json)
       })
     },
-    askto({
+    askto ({
       commit,
       rootState
     }, options) {
