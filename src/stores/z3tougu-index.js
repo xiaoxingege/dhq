@@ -17,7 +17,13 @@ export default {
     incomeListData: [],
     strategyNames: [],
     strategyIndexs: null,
-    tradeSignal: []
+    tradeSignal: [],
+    shangZRank: null,
+    shenZRank: null,
+    zXBRank: null,
+    cYBRank: null,
+    topIndustry: [],
+    hotTopic: []
   },
   mutations: {
     setStrategyList (state, options) {
@@ -69,6 +75,27 @@ export default {
     setNewsDetails (state, options) {
       const result = options.result
       state.newsDetails = result.data
+    },
+    setSectorsData (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.zXBRank = result.data['2'] // 中小板
+        state.cYBRank = result.data['6'] // 创业板
+        state.shangZRank = result.data['SH'] // 上证A股
+        state.shenZRank = result.data['SZ'] // 深证A股
+      }
+    },
+    setTopIndustry (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.topIndustry = result.data
+      }
+    },
+    setHotTopic (state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.hotTopic = result.data
+      }
     }
   },
   actions: {
@@ -212,6 +239,49 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setNewsDetails', {
+          result: body
+        })
+      })
+    },
+    getSectorsData ({
+      commit
+    }, {
+      size
+    }) {
+      const url = domain + '/openapi/top/' + size
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setSectorsData', {
+          result: body
+        })
+      })
+    },
+    getTopIndustry ({
+      commit
+    }, {
+      size
+    }) {
+      const url = domain + '/openapi/topIndustry/' + size
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setTopIndustry', {
+          result: body
+        })
+      })
+    },
+    getHotTopic ({
+      commit
+    }, {
+      limit,
+      sortField
+    }) {
+      const url = `${domain}/openapi/topic/indexHotTopic.shtml?limit=${limit}&sortField=${sortField}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setHotTopic', {
           result: body
         })
       })

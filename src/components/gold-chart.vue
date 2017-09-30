@@ -1,24 +1,34 @@
 <style lang="scss" scoped>
 .dqxg,
-.mrjy {
+.mcxh,
+.mrjy,
+.mrxh {
     background: #fff;
 }
 .dqxg table,
-.mrjy table {
+.mcxh table,
+.mrjy table,
+.mrxh table {
     width: 99%;
     margin: 0 auto;
 }
 .dqxg table thead,
-.mrjy table thead {
+.mcxh table thead,
+.mrjy table thead,
+.mrxh table thead {
     background: #F2F2F2;
 }
 .dqxg table thead tr th,
-.mrjy table thead tr th {
+.mcxh table thead tr th,
+.mrjy table thead tr th,
+.mrxh table thead tr th {
     height: 25px;
     line-height: 25px;
 }
 .dqxg table tr td,
-.mrjy table tr td {
+.mcxh table tr td,
+.mrjy table tr td,
+.mrxh table tr td {
     text-align: center;
     height: 35px;
     line-height: 35px;
@@ -66,7 +76,7 @@
 </style>
 <template>
 <div style="width:100%">
-  <div v-if="type === 'mrjy' || type === 'dqxg'" class="export">
+  <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' " class="export">
     <img src="../assets/images/z3img/export-icon.png">
     <a @click="exportData(type)">导出</a>
   </div>
@@ -102,7 +112,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item of mrjyData.content">
+          <tr v-if="mrjyData.content !== null" v-for="item of mrjyData.content">
             <td>{{String(item.backtestDate).substring(0, 4) + '-' + String(item.backtestDate).substring(4, 6) + '-' + String(item.backtestDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
@@ -117,8 +127,8 @@
       <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
-      <div v-if="mrxhData === null || mrxhData === ''" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
-      <table v-if="mrxhData !== null && mrxhData !== ''">
+      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
             <th>序号</th>
@@ -133,7 +143,7 @@
         </thead>
         <tbody>
           <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
-            <td>{{index}}</td>
+            <td>{{index+1}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
@@ -144,11 +154,11 @@
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mrxhData !== null && mrxhData !== ''&&mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
-      <div v-if="mcxhData === null || mcxhData === ''" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
-      <table v-if="mcxhData !== null && mcxhData !== ''">
+      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
             <th>序号</th>
@@ -163,7 +173,7 @@
         </thead>
         <tbody>
           <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
-            <td>{{index}}</td>
+            <td>{{index+1}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
@@ -174,7 +184,7 @@
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mcxhData !== null && mcxhData !== ''&&mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+      <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
     </div>
   </div>
 </div>
@@ -275,8 +285,10 @@ export default {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
-      } else if (type === 'dqxg') {
-        type2 = 'goldStock'
+      } else if (type === 'mrxh') {
+        type2 = 'goldBuySignal'
+      } else if (type === 'mcxh') {
+        type2 = 'goldSellSignal'
       }
       const id = this.strategyId
       const expires = this.authInfo.expires

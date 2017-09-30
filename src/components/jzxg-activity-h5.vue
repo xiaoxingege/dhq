@@ -55,13 +55,13 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/jzxg-activity/section-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-1-1.jpg") center 0 no-repeat;
     height: 5.03rem;
     width: 7.5rem;
     background-size: 100% 100%;
 }
 .bg2 {
-    background: url("../assets/images/jzxg-activity/section-2.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-2-1.jpg") center 0 no-repeat;
     height: 11.21rem;
     width: 7.5rem;
     background-size: 100% 100%;
@@ -91,7 +91,7 @@ input {
     background-size: 100% 100%;
 }
 .bg7 {
-    background: url("../assets/images/jzxg-activity/section-7.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-7-1.jpg") center 0 no-repeat;
     height: 10.69rem;
     width: 7.5rem;
     background-size: 100% 100%;
@@ -226,7 +226,7 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
             link: ''
           },
           {

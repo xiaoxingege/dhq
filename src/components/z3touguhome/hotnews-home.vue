@@ -50,7 +50,7 @@
 <div class="finance-news">
   <div class="news-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
-    <p class="fr tr more-news">
+    <p class="more-news">
       <router-link :to="{name:'newslist',query:{newsId:''}}">更多></router-link>
     </p>
   </div>
@@ -74,7 +74,9 @@ export default {
       ],
       type: 'ywnews',
       newsSize: 6,
-      newsList: []
+      newsList: [],
+      intervalTime: 10,
+      updateNewsPid: null
     }
   },
   watch: {
@@ -115,10 +117,21 @@ export default {
     },
     changeNavType (data) {
       this.type = data
+    },
+    updateNews: function () {
+      const _this = this
+      if (this.updateNewsPid) {
+        clearInterval(this.updateNewsPid)
+      } else {
+        this.updateNewsPid = setInterval(function () {
+          _this.getNews()
+        }, 60 * 1000 * _this.intervalTime)
+      }
     }
   },
   mounted () {
     this.getNews()
+    this.updateNews()
   }
 }
 </script>

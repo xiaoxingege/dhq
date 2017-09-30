@@ -1,14 +1,14 @@
 <style>
 @import '../assets/css/base.css';
-html,
+.app,
 body,
-.app {
+html {
   height: 100% !important;
 }
 
 .index-top {
   width: 100%;
-  height: 37%;
+  /*height: 37%;*/
   background: #0d0e0f;
 }
 
@@ -19,7 +19,7 @@ body,
   margin-bottom: 3px;
 }
 
-.lineChart {
+.line-chart {
   background: #141518;
   margin-right: 1px;
   width: 24.9%;
@@ -28,7 +28,11 @@ body,
   position: relative;
 }
 
-.lineChart img {
+.line-chart:hover {
+  background: #26272B;
+}
+
+.line-chart img {
   margin-top: 5px;
 }
 
@@ -47,8 +51,10 @@ body,
   margin: 0 auto;
   float: left;
   width: 25%;
-  padding: 20px 20px;
+  height: 100%;
   box-sizing: border-box;
+  padding: 15px;
+  position: relative;
 }
 
 .chartInfo_text {
@@ -68,7 +74,7 @@ body,
 
 .chartInfo_bar div {
   height: 8px;
-  width: 50%;
+  /*width: 50%;*/
 }
 
 .chartInfo_bar div:first-child {
@@ -80,11 +86,24 @@ body,
   background: #56a870;
   float: right;
 }
+
+.info-alert {
+  background: #cccfd9;
+  color: #666;
+  padding: 2px;
+  border: 1px solid #eee;
+  display: none;
+  width: auto;
+  position: absolute;
+  right: 0;
+  top: 80%;
+  z-index: 9999;
+}
 </style>
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.stockVal" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -94,7 +113,7 @@ body,
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="lsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="lsChartData.stockVal" class="mr-5">{{lsChartData.stockVal === null ? '--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -104,7 +123,7 @@ body,
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="szczChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szczChartData.stockVal" class="mr-5">{{szczChartData.stockVal === null ? '--':Number(szczChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szczChartData && szczChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -114,7 +133,7 @@ body,
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="lineChart">
+    <div class="line-chart">
       <div v-if="cybzChartData !== null" class="indexNum">
         <span v-z3-updowncolor="cybzChartData.stockVal" class="mr-5">{{cybzChartData.stockVal === null ? '--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
         <img v-if="cybzChartData && cybzChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -129,79 +148,85 @@ body,
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.upNum">{{barData.upNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.upNum">{{barData.upNum === 0 ? '--':barData.upNum}}</span>
           <span class="mr-5">上涨</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.upNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.downNum, total, 2)}}</span>
           <span class="mr-5">下跌</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.downNum">{{barData.downNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.downNum">{{barData.downNum === 0 ? '--':barData.downNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(0)" @mouseout="hideAlert(0)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.upNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.downNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股票上涨/下跌数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.limitUpNum">{{barData.limitUpNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.limitUpNum">{{barData.limitUpNum === 0 ? '--':barData.limitUpNum}}</span>
           <span class="mr-5">涨停</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.limitUpNum, total, 2)}}</span></div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.limitDownNum, total, 2)}}</span>
           <span class="mr-5">跌停</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.limitDownNum">{{barData.limitDownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.limitDownNum">{{barData.limitDownNum === 0 ? '--':barData.limitDownNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(1)" @mouseout="hideAlert(1)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitUpNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitDownNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股票涨停/跌停数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum === 0 ? '--':barData.newHighNum}}</span>
           <span class="mr-5">创新高</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.newHighNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.newLowNum, total, 2)}}</span>
           <span class="mr-5">创新低</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === 0 ? '--':barData.newLowNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newHighNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newLowNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股价创60日新高/新低数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum === 0 ? '--':barData.crossMa5UpNum}}</span>
           <span class="mr-5">上穿MA5</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.crossMa5UpNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.crossMa5DownNum, total, 2)}}</span>
           <span class="mr-5">下穿MA5</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === 0 ? '--':barData.crossMa5DownNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5UpNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5DownNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股价上穿/下穿5日均线数及占A股比例（去除停牌）</span>
     </div>
   </div>
 </div>
 </template>
 <script>
 import echarts from 'echarts'
+import z3websocket from '../z3tougu/z3socket'
+
 import {
   mapState
 } from 'vuex'
@@ -212,10 +237,11 @@ export default {
   },
   components: {},
   computed: mapState({
-    szzsChartData: state => state.indexChart.szzsChartData,
-    lsChartData: state => state.indexChart.lsChartData,
-    szczChartData: state => state.indexChart.szczChartData,
-    cybzChartData: state => state.indexChart.cybzChartData,
+    chartData: state => state.indexChart.chartData,
+    szzsChartData: state => state.indexChart.chartData.szzsChartData,
+    lsChartData: state => state.indexChart.chartData.lsChartData,
+    szczChartData: state => state.indexChart.chartData.szczChartData,
+    cybzChartData: state => state.indexChart.chartData.cybzChartData,
     barData: state => state.indexChart.barData,
     total: function () {
       if (this.barData.unchangeNum === null || this.barData.upNum === null || this.barData.downNum === null || this.barData.unchangeNum === 'null' || this.barData.upNum === 'null' || this.barData.downNum === 'null') {
@@ -223,7 +249,8 @@ export default {
       } else {
         return this.barData.unchangeNum + this.barData.upNum + this.barData.downNum
       }
-    }
+    },
+    socketState: state => state.z3sockjs.readystate
   }),
   methods: {
     dealData (zeroArr) {
@@ -410,7 +437,7 @@ export default {
             lineStyle: {
               normal: {
                 type: 'solid',
-                color: '#000000',
+                color: '#fff',
                 width: 0.3,
                 opacity: 1
               }
@@ -436,33 +463,81 @@ export default {
 
         }]
       })
+      window.onresize = function () {
+        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
+        })
+        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[1]).resize({
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
+        })
+        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[2]).resize({
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
+        })
+        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[3]).resize({
+          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
+        })
+      }
     },
     toPercent (x, y, n) {
+      if (x === 0 || y === 0) {
+        return '--'
+      }
       return Number(x / y * 100).toFixed(n) + '%'
+    },
+    showAlert (index) {
+      document.getElementsByClassName('info-alert')[index].style.display = 'inline-block'
+    },
+    hideAlert (index) {
+      document.getElementsByClassName('info-alert')[index].style.display = 'none'
+    }
+  },
+  watch: {
+    'barData': function () {
+      // alert('barFata')
+      if (z3websocket.ws) {
+        /* z3websocket.ws && z3websocket.ws.close()*/
+      } else {
+        this.$store.dispatch('z3sockjs/init')
+      }
+    },
+    'chartData': {
+      deep: true,
+      handler: function () {
+        // alert('chartData')
+        if (z3websocket.ws) {
+          //          z3websocket.ws && z3websocket.ws.close()
+        } else {
+          this.$store.dispatch('z3sockjs/init')
+        }
+      }
+
     }
   },
   mounted () {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
     }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.szzsChartData, 0, '上证指数')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
     })
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
     }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.lsChartData, 1, '沪深300')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
     })
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '399001.SZ'
     }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.szczChartData, 2, '深证成指')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
     })
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '399006.SZ'
     }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.cybzChartData, 3, '创业板指')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
+  },
+  destroyed () {
+    z3websocket.ws && z3websocket.ws.close()
   }
 }
 </script>

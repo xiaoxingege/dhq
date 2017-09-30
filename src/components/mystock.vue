@@ -316,6 +316,9 @@ export default {
         return
       }
       window.callbackgobtninfo = function(t) {
+        if (typeof t === 'string') {
+          t = JSON.parse(t);
+        }
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
       if (window.jrj && window.jrj.jsCallNative) {

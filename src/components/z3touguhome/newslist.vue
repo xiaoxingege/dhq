@@ -105,8 +105,10 @@ export default {
       newsList: [],
       wrapHeight: window.innerHeight,
       newsId: '',
-      newsIndex: this.$route.query.newsIndex
+      newsIndex: this.$route.query.newsIndex,
       // newsId: ''
+      intervalTime: 10,
+      updateNewsPid: null
     }
   },
   watch: {
@@ -182,6 +184,16 @@ export default {
     changeNavType (data) {
       this.type = data
     },
+    updateNews: function () {
+      const _this = this
+      if (this.updateNewsPid) {
+        clearInterval(this.updateNewsPid)
+      } else {
+        this.updateNewsPid = setInterval(function () {
+          _this.changeNews()
+        }, 60 * 1000 * _this.intervalTime)
+      }
+    },
     focusLi: function (id, index) {
       this.newsId = id
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
@@ -192,6 +204,7 @@ export default {
   },
   mounted () {
     this.getNews()
+    this.updateNews()
   }
 }
 </script>
