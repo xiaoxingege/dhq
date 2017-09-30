@@ -340,7 +340,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       opentime: '2017-08-14 10:00:00',
       layerczshow: false,
@@ -349,98 +349,98 @@ export default {
       tougjinum02: 0,
       urlbox: {
         url01: [{
-          touxiang: 'http://itougu.jrj.com.cn/live/26',
-          neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '130718010073409548'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/611',
-          neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141120010079383950'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/117',
-          neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '120217010043425631'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/70',
-          neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '091124010076736396'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/1238',
-          neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
-          classtr: '',
-          timestr: '',
-          tgId: '141218010033191581'
-        }
+            touxiang: 'http://itougu.jrj.com.cn/live/26',
+            neican: 'http://itougu.jrj.com.cn/tips/9801.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '130718010073409548'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/611',
+            neican: 'http://itougu.jrj.com.cn/tips/10447.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141120010079383950'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/117',
+            neican: 'http://itougu.jrj.com.cn/tips/9847.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '120217010043425631'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/70',
+            neican: 'http://itougu.jrj.com.cn/tips/10150.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '091124010076736396'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/1238',
+            neican: 'http://itougu.jrj.com.cn/tips/10565.jspa',
+            classtr: '',
+            timestr: '',
+            tgId: '141218010033191581'
+          }
         ],
         url02: [{
-          touxiang: 'http://itougu.jrj.com.cn/live/62',
-          neican: 'http://itougu.jrj.com.cn/tips/10661.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/23',
-          neican: 'http://itougu.jrj.com.cn/tips/10673.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/129',
-          neican: 'http://itougu.jrj.com.cn/tips/10659.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/239',
-          neican: 'http://itougu.jrj.com.cn/tips/10675.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/1072',
-          neican: 'http://itougu.jrj.com.cn/tips/10656.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/125',
-          neican: 'http://itougu.jrj.com.cn/tips/10671.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/669',
-          neican: 'http://itougu.jrj.com.cn/tips/10667.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/2561',
-          neican: 'http://itougu.jrj.com.cn/tips/10662.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/43',
-          neican: 'http://itougu.jrj.com.cn/tips/10664.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/144',
-          neican: 'http://itougu.jrj.com.cn/tips/10672.jspa'
-        }
+            touxiang: 'http://itougu.jrj.com.cn/live/62',
+            neican: 'http://itougu.jrj.com.cn/tips/10661.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/23',
+            neican: 'http://itougu.jrj.com.cn/tips/10673.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/129',
+            neican: 'http://itougu.jrj.com.cn/tips/10659.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/239',
+            neican: 'http://itougu.jrj.com.cn/tips/10675.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/1072',
+            neican: 'http://itougu.jrj.com.cn/tips/10656.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/125',
+            neican: 'http://itougu.jrj.com.cn/tips/10671.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/669',
+            neican: 'http://itougu.jrj.com.cn/tips/10667.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/2561',
+            neican: 'http://itougu.jrj.com.cn/tips/10662.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/43',
+            neican: 'http://itougu.jrj.com.cn/tips/10664.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/144',
+            neican: 'http://itougu.jrj.com.cn/tips/10672.jspa'
+          }
         ],
         url03: [{
-          touxiang: 'http://itougu.jrj.com.cn/live/1198',
-          neican: 'http://itougu.jrj.com.cn/tips/10668.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/741',
-          neican: 'http://itougu.jrj.com.cn/tips/10674.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/194',
-          neican: 'http://itougu.jrj.com.cn/tips/10663.jspa'
-        },
-        {
-          touxiang: 'http://itougu.jrj.com.cn/live/68',
-          neican: 'http://itougu.jrj.com.cn/tips/10658.jspa'
-        }
+            touxiang: 'http://itougu.jrj.com.cn/live/1198',
+            neican: 'http://itougu.jrj.com.cn/tips/10668.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/741',
+            neican: 'http://itougu.jrj.com.cn/tips/10674.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/194',
+            neican: 'http://itougu.jrj.com.cn/tips/10663.jspa'
+          },
+          {
+            touxiang: 'http://itougu.jrj.com.cn/live/68',
+            neican: 'http://itougu.jrj.com.cn/tips/10658.jspa'
+          }
         ]
       }
     }
@@ -451,7 +451,7 @@ export default {
   computed: mapState({
     ssoId: state => state.user.ssoId
   }),
-  mounted () {
+  mounted() {
     this.$store.dispatch('user/fetch')
     document.title = '内参秒杀test'
     this.timebtn()
@@ -460,7 +460,7 @@ export default {
     this.tongji02()
   },
   methods: {
-    timebtn () {
+    timebtn() {
       var now = new Date()
       var year = this.opentime.split('-')[0]
       var month = this.opentime.split('-')[1]
@@ -470,7 +470,7 @@ export default {
       var se = this.opentime.split(' ')[1].split(':')[2]
       var endDate = new Date(year, month - 1, day, hour, min, se)
 
-      this.urlbox.url01.forEach(function (item, index) {
+      this.urlbox.url01.forEach(function(item, index) {
         var leftTime = endDate.getTime() - now.getTime()
 
         leftTime = leftTime + 86400000 * index
@@ -494,7 +494,7 @@ export default {
         }
       })
     },
-    miaosha (v) {
+    miaosha(v) {
       this.tongji01()
       if (v.currentTarget.className === 'gray') {
         this.layerguoqishow = true
@@ -517,25 +517,25 @@ export default {
         }
       }
     },
-    closelayer () {
+    closelayer() {
       this.layerguoqishow = false
       this.layerczshow = false
     },
-    tongji01 () {
+    tongji01() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillAndViewTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
         this.tougjinum01 = v.num
       })
     },
-    tongji02 () {
+    tongji02() {
       fetch('http://itougu.jrj.com.cn/marketing/secondKillBuyTipsNum.jspa').then((res) => {
         return res.json()
       }).then(v => {
         this.tougjinum02 = v.num
       })
     },
-    goscroll (v) {
+    goscroll(v) {
       var id = v.currentTarget.getAttribute('dataid')
       var div = document.getElementById(id)
       document.body.scrollTop = div.offsetTop

@@ -63,7 +63,7 @@ const getters = {
   }
 }
 const actions = {
-  authSetting ({
+  authSetting({
     state,
     commit
   }) {
@@ -91,10 +91,10 @@ const actions = {
   }
 }
 const mutations = {
-  [mutationTypes.REQUEST_ERROR] (state, error) {
+  [mutationTypes.REQUEST_ERROR](state, error) {
     // state.error = error.message
   },
-  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
+  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
       clientid: authInfo.clientid,

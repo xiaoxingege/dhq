@@ -201,7 +201,7 @@ span {
         <div class="bar-txt clearfix">
           <strong>最新事件：</strong>
           <span class="txt-con">
-                      <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{checkNull(topic.summary)}}</span></router-link>
+          <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{checkNull(topic.summary)}}</span></router-link>
           （<span>{{topic.newsDeclareDate==null?'--':format(topic.newsDeclareDate)}}</span> <span>{{checkNull(topic.srcName)}}</span>）
           </span>
         </div>
