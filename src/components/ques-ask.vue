@@ -165,7 +165,7 @@ export default {
         passportId: passportId
       }).then(() => {
         this.quesBtnClickType = true
-      }).catch(err => {
+      }).catch(() => {
         this.quesBtnClickType = true
       })
       window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
