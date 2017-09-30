@@ -45,56 +45,67 @@ export default {
       commit
     }) {
       const promise = new Promise((resolve, reject) => {
-        // App内，通过cookie判断
-        if (window.app && window.app.name && window.app.name !== '{{appid}}') {
-          const passportId = window.app.passportId
-          commit('fetch', {
-            ssoId: passportId || ''
-          })
-          if (passportId) {
-            commit('setLoginStatus', 'yes')
-          } else {
-            commit('setLoginStatus', 'no')
-          }
-          resolve()
-        } else {
-          const script = document.createElement('script')
-          script.addEventListener('load', function() {
-            if (window.basicUserInfo) {
-              commit('fetch', {
-                ssoId: window.basicUserInfo.userId
-              })
-              if (window.basicUserInfo.userId) {
-                commit('setLoginStatus', 'yes')
-              } else {
-                commit('setLoginStatus', 'no')
-              }
+          // App内，通过cookie判断
+          if (window.app && window.app.name && window.app.name !== '{{appid}}') {
+            const passportId = window.app.passportId
+            commit('fetch', {
+              ssoId: passportId || ''
+            })
+            if (passportId) {
+              commit('setLoginStatus', 'yes')
+            } else {
+              commit('setLoginStatus', 'no')
             }
-            document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
-          })
-          script.addEventListener('error', function() {
-            document.getElementsByTagName('head')[0].removeChild(script)
-            resolve()
-          })
-          script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + (new Date()).getTime()
-          document.getElementsByTagName('head')[0].appendChild(script)
+          } else {
+            const script = document.createElement('script') <<
+              << << < HEAD
+            script.addEventListener('load', function() {
+              if (window.basicUserInfo) {
+                commit('fetch', {
+                  ssoId: window.basicUserInfo.userId
+                })
+                if (window.basicUserInfo.userId) {
+                  commit('setLoginStatus', 'yes')
+                } else {
+                  commit('setLoginStatus', 'no')
+                } ===
+                === =
+                script.addEventListener('load', function() {
+                  commit('fetch', {
+                    ssoId: window.sso_userID
+                  })
+                  if (window.sso_userID) {
+                    commit('setLoginStatus', 'yes')
+                  } else {
+                    commit('setLoginStatus', 'no') >>>
+                      >>> > 5 a911718250bd361692577b7c12b5aee95a73b8d
+                  }
+                  document.getElementsByTagName('head')[0].removeChild(script)
+                  resolve()
+                })
+                script.addEventListener('error', function() {
+                  document.getElementsByTagName('head')[0].removeChild(script)
+                  resolve()
+                })
+                script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + (new Date()).getTime()
+                document.getElementsByTagName('head')[0].appendChild(script)
+              }
+            })
+            return promise
+          },
+          checkBindingInfo({
+            commit,
+            state
+          }) {
+            return $.ajax({
+              url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
+              headers: {
+                passportId: state.ssoId || '170907010029048531'
+              }
+            }).then(data => {
+              commit('setBindingInfo', data.data)
+            })
+          }
         }
-      })
-      return promise
-    },
-    checkBindingInfo({
-      commit,
-      state
-    }) {
-      return $.ajax({
-        url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
-        headers: {
-          passportId: state.ssoId || '170907010029048531'
-        }
-      }).then(data => {
-        commit('setBindingInfo', data.data)
-      })
-    }
-  }
-}
+      }

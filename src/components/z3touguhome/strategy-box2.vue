@@ -97,7 +97,7 @@
 import echarts from 'echarts'
 export default {
   props: ['benchmarkObj'],
-  data () {
+  data() {
     return {
       sort: 'createDate',
       direction: 'asc',
@@ -113,14 +113,14 @@ export default {
     }
   },
   watch: {
-    strategyId () {
+    strategyId() {
       this.getStrategyIndexs()
       this.drawChart()
       this.$emit('getStrategyId', this.strategyId)
     }
   },
   computed: {
-    incomeListData: function () {
+    incomeListData: function() {
       if (this.$store.state.z3touguIndex.incomeListData.length > 0) {
         const incomeListData = this.$store.state.z3touguIndex.incomeListData
         incomeListData.backtestDate = []
@@ -134,31 +134,30 @@ export default {
         return incomeListData
       }
     },
-    strategyNameData: function () {
+    strategyNameData: function() {
       const strategyNames = this.$store.state.z3touguIndex.strategyNames
-      strategyNames[0].id = '59bfbaff955eb9019ab3466c'
       return strategyNames
     },
-    strategyIndexsData: function () {
+    strategyIndexsData: function() {
       const strategyIndexs = this.$store.state.z3touguIndex.strategyIndexs
       return strategyIndexs
     }
   },
   methods: {
-    initStrategy: function () {
+    initStrategy: function() {
       this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
       this.$store.dispatch('z3touguIndex/getStrategyName', {
-        sort: this.sort,
-        direction: this.direction,
-        size: this.size
-      })
+          sort: this.sort,
+          direction: this.direction,
+          size: this.size
+        })
         .then(() => {
           if (this.strategyNameData.length > 0) {
             this.strategyNames = this.strategyNameData
             this.strategyId = this.strategyNames[0].id
             this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
-              strategyId: this.strategyId
-            })
+                strategyId: this.strategyId
+              })
               .then(() => {
                 if (this.strategyIndexsData) {
                   this.followCnt = this.strategyIndexsData.followCnt
@@ -169,8 +168,8 @@ export default {
                 }
               })
             this.$store.dispatch('z3touguIndex/getIncomeList', {
-              strategyId: this.strategyId
-            })
+                strategyId: this.strategyId
+              })
               .then(() => {
                 this.chart.showLoading()
                 if (this.incomeListData.length > 0) {
@@ -184,13 +183,13 @@ export default {
                         color: '#808ba1'
                       },
                       data: [{
-                        name: '策略累计收益率',
-                        icon: 'circle'
-                      },
-                      {
-                        name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
-                        icon: 'circle'
-                      }
+                          name: '策略累计收益率',
+                          icon: 'circle'
+                        },
+                        {
+                          name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                          icon: 'circle'
+                        }
                       ]
                     },
                     grid: {
@@ -226,29 +225,29 @@ export default {
                     color: ['#1984ea', '#ca4941'],
                     animation: false,
                     series: [{
-                      name: '策略累计收益率',
-                      type: 'line',
-                      showSymbol: false,
-                      hoverAnimation: false,
-                      data: this.incomeListData.totalReturn,
-                      lineStyle: {
-                        normal: {
-                          width: 1
+                        name: '策略累计收益率',
+                        type: 'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: this.incomeListData.totalReturn,
+                        lineStyle: {
+                          normal: {
+                            width: 1
+                          }
+                        }
+                      },
+                      {
+                        name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                        type: 'line',
+                        showSymbol: false,
+                        hoverAnimation: false,
+                        data: this.incomeListData.benchmarkPeriodReturn,
+                        lineStyle: {
+                          normal: {
+                            width: 1
+                          }
                         }
                       }
-                    },
-                    {
-                      name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
-                      type: 'line',
-                      showSymbol: false,
-                      hoverAnimation: false,
-                      data: this.incomeListData.benchmarkPeriodReturn,
-                      lineStyle: {
-                        normal: {
-                          width: 1
-                        }
-                      }
-                    }
                     ]
                   })
                   this.chart.hideLoading()
@@ -257,10 +256,10 @@ export default {
           }
         })
     },
-    getStrategyIndexs: function () {
+    getStrategyIndexs: function() {
       this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
-        strategyId: this.strategyId
-      })
+          strategyId: this.strategyId
+        })
         .then(() => {
           if (this.strategyIndexsData) {
             this.followCnt = this.strategyIndexsData.followCnt
@@ -271,10 +270,10 @@ export default {
           }
         })
     },
-    drawChart: function () {
+    drawChart: function() {
       this.$store.dispatch('z3touguIndex/getIncomeList', {
-        strategyId: this.strategyId
-      })
+          strategyId: this.strategyId
+        })
         .then(() => {
           this.chart.showLoading()
           if (this.incomeListData.length > 0) {
@@ -285,13 +284,13 @@ export default {
                 itemWidth: 8,
                 orient: 'vertical',
                 data: [{
-                  name: '策略累计收益率',
-                  icon: 'circle'
-                },
-                {
-                  name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
-                  icon: 'circle'
-                }
+                    name: '策略累计收益率',
+                    icon: 'circle'
+                  },
+                  {
+                    name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                    icon: 'circle'
+                  }
                 ]
               },
               grid: {
@@ -327,36 +326,36 @@ export default {
               color: ['#1984ea', '#ca4941'],
               animation: false,
               series: [{
-                name: '策略累计收益率',
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: this.incomeListData.totalReturn,
-                lineStyle: {
-                  normal: {
-                    width: 1
+                  name: '策略累计收益率',
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.incomeListData.totalReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
+                  }
+                },
+                {
+                  name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                  type: 'line',
+                  showSymbol: false,
+                  hoverAnimation: false,
+                  data: this.incomeListData.benchmarkPeriodReturn,
+                  lineStyle: {
+                    normal: {
+                      width: 1
+                    }
                   }
                 }
-              },
-              {
-                name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: this.incomeListData.benchmarkPeriodReturn,
-                lineStyle: {
-                  normal: {
-                    width: 1
-                  }
-                }
-              }
               ]
             })
             this.chart.hideLoading()
           }
         })
     },
-    formatData: function (val) {
+    formatData: function(val) {
       let getVal
       if (val) {
         getVal = (100 * val).toFixed(2) + '%'
@@ -366,7 +365,7 @@ export default {
       return getVal
     }
   },
-  mounted () {
+  mounted() {
     this.initStrategy()
   }
 }
