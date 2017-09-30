@@ -1,22 +1,20 @@
 <style lang="scss" scoped>
-.dqxg,
-.mcxh,
-.mrjy,
-.mrxh {
-    background: #fff;
+a {
+    color: #1984ea;
 }
 .dqxg table,
 .mcxh table,
 .mrjy table,
 .mrxh table {
-    width: 99%;
+    width: 100%;
     margin: 0 auto;
+    color: #c9d0d7;
 }
 .dqxg table thead,
 .mcxh table thead,
 .mrjy table thead,
 .mrxh table thead {
-    background: #F2F2F2;
+    background: #23282F;
 }
 .dqxg table thead tr th,
 .mcxh table thead tr th,
@@ -24,6 +22,7 @@
 .mrxh table thead tr th {
     height: 25px;
     line-height: 25px;
+    color: #c9d0d7;
 }
 .dqxg table tr td,
 .mcxh table tr td,
@@ -32,7 +31,7 @@
     text-align: center;
     height: 35px;
     line-height: 35px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #1D1F25;
 }
 .dqxg,
 .dryk,
@@ -45,6 +44,7 @@
 .syytj {
     min-height: 420px;
     width: 100%;
+    background: #141518;
 }
 .export {
     position: absolute;
@@ -60,6 +60,12 @@
 .export a {
     display: inline-block;
     cursor: pointer;
+}
+.red {
+    color: #ca4941;
+}
+.green {
+    color: #56a870;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .dqxg,
@@ -127,7 +133,7 @@
       <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
-      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
       <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -157,7 +163,7 @@
       <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
-      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
       <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>

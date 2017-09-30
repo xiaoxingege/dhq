@@ -250,7 +250,35 @@ export default {
         return this.barData.unchangeNum + this.barData.upNum + this.barData.downNum
       }
     },
-    socketState: state => state.z3sockjs.readystate
+    socketState: state => state.z3sockjs.readystate,
+    stockMessage: state => {
+      const msg = state.z3sockjs.message
+      if (msg && msg.data && msg.data.subject === 'sum') {
+        const record = msg.data
+        console.log(record)
+        return {
+          innerCode: record.stockCode,
+          //  name: record.stockName,
+          price: record.lastpx,
+          chg: record.pxchg,
+          curChngPct: record.pxchgratio
+        }
+      } else {
+        if (msg && msg.data && msg.data.subject === 'timeline') {
+          const record = msg.data
+          console.log(record)
+          return {
+            innerCode: record.stockCode,
+            //  name: record.stockName,
+            price: record.lastpx,
+            chg: record.pxchg,
+            curChngPct: record.pxchgratio
+          }
+        } else {
+          return null
+        }
+      }
+    }
   }),
   methods: {
     dealData (zeroArr) {
