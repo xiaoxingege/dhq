@@ -9,12 +9,12 @@ html {
     font-size: 12px;
 }
 .map {
-    background-color: #000;
+    background-color: #1a1b1e;
     height: 100%;
     min-width: 1217px;
 }
 .map_pad {
-    padding: 0 20px;
+    padding: 0 13px;
 }
 .condition {
     text-align: left;
@@ -25,14 +25,40 @@ html {
     opacity: 0.8;
 }
 .condition select {
-    color: #2388da;
-    background-color: #000;
+    -webkit-appearance: none;
+    color: #fff;
     border: none;
-    opacity: 1;
+    padding-left: 10px;
+    background: url("../assets/images/stock-map/tuXi_select.png") no-repeat scroll right center transparent;
+}
+.condition select option:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.condition select option:last-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.code-select {
+    width: 150px;
+}
+.condition-select {
+    width: 166px;
+}
+.condition select:focus {
+    border: none;
+    outline: none;
+}
+.condition select option {
+    -webkit-appearance: none;
+    color: #000;
+    display: inline-block;
+    height: 30px;
 }
 .condition_wrap {
-    text-align: left;
-    padding-top: 5px;
+    height: 35px;
+    line-height: 35px;
+    /*background-color: #23272c;*/
 }
 .mask {
     width: 100%;
@@ -48,7 +74,7 @@ html {
   <div class="condition_wrap" v-if="showCondition">
     <div class="condition" @click="isClickSelect">
       股票范围：
-      <select v-model="rangeCode">
+      <select v-model="rangeCode" class="code-select">
                 <option value="">全部A股</option>
                 <option value="000001.SH">上证A股</option>
                 <option value="399001.SZ">深证A股</option>
@@ -57,7 +83,7 @@ html {
                 <option value="399006.SZ">中小板</option>
                 <option value="399005.SZ">创业板</option>
             </select> 浏览指标：
-      <select v-model="condition">
+      <select v-model="condition" class="condition-select">
                 <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
                 <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
                 <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>

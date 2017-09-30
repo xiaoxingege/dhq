@@ -36,199 +36,199 @@ import {
 } from '../config'
 
 export default [{
-    path: ctx,
-    component: z3TouguIndex
-  },
-  {
-    path: ctx + '/',
-    name: 'homeRoot',
-    component: z3TouguIndex
-  },
-  {
-    path: ctx + '/home',
-    name: 'home',
-    component: z3TouguIndex
-  },
-  {
-    path: ctx + '/search-box',
-    name: 'search-box',
-    component: SearchBox
-  },
-  {
-    path: ctx + '/search/:linkText/:keyword',
-    name: 'search',
-    component: Search
-  },
-  {
-    path: ctx + '/detail-pages/:detailType/:id',
-    name: 'detailPages',
-    component: DetailPages
-  },
-  {
-    path: ctx + '/map',
-    name: 'map',
-    component: Map
-  },
-  {
-    path: ctx + '/map/fullScreen',
-    name: 'bigMap',
-    component: Map
-  },
-  {
-    path: ctx + '/map/normal',
-    name: 'normalMap',
-    component: Map
-  },
-  {
-    path: ctx + '/themeList',
-    name: 'themelist',
-    component: ThemeList
-  },
-  {
-    path: ctx + '/themeIndex',
-    name: 'themeindex',
-    component: ThemeIndex
-  },
-  {
-    path: ctx + '/siwei',
-    name: 'bubbles',
-    component: Siwei
-  },
-  {
-    path: ctx + '/informatList/:inforId',
-    name: 'themeInformat',
-    component: ThemeInformat
-  },
-  {
-    path: ctx + '/topic/:topicId',
-    name: 'topicDetail',
-    component: TopicDetail
-  },
-  {
-    path: ctx + '/gold-strategy/:strategyId',
-    name: 'goldStrategy',
-    component: GoldStrategy
-  },
-  {
-    path: ctx + '/gold-strategy/:strategyId/:showType',
-    name: 'goldStrategyType',
-    component: GoldStrategy
-  },
-  {
-    path: ctx + '/gold-strategy-h5/:strategyId',
-    name: 'goldStrategyH5',
-    component: GoldStrategyH5
-  },
-  {
-    path: ctx + '/backtest-detail-h5/:strategyId/:backtestId',
-    name: 'BacktestDetailH5',
-    component: BacktestDetailH5
-  },
-  {
-    path: ctx + '/foundpoollist',
-    name: 'foundpoollist',
-    component: foundpoollist
-  },
-  {
-    path: ctx + '/foundpooldetail/:id',
-    name: 'foundpooldetail',
-    component: foundpooldetail
-  },
-  {
-    path: ctx + '/ownstrategylist',
-    name: 'ownstrategylist',
-    component: ownstrategylist
-  },
-  {
-    path: ctx + '/editstrategy',
-    name: 'editstrategy',
-    component: editstrategy
-  },
-  {
-    path: ctx + '/runstatestrategy',
-    name: 'runstatestrategy',
-    component: runstatestrategy
-  },
-  {
-    path: ctx + '/z3touguIndex',
-    name: 'z3touguIndex',
-    component: z3TouguIndex
-  },
-  {
-    path: ctx + '/filter',
-    name: 'filter',
-    component: Filter
-  },
-  {
-    path: ctx + '/backtestFilter/:strategyId',
-    name: 'backtestfilter',
-    component: BacktestFilter
-  },
-  {
-    path: ctx + '/backtestFilterBuysell',
-    name: 'backtestfilterbuysell',
-    component: BacktestFilterBuysell
-  },
-  {
-    path: ctx + '/backtestFilterH5/:strategyId',
-    name: 'backtestfilterh5',
-    component: BacktestFilterH5
-  },
-  {
-    path: ctx + '/backtestTime/:strategyId',
-    name: 'backtesttime',
-    component: BacktestTime
-  },
-  {
-    path: ctx + '/backtestTimeH5/:strategyId',
-    name: 'backtesttimeh5',
-    component: BacktestTimeH5
-  },
-  {
-    path: ctx + '/fundRecommend',
-    name: 'fundrecommend',
-    component: FundRecommend
-  },
+  path: ctx,
+  component: z3TouguIndex
+},
+{
+  path: ctx + '/',
+  name: 'homeRoot',
+  component: z3TouguIndex
+},
+{
+  path: ctx + '/home',
+  name: 'home',
+  component: z3TouguIndex
+},
+{
+  path: ctx + '/search-box',
+  name: 'search-box',
+  component: SearchBox
+},
+{
+  path: ctx + '/search/:linkText/:keyword',
+  name: 'search',
+  component: Search
+},
+{
+  path: ctx + '/detail-pages/:detailType/:id',
+  name: 'detailPages',
+  component: DetailPages
+},
+{
+  path: ctx + '/map',
+  name: 'map',
+  component: Map
+},
+{
+  path: ctx + '/map/fullScreen',
+  name: 'bigMap',
+  component: Map
+},
+{
+  path: ctx + '/map/normal',
+  name: 'normalMap',
+  component: Map
+},
+{
+  path: ctx + '/themeList',
+  name: 'themelist',
+  component: ThemeList
+},
+{
+  path: ctx + '/themeIndex',
+  name: 'themeindex',
+  component: ThemeIndex
+},
+{
+  path: ctx + '/siwei',
+  name: 'bubbles',
+  component: Siwei
+},
+{
+  path: ctx + '/informatList/:inforId',
+  name: 'themeInformat',
+  component: ThemeInformat
+},
+{
+  path: ctx + '/topic/:topicId',
+  name: 'topicDetail',
+  component: TopicDetail
+},
+{
+  path: ctx + '/gold-strategy/:strategyId',
+  name: 'goldStrategy',
+  component: GoldStrategy
+},
+{
+  path: ctx + '/gold-strategy/:strategyId/:showType',
+  name: 'goldStrategyType',
+  component: GoldStrategy
+},
+{
+  path: ctx + '/gold-strategy-h5/:strategyId',
+  name: 'goldStrategyH5',
+  component: GoldStrategyH5
+},
+{
+  path: ctx + '/backtest-detail-h5/:strategyId/:backtestId',
+  name: 'BacktestDetailH5',
+  component: BacktestDetailH5
+},
+{
+  path: ctx + '/foundpoollist',
+  name: 'foundpoollist',
+  component: foundpoollist
+},
+{
+  path: ctx + '/foundpooldetail/:id',
+  name: 'foundpooldetail',
+  component: foundpooldetail
+},
+{
+  path: ctx + '/ownstrategylist',
+  name: 'ownstrategylist',
+  component: ownstrategylist
+},
+{
+  path: ctx + '/editstrategy',
+  name: 'editstrategy',
+  component: editstrategy
+},
+{
+  path: ctx + '/runstatestrategy',
+  name: 'runstatestrategy',
+  component: runstatestrategy
+},
+{
+  path: ctx + '/z3touguIndex',
+  name: 'z3touguIndex',
+  component: z3TouguIndex
+},
+{
+  path: ctx + '/filter',
+  name: 'filter',
+  component: Filter
+},
+{
+  path: ctx + '/backtestFilter/:strategyId',
+  name: 'backtestfilter',
+  component: BacktestFilter
+},
+{
+  path: ctx + '/backtestFilterBuysell',
+  name: 'backtestfilterbuysell',
+  component: BacktestFilterBuysell
+},
+{
+  path: ctx + '/backtestFilterH5/:strategyId',
+  name: 'backtestfilterh5',
+  component: BacktestFilterH5
+},
+{
+  path: ctx + '/backtestTime/:strategyId',
+  name: 'backtesttime',
+  component: BacktestTime
+},
+{
+  path: ctx + '/backtestTimeH5/:strategyId',
+  name: 'backtesttimeh5',
+  component: BacktestTimeH5
+},
+{
+  path: ctx + '/fundRecommend',
+  name: 'fundrecommend',
+  component: FundRecommend
+},
   // { path: ctx+'/intellCombList', name: 'intellcomblist', component: IntellCombList },
-  {
-    path: ctx + '/fund-chart',
-    name: 'fundchart',
-    component: FundChart
-  },
-  {
-    path: ctx + '/fund-file',
-    name: 'fundfile',
-    component: FundFile
-  },
-  {
-    path: ctx + '/newslist',
-    name: 'newslist',
-    component: NewsList
-  },
-  {
-    path: ctx + '/smartPool',
-    name: 'smartPoolList',
-    component: SmartPoolList
-  },
-  {
-    path: ctx + '/smartPoolListDetails/:id',
-    name: 'smartPoolListDetails',
-    component: SmartPoolListDetails
-  },
-  {
-    path: ctx + '/fundArchives',
-    name: 'fundArchives',
-    component: FundArchives
-  },
-  {
-    path: ctx + '/strategyList',
-    name: 'strategyList',
-    component: StrategyList
-  },
-  {
-    path: ctx + '/backtestHelp',
-    name: 'backtestHelp',
-    component: backtestHelp
-  }
+{
+  path: ctx + '/fund-chart',
+  name: 'fundchart',
+  component: FundChart
+},
+{
+  path: ctx + '/fund-file',
+  name: 'fundfile',
+  component: FundFile
+},
+{
+  path: ctx + '/newslist',
+  name: 'newslist',
+  component: NewsList
+},
+{
+  path: ctx + '/smartPool',
+  name: 'smartPoolList',
+  component: SmartPoolList
+},
+{
+  path: ctx + '/smartPoolListDetails/:id',
+  name: 'smartPoolListDetails',
+  component: SmartPoolListDetails
+},
+{
+  path: ctx + '/fundArchives',
+  name: 'fundArchives',
+  component: FundArchives
+},
+{
+  path: ctx + '/strategyList',
+  name: 'strategyList',
+  component: StrategyList
+},
+{
+  path: ctx + '/backtestHelp',
+  name: 'backtestHelp',
+  component: backtestHelp
+}
 
 ]

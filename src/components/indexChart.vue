@@ -16,7 +16,7 @@ html {
   width: 100%;
   height: 74%;
   background: #0d0e0f;
-  margin-bottom: 3px;
+  padding-bottom: 3px;
 }
 
 .line-chart {
@@ -26,6 +26,10 @@ html {
   height: 100%;
   float: left;
   position: relative;
+}
+
+.line-chart:hover {
+  background: #26272B;
 }
 
 .line-chart img {
@@ -49,7 +53,8 @@ html {
   width: 25%;
   height: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 10px 20px;
+  position: relative;
 }
 
 .chartInfo_text {
@@ -59,7 +64,7 @@ html {
 .chart-info {
   background: #141518;
   font-size: 12px;
-  height: 25.9%;
+  height: 26%;
 }
 
 .chartInfo_bar {
@@ -80,6 +85,19 @@ html {
 .chartInfo_bar div:last-child {
   background: #56a870;
   float: right;
+}
+
+.info-alert {
+  background: #cccfd9;
+  color: #666;
+  padding: 2px;
+  border: 1px solid #eee;
+  display: none;
+  width: auto;
+  position: absolute;
+  right: 0;
+  top: 80%;
+  z-index: 9999;
 }
 </style>
 <template>
@@ -140,10 +158,11 @@ html {
           <span v-if="barData && barData!==''" v-z3-updowncolor="barData.downNum">{{barData.downNum === 0 ? '--':barData.downNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(0)" @mouseout="hideAlert(0)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.upNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.downNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股票上涨/下跌数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
@@ -157,10 +176,11 @@ html {
           <span v-if="barData && barData!==''" v-z3-updowncolor="barData.limitDownNum">{{barData.limitDownNum === 0 ? '--':barData.limitDownNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(1)" @mouseout="hideAlert(1)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitUpNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.limitDownNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股票涨停/跌停数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
@@ -175,10 +195,11 @@ html {
           <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === 0 ? '--':barData.newLowNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newHighNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.newLowNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股价创60日新高/新低数及占A股比例（去除停牌）</span>
     </div>
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
@@ -193,10 +214,11 @@ html {
           <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === 0 ? '--':barData.crossMa5DownNum}}</span>
         </div>
       </div>
-      <div class="chartInfo_bar clearfix">
+      <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5UpNum, total, 2)}"></div>
         <div v-if="barData && barData!==''" :style="{width:toPercent(barData.crossMa5DownNum, total, 2)}"></div>
       </div>
+      <span class="info-alert">股价上穿/下穿5日均线数及占A股比例（去除停牌）</span>
     </div>
   </div>
 </div>
@@ -461,6 +483,12 @@ export default {
         return '--'
       }
       return Number(x / y * 100).toFixed(n) + '%'
+    },
+    showAlert (index) {
+      document.getElementsByClassName('info-alert')[index].style.display = 'inline-block'
+    },
+    hideAlert (index) {
+      document.getElementsByClassName('info-alert')[index].style.display = 'none'
     }
   },
   watch: {

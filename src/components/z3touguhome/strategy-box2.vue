@@ -14,6 +14,9 @@
     top: 50%;
     transform: translateY(-50%);
 }
+.strategy-title select:focus {
+    outline: none;
+}
 .follow-no {
     color: #808ba1;
     display: inline-block;

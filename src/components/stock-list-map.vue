@@ -66,11 +66,29 @@ td {
 .change {
     min-width: 46px;
 }
+.stock-down {
+    color: #56a870;
+    margin-left: 10px;
+}
+.stock-up {
+    color: #ca4941;
+}
+.hover-wrapper h3 img {
+    margin-left: 5px;
+}
+.stock-down img {
+    padding-top: 11px;
+}
+.stock-up img {
+    padding-top: 10px;
+}
 </style>
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
-  <h3>{{titleName}}--{{titleNameLel2}}
+  <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
     <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
+    <span class="stock-down fr">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -104,7 +122,9 @@ export default {
       stockListLeft: 0,
       stockListTop: 0,
       titlePrice: 0,
-      titleChngPct: ''
+      titleChngPct: '',
+      stockUpNo: '',
+      stockDownNo: ''
     }
   },
   watch: {
@@ -222,6 +242,25 @@ export default {
               data: this.node.chartData
             }]
           })
+          // 计算每只股票的最新价 上涨股票数和下跌股票数
+          this.stockUpNo = ''
+          this.stockDownNo = ''
+          this.stockList.forEach(function (stock) {
+            if (stock.perf >= 0) {
+              _this.stockUpNo++
+            } else {
+              _this.stockDownNo++
+            }
+            stock.chartData = _this.stockChartData[stock.name]
+            if (stock.chartData) {
+              const stockDetailLength = stock.chartData.length
+              if (stock.chartData[stockDetailLength - 1]) {
+                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+              } else {
+                stock.price = '--'
+              }
+            }
+          })
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
@@ -229,17 +268,6 @@ export default {
               this.$emit('updateWrapHeight', wrapHeight)
             }
             // 悬浮框股票列表
-            this.stockList.forEach(function (stock) {
-              stock.chartData = _this.stockChartData[stock.name]
-              if (stock.chartData) {
-                const stockDetailLength = stock.chartData.length
-                if (stock.chartData[stockDetailLength - 1]) {
-                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-                } else {
-                  stock.price = '--'
-                }
-              }
-            })
             for (const i in this.stockList) {
               if (this.$refs.chart && this.$refs.chart.length > 0) {
                 this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
