@@ -14,7 +14,7 @@
 }
 .banner-top{
   height: 1.28rem;
-  background: #fff;
+  background: transparent;
 }
 .gold-bean-num{
   box-sizing:border-box;
@@ -360,10 +360,6 @@
     <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
-    <!-- <p>loginStatus:{{loginStatus}}</p> -->
-    <!-- <p>prizeList:{{prizeList}}</p> -->
-    <!-- <p>LuckUsers:{{LuckUsers}}</p> -->
-    <p>draw:{{draw}}</p>
   </div>
   <div id="pop" class="mask">
     <div class="pop-ensure">
