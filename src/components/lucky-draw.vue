@@ -5,6 +5,7 @@
   color: #fff;
   background: #ff4200;
   padding-bottom: 2.25rem;
+  margin-top:-1.28rem;
 }
 .banner{
   width:7.5rem;
