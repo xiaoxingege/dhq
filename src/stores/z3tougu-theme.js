@@ -20,6 +20,7 @@ export const mutationTypes = {
 }
 const PAGE_SIZE = 10
 const INFOR_PAGESIZE = 10
+const STOCK_PAGESIZE = 11
 export default {
   namespaced: true,
   state: {
@@ -55,7 +56,11 @@ export default {
     inforPage: 0,
     inforPageSize: INFOR_PAGESIZE,
     inforTotal: 0,
-    numberTopic: []
+    inforTotalElements: 0,
+    numberTopic: [],
+    stockPage: 0,
+    stockPageSize: STOCK_PAGESIZE,
+    stockTotal: 0
     /* topicReturnRate: [],
      hs300ReturnRate: [],
      tradeDate: []*/ // 全部charts
@@ -89,6 +94,7 @@ export default {
       state.inforPageSize = options.inforPageSize || INFOR_PAGESIZE
       state.inforPage = options.inforPage || 1
       state.inforTotal = options.inforTotal
+      state.inforTotalElements = options.totalElements
     },
     updateInformat (state, infor) {
       state.informatList = infor
@@ -100,6 +106,11 @@ export default {
         stocks[stock.innerCode] = stock
       }
       state.relatedStocks = stocks
+    },
+    updateStockPage (state, options) {
+      state.stockPageSize = options.stockPageSize || STOCK_PAGESIZE
+      state.stockPage = options.stockPage || 1
+      state.stockTotal = options.stockTotal
     },
     updateDetailHead (state, detailHead) {
       state.detail = detailHead
@@ -263,7 +274,8 @@ export default {
           commit('updateInforPage', {
             inforPage: result.data.number,
             inforPageSize: result.data.size,
-            inforTotal: result.data.totalPages
+            inforTotal: result.data.totalPages,
+            totalElements: result.data.totalElements
           })
         }
       })
@@ -297,16 +309,25 @@ export default {
     }, {
       topicCode,
       sortField,
-      size
+      direction,
+      stockPage,
+      stockPageSize
     }) {
-      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml?sort=${sortField},desc&page=0&size=${size}`, {
+      stockPage = stockPage || 0
+      stockPageSize = stockPageSize || STOCK_PAGESIZE
+      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml?sort=${sortField},${direction}&page=${stockPage}&size=${stockPageSize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
-        // console.log(result.data.content[0])
+        console.log(result.data.size)
         if (result.errCode === 0) {
           commit('updateStockList', result.data.content)
+          commit('updateStockPage', {
+            stockPage: result.data.number,
+            stockPageSize: result.data.size,
+            stockTotal: result.data.totalPages
+          })
         }
       })
     },

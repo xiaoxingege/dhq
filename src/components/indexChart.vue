@@ -207,7 +207,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {}
   },
   components: {},
@@ -217,7 +217,7 @@ export default {
     szczChartData: state => state.indexChart.szczChartData,
     cybzChartData: state => state.indexChart.cybzChartData,
     barData: state => state.indexChart.barData,
-    total: function() {
+    total: function () {
       if (this.barData.unchangeNum === null || this.barData.upNum === null || this.barData.downNum === null || this.barData.unchangeNum === 'null' || this.barData.upNum === 'null' || this.barData.downNum === 'null') {
         return 0
       } else {
@@ -226,9 +226,9 @@ export default {
     }
   }),
   methods: {
-    dealData(zeroArr) {
+    dealData (zeroArr) {
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof (zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -238,12 +238,12 @@ export default {
       }
       return r
     },
-    removeZero(zeroArr) {
+    removeZero (zeroArr) {
       if (zeroArr == null) {
         return ''
       }
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof (zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -253,7 +253,7 @@ export default {
       }
       return r
     },
-    autoTimeline(starts, ends) {
+    autoTimeline (starts, ends) {
       var timeline = []
       var startHour = starts.split(':')[0] * 1
       var startMin = starts.split(':')[1] * 1
@@ -269,7 +269,7 @@ export default {
       }
       return timeline
     },
-    refreshEcharts(datas, index, chartName) {
+    refreshEcharts (datas, index, chartName) {
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -330,7 +330,7 @@ export default {
           axisLabel: {
             interval: 59,
             textStyle: {
-              color: function(params) {
+              color: function (params) {
                 return '#707b8f'
               }
             }
@@ -343,11 +343,11 @@ export default {
           min: datas === null ? '' : Number(datas.line) - Dvalue,
           max: datas === null ? '' : Number(datas.line) + Dvalue,
           axisLabel: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val.toFixed(2)
             },
             textStyle: {
-              color: function(params) {
+              color: function (params) {
                 var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
                 if (cc > 0) {
                   return '#ca4947'
@@ -437,11 +437,11 @@ export default {
         }]
       })
     },
-    toPercent(x, y, n) {
+    toPercent (x, y, n) {
       return Number(x / y * 100).toFixed(n) + '%'
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
     }).then(() => {

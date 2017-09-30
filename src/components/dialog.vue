@@ -100,17 +100,17 @@ input {
 <script>
 export default {
   props: ['title'],
-  data() {
+  data () {
     return {
 
     }
   },
   methods: {
-    hideDialog() {
+    hideDialog () {
       this.$emit('toHideDialog', false)
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }

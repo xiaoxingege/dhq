@@ -201,7 +201,7 @@ span {
         <div class="bar-txt clearfix">
           <strong>最新事件：</strong>
           <span class="txt-con">
-                      <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{checkNull(topic.summary)}}</span></router-link>
+          <router-link :to="{name:'detailPages',params:{id : topic.newsId, detailType:'news'}}" class="new-text"><span class="event">{{checkNull(topic.summary)}}</span></router-link>
           （<span>{{topic.newsDeclareDate==null?'--':format(topic.newsDeclareDate)}}</span> <span>{{checkNull(topic.srcName)}}</span>）
           </span>
         </div>
@@ -228,7 +228,7 @@ import {
   cutString
 } from 'utils/date'
 export default {
-  data() {
+  data () {
     return {}
   },
   props: ['placeholder'],
@@ -238,24 +238,24 @@ export default {
   }),
   components: {},
   methods: {
-    format(date) {
+    format (date) {
       return formatDate(date)
     },
-    checkNull(str) {
+    checkNull (str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    changeTofixed(num) {
+    changeTofixed (num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    cutStr(str, len) {
+    cutStr (str, len) {
       return cutString(str, len)
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('topic/queryHot')
     this.$store.dispatch('topic/querySummary')
   }

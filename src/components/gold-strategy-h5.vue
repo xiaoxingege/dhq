@@ -332,7 +332,7 @@ import Twobarchart from 'components/two-bar-chart'
 import Pagination from 'components/pagination'
 
 export default {
-  data() {
+  data () {
     return {
       navText: [
         ['选股条件', 'choseStock'],
@@ -367,13 +367,13 @@ export default {
   },
   computed: mapState({
     goldResult: state => state.goldStrategy.goldResult,
-    articleData: function() {
+    articleData: function () {
       return {
         title: '策略描述:',
         content: this.goldResult === null ? '' : this.goldResult.strategyDesc
       }
     },
-    recommendData: function() {
+    recommendData: function () {
       if (this.goldResult === null) {
         return {
           choseStockData: null,
@@ -553,7 +553,7 @@ export default {
         }
       }
     },
-    choseStockData: function() {
+    choseStockData: function () {
       if (this.recommendData.choseStockData === null) {
         return []
       } else {
@@ -588,7 +588,7 @@ export default {
         return [arr1, arr2]
       }
     },
-    sellConditionData: function() {
+    sellConditionData: function () {
       const buyData = [
         ['序号', '指标', '参数', '运算符', '数值']
       ]
@@ -640,31 +640,31 @@ export default {
         sellData: sellData
       }
     },
-    tableData: function() {
+    tableData: function () {
       return this.recommendData.tradeParamsData
     },
-    mrjyData: function() {
+    mrjyData: function () {
       return this.$store.state.goldStrategy.mrjyData
     }
   }),
   methods: {
-    changeNavType(data) {
+    changeNavType (data) {
       this.type = data
     },
-    goMrjyPage(data) {
+    goMrjyPage (data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goDqxgPage(data) {
+    goDqxgPage (data) {
       this.$store.dispatch('goldStrategy/getDqxgData', {
         strategyId: this.strategyId,
         pageNum: data - 1
       }).then(() => {})
     }
   },
-  mounted() {
+  mounted () {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
     this.strategyId = this.$route.params.strategyId

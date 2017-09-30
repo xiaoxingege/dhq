@@ -61,13 +61,13 @@
 <script>
 export default {
   props: ['data', 'type'],
-  data() {
+  data () {
     return {
       activeSearch: this.$route.params.linkText
     }
   },
   watch: {
-    'this.activeSearch': function() {
+    'this.activeSearch': function () {
 
     }
   },
@@ -75,12 +75,12 @@ export default {
 
   },
   methods: {
-    changeTab(e) {
+    changeTab (e) {
       const type = e.target.getAttribute('value')
       this.$emit('changeType', type)
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }

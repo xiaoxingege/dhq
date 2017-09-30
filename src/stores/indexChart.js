@@ -15,35 +15,35 @@ export default {
     barData: null
   },
   mutations: {
-    setSzzsChartData(state, result) {
+    setSzzsChartData (state, result) {
       if (result.errCode === 0) {
         state.szzsChartData = result.data
       } else {
         state.szzsChartData = null
       }
     },
-    setLsChartData(state, result) {
+    setLsChartData (state, result) {
       if (result.errCode === 0) {
         state.lsChartData = result.data
       } else {
         state.lsChartData = null
       }
     },
-    setSzczChartData(state, result) {
+    setSzczChartData (state, result) {
       if (result.errCode === 0) {
         state.szczChartData = result.data
       } else {
         state.szczChartData = null
       }
     },
-    setCybzChartData(state, result) {
+    setCybzChartData (state, result) {
       if (result.errCode === 0) {
         state.cybzChartData = result.data
       } else {
         state.cybzChartData = null
       }
     },
-    setBarData(state, result) {
+    setBarData (state, result) {
       if (result.errCode === 0) {
         state.barData = result.data
       } else {
@@ -52,7 +52,7 @@ export default {
     }
   },
   actions: {
-    getIndexChartData({
+    getIndexChartData ({
       commit
     }, {
       stockCode
@@ -73,7 +73,7 @@ export default {
         }
       })
     },
-    getBarData({
+    getBarData ({
       commit
     }) {
       return fetch(`${domain}/openapi/bars.shtml`, {

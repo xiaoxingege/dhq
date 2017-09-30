@@ -66,7 +66,7 @@ iframe {
 <script type="text/javascript">
 export default {
   props: ['newsId'],
-  data() {
+  data () {
     return {
       newsDetails: null,
       newsTitle: '',
@@ -79,23 +79,23 @@ export default {
     }
   },
   watch: {
-    newsId() {
+    newsId () {
       this.getNews()
     }
   },
   computed: {
-    newsDetailData: function() {
+    newsDetailData: function () {
       const newsDetailData = [].concat(this.$store.state.z3touguIndex.newsDetails)
       return newsDetailData[0]
     }
   },
   methods: {
-    getNews: function() {
+    getNews: function () {
       if (this.newsId !== '') {
         console.log(this.newsId)
         this.$store.dispatch('z3touguIndex/getNewsDetails', {
-            newsId: this.newsId
-          })
+          newsId: this.newsId
+        })
           .then(() => {
             this.newsDetails = this.newsDetailData
             this.newsTitle = this.newsDetailData.title
@@ -108,7 +108,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getNews()
   }
 }
