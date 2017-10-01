@@ -9,6 +9,7 @@
     background-color: #fff;
     position: relative;
 }
+
 .ques-nav i {
     width: 0.22rem;
     height: 0.42rem;
@@ -18,12 +19,14 @@
     top: 0.23rem;
     left: 3%;
 }
+
 .ques-nav h1 {
     font-size: 0.36rem;
     font-weight: normal;
     color: #333;
     text-align: center;
 }
+
 .ques-nav span {
     position: absolute;
     top: 0.23rem;
@@ -46,7 +49,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       eventShow: false
     }
@@ -57,14 +60,14 @@ export default {
     // quesSearch
   },
   methods: {
-    events () {
+    events() {
       this.$emit('navEvents')
     },
-    navBak () {
+    navBak() {
       this.$emit('navBak')
     }
   },
-  mounted () {
+  mounted() {
     if (this.btnTxt) {
       this.eventShow = true
     }

@@ -1,7 +1,7 @@
 <style  lang="scss" scoped>
 .page {
     width: 720px;
-    background: #fff;
+    color: #fff;
     font-family: "Microsoft YaHei","微软雅黑";
     font-size: 14px;
     padding: 40px 0;
@@ -18,7 +18,7 @@ span {
 ul {
     display: inline-block;
     position: relative;
-    top: 9px;
+    top: 11px;
     left: -5px;
 }
 ul li {

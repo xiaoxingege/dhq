@@ -55,6 +55,8 @@ body {
 .backtest-filter2 {
     background: #f2f2f2;
     color: #696969;
+    line-height: 15px;
+    text-align: left;
     width: 100%;
 }
 

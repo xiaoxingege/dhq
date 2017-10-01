@@ -56,6 +56,7 @@ iframe {
     background-color: #23272c;
     margin-bottom: 20px;
 }
+
 .new-main p {
     color: red;
 }

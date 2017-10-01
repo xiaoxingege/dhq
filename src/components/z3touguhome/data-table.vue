@@ -11,9 +11,9 @@
 }
 .data-table td {
     border: 1px solid #23272c;
-    color: #ca4941;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .data-table tr:nth-child(1) td {
     border-top-width: 0;
@@ -55,7 +55,7 @@
   </div>
   <table v-if="!isNoData" class="data-table">
     <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)">{{item.name === null?'--':item.name}}</td>
       <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
     </tr>
@@ -94,6 +94,11 @@ export default {
         getVal = '--'
       }
       return getVal
+    },
+    linkStock: function (innerCode) {
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
     }
   },
   mounted () {

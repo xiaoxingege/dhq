@@ -17,9 +17,11 @@ body {
 .green {
     color: #56a870;
 }
+
 .lightcolor {
     color: #c9d0d7;
 }
+
 .gray {
     color: #808ba1;
 }
@@ -73,9 +75,11 @@ body {
     width: 4%;
 
 }
+
 li.export-box {
     border: none;
 }
+
 /* .table-head{
       position: relative;
     } */
@@ -87,6 +91,7 @@ li.export-box {
 .export-box span:hover {
     background: url("../assets/images/z3img/backexport-click.png") no-repeat;
 }
+
 .export-span {
     background: url("../assets/images/z3img/backexport.png") no-repeat;
     width: 57px;
@@ -96,6 +101,7 @@ li.export-box {
     right: 1.5%;
     top: 0;
 }
+
 .export-span-click {
     background: url("../assets/images/z3img/backexport-click.png") no-repeat;
     width: 57px;
@@ -105,6 +111,7 @@ li.export-box {
     right: 1.5%;
     top: 0;
 }
+
 .export i {
     background: url("../assets/images/z3img/export-icon.png") no-repeat;
     width: 18px;
@@ -167,6 +174,7 @@ span.order-num {
     right: 17px;
     top: 20px;
 }
+
 .icon span {
     width: 19px;
     height: 16px;
@@ -174,6 +182,7 @@ span.order-num {
     background: url("../assets/images/z3img/back-icons.png") no-repeat;
     cursor: pointer;
 }
+
 span.weixin {
     background-position: 0 -16px;
     margin-right: 12px;
@@ -184,6 +193,7 @@ span.weixin {
     margin-right: 12px;
 
 }
+
 span.copy {
     background-position: 0 -52px;
     margin-right: 12px;
@@ -192,18 +202,23 @@ span.copy {
 .copy:hover {
     background-position: 0 -34px;
 }
+
 .weixin.active {
     background-position: 0 0;
 }
+
 .copy.active {
     background-position: 0 -34px;
 }
+
 .backtest-filter .toast {
     background: #fff;
 }
+
 .toast .tiperror {
     background: #ff0;
 }
+
 /* .copy {
     height: 22px;
     width: 22px;
@@ -220,6 +235,7 @@ span.copy {
     /* box-shadow: 4px 4px 4px 2px #eee;
     border: 1px solid #eee; */
 }
+
 .angle {
     width: 0;
     height: 0;
@@ -230,6 +246,7 @@ span.copy {
     right: 32px;
 
 }
+
 .code-box {
     width: 200px;
     height: 214px;
@@ -239,6 +256,7 @@ span.copy {
     color: #666666;
     padding: 10px;
 }
+
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
@@ -247,6 +265,7 @@ span.copy {
 .bfilter-table {
     position: relative;
 }
+
 .bfilter-table .page {
     /*  position: absolute;
       bottom: 0;
@@ -255,6 +274,7 @@ span.copy {
       margin: 0 auto; */
     background: none;
 }
+
 /* .bfilter-today{
       position: relative;
     }*/
@@ -266,6 +286,7 @@ span.copy {
       margin: 0 auto; */
     background: none;
 }
+
 .foots-tishi {
     font-size: 12px;
     /*  position: absolute;
@@ -279,14 +300,16 @@ span.copy {
 <template>
 <div class="backtest-filter">
   <div class="bfilter-main">
-    <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span></div>
+    <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span>
+    </div>
     <BackFilterDescr @basicFilterName="listenToBasic" />
     <div class="bfilter-bottom">
       <ul class="bfilter-ul clearfix">
         <li class="fl" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
         <li class="fl" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
         <!-- <li class="export-box"><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li> -->
-        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"></span></li>
+        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"></span>
+        </li>
       </ul>
       <div class="bfilter-table" v-show="showNowStock">
         <div>
@@ -360,7 +383,9 @@ span.copy {
       </div>
     </div>
   </div>
-  <div class="foots-tishi">温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+  <div class="foots-tishi">
+    温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+  </div>
   <div v-show="showQrcodeBox" class="qrcode">
     <div class="angle" @click="showCode"></div>
     <div class="code-box">

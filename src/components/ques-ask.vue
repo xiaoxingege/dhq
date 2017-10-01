@@ -5,6 +5,7 @@
     width: 100%;
     position: relative;
 }
+
 .ques-ask-box textarea {
     width: 95%;
     padding: 0.2rem 2.5%;
@@ -16,9 +17,11 @@
     float: left;
     border: none;
 }
+
 .ques-ask-box textarea::placeholder {
     color: #999;
 }
+
 .ques-text－num {
     font-size: 0.28rem;
     position: absolute;
@@ -26,9 +29,11 @@
     right: 0.2rem;
     color: #999;
 }
+
 .ques-text－num span {
     color: #555;
 }
+
 .askTimes {
     height: 0.77rem;
     line-height: 0.77rem;
@@ -40,9 +45,11 @@
     background-color: #fff;
     float: left;
 }
+
 .askTimes span {
     color: #ff4040;
 }
+
 .footer {
     font-size: 0.26rem;
     color: #bbb;
@@ -76,7 +83,7 @@ import quesNav from 'components/ques-nav'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data () {
+  data() {
     return {
       txtVal: '0',
       fixBgShow: false,
@@ -99,7 +106,7 @@ export default {
       return state.quesAsk.err
     },
     userId: state => state.user.ssoId,
-    tmpQues () {
+    tmpQues() {
       return localStorage.text
     },
     focusResult: state => state.quesFocus.focusResult
@@ -111,7 +118,7 @@ export default {
     quesNav
   },
   methods: {
-    descInput () {
+    descInput() {
       if (this.text) {
         var txtVal = this.text.length
         var _this = this
@@ -123,15 +130,15 @@ export default {
         this.txtVal = '0'
       }
     },
-    licenseClose () {
+    licenseClose() {
       this.fixBgShow = false
       this.quesLicenseShow = false
     },
-    navBak () {
+    navBak() {
       //   history.go(-2)
       history.back()
     },
-    navEvents () {
+    navEvents() {
       if (!this.focusShow) {
         alert('请在百度APP中使用')
         return
@@ -171,11 +178,11 @@ export default {
       window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_ask_click', 'WT.ti', 'TG_Msite_Baidu_ask_click')
       //   alert('submit')
     },
-    searchVal (val) {
+    searchVal(val) {
       this.searchValue = val
     }
   },
-  mounted () {
+  mounted() {
     document.title = '问股'
     this.$store.dispatch('user/checkLogin')
     this.$watch('err', err => {
@@ -224,7 +231,7 @@ export default {
     var _this = this
     this.$watch('focusResult', focusResult => {
       window.cambrian.isBox({
-        success: function (res) {
+        success: function(res) {
           // res结构如下，result字段，在手百环境返回ture，否则返回false
           // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
           if (res.result) {

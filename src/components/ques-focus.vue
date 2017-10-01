@@ -13,6 +13,7 @@
     border-radius: 0.1rem;
     text-align: center;
 }
+
 .close {
     width: 0.28rem;
     height: 0.28rem;
@@ -22,22 +23,26 @@
     background: url("../assets/images/ques-alading/close.png") no-repeat;
     background-size: 100% 100%;
 }
+
 .ques-focus-box img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
     margin-top: 1rem;
 }
+
 .ques-focus-box h3 {
     font-size: 0.34rem;
     color: #333;
     margin-top: 0.3rem;
 }
+
 .ques-focus-box p {
     font-size: 0.28rem;
     color: #888;
     margin: 0.25rem 0;
 }
+
 .ques-focus-box button {
     width: 80%;
     margin: 0.25rem 10%;
@@ -68,7 +73,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       //   txtVal: '0'
     }
@@ -82,10 +87,10 @@ export default {
     // quesSearch
   },
   methods: {
-    close () {
+    close() {
       this.$emit('focusClose')
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>
