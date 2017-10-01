@@ -7,6 +7,7 @@ body {
 }
 
 .search {
+  background: #191a1d;
   padding: 1px 1px 0px 1px;
   width: 100%;
   box-sizing: border-box;
