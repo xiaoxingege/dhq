@@ -22,6 +22,7 @@ html {
 .line-chart {
   background: #141518;
   margin-right: 3px;
+  width: 24.75%;
   height: 100%;
   float: left;
   position: relative;
@@ -105,8 +106,8 @@ html {
 </style>
 <template>
 <div class="index-top">
-  <div class="index-chart clearfix display-box">
-    <div class="line-chart box-flex-1">
+  <div class="index-chart clearfix">
+    <div class="line-chart">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.stockVal" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -116,7 +117,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="line-chart box-flex-1">
+    <div class="line-chart">
       <div v-if="lsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="lsChartData.stockVal" class="mr-5">{{lsChartData.stockVal === null ? '--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -126,7 +127,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="line-chart box-flex-1">
+    <div class="line-chart">
       <div v-if="szczChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szczChartData.stockVal" class="mr-5">{{szczChartData.stockVal === null ? '--':Number(szczChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szczChartData && szczChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -136,7 +137,7 @@ html {
       </div>
       <div class="indexChart"></div>
     </div>
-    <div class="line-chart box-flex-1">
+    <div class="line-chart">
       <div v-if="cybzChartData !== null" class="indexNum">
         <span v-z3-updowncolor="cybzChartData.stockVal" class="mr-5">{{cybzChartData.stockVal === null ? '--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
         <img v-if="cybzChartData && cybzChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
