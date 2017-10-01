@@ -5,3 +5,4 @@ version
 *.bzip2
 *.swp
 *.log
+src/z3tougu/router/index.js
