@@ -267,7 +267,8 @@ body {
         </div>
       </div>
       <div class="bfilter-cont-1 bfilter-cont-2">
-        <div class="desc-title"><em></em><span class="tit1">选股条件</span><span class="alla fr">全部A股</span></div>
+        <div class="desc-title"><em></em><span class="tit1">选股条件</span>
+          <!-- <span class="alla fr">全部A股</span> --></div>
         <table class="desc-ul">
           <tr v-for="trItem in filterSummary" class="trtxt">
             <td v-if="index<=4" v-for="(tdItem,index) in trItem" class="tdtxt">{{tdItem}}</td>
