@@ -26,6 +26,7 @@
     border: 1px solid #23272c;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .sectors-table:nth-child(1) td {
     color: #ca4941;

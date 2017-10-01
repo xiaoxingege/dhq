@@ -11,9 +11,9 @@
 }
 .data-table td {
     border: 1px solid #23272c;
-    color: #ca4941;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .data-table tr:nth-child(1) td {
     border-top-width: 0;
