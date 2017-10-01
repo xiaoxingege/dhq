@@ -19,9 +19,20 @@
     line-height: 32px;
 }
 .template select {
-    color: #2388da;
-    background: #000;
+    color: #c9d0d7;
+    background: #23272C;
     border: 0;
+    height: 22px;
+    font-size: 12px;
+    border-radius: 3px;
+    line-height: 22px;
+    padding-left: 5px;
+}
+
+.template select option {
+    background: #cccfd9;
+    color: #666;
+    border-radius: 3px;
 }
 .template select:focus {
     outline: none;
@@ -96,10 +107,11 @@ button {
     font-size: 12px;
     line-height: 24px;
 }
-.stockRange {
-    border-bottom: 1px solid #E5E5E5;
+
+.weiduRange {
+    border-bottom: 1px solid #DDDDDD;
     padding-bottom: 20px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 </style>
 <template>
@@ -123,6 +135,35 @@ button {
     <div>
       <Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="自定义">
         <div slot="content" class="dialogMain clearfix">
+          <div class="weiduRange clearfix">
+            <div class="fl">维度：</div>
+            <div class="fr">
+              <span class="mr-10">
+                                X轴
+                                <select ref="xData" v-model="dimensionOptions.xDefault">
+                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
+                                </select>
+                            </span>
+              <span class="mr-10">
+                                Y轴
+                                <select ref="yData" v-model="dimensionOptions.yDefault">
+                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
+                                </select>
+                            </span>
+              <span class="mr-10">
+                                气泡大小
+                                <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">
+                                    <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
+                                </select>
+                            </span>
+              <span>
+                                气泡颜色
+                                <select ref="bubbleColor" v-model="dimensionOptions.colorDefault">
+                                    <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
+                                </select>
+                            </span>
+            </div>
+          </div>
           <div class="stockRange clearfix">
             <div class="fl mt-20">股票范围：</div>
             <div class="fr">
@@ -141,8 +182,10 @@ button {
                             </span>
                 <span class="mr-10">
                                 主题
-                                <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value="" readonly/>
-                                <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName" readonly/>
+                                <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value=""
+                                       readonly/>
+                                <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text"
+                                       :value="topicName" readonly/>
                             </span>
                 <span>
                                 流通市值
@@ -171,35 +214,6 @@ button {
                                 </select>
                             </span>
               </div>
-            </div>
-          </div>
-          <div class="weiduRange clearfix">
-            <div class="fl">维度：</div>
-            <div class="fr">
-              <span class="mr-10">
-                                X轴
-                                <select ref="xData" v-model="dimensionOptions.xDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
-                                </select>
-                            </span>
-              <span class="mr-10">
-                                Y轴
-                                <select ref="yData" v-model="dimensionOptions.yDefault">
-                                    <option v-for="(val,key) in xDataList" :value="key" :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
-                                </select>
-                            </span>
-              <span class="mr-10">
-                                气泡大小
-                                <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">
-                                    <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
-                                </select>
-                            </span>
-              <span>
-                                气泡颜色
-                                <select ref="bubbleColor" v-model="dimensionOptions.colorDefault">
-                                    <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
-                                </select>
-                            </span>
             </div>
           </div>
         </div>
@@ -257,7 +271,7 @@ import * as Data from '../z3tougu/constant/siwei.js'
 import Bubbles from 'components/bubbles'
 import ThemeSortAz from 'components/theme-sort-az'
 export default {
-  data () {
+  data() {
     return {
       showStockRangeDialog: false,
       xDataList: Data.xSelectData,
@@ -403,14 +417,14 @@ export default {
 
   },
   methods: {
-    showOptionValue () {
+    showOptionValue() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
         this.showStockRangeDialog = false
       }
     },
-    simOptionClick4IE () {
+    simOptionClick4IE() {
       const that = this
       var evt = window.event
       var selectObj = evt ? evt.srcElement : null
@@ -421,7 +435,7 @@ export default {
         setTimeout(that.showOptionValue(), 60)
       }
     },
-    hideDialog () {
+    hideDialog() {
       this.showStockRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
       this.dimensionOptions.yDefault = this.options.yDefault
@@ -436,7 +450,7 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelectData () {
+    showSelectData() {
       this.xData = this.xDataList[this.dimensionOptions.xDefault]
       this.yData = this.xDataList[this.dimensionOptions.yDefault]
       this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
@@ -447,7 +461,7 @@ export default {
       }
       this.tmpId = 'demoTmp0'
     },
-    changeTmp (e) {
+    changeTmp(e) {
       const tmpValue = e.target.value
       this.tmpId = tmpValue
       if (tmpValue === 'demoTmp0') {
@@ -472,7 +486,7 @@ export default {
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
-    getTime () {
+    getTime() {
       var date = new Date()
       var seperator2 = ':'
       var month = date.getMonth() + 1
@@ -494,31 +508,31 @@ export default {
       var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
       this.currentTime = currentdate
     },
-    showTheme () {
+    showTheme() {
       this.isShowTheme = true
     },
-    closeTheme () {
+    closeTheme() {
       this.isShowTheme = false
     },
-    getThemeVal (data) {
+    getThemeVal(data) {
       this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
-    hideAlert (data) {
+    hideAlert(data) {
       this.showStockRangeDialog = data
     }
   },
   computed: {
-    stockPool: function () {
+    stockPool: function() {
       return this.$store.state.bubbles.stockPool
     },
-    userStrategy: function () {
+    userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
     }
   },
   watch: {
-    'dimensionOptions.xDefault': function () {
+    'dimensionOptions.xDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -526,7 +540,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'dimensionOptions.yDefault': function () {
+    'dimensionOptions.yDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -534,7 +548,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'tmpId': function () {
+    'tmpId': function() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
@@ -542,12 +556,12 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 
     const that = this
-    setInterval(function () {
+    setInterval(function() {
       that.getTime()
     }, 1000)
   }

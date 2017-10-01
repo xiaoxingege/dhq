@@ -25,6 +25,7 @@
     margin-right: 3px;
     /*height:345px;*/
     text-align: left;
+    background: #0d0e0f;
 }
 .strategyDescTop {
     /*height:214px;*/
