@@ -21,11 +21,15 @@ html {
 
 .line-chart {
   background: #141518;
-  margin-right: 1px;
-  width: 24.9%;
+  margin-right: 3px;
+  width: 24.75%;
   height: 100%;
   float: left;
   position: relative;
+}
+
+.line-chart :last-child {
+  margin-right: 0;
 }
 
 .line-chart:hover {

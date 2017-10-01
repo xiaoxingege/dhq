@@ -11,12 +11,13 @@
     width: 800px;
     border: 1px solid #8C8C8C;
     z-index: 9999;
-    background: #fff;
+    background: #cccfd9;
     font-size: 12px;
     color: #000;
     position: absolute;
     left: 50%;
     top: 50%;
+    border-radius: 10px;
     -webkit-transform: translate3d(-50%, -50%, 0);
     -moz-transform: translate3d(-50%, -50%, 0);
     -ms-transform: translate3d(-50%, -50%, 0);
@@ -26,9 +27,12 @@
     height: 28px;
     line-height: 28px;
     text-align: left;
-    background: #F2F2F2;
+    background: #404852;
     border: 1px solid #CCCCCC;
     padding-left: 10px;
+    color: #c9d0d7;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 button {
     width: 70px;

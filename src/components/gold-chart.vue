@@ -184,9 +184,10 @@ a {
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.amount === null ? '--':item.amount}}</td>
-            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
-            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -228,8 +229,8 @@ export default {
         ['收益月统计', 'syytj'],
         ['收益率分布', 'sylfb'],
         ['交易详情', 'mrjy'],
-        ['今日买入信号', 'mrxh'],
-        ['今日卖出信号', 'mcxh']
+        ['今日调入信号', 'mrxh'],
+        ['今日调出信号', 'mcxh']
       ]
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
