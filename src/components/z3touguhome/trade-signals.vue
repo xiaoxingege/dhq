@@ -45,7 +45,7 @@ import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
 export default {
   props: ['strategyId'],
-  data() {
+  data () {
     return {
       navText: [
         ['调入信号', 'buy'],
@@ -60,11 +60,11 @@ export default {
     }
   },
   watch: {
-    strategyId() {
+    strategyId () {
       this.type = 'buy' // 选择不同策略换成默认买入信号
       this.initTradeSignal()
     },
-    type() {
+    type () {
       this.initTradeSignal() // 点击买入/卖出信号初始化表格信号数据
     }
   },
@@ -73,34 +73,34 @@ export default {
     DataTable
   },
   computed: {
-    tradeSignalData: function() {
+    tradeSignalData: function () {
       const tradeSignalData = this.$store.state.z3touguIndex.tradeSignal
       return tradeSignalData
     }
   },
   methods: {
-    changeNavType(data) {
+    changeNavType (data) {
       this.type = data
     },
-    initTradeSignal(date) {
+    initTradeSignal (date) {
       this.$store.dispatch('z3touguIndex/getTradeSignal', {
-          strategyId: this.strategyId,
-          buySellType: this.type,
-          page: this.page,
-          size: this.size
-        })
+        strategyId: this.strategyId,
+        buySellType: this.type,
+        page: this.page,
+        size: this.size
+      })
         .then(() => {
           this.dataList = this.tradeSignalData
         })
     },
-    showWindow: function() {
+    showWindow: function () {
       this.isShowWindow = true
     },
-    hideWindow: function() {
+    hideWindow: function () {
       this.isShowWindow = false
     }
   },
-  mounted() {
+  mounted () {
     this.initTradeSignal()
   }
 }

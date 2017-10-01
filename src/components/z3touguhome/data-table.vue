@@ -55,7 +55,7 @@
   </div>
   <table v-if="!isNoData" class="data-table">
     <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)">{{item.name === null?'--':item.name}}</td>
       <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
     </tr>
@@ -67,13 +67,13 @@
 import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
-  data () {
+  data() {
     return {
       isNoData: false
     }
   },
   watch: {
-    dataList () {
+    dataList() {
       console.log(this.dataList)
       if (this.dataList.length > 0) {
         this.isNoData = false
@@ -86,7 +86,7 @@ export default {
     StockBox
   },
   methods: {
-    formatData: function (val) {
+    formatData: function(val) {
       let getVal
       if (val) {
         getVal = (100 * val).toFixed(2) + '%'
@@ -94,9 +94,14 @@ export default {
         getVal = '--'
       }
       return getVal
+    },
+    linkStock: function(innerCode) {
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
     }
   },
-  mounted () {
+  mounted() {
     console.log(this.dataList)
   }
 }
