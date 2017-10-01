@@ -26,6 +26,7 @@
     border: 1px solid #23272c;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .top-industry-table tr:nth-child(1) td {
     border-top-width: 0;
@@ -79,8 +80,7 @@
         <td v-z3-updowncolor="item.industryChg">{{item.industryChg === null?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
         <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockVal">{{item.stockVal === null?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.stockChg">{{item.stockChg === null?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}
-        </td>
+        <td v-z3-updowncolor="item.stockChg">{{item.stockChg === null?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="top-industry-table" v-if="type === 'topic'">
@@ -89,8 +89,7 @@
         <td v-z3-updowncolor="item.topicChngPct">{{item.topicChngPct === null?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
         <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockPrice">{{item.stockPrice === null?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.stockChngPct">{{item.stockChngPct === null?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}
-        </td>
+        <td v-z3-updowncolor="item.stockChngPct">{{item.stockChngPct === null?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
     </table>
   </div>

@@ -4,15 +4,36 @@
 }
 .trade-signal-top {
     height: 15%;
+    position: relative;
 }
 .signal-table {
     height: 85%;
+}
+.signal-tip-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    cursor: pointer;
+}
+.signal-window {
+    position: absolute;
+    background-color: #cccfd9;
+    color: #666;
+    width: 328px;
+    padding: 10px;
+    border-radius: 3px;
+    line-height: 18px;
+    top: 28px;
+    left: 78px;
 }
 </style>
 <template>
 <div class="trade-signal">
   <div class="trade-signal-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <img src="../../assets/images/signal-tip.png" alt="" class="signal-tip-img" @mouseover="showWindow" @mouseout="hideWindow" />
+    <div class="signal-window" v-if="isShowWindow">策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
   </div>
   <div class="signal-table">
     <DataTable :dataList="dataList"></DataTable>
@@ -34,7 +55,10 @@ export default {
       type: 'buy',
       page: 0,
       size: 8,
-      dataList: []
+      dataList: [],
+      isShowWindow: false,
+      updateDataPid: null,
+      intervalTime: 6
     }
   },
   watch: {
@@ -70,10 +94,27 @@ export default {
         .then(() => {
           this.dataList = this.tradeSignalData
         })
+    },
+    showWindow: function () {
+      this.isShowWindow = true
+    },
+    hideWindow: function () {
+      this.isShowWindow = false
+    },
+    autoUpdate: function () {
+      const _this = this
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(function () {
+          _this.initTradeSignal()
+        }, 1000 * _this.intervalTime)
+      }
     }
   },
   mounted () {
     this.initTradeSignal()
+    this.autoUpdate()
   }
 }
 </script>

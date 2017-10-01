@@ -86,7 +86,7 @@ td {
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
-    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
+    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}%</span>
     <span class="stock-down fr">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>

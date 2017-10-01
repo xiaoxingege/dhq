@@ -25,10 +25,10 @@ body {
 
 .strategy-wrap1 {
   height: 100%;
-  padding: 8px;
+  padding: 3px 1px;
   min-width: 1217px;
-  min-height: 704px;
-  background-color: #ebecee
+  background-color: #0d0e0f;
+  color: #c9d0d7;
 }
 
 .strategy-wrap1>ul {
@@ -36,14 +36,12 @@ body {
 }
 
 .strategy-wrap1>ul>li {
-  background-color: #fff;
-  margin-right: 0.5%;
-  padding: 10px 10px 0px 10px;
-  width: 33%;
+  background-color: #0d0e0f;
+  padding: 0px 1px 3px 1px;
+  width: 33.3333%;
   float: left;
   display: inline-block;
-  height: 32.8%;
-  margin-bottom: 0.5%;
+  height: 33.33%;
 }
 
 .strategy-wrap1 li:nth-child(3),
@@ -127,8 +125,8 @@ export default {
         this.query = query.query
       } else {
         console.log(query.query)
-        return
-        // this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
+        // return
+        this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
       }
       this.$store.dispatch('z3touguIndex/getStrategyBlock', {
         query: this.query,

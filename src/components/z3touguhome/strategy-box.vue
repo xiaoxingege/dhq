@@ -1,24 +1,30 @@
 <style lang="scss" scoped="">
-.strategy-title {
-    height: 10%;
-    border-bottom: 1px solid #ddd;
-}
-.strategy-title p {
-    display: inline-block;
-    width: 50%;
+.li-con > div {
+    width: 100%;
     height: 100%;
-    vertical-align: middle;
+    background-color: #141518;
+}
+.strategy-title {
+    height: 15%;
+    background-color: #23272c;
+    position: relative;
 }
 .strategy-name {
-    color: #4c8cca;
-    float: left;
-    text-align: left;
-    font-weight: bold;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.strategy-name a {
+    color: #c9d0d7;
 }
 .strategy-create-time {
-    color: #666;
-    float: right;
-    text-align: right;
+    color: #808ba1;
+    display: inline-block;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .strategy-chart-link {
     display: inline-block;
@@ -30,8 +36,7 @@
     cursor: pointer;
 }
 .rate-labels {
-    padding-top: 5px;
-    height: 23%;
+    height: 18%;
 }
 .rate-labels li {
     display: inline-block;
@@ -58,33 +63,35 @@
 </style>
 <template>
 <li class="li-con">
-  <div class="strategy-title clearfix">
-    <p class="strategy-name">
-      <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}">{{strategy.strategyName}}</router-link>
-    </p>
-    <p class="strategy-create-time">关注{{strategy.followCnt === null?0:strategy.followCnt}}</p>
+  <div>
+    <div class="strategy-title clearfix">
+      <p class="strategy-name">
+        <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}">{{strategy.strategyName}}</router-link>
+      </p>
+      <p class="strategy-create-time">关注{{strategy.followCnt === null?0:strategy.followCnt}}</p>
+    </div>
+    <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}" class="strategy-chart-link">
+      <div class="strategy-chart" ref="chartList"></div>
+    </router-link>
+    <ul class="rate-labels clearfix">
+      <li>
+        <span>年化收益率</span>
+        <span v-z3-updowncolor="strategy.annualReturn">{{formatData(strategy.annualReturn)}}</span>
+      </li>
+      <li>
+        <span>夏普比率</span>
+        <span>{{strategy.sharpe}}</span>
+      </li>
+      <li>
+        <span>胜率</span>
+        <span>{{strategy.winRatio}}</span>
+      </li>
+      <li>
+        <span>最大回撤</span>
+        <span>{{strategy.maxDrawdown}}</span>
+      </li>
+    </ul>
   </div>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategy.strategyId}}" class="strategy-chart-link">
-    <div class="strategy-chart" ref="chartList"></div>
-  </router-link>
-  <ul class="rate-labels clearfix">
-    <li>
-      <span>年化收益率</span>
-      <span :class="parseFloat(strategy.annualReturn)>0 ? 'c_up':'c_down'">{{strategy.annualReturn}}</span>
-    </li>
-    <li>
-      <span>夏普比率</span>
-      <span>{{strategy.sharpe}}</span>
-    </li>
-    <li>
-      <span>胜率</span>
-      <span>{{strategy.winRatio}}</span>
-    </li>
-    <li>
-      <span>最大回撤</span>
-      <span>{{strategy.maxDrawdown}}</span>
-    </li>
-  </ul>
 </li>
 </template>
 <script type="text/javascript">
@@ -115,7 +122,7 @@ export default {
       if (this.strategyData) {
         this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio) // 胜率
         this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown) // 最大回撤
-        this.strategyData.annualReturn = this.formatData(this.strategyData.strategy.evaluationIndexs.annualReturn) // 年化收益率
+        this.strategyData.annualReturn = this.strategyData.strategy.evaluationIndexs.annualReturn // 年化收益率
         this.strategyData.sharpe = (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2) // 夏普比率
         this.strategyData.strategyName = this.strategyData.strategy.strategyName
         this.strategyData.strategyId = this.strategyData.strategy.strategyId
@@ -164,7 +171,10 @@ export default {
                   left: 0,
                   top: 10,
                   itemWidth: 8,
-                  // orient: 'vertical',
+                  orient: 'vertical',
+                  textStyle: {
+                    color: '#808ba1'
+                  },
                   data: [{
                     name: '策略累计收益率',
                     icon: 'circle'
@@ -177,11 +187,11 @@ export default {
                 },
                 grid: {
                   show: false,
-                  left: 0,
+                  left: 10,
                   top: 45,
                   bottom: 0,
-                  right: 5,
-                  width: '100%',
+                  right: 10,
+                  width: '96%',
                   height: '61%'
                 },
                 xAxis: {
@@ -205,7 +215,8 @@ export default {
                   min: 'dataMin',
                   max: 'dataMax'
                 },
-                color: ['#4076b4', '#f1975d'],
+                color: ['#1984ea', '#ca4941'],
+                animation: false,
                 series: [{
                   name: '策略累计收益率',
                   type: 'line',
