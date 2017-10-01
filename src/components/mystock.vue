@@ -317,7 +317,7 @@ export default {
       }
       window.callbackgobtninfo = function(t) {
         if (typeof t === 'string') {
-          t = JSON.parse(t);
+          t = JSON.parse(t)
         }
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
