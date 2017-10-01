@@ -5,6 +5,7 @@
     width: 100%;
     position: relative;
 }
+
 .ques-ask-box textarea {
     width: 95%;
     padding: 0.2rem 2.5%;
@@ -16,9 +17,11 @@
     float: left;
     border: none;
 }
+
 .ques-ask-box textarea::placeholder {
     color: #999;
 }
+
 .ques-text－num {
     font-size: 0.28rem;
     position: absolute;
@@ -26,9 +29,11 @@
     right: 0.2rem;
     color: #999;
 }
+
 .ques-text－num span {
     color: #555;
 }
+
 .askTimes {
     height: 0.77rem;
     line-height: 0.77rem;
@@ -40,9 +45,11 @@
     background-color: #fff;
     float: left;
 }
+
 .askTimes span {
     color: #ff4040;
 }
+
 .footer {
     font-size: 0.26rem;
     color: #bbb;

@@ -4,18 +4,22 @@
 .ques-detail {
     width: 100%;
 }
+
 .ques-detail div {
     width: 95%;
     padding: 0.3rem 2.5%;
     background-color: #fff;
 }
+
 .ques-detail div p {
     font-weight: bold;
     font-size: 0.34rem;
 }
+
 .ques-detail div p span {
     color: #2e7cd7;
 }
+
 .ques-detail div p i {
     width: 0.33rem;
     height: 0.28rem;
@@ -25,6 +29,7 @@
     margin-top: 0.1rem;
     margin-right: 0.05rem;
 }
+
 .ques-detail div strong {
     font-size: 0.24rem;
     color: #aaa;
@@ -32,6 +37,7 @@
     font-weight: normal;
     margin-top: 0.2rem;
 }
+
 .ques-detail div strong i {
     height: 0.2rem;
     width: 0;
@@ -39,9 +45,11 @@
     display: inline-block;
     margin: 0 0.15rem;
 }
+
 .ques-detail-list {
     width: 100%;
 }
+
 .ques-detail-list h3 {
     font-size: 0.3rem;
     color: #555;
@@ -51,50 +59,60 @@
     padding: 0 2.5%;
     font-weight: normal;
 }
+
 .ques-detail-list li {
     width: 100%;
     background-color: #fff;
     margin-bottom: 0.2rem;
 }
+
 .ques-detail-list li .ques-detail-list-box {
     width: 95%;
     padding: 0.3rem 2.5%;
 }
+
 .ques-detail-list-box img {
     width: 0.6rem;
     height: 0.6rem;
     float: left;
     border-radius: 50%;
 }
+
 .ques-detail-list-box div {
     width: 6.12rem;
     float: left;
     margin-left: 0.18rem;
     position: relative;
 }
+
 .ques-detail-list-box div h5 {
     font-size: 0.26rem;
     color: #666;
     font-weight: normal;
 }
+
 .ques-detail-list-box div h5 span {
     color: #aaa;
 }
+
 .ques-detail-list-box div p {
     font-size: 0.3rem;
     color: #555;
     line-height: 0.4rem;
     margin: 0.2rem 0;
 }
+
 .ques-detail-list-box div p a {
     color: #2e7cd7;
 }
+
 .ques-detail-list-box div strong {
     display: block;
     font-size: 0.24rem;
     color: #aaa;
     font-weight: normal;
 }
+
 .ques-detail-list-box div > span {
     font-size: 0.3rem;
     position: absolute;
@@ -103,10 +121,12 @@
     line-height: 0.35rem;
     color: #aaa;
 }
+
 .ques-detail-list-box div > span.focus {
     color: #ff4040;
 
 }
+
 .ques-detail-list-box div > span.focus i {
     width: 0.14rem;
     height: 0.14rem;
@@ -115,11 +135,13 @@
     margin: 0.1rem;
     float: left;
 }
+
 .ques-detail-list > p {
     text-align: center;
     font-size: 0.26rem;
     color: #bbb;
 }
+
 .ques-detail-list > p i {
     width: 0.3rem;
     height: 0.08rem;
@@ -136,7 +158,8 @@
   <div class="ques-detail">
     <div>
       <p><i></i>{{askData.textContent}}</p>
-      <strong>{{askData.answeredTimes}}个回答<i></i>{{moment(parseInt(askData.ctime),'YYYY年MM月DD日 HH:mm')}}</strong>
+      <strong>{{askData.answeredTimes}}个回答<i></i>{{moment(parseInt(askData.ctime),'YYYY年MM月DD日
+                    HH:mm')}}</strong>
     </div>
   </div>
   <div class="ques-detail-list">
@@ -149,11 +172,12 @@
             <img :src="item.adviserUser.headImage" />
           </a>
           <div>
-            <h5>{{item.adviserUser.userName}}<span>{{item.adviserUser.company === '' ? '' : '-'+item.adviserUser.company}}</span></h5>
+            <h5>{{item.adviserUser.userName}}<span>{{item.adviserUser.company === '' ? '' : '-'+item.adviserUser.company}}</span>
+            </h5>
             <p>{{item.textContent}}</p>
             <!-- <p v-if="focusResult && focusShow">{{item.textContent}}</p>
-                        <p v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
-                        <p v-else>请在手机百度APP中查看</p> -->
+                                        <p v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</p>
+                                        <p v-else>请在手机百度APP中查看</p> -->
             <strong>{{moment(parseInt(item.ctime),'YYYY-MM-DD HH:mm')}}</strong>
             <span v-if="focusResult && focusShow">已关注</span>
             <span class="focus" v-else-if="!focusResult && focusShow" @click="authorize"><i></i>关注</span>

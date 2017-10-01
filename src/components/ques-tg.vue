@@ -8,25 +8,30 @@
     background-size: 100% 100%;
     overflow: hidden;
 }
+
 .ques-tg-top {
     float: left;
     margin: 0.6rem 0 0 0.32rem;
     height: 1.42rem;
 }
+
 .ques-tg-top img {
     width: 1.1rem;
     height: 1.1rem;
     float: left;
     border-radius: 50%;
 }
+
 .ques-tg-top div {
     float: left;
     margin-left: 0.4rem;
 }
+
 .ques-tg-top div p {
     height: 0.5rem;
     line-height: 0.5rem;
 }
+
 .ques-tg-top div p strong {
     font-size: 0.34rem;
     font-weight: normal;
@@ -34,12 +39,14 @@
     float: left;
     margin-right: 0.1rem;
 }
+
 .ques-tg-top div p em,
 .ques-tg-top div p span {
     font-size: 0.26rem;
     color: #a6a8be;
     float: left;
 }
+
 .ques-tg-top div p i {
     height: 0.2rem;
     width: 0;
@@ -47,6 +54,7 @@
     float: left;
     margin: 0.13rem 0.2rem;
 }
+
 .ques-tg-top div button {
     width: 1.38rem;
     height: 0.55rem;
@@ -56,20 +64,24 @@
     outline: none;
     margin-top: 0.05rem;
 }
+
 .ques-tg-top div button.ques-tg-focus {
     border: 0.01rem #ff4040 solid;
     color: #ff4040;
     margin-right: 0.36rem;
 }
+
 .ques-tg-top div button.ques-tg-focus.alr-focus {
     border: 0.01rem #727488 solid;
     color: #727488;
     margin-right: 0.36rem;
 }
+
 .ques-tg-top div button.ques-tg-btn {
     border: 0.01rem #e5e8f9 solid;
     color: #e5e8f9;
 }
+
 .ques-tg-top div button i {
     width: 0.14rem;
     height: 0.14rem;
@@ -78,6 +90,7 @@
     background-size: 100% 100%;
     margin-right: 0.1rem;
 }
+
 .ques-msg {
     font-size: 0.24rem;
     width: 95%;
@@ -93,6 +106,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
+
 .ques-tg-list h3 {
     height: 0.8rem;
     line-height: 0.8rem;
@@ -101,15 +115,18 @@
     font-size: 0.3rem;
     color: #555;
 }
+
 .ques-tg-list li {
     width: 100%;
     background-color: #fff;
     margin-bottom: 0.2rem;
 }
+
 .ques-tg-list-box {
     width: 95%;
     padding: 0.3rem 2.5%;
 }
+
 .ques-tg-list-box h5 {
     font-size: 0.34rem;
     color: #333;
@@ -118,10 +135,12 @@
     padding-bottom: 0.2rem;
     font-weight: normal;
 }
+
 .ques-tg-list-box h5 a {
     font-weight: bold;
     color: #333;
 }
+
 .ques-tg-list-box img {
     width: 0.6rem;
     height: 0.6rem;
@@ -129,18 +148,21 @@
     margin-top: 0.32rem;
     border-radius: 50%;
 }
+
 .ques-tg-list-box p {
     width: 6rem;
     float: left;
     margin: 0.3rem 0 0 0.2rem;
     position: relative;
 }
+
 .ques-tg-list-box p span {
     font-size: 0.26rem;
     color: #666;
     float: left;
     width: 100%;
 }
+
 .ques-tg-list-box p em {
     font-size: 0.24rem;
     color: #aaa;
@@ -149,6 +171,7 @@
     right: 0;
     top: 0;
 }
+
 .ques-tg-list-box p strong {
     font-size: 0.3rem;
     color: #555;
@@ -156,6 +179,7 @@
     font-weight: normal;
     margin-top: 0.1rem;
 }
+
 .ques-tg-list-box p strong a {
     color: #2e7cd7;
 }
@@ -175,7 +199,8 @@
           <em>231粉丝</em>
         </p>
         <button type="button" name="button" class="ques-tg-focus alr-focus" v-if="focusResult">已关注</button>
-        <button type="button" name="button" class="ques-tg-focus" @click="authorize" v-else><i></i>关注</button>
+        <button type="button" name="button" class="ques-tg-focus" @click="authorize" v-else><i></i>关注
+                    </button>
         <button type="button" name="button" class="ques-tg-btn" @click="search">问股</button>
       </div>
     </div>
@@ -186,14 +211,16 @@
     <ul>
       <li v-for="item in dataList">
         <div class="ques-tg-list-box clearfix">
-          <h5><a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId">{{item.content}}</a></h5>
+          <h5><a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId">{{item.content}}</a>
+          </h5>
           <div>
             <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId" />
             <p>
               <span>{{item.lastedAnswer.adviserUser.userName}}</span>
               <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
               <strong v-if="focusResult && focusShow">{{item.lastedAnswer.content}}</strong>
-              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
+                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
               <strong v-else>请在手机百度APP中查看</strong>
             </p>
           </div>

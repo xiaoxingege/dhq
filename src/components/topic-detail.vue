@@ -5,6 +5,7 @@
     box-sizing: border-box;
     font-family: "Microsoft YaHei";
 }
+
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 ::-webkit-scrollbar {
     width: 5px;
@@ -12,16 +13,18 @@
     background-color: #eee;
     border-radius: 10px;
 }
+
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     background-color: #eee;
 }
+
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #808ba1;
 }
 em,
@@ -40,9 +43,11 @@ a {
 .green {
     color: #56a870;
 }
-.color {
+
+.lightcolor {
     color: #c9d0d7;
 }
+
 .gray {
     color: #808ba1;
 }
@@ -90,6 +95,7 @@ html {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
 }
+
 .header strong {
     font-weight: normal;
     font-size: 16px;
@@ -110,7 +116,7 @@ html {
 }
 .time-num2 {
     /*  width: 48px;
-    text-align: center; */
+  text-align: center; */
     padding-left: 6px;
     padding-right: 16px;
 }
@@ -122,15 +128,14 @@ html {
 }
 .time-num4 {
     /* width: 36px;
-    text-align: center; */
+  text-align: center; */
     color: #808ba1;
 }
 
 .detail-content {
     /*  margin: 9px; */
 }
-.detail-main {
-    }
+.detail-main {}
 .main-left {
     width: 60%;
     border: 1px solid #0d0e0f;
@@ -153,6 +158,7 @@ html {
     color: #c9d0d7;
     margin-right: 29px;
 }
+
 .con1-event {
     width: 47%;
     color: #c9d0d7;
@@ -183,6 +189,7 @@ html {
     overflow: auto;
 
 }
+
 .in-content-a {
     line-height: 26px;
 }
@@ -254,6 +261,7 @@ html {
     /* max-height: 74.7em;
       height: 55.7rem;*/
 }
+
 .right-top {
     padding-left: 10px;
     font-size: 12px;
@@ -261,23 +269,28 @@ html {
     color: #808ba1;
     background: #23272c;
 }
+
 .see-filter {
     padding-right: 20px;
     padding-left: 29px;
     cursor: pointer;
 }
+
 .mo-sort {
     cursor: pointer;
 }
+
 .right-table {
     border-collapse: collapse;
     width: 97%;
     margin-left: 3%;
     font-size: 12px;
 }
+
 .td-txt {
     position: relative;
 }
+
 .td-txt i {
     width: 11px;
     height: 6px;
@@ -287,8 +300,9 @@ html {
     /* right: 15%; */
     padding-left: 4px;
 }
-.td-txt.active {
-    }
+
+.td-txt.active {}
+
 .td-txt.active .sort-down {
     width: 11px;
     height: 6px;
@@ -296,6 +310,7 @@ html {
     background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
 
 }
+
 .td-txt.active .sort-up {
     width: 11px;
     height: 6px;
@@ -304,7 +319,7 @@ html {
 }
 .right-table tr:nth-child(1) {
     /* background: #f2f2f2;
-      color: #666; */
+    color: #666; */
     font-size: 12px;
     cursor: pointer;
 }
@@ -316,22 +331,26 @@ html {
     text-align: left;
 
 }
-.right-table tr {
-    }
+
+.right-table tr {}
+
 .right-table tr td {
     /* text-align: center; */
     height: 44px;
     border-bottom: 1px solid #23272c;
 }
+
 .stock-td1 {
     /* position: relative; */
 }
+
 .stock-td2 {
     /* text-align: right; */
     /* position: relative; */
     padding-left: 34px;
     cursor: pointer;
 }
+
 .numTopic {
     position: absolute;
     display: none;
@@ -342,18 +361,22 @@ html {
     z-index: 999;
     cursor: pointer;
 }
+
 .numTopic span {
     margin-left: 8px;
     cursor: pointer;
 }
+
 .numTopic span a {
     color: #666666;
 }
+
 .stock-td3 {
     text-align: left;
     cursor: pointer;
     position: relative;
 }
+
 .see-topicmark {
     display: none;
     position: absolute;
@@ -368,6 +391,7 @@ html {
 .stock-td3:hover span {
     display: block;
 }
+
 .main-right .page {
     background: #141518;
     text-align: center;
@@ -376,10 +400,12 @@ html {
     zoom: 1;
     clear: both;
 }
+
 .main-right .page .pages li {
     background: #141518;
 
 }
+
 /* .main-right2 {
     height: 896px;
 } */
@@ -430,7 +456,7 @@ table {
 }
 .num-td {
     /* position: absolute;
-    top: 10px; */
+  top: 10px; */
     /* left: 34%; */
     /* left: 39%; */
     font-size: 12px;
@@ -477,10 +503,11 @@ table {
 .mo {
     display: none;
 }
+
 .foot-tishi {
     font-size: 12px;
     /*  position: absolute;
-  bottom: 0; */
+bottom: 0; */
     color: #808ba1;
     line-height: 24px;
 }
@@ -522,7 +549,8 @@ table {
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{checkNull(detail.drivenEvent)}}</span></router-link>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span>{{checkNull(detail.drivenEvent)}}</span>
+            </router-link>
           </div>
         </div>
         <div class="left-con3 clearfix">
@@ -543,8 +571,9 @@ table {
         </div>
       </div>
       <div class="main-right box-flex-1" :class="stockList.length<15&&size>13?'main-right2':''">
-        <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank" class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''"
-            @click="initStockList">默认相关度排序</span></div>
+        <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a
+                :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="initStockList">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
             <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">股票名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
@@ -555,19 +584,25 @@ table {
             <td>关联说明</td>
           </tr>
           <tr v-for="stock of stockList">
-            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br><small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small></a></td>
+            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
+              <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
+            </a></td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
             <td class="gray">{{checkNull(stock.industryName)}}</td>
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
-              <span v-for="number of numberTopic"><router-link :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
+              <span v-for="number of numberTopic"><router-link
+                      :to="{name:'topicDetail',params:{topicId:number.topicCode}}"
+                      target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
-    <div class="foot-tishi">温馨提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+    <div class="foot-tishi">
+      温馨提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+    </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>

@@ -39,9 +39,11 @@ html {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .code-select {
     width: 150px;
 }
+
 .condition-select {
     width: 166px;
 }
@@ -49,6 +51,7 @@ html {
     border: none;
     outline: none;
 }
+
 .condition select option {
     -webkit-appearance: none;
     color: #000;

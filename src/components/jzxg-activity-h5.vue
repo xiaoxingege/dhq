@@ -115,7 +115,7 @@ input {
     left: 0;
     width: 7.5rem;
     height: 2rem;
-    background: url("../assets/images/jzxg-activity/h5-bottom.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/h5-bottom-1.png") center 0 no-repeat;
     background-size: 100%;
     z-index: 10;
 }
@@ -158,12 +158,6 @@ input {
   </div>
   <div class="bg7">
     <div class="bottom-fixed" @click="submit">
-      <div id="divdown1">
-        <span id="t_d">00</span>
-        <span id="t_h">00</span>
-        <span id="t_m">00</span>
-        <span id="t_s">00</span>
-      </div>
     </div>
   </div>
   <div class="nav-fixed" @click="navFixed">
@@ -180,40 +174,7 @@ window.jQuery = window.$ = jQuery
 import activitySlider from 'components/activity-slider'
 
 export default {
-  data () {
-    function GetRTime () {
-      var EndTime = new Date('2017/09/30 23:59:59')
-      var NowTime = new Date()
-      var t = EndTime.getTime() - NowTime.getTime()
-      var d = 0
-      var h = 0
-      var m = 0
-      var s = 0
-      if (t >= 0) {
-        d = Math.floor(t / 1000 / 60 / 60 / 24)
-        h = Math.floor(t / 1000 / 60 / 60 % 24)
-        m = Math.floor(t / 1000 / 60 % 60)
-        s = Math.floor(t / 1000 % 60)
-      }
-      if (d < 10) {
-        d = '0' + d
-      }
-      if (h < 10) {
-        h = '0' + h
-      }
-      if (m < 10) {
-        m = '0' + m
-      }
-      if (s < 10) {
-        s = '0' + s
-      }
-      document.getElementById('t_d').innerHTML = d
-      document.getElementById('t_h').innerHTML = h
-      document.getElementById('t_m').innerHTML = m
-      document.getElementById('t_s').innerHTML = s
-    }
-    // 倒计时开关
-    setInterval(GetRTime, 1000)
+  data() {
     return {
       listData: {
         conWidth: '6.97rem',
@@ -226,21 +187,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+            link: ''
+          }
         ]
       },
       popHtml: '',
@@ -257,27 +218,27 @@ export default {
     activitySlider
   },
   methods: {
-    hideShareLayer () {
+    hideShareLayer() {
       this.$refs.shareLayer.style.display = 'none'
     },
-    showShareLayer () {
+    showShareLayer() {
       this.$refs.shareLayer.style.display = 'block'
       this.$refs.shareLayer.style.height = $(window).height() + 'px'
     },
-    navFixed () {
+    navFixed() {
       var pos = $('.bg7').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    submit () {
+    submit() {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/jzxg-activity'
-          setTimeout(function () {
+          setTimeout(function() {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -294,7 +255,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     document.title = '极致选股'
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})

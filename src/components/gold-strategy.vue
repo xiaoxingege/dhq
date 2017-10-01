@@ -2,7 +2,7 @@
 @import '../assets/css/base.css';
 .goldRecommend {
     font-size: 12px;
-    background: #F2F2F2;
+    background: #0d0e0f;
     padding: 0 8px;
     box-sizing: border-box;
 }
@@ -14,30 +14,32 @@
     display: inline-block;
     height: 32px;
     line-height: 32px;
-    color: #2388da;
+    color: #fff;
+    font-size: 16px;
 }
 .strategyTop {
     /*height:375px;*/
-    margin-bottom: 10px;
+    margin-bottom: 3px;
 }
 .strategyDesc {
-    margin-right: 7px;
+    margin-right: 3px;
     /*height:345px;*/
     text-align: left;
 }
 .strategyDescTop {
     /*height:214px;*/
     margin-bottom: 6px;
-    background: #fff;
+    background: #141518;
     padding: 15px 10px;
 }
 .strategyDescBottom {
     min-height: 190px;
-    background: #fff;
+    background: #141518;
 }
 .radarChart {
     width: 456px;
     height: auto;
+
 }
 .attention {
     margin-left: 20px;
@@ -68,10 +70,11 @@ a {
     width: 100%;
 }
 .strategyDescTable tr:first-child td {
-    color: #a5a5a5;
+    color: #afb6bd;
 }
 .strategyDescTable tr:last-child td {
     font-weight: bold;
+    color: #d3d9dd;
 }
 .strategyDescTable td {
     color: #191919;
@@ -88,7 +91,7 @@ a {
       <span>{{goldResult===null?'':goldResult.strategyName}}</span>
     </div>
     <div class="fr mr-15 recommend">
-      <span>推荐给客户：</span>
+      <span style="font-size: 14px;">推荐给客户：</span>
       <img class="mr-10" src="../assets/images/z3img/back-weixin.png" @click="showQrcode" />
       <img src="../assets/images/z3img/back-copy.png" class="copy" />
     </div>
@@ -126,7 +129,7 @@ a {
   <div>
     <Goldchart :strategyId="strategyId" :type="type"></Goldchart>
   </div>
-  <div style="color:#999;line-height: 30px;">温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+  <div style="color:#999;line-height: 50px;">温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
   <div v-show="showQrcodeBox" class="qrcode">
     <div><canvas ref="qrcode"></canvas></div>
   </div>
