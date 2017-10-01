@@ -40,7 +40,7 @@ a {
 .green {
     color: #56a870;
 }
-.color {
+.lightcolor {
     color: #c9d0d7;
 }
 .gray {
@@ -129,8 +129,7 @@ html {
 .detail-content {
     /*  margin: 9px; */
 }
-.detail-main {
-    }
+.detail-main {}
 .main-left {
     width: 60%;
     border: 1px solid #0d0e0f;
@@ -287,8 +286,7 @@ html {
     /* right: 15%; */
     padding-left: 4px;
 }
-.td-txt.active {
-    }
+.td-txt.active {}
 .td-txt.active .sort-down {
     width: 11px;
     height: 6px;
@@ -316,8 +314,7 @@ html {
     text-align: left;
 
 }
-.right-table tr {
-    }
+.right-table tr {}
 .right-table tr td {
     /* text-align: center; */
     height: 44px;
