@@ -90,6 +90,9 @@ i {
 .header-title {
     font-size: 16px;
 }
+.header-title span {
+    font-size: 16px;
+}
 .describe-left {
     width: 55%;
     /* padding: 14px 10px 0; */
@@ -108,8 +111,7 @@ i {
     padding: 0 0 26px;
     width: 100%;
 }
-.desc-ul tr:nth-child(2) td {
-    }
+.desc-ul tr:nth-child(2) td {}
 .desc-ul tr:nth-child(2) td {
     /* padding-top: 12px; */
     color: #c9d0d7;
@@ -158,10 +160,8 @@ i {
     width: 100%;
     color: #c9d0d7;
 }
-.eval-tr1 {
-    }
-.eval-tr2 {
-    }
+.eval-tr1 {}
+.eval-tr2 {}
 .evaluat-box tr:nth-child(1) td {
     padding-bottom: 13px;
     border-bottom: 1px solid #23272c;

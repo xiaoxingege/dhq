@@ -67,13 +67,13 @@
 import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
-  data() {
+  data () {
     return {
       isNoData: false
     }
   },
   watch: {
-    dataList() {
+    dataList () {
       console.log(this.dataList)
       if (this.dataList.length > 0) {
         this.isNoData = false
@@ -86,7 +86,7 @@ export default {
     StockBox
   },
   methods: {
-    formatData: function(val) {
+    formatData: function (val) {
       let getVal
       if (val) {
         getVal = (100 * val).toFixed(2) + '%'
@@ -96,7 +96,7 @@ export default {
       return getVal
     }
   },
-  mounted() {
+  mounted () {
     console.log(this.dataList)
   }
 }

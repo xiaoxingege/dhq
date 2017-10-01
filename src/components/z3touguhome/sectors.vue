@@ -94,7 +94,7 @@ import DataTable from 'components/z3touguhome/data-table'
 import StockBox from 'components/stock-box'
 export default {
   props: ['strategyId'],
-  data() {
+  data () {
     return {
       navText: [
         ['上证A股', 'SHQuote'],
@@ -113,7 +113,7 @@ export default {
     }
   },
   watch: {
-    type() {
+    type () {
       this.initSectors() // 点击板块标签初始化表格数据
     }
   },
@@ -123,31 +123,31 @@ export default {
     StockBox
   },
   computed: {
-    shangZRankData: function() {
+    shangZRankData: function () {
       const shangZRankData = this.$store.state.z3touguIndex.shangZRank // 上证A股
       return shangZRankData
     },
-    shenZRankData: function() {
+    shenZRankData: function () {
       const shenZRankData = this.$store.state.z3touguIndex.shenZRank // 深证A股
       return shenZRankData
     },
-    zXBRankData: function() {
+    zXBRankData: function () {
       const zXBRankData = this.$store.state.z3touguIndex.zXBRank // 中小板
       return zXBRankData
     },
-    cYBRankData: function() {
+    cYBRankData: function () {
       const cYBRankData = this.$store.state.z3touguIndex.cYBRank // 创业板
       return cYBRankData
     }
   },
   methods: {
-    changeNavType(data) {
+    changeNavType (data) {
       this.type = data
     },
-    initSectors(date) {
+    initSectors (date) {
       this.$store.dispatch('z3touguIndex/getSectorsData', {
-          size: this.size
-        })
+        size: this.size
+      })
         .then(() => {
           this.rankUp = {}
           this.rankDown = {}
@@ -166,26 +166,26 @@ export default {
           }
         })
     },
-    autoUpdate: function() {
+    autoUpdate: function () {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function() {
+        this.updateDataPid = setInterval(function () {
           _this.initSectors()
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function(innerCode) {
+    linkStock: function (innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toStockList: function(type) {
+    toStockList: function (type) {
       window.open(type)
     }
   },
-  mounted() {
+  mounted () {
     this.initSectors()
     this.autoUpdate()
   }
