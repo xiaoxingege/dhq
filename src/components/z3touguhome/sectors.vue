@@ -149,13 +149,15 @@ export default {
         size: this.size
       })
         .then(() => {
+          this.rankUp = {}
+          this.rankDown = {}
           if (this.type === 'SHQuote') {
             this.rankUp = this.shangZRankData['1']
             this.rankDown = this.shangZRankData['-1']
           } else if (this.type === 'SZQuote') {
             this.rankUp = this.shenZRankData['1']
             this.rankDown = this.shenZRankData['-1']
-          } else if (this.type === ' ZXQuote') {
+          } else if (this.type === 'ZXQuote') {
             this.rankUp = this.zXBRankData['1']
             this.rankDown = this.zXBRankData['-1']
           } else if (this.type === 'GMEQuote') {

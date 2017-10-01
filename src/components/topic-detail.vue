@@ -3,23 +3,53 @@
 * {
     text-align: justify;
     box-sizing: border-box;
+    font-family: "Microsoft YaHei";
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #eee;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #808ba1;
 }
 em,
 i {
     font-style: normal;
 }
 a {
-    color: #696969;
+    color: #c9d0d7;
 }
 .blue {
-    color: #2388da;
-    font-size: 12px;
+    color: #1984ea;
 }
 .red {
-    color: #e6363a !important;
+    color: #ca4941;
 }
 .green {
-    color: #48a854 !important;
+    color: #56a870;
+}
+
+.lightcolor {
+    color: #c9d0d7;
+}
+
+.gray {
+    color: #808ba1;
 }
 .fr {
     float: right;
@@ -50,20 +80,31 @@ a {
 body,
 html {
     /* height: 100%; */
+    background: #141518;
 }
 .topic-detail {
     width: 100%;
-    background: #f2f2f2;
+    background: #141518;
     font-size: 12px;
-    color: #696969;
+    color: #c9d0d7;
     height: 100%;
+    border-left: 1px solid #0d0e0f;
+    border-bottom: 3px solid #0d0e0f;
 }
 .header {
-    padding: 19px 0 6px 18px;
-    font-size: 12px;
+    /* padding: 19px 0 6px 18px; */
+    padding: 13px 0 13px 10px;
+}
+
+.header strong {
+    font-weight: normal;
+    font-size: 16px;
 }
 .topic-time {
-    margin-right: 14px;
+    /* margin-right: 14px; */
+    margin-left: 20px;
+    font-size: 12px;
+    line-height: 20px;
 
 }
 .topic-time span {
@@ -74,58 +115,83 @@ html {
     text-align: center;
 }
 .time-num2 {
-    width: 49px;
-    text-align: center;
+    /*  width: 48px;
+  text-align: center; */
+    padding-left: 6px;
+    padding-right: 16px;
 }
 .time-num3 {
-    width: 61px;
-    text-align: center;
+    /*  width: 61px; */
+    /* text-align: center; */
+    font-size: 16px;
+    margin-left: 10px;
 }
 .time-num4 {
-    width: 37px;
-    text-align: center;
+    /* width: 36px;
+  text-align: center; */
+    color: #808ba1;
 }
 
 .detail-content {
-    margin: 9px;
+    /*  margin: 9px; */
 }
 .detail-main {}
 .main-left {
     width: 60%;
+    border: 1px solid #0d0e0f;
+    border-left: none;
 }
 .left-con1 {
-    background: #fff;
-    border-radius: 3px;
-    padding: 20px 25px 20px 18px;
+    padding: 20px 21px 18px 20px;
     /* height: 82px; */
     height: auto;
     line-height: 18px;
     box-sizing: border-box;
+    border-bottom: 1px solid #0d0e0f;
 }
 .left-con1 strong {
-    padding-bottom: 3px;
-    display: inline-block;
+    color: #c9d0d7;
+}
+
+.con1-ti {
+    width: 48%;
+    color: #c9d0d7;
+    margin-right: 29px;
+}
+
+.con1-event {
+    width: 47%;
+    color: #c9d0d7;
 }
 .left-con1 a:hover {
-    color: #2388da;
+    color: #1984ea;
 }
 .left-con2 {
-    background: #fff;
-    border-radius: 3px;
-    height: 317px;
-    padding: 11px 19px 12px 0;
+    /* height: 317px; */
+    height: 303px;
+    /* padding: 11px 19px 12px 0; */
+    padding: 19px 18px 20px 20px;
     position: relative;
+    border-bottom: 1px solid #0d0e0f;
 }
 .left-con3 {
-    background: #fff;
-    border-radius: 3px;
-    padding: 13px 25px 10px 13px;
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid #0d0e0f;
+    /* padding: 13px 25px 10px 13px; */
+
 }
 .left-con3-1 {
     height: 421px;
 }
 .in-content {
     line-height: 18px;
+    /* height: 168px;*/
+    overflow: auto;
+
+}
+
+.in-content-a {
+    line-height: 26px;
 }
 .in-title {
     line-height: 62px;
@@ -140,11 +206,11 @@ html {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 25px;
+    line-height: 26px;
 
 }
 .new-date {
-    color: #7e7e7e;
+    color: #c9d0d7;
     line-height: 25px;
     float: left;
     width: 12%;
@@ -155,13 +221,16 @@ html {
     float: left;
     width: 14%;
     text-align: right;
-    color: #7e7e7e;
+    color: #c9d0d7;
 }
 .in-content a:hover {
-    color: #2388da;
+    color: #1984ea;
 }
 .left-con3 strong {
     display: inline-block;
+    margin-bottom: 6px;
+    font-weight: 400;
+    color: #808ba1;
 }
 .view-all {
     position: relative;
@@ -186,15 +255,160 @@ html {
     left: 51px;
 }
 .main-right {
-    width: 39%;
+    /* width: 39%; */
+    width: 40%;
     /* max-height: 898px; */
-    background: #fff;
     /* max-height: 74.7em;
       height: 55.7rem;*/
 }
-.main-right2 {
-    height: 896px;
+
+.right-top {
+    padding-left: 10px;
+    font-size: 12px;
+    line-height: 30px;
+    color: #808ba1;
+    background: #23272c;
 }
+
+.see-filter {
+    padding-right: 20px;
+    padding-left: 29px;
+    cursor: pointer;
+}
+
+.mo-sort {
+    cursor: pointer;
+}
+
+.right-table {
+    border-collapse: collapse;
+    width: 97%;
+    margin-left: 3%;
+    font-size: 12px;
+}
+
+.td-txt {
+    position: relative;
+}
+
+.td-txt i {
+    width: 11px;
+    height: 6px;
+    display: inline-block;
+    position: absolute;
+    top: 12px;
+    /* right: 15%; */
+    padding-left: 4px;
+}
+
+.td-txt.active {}
+
+.td-txt.active .sort-down {
+    width: 11px;
+    height: 6px;
+    display: inline-block;
+    background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
+
+}
+
+.td-txt.active .sort-up {
+    width: 11px;
+    height: 6px;
+    display: inline-block;
+    background: url("../assets/images/z3img/topic-sort-up.png") no-repeat;
+}
+.right-table tr:nth-child(1) {
+    /* background: #f2f2f2;
+    color: #666; */
+    font-size: 12px;
+    cursor: pointer;
+}
+.right-table tr:nth-child(1) td {
+    height: 30px;
+
+}
+.right-table tr td:nth-child(1) {
+    text-align: left;
+
+}
+
+.right-table tr {}
+
+.right-table tr td {
+    /* text-align: center; */
+    height: 44px;
+    border-bottom: 1px solid #23272c;
+}
+
+.stock-td1 {
+    /* position: relative; */
+}
+
+.stock-td2 {
+    /* text-align: right; */
+    /* position: relative; */
+    padding-left: 34px;
+    cursor: pointer;
+}
+
+.numTopic {
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.numTopic span {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.numTopic span a {
+    color: #666666;
+}
+
+.stock-td3 {
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+}
+
+.see-topicmark {
+    display: none;
+    position: absolute;
+    padding: 19px 17px 20px 16px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 10px;
+    z-index: 999;
+    cursor: pointer;
+    left: -56px;
+}
+.stock-td3:hover span {
+    display: block;
+}
+
+.main-right .page {
+    background: #141518;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    zoom: 1;
+    clear: both;
+}
+
+.main-right .page .pages li {
+    background: #141518;
+
+}
+
+/* .main-right2 {
+    height: 896px;
+} */
 .right-con {
     background: #fff;
     border-radius: 3px;
@@ -241,11 +455,12 @@ table {
     left: 5px;
 }
 .num-td {
-    position: absolute;
-    top: 10px;
+    /* position: absolute;
+  top: 10px; */
     /* left: 34%; */
-    left: 39%;
+    /* left: 39%; */
     font-size: 12px;
+    text-align: center;
 }
 .right-con .td1 {
     /* width: 22%; */
@@ -257,15 +472,18 @@ table {
 }
 .time-ul {
     position: absolute;
-    right: 2%;
+    /* right: 2%; */
+    right: 4%;
     top: 3%;
     z-index: 9999;
+    background: #22272d;
 }
 .time-ul li {
     float: left;
-    color: #2388da;
-    border: 1px solid #ddd;
-    padding: 5px 10px;
+    color: #808ba1;
+    border: 1px solid #23272c;
+    /* padding: 5px 10px; */
+    padding: 7px 6px;
     margin-right: -1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -278,47 +496,39 @@ table {
     top: 3%;
 }
 .time-ul .active {
-    color: #fff;
-    background-color: #2388da;
-    border-color: #2388da;
+    color: #c9d0d7;
+    background-color: #1984ea;
+    border-color: #1984ea;
 }
-.active {
-    color: #000;
-    background: pink;
-}
-.numTopic {}
 .mo {
     display: none;
+}
+
+.foot-tishi {
+    font-size: 12px;
+    /*  position: absolute;
+bottom: 0; */
+    color: #808ba1;
+    line-height: 24px;
 }
 </style>
 <template>
 <div class="topic-detail">
   <div class="header clearfix">
-    <strong>{{detail.topicName}}</strong>
-    <div class="topic-time fr">
-      <span class="">发布时间</span><span class="blue time-num">{{detail.declareDate==null?'--':format(detail.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{detail.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{detail.eventNum}}条</span>
-      <span>今日涨跌</span>
-      <span class="time-num3" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span><span>上涨股票</span>
-      <span class="red time-num4">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}</span>
+    <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
+    <div class="topic-time fl">
+      <span class="time-num4">成分股数</span><span class="time-num2">{{detail.equityNum}}只
+      </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}
+      </span><span class="time-num4">下跌股票</span><span class="green time-num2">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}
+      </span><span class="time-num4">相关新闻</span><span class="time-num2">{{detail.eventNum}}条
+      </span><span class="time-num4">发布时间</span><span class="time-num2">{{detail.declareDate==null?'--':format(detail.declareDate)}}</span>
     </div>
   </div>
   <div class="detail-content clearfix">
-    <div class="detail-main clearfix">
-      <div class="main-left fl mr-8">
-        <div class="left-con1 mb-8">
-          <strong>最新事件:</strong>
-          <!-- <div> -->
-          <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-            <span>{{checkNull(detail.title)}}</span> <span>{{detail.newsDeclareDate==null?'--':format(detail.newsDeclareDate)}}</span>
-          </router-link>
-          <!-- </div> -->
-          <div>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{checkNull(detail.summary)}}</span></router-link>
-            （<span>{{checkNull(detail.srcName)}}</span>）
-          </div>
-        </div>
-        <div class="left-con2 mb-8">
-          <div class="chart-title">主题<span class="blue">[{{detail.topicName}}]</span>累计收益率</div>
+    <div class="detail-main clearfix display-box">
+      <div class="main-left box-flex-1">
+        <div class="left-con2">
+          <!-- <div class="chart-title">主题<span class="blue">[{{detail.topicName}}]</span>累计收益率</div> -->
           <ul class="time-ul">
             <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
@@ -330,58 +540,70 @@ table {
           </ul>
           <div class="chart" ref="chart"></div>
         </div>
-        <div class="left-con3 clearfix" :class="informatList.length<15 && inforPageSize>9?'left-con3-1':''">
-          <strong class="mb-8" v-if="index==0" v-for="(infor,index) of informatList">{{infor.topicName}}</strong><strong>相关资讯</strong>
-          <div class="in-content">
+        <div class="left-con1 display-box">
+          <div class="con1-ti box-flex-1">
+            <strong>题材简介:</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <a class="clearfix" :class="inforPageSize===5?'new-link':''" v-for="(infor,index) of informatList">
-               <span class="new-tit">{{checkNull(infor.title)}}</span>
-               <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
-               <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
-              </a>
+              <span>{{checkNull(detail.topicDesc)}}</span>
             </router-link>
           </div>
-          <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
-            <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
+          <div class="con1-event box-flex-1">
+            <strong>驱动事件:</strong>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span>{{checkNull(detail.drivenEvent)}}</span>
+            </router-link>
           </div>
         </div>
-      </div>
-      <div class="main-right fl" :class="stockList.length<15&&size>13?'main-right2':''">
-        <table class="right-con clearfix">
-          <div :class="this.stockSort==='recommendIndex'?'active':''" class="mo">默认相关度排序</div>
-          <thead>
-            <th class="fl mb-8">
-              <td class="td1" @click="sortStock('symbol')" :class="this.stockSort==='symbol'?'active':''">{{detail.topicName}}相关股票</td>
-              <td @click="sortStock('marketData.price')" :class="this.stockSort==='marketData.price'?'active':''">最新价</td>
-              <td @click="sortStock('marketData.curChngPct')" :class="this.stockSort==='marketData.curChngPct'?'active':''">涨跌幅</td>
-              <td @click="sortStock('industryName')" :class="this.stockSort==='industryName'?'active':''">所属申万行业</td>
-              <td>关联说明</td>
-              <td class="blue">关联主题</td>
-            </th>
-          </thead>
-          <tbody>
-            <tr class="fl" v-for="stock of stockList">
-              <td class="td1 td-tit1" v-z3-stock="{ref:'stockbox',code:stock.innerCode}"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue txt-td">{{stock.name==null?'--':stock.name}}</span><small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small></a></td>
-              <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
-              <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
-              <td>{{checkNull(stock.industryName)}}</td>
-              <td class="blue" :title="stock.topicMark">关联原因</td>
-              <td class="blue numTopic">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
-              <span v-for="number of numberTopic">{{number.topicName}}</span></a></td>
-            </tr>
-
-          </tbody>
-          <tfoot>
-            <a :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank">
-              <div class="view-all blue fr view-all2"><span>查看全部</span><i></i></div>
+        <div class="left-con3 clearfix">
+          <strong>相关资讯</strong>
+          <div class="in-content" :style="{  height: fullHeight1 + 'px' }">
+            <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
+              <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
+                <span class="new-tit">{{checkNull(infor.title)}}</span>
+                <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
+                <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
+              </router-link>
             </a>
-          </tfoot>
-        </table>
 
+          </div>
+          <!-- <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
+            <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
+          </div> -->
+        </div>
+      </div>
+      <div class="main-right box-flex-1" :class="stockList.length<15&&size>13?'main-right2':''">
+        <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a
+                :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="initStockList">默认相关度排序</span></div>
+        <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
+          <tr>
+            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">股票名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
+            <td>关联主题</td>
+            <td>关联说明</td>
+          </tr>
+          <tr v-for="stock of stockList">
+            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
+              <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
+            </a></td>
+            <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
+            <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
+            <td class="gray">{{checkNull(stock.industryName)}}</td>
+            <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
+              <span v-for="number of numberTopic"><router-link
+                      :to="{name:'topicDetail',params:{topicId:number.topicCode}}"
+                      target="_blank">{{number.topicName}}</router-link></span></a></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark}}</span></td>
+          </tr>
+        </table>
+        <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
+    <div class="foot-tishi">
+      温馨提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+    </div>
   </div>
-
   <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
@@ -397,6 +619,7 @@ import {
 // import { mutationTypes } from 'stores/z3tougu-theme'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
+import Pagination from './pagination'
 export default {
   data () {
     return {
@@ -416,17 +639,27 @@ export default {
         curChngPct: 'marketData.curChngPct',
         industryName: 'industryName'
       },
+      direction: 'DESC',
+      isDireSymbol: true,
+      isDirePrice: true,
+      isDireCurChng: true,
+      isDireIndustry: true,
       topicCode: this.$route.params.topicId,
-      fullHeight: document.documentElement.clientHeight,
+      fullHeight1: document.documentElement.clientHeight - 547,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 204) / 44),
+      fullHeight3: document.documentElement.clientHeight - 204,
       size: 12,
-      inforPageSize: 5,
+      inforPageSize: 100,
       endAll: '',
-      alltimers: ''
+      alltimers: '',
+      stockPage: '',
+      stockPageSize: ''
 
     }
   },
   components: {
-    StockBox
+    StockBox,
+    Pagination
   },
   computed: {
     ...mapState({
@@ -434,6 +667,7 @@ export default {
       allLimit: state => state.topic.allLimit,
       realtimeLimit: state => state.topic.realtimeLimit,
       numberTopic: state => state.topic.numberTopic,
+      stockTotal: state => state.topic.stockTotal,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -452,6 +686,7 @@ export default {
       lineData: state => state.topic.lineData,
       news: state => state.topic.news,
       informatList: state => state.topic.informatList,
+      inforTotalElements: state => state.topic.inforTotalElements,
       stockList: state => state.topic.stockList,
       detail: state => state.topic.detail,
       chartData: state => {
@@ -519,7 +754,7 @@ export default {
             tradeMin.push(realTime)
           }
         }
-        console.log(tradeMin)
+        // console.log(tradeMin)
 
         realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
@@ -587,6 +822,9 @@ export default {
       }).then((v) => {
         console.log(12)
       })
+    },
+    stockPage () {
+      this.initStockList(this.stockPage)
     }
   },
   methods: {
@@ -605,6 +843,9 @@ export default {
                   })*/
       this.renderCharts(this.period)
       // console.log(this.handleResize)
+    },
+    goToPage (page) {
+      this.stockPage = Number(page) - 1
     },
     renderCharts (type) {
       this.period = type
@@ -689,20 +930,25 @@ export default {
       /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
     },
 
-    initStockList () {
+    initStockList (stockPage) {
       this.stockSort = 'recommendIndex'
+      // this.direction = 'DESC'
       //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
+      console.log(this.fullHeight2)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
-        size: this.size
+        direction: 'DESC',
+        stockPage: this.stockPage,
+        stockPageSize: this.fullHeight2
       })
+      console.log(this.stockPageSize)
     },
-    initInformatList (inforPageSize) {
-      this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5
+    initInformatList () {
+      /* this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5*/
 
       this.$store.dispatch('topic/queryInformatList', {
         topicCode: this.topicCode,
@@ -710,25 +956,45 @@ export default {
       })
     },
     enterNumberTopic (e, innerCode) {
+      e.preventDefault()
       // const focusStockId = e.currentTarget.children[0].innerText
-      console.log(e.currentTarget.children[0])
-      console.log(innerCode)
-
+      // console.log(e.currentTarget.children[0])
+      // console.log(innerCode)
+      // console.log(document.getElementsByClassName('numTopic'))
       // this.isStyle = 'block'
+      var numTopics = document.getElementsByClassName('numTopic')
+      for (var i = 0; i < numTopics.length; i++) { // 遍历内容块
+        numTopics[i].style.display = 'none'
+      }
       e.currentTarget.children[0].style.display = 'block'
       this.$store.dispatch('topic/queryStockNumberTopic', {
         innerCode: innerCode
       })
     },
     leaveNumberTopic (e) {
+      e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
-    sortStock (type) {
+    sortStock (e, type, dire) {
+      e.preventDefault()
       this.stockSort = type
+      console.log(type)
+      if (type === 'symbol') {
+        this.isDireSymbol = !this.isDireSymbol
+      } else if (type === 'marketData.price') {
+        this.isDirePrice = !this.isDirePrice
+      } else if (type === 'marketData.curChngPct') {
+        this.isDireCurChng = !this.isDireCurChng
+      } else if (type === 'industryName') {
+        this.isDireIndustry = !this.isDireIndustry
+      }
+      console.log(dire)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
-        size: this.size
+        direction: dire,
+        stockPage: this.stockPage,
+        stockPageSize: this.fullHeight2
       })
     },
     drawCharts (topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
@@ -738,12 +1004,12 @@ export default {
           formatter: function (params) {
             if (params.length) {
               if (params[0].value !== '') {
-                var boxHtml = '<div>' + params[0].name + '<br/>'
+                var boxHtml = '<div style="color:#c9d0d7;">' + params[0].name + '<br/>'
               }
               for (var i = 0; i < params.length; i++) {
                 var param = params[i]
                 if (param.value !== '') {
-                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span>' + ' ' + param.seriesName + ': ' + param.value + '%<br/></div>'
+                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + param.seriesName + ': ' + param.value + '%<br/></span></div>'
                 }
               }
               return boxHtml
@@ -757,11 +1023,17 @@ export default {
           itemHeight: 8,
           data: [{
             name: topicName,
-            icon: 'pin'
+            icon: 'pin',
+            textStyle: {
+              color: '#c9d0d7'
+            }
           },
           {
             name: '沪深300',
-            icon: 'pin'
+            icon: 'pin',
+            textStyle: {
+              color: '#c9d0d7'
+            }
           }
           ]
 
@@ -776,13 +1048,29 @@ export default {
           data: tradeDate,
           axisLabel: {
             // X轴刻度配置
-            interval: this.xLabelInterval // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+            interval: this.xLabelInterval, // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+            textStyle: {
+              color: '#c9d0d7'
+            }
           }
         }],
         yAxis: [{
           type: 'value',
           axisLabel: {
-            formatter: '{value}%'
+            formatter: '{value}%',
+            textStyle: {
+              color: '#c9d0d7'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#23272c'
+            }
           }
         }],
         grid: {
@@ -798,10 +1086,25 @@ export default {
         dataZoom: [{
           show: true,
           showDetail: false,
+          showDataShadow: true,
           type: 'slider',
           y: '88%',
           start: 0,
-          end: 100
+          end: 100,
+          dataBackground: {
+            lineStyle: {
+              color: '#18191d'
+            },
+            areaStyle: {
+              color: '#2f3034'
+            }
+          },
+          handleStyle: {
+            color: '#0d0e0f'
+          },
+          backgroundColor: '#4d4e52',
+          fillerColor: '#4d4e52',
+          borderColor: 'none'
         }],
         series: [{
           name: topicName,
@@ -810,13 +1113,13 @@ export default {
           data: topicReturnRate,
           lineStyle: { // 网格线
             normal: {
-              color: '#5597d3'
+              color: '#CA4A41'
             }
           },
           itemStyle: { // 折线拐点标志的样式
             normal: {
               opacity: 0,
-              color: '#5597d3'
+              color: '#CA4A41'
             }
           },
           markPoint: { // 图标标注
@@ -845,13 +1148,13 @@ export default {
           data: hs300ReturnRate,
           lineStyle: {
             normal: {
-              color: '#f1975d'
+              color: '#2388DA'
             }
           },
           itemStyle: {
             normal: {
               opacity: 0,
-              color: '#f1975d'
+              color: '#2388DA'
             }
           },
           markPoint: { // 图标标注
@@ -917,7 +1220,7 @@ export default {
     this.initChart()
     this.initStockList()
     this.initInformatList()
-    // console.log(this.inforPageSize)
+    console.log(this.fullHeight2)
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })

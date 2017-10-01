@@ -16,7 +16,7 @@ html {
   width: 100%;
   height: 74%;
   background: #0d0e0f;
-  margin-bottom: 3px;
+  padding-bottom: 3px;
 }
 
 .line-chart {
@@ -53,7 +53,7 @@ html {
   width: 25%;
   height: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 10px 20px;
   position: relative;
 }
 
@@ -64,7 +64,7 @@ html {
 .chart-info {
   background: #141518;
   font-size: 12px;
-  height: 25.9%;
+  height: 26%;
 }
 
 .chartInfo_bar {

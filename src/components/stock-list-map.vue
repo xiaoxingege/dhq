@@ -123,8 +123,8 @@ export default {
       stockListTop: 0,
       titlePrice: 0,
       titleChngPct: '',
-      stockUpNo: 0,
-      stockDownNo: 0
+      stockUpNo: '',
+      stockDownNo: ''
     }
   },
   watch: {
@@ -243,8 +243,8 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-          this.stockUpNo = 0
-          this.stockDownNo = 0
+          this.stockUpNo = ''
+          this.stockDownNo = ''
           this.stockList.forEach(function (stock) {
             if (stock.perf >= 0) {
               _this.stockUpNo++

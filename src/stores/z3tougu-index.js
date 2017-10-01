@@ -232,7 +232,8 @@ export default {
     }, {
       newsId
     }) {
-      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      const timestamp = new Date().getTime()
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js?time=' + timestamp
       return fetchJsonp(url, {
         jsonpCallbackFunction: 'jsonp'
       }).then((res) => {

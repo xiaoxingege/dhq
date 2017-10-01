@@ -14,6 +14,9 @@
     top: 50%;
     transform: translateY(-50%);
 }
+.strategy-title select:focus {
+    outline: none;
+}
 .follow-no {
     color: #808ba1;
     display: inline-block;
@@ -133,7 +136,6 @@ export default {
     },
     strategyNameData: function () {
       const strategyNames = this.$store.state.z3touguIndex.strategyNames
-      strategyNames[0].id = '59bfbaff955eb9019ab3466c'
       return strategyNames
     },
     strategyIndexsData: function () {
