@@ -111,7 +111,7 @@ i {
     padding: 0 0 26px;
     width: 100%;
 }
-.desc-ul tr:nth-child(2) td {}
+.desc-ul tr:nth-child(1) td {}
 .desc-ul tr:nth-child(2) td {
     /* padding-top: 12px; */
     color: #c9d0d7;

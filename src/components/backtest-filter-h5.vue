@@ -111,18 +111,19 @@ body {
     display: inline-block;
     border-radius: 0.15rem 0 0 0.15rem;
 }
+.bfilter-cont-2 {
+    padding-bottom: 0.24rem;
+}
 .desc-ul {
     /* padding: 0 0 26px 20px; */
-    padding: 0.29rem 0.4rem 0.44rem 0.58rem;
+    padding: 0.29rem 0.4rem 0 0.58rem;
     line-height: 0.4rem;
     width: 100%;
 
 }
 .desc-ul2 {
     /* padding: 0 0 26px 20px; */
-    padding: 0 0.4rem 0.44rem 0.58rem;
-    line-height: 0.4rem;
-    width: 100%;
+    padding-top: 0;
 
 }
 .desc-ul tr:nth-child(1) td {
@@ -134,6 +135,7 @@ body {
     /* color: #c9d0d7; */
     font-size: 0.28rem;
     color: #333333;
+    padding-bottom: 0.2rem;
 }
 .desc-ul td {
     /* width: 20%; */
@@ -150,6 +152,7 @@ body {
     /* color: #c9d0d7; */
     font-size: 0.28rem;
     color: #333333;
+    padding-bottom: 0.2rem;
 }
 .desc-ul2 td {
     /* width: 20%; */
@@ -268,13 +271,11 @@ body {
         <table class="desc-ul">
           <tr v-for="trItem in filterSummary" class="trtxt">
             <td v-if="index<=4" v-for="(tdItem,index) in trItem" class="tdtxt">{{tdItem}}</td>
-            </br>
           </tr>
         </table>
-        <table class="desc-ul2">
+        <table class="desc-ul desc-ul2">
           <tr v-for="trItem in filterSummary" class="trtxt">
             <td v-if="index>4" v-for="(tdItem,index) in trItem" class="tdtxt">{{tdItem}}</td>
-            </br>
           </tr>
         </table>
       </div>
