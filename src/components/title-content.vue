@@ -20,11 +20,23 @@
         background: #fff;
         font-size: 0.28rem;
         margin-bottom: 0.2rem;
+        margin-top: 0.4rem;
     }
     .title {
-        color: #191919;
-        margin-bottom: 0.15rem;
+        color: #333;
+        height: 0.32rem;
+        line-height: 0.32rem;
         font-size: 0.28rem;
+        border-left: 0.06rem solid #FC4343;
+        padding-left: 0.25rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .content {
+        color: #888;
+        padding: 0 0.6rem;
+        text-align: justify;
+        padding-bottom: 0.4rem;
     }
 }
 </style>

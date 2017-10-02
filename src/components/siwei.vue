@@ -121,7 +121,8 @@ button {
     color: #666;
 }
 
-.stockRange-slect > div > span {
+.stockRange-slect > div > span,
+.weiduRange > div > span {
     width: 33.3333%;
 }
 
@@ -161,7 +162,7 @@ button {
           <div class="weiduRange">
             <div style="text-align: left">坐标维度：</div>
             <div class="display-box mb-20">
-              <span style="display: block" class="mr-10 box-flex-1 clearfix">
+              <span style="display: block" class="box-flex-1 clearfix">
                   <div class="fr">
                       X轴
                       <select ref="xData" v-model="dimensionOptions.xDefault">
@@ -170,7 +171,7 @@ button {
                       </select>
                   </div>
               </span>
-              <span style="display: block" class="mr-10 box-flex-1 clearfix">
+              <span style="display: block" class="box-flex-1 clearfix">
                   <div class="fr">
                       Y轴
                       <select ref="yData" v-model="dimensionOptions.yDefault">
@@ -179,7 +180,7 @@ button {
                       </select>
                   </div>
               </span>
-              <span style="display: block" class="mr-10 box-flex-1 clearfix">
+              <span style="display: block" class="box-flex-1 clearfix">
                   <div class="fr">
                       气泡大小
                       <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">
@@ -190,7 +191,7 @@ button {
             </div>
             <div>
               <span style="display: block" class="clearfix">
-                      <div class="fl">
+                      <div class="fr">
                          气泡颜色
                          <select ref="bubbleColor" v-model="dimensionOptions.colorDefault">
                             <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>

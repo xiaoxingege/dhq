@@ -75,6 +75,7 @@ input {
     line-height: 28px;
     padding-left: 5px;
     background: #c1c1c1;
+    font-size: 12px;
 }
 .dialogMain {
     padding: 0 45px;

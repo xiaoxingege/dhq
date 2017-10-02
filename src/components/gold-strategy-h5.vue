@@ -5,7 +5,7 @@
 }
 .goldRecommend {
     font-size: 0.12rem;
-    background: #F2F2F2;
+    background: #F6F6F6;
 }
 .strategyHeader {
     height: 0.32rem;
@@ -23,14 +23,13 @@
     line-height: 0.32rem;
     color: #2388da;
 }
-.radarChart {
-    width: 100%;
-    height: 5rem;
-    margin-bottom: 0.05rem;
-}
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .app {
         min-width: 100%;
+    }
+
+    .strategyDesc {
+        padding: 0;
     }
     .choseStock {
         background: #fff;
@@ -40,36 +39,16 @@
         text-align: left;
         font-size: 0.18rem;
     }
-    .tableList {
-        padding-top: 0.2rem;
-        padding-bottom: 0.2rem;
-    }
-    .controlStrategy {
-        background: #fff;
-        font-size: 0.18rem;
-        text-align: left;
-    }
-    .recommendTitle {
-        text-align: left;
-        font-size: 0.2rem;
-        background: #fff;
-        line-height: 0.4rem;
-        padding-left: 0.2rem;
-        background: #F2F2F2;
-    }
-    .dryk,
-    .mrcc,
-    .sylfb,
-    .syqxt,
-    .syytj {
+
+    .syqxt {
         min-height: 4.2rem;
         width: 100%;
     }
     .mcxh,
     .mrxh {
-        padding: 0.1rem 0;
         background: #fff;
         width: 100%;
+        margin-bottom: 0.2rem;
     }
     .mcxh table,
     .mrxh table {
@@ -78,8 +57,11 @@
     }
     .mcxh table thead tr th,
     .mrxh table thead tr th {
-        height: 0.6rem;
-        line-height: 0.6rem;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        background: #F5F5F5;
+        color: #888;
+        font-weight: normal;
     }
     .mcxh table tr td,
     .mrxh table tr td {
@@ -87,42 +69,64 @@
         height: 0.5rem;
         line-height: 0.5rem;
         width: 25%;
+        font-size: 0.3rem;
+        border-bottom: 0.01rem solid #EDEDED;
     }
-    .strategyDescTable,
-    .tradeParams table {
+
+    .header-title {
+        height: 0.32rem;
+        line-height: 0.32rem;
+        border-left: 0.06rem solid #FC4343;
+        padding-left: 0.25rem;
+        color: #333;
+        font-size: 0.28rem;
+        font-weight: bold;
+        margin-bottom: 0.35rem;
+    }
+
+    .strategyForm ul {
+        width: 50%;
+        float: left;
+    }
+
+    .strategyForm ul li {
         width: 100%;
-        background: #fff;
-        font-size: 0.18rem;
+        box-sizing: border-box;
+        padding: 0 0.6rem;
     }
-    .strategyDescTable tr:first-child td,
-    .tradeParams table tr:first-child th {
-        color: #a5a5a5;
+
+    .strategyForm ul li span {
+        display: inline-block;
+        width: 50%;
+        float: left;
+        height: 0.55rem;
+        line-height: 0.55rem;
+        text-align: left;
+        color: #888888;
+        font-size: 0.24rem;
     }
-    .strategyDescTable tr:last-child td {
+    .strategyForm ul li span:last-child {
+        text-align: right;
+        color: #333;
         font-weight: bold;
     }
-    .strategyDescTable td,
-    .tradeParams table tr td {
-        color: #696969;
-        text-align: center;
-        height: 0.4rem;
-        line-height: 0.4rem;
-    }
-    .tradeParams table {
-        margin-top: 0.2rem;
-    }
-    .tradeParams table tr td {
-        width: 25%;
-        text-align: left;
-        padding-left: 0.2rem;
-    }
-    .tradeParams table tr:first-child th {
-        text-align: left;
-        font-weight: normal;
-        padding-left: 0.2rem;
-    }
-    .tradeParams {
+
+    .mrmcSignal-header {
+        height: 0.8rem;
+        line-height: 0.8rem;
         background: #fff;
+        border-bottom: 0.01rem solid #E6E6E6;
+        padding: 0 0.3rem;
+    }
+    .mrmcSignal-header div:first-child span {
+        display: inline-block;
+        height: 0.8rem;
+        font-size: 0.28rem;
+        color: #333;
+    }
+    .mrmcSignal-header div:first-child .active {
+        color: #ff4040;
+        border-bottom: 0.04rem solid #ff4040;
     }
 }
 </style>
@@ -132,50 +136,83 @@
   <div v-show="false" class="strategyHeader">
     <span>{{goldResult === null ? '' :goldResult.strategyName}}</span>
   </div>
-  <div class="strategyDesc">
+  <div class="strategyDesc strategyDesc-h5">
     <Titlecontent :data="articleData"></Titlecontent>
   </div>
-  <div class="radarChart">
-    <Radarchart :strategyId="this.$route.params.strategyId"></Radarchart>
+  <!--策略表现 start-->
+  <div style="background:#fff; padding-top: 0.35rem; padding-bottom: 0.4rem;">
+    <div class="header-title">策略表现<span>回测区间</span></div>
+    <div class="strategyForm clearfix">
+      <ul>
+        <li>
+          <span>年化收益</span>
+          <span v-if="this.goldResult" v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</span>
+        </li>
+        <li>
+          <span>波动率</span>
+          <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</span>
+        </li>
+        <li>
+          <span>最大回撤</span>
+          <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</span>
+        </li>
+        <li>
+          <span>Beta</span>
+          <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</span>
+        </li>
+        <li>
+          <span>换手率</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</span>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <span>超额收益</span>
+          <span v-if="this.goldResult" v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</span>
+        </li>
+        <li>
+          <span>夏普比率</span>
+          <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</span>
+        </li>
+        <li>
+          <span>Alpha</span>
+          <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</span>
+        </li>
+        <li>
+          <span>胜率</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div style="background:#fff;">
-    <table class="strategyDescTable">
-      <tr>
-        <td v-for="item in trData">{{item}}</td>
-      </tr>
-      <tr v-if="this.goldResult !== null">
-        <td v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</td>
-        <td v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</td>
-        <td>{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</td>
-        <td>{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</td>
-        <td>{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</td>
-        <td>{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</td>
-        <td>{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
-      </tr>
-    </table>
-    <table class="strategyDescTable" style="width:33%;">
-      <tr>
-        <td>胜率</td>
-        <td>换手率</td>
-      </tr>
-      <tr>
-        <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
-        <td>{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
-      </tr>
-    </table>
-  </div>
-  <!--<Tablelist :data="tableData"></Tablelist>-->
-  <div style="width:100%; margin-top:0.1rem;">
-    <div style="width:100%" class="goldH5">
-      <Navbar :data="navText1" :type="type" v-on:changeType="changeNavType"></Navbar>
+  <!--策略表现 end-->
+
+  <!--收益曲线图 start-->
+  <div style="width:100%; margin-top:0.1rem; background: #fff; padding-top: 0.35rem;">
+    <div style="width:100% " class="goldH5">
+      <div class="header-title">收益曲线图</div>
       <div style="margin-bottom: 0.05rem;">
-        <div v-if="type === 'syqxt'" class="syqxt">
+        <div class="syqxt">
           <Linechart :strategyId="this.$route.params.strategyId"></Linechart>
         </div>
       </div>
-      <div class="mrxh">
-        <div class="recommendTitle">今日买入信号</div>
-        <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号</div>
+    </div>
+    <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
+  </div>
+  <!--收益曲线图 end-->
+
+  <!--买入、卖出信号 start-->
+  <div style="width:100%; margin-top:0.2rem; background: #fff;">
+    <div style="width:100% " class="goldH5">
+      <div class="mrmcSignal-header clearfix">
+        <div class="fl">
+          <span class="active" style="margin-right: 0.85rem;">买入信号</span>
+          <span>卖出信号</span>
+        </div>
+        <div class="fr" style="color:#888;">信号日期:<span>2017.08.14</span></div>
+      </div>
+      <div v-if="type === 'mrxh'" class="mrxh">
+        <p v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 0.6rem; font-size:0.16rem;">今日无交易信号</p>
         <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -188,20 +225,23 @@
           <tbody>
             <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
               <td>
-                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem;">{{item.name}}</p>
-                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;">{{item.innerCode.substring(0,6)}}</p>
+                <p style="text-align: left; height:0.5rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem;">
+                  {{item.name}}</p>
+                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;">
+                  {{item.innerCode}}</p>
               </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+              </td>
             </tr>
           </tbody>
         </table>
         <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
       </div>
-      <div class="mcxh">
-        <div class="recommendTitle">今日买出信号</div>
-        <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号</div>
+      <div v-if="type === 'mcxh'" class="mcxh">
+        <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号
+        </div>
         <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -214,12 +254,14 @@
           <tbody>
             <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
               <td>
-                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem; box-sizing: border-box">{{item.name}}</p>
-                <p style="text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;" box-sizing: border-box>{{item.innerCode.substring(0,6)}}</p>
+                <p style="text-align: left; height:0.5rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem; box-sizing: border-box">
+                  {{item.name}}</p>
+                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;" box-sizing: border-box>{{item.innerCode}}</p>
               </td>
-              <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
-              <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-              <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+              <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -229,101 +271,23 @@
     </div>
     <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
   </div>
+  <!--买入、卖出信号 end-->
   <div>
-    <div class="choseStock">
-      <div class="recommendTitle">选股条件</div>
+    <div class="choseStock" style="padding-top: 0.35rem;">
+      <div class="header-title">选股条件</div>
       <Tablelist :data="choseStockData"></Tablelist>
     </div>
-    <div class="sellCondition">
+    <div class="sellCondition" style="padding-top: 0.35rem;">
       <div>
-        <div class="recommendTitle">买入条件</div>
+        <div class="header-title">买入条件</div>
         <Tablelist :data="sellConditionData.buyData"></Tablelist>
         <div style="padding: 0.1rem 0.2rem;">买入表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.buy.buyConExp}}</div>
       </div>
-      <div>
-        <div class="recommendTitle">卖出条件</div>
+      <div style="padding-top: 0.35rem;">
+        <div class="header-title">卖出条件</div>
         <Tablelist :data="sellConditionData.sellData"></Tablelist>
         <div style="padding: 0.1rem 0.2rem;">卖出表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.sell.sellConExp}}</div>
       </div>
-    </div>
-    <div class="controlStrategy">
-      <div class="recommendTitle">仓控策略</div>
-      <div style="padding: 0.3rem 0.2rem;">{{recommendData.positionModel === null ?'':recommendData.positionModel.modelName}}：<span style="color:#666;">{{recommendData.positionModel === null ?'':recommendData.positionModel.modelValue}}</span></div>
-    </div>
-    <div class="tradeParams">
-      <div class="recommendTitle">交易参数</div>
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>初始金额</th>
-            <th>资金分配</th>
-            <th>买入价格</th>
-            <th>卖出价格</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="tableData !== null && tableData !== ''">
-            <td>{{tableData.initFund}}</td>
-            <td>{{tableData.fundAllocate}}</td>
-            <td>{{tableData.buyPriceType}}</td>
-            <td>{{tableData.sellPriceType}}</td>
-
-          </tr>
-        </tbody>
-
-      </table>
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>最大持仓</th>
-            <th>个股最大仓位</th>
-            <th>条件优先序</th>
-            <th>交易费用</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="tableData !== null && tableData !== ''">
-            <td>{{tableData.maxHolding}}</td>
-            <td>{{tableData.stockMaxHolding}}</td>
-            <td>{{tableData.conPriority}}</td>
-            <td>{{tableData.commission}}</td>
-
-          </tr>
-        </tbody>
-
-      </table>
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>调仓周期</th>
-            <th>买卖滑点</th>
-            <th>收益基准</th>
-            <th>无风险利率</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="tableData !== null && tableData !== ''">
-            <td>{{tableData.tradeCycle}}</td>
-            <td>{{tableData.slippage}}</td>
-            <td>{{tableData.benchmark}}</td>
-            <td>{{tableData.riskFreeRatio}}</td>
-          </tr>
-        </tbody>
-
-      </table>
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>回测时间</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="tableData !== null && tableData !== ''">
-            <td>{{tableData.backtestDate}}</td>
-          </tr>
-        </tbody>
-
-      </table>
     </div>
   </div>
   <div></div>
@@ -355,11 +319,7 @@ export default {
         ['仓控策略', 'controlStrategy'],
         ['交易参数', 'tradeParams']
       ],
-      navText1: [
-        ['收益曲线图', 'syqxt']
-      ],
-      type: 'syqxt',
-      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta']
+      type: 'mcxh'
     }
   },
   components: {
