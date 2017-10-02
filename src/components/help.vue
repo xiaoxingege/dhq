@@ -1,9 +1,5 @@
 <style scoped="">
 @import '../assets/css/base.css';
-.jumpto-subnav .jumpto-second {
-  display: none;
-}
-
 .jumpto-subnav.fixed.bottom {
   top: auto;
   bottom: 0;
@@ -12,12 +8,8 @@
 
 .jumpto-subnav ul li a:hover,
 .jumpto-subnav ul li a.active {
-  background-color: #1077d6;
+  background-color: #1984ea;
   color: white;
-}
-
-.jumpto-second li {
-  font-size: 13px;
 }
 
 * {
@@ -26,7 +18,7 @@
 
 .help-wrap {
   width: 100%;
-  background-color: #0d0e0f;
+  background-color: #141518;
   padding-top: 30px;
 }
 
@@ -110,7 +102,7 @@
 }
 
 .definitions {
-  color: #1077d6;
+  color: #1984ea;
 }
 
 .definitions_wrap span {
@@ -221,6 +213,10 @@ table {
   vertical-align: middle;
   margin: 0 !important;
   cursor: pointer;
+}
+
+.file-open-img {
+  display: none;
 }
 </style>
 <template>
@@ -1451,49 +1447,57 @@ table {
         <ul class="sections jumpto-first">
           <li>
             <a href="#jumpto_0">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>回测数据</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_1">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>回测流程</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_2">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>派现及转送配股</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_3">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>税费计算</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_4">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>异常交易处理</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_5">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>成交及信号处理</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_6">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>买卖滑点</span>
             </a>
           </li>
           <li>
             <a href="#jumpto_7">
-              <img src="../assets/images/backtest/filefolder-close.png" alt="">
+              <img src="../assets/images/backtest/filefolder-close.png" alt="" class="file-close-img">
+              <img src="../assets/images/backtest/filefolder-open.png" alt="" class="file-open-img">
               <span>风险指标</span>
             </a>
           </li>
@@ -1508,7 +1512,7 @@ import showTableSrc from '../assets/images/backtest/table-open.png'
 import hideTableSrc from '../assets/images/backtest/table-close.png'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
-import jumpto from '../assets/plugins/activity-slider/jumpto.js'
+/*import jumpto from '../assets/js/jumpto.js'*/
 export default {
   data() {
     return {
@@ -1553,22 +1557,103 @@ export default {
     }
   },
   mounted() {
-    /*$(".page_container").jumpto({
-        firstLevel: "> h3",
-        secondLevel: "> h6",
-        animate: 500,
-        mainTag:"p"
-    });
-    $(window).scroll(function(){
-        var scrollTop = $(this).scrollTop();//浏览器卷去的高度
-        var scrollHeight = $(document).height();//页面文档的高度
-        var windowHeight = $(this).height();//窗口的高度
-        if(scrollTop + windowHeight == scrollHeight){
-            $(".paper-rt-main").css("top","130px");
-        }else {
-            $(".paper-rt-main").css("top","210px");
+    $(function() {
+        $(".page_container").jumpto({
+          firstLevel: "> h3",
+          secondLevel: "> h6",
+          animate: 500,
+          mainTag: "p"
+        });
+        $(window).scroll(function() {
+          var scrollTop = $(this).scrollTop(); //浏览器卷去的高度
+          var scrollHeight = $(document).height(); //页面文档的高度
+          var windowHeight = $(this).height(); //窗口的高度
+          if (scrollTop + windowHeight == scrollHeight) {
+            $(".paper-rt-main").css("top", "130px");
+          } else {
+            $(".paper-rt-main").css("top", "210px");
+          }
+        });
+      })
+      /* 标题内容同步滚动*/
+      !(function($) {
+        var defaults = {
+          firstLevel: '> h2',
+          secondLevel: false,
+          innerWrapper: '.jumpto-block',
+          offset: 400,
+          animate: 1000,
+          navContainer: false,
+          anchorTopPadding: 20,
+          showTitle: 'Jump To',
+          closeButton: true
         }
-    });*/
+        $.fn.jumpto = function(options) {
+          const settings = $.extend({}, defaults, options)
+          const el = $(this)
+          const block = $(settings.innerWrapper)
+          let selectors = ''
+          el.addClass('jumpto-cotainer')
+
+          function isScrolledIntoView(elem) {
+            var docViewTop = $(window).scrollTop()
+            var elemTop = $(elem).offset().top
+            var elemBottom = elemTop + $(elem).height()
+            if ($(elem).next().is(settings.mainTag)) {
+              elemBottom = $(elem).next().offset().top + $(elem).next().height()
+            }
+            return ((elemBottom >= docViewTop) && (elemTop <= docViewTop + 25))
+          }
+          // 移到上面的时候就变成file-open白色的图片
+          var redrawMenu = function() {
+            $(selectors.slice(0, -2)).each(function(index) {
+              if (isScrolledIntoView($(this))) {
+                // console.log($(this).attr("id"),$("a[href='#"+$(this).attr("id")+"']").siblings());
+                $('.jumpto-subnav a').removeClass('active').parent().find('a[href=\'#' + $(this).attr('id') + '\']').addClass('active')
+
+                if ($('a[href=\'#' + $(this).attr('id') + '\']').parent().parent().hasClass('jumpto-first')) {
+                  $('a[href=\'#' + $(this).attr('id') + '\']').parent().siblings().find('img.file-open-img').hide()
+                  $('a[href=\'#' + $(this).attr('id') + '\']').parent().siblings().find('img.file-close-img').show()
+                  $('a[href=\'#' + $(this).attr('id') + '\']').find('img.file-close-img').hide()
+                  $('a[href=\'#' + $(this).attr('id') + '\']').find('img.file-open-img').show()
+                  $('a[href=\'#' + $(this).attr('id') + '\']').closest('.jumpto-first').find('.jumpto-second').hide()
+                }
+              }
+            })
+            if ($(document).scrollTop() > settings.offset) {
+              $('.jumpto-subnav').removeClass('bottom').addClass('fixed')
+            } else {
+              $('.jumpto-subnav').removeClass('bottom fixed')
+            }
+            if ($(document).scrollTop() > el.outerHeight(true)) {
+              $('.jumpto-subnav').addClass('bottom fixed')
+            }
+          }
+          block.find(settings.firstLevel).each(function(index) {
+            const b = $(this)
+            const i = index
+            if (b.parent().find(settings.secondLevel).length > 0) {
+              b.parent().find(settings.secondLevel).each(function(index) {
+                const id1 = 'jumpto_' + i + '_' + index
+                $(this).attr('id', id1)
+                selectors += '#' + id1 + ', '
+              })
+              const id2 = 'jumpto_' + i
+              b.attr('id', id2)
+              selectors += '#' + id2 + ', '
+            } else {
+              const id3 = 'jumpto_' + i
+              b.attr('id', id3)
+              selectors += '#' + id3 + ', '
+            }
+          })
+          $(window).scroll(function() {
+            redrawMenu()
+          })
+        }
+      }(window.jQuery))
+
+
   }
 }
 </script>
