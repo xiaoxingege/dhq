@@ -682,14 +682,14 @@ export default {
       )
     },
     autoUpdateData: function () {
-      /* const _this = this
+      const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function () {
           _this.updateData()
         }, 1000 * _this.intervalTime)
-      }*/
+      }
     },
     focusStock: function () {
       const _this = this
