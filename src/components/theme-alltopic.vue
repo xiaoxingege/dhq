@@ -494,7 +494,8 @@ a.kuai_icon {
     /* width: 5.1%; */
     /* padding-left: 20px; */
     /* width: 5.5%; */
-    padding-left: 25px;
+    /* padding-left: 25px; */
+    padding-left: 20px;
     line-height: 55px;
     font-size: 14px;
     /* text-align: center; */
@@ -653,92 +654,13 @@ a.kuai_icon {
           <div class="con-bar-3 box-flex-1">
             <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con"><strong>主题简介:</strong>{{allTopic.topicDesc}}<i>{{allTopic.topicDesc}}</i></span></router-link>
           </div>
-          <!-- <div class="con-left box-flex-1">
-                  <strong>主题简介:</strong>
-                  <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}">
-                    <span class='content' ref="txtheight" :title="allTopic.topicDesc">{{allTopic.topicDesc}}
-                          </span>
-                  </router-link>
-                </div>
-                <div class="con-cen box-flex-1">
-                  <div v-for="equity of allTopic.relatedEquity">
-                    <a :href="'/stock/'+equity.innerCode" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
-                    <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
-                    <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
-                  </div>
-                  <div class="tooltip-box clearfix" v-if="hoverChartShow">
-                    <a href="##" target="_blank" class="name" v-stock-popup.name="direName"></a>
-                    <Stockkline :chartWidth="300" :chartHeight="200"></Stockkline>
-                    <div class="lenged_l">
-                      <span class="mr-10">--</span>
-                      <span class="mr-10">--</span>
-                      <span id="curChngPctTip">--</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="con-right box-flex-2">
-                  <div v-for="news of allTopic.relatedNews" class="clearfix">
-                    <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title==null?'--':news.title}}</span>
-                      <span class="new-date">{{news.declareDate==null?'--':format(news.declareDate)}}</span>
-                      <span class="new-srcname">{{news.srcName==null?'--':news.srcName}}</span></router-link>
-                  </div>
-                </div> -->
+
         </div>
 
       </li>
     </ol>
     <Pagination @getPageFromChild="goToPage" :totalPage="totalPage" />
   </div>
-  <!-- <div class="main-list" v-show="showList">
-    <ol class="topic-ol">
-      <li v-for="allTopic of themeList" class="clearfix">
-        <div class="content-head clearfix">
-          <div class="topic-name">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue "> {{ allTopic.topicName }}</router-link>
-          </div>
-          <div class="topic-time">
-            <span class="">发布时间</span><span class="blue time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span><span>成分股数</span><span class="blue time-num2">{{allTopic.equityNum}}只</span><span>相关新闻</span><span class="blue time-num2">{{allTopic.eventNum}}条</span>
-            <span>今日涨跌</span>
-            <span class="time-num3" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span><span>上涨股票</span>
-            <span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span>
-          </div>
-        </div>
-        <div class="content-box clearfix display-box">
-          <div class="con-left box-flex-3">
-            <strong>主题简介:</strong>
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}">
-              <span class='content' ref="txtheight" :title="allTopic.topicDesc">{{allTopic.topicDesc}}
-                    </span>
-            </router-link>
-          </div>
-          <div class="con-cen box-flex-1">
-            <div v-for="equity of allTopic.relatedEquity">
-              <a :href="'/stock/'+equity.innerCode" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
-              <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
-              <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
-            </div>
-            <div class="tooltip-box clearfix" v-if="hoverChartShow">
-              <a href="##" target="_blank" class="name" v-stock-popup.name="direName"></a>
-              <Stockkline :chartWidth="300" :chartHeight="200"></Stockkline>
-              <div class="lenged_l">
-                <span class="mr-10">--</span>
-                <span class="mr-10">--</span>
-                <span id="curChngPctTip">--</span>
-              </div>
-            </div>
-          </div>
-          <div class="con-right box-flex-2">
-            <div v-for="news of allTopic.relatedNews" class="clearfix">
-              <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}"> <span class="new-tit" :title="news.title">{{news.title==null?'--':news.title}}</span>
-                <span class="new-date">{{news.declareDate==null?'--':format(news.declareDate)}}</span>
-                <span class="new-srcname">{{news.srcName==null?'--':news.srcName}}</span></router-link>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ol>-->
-
-  <!-- </div>  -->
   <div class="sortaz-wrap clearfix" v-show="showAz">
     <div class="az-main">
       <div class="sort-hot-wrap">
