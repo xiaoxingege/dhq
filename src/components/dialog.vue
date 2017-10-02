@@ -11,7 +11,7 @@
     width: 800px;
     border: 1px solid #8C8C8C;
     z-index: 9999;
-    background: #cccfd9;
+    background: #d6d6d6;
     font-size: 12px;
     color: #000;
     position: absolute;
@@ -28,11 +28,10 @@
     line-height: 28px;
     text-align: left;
     background: #404852;
-    border: 1px solid #CCCCCC;
     padding-left: 10px;
     color: #c9d0d7;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
 }
 button {
     width: 70px;
@@ -44,28 +43,38 @@ button {
     cursor: pointer;
 }
 .sureBtn {
-    background: #0088E1;
-    color: #fff;
+    background: #1984ea;
+    color: #c9d0d7;
 }
 .cancleBtn {
     background: #fff;
-    border: 1px solid #CCCCCC;
-    color: #CCCCCC;
+    color: #666;
+    cursor: pointer;
+    border-radius: 3px;
 }
 input,
 select {
-    width: 106px;
-    height: 20px;
-    line-height: 20px;
+    width: 160px;
+    height: 28px;
+    line-height: 28px;
     border-radius: 3px;
     margin-left: 5px;
-    color: #999;
-    border-color: #ccc;
+    color: #666;
+    border-color: #acacac;
+    -webkit-appearance: none;
+    background: url("../assets/images/select-arrow.png") no-repeat scroll right center transparent;
+    background-position-x: 95%;
+    background-color: #c1c1c1;
+    padding-left: 10px;
+
 }
 input {
-    border: 1px solid #ccc;
-    height: 18px;
+    width: 153px;
+    border: 1px solid #acacac;
+    height: 26px;
+    line-height: 28px;
     padding-left: 5px;
+    background: #c1c1c1;
 }
 .dialogMain {
     padding: 0 45px;
