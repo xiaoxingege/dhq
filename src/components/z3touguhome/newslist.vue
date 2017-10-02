@@ -58,18 +58,22 @@ p {
 .news-list-top {
     height: 25px;
 }
-/* 滚动槽 */
+/*!*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*!
+::-webkit-scrollbar {
+  width: 20px;
+  height: 20px;
+  background-color: #2f343a;
+}
+
+!*定义滚动条轨道 内阴影+圆角*!
 ::-webkit-scrollbar-track {
-    border-radius: 10px;
+  background-color: #23272c;
 }
-/* 滚动条滑块 */
+
+!*定义滑块 内阴影+圆角*!
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0,0,0,0.1);
-}
-::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(255,0,0,0.4);
-}
+  background-color: #2f343a;
+}*/
 </style>
 <template>
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
