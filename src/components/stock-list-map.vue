@@ -116,7 +116,7 @@ td {
 import echarts from 'echarts'
 export default {
   props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
-  data () {
+  data() {
     return {
       stockList: [],
       stockListLeft: 0,
@@ -128,68 +128,68 @@ export default {
     }
   },
   watch: {
-    stockId () {
+    stockId() {
       this.updateChart()
     },
-    nodeId () {
+    nodeId() {
       this.updateHoverTitle()
     }
   },
   computed: {
-    stockId () {
+    stockId() {
       if (this.parent && this.parent.id) {
         return this.parent.id
       }
     },
-    bgColor () {
+    bgColor() {
       if (this.node && this.node.itemStyle) {
         return this.node.itemStyle.normal.color
       }
     },
-    nodeId () {
+    nodeId() {
       if (this.node && this.node.id) {
         return this.node.id
       }
     },
-    titleStockName () {
+    titleStockName() {
       if (this.node && this.node.name) {
         return this.node.name
       }
     },
-    titleStockCondtion () {
+    titleStockCondtion() {
       if (this.node && this.node.perfText) {
         return this.node.perfText
       }
     },
-    titleName () {
+    titleName() {
       if (this.node && this.node.titleName) {
         return this.node.titleName
       }
     },
-    titleNameLel2 () {
+    titleNameLel2() {
       if (this.parent && this.parent.name) {
         return this.parent.name
       }
     },
-    titleChartData () {
+    titleChartData() {
       return this.node.chartData
     },
-    stockChartData: function () {
+    stockChartData: function() {
       const stockChartData = this.$store.state.stockMap.stockChartData
       return stockChartData
     },
-    industryChngPct: function () {
+    industryChngPct: function() {
       const industryChngPct = this.$store.state.stockMap.industryChngPct
       return industryChngPct
     }
   },
   methods: {
-    updateChart: function () {
+    updateChart: function() {
       this.stockList = this.parent.children
       this.$store.dispatch('stockMap/stockChartData', {
-        stockId: this.stockId,
-        code: this.indexCode
-      })
+          stockId: this.stockId,
+          code: this.indexCode
+        })
         .then(() => {
           const _this = this
           // 悬浮框的表头
@@ -245,10 +245,10 @@ export default {
           // 计算每只股票的最新价 上涨股票数和下跌股票数
           this.stockUpNo = ''
           this.stockDownNo = ''
-          this.stockList.forEach(function (stock) {
-            if (stock.perf >= 0) {
+          this.stockList.forEach(function(stock) {
+            if (stock.perf && stock.perf >= 0) {
               _this.stockUpNo++
-            } else {
+            } else if (stock.perf && stock.perf < 0) {
               _this.stockDownNo++
             }
             stock.chartData = _this.stockChartData[stock.name]
@@ -317,7 +317,7 @@ export default {
           })
         })
     },
-    updateHoverTitle: function () {
+    updateHoverTitle: function() {
       // 悬浮框的表头
       this.node.chartData = this.stockChartData[this.node.name]
       if (this.node.chartData) {
@@ -368,7 +368,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.updateChart()
     this.chart = echarts.init(this.$refs.chartTitle)
   }
