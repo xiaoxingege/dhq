@@ -113,7 +113,7 @@ html {
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="szzsChartData && szzsChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.upDown === null ? '--':szzsChartData.upDown}}</span>
-        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+szzsChartData.upDownExtent+'%)'}}</span>
+        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+Number(szzsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
