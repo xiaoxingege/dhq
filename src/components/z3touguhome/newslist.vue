@@ -104,7 +104,7 @@ export default {
         ['财经要闻', 'ywnews'],
         ['上市公司', 'companynews']
       ],
-      type: 'ywnews',
+      type: this.$route.query.type || 'ywnews',
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
