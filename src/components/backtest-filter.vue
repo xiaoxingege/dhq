@@ -308,7 +308,7 @@ span.copy {
         <li class="fl" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
         <li class="fl" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
         <!-- <li class="export-box"><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li> -->
-        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"></span>
+        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
         </li>
       </ul>
       <div class="bfilter-table" v-show="showNowStock">

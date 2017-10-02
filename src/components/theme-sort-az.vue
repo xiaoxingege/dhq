@@ -2,6 +2,11 @@
 @import '../assets/css/base.css';
 * {
     text-align: justify;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 em,
 i {
@@ -9,22 +14,29 @@ i {
 }
 
 .blue {
-    color: #2388da;
-    font-size: 12px;
+    color: #1984ea;
 }
 .red {
-    color: #e6363a !important;
+    color: #ca4941;
 }
 .green {
-    color: #48a854 !important;
+    color: #56a870;
+}
+
+.lightcolor {
+    color: #c9d0d7;
+}
+
+.gray {
+    color: #808ba1;
 }
 
 span {
-    color: #696969;
+    color: #c9d0d7;
 }
 body,
 html {
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
 
 }
 .sortaz-wrap {
@@ -44,9 +56,10 @@ html {
     display: inline-block;
    } */
 .every-topical-wrap {
-    background: #ffff;
-    padding-left: 11px;
-    padding-right: 8px;
+    /* background: #ffff; */
+    padding-left: 4px;
+    /* padding-left: 11px;
+    padding-right: 8px; */
     height: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -54,14 +67,17 @@ html {
     overflow-y: scroll;
 }
 .every-main {
-    border-bottom: 1px solid #e5e5e5;
-    font-size: 12px;
-    color: #696969;
-    padding: 7px 16px 9px;
+    border-bottom: 1px solid #0d0e0f;
+    /*  font-size: 12px; */
+    color: #c9d0d7;
+    /* padding: 7px 16px 9px; */
+    padding: 18px 20px;
 }
 .letter {
-    line-height: 20px;
-    width: 5%;
+    /* line-height: 20px; */
+    line-height: 30px;
+    /* width: 5%; */
+    font-size: 14px;
 }
 .letter i {
     margin-left: 8px;
@@ -73,30 +89,32 @@ html {
 .every-name .tname {
     /* padding: 0 10px; */
     width: 10%;
-    line-height: 20px;
-    color: #696969;
+    /* line-height: 20px; */
+    line-height: 30px;
+    color: #c9d0d7;
     display: inline-block;
     cursor: pointer;
+    padding-left: 40px;
+}
+.tname a {
+    font-size: 14px;
+    white-space: nowrap;
 }
 .every-name a:hover {
     text-decoration: underline;
 }
 .block {
-    color: #696969;
+    color: #c9d0d7;
 }
 </style>
 <template>
 <div class="every-topical-wrap">
   <div class="every-main clearfix" v-for="key of sortList">
     <div class="fl letter"><span>{{key}}</span><i>></i></div>
-    <div class="fl every-name" v-if="routeName === 'themeindex'">
+    <div class="fl every-name" v-if="islink">
       <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
-        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" v-if="islink">
+        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'">
           {{g.topicName}}</router-link>
-      </a>
-
-      <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname" v-if="!islink">
-          {{g.topicName}}
       </a>
     </div>
     <div class="fl every-name" v-else>
@@ -115,7 +133,7 @@ import {
 export default {
   data () {
     return {
-      routeName: this.$route.name
+      /* routeName: this.$route.name*/
     }
   },
   props: ['islink'],

@@ -4,14 +4,14 @@
     background: #f2f2f2;
     color: #191919;
     width: 100%;
-    min-width: 1217px;
+    /* min-width: 1217px; */
 }
 </style>
 <template>
 <div class="theme-index">
-  <ThemeList/>
+  <!-- <ThemeList/> -->
   <AllTopic />
-  <Pagination/>
+  <!-- <Pagination/> -->
 </div>
 </template>
 
