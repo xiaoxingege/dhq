@@ -25,7 +25,7 @@
     border-radius: 3px;
     line-height: 18px;
     top: 28px;
-    left: 78px;
+    right: 10px;
 }
 </style>
 <template>

@@ -1,24 +1,26 @@
 <style lang="scss" scoped>
+@import '../assets/css/base.css';
 .news {
-    color: #191919;
     padding: 50px 0;
-    font-family: "宋体";
     font-size: 12px;
     text-align: left;
-    background: #fff;
+    background: #131417;
 }
 .newTitle {
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
+    color: #c9d0d7;
 }
 .newMain {
     line-height: 20px;
     text-indent: 2em;
+    color: #c9d0d7;
 }
 .newDetail {
     text-align: center;
     margin: 10px 0;
+    color: #808ba1;
 }
 .newDetail a,
 .newDetail span {
@@ -37,6 +39,7 @@
 }
 .reportDownload {
     margin-top: 50px;
+    color: #c9d0d7;
 }
 .reportTime {
     margin: 0 75px;
@@ -45,6 +48,7 @@
     display: block;
     margin-top: 50px;
     margin-bottom: 25px;
+    color: #c9d0d7;
 }
 .moreNewsList {
     /*margin:0 0 0 -40px;*/
@@ -96,8 +100,10 @@ a:hover {
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
       <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}</span>
-      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews" class="mr-10"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
-      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
+      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"
+                                                                                   class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</span></span>
+      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15"
+                                                                                  v-for="item in result.topicNews">{{item.topicName}}</span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <div class="newMain" v-if="result && result.news.fileType === 'pdf'">

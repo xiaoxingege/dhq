@@ -13,7 +13,7 @@ span {
     display: inline-block;
     height: 30px;
     line-height: 30px;
-    background: #515A65;
+    border: 1px solid #ddd;
     padding: 0 12px;
 }
 
@@ -38,13 +38,10 @@ ul li {
 }
 
 select {
-    color: #fff;
+
+    color: #999999;
     font-size: 14px;
-    height: 30px;
-    background: #515A65;
-    border-radius: 3px;
-    border: none;
-    padding: 0 10px;
+    height: 32px;
 }
 
 .totals {
@@ -52,17 +49,9 @@ select {
     margin-right: 10px;
 }
 
-.previousPage {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    margin-right: 10px;
-}
-
 .nextPage {
     position: relative;
     left: -10px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
 }
 
 .active {
@@ -128,68 +117,63 @@ select {
 </style>
 <template>
 <div class="page clearfix">
-  <span class="previousPage" @click="previousPage($event)">上一页</span>
-  <div v-if="false">
-    <ul class="pages clearfix" v-if="totalPage<=5">
-      <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">{{page}}
-      </li>
-    </ul>
-    <ul class="pages clearfix" v-else-if="currentPage==1&&totalPage>5">
-      <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
-        {{page}}
-      </li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
-      </li>
-    </ul>
-    <ul class="pages clearfix" v-else-if="currentPage==totalPage&&totalPage>5">
-      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
-      </li>
-    </ul>
-    <ul class="pages clearfix" v-else-if="currentPage<=3&&totalPage>5">
-      <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
-        {{page}}
-      </li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
-      </li>
-    </ul>
+  <span @click="previousPage($event)">上一页</span>
+  <ul class="pages clearfix" v-if="totalPage<=5">
+    <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">
+      {{page}}
+    </li>
+  </ul>
+  <ul class="pages clearfix" v-else-if="currentPage==1&&totalPage>5">
+    <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
+      {{page}}
+    </li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
+  </ul>
+  <ul class="pages clearfix" v-else-if="currentPage==totalPage&&totalPage>5">
+    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+    </li>
+  </ul>
+  <ul class="pages clearfix" v-else-if="currentPage<=3&&totalPage>5">
+    <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
+      {{page}}
+    </li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
+  </ul>
 
-    <ul class="pages clearfix" v-else-if="currentPage==4&&totalPage>5">
-      <li @click="getCurrentPage($event)" v-for="page in 5" :class="currentPage === page ? 'active' : ''">
-        {{page}}
-      </li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
-      </li>
-    </ul>
+  <ul class="pages clearfix" v-else-if="currentPage==4&&totalPage>5">
+    <li @click="getCurrentPage($event)" v-for="page in 5" :class="currentPage === page ? 'active' : ''">
+      {{page}}
+    </li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
+  </ul>
 
-    <ul class="pages clearfix" v-else-if="totalPage-3===currentPage&&totalPage>5">
-      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
-      </li>
-    </ul>
-    <ul class="pages clearfix" v-else-if="totalPage-currentPage<3&&totalPage>5">
-      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
-      </li>
-    </ul>
-    <ul class="pages clearfix" v-else>
-      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" v-for="page in [2,1,0,-1]" :class="currentPage === currentPage-page ? 'active' : ''">{{currentPage-page}}
-      </li>
-      <li>...</li>
-      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
-      </li>
-    </ul>
-  </div>
+  <ul class="pages clearfix" v-else-if="totalPage-3===currentPage&&totalPage>5">
+    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+    </li>
+  </ul>
+  <ul class="pages clearfix" v-else-if="totalPage-currentPage<3&&totalPage>5">
+    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+    </li>
+  </ul>
+  <ul class="pages clearfix" v-else>
+    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" v-for="page in [2,1,0,-1]" :class="currentPage === currentPage-page ? 'active' : ''">{{currentPage-page}}
+    </li>
+    <li>...</li>
+    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
+  </ul>
   <span class="nextPage" @click="nextPage($event)">下一页</span>
-  <span v-if="false" class="totals">共{{totalPage}}页</span>
+  <span class="totals">共{{totalPage}}页</span>
   <select @change="getCurrentSelectPage($event)" v-model="currentPage">
             <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
         </select>
@@ -200,7 +184,7 @@ select {
 <script>
 export default {
   props: ['totalPage', 'page'],
-  data () {
+  data() {
     return {
       currentPage: this.page === undefined ? 1 : this.page
     }
@@ -218,20 +202,20 @@ export default {
   //        }
   //      },
   watch: {
-    'page': function () {
+    'page': function() {
       this.currentPage = this.page
     }
   },
   methods: {
-    getCurrentPage (e) {
+    getCurrentPage(e) {
       this.$emit('getPageFromChild', e.target.innerText)
       this.currentPage = parseInt(e.target.innerText)
     },
-    getCurrentSelectPage (e) {
+    getCurrentSelectPage(e) {
       this.$emit('getPageFromChild', e.target.value)
       this.currentPage = parseInt(e.target.value)
     },
-    nextPage (e) {
+    nextPage(e) {
       if (this.currentPage + 1 <= this.totalPage) {
         this.$emit('getPageFromChild', (this.currentPage + 1))
         this.currentPage = this.currentPage + 1
@@ -240,7 +224,7 @@ export default {
         e.target.style.cursor = 'default'
       }
     },
-    previousPage (e) {
+    previousPage(e) {
       if (this.currentPage - 1 >= 1) {
         this.$emit('getPageFromChild', (this.currentPage - 1))
         this.currentPage = this.currentPage - 1
@@ -249,7 +233,7 @@ export default {
         e.target.style.cursor = 'default'
       }
     },
-    showActive (e) {
+    showActive(e) {
       if (this.currentPage === e.target.innerText) {
         e.target.addClass('active')
       } else {
@@ -257,6 +241,6 @@ export default {
       }
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>

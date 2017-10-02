@@ -86,7 +86,7 @@ td {
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
-    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
+    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}%</span>
     <span class="stock-down fr">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
@@ -246,9 +246,9 @@ export default {
           this.stockUpNo = ''
           this.stockDownNo = ''
           this.stockList.forEach(function (stock) {
-            if (stock.perf >= 0) {
+            if (stock.perf && stock.perf >= 0) {
               _this.stockUpNo++
-            } else {
+            } else if (stock.perf && stock.perf < 0) {
               _this.stockDownNo++
             }
             stock.chartData = _this.stockChartData[stock.name]

@@ -162,7 +162,7 @@ export default {
                 if (this.strategyIndexsData) {
                   this.followCnt = this.strategyIndexsData.followCnt
                   this.annualReturn = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.annualReturn)
-                  this.sharpe = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.sharpe)
+                  this.sharpe = this.strategyIndexsData.strategy.evaluationIndexs.sharpe.toFixed(2)
                   this.winRatio = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.winRatio)
                   this.maxDrawdown = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.maxDrawdown)
                 }
@@ -194,10 +194,10 @@ export default {
                     },
                     grid: {
                       show: false,
-                      left: 0,
+                      left: 10,
                       top: 45,
                       bottom: 0,
-                      right: 5,
+                      right: 10,
                       width: '100%',
                       height: '61%'
                     },
@@ -264,7 +264,7 @@ export default {
           if (this.strategyIndexsData) {
             this.followCnt = this.strategyIndexsData.followCnt
             this.annualReturn = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.annualReturn)
-            this.sharpe = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.sharpe)
+            this.sharpe = this.strategyIndexsData.strategy.evaluationIndexs.sharpe.toFixed(2)
             this.winRatio = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.winRatio)
             this.maxDrawdown = this.formatData(this.strategyIndexsData.strategy.evaluationIndexs.maxDrawdown)
           }
@@ -295,10 +295,10 @@ export default {
               },
               grid: {
                 show: false,
-                left: 0,
+                left: 10,
                 top: 45,
                 bottom: 0,
-                right: 5,
+                right: 10,
                 width: '100%',
                 height: '61%'
               },

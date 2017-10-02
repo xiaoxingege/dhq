@@ -186,7 +186,7 @@
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
-    <a v-on:click="restoreMap"><span>100%比例</span></a>
+    <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
     <router-link class="enlarge-link" :to="{name:'bigMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt="" /></router-link>
   </div>
@@ -682,14 +682,14 @@ export default {
       )
     },
     autoUpdateData: function () {
-      /* const _this = this
+      const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function () {
           _this.updateData()
         }, 1000 * _this.intervalTime)
-      }*/
+      }
     },
     focusStock: function () {
       const _this = this

@@ -29,7 +29,7 @@ html {
     color: #fff;
     border: none;
     padding-left: 10px;
-    background: url("../assets/images/stock-map/tuXi_select.png") no-repeat scroll right center transparent;
+    background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
 }
 .condition select option:first-child {
     border-top-left-radius: 3px;
@@ -42,6 +42,7 @@ html {
 
 .code-select {
     width: 150px;
+    margin-right: 30px;
 }
 
 .condition-select {
@@ -54,7 +55,8 @@ html {
 
 .condition select option {
     -webkit-appearance: none;
-    color: #000;
+    background-color: #cccfd9;
+    color: #666;
     display: inline-block;
     height: 30px;
 }

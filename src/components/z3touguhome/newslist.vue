@@ -58,18 +58,22 @@ p {
 .news-list-top {
     height: 25px;
 }
-/* 滚动槽 */
+/*!*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*!
+::-webkit-scrollbar {
+  width: 20px;
+  height: 20px;
+  background-color: #2f343a;
+}
+
+!*定义滚动条轨道 内阴影+圆角*!
 ::-webkit-scrollbar-track {
-    border-radius: 10px;
+  background-color: #23272c;
 }
-/* 滚动条滑块 */
+
+!*定义滑块 内阴影+圆角*!
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0,0,0,0.1);
-}
-::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(255,0,0,0.4);
-}
+  background-color: #2f343a;
+}*/
 </style>
 <template>
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
@@ -94,13 +98,13 @@ import NavBar from 'components/z3touguhome/nav-bar'
 import newsDetail from 'components/z3touguhome/news-details'
 export default {
   props: [],
-  data () {
+  data() {
     return {
       navText: [
         ['财经要闻', 'ywnews'],
         ['上市公司', 'companynews']
       ],
-      type: 'ywnews',
+      type: this.$route.query.type || 'ywnews',
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
@@ -112,7 +116,7 @@ export default {
     }
   },
   watch: {
-    type () {
+    type() {
       this.changeNews()
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -125,21 +129,21 @@ export default {
     newsDetail
   },
   computed: {
-    financeNewsData: function () {
+    financeNewsData: function() {
       const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
       return financeNewsData
     },
-    listedCompanyNewsData: function () {
+    listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
       return listedCompanyNewsData
     }
   },
   methods: {
-    getNews: function () {
+    getNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
             if (this.newsIndex) {
@@ -150,8 +154,8 @@ export default {
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
             if (this.newsIndex) {
@@ -162,39 +166,39 @@ export default {
           })
       }
     },
-    changeNews: function () {
+    changeNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
             this.newsId = this.financeNewsData[0].iiid
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
             this.newsId = this.listedCompanyNewsData[0].iiid
           })
       }
     },
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    updateNews: function () {
+    updateNews: function() {
       const _this = this
       if (this.updateNewsPid) {
         clearInterval(this.updateNewsPid)
       } else {
-        this.updateNewsPid = setInterval(function () {
+        this.updateNewsPid = setInterval(function() {
           _this.changeNews()
         }, 60 * 1000 * _this.intervalTime)
       }
     },
-    focusLi: function (id, index) {
+    focusLi: function(id, index) {
       this.newsId = id
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -202,7 +206,7 @@ export default {
       document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
     }
   },
-  mounted () {
+  mounted() {
     this.getNews()
     this.updateNews()
   }

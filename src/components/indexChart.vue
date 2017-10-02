@@ -21,11 +21,15 @@ html {
 
 .line-chart {
   background: #141518;
-  margin-right: 1px;
-  width: 24.9%;
+  margin-right: 3px;
+  width: 24.75%;
   height: 100%;
   float: left;
   position: relative;
+}
+
+.line-chart :last-child {
+  margin-right: 0;
 }
 
 .line-chart:hover {
@@ -109,7 +113,7 @@ html {
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="szzsChartData && szzsChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.upDown === null ? '--':szzsChartData.upDown}}</span>
-        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+szzsChartData.upDownExtent+'%)'}}</span>
+        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+Number(szzsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
