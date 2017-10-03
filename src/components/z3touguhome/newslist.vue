@@ -58,6 +58,9 @@ p {
 .news-list-top {
     height: 25px;
 }
+.news-list-top .top-nav {
+    padding-left: 0;
+}
 /*!*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*!
 ::-webkit-scrollbar {
   width: 20px;
@@ -79,7 +82,7 @@ p {
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
   <div class="news-list fl" :style="{height:wrapHeight-2+'px'}">
     <div class="news-list-top">
-      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
     </div>
     <ul class="news-list-con">
       <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
@@ -112,7 +115,11 @@ export default {
       newsIndex: this.$route.query.newsIndex,
       // newsId: ''
       intervalTime: 10,
-      updateNewsPid: null
+      updateNewsPid: null,
+      styleObject: {
+        borderRight: '1px solid #141518',
+        borderRadius: '0px'
+      }
     }
   },
   watch: {
@@ -165,6 +172,7 @@ export default {
             }
           })
       }
+      // this.setStyle()
     },
     changeNews: function () {
       if (this.type === 'ywnews') {
@@ -184,6 +192,7 @@ export default {
             this.newsId = this.listedCompanyNewsData[0].iiid
           })
       }
+      // this.setStyle()
     },
     changeNavType (data) {
       this.type = data
@@ -204,6 +213,13 @@ export default {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
       }
       document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
+    },
+    setStyle: function () {
+      if (document.getElementsByClassName('nav-active').length > 0) {
+        for (let i = 0; i < document.getElementsByClassName('nav-active').length; i++) {
+          document.getElementsByClassName('nav-active')[i].style.borderRight = '5px solid #141518'
+        }
+      }
     }
   },
   mounted () {
