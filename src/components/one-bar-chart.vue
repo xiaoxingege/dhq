@@ -144,7 +144,7 @@ export default {
             stack: '收益率分布'
           }
           ],
-          color: ['#E73E3A', '#1EC96C'],
+          color: ['#1EC96C', '#E73E3A'],
           grid: {
             width: '97%',
             height: '80%',

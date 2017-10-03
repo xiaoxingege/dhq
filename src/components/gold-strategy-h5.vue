@@ -17,17 +17,20 @@
     background: #fff;
     margin-bottom: 0.05rem;
 }
-.strategyHeader span {
-    display: inline-block;
-    height: 0.32rem;
-    line-height: 0.32rem;
-    color: #2388da;
-}
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .app {
         min-width: 100%;
     }
 
+    .strategyHeader {
+        color: #fff;
+        font-size: 0.32rem;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        text-align: center;
+        background: url("../assets/images/z3img/backh5-top.png") no-repeat;
+        background-size: 100% 100%;
+    }
     .strategyDesc {
         padding: 0;
     }
@@ -128,17 +131,32 @@
         color: #ff4040;
         border-bottom: 0.04rem solid #ff4040;
     }
+    .choseStock table tr:last-child {
+        font-size: 0.24rem;
+    }
+
+    .wxts {
+        font-size: 0.22rem;
+        color: #888;
+        padding: 0.4rem 0.3rem;
+        text-align: justify;
+    }
 }
 </style>
 <template>
 <div class="goldRecommend">
-
-  <div v-show="false" class="strategyHeader">
+  <!--策略头部 start-->
+  <div class="strategyHeader">
     <span>{{goldResult === null ? '' :goldResult.strategyName}}</span>
   </div>
+  <!--策略头部 end-->
+
+  <!--策略描述 start-->
   <div class="strategyDesc strategyDesc-h5">
     <Titlecontent :data="articleData"></Titlecontent>
   </div>
+  <!--策略描述 end-->
+
   <!--策略表现 start-->
   <div style="background:#fff; padding-top: 0.35rem; padding-bottom: 0.4rem;">
     <div class="header-title">策略表现<span>回测区间</span></div>
@@ -193,7 +211,7 @@
       <div class="header-title">收益曲线图</div>
       <div style="margin-bottom: 0.05rem;">
         <div class="syqxt">
-          <Linechart :strategyId="this.$route.params.strategyId"></Linechart>
+          <Linecharth5 :strategyId="this.$route.params.strategyId"></Linecharth5>
         </div>
       </div>
     </div>
@@ -206,8 +224,8 @@
     <div style="width:100% " class="goldH5">
       <div class="mrmcSignal-header clearfix">
         <div class="fl">
-          <span class="active" style="margin-right: 0.85rem;">买入信号</span>
-          <span>卖出信号</span>
+          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.85rem;">买入信号</span>
+          <span ref="mcxh" @click="changeMcxhType($event)">卖出信号</span>
         </div>
         <div class="fr" style="color:#888;">信号日期:<span>2017.08.14</span></div>
       </div>
@@ -272,6 +290,8 @@
     <!--<Goldchart :strategyId="strategyId"></Goldchart>-->
   </div>
   <!--买入、卖出信号 end-->
+
+  <!--选股、买入、卖出条件 start-->
   <div>
     <div class="choseStock" style="padding-top: 0.35rem;">
       <div class="header-title">选股条件</div>
@@ -281,16 +301,20 @@
       <div>
         <div class="header-title">买入条件</div>
         <Tablelist :data="sellConditionData.buyData"></Tablelist>
-        <div style="padding: 0.1rem 0.2rem;">买入表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.buy.buyConExp}}</div>
+        <div style="padding: 0.1rem 0.2rem; color:#888;">买入表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.buy.buyConExp}}
+        </div>
       </div>
       <div style="padding-top: 0.35rem;">
         <div class="header-title">卖出条件</div>
         <Tablelist :data="sellConditionData.sellData"></Tablelist>
-        <div style="padding: 0.1rem 0.2rem;">卖出表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.sell.sellConExp}}</div>
+        <div style="padding: 0.1rem 0.2rem; color:#888;">卖出表达式：{{recommendData.sellConditiondata === null ?'':recommendData.sellConditiondata.sell.sellConExp}}
+        </div>
       </div>
     </div>
   </div>
-  <div></div>
+  <!--选股、买入、卖出条件 end-->
+
+  <div class="wxts">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
 </div>
 </template>
 <script>
@@ -303,7 +327,7 @@ import Goldrecommends from 'components/gold-recommends'
 import Navbar from 'components/nav-bar'
 import Goldchart from 'components/gold-chart'
 import Radarchart from 'components/radar-chart'
-import Linechart from 'components/line-chart'
+import Linecharth5 from 'components/line-chart-h5'
 import Barupdown from 'components/bar-up-down'
 import Onelinechart from 'components/one-line-chart'
 import Onebarchart from 'components/one-bar-chart'
@@ -319,7 +343,7 @@ export default {
         ['仓控策略', 'controlStrategy'],
         ['交易参数', 'tradeParams']
       ],
-      type: 'mcxh'
+      type: 'mrxh'
     }
   },
   components: {
@@ -329,7 +353,7 @@ export default {
     Navbar,
     Goldchart,
     Radarchart,
-    Linechart,
+    Linecharth5,
     Barupdown,
     Onelinechart,
     Onebarchart,
@@ -636,6 +660,16 @@ export default {
         strategyId: this.strategyId,
         pageNum: data - 1
       }).then(() => {})
+    },
+    changeMrxhType (e) {
+      e.target.setAttribute('class', 'active')
+      this.$refs.mcxh.removeAttribute('class', 'active')
+      this.type = 'mrxh'
+    },
+    changeMcxhType (e) {
+      e.target.setAttribute('class', 'active')
+      this.$refs.mrxh.removeAttribute('class', 'active')
+      this.type = 'mcxh'
     }
   },
   mounted () {

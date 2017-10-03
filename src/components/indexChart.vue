@@ -103,41 +103,41 @@
   <div class="index-chart clearfix">
     <div class="line-chart">
       <div v-if="szzsChartData !== null" class="indexNum">
-        <span v-z3-updowncolor="szzsChartData.stockVal" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal}}</span>
+        <span v-z3-updowncolor="szzsChartData.stockVal" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="szzsChartData && szzsChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
-        <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.upDown === null ? '--':szzsChartData.upDown}}</span>
-        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+Number(szzsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
+        <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.upDown === null ? '--':szzsChartData.upDown === undefined?'--':Number(szzsChartData.upDown).toFixed(2)}}</span>
+        <span v-z3-updowncolor="szzsChartData.upDownExtent">{{szzsChartData.upDownExtent === null ? '(--)':szzsChartData.upDownExtent === undefined?'(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+Number(szzsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
     <div class="line-chart">
       <div v-if="lsChartData !== null" class="indexNum">
-        <span v-z3-updowncolor="lsChartData.stockVal" class="mr-5">{{lsChartData.stockVal === null ? '--':Number(lsChartData.stockVal).toFixed(2)}}</span>
+        <span v-z3-updowncolor="lsChartData.stockVal" class="mr-5">{{lsChartData.stockVal === null ? '--':lsChartData.stockVal === undefined?'--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="lsChartData && lsChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
-        <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.upDown === null ? '--':Number(lsChartData.upDown).toFixed(2)}}</span>
-        <span v-z3-updowncolor="lsChartData.upDownExtent">{{lsChartData.upDownExtent === null ? '(--)':'('+(lsChartData.upDownExtent>0?'+':'')+Number(lsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
+        <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.upDown === null ? '--':lsChartData.upDown === undefined?'--':Number(lsChartData.upDown).toFixed(2)}}</span>
+        <span v-z3-updowncolor="lsChartData.upDownExtent">{{lsChartData.upDownExtent === null ? '(--)':lsChartData.upDownExtent === undefined?'(--)':'('+(lsChartData.upDownExtent>0?'+':'')+Number(lsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
     <div class="line-chart">
       <div v-if="szczChartData !== null" class="indexNum">
-        <span v-z3-updowncolor="szczChartData.stockVal" class="mr-5">{{szczChartData.stockVal === null ? '--':Number(szczChartData.stockVal).toFixed(2)}}</span>
+        <span v-z3-updowncolor="szczChartData.stockVal" class="mr-5">{{szczChartData.stockVal === null ? '--':szczChartData.stockVal === undefined?'--':Number(szczChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szczChartData && szczChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="szczChartData && szczChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
-        <span v-z3-updowncolor="szczChartData.upDown" class="mr-5">{{szczChartData.upDown === null ? '--':Number(szczChartData.upDown).toFixed(2)}}</span>
-        <span v-z3-updowncolor="szczChartData.upDownExtent">{{szczChartData.upDownExtent === null ? '(--)':'('+(szczChartData.upDownExtent>0?'+':'')+Number(szczChartData.upDownExtent).toFixed(2)+'%)'}}</span>
+        <span v-z3-updowncolor="szczChartData.upDown" class="mr-5">{{szczChartData.upDown === null ? '--':szczChartData.upDown === undefined?'--':Number(szczChartData.upDown).toFixed(2)}}</span>
+        <span v-z3-updowncolor="szczChartData.upDownExtent">{{szczChartData.upDownExtent === null ? '(--)':szczChartData.upDownExtent === undefined?'(--)':'('+(szczChartData.upDownExtent>0?'+':'')+Number(szczChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
     <div class="line-chart">
       <div v-if="cybzChartData !== null" class="indexNum">
-        <span v-z3-updowncolor="cybzChartData.stockVal" class="mr-5">{{cybzChartData.stockVal === null ? '--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
+        <span v-z3-updowncolor="cybzChartData.stockVal" class="mr-5">{{cybzChartData.stockVal === null ? '--':cybzChartData.stockVal === undefined?'--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
         <img v-if="cybzChartData && cybzChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
         <img v-if="cybzChartData && cybzChartData.upDownExtent<0" src="../assets/images/i_jiantou_down.png" />
-        <span v-z3-updowncolor="cybzChartData.upDown" class="mr-5">{{cybzChartData.upDown === null ? '--':Number(cybzChartData.upDown).toFixed(2)}}</span>
-        <span v-z3-updowncolor="cybzChartData.upDownExtent">{{cybzChartData.upDownExtent === null ? '(--)':'('+(cybzChartData.upDownExtent>0?'+':'')+Number(cybzChartData.upDownExtent).toFixed(2)+'%)'}}</span>
+        <span v-z3-updowncolor="cybzChartData.upDown" class="mr-5">{{cybzChartData.upDown === null ? '--':cybzChartData.upDown === undefined?'--':Number(cybzChartData.upDown).toFixed(2)}}</span>
+        <span v-z3-updowncolor="cybzChartData.upDownExtent">{{cybzChartData.upDownExtent === null ? '(--)':cybzChartData.upDownExtent === undefined?'(--)':'('+(cybzChartData.upDownExtent>0?'+':'')+Number(cybzChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </div>
@@ -183,14 +183,14 @@
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum === 0 ? '--':barData.newHighNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum === null ? '--':barData.newHighNum}}</span>
           <span class="mr-5">创新高</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.newHighNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.newLowNum, total, 2)}}</span>
           <span class="mr-5">创新低</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === 0 ? '--':barData.newLowNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === null ? '--':barData.newLowNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
@@ -202,14 +202,14 @@
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum === 0 ? '--':barData.crossMa5UpNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum === null ? '--':barData.crossMa5UpNum}}</span>
           <span class="mr-5">上穿MA5</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.crossMa5UpNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.crossMa5DownNum, total, 2)}}</span>
           <span class="mr-5">下穿MA5</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === 0 ? '--':barData.crossMa5DownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === null ? '--':barData.crossMa5DownNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
@@ -230,7 +230,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {}
   },
   components: {},
@@ -241,7 +241,7 @@ export default {
     szczChartData: state => state.indexChart.chartData.szczChartData,
     cybzChartData: state => state.indexChart.chartData.cybzChartData,
     barData: state => state.indexChart.barData,
-    total: function() {
+    total: function () {
       if (this.barData.unchangeNum === null || this.barData.upNum === null || this.barData.downNum === null || this.barData.unchangeNum === 'null' || this.barData.upNum === 'null' || this.barData.downNum === 'null') {
         return 0
       } else {
@@ -279,9 +279,9 @@ export default {
     }
   }),
   methods: {
-    dealData(zeroArr) {
+    dealData (zeroArr) {
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof (zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -291,12 +291,12 @@ export default {
       }
       return r
     },
-    removeZero(zeroArr) {
+    removeZero (zeroArr) {
       if (zeroArr == null) {
         return ''
       }
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof (zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -306,7 +306,7 @@ export default {
       }
       return r
     },
-    autoTimeline(starts, ends) {
+    autoTimeline (starts, ends) {
       var timeline = []
       var startHour = starts.split(':')[0] * 1
       var startMin = starts.split(':')[1] * 1
@@ -322,7 +322,7 @@ export default {
       }
       return timeline
     },
-    refreshEcharts(datas, index, chartName) {
+    refreshEcharts (datas, index, chartName) {
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -383,7 +383,7 @@ export default {
           axisLabel: {
             interval: 59,
             textStyle: {
-              color: function(params) {
+              color: function (params) {
                 return '#707b8f'
               }
             }
@@ -396,11 +396,11 @@ export default {
           min: datas === null ? '' : Number(datas.line) - Dvalue,
           max: datas === null ? '' : Number(datas.line) + Dvalue,
           axisLabel: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val.toFixed(2)
             },
             textStyle: {
-              color: function(params) {
+              color: function (params) {
                 var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
                 if (cc > 0) {
                   return '#ca4947'
@@ -489,7 +489,7 @@ export default {
 
         }]
       })
-      window.onresize = function() {
+      window.onresize = function () {
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
           height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
@@ -504,21 +504,21 @@ export default {
         })
       }
     },
-    toPercent(x, y, n) {
-      if (x === 0 || y === 0) {
-        return '--'
-      }
+    toPercent (x, y, n) {
+      //      if (x === 0 || y === 0) {
+      //        return '--'
+      //      }
       return Number(x / y * 100).toFixed(n) + '%'
     },
-    showAlert(index) {
+    showAlert (index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'inline-block'
     },
-    hideAlert(index) {
+    hideAlert (index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'none'
     }
   },
   watch: {
-    'barData': function() {
+    'barData': function () {
       // alert('barFata')
       if (z3websocket.ws) {
         /* z3websocket.ws && z3websocket.ws.close()*/
@@ -528,7 +528,7 @@ export default {
     },
     'chartData': {
       deep: true,
-      handler: function() {
+      handler: function () {
         // alert('chartData')
         if (z3websocket.ws) {
           //          z3websocket.ws && z3websocket.ws.close()
@@ -539,7 +539,7 @@ export default {
 
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
     }).then(() => {
@@ -562,7 +562,7 @@ export default {
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
   },
-  destroyed() {
+  destroyed () {
     z3websocket.ws && z3websocket.ws.close()
   }
 }
