@@ -115,6 +115,8 @@ export default {
   },
   watch: {
     type () {
+      this.rankUp = {}
+      this.rankDown = {}
       this.initSectors() // 点击板块标签初始化表格数据
     }
   },
@@ -150,8 +152,6 @@ export default {
         size: this.size
       })
         .then(() => {
-          this.rankUp = {}
-          this.rankDown = {}
           if (this.type === 'SHQuote') {
             this.rankUp = this.shangZRankData['1']
             this.rankDown = this.shangZRankData['-1']

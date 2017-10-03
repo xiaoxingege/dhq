@@ -123,8 +123,10 @@ export default {
             $('.new-main').html(this.newsContxt)
             $('.new-main p').css({
               'text-indent': '25px',
-              'line-height': '25px'
+              'line-height': '25px',
+              'color': '#c9d0d7 !important'
             })
+            $('.new-main font').attr('color', '#c9d0d7')
             $('.new-main a').removeAttr('href')
             $('.new-main img').css({
               'max-width': '500px',

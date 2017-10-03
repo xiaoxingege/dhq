@@ -115,7 +115,7 @@ export default {
       size: 10,
       limit: 10,
       sortField: 'topicMarket.chngPct',
-      industryList: {},
+      industryList: [],
       hotTopicList: [],
       updateDataPid: null,
       intervalTime: 6
@@ -123,6 +123,8 @@ export default {
   },
   watch: {
     type () {
+      this.industryList = []
+      this.hotTopicList = []
       this.initTopIndustry() // 点击板块标签初始化表格数据
     }
   },

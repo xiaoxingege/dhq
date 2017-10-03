@@ -54,16 +54,17 @@
 <template>
 <div class="top-nav">
   <ul class="clearfix">
-    <li v-for="item in data"><span @click="changeTab($event)" :class="type === item[1] ? 'nav-active':''" href="#" :value="item[1]">{{item[0]}}</span></li>
+    <li v-for="item in data"><span :style="styleObj" @click="changeTab($event)" :class="type === item[1] ? 'nav-active':''" href="#" :value="item[1]">{{item[0]}}</span></li>
   </ul>
 </div>
 </template>
 <script>
 export default {
-  props: ['data', 'type'],
+  props: ['data', 'type', 'styleObject'],
   data () {
     return {
-      activeSearch: this.$route.params.linkText
+      activeSearch: this.$route.params.linkText,
+      styleObj: this.styleObject || {}
     }
   },
   watch: {
@@ -81,7 +82,7 @@ export default {
     }
   },
   mounted () {
-
+    console.log(this.styleObject)
   }
 }
 </script>
