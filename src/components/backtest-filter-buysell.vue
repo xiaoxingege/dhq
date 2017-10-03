@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../assets/css/base.css';
 input {
   outline: none;
@@ -152,20 +152,6 @@ th {
 .backt-buysell-wrap .page {
   background: #141518;
   text-align: center;
-}
-
-.backt-buysell-wrap .page ul li {
-  background: #23272c;
-  color: #c9d0d7
-}
-
-.backt-buysell-wrap .page ul li.active {
-  background: #1984ea;
-}
-
-.backt-buysell-wrap .page select {
-  background: #23272c;
-  color: #c9d0d7
 }
 
 .backtestInfoList {
