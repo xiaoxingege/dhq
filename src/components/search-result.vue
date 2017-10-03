@@ -1,5 +1,10 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
+body {
+    height: 100%;
+    background: #191A1D;
+}
 .searchResult {
     width: 70%;
     background: #191A1D;
@@ -77,7 +82,8 @@
   <ul v-if="searchType == 'theme'">
     <p>搜索主题数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
-      <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}</router-link>
+      <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl===null?'':item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}
+      </router-link>
       <p class="searchInfo">{{item.themeExplain}}</p>
       <p class="searchTime">{{item.themeTime}}</p>
     </li>
