@@ -20,7 +20,7 @@
         background: #fff;
         font-size: 0.28rem;
         margin-bottom: 0.2rem;
-        margin-top: 0.4rem;
+        padding-top: 0.4rem;
     }
     .title {
         color: #333;
