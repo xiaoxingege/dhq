@@ -225,8 +225,8 @@
     <div style="width:100% " class="goldH5">
       <div class="mrmcSignal-header clearfix">
         <div class="fl">
-          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.85rem;">买入信号</span>
-          <span ref="mcxh" @click="changeMcxhType($event)">卖出信号</span>
+          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.85rem;">今日调入信号</span>
+          <span ref="mcxh" @click="changeMcxhType($event)">今日调出信号</span>
         </div>
         <div class="fr" style="color:#888;" v-if="mrxhData !== null && mrxhData.content !== null && mrxhData.content.length !== 0 && type==='mrxh'">
           信号日期：<span>{{mrxhData.content[0].tradeDate}}</span></div>
@@ -255,7 +255,7 @@
               </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}
               </td>
             </tr>
           </tbody>
@@ -283,7 +283,7 @@
               </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+              <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}
               </td>
             </tr>
           </tbody>
