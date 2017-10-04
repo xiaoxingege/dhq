@@ -159,7 +159,8 @@
 
   <!--策略表现 start-->
   <div style="background:#fff; padding-top: 0.35rem; padding-bottom: 0.4rem;">
-    <div class="header-title">策略表现<span>回测区间</span></div>
+    <div class="header-title clearfix">策略表现<span class="fr" style="color:#c3c3c3; font-size:0.12rem; margin-right: 0.2rem;" v-if="this.goldResult">回测区间：{{String(this.goldResult.backtestStartDate).substring(0,4)+'.'+String(this.goldResult.backtestStartDate).substring(4,6)+'.'+String(this.goldResult.backtestStartDate).substring(6)}}~{{String(this.goldResult.backtestEndDate).substring(0,4)+'.'+String(this.goldResult.backtestEndDate).substring(4,6)+'.'+String(this.goldResult.backtestEndDate).substring(6)}}</span>
+    </div>
     <div class="strategyForm clearfix">
       <ul>
         <li>
@@ -227,10 +228,14 @@
           <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.85rem;">买入信号</span>
           <span ref="mcxh" @click="changeMcxhType($event)">卖出信号</span>
         </div>
-        <div class="fr" style="color:#888;">信号日期:<span>2017.08.14</span></div>
+        <div class="fr" style="color:#888;" v-if="mrxhData !== null && mrxhData.content !== null && mrxhData.content.length !== 0 && type==='mrxh'">
+          信号日期：<span>{{mrxhData.content[0].tradeDate}}</span></div>
+        <div class="fr" style="color:#888;" v-if="mcxhData !== null && mcxhData.content !== null && mcxhData.content.length !== 0 && type==='mcxh'">
+          信号日期：<span>{{String(mcxhData.content[0].tradeDate).substring(0,4)+'.'+String(mcxhData.content[0].tradeDate).substring(4,6)+'.'+String(mcxhData.content[0].tradeDate).substring(6)}}</span>
+        </div>
       </div>
       <div v-if="type === 'mrxh'" class="mrxh">
-        <p v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 0.6rem; font-size:0.16rem;">今日无交易信号</p>
+        <span v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 0.6rem; font-size:0.16rem;">今日无交易信号</span>
         <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
