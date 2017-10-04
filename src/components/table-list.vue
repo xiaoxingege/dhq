@@ -61,6 +61,17 @@ tr:nth-child(2n) td {
         height: 0.4rem;
         line-height: 0.4rem;
     }
+    .choseStock table tr:last-child {
+        font-size: 0.24rem;
+    }
+    .sellCondition div:first-child table tr:first-child td {
+        background: #FFF6F5;
+        color: #ff4c4c;
+    }
+    .sellCondition div:last-child table tr:first-child td {
+        background: #F5FAFF;
+        color: #3996f2;
+    }
 }
 </style>
 <template>
