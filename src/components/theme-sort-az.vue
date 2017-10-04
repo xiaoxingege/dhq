@@ -79,6 +79,10 @@ html {
     /* width: 5%; */
     font-size: 14px;
 }
+.letter span {
+
+    font-size: 14px;
+}
 .letter i {
     margin-left: 8px;
 }
