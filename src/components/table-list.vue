@@ -33,10 +33,13 @@ tr:nth-child(2n) td {
     color: #c9d0d7;
     border-bottom: none;
 }
-.choseStockWeb table tr:last-child td,
-.sellConditionWeb table tr:last-child td {
+.choseStockWeb table tr:last-child td {
     color: #d3d9dd;
     border-bottom: 1px solid #1F2229;
+}
+
+.sellConditionWeb table tr td {
+    color: #d3d9dd;
 }
 .tradeParamsWeb table tr:nth-child(n) td {
     color: #afb6bd;
@@ -86,6 +89,6 @@ tr:nth-child(2n) td {
 <script>
 export default {
   props: ['data'],
-  mounted () {}
+  mounted() {}
 }
 </script>
