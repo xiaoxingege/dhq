@@ -247,7 +247,7 @@ export default {
         const closePx = item.closePx // 收盘价
         const highPx = item.highPx // 最高价
         const lowPx = item.lowPx // 最低价
-        const endDate = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
+        const endDate = (item.endDate + '').substring(0, 4) + '.' + (item.endDate + '').substring(4, 6) + '.' + (item.endDate + '').substring(6, (item.endDate + '').length)
         // console.log(endDate)
         kLineXdata.push(endDate)
         kLineYdata.push([openPx, closePx, highPx, lowPx])
@@ -545,7 +545,7 @@ export default {
           axisLine: {
             onZero: false,
             lineStyle: {
-              color: '#c9d0d7'
+              color: '#cfcfcf'
             }
           },
           splitLine: {
@@ -557,7 +557,7 @@ export default {
           axisLabel: {
             align: 'left',
             textStyle: {
-              color: '#c9d0d7'
+              color: '#888888'
             }
           }
         },
@@ -574,14 +574,17 @@ export default {
             show: true
           },
           axisLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              color: '#cfcfcf'
+            }
           },
           position: 'right',
           type: 'value',
           axisLabel: {
             formatter: '{value}',
             textStyle: {
-              color: '#c9d0d7'
+              color: '#888888'
             }
           }
 
