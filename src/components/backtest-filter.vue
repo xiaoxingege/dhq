@@ -295,6 +295,7 @@ span.copy {
     /* padding-bottom: 24px;
       padding-left: 20px; */
     line-height: 24px;
+    padding-left: 20px;
 }
 </style>
 <template>

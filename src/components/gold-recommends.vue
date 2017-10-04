@@ -40,12 +40,6 @@
         font-size: 0.18rem;
         text-align: left;
     }
-    .sellCondition tr td {
-        color: #696969 !important;
-    }
-    .sellCondition tr:first-child td {
-        color: #a5a5a5 !important;
-    }
 }
 </style>
 <template>

@@ -1,41 +1,90 @@
 <style lang="scss" scoped>
-    @import '../assets/css/base.css';
-    *{
-      text-align: justify;
-      box-sizing: border-box;
-      font-size: 12px;
-    }
-    body{
-      font-size: 12px;
-      background: #f2f2f2;
-    }
-    .blue{
-      color: #2388da;
-      font-size: 12px;
-    }
-    .red{
-      color:#e6363a ;
-    }
-    .green {
-      color:#48a854 ;
-    }
-    .fr{
-      float: right;
-    }
-    .fl{
-      float: left;
-    }
-    .backtest-time{
-        background: #f2f2f2;
-        color: #696969;
-        width: 100%;
-        font-size: 12px;
-    }
-    .btime-main{
-       padding: 0 10px 0;
-       position: relative;
-    }
-    .icon{
+@import '../assets/css/base.css';
+* {
+    text-align: justify;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+body {
+    font-size: 12px;
+    background: #f2f2f2;
+}
+.blue {
+    color: #2388da;
+    font-size: 12px;
+}
+.red {
+    color: #e6363a;
+}
+.green {
+    color: #48a854;
+}
+.fr {
+    float: right;
+}
+.fl {
+    float: left;
+}
+
+.backtest-time {
+    background: #141518;
+    color: #c9d0d7;
+    width: 100%;
+    border-bottom: 3px solid #0d0e0f;
+    border-left: 1px solid #0d0e0f;
+    /* padding: 0 20px 20px 0; */
+    padding-right: 20px;
+    padding-bottom: 20px;
+
+}
+.btime-main {
+    /* padding: 0 10px 0; */
+    position: relative;
+}
+.icon {
+    position: absolute;
+    /* right: 15px;
+        top: 8px; */
+    right: 17px;
+    top: 20px;
+}
+.icon span {
+    width: 19px;
+    height: 16px;
+    display: inline-block;
+    background: url("../assets/images/z3img/back-icons.png") no-repeat;
+    cursor: pointer;
+}
+
+span.weixin {
+    background-position: 0 -16px;
+    margin-right: 12px;
+
+}
+.weixin:hover {
+    background-position: 0 0;
+    margin-right: 12px;
+
+}
+
+span.copy {
+    background-position: 0 -52px;
+    margin-right: 12px;
+
+}
+.copy:hover {
+    background-position: 0 -34px;
+}
+
+.weixin.active {
+    background-position: 0 0;
+}
+
+.copy.active {
+    background-position: 0 -34px;
+}
+
+/* .icon{
       position: absolute;
       right: 15px;
       top: 8px;
@@ -54,84 +103,142 @@
       display: inline-block;
       background: url(../assets/images/z3img/back-copy.png) no-repeat;
       cursor:pointer;
-    }
-    .qrcode{
+    } */
+/* .qrcode{
       position:absolute;
       top:40px;
       right:10px;
       box-shadow:4px 4px 4px 2px #eee;
       border:1px solid #eee
-    }
-    
+    } */
+.qrcode {
+    position: absolute;
+    top: 51px;
+    right: 41px;
+    /* top: 40px;
+        right: 10px; */
+    /* box-shadow: 4px 4px 4px 2px #eee;
+        border: 1px solid #eee; */
+}
+
+.angle {
+    width: 0;
+    height: 0;
+    border: 15px solid transparent;
+    border-bottom-color: #fff;
+    position: absolute;
+    top: -26px;
+    right: 32px;
+
+}
+
+.code-box {
+    width: 189px;
+    height: 205px;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #666666;
+    padding: 10px;
+}
+
+.code-txt {
+    text-align: center;
+    /* line-height: 13px; */
+    margin-top: -3px;
+}
+.foots-tishi {
+    font-size: 12px;
+    /*  position: absolute;
+      bottom: 0; */
+    color: #808ba1;
+    /* padding-bottom: 24px;
+      padding-left: 20px; */
+    line-height: 24px;
+    padding-left: 20px;
+}
 </style>
-<template> 
-   <div class="backtest-time">
-      <div class="btime-main">
-           <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享"></span><span class="copy" title="复制分享链接" ref='copy2share'></span></div>
-           <BackTimeStra/> 
-           <BackTimeKline/>     
-      </div>
-      <div v-show="showQrcodeBox" class="qrcode" >
-          <div><canvas ref="qrcode"></canvas></div>
-      </div>
-      <toast :msg="toastmsg"  v-if="showToast"></toast>
-   </div>
-       
+<template>
+<div class="backtest-time">
+  <div class="btime-main">
+    <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享" :class="showQrcodeBox===true?'active':''"></span><span class="copy" title="复制分享链接" ref='copy2share' :class="showToast===true?'active':''"></span></div>
+    <BackTimeStra/>
+    <BackTimeKline/>
+  </div>
+  <div class="foots-tishi">
+    温馨提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+  </div>
+  <div v-show="showQrcodeBox" class="qrcode">
+    <div class="angle" @click="showCode"></div>
+    <div class="code-box">
+      <canvas ref="qrcode"></canvas>
+      <div class="code-txt">微信扫码转发</div>
+    </div>
+  </div>
+  <toast :msg="toastmsg" v-if="showToast"></toast>
+</div>
 </template>
 
 <script>
- import { mapState } from 'vuex'
- import BackTimeStra from './back-time-stra'
- import BackTimeKline from './back-time-kline'
- import qrcode from 'qrcode'
- import Clipboard from 'clipboard'
- import toast from 'components/toast'
- import { ctx } from '../z3tougu/config'
- export default {
-   data () {
-     return {
-       showQrcodeBox: false,
-       strategyId: this.$route.params.strategyId,
-       toastmsg: '',
-       showToast: false
-     }
-   },
-   computed: mapState({
- 
-   }),
-   components: {
-     BackTimeStra,
-     BackTimeKline,
-     toast
-   },
-   methods: {
-     showQrcode () {
-       this.showQrcodeBox = !this.showQrcodeBox
-     }
-   },
-   mounted () {
-     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
-     console.info(url)
-     qrcode.toDataURL(this.$refs.qrcode, url, function () {})
-     const clipboard = new Clipboard(this.$refs.copy2share, {
-       text: function () {
-         return url
-       }
-     })
-     clipboard.on('success', (e) => {
-       this.toastmsg = '分享地址已拷贝!'
-       this.showToast = true
-       setTimeout(() => {
-         this.showToast = false
-       }, 2500)
-     })
-     clipboard.on('error', (e) => {
-       this.toastmsg = '分享地址拷贝失败!'
-       this.showToast = true
-       setTimeout(() => {
-         this.showToast = false
-       }, 2500)
-     })
-   }
- }
+import {
+  mapState
+} from 'vuex'
+import BackTimeStra from './back-time-stra'
+import BackTimeKline from './back-time-kline'
+import qrcode from 'qrcode'
+import Clipboard from 'clipboard'
+import toast from 'components/toast'
+import {
+  ctx
+} from '../z3tougu/config'
+export default {
+  data () {
+    return {
+      showQrcodeBox: false,
+      strategyId: this.$route.params.strategyId,
+      toastmsg: '',
+      showToast: false
+    }
+  },
+  computed: mapState({
+
+  }),
+  components: {
+    BackTimeStra,
+    BackTimeKline,
+    toast
+  },
+  methods: {
+    showQrcode () {
+      this.showQrcodeBox = !this.showQrcodeBox
+    },
+    showCode () {
+      this.showQrcodeBox = !this.showQrcodeBox
+    }
+  },
+  mounted () {
+    const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
+    console.info(url)
+    qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+    const clipboard = new Clipboard(this.$refs.copy2share, {
+      text: function () {
+        return url
+      }
+    })
+    clipboard.on('success', (e) => {
+      this.toastmsg = '分享地址已拷贝!'
+      this.showToast = true
+      setTimeout(() => {
+        this.showToast = false
+      }, 2500)
+    })
+    clipboard.on('error', (e) => {
+      this.toastmsg = '分享地址拷贝失败!'
+      this.showToast = true
+      setTimeout(() => {
+        this.showToast = false
+      }, 2500)
+    })
+  }
+}
 </script>

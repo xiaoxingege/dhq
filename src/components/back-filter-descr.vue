@@ -197,29 +197,19 @@ i {
   </div>
   <div class="describe-wrap clearfix display-box">
     <div class="describe-left box-flex-2">
-      <div class="desc-title">策略描述：</div>
+      <div class="desc-title">策略描述</div>
       <div class="desc-con">
         {{ basicFilter.strategyDesc}}
       </div>
-      <div class="desc-title">选股条件：</div>
-
-      <!--  <ul class="clearfix desc-ul">
-                        <li class="fl desc-txt"><span>失灵率</span><span class="desc-num">10%</span></li>
-                        <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率6</span><span class="desc-num">11%</span></li>
-                  </ul> -->
+      <div class="desc-title">选股条件</div>
       <table class="desc-ul">
         <tr v-for="trItem in filterSummary" class="trtxt">
           <td v-for="tdItem in trItem" class="tdtxt">{{tdItem}}</td>
         </tr>
       </table>
-
     </div>
     <div class="describe-right box-flex-2">
-      <div class="desc-title">策略表现：</div>
+      <div class="desc-title">策略表现</div>
       <table class="evaluat-box">
         <tr class="eval-tr1 clearfix">
           <td>
@@ -255,44 +245,6 @@ i {
           </td>
         </tr>
       </table>
-      <!-- <div class="clearfix evaluat-box ">
-         <div class="display-box evalbox-1">
-            <div class="desc-txt desc-txt2 desc-txt4 box-flex-1">
-              <span>胜率</span>
-              <span class="desc-num" v-z3-updowncolor="eval.winRatio">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 desc-txt5 box-flex-1">
-              <span>平均超额收益</span>
-              <span class="desc-num" v-z3-updowncolor="eval.avgReturnExcess">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 box-flex-1">
-              <span>平均收益</span>
-              <span class="desc-num" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 desc-txt6 box-flex-1">
-              <span>盈亏比</span>
-              <span class="desc-num">{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span>
-            </div>
-         </div>
-         <div class="display-box evalbox-2">
-            <div class="desc-txt desc-txt2 box-flex-1">
-              <span>持有天数</span>
-              <span class="desc-num">{{basicFilter.holdDay==null?'--':basicFilter.holdDay}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 box-flex-1">
-              <span>最大盈利</span>
-              <span class="desc-num" v-z3-updowncolor="eval.maxWin">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 box-flex-1">
-              <span>最大亏损</span>
-              <span class="desc-num" v-z3-updowncolor="eval.maxLoss">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
-            </div>
-            <div class="desc-txt desc-txt2 desc-txt3 box-flex-1">
-              <span>回测区间</span>
-              <span class="desc-num">{{basicFilter.backtestStartDate==null?'--':changeDate(basicFilter.backtestStartDate)}}～{{basicFilter.backtestEndDate==null?'--':changeDate(basicFilter.backtestEndDate)}}</span>
-            </div>
-         </div>    
-      </div> -->
 
     </div>
 

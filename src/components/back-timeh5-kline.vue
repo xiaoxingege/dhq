@@ -7,7 +7,7 @@
 }
 body {
     font-size: 12px;
-    background: #141518;
+    background: #f2f2f2;
 }
 h3 {
     font-weight: 400;
@@ -46,7 +46,7 @@ i {
     float: left;
 }
 .time-kline-wrap {
-    background: #141518;
+    background: #fff;
     color: #c9d0d7;
     width: 100%;
     font-size: 12px;
@@ -60,39 +60,44 @@ i {
     /* padding: 14px 10px 14px 11px; */
     /* padding: 48px 20px 30px 20px; */
     /* padding-top: 47px; */
-    padding: 47px 0 0 20px;
+    /*  padding: 47px 0 0 20px; */
     position: relative;
-
-}
-.time-inp {
-    padding-left: 8px;
-    height: 25px;
-    line-height: 25px;
-    /* border: 1px solid #2388da;
-        border-radius: 3px; */
-    width: 256px;
-    font-size: 12px;
-    background: #30353b;
-    border: none;
+    border-radius: 0;
     outline: none;
 }
+.time-inp {
+    padding-left: 0.1rem;
+    height: 0.63rem;
+    /* border: 1px solid #2388da;
+        border-radius: 3px; */
+    width: 4.8rem;
+    font-size: 0.24rem;
+    background: #fafafa;
+    border: 0.01rem solid #e6e6e6;
+    outline: none;
+    color: #333333;
+    border-radius: 0;
+    border-top: 0.01rem solid #e6e6e6;
+}
+.inp-box {
+    padding: 0.4rem 0.5rem 0.2rem 0.3rem;
+}
 .ana-btn {
-    width: 56px;
-    height: 25px;
+    width: 1.56rem;
+    height: 0.64rem;
     text-align: center;
-    line-height: 25px;
-    display: inline-block;
-    background: #1984ea;
-    color: #c9d0d7;
+    line-height: 0.64rem;
+    background: #ff4040;
+    color: #ffffff;
     cursor: pointer;
     border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 0.28rem;
 }
 .label-txt {
     /* padding-right: 50px; */
-    padding-left: 27px;
+    padding-left: 0.35rem;
+    font-size: 0.22rem;
+    color: #c3c3c3;
 }
 .k-line-box {
     /* padding: 11px 7px 20px 6px; */
@@ -101,7 +106,7 @@ i {
 
 }
 .kcharts {
-    /* height: 360px; */
+    height: 2.97rem;
 }
 .ma-box {
     position: absolute;
@@ -130,10 +135,10 @@ i {
     /* width: 208px; */
     /* width: 204px; */
 
-    width: 256px;
+    width: 4.8rem;
     /* top: 82%; */
-    top: 104%;
-    left: 20px;
+    top: 53%;
+    left: 0.3rem;
     position: absolute;
     /* left: 14.7%; */
     /* left: 276px; */
@@ -143,15 +148,16 @@ i {
     z-index: 99999;
     color: #666666;
     font-size: 12px;
-    background: #cccfd9;
+    /* background: #f2f2f2; */
+    background: #fafafa;
     padding: 0 10px;
     border-radius: 3px;
 }
 .search-ul li {
     line-height: 30px;
     /* border-bottom: 1px solid #262931; */
-    /* border-bottom: 1px solid #e5e5e5; */
-    border-bottom: 1px solid #808ba1;
+    border-bottom: 1px solid #e5e5e5;
+    /*border-bottom: 1px solid #808ba1;*/
     cursor: pointer;
 }
 .search-ul li span:first-child {
@@ -166,10 +172,12 @@ i {
 <div class="time-kline-wrap">
 
   <div class="time-inp-box">
-    <div class="desc-title">机会分析</div>
-    <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
-    <span class="ana-btn" @click="submitSearch($event)">分析</span>
-    <label class="label-txt lightcolor">*适用范围：{{timeStrategy.stockScope}}，超出范围可能不准</label>
+    <!-- <div class="desc-title">机会分析</div> -->
+    <div class="inp-box clearfix">
+      <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp fl" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
+      <span class="ana-btn fl" @click="submitSearch($event)">分析</span>
+    </div>
+    <label class="label-txt clearfix">*适用范围：{{timeStrategy.stockScope}}，超出范围可能不准</label>
     <ul class="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
       <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
     </ul>
@@ -179,12 +187,8 @@ i {
                </ul> -->
   </div>
   <div class="k-line-box">
-    <!-- <div>格力电器买卖点分析</div> -->
-    <!-- <div class="ma-box" v-show="showMa">
-                     <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
-                     <div></div>
-                 </div> -->
-    <div class="kcharts" ref="kcharts" :style="{  height: fullHeight1 + 'px' }"></div>
+
+    <div class="kcharts" ref="kcharts"></div>
   </div>
 
 </div>
@@ -243,7 +247,7 @@ export default {
         const closePx = item.closePx // 收盘价
         const highPx = item.highPx // 最高价
         const lowPx = item.lowPx // 最低价
-        const endDate = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
+        const endDate = (item.endDate + '').substring(0, 4) + '.' + (item.endDate + '').substring(4, 6) + '.' + (item.endDate + '').substring(6, (item.endDate + '').length)
         // console.log(endDate)
         kLineXdata.push(endDate)
         kLineYdata.push([openPx, closePx, highPx, lowPx])
@@ -295,7 +299,9 @@ export default {
               itemStyle: {
                 normal: {
                   color: '#000',
-                  borderColor: '#fff',
+                  /* color: '#fff',*/
+                  /* borderColor: '#fff',*/
+                  /* borderColor: '#000',*/
                   borderWidth: 3
                 }
               },
@@ -355,7 +361,7 @@ export default {
               itemStyle: {
                 normal: {
                   color: '#000',
-                  borderColor: '#fff',
+                  /* borderColor: '#fff',*/
                   borderWidth: 3
                 }
               },
@@ -521,10 +527,10 @@ export default {
           /* left: '2.5%',*/
           /* left: '2.5%',*/
           /* right: '2%',*/
-          left: '24px',
-          right: '36px',
-          top: '30px',
-          bottom: '20px',
+          left: '2%',
+          right: '1%',
+          top: '3.2%',
+          bottom: '0',
           /* bottom: '10%',*/
           /*, */
           containLabel: true
@@ -539,7 +545,7 @@ export default {
           axisLine: {
             onZero: false,
             lineStyle: {
-              color: '#c9d0d7'
+              color: '#cfcfcf'
             }
           },
           splitLine: {
@@ -551,7 +557,7 @@ export default {
           axisLabel: {
             align: 'left',
             textStyle: {
-              color: '#c9d0d7'
+              color: '#888888'
             }
           }
         },
@@ -568,14 +574,17 @@ export default {
             show: true
           },
           axisLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              color: '#cfcfcf'
+            }
           },
           position: 'right',
           type: 'value',
           axisLabel: {
             formatter: '{value}',
             textStyle: {
-              color: '#c9d0d7'
+              color: '#888888'
             }
           }
 
@@ -682,7 +691,7 @@ export default {
           lineStyle: {
             normal: {
               width: 3,
-              color: '#fff'
+              color: '#888888'
             }
           }
         }

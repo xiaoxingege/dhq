@@ -304,7 +304,9 @@ a.kuai_icon {
     background: #cccfd9;
     border-radius: 3px;
     z-index: 999;
-    top: 25px;
+    /* top: 25px; */
+    top: 23px;
+    left: 199px;
     /* left: -56px; */
     /* right: 0px;
     
@@ -591,8 +593,7 @@ a.kuai_icon {
   <div class="clearfix topic-head">
     <div class="fl">
       <strong class="head-title gray">题材累计总数</strong><em class="sum1" v-for="sum of this.summary.topicNum">{{sum}}</em><strong class="sum2 gray">上涨题材</strong><em class="red topic-num">{{checkNull(this.summary.topicUpNum)}}</em><strong class="sum3 gray">下跌题材</strong>
-      <em
-        class="green topic-num">{{checkNull(this.summary.topicDownNum)}}</em>
+      <em class="green topic-num">{{checkNull(this.summary.topicDownNum)}}</em>
     </div>
     <div class="fr sort-head">
       <!-- <em>全部主题概念</em> -->
