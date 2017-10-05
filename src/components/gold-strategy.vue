@@ -1,5 +1,9 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
+html {
+    height: 100%;
+}
 .goldRecommend {
     font-size: 12px;
     background: #0d0e0f;

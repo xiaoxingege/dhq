@@ -75,6 +75,10 @@ tr:nth-child(2n) td {
         background: #F5FAFF;
         color: #3996f2;
     }
+
+    .sellCondition table tr td {
+        color: #333;
+    }
 }
 </style>
 <template>
@@ -89,6 +93,6 @@ tr:nth-child(2n) td {
 <script>
 export default {
   props: ['data'],
-  mounted () {}
+  mounted() {}
 }
 </script>
