@@ -232,6 +232,7 @@ i {
         padding-right: 77px; */
     width: 55%;
     padding-right: 10%;
+    min-height: 216px;
 }
 .express-sell-box {
     /* width: 50%;
@@ -241,7 +242,7 @@ i {
     padding-right: 0;
 }
 .exp-buy {
-    background: #E73737;
+    background: #ca4941;
     width: 85px;
     height: 25px;
     text-align: center;
@@ -256,7 +257,7 @@ i {
     font-size: 12px;
 }
 .exp-sell {
-    background: #43A863;
+    background: #56a870;
 }
 </style>
 <template>

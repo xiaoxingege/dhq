@@ -168,14 +168,16 @@ html {
 }
 .left-con2 {
     /* height: 317px; */
-    height: 303px;
+    /* height: 303px; */
+    height: 321px;
     /* padding: 11px 19px 12px 0; */
     padding: 19px 18px 20px 20px;
     position: relative;
     border-bottom: 1px solid #0d0e0f;
 }
 .left-con3 {
-    padding: 20px 20px 14px;
+    /* padding: 20px 20px 14px; */
+    padding: 20px 20px 17px;
     border-bottom: 1px solid #0d0e0f;
     /* padding: 13px 25px 10px 13px; */
 
@@ -187,12 +189,22 @@ html {
     line-height: 18px;
     /* height: 168px;*/
     overflow: auto;
-
+    position: relative;
 }
 
 .in-content-a {
     line-height: 26px;
 }
+.in-content-b {
+    font-size: 14px;
+    text-align: center;
+    position: absolute;
+    top: 18%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
 .in-title {
     line-height: 62px;
 }
@@ -223,8 +235,24 @@ html {
     text-align: right;
     color: #c9d0d7;
 }
-.in-content a:hover {
+.new-tit:hover {
     color: #1984ea;
+}
+.new-tit:hover i {
+    display: block;
+}
+.new-tit i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; */
+    left: 157px;
 }
 .left-con3 strong {
     display: inline-block;
@@ -556,14 +584,16 @@ bottom: 0; */
         <div class="left-con3 clearfix">
           <strong>相关资讯</strong>
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }">
-            <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
+            <a class="clearfix in-content-a" v-if="informatList.length>0" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
-                <span class="new-tit">{{checkNull(infor.title)}}</span>
+                <span class="new-tit">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
               </router-link>
             </a>
-
+            <a class="clearfix in-content-b" v-if="informatList.length<=0">
+               暂无相关资讯
+            </a>
           </div>
           <!-- <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
             <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
@@ -580,7 +610,7 @@ bottom: 0; */
             <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
-            <td>关联主题</td>
+            <td>关联题材</td>
             <td>关联说明</td>
           </tr>
           <tr v-for="stock of stockList">
@@ -600,8 +630,8 @@ bottom: 0; */
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
-    <div class="foot-tishi">
-      温馨提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+    <div class="foot-tishi clearfix">
+      风险提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
     </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -645,9 +675,9 @@ export default {
       isDireCurChng: true,
       isDireIndustry: true,
       topicCode: this.$route.params.topicId,
-      fullHeight1: document.documentElement.clientHeight - 547,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 204) / 44),
-      fullHeight3: document.documentElement.clientHeight - 204,
+      fullHeight1: document.documentElement.clientHeight - 550,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 207) / 44),
+      fullHeight3: document.documentElement.clientHeight - 207,
       size: 12,
       inforPageSize: 100,
       endAll: '',
@@ -1018,7 +1048,7 @@ export default {
         },
         legend: {
           left: '3%',
-          top: 30,
+          top: 5,
           itemWidth: 15,
           itemHeight: 8,
           data: [{
@@ -1091,6 +1121,7 @@ export default {
           y: '88%',
           start: 0,
           end: 100,
+          bottom: 0,
           dataBackground: {
             lineStyle: {
               color: '#18191d'
@@ -1113,13 +1144,13 @@ export default {
           data: topicReturnRate,
           lineStyle: { // 网格线
             normal: {
-              color: '#CA4A41'
+              color: '#1984ea'
             }
           },
           itemStyle: { // 折线拐点标志的样式
             normal: {
               opacity: 0,
-              color: '#CA4A41'
+              color: '#1984ea'
             }
           },
           markPoint: { // 图标标注
@@ -1148,13 +1179,13 @@ export default {
           data: hs300ReturnRate,
           lineStyle: {
             normal: {
-              color: '#2388DA'
+              color: '#ca4941'
             }
           },
           itemStyle: {
             normal: {
               opacity: 0,
-              color: '#2388DA'
+              color: '#ca4941'
             }
           },
           markPoint: { // 图标标注
