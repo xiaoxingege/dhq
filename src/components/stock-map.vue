@@ -936,7 +936,7 @@ export default {
               _this.playBackIndex++
               _this.queryPlaybackData(_this.playBackIndex)
           })
-        }, 500)
+        }, 250)
       }
     },
     fmtraneValue: function(arr, n) {
