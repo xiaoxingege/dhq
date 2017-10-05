@@ -40,12 +40,6 @@
         font-size: 0.18rem;
         text-align: left;
     }
-    .sellCondition tr td {
-        color: #696969 !important;
-    }
-    .sellCondition tr:first-child td {
-        color: #a5a5a5 !important;
-    }
 }
 </style>
 <template>
@@ -55,11 +49,13 @@
   <div v-if="type === 'choseStock'" class="choseStock choseStockWeb">
     <Tablelist :data="choseStockData"></Tablelist>
   </div>
-  <div v-if="type === 'sellCondition'" class="sellCondition  sellConditionWeb">
+  <div v-if="type === 'buyCondition'" class="sellCondition  sellConditionWeb">
     <div>
       <Tablelist :data="sellConditionData.buyData"></Tablelist>
       <div style="color:#d3d9dd; line-height: 42px;">买入表达式：{{data.sellConditiondata.buy.buyConExp}}</div>
     </div>
+  </div>
+  <div v-if="type === 'sellCondition'" class="sellCondition  sellConditionWeb">
     <div>
       <Tablelist :data="sellConditionData.sellData"></Tablelist>
       <div style="color:#d3d9dd; line-height: 42px;">卖出表达式：{{data.sellConditiondata.sell.sellConExp}}</div>
@@ -84,7 +80,8 @@ export default {
     return {
       navText: [
         ['选股条件', 'choseStock'],
-        ['买卖条件', 'sellCondition'],
+        ['买入条件', 'buyCondition'],
+        ['卖出条件', 'sellCondition'],
         ['仓控策略', 'controlStrategy'],
         ['交易参数', 'tradeParams']
       ],

@@ -74,7 +74,6 @@ export default {
   },
   watch: {
     dataList () {
-      console.log(this.dataList)
       if (this.dataList.length > 0) {
         this.isNoData = false
       } else {

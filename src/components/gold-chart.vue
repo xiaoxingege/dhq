@@ -42,7 +42,7 @@ a {
 .sylfb,
 .syqxt,
 .syytj {
-    min-height: 420px;
+    min-height: 467px;
     width: 100%;
     background: #141518;
 }
@@ -156,7 +156,7 @@ a {
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}</td>
           </tr>
         </tbody>
       </table>
@@ -186,7 +186,7 @@ a {
             <td>{{item.amount === null ? '--':item.amount}}</td>
             <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}
             </td>
           </tr>
         </tbody>
