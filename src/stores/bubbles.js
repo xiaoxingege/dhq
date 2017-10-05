@@ -34,7 +34,7 @@ export default {
     userStrategy: null
   },
   mutations: {
-    setBubblesOptions (state, options) {
+    setBubblesOptions(state, options) {
       state.parameterData.xData = options.xDefault
       state.parameterData.yData = options.yDefault
       state.parameterData.bubblesSize = options.sizeDefault
@@ -46,7 +46,7 @@ export default {
       state.parameterData.historyVolume = options.historyValueRangeDefault
       state.parameterData.innerCode = options.innerCode
     },
-    setBubblesData (state, result) {
+    setBubblesData(state, result) {
       const data = result.data
       state.bubblesData = {
         xData: [],
@@ -102,10 +102,10 @@ export default {
         }
       }
     },
-    setStockOptions (state, result) {
+    setStockOptions(state, result) {
       state.userId = result
     },
-    setStockPool (state, result) {
+    setStockPool(state, result) {
       if (result.errCode === 0) {
         result.data.unshift({
           poolId: '',
@@ -114,10 +114,10 @@ export default {
         state.stockPool = result.data
       }
     },
-    setStrategyOptions (state, result) {
+    setStrategyOptions(state, result) {
       state.userId = result
     },
-    setStrategy (state, result) {
+    setStrategy(state, result) {
       if (result.errCode === 0) {
         result.data.unshift({
           id: '',
@@ -128,7 +128,7 @@ export default {
     }
   },
   actions: {
-    getBubblesData ({
+    getBubblesData({
       commit
     }, {
       options
@@ -150,7 +150,7 @@ export default {
         commit('setBubblesData', body)
       })
     },
-    getStrategy ({
+    getStrategy({
       commit,
       state,
       rootState
@@ -168,7 +168,7 @@ export default {
         commit('setStrategy', body)
       })
     },
-    getStockPool ({
+    getStockPool({
       commit,
       state,
       rootState

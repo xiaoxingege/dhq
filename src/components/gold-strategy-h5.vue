@@ -23,10 +23,10 @@
     }
 
     .strategyHeader {
-        color: #fff;
-        font-size: 0.32rem;
-        height: 1.2rem;
-        line-height: 1.2rem;
+        color: #fff !important;
+        font-size: 0.32rem !important;
+        height: 1.2rem !important;
+        line-height: 1.2rem !important;
         text-align: center;
         background: url("../assets/images/z3img/backh5-top.png") no-repeat;
         background-size: 100% 100%;

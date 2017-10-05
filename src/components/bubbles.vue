@@ -2,6 +2,7 @@
 .bubblesChart {
     width: 100%;
 }
+
 .siweiDialog {
     width: 450px;
     height: 247px;
@@ -605,35 +606,33 @@ export default {
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
-        this.chart && this.chart.setOption({
-          xAxis: this.xAxis,
-          yAxis: this.yAxis,
-          series: [{
-            data: this.bubblesData.seriesData
-          }],
-          dataZoom: this.dataZoom
-        })
+        this.initBubbles()
+        /* this.chart && this.chart.setOption({
+         xAxis: this.xAxis,
+         yAxis: this.yAxis,
+         series: [{
+         data: this.bubblesData.seriesData
+         }],
+         dataZoom: this.dataZoom
+         })*/
         this.chart.hideLoading()
       })
       this.chart.showLoading()
       setTimeout(() => {
         this.$emit('toHideDialog', false)
-      }, 0) /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
+      }, 0)
+      /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
     }
 
   },
   mounted () {
     const that = this
-    const p = new Promise((resolve, reject) => {
-      if (window.Z3) {
-        window.Z3.SndStockPoolInfo((data) => {
-          that.options.innerCode = data
-          resolve()
-        })
-      }
-      resolve()
-    })
-    p.then(this.initBubbles)
+    if (window.Z3) {
+      window.Z3.SndStockPoolInfo((data) => {
+        that.options.innerCode = data
+        this.initBubbles()
+      })
+    }
   }
 }
 </script>

@@ -129,6 +129,7 @@ a {
     </div>
     <div class="radarChart">
       <Radarchart :strategyId="strategyId"></Radarchart>
+      <img src="../assets/images/help.png" />
     </div>
   </div>
   <div>

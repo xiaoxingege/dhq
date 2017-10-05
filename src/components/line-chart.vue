@@ -155,7 +155,7 @@ export default {
             }
           }
           ],
-          color: ['#E73E3A', '#0C86ED', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
+          color: ['#0C86ED', '#E73E3A', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
@@ -166,6 +166,7 @@ export default {
             containLabel: true
           },
           dataZoom: [{
+            backgroundColor: '#32383E',
             type: 'slider',
             show: true,
             showDetail: false,
@@ -180,7 +181,7 @@ export default {
             },
             // borderColor: '#d5dbe4',
             width: '95%',
-            height: '8%',
+            height: '5%',
             handleSize: '100%',
             dataBackground: {
               areaStyle: {

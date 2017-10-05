@@ -122,7 +122,7 @@ export default {
             },
             // borderColor: '#d5dbe4',
             width: '94%',
-            height: '8%',
+            height: '5%',
             handleSize: '100%',
             dataBackground: {
               areaStyle: {
