@@ -184,7 +184,7 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
     <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
@@ -321,6 +321,11 @@ export default {
   },
   watch: {
     rangeCode () {
+      /* if (this.chart) {
+        this.chart.dispose()
+        console.log('摧毁!')
+      }
+      this.chart = echarts.init(this.$refs.treemap)*/
       this.updateMap()
       this.playBackIndex = 19
       this.playLineIndex = 19
