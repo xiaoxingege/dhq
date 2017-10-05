@@ -58,7 +58,8 @@ html {
     background-color: #cccfd9;
     color: #666;
     display: inline-block;
-    height: 30px;
+    /* height: 30px;
+    padding: 50px;*/
 }
 .condition_wrap {
     height: 35px;

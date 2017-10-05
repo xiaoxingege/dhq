@@ -184,7 +184,7 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
     <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
@@ -321,6 +321,11 @@ export default {
   },
   watch: {
     rangeCode () {
+      /* if (this.chart) {
+        this.chart.dispose()
+        console.log('摧毁!')
+      }
+      this.chart = echarts.init(this.$refs.treemap)*/
       this.updateMap()
       this.playBackIndex = 19
       this.playLineIndex = 19
@@ -879,8 +884,9 @@ export default {
         if (this.playLineIndex >= this.playBackDate.length - 1) {
           this.playLineIndex = -1
         }
-        pid = setInterval(() => {
-          if (this.playBackIndex >= this.playBackDate.length - 1) {
+        this.queryPlaybackData(this.playBackIndex)
+        /* pid = setInterval(() => {
+          if (this.playBackIndex >= this.playBackDate.length - 1) { // 如果已经播完
             this.playBackIndex = this.playBackDate.length - 1
             this.playBackState = false
             this.playBackSrc = playStopSrc
@@ -888,9 +894,6 @@ export default {
             this.isStopPlayback = false
             this.$emit('isStopPlayback', this.isStopPlayback)
             this.updateData()
-            /*  setTimeout(() => {
-                this.playLineIndex++
-              }, 280)*/
             this.autoUpdateData()
           }
           if (this.playLineIndex >= this.playBackDate.length - 1) {
@@ -906,6 +909,33 @@ export default {
               this.playBackIndex++
             })
           }
+        }, 500)*/
+      }
+    },
+    queryPlaybackData: function (playBackIndex) {
+      const _this = this
+      if (!this.playBackState) {
+        return
+      }
+      if (playBackIndex >= this.playBackDate.length - 1) {
+        this.playBackIndex = this.playBackDate.length - 1
+        this.playBackState = false
+        this.playBackSrc = playStopSrc
+        this.isStopPlayback = false
+        this.$emit('isStopPlayback', this.isStopPlayback)
+        this.updateData()
+        this.autoUpdateData()
+      } else {
+        const playBackDate = this.playBackDate[playBackIndex]
+        setTimeout(function () {
+          _this.$store.dispatch('stockMap/updateDataByDate', {
+            date: playBackDate
+          }).then(() => {
+            _this.updateMapData()
+            _this.playLineIndex++ // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
+            _this.playBackIndex++
+            _this.queryPlaybackData(_this.playBackIndex)
+          })
         }, 250)
       }
     },
