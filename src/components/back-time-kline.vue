@@ -102,6 +102,7 @@ i {
 }
 .kcharts {
     /* height: 360px; */
+    height: 393px;
 }
 .ma-box {
     position: absolute;
@@ -178,13 +179,13 @@ i {
                   
                </ul> -->
   </div>
-  <div class="k-line-box">
+  <div class="k-line-box" id="ss">
     <!-- <div>格力电器买卖点分析</div> -->
     <!-- <div class="ma-box" v-show="showMa">
                      <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
                      <div></div>
                  </div> -->
-    <div class="kcharts" ref="kcharts" :style="{  height: fullHeight1 + 'px' }"></div>
+    <div class="kcharts" ref="kcharts"></div>
   </div>
 
 </div>
@@ -539,11 +540,11 @@ export default {
           axisLine: {
             onZero: false,
             lineStyle: {
-              color: '#c9d0d7'
+              color: '#23272c'
             }
           },
           splitLine: {
-            show: true
+            show: false
           },
           splitNumber: 5,
           min: 'dataMin',
@@ -565,10 +566,17 @@ export default {
             show: false
           },
           splitLine: {
-            show: true
+            show: true,
+            lineStyle: {
+              // 使用深浅的间隔色
+              color: '#23272c'
+            }
           },
           axisLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              color: '#23272c'
+            }
           },
           position: 'right',
           type: 'value',
@@ -701,7 +709,6 @@ export default {
   mounted () {
     // this.init()
     // this.$store.dispatch('')
-
   }
 
 }
