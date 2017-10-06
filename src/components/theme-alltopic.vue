@@ -89,8 +89,10 @@ span {
     font-weight: normal;
     /* padding-left: 15px;
     margin: 12px 0 -4px; */
-    padding: 9px 7px 9px 10px;
+    /* padding: 9px 7px 9px 10px; */
+    padding: 2px 7px 2px 10px;
     border-bottom: 1px solid #0d0e0f;
+    background: #23272c;
 }
 .topic-head .head-title {
     margin-right: 10px;
@@ -324,19 +326,21 @@ a.kuai_icon {
     /*  padding-left: 8px;
     padding-right: 8px;
     margin-top: 8px; */
-    padding: 0 7px 0 10px;
+    /* padding: 0 7px 0 10px; */
+    padding: 0 7px 0 0;
 }
 .topic-ol li {
     /* padding: 10px 15px 40px 13px; */
-    padding: 2px 21px 2px 2px;
+    /* padding: 2px 21px 2px 2px; */
     /* margin-bottom: 8px; */
-    border: 1px solid #23272c;
+    padding: 0 21px 0 0;
+    border-bottom: 1px solid #0d0e0f;
 }
 .con-bar-1 {
     /* width: 168px; */
     width: 14%;
     /* height: 124px; */
-    background-color: #23272c;
+    background-color: #2e4465;
     text-align: center;
 }
 .topic-name {
@@ -352,7 +356,7 @@ a.kuai_icon {
 
 }
 .con-bar-1:hover {
-    background: #2e4465;
+    background: #1984ea;
 }
 .topic-chng-box {
     text-align: center;
@@ -453,6 +457,9 @@ a.kuai_icon {
 }
 .desc-con {
     position: relative;
+    line-height: 18px;
+    /* height: 190px; */
+    display: inline-block;
 }
 .desc-con:hover {
     color: #1984ea;
@@ -653,7 +660,7 @@ a.kuai_icon {
             </div>
           </div>
           <div class="con-bar-3 box-flex-1">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con"><strong>主题简介:</strong>{{allTopic.topicDesc}}<i>{{allTopic.topicDesc}}</i></span></router-link>
+            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,190)}}<i>{{allTopic.topicDesc}}</i></span></router-link>
           </div>
 
         </div>
@@ -685,7 +692,8 @@ import {
   mapState
 } from 'vuex'
 import {
-  formatDate
+  formatDate,
+  cutString
 } from 'utils/date'
 import Pagination from './pagination'
 import ThemeSortAz from './theme-sort-az'
@@ -833,6 +841,9 @@ export default {
     format (date) {
       return formatDate(date)
     },
+    cutStr (str, len) {
+      return cutString(str, len)
+    },
     changeTofixed (num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
@@ -875,6 +886,7 @@ export default {
         this.updateStock(this.stockMessage)
       }
     },
+
     socketState () {
       if (this.socketState === 1) {
         // 建立连接
@@ -888,8 +900,8 @@ export default {
   mounted () {
     this.query('hot')
     var _this = this
-    console.log(this)
-    console.log(_this)
+    /* console.log(this)
+     console.log(_this)*/
     setInterval(function () {
       _this.$store.dispatch('topic/querySummary')
     }, 30000)

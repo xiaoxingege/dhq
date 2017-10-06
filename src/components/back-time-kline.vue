@@ -102,7 +102,7 @@ i {
 }
 .kcharts {
     /* height: 360px; */
-    height: 393px;
+    height: 398px;
 }
 .ma-box {
     position: absolute;
@@ -262,14 +262,14 @@ export default {
             // const ss = sellData[i]
             // console.log(sellData[i])
             // console.log(highPx)
-            seriesData.push([endDate, highPx])
+            seriesData.push([endDate, closePx])
             // console.log(seriesData)
             const point = {
               name: 'XX标点',
-              coord: [endDate, highPx],
+              coord: [endDate, closePx],
               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-green4.png',
               symbolSize: [19, 22],
-              symbolOffset: ['0', '-50%'],
+              symbolOffset: ['0', '-75%'],
               itemStyle: {
                 normal: {
                   color: 'rgb(41,60,85)'
@@ -290,9 +290,9 @@ export default {
             }
             pointData.push({
               name: 'XX标点',
-              coord: [endDate + '', highPx],
+              coord: [endDate + '', closePx],
               symbol: 'circle',
-              symbolSize: 10,
+              symbolSize: 8,
               itemStyle: {
                 normal: {
                   color: '#000',
@@ -322,15 +322,15 @@ export default {
             /* const ss = buyData[i]*/
             console.log(buyData[i])
             console.log(item.endDate)
-            seriesData.push([endDate + '', lowPx])
+            seriesData.push([endDate + '', closePx])
             // seriesData.push([item.endDate + '', lowPx])
             console.log(seriesData[i])
             const point = {
               name: 'XX标点',
-              coord: [endDate, lowPx],
+              coord: [endDate, closePx],
               symbol: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170321jizz/kline-red4.png',
               symbolSize: [19, 22],
-              symbolOffset: ['0', '50%'],
+              symbolOffset: ['0', '75%'],
               itemStyle: {
                 normal: {
                   color: 'rgb(41,60,85)'
@@ -350,9 +350,9 @@ export default {
             }
             pointData.push({
               name: 'XX标点',
-              coord: [endDate + '', lowPx],
+              coord: [endDate + '', closePx],
               symbol: 'circle',
-              symbolSize: 10,
+              symbolSize: 8,
               itemStyle: {
                 normal: {
                   color: '#000',

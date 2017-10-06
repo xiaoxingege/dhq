@@ -61,7 +61,7 @@ export default {
         -o-box-shadow: rgb(204, 204, 204) 2px 3px 2px;
         -webkit-box-shadow: rgb(204, 204, 204) 2px 3px 2px;
         -moz-box-shadow: rgb(204, 204, 204) 2px 3px 2px;
-        box-shadow: rgb(204, 204, 204) 2px 3px 2px;*/
+        box-shadow: rgb(204, 204, 204) 2px 3px 2px; */
 }
 
 .stock-box .stock-box-header {
@@ -77,6 +77,7 @@ export default {
 .stock-box .stock-box-header .left {
   float: left;
   margin-left: 10px;
+  color: #1984ea;
 }
 
 .stock-box .stock-box-header .right {
