@@ -1066,7 +1066,7 @@ export default {
       } else {
         this.updateTimePid = setInterval(function () {
           _this.currentTime = _this.getTime()
-        }, 600000)
+        }, 1000)
       }
     },
     /* toFullScreen: function () {

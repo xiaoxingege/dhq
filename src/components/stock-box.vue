@@ -18,7 +18,7 @@ import {
 import config from '../z3tougu/config'
 export default {
   props: ['stockCode', 'top', 'left'],
-  data() {
+  data () {
     return {
       isShow: false
     }
@@ -30,10 +30,10 @@ export default {
     ...mapState({
       stock: state => state.stock.stock
     }),
-    position() {
+    position () {
       return 'top:' + this.top + 'px;left:' + this.left + 'px'
     },
-    updownMark() {
+    updownMark () {
       let flag = this.stock.chgPx
       let mark = ''
       if (flag === config.emptyValue) {
