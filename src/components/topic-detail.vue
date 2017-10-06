@@ -2,6 +2,11 @@
 @import '../assets/css/base.css';
 * {
     text-align: justify;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     box-sizing: border-box;
     font-family: "Microsoft YaHei";
 }
@@ -157,11 +162,46 @@ html {
     width: 48%;
     color: #c9d0d7;
     margin-right: 29px;
+    position: relative;
 }
-
+.tip-1 i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; 
+    left: 157px;*/
+    top: 40px;
+}
+.tip-1:hover i {
+    display: block;
+}
+.tip-2 i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; 
+    left: 157px;*/
+    top: 40px;
+}
+.tip-2:hover i {
+    display: block;
+}
 .con1-event {
     width: 47%;
     color: #c9d0d7;
+    position: relative;
 }
 .left-con1 a:hover {
     color: #1984ea;
@@ -539,6 +579,9 @@ bottom: 0; */
     color: #808ba1;
     line-height: 24px;
 }
+.topic-detail .stock-box .stock-box-header .left {
+    color: red;
+}
 </style>
 <template>
 <div class="topic-detail">
@@ -572,12 +615,12 @@ bottom: 0; */
           <div class="con1-ti box-flex-1">
             <strong>题材简介:</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <span>{{checkNull(detail.topicDesc)}}</span>
+              <span class="tip-1">{{checkNull(detail.topicDesc)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
             </router-link>
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span>{{checkNull(detail.drivenEvent)}}</span>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}<i>{{checkNull(detail.drivenEvent)}}</i></span>
             </router-link>
           </div>
         </div>
@@ -603,7 +646,7 @@ bottom: 0; */
       <div class="main-right box-flex-1" :class="stockList.length<15&&size>13?'main-right2':''">
         <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a
                 :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
-                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="initStockList">默认相关度排序</span></div>
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="initStockList('recommendIndex')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
             <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">股票名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
@@ -644,14 +687,15 @@ import {
 } from 'vuex'
 import echarts from 'echarts'
 import {
-  formatDate
+  formatDate,
+  cutString
 } from 'utils/date'
 // import { mutationTypes } from 'stores/z3tougu-theme'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 import Pagination from './pagination'
 export default {
-  data () {
+  data() {
     return {
       period: {
         all: 'ALL',
@@ -682,7 +726,7 @@ export default {
       inforPageSize: 100,
       endAll: '',
       alltimers: '',
-      stockPage: '',
+      stockPage: 0,
       stockPageSize: ''
 
     }
@@ -809,7 +853,7 @@ export default {
           realData: realData
         }
       },
-      xLabelInterval () {
+      xLabelInterval() {
         let interval = 'auto'
         if (this.period === 'day') {
           interval = 14
@@ -824,19 +868,19 @@ export default {
     })
   },
   watch: {
-    relatedStocks () {
+    relatedStocks() {
       if (z3websocket.ws) {
         z3websocket.ws && z3websocket.ws.close()
       } else {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    stockMessage () {
+    stockMessage() {
       if (this.stockMessage) {
         this.updateStock()
       }
     },
-    socketState () {
+    socketState() {
       if (this.socketState === 1) {
         // 建立连接
         this.subscribeStock()
@@ -845,7 +889,7 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    realTimeData () {
+    realTimeData() {
       this.$store.dispatch('topic/queryRealtimeChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
@@ -853,12 +897,12 @@ export default {
         console.log(12)
       })
     },
-    stockPage () {
+    stockPage() {
       this.initStockList(this.stockPage)
     }
   },
   methods: {
-    initChart () {
+    initChart() {
       this.chart = echarts.init(this.$refs.chart)
       // var _this = this
       this.period = 'ALL'
@@ -874,10 +918,11 @@ export default {
       this.renderCharts(this.period)
       // console.log(this.handleResize)
     },
-    goToPage (page) {
+    goToPage(page) {
       this.stockPage = Number(page) - 1
+      console.log(this.stockPage)
     },
-    renderCharts (type) {
+    renderCharts(type) {
       this.period = type
       console.log(type)
       var _this = this
@@ -888,15 +933,15 @@ export default {
         }).then(() => {
           this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
           // clearInterval(this.alltimers)
-          this.alltimers = setInterval(function () {
+          this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
           }, 3000)
         })
       } else {
         this.$store.dispatch('topic/queryAllCharts', {
-          period: this.period,
-          topicCode: this.topicCode
-        })
+            period: this.period,
+            topicCode: this.topicCode
+          })
           .then(() => {
             this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
             /* clearInterval(this.alltimers)
@@ -907,7 +952,7 @@ export default {
         // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
       }
     },
-    updateChartAll () {
+    updateChartAll() {
       this.$store.dispatch('topic/queryAllChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
@@ -926,7 +971,7 @@ export default {
         }
       })
     },
-    updateChartRealTime () {
+    updateChartRealTime() {
       this.$store.dispatch('topic/queryRealtimeChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
@@ -953,15 +998,18 @@ export default {
         }
       })
     },
-    handleResize (event) {
+    handleResize(event) {
       this.fullHeight = document.documentElement.clientHeight
       // console.log(this.fullHeight > 710 ? this.size = 20 : this.size = 12)
       // console.log(this.fullHeight)
       /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
     },
 
-    initStockList (stockPage) {
-      this.stockSort = 'recommendIndex'
+    initStockList(type, stockPage) {
+      if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
+      }
+      // this.stockSort = 'recommendIndex'
       // this.direction = 'DESC'
       //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
       // console.log(this.fullHeight)
@@ -975,9 +1023,9 @@ export default {
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
       })
-      console.log(this.stockPageSize)
+      console.log(this.stockPage)
     },
-    initInformatList () {
+    initInformatList() {
       /* this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5*/
 
       this.$store.dispatch('topic/queryInformatList', {
@@ -985,7 +1033,7 @@ export default {
         inforPageSize: this.inforPageSize
       })
     },
-    enterNumberTopic (e, innerCode) {
+    enterNumberTopic(e, innerCode) {
       e.preventDefault()
       // const focusStockId = e.currentTarget.children[0].innerText
       // console.log(e.currentTarget.children[0])
@@ -1001,11 +1049,11 @@ export default {
         innerCode: innerCode
       })
     },
-    leaveNumberTopic (e) {
+    leaveNumberTopic(e) {
       e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
-    sortStock (e, type, dire) {
+    sortStock(e, type, dire, page) {
       e.preventDefault()
       this.stockSort = type
       console.log(type)
@@ -1023,15 +1071,16 @@ export default {
         topicCode: this.topicCode,
         sortField: this.stockSort,
         direction: dire,
-        stockPage: this.stockPage,
+        stockPage: page,
         stockPageSize: this.fullHeight2
       })
+      console.log(this.stockPage)
     },
-    drawCharts (topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
+    drawCharts(topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
-          formatter: function (params) {
+          formatter: function(params) {
             if (params.length) {
               if (params[0].value !== '') {
                 var boxHtml = '<div style="color:#c9d0d7;">' + params[0].name + '<br/>'
@@ -1052,19 +1101,19 @@ export default {
           itemWidth: 15,
           itemHeight: 8,
           data: [{
-            name: topicName,
-            icon: 'pin',
-            textStyle: {
-              color: '#c9d0d7'
+              name: topicName,
+              icon: 'pin',
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            {
+              name: '沪深300',
+              icon: 'pin',
+              textStyle: {
+                color: '#c9d0d7'
+              }
             }
-          },
-          {
-            name: '沪深300',
-            icon: 'pin',
-            textStyle: {
-              color: '#c9d0d7'
-            }
-          }
           ]
 
         },
@@ -1105,7 +1154,7 @@ export default {
         }],
         grid: {
           /* width: '97%',*/
-          left: '2%',
+          left: '10px',
           /* right: '3%',*/
           /* right: '4%',*/
           /* right: '4.7%',*/
@@ -1113,118 +1162,152 @@ export default {
           /* bottom: '50',*/
           containLabel: true
         },
+        /* dataZoom: [{
+           show: true,
+           showDetail: false,
+           showDataShadow: true,
+           type: 'slider',
+           y: '88%',
+           start: 0,
+           end: 100,
+           bottom: 0,
+           dataBackground: {
+             lineStyle: {
+               color: '#18191d'
+             },
+             areaStyle: {
+               color: '#2f3034'
+             }
+           },
+           handleStyle: {
+             color: '#0d0e0f'
+           },
+           backgroundColor: '#4d4e52',
+           fillerColor: '#4d4e52',
+           borderColor: 'none'
+         }],*/
         dataZoom: [{
+          backgroundColor: '#32383E',
+          type: 'slider',
           show: true,
           showDetail: false,
-          showDataShadow: true,
-          type: 'slider',
-          y: '88%',
+          xAxisIndex: [0],
+          // bottom:-10,
+          left: '2%',
+          bottom: 0,
           start: 0,
           end: 100,
-          bottom: 0,
+          textStyle: {
+            // color: '#aed2ff'
+          },
+          // borderColor: '#d5dbe4',
+          width: '95%',
+          height: '8%',
+          handleSize: '100%',
           dataBackground: {
-            lineStyle: {
-              color: '#18191d'
-            },
             areaStyle: {
-              color: '#2f3034'
+              // color: '#cad2db'
+            },
+            lineStyle: {
+              /* opacity: 0.9,
+               color: '#a7b7cc'*/
             }
           },
           handleStyle: {
-            color: '#0d0e0f'
-          },
-          backgroundColor: '#4d4e52',
-          fillerColor: '#4d4e52',
-          borderColor: 'none'
+            // color: '#a7b7cc'
+          }
         }],
         series: [{
-          name: topicName,
-          type: 'line',
-          smooth: true,
-          data: topicReturnRate,
-          lineStyle: { // 网格线
-            normal: {
-              color: '#1984ea'
-            }
-          },
-          itemStyle: { // 折线拐点标志的样式
-            normal: {
-              opacity: 0,
-              color: '#1984ea'
-            }
-          },
-          markPoint: { // 图标标注
-            data: [{
-              type: 'max',
-              name: '最大值'
-            },
-            {
-              type: 'min',
-              name: '最小值'
-            }
-            ],
-            label: {
+            name: topicName,
+            type: 'line',
+            smooth: true,
+            data: topicReturnRate,
+            lineStyle: { // 网格线
               normal: {
-                show: false
+                color: '#1984ea'
               }
             },
-            symbolSize: 10, // 标记大小
-            symbol: '' // 标记的图形
-          }
-        },
-        {
-          name: '沪深300',
-          type: 'line',
-          smooth: true,
-          data: hs300ReturnRate,
-          lineStyle: {
-            normal: {
-              color: '#ca4941'
-            }
-          },
-          itemStyle: {
-            normal: {
-              opacity: 0,
-              color: '#ca4941'
-            }
-          },
-          markPoint: { // 图标标注
-            data: [{
-              type: 'max',
-              name: '最大值'
-            },
-            {
-              type: 'min',
-              name: '最小值'
-            }
-            ],
-            label: {
+            itemStyle: { // 折线拐点标志的样式
               normal: {
-                show: false
+                opacity: 0,
+                color: '#1984ea'
               }
             },
-            symbolSize: 10, // 标记大小
-            symbol: '' // 标记的图形
+            markPoint: { // 图标标注
+              data: [{
+                  type: 'max',
+                  name: '最大值'
+                },
+                {
+                  type: 'min',
+                  name: '最小值'
+                }
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              symbolSize: 10, // 标记大小
+              symbol: '' // 标记的图形
+            }
+          },
+          {
+            name: '沪深300',
+            type: 'line',
+            smooth: true,
+            data: hs300ReturnRate,
+            lineStyle: {
+              normal: {
+                color: '#ca4941'
+              }
+            },
+            itemStyle: {
+              normal: {
+                opacity: 0,
+                color: '#ca4941'
+              }
+            },
+            markPoint: { // 图标标注
+              data: [{
+                  type: 'max',
+                  name: '最大值'
+                },
+                {
+                  type: 'min',
+                  name: '最小值'
+                }
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              symbolSize: 10, // 标记大小
+              symbol: '' // 标记的图形
+            }
           }
-        }
         ]
 
       })
     },
-    format (date) {
+    format(date) {
       return formatDate(date)
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    updateStock (stock) {
+    cutStr(str, len) {
+      return cutString(str, len)
+    },
+    updateStock(stock) {
       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
     },
-    subscribeStock () {
+    subscribeStock() {
       const msg = {
         subject: 'snapshot',
         type: '1',
@@ -1234,7 +1317,7 @@ export default {
       }
       this.$store.dispatch('z3sockjs/send', msg)
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     }
     /* this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
@@ -1244,21 +1327,22 @@ export default {
       const myChart = echarts.init(document.getElementById('chart'))*/
 
   },
-  created () {
+  created() {
     window.addEventListener('resize', this.handleResize)
   },
-  mounted () {
+  mounted() {
     this.initChart()
-    this.initStockList()
+    this.initStockList('recommendIndex')
     this.initInformatList()
     console.log(this.fullHeight2)
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
+    console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
   }
 }

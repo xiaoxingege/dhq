@@ -89,11 +89,11 @@ li.export-box {
     top: 0;
 }
 .export-box span:hover {
-    background: url("../assets/images/z3img/backexport-click.png") no-repeat;
+    background: url("../assets/images/z3img/backexport-click2.png") no-repeat;
 }
 
 .export-span {
-    background: url("../assets/images/z3img/backexport.png") no-repeat;
+    background: url("../assets/images/z3img/backexport2.png") no-repeat;
     width: 57px;
     height: 25px;
     display: inline-block;
@@ -103,7 +103,7 @@ li.export-box {
 }
 
 .export-span-click {
-    background: url("../assets/images/z3img/backexport-click.png") no-repeat;
+    background: url("../assets/images/z3img/backexport-click2.png") no-repeat;
     width: 57px;
     height: 25px;
     display: inline-block;
@@ -112,7 +112,7 @@ li.export-box {
     top: 0;
 }
 
-.export i {
+/* .export i {
     background: url("../assets/images/z3img/export-icon.png") no-repeat;
     width: 18px;
     height: 18px;
@@ -120,14 +120,15 @@ li.export-box {
     position: relative;
     top: 3px;
     left: -2%;
-}
+} */
 .bfilter-table {
     /* padding: 15px 10px 0 7px; */
 }
 .bfilter-today {}
 .table-head {
     background: #23272c;
-    padding: 9px 0;
+    /* padding: 9px 0; */
+    padding: 7px 0;
     width: 100%;
 }
 .table-head span {
@@ -428,7 +429,7 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      fullHeight: document.documentElement.clientHeight - 475,
+      fullHeight: document.documentElement.clientHeight - 471,
       basicName: ''
     }
   },
