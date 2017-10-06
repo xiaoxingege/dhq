@@ -1,13 +1,6 @@
 <style lang="scss" scoped>
-.choseStock {
-    padding-top: 20px;
-
-}
 .choseStock .tableList {
     background: #141518;
-}
-.sellCondition {
-    padding: 15px;
 }
 .controlStrategy {
     padding: 20px 15px;

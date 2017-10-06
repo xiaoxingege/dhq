@@ -112,7 +112,7 @@ export default {
             type: 'bar'
           }
           ],
-          color: ['#E73E3A', '#0C86ED'],
+          color: ['#0C86ED', '#E73E3A'],
           grid: {
             width: '97%',
             height: '80%',

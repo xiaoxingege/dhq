@@ -47,6 +47,72 @@ export default {
         el.style.color = config.downColor
       }
     })
+    Vue.directive('z3-drag', {
+      inserted: (el, binding, vnode, oldVnode) => {
+        let oDiv = el; //当前元素
+        var containmentRef = binding.value.containment;
+        var vm = vnode.context;
+        var l;
+        var t;
+        oDiv.onmousedown = function(e) {
+          var containment = vm.$refs[containmentRef];
+          var containmentH = containment.offsetHeight;
+          var containmentW = containment.offsetWidth;
+          var elH = el.scrollHeight;
+          var elW = el.scrollWidth;
+          var minLeft = 0;
+          var maxLeft = 0;
+          var minTop = 0;
+          var maxTop = 0;
+          if (containmentH < elH) {
+            minTop = containmentH - elH;
+            maxTop = 0;
+          } else {
+            minTop = 0;
+            maxTop = containmentH - elH;
+          }
+          if (containmentW < elW) {
+            minLeft = containmentW - elW;
+            maxLeft = 0;
+          } else {
+            minLeft = 0;
+            maxLeft = containmentW - elW;
+          }
+          //鼠标按下，计算当前元素距离可视区的距离
+          let disX = e.clientX - oDiv.offsetLeft;
+          let disY = e.clientY - oDiv.offsetTop;
+          e.preventDefault()
+          console.info('minLeft=' + minLeft);
+          console.info('maxLeft=' + maxLeft);
+          console.info('minTop=' + minTop);
+          console.info('maxTop=' + maxTop);
+          document.onmousemove = function(e) {
+            //通过事件委托，计算移动的距离
+            l = e.clientX - disX;
+            t = e.clientY - disY;
+            //移动当前元素
+            if (l <= minLeft) {
+              l = minLeft
+            }
+            if (l >= maxLeft) {
+              l = maxLeft
+            }
+            if (t <= minTop) {
+              t = minTop
+            }
+            if (t >= maxTop) {
+              t = maxTop
+            }
+            oDiv.style.left = l + 'px';
+            oDiv.style.top = t + 'px';
+          };
+          document.onmouseup = function(e) {
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
+      }
+    })
     Vue.directive('drag', //自定义指令                                      JS
       {
         bind: function(el, binding) {

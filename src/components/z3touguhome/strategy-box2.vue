@@ -6,13 +6,16 @@
 }
 .strategy-title select {
     color: #1984ea;
-    background-color: #141518;
+    background-color: #d6d6d6;
     border-radius: 3px;
-    border: 1px solid #404852;
+    border: 1px solid #d6d6d6;
     position: absolute;
     left: 8px;
     top: 50%;
     transform: translateY(-50%);
+}
+.strategy-title select option {
+    color: #666;
 }
 .strategy-title select:focus {
     outline: none;
