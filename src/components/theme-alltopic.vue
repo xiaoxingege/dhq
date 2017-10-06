@@ -99,6 +99,9 @@ span {
     font-size: 14px;
 
 }
+.topic-head strong {
+    font-weight: 400;
+}
 .topic-num {
     margin-left: 6px;
     margin-right: 6px;
@@ -306,6 +309,7 @@ a.kuai_icon {
     background: #cccfd9;
     border-radius: 3px;
     z-index: 999;
+    line-height: 18px;
     /* top: 25px; */
     top: 23px;
     left: 199px;
@@ -476,6 +480,7 @@ a.kuai_icon {
     border-radius: 10px;
     z-index: 999;
     cursor: pointer;
+    line-height: 18px;
     /* left: -56px; */
     right: 0;
     top: 50%;
@@ -660,7 +665,7 @@ a.kuai_icon {
             </div>
           </div>
           <div class="con-bar-3 box-flex-1">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,190)}}<i>{{allTopic.topicDesc}}</i></span></router-link>
+            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span></router-link>
           </div>
 
         </div>
