@@ -38,13 +38,15 @@
     border-right-width: 0;
 }
 .top-industry-table tr td:first-child {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
 }

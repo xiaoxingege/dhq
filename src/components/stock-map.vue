@@ -191,7 +191,7 @@
     <router-link class="enlarge-link" :to="{name:'bigMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt="" /></router-link>
   </div>
   <div class="narrow" v-if="isEnlarge">
-    <a v-on:click="restoreMap"><span>100%比例</span></a>
+    <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
@@ -1066,7 +1066,7 @@ export default {
       } else {
         this.updateTimePid = setInterval(function () {
           _this.currentTime = _this.getTime()
-        }, 600000)
+        }, 1000)
       }
     },
     /* toFullScreen: function () {

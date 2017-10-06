@@ -219,8 +219,8 @@ i {
     /* padding:10px 0 9px 0; */
     /* padding-top: 10px;
        padding-bottom: 9px; */
-    height: 35px;
-    line-height: 35px;
+    height: 30px;
+    line-height: 30px;
 }
 .exp-buy-table tr td {
     border-bottom: 1px solid #23272c;
@@ -232,7 +232,7 @@ i {
         padding-right: 77px; */
     width: 55%;
     padding-right: 10%;
-    min-height: 216px;
+    min-height: 211px;
 }
 .express-sell-box {
     /* width: 50%;
