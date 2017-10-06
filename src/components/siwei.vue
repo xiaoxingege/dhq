@@ -65,7 +65,7 @@
 }
 .themeList {
     width: 90%;
-    background: #fff;
+    background: #d6d6d6;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -77,6 +77,7 @@
     overflow: hidden;
     padding-bottom: 30px;
 }
+
 .closeTheme {
     display: inline-block;
     position: absolute;
@@ -91,9 +92,9 @@
 .themeTitle {
     height: 35px;
     line-height: 35px;
-    color: #999;
+    color: #666;
     font-size: 18px;
-    background: #F2F2F2;
+    background: #23272C;
     padding-left: 20px;
 }
 button {
