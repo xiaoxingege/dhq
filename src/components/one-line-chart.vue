@@ -29,10 +29,18 @@ export default {
         this.chart.setOption({
           tooltip: {
             trigger: 'axis',
+            padding: [10, 55, 10, 20],
             textStyle: {
-              align: 'left'
+              align: 'left',
+              fontFamily: '微软雅黑'
             },
-            showContent: false
+            formatter: function (params) {
+              var s = params[0].name
+              for (var i = 0; i < params.length; i++) {
+                s = s + '<br/>每日仓位: ' + params[i].value * 100 + '%'
+              }
+              return s
+            }
           },
           xAxis: {
             interval: 0,

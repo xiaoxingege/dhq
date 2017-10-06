@@ -18,12 +18,13 @@ html {
     display: inline-block;
     height: 32px;
     line-height: 32px;
-    color: #fff;
+    color: #c9d0d7;
     font-size: 16px;
 }
 .strategyTop {
     /*height:375px;*/
     margin-bottom: 3px;
+    position: relative;
 }
 .strategyDesc {
     margin-right: 3px;
@@ -78,7 +79,6 @@ a {
     color: #afb6bd;
 }
 .strategyDescTable tr:last-child td {
-    font-weight: bold;
     color: #d3d9dd;
 }
 .strategyDescTable td {
@@ -86,6 +86,26 @@ a {
     text-align: center;
     height: 28px;
     line-height: 28px;
+}
+
+.radarImg {
+    position: absolute;
+    right: 100px;
+    top: 317px;
+    cursor: pointer;
+}
+
+.radarNotice {
+    position: absolute;
+    color: #666;
+    width: 200px;
+    right: 100px;
+    top: 347px;
+    background: #cccfd9;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-indent: 2em;
+    line-height: 18px;
 }
 </style>
 <template>
@@ -129,7 +149,10 @@ a {
     </div>
     <div class="radarChart">
       <Radarchart :strategyId="strategyId"></Radarchart>
-      <img src="../assets/images/help.png" />
+    </div>
+    <img class="radarImg" @mouseover="showRadar" @mouseout="hideRadar" src="../assets/images/help.png" />
+    <div class="radarNotice" v-if="radarShow">
+      100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明
     </div>
   </div>
   <div>
@@ -169,7 +192,8 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率']
+      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
+      radarShow: false
     }
   },
   components: {
@@ -374,6 +398,12 @@ export default {
   methods: {
     showQrcode () {
       this.showQrcodeBox = !this.showQrcodeBox
+    },
+    showRadar () {
+      this.radarShow = true
+    },
+    hideRadar () {
+      this.radarShow = false
     }
   },
   mounted () {

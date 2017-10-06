@@ -1,6 +1,6 @@
 export default {
-  upColor: '#ff4040',
-  downColor: '#1ba93c',
+  upColor: '#ca4941',
+  downColor: '#56a870',
   flatColor: '#c9d0d7',
   ma20Color: '#e75443',
   ma60Color: '#6999d1',

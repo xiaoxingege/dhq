@@ -58,52 +58,52 @@ export default {
             },
             radar: {
               indicator: [{
-                name: '成长性因子',
+                name: '成长性',
                 max: 5,
                 min: -5
               }, // 10 ~ -10
               {
-                name: '杠杆因子',
+                name: '杠杆',
                 max: 5,
                 min: -5
               },
               {
-                name: '流动性因子',
+                name: '流动性',
                 max: 5,
                 min: -5
               },
               {
-                name: '动量因子',
+                name: '动量',
                 max: 5,
                 min: -5
               },
               {
-                name: '规模因子',
+                name: '规模',
                 max: 5,
                 min: -5
               },
               {
-                name: '估值因子',
+                name: '估值',
                 max: 5,
                 min: -5
               },
               {
-                name: '波动因子',
+                name: '波动',
                 max: 5,
                 min: -5
               },
               {
-                name: '质量因子',
+                name: '质量',
                 max: 5,
                 min: -5
               },
               {
-                name: '分析师预期因子',
+                name: '分析师预期',
                 max: 5,
                 min: -5
               },
               {
-                name: '股东因子',
+                name: '股东',
                 max: 5,
                 min: -5
               }
@@ -114,8 +114,6 @@ export default {
               splitArea: {
                 show: false
               },
-              splitNumber: 1,
-              interval: 1,
               axisLine: {
                 lineStyle: {
                   color: '#444346'

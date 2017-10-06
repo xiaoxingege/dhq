@@ -17,7 +17,7 @@ td {
     line-height: 30px;
 }
 tr:nth-child(n) td {
-    color: #7e7e7e;
+    color: #c9d0d7;
 }
 tr:nth-child(2n) td {
     color: #191919;
