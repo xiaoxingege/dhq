@@ -73,6 +73,11 @@ html {
     /* padding: 7px 16px 9px; */
     padding: 18px 20px;
 }
+
+.themeList .every-main {
+    border-bottom: 1px solid #acacac;
+    color: #666;
+}
 .letter {
     /* line-height: 20px; */
     line-height: 30px;
@@ -82,6 +87,10 @@ html {
 .letter span {
 
     font-size: 14px;
+}
+
+.themeList .letter span {
+    color: #666;
 }
 .letter i {
     margin-left: 8px;
@@ -99,6 +108,10 @@ html {
     display: inline-block;
     cursor: pointer;
     padding-left: 40px;
+}
+
+.themeList .every-name .tname {
+    color: #666;
 }
 .tname a {
     font-size: 14px;
