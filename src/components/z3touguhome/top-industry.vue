@@ -38,13 +38,15 @@
     border-right-width: 0;
 }
 .top-industry-table tr td:first-child {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
 }
@@ -105,7 +107,7 @@ import {
 } from '../../z3tougu/config'
 export default {
   props: ['strategyId'],
-  data () {
+  data() {
     return {
       navText: [
         ['行业板块', 'industry'],
@@ -122,7 +124,7 @@ export default {
     }
   },
   watch: {
-    type () {
+    type() {
       this.industryList = []
       this.hotTopicList = []
       this.initTopIndustry() // 点击板块标签初始化表格数据
@@ -134,59 +136,59 @@ export default {
     StockBox
   },
   computed: {
-    topIndustryData: function () {
+    topIndustryData: function() {
       const topIndustryData = this.$store.state.z3touguIndex.topIndustry
       return topIndustryData
     },
-    hotTopicData: function () {
+    hotTopicData: function() {
       const hotTopicData = this.$store.state.z3touguIndex.hotTopic
       return hotTopicData
     }
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    initTopIndustry (date) {
+    initTopIndustry(date) {
       if (this.type === 'industry') {
         this.$store.dispatch('z3touguIndex/getTopIndustry', {
-          size: this.size
-        })
+            size: this.size
+          })
           .then(() => {
             this.industryList = this.topIndustryData
           })
       } else if (this.type === 'topic') {
         this.$store.dispatch('z3touguIndex/getHotTopic', {
-          limit: this.limit,
-          sortField: this.sortField
-        })
+            limit: this.limit,
+            sortField: this.sortField
+          })
           .then(() => {
             this.hotTopicList = this.hotTopicData
           })
       }
     },
-    autoUpdate: function () {
+    autoUpdate: function() {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function () {
+        this.updateDataPid = setInterval(function() {
           _this.initTopIndustry()
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function (innerCode) {
+    linkStock: function(innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toTopicDetail: function (topicCode) {
+    toTopicDetail: function(topicCode) {
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.initTopIndustry()
     this.autoUpdate()
   }

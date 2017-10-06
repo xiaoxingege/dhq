@@ -47,7 +47,8 @@
     border-left-width: 0;
 }
 .sectors-table tr td:first-child {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
 }
