@@ -321,11 +321,6 @@ export default {
   },
   watch: {
     rangeCode () {
-      /* if (this.chart) {
-        this.chart.dispose()
-        console.log('摧毁!')
-      }
-      this.chart = echarts.init(this.$refs.treemap)*/
       this.updateMap()
       this.playBackIndex = 19
       this.playLineIndex = 19
@@ -493,119 +488,19 @@ export default {
         code: this.rangeCode
       })
         .then(() => {
-          this.chart.setOption({
-            hoverLayerThreshold: 10000,
-            progressive: 1000,
-            squareRatio: 0.5,
-            tooltip: {
-              triggerOn: 'none'
-              /* formatter: function (params) {
-                 console.log(params.dataIndex)
-               }*/
-            },
-            series: [{
-              name: '',
-              type: 'treemap',
-              visibleMin: -1,
-              childrenVisibleMin: 20,
-              width: '100%',
-              height: '100%',
-              label: {
-                normal: {
-                  distance: 0,
-                  ellipsis: false,
-                  show: true,
-                  formatter: (params) => {
-                    const node = this.getNode(params)
-                    const nodeLayout = node.getLayout()
-                    let formatterText = ''
-                    if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
-                      formatterText += params.name
-                    }
-                    if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                      formatterText += '\n' + params.data.perfText
-                    }
-                    return formatterText
-                    // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                    //   return params.name + '\n' + params.data.perfText
-                    // }
-                  },
-                  textStyle: {
-                    fontSize: 12
-                  }
-                }
-              },
-              upperLabel: {
-                normal: {
-                  show: true,
-                  formatter: (params) => {
-                    const node = this.getNode(params)
-                    const nodeLayout = node.getLayout()
-                    let formatterText = ''
-                    if (nodeLayout.width > 48 && nodeLayout.height > 20) {
-                      formatterText += params.name
-                    }
-                    return formatterText
-                    // if (typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
-                    //   return params.name + '\n' + params.data.perfText
-                    // }
-                  },
-                  height: 20
-                }
-              },
-              itemStyle: {
-                normal: {}
-              },
-              breadcrumb: {
-                show: false
-              },
-              nodeClick: false,
-              roam: true,
-              levels: this.getLevelOption(),
-              data: this.mapData
-            }]
-          })
-          this.chart.hideLoading()
-          this.chart.on('mouseover', (params) => {
-            if (params.treePathInfo.length <= 2) {
-              return
-            }
-            this.showHover = true
-            // this.updateMapData()
-            if (params.treePathInfo.length === 3) {
-              this.hoverNode = params.data.children[0]
-            } else if (params.treePathInfo.length === 4) {
-              this.hoverNode = params.data
-            }
-            this.hoverNode.titleName = params.treePathInfo[1].name
-          })
-          this.chart.on('mouseout', (params) => {
-            if (params.treePathInfo.length <= 2) {
-              return
-            } else {
-              this.showHover = false
-            }
-          })
-          this.chart.on('dblclick', (params) => {
-            if (params.treePathInfo.length <= 3) {
-              return
-            } else {
-              // this.$router.push({ path: 'stock/' + params.data.id })
-              window.open('stock/' + params.data.id)
-            }
-          })
+          this.initOption(this.mapData)
         }).then(() => {
           this.$store.dispatch('stockMap/updateData', {
             isContinue: this.isContinue,
             condition: this.condition,
             code: this.rangeCode
           }).then(() => {
-            this.chart.setOption({
+            /* this.chart.setOption({
               series: [{
                 data: this.stockData
               }]
-            })
-            this.chart.hideLoading()
+            })*/
+            this.initOption(this.stockData)
           }).then(() => {
             this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
               this.playBackDate = this.$store.state.stockMap.calendarsData
@@ -636,25 +531,24 @@ export default {
       this.$store.dispatch('stockMap/queryRangeByCode', {
         code: this.rangeCode
       }).then(() => {
-        this.chart && this.chart.setOption({
+        this.initOption(this.mapData)
+        /* this.chart && this.chart.setOption({
           series: [{
             data: this.mapData
           }]
-        })
-      }, {
-        lazyUpdate: true,
-        silent: true
+        })*/
       })
       this.$store.dispatch('stockMap/updateData', {
         isContinue: this.isContinue,
         condition: this.condition,
         code: this.rangeCode
       }).then(() => {
-        this.chart && this.chart.setOption({
+        this.initOption(this.stockData)
+        /* this.chart && this.chart.setOption({
           series: [{
             data: this.stockData
           }]
-        })
+        })*/
       })
     },
     updateData: function () {
@@ -671,20 +565,12 @@ export default {
       })
     },
     updateMapData: function () {
-      /* this.chart.dispatchAction({
-        type: 'highlight',
-        dataIndex: 1039
-      })*/
-      this.chart.setOption({
+      this.initOption(this.stockData)
+      /* this.chart.setOption({
         series: [{
           data: this.stockData
         }]
-      }
-        /*,
-                {
-                  silent: true
-                }*/
-      )
+      })*/
     },
     autoUpdateData: function () {
       const _this = this
@@ -695,6 +581,105 @@ export default {
           _this.updateData()
         }, 1000 * _this.intervalTime)
       }
+    },
+    initOption: function (data) {
+      if (this.chart) {
+        this.chart.dispose()
+        console.log('摧毁!')
+      }
+      this.chart = echarts.init(this.$refs.treemap)
+      this.chart && this.chart.setOption({
+        hoverLayerThreshold: 10000,
+        progressive: 1000,
+        squareRatio: 0.5,
+        tooltip: {
+          triggerOn: 'none'
+        },
+        series: [{
+          name: '',
+          type: 'treemap',
+          visibleMin: -1,
+          childrenVisibleMin: 20,
+          width: '100%',
+          height: '100%',
+          label: {
+            normal: {
+              distance: 0,
+              ellipsis: false,
+              show: true,
+              formatter: (params) => {
+                const node = this.getNode(params)
+                const nodeLayout = node.getLayout()
+                let formatterText = ''
+                if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
+                  formatterText += params.name
+                }
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                  formatterText += '\n' + params.data.perfText
+                }
+                return formatterText
+              },
+              textStyle: {
+                fontSize: 12
+              }
+            }
+          },
+          upperLabel: {
+            normal: {
+              show: true,
+              formatter: (params) => {
+                const node = this.getNode(params)
+                const nodeLayout = node.getLayout()
+                let formatterText = ''
+                if (nodeLayout.width > 48 && nodeLayout.height > 20) {
+                  formatterText += params.name
+                }
+                return formatterText
+              },
+              height: 20
+            }
+          },
+          itemStyle: {
+            normal: {}
+          },
+          breadcrumb: {
+            show: false
+          },
+          nodeClick: false,
+          roam: true,
+          levels: this.getLevelOption(),
+          data: data
+        }]
+      })
+      this.chart.hideLoading()
+      this.chart.on('mouseover', (params) => {
+        if (params.treePathInfo.length <= 2) {
+          return
+        }
+        this.showHover = true
+        // this.updateMapData()
+        if (params.treePathInfo.length === 3) {
+          this.hoverNode = params.data.children[0]
+        } else if (params.treePathInfo.length === 4) {
+          this.hoverNode = params.data
+        }
+        this.hoverNode.titleName = params.treePathInfo[1].name
+      })
+      this.chart.on('mouseout', (params) => {
+        if (params.treePathInfo.length <= 2) {
+          return
+        } else {
+          this.showHover = false
+        }
+      })
+      this.chart.on('dblclick', (params) => {
+        if (params.treePathInfo.length <= 3) {
+          return
+        } else {
+          // this.$router.push({ path: 'stock/' + params.data.id })
+          window.open('stock/' + params.data.id)
+        }
+      })
     },
     focusStock: function () {
       const _this = this
@@ -1081,7 +1066,7 @@ export default {
       } else {
         this.updateTimePid = setInterval(function () {
           _this.currentTime = _this.getTime()
-        }, 1000)
+        }, 600000)
       }
     },
     /* toFullScreen: function () {

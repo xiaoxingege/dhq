@@ -106,7 +106,7 @@ td {
           <div class="stocklist-chart" ref="chart"></div>
         </td>
         <td class="price">{{stock.price}}</td>
-        <td class="change" :style="{color:stock.itemStyle.normal.color}">{{stock.perfText}}</td>
+        <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
       </tr>
     </tbody>
   </table>
