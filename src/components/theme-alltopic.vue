@@ -127,6 +127,9 @@ span {
     margin-left: 6px;
     font-size: 14px;
 }
+.head-left {
+    padding-top: 3px;
+}
 /* .topic-head em {
     padding-right: 65px;
     font-size: 12px;
@@ -605,7 +608,7 @@ a.kuai_icon {
 <template>
 <div class="alltopic clearfix">
   <div class="clearfix topic-head">
-    <div class="fl">
+    <div class="fl head-left">
       <strong class="head-title gray">题材累计总数</strong><em class="sum1" v-for="sum of this.summary.topicNum">{{sum}}</em><strong class="sum2 gray">上涨题材</strong><em class="red topic-num">{{checkNull(this.summary.topicUpNum)}}</em><strong class="sum3 gray">下跌题材</strong>
       <em class="green topic-num">{{checkNull(this.summary.topicDownNum)}}</em>
     </div>
@@ -668,7 +671,7 @@ a.kuai_icon {
           </div>
           <div class="con-bar-3 box-flex-1">
             <!-- <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"> -->
-            <span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
+            <span class="desc-con" ref='text'><strong>主题简介：</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
             <!-- </router-link> -->
           </div>
 
