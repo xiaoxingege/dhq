@@ -625,13 +625,13 @@ bottom: 0; */
         </div>
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
-            <strong>题材简介:</strong>
+            <strong>题材简介：</strong>
             <!-- <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> -->
             <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
             <!-- </router-link> -->
           </div>
           <div class="con1-event box-flex-1">
-            <strong>驱动事件:</strong>
+            <strong>驱动事件：</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>

@@ -157,7 +157,7 @@ import {
 } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       /* routeName: this.$route.name*/
     }
@@ -182,10 +182,10 @@ export default {
 
   },
   methods: {
-    changeTofixed(num) {
+    changeTofixed (num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    checkClass(str) {
+    checkClass (str) {
       if (str === 0 || str === null) {
         str = 'block'
       } else if (str > 0) {
@@ -197,7 +197,7 @@ export default {
       }
       return str
     },
-    getVal(e) {
+    getVal (e) {
       const text = e.target.innerHTML
       const val = e.target.getAttribute('value')
       this.$emit('getThemeValue', [val, text])
@@ -206,9 +206,9 @@ export default {
   watch: {
 
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('topic/queryGroupTopics')
-    this.$watch('groupTopics', function(groupTopics) {
+    this.$watch('groupTopics', function (groupTopics) {
       if (groupTopics) {
         this.$emit('groupTopicSuccess')
       }

@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import '../../assets/css/base.css';
 * {
     box-sizing: border-box;
     font-family: '微软雅黑';
