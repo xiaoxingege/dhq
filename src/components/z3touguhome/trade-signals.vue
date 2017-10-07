@@ -33,7 +33,7 @@
   <div class="trade-signal-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     <img src="../../assets/images/signal-tip.png" alt="" class="signal-tip-img" @mouseover="showWindow" @mouseout="hideWindow" />
-    <div class="signal-window" v-if="isShowWindow">策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+    <div class="signal-window" v-if="isShowWindow">策略提示的调入、调出信号仅供参考，不作为买卖建议，风险自担！</div>
   </div>
   <div class="signal-table">
     <DataTable :dataList="dataList"></DataTable>
@@ -45,7 +45,7 @@ import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
 export default {
   props: ['strategyId'],
-  data () {
+  data() {
     return {
       navText: [
         ['调入信号', 'buy'],
@@ -62,11 +62,11 @@ export default {
     }
   },
   watch: {
-    strategyId () {
+    strategyId() {
       this.type = 'buy' // 选择不同策略换成默认买入信号
       this.initTradeSignal()
     },
-    type () {
+    type() {
       this.initTradeSignal() // 点击买入/卖出信号初始化表格信号数据
     }
   },
@@ -75,44 +75,44 @@ export default {
     DataTable
   },
   computed: {
-    tradeSignalData: function () {
+    tradeSignalData: function() {
       const tradeSignalData = this.$store.state.z3touguIndex.tradeSignal
       return tradeSignalData
     }
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    initTradeSignal (date) {
+    initTradeSignal(date) {
       this.$store.dispatch('z3touguIndex/getTradeSignal', {
-        strategyId: this.strategyId,
-        buySellType: this.type,
-        page: this.page,
-        size: this.size
-      })
+          strategyId: this.strategyId,
+          buySellType: this.type,
+          page: this.page,
+          size: this.size
+        })
         .then(() => {
           this.dataList = this.tradeSignalData
         })
     },
-    showWindow: function () {
+    showWindow: function() {
       this.isShowWindow = true
     },
-    hideWindow: function () {
+    hideWindow: function() {
       this.isShowWindow = false
     },
-    autoUpdate: function () {
+    autoUpdate: function() {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function () {
+        this.updateDataPid = setInterval(function() {
           _this.initTradeSignal()
         }, 1000 * _this.intervalTime)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.initTradeSignal()
     this.autoUpdate()
   }

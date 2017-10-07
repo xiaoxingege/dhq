@@ -65,17 +65,14 @@ body {
 }
 
 .con-bottom-left {
-  background-color: #141518;
+  padding-right: 1px;
 }
 
 .con-bottom-left>div {
   width: 50%;
   height: 100%;
   float: left;
-}
-
-.con-bottom-right {
-  padding-left: 1px;
+  background-color: #141518;
 }
 
 .c_up {
@@ -148,7 +145,7 @@ import Sectors from 'components/z3touguhome/sectors'
 import TopIndustry from 'components/z3touguhome/top-industry'
 import IndexChart from 'components/indexChart'
 export default {
-  data () {
+  data() {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -177,11 +174,11 @@ export default {
 
   },
   methods: {
-    passStrategyId: function (msg) {
+    passStrategyId: function(msg) {
       this.strategyId = msg
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }
