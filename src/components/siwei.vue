@@ -14,7 +14,7 @@
 }
 .bubbles-bar {
     font-size: 12px;
-    color: #fff;
+    color: #c9d0d7;
     height: 32px;
     line-height: 32px;
 }
@@ -143,7 +143,7 @@ button {
 <div class="siwei">
   <div class="bubbles-bar clearfix">
     <div class="template fl mr-20">
-      推荐分析维度：
+      常用推荐：
       <select @change="changeTmp($event)" v-model="tmpId" @click="simOptionClick4IE">
             <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}</option>
       </select>
@@ -228,7 +228,7 @@ button {
                                readonly/>
                         <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName"
                                readonly/>
-                        <span @click="clearTheme" class="clearTheme">×</span>
+                        <span v-if="topicName !== '全部'" @click="clearTheme" class="clearTheme">×</span>
               </div>
               </span>
             </div>

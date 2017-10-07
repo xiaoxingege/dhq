@@ -23,14 +23,19 @@
     }
 
     .strategyHeader {
-        color: #fff !important;
-        font-size: 0.32rem !important;
         height: 1.2rem !important;
         line-height: 1.2rem !important;
         text-align: center;
         background: url("../assets/images/z3img/backh5-top.png") no-repeat;
         background-size: 100% 100%;
     }
+
+    .strategyHeader span {
+        color: #fff !important;
+        line-height: 1.2rem !important;
+        font-size: 0.32rem !important;
+    }
+
     .strategyDesc {
         padding: 0;
     }

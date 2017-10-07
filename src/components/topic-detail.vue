@@ -23,7 +23,7 @@
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    background-color: #eee;
+    background-color: #515A65;
 }
 
 /*定义滑块 内阴影+圆角*/
@@ -203,7 +203,7 @@ html {
     color: #c9d0d7;
     position: relative;
 }
-.left-con1 a:hover {
+.con1-event a:hover {
     color: #1984ea;
 }
 .left-con2 {
@@ -217,7 +217,8 @@ html {
 }
 .left-con3 {
     /* padding: 20px 20px 14px; */
-    padding: 20px 20px 17px;
+    /* padding: 20px 20px 17px; */
+    padding: 0 20px 17px;
     border-bottom: 1px solid #0d0e0f;
     /* padding: 13px 25px 10px 13px; */
 
@@ -296,7 +297,7 @@ html {
 }
 .left-con3 strong {
     display: inline-block;
-    margin-bottom: 6px;
+    /* margin-bottom: 6px; */
     font-weight: 400;
     color: #808ba1;
 }
@@ -337,7 +338,9 @@ html {
     color: #808ba1;
     background: #23272c;
 }
-
+.right-top2 {
+    margin-bottom: 8px;
+}
 .see-filter {
     padding-right: 20px;
     padding-left: 29px;
@@ -433,6 +436,7 @@ html {
 .numTopic span {
     margin-left: 8px;
     cursor: pointer;
+    line-height: 20px;
 }
 
 .numTopic span a {
@@ -579,9 +583,6 @@ bottom: 0; */
     color: #808ba1;
     line-height: 24px;
 }
-.topic-detail .stock-box .stock-box-header .left {
-    color: red;
-}
 </style>
 <template>
 <div class="topic-detail">
@@ -615,17 +616,17 @@ bottom: 0; */
           <div class="con1-ti box-flex-1">
             <strong>题材简介:</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <span class="tip-1">{{checkNull(detail.topicDesc)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
+              <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
             </router-link>
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}<i>{{checkNull(detail.drivenEvent)}}</i></span>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
         <div class="left-con3 clearfix">
-          <strong>相关资讯</strong>
+          <div class="right-top right-top2"><strong>相关资讯</strong></div>
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }">
             <a class="clearfix in-content-a" v-if="informatList.length>0" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
@@ -665,8 +666,7 @@ bottom: 0; */
             <td class="gray">{{checkNull(stock.industryName)}}</td>
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
-                      :to="{name:'topicDetail',params:{topicId:number.topicCode}}"
-                      target="_blank">{{number.topicName}}</router-link></span></a></td>
+                      :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark}}</span></td>
           </tr>
         </table>
@@ -719,9 +719,9 @@ export default {
       isDireCurChng: true,
       isDireIndustry: true,
       topicCode: this.$route.params.topicId,
-      fullHeight1: document.documentElement.clientHeight - 550,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 207) / 44),
-      fullHeight3: document.documentElement.clientHeight - 207,
+      fullHeight1: document.documentElement.clientHeight - 546,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 203) / 44),
+      fullHeight3: document.documentElement.clientHeight - 203,
       size: 12,
       inforPageSize: 100,
       endAll: '',
@@ -781,6 +781,7 @@ export default {
           chartDataEnd = chartData[chartData.length - 1].tradeDate
           // console.log(chartDataEnd)
         })
+
         return {
           topicReturnRate: topicReturnRate,
           hs300ReturnRate: hs300ReturnRate,
@@ -829,7 +830,6 @@ export default {
           }
         }
         // console.log(tradeMin)
-
         realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
           topicTimeName = item.topicName
@@ -844,6 +844,7 @@ export default {
           }
           /* tradeMin.push(tradeMinDate)*/
         })
+
         return {
           topicChgPct: topicChgPct,
           hs300ChgPct: hs300ChgPct,
@@ -931,7 +932,8 @@ export default {
           period: this.period,
           topicCode: this.topicCode
         }).then(() => {
-          this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          console.log(this.detail.topicName)
+          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
           // clearInterval(this.alltimers)
           this.alltimers = setInterval(function () {
             _this.updateChartRealTime()
@@ -980,8 +982,9 @@ export default {
         // console.log(this.realTimeData.realData[this.realTimeData.realData.length - 1].tradeMin)
         // this.endAll = this.allLimit.limitAllX
         // console.log(this.chartData.chartDataEnd)
-        console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
-        console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)
+        /* console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
+         console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)*/
+        // console.log(this.realtimeLimit[0].length)
         if (this.realtimeLimit[0].tradeMin === this.realTimeData.realTimeEnd) {
           const realTimeLimitHs = Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2) // xin
           const realTimeLimitReturn = Number(this.realtimeLimit[0].topicChgPct).toFixed(2)
@@ -994,7 +997,7 @@ export default {
           this.realTimeData.realTimeEnd = this.realtimeLimit[0].tradeMin
           this.realTimeData.topicChgPct.push(this.realtimeLimit[0].topicChgPct)
           this.realTimeData.hs300ChgPct.push(this.realtimeLimit[0].hs300ChgPct)
-          this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
         }
       })
     },
@@ -1071,7 +1074,7 @@ export default {
         topicCode: this.topicCode,
         sortField: this.stockSort,
         direction: dire,
-        stockPage: page,
+        stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
       })
       console.log(this.stockPage)
@@ -1296,6 +1299,9 @@ export default {
     },
     checkNull (str) {
       if (str === null) {
+        return '--'
+      }
+      if (str === undefined) {
         return '--'
       } else {
         return str

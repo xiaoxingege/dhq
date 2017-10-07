@@ -57,10 +57,10 @@ export default {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + Number(params[i].value).toFixed(2) + '%'
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + Number(params[i].value * 100).toFixed(2) + '%'
                 }
                 if (i === 1) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + Number(params[i].value).toFixed(2) + '%'
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span> ' + params[i].seriesName + ' : ' + Number(params[i].value * 100).toFixed(2) + '%'
                 }
               }
               return s
@@ -96,7 +96,7 @@ export default {
             },
             axisLabel: {
               formatter: function (val) {
-                return val + '%'
+                return val * 100 + '%'
               },
               color: '#808ba1'
             }

@@ -23,10 +23,33 @@ import echarts from 'echarts'
 export default {
   props: ['strategyId'],
   methods: {
+    checkUnit (num) {
+      num = parseFloat(num) // returns
+      if (typeof (num) === 'undefined' || typeof (num) === 'string') {
+        num = 0
+      }
+      var result = 0
+      if (num) {
+        if (num > 100000000 || num < (-100000000)) {
+          result = (num / 100000000).toFixed(2)
+          return result + '亿元'
+        } else if (num > 10000 || num < (-10000)) {
+          result = (num / 10000).toFixed(2)
+          return result + '万元'
+        } else {
+          result = num.toFixed(2)
+          return result + '元'
+        }
+      } else {
+        result = '0.00元'
+      }
+      return result
+    },
     initdrykChart () {
       this.$store.dispatch('goldStrategy/getDrykData', {
         strategyId: this.strategyId
       }).then(() => {
+        const that = this
         const barData = this.$store.state.goldStrategy.drykData
         this.chart = echarts.init(document.getElementsByClassName('barChart')[0])
         this.chart.setOption({
@@ -46,6 +69,32 @@ export default {
               icon: 'circle'
             }
             ]
+          },
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            padding: [10, 55, 10, 20],
+            textStyle: {
+              align: 'left',
+              fontFamily: '微软雅黑'
+            },
+            axisPointer: {
+              type: 'line'
+            },
+            formatter: function (params) {
+              var s = params[0].name
+              for (var i = 0; i < params.length; i++) {
+                if (i === 0) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
+                    params[i].color + '"></span>当日盈利: ' + that.checkUnit(params[i].value)
+                }
+                if (i === 1) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
+                    params[i].color + '"></span>当日亏损: ' + that.checkUnit(params[i].value)
+                }
+              }
+              return s
+            }
           },
           xAxis: {
             type: 'category',
