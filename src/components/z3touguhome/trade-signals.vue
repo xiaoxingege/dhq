@@ -33,7 +33,7 @@
   <div class="trade-signal-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     <img src="../../assets/images/signal-tip.png" alt="" class="signal-tip-img" @mouseover="showWindow" @mouseout="hideWindow" />
-    <div class="signal-window" v-if="isShowWindow">策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+    <div class="signal-window" v-if="isShowWindow">策略提示的调入、调出信号仅供参考，不作为买卖建议，风险自担！</div>
   </div>
   <div class="signal-table">
     <DataTable :dataList="dataList"></DataTable>
