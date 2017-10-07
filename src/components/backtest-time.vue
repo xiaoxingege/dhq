@@ -132,9 +132,26 @@ span.copy {
 
 }
 
-.code-box {
+/* .code-box {
     width: 189px;
     height: 205px;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #666666;
+    padding: 10px;
+} */
+
+/* .code-txt {
+    text-align: center;
+    margin-top: -3px;
+} */
+
+/* code=180 */
+
+.code-box {
+    width: 200px;
+    height: 214px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
@@ -145,7 +162,7 @@ span.copy {
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
-    margin-top: -3px;
+    margin-top: -5px;
 }
 .foots-tishi {
     font-size: 12px;

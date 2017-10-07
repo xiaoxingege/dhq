@@ -127,7 +127,7 @@ body {
 
 }
 .desc-ul tr:nth-child(1) td {
-    font-size: 12px;
+    font-size: 0.24rem;
     color: #888888;
 }
 .desc-ul tr:nth-child(2) td {
@@ -216,6 +216,7 @@ body {
     width: 100%;
     /* font-size: 12px; */
     margin-top: 0.25rem;
+    position: relative;
 }
 .right-table tr td {
     border-bottom: 1px solid #e6e6e6;
@@ -254,8 +255,25 @@ body {
     color: #888888;
     line-height: 0.32rem;
 }
+.tr-no2 {
+    /* position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    background: #fff; */
+}
 .td-no2 {
-    }
+    text-align: center;
+    font-size: 0.24rem;
+}
+.no-data {
+    width: 1.76rem;
+    height: 1.68rem;
+    display: inline-block;
+    background: url("../assets/images/z3img/no-data.png") no-repeat;
+    background-size: 100% 100%;
+}
 </style>
 <template>
 <div class="backtest-filter backtest-filter2">
@@ -344,8 +362,14 @@ body {
             <td v-z3-updowncolor="stock.curChngPct">{{stock.chg>=0?stock.chg===0?stock.chg:'+'+checkNull(stock.chg):checkNull(stock.chg)}}</td>
             <td class="gray" v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
           </tr>
-          <tr v-if="nowChooseStock.length<=0">
-            <td class="td-no2">暂无数据</td>
+          <tr v-if="nowChooseStock.length<=0" class="tr-no2">
+            <td></td>
+            <td>
+              <div class="td-no2">暂无数据</div>
+            </td>
+            <td></td>
+            <td></td>
+
           </tr>
         </table>
       </div>

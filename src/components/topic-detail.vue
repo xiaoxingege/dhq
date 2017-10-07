@@ -218,7 +218,7 @@ html {
 .left-con3 {
     /* padding: 20px 20px 14px; */
     /* padding: 20px 20px 17px; */
-    padding: 0 20px 17px;
+    padding: 0 0 17px;
     border-bottom: 1px solid #0d0e0f;
     /* padding: 13px 25px 10px 13px; */
 
@@ -231,6 +231,7 @@ html {
     /* height: 168px;*/
     overflow: auto;
     position: relative;
+    padding: 0 20px;
 }
 
 .in-content-a {
@@ -245,7 +246,11 @@ html {
     right: 0;
     margin: auto;
 }
+.in-content-no {
+    text-align: center;
 
+    position: relative;
+}
 .in-title {
     line-height: 62px;
 }
@@ -583,6 +588,12 @@ bottom: 0; */
     color: #808ba1;
     line-height: 24px;
 }
+.no-data {
+    width: 176px;
+    height: 168px;
+    display: inline-block;
+    background: url("../assets/images/z3img/no-data.png") no-repeat;
+}
 </style>
 <template>
 <div class="topic-detail">
@@ -615,9 +626,9 @@ bottom: 0; */
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
             <strong>题材简介:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
-            </router-link>
+            <!-- <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> -->
+            <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
+            <!-- </router-link> -->
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件:</strong>
@@ -627,17 +638,21 @@ bottom: 0; */
         </div>
         <div class="left-con3 clearfix">
           <div class="right-top right-top2"><strong>相关资讯</strong></div>
-          <div class="in-content" :style="{  height: fullHeight1 + 'px' }">
-            <a class="clearfix in-content-a" v-if="informatList.length>0" v-for="(infor,index) of informatList">
+          <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
+            <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
                 <span class="new-tit">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
               </router-link>
             </a>
-            <a class="clearfix in-content-b" v-if="informatList.length<=0">
+
+          </div>
+          <div class="in-content-no" :style="{  height: (fullHeight1+36) + 'px' }" v-if="informatList.length<=0">
+            <!-- <a class="clearfix in-content-b" >
                暂无相关资讯
-            </a>
+               </a> -->
+            <div class="no-data"></div>
           </div>
           <!-- <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
             <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
@@ -1063,8 +1078,10 @@ export default {
       if (type === 'symbol') {
         this.isDireSymbol = !this.isDireSymbol
       } else if (type === 'marketData.price') {
+        console.log(this.isDirePrice)
         this.isDirePrice = !this.isDirePrice
       } else if (type === 'marketData.curChngPct') {
+        console.log(this.isDireCurChng)
         this.isDireCurChng = !this.isDireCurChng
       } else if (type === 'industryName') {
         this.isDireIndustry = !this.isDireIndustry
