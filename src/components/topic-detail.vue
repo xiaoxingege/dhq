@@ -203,7 +203,7 @@ html {
     color: #c9d0d7;
     position: relative;
 }
-.left-con1 a:hover {
+.con1-event a:hover {
     color: #1984ea;
 }
 .left-con2 {
@@ -217,7 +217,8 @@ html {
 }
 .left-con3 {
     /* padding: 20px 20px 14px; */
-    padding: 20px 20px 17px;
+    /* padding: 20px 20px 17px; */
+    padding: 0 20px 17px;
     border-bottom: 1px solid #0d0e0f;
     /* padding: 13px 25px 10px 13px; */
 
@@ -338,7 +339,7 @@ html {
     background: #23272c;
 }
 .right-top2 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 .see-filter {
     padding-right: 20px;
@@ -615,12 +616,12 @@ bottom: 0; */
           <div class="con1-ti box-flex-1">
             <strong>题材简介:</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',140)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
+              <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
             </router-link>
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{cutStr(checkNull(detail.drivenEvent)+'',140)}}<i>{{checkNull(detail.drivenEvent)}}</i></span>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
@@ -718,9 +719,9 @@ export default {
       isDireCurChng: true,
       isDireIndustry: true,
       topicCode: this.$route.params.topicId,
-      fullHeight1: document.documentElement.clientHeight - 550,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 207) / 44),
-      fullHeight3: document.documentElement.clientHeight - 207,
+      fullHeight1: document.documentElement.clientHeight - 546,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 203) / 44),
+      fullHeight3: document.documentElement.clientHeight - 203,
       size: 12,
       inforPageSize: 100,
       endAll: '',
@@ -1298,6 +1299,9 @@ export default {
     },
     checkNull(str) {
       if (str === null) {
+        return '--'
+      }
+      if (str === undefined) {
         return '--'
       } else {
         return str

@@ -465,9 +465,9 @@ a.kuai_icon {
     /* height: 190px; */
     display: inline-block;
 }
-.desc-con:hover {
+/* .desc-con:hover {
     color: #1984ea;
-}
+} */
 .desc-con i {
     display: none;
 }
@@ -479,7 +479,7 @@ a.kuai_icon {
     background: #cccfd9;
     border-radius: 10px;
     z-index: 999;
-    cursor: pointer;
+    /* cursor: pointer; */
     line-height: 18px;
     /* left: -56px; */
     right: 0;
@@ -665,7 +665,9 @@ a.kuai_icon {
             </div>
           </div>
           <div class="con-bar-3 box-flex-1">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"><span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span></router-link>
+            <!-- <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"> -->
+            <span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
+            <!-- </router-link> -->
           </div>
 
         </div>
@@ -706,7 +708,7 @@ import ThemeSortAz from './theme-sort-az'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 export default {
-  data () {
+  data() {
     return {
       FIELDS: {
         hot: 'topicMarket.realChngPctWeek',
@@ -777,7 +779,7 @@ export default {
     StockBox
   },
   methods: {
-    query (type, page) {
+    query(type, page) {
       // if (this.sortField === type && page) {
       //   return
       // }
@@ -790,43 +792,43 @@ export default {
         pagesize: this.pagesize
       })
     },
-    list (type, page) {
+    list(type, page) {
       this.$store.dispatch('topic/queryListChange', {
         sortField: this.FIELDS.hot,
         page: this.page,
         pagesize: this.pagesize
       })
     },
-    goToPage (page) {
+    goToPage(page) {
       this.page = Number(page) - 1
     },
-    updateVal () {
+    updateVal() {
       this.direName = 'df'
     },
     /* showList: false,
           showAz: false,*/
-    listClick (e) {
+    listClick(e) {
       e.preventDefault()
       this.showList = true
       this.showAz = false
       this.query('hot')
       this.isStyle = ''
     },
-    azClick (e) {
+    azClick(e) {
       e.preventDefault()
       this.showList = false
       this.showAz = true
       this.list('updown')
       this.isStyle = 'none'
     },
-    enterTopictit (e) {
+    enterTopictit(e) {
       e.preventDefault()
       this.showNewTit = true
       /* console.log(e.currentTarget.children[0])*/
       e.currentTarget.children[0].style.display = 'block'
       e.currentTarget.setAttribute('class', 'news-cons news-cons2')
     },
-    leaveTopictit (e) {
+    leaveTopictit(e) {
       e.preventDefault()
       this.showNewTit = false
       e.currentTarget.children[0].style.display = 'none'
@@ -843,26 +845,26 @@ export default {
         this.isStyle = ''
       }
     },*/
-    format (date) {
+    format(date) {
       return formatDate(date)
     },
-    cutStr (str, len) {
+    cutStr(str, len) {
       return cutString(str, len)
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    updateStock (stock) {
+    updateStock(stock) {
       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
     },
-    subscribeStock () {
+    subscribeStock() {
       const msg = {
         subject: 'snapshot',
         type: '1',
@@ -874,10 +876,10 @@ export default {
     }
   },
   watch: {
-    page () {
+    page() {
       this.query(this.sortField, this.page)
     },
-    relatedStocks () {
+    relatedStocks() {
       console.log(this.relatedStocks)
       if (z3websocket.ws) {
         z3websocket.ws && z3websocket.ws.close()
@@ -885,14 +887,14 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    stockMessage () {
+    stockMessage() {
       console.log(this.stockMessage)
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
     },
 
-    socketState () {
+    socketState() {
       if (this.socketState === 1) {
         // 建立连接
         this.subscribeStock()
@@ -902,16 +904,16 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.query('hot')
     var _this = this
     /* console.log(this)
      console.log(_this)*/
-    setInterval(function () {
+    setInterval(function() {
       _this.$store.dispatch('topic/querySummary')
     }, 30000)
   },
-  destroyed () {
+  destroyed() {
     z3websocket.ws && z3websocket.ws.close()
   }
 }
