@@ -346,7 +346,7 @@ export default {
       volumeColor: Data.volumeColor,
       chgColor: Data.chgColor,
       analystColor: Data.AnalystColor,
-      tmpId: 'demoTmp5',
+      tmpId: 'demoTmp1',
       options: {
         xDefault: 'perf_idx.chng_pct_month',
         yDefault: 'fcst_idx.fcst_eps_chng_next3',

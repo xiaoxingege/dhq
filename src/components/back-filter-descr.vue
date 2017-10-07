@@ -163,14 +163,17 @@ i {
 .eval-tr1 {}
 .eval-tr2 {}
 .evaluat-box tr:nth-child(1) td {
-    padding-bottom: 13px;
+    /* padding-bottom: 13px; */
+    padding-bottom: 16px;
     border-bottom: 1px solid #23272c;
 }
 .evaluat-box tr:nth-child(2) td {
-    padding-top: 14px;
+    /* padding-top: 14px; */
+    padding-top: 17px;
 }
 .desc-num1 {
-    line-height: 24px;
+    /* line-height: 24px; */
+    line-height: 26px;
     font-size: 14px;
 }
 .income_list span {

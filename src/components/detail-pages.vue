@@ -1,5 +1,12 @@
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/css/base.css';
+
+.app,
+.news,
+body,
+html {
+    height: 100%;
+}
 .news {
     padding: 50px 0;
     font-size: 12px;

@@ -63,12 +63,12 @@ body {
 .bfilter-ul li {
     /* padding: 7px 15px 5px 14px; */
     padding: 3px 17px 4px 18px;
-    border: 1px solid #0d0e0f;
+    /* border: 1px solid #0d0e0f; */
     cursor: pointer;
 }
 .bfilter-ul li.active {
     background: #525a65;
-    border: 1px solid transparent;
+    /* border: 1px solid transparent; */
 }
 
 .bfilter-table .export {
@@ -164,7 +164,15 @@ li.export-box {
 span.order-num {
     /* width: 6%; */
 }
-
+.tr-no2 {
+    text-align: center;
+}
+.no-data {
+    width: 176px;
+    height: 168px;
+    display: inline-block;
+    background: url("../assets/images/z3img/no-data.png") no-repeat;
+}
 .backtest-filter .page {
     text-align: center;
 }
@@ -332,7 +340,7 @@ span.copy {
                    </span>
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
-          <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock">
+          <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock" v-if="nowChooseStock.length>0">
             <span class="order-num">{{index+1}}
                      </span><span>{{stock.innerCode}}
                      </span><span><a :href="'/stock/'+ stock.innerCode" target="_blank" class="blue">{{stock.name}}</a>
@@ -345,6 +353,9 @@ span.copy {
                      </span><span>{{stock.tcap==null?'--':changeYi(stock.tcap)}}
                      </span><span>{{stock.mktcap==null?'--':changeYi(stock.mktcap)}}
                      </span>
+          </div>
+          <div v-if="nowChooseStock.length<=0" class="tr-no2" :style="{  lineHeight: fullHeight + 'px' }">
+            <div class="no-data"></div>
           </div>
         </div>
         <Pagination @getPageFromChild="goToStockPage" :totalPage="totalPage" />
@@ -361,7 +372,7 @@ span.copy {
           <span>平均超额收益率</span>
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
-          <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail">
+          <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail" v-if="tradeDetail.length>0">
             <span>{{index+1}}
               </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
               </span>
@@ -379,6 +390,9 @@ span.copy {
               </span><span v-z3-updowncolor="tradeDay.avgReturn">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
               </span><span v-z3-updowncolor="tradeDay.avgReturnExcess">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
               </span>
+          </div>
+          <div v-if="tradeDetail.length<=0" class="tr-no2" :style="{  lineHeight: fullHeight + 'px' }">
+            <div class="no-data"></div>
           </div>
         </div>
         <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
@@ -429,7 +443,7 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      fullHeight: document.documentElement.clientHeight - 471,
+      fullHeight: document.documentElement.clientHeight - 469,
       basicName: ''
     }
   },

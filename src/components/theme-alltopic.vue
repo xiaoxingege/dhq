@@ -111,11 +111,13 @@ span {
     width: 20px;
     height: 20px;
     display: inline-block;
-    border: 1px solid #23272c;
+    /* border: 1px solid #23272c; */
+    background: #36404b;
     text-align: center;
     line-height: 20px;
     margin-right: 6px;
     font-size: 14px;
+    border-radius: 3px;
 }
 .sum2 {
     margin-left: 12px;
@@ -124,6 +126,9 @@ span {
 .sum3 {
     margin-left: 6px;
     font-size: 14px;
+}
+.head-left {
+    padding-top: 3px;
 }
 /* .topic-head em {
     padding-right: 65px;
@@ -603,7 +608,7 @@ a.kuai_icon {
 <template>
 <div class="alltopic clearfix">
   <div class="clearfix topic-head">
-    <div class="fl">
+    <div class="fl head-left">
       <strong class="head-title gray">题材累计总数</strong><em class="sum1" v-for="sum of this.summary.topicNum">{{sum}}</em><strong class="sum2 gray">上涨题材</strong><em class="red topic-num">{{checkNull(this.summary.topicUpNum)}}</em><strong class="sum3 gray">下跌题材</strong>
       <em class="green topic-num">{{checkNull(this.summary.topicDownNum)}}</em>
     </div>
@@ -619,7 +624,7 @@ a.kuai_icon {
       </div> -->
   </div>
   <div class="main-list" v-show="showList">
-    <ol class="topic-ol">
+    <ol class="topic-ol" :style="{  minHeight: fullHeight + 'px' }">
       <li v-for="allTopic of themeList" class="clearfix">
         <div class="content-box clearfix display-box">
           <div class="con-bar-1 box-flex-1">
@@ -666,7 +671,7 @@ a.kuai_icon {
           </div>
           <div class="con-bar-3 box-flex-1">
             <!-- <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"> -->
-            <span class="desc-con" ref='text'><strong>主题简介:</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
+            <span class="desc-con" ref='text'><strong>主题简介：</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
             <!-- </router-link> -->
           </div>
 
@@ -716,6 +721,7 @@ export default {
         updown: 'topicMarket.chngPct'
       },
       sortField: '',
+      fullHeight: document.documentElement.clientHeight - 133,
       page: 0,
       pagesize: '',
       isShow: true,
@@ -909,6 +915,7 @@ export default {
     var _this = this
     /* console.log(this)
      console.log(_this)*/
+    this.$store.dispatch('topic/querySummary')
     setInterval(function () {
       _this.$store.dispatch('topic/querySummary')
     }, 30000)
