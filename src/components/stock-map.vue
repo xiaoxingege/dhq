@@ -565,12 +565,75 @@ export default {
       })
     },
     updateMapData: function () {
-      this.initOption(this.stockData)
+      /* this.initOption(this.stockData)*/
       /* this.chart.setOption({
         series: [{
           data: this.stockData
         }]
       })*/
+      this.chart && this.chart.setOption({
+        hoverLayerThreshold: 10000,
+        progressive: 1000,
+        squareRatio: 0.5,
+        tooltip: {
+          triggerOn: 'none'
+        },
+        series: [{
+          name: '',
+          type: 'treemap',
+          visibleMin: -1,
+          childrenVisibleMin: 20,
+          width: '100%',
+          height: '100%',
+          label: {
+            normal: {
+              distance: 0,
+              ellipsis: false,
+              show: true,
+              formatter: (params) => {
+                const node = this.getNode(params)
+                const nodeLayout = node.getLayout()
+                let formatterText = ''
+                if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
+                  formatterText += params.name
+                }
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                  formatterText += '\n' + params.data.perfText
+                }
+                return formatterText
+              },
+              textStyle: {
+                fontSize: 12
+              }
+            }
+          },
+          upperLabel: {
+            normal: {
+              show: true,
+              formatter: (params) => {
+                const node = this.getNode(params)
+                const nodeLayout = node.getLayout()
+                let formatterText = ''
+                if (nodeLayout.width > 48 && nodeLayout.height > 20) {
+                  formatterText += params.name
+                }
+                return formatterText
+              },
+              height: 20
+            }
+          },
+          itemStyle: {
+            normal: {}
+          },
+          breadcrumb: {
+            show: false
+          },
+          nodeClick: false,
+          roam: true,
+          levels: this.getLevelOption(),
+          data: this.stockData
+        }]
+      })
     },
     autoUpdateData: function () {
       const _this = this
