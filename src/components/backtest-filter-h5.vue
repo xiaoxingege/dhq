@@ -254,6 +254,8 @@ body {
     color: #888888;
     line-height: 0.32rem;
 }
+.td-no2 {
+    }
 </style>
 <template>
 <div class="backtest-filter backtest-filter2">
@@ -336,11 +338,14 @@ body {
             <td class="td-txt">涨跌</td>
             <td class="td-txt">涨跌幅</td>
           </tr>
-          <tr v-for="(stock,index) of nowChooseStock">
+          <tr v-for="(stock,index) of nowChooseStock" v-if="nowChooseStock.length>0">
             <td><span class="td-name">{{stock.name}}</span></br><small class="num-td">{{stock.innerCode}}</small></td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}</td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.chg>=0?stock.chg===0?stock.chg:'+'+checkNull(stock.chg):checkNull(stock.chg)}}</td>
             <td class="gray" v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
+          </tr>
+          <tr v-if="nowChooseStock.length<=0">
+            <td class="td-no2">暂无数据</td>
           </tr>
         </table>
       </div>
