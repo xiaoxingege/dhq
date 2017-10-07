@@ -26,7 +26,7 @@
     font-size: 12px;
     border-radius: 3px;
     line-height: 22px;
-    padding-left: 5px;
+    padding-left: 10px;
     -webkit-appearance: none;
     background: url("../assets/images/select-arrow.png") no-repeat scroll right center transparent;
     background-position-x: 95%;
@@ -326,7 +326,7 @@ import * as Data from '../z3tougu/constant/siwei.js'
 import Bubbles from 'components/bubbles'
 import ThemeSortAz from 'components/theme-sort-az'
 export default {
-  data () {
+  data() {
     return {
       showStockRangeDialog: false,
       xDataList: Data.xSelectData,
@@ -346,7 +346,7 @@ export default {
       volumeColor: Data.volumeColor,
       chgColor: Data.chgColor,
       analystColor: Data.AnalystColor,
-      tmpId: 'demoTmp1',
+      tmpId: 'demoTmp5',
       options: {
         xDefault: 'perf_idx.chng_pct_month',
         yDefault: 'fcst_idx.fcst_eps_chng_next3',
@@ -383,9 +383,80 @@ export default {
       sizeData: '流通市值',
       colorData: '近1月涨跌幅',
       templateList: {
-
+        'demoTmp5': {
+          name: '估值 VS 业绩选股',
+          options: {
+            xDefault: 'mkt_idx.pe_ttm',
+            yDefault: 'fin_idx.sale',
+            sizeDefault: '',
+            colorDefault: 'mkt_idx.chng_pct_week',
+            indexRangeDefault: '',
+            industryRangeDefault: '',
+            marketValueDefault: 'gpltsz_all',
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: '',
+            innerCode: '',
+            topic: ''
+          },
+          explain: '通过估值和业绩指标，寻找低估值绩优股，气泡在第一象限越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
+        },
+        'demoTmp6': {
+          name: '成长性 VS 估值选股',
+          options: {
+            xDefault: 'fin_idx.eps_qua_rr',
+            yDefault: 'mkt_idx.pe_ttm',
+            sizeDefault: 'mkt_idx.mktcap',
+            colorDefault: 'perf_idx.chng_pct_month',
+            indexRangeDefault: '',
+            industryRangeDefault: '',
+            marketValueDefault: 'gpltsz_all',
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: '',
+            innerCode: '',
+            topic: ''
+          },
+          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡在第一象限越靠右下，气泡越小，未来成长性可能越强。'
+        },
+        'demoTmp7': {
+          name: '股价表现 VS 成交量选股',
+          options: {
+            xDefault: 'mkt_idx.chng_pct_week',
+            yDefault: 'mkt_idx.rela_ma20',
+            sizeDefault: 'mkt_idx.mktcap',
+            colorDefault: 'mkt_idx.rela_volume',
+            indexRangeDefault: '',
+            industryRangeDefault: '',
+            marketValueDefault: 'gpltsz_all',
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: '',
+            innerCode: '',
+            topic: ''
+          },
+          explain: '通过量价指标，寻找近期资金主攻个股。气泡整体呈右上倾斜，越靠右上，近期股价异动越大；颜色越亮则成交越活跃，越暗则成交尚未激活。'
+        },
+        'demoTmp8': {
+          name: '股价表现 VS 行业选股',
+          options: {
+            xDefault: 'mkt_idx.chng_pct_week',
+            yDefault: 'mkt_idx.rela_ma20',
+            sizeDefault: 'mkt_idx.mktcap',
+            colorDefault: 'sw_indu_name',
+            indexRangeDefault: '',
+            industryRangeDefault: '',
+            marketValueDefault: 'gpltsz_all',
+            historyValueRangeDefault: 'lscjl_all',
+            strategyDefault: '',
+            stockPoolDefault: '',
+            innerCode: '',
+            topic: ''
+          },
+          explain: '通过股价和行业指标，寻找近期资金主攻个股及行业。气泡整体右上倾斜，越靠右上，近期股价异动越大；同色越多，该行业越被关注，股性越活跃。'
+        },
         'demoTmp1': {
-          name: '盘面与股价涨跌关系',
+          name: '盘面 VS 股价涨跌',
           options: {
             xDefault: 'perf_idx.chng_pct_month',
             yDefault: 'fcst_idx.fcst_eps_chng_next3',
@@ -400,10 +471,10 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '从未来成长性、及盘面大小的角度，判断近1月涨幅较好的股票属于哪一类，跌幅较大的股票属于哪一类，例如：涨幅较好的股票为兼具成长性的大盘股，抑或成长性较好的小盘股？'
+          explain: '从未来成长性及盘面大小，判断近1月强势股和弱势股为哪一类。例如：高成长大盘股近期强势，低成长小盘股近期弱势。'
         },
         'demoTmp2': {
-          name: '估值与股价涨跌关系',
+          name: '估值 VS 股价涨跌',
           options: {
             xDefault: 'perf_idx.chng_pct_month',
             yDefault: 'mkt_idx.pe_ttm',
@@ -418,10 +489,10 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '从估值的角度，判断近1月涨幅较好的股票属于哪一类，跌幅较大的股票属于哪一类，例如：涨幅较好的股票主要为高估值股票，抑或估值较低的股票？'
+          explain: '从估值的角度，判断近1月强势股和弱势股为哪一类。例如：低估值股票近期强势，高估值股票近期弱势。'
         },
         'demoTmp3': {
-          name: '行业与股价涨跌幅关系分析',
+          name: '行业 VS 股价涨跌',
           options: {
             xDefault: 'sw_indu_name',
             yDefault: 'mkt_idx.peg',
@@ -436,10 +507,10 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '从行业和估值的角度，判断近1周的市场热点集中在哪几个行业，以及行业内是估值较低的股票涨得好，还是估值较高的股票涨得更好，还是较为中性的一类涨得好？'
+          explain: '通过估值和涨跌指标，寻找近期热点行业及热门股的估值属性。竖轴方向某行业红色气泡越多，则关注度越高；距离X轴越近的越红，则低估值股涨势越好。'
         },
         'demoTmp4': {
-          name: '分析师观点与股价涨跌关系',
+          name: '分析师观点 VS 股价涨跌',
           options: {
             xDefault: 'fcst_idx.rating_syn',
             yDefault: 'fcst_idx.expect_price_med',
@@ -454,8 +525,9 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '从分析师预期和是否放量的角度寻找标的股票。例如：从分析师观点为买入或增持的股票中，挑选出具备目标价格空间较大，且近期成交量放量的股票。'
+          explain: '通过分析师预期，选择上涨空间较高的个股。距离X轴的距离越远，股价预期上涨空间越高；颜色越亮则成交越活跃，越暗则成交尚未激活。'
         },
+
         'demoTmp0': {
           name: '自定义'
         }
@@ -472,14 +544,14 @@ export default {
 
   },
   methods: {
-    showOptionValue () {
+    showOptionValue() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
         this.showStockRangeDialog = false
       }
     },
-    simOptionClick4IE () {
+    simOptionClick4IE() {
       const that = this
       var evt = window.event
       var selectObj = evt ? evt.srcElement : null
@@ -490,7 +562,7 @@ export default {
         setTimeout(that.showOptionValue(), 60)
       }
     },
-    hideDialog () {
+    hideDialog() {
       this.showStockRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
       this.dimensionOptions.yDefault = this.options.yDefault
@@ -505,7 +577,7 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelectData () {
+    showSelectData() {
       this.xData = this.xDataList[this.dimensionOptions.xDefault]
       this.yData = this.xDataList[this.dimensionOptions.yDefault]
       this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
@@ -516,7 +588,7 @@ export default {
       }
       this.tmpId = 'demoTmp0'
     },
-    changeTmp (e) {
+    changeTmp(e) {
       const tmpValue = e.target.value
       this.tmpId = tmpValue
       if (tmpValue === 'demoTmp0') {
@@ -541,7 +613,7 @@ export default {
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
-    getTime () {
+    getTime() {
       var date = new Date()
       var seperator2 = ':'
       var month = date.getMonth() + 1
@@ -563,35 +635,35 @@ export default {
       var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
       this.currentTime = currentdate
     },
-    showTheme () {
+    showTheme() {
       this.isShowTheme = true
     },
-    closeTheme () {
+    closeTheme() {
       this.isShowTheme = false
     },
-    getThemeVal (data) {
+    getThemeVal(data) {
       this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
-    hideAlert (data) {
+    hideAlert(data) {
       this.showStockRangeDialog = data
     },
-    clearTheme () {
+    clearTheme() {
       this.topicName = '全部'
       this.stockRangeOptions.topic = ''
     }
   },
   computed: {
-    stockPool: function () {
+    stockPool: function() {
       return this.$store.state.bubbles.stockPool
     },
-    userStrategy: function () {
+    userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
     }
   },
   watch: {
-    'dimensionOptions.xDefault': function () {
+    'dimensionOptions.xDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -599,7 +671,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'dimensionOptions.yDefault': function () {
+    'dimensionOptions.yDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -607,7 +679,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'tmpId': function () {
+    'tmpId': function() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
@@ -615,12 +687,12 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 
     const that = this
-    setInterval(function () {
+    setInterval(function() {
       that.getTime()
     }, 1000)
   }
