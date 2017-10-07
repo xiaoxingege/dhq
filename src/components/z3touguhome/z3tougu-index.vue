@@ -65,17 +65,14 @@ body {
 }
 
 .con-bottom-left {
-  background-color: #141518;
+  padding-right: 1px;
 }
 
 .con-bottom-left>div {
   width: 50%;
   height: 100%;
   float: left;
-}
-
-.con-bottom-right {
-  padding-left: 1px;
+  background-color: #141518;
 }
 
 .c_up {

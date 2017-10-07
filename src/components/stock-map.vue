@@ -326,7 +326,7 @@ export default {
       this.playLineIndex = 19
     },
     condition () {
-      this.updateData()
+      this.updateDataByCodition()
     },
     focusStockName () {
       this.focusStock()
@@ -564,13 +564,26 @@ export default {
         this.updateMapData()
       })
     },
+    updateDataByCodition: function () {
+      this.getLegendColor()
+      this.$store.dispatch('stockMap/updateData', {
+        isContinue: this.isContinue,
+        condition: this.condition,
+        code: this.rangeCode
+      }).then(() => {
+        if (this.playLineIndex >= 18) {
+          this.playLineIndex = 19
+        }
+        this.initOption(this.stockData)
+      })
+    },
     updateMapData: function () {
-      this.initOption(this.stockData)
-      /* this.chart.setOption({
+      /* this.initOption(this.stockData)*/
+      this.chart.setOption({
         series: [{
           data: this.stockData
         }]
-      })*/
+      })
     },
     autoUpdateData: function () {
       const _this = this
@@ -850,7 +863,7 @@ export default {
         this.playBackState = false
         clearInterval(pid)
         this.playBackSrc = playStopSrc
-        this.isStopPlayback = false
+        this.isStopPlayback = true
         this.$emit('isStopPlayback', this.isStopPlayback)
       } else { // 未播放点击开始播放
         if (this.condition !== 'mkt_idx.cur_chng_pct') {
