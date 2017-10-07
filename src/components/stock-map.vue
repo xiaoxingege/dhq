@@ -863,7 +863,7 @@ export default {
         this.playBackState = false
         clearInterval(pid)
         this.playBackSrc = playStopSrc
-        this.isStopPlayback = false
+        this.isStopPlayback = true
         this.$emit('isStopPlayback', this.isStopPlayback)
       } else { // 未播放点击开始播放
         if (this.condition !== 'mkt_idx.cur_chng_pct') {
