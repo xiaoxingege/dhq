@@ -326,7 +326,7 @@ import * as Data from '../z3tougu/constant/siwei.js'
 import Bubbles from 'components/bubbles'
 import ThemeSortAz from 'components/theme-sort-az'
 export default {
-  data () {
+  data() {
     return {
       showStockRangeDialog: false,
       xDataList: Data.xSelectData,
@@ -346,7 +346,7 @@ export default {
       volumeColor: Data.volumeColor,
       chgColor: Data.chgColor,
       analystColor: Data.AnalystColor,
-      tmpId: 'demoTmp1',
+      tmpId: 'demoTmp5',
       options: {
         xDefault: 'perf_idx.chng_pct_month',
         yDefault: 'fcst_idx.fcst_eps_chng_next3',
@@ -544,14 +544,14 @@ export default {
 
   },
   methods: {
-    showOptionValue () {
+    showOptionValue() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
         this.showStockRangeDialog = false
       }
     },
-    simOptionClick4IE () {
+    simOptionClick4IE() {
       const that = this
       var evt = window.event
       var selectObj = evt ? evt.srcElement : null
@@ -562,7 +562,7 @@ export default {
         setTimeout(that.showOptionValue(), 60)
       }
     },
-    hideDialog () {
+    hideDialog() {
       this.showStockRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
       this.dimensionOptions.yDefault = this.options.yDefault
@@ -577,7 +577,7 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelectData () {
+    showSelectData() {
       this.xData = this.xDataList[this.dimensionOptions.xDefault]
       this.yData = this.xDataList[this.dimensionOptions.yDefault]
       this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
@@ -588,7 +588,7 @@ export default {
       }
       this.tmpId = 'demoTmp0'
     },
-    changeTmp (e) {
+    changeTmp(e) {
       const tmpValue = e.target.value
       this.tmpId = tmpValue
       if (tmpValue === 'demoTmp0') {
@@ -613,7 +613,7 @@ export default {
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
-    getTime () {
+    getTime() {
       var date = new Date()
       var seperator2 = ':'
       var month = date.getMonth() + 1
@@ -635,35 +635,35 @@ export default {
       var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
       this.currentTime = currentdate
     },
-    showTheme () {
+    showTheme() {
       this.isShowTheme = true
     },
-    closeTheme () {
+    closeTheme() {
       this.isShowTheme = false
     },
-    getThemeVal (data) {
+    getThemeVal(data) {
       this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
-    hideAlert (data) {
+    hideAlert(data) {
       this.showStockRangeDialog = data
     },
-    clearTheme () {
+    clearTheme() {
       this.topicName = '全部'
       this.stockRangeOptions.topic = ''
     }
   },
   computed: {
-    stockPool: function () {
+    stockPool: function() {
       return this.$store.state.bubbles.stockPool
     },
-    userStrategy: function () {
+    userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
     }
   },
   watch: {
-    'dimensionOptions.xDefault': function () {
+    'dimensionOptions.xDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -671,7 +671,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'dimensionOptions.yDefault': function () {
+    'dimensionOptions.yDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -679,7 +679,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'tmpId': function () {
+    'tmpId': function() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
@@ -687,12 +687,12 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 
     const that = this
-    setInterval(function () {
+    setInterval(function() {
       that.getTime()
     }, 1000)
   }
