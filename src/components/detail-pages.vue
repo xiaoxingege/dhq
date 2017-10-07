@@ -5,7 +5,7 @@
 .news,
 body,
 html {
-    height: 100%;
+    height: auto;
 }
 .news {
     padding: 50px 0;
@@ -24,9 +24,13 @@ html {
     text-indent: 2em;
     color: #c9d0d7;
 }
+
+.newMain p {
+    margin-bottom: 20px;
+}
 .newDetail {
     text-align: center;
-    margin: 10px 0;
+    margin: 20px 0;
     color: #808ba1;
 }
 .newDetail a,
