@@ -9,7 +9,7 @@ html {
     font-size: 12px;
 }
 .map {
-    background-color: #1a1b1e;
+    background-color: #141518;
     height: 100%;
     min-width: 1217px;
 }
@@ -30,6 +30,11 @@ html {
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
+    background-color: #23272c;
+    height: 22px;
+    background-position-x: 95%;
+    border-radius: 3px;
+    line-height: 22px;
 }
 .condition select option:first-child {
     border-top-left-radius: 3px;
@@ -117,7 +122,7 @@ html {
 import StockSearch from 'components/search-map'
 import StockMap from 'components/stock-map'
 export default {
-  data () {
+  data() {
     return {
       rangeCode: this.$route.query.rCode || '',
       condition: this.$route.query.condition || 'mkt_idx.cur_chng_pct',
@@ -136,24 +141,24 @@ export default {
     StockSearch
   },
   methods: {
-    isShow: function (msg) {
+    isShow: function(msg) {
       if (msg) {
         this.showCondition = false // 全屏
       } else {
         this.showCondition = true // 非全屏
       }
     },
-    isShowMaskFn: function (mag) {
+    isShowMaskFn: function(mag) {
       this.isShowMask = mag
     },
-    getFocusStockName: function (msg) {
+    getFocusStockName: function(msg) {
       this.focusStockName = msg
     },
-    toZdf: function (msg) {
+    toZdf: function(msg) {
       this.condition = msg
     }
   },
-  mounted () {
+  mounted() {
 
   }
 

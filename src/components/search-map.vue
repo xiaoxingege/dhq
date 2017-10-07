@@ -12,7 +12,7 @@
     height: 23px;
     line-height: 23px;
     background: url("../assets/images/stock-map/icon_quick_search.png") no-repeat -12px 5px;
-    background-color: #2c2e31;
+    background-color: #23272c;
     border: none;
     outline: none;
     color: #fefefe;
