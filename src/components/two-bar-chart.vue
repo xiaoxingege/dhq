@@ -22,7 +22,7 @@ import echarts from 'echarts'
 export default {
   props: ['strategyId'],
   methods: {
-    initSyytjChart() {
+    initSyytjChart () {
       this.$store.dispatch('goldStrategy/getSyytjData', {
         strategyId: this.strategyId
       }).then(() => {
@@ -37,13 +37,13 @@ export default {
               color: '#808ba1'
             },
             data: [{
-                name: '策略月收益率',
-                icon: 'circle'
-              },
-              {
-                name: '沪深300',
-                icon: 'circle'
-              }
+              name: '策略月收益率',
+              icon: 'circle'
+            },
+            {
+              name: '沪深300',
+              icon: 'circle'
+            }
             ]
           },
           tooltip: {
@@ -53,7 +53,7 @@ export default {
               align: 'left'
             },
             showContent: true,
-            formatter: function(params) {
+            formatter: function (params) {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
@@ -95,22 +95,22 @@ export default {
               }
             },
             axisLabel: {
-              formatter: function(val) {
+              formatter: function (val) {
                 return val * 100 + '%'
               },
               color: '#808ba1'
             }
           },
           series: [{
-              data: syytjData.data1,
-              name: '策略月收益率',
-              type: 'bar'
-            },
-            {
-              data: syytjData.data2,
-              name: '沪深300',
-              type: 'bar'
-            }
+            data: syytjData.data1,
+            name: '策略月收益率',
+            type: 'bar'
+          },
+          {
+            data: syytjData.data2,
+            name: '沪深300',
+            type: 'bar'
+          }
           ],
           color: ['#0C86ED', '#E73E3A'],
           grid: {
@@ -124,7 +124,7 @@ export default {
       })
     }
   },
-  mounted() {
+  mounted () {
     this.initSyytjChart()
   }
 }
