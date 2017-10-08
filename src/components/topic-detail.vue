@@ -648,7 +648,7 @@ bottom: 0; */
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件：</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
+            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
@@ -688,7 +688,7 @@ bottom: 0; */
             <td>关联题材</td>
             <td>关联说明</td>
           </tr>
-          <tr v-for="stock of stockData.stockList">
+          <tr v-for="stock of stockList">
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
               <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
             </a></td>
@@ -798,10 +798,7 @@ export default {
       inforTotalElements: state => state.topic.inforTotalElements,
       stockData: state => {
         const listData = state.topic.stockList
-        return {
-          stockList: listData
-
-        }
+        return listData
       },
       detail: state => state.topic.detail,
       chartData: state => {
@@ -940,7 +937,7 @@ export default {
       })
     },
     stockPage () {
-      this.stockData.stockList = []
+      this.stockList = []
       this.initStockList(this.stockPage)
     }
   },
@@ -1061,16 +1058,18 @@ export default {
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
-      this.stockData.stockList = []
-      console.log(this.stockData.stockList)
+      /* this.stockList = []*/
+      console.log(this.stockList)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
         direction: this.direction,
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
       })
-      console.log(this.stockPage)
+      console.log(this.stockList)
       /* console.log(this.stockData.stockList)*/
     },
     initInformatList () {
