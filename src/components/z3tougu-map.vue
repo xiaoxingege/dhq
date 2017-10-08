@@ -9,7 +9,7 @@ html {
     font-size: 12px;
 }
 .map {
-    background-color: #1a1b1e;
+    background-color: #141518;
     height: 100%;
     min-width: 1217px;
 }
@@ -30,6 +30,11 @@ html {
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
+    background-color: #23272c;
+    height: 22px;
+    background-position-x: 95%;
+    border-radius: 3px;
+    line-height: 22px;
 }
 .condition select option:first-child {
     border-top-left-radius: 3px;

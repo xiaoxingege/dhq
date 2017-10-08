@@ -74,7 +74,7 @@
             </select>
     <p class="follow-no">关注{{followCnt === null?0:followCnt}}</p>
   </div>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link">
+  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
     <div class="strategy-chart" ref="chart"></div>
   </router-link>
   <ul class="rate-labels clearfix">

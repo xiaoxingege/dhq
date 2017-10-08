@@ -55,6 +55,17 @@ html {
     margin-left: 19px;
     display: inline-block;
    } */
+.themeList .every-topical-wrap {
+    /* background: #ffff; */
+    padding-left: 4px;
+    /* padding-left: 11px;
+  padding-right: 8px; */
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 50px;
+    overflow-y: scroll;
+}
 .every-topical-wrap {
     /* background: #ffff; */
     padding-left: 4px;
@@ -63,8 +74,6 @@ html {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    min-height: 50px;
-    overflow-y: scroll;
 }
 .every-main {
     border-bottom: 1px solid #0d0e0f;

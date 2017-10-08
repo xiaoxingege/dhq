@@ -733,9 +733,9 @@ export default {
       return [{ // 第一层外
         itemStyle: {
           normal: {
-            borderColor: '#000', // 第一层矩形间隔线颜色
+            borderColor: '#141518', // 第一层矩形间隔线颜色
             borderWidth: 0,
-            color: '#000',
+            color: '#141518',
             gapWidth: 2 // 第一层块间隔距离
           }
         },
@@ -749,12 +749,14 @@ export default {
       { // 第一层
         itemStyle: {
           normal: {
-            borderColor: '#000', // 第一层背景色也就是第二层矩形间隔颜色
-            color: '#000',
+            borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
+            color: '#141518',
             borderWidth: 1, // 第一层矩形间距
             gapWidth: 1 // 第二层矩形间距
           },
-          emphasis: {}
+          emphasis: {
+
+          }
         },
         silent: true,
         upperLabel: {
@@ -771,7 +773,7 @@ export default {
           normal: {
             borderWidth: 0,
             gapWidth: 0,
-            borderColor: '#000'
+            borderColor: '#141518'
           },
           emphasis: {
             borderColor: '#ffd614'
@@ -794,7 +796,7 @@ export default {
         itemStyle: {
           normal: {
             borderWidth: 0.5,
-            borderColor: '#000',
+            borderColor: '#141518',
             color: '#2f323d'
           },
           emphasis: {
