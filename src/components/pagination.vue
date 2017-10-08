@@ -1,6 +1,5 @@
 <style lang="scss" scoped>
 .page {
-    width: 720px;
     color: #fff;
     font-family: "Microsoft YaHei", "微软雅黑";
     font-size: 14px;

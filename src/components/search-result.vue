@@ -30,6 +30,7 @@ body {
 .searchResult ul li a {
     display: block;
     padding-top: 15px;
+    font-size: 14px;
 }
 .searchInfo {
     line-height: 24px;
@@ -42,7 +43,7 @@ body {
 }
 .searchSort {
     position: absolute;
-    right: 20px;
+    right: 0;
     top: 3px;
 }
 .searchSort span {
@@ -118,7 +119,10 @@ body {
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
   </ul>
-  <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+  <div style="width:100%; text-align: center;">
+    <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+  </div>
+
 </div>
 </template>
 <script>

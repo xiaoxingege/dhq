@@ -149,7 +149,7 @@ a {
 .radarImg {
     position: absolute;
     right: 100px;
-    top: 317px;
+    top: 321px;
     cursor: pointer;
 }
 
@@ -164,6 +164,7 @@ a {
     padding: 10px 15px;
     text-indent: 2em;
     line-height: 18px;
+    z-index: 9999;
 }
 </style>
 <template>
@@ -209,7 +210,7 @@ a {
     </div>
     <img class="radarImg" @mouseover="showRadar" @mouseout="hideRadar" src="../assets/images/help.png" />
     <div class="radarNotice" v-if="radarShow">
-      100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明100字左右说明
+      基于Barra的结构化多因子风险模型，对策略从质量、波动、估值、规模、动量、成长性、股东持股、分析师预期等十个维度进行评价。数值越靠近雷达图外围，则该风格得分越高，中间代表中性，越靠近内部则表示越低。例如：成长性数值越大，则该策略越偏向成长组合，越小越没有成长性；同理，规模数值越大，则该策略越偏向大盘组合，越小则越偏小市值组合。另外，通过风格指标的纵向对比，可以评估策略风格的稳定性，曲线越聚集，则策略风格越稳定；越分散，则风格越跳跃。
     </div>
   </div>
   <div>

@@ -43,7 +43,7 @@
 }
 .legend {
     color: #fff;
-    height: 50px;
+    min-height: 50px;
 }
 .legend ul li {
     float: left;
@@ -282,7 +282,8 @@ button {
 </div>
 <bubbles :options="options" v-on:toHideDialog="hideAlert"></bubbles>
 <div class="legend clearfix">
-  <p v-if="tmpId !== 'demoTmp0'" class="fl tempDesc" :style="{width: colorData==='行业'? '50%' :''}">模板说明：{{templateList[tmpId].explain}}</p>
+  <p v-if="tmpId !== 'demoTmp0'" class="fl tempDesc" :style="{width: colorData==='行业'? '28%' :'50%'}">
+    模板说明：{{templateList[tmpId].explain}}</p>
   <div class="fr" style="margin-top: 5px;">
     <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
       <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
