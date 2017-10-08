@@ -2,7 +2,6 @@
 @import '../../assets/css/base.css';
 * {
     box-sizing: border-box;
-    font-family: '微软雅黑';
     font-size: 12px;
 }
 /*html,body,.app{height:100%;}*/

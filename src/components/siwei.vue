@@ -31,6 +31,7 @@
     background: url("../assets/images/select-arrow.png") no-repeat scroll right center transparent;
     background-position-x: 95%;
     background-color: #23272C;
+    color: #1984ea;
 }
 .template select option {
     background: #cccfd9;

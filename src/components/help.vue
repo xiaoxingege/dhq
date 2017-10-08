@@ -1241,9 +1241,9 @@ table {
           <div class="jumpto-block">
             <h3 class="first_title" id="jumpto_1">二、回测流程</h3>
             <p style="">回测流程的设计对于策略回测结果的可靠性和可信度至关重要，如果回测流程的设计不合理，那么回测结果的现实参考意义就非常有限，甚至会误导开发者。因此，为了使您更放心的使用回测频道，我们一定程度公开我们的回测流程，详细如下：</p>
-            <p class="tc"><img src="../assets/images/backtest/help1.jpg" alt=""></p>
+            <p class="tc"><img src="../assets/images/backtest/help-one.jpg" alt=""></p>
             <p class="tc" style="margin-top: 1px;">图 1 收盘前订单处理流程</p>
-            <p class="tc"><img src="../assets/images/backtest/help2.jpg" alt=""></p>
+            <p class="tc"><img src="../assets/images/backtest/help-two.jpg" alt=""></p>
             <p class="tc" style="margin-top: 1px;">图 2 收盘后订单处理流程</p>
           </div>
           <div class="jumpto-block">

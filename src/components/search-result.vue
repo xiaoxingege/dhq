@@ -6,7 +6,7 @@ body {
     background: #191A1D;
 }
 .searchResult {
-    width: 70%;
+    width: 50%;
     background: #191A1D;
     font-size: 12px;
     color: #c9d0d7;
@@ -21,7 +21,7 @@ body {
 }
 .searchResult ul li {
     text-align: left;
-    widt: 70%;
+
     border-bottom: 1px solid #24262C;
 }
 .searchResult ul li p {
@@ -80,7 +80,7 @@ body {
     </li>
   </ul>
   <ul v-if="searchType == 'theme'">
-    <p>搜索主题数：<span>{{total}}</span></p>
+    <p>搜索题材数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
       <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl===null?'':item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}
       </router-link>

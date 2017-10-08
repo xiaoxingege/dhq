@@ -2,13 +2,15 @@
 @import '../assets/css/base.css';
 
 .app,
-.news,
 body,
 html {
-    height: auto;
+    height: 100%;
+}
+
+.news {
+    min-height: 100%;
 }
 .news {
-    padding: 50px 0;
     font-size: 12px;
     text-align: left;
     background: #131417;
@@ -18,6 +20,8 @@ html {
     font-size: 16px;
     font-weight: bold;
     color: #c9d0d7;
+    padding-top: 50px;
+
 }
 .newMain {
     line-height: 20px;
@@ -42,6 +46,10 @@ html {
 .borderR {
     border-right: 1px solid #181818;
     padding-right: 20px;
+}
+
+.newsDiv {
+    padding-bottom: 50px;
 }
 .newsDiv,
 .reportDiv {
