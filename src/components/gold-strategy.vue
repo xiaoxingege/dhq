@@ -156,13 +156,12 @@ a {
 .radarNotice {
     position: absolute;
     color: #666;
-    width: 200px;
+    width: 250px;
     right: 100px;
     top: 347px;
     background: #cccfd9;
     border-radius: 5px;
     padding: 10px 15px;
-    text-indent: 2em;
     line-height: 18px;
     z-index: 9999;
 }

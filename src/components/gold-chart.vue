@@ -130,7 +130,9 @@ a {
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+      </div>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
       <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
@@ -160,7 +162,9 @@ a {
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      </div>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
       <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
@@ -191,7 +195,9 @@ a {
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+      </div>
     </div>
   </div>
 </div>
