@@ -38,6 +38,7 @@ i {
 }
 a {
     color: #c9d0d7;
+    text-decoration: none;
 }
 .blue {
     color: #1984ea;
@@ -203,8 +204,9 @@ html {
     color: #c9d0d7;
     position: relative;
 }
-.con1-event a:hover {
+.tip-event:hover {
     color: #1984ea;
+    text-decoration: none;
 }
 .left-con2 {
     /* height: 317px; */
@@ -361,6 +363,7 @@ html {
     width: 97%;
     margin-left: 3%;
     font-size: 12px;
+    /*  position: relative; */
 }
 
 .td-txt {
@@ -408,10 +411,12 @@ html {
 
 }
 
-.right-table tr {}
+.right-table tr {
+    position: relative;
+}
 
 .right-table tr td {
-    /* text-align: center; */
+    text-align: center;
     height: 44px;
     border-bottom: 1px solid #23272c;
 }
@@ -423,7 +428,8 @@ html {
 .stock-td2 {
     /* text-align: right; */
     /* position: relative; */
-    padding-left: 34px;
+    text-align: center;
+    /* padding-left: 34px; */
     cursor: pointer;
 }
 
@@ -447,13 +453,18 @@ html {
 .numTopic span a {
     color: #666666;
 }
-
-.stock-td3 {
-    text-align: left;
-    cursor: pointer;
-    position: relative;
+.numTopic span a:hover {
+    color: #1984ea;
 }
-
+.stock-td3 {
+    /* text-align: left; */
+    text-align: center;
+    cursor: pointer;
+    /* position: relative; */
+}
+.see-topic {
+    display: none;
+}
 .see-topicmark {
     display: none;
     position: absolute;
@@ -463,7 +474,11 @@ html {
     border-radius: 10px;
     z-index: 999;
     cursor: pointer;
-    left: -56px;
+    right: 0;
+    max-width: 1040px;
+    /* top: 64px; */
+    /* left: -56px; */
+    /* left: -927px; */
 }
 .stock-td3:hover span {
     display: block;
@@ -632,7 +647,7 @@ bottom: 0; */
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件：</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1">{{checkNull(detail.drivenEvent)}}</span>
+            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
@@ -659,13 +674,13 @@ bottom: 0; */
           </div> -->
         </div>
       </div>
-      <div class="main-right box-flex-1" :class="stockList.length<15&&size>13?'main-right2':''">
-        <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a
+      <div class="main-right box-flex-1">
+        <div class="right-top"><span>成份股</span><span class="blue fr see-filter"><a
                 :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
-                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="initStockList('recommendIndex')">默认相关度排序</span></div>
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="sortStock($event,'recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
-            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">股票名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
@@ -683,13 +698,14 @@ bottom: 0; */
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark}}</span></td>
+
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
     <div class="foot-tishi clearfix">
-      风险提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+      风险提示：本题材业绩表现及成份股仅供参考，不作为买卖建议，风险自担！
     </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -728,21 +744,23 @@ export default {
         curChngPct: 'marketData.curChngPct',
         industryName: 'industryName'
       },
-      direction: 'DESC',
+      direction: '',
       isDireSymbol: true,
       isDirePrice: true,
       isDireCurChng: true,
       isDireIndustry: true,
+      isRecommendIndex: true,
       topicCode: this.$route.params.topicId,
       fullHeight1: document.documentElement.clientHeight - 546,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 203) / 44),
-      fullHeight3: document.documentElement.clientHeight - 203,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
+      fullHeight3: document.documentElement.clientHeight - 166,
       size: 12,
       inforPageSize: 100,
       endAll: '',
       alltimers: '',
       stockPage: 0,
-      stockPageSize: ''
+      stockPageSize: '',
+      showSee: false
 
     }
   },
@@ -1026,6 +1044,7 @@ export default {
     initStockList(type, stockPage) {
       if (type === 'recommendIndex') {
         this.stockSort = 'recommendIndex'
+        this.direction = 'DESC'
       }
       // this.stockSort = 'recommendIndex'
       // this.direction = 'DESC'
@@ -1033,11 +1052,12 @@ export default {
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
+
       console.log(this.fullHeight2)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
-        direction: 'DESC',
+        direction: this.direction,
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
       })
@@ -1071,9 +1091,19 @@ export default {
       e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
-    sortStock(e, type, dire, page) {
+    enterSee(e) {
+      e.preventDefault()
+      console.log(e.currentTarget.nextElementSibling)
+      e.currentTarget.nextElementSibling.style.display = 'block'
+    },
+    leaveSee(e) {
+      e.preventDefault()
+      e.currentTarget.nextElementSibling.style.display = 'none'
+    },
+    sortStock(e, type, dire) {
       e.preventDefault()
       this.stockSort = type
+      this.direction = dire
       console.log(type)
       if (type === 'symbol') {
         this.isDireSymbol = !this.isDireSymbol
@@ -1085,6 +1115,8 @@ export default {
         this.isDireCurChng = !this.isDireCurChng
       } else if (type === 'industryName') {
         this.isDireIndustry = !this.isDireIndustry
+      } else if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
       }
       console.log(dire)
       this.$store.dispatch('topic/queryStockList', {
@@ -1364,6 +1396,7 @@ export default {
     console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
+    console.log(document.documentElement.clientHeight - 166)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
