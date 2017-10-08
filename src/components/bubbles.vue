@@ -271,6 +271,7 @@ export default {
       }
     },
     initBubbles () {
+      alert('init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading()
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -603,6 +604,7 @@ export default {
       })
     },
     updateBubbles () {
+      alert('update')
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
@@ -628,6 +630,7 @@ export default {
     const that = this
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
+        alert(data.length)
         that.options.innerCode = data
         this.initBubbles()
       })

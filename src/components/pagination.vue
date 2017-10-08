@@ -1,6 +1,5 @@
 <style lang="scss" scoped>
 .page {
-    width: 720px;
     color: #fff;
     font-family: "Microsoft YaHei", "微软雅黑";
     font-size: 14px;
@@ -56,6 +55,7 @@ select {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .nextPage {
@@ -63,6 +63,7 @@ select {
     left: -10px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+    cursor: pointer;
 }
 
 .active {
@@ -192,7 +193,7 @@ select {
   <span v-if="false" class="totals">共{{totalPage}}页</span>
   <select @change="getCurrentSelectPage($event)" v-model="currentPage">
             <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
-        </select>
+  </select>
 
 </div>
 </template>
