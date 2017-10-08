@@ -743,13 +743,17 @@ export default {
         chg: '',
         curChngPct: ''
 
-      }
+      },
+      themeList: []
     }
   },
 
   computed: mapState({
-    themeList: state => state.topic.themeList,
-    /*  themeEquity:state => state.*/
+    /* themeList: state => state.topic.themeList,*/
+    themeListData: state => {
+      const listData = state.topic.themeList
+      return listData
+    },
     totalPage: state => state.topic.total,
     listChange: state => state.topic.listChange,
     relatedStocks: state => state.topic.relatedStocks,
@@ -801,6 +805,8 @@ export default {
         sortField: this.FIELDS[this.sortField],
         page: this.page,
         pagesize: this.pagesize
+      }).then(() => {
+        this.themeList = this.themeListData
       })
     },
     list (type, page) {
@@ -888,6 +894,7 @@ export default {
   },
   watch: {
     page () {
+      this.themeList = []
       this.query(this.sortField, this.page)
     },
     relatedStocks () {
