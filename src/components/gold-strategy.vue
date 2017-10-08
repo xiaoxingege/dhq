@@ -59,18 +59,76 @@ a {
 .topNav ul li > span {
     width: 75px;
 }
-.recommend img {
+
+.recommend span {
     position: relative;
     top: 7px;
     height: 20px;
     cursor: pointer;
 }
+
+.recommend .weixin {
+    width: 19px;
+    height: 16px;
+    display: inline-block;
+    background: url("../assets/images/z3img/back-icons.png") no-repeat;
+    cursor: pointer;
+    background-position: 0 -16px;
+    margin-right: 12px;
+}
+.recommend .weixin:hover {
+    background-position: 0 0;
+    margin-right: 12px;
+}
+
+.recommend .copy {
+    width: 19px;
+    height: 16px;
+    display: inline-block;
+    background: url("../assets/images/z3img/back-icons.png") no-repeat;
+    cursor: pointer;
+    background-position: 0 -52px;
+    margin-right: 12px;
+}
+.recommend .copy:hover {
+    background-position: 0 -34px;
+}
+
 .qrcode {
     position: absolute;
-    top: 40px;
-    right: 10px;
-    box-shadow: 4px 4px 4px 2px #eee;
-    border: 1px solid #eee;
+    top: 51px;
+    right: 41px;
+    /* top: 40px;
+  right: 10px; */
+    /* box-shadow: 4px 4px 4px 2px #eee;
+  border: 1px solid #eee; */
+}
+
+.angle {
+    width: 0;
+    height: 0;
+    border: 15px solid transparent;
+    border-bottom-color: #fff;
+    position: absolute;
+    top: -26px;
+    right: 32px;
+
+}
+
+.code-box {
+    width: 180px;
+    height: 195px;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #666666;
+    padding: 10px;
+}
+
+.code-txt {
+    text-align: center;
+    /* line-height: 13px; */
+    margin-top: -5px;
 }
 .strategyDescTable {
     width: 100%;
@@ -116,9 +174,8 @@ a {
       <span>{{goldResult===null?'':goldResult.strategyName}}</span>
     </div>
     <div class="fr mr-15 recommend">
-      <span style="font-size: 14px;">推荐给客户：</span>
-      <img class="mr-10" src="../assets/images/z3img/back-weixin.png" @click="showQrcode" />
-      <img src="../assets/images/z3img/back-copy.png" class="copy" />
+      <span class="mr-10 weixin" @click="showQrcode"></span>
+      <span class="copy mr-20 copy"></span>
     </div>
   </div>
   <div class="strategyTop display-box">
@@ -162,7 +219,11 @@ a {
     风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
-    <div><canvas ref="qrcode"></canvas></div>
+    <div class="angle" @click="showCode"></div>
+    <div class="code-box">
+      <canvas ref="qrcode"></canvas>
+      <div class="code-txt">微信扫码转发</div>
+    </div>
   </div>
   <toast :msg="toastmsg" v-if="showToast"></toast>
 </div>
