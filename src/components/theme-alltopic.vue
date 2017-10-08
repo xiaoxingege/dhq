@@ -801,6 +801,7 @@ export default {
       this.sortField = type
       // sortField, page, pagesize, totalPages
       // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
+      this.themeList = []
       this.$store.dispatch('topic/queryAllTopic', {
         sortField: this.FIELDS[this.sortField],
         page: this.page,
