@@ -63,6 +63,10 @@ body {
 .page-wrap {
   background-color: #0d0e0f;
 }
+
+.page-wrap>div {
+  text-align: center;
+}
 </style>
 <template>
 <div class="strategy-wrap1">
