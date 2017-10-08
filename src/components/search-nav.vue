@@ -34,7 +34,7 @@
       <router-link :to="{name:'search',params:{ linkText : 'stock' }}">股票</router-link>
     </li>
     <li>
-      <router-link :to="{name:'search',params:{ linkText : 'theme' }}">主题</router-link>
+      <router-link :to="{name:'search',params:{ linkText : 'theme' }}">题材</router-link>
     </li>
     <li>
       <router-link :to="{name:'search',params:{ linkText : 'signal' }}">信号</router-link>

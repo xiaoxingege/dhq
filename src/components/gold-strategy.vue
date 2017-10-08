@@ -116,8 +116,8 @@ a {
 }
 
 .code-box {
-    width: 180px;
-    height: 195px;
+    width: 200px;
+    height: 214px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
