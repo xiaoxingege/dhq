@@ -76,6 +76,7 @@ export default {
   methods: {
     search (e) {
       e.preventDefault()
+      e.stopPropagation()
       let keyword = this.$refs.keyword.value
       keyword = keyword.toUpperCase()
       this.message = keyword
@@ -100,6 +101,7 @@ export default {
       })
     },
     focusStock: function (e) {
+      e.stopPropagation()
       e.stopPropagation()
       const focusStockId = e.currentTarget.children[0].children[0].innerText
       const focusStockName = e.currentTarget.children[0].children[1].innerText
