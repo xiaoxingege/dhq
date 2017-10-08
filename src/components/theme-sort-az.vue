@@ -116,7 +116,8 @@ html {
     color: #c9d0d7;
     display: inline-block;
     cursor: pointer;
-    padding-left: 40px;
+    /* padding-left: 40px; */
+    padding-left: 50px;
 }
 
 .themeList .every-name .tname {

@@ -39,13 +39,6 @@ export default {
     });
     Vue.directive('z3-updowncolor', (el, binding, vnode, oldVnode) => {
       var flag = binding.value;
-      /* if (flag > 0) {
-         el.style.color = config.upColor
-       } else if (flag === 0) {
-         el.style.color = config.flatColor
-       } else {
-         el.style.color = config.downColor
-       }*/
       if (flag > 0) {
         el.style.color = config.upColor
       } else if (flag < 0) {

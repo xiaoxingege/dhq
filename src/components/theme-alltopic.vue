@@ -553,6 +553,11 @@ a.kuai_icon {
 }
 .hot-name a {
     font-size: 14px;
+    margin-left: 10px;
+    color: #1984ea;
+}
+.hot-name:nth-child(1) a {
+    font-size: 14px;
     padding-left: 40px;
     color: #1984ea;
 }

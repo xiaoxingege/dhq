@@ -475,10 +475,11 @@ html {
     z-index: 999;
     cursor: pointer;
     right: 0;
-    max-width: 1040px;
-    /* top: 64px; */
-    /* left: -56px; */
     /* left: -927px; */
+    /* left: -56px; */
+    /* top: 64px; */
+    /* max-width: 1040px; */
+    max-width: 742px;
 }
 .stock-td3:hover span {
     display: block;
@@ -687,7 +688,7 @@ bottom: 0; */
             <td>关联题材</td>
             <td>关联说明</td>
           </tr>
-          <tr v-for="stock of stockList">
+          <tr v-for="stock of stockData.stockList">
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
               <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
             </a></td>
@@ -760,7 +761,8 @@ export default {
       alltimers: '',
       stockPage: 0,
       stockPageSize: '',
-      showSee: false
+      showSee: false,
+      stockList: []
 
     }
   },
@@ -794,7 +796,13 @@ export default {
       news: state => state.topic.news,
       informatList: state => state.topic.informatList,
       inforTotalElements: state => state.topic.inforTotalElements,
-      stockList: state => state.topic.stockList,
+      stockData: state => {
+        const listData = state.topic.stockList
+        return {
+          stockList: listData
+
+        }
+      },
       detail: state => state.topic.detail,
       chartData: state => {
         const chartData = state.topic.allCharts
@@ -932,6 +940,7 @@ export default {
       })
     },
     stockPage () {
+      this.stockData.stockList = []
       this.initStockList(this.stockPage)
     }
   },
@@ -1052,8 +1061,8 @@ export default {
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
-
-      console.log(this.fullHeight2)
+      this.stockData.stockList = []
+      console.log(this.stockData.stockList)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
@@ -1062,6 +1071,7 @@ export default {
         stockPageSize: this.fullHeight2
       })
       console.log(this.stockPage)
+      /* console.log(this.stockData.stockList)*/
     },
     initInformatList () {
       /* this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5*/
