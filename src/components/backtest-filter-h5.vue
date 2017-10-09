@@ -276,7 +276,8 @@ body {
 }
 </style>
 <template>
-<div class="backtest-filter backtest-filter2">
+<div class="backtest-filter backtest-filter2" v-title data-title="策略推荐">
+  <!--  <div v-title>标题内容</div> -->
   <div class="bfilter-main">
     <div class="filter-top"><span>{{basicFilter.strategyName}}</span></div>
     <div class="bfilter-content">
@@ -467,6 +468,7 @@ export default {
         this.$emit('basicFilterName', basicFilter.strategyName)
       }
     })
+    /* document.title = '来爱投顾实盘争霸赛 享百万奖金赢千万实盘'*/
   }
 
 }
