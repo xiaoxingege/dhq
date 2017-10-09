@@ -1134,6 +1134,8 @@ export default {
         direction: dire,
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
       })
       console.log(this.stockPage)
     },
