@@ -926,6 +926,9 @@ export default {
       } else {
         const playBackDate = this.playBackDate[playBackIndex]
         setTimeout(function () {
+          if (!_this.playBackState) {
+            return
+          }
           _this.$store.dispatch('stockMap/updateDataByDate', {
             date: playBackDate
           }).then(() => {
