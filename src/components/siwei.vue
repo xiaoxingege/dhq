@@ -7,7 +7,7 @@
 .siwei {
     background: #000;
     width: 100%;
-    min-height: 660px;
+    min-height: 690px;
     min-width: 1190px;
     padding: 0 1px;
     box-sizing: border-box;
