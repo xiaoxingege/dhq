@@ -595,9 +595,9 @@ export default {
         })
         window.onresize = function () {
           that.chart.resize({
-            height: window.innerHeight - 85
+            height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
           })
-          that.height = window.innerHeight - 85
+          that.height = window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
         }
 
         this.chart.hideLoading()
