@@ -48,6 +48,11 @@ export default {
 
       }
     })
+    Vue.directive('title', {
+      inserted: function(el, binding) {
+        document.title = el.dataset.title
+      }
+    })
     Vue.directive('z3-drag', {
       inserted: (el, binding, vnode, oldVnode) => {
         let oDiv = el; //当前元素
