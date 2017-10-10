@@ -462,6 +462,8 @@ export default {
               returnUrl: encodeURI(window.location.href)
             }))
           }
+        } else if (this.beanNum < this.consumenum) {
+          alert('您当前的金都数不足' + this.consumenum + '个，不能参与抽奖。')
         } else {
           return this.$store.dispatch('luckDrawData/getDraw').then(() => {
             if (this.isGO) {
