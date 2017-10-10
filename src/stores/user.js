@@ -14,7 +14,8 @@ export default {
     loginStatus: 'unknown',
     riskAssessed: false,
     bindingMobile: false,
-    bindingIdentity: false
+    bindingIdentity: false,
+    beanNum: 0
   },
   mutations: {
     fetch (state, data) {
@@ -28,6 +29,9 @@ export default {
       state.riskAssessed = !!bindingInfo.riskAssessed
       state.bindingMobile = !!bindingInfo.bindingMobile
       state.bindingIdentity = !!bindingInfo.bindingIdentity
+    },
+    setBeanNum (state, num) {
+      state.beanNum = num
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -88,12 +92,22 @@ export default {
       state
     }) {
       return $.ajax({
-        url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
+        url: 'http://itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
         headers: {
           passportId: state.ssoId || '170907010029048531'
         }
       }).then(data => {
         commit('setBindingInfo', data.data)
+      })
+    },
+    getBeanNum ({
+      commit,
+      state
+    }) {
+      return $.ajax({
+        url: `http://itougu.jrj.com.cn/marketing/getBeanNum.jspa?userId=${state.ssoId}`
+      }).then(data => {
+        commit('setBeanNum', data.num)
       })
     }
   }

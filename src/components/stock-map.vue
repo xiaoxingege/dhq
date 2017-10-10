@@ -4,8 +4,17 @@
   box-sizing: border-box;
 }
 
+.map_con {
+  position: relative;
+  overflow: hidden;
+}
+
 .chart {
   width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .map_legend {
@@ -195,7 +204,9 @@
     <span class="currentTime">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
-  <div class="chart" ref="treemap" :style="{height:mapHeight+'px',width:mapWidth+'px'}" v-on:mousemove="move($event)"></div>
+  <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
+    <div class="chart" ref="treemap" v-on:mousemove="move($event)" @mousewheel="zoom($event)" v-z3-drag="{containment:'mapcontainment'}"></div>
+  </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback">
       <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
@@ -316,7 +327,8 @@ export default {
       isStopPlayback: false,
       wrapHeight: 0,
       clientX: 0,
-      clientY: 0
+      clientY: 0,
+      scale: 1
     }
   },
   watch: {
@@ -583,7 +595,12 @@ export default {
         series: [{
           data: this.stockData
         }]
-      })
+      },
+        {
+          lazyUpdate: true,
+          silent: true
+        }
+      )
     },
     autoUpdateData: function () {
       const _this = this
@@ -598,12 +615,13 @@ export default {
     initOption: function (data) {
       if (this.chart) {
         this.chart.dispose()
-        console.log('摧毁!')
+        console.log('销毁echart实例!')
       }
       this.chart = echarts.init(this.$refs.treemap)
       this.chart && this.chart.setOption({
         hoverLayerThreshold: 10000,
         progressive: 1000,
+        animation: false,
         squareRatio: 0.5,
         tooltip: {
           triggerOn: 'none'
@@ -659,7 +677,7 @@ export default {
             show: false
           },
           nodeClick: false,
-          roam: true,
+          roam: false,
           levels: this.getLevelOption(),
           data: data
         }]
@@ -1095,6 +1113,46 @@ export default {
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
       return treeRoot.hostTree._nodes[params.dataIndex]
+    },
+    zoom: function (event) {
+      if (this.zoomFlag) {
+        return
+      }
+      this.zoomFlag = true
+      setTimeout(() => {
+        this.zoomFlag = false
+      }, 800)
+      const treemap = this.$refs.treemap
+      const offsetX = event.offsetX
+      const offsetY = event.offsetY
+      const containerX = event.pageX - 20
+      const containerY = event.pageY - 28
+      const deltaY = event.deltaY
+      var top = 0
+      var left = 0
+      if (deltaY < 0 && this.scale < 4) {
+        this.scale++
+        left = this.scale / (this.scale - 1) * offsetX - containerX
+        top = this.scale / (this.scale - 1) * offsetY - containerY
+      } else if (deltaY > 0 && this.scale > 1) {
+        this.scale--
+        if (this.scale === 1) {
+          top = 0
+          left = 0
+        } else {
+          left = this.scale / (this.scale + 1) * offsetX - containerX
+          top = this.scale / (this.scale + 1) * offsetY - containerY
+        }
+      } else {
+        return
+      }
+
+      this.chart.resize({
+        width: this.mapWidth * this.scale,
+        height: this.mapHeight * this.scale
+      })
+      treemap.style.top = -top + 'px'
+      treemap.style.left = -left + 'px'
     }
   },
   mounted () {

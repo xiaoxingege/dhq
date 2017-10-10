@@ -110,7 +110,8 @@ html {
 }
 .every-name .tname {
     /* padding: 0 10px; */
-    width: 10%;
+    /* width: 10%; */
+    width: 11%;
     /* line-height: 20px; */
     line-height: 30px;
     color: #c9d0d7;

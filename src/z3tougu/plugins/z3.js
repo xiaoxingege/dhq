@@ -7,7 +7,7 @@ export default {
     // }
     // 2. 添加全局资源
     Vue.directive('z3-stock', {
-      bind(el, binding, vnode, oldVnode) {
+      componentUpdated(el, binding, vnode, oldVnode) {
         let popup = binding.value.ref;
         let code = binding.value.code;
         let vm = vnode.context;

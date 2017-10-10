@@ -93,7 +93,7 @@ html {
     background: #141518;
     font-size: 12px;
     color: #c9d0d7;
-    height: 100%;
+    /* height: 100%; */
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
@@ -140,12 +140,16 @@ html {
 
 .detail-content {
     /*  margin: 9px; */
+    background: #141518;
 }
-.detail-main {}
+.detail-main {
+    margin-bottom: 18px;
+}
 .main-left {
     width: 60%;
     border: 1px solid #0d0e0f;
     border-left: none;
+    border-right: none;
 }
 .left-con1 {
     padding: 20px 21px 18px 20px;
@@ -220,8 +224,9 @@ html {
 .left-con3 {
     /* padding: 20px 20px 14px; */
     /* padding: 20px 20px 17px; */
-    padding: 0 0 17px;
-    border-bottom: 1px solid #0d0e0f;
+    /* padding: 0 0 17px; */
+    padding: 0;
+    /* border-bottom: 1px solid #0d0e0f; */
     /* padding: 13px 25px 10px 13px; */
 
 }
@@ -336,6 +341,8 @@ html {
     /* max-height: 898px; */
     /* max-height: 74.7em;
       height: 55.7rem;*/
+    border: 1px solid #0d0e0f;
+    border-right: none;
 }
 
 .right-top {
@@ -352,6 +359,12 @@ html {
     padding-right: 20px;
     padding-left: 29px;
     cursor: pointer;
+}
+.see-filter a {
+    text-decoration: none;
+}
+.see-filter a:hover {
+    text-decoration: none;
 }
 
 .mo-sort {
@@ -488,7 +501,7 @@ html {
 .main-right .page {
     background: #141518;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 0 0;
     width: 100%;
     zoom: 1;
     clear: both;
@@ -601,8 +614,10 @@ table {
     font-size: 12px;
     /*  position: absolute;
 bottom: 0; */
+    background: #141518;
     color: #808ba1;
     line-height: 24px;
+
 }
 .no-data {
     width: 176px;
