@@ -16,7 +16,6 @@
 
 .strategyDesc {
   text-align: left;
-  padding: 0.15rem 0.05rem;
   background: #fff;
   margin-bottom: 0.05rem;
 }
