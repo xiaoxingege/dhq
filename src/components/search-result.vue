@@ -1,69 +1,68 @@
- <style lang="scss" scoped>
-    @import '../assets/css/base.css';
-    .searchResult{
-        background:#fff;
-        font-size:12px;
-        color:#191919;
-        font-family: "宋体";
-    }
-    .searchResult>p{
-        padding-left: 7px;
-    }
-    .searchResult ul{
-        background:#fff;
-    }
-    .searchResult ul>p{
-        background:#F2F2F2;
-        line-height: 30px;
-    }
-    .searchResult ul li{
-        padding-left: 7px;
-        text-align: left;
-        width:70%;
-        border-bottom: 1px solid #F7F7F7;
-    }
-    .searchResult ul li p{
-        margin-bottom: 9px;
-    }
-    .searchResult ul li a{
-        display: block;
-        padding-top: 15px;
-    }
-    .searchInfo{
-        line-height: 24px;
-    }
-    .searchTime{
-        color:#7e7e7e;
-    }
-    .newsSource{
-        margin-left:20px;
-    }
-    .searchSort{
-        position: absolute;
-        right:20px;
-        top:3px;
-    }
-    .searchSort span{
-        display: inline-block;
-        background: #fff;
-        color: #409cf7;
-        padding: 4px 7px;
-        cursor: pointer;
-    }
-    .searchSort span:first-child{
-        margin-right: 15px;
-    }
-    .searchSort span.active{
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    .searchSort span img{
-        position: relative;
-        margin-left: 3px;
-        width: 10px;
-        top:2px;
-    }
-
+<style lang="scss" scoped>
+@import '../assets/css/base.css';
+.searchResult {
+    background: #fff;
+    font-size: 12px;
+    color: #191919;
+    font-family: "宋体";
+}
+.searchResult > p {
+    padding-left: 7px;
+}
+.searchResult ul {
+    background: #fff;
+}
+.searchResult ul > p {
+    background: #F2F2F2;
+    line-height: 30px;
+}
+.searchResult ul li {
+    padding-left: 7px;
+    text-align: left;
+    widt: 70%;
+    border-bottom: 1px solid #F7F7F7;
+}
+.searchResult ul li p {
+    margin-bottom: 9px;
+}
+.searchResult ul li a {
+    display: block;
+    padding-top: 15px;
+}
+.searchInfo {
+    line-height: 24px;
+}
+.searchTime {
+    color: #7e7e7e;
+}
+.newsSource {
+    margin-left: 20px;
+}
+.searchSort {
+    position: absolute;
+    right: 20px;
+    top: 3px;
+}
+.searchSort span {
+    display: inline-block;
+    background: #fff;
+    color: #409cf7;
+    padding: 4px 7px;
+    cursor: pointer;
+}
+.searchSort span:first-child {
+    margin-right: 15px;
+}
+.searchSort span.active {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.searchSort span img {
+    position: relative;
+    margin-left: 3px;
+    width: 10px;
+    top: 2px;
+}
 </style>
 <template>
 <div class="searchResult">
@@ -111,9 +110,6 @@
   <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
 </div>
 </template>
-
-
-
 <script>
 import Pagination from 'components/pagination.vue'
 export default {
@@ -225,3 +221,4 @@ export default {
 
 }
 </script>
+

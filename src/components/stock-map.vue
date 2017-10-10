@@ -299,8 +299,8 @@ export default {
       playBackIndex: 19,
       playBackState: false, // 默认是停止不回放
       playBackSrc: playStopSrc,
-      mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 63,
-      mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 40,
+      mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
+      mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
       showHover: false,
       hoverNode: null,
       legendWidth: 36,
@@ -615,8 +615,8 @@ export default {
           _this.mapHeight = window.innerHeight
           _this.mapWidth = window.innerWidth
         } else {
-          _this.mapHeight = window.innerHeight - 63
-          _this.mapWidth = window.innerWidth - 40
+          _this.mapHeight = window.innerHeight - 70
+          _this.mapWidth = window.innerWidth - 26
         }
         _this.chart.resize({
           height: _this.mapHeight,
@@ -636,6 +636,9 @@ export default {
             data: this.mapData
           }]
         })
+      }, {
+        lazyUpdate: true,
+        silent: true
       })
       this.$store.dispatch('stockMap/updateData', {
         isContinue: this.isContinue,
@@ -679,14 +682,14 @@ export default {
       )
     },
     autoUpdateData: function () {
-      const _this = this
+      /* const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function () {
           _this.updateData()
         }, 1000 * _this.intervalTime)
-      }
+      }*/
     },
     focusStock: function () {
       const _this = this
@@ -810,7 +813,7 @@ export default {
         this.$emit('isEnlarge', this.isEnlarge)
       } else if (this.$route.fullPath.indexOf('normal') > 0) {
         this.isEnlarge = false // 非全屏
-        this.mapHeight = window.innerHeight - 63
+        this.mapHeight = window.innerHeight - 70
         this.mapWidth = window.innerWidth - 40
         this.$emit('isEnlarge', this.isEnlarge)
       }

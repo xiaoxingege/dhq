@@ -10,7 +10,7 @@
         </ul>
       </div>
       <!-- 筛选条件 -->
-      <filter-select @query='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
+      <filter-select @filterQuery='query' @exportFoundPool='exportFoundPool' @change1='filterType' :options='options' @selectType='selectType'></filter-select>
       <!-- 筛选条件 end-->
     </div>
     <!-- 临时基金池 -->
@@ -19,7 +19,10 @@
       <ul class="fundPoolList">
         <li v-for='(item,index) in lsfoundPoolList'><a href="##" class="code">{{item.innerCode}}</a><span class="name">{{item.name}}</span><i class="close" @click='delFoundPoolList(index,item)'></i></li>
         <li v-if="lsfoundPoolList.length === 0">
-          <div class="defaultTxt tc">每个基金池最多可添加50只基金，<br/>保存基金池后，可快速创建组合</div>
+          <div class="defaultTxt tc">
+            <p>每个基金池最多可添加50只基金，</p>
+            <p>保存基金池后，可快速创建组合</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -35,9 +38,9 @@
         <a href="javascript:;" class="s_btn fl" @click='search'>搜索</a>
       </div>
       <label for="jdx" class="fr">
-          <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
-          仅显示代销基金
-        </label>
+            <input id='jdx' @change='checked($event)' v-model='isConsignment' type="checkbox" name="name" value="">
+            仅显示代销基金
+          </label>
     </div>
     <!-- 筛选数据 -->
     <div>
@@ -46,8 +49,11 @@
           <tr>
             <th width='4%'>序号</th>
             <th @click="sorts('innerCode')" width='7.6%'><span>基金代码</span></th>
-            <th @click="sorts('chiAbbr')" class="pr" width='12%'><span>基金简称</span><i class="icon_help tsk"></i>
-              <div class="text">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+            <th @click="sorts('chiAbbr')" class="pr" width='12%'>
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">基金简称<i class="icon_help tsk"></i></div>
+                <div slot="tooltip">蓝色表示机构正常代销基金，灰色表示机构暂未代销该基金。</div>
+              </tooltip>
             </th>
             <th @click="sorts('estabDate')" width='6%'><span>成立日期</span></th>
             <th @click="sorts('fundScale')" width='7.6%'><span>规模</span></th>
@@ -60,7 +66,7 @@
             <th @click="sorts('yearYld')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>七日年化收益率</span></th>
             <th @click="sorts('tenthouUnitIncm')" width='7.6%' v-if='typeIndex === 6 || typeIndex === 7'><span>万份收益</span></th>
             <th @click="sorts('chgPct')" width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5"><span>涨跌幅</span></th>
-            <th width='7.6%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
+            <th width='9%' v-if="typeIndex === 0 || typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex ===4  || typeIndex ===5">
               <div class="seletetime">
                 <div @click="seletetimeshow=!seletetimeshow">
                   {{seletetimearr[seletetimenum]}}<i :class="seletetimeshow ? 'downicon' : '' "></i>
@@ -76,8 +82,11 @@
             <th @click="sorts('performBench')" width='7.6%' v-if='typeIndex === 5'><span>业绩比较基准</span></th>
             <th width='7.6%'>起购金额</th>
             <th @click="sorts('fundYieldYearRank')" width='7.6%' v-if='typeIndex === 1 || typeIndex === 2 || typeIndex === 3 || typeIndex === 6'><span>排名</span></th>
-            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk"><span>交易成本</span>
-              <div class="text">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+            <th @click="sorts('tradeCost')" width='7.6%' v-if='typeIndex === 0' class="pr tsk">
+              <tooltip placement="top" v-model="visible">
+                <div slot="outlet" class="test">交易成本</div>
+                <div slot="tooltip">基金的最高申购费率、最高赎回费率、管理费率、托管费率、销售服务费率之和</div>
+              </tooltip>
             </th>
             <th width='7.6%'>操作</th>
           </tr>
@@ -127,7 +136,7 @@
     </div>
     <!-- 筛选数据 end-->
     <!-- 分页 -->
-    <Pagination v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
+    <Pagination class='pageActive' v-if="foundPoolListData.foundPoolList.length > 0" @getPageFromChild="goToPage" :totalPage="totalPage" />
     <!-- 分页  end-->
     <p class="zwsj tc" v-if="foundPoolListData.foundPoolList.length === 0"><img src='../../assets/images/empty_data.png' /></p>
   </div>
@@ -148,30 +157,39 @@
     </div>
   </founddialog>
   <!-- 弹框 end-->
-  <div class="loading" v-if="maskShow">
-    <div>
-      <div class="c1"></div>
-      <div class="c2"></div>
-      <div class="c3"></div>
-      <div class="c4"></div>
+  <div v-if="maskShow" class="mask">
+    <div class="loading">
+      <div>
+        <div class="c1"></div>
+        <div class="c2"></div>
+        <div class="c3"></div>
+        <div class="c4"></div>
+      </div>
+      <span>loading...</span>
     </div>
-    <span>loading...</span>
   </div>
-  <!-- <div class="loadings"v-if="maskShow"><div class="pacman"><div></div><div></div><div></div><div></div><div></div></div></div> -->
 </div>
 </template>
 
 <script>
 import 'whatwg-fetch'
-import { domain } from '../../z3tougu/config'
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
+import {
+  domain
+} from '../../z3tougu/config'
+import {
+  mapState
+} from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
 import founddialog from 'components/founddialog'
 import FilterSelect from 'components/filter/filter-select'
 import Pagination from 'components/pagination'
 import fetch from '../../z3tougu/util/z3fetch'
-import { formatDate } from '../../utils/date'
-import { ctx } from '../../z3tougu/config'
+import {
+  ctx
+} from '../../z3tougu/config'
+import Tooltip from 'components/common-components/tooltip'
 export default {
   data () {
     return {
@@ -228,7 +246,8 @@ export default {
   components: {
     FilterSelect,
     founddialog,
-    Pagination
+    Pagination,
+    Tooltip
   },
   computed: {
     ...mapState([
@@ -277,6 +296,7 @@ export default {
         this.sort = value + ',desc'
       }
       this.query(this.filterParams2, this.page, this.type2)
+      console.log('排序')
     },
     // 下拉切换数据
     seletenumfn (v) {
@@ -346,10 +366,10 @@ export default {
     selectType (index, type) {
       this.typeIndex = index
       this.type2 = type
-      this.query(this.filterParams2, this.page, this.type2)
       if (this.type2 === 'jjlx_all') {
         this.init()
       }
+      this.query(this.filterParams2, this.page, this.type2)
     },
     // 加入临时基金池
     addIinterimFunds (item) {
@@ -404,19 +424,15 @@ export default {
     },
     // 导出筛选数据
     exportFundPool () {
-      const url = `${domain}/openapi/fund/exportExcel.shtml?jjlx=${this.type2}&jyzt=${this.filterParams2.jyzt}&sort=${this.sort}&jjgm=${this.filterParams2.jjgm}&clsj=${this.filterParams2.clsj}&dexz=${this.filterParams2.dexz}&sylbx1=${this.filterParams2.sylbx1}&sylbx2=${this.filterParams2.sylbx2}&nhsyl=${this.filterParams2.nhsyl}&hy=hy_${this.filterParams2.hy}&tzfg=${this.filterParams2.tzfg}&jhfxq=${this.filterParams2.jhfxq}&zdhc=${this.filterParams2.zdhc}&xpb=${this.filterParams2.xpb}&cesyl=${this.filterParams2.cesyl}&fbq=${this.filterParams2.fbq}&isConsignment=${this.isConsignment}&searchVal=${this.searchVal}&page=${this.page}&pageSize=${this.pageSize}&orgCode=${this.orgCode}`
-      return fetch(url, {
-        method: 'GET',
-        mode: 'cors'
-      }).then((res) => {
-        return res.blob()
-      }).then(result => {
-        var date = new Date()
-        var url = window.URL.createObjectURL(result)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = '巨灵智胜基金筛选' + this.formatDates(date) + '.xlsx'
-        a.click()
+      this.$store.dispatch('getExportFundPool', {
+        type: this.type2,
+        option: this.filterParams2,
+        isConsignment: this.isConsignment,
+        searchVal: this.searchVal,
+        page: this.page,
+        pageSize: this.pageSize,
+        orgCode: this.orgCode,
+        sort: this.sort
       })
     },
     // 日期格式化
@@ -425,9 +441,6 @@ export default {
         return '--'
       }
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
-    },
-    formatDates (datestr) {
-      return formatDate(datestr, 'yyMMddhhmm ')
     },
     checked (e) {
       const checked = e.target.checked
@@ -463,15 +476,12 @@ export default {
       this.filterParams2.fbq = 'fbq_all' // 封闭期
     }
   },
-  created () {
-    this.query(this.filterParams2, this.page, this.type2)
-  },
   mounted () {},
   watch: {
     // 监控页码改变
     'page': {
       deep: true,
-      handler: function (oldVal, newVal) {
+      handler: function () {
         this.query(this.filterParams2, this.page, this.type2)
       }
     }
@@ -505,94 +515,94 @@ select {
     outline: 0;
     border: 0;
     background: 0;
-  }
-  .filter {
-      font-family: '宋体';
-      font-size: $fontSize12;
-      color: $colorFontTheme;
-      padding: 10px;
-      background-color: #fff;
-  }
-  .btn {
-      display: inline-block;
-      font-size: $fontSize12;
-      color: $colorFontBlue;
-      padding: 0 10px;
-      height: 22px;
-      line-height: 22px;
-      background-color: $colorBackground;
-      text-align: center;
-      @include border_radius(3px);
-  }
-  .filterTop {
-      width: 100%;
-      height: 230px;
-  }
-  .filterBox {
-      width: 70%;
-      .topBar {
-          height: 24px;
-          border-bottom: 1px solid $colorFontBlue;
-      }
-  }
-  .tabList {
-      font-size: 0;
-      height: 24px;
-      li {
-          display: inline-block;
-          font-size: $fontSize12;
-          color: $colorFontBlue;
-          height: 24px;
-          line-height: 24px;
-          padding: 0 15px;
-          cursor: pointer;
-          &.active {
-              color: #fff;
-              background-color: #2388da;
-          }
-      }
-  }
-  .fundPool {
-      width: 28%;
-      height:175px;
-      ul {
-          display: block;
-          height: 178px;
-          overflow: hidden;
-          overflow-y: auto;
-          margin-top: 20px;
-          li {
-              position: relative;
-              font-size: $fontSize12;
-              text-align: left;
-              padding-left: 37px;
-              height: 25px;
-              line-height: 25px;
-              span {
-                  display: inline-block;
-                  overflow: hidden;
-              }
-              .close {
-                  display: block;
-                  position: absolute;
-                  right: 10px;
-                  top:8px;
-                  cursor: pointer;
-              }
-              .code {
-                  width: 20%;
-                  display: block;
-                  float: left;
-                  color:#2388da
-              }
-              .name {
-                  width: 76%;
-                  white-space: pre;
-                  text-overflow: ellipsis;
-              }
-          }
-      }
-  }
+}
+.filter {
+    font-family: '宋体';
+    font-size: $fontSize12;
+    color: $colorFontTheme;
+    padding: 10px;
+    background-color: #fff;
+}
+.btn {
+    display: inline-block;
+    font-size: $fontSize12;
+    color: $colorFontBlue;
+    padding: 0 10px;
+    height: 22px;
+    line-height: 22px;
+    background-color: $colorBackground;
+    text-align: center;
+    @include border_radius(3px);
+}
+.filterTop {
+    width: 100%;
+    height: 230px;
+}
+.filterBox {
+    width: 70%;
+    .topBar {
+        height: 24px;
+        border-bottom: 1px solid $colorFontBlue;
+    }
+}
+.tabList {
+    font-size: 0;
+    height: 24px;
+    li {
+        display: inline-block;
+        font-size: $fontSize12;
+        color: $colorFontBlue;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 15px;
+        cursor: pointer;
+        &.active {
+            color: #fff;
+            background-color: #2388da;
+        }
+    }
+}
+.fundPool {
+    width: 28%;
+    height: 175px;
+    ul {
+        display: block;
+        height: 178px;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 20px;
+        li {
+            position: relative;
+            font-size: $fontSize12;
+            text-align: left;
+            padding-left: 37px;
+            height: 25px;
+            line-height: 25px;
+            span {
+                display: inline-block;
+                overflow: hidden;
+            }
+            .close {
+                display: block;
+                position: absolute;
+                right: 10px;
+                top: 8px;
+                cursor: pointer;
+            }
+            .code {
+                width: 20%;
+                display: block;
+                float: left;
+                color: #2388da;
+            }
+            .name {
+                width: 76%;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
 .filter {
     font-family: '宋体';
     font-size: $fontSize12;
@@ -715,6 +725,9 @@ select {
         color: #2388da;
     }
 }
+.test {
+    cursor: pointer;
+}
 .button {
     display: inline-block;
     width: 72px;
@@ -724,40 +737,6 @@ select {
     border: 1px solid #ccc;
     cursor: pointer;
     @include border_radius(3px);
-}
-.text {
-    display: none;
-    width: 181px;
-    position: absolute;
-    top: -55px;
-    left: 21px;
-    line-height: 1.4;
-    border: 1px solid #ccc;
-    padding: 10px;
-    @include border_radius(3px);
-    background-color: #fff;
-    color: #666;
-    text-align: left;
-    &:after {
-        content: '';
-        position: absolute;
-        bottom: -16px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #fff;
-    }
-    &:before {
-        content: '';
-        position: absolute;
-        bottom: -17px;
-        left: 85px;
-        width: 0;
-        height: 0;
-        border: 8px solid transparent;
-        border-top-color: #ccc;
-    }
 }
 .filterCon {
     .top {
@@ -832,14 +811,6 @@ select {
 }
 .show {
     display: block;
-}
-.tsk {
-    &:hover {
-        + div,
-        > div {
-            display: block;
-        }
-    }
 }
 .seletetime {
     position: relative;
@@ -921,6 +892,9 @@ select {
     font-size: $fontSize12;
     color: $colorFontH;
     margin-top: 30px;
+    p {
+        padding-left: 100px;
+    }
 }
 p.hyname {
     width: 120px;

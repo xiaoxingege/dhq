@@ -18,18 +18,19 @@ import runstatestrategy from 'components/runstatestrategy'
 import Filter from 'components/filter/filter'
 import BacktestFilter from 'components/backtest-filter'
 import BacktestFilterH5 from 'components/backtest-filter-h5'
+import BacktestFilterBuysell from 'components/backtest-filter-buysell'
 import BacktestTime from 'components/backtest-time'
 import BacktestTimeH5 from 'components/backtest-time-h5'
 import FundChart from 'components/fund-chart'
 import FundFile from 'components/fund-file'
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
-import NewsDetails from 'components/z3touguhome/news-details'
 import SmartPoolList from 'components/smartPool/smartPoolList'
 import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
+import backtestHelp from 'components/help'
 import {
   ctx
 } from '../config'
@@ -164,6 +165,11 @@ export default [{
   component: BacktestFilter
 },
 {
+  path: ctx + '/backtestFilterBuysell',
+  name: 'backtestfilterbuysell',
+  component: BacktestFilterBuysell
+},
+{
   path: ctx + '/backtestFilterH5/:strategyId',
   name: 'backtestfilterh5',
   component: BacktestFilterH5
@@ -195,14 +201,9 @@ export default [{
   component: FundFile
 },
 {
-  path: ctx + '/home/:newsType',
+  path: ctx + '/newslist',
   name: 'newslist',
   component: NewsList
-},
-{
-  path: ctx + '/home/:newsType/newsDetail/:newsId',
-  name: 'newsdetails',
-  component: NewsDetails
 },
 {
   path: ctx + '/smartPool',
@@ -223,6 +224,11 @@ export default [{
   path: ctx + '/strategyList',
   name: 'strategyList',
   component: StrategyList
+},
+{
+  path: ctx + '/backtestHelp',
+  name: 'backtestHelp',
+  component: backtestHelp
 }
 
 ]

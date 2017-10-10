@@ -8,7 +8,7 @@ body {
     background: #f2f2f2;
 }
 .blue {
-    color: #2388da;
+    color: #1984ea;
     font-size: 12px;
 }
 .red {
@@ -77,7 +77,8 @@ body {
     text-align: center;
 }
 .table-head2 span {
-    width: 12%;
+    /* width: 12%; */
+    width: 11%;
 }
 .table-body2 {
     /* padding: 12px 0; */
@@ -85,7 +86,8 @@ body {
     border-bottom: 1px solid #e5e5e5;
 }
 .table-body2 span {
-    width: 12%;
+    /*  width: 12%; */
+    width: 11%;
 }
 span.order-num {
     /* width: 6%; */
@@ -168,7 +170,7 @@ span.order-num {
 <div class="backtest-filter">
   <div class="bfilter-main">
     <div class="fr icon"><span class="weixin" @click="showQrcode"></span><span class="copy"></span></div>
-    <BackFilterDescr/>
+    <BackFilterDescr @basicFilterName="listenToBasic" />
     <div class="bfilter-bottom">
       <ul class="bfilter-ul clearfix">
         <li class="fl blue" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
@@ -213,6 +215,7 @@ span.order-num {
         <div class="table-head table-head2">
           <span>序号
                      </span><span>日期
+                     </span><span>买入股票(只)
                      </span><span>卖出股票(只)
                      </span><span>买入日期
                      </span><span>盈亏比
@@ -224,8 +227,18 @@ span.order-num {
         <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail">
           <span>{{index+1}}
                      </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
-                     </span><span>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}
-                     </span><span>{{tradeDay.buyDate==null?'--':changeDate(tradeDay.buyDate)}}
+                     </span>
+          <span v-if="tradeDay.buyStockNums===0">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}
+                     </span>
+          <router-link :to="{name:'backtestfilterbuysell',query:{strategyId:strategyId,backtestDate : tradeDay.backtestDate,stockType:'buyStocks',basicName:basicName}}" v-else>
+            <span class="blue">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}
+                     </span></router-link>
+          <span v-if="tradeDay.sellStockNums===0">{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}
+                     </span>
+          <router-link :to="{name:'backtestfilterbuysell',query:{strategyId:strategyId,backtestDate : tradeDay.backtestDate,stockType:'sellStocks',basicName:basicName}}" v-else>
+            <span class="blue">{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}
+                     </span></router-link>
+          <span>{{tradeDay.buyDate==null?'--':changeDate(tradeDay.buyDate)}}
                      </span><span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
                      </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
                      </span><span v-z3-updowncolor="tradeDay.avgReturn">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
@@ -272,7 +285,8 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      fullHeight: document.documentElement.clientHeight - 240
+      fullHeight: document.documentElement.clientHeight - 240,
+      basicName: ''
     }
   },
   computed: mapState({
@@ -308,6 +322,11 @@ export default {
       this.showTradeDay = true
       this.showNowStock = false
     },
+    /* buysNums (e) {
+
+      const numDate = e.currentTarget.previousElementSibling.innerHTML.replace(/\./g, '')
+      console.log(numDate)
+    },*/
     excelExport (type) {
       const id = this.strategyId
       const expires = this.authInfo.expires
@@ -315,10 +334,7 @@ export default {
       const now = new Date().getTime()
       const clientid = this.authInfo.clientid
       const deviceid = this.authInfo.deviceid
-      let token = this.authInfo.authorization
-      if (!window.Z3) {
-        token = token.split(' ')[1]
-      }
+      const token = this.authInfo.authorization.split(' ')[1]
       if (expires !== -1 && now - updateTime < expires * 1000) {
         console.log(0)
         this.createForm(id, type, token, clientid, deviceid)
@@ -345,6 +361,10 @@ export default {
     },
     goTotradePage (page) {
       this.tradePage = Number(page) - 1
+    },
+    listenToBasic (name) {
+      this.basicName = name
+      console.log(this.basicName)
     },
     /* goToPage (page) {
       this.page = Number(page) - 1

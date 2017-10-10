@@ -14,50 +14,92 @@ export default {
     homeMapData: [],
     homeRangeData: null,
     strategyBlock: null,
-    incomeListData: []
+    incomeListData: [],
+    strategyNames: [],
+    strategyIndexs: null,
+    tradeSignal: [],
+    shangZRank: null,
+    shenZRank: null,
+    zXBRank: null,
+    cYBRank: null,
+    topIndustry: [],
+    hotTopic: []
   },
   mutations: {
-    setStrategyList (state, options) {
+    setStrategyList(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
       }
     },
-    setStrategyBlock (state, options) {
+    setStrategyName(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyNames = result.data
+      }
+    },
+    setStrategyIndexs(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyIndexs = result.data
+      }
+    },
+    setTradeSignal(state, options) {
+      const result = options.result
+      if (result.errCode === 0 && result.data) {
+        state.tradeSignal = result.data.content
+      } else {
+        state.tradeSignal = []
+      }
+    },
+    setStrategyBlock(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyBlock = result.data
       }
     },
-    setIncomeList (state, options) {
+    setIncomeList(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.incomeListData = result.data
       }
     },
-    setFinanceNews (state, options) {
+    setFinanceNews(state, options) {
       const result = options.result
       state.financeNewsList = result.data
     },
-    setListedCompanyNews (state, options) {
+    setListedCompanyNews(state, options) {
       const result = options.result
       state.listedCompanyNewsList = result.data
     },
-    setNewsDetails (state, options) {
+    setNewsDetails(state, options) {
       const result = options.result
       state.newsDetails = result.data
     },
-    setHomeMapData (state, options) {
+    setSectorsData(state, options) {
       const result = options.result
-      state.homeMapData = result.voList
+      if (result.errCode === 0) {
+        state.zXBRank = result.data['2'] // 中小板
+        state.cYBRank = result.data['6'] // 创业板
+        state.shangZRank = result.data['SH'] // 上证A股
+        state.shenZRank = result.data['SZ'] // 深证A股
+      }
     },
-    setHomeRangeData (state, options) {
+    setTopIndustry(state, options) {
       const result = options.result
-      state.homeRangeData = result.data
+      if (result.errCode === 0) {
+        state.topIndustry = result.data
+      }
+    },
+    setHotTopic(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.hotTopic = result.data
+      }
     }
   },
   actions: {
-    getStrategyList ({
+    getStrategyList({
       commit
     }, {
       sort,
@@ -73,7 +115,54 @@ export default {
         })
       })
     },
-    getStrategyBlock ({
+    getStrategyName({
+      commit
+    }, {
+      sort,
+      direction,
+      size
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/top.shtml?sort=${sort}&direction=${direction}&size=${size}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setStrategyName', {
+          result: body
+        })
+      })
+    },
+    getStrategyIndexs({
+      commit
+    }, {
+      strategyId
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/indexAndFollows.shtml?strategyId=${strategyId}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setStrategyIndexs', {
+          result: body
+        })
+      })
+    },
+    getTradeSignal({
+      commit
+    }, {
+      strategyId,
+      buySellType,
+      page,
+      size
+    }) {
+      const url = `${domain}/openapi/backtest/goldStrategy/buySellSignal.shtml?strategyId=${strategyId}&buySellType=${buySellType}&page=${page}&size=${size}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setTradeSignal', {
+          result: body
+        })
+      })
+    },
+    getStrategyBlock({
       commit
     }, {
       query,
@@ -89,7 +178,7 @@ export default {
         })
       })
     },
-    getIncomeList ({
+    getIncomeList({
       commit
     }, {
       strategyId
@@ -103,7 +192,7 @@ export default {
         })
       })
     },
-    getFinanceNews ({
+    getFinanceNews({
       commit
     }, {
       size
@@ -121,7 +210,7 @@ export default {
         })
       })
     },
-    getListedCompanyNews ({
+    getListedCompanyNews({
       commit
     }, {
       size
@@ -138,12 +227,13 @@ export default {
         })
       })
     },
-    getNewsDetails ({
+    getNewsDetails({
       commit
     }, {
       newsId
     }) {
-      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js'
+      const timestamp = new Date().getTime()
+      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js?time=' + timestamp
       return fetchJsonp(url, {
         jsonpCallbackFunction: 'jsonp'
       }).then((res) => {
@@ -154,32 +244,45 @@ export default {
         })
       })
     },
-    getHomeMapData ({
+    getSectorsData({
       commit
     }, {
-      date
+      size
     }) {
-      const url = domain + '/openapi/openjson/tx/chg/' + date + '.json'
-      return fetch(url, {
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      }).then((res) => {
+      const url = domain + '/openapi/top/' + size
+      return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
-        commit('setHomeMapData', {
+        commit('setSectorsData', {
           result: body
         })
       })
     },
-    getHomeRangeData ({
+    getTopIndustry({
       commit
+    }, {
+      size
     }) {
-      const url = `${domain}/openapi/tx/chg/`
+      const url = domain + '/openapi/topIndustry/' + size
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
-        commit('setHomeRangeData', {
+        commit('setTopIndustry', {
+          result: body
+        })
+      })
+    },
+    getHotTopic({
+      commit
+    }, {
+      limit,
+      sortField
+    }) {
+      const url = `${domain}/openapi/topic/indexHotTopic.shtml?limit=${limit}&sortField=${sortField}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setHotTopic', {
           result: body
         })
       })

@@ -17,6 +17,7 @@ import filter from 'stores/filter'
 import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
+import indexChart from 'stores/indexChart'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -33,7 +34,7 @@ const state = {
     clientid: '', // 'test_client_id',
     deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
-    expires: 0// second
+    expires: 0 // second
   },
   user: {
     userId: null
@@ -42,23 +43,36 @@ const state = {
 const getters = {
   authHeader: state => {
     if (state.auth.authorization) {
-      return {
-        authorization: state.auth.authorization,
-        clientid: state.auth.clientid,
-        deviceid: state.auth.deviceid
+      if (window.Z3) {
+        return {
+          authorization: state.auth.authorization,
+          clientid: state.auth.clientid,
+          deviceid: state.auth.deviceid,
+          userId: state.user.userId
+        }
+      } else {
+        return {
+          authorization: state.auth.authorization,
+          clientid: state.auth.clientid,
+          deviceid: state.auth.deviceid,
+          userId: state.user.userId
+        }
       }
     }
     return {}
   }
 }
 const actions = {
-  authSetting ({ state, commit }) {
+  authSetting({
+    state,
+    commit
+  }) {
     return new Promise((resolve, reject) => {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-          resolve()
+          resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
@@ -68,7 +82,7 @@ const actions = {
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userid: 'dc59c4c5-c174-417d-9c34-ccabf738c1fe'// test userid
+          userid: 'userId' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
@@ -77,10 +91,10 @@ const actions = {
   }
 }
 const mutations = {
-  [mutationTypes.REQUEST_ERROR] (state, error) {
+  [mutationTypes.REQUEST_ERROR](state, error) {
     // state.error = error.message
   },
-  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
+  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
       clientid: authInfo.clientid,
@@ -115,6 +129,7 @@ export default new Vuex.Store({
     funcArchives,
     fundRecord,
     filter,
-    backtestDetailH5
+    backtestDetailH5,
+    indexChart
   }
 })
