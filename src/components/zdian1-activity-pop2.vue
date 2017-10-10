@@ -37,33 +37,33 @@
 
 <template>
 <div>
-    <div class='fixBg'></div>
-    <div class="pop">
-        <div class="pop-top">
-            <slot></slot>
-        </div>
-        <a href="javascript:;" class="close" @click="close"></a>
-        <!-- <h3>{{title}}</h3>
+  <div class='fixBg'></div>
+  <div class="pop" ref="pop">
+    <div class="pop-top">
+      <slot></slot>
+    </div>
+    <a href="javascript:;" class="close" @click="close"></a>
+    <!-- <h3>{{title}}</h3>
         <i @click="onCloseClicked"></i>
         <div class="course-pop">
             <p v-html="content"></p>
             <button type="button" name="button" @click="submit()">提交审核</button>
         </div> -->
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 export default {
   data () {
     return {}
   },
   computed: mapState({
-        // type: state => {
-        //     return state.reservation.type
-        // }
+    // type: state => {
+    //     return state.reservation.type
+    // }
   }),
   components: {},
   methods: {
@@ -71,6 +71,10 @@ export default {
       this.$emit('pop2Close')
     }
   },
-  mounted () {}
+  mounted () {
+    $(this.$refs.pop).css({
+      transform: `scale(${$(window).width() * 0.9 / 731})`
+    })
+  }
 }
 </script>

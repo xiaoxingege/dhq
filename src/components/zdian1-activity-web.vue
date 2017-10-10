@@ -29,31 +29,31 @@ input {
 }
 
 .bg6 .box-con .inner_01>ul li.b2 {
-  background: url("../assets/images/zdian1-activity/web-lottery-bg2.png") 0 0 no-repeat;
-}
-
-.bg6 .box-con .inner_01>ul li.b3 {
   background: url("../assets/images/zdian1-activity/web-lottery-bg3.png") 0 0 no-repeat;
 }
 
-.bg6 .box-con .inner_01>ul li.b4 {
-  background: url("../assets/images/zdian1-activity/web-lottery-bg6.png") 0 0 no-repeat;
-}
-
-.bg6 .box-con .inner_01>ul li.b5 {
+.bg6 .box-con .inner_01>ul li.b3 {
   background: url("../assets/images/zdian1-activity/web-lottery-bg9.png") 0 0 no-repeat;
 }
 
-.bg6 .box-con .inner_01>ul li.b6 {
-  background: url("../assets/images/zdian1-activity/web-lottery-bg8.png") 0 0 no-repeat;
-}
-
-.bg6 .box-con .inner_01>ul li.b7 {
+.bg6 .box-con .inner_01>ul li.b4 {
   background: url("../assets/images/zdian1-activity/web-lottery-bg7.png") 0 0 no-repeat;
 }
 
-.bg6 .box-con .inner_01>ul li.b8 {
+.bg6 .box-con .inner_01>ul li.b5 {
+  background: url("../assets/images/zdian1-activity/web-lottery-bg2.png") 0 0 no-repeat;
+}
+
+.bg6 .box-con .inner_01>ul li.b6 {
+  background: url("../assets/images/zdian1-activity/web-lottery-bg6.png") 0 0 no-repeat;
+}
+
+.bg6 .box-con .inner_01>ul li.b7 {
   background: url("../assets/images/zdian1-activity/web-lottery-bg4.png") 0 0 no-repeat;
+}
+
+.bg6 .box-con .inner_01>ul li.b8 {
+  background: url("../assets/images/zdian1-activity/web-lottery-bg8.png") 0 0 no-repeat;
 }
 
 .bg6 .box-con .inner_01>ul li.btn-lottery {
@@ -242,7 +242,7 @@ input {
     float: left;
 }
 .footer {
-    width: 100%;
+    width: 1920px;
     height: 215px;
     background: url("../assets/images/zdian1-activity/web-footer-bg-1.png") center 0 no-repeat;
     position: fixed;
@@ -314,6 +314,14 @@ input {
     display: inline-block;
     vertical-align: middle;
 }
+.footer-btn {
+    display: block;
+    width: 219px;
+    height: 66px;
+    position: absolute;
+    top: 138px;
+    left: 556px;
+}
 </style>
 <style>
 #divdown1 {
@@ -368,8 +376,8 @@ input {
         <li>&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;金融界智能操盘工具促销598元/季，1980元/年，用券再减88元/288元！</li>
         <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;参与现金券抢购的用户均可参与抽奖，赢万元专属定制投资服务！</li>
       </ol>
-      <a href="javascript:;" class="link1" @click="grab('1')"></a>
-      <a href="javascript:;" class="link2" @click="grab('2')"></a>
+      <a href="http://itougu.jrj.com.cn/tips/438.jspa" class="link1" @click="grab('1')"></a>
+      <a href="http://itougu.jrj.com.cn/tips/439.jspa" class="link2" @click="grab('2')"></a>
       <div class="notice">
         <p>温馨提示：现金券订阅成功后，将在次日发放，如遇休息日顺延，可在个人</p>
         <p>中心查看并使用。一经订阅，概不退款~</p>
@@ -379,12 +387,12 @@ input {
   <div class="bg6" id="d2">
     <div class="box-con">
       <div class="left">
-        <p>您有 0 次抽奖机会</p>
-        <lottery @lotteryResult="lotteryResult" />
+        <p>您有 {{lotteryInfo.drawNum || 0}} 次抽奖机会</p>
+        <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" />
       </div>
       <div class="right">
-        <p>目前已有 XXXXX 人参与</p>
-        <div>
+        <p>目前已有 {{lotteryInfo.joinNum || 0}} 人参与</p>
+        <div v-if="lotteryInfo.pirzeUserList && lotteryInfo.pirzeUserList.length > 0">
           <ul>
             <li class="cur">恭喜XXXX抽中XXXXX，祝您投资愉快。</li>
             <li>恭喜XXXX抽中XXXXX，祝您投资愉快。</li>
@@ -393,6 +401,7 @@ input {
             <li>恭喜XXXX抽中XXXXX，祝您投资愉快。</li>
           </ul>
         </div>
+        <div v-else style="color:#ffe4c3">暂无人中奖</div>
       </div>
       <ol class="bg6-text">
         <li>所有参与现金券的用户，每抢购1次，可参与1次抽奖</li>
@@ -415,6 +424,7 @@ input {
         <span id="text-sec" class="text-sec"></span><span class="time-unit">秒</span>
       </div>
     </div>
+    <a class="footer-btn" href="javascript:;" @click="free"></a>
   </div>
   <zdian1-activity-pop1 @close="pop1Close" v-if="pop1Show">
     <div v-html="pop1Html">
@@ -527,13 +537,15 @@ export default {
       pop1Show: false,
       pop1Html: '',
       pop2Show: false,
-      pop2Html: ''
+      pop2Html: '',
+      prize: -1
     }
   },
   computed: mapState({
-    // type: state => {
-    //     return state.reservation.type
-    // }
+    loginStatus: state => state.user.loginStatus,
+    err: state => state.actZdfl.err,
+    lotteryInfo: state => state.actZdfl.lotteryInfo || {},
+    lotteryResult: state => state.actZdfl.lotteryResult
   }),
   components: {
     activitySlider,
@@ -542,12 +554,30 @@ export default {
     zdian1ActivityPop2
   },
   methods: {
-    lotteryResult() {
-      // this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
-      // this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
-      this.pop2Html = '<h3>恭喜您！<br />成功抽取 XXXXXX</h3><p class="fz20 cl1">奖品将于3个工作日内派发，您可以</p><p class="fz20 cl1">前往APP活动页面“我的礼品”~</p><p class="fz20 cl1">里查看中奖记录。</p>'
-
-      this.pop2Show = true
+    playLottery() {
+      if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
+        this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
+        this.pop2Show = true
+        return
+      }
+      this.prize = -1
+      this.$store.dispatch('actZdfl/playLottery').then(() => {
+        if (!this.err) {
+          this.prize = this.lotteryResult.pirzeId * 1
+        }
+      })
+    },
+    showLotteryResult() {
+      if (this.prize > 0) {
+        if (this.prize === 8) {
+          this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
+        } else {
+          this.pop2Html = '<h3>恭喜您！<br />成功抽取 XXXXXX</h3><p class="fz20 cl1">奖品将于3个工作日内派发，您可以</p><p class="fz20 cl1">前往APP活动页面“我的礼品”~</p><p class="fz20 cl1">里查看中奖记录。</p>'
+        }
+        this.pop2Show = true
+      } else {
+        this.pop2Show = false
+      }
     },
     pop1Close() {
       this.pop1Html = ''
@@ -558,20 +588,31 @@ export default {
       this.pop2Show = false
     },
     free() {
-      //   this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text1.png" /><p class="fz24 mt10">免费体验权限<span>仅限Z点操盘新用户</span>领取。</p><p class="fz30">您可以参与<span>“8.8元抢购”</span>福利，<br />享受超低折扣~</p>'
-
-      this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text2.png" /><p class="fz26 mt20">成功领取智能炒股择时工具</p><p class="fz26">Z点操盘7天免费使用权限。</p><p class="fz20">您可以在金融界APP“智能诊股”页查看并使用。</p>'
-
-      this.pop1Show = true
+      if (this.loginStatus === 'no') {
+        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+      } else {
+        this.$store.dispatch('actZdfl/getZPoint').then(() => {
+          if (this.err) {
+            this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text1.png" /><p class="fz24 mt10">免费体验权限<span>仅限Z点操盘新用户</span>领取。</p><p class="fz30">您可以参与<span>“8.8元抢购”</span>福利，<br />享受超低折扣~</p>'
+          } else {
+            this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text2.png" /><p class="fz26 mt20">成功领取智能炒股择时工具</p><p class="fz26">Z点操盘7天免费使用权限。</p><p class="fz20">您可以在金融界APP“智能诊股”页查看并使用。</p>'
+          }
+          this.pop1Show = true
+        })
+      }
     },
     grab(type) {
       this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text3.png" /><p class="fz22 mt20 lh40">现金券将在次日发放，如遇节假日则顺延；</p><p class="fz22 lh40">此现金券可用于订阅智能炒股择时工具Z点操<br />盘，请在个人中心查看并使用。</p>'
-
-      this.pop1Show = true
+      // this.pop1Show = true
     }
   },
   mounted() {
     document.title = 'z点操盘'
+    this.$store.dispatch('user/checkLogin').then(() => {
+      if (this.loginStatus === 'yes') {
+        this.$store.dispatch('actZdfl/getLotteryInfo')
+      }
+    })
   }
 }
 </script>

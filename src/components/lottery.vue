@@ -1,13 +1,14 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 </style>
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
 .box {
     width: 100%;
+    transform-origin: left top;
 }
 .inner_01 > ul {
     width: 312px;
@@ -59,35 +60,35 @@ body {
 </style>
 
 <template>
-<div class="box">
-    <div class="inner_01 lottery box" id="lottery">
-        <ul class="clearfix">
-            <li class="fl b1 item"></li>
-            <li class="fl b2 item"></li>
-            <li class="fl b3 item"></li>
-        </ul>
-        <ul class="clearfix">
-            <li class="fl b8 item"></li>
-            <li class="fl btn-lottery" @click="lotterys"><img v-if="btnSrc" :src="btnSrc"></li>
-            <li class="fl b4 item"></li>
-        </ul>
-        <ul class="clearfix">
-            <li class="fl b7 item"></li>
-            <li class="fl b6 item"></li>
-            <li class="fl b5 item"></li>
-        </ul>
-        <!-- <div class="clearfix">
+<div class="box" :style="{transform:this.boxWidth ? `scale(${this.boxWidth / 580})` : ''}">
+  <div class="inner_01 lottery box" id="lottery">
+    <ul class="clearfix">
+      <li class="fl b1 item"></li>
+      <li class="fl b2 item"></li>
+      <li class="fl b3 item"></li>
+    </ul>
+    <ul class="clearfix">
+      <li class="fl b8 item"></li>
+      <li class="fl btn-lottery" @click="lotterys"><img v-if="btnSrc" :src="btnSrc"></li>
+      <li class="fl b4 item"></li>
+    </ul>
+    <ul class="clearfix">
+      <li class="fl b7 item"></li>
+      <li class="fl b6 item"></li>
+      <li class="fl b5 item"></li>
+    </ul>
+    <!-- <div class="clearfix">
             <div class="about-btn fl">抽奖规则?</div>
             <div class="personprize fr">
                 <span>中奖记录</span>
             </div>
         </div> -->
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jquery from 'jquery'
 window.$ = jquery
@@ -108,11 +109,11 @@ export default {
       }
     }
   },
-  props: ['btnSrc'],
+  props: ['btn-src', 'prize', 'pos-map', 'box-width'],
   computed: mapState({
-        // dataList: state => {
-        //   return state.septNewActivity.dataList
-        // }
+    // dataList: state => {
+    //   return state.septNewActivity.dataList
+    // }
   }),
   components: {},
   methods: {
@@ -132,19 +133,18 @@ export default {
       $(lottery).find('.b' + (index + 1)).addClass('item-cur')
       this.lottery.index = index += 1
       this.lottery.times += 1
-      if (this.lottery.times > this.lottery.cycle + 10 && this.lottery.prize === this.lottery.index) {
+      if (this.lottery.times > this.lottery.cycle + 10 && this.prize === this.lottery.index) {
         clearTimeout(this.lottery.timer)
-        this.lottery.prize = -1
         this.lottery.speed = 200
         this.lottery.times = 0
         setTimeout(function () {
-          _this.$emit('lotteryResult')
+          _this.$emit('stop')
         }, 1000)
       } else {
         if (this.lottery.times < this.lottery.cycle) {
           this.lottery.speed -= 10
         } else {
-          if (this.lottery.times > this.lottery.cycle + 10 && ((this.lottery.prize === 0 && this.lottery.index === 7) || this.lottery.prize === this.lottery.index + 1)) {
+          if (this.lottery.times > this.lottery.cycle + 10 && ((this.prize === 0 && this.lottery.index === 7) || this.prize === this.lottery.index + 1)) {
             this.lottery.speed += 110
           } else {
             this.lottery.speed += 20
@@ -157,23 +157,20 @@ export default {
       }
     },
     lotterys () {
-      var posMap = {
-        '0': 4,
-        '1': 8,
-        '2': 7,
-        '3': 6,
-        '4': 8,
-        '5': 8,
-        '6': 4,
-        '7': 4
-      }
-      this.lottery.prize = posMap[0] // 这里设置得奖位置
-      this.rolls()
+      this.$emit('start')
     }
   },
   mounted () {
     document.title = '抽奖'
     this.init('#lottery')
+    this.$watch('prize', (prize) => {
+      if (prize * 1 > 0) {
+        this.rolls()
+      }
+    })
+    this.$watch('boxWidth', (width) => {
+      // alert(width)
+    })
   }
 }
 </script>

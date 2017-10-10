@@ -15,10 +15,12 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-// import reservation from 'stores/reservation'
+import user from 'stores/user'
+import actZdfl from 'stores/act-zdfl'
 const store = new Vuex.Store({
   modules: {
-    // reservation
+    user,
+    actZdfl
   }
 })
 
@@ -31,3 +33,4 @@ initVue({
   store,
   component: App
 })
+document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 1920 * 625 + '%'

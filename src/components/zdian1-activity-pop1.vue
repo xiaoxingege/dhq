@@ -37,19 +37,20 @@
 
 <template>
 <div>
-    <div class='fixBg'></div>
-    <div class="pop">
-        <div class="pop-top">
-            <slot></slot>
-        </div>
-        <a href="javascript:;" class="close" @click="close"></a>
+  <div class='fixBg'></div>
+  <div class="pop" ref="pop">
+    <div class="pop-top">
+      <slot></slot>
     </div>
+    <a href="javascript:;" class="close" @click="close"></a>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
+import $ from 'jquery'
 export default {
   data () {
     return {}
@@ -61,6 +62,10 @@ export default {
       this.$emit('close')
     }
   },
-  mounted () {}
+  mounted () {
+    $(this.$refs.pop).css({
+      transform: `scale(${$(window).width() * 0.9 / 731})`
+    })
+  }
 }
 </script>

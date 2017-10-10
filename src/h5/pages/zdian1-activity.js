@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/jzxg-activity-h5'
+import App from 'components/zdian1-activity-h5'
 
 /*
  * 引入vuex
@@ -16,9 +16,11 @@ Vue.use(Vuex)
  * 实例化store
  */
 import user from 'stores/user'
+import actZdfl from 'stores/act-zdfl'
 const store = new Vuex.Store({
   modules: {
-    user
+    user,
+    actZdfl
   }
 })
 
