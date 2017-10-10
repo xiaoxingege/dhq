@@ -183,14 +183,14 @@
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum === null ? '--':barData.newHighNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.newHighNum">{{barData.newHighNum === 0 ? '--':barData.newHighNum}}</span>
           <span class="mr-5">创新高</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.newHighNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.newLowNum, total, 2)}}</span>
           <span class="mr-5">创新低</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === null ? '--':barData.newLowNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === 0 ? '--':barData.newLowNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
@@ -202,14 +202,14 @@
     <div class="chartInfo">
       <div class="chartInfo_text clearfix">
         <div class="fl">
-          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum === null ? '--':barData.crossMa5UpNum}}</span>
+          <span class="mr-5" v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5UpNum">{{barData.crossMa5UpNum === 0 ? '--':barData.crossMa5UpNum}}</span>
           <span class="mr-5">上穿MA5</span>
           <span v-if="barData && barData!==''">{{toPercent(barData.crossMa5UpNum, total, 2)}}</span>
         </div>
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.crossMa5DownNum, total, 2)}}</span>
           <span class="mr-5">下穿MA5</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === null ? '--':barData.crossMa5DownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === 0 ? '--':barData.crossMa5DownNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
@@ -231,7 +231,10 @@ import {
 
 export default {
   data () {
-    return {}
+    return {
+      socketType: ''
+
+    }
   },
   components: {},
   computed: mapState({
@@ -253,25 +256,31 @@ export default {
       const msg = state.z3sockjs.message
       if (msg && msg.data && msg.data.subject === 'sum') {
         const record = msg.data
+        this.socketType = 'sum'
         console.log(record)
         return {
-          innerCode: record.stockCode,
-          //  name: record.stockName,
-          price: record.lastpx,
-          chg: record.pxchg,
-          curChngPct: record.pxchgratio
+          crossMa5DownNum: record.downCrossMA5Num,
+          crossMa5UpNum: record.upCrossMA5Num,
+          downNum: record.slideNum,
+          limitDownNum: record.downStopNum,
+          limitUpNum: record.upStopNum,
+          newHighNum: record.newHighNum,
+          newLowNum: record.newLowNum,
+          unchangeNum: record.horNum,
+          upNum: record.incNum
         }
       } else {
         if (msg && msg.data && msg.data.subject === 'timeline') {
           const record = msg.data
+          this.socketType = 'timeline'
           console.log(record)
-          return {
-            innerCode: record.stockCode,
-            //  name: record.stockName,
-            price: record.lastpx,
-            chg: record.pxchg,
-            curChngPct: record.pxchgratio
-          }
+          //          return {
+          //            innerCode: record.stockCode,
+          //            //  name: record.stockName,
+          //            price: record.lastpx,
+          //            chg: record.pxchg,
+          //            curChngPct: record.pxchgratio
+          //          }
         } else {
           return null
         }
@@ -505,9 +514,9 @@ export default {
       }
     },
     toPercent (x, y, n) {
-      //      if (x === 0 || y === 0) {
-      //        return '--'
-      //      }
+      if (x === 0 || y === 0 || x === null || x === 'null') {
+        return '--'
+      }
       return Number(x / y * 100).toFixed(n) + '%'
     },
     showAlert (index) {
@@ -515,9 +524,55 @@ export default {
     },
     hideAlert (index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'none'
+    },
+    indexStock () {
+      const msg = {
+        subject: 'timeline',
+        type: '1',
+        actionType: '1',
+        stockCodeList: ['000001.SH', '000300.SH', '399001.SZ', '399006.SZ'],
+        token: ''
+      }
+      this.$store.dispatch('z3sockjs/send', msg)
+    },
+    barStock () {
+      const msg = {
+        subject: 'sum',
+        type: '1',
+        actionType: '1',
+        stockCodeList: ['000002.SZ'],
+        token: ''
+      }
+      this.$store.dispatch('z3sockjs/send', msg)
+    },
+    updateBar (data) {
+      // this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', data)
+    },
+    updateStock (data) {
+      // this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', data)
     }
   },
   watch: {
+    stockMessage () {
+      console.log(this.stockMessage)
+      if (this.stockMessage) {
+        if (this.socketType === 'sum') {
+          this.updateBar(this.stockMessage)
+        } else if (this.socketType === 'timeline') {
+          this.updateStock(this.stockMessage)
+        }
+      }
+    },
+    socketState () {
+      if (this.socketState === 1) {
+        // 建立连接
+        this.indexStock()
+        this.barStock()
+      } else if (this.socketState === 3) {
+        // 断开连接，重新建立连接
+        this.$store.dispatch('z3sockjs/init')
+      }
+    },
     'barData': function () {
       // alert('barFata')
       if (z3websocket.ws) {
