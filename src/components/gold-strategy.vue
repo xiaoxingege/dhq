@@ -36,7 +36,6 @@ html {
 }
 .strategyDescTop {
     /*height:214px;*/
-    margin-bottom: 6px;
     background: #141518;
     padding: 15px 10px;
 }
