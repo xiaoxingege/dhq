@@ -125,8 +125,8 @@ export default {
   },
   watch: {
     type () {
-      this.industryList = []
-      this.hotTopicList = []
+      /* this.industryList = []
+      this.hotTopicList = []*/
       this.initTopIndustry() // 点击板块标签初始化表格数据
     }
   },
