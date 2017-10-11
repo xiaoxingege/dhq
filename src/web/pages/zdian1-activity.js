@@ -33,4 +33,3 @@ initVue({
   store,
   component: App
 })
-document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 1920 * 625 + '%'

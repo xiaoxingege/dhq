@@ -38,11 +38,6 @@ app.use(async function(ctx, next) {
   if (template) {
     ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
-    let appid = ctx.headers.appid || '';
-    let passportId = ctx.headers.passportid || '';
-    if (appid) {
-      ctx.body = ctx.body.replace('{{appid}}', appid).replace('{{passportId}}', passportId);
-    }
   }
   ctx.set('Cache-Control', 'no-cache');
   await next();
