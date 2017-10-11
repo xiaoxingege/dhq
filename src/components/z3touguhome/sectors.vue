@@ -74,14 +74,14 @@
   <div class="sectors-table-wrap clearfix">
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock-bind="{ref:'stockbox',code:value.split(',')[0]}" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{formateData(key)?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock-bind="{ref:'stockbox',code:value.split(',')[0]}" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{formateData(key)?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
