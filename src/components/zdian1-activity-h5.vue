@@ -448,7 +448,7 @@ import zdian1ActivityPop1 from 'components/zdian1-activity-pop1'
 import zdian1ActivityPop2 from 'components/zdian1-activity-pop2'
 
 export default {
-  data () {
+  data() {
     return {
       listData: {
         conWidth: '980px',
@@ -461,21 +461,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
+            link: ''
+          }
         ]
       },
       lotteryBoxWidth: 0,
@@ -499,20 +499,20 @@ export default {
     zdian1ActivityPop2
   },
   methods: {
-    scrollTo (n) {
+    scrollTo(n) {
       var pos = $('#d' + n).offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    playLottery () {
+    playLottery() {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
-          setTimeout(function () {
+          setTimeout(function() {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -528,13 +528,13 @@ export default {
           this.prize = -1
           this.$store.dispatch('actZdfl/playLottery').then(() => {
             if (!this.err) {
-              this.prize = this.lotteryResult.pirzeId * 1
+              this.prize = this.lotteryResult.prizePosition * 1
             }
           })
         }
       }
     },
-    showLotteryResult () {
+    showLotteryResult() {
       if (this.prize > 0) {
         if (this.prize === 8) {
           this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
@@ -546,28 +546,28 @@ export default {
         this.pop2Show = false
       }
     },
-    pop1Close () {
+    pop1Close() {
       this.pop1Html = ''
       this.pop1Show = false
     },
-    pop2Close () {
+    pop2Close() {
       this.pop2Html = ''
       this.pop2Show = false
     },
-    hideShareLayer () {
+    hideShareLayer() {
       this.$refs.shareLayer.style.display = 'none'
     },
-    showShareLayer () {
+    showShareLayer() {
       this.$refs.shareLayer.style.display = 'block'
       this.$refs.shareLayer.style.height = $(window).height() + 'px'
     },
-    free () {
+    free() {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
-          setTimeout(function () {
+          setTimeout(function() {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -590,13 +590,13 @@ export default {
         }
       }
     },
-    grab (type) {
+    grab(type) {
       this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text3.png" /><p class="fz22 mt20 lh40">现金券将在次日发放，如遇节假日则顺延；</p><p class="fz22 lh40">此现金券可用于订阅智能炒股择时工具Z点操<br />盘，请在个人中心查看并使用。</p>'
       // this.pop1Show = true
     }
   },
-  mounted () {
-    document.title = 'z点操盘'
+  mounted() {
+    document.title = 'Z点操盘送三大福利-金融界'
     this.$store.dispatch('user/checkLogin').then(() => {
       this.$store.dispatch('actZdfl/getLotteryInfo')
     })
@@ -607,7 +607,7 @@ export default {
       this.lotteryBoxWidth = $(this.$refs.lotteryBox).width()
     })
 
-    function pad (str, len) {
+    function pad(str, len) {
       str = str + ''
       if (str.length < len) {
         for (let i = 0; i < len - str.length; i++) {
@@ -617,7 +617,7 @@ export default {
       return str
     }
 
-    function ShowCountDown (year, month, day, divname) {
+    function ShowCountDown(year, month, day, divname) {
       var now = new Date()
       var endDate = new Date(year, month - 1, day)
       var leftTime = endDate.getTime() - now.getTime()
@@ -631,17 +631,17 @@ export default {
       document.getElementById('text-min').innerHTML = pad(minute, 2)
       document.getElementById('text-sec').innerHTML = pad(second, 2)
     }
-    window.setInterval(function () {
+    window.setInterval(function() {
       ShowCountDown(2017, 10, 22, 'divdown1')
     }, 1000)
     $('.nav a').click(e => {
       var index = $(e.target).attr('data-index')
       this.scrollTo(index)
     })
-    setInterval(function () {
+    setInterval(function() {
       $('.ui-six .announce-box ul').animate({
         'margin-top': '-30px'
-      }, 500, function () {
+      }, 500, function() {
         $('.ui-six .announce-box ul li:first').css({
           'font-size': '16px'
         })
@@ -655,6 +655,14 @@ export default {
         'font-size': '20px'
       }, 500)
     }, 1500)
+    if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+      window.InitWeChatShare({
+        shareTitle: 'Z点操盘送三大福利',
+        shareLink: window.location.href,
+        shareDesc: '金融界智能炒股工具Z点操盘送您三大福利，赢战“金九银十”',
+        shareImg: 'http://i0.jrjimg.cn/assets/images/jzxg-300x300.jpg'
+      })
+    }
   }
 }
 </script>

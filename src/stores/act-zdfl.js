@@ -11,19 +11,19 @@ export default {
     lotteryResult: null
   },
   mutations: {
-    setError (state, msg) {
+    setError(state, msg) {
       state.err = msg
     },
-    setLotteryInfo (state, data) {
+    setLotteryInfo(state, data) {
       state.lotteryInfo = data
     },
-    setLotteryResult (state, data) {
+    setLotteryResult(state, data) {
       state.lotteryResult = data
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    getZPoint ({
+    getZPoint({
       commit,
       rootState
     }, options) {
@@ -39,7 +39,7 @@ export default {
         commit('setError', '网络错误，请稍后重试')
       })
     },
-    getLotteryInfo ({
+    getLotteryInfo({
       commit,
       rootState
     }, options) {
@@ -53,7 +53,7 @@ export default {
         commit('setError', '网络错误，请稍后重试')
       })
     },
-    playLottery ({
+    playLottery({
       commit,
       rootState
     }, options) {
@@ -62,9 +62,9 @@ export default {
         url: `http://itougu.jrj.com.cn/marketing/zOperateDrawPrize.jspa?userId=${rootState.user.ssoId}`,
         dataType: 'json'
       }).then(data => {
-        if (!data.retCode) {
-          commit('setLotteryResult', data)
-        }
+        // if (!data.retCode) {
+        commit('setLotteryResult', data)
+        // }
       }).catch(() => {
         commit('setError', '网络错误，请稍后重试')
       })
