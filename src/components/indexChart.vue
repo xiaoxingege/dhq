@@ -230,7 +230,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
 
     }
@@ -243,7 +243,7 @@ export default {
     szczChartData: state => state.indexChart.chartData.szczChartData,
     cybzChartData: state => state.indexChart.chartData.cybzChartData,
     barData: state => state.indexChart.barData,
-    total: function () {
+    total: function() {
       if (this.barData.unchangeNum === null || this.barData.upNum === null || this.barData.downNum === null || this.barData.unchangeNum === 'null' || this.barData.upNum === 'null' || this.barData.downNum === 'null') {
         return 0
       } else {
@@ -282,9 +282,9 @@ export default {
     }
   }),
   methods: {
-    dealData (zeroArr) {
+    dealData(zeroArr) {
       var r = []
-      if (typeof (zeroArr) === 'undefined') {
+      if (typeof(zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -294,12 +294,12 @@ export default {
       }
       return r
     },
-    removeZero (zeroArr) {
+    removeZero(zeroArr) {
       if (zeroArr == null) {
         return ''
       }
       var r = []
-      if (typeof (zeroArr) === 'undefined') {
+      if (typeof(zeroArr) === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -309,7 +309,7 @@ export default {
       }
       return r
     },
-    autoTimeline (starts, ends) {
+    autoTimeline(starts, ends) {
       var timeline = []
       var startHour = starts.split(':')[0] * 1
       var startMin = starts.split(':')[1] * 1
@@ -325,7 +325,7 @@ export default {
       }
       return timeline
     },
-    refreshEcharts (datas, index, chartName) {
+    refreshEcharts(datas, index, chartName) {
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -342,7 +342,7 @@ export default {
         var Dvalue = Math.abs(tmpMax - datas.line) > Math.abs(tmpMin - datas.line) ? Math.abs(tmpMax - datas.line) : Math.abs(tmpMin - datas.line)
       }
 
-      this.chart = echarts.init(document.getElementsByClassName('indexChart')[index])
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[index]) || echarts.init(document.getElementsByClassName('indexChart')[index])
 
       // 生成横坐标时间轴
       var beforenoon = this.autoTimeline('9:30', '11:30')
@@ -386,7 +386,7 @@ export default {
           axisLabel: {
             interval: 59,
             textStyle: {
-              color: function (params) {
+              color: function(params) {
                 return '#707b8f'
               }
             }
@@ -399,11 +399,11 @@ export default {
           min: datas === null ? '' : Number(datas.line) - Dvalue,
           max: datas === null ? '' : Number(datas.line) + Dvalue,
           axisLabel: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val.toFixed(2)
             },
             textStyle: {
-              color: function (params) {
+              color: function(params) {
                 var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
                 if (cc > 0) {
                   return '#ca4947'
@@ -492,7 +492,7 @@ export default {
 
         }]
       })
-      window.onresize = function () {
+      window.onresize = function() {
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
           height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
@@ -507,19 +507,19 @@ export default {
         })
       }
     },
-    toPercent (x, y, n) {
+    toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
         return '--'
       }
       return Number(x / y * 100).toFixed(n) + '%'
     },
-    showAlert (index) {
+    showAlert(index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'inline-block'
     },
-    hideAlert (index) {
+    hideAlert(index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'none'
     },
-    indexStock () {
+    indexStock() {
       const msg = {
         subject: 'timeline',
         type: '1',
@@ -529,7 +529,7 @@ export default {
       }
       this.$store.dispatch('z3sockjs/send', msg)
     },
-    barStock () {
+    barStock() {
       const msg = {
         subject: 'sum',
         type: '1',
@@ -539,20 +539,20 @@ export default {
       }
       this.$store.dispatch('z3sockjs/send', msg)
     },
-    updateBar (data) {
+    updateBar(data) {
       this.$store.commit('indexChart/barSocket', data)
     },
-    updateStock (data) {
+    updateStock(data) {
       this.$store.commit('indexChart/chartSocket', data)
     }
   },
   watch: {
-    stockMessage () {
+    stockMessage() {
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
     },
-    socketState () {
+    socketState() {
       if (this.socketState === 1) {
         // 建立连接
         this.indexStock()
@@ -562,12 +562,12 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    barMessage () {
+    barMessage() {
       if (this.barMessage) {
         this.updateBar(this.barMessage)
       }
     },
-    'barData': function () {
+    'barData': function() {
       // alert('barFata')
       if (z3websocket.ws) {
         /* z3websocket.ws && z3websocket.ws.close()*/
@@ -577,7 +577,7 @@ export default {
     },
     'chartData': {
       deep: true,
-      handler: function () {
+      handler: function() {
         // alert('chartData')
         if (z3websocket.ws) {
           //          z3websocket.ws && z3websocket.ws.close()
@@ -589,31 +589,31 @@ export default {
     },
     szzsChartData: {
       deep: true,
-      handler: function () {
+      handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
       }
     },
     lsChartData: {
       deep: true,
-      handler: function () {
+      handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
       }
     },
     szczChartData: {
       deep: true,
-      handler: function () {
+      handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
       }
     },
     cybzChartData: {
       deep: true,
-      handler: function () {
+      handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
       }
     }
 
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000001.SH'
     }).then(() => {
@@ -636,7 +636,7 @@ export default {
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
   },
-  destroyed () {
+  destroyed() {
     z3websocket.ws && z3websocket.ws.close()
   }
 }

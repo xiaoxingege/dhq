@@ -638,7 +638,6 @@ export default {
         this.initBubbles()
       })
     }
-    this.initBubbles()
   }
 }
 </script>

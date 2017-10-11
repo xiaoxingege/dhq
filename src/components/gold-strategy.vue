@@ -150,7 +150,7 @@ a {
 .radarImg {
     position: absolute;
     right: 100px;
-    top: 321px;
+    top: 312px;
     cursor: pointer;
 }
 
