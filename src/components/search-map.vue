@@ -105,7 +105,8 @@ export default {
       e.stopPropagation()
       const focusStockId = e.currentTarget.children[0].children[0].innerText
       const focusStockName = e.currentTarget.children[0].children[1].innerText
-      this.$emit('focusStock', focusStockName)
+      const timestamp = new Date().getTime()
+      this.$emit('focusStock', [focusStockName, timestamp])
       this.message = focusStockId
       this.stockSelectList = []
     }

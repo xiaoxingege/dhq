@@ -788,7 +788,7 @@ export default {
       treeRoot.children.forEach(function(industry) {
         industry.children.forEach(function(lvl2) {
           lvl2.children.forEach(function(stock) {
-            if (stock.name === _this.focusStockName) {
+            if (stock.name === _this.focusStockName[0]) {
               // stock.itemStyle.normal.borderColor = '#ffd614'
               // stock.itemStyle.normal.borderWidth = 2
               // lvl2.itemStyle.normal.borderColor = '#ffd614'
