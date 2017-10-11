@@ -265,6 +265,9 @@ export default {
           } else if (selectVal === 'order' || selectVal === 'staff_num') {
             return Number(showData).toFixed(0)
           } else {
+            if (showData === null) {
+              return '--'
+            }
             return Number(showData).toFixed(2)
           }
         }
@@ -635,6 +638,7 @@ export default {
         this.initBubbles()
       })
     }
+    this.initBubbles()
   }
 }
 </script>

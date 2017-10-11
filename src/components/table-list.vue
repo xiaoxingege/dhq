@@ -94,6 +94,6 @@ tr:nth-child(2n) td {
 <script>
 export default {
   props: ['data'],
-  mounted() {}
+  mounted () {}
 }
 </script>
