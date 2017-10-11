@@ -423,7 +423,7 @@ import zdian1ActivityPop1 from 'components/zdian1-activity-pop1'
 import zdian1ActivityPop2 from 'components/zdian1-activity-pop2'
 
 export default {
-  data () {
+  data() {
     // function pad (str, len) {
     //   str = str + ''
     //   if (str.length < len) {
@@ -448,11 +448,11 @@ export default {
     //   document.getElementById('text-min').innerHTML = pad(minute, 2)
     //   document.getElementById('text-sec').innerHTML = pad(second, 2)
     // }
-    window.setInterval(function () {
+    window.setInterval(function() {
       // ShowCountDown(2017, 10, 22, 'divdown1')
     }, 1000)
-    $(function () {
-      $('.nav a').click(function () {
+    $(function() {
+      $('.nav a').click(function() {
         var index = $(this).attr('data-index')
         var pos = $('#d' + index).offset().top
         // 实现平滑移动 1000代表时间ms
@@ -460,10 +460,10 @@ export default {
           scrollTop: pos
         }, 500)
       })
-      setInterval(function () {
+      setInterval(function() {
         $('.ui-six .announce-box ul').animate({
           'margin-top': '-30px'
-        }, 500, function () {
+        }, 500, function() {
           $('.ui-six .announce-box ul li:first').css({
             'font-size': '16px'
           })
@@ -490,21 +490,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
-          link: ''
-        },
-        {
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
-          link: ''
-        }
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
+            link: ''
+          },
+          {
+            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
+            link: ''
+          }
         ]
       },
       lotteryBoxWidth: 0,
@@ -528,7 +528,7 @@ export default {
     zdian1ActivityPop2
   },
   methods: {
-    playLottery () {
+    playLottery() {
       if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
         this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
         this.pop2Show = true
@@ -541,7 +541,7 @@ export default {
         }
       })
     },
-    showLotteryResult () {
+    showLotteryResult() {
       if (this.prize > 0) {
         if (this.prize === 8) {
           this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
@@ -553,15 +553,15 @@ export default {
         this.pop2Show = false
       }
     },
-    pop1Close () {
+    pop1Close() {
       this.pop1Html = ''
       this.pop1Show = false
     },
-    pop2Close () {
+    pop2Close() {
       this.pop2Html = ''
       this.pop2Show = false
     },
-    free () {
+    free() {
       if (this.loginStatus === 'no') {
         location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
       } else {
@@ -575,17 +575,15 @@ export default {
         })
       }
     },
-    grab (type) {
+    grab(type) {
       this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text3.png" /><p class="fz22 mt20 lh40">现金券将在次日发放，如遇节假日则顺延；</p><p class="fz22 lh40">此现金券可用于订阅智能炒股择时工具Z点操<br />盘，请在个人中心查看并使用。</p>'
       // this.pop1Show = true
     }
   },
-  mounted () {
+  mounted() {
     document.title = 'z点操盘'
     this.$store.dispatch('user/checkLogin').then(() => {
-      if (this.loginStatus === 'yes') {
-        this.$store.dispatch('actZdfl/getLotteryInfo')
-      }
+      this.$store.dispatch('actZdfl/getLotteryInfo')
     })
     $(this.$refs.slideBox).css({
       transform: `scale(${$(this.$refs.slideBox).width() / 980})`
