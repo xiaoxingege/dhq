@@ -555,17 +555,21 @@ export default {
   },
   methods: {
     playLottery () {
-      if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
-        this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
-        this.pop2Show = true
-        return
-      }
-      this.prize = -1
-      this.$store.dispatch('actZdfl/playLottery').then(() => {
-        if (!this.err) {
-          this.prize = this.lotteryResult.pirzeId * 1
+      if (this.loginStatus === 'no') {
+        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+      } else {
+        if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
+          this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
+          this.pop2Show = true
+          return
         }
-      })
+        this.prize = -1
+        this.$store.dispatch('actZdfl/playLottery').then(() => {
+          if (!this.err) {
+            this.prize = this.lotteryResult.pirzeId * 1
+          }
+        })
+      }
     },
     showLotteryResult () {
       if (this.prize > 0) {
