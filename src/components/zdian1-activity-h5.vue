@@ -225,7 +225,7 @@ input {
     top: 42.41rem;
 }
 [class^="text-"] {
-    letter-spacing: 0.44rem;
+    letter-spacing: 0.29rem;
     width: 1.22rem;
     overflow: hidden;
     display: inline-block;
@@ -233,13 +233,12 @@ input {
 }
 .footer {
     width: 7.5rem;
-    height: 2.15rem;
-    background: url("../assets/images/zdian1-activity/web-footer-bg-1.png") center 0 no-repeat;
+    height: 2.19rem;
+    background: url("../assets/images/zdian1-activity/h5-footer-bg.png") center 0 no-repeat;
     background-size: 100%;
     position: fixed;
     bottom: 0;
     z-index: 10;
-    transform-origin: left bottom;
 }
 .footer-btn {
     display: block;
@@ -247,12 +246,14 @@ input {
     height: 0.66rem;
     position: absolute;
     top: 1.38rem;
-    left: 5.56rem;
+    left: 2.94rem;
 }
 .box-con {
     position: absolute;
     width: 6.8rem;
     transform-origin: left top;
+    top: 0.05rem;
+    left: 0.34rem;
 }
 .nav {
     width: 1.66rem;
@@ -322,14 +323,22 @@ input {
     z-index: 9999;
     display: none;
 }
+.bg2-text {
+    font-size: 0.22rem;
+    color: #161412;
+    position: absolute;
+    top: 0.6rem;
+    left: 0.2rem;
+}
 </style>
 <style>
 #divdown1 {
   position: absolute;
   color: white;
+  width: 5.8rem;
   font-size: .52rem;
   top: .57rem;
-  left: 3.67rem;
+  left: 1.05rem;
   font-family: Consolas, Monaco, monospace;
 }
 
@@ -344,7 +353,12 @@ input {
 <div class="box">
   <div class="ui-block-inner">
     <div class="ui-one"></div>
-    <div class="ui-two"></div>
+    <div class="ui-two">
+      <div class="bg2-text">
+        十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！
+        <br/><br/>在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
+      </div>
+    </div>
     <div class="ui-three">
       <div class="box-con" ref="slideBox">
         <activity-slider :listData="listData" />
@@ -411,13 +425,13 @@ input {
   <div class="footer">
     <div class="box-con">
       <div id="divdown1">
-        <span id="text-day" class="text-day"></span><span class="time-unit">天</span>
-        <span id="text-hour" class="text-hour"></span><span class="time-unit">时</span>
-        <span id="text-min" class="text-min"></span><span class="time-unit">分</span>
-        <span id="text-sec" class="text-sec"></span><span class="time-unit">秒</span>
+        <span id="text-day" class="text-day"></span>
+        <span id="text-hour" class="text-hour"></span>
+        <span id="text-min" class="text-min"></span>
+        <span id="text-sec" class="text-sec"></span>
       </div>
     </div>
-    <a class="footer-btn" href="javascript:;" @click="free"></a>
+    <a class="footer-btn" href="javascript:;" @click="scrollTo(1)"></a>
   </div>
   <div class="shareInBrowser" ref="shareLayer" @click="hideShareLayer"></div>
 </div>
@@ -434,61 +448,7 @@ import zdian1ActivityPop1 from 'components/zdian1-activity-pop1'
 import zdian1ActivityPop2 from 'components/zdian1-activity-pop2'
 
 export default {
-  data() {
-    // function pad (str, len) {
-    //   str = str + ''
-    //   if (str.length < len) {
-    //     for (let i = 0; i < len - str.length; i++) {
-    //       str = '0' + str
-    //     }
-    //   }
-    //   return str
-    // }
-
-    // function ShowCountDown (year, month, day, divname) {
-    //   var now = new Date()
-    //   var endDate = new Date(year, month - 1, day)
-    //   var leftTime = endDate.getTime() - now.getTime()
-    //   var leftsecond = parseInt(leftTime / 1000)
-    //   var day1 = Math.floor(leftsecond / (60 * 60 * 24))
-    //   var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
-    //   var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
-    //   var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
-    //   document.getElementById('text-day').innerHTML = pad(day1, 2)
-    //   document.getElementById('text-hour').innerHTML = pad(hour, 2)
-    //   document.getElementById('text-min').innerHTML = pad(minute, 2)
-    //   document.getElementById('text-sec').innerHTML = pad(second, 2)
-    // }
-    window.setInterval(function() {
-      // ShowCountDown(2017, 10, 22, 'divdown1')
-    }, 1000)
-    $(function() {
-      $('.nav a').click(function() {
-        var index = $(this).attr('data-index')
-        var pos = $('#d' + index).offset().top
-        // 实现平滑移动 1000代表时间ms
-        $('html,body').stop().animate({
-          scrollTop: pos
-        }, 500)
-      })
-      setInterval(function() {
-        $('.ui-six .announce-box ul').animate({
-          'margin-top': '-30px'
-        }, 500, function() {
-          $('.ui-six .announce-box ul li:first').css({
-            'font-size': '16px'
-          })
-          $('.ui-six .announce-box ul').append($('.ui-six .announce-box ul li:first'))
-          $('.ui-six .announce-box ul li:first').addClass('cur').siblings().removeClass('cur')
-          $('.ui-six .announce-box ul').css({
-            'margin-top': '0'
-          })
-        })
-        $('.ui-six .announce-box ul li:eq(1)').animate({
-          'font-size': '20px'
-        }, 500)
-      }, 1500)
-    })
+  data () {
     return {
       listData: {
         conWidth: '980px',
@@ -501,21 +461,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
-            link: ''
-          }
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-1.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-2.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-3.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zdian/1-4.jpg',
+          link: ''
+        }
         ]
       },
       lotteryBoxWidth: 0,
@@ -539,13 +499,20 @@ export default {
     zdian1ActivityPop2
   },
   methods: {
-    playLottery() {
+    scrollTo (n) {
+      var pos = $('#d' + n).offset().top
+      // 实现平滑移动 1000代表时间ms
+      $('html,body').stop().animate({
+        scrollTop: pos
+      }, 500)
+    },
+    playLottery () {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
-          setTimeout(function() {
+          setTimeout(function () {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -567,7 +534,7 @@ export default {
         }
       }
     },
-    showLotteryResult() {
+    showLotteryResult () {
       if (this.prize > 0) {
         if (this.prize === 8) {
           this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
@@ -579,28 +546,28 @@ export default {
         this.pop2Show = false
       }
     },
-    pop1Close() {
+    pop1Close () {
       this.pop1Html = ''
       this.pop1Show = false
     },
-    pop2Close() {
+    pop2Close () {
       this.pop2Html = ''
       this.pop2Show = false
     },
-    hideShareLayer() {
+    hideShareLayer () {
       this.$refs.shareLayer.style.display = 'none'
     },
-    showShareLayer() {
+    showShareLayer () {
       this.$refs.shareLayer.style.display = 'block'
       this.$refs.shareLayer.style.height = $(window).height() + 'px'
     },
-    free() {
+    free () {
       if (window.app.name === '{{appid}}') {
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
           window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
-          setTimeout(function() {
+          setTimeout(function () {
             window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
           }, 1500)
         }
@@ -623,12 +590,12 @@ export default {
         }
       }
     },
-    grab(type) {
+    grab (type) {
       this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text3.png" /><p class="fz22 mt20 lh40">现金券将在次日发放，如遇节假日则顺延；</p><p class="fz22 lh40">此现金券可用于订阅智能炒股择时工具Z点操<br />盘，请在个人中心查看并使用。</p>'
       // this.pop1Show = true
     }
   },
-  mounted() {
+  mounted () {
     document.title = 'z点操盘'
     this.$store.dispatch('user/checkLogin').then(() => {
       this.$store.dispatch('actZdfl/getLotteryInfo')
@@ -639,6 +606,55 @@ export default {
     setTimeout(() => {
       this.lotteryBoxWidth = $(this.$refs.lotteryBox).width()
     })
+
+    function pad (str, len) {
+      str = str + ''
+      if (str.length < len) {
+        for (let i = 0; i < len - str.length; i++) {
+          str = '0' + str
+        }
+      }
+      return str
+    }
+
+    function ShowCountDown (year, month, day, divname) {
+      var now = new Date()
+      var endDate = new Date(year, month - 1, day)
+      var leftTime = endDate.getTime() - now.getTime()
+      var leftsecond = parseInt(leftTime / 1000)
+      var day1 = Math.floor(leftsecond / (60 * 60 * 24))
+      var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
+      var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
+      var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+      document.getElementById('text-day').innerHTML = pad(day1, 2)
+      document.getElementById('text-hour').innerHTML = pad(hour, 2)
+      document.getElementById('text-min').innerHTML = pad(minute, 2)
+      document.getElementById('text-sec').innerHTML = pad(second, 2)
+    }
+    window.setInterval(function () {
+      ShowCountDown(2017, 10, 22, 'divdown1')
+    }, 1000)
+    $('.nav a').click(e => {
+      var index = $(e.target).attr('data-index')
+      this.scrollTo(index)
+    })
+    setInterval(function () {
+      $('.ui-six .announce-box ul').animate({
+        'margin-top': '-30px'
+      }, 500, function () {
+        $('.ui-six .announce-box ul li:first').css({
+          'font-size': '16px'
+        })
+        $('.ui-six .announce-box ul').append($('.ui-six .announce-box ul li:first'))
+        $('.ui-six .announce-box ul li:first').addClass('cur').siblings().removeClass('cur')
+        $('.ui-six .announce-box ul').css({
+          'margin-top': '0'
+        })
+      })
+      $('.ui-six .announce-box ul li:eq(1)').animate({
+        'font-size': '20px'
+      }, 500)
+    }, 1500)
   }
 }
 </script>
