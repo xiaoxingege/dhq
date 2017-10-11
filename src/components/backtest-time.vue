@@ -34,7 +34,7 @@ body {
     border-left: 1px solid #0d0e0f;
     /* padding: 0 20px 20px 0; */
     padding-right: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 1px;
 
 }
 .btime-main {
@@ -45,7 +45,8 @@ body {
     position: absolute;
     /* right: 15px;
         top: 8px; */
-    right: 17px;
+    /* right: 17px; */
+    right: -2px;
     top: 20px;
 }
 .icon span {
@@ -184,7 +185,7 @@ span.copy {
     <div></div>
   </div>
   <div class="foots-tishi">
-    风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+    风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证。策略提示的买入时机、卖出时机，或买卖区间等仅供投资者投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
     <div class="angle" @click="showCode"></div>

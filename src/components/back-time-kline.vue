@@ -102,7 +102,8 @@ i {
 }
 .kcharts {
     /* height: 360px; */
-    height: 398px;
+    /* height: 398px; */
+    height: 417px;
 }
 .ma-box {
     position: absolute;
@@ -149,10 +150,11 @@ i {
     border-radius: 3px;
 }
 .search-ul li {
-    line-height: 30px;
+    /* line-height: 30px; */
+    line-height: 20px;
     /* border-bottom: 1px solid #262931; */
     /* border-bottom: 1px solid #e5e5e5; */
-    border-bottom: 1px solid #808ba1;
+    /* border-bottom: 1px solid #808ba1; */
     cursor: pointer;
 }
 .search-ul li span:first-child {
@@ -170,7 +172,7 @@ i {
     <div class="desc-title">机会分析</div>
     <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
     <span class="ana-btn" @click="submitSearch($event)">分析</span>
-    <label class="label-txt lightcolor">*适用范围：{{timeStrategy.stockScope}}，超出范围可能不准</label>
+    <label class="label-txt lightcolor">*仅支持分析A股，价格为前复权</label>
     <ul class="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
       <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
     </ul>

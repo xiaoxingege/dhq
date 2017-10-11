@@ -40,7 +40,7 @@ body {
     border-left: 1px solid #0d0e0f;
     /* padding: 0 20px 20px 0; */
     padding-right: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 1px;
 
 }
 .bfilter-main {
@@ -88,9 +88,9 @@ li.export-box {
     right: 1%;
     top: 0;
 }
-.export-box span:hover {
+/* .export-box span:hover {
     background: url("../assets/images/z3img/backexport-click2.png") no-repeat;
-}
+} */
 
 .export-span {
     background: url("../assets/images/z3img/backexport2.png") no-repeat;
@@ -98,7 +98,8 @@ li.export-box {
     height: 25px;
     display: inline-block;
     position: absolute;
-    right: 1.5%;
+    /* right: 1.5%; */
+    right: 0.3%;
     top: 0;
 }
 
@@ -147,7 +148,8 @@ li.export-box {
     text-align: center;
 }
 .table-head2 span {
-    width: 11.92%;
+    /* width: 11.92%; */
+    width: 10.7%;
     text-align: center;
     /*  width: 11%;*/
 }
@@ -157,9 +159,14 @@ li.export-box {
     border-bottom: 1px solid #e5e5e5; */
 }
 .table-body2 span {
-    width: 12%;
+    /* width: 12%; */
+    width: 10.78%;
     text-align: center;
     /*  width: 11%;*/
+}
+.see {
+    cursor: pointer;
+    padding-left: 12px;
 }
 span.order-num {
     /* width: 6%; */
@@ -180,7 +187,7 @@ span.order-num {
     position: absolute;
     /* right: 15px;
     top: 8px; */
-    right: 17px;
+    right: -2px;
     top: 20px;
 }
 
@@ -282,6 +289,7 @@ span.copy {
       right: 0;
       margin: 0 auto; */
     background: none;
+    padding: 10px 0;
 }
 
 /* .bfilter-today{
@@ -294,6 +302,7 @@ span.copy {
       right: 0;
       margin: 0 auto; */
     background: none;
+    padding: 10px 0;
 }
 
 .foots-tishi {
@@ -329,7 +338,7 @@ span.copy {
           <span class="order-num">序号
                    </span><span>股票代码
                    </span><span>股票简称
-                   </span><span>价格(元)
+                   </span><span>最新价
                    </span><span>涨跌
                    </span><span>涨跌幅
                    </span><span>市盈率
@@ -345,7 +354,7 @@ span.copy {
                      </span><span>{{stock.innerCode}}
                      </span><span><a :href="'/stock/'+ stock.innerCode" target="_blank" class="blue">{{stock.name}}</a>
                      </span><span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}
-                     </span><span v-z3-updowncolor="stock.curChngPct">{{stock.chg>=0?stock.chg===0?stock.chg:'+'+checkNull(stock.chg):checkNull(stock.chg)}}
+                     </span><span v-z3-updowncolor="stock.curChngPct">{{stock.chg==null?'--':changePlus(stock.chg)}}
                      </span><span v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
                      </span><span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}
                      </span><span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}
@@ -370,6 +379,7 @@ span.copy {
           <span>胜率</span>
           <span>平均收益率</span>
           <span>平均超额收益率</span>
+          <span>买卖明细</span>
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
           <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail" v-if="tradeDetail.length>0">
@@ -378,18 +388,16 @@ span.copy {
               </span>
             <span v-if="tradeDay.buyStockNums===0">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}
               </span>
-            <router-link :to="{name:'backtestfilterbuysell',query:{strategyId:strategyId,backtestDate : tradeDay.backtestDate,stockType:'buyStocks',basicName:basicName}}" v-else>
-              <span class="blue">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}</span>
-            </router-link>
+            <span class="blue" v-else>{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}</span>
             <span v-if="tradeDay.sellStockNums===0">{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
-            <router-link :to="{name:'backtestfilterbuysell',query:{strategyId:strategyId,backtestDate : tradeDay.backtestDate,stockType:'sellStocks',basicName:basicName}}" v-else>
-              <span class="blue">{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
-            </router-link>
+            <span class="blue" v-else>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
             <span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
               </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
               </span><span v-z3-updowncolor="tradeDay.avgReturn">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
               </span><span v-z3-updowncolor="tradeDay.avgReturnExcess">{{tradeDay.avgReturnExcess==null?'--':changePer(tradeDay.avgReturnExcess)}}
               </span>
+            <router-link :to="{name:'backtestfilterbuysell2',query:{strategyId:strategyId,backtestDate : tradeDay.backtestDate,basicName:basicName}}"><span class="blue see">查看
+              </span></router-link>
           </div>
           <div v-if="tradeDetail.length<=0" class="tr-no2" :style="{  lineHeight: fullHeight + 'px' }">
             <div class="no-data"></div>
@@ -400,7 +408,7 @@ span.copy {
     </div>
   </div>
   <div class="foots-tishi">
-    风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+    风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证；策略提示的当前选股仅供投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
     <div class="angle" @click="showCode"></div>
@@ -443,7 +451,9 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      fullHeight: document.documentElement.clientHeight - 469,
+      fullHeight: document.documentElement.clientHeight - 390,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 390) / 30),
+      fullHeight3: parseInt((document.documentElement.clientHeight - 390) / 30),
       basicName: ''
     }
   },
@@ -464,12 +474,12 @@ export default {
       this.$store.dispatch('backtestDetail/queryNowStock', {
         strategyId: this.strategyId,
         stockPage: this.stockPage,
-        stockPagesize: this.stockPagesize
+        stockPagesize: this.fullHeight2
       })
       this.$store.dispatch('backtestDetail/queryTradeDetail', {
         strategyId: this.strategyId,
         tradePage: this.tradePage,
-        tradePagesize: this.tradePagesize
+        tradePagesize: this.fullHeight3
       })
     },
     nowStock () {
@@ -533,6 +543,13 @@ export default {
         return '--'
       } else {
         return str
+      }
+    },
+    changePlus (num) {
+      if (num > 0) {
+        return '+' + num
+      } else if (num <= 0) {
+        return num
       }
     },
     changeYi (num) {

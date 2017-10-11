@@ -107,6 +107,7 @@ i {
 .desc-title {
     padding-bottom: 11px;
     font-size: 14px;
+    font-weight: 900;
 }
 .desc-con {
     line-height: 20px;
@@ -277,25 +278,25 @@ i {
       <table class="evaluat-box">
         <tr class="eval-tr1 clearfix">
           <td>
-            <span>胜率
+            <span class="gray">胜率
                          </span></br><span class="desc-num1" v-z3-updowncolor="timeEval.winRatio">{{timeEval.winRatio==null?'--':changePer(timeEval.winRatio)}}</span>
           </td>
           <td>
-            <span>最大盈利
+            <span class="gray">最大盈利
                          </span></br><span class="desc-num1" v-z3-updowncolor="timeEval.maxWin">{{timeEval.maxWin==null?'--':changePer(timeEval.maxWin)}}</span>
           </td>
           <td>
-            <span>最大亏损
+            <span class="gray">最大亏损
                          </span></br><span class="desc-num1" v-z3-updowncolor="timeEval.maxLoss">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span></td>
           <td>
-            <span>盈亏比
+            <span class="gray">盈亏比
                          </span></br><span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
           <td>
-            <span>回测区间
+            <span class="gray">回测区间
                          </span></br><span class="desc-num1">{{timeStrategy.backtestStartDate==null?'--':changeDate(timeStrategy.backtestStartDate)}}～{{timeStrategy.backtestEndDate==null?'--':changeDate(timeStrategy.backtestEndDate)}}</span>
           </td>
           <td>
-            <span>股票范围
+            <span class="gray">股票范围
                          </span></br><span class="desc-num1">{{timeStrategy.stockScope}}</span>
           </td>
         </tr>

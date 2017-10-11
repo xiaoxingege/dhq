@@ -101,6 +101,7 @@ i {
 .desc-title {
     padding-bottom: 11px;
     font-size: 14px;
+    font-weight: 900;
 }
 .desc-con {
     line-height: 20px;
@@ -111,7 +112,9 @@ i {
     padding: 0 0 26px;
     width: 100%;
 }
-.desc-ul tr:nth-child(1) td {}
+.desc-ul tr:nth-child(1) td {
+    color: #808ba1;
+}
 .desc-ul tr:nth-child(2) td {
     /* padding-top: 12px; */
     color: #c9d0d7;
@@ -216,34 +219,34 @@ i {
       <table class="evaluat-box">
         <tr class="eval-tr1 clearfix">
           <td>
-            <span>胜率
+            <span class="gray">胜率
               </span></br><span class="desc-num1" v-z3-updowncolor="eval.winRatio">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
           </td>
           <td>
-            <span>平均超额收益
+            <span class="gray">平均超额收益
               </span></br><span class="desc-num1" v-z3-updowncolor="eval.avgReturnExcess">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span></td>
           <td>
-            <span>平均收益
+            <span class="gray">平均收益
               </span></br><span class="desc-num1" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span></td>
           <td>
-            <span>盈亏比
+            <span class="gray">盈亏比
               </span></br><span class="desc-num1">{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span></td>
         </tr>
         <tr class="eval-tr2 clearfix">
           <td>
-            <span>持有天数
+            <span class="gray">持有天数
               </span></br><span class="desc-num1">{{basicFilter.holdDay==null?'--':basicFilter.holdDay}}</span>
           </td>
           <td>
-            <span>最大盈利
+            <span class="gray">最大盈利
               </span></br><span class="desc-num1" v-z3-updowncolor="eval.maxWin">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
           </td>
           <td>
-            <span>最大亏损
+            <span class="gray">最大亏损
               </span></br><span class="desc-num1" v-z3-updowncolor="eval.maxLoss">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
           </td>
           <td>
-            <span>回测区间
+            <span class="gray">回测区间
              </span></br><span class="desc-num1">{{basicFilter.backtestStartDate==null?'--':changeDate(basicFilter.backtestStartDate)}}～{{basicFilter.backtestEndDate==null?'--':changeDate(basicFilter.backtestEndDate)}}</span>
           </td>
         </tr>
