@@ -840,9 +840,7 @@ export default {
               borderWidth: 1, // 第一层矩形间距
               gapWidth: 1 // 第二层矩形间距
             },
-            emphasis: {
-
-            }
+            emphasis: {}
           },
           silent: true,
           upperLabel: {

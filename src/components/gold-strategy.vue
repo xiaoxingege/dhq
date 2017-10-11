@@ -5,6 +5,7 @@ html {
     height: 100%;
 }
 .goldRecommend {
+    height: 100%;
     font-size: 12px;
     background: #0d0e0f;
     padding: 0 1px;
