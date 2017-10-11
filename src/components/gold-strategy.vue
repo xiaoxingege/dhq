@@ -174,7 +174,7 @@ a {
     <div class="fl">
       <span>{{goldResult===null?'':goldResult.strategyName}}</span>
     </div>
-    <div class="fr mr-15 recommend">
+    <div class="fr recommend">
       <span class="mr-10 weixin" @click="showQrcode"></span>
       <span class="copy mr-20 copy"></span>
     </div>
