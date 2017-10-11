@@ -714,9 +714,6 @@ export default {
         }
       })
     },
-    <<
-    << << < Updated upstream ===
-    === =
     getOption: function() {
       return {
         hoverLayerThreshold: 10000,
@@ -783,8 +780,6 @@ export default {
         }]
       }
     },
-    >>>
-    >>> > Stashed changes
     focusStock: function() {
       const _this = this
       // const focusStockData = this.stockData
