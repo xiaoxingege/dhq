@@ -163,12 +163,12 @@ a {
         </thead>
         <tbody>
           <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
-            <td>{{index+1}}</td>
+            <td>{{(mrxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
-            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}</td>
           </tr>
@@ -197,12 +197,12 @@ a {
         </thead>
         <tbody>
           <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
-            <td>{{index+1}}</td>
+            <td>{{(mcxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.amount === null ? '--':item.amount}}</td>
-            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}
             </td>
@@ -251,7 +251,9 @@ export default {
         ['交易详情', 'mrjy'],
         ['调入信号', 'mrxh'],
         ['调出信号', 'mcxh']
-      ]
+      ],
+      mrxhPage: 0,
+      mcxhPage: 0
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
   },
@@ -295,6 +297,7 @@ export default {
       }).then(() => {})
     },
     goMrxhPage (data) {
+      this.mrxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'buy',
@@ -302,6 +305,7 @@ export default {
       }).then(() => {})
     },
     goMcxhPage (data) {
+      this.mcxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'sell',
