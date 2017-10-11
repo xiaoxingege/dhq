@@ -209,6 +209,7 @@
   background: rgba(0,0,0,0.5);
 }
 .pop-ensure{
+  display: none;
   width:6.08rem;
   height: 3.4rem;
   position: absolute;
@@ -234,6 +235,10 @@
   line-height: 0.4rem;
   overflow:hidden;
 }
+.pop-hint .ensure-hint{
+  width:100%;
+  height: auto;
+}
 .ensure-hint span{
   float: left;
   width:0.4rem;
@@ -254,10 +259,17 @@
   line-height: 0.43rem;
   color:#8d2b00;
 }
+.pop-hint .ensure-text{
+  width:100%;
+}
 .ensure-button{
   width:5.08rem;
   margin:0.62rem auto 0;
   overflow-x: hidden;
+}
+.pop-hint .ensure-button{
+  width:2.34rem;
+  margin:0.22rem auto 0;
 }
 .ensure-button span{
   float: left;
@@ -343,7 +355,7 @@
         </li>
       </ul>
       <div class="award-click">
-        <div class="get-award" v-on:click="e=>{this.trueflag ? this.openModal() : this.rotate()}">
+        <div class="get-award" v-on:click="e=>{this.trueflag ? this.openEnture() : this.rotate()}">
           <p>{{consumenum}}豆/次</p>
         </div>
       </div>
@@ -363,7 +375,7 @@
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
   </div>
   <div id="pop" class="mask">
-    <div class="pop-ensure">
+    <div id="pop-ensure" class="pop-ensure">
       <h3>确认消耗{{consumenum}}金豆</h3>
       <div class="ensure-hint">
         <span v-bind:class="[trueflag ? trueclass : falseclass]" v-on:click="e=>{this.trueflag=!this.trueflag}"></span>
@@ -372,6 +384,25 @@
       <div class="ensure-button">
         <span class="ensure-button-close" v-on:click="closeModal">取消</span>
         <span class="ensure-button-true" v-on:click="closeModalrotate">确定</span>
+      </div>
+    </div>
+    <div id="pop-lackBeanNum" class="pop-ensure pop-hint">
+      <h3>金豆不足</h3>
+      <div class="ensure-hint">
+        <p class="ensure-text">您当前的金豆数不足20个，</p>
+        <p class="ensure-text">不能参与抽奖！</p>
+      </div>
+      <div class="ensure-button">
+        <span class="ensure-button-true" v-on:click="closeLackBeanNum">确定</span>
+      </div>
+    </div>
+    <div id="pop-getDraw" class="pop-ensure pop-hint">
+      <h3>恭喜您</h3>
+      <div class="ensure-hint">
+        <p class="ensure-text">抽中“{{name}}”！</p>
+      </div>
+      <div class="ensure-button get-award-button">
+        <span class="ensure-button-true" v-on:click="closeGetDraw">确定</span>
       </div>
     </div>
   </div>
@@ -388,6 +419,7 @@ export default {
     return {
       isGO: false,
       position: 3,
+      name: '',
       consumenum: 20,
       trueflag: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
@@ -450,10 +482,50 @@ export default {
       var pop = document.getElementById('pop')
       pop.style.display = 'none'
     },
+    popEnsure: function () {
+      var popEnsure = document.getElementById('pop-ensure')
+      popEnsure.style.display = 'block'
+    },
+    closeEnsure: function () {
+      var closeEnsure = document.getElementById('pop-ensure')
+      closeEnsure.style.display = 'none'
+    },
+    popLackBeanNum: function () {
+      var popLackBeanNum = document.getElementById('pop-lackBeanNum')
+      popLackBeanNum.style.display = 'block'
+    },
+    popGetDraw: function () {
+      var popGetDraw = document.getElementById('pop-getDraw')
+      popGetDraw.style.display = 'block'
+    },
+    openEnture: function () {
+      this.openModal()
+      this.popEnsure()
+    },
     closeModalrotate: function () {
       this.closeModal()
+      this.closeEnsure()
       this.rotate()
     },
+    openLackBeanNum: function () {
+      this.openModal()
+      this.popLackBeanNum()
+    },
+    closeLackBeanNum: function () {
+      this.closeModal()
+      var closeLackBeanNum = document.getElementById('pop-lackBeanNum')
+      closeLackBeanNum.style.display = 'none'
+    },
+    openGetDraw: function () {
+      this.openModal()
+      this.popGetDraw()
+    },
+    closeGetDraw: function () {
+      this.closeModal()
+      var closeGetDraw = document.getElementById('pop-getDraw')
+      closeGetDraw.style.display = 'none'
+    },
+
     rotate: function () {
       this.$store.dispatch('user/checkLogin').then(() => {
         if (this.loginStatus === 'no') {
@@ -463,13 +535,14 @@ export default {
             }))
           }
         } else if (this.beanNum < this.consumenum) {
-          alert('您当前的金都数不足' + this.consumenum + '个，不能参与抽奖。')
+          this.openLackBeanNum()
         } else {
           return this.$store.dispatch('luckDrawData/getDraw').then(() => {
             if (this.isGO) {
               return false
             }
             this.position = this.draw.data.position
+            this.name = this.draw.data.name
             this.isGO = true
             var __this = this
             this.drawPrize(this.position, __this)
@@ -499,18 +572,12 @@ export default {
         count--
         if (count <= 0) {
           clearInterval(timer)
+          __this.isGO = false
+          __this.openGetDraw()
           __this.$store.dispatch('user/getBeanNum')
-          _this.isGO = false
         }
       }, 100)
     }
   }
 }
 </script>
-
-
-
-
-
-
-
