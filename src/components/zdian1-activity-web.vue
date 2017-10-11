@@ -139,7 +139,6 @@ input {
 }
 .box-con {
     width: 1000px;
-    overflow: hidden;
     margin: 0 auto;
     position: relative;
     height: 100%;
@@ -254,8 +253,8 @@ input {
     position: absolute;
     width: 999px;
     height: 200px;
-    top: 130px;
-    left: 110px;
+    top: 120px;
+    left: 0;
     font-size: 22px;
     color: #161412;
     line-height: 1.5;
@@ -296,6 +295,12 @@ input {
     left: 194px;
     li {
         padding-bottom: 7px;
+    }
+    li:nth-child(2) {
+        padding-left: 25px;
+    }
+    li:nth-child(3) {
+        padding-left: 51px;
     }
 }
 .bg6-text {
@@ -348,12 +353,14 @@ input {
   <div class="bg1">
   </div>
   <div class="bg2">
-    <div class="bg2-text">
-      <!-- 沪指顺利突破3300点，3400点已近在咫尺。创业板与次新股风云再起，国家队带领资金跑步入场，十九大盛会在前，年内最大一波行情即将到来，3600点指日可待，你还要无动于衷？ 金融界重磅推出智能调仓工具
-      <span class="red-text">Z点操盘</span>，能够在市场低迷期，及时给出<span class="black-text">S点风险预警信号</span>；在每一波行情到来时，精准识别个股多空力量，及时<span class="black-text">发出Z点买入信号</span>。7-9月份， 抓住天齐锂业、宝泰隆、国盛金控等多只板块龙头股，
-      <span class="black-text">短线收益均超50%</span>！近期行情及业绩如图： -->
-      十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！
-      <br/><br/>在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
+    <div class="box-con">
+      <div class="bg2-text">
+        <!-- 沪指顺利突破3300点，3400点已近在咫尺。创业板与次新股风云再起，国家队带领资金跑步入场，十九大盛会在前，年内最大一波行情即将到来，3600点指日可待，你还要无动于衷？ 金融界重磅推出智能调仓工具
+        <span class="red-text">Z点操盘</span>，能够在市场低迷期，及时给出<span class="black-text">S点风险预警信号</span>；在每一波行情到来时，精准识别个股多空力量，及时<span class="black-text">发出Z点买入信号</span>。7-9月份， 抓住天齐锂业、宝泰隆、国盛金控等多只板块龙头股，
+        <span class="black-text">短线收益均超50%</span>！近期行情及业绩如图： -->
+        十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！
+        <br/><br/>在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
+      </div>
     </div>
   </div>
   <div class="bg3">
@@ -378,8 +385,8 @@ input {
     <div class="box-con">
       <ol class="bg5-text">
         <li>1&nbsp;&nbsp;低至1折，优惠力度大，有效期长！</li>
-        <li>&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;金融界智能操盘工具促销598元/季，1980元/年，用券再减88元/288元！</li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;参与现金券抢购的用户均可参与抽奖，赢万元专属定制投资服务！</li>
+        <li>2&nbsp;&nbsp;金融界智能操盘工具促销598元/季，1980元/年，用券再减88元/288元！</li>
+        <li>3&nbsp;&nbsp;参与现金券抢购的用户均可参与抽奖，赢万元专属定制投资服务！</li>
       </ol>
       <a href="http://itougu.jrj.com.cn/tips/438.jspa" class="link1" @click="grab('1')"></a>
       <a href="http://itougu.jrj.com.cn/tips/439.jspa" class="link2" @click="grab('2')"></a>
@@ -409,7 +416,7 @@ input {
         <div v-else style="color:#ffe4c3">暂无人中奖</div>
       </div>
       <ol class="bg6-text">
-        <li>所有参与现金券的用户，每抢购1次，可参与1次抽奖</li>
+        <li>用户参与1种现金券抢购，则每日拥有1次抽奖机会；参与2种现金券抢购，则每日拥有2次抽奖机会</li>
         <li>用户抽取到工作室、Z量化、极智选股等，会有投服人员联系您讲解使用方法，请提前绑定手机号码</li>
         <li>所有奖品，将于中奖后3个工作日内派发；活动最终解释权归金融界所有，如果疑问，请咨询400-166-1188</li>
       </ol>
