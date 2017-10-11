@@ -67,6 +67,17 @@ a {
 .green {
     color: #56a870;
 }
+
+.goldExport {
+    background: url('../assets/images/z3img/backexport2.png') no-repeat;
+    width: 57px;
+    height: 25px;
+    display: inline-block;
+    position: absolute;
+    right: 1.5%;
+    top: 0;
+    cursor: pointer;
+}
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .dqxg,
     .dryk,
@@ -83,8 +94,7 @@ a {
 <template>
 <div style="width:100%">
   <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' " class="export">
-    <img src="../assets/images/z3img/export-icon.png">
-    <a @click="exportData(type)">导出</a>
+    <span @click="exportData(type)" class="goldExport"></span>
   </div>
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
   <div>
@@ -135,7 +145,9 @@ a {
       </div>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
-      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center;">
+        <img class="mt-50" src="../assets/images/z3img/no-data.png">
+      </div>
       <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -167,7 +179,9 @@ a {
       </div>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
-      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style=" color:#999; text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center;">
+        <img class="mt-50" src="../assets/images/z3img/no-data.png">
+      </div>
       <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -235,8 +249,8 @@ export default {
         ['收益月统计', 'syytj'],
         ['收益率分布', 'sylfb'],
         ['交易详情', 'mrjy'],
-        ['今日调入信号', 'mrxh'],
-        ['今日调出信号', 'mcxh']
+        ['调入信号', 'mrxh'],
+        ['调出信号', 'mcxh']
       ]
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }

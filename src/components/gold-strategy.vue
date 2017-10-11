@@ -7,12 +7,14 @@ html {
 .goldRecommend {
     font-size: 12px;
     background: #0d0e0f;
-    padding: 0 8px;
+    padding: 0 1px;
     box-sizing: border-box;
 }
 .strategyHeader {
     height: 32px;
     text-align: left;
+    background: #141518;
+    padding-left: 10px;
 }
 .strategyHeader span {
     display: inline-block;
@@ -34,7 +36,6 @@ html {
 }
 .strategyDescTop {
     /*height:214px;*/
-    margin-bottom: 6px;
     background: #141518;
     padding: 15px 10px;
 }
@@ -215,8 +216,8 @@ a {
   <div>
     <Goldchart :strategyId="strategyId" :type="type"></Goldchart>
   </div>
-  <div style="color:#999;line-height: 50px;">
-    风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。
+  <div style="color:#999;line-height: 50px; background: #141518;">
+    风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证。策略提示的调入信号、调出信号、Barra风格值等仅供投资者投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
     <div class="angle" @click="showCode"></div>

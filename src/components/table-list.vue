@@ -40,6 +40,7 @@ tr:nth-child(2n) td {
 
 .sellConditionWeb table tr td {
     color: #d3d9dd;
+    border-bottom: 1px solid #1F2229;
 }
 .tradeParamsWeb table tr:nth-child(n) td {
     color: #afb6bd;

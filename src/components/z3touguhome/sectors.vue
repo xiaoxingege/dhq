@@ -74,14 +74,14 @@
   <div class="sectors-table-wrap clearfix">
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{formateData(key)?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{formateData(key)?'--':key}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
@@ -116,8 +116,8 @@ export default {
   },
   watch: {
     type () {
-      this.rankUp = {}
-      this.rankDown = {}
+      /* this.rankUp = {}
+      this.rankDown = {}*/
       this.initSectors() // 点击板块标签初始化表格数据
     }
   },

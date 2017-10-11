@@ -80,7 +80,7 @@
       <tr v-for="item of industryList">
         <td>{{item.industryName === null?'--':item.industryName}}</td>
         <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockVal">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
@@ -89,7 +89,7 @@
       <tr v-for="item of hotTopicList">
         <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{formateData(item.topicName)?'--':item.topicName}}</td>
         <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
         <td v-z3-updowncolor="item.stockPrice">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockChngPct)?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
@@ -107,7 +107,7 @@ import {
 } from '../../z3tougu/config'
 export default {
   props: ['strategyId'],
-  data () {
+  data() {
     return {
       navText: [
         ['行业板块', 'industry'],
@@ -124,9 +124,9 @@ export default {
     }
   },
   watch: {
-    type () {
-      this.industryList = []
-      this.hotTopicList = []
+    type() {
+      /* this.industryList = []
+      this.hotTopicList = []*/
       this.initTopIndustry() // 点击板块标签初始化表格数据
     }
   },
@@ -136,58 +136,58 @@ export default {
     StockBox
   },
   computed: {
-    topIndustryData: function () {
+    topIndustryData: function() {
       const topIndustryData = this.$store.state.z3touguIndex.topIndustry
       return topIndustryData
     },
-    hotTopicData: function () {
+    hotTopicData: function() {
       const hotTopicData = this.$store.state.z3touguIndex.hotTopic
       return hotTopicData
     }
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    initTopIndustry (date) {
+    initTopIndustry(date) {
       if (this.type === 'industry') {
         this.$store.dispatch('z3touguIndex/getTopIndustry', {
-          size: this.size
-        })
+            size: this.size
+          })
           .then(() => {
             this.industryList = this.topIndustryData
           })
       } else if (this.type === 'topic') {
         this.$store.dispatch('z3touguIndex/getHotTopic', {
-          limit: this.limit,
-          sortField: this.sortField
-        })
+            limit: this.limit,
+            sortField: this.sortField
+          })
           .then(() => {
             this.hotTopicList = this.hotTopicData
           })
       }
     },
-    autoUpdate: function () {
+    autoUpdate: function() {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function () {
+        this.updateDataPid = setInterval(function() {
           _this.initTopIndustry()
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function (innerCode) {
+    linkStock: function(innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toTopicDetail: function (topicCode) {
+    toTopicDetail: function(topicCode) {
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     },
-    formateData: function (value) {
+    formateData: function(value) {
       if (value) {
         return false
       } else {
@@ -195,7 +195,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.initTopIndustry()
     this.autoUpdate()
   }
