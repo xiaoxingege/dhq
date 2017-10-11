@@ -312,6 +312,16 @@ input {
     left: 0.7rem;
     width: 6.5rem;
 }
+.shareInBrowser {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url("https://i0.jrjimg.cn/activity/strategy-fans/img/shareInBrowser.png");
+    background-size: 100% 100%;
+    z-index: 9999;
+    display: none;
+}
 </style>
 <style>
 #divdown1 {
@@ -398,7 +408,7 @@ input {
 
     </div>
   </zdian1-activity-pop2>
-  <!-- <div class="footer">
+  <div class="footer">
     <div class="box-con">
       <div id="divdown1">
         <span id="text-day" class="text-day"></span><span class="time-unit">天</span>
@@ -408,7 +418,8 @@ input {
       </div>
     </div>
     <a class="footer-btn" href="javascript:;" @click="free"></a>
-  </div> -->
+  </div>
+  <div class="shareInBrowser" ref="shareLayer" @click="hideShareLayer"></div>
 </div>
 </template>
 <script>
@@ -529,17 +540,32 @@ export default {
   },
   methods: {
     playLottery() {
-      if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
-        this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
-        this.pop2Show = true
-        return
-      }
-      this.prize = -1
-      this.$store.dispatch('actZdfl/playLottery').then(() => {
-        if (!this.err) {
-          this.prize = this.lotteryResult.pirzeId * 1
+      if (window.app.name === '{{appid}}') {
+        if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+          this.showShareLayer()
+        } else {
+          window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
+          setTimeout(function() {
+            window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+          }, 1500)
         }
-      })
+      } else {
+        if (this.loginStatus === 'no') {
+          location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+        } else {
+          if (!this.lotteryInfo || !this.lotteryInfo.drawNum) {
+            this.pop2Html = '<h3>很遗憾<br />您当前没有抽奖机会</h3><p class="fz26 cl1">参与现金券抢购，</p><p class="fz20 cl1">可以获取更多抽奖机会哟~</p><p class="fz20 cl1">祝您投资愉快</p>'
+            this.pop2Show = true
+            return
+          }
+          this.prize = -1
+          this.$store.dispatch('actZdfl/playLottery').then(() => {
+            if (!this.err) {
+              this.prize = this.lotteryResult.pirzeId * 1
+            }
+          })
+        }
+      }
     },
     showLotteryResult() {
       if (this.prize > 0) {
@@ -561,18 +587,40 @@ export default {
       this.pop2Html = ''
       this.pop2Show = false
     },
+    hideShareLayer() {
+      this.$refs.shareLayer.style.display = 'none'
+    },
+    showShareLayer() {
+      this.$refs.shareLayer.style.display = 'block'
+      this.$refs.shareLayer.style.height = $(window).height() + 'px'
+    },
     free() {
-      if (this.loginStatus === 'no') {
-        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+      if (window.app.name === '{{appid}}') {
+        if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+          this.showShareLayer()
+        } else {
+          window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/zdian1-activity'
+          setTimeout(function() {
+            window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+          }, 1500)
+        }
       } else {
-        this.$store.dispatch('actZdfl/getZPoint').then(() => {
-          if (this.err) {
-            this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text1.png" /><p class="fz24 mt10">免费体验权限<span>仅限Z点操盘新用户</span>领取。</p><p class="fz30">您可以参与<span>“8.8元抢购”</span>福利，<br />享受超低折扣~</p>'
-          } else {
-            this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text2.png" /><p class="fz26 mt20">成功领取智能炒股择时工具</p><p class="fz26">Z点操盘7天免费使用权限。</p><p class="fz20">您可以在金融界APP“智能诊股”页查看并使用。</p>'
-          }
-          this.pop1Show = true
-        })
+        if (this.loginStatus === 'no') {
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
+        } else if (this.loginStatus === 'yes') {
+          this.$store.dispatch('actZdfl/getZPoint').then(() => {
+            if (this.err) {
+              this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text1.png" /><p class="fz24 mt10">免费体验权限<span>仅限Z点操盘新用户</span>领取。</p><p class="fz30">您可以参与<span>“8.8元抢购”</span>福利，<br />享受超低折扣~</p>'
+            } else {
+              this.pop1Html = '<img src="http://i0.jrjimg.cn/zqt-red-1000/focus/zlhWeb/web-text2.png" /><p class="fz26 mt20">成功领取智能炒股择时工具</p><p class="fz26">Z点操盘7天免费使用权限。</p><p class="fz20">您可以在金融界APP“智能诊股”页查看并使用。</p>'
+            }
+            this.pop1Show = true
+          })
+        } else {
+          alert('正在获取用户信息，请稍候')
+        }
       }
     },
     grab(type) {

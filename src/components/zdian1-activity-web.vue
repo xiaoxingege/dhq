@@ -139,6 +139,7 @@ input {
 }
 .box-con {
     width: 1000px;
+    overflow: hidden;
     margin: 0 auto;
     position: relative;
     height: 100%;
@@ -331,6 +332,7 @@ input {
   font-size: 52px;
   top: 57px;
   left: 227px;
+  width: 1000px;
   font-family: Consolas, Monaco, monospace;
 }
 
@@ -350,7 +352,8 @@ input {
       <!-- 沪指顺利突破3300点，3400点已近在咫尺。创业板与次新股风云再起，国家队带领资金跑步入场，十九大盛会在前，年内最大一波行情即将到来，3600点指日可待，你还要无动于衷？ 金融界重磅推出智能调仓工具
       <span class="red-text">Z点操盘</span>，能够在市场低迷期，及时给出<span class="black-text">S点风险预警信号</span>；在每一波行情到来时，精准识别个股多空力量，及时<span class="black-text">发出Z点买入信号</span>。7-9月份， 抓住天齐锂业、宝泰隆、国盛金控等多只板块龙头股，
       <span class="black-text">短线收益均超50%</span>！近期行情及业绩如图： -->
-      十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！ 在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
+      十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！
+      <br/><br/>在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
     </div>
   </div>
   <div class="bg3">
@@ -426,7 +429,7 @@ input {
         <span id="text-sec" class="text-sec"></span><span class="time-unit">秒</span>
       </div>
     </div>
-    <a class="footer-btn" href="javascript:;" @click="free"></a>
+    <a class="footer-btn" href="javascript:;" @click="scrollTo(1)"></a>
   </div>
   <zdian1-activity-pop1 @close="pop1Close" v-if="pop1Show">
     <div v-html="pop1Html">
@@ -453,60 +456,6 @@ import zdian1ActivityPop2 from 'components/zdian1-activity-pop2'
 
 export default {
   data () {
-    function pad (str, len) {
-      str = str + ''
-      if (str.length < len) {
-        for (let i = 0; i < len - str.length; i++) {
-          str = '0' + str
-        }
-      }
-      return str
-    }
-
-    function ShowCountDown (year, month, day, divname) {
-      var now = new Date()
-      var endDate = new Date(year, month - 1, day)
-      var leftTime = endDate.getTime() - now.getTime()
-      var leftsecond = parseInt(leftTime / 1000)
-      var day1 = Math.floor(leftsecond / (60 * 60 * 24))
-      var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
-      var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
-      var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
-      document.getElementById('text-day').innerHTML = pad(day1, 2)
-      document.getElementById('text-hour').innerHTML = pad(hour, 2)
-      document.getElementById('text-min').innerHTML = pad(minute, 2)
-      document.getElementById('text-sec').innerHTML = pad(second, 2)
-    }
-    window.setInterval(function () {
-      ShowCountDown(2017, 10, 22, 'divdown1')
-    }, 1000)
-    $(function () {
-      $('.nav a').click(function () {
-        var index = $(this).attr('data-index')
-        var pos = $('#d' + index).offset().top
-        // 实现平滑移动 1000代表时间ms
-        $('html,body').stop().animate({
-          scrollTop: pos
-        }, 500)
-      })
-      setInterval(function () {
-        $('.bg6 .right ul').animate({
-          'margin-top': '-30px'
-        }, 500, function () {
-          $('.bg6 .right ul li:first').css({
-            'font-size': '16px'
-          })
-          $('.bg6 .right ul').append($('.bg6 .right ul li:first'))
-          $('.bg6 .right ul li:first').addClass('cur').siblings().removeClass('cur')
-          $('.bg6 .right ul').css({
-            'margin-top': '0'
-          })
-        })
-        $('.bg6 .right ul li:eq(1)').animate({
-          'font-size': '20px'
-        }, 500)
-      }, 1500)
-    })
     return {
       listData: {
         conWidth: '980px',
@@ -573,6 +522,13 @@ export default {
         })
       }
     },
+    scrollTo (n) {
+      var pos = $('#d' + n).offset().top
+      // 实现平滑移动 1000代表时间ms
+      $('html,body').stop().animate({
+        scrollTop: pos
+      }, 500)
+    },
     showLotteryResult () {
       if (this.prize > 0) {
         if (this.prize === 8) {
@@ -617,6 +573,55 @@ export default {
     this.$store.dispatch('user/checkLogin').then(() => {
       this.$store.dispatch('actZdfl/getLotteryInfo')
     })
+
+    function pad (str, len) {
+      str = str + ''
+      if (str.length < len) {
+        for (let i = 0; i < len - str.length; i++) {
+          str = '0' + str
+        }
+      }
+      return str
+    }
+
+    function ShowCountDown (year, month, day, divname) {
+      var now = new Date()
+      var endDate = new Date(year, month - 1, day)
+      var leftTime = endDate.getTime() - now.getTime()
+      var leftsecond = parseInt(leftTime / 1000)
+      var day1 = Math.floor(leftsecond / (60 * 60 * 24))
+      var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
+      var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
+      var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+      document.getElementById('text-day').innerHTML = pad(day1, 2)
+      document.getElementById('text-hour').innerHTML = pad(hour, 2)
+      document.getElementById('text-min').innerHTML = pad(minute, 2)
+      document.getElementById('text-sec').innerHTML = pad(second, 2)
+    }
+    window.setInterval(function () {
+      ShowCountDown(2017, 10, 22, 'divdown1')
+    }, 1000)
+    $('.nav a').click((e) => {
+      var index = $(e.target).attr('data-index')
+      this.scrollTo(index)
+    })
+    setInterval(function () {
+      $('.bg6 .right ul').animate({
+        'margin-top': '-30px'
+      }, 500, function () {
+        $('.bg6 .right ul li:first').css({
+          'font-size': '16px'
+        })
+        $('.bg6 .right ul').append($('.bg6 .right ul li:first'))
+        $('.bg6 .right ul li:first').addClass('cur').siblings().removeClass('cur')
+        $('.bg6 .right ul').css({
+          'margin-top': '0'
+        })
+      })
+      $('.bg6 .right ul li:eq(1)').animate({
+        'font-size': '20px'
+      }, 500)
+    }, 1500)
   }
 }
 </script>
