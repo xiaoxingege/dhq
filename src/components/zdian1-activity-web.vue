@@ -257,6 +257,7 @@ input {
     left: 110px;
     font-size: 22px;
     color: #161412;
+    line-height: 1.5;
 }
 .red-text {
     color: #a80000;
@@ -346,9 +347,10 @@ input {
   </div>
   <div class="bg2">
     <div class="bg2-text">
-      沪指顺利突破3300点，3400点已近在咫尺。创业板与次新股风云再起，国家队带领资金跑步入场，十九大盛会在前，年内最大一波行情即将到来，3600点指日可待，你还要无动于衷？ 金融界重磅推出智能调仓工具
+      <!-- 沪指顺利突破3300点，3400点已近在咫尺。创业板与次新股风云再起，国家队带领资金跑步入场，十九大盛会在前，年内最大一波行情即将到来，3600点指日可待，你还要无动于衷？ 金融界重磅推出智能调仓工具
       <span class="red-text">Z点操盘</span>，能够在市场低迷期，及时给出<span class="black-text">S点风险预警信号</span>；在每一波行情到来时，精准识别个股多空力量，及时<span class="black-text">发出Z点买入信号</span>。7-9月份， 抓住天齐锂业、宝泰隆、国盛金控等多只板块龙头股，
-      <span class="black-text">短线收益均超50%</span>！近期行情及业绩如图：
+      <span class="black-text">短线收益均超50%</span>！近期行情及业绩如图： -->
+      十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！ 在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
     </div>
   </div>
   <div class="bg3">
@@ -613,9 +615,7 @@ export default {
   mounted () {
     document.title = 'z点操盘'
     this.$store.dispatch('user/checkLogin').then(() => {
-      if (this.loginStatus === 'yes') {
-        this.$store.dispatch('actZdfl/getLotteryInfo')
-      }
+      this.$store.dispatch('actZdfl/getLotteryInfo')
     })
   }
 }
