@@ -246,6 +246,7 @@ import toast from 'components/toast'
 import {
   ctx
 } from '../z3tougu/config'
+import * as Data from '../z3tougu/constant/siwei.js'
 
 export default {
   data () {
@@ -256,7 +257,8 @@ export default {
       toastmsg: '',
       showToast: false,
       trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
-      radarShow: false
+      radarShow: false,
+      stockSort: Data.stockSort
     }
   },
   components: {
@@ -421,6 +423,11 @@ export default {
         } else if (commission === 0.005) {
           commisVal = '千五'
         }
+
+        const v = this.goldResult.stockSort.split(',')[0]
+        const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
+        const stockSortData = this.stockSort[v] + '(' + s + ')'
+
         return {
           choseStockData: {
             filterSummary: JSON.parse(this.goldResult.filterSummary)
@@ -452,7 +459,8 @@ export default {
             tradeCycle: tradeCycle,
             slippage: slipData,
             benchmark: markData,
-            riskFreeRatio: Number(this.goldResult.riskFreeRatio * 100).toFixed(2) + '%'
+            riskFreeRatio: Number(this.goldResult.riskFreeRatio * 100).toFixed(2) + '%',
+            stockSort: stockSortData
           }
         }
       }

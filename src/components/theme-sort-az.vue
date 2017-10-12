@@ -112,7 +112,8 @@ html {
 .every-name .tname {
     /* padding: 0 10px; */
     /* width: 10%; */
-    width: 11%;
+    /* width: 11%; */
+    width: 14%;
     /* line-height: 20px; */
     line-height: 30px;
     color: #c9d0d7;
@@ -142,13 +143,13 @@ html {
   <div class="every-main clearfix" v-for="key of sortList">
     <div class="fl letter"><span>{{key}}</span><i>></i></div>
     <div class="fl every-name" v-if="islink">
-      <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
+      <span v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
         <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'">
           {{g.topicName}}</router-link>
-      </a>
+      </span>
     </div>
     <div class="fl every-name" v-else>
-      <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)" class="tname">{{g.topicName}}</a>
+      <span v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)" class="tname">{{g.topicName}}</span>
     </div>
   </div>
 
