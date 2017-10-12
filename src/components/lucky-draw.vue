@@ -435,6 +435,7 @@ export default {
 
   },
   mounted () {
+    document.title = '金豆大转盘'
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
