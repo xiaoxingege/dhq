@@ -5,268 +5,307 @@
   color: #fff;
   background: #ff4200;
   padding-bottom: 2.25rem;
-  margin-top:-1.28rem;
+  margin-top: -1.28rem;
 }
-.banner{
-  width:7.5rem;
+
+.banner {
+  width: 7.5rem;
   height: 5.24rem;
   background: url(../assets/images/lucky-draw/banner.png) center no-repeat;
   background-size: 100%;
 }
-.banner-top{
+
+.banner-top {
   height: 1.28rem;
   background: transparent;
 }
-.gold-bean-num{
-  box-sizing:border-box;
+
+.gold-bean-num {
+  box-sizing: border-box;
   height: 0.48rem;
-  width:3.6rem;
-  margin:3.11rem auto 0;
+  width: 3.6rem;
+  margin: 3.11rem auto 0;
   background: #44090d;
-  border:2px solid #fff100;
+  border: 2px solid #fff100;
   border-radius: 0.24rem;
   font-size: 0.28rem;
   overflow: hidden;
 }
-.gold-bean-icon{
+
+.gold-bean-icon {
   float: left;
-  width:0.29rem;
+  width: 0.29rem;
   height: 0.29rem;
-  margin:0.07rem 0.19rem 0;
+  margin: 0.07rem 0.19rem 0;
   background: url(../assets/images/lucky-draw/gold-bean.png) center no-repeat;
   background-size: 100%;
 }
-.gold-bean-text{
+
+.gold-bean-text {
   float: left;
   line-height: 0.46rem;
-  color:#fff100;
+  color: #fff100;
 }
-.notification{
+
+.notification {
   height: 0.74rem;
-  width:6.36rem;
+  width: 6.36rem;
   background: #9b29ba;
   border-radius: 2px;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.notification-icon{
+
+.notification-icon {
   float: left;
-  width:0.33rem;
+  width: 0.33rem;
   height: 0.33rem;
-  margin:0.21rem 0.21rem 0.2rem;
+  margin: 0.21rem 0.21rem 0.2rem;
   background: url(../assets/images/lucky-draw/notification-icon.png) center no-repeat;
   background-size: 100%;
 }
-.notification-text-container{
+
+.notification-text-container {
   float: left;
   height: 0.7rem;
-  width:5.59rem;
+  width: 5.59rem;
   box-sizing: border-box;
   background: #6b1f9f;
   border-radius: 0.02rem;
-  margin:0.02rem 0.02rem 0.02rem 0;
+  margin: 0.02rem 0.02rem 0.02rem 0;
   font-size: 0.28rem;
   line-height: 0.7rem;
   overflow: hidden;
   position: relative;
 }
-.notification-text{
+
+.notification-text {
   height: auto;
   position: absolute;
-  top:0;
-  left:0.2rem;
+  top: 0;
+  left: 0.2rem;
 }
-.notification-text span{
-  color: #fff;
 
+.notification-text span {
+  color: #fff;
 }
-.notification-text var{
+
+.notification-text var {
   color: #ffe136;
   font-style: normal;
 }
-.award-pool{
-  width:7.1rem;
+
+.award-pool {
+  width: 7.1rem;
   height: 6.27rem;
-  margin:0.39rem auto 0.19rem;
+  margin: 0.39rem auto 0.19rem;
   background: url(../assets/images/lucky-draw/award-pool.png) center no-repeat;
   background-size: 100%;
 }
+
 .awards {
-  padding-top:0.36rem;
-  width:6.48rem;
-  height:5.12rem;
-  margin:0 auto;
-  overflow:hidden;
+  padding-top: 0.36rem;
+  width: 6.48rem;
+  height: 5.12rem;
+  margin: 0 auto;
+  overflow: hidden;
   position: relative;
 }
-.awards-list{
-  width:100%;
+
+.awards-list {
+  width: 100%;
   height: 100%;
-  position:absolute;
-  top:0.36rem;
-  left:0;
-  z-index:10;
+  position: absolute;
+  top: 0.36rem;
+  left: 0;
+  z-index: 10;
   /*background: rgba(0,0,0,0.3);*/
 }
-.award-item{
+
+.award-item {
   float: left;
-  width:2.08rem;
+  width: 2.08rem;
   height: 1.68rem;
-  margin:0 0.04rem 0.05rem;
+  margin: 0 0.04rem 0.05rem;
   position: relative;
 }
-.awards-list  .award-item{
+
+.awards-list .award-item {
   position: absolute;
-  width:2.08rem;
+  width: 2.08rem;
   height: 1.68rem;
   background: url(../assets/images/lucky-draw/award-item.png) center no-repeat;
   background-size: 100%;
 }
-.awards-list   .award-item-active{
+
+.awards-list .award-item-active {
   position: absolute;
-  width:2.08rem;
+  width: 2.08rem;
   height: 1.68rem;
   background: url(../assets/images/lucky-draw/award-item-active.png) center no-repeat;
   background-size: 100%;
 }
-.get-award{
+
+.get-award {
   float: left;
-  width:2.08rem;
+  width: 2.08rem;
   height: 1.68rem;
-  margin:0 0.04rem 0.05rem;
+  margin: 0 0.04rem 0.05rem;
 }
-.award-click{
-  width:2.08rem;
+
+.award-click {
+  width: 2.08rem;
   height: 1.68rem;
   position: absolute;
-  left:2.16rem;
-  top:2.09rem;
+  left: 2.16rem;
+  top: 2.09rem;
   z-index: 100;
 }
-.get-award{
+
+.get-award {
   background: url(../assets/images/lucky-draw/get-award.png) center no-repeat;
   background-size: 100%;
 }
-.get-award:active{
+
+.get-award:active {
   background: url(../assets/images/lucky-draw/get-award-active.png) center no-repeat;
   background-size: 100%;
 }
-.get-award p{
-  margin-top:1.05rem;
+
+.get-award p {
+  margin-top: 1.05rem;
   font-size: 0.26rem;
-  text-align:center;
-  color:#fff;
+  text-align: center;
+  color: #fff;
 }
-.awards li .award-icon{
+
+.awards li .award-icon {
   height: 0.75rem;
-  width:auto;
-  margin:0.22rem auto 0;
+  width: auto;
+  margin: 0.22rem auto 0;
 }
-.awards li .award-text{
-  width:100%;
-  position:absolute;
-  left:0;
-  top:1.14rem;
+
+.awards li .award-text {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 1.14rem;
   color: #a83200;
   font-size: 0.28rem;
   text-align: center;
 }
-.award-info{
+
+.award-info {
   background: #6b1f9f;
-  width:7.1rem;
-  margin:0 auto;
+  width: 7.1rem;
+  margin: 0 auto;
   min-height: 1rem;
   border-radius: 0.18rem;
-  padding:0 0.3rem 0.6rem;
+  padding: 0 0.3rem 0.6rem;
   box-sizing: border-box;
 }
-.award-info{
 
+.award-info {}
+
+.award-info h2,
+.award-info p {
+  color: #fff;
+  font-size: 0.26rem;
+  font-weight: normal;
 }
-.award-info h2,.award-info p{
-  color:#fff;
-  font-size:0.26rem;
-  font-weight:normal;
-}
-.award-info h2{
+
+.award-info h2 {
   line-height: 1.16rem;
 }
-.award-info p{
+
+.award-info p {
   line-height: 0.36rem;
 }
-.mask{
+
+.mask {
   display: none;
   position: fixed;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   z-index: 10000;
-  width:100%;
+  width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
 }
-.pop-ensure{
-  width:6.08rem;
+
+.pop-ensure {
+  width: 6.08rem;
   height: 3.4rem;
   position: absolute;
-  top:50%;
-  left:50%;
-  margin-left:-3.04rem;
-  margin-top:-1.7rem;
-  box-sizing:border-box;
+  top: 50%;
+  left: 50%;
+  margin-left: -3.04rem;
+  margin-top: -1.7rem;
+  box-sizing: border-box;
   background: #fff4b0;
-  border:0.1rem solid #fff100;
-  border-radius:0.3rem;
-  padding-top:0.47rem;
+  border: 0.1rem solid #fff100;
+  border-radius: 0.3rem;
+  padding-top: 0.47rem;
 }
-.pop-ensure{
+
+.pop-ensure {
   font-size: 0.36rem;
-  color:#333;
-  text-align:center;
+  color: #333;
+  text-align: center;
 }
-.ensure-hint{
+
+.ensure-hint {
   height: 0.4rem;
-  width:2.2rem;
-  margin:0.2rem auto 0;
+  width: 2.2rem;
+  margin: 0.2rem auto 0;
   line-height: 0.4rem;
-  overflow:hidden;
+  overflow: hidden;
 }
-.ensure-hint span{
+
+.ensure-hint span {
   float: left;
-  width:0.4rem;
+  width: 0.4rem;
   height: 0.4rem;
   margin-right: 0.12rem;
 }
-.ensure-icon-false{
+
+.ensure-icon-false {
   background: url(../assets/images/lucky-draw/ensure-icon-false.png) center no-repeat;
   background-size: 100%;
-} 
-.ensure-icon-true{
+}
+
+.ensure-icon-true {
   background: url(../assets/images/lucky-draw/ensure-icon-true.png) center no-repeat;
   background-size: 100%;
-} 
-.ensure-text{
+}
+
+.ensure-text {
   float: left;
   font-size: 0.28rem;
   line-height: 0.43rem;
-  color:#8d2b00;
+  color: #8d2b00;
 }
-.ensure-button{
-  width:5.08rem;
-  margin:0.62rem auto 0;
+
+.ensure-button {
+  width: 5.08rem;
+  margin: 0.62rem auto 0;
   overflow-x: hidden;
 }
-.ensure-button span{
+
+.ensure-button span {
   float: left;
-  width:2.34rem;
+  width: 2.34rem;
   height: 0.7rem;
   line-height: 0.7rem;
-  color:#fff4b0;
+  color: #fff4b0;
   border-radius: 0.1rem;
 }
-.ensure-button-close{
+
+.ensure-button-close {
   margin-right: 0.4rem;
   background: #ff4200;
 }
-.ensure-button-true{
+
+.ensure-button-true {
   background: #2e7cd7;
 }
 </style>
@@ -379,7 +418,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data () {
+  data() {
     return {
       isGO: false,
       position: 3,
@@ -396,13 +435,13 @@ export default {
     LuckUsers: state => state.luckDrawData.LuckUsers,
     draw: state => state.luckDrawData.draw
   }),
-  beforecreated () {
+  beforecreated() {
 
   },
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
@@ -421,7 +460,7 @@ export default {
     setTimeout(_this.scrolllist, 300)
   },
   methods: {
-    scrolllist: function () {
+    scrolllist: function() {
       var scroll = document.getElementById('scroll')
       var scrollOuter = document.getElementById('scroll-outer')
 
@@ -429,7 +468,7 @@ export default {
       var scrollOuterH = scrollOuter.offsetHeight
       var Top = -scrollOuterH
       var cha = (scrollH) - (scrollOuterH)
-      setInterval(function () {
+      setInterval(function() {
         if (Top <= -cha) {
           Top = -scrollOuterH
         }
@@ -437,19 +476,19 @@ export default {
         scroll.style.top = Top + 'px'
       }, 50)
     },
-    openModal: function () {
+    openModal: function() {
       var pop = document.getElementById('pop')
       pop.style.display = 'block'
     },
-    closeModal: function () {
+    closeModal: function() {
       var pop = document.getElementById('pop')
       pop.style.display = 'none'
     },
-    closeModalrotate: function () {
+    closeModalrotate: function() {
       this.closeModal()
       this.rotate()
     },
-    rotate: function () {
+    rotate: function() {
       this.$store.dispatch('user/checkLogin').then(() => {
         if (this.loginStatus === 'no') {
           if (window.jrj && window.jrj.jsCallNative) {
@@ -472,7 +511,7 @@ export default {
         }
       })
     },
-    drawPrize: function (position, __this) {
+    drawPrize: function(position, __this) {
       var _this = this
       var timer = null
       var count = 8 * 4 + position - 1
@@ -480,7 +519,7 @@ export default {
       var last = 0
       this.$set(_this.prizeList[0], 'active', true)
       clearInterval(timer)
-      timer = setInterval(function () {
+      timer = setInterval(function() {
         last = now
         now++
         if (now > 7) {

@@ -32,6 +32,7 @@ import FundArchives from 'components/fund-archives/fund-archives'
 import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
 import backtestHelp from 'components/help'
+import finance from 'components/finance'
 import {
   ctx
 } from '../config'
@@ -235,6 +236,11 @@ export default [{
   path: ctx + '/backtestHelp',
   name: 'backtestHelp',
   component: backtestHelp
+},
+{
+  path: ctx + '/finance',
+  name: 'finance',
+  component: finance
 }
 
 ]
