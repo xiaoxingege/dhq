@@ -12,13 +12,16 @@ export default {
         //let code = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
-
         el.addEventListener('mouseover', (event) => {
-          console.log(event.currentTarget.outerHTML)
           const str = event.currentTarget.outerHTML
           const parser = new DOMParser();
           const doc = parser.parseFromString(str, "text/xml");
-          const code = doc.getElementsByTagName('td')[0].getAttribute('value')
+          let code
+          if (doc.getElementsByTagName('td').length > 0) {
+            code = doc.getElementsByTagName('td')[0].getAttribute('value')
+          } else if (doc.getElementsByTagName('span').length > 0) {
+            code = doc.getElementsByTagName('span')[0].getAttribute('value')
+          }
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
