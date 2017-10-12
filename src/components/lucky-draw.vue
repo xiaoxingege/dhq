@@ -161,11 +161,6 @@
   width:auto;
   margin:0.22rem auto 0;
 }
-.awards  .award-icon1{
-  
-  background: url(../assets/images/lucky-draw/award-icon1.png) center no-repeat;
-  background-size: 100%;
-}
 .awards li .award-text{
   width:100%;
   position:absolute;
