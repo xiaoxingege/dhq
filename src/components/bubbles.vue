@@ -70,7 +70,7 @@ export default {
   },
   watch: {
     'options': {
-      deep: true,
+      deep: false,
       handler: function () {
         this.updateBubbles()
       }
@@ -274,7 +274,6 @@ export default {
       }
     },
     initBubbles () {
-      console.log('init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading()
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -629,14 +628,17 @@ export default {
     }
 
   },
+
   mounted () {
     const that = this
+
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        console.log(data.length)
         that.options.innerCode = data
         this.initBubbles()
       })
+    } else {
+      this.initBubbles()
     }
   }
 }

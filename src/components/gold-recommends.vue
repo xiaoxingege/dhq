@@ -179,8 +179,8 @@ export default {
         [tableData.initFund, tableData.fundAllocate, tableData.buyPriceType, tableData.sellPriceType, tableData.backtestDate],
         ['最大持仓', '个股最大仓位', '条件优先序', '交易费用', '调仓周期'],
         [tableData.maxHolding, tableData.stockMaxHolding, tableData.conPriority, tableData.commission, tableData.tradeCycle],
-        ['买卖滑点', '收益基准', '无风险利率'],
-        [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio]
+        ['买卖滑点', '收益基准', '无风险利率', '入选股排序'],
+        [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio, tableData.stockSort]
       ]
     }
 

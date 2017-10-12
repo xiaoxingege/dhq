@@ -246,6 +246,7 @@ import toast from 'components/toast'
 import {
   ctx
 } from '../z3tougu/config'
+import * as Data from '../z3tougu/constant/siwei.js'
 
 export default {
   data () {
@@ -256,7 +257,8 @@ export default {
       toastmsg: '',
       showToast: false,
       trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
-      radarShow: false
+      radarShow: false,
+      stockSort: Data.stockSort
     }
   },
   components: {
@@ -421,6 +423,20 @@ export default {
         } else if (commission === 0.005) {
           commisVal = '千五'
         }
+
+        const v = this.goldResult.stockSort.split(',')[0]
+        const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
+        const stockSortData = this.stockSort[v] + '(' + s + ')'
+
+        let fundAllocateData = ''
+        if (this.goldResult.fundAllocate === 'fund_value') {
+          fundAllocateData = '资金等权'
+        } else if (this.goldResult.fundAllocate === 'market_value') {
+          fundAllocateData = '市值等权'
+        } else if (this.goldResult.fundAllocate === 'fix_value') {
+          fundAllocateData = '最大持仓数等分'
+        }
+
         return {
           choseStockData: {
             filterSummary: JSON.parse(this.goldResult.filterSummary)
@@ -441,7 +457,7 @@ export default {
           },
           tradeParamsData: {
             initFund: this.goldResult.initFund / 10000 + '万',
-            fundAllocate: this.goldResult.fundAllocate === 'fund_value' ? '资金等权' : '市值等权',
+            fundAllocate: fundAllocateData,
             buyPriceType: buyType,
             sellPriceType: this.goldResult.sellPriceType === 'open' ? '开盘价' : '收盘价',
             backtestDate: startDate.substring(0, 4) + '.' + startDate.substring(4, 6) + '.' + startDate.substring(6) + '-' + endDate.substring(0, 4) + '.' + endDate.substring(4, 6) + '.' + endDate.substring(6),
@@ -452,7 +468,8 @@ export default {
             tradeCycle: tradeCycle,
             slippage: slipData,
             benchmark: markData,
-            riskFreeRatio: Number(this.goldResult.riskFreeRatio * 100).toFixed(2) + '%'
+            riskFreeRatio: Number(this.goldResult.riskFreeRatio * 100).toFixed(2) + '%',
+            stockSort: stockSortData
           }
         }
       }

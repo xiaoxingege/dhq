@@ -1,13 +1,19 @@
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/css/base.css';
 * {
     text-align: justify;
     box-sizing: border-box;
     font-size: 12px;
 }
+body,
+html {
+    height: 100%;
+}
+.app {
+    height: 100%;
+}
 body {
     font-size: 12px;
-    background: #f2f2f2;
 }
 .blue {
     color: #2388da;
@@ -34,8 +40,9 @@ body {
     border-left: 1px solid #0d0e0f;
     /* padding: 0 20px 20px 0; */
     padding-right: 20px;
-    padding-bottom: 1px;
-
+    padding-bottom: 20px;
+    min-height: 100%;
+    position: relative;
 }
 .btime-main {
     /* padding: 0 10px 0; */
@@ -167,8 +174,8 @@ span.copy {
 }
 .foots-tishi {
     font-size: 12px;
-    /*  position: absolute;
-      bottom: 0; */
+    position: absolute;
+    bottom: -2px;
     color: #808ba1;
     /* padding-bottom: 24px;
       padding-left: 20px; */

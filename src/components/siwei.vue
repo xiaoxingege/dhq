@@ -611,7 +611,7 @@ export default {
       this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
       this.stockRangeOptions.strategyDefault = this.templateList[tmpValue].options.strategyDefault
       this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
-      this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
+      // this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },

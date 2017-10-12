@@ -45,6 +45,22 @@ i {
 .fl {
     float: left;
 }
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #808ba1;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    color: #808ba1;
+}
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: #808ba1;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #808ba1;
+}
 .time-kline-wrap {
     background: #141518;
     color: #c9d0d7;
@@ -179,9 +195,9 @@ i {
     <!-- <ul class="search-ul" v-else>
                   <li>暂无数据</li>
                   
-               </ul> -->
+               </ul> :style="{ display: none } :style="{ display: isShowLine }""-->
   </div>
-  <div class="k-line-box" id="ss">
+  <div class="k-line-box" id="ss" v-if="istyle">
     <!-- <div>格力电器买卖点分析</div> -->
     <!-- <div class="ma-box" v-show="showMa">
                      <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
@@ -212,7 +228,8 @@ export default {
       // showMa: false,
       strategyId: this.$route.params.strategyId,
       searchList: [],
-      isShowLine: false,
+      isShowLine: 'none',
+      istyle: false,
       fullHeight1: document.documentElement.clientHeight - 562
     }
   },
@@ -421,6 +438,7 @@ export default {
       if (this.message === '') {
         // this.showMa = false
       } else {
+        this.istyle = true
         this.init()
       }
       // this.filterStocks(keyword)
@@ -431,6 +449,7 @@ export default {
       this.message = focusStockId
       this.showSearchList = false
       // this.searchList = []
+
       this.searchData.searchList = []
       console.log(this.searchData.searchList)
 
@@ -439,6 +458,8 @@ export default {
     submitSearch (e) {
       e.preventDefault()
       // this.showMa = true
+      /* this.isShowLine = 'block'*/
+
       this.init()
     },
     keyEnter (e) {
@@ -711,6 +732,7 @@ export default {
 
   },
   mounted () {
+
     // this.init()
     // this.$store.dispatch('')
   }
