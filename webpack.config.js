@@ -32,7 +32,7 @@ const buildEntry = function() {
       ret[path.basename(entry, '.js')] = `${entryPath}/${entry}`
     });
   }
-  return r
+  return ret
   return entries.map(entry => {
     let basename = path.basename(entry, '.js');
     return new HtmlWebpackPlugin({
