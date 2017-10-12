@@ -108,6 +108,7 @@ html {
     width: 91%;
     /* padding-left: 2%; */
 }
+
 .every-name .tname {
     /* padding: 0 10px; */
     /* width: 10%; */
@@ -118,7 +119,8 @@ html {
     display: inline-block;
     cursor: pointer;
     /* padding-left: 40px; */
-    padding-left: 50px;
+    padding-left: 65px;
+
 }
 
 .themeList .every-name .tname {

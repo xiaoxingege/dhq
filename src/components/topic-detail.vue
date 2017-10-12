@@ -704,7 +704,7 @@ bottom: 0; */
             <td>关联说明</td>
           </tr>
           <tr v-for="stock of stockList">
-            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
+            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
               <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
             </a></td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
