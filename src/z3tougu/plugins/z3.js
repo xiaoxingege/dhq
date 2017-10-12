@@ -13,18 +13,10 @@ export default {
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
         el.addEventListener('mouseover', (event) => {
-          console.log(event.currentTarget.outerHTML)
           const str = event.currentTarget.outerHTML
           const parser = new DOMParser();
           const doc = parser.parseFromString(str, "text/xml");
-          let code;
-          //code = vnode.data.attrs.value
-          if (doc.getElementsByTagName('td').length > 0) {
-            code = doc.getElementsByTagName('td')[0].getAttribute('value')
-
-          } else {
-            code = doc.getElementsByTagName('span')[0].getAttribute('value')
-          }
+          const code = doc.getElementsByTagName('td')[0].getAttribute('value')
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
