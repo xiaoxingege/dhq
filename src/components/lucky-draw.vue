@@ -353,8 +353,9 @@
         </li>
       </ul>
       <div class="award-click">
-        <div class="get-award" v-on:click="e=>{this.trueflag ? this.openEnture() : this.rotate()}">
+        <div class="get-award" v-on:click="e=>{this.hint ? this.openEnture() : this.rotate()}">
           <p>{{consumenum}}豆/次</p>
+          <p>{{hint}}</p>
         </div>
       </div>
     </div>
@@ -376,7 +377,7 @@
     <div id="pop-ensure" class="pop-ensure">
       <h3>确认消耗{{consumenum}}金豆</h3>
       <div class="ensure-hint">
-        <span v-bind:class="[trueflag ? trueclass : falseclass]" v-on:click="e=>{this.trueflag=!this.trueflag}"></span>
+        <span v-bind:class="[hint ? trueclass : falseclass]" v-on:click="hintC"></span>
         <p class="ensure-text">下次不再提醒</p>
       </div>
       <div class="ensure-button">
@@ -421,7 +422,7 @@ export default {
       position: 3,
       name: '',
       consumenum: 20,
-      trueflag: true, // true 下次提醒 false 下次不提醒
+      hint: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
       falseclass: 'ensure-icon-false'
     }
@@ -440,6 +441,12 @@ export default {
 
   },
   mounted () {
+    if (!localStorage.getItem('hintStorage')) {
+      localStorage.setItem('hintStorage', this.hint)
+    } else {
+      this.hint = localStorage.getItem('hintStorage') !== 'false'
+    }
+
     document.title = '金豆大转盘'
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
@@ -459,6 +466,10 @@ export default {
     this.$store.dispatch('luckDrawData/getPrizeList')
   },
   methods: {
+    hintC: function () {
+      this.hint = !this.hint
+      localStorage.setItem('hintStorage', this.hint)
+    },
     scrolllist: function () {
       var scroll = $('#scroll')
       var scrollOuter = $('#scroll-outer')
@@ -466,8 +477,6 @@ export default {
       var scrollH = scroll.height()
 
       var scrollOuterH = scrollOuter.height()
-      console.log(scrollH)
-      console.log(scrollOuterH)
       var Top = -scrollOuterH
       var cha = (scrollH) - (scrollOuterH)
       setInterval(function () {
