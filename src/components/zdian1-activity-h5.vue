@@ -225,7 +225,7 @@ input {
     top: 42.41rem;
 }
 [class^="text-"] {
-    letter-spacing: 0.29rem;
+    letter-spacing: 0.25rem;
     width: 1.22rem;
     overflow: hidden;
     display: inline-block;
@@ -361,7 +361,7 @@ a.link2 {
 #divdown1 {
   position: absolute;
   color: white;
-  width: 5.8rem;
+  width: 6rem;
   font-size: .52rem;
   top: .57rem;
   left: 1.05rem;
