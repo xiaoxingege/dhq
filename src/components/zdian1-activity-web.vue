@@ -129,7 +129,7 @@ input {
     position: relative;
 }
 .bg5 {
-    background: url("../assets/images/zdian1-activity/zdian1-web-bg5-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/zdian1-activity/zdian1-web-bg5-2.jpg") center 0 no-repeat;
     height: 588px;
     position: relative;
 }
@@ -229,7 +229,7 @@ input {
 .nav {
     width: 264px;
     height: 167px;
-    background: url("../assets/images/zdian1-activity/web-nav-bg-1.png") 0 0 no-repeat;
+    background: url("../assets/images/zdian1-activity/web-nav-bg.png") 0 0 no-repeat;
     position: fixed;
     top: 50%;
     right: 0;
