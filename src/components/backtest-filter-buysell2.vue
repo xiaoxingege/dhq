@@ -103,13 +103,14 @@ a,
 }
 
 .td-body tr:nth-child(1) td {
-  padding-left: 5px;
+  /* padding-left: 5px; */
 }
 
 .td {
   border-bottom: 1px solid #23272c;
   text-align: center;
-  padding-left: 8px;
+  /* padding-left: 8px; */
+  padding-left: 3px;
 }
 
 .t-head {
@@ -319,7 +320,6 @@ th {
             </td>
 
           </tr>
-
         </div>
       </tbody>
     </table>
