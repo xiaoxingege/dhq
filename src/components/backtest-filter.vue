@@ -386,11 +386,8 @@ span.copy {
             <span>{{fullHeight3*tradePage+index+1}}
               </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
               </span>
-            <span v-if="tradeDay.buyStockNums===0">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}
-              </span>
-            <span class="blue" v-else>{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}</span>
-            <span v-if="tradeDay.sellStockNums===0">{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
-            <span class="blue" v-else>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
+            <span>{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}</span>
+            <span>{{tradeDay.sellStockNums==null?'--':tradeDay.sellStockNums}}</span>
             <span>{{tradeDay.winLossRatio==null?'--':tradeDay.winLossRatio.toFixed(2)}}
               </span><span>{{tradeDay.winRatio==null?'--':changePer(tradeDay.winRatio)}}
               </span><span v-z3-updowncolor="tradeDay.avgReturn">{{tradeDay.avgReturn==null?'--':changePer(tradeDay.avgReturn)}}
