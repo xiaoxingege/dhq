@@ -342,7 +342,7 @@ export default {
         var Dvalue = Math.abs(tmpMax - datas.line) > Math.abs(tmpMin - datas.line) ? Math.abs(tmpMax - datas.line) : Math.abs(tmpMin - datas.line)
       }
 
-      this.chart = echarts.init(document.getElementsByClassName('indexChart')[index])
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[index]) || echarts.init(document.getElementsByClassName('indexChart')[index])
 
       // 生成横坐标时间轴
       var beforenoon = this.autoTimeline('9:30', '11:30')

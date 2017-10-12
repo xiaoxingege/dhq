@@ -5,6 +5,7 @@ html {
     height: 100%;
 }
 .goldRecommend {
+    min-height: 100%;
     font-size: 12px;
     background: #0d0e0f;
     padding: 0 1px;
@@ -89,7 +90,7 @@ a {
     background: url("../assets/images/z3img/back-icons.png") no-repeat;
     cursor: pointer;
     background-position: 0 -52px;
-    margin-right: 12px;
+    margin-right: 22px;
 }
 .recommend .copy:hover {
     background-position: 0 -34px;
@@ -150,7 +151,7 @@ a {
 .radarImg {
     position: absolute;
     right: 100px;
-    top: 321px;
+    top: 312px;
     cursor: pointer;
 }
 

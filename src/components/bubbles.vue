@@ -277,7 +277,6 @@ export default {
       console.log('init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading()
-      alert(JSON.stringify(this.options))
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
@@ -305,270 +304,266 @@ export default {
         } else {
           y = that.bubblesData.yData
         }
-        this.chart.hideLoading()
-        try {
-          this.chart.setOption({
-            backgroundColor: '#23252D',
-            animation: false,
-            grid: {
-              top: 40,
-              left: 90,
-              right: 50,
-              bottom: 50
+
+        this.chart.setOption({
+          backgroundColor: '#23252D',
+          animation: false,
+          grid: {
+            top: 40,
+            left: 90,
+            right: 50,
+            bottom: 50
+          },
+          tooltip: {
+            triggerOn: 'none',
+            formatter: function (params) {
+              return '<p style="background: red; width:200px; height:200px">hello</p>'
+            }
+          },
+          xAxis: {
+            type: xType ? 'category' : 'value',
+            // name: '日期',
+            nameGap: 16,
+            nameTextStyle: {
+              color: '#fff',
+              fontSize: 14
             },
-            tooltip: {
-              triggerOn: 'none',
-              formatter: function (params) {
-                return '<p style="background: red; width:200px; height:200px">hello</p>'
+            // max: 31,
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#32343D'
               }
             },
-            xAxis: {
-              type: xType ? 'category' : 'value',
-            // name: '日期',
-              nameGap: 16,
-              nameTextStyle: {
-                color: '#fff',
-                fontSize: 14
-              },
-            // max: 31,
-              splitLine: {
-                lineStyle: {
-                  type: 'solid',
-                  color: '#32343D'
-                }
-              },
-              axisLine: {
-                lineStyle: {
-                  color: '#32343D'
-                }
-              },
-              axisTick: {
-                show: false
-              },
-              axisLabel: {
-                formatter: function (v) {
-                  return that.convertNumBySelect('xData', v)
-                },
-                textStyle: {
-                  color: '#fff'
-                },
-                margin: 20,
-                interval: 0,
-                rotate: (xType ? 'category' : 'value') === 'category' ? 40 : 0
-              },
-              data: x
-
+            axisLine: {
+              lineStyle: {
+                color: '#32343D'
+              }
             },
-            yAxis: {
-              type: yType ? 'category' : 'value',
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              formatter: function (v) {
+                return that.convertNumBySelect('xData', v)
+              },
+              textStyle: {
+                color: '#fff'
+              },
+              margin: 20,
+              interval: 0,
+              rotate: (xType ? 'category' : 'value') === 'category' ? 40 : 0
+            },
+            data: x
+
+          },
+          yAxis: {
+            type: yType ? 'category' : 'value',
             // name: 'AQI指数',
-              nameLocation: 'end',
-              nameGap: 20,
-              nameTextStyle: {
-                color: '#fff',
-                fontSize: 16
-              },
-              axisLine: {
-                lineStyle: {
-                  color: '#32343D'
-                }
-              },
-              axisTick: {
-                show: false
-              },
-              splitLine: {
-                lineStyle: {
-                  type: 'solid',
-                  color: '#32343D'
-                }
-              },
-              axisLabel: {
-                textStyle: {
-                  color: '#fff'
-                },
-                formatter: function (v) {
-                  return that.convertNumBySelect('yData', v)
-                }
-
-              },
-              data: y
-
+            nameLocation: 'end',
+            nameGap: 20,
+            nameTextStyle: {
+              color: '#fff',
+              fontSize: 16
             },
-            dataZoom: [{
-              type: 'slider',
-              show: true,
-              yAxisIndex: [0],
-              top: '5%',
-              right: 20,
-              bottom: 0,
-              start: 0,
-              end: 100,
+            axisLine: {
+              lineStyle: {
+                color: '#32343D'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#32343D'
+              }
+            },
+            axisLabel: {
               textStyle: {
-                color: '#aed2ff'
+                color: '#fff'
               },
-              borderColor: '#3c4868',
-              width: '6',
-              height: '90%',
-              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-              handleSize: '300%',
-              dataBackground: {
-                areaStyle: {
-                  color: '#222445'
-                },
-                lineStyle: {
-                  opacity: 0.8,
-                  color: '#222445'
-                }
-              },
-              handleStyle: {
-                color: '#aed2ff',
-                shadowBlur: 3,
-                shadowColor: 'rgba(0, 0, 0, 0.6)',
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
-              },
-              showDetail: false,
-              realtime: false
+              formatter: function (v) {
+                return that.convertNumBySelect('yData', v)
+              }
+
             },
-            {
-              type: 'slider',
-              show: true,
-              xAxisIndex: [0],
-              top: 10,
+            data: y
+
+          },
+          dataZoom: [{
+            type: 'slider',
+            show: true,
+            yAxisIndex: [0],
+            top: '5%',
+            right: 20,
+            bottom: 0,
+            start: 0,
+            end: 100,
+            textStyle: {
+              color: '#aed2ff'
+            },
+            borderColor: '#3c4868',
+            width: '6',
+            height: '90%',
+            handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+            handleSize: '300%',
+            dataBackground: {
+              areaStyle: {
+                color: '#222445'
+              },
+              lineStyle: {
+                opacity: 0.8,
+                color: '#222445'
+              }
+            },
+            handleStyle: {
+              color: '#aed2ff',
+              shadowBlur: 3,
+              shadowColor: 'rgba(0, 0, 0, 0.6)',
+              shadowOffsetX: 2,
+              shadowOffsetY: 2
+            },
+            showDetail: false,
+            realtime: false
+          },
+          {
+            type: 'slider',
+            show: true,
+            xAxisIndex: [0],
+            top: 10,
               // right:80,
-              left: '5%',
-              start: 0,
-              end: 100,
-              textStyle: {
-                color: '#aed2ff'
+            left: '5%',
+            start: 0,
+            end: 100,
+            textStyle: {
+              color: '#aed2ff'
+            },
+            borderColor: '#3c4868',
+            width: '90%',
+            height: '6',
+            handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+            handleSize: '300%',
+            dataBackground: {
+              areaStyle: {
+                color: '#222445'
               },
-              borderColor: '#3c4868',
-              width: '90%',
-              height: '6',
-              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
-              handleSize: '300%',
-              dataBackground: {
-                areaStyle: {
-                  color: '#222445'
-                },
-                lineStyle: {
-                  opacity: 0.8,
-                  color: '#222445'
-                }
-              },
-              handleStyle: {
-                color: '#aed2ff',
-                shadowBlur: 3,
-                shadowColor: 'rgba(0, 0, 0, 0.6)',
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
-              },
-              showDetail: false,
-              realtime: false
-            }
-            ],
-            series: [{
-              type: 'scatter',
-              itemStyle: {
-                normal: {
-                  opacity: 0.7,
+              lineStyle: {
+                opacity: 0.8,
+                color: '#222445'
+              }
+            },
+            handleStyle: {
+              color: '#aed2ff',
+              shadowBlur: 3,
+              shadowColor: 'rgba(0, 0, 0, 0.6)',
+              shadowOffsetX: 2,
+              shadowOffsetY: 2
+            },
+            showDetail: false,
+            realtime: false
+          }
+          ],
+          series: [{
+            type: 'scatter',
+            itemStyle: {
+              normal: {
+                opacity: 0.7,
                 // shadowBlur: 5,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 0,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
                 // shadowColor: 'rgba(255,255,255,0.5)',
-                  borderColor: 'rgba(153,153,153,0.5)',
-                  borderWidth: 1,
-                  borderType: 'solid',
-                  color: function (params) {
-                    const colorType = that.$store.state.bubbles.parameterData.bubbleColor
-                    const bubbleColorData = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
-                    if (colorType === '' || bubbleColorData === null) {
-                      return that.defaultColor
-                    }
-                    let tmpValue = 0
-                    const colorArr = that.groupArr[colorType].color
-                    const conditionArr = that.groupArr[colorType].condition
+                borderColor: 'rgba(153,153,153,0.5)',
+                borderWidth: 1,
+                borderType: 'solid',
+                color: function (params) {
+                  const colorType = that.$store.state.bubbles.parameterData.bubbleColor
+                  const bubbleColorData = that.$store.state.bubbles.bubblesData.bubbleColor[(params.dataIndex)]
+                  if (colorType === '' || bubbleColorData === null) {
+                    return that.defaultColor
+                  }
+                  let tmpValue = 0
+                  const colorArr = that.groupArr[colorType].color
+                  const conditionArr = that.groupArr[colorType].condition
 
-                    if (colorType === 'sw_indu_name') { // 行业
-                      var len = (that.industryArr.indexOf(bubbleColorData)) % 7
-                      return colorArr[len]
-                    } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
-                      if (Number(bubbleColorData) === 5) {
-                        return colorArr[0]
-                      } else if (Number(bubbleColorData) === 4) {
-                        return colorArr[1]
-                      } else if (Number(bubbleColorData) === 3) {
-                        return colorArr[2]
-                      } else if (Number(bubbleColorData) === 2) {
-                        return colorArr[3]
-                      } else if (Number(bubbleColorData) === 1) {
-                        return colorArr[4]
-                      } else {
-                        return '#2F323D'
-                      }
-                    } else if (colorType === 'mkt_idx.tcap' || colorType === 'mkt_idx.mktcap' || colorType === 'mkt_idx.volume' || colorType === 'perf_idx.avg_vol_3month' || colorType === 'mkt_idx.relaVolume' || colorType === 'mkt_idx.rela_volume') {
-                      that.colorUnit = that.convertUnit(colorType)
-                      tmpValue = bubbleColorData / that.colorUnit
+                  if (colorType === 'sw_indu_name') { // 行业
+                    var len = (that.industryArr.indexOf(bubbleColorData)) % 7
+                    return colorArr[len]
+                  } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
+                    if (Number(bubbleColorData) === 5) {
+                      return colorArr[0]
+                    } else if (Number(bubbleColorData) === 4) {
+                      return colorArr[1]
+                    } else if (Number(bubbleColorData) === 3) {
+                      return colorArr[2]
+                    } else if (Number(bubbleColorData) === 2) {
+                      return colorArr[3]
+                    } else if (Number(bubbleColorData) === 1) {
+                      return colorArr[4]
                     } else {
-                      var ratioArr = that.groupArr[colorType].ratio
-                      tmpValue = bubbleColorData / ratioArr
+                      return '#2F323D'
                     }
-                    if (colorType !== 'sw_indu_name' && colorType !== 'fcst_idx.rating_syn') {
-                      let num
-                      if (colorType === 'mkt_idx.rela_volume') {
-                        num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
-                      } else {
-                        num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
-                      }
-                      if (tmpValue < (conditionArr[1] - num)) {
-                        return colorArr[0]
-                      } else if ((conditionArr[1] + num) > tmpValue && tmpValue >= (conditionArr[1] - num)) {
-                        return colorArr[1]
-                      } else if ((conditionArr[2] + num) > tmpValue && tmpValue >= (conditionArr[2] - num)) {
-                        return colorArr[2]
-                      } else if ((conditionArr[3] + num) > tmpValue && tmpValue >= (conditionArr[3] - num)) {
-                        return colorArr[3]
-                      } else if ((conditionArr[4] + num) > tmpValue && tmpValue >= (conditionArr[4] - num)) {
-                        return colorArr[4]
-                      } else if ((conditionArr[5] + num) > tmpValue && tmpValue >= (conditionArr[5] - num)) {
-                        return colorArr[5]
-                      } else if ((conditionArr[6] + num) > tmpValue && tmpValue >= (conditionArr[6] - num)) {
-                        return colorArr[6]
-                      } else if ((conditionArr[7] + num) > tmpValue && tmpValue >= (conditionArr[7] - num)) {
-                        return colorArr[7]
-                      } else if ((conditionArr[7] + num) < tmpValue) {
-                        return colorArr[8]
-                      }
+                  } else if (colorType === 'mkt_idx.tcap' || colorType === 'mkt_idx.mktcap' || colorType === 'mkt_idx.volume' || colorType === 'perf_idx.avg_vol_3month' || colorType === 'mkt_idx.relaVolume' || colorType === 'mkt_idx.rela_volume') {
+                    that.colorUnit = that.convertUnit(colorType)
+                    tmpValue = bubbleColorData / that.colorUnit
+                  } else {
+                    var ratioArr = that.groupArr[colorType].ratio
+                    tmpValue = bubbleColorData / ratioArr
+                  }
+                  if (colorType !== 'sw_indu_name' && colorType !== 'fcst_idx.rating_syn') {
+                    let num
+                    if (colorType === 'mkt_idx.rela_volume') {
+                      num = Number(Math.abs((conditionArr[1] - conditionArr[2]) / 2).toFixed(1))
+                    } else {
+                      num = Math.abs((conditionArr[1] - conditionArr[2]) / 2)
+                    }
+                    if (tmpValue < (conditionArr[1] - num)) {
+                      return colorArr[0]
+                    } else if ((conditionArr[1] + num) > tmpValue && tmpValue >= (conditionArr[1] - num)) {
+                      return colorArr[1]
+                    } else if ((conditionArr[2] + num) > tmpValue && tmpValue >= (conditionArr[2] - num)) {
+                      return colorArr[2]
+                    } else if ((conditionArr[3] + num) > tmpValue && tmpValue >= (conditionArr[3] - num)) {
+                      return colorArr[3]
+                    } else if ((conditionArr[4] + num) > tmpValue && tmpValue >= (conditionArr[4] - num)) {
+                      return colorArr[4]
+                    } else if ((conditionArr[5] + num) > tmpValue && tmpValue >= (conditionArr[5] - num)) {
+                      return colorArr[5]
+                    } else if ((conditionArr[6] + num) > tmpValue && tmpValue >= (conditionArr[6] - num)) {
+                      return colorArr[6]
+                    } else if ((conditionArr[7] + num) > tmpValue && tmpValue >= (conditionArr[7] - num)) {
+                      return colorArr[7]
+                    } else if ((conditionArr[7] + num) < tmpValue) {
+                      return colorArr[8]
                     }
                   }
                 }
-              },
-              data: this.$store.state.bubbles.bubblesData.seriesData,
-              symbolSize: function (params, value) {
-                const tmpSize = that.$store.state.bubbles.parameterData.bubblesSize
-                if (tmpSize === '') {
-                  return 32
-                }
-                var num = Number(that.$store.state.bubbles.bubblesData.bubbleSize[(value.dataIndex)])
-                if (tmpSize.indexOf('tcap') >= 0) {
-                  return (Math.sqrt(num / 1e11) * 40).toFixed(2)
-                } else if (tmpSize === 'mkt_idx.volume') {
-                  return (Math.sqrt(num / 1e7) * 20).toFixed(2)
-                } else if (tmpSize === 'perf_idx.avg_vol_3month') {
-                  return (Math.sqrt(num / 1e7) * 20).toFixed(2)
-                } else {
-                  num = num > 40 ? 40 : num
-                  return (num * 4).toFixed(2)
-                }
-              },
-              hoverAnimation: true,
-              legendHoverLink: true
+              }
+            },
+            data: this.$store.state.bubbles.bubblesData.seriesData,
+            symbolSize: function (params, value) {
+              const tmpSize = that.$store.state.bubbles.parameterData.bubblesSize
+              if (tmpSize === '') {
+                return 32
+              }
+              var num = Number(that.$store.state.bubbles.bubblesData.bubbleSize[(value.dataIndex)])
+              if (tmpSize.indexOf('tcap') >= 0) {
+                return (Math.sqrt(num / 1e11) * 40).toFixed(2)
+              } else if (tmpSize === 'mkt_idx.volume') {
+                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
+              } else if (tmpSize === 'perf_idx.avg_vol_3month') {
+                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
+              } else {
+                num = num > 40 ? 40 : num
+                return (num * 4).toFixed(2)
+              }
+            },
+            hoverAnimation: true,
+            legendHoverLink: true
 
-            }]
-          })
-        } catch (e) {
-          alert(e)
-        }
+          }]
+        })
 
         that.chart.on('dblclick', function (params) {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
@@ -607,6 +602,8 @@ export default {
           })
           that.height = window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
         }
+
+        this.chart.hideLoading()
       })
     },
     updateBubbles () {
@@ -636,11 +633,11 @@ export default {
     const that = this
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        alert(data.length)
+        console.log(data.length)
         that.options.innerCode = data
+        this.initBubbles()
       })
     }
-    this.initBubbles()
   }
 }
 </script>
