@@ -10,7 +10,7 @@
 .banner{
   width:7.5rem;
   height: 5.24rem;
-  background: url(../assets/images/lucky-draw/banner.png) center no-repeat;
+  background: url(../assets/images/lucky-draw/bannerimg.png) center no-repeat;
   background-size: 100%;
 }
 .banner-top{
@@ -355,7 +355,6 @@
       <div class="award-click">
         <div class="get-award" v-on:click="e=>{this.hint ? this.openEnture() : this.rotate()}">
           <p>{{consumenum}}豆/次</p>
-          <p>{{hint}}</p>
         </div>
       </div>
     </div>
