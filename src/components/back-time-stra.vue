@@ -233,7 +233,7 @@ i {
         padding-right: 77px; */
     width: 55%;
     padding-right: 10%;
-    min-height: 211px;
+    /*  min-height: 211px; */
 }
 .express-sell-box {
     /* width: 50%;

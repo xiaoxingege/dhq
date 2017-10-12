@@ -418,7 +418,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isGO: false,
       position: 3,
@@ -435,13 +435,13 @@ export default {
     LuckUsers: state => state.luckDrawData.LuckUsers,
     draw: state => state.luckDrawData.draw
   }),
-  beforecreated() {
+  beforecreated () {
 
   },
-  created() {
+  created () {
 
   },
-  mounted() {
+  mounted () {
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
@@ -460,7 +460,7 @@ export default {
     setTimeout(_this.scrolllist, 300)
   },
   methods: {
-    scrolllist: function() {
+    scrolllist: function () {
       var scroll = document.getElementById('scroll')
       var scrollOuter = document.getElementById('scroll-outer')
 
@@ -468,7 +468,7 @@ export default {
       var scrollOuterH = scrollOuter.offsetHeight
       var Top = -scrollOuterH
       var cha = (scrollH) - (scrollOuterH)
-      setInterval(function() {
+      setInterval(function () {
         if (Top <= -cha) {
           Top = -scrollOuterH
         }
@@ -476,19 +476,19 @@ export default {
         scroll.style.top = Top + 'px'
       }, 50)
     },
-    openModal: function() {
+    openModal: function () {
       var pop = document.getElementById('pop')
       pop.style.display = 'block'
     },
-    closeModal: function() {
+    closeModal: function () {
       var pop = document.getElementById('pop')
       pop.style.display = 'none'
     },
-    closeModalrotate: function() {
+    closeModalrotate: function () {
       this.closeModal()
       this.rotate()
     },
-    rotate: function() {
+    rotate: function () {
       this.$store.dispatch('user/checkLogin').then(() => {
         if (this.loginStatus === 'no') {
           if (window.jrj && window.jrj.jsCallNative) {
@@ -511,7 +511,7 @@ export default {
         }
       })
     },
-    drawPrize: function(position, __this) {
+    drawPrize: function (position, __this) {
       var _this = this
       var timer = null
       var count = 8 * 4 + position - 1
@@ -519,7 +519,7 @@ export default {
       var last = 0
       this.$set(_this.prizeList[0], 'active', true)
       clearInterval(timer)
-      timer = setInterval(function() {
+      timer = setInterval(function () {
         last = now
         now++
         if (now > 7) {

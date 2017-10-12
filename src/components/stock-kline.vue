@@ -42,7 +42,11 @@ export default ({
       lastKData: state => {
         const record = state.stock.stockKlineData[0]
         if (record) {
-          return record
+          return {
+            ma20: record.ma20 === null ? config.emptyValue : record.ma20,
+            ma60: record.ma60 === null ? config.emptyValue : record.ma60,
+            ma120: record.ma120 === null ? config.emptyValue : record.ma120
+          }
         } else {
           return {
             ma20: config.emptyValue,
