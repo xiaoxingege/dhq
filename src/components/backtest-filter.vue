@@ -350,7 +350,7 @@ span.copy {
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
           <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock" v-if="nowChooseStock.length>0">
-            <span class="order-num">{{index+1}}
+            <span class="order-num">{{pageSize*stockPage+index+1}}
                      </span><span>{{stock.innerCode}}
                      </span><span><a :href="'/stock/'+ stock.innerCode" target="_blank" class="blue">{{stock.name}}</a>
                      </span><span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}
@@ -383,7 +383,7 @@ span.copy {
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
           <div class="clearfix table-body table-body2" v-for="(tradeDay,index) of tradeDetail" v-if="tradeDetail.length>0">
-            <span>{{index+1}}
+            <span>{{fullHeight3*tradePage+index+1}}
               </span><span>{{tradeDay.backtestDate==null?'--':changeDate(tradeDay.backtestDate)}}
               </span>
             <span v-if="tradeDay.buyStockNums===0">{{tradeDay.buyStockNums==null?'--':tradeDay.buyStockNums}}
@@ -453,17 +453,20 @@ export default {
       showToast: false,
       fullHeight: document.documentElement.clientHeight - 390,
       fullHeight2: parseInt((document.documentElement.clientHeight - 390) / 30),
+      pageSize: parseInt((document.documentElement.clientHeight - 390) / 30),
       fullHeight3: parseInt((document.documentElement.clientHeight - 390) / 30),
       basicName: ''
     }
   },
-  computed: mapState({
-    tradeDetail: state => state.backtestDetail.tradeDetail,
-    nowChooseStock: state => state.backtestDetail.nowStock,
-    totalPage: state => state.backtestDetail.stockTotal,
-    tradeTotalPage: state => state.backtestDetail.tradeTotalPage,
-    authInfo: state => state.auth
-  }),
+  computed: {
+    ...mapState({
+      tradeDetail: state => state.backtestDetail.tradeDetail,
+      nowChooseStock: state => state.backtestDetail.nowStock,
+      totalPage: state => state.backtestDetail.stockTotal,
+      tradeTotalPage: state => state.backtestDetail.tradeTotalPage,
+      authInfo: state => state.auth
+    })
+  },
   components: {
     BackFilterDescr,
     Pagination,
