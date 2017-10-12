@@ -14,15 +14,14 @@ html,
 body,
 .app {
   height: 100%;
-  min-height: 710px;
 }
 
 .wrap {
   padding: 3px 1px;
   min-width: 1217px;
-  min-height: 710px;
   height: 100%;
   background-color: #0d0e0f;
+  min-height: 100%;
 }
 
 body {
@@ -145,7 +144,7 @@ import Sectors from 'components/z3touguhome/sectors'
 import TopIndustry from 'components/z3touguhome/top-industry'
 import IndexChart from 'components/indexChart'
 export default {
-  data () {
+  data() {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -174,11 +173,11 @@ export default {
 
   },
   methods: {
-    passStrategyId: function (msg) {
+    passStrategyId: function(msg) {
       this.strategyId = msg
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

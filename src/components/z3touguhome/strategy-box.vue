@@ -164,7 +164,6 @@ export default {
           strategyId: this.strategy.strategyId
         })
           .then(() => {
-            this.chart.showLoading()
             if (this.incomeListData.length > 0) {
               this.chart.setOption({
                 legend: {
@@ -243,7 +242,6 @@ export default {
                 }
                 ]
               })
-              this.chart.hideLoading()
             }
           })
       }

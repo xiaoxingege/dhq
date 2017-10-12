@@ -79,7 +79,7 @@ body {
 import StrategyListHome from 'components/z3touguhome/strategy-box'
 import Pagination from 'components/pagination.vue'
 export default {
-  data() {
+  data () {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -106,13 +106,13 @@ export default {
     Pagination
   },
   computed: {
-    strategyDetail: function() {
+    strategyDetail: function () {
       const strategyDetail = this.$store.state.z3touguIndex.strategyBlock
       return strategyDetail
     }
   },
   methods: {
-    initStrategy: function(pageNo) {
+    initStrategy: function (pageNo) {
       const query = this.$route.query
       if (query && query.query) {
         this.query = query.query
@@ -122,21 +122,21 @@ export default {
         this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
       }
       this.$store.dispatch('z3touguIndex/getStrategyBlock', {
-          query: this.query,
-          size: this.pageSize,
-          page: pageNo
-        })
+        query: this.query,
+        size: this.pageSize,
+        page: pageNo
+      })
         .then(() => {
           this.strategyList = this.strategyDetail.content
           this.totalPage = this.strategyDetail.totalPages
         })
     },
-    goToPage(data) {
+    goToPage (data) {
       this.strategyList = []
       this.initStrategy(data - 1)
     }
   },
-  mounted() {
+  mounted () {
     this.initStrategy(0)
   }
 }
