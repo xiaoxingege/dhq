@@ -428,6 +428,15 @@ export default {
         const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
         const stockSortData = this.stockSort[v] + '(' + s + ')'
 
+        let fundAllocateData = ''
+        if (this.goldResult.fundAllocate === 'fund_value') {
+          fundAllocateData = '资金等权'
+        } else if (this.goldResult.fundAllocate === 'market_value') {
+          fundAllocateData = '市值等权'
+        } else if (this.goldResult.fundAllocate === 'fix_value') {
+          fundAllocateData = '最大持仓数等分'
+        }
+
         return {
           choseStockData: {
             filterSummary: JSON.parse(this.goldResult.filterSummary)
@@ -448,7 +457,7 @@ export default {
           },
           tradeParamsData: {
             initFund: this.goldResult.initFund / 10000 + '万',
-            fundAllocate: this.goldResult.fundAllocate === 'fund_value' ? '资金等权' : '市值等权',
+            fundAllocate: fundAllocateData,
             buyPriceType: buyType,
             sellPriceType: this.goldResult.sellPriceType === 'open' ? '开盘价' : '收盘价',
             backtestDate: startDate.substring(0, 4) + '.' + startDate.substring(4, 6) + '.' + startDate.substring(6) + '-' + endDate.substring(0, 4) + '.' + endDate.substring(4, 6) + '.' + endDate.substring(6),
