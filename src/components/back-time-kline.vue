@@ -212,6 +212,7 @@ export default {
       // showMa: false,
       strategyId: this.$route.params.strategyId,
       searchList: [],
+      isShowLine: false,
       fullHeight1: document.documentElement.clientHeight - 562
     }
   },
@@ -432,6 +433,7 @@ export default {
       // this.searchList = []
       this.searchData.searchList = []
       console.log(this.searchData.searchList)
+
       // this.init()
     },
     submitSearch (e) {

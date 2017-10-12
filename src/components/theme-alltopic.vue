@@ -544,7 +544,8 @@ a.kuai_icon {
     /* width: 10%;
      display: inline-block;
      text-align: center; */
-    width: 10%;
+    /* width: 10%; */
+    width: 9%;
     line-height: 20px;
     display: inline-block;
     cursor: pointer;
@@ -553,12 +554,14 @@ a.kuai_icon {
 }
 .hot-name a {
     font-size: 14px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    margin-left: 30px;
     color: #1984ea;
 }
 .hot-name:nth-child(1) a {
     font-size: 14px;
-    padding-left: 40px;
+    /*  padding-left: 40px; */
+    margin-left: 61px;
     color: #1984ea;
 }
 .alltopic .page {
@@ -647,7 +650,7 @@ a.kuai_icon {
           </div>
           <div class="con-cen box-flex-1">
             <div v-for="equity of allTopic.relatedEquity">
-              <a :href="'/stock/'+equity.innerCode" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}">{{relatedStocks[equity.innerCode].name}}</span></a>
+              <a :href="'/stock/'+equity.innerCode" target="_blank"><span class="blue equ-name" ref="equityname" v-z3-stock="{ref:'stockbox',code:equity.innerCode}" :value='equity.innerCode'>{{relatedStocks[equity.innerCode].name}}</span></a>
               <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].price==null?'--':relatedStocks[equity.innerCode].price}}</span>
               <span class="equ-price" v-z3-updowncolor="relatedStocks[equity.innerCode].curChngPct">{{relatedStocks[equity.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[equity.innerCode].curChngPct)}}</span>
             </div>

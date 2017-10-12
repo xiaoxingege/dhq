@@ -12,9 +12,7 @@ export default {
         //let code = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
-
         el.addEventListener('mouseover', (event) => {
-          console.log(event.currentTarget.outerHTML)
           const str = event.currentTarget.outerHTML
           const parser = new DOMParser();
           const doc = parser.parseFromString(str, "text/xml");

@@ -5,7 +5,6 @@
 }
 .data-table {
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
     border-spacing: 0;
 }
@@ -18,7 +17,7 @@
 .data-table tr:nth-child(1) td {
     border-top-width: 0;
 }
-.data-table tr:last-child td {
+.data-table tr:nth-child(8) td {
     border-bottom-width: 0;
 }
 .data-table tr td:last-child {
@@ -53,9 +52,9 @@
   <div v-if="isNoData" class="no-data">
     <span>暂无信号</span>
   </div>
-  <table v-if="!isNoData" class="data-table">
+  <table v-if="!isNoData" class="data-table" :style="{height:tableHeight}">
     <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode">{{item.name === null?'--':item.name}}</td>
       <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
     </tr>
@@ -69,12 +68,14 @@ export default {
   props: ['dataList'],
   data () {
     return {
-      isNoData: false
+      isNoData: false,
+      tableHeight: '100%'
     }
   },
   watch: {
     dataList () {
       if (this.dataList.length > 0) {
+        this.tableHeight = (this.dataList.length / 8) * 100 + '%'
         this.isNoData = false
       } else {
         this.isNoData = true
@@ -88,7 +89,7 @@ export default {
     formatData: function (val) {
       let getVal
       if (val) {
-        getVal = (100 * val).toFixed(2) + '%'
+        getVal = val.toFixed(2) + '%'
       } else {
         getVal = '--'
       }
