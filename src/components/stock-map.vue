@@ -244,7 +244,7 @@ export default {
   components: {
     StockList
   },
-  data() {
+  data () {
     return {
       code: this.rangeCode || '',
       isContinue: 1,
@@ -332,26 +332,26 @@ export default {
     }
   },
   watch: {
-    rangeCode() {
+    rangeCode () {
       this.updateMap()
       this.playBackIndex = 19
       this.playLineIndex = 19
     },
-    condition() {
+    condition () {
       this.updateDataByCodition()
     },
-    focusStockName() {
+    focusStockName () {
       this.focusStock()
     }
   },
   computed: {
-    mapData: function() {
+    mapData: function () {
       const map = [].concat(this.$store.state.stockMap.industries)
-      map.forEach(function(industry) {
+      map.forEach(function (industry) {
         industry.value = industry.scale
-        industry.children && industry.children.forEach(function(lvl2) {
+        industry.children && industry.children.forEach(function (lvl2) {
           lvl2.value = lvl2.scale
-          lvl2.children && lvl2.children.sort((a, b) => (b.scale - a.scale)) && lvl2.children.forEach(function(stock) {
+          lvl2.children && lvl2.children.sort((a, b) => (b.scale - a.scale)) && lvl2.children.forEach(function (stock) {
             stock.value = stock.scale
             stock.parent = lvl2.id
           })
@@ -359,17 +359,17 @@ export default {
       })
       return map
     },
-    stockData: function() {
+    stockData: function () {
       const map = this.mapData
       const stockData = this.$store.state.stockMap.stockData
       const _this = this
-      map.forEach(function(industry) {
-        industry.children && industry.children.forEach(function(lvl2) {
-          lvl2.children && lvl2.children.forEach(function(stock) {
+      map.forEach(function (industry) {
+        industry.children && industry.children.forEach(function (lvl2) {
+          lvl2.children && lvl2.children.forEach(function (stock) {
             if (stockData) {
               if (_this.condition === 'act_date') {
                 stock.perf = stockData[stock.name]
-                if (stock.perf !== null && typeof(stock.perf) !== 'undefined') {
+                if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                   const pbDate = new Date(stock.perf)
                   const nowDate = new Date()
                   stock.perfText = _this.dateFormatUtil(pbDate)
@@ -390,7 +390,7 @@ export default {
                 }
               } else {
                 stock.perf = stockData[stock.id] || stockData[stock.name]
-                if (stock.perf !== null && typeof(stock.perf) !== 'undefined') {
+                if (stock.perf !== null && typeof (stock.perf) !== 'undefined') {
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
                       if (stock.perf >= 0) {
@@ -424,13 +424,13 @@ export default {
           })
         })
       })
-      map.forEach(function(industry) {
-        industry.children.forEach(function(lvl2) {
+      map.forEach(function (industry) {
+        industry.children.forEach(function (lvl2) {
           if (stockData) {
             if (_this.condition === 'act_date') {
               let actDateBefore = 0
               let acrDateAfter = 0
-              lvl2.children.forEach(function(stock) {
+              lvl2.children.forEach(function (stock) {
                 if (stock.actDateFlag === 0) { // 业绩公布日前
                   actDateBefore += stock.value * 1
                 } else if (stock.actDateFlag === 1) { // 业绩公布日后
@@ -453,7 +453,7 @@ export default {
             } else {
               let totalPerf = 0
               let totalScale = 0
-              lvl2.children.forEach(function(stock) {
+              lvl2.children.forEach(function (stock) {
                 if (stock.perf) {
                   totalPerf += stock.value * stock.perf
                 }
@@ -477,12 +477,12 @@ export default {
       })
       return map
     },
-    hoverNodeParent: function() {
+    hoverNodeParent: function () {
       let parentNode = null
       if (this.hoverNode) {
         const parentId = this.hoverNode.parent
-        this.mapData.forEach(function(industry) {
-          industry.children && industry.children.forEach(function(lvl2) {
+        this.mapData.forEach(function (industry) {
+          industry.children && industry.children.forEach(function (lvl2) {
             if (parentId === lvl2.id) {
               parentNode = lvl2
             }
@@ -493,12 +493,12 @@ export default {
     }
   },
   methods: {
-    initMap: function() {
+    initMap: function () {
       this.chart = echarts.init(this.$refs.treemap)
       const _this = this
       this.$store.dispatch('stockMap/queryRangeByCode', {
-          code: this.rangeCode
-        })
+        code: this.rangeCode
+      })
         .then(() => {
           this.initOption(this.mapData)
         }).then(() => {
@@ -522,7 +522,7 @@ export default {
         })
       this.chart.showLoading()
       this.getLegendColor()
-      window.onresize = function() {
+      window.onresize = function () {
         if (_this.$route.fullPath.indexOf('fullScreen') > 0) {
           _this.mapHeight = window.innerHeight
           _this.mapWidth = window.innerWidth
@@ -538,7 +538,7 @@ export default {
       this.autoUpdateData()
       this.updateTime()
     },
-    updateMap: function() {
+    updateMap: function () {
       /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
       this.$store.dispatch('stockMap/queryRangeByCode', {
         code: this.rangeCode
@@ -563,7 +563,7 @@ export default {
         })*/
       })
     },
-    updateData: function() {
+    updateData: function () {
       this.getLegendColor()
       this.$store.dispatch('stockMap/updateData', {
         isContinue: this.isContinue,
@@ -576,7 +576,7 @@ export default {
         this.updateMapData()
       })
     },
-    updateDataByCodition: function() {
+    updateDataByCodition: function () {
       this.getLegendColor()
       this.$store.dispatch('stockMap/updateData', {
         isContinue: this.isContinue,
@@ -589,7 +589,7 @@ export default {
         this.initOption(this.stockData)
       })
     },
-    updateMapData: function() {
+    updateMapData: function () {
       /* this.initOption(this.stockData)*/
       this.chart.setOption({
         series: [{
@@ -600,17 +600,17 @@ export default {
       // this.chart.setOption(this.getOption())
       // this.chart.trigger('emphasis')
     },
-    autoUpdateData: function() {
+    autoUpdateData: function () {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function() {
+        this.updateDataPid = setInterval(function () {
           _this.updateData()
         }, 1000 * _this.intervalTime)
       }
     },
-    initOption: function(data) {
+    initOption: function (data) {
       if (this.chart) {
         this.chart.dispose()
         console.log('销毁echart实例!')
@@ -643,7 +643,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof(params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
@@ -714,7 +714,7 @@ export default {
         }
       })
     },
-    getOption: function() {
+    getOption: function () {
       return {
         hoverLayerThreshold: 10000,
         progressive: 1000,
@@ -742,7 +742,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof(params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof (params.data.perf) !== 'undefined' && params.data.perf !== null) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
@@ -780,14 +780,14 @@ export default {
         }]
       }
     },
-    focusStock: function() {
+    focusStock: function () {
       const _this = this
       // const focusStockData = this.stockData
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
-      treeRoot.children.forEach(function(industry) {
-        industry.children.forEach(function(lvl2) {
-          lvl2.children.forEach(function(stock) {
+      treeRoot.children.forEach(function (industry) {
+        industry.children.forEach(function (lvl2) {
+          lvl2.children.forEach(function (stock) {
             if (stock.name === _this.focusStockName[0]) {
               // stock.itemStyle.normal.borderColor = '#ffd614'
               // stock.itemStyle.normal.borderWidth = 2
@@ -815,84 +815,84 @@ export default {
       // })
       // this.chart.setOption({ series: [{ data: focusStockData }] })
     },
-    getLevelOption: function() {
+    getLevelOption: function () {
       return [{ // 第一层外
-          itemStyle: {
-            normal: {
-              borderColor: '#141518', // 第一层矩形间隔线颜色
-              borderWidth: 0,
-              color: '#141518',
-              gapWidth: 2 // 第一层块间隔距离
-            }
-          },
-          upperLabel: {
-            normal: {
-              show: false
-            }
-          },
-          silent: true
+        itemStyle: {
+          normal: {
+            borderColor: '#141518', // 第一层矩形间隔线颜色
+            borderWidth: 0,
+            color: '#141518',
+            gapWidth: 2 // 第一层块间隔距离
+          }
         },
-        { // 第一层
-          itemStyle: {
-            normal: {
-              borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
-              color: '#141518',
-              borderWidth: 1, // 第一层矩形间距
-              gapWidth: 1 // 第二层矩形间距
-            },
-            emphasis: {}
+        upperLabel: {
+          normal: {
+            show: false
+          }
+        },
+        silent: true
+      },
+      { // 第一层
+        itemStyle: {
+          normal: {
+            borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
+            color: '#141518',
+            borderWidth: 1, // 第一层矩形间距
+            gapWidth: 1 // 第二层矩形间距
           },
-          silent: true,
-          upperLabel: {
-            normal: {
-              offset: [3, 0]
-            },
-            emphasis: {
-              offset: [3, 0]
+          emphasis: {}
+        },
+        silent: true,
+        upperLabel: {
+          normal: {
+            offset: [3, 0]
+          },
+          emphasis: {
+            offset: [3, 0]
+          }
+        }
+      },
+      { // 第二层
+        itemStyle: {
+          normal: {
+            borderWidth: 0,
+            gapWidth: 0,
+            borderColor: '#141518'
+          },
+          emphasis: {
+            borderColor: '#ffd614'
+          }
+        },
+        upperLabel: {
+          normal: {
+            offset: [5, 0]
+          },
+          emphasis: {
+            offset: [5, 0],
+            textStyle: {
+              color: '#333'
             }
           }
         },
-        { // 第二层
-          itemStyle: {
-            normal: {
-              borderWidth: 0,
-              gapWidth: 0,
-              borderColor: '#141518'
-            },
-            emphasis: {
-              borderColor: '#ffd614'
-            }
+        silent: true
+      },
+      { // 第3层
+        itemStyle: {
+          normal: {
+            borderWidth: 0.5,
+            borderColor: '#141518',
+            color: '#2f323d'
           },
-          upperLabel: {
-            normal: {
-              offset: [5, 0]
-            },
-            emphasis: {
-              offset: [5, 0],
-              textStyle: {
-                color: '#333'
-              }
-            }
-          },
-          silent: true
+          emphasis: {
+            borderWidth: 2,
+            borderColor: '#ffd614'
+          }
         },
-        { // 第3层
-          itemStyle: {
-            normal: {
-              borderWidth: 0.5,
-              borderColor: '#141518',
-              color: '#2f323d'
-            },
-            emphasis: {
-              borderWidth: 2,
-              borderColor: '#ffd614'
-            }
-          },
-          silent: true
-        }
+        silent: true
+      }
       ]
     },
-    isFullScreen: function() {
+    isFullScreen: function () {
       if (this.$route.fullPath.indexOf('fullScreen') > 0) {
         this.isEnlarge = true // 全屏
         this.mapHeight = window.innerHeight
@@ -905,7 +905,7 @@ export default {
         this.$emit('isEnlarge', this.isEnlarge)
       }
     },
-    showColor: function(colorArr, valueArr, value) {
+    showColor: function (colorArr, valueArr, value) {
       if (value == null) {
         return colorArr.nullColor
       }
@@ -918,7 +918,7 @@ export default {
         return colorArr[index]
       }
     },
-    getLegendColor: function() {
+    getLegendColor: function () {
       this.legendList = []
       if (this.condition === 'act_date') {
         this.legendWidth = 70
@@ -940,7 +940,7 @@ export default {
         }
       }
     },
-    startPlay: function() {
+    startPlay: function () {
       clearInterval(this.updateDataPid)
       this.updateDataPid = null
       if (this.playBackState) { // 播放中点击暂停
@@ -994,7 +994,7 @@ export default {
         }, 500)*/
       }
     },
-    queryPlaybackData: function(playBackIndex) {
+    queryPlaybackData: function (playBackIndex) {
       const _this = this
       if (!this.playBackState) {
         return
@@ -1009,7 +1009,7 @@ export default {
         this.autoUpdateData()
       } else {
         const playBackDate = this.playBackDate[playBackIndex]
-        setTimeout(function() {
+        setTimeout(function () {
           if (!_this.playBackState) {
             return
           }
@@ -1018,20 +1018,20 @@ export default {
           }).then(() => {
             _this.updateMapData()
             _this.playLineIndex++ // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
-              _this.playBackIndex++
-              _this.queryPlaybackData(_this.playBackIndex)
+            _this.playBackIndex++
+            _this.queryPlaybackData(_this.playBackIndex)
           })
         }, 250)
       }
     },
-    fmtraneValue: function(arr, n) {
+    fmtraneValue: function (arr, n) {
       var getArr = []
       for (var i in arr) {
         getArr.push(arr[i] * n)
       }
       return getArr
     },
-    timeFormat: function(arr) {
+    timeFormat: function (arr) {
       const getArr = []
       for (const i in arr) {
         const toTime = arr[i].toString()
@@ -1045,13 +1045,13 @@ export default {
       }
       return getArr
     },
-    changeWrapHeight: function(wrapHeight) {
+    changeWrapHeight: function (wrapHeight) {
       this.wrapHeight = wrapHeight
       if (this.wrapHeight > 52) {
         this.move()
       }
     },
-    move: function(event) {
+    move: function (event) {
       if (event) {
         this.clientX = event.clientX + 50
         this.clientY = event.clientY + 50
@@ -1075,14 +1075,14 @@ export default {
         }
       }
     },
-    dateFormatUtil: function(date) {
+    dateFormatUtil: function (date) {
       var dateTypeDate = ''
       dateTypeDate += date.getFullYear() // 年
       dateTypeDate += '-' + this.getMonth(date) // 月
       dateTypeDate += '-' + this.getDay(date) // 日
       return dateTypeDate
     },
-    getMonth: function(date) {
+    getMonth: function (date) {
       let month = ''
       month = date.getMonth() + 1 // getMonth()得到的月份是0-11
       if (month < 10) {
@@ -1090,7 +1090,7 @@ export default {
       }
       return month
     },
-    getDay: function(date) {
+    getDay: function (date) {
       let day = ''
       day = date.getDate()
       if (day < 10) {
@@ -1116,27 +1116,27 @@ export default {
        }
        this.$emit('isEnlarge', this.isEnlarge)
      },*/
-    switchLegend: function() {
+    switchLegend: function () {
       if (this.isLegendShow) {
         this.isLegendShow = false
       } else {
         this.isLegendShow = true
       }
     },
-    switchPlayback: function() {
+    switchPlayback: function () {
       if (this.isPlaybackShow) {
         this.isPlaybackShow = false
       } else {
         this.isPlaybackShow = true
       }
     },
-    restoreMap: function() {
+    restoreMap: function () {
       this.chart.resize({
         height: this.$refs.treemap.offsetHeight,
         width: this.$refs.treemap.offsetWidth
       })
     },
-    getTime: function() {
+    getTime: function () {
       const date = new Date()
       const seperator2 = ':'
       let month = date.getMonth() + 1
@@ -1159,12 +1159,12 @@ export default {
         strHour + seperator2 + strMin
       return currentDate
     },
-    updateTime: function() {
+    updateTime: function () {
       const _this = this
       if (this.updateTimePid) {
         clearInterval(this.updateTimePid)
       } else {
-        this.updateTimePid = setInterval(function() {
+        this.updateTimePid = setInterval(function () {
           _this.currentTime = _this.getTime()
         }, 1000)
       }
@@ -1175,12 +1175,12 @@ export default {
     toNormal: function () {
       window.open(ctx + '/map/normal/' + this.rangeCode + '/' + this.condition)
     },*/
-    getNode: function(params) {
+    getNode: function (params) {
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
       return treeRoot.hostTree._nodes[params.dataIndex]
     },
-    zoom: function(event) {
+    zoom: function (event) {
       if (this.zoomFlag) {
         return
       }
@@ -1198,17 +1198,17 @@ export default {
       var left = 0
       if (deltaY < 0 && this.scale < 4) {
         this.scale++
-          left = this.scale / (this.scale - 1) * offsetX - containerX
+        left = this.scale / (this.scale - 1) * offsetX - containerX
         top = this.scale / (this.scale - 1) * offsetY - containerY
       } else if (deltaY > 0 && this.scale > 1) {
         this.scale--
-          if (this.scale === 1) {
-            top = 0
-            left = 0
-          } else {
-            left = this.scale / (this.scale + 1) * offsetX - containerX
-            top = this.scale / (this.scale + 1) * offsetY - containerY
-          }
+        if (this.scale === 1) {
+          top = 0
+          left = 0
+        } else {
+          left = this.scale / (this.scale + 1) * offsetX - containerX
+          top = this.scale / (this.scale + 1) * offsetY - containerY
+        }
       } else {
         return
       }
@@ -1221,7 +1221,7 @@ export default {
       treemap.style.left = -left + 'px'
     }
   },
-  mounted() {
+  mounted () {
     this.isFullScreen()
     this.initMap()
   }
