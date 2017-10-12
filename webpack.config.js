@@ -32,12 +32,7 @@ const buildEntry = function() {
       ret[path.basename(entry, '.js')] = `${entryPath}/${entry}`
     });
   }
-  return ret;
-}
-
-const buildHTML = function() {
-  let dir = path.join(__dirname, `src/${featureName}/pages`);
-  let entries = fs.readdirSync(dir);
+  return r
   return entries.map(entry => {
     let basename = path.basename(entry, '.js');
     return new HtmlWebpackPlugin({
