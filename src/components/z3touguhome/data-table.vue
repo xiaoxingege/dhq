@@ -66,14 +66,14 @@
 import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
-  data() {
+  data () {
     return {
       isNoData: false,
       tableHeight: '100%'
     }
   },
   watch: {
-    dataList() {
+    dataList () {
       if (this.dataList.length > 0) {
         this.tableHeight = (this.dataList.length / 8) * 100 + '%'
         this.isNoData = false
@@ -86,7 +86,7 @@ export default {
     StockBox
   },
   methods: {
-    formatData: function(val) {
+    formatData: function (val) {
       let getVal
       if (val) {
         getVal = val.toFixed(2) + '%'
@@ -95,13 +95,13 @@ export default {
       }
       return getVal
     },
-    linkStock: function(innerCode) {
+    linkStock: function (innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     }
   },
-  mounted() {
+  mounted () {
     console.log(this.dataList)
   }
 }
