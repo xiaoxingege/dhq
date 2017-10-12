@@ -18,6 +18,7 @@ import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
+import finance from 'stores/finance'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -130,6 +131,7 @@ export default new Vuex.Store({
     fundRecord,
     filter,
     backtestDetailH5,
-    indexChart
+    indexChart,
+    finance
   }
 })

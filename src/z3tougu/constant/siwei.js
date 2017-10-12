@@ -344,6 +344,36 @@ const groupArr = {
     color: AnalystColor
   }
 }
+
+const stockSort = {
+  'marketData.tcap': '总市值',
+  'marketData.mktcap': '流通市值',
+  'marketData.peTtm': '市盈率',
+  'marketData.peg': 'PEG',
+  'marketData.ps': '市销率',
+  'marketData.pb': '市净率',
+  'marketData.pc': '市现率',
+  'fcstIdx.realEpsChng': 'EPS增长率(今年)',
+  'fcstIdx.firFcstEpsChng': 'EPS增长率(明年)',
+  'finData.eps5Year': 'EPS增长率(前5年)',
+  'fcstIdx.fcstEpsChngNext3': 'EPS增长率(后3年)',
+  'finData.epsQuaRr': 'EPS增长率(季环比)',
+  'finData.saleGr5Year': '销售额增长率(前5年)',
+  'finData.saleQuaRr': '销售额增长率(季环比)',
+  'finData.roa': '总资产收益率',
+  'finData.duRoe': '净资产收益率',
+  'finData.roic': '投资回报率',
+  'finData.currentRatio': '流动比率',
+  'finData.quickRatio': '速动比率',
+  'finData.selRint': '毛利率',
+  'finData.trTp': '营业利润率',
+  'finData.selNint': '净利率',
+  'marketData.divRate': '股息率',
+  'divPct': '股息支付率',
+  'inHldPct': '内部持股比例',
+  'orgHldPct': '机构持股比例'
+
+}
 export {
   xSelectData,
   bubbleSizeSelect,
@@ -362,6 +392,7 @@ export {
   volumeArr,
   relaVolume,
   pointArr,
-  groupArr
+  groupArr,
+  stockSort
 
 }
