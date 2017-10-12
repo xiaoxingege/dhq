@@ -70,10 +70,13 @@
   position: relative;
 }
 .notification-text{
-  height: auto;
+  /*height: 2.1rem;*/
   position: absolute;
   top:0;
   left:0.2rem;
+}
+.notification-text li{
+  height: 0.7rem;
 }
 .notification-text span{
   color: #fff;
@@ -405,6 +408,8 @@
 </template>
 
 <script>
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 import 'whatwg-fetch'
 import {
   mapState
@@ -448,26 +453,30 @@ export default {
         return this.$store.dispatch('user/getBeanNum')
       }
     })
-    this.$store.dispatch('luckDrawData/getLuckUsers')
+    this.$store.dispatch('luckDrawData/getLuckUsers').then(() => {
+      _this.scrolllist()
+    })
     this.$store.dispatch('luckDrawData/getPrizeList')
-
-    setTimeout(_this.scrolllist, 300)
   },
   methods: {
     scrolllist: function () {
-      var scroll = document.getElementById('scroll')
-      var scrollOuter = document.getElementById('scroll-outer')
+      var scroll = $('#scroll')
+      var scrollOuter = $('#scroll-outer')
 
-      var scrollH = scroll.offsetHeight
-      var scrollOuterH = scrollOuter.offsetHeight
+      var scrollH = scroll.height()
+
+      var scrollOuterH = scrollOuter.height()
+      console.log(scrollH)
+      console.log(scrollOuterH)
       var Top = -scrollOuterH
       var cha = (scrollH) - (scrollOuterH)
       setInterval(function () {
         if (Top <= -cha) {
           Top = -scrollOuterH
+          return false
         }
         Top = Top - 1
-        scroll.style.top = Top + 'px'
+        scroll.css('top', Top + 'px')
       }, 50)
     },
     openModal: function () {
