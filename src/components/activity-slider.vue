@@ -1,6 +1,25 @@
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/css/reset.css';
 @import '~swiper/dist/idangerous.swiper.css';
+.swiper-pagination {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+.swiper-pagination-switch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: #999;
+    box-shadow: 0 1px 2px #555 inset;
+    margin: 0 3px;
+    cursor: pointer;
+}
+.swiper-active-switch {
+    background: #fff;
+}
 </style>
 
 <template>
@@ -11,7 +30,7 @@
   </div>
 
   <!-- Add Pagination -->
-  <div class="pagination" v-if="listData.pagShow" style="bottom:0;"></div>
+  <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
 
   <!-- Add Arrows -->
   <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
@@ -57,9 +76,10 @@ export default {
   mounted () {
     var _this = this
     new Swiper('.swiper-container', {
-      pagination: '.pagination',
+      pagination: '.swiper-pagination',
       effect: 'fade',
       grabCursor: true,
+      createPagination: true,
       nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
       loop: _this.listData.loop,
