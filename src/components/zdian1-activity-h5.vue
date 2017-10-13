@@ -605,6 +605,7 @@ export default {
     },
     grab(e) {
       if (window.app.name === '{{appid}}') {
+        e.preventDefault();
         if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
           this.showShareLayer()
         } else {
