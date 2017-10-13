@@ -145,8 +145,8 @@ input {
 .ui-two {
     width: 7.50rem;
     height: 3.74rem;
-    background: url("../assets/images/zdian1-activity/section-2.jpg") center top no-repeat;
-    background-size: 100%;
+    background: url("../assets/images/zdian1-activity/section-2-1.jpg") center top no-repeat;
+    background-size: 100% 100%;
     left: 0;
     top: 5.58rem;
 }
@@ -161,7 +161,7 @@ input {
 }
 .ui-four {
     width: 7.50rem;
-    height: 8.50rem;
+    height: 9rem;
     background: url("../assets/images/zdian1-activity/section-4.jpg") center top no-repeat;
     background-size: 100%;
     left: 0;
@@ -179,10 +179,10 @@ input {
     }
     img {
         position: absolute;
-        width: 5.8rem;
+        width: 5.46rem;
         height: 2.9rem;
-        top: 5.44rem;
-        left: 0.92rem;
+        top: 5.29rem;
+        left: 1.02rem;
     }
     a {
         width: 2.15rem;
@@ -198,7 +198,8 @@ input {
     background: url("../assets/images/zdian1-activity/section-5.jpg") center top no-repeat;
     background-size: 100%;
     left: 0;
-    top: 21.18rem;
+    top: 21.54rem;
+
 }
 .ui-six {
     width: 7.50rem;
@@ -206,7 +207,7 @@ input {
     background: url("../assets/images/zdian1-activity/section-6.jpg") center top no-repeat;
     background-size: 100%;
     left: 0;
-    top: 29.66rem;
+    top: 29.62rem;
     h5 {
         width: 100%;
         text-align: center;
@@ -219,10 +220,10 @@ input {
 .ui-seven {
     width: 7.50rem;
     height: 5.09rem;
-    background: url("../assets/images/zdian1-activity/section-7.jpg") center top no-repeat;
+    background: url("../assets/images/zdian1-activity/section-7-1.jpg") center top no-repeat;
     background-size: 100%;
     left: 0;
-    top: 41.01rem;
+    top: 41.07rem;
 }
 [class^="text-"] {
     letter-spacing: 0.25rem;
@@ -337,7 +338,7 @@ input {
     font-size: 0.22rem;
     color: #161412;
     position: absolute;
-    top: 0.6rem;
+    top: 0.4rem;
     left: 0.2rem;
 }
 a.link1 {
@@ -380,10 +381,6 @@ a.link2 {
   <div class="ui-block-inner">
     <div class="ui-one"></div>
     <div class="ui-two">
-      <div class="bg2-text">
-        十一期间，市场内外利好不断，节后首日沪指突破3400点，创近22个月新高，为10月行情打下坚实基础，外资北上活跃，且四季度将迎多次重要会议，政策驱动市场行情向好，上涨逻辑和趋势仍然清晰，逢低就是入场良机！
-        <br/><br/>在过去的9月，Z点操盘战绩喜人，10月即将过半，你无动于衷？
-      </div>
     </div>
     <div class="ui-three">
       <div class="box-con" ref="slideBox">
@@ -391,20 +388,10 @@ a.link2 {
       </div>
     </div>
     <div class="ui-four" id="d0">
-      <ol class="bg4-text">
-        <li>1&nbsp;&nbsp;自选股、持仓股买卖信号即时提醒；</li>
-        <li>2&nbsp;&nbsp;查看两市3000+支股票趋势分析、买卖信号ZS点；</li>
-        <li>3&nbsp;&nbsp;十档行情、千档盘口，市场唯一一款免费Level 2行情。</li>
-      </ol>
       <a href="javascript:;" @click="free">&nbsp;</a>
       <img src="http://i0.jrjimg.cn/assets/images/zdian/zdxh.png" />
     </div>
     <div class="ui-five" id="d1">
-      <ol class="bg5-text">
-        <li>1&nbsp;&nbsp;低至1折，优惠力度大，有效期长！</li>
-        <li>2&nbsp;&nbsp;金融界智能操盘工具促销598元/季，1980元/年<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用券再减88元/288元！</li>
-        <li>3&nbsp;&nbsp;参与现金券抢购的用户均可参与抽奖<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赢万元专属定制投资服务！</li>
-      </ol>
       <a href="http://itougu.jrj.com.cn/tips/438.jspa" class="link1" @click="grab('1')"></a>
       <a href="http://itougu.jrj.com.cn/tips/439.jspa" class="link2" @click="grab('2')"></a>
     </div>
@@ -424,11 +411,6 @@ a.link2 {
       </div>
     </div>
     <div class="ui-seven">
-      <ol class="bg6-text">
-        <li>用户每参与1种现金券抢购，则每日增加1次抽奖机会；</li>
-        <li>用户抽取到工作室、Z量化、极智选股等，会有投服人员联系您讲解使用方法，请提前绑定手机号码</li>
-        <li>所有奖品，将于中奖后3个工作日内派发；活动最终解释权归金融界所有，如果疑问，请咨询400-166-1188</li>
-      </ol>
     </div>
   </div>
   <div class="nav">
