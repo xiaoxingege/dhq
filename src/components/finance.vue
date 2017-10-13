@@ -1,5 +1,16 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
+.finance {
+    background: #141518;
+    color: #c9d0d7;
+    font-size: 12px;
+    padding: 10px 0 10px 10px;
+}
+
+.finance p span {
+    color: #c9d0d7;
+}
 </style>
 <template>
 <div class="finance">
@@ -58,16 +69,16 @@
   <p><span>每股分红(年度)：</span><span v-if="financeData !== null">{{financeData.marketData2.psCashBt1Year === null ? '--':financeData.marketData2.psCashBt1Year}}</span>
   </p>
 
-  <p><span>股息率：</span><span v-if="financeData !== null">{{financeData.marketData.divRate === null ? '--':financeData.marketData.divRate}}</span>
+  <p><span>股息率：</span><span v-if="financeData !== null">{{financeData.marketData.divRate === null ? '--':financeData.marketData.divRate+'%'}}</span>
   </p>
 
-  <p><span>总资产收益率：</span><span v-if="financeData !== null">{{financeData.finData.roa === null ? '--':financeData.finData.roa}}</span>
+  <p><span>总资产收益率：</span><span v-if="financeData !== null">{{financeData.finData.roa === null ? '--':financeData.finData.roa+'%'}}</span>
   </p>
 
-  <p><span>净资产收益率：</span><span v-if="financeData !== null">{{financeData.finData.duRoe === null ? '--':financeData.finData.duRoe}}</span>
+  <p><span>净资产收益率：</span><span v-if="financeData !== null">{{financeData.finData.duRoe === null ? '--':financeData.finData.duRoe+'%'}}</span>
   </p>
 
-  <p><span>投资回报率：</span><span v-if="financeData !== null">{{financeData.finData.roic === null ? '--':financeData.finData.roic}}</span>
+  <p><span>投资回报率：</span><span v-if="financeData !== null">{{financeData.finData.roic === null ? '--':financeData.finData.roic+'%'}}</span>
   </p>
 
   <p><span>营业收入(万元)：</span><span v-if="financeData !== null">{{financeData.finData.sale === null ? '--':financeData.finData.sale}}</span>
@@ -94,21 +105,22 @@
   <p><span>长期负债/股东权益：</span><span v-if="financeData !== null">{{financeData.finData.liabEqu === null ? '--':financeData.finData.liabEqu}}</span>
   </p>
 
-  <p><span>毛利率：</span><span v-if="financeData !== null">{{financeData.finData.selRint === null ? '--':financeData.finData.selRint}}</span>
+  <p><span>毛利率：</span><span v-if="financeData !== null">{{financeData.finData.selRint === null ? '--':financeData.finData.selRint+'%'}}</span>
   </p>
 
-  <p><span>营业利润率：</span><span v-if="financeData !== null">{{financeData.finData.trTp === null ? '--':financeData.finData.trTp}}</span>
+  <p><span>营业利润率：</span><span v-if="financeData !== null">{{financeData.finData.trTp === null ? '--':financeData.finData.trTp+'%'}}</span>
   </p>
 
-  <p><span>净利率：</span><span v-if="financeData !== null">{{financeData.finData.selNint === null ? '--':financeData.finData.selNint}}</span>
+  <p><span>净利率：</span><span v-if="financeData !== null">{{financeData.finData.selNint === null ? '--':financeData.finData.selNint+'%'}}</span>
   </p>
 
-  <p><span>股息支付率：</span><span v-if="financeData !== null">{{financeData.divPct === null ? '--':financeData.divPct}}</span></p>
+  <p><span>股息支付率：</span><span v-if="financeData !== null">{{financeData.divPct === null ? '--':financeData.divPct+'%'}}</span>
+  </p>
 
   <p><span>净利润(万元)：</span><span v-if="financeData !== null">{{financeData.net_profit === null ? '--':financeData.net_profit}}</span>
   </p>
 
-  <p><span>报告日期：</span><span v-if="financeData !== null">{{financeData.finData.finEnddate === null ? '--':financeData.finData.finEnddate}}</span>
+  <p><span>报告日期：</span><span v-if="financeData !== null">{{financeData.finData.finEnddate === null ? '--':formatDate(new Date(financeData.finData.finEnddate))}}</span>
   </p>
 
 </div>
@@ -121,7 +133,14 @@ export default {
   data () {
     return {}
   },
-  methods: {},
+  methods: {
+    formatDate (time) {
+      const year = time.getYear()
+      const month = time.getMonth() + 1
+      const date = time.getDate()
+      return year + '-' + month + '-' + date
+    }
+  },
   computed: mapState({
     financeData: state => state.finance.financeData
   }),
