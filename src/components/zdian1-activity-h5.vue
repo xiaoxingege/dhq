@@ -547,7 +547,7 @@ export default {
         if (this.prize === 8) {
           this.pop2Html = '<h3>遗憾了！<br />大奖与您擦肩而过</h3><p class="fz26 cl1">继续参与现金券抢购，</p><p class="fz20 cl1">可以获得更多抽奖机会。~</p><p class="fz20 cl1">祝您投资愉快</p>'
         } else {
-          this.pop2Html = '<h3>恭喜您！<br />成功抽取 XXXXXX</h3><p class="fz20 cl1">奖品将于3个工作日内派发，您可以</p><p class="fz20 cl1">前往APP活动页面“我的礼品”~</p><p class="fz20 cl1">里查看中奖记录。</p>'
+          this.pop2Html = '<h3>恭喜您！<br />成功抽取 ' + this.lotteryResult.prizeName + '</h3><p class="fz20 cl1">奖品将于3个工作日内派发，您可以</p><p class="fz20 cl1">前往APP活动页面“我的礼品”~</p><p class="fz20 cl1">里查看中奖记录。</p>'
         }
         this.pop2Show = true
       } else {
