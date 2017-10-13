@@ -21,7 +21,10 @@ body,
   min-width: 1217px;
   height: 100%;
   background-color: #0d0e0f;
-  min-height: 100%;
+}
+
+.index-wrap {
+  min-height: 710px;
 }
 
 body {
@@ -30,26 +33,6 @@ body {
 
 .news-wrap {
   height: 37%;
-}
-
-.news-left {
-  height: 100%;
-  width: 64.9%;
-  display: inline-block;
-  float: left;
-  padding: 10px;
-  background: #fff;
-}
-
-.news-left>div {
-  width: 47%;
-  height: 100%;
-  display: inline-block;
-  float: left;
-}
-
-.news-left>div:nth-child(1) {
-  margin-right: 6%;
 }
 
 .con-bottom {
@@ -113,7 +96,7 @@ body {
 }
 </style>
 <template>
-<div class="wrap">
+<div class="wrap index-wrap">
   <div class="news-wrap clearfix">
     <IndexChart></IndexChart>
   </div>
