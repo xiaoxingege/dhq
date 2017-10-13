@@ -81,7 +81,7 @@
         <td>{{item.industryName === null?'--':item.industryName}}</td>
         <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
         <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
-        <td v-z3-updowncolor="item.stockVal">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
     </table>
@@ -90,7 +90,7 @@
         <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{formateData(item.topicName)?'--':item.topicName}}</td>
         <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
         <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
-        <td v-z3-updowncolor="item.stockPrice">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockChngPct)?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
     </table>

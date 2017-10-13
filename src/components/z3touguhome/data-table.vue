@@ -55,7 +55,7 @@
   <table v-if="!isNoData" class="data-table" :style="{height:tableHeight}">
     <tr v-for="item of dataList">
       <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode">{{item.name === null?'--':item.name}}</td>
-      <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
+      <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
     </tr>
   </table>

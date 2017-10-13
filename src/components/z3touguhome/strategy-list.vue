@@ -38,22 +38,10 @@ body {
 .strategy-wrap1>ul>li {
   background-color: #0d0e0f;
   padding: 0px 1px 3px 1px;
-  width: 33.3333%;
+  width: 25%;
   float: left;
   display: inline-block;
   height: 33.33%;
-}
-
-.strategy-wrap1 li:nth-child(3),
-.strategy-wrap1 li:nth-child(6),
-.strategy-wrap1 li:nth-child(9) {
-  margin-right: 0px;
-}
-
-.strategy-wrap1 li:nth-child(7),
-.strategy-wrap1 li:nth-child(8),
-.strategy-wrap1 li:nth-child(9) {
-  margin-bottom: 0px;
 }
 
 .strategy-wrap1 .page {
@@ -106,10 +94,9 @@ export default {
       },
       sort: 'createDate',
       direction: 'desc',
-      size: 4,
       strategyList: [],
       totalPage: 0,
-      pageSize: 9,
+      pageSize: 12,
       query: '',
       testQuery: ''
     }
