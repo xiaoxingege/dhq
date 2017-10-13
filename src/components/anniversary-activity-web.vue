@@ -1,24 +1,24 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 .bg5 .box-con .swiper-container {
-    top: 78px;
-    overflow: visible;
+  top: 78px;
+  overflow: visible;
 }
 
 .bg5 .swiper-button-next {
-    right: -74px;
+  right: -74px;
 }
 
 .bg5 .swiper-button-prev {
-    left: -74px;
+  left: -74px;
 }
 </style>
 <style lang="scss" scoped>
@@ -140,63 +140,69 @@ input {
 
 <template>
 <div class="box">
-    <div class="bg1">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+  </div>
+  <div class="bg3">
+  </div>
+  <div class="bg4">
+    <div class="box-con">
+      <a href="/act/jzxg-activity-new" class="jzxgLink" target="_blank"></a>
+      <a href="javascript:;" class="popClick" @click="popClick"></a>
     </div>
-    <div class="bg2">
+  </div>
+  <div class="bg5">
+    <div class="box-con">
+      <activity-slider :listData="listData" />
     </div>
-    <div class="bg3">
+  </div>
+  <div class="nav-fixed">
+    <a href="javascript:;"></a>
+    <a href="javascript:;"></a>
+    <a href="javascript:;"></a>
+    <a href="javascript:;"></a>
+    <div @click="popClick"></div>
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <img src="" />
     </div>
-    <div class="bg4">
-        <div class="box-con">
-            <a href="/act/jzxg-activity-new" class="jzxgLink" target="_blank"></a>
-            <a href="javascript:;" class="popClick" @click="popClick"></a>
-        </div>
-    </div>
-    <div class="bg5">
-        <div class="box-con">
-            <activity-slider :listData="listData" />
-        </div>
-    </div>
-    <div class="nav-fixed">
-        <a href="javascript:;"></a>
-        <a href="javascript:;"></a>
-        <a href="javascript:;"></a>
-        <a href="javascript:;"></a>
-        <div @click="popClick"></div>
-    </div>
-    <div class="footer">
-        <div class="box-con">
-            <img src="" />
-        </div>
-    </div>
-    <div class='fixBg' v-if="popShow"></div>
-    <div class="pop" v-if="popShow">
-        <img :src="codeImg" />
-        <a href="javascript:;" class="close" @click="close"></a>
-    </div>
+  </div>
+  <div class='fixBg' v-if="popShow"></div>
+  <div class="pop" v-if="popShow">
+    <img :src="codeImg" />
+    <a href="javascript:;" class="close" @click="close"></a>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import activitySlider from 'components/activity-slider'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data () {
-    $(function () {
+  data() {
+    $(function() {
       if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
         localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
       } else {
         localStorage.QcodeNum = '1'
       }
-      $('.footer img').attr('src', 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/Qcode' + localStorage.QcodeNum + '.jpg')
-      $('.nav-fixed a').click(function () {
+      $.ajax({
+        url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
+        dataType: 'jsonp',
+        jsonpCallback: 'callback'
+      }).then(data => {
+        $('.footer img').attr('src', 'http://wx.jrj.com.cn' + data.imgurl)
+      })
+      $('.nav-fixed a').click(function() {
         var index = $(this).index() + 2
         var pos = $('.bg' + index).offset().top
-                // 实现平滑移动 1000代表时间ms
+        // 实现平滑移动 1000代表时间ms
         $('html,body').stop().animate({
           scrollTop: pos
         }, 500)
@@ -224,13 +230,13 @@ export default {
           marginTop: '-34px'
         },
         list: [{
-          imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner1.png'),
-          link: ''
-        },
-        {
-          imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner2.png'),
-          link: ''
-        }
+            imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner1.png'),
+            link: ''
+          },
+          {
+            imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner2.png'),
+            link: ''
+          }
         ]
       },
       popShow: false,
@@ -242,16 +248,16 @@ export default {
     activitySlider
   },
   methods: {
-    popClick () {
+    popClick() {
       var codeSrc = $('.footer img').attr('src')
       this.codeImg = codeSrc
       this.popShow = true
     },
-    close () {
+    close() {
       this.popShow = false
     }
   },
-  mounted () {
+  mounted() {
     document.title = '辉煌金融界上市13周年庆'
   }
 }
