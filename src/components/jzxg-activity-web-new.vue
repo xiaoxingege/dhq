@@ -1,50 +1,50 @@
 <style>
 body {
-  background-color: #000 !important;
-  font-family: '微软雅黑';
+    background-color: #000 !important;
+    font-family: '微软雅黑';
 }
 
 input {
-  outline: none;
+    outline: none;
 }
 
-.bg5 .box-con .swiper-container {
-  top: 95px;
-  left: 236px;
-  margin: 0;
-  overflow: visible;
+.bg6 .box-con .swiper-container {
+    top: 102px;
+    left: 245px;
+    margin: 0;
+    overflow: visible;
 }
 
-.bg5 .box-con .swiper-pagination {
-  width: 233px;
-  height: 319px;
-  left: -250px;
+.bg6 .box-con .swiper-pagination {
+    width: 233px;
+    height: 319px;
+    left: -250px;
 }
 
-.bg5 .box-con .swiper-pagination span {
-  width: 233px;
-  height: 69px;
-  float: left;
-  margin: 0 0 14px;
-  background: none;
+.bg6 .box-con .swiper-pagination span {
+    width: 233px;
+    height: 69px;
+    float: left;
+    margin: 0 0 14px;
+    background: none;
 }
 
 .pop-top h3 {
-  font-size: 36px;
-  color: #f8ce9a;
+    font-size: 36px;
+    color: #f8ce9a;
 }
 
 .fz22 {
-  font-size: 22px;
+    font-size: 22px;
 }
 
 .pop-top p {
-  color: #e3a75d;
-  line-height: 40px;
+    color: #e3a75d;
+    line-height: 40px;
 }
 
 .mt20 {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 </style>
 <style lang="scss" scoped>
@@ -53,33 +53,33 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg1-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg1.jpg") center 0 no-repeat;
     height: 474px;
 }
 .bg2 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg2-2.jpg") center 0 no-repeat;
-    height: 601px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg2.jpg") center 0 no-repeat;
+    height: 603px;
 }
 .bg3 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg3.jpg") center 0 no-repeat;
-    height: 646px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg3.jpg") center 0 no-repeat;
+    height: 649px;
 }
 .bg4 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg4-1.jpg") center 0 no-repeat;
-    height: 646px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg4.jpg") center 0 no-repeat;
+    height: 542px;
 }
 .bg5 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg5.jpg") center 0 no-repeat;
-    height: 415px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg5.jpg") center 0 no-repeat;
+    height: 591px;
 }
 .bg6 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg6-1.jpg") center 0 no-repeat;
-    height: 466px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg6.jpg") center 0 no-repeat;
+    height: 706px;
 }
-.bg7 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg7.jpg") center 0 no-repeat;
-    height: 401px;
-}
+// .bg7 {
+//     background: url("../assets/images/jzxg-activity/jzxg-web-new-bg7.jpg") center 0 no-repeat;
+//     height: 401px;
+// }
 .box-con {
     width: 1000px;
     margin: 0 auto;
@@ -99,48 +99,48 @@ input {
 }
 .footer {
     width: 100%;
-    height: 212px;
+    height: 210px;
     position: fixed;
     bottom: 0;
     margin-top: -100px;
-    background: url("../assets/images/jzxg-activity/jzxg-web-footer-1.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-footer-1.png") center 0 no-repeat;
     z-index: 10;
 }
 </style>
 
 <template>
 <div class="box">
-  <div class="bg1">
-  </div>
-  <div class="bg2">
-  </div>
-  <div class="bg3">
-  </div>
-  <div class="bg4">
-  </div>
-  <div class="bg5">
-    <div class="box-con">
-      <activity-slider :listData="listData" />
+    <div class="bg1">
     </div>
-  </div>
-  <div class="bg6">
-  </div>
-  <div class="bg7">
-  </div>
-  <div class="nav-fixed" @click="navFixed">
-  </div>
-  <div class="footer" @click="submit">
+    <div class="bg2">
+    </div>
+    <div class="bg3">
+    </div>
+    <div class="bg4">
+    </div>
+    <div class="bg5">
+    </div>
+    <div class="bg6">
+        <div class="box-con">
+            <activity-slider :listData="listData" />
+        </div>
+    </div>
+    <!-- <div class="bg7">
+    </div> -->
+    <!-- <div class="nav-fixed" @click="navFixed">
+    </div> -->
+    <div class="footer" @click="submit">
 
-  </div>
-  <jzxg-activity-pop v-if="popShow" @close="popClose">
-    <div v-html="popHtml">
     </div>
-  </jzxg-activity-pop>
+    <jzxg-activity-pop v-if="popShow" @close="popClose">
+        <div v-html="popHtml">
+        </div>
+    </jzxg-activity-pop>
 </div>
 </template>
 <script>
 import {
-  mapState
+    mapState
 } from 'vuex'
 import activitySlider from 'components/activity-slider'
 import jzxgActivityPop from 'components/jzxg-activity-pop'
@@ -151,7 +151,7 @@ export default {
   data () {
     return {
       listData: {
-        conWidth: '743px',
+        conWidth: '755px',
         conHeight: '320px',
         conPadding: '0',
         pagShow: true,
@@ -195,7 +195,7 @@ export default {
   methods: {
     navFixed () {
       var pos = $('.bg6').offset().top
-      // 实现平滑移动 1000代表时间ms
+            // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
@@ -232,7 +232,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '极致选股'
+    document.title = '极智选股-金融界'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})

@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/jzxg-activity-web'
+import App from 'components/jzxg-activity-web-new'
 
 /*
  * 引入vuex
