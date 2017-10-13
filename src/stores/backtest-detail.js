@@ -261,7 +261,7 @@ export default {
     }, {
       keyword
     }) {
-      return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}`, {
+      return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}&size=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

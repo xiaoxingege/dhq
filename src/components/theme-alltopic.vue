@@ -692,7 +692,6 @@ a.kuai_icon {
   <div class="sortaz-wrap clearfix" v-show="showAz">
     <div class="az-main">
       <div class="sort-hot-wrap">
-        <!-- <div class="sort-title fl"><span>推荐</span><i>></i>推荐 ></div> -->
         <div class="sort-title fl">推荐<i>></i></div>
         <div class="sort-hot fl">
           <a class="blue hot-name" v-for="(updownTopic,index) of listChange">
@@ -929,8 +928,6 @@ export default {
   mounted () {
     this.query('hot')
     var _this = this
-    /* console.log(this)
-     console.log(_this)*/
     this.$store.dispatch('topic/querySummary')
     setInterval(function () {
       _this.$store.dispatch('topic/querySummary')

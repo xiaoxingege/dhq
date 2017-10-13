@@ -353,13 +353,6 @@ body {
               <span class="desc-num1" v-z3-updowncolor="timeEval.maxLoss">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span></td>
             <td>
               <span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
-            <!-- <td>
-               
-            </td>  
-            <td>
-               <span>股票范围
-               </span></br><span class="desc-num1">{{timeStrategy.stockScope}}</span>
-            </td> -->
           </tr>
 
         </table>
@@ -372,22 +365,6 @@ body {
       <div class="bfilter-cont-1 bfilter-cont-4">
         <div class="desc-title"><em></em><span class="tit1">买入条件</span></div>
         <div class="exp-buy-box">
-          <!-- <table class="exp-buy-table lightcolor">
-                         <tr>
-                            <td>序号</td>
-                            <td>指标</td>
-                            <td>参数</td>
-                            <td>运算符</td>
-                            <td>数值</td>
-                         </tr>
-                         <tr v-for="(buyList,index) of timeStrategy.buyStrategyIndexList">
-                            <td>{{buyList.pageOrder}}</td>
-                            <td>{{buyList.indexName}}</td>
-                            <td>（日线,10,20,30）</td>
-                            <td>{{buyList.operator}}</td>
-                            <td>{{buyList.comparisonValue}}</td>
-                         </tr>
-              </table> -->
           <table cellspacing="0" cellpadding="0" class="exp-buy-table lightcolor">
             <tr v-for="trItem in this.timeStrategy2.buyData">
               <td v-for="tdItem in trItem">{{tdItem}}</td>

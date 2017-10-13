@@ -590,10 +590,10 @@ table {
     border: 1px solid #23272c;
     /* padding: 5px 10px; */
     padding: 7px 6px;
-    margin-right: -1px;
+    /*  margin-right: -1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 2px; */
     cursor: pointer;
 }
 .chart-title {
@@ -988,7 +988,7 @@ export default {
         }).then(() => {
           console.log(this.detail.topicName)
           this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
-          // clearInterval(this.alltimers)
+          clearInterval(this.alltimers)
           this.alltimers = setInterval(function () {
             _this.updateChartRealTime()
           }, 3000)
@@ -1401,11 +1401,6 @@ export default {
     changeTofixed (num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     }
-    /* this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
-                        .then(() => {
-                          this.chart.setOption({*/
-    /* drawCharts () {
-      const myChart = echarts.init(document.getElementById('chart'))*/
 
   },
   created () {
