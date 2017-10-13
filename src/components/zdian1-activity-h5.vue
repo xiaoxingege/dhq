@@ -93,7 +93,7 @@ input {
 }
 
 .pop-top h3 {
-  font-size: 38px;
+  font-size: 30px;
   color: #992d01;
 }
 
