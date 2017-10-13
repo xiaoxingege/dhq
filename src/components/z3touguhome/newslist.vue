@@ -1,7 +1,7 @@
 <style lang="scss" scoped="">
+@import '../../assets/css/base.css';
 * {
     box-sizing: border-box;
-    font-family: '微软雅黑';
     font-size: 12px;
 }
 /*html,body,.app{height:100%;}*/
@@ -58,24 +58,36 @@ p {
 .news-list-top {
     height: 25px;
 }
-/* 滚动槽 */
-::-webkit-scrollbar-track {
+.news-list-top .top-nav {
+    padding-left: 0;
+}
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #eee;
     border-radius: 10px;
 }
-/* 滚动条滑块 */
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #515A65;
+}
+
+/*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgba(0,0,0,0.1);
-}
-::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(255,0,0,0.4);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #808ba1;
 }
 </style>
 <template>
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
   <div class="news-list fl" :style="{height:wrapHeight-2+'px'}">
     <div class="news-list-top">
-      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
     </div>
     <ul class="news-list-con">
       <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
@@ -100,7 +112,7 @@ export default {
         ['财经要闻', 'ywnews'],
         ['上市公司', 'companynews']
       ],
-      type: 'ywnews',
+      type: this.$route.query.type || 'ywnews',
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
@@ -108,7 +120,11 @@ export default {
       newsIndex: this.$route.query.newsIndex,
       // newsId: ''
       intervalTime: 10,
-      updateNewsPid: null
+      updateNewsPid: null,
+      styleObject: {
+        borderRight: '1px solid #141518',
+        borderRadius: '0px'
+      }
     }
   },
   watch: {
@@ -181,6 +197,23 @@ export default {
           })
       }
     },
+    changeNewsUpdate: function () {
+      if (this.type === 'ywnews') {
+        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+          size: this.newsSize
+        })
+          .then(() => {
+            this.newsList = this.financeNewsData
+          })
+      } else if (this.type === 'companynews') {
+        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+          size: this.newsSize
+        })
+          .then(() => {
+            this.newsList = this.listedCompanyNewsData
+          })
+      }
+    },
     changeNavType (data) {
       this.type = data
     },
@@ -190,7 +223,7 @@ export default {
         clearInterval(this.updateNewsPid)
       } else {
         this.updateNewsPid = setInterval(function () {
-          _this.changeNews()
+          _this.changeNewsUpdate()
         }, 60 * 1000 * _this.intervalTime)
       }
     },

@@ -1,26 +1,28 @@
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 .page {
-    width: 720px;
-    background: #fff;
-    font-family: "Microsoft YaHei","微软雅黑";
+    color: #fff;
+    font-family: "Microsoft YaHei", "微软雅黑";
     font-size: 14px;
     padding: 40px 0;
     margin: 0 auto;
 }
+
 span {
 
     display: inline-block;
     height: 30px;
     line-height: 30px;
-    border: 1px solid #ddd;
+    background: #515A65;
     padding: 0 12px;
 }
+
 ul {
     display: inline-block;
     position: relative;
-    top: 9px;
+    top: 11px;
     left: -5px;
 }
+
 ul li {
     float: left;
     color: #666;
@@ -33,20 +35,37 @@ ul li {
     text-align: center;
     cursor: pointer;
 }
-select {
 
-    color: #999999;
+select {
+    color: #fff;
     font-size: 14px;
-    height: 32px;
+    height: 30px;
+    background: #515A65;
+    border-radius: 3px;
+    border: none;
+    padding: 0 10px;
 }
+
 .totals {
     border: none;
     margin-right: 10px;
 }
+
+.previousPage {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 .nextPage {
     position: relative;
     left: -10px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    cursor: pointer;
 }
+
 .active {
     background: #0088E1;
     color: #fff;
@@ -55,11 +74,12 @@ select {
     .page {
         width: 7.2rem;
         background: #fff;
-        font-family: "Microsoft YaHei","微软雅黑";
+        font-family: "Microsoft YaHei", "微软雅黑";
         font-size: 0.14rem;
         padding: 0.2rem 0;
         margin: 0 auto;
     }
+
     span {
 
         display: inline-block;
@@ -68,12 +88,14 @@ select {
         border: 1px solid #ddd;
         padding: 0 0.12rem;
     }
+
     ul {
         display: inline-block;
         position: relative;
         top: 0.9rem;
         left: -0.05rem;
     }
+
     ul li {
         float: left;
         color: #666;
@@ -86,16 +108,19 @@ select {
         text-align: center;
         cursor: pointer;
     }
+
     select {
 
         color: #999999;
         font-size: 0.14rem;
         height: 0.32rem;
     }
+
     .totals {
         border: none;
         margin-right: 0.1rem;
     }
+
     .nextPage {
         position: relative;
         left: -0.1rem;
@@ -104,54 +129,71 @@ select {
 </style>
 <template>
 <div class="page clearfix">
-  <span @click="previousPage($event)">上一页</span>
-  <ul class="pages clearfix" v-if="totalPage<=5">
-    <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">{{page}}</li>
-  </ul>
-  <ul class="pages clearfix" v-else-if="currentPage==1&&totalPage>5">
-    <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">{{page}}</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
-  </ul>
-  <ul class="pages clearfix" v-else-if="currentPage==totalPage&&totalPage>5">
-    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}</li>
-  </ul>
-  <ul class="pages clearfix" v-else-if="currentPage<=3&&totalPage>5">
-    <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">{{page}}</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
-  </ul>
+  <span class="previousPage" @click="previousPage($event)">上一页</span>
+  <div v-if="false">
+    <ul class="pages clearfix" v-if="totalPage<=5">
+      <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">{{page}}
+      </li>
+    </ul>
+    <ul class="pages clearfix" v-else-if="currentPage==1&&totalPage>5">
+      <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
+        {{page}}
+      </li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
+      </li>
+    </ul>
+    <ul class="pages clearfix" v-else-if="currentPage==totalPage&&totalPage>5">
+      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+      </li>
+    </ul>
+    <ul class="pages clearfix" v-else-if="currentPage<=3&&totalPage>5">
+      <li @click="getCurrentPage($event)" v-for="page in 4" :class="currentPage === page ? 'active' : ''">
+        {{page}}
+      </li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
+      </li>
+    </ul>
 
-  <ul class="pages clearfix" v-else-if="currentPage==4&&totalPage>5">
-    <li @click="getCurrentPage($event)" v-for="page in 5" :class="currentPage === page ? 'active' : ''">{{page}}</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
-  </ul>
+    <ul class="pages clearfix" v-else-if="currentPage==4&&totalPage>5">
+      <li @click="getCurrentPage($event)" v-for="page in 5" :class="currentPage === page ? 'active' : ''">
+        {{page}}
+      </li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
+      </li>
+    </ul>
 
-  <ul class="pages clearfix" v-else-if="totalPage-3===currentPage&&totalPage>5">
-    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}</li>
-  </ul>
-  <ul class="pages clearfix" v-else-if="totalPage-currentPage<3&&totalPage>5">
-    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}</li>
-  </ul>
-  <ul class="pages clearfix" v-else>
-    <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" v-for="page in [2,1,0,-1]" :class="currentPage === currentPage-page ? 'active' : ''">{{currentPage-page}}</li>
-    <li>...</li>
-    <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}</li>
-  </ul>
+    <ul class="pages clearfix" v-else-if="totalPage-3===currentPage&&totalPage>5">
+      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+      </li>
+    </ul>
+    <ul class="pages clearfix" v-else-if="totalPage-currentPage<3&&totalPage>5">
+      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" v-for="page in [3,2,1,0]" :class="currentPage === totalPage-page ? 'active' : ''">{{totalPage-page}}
+      </li>
+    </ul>
+    <ul class="pages clearfix" v-else>
+      <li @click="getCurrentPage($event)" :class="currentPage === 1 ? 'active' : ''">1</li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" v-for="page in [2,1,0,-1]" :class="currentPage === currentPage-page ? 'active' : ''">{{currentPage-page}}
+      </li>
+      <li>...</li>
+      <li @click="getCurrentPage($event)" :class="currentPage === totalPage ? 'active' : ''">{{totalPage}}
+      </li>
+    </ul>
+  </div>
   <span class="nextPage" @click="nextPage($event)">下一页</span>
-  <span class="totals">共{{totalPage}}页</span>
+  <span v-if="false" class="totals">共{{totalPage}}页</span>
   <select @change="getCurrentSelectPage($event)" v-model="currentPage">
-            <option v-for="page in totalPage" :value=page >{{page}}/{{totalPage}}</option>
-        </select>
+            <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
+  </select>
 
 </div>
 </template>

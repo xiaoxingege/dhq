@@ -26,6 +26,7 @@
     border: 1px solid #23272c;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .top-industry-table tr:nth-child(1) td {
     border-top-width: 0;
@@ -37,13 +38,15 @@
     border-right-width: 0;
 }
 .top-industry-table tr td:first-child {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
 }
@@ -76,19 +79,19 @@
     <table class="top-industry-table" v-if="type === 'industry'">
       <tr v-for="item of industryList">
         <td>{{item.industryName === null?'--':item.industryName}}</td>
-        <td v-z3-updowncolor="item.industryChg">{{item.industryChg === null?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
-        <td v-z3-updowncolor="item.stockVal">{{item.stockVal === null?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.stockChg">{{item.stockChg === null?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
+        <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="top-industry-table" v-if="type === 'topic'">
       <tr v-for="item of hotTopicList">
-        <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{item.topicName === null?'--':item.topicName}}</td>
-        <td v-z3-updowncolor="item.topicChngPct">{{item.topicChngPct === null?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.stockName === null?'--':item.stockName}}</td>
-        <td v-z3-updowncolor="item.stockPrice">{{item.stockPrice === null?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.stockChngPct">{{item.stockChngPct === null?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
+        <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{formateData(item.topicName)?'--':item.topicName}}</td>
+        <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockChngPct)?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
     </table>
   </div>
@@ -114,7 +117,7 @@ export default {
       size: 10,
       limit: 10,
       sortField: 'topicMarket.chngPct',
-      industryList: {},
+      industryList: [],
       hotTopicList: [],
       updateDataPid: null,
       intervalTime: 6
@@ -122,6 +125,8 @@ export default {
   },
   watch: {
     type () {
+      /* this.industryList = []
+      this.hotTopicList = []*/
       this.initTopIndustry() // 点击板块标签初始化表格数据
     }
   },
@@ -180,6 +185,13 @@ export default {
     toTopicDetail: function (topicCode) {
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
+      }
+    },
+    formateData: function (value) {
+      if (value) {
+        return false
+      } else {
+        return true
       }
     }
   },

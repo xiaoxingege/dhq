@@ -315,7 +315,7 @@ export default {
     }) {
       stockPage = stockPage || 0
       stockPageSize = stockPageSize || STOCK_PAGESIZE
-      fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml?sort=${sortField},${direction}&page=${stockPage}&size=${stockPageSize}`, {
+      return fetch(`${domain}/openapi/topic/${topicCode}/stock.shtml?sort=${sortField},${direction}&page=${stockPage}&size=${stockPageSize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

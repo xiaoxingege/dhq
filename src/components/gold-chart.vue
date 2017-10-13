@@ -1,22 +1,20 @@
 <style lang="scss" scoped>
-.dqxg,
-.mcxh,
-.mrjy,
-.mrxh {
-    background: #fff;
+a {
+    color: #1984ea;
 }
 .dqxg table,
 .mcxh table,
 .mrjy table,
 .mrxh table {
-    width: 99%;
+    width: 100%;
     margin: 0 auto;
+    color: #c9d0d7;
 }
 .dqxg table thead,
 .mcxh table thead,
 .mrjy table thead,
 .mrxh table thead {
-    background: #F2F2F2;
+    background: #23282F;
 }
 .dqxg table thead tr th,
 .mcxh table thead tr th,
@@ -24,6 +22,7 @@
 .mrxh table thead tr th {
     height: 25px;
     line-height: 25px;
+    color: #c9d0d7;
 }
 .dqxg table tr td,
 .mcxh table tr td,
@@ -32,7 +31,7 @@
     text-align: center;
     height: 35px;
     line-height: 35px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #1D1F25;
 }
 .dqxg,
 .dryk,
@@ -43,8 +42,9 @@
 .sylfb,
 .syqxt,
 .syytj {
-    min-height: 420px;
+    min-height: 467px;
     width: 100%;
+    background: #141518;
 }
 .export {
     position: absolute;
@@ -59,6 +59,23 @@
 }
 .export a {
     display: inline-block;
+    cursor: pointer;
+}
+.red {
+    color: #ca4941;
+}
+.green {
+    color: #56a870;
+}
+
+.goldExport {
+    background: url('../assets/images/z3img/backexport2.png') no-repeat;
+    width: 57px;
+    height: 25px;
+    display: inline-block;
+    position: absolute;
+    right: 1.5%;
+    top: 0;
     cursor: pointer;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
@@ -77,8 +94,7 @@
 <template>
 <div style="width:100%">
   <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' " class="export">
-    <img src="../assets/images/z3img/export-icon.png">
-    <a @click="exportData(type)">导出</a>
+    <span @click="exportData(type)" class="goldExport"></span>
   </div>
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
   <div>
@@ -124,10 +140,14 @@
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+      </div>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
-      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center;">
+        <img class="mt-50" src="../assets/images/z3img/no-data.png">
+      </div>
       <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -143,21 +163,25 @@
         </thead>
         <tbody>
           <tr v-if="mrxhData.content !== null" v-for=" (item, index) in mrxhData.content">
-            <td>{{index+1}}</td>
+            <td>{{(mrxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
-            <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}</td>
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+      </div>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
-      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:16px;">今日无交易信号</div>
+      <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center;">
+        <img class="mt-50" src="../assets/images/z3img/no-data.png">
+      </div>
       <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -173,18 +197,21 @@
         </thead>
         <tbody>
           <tr v-if="mcxhData.content !== null" v-for=" (item,index) in mcxhData.content">
-            <td>{{index+1}}</td>
+            <td>{{(mcxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
             <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
             <td>{{item.amount === null ? '--':item.amount}}</td>
-            <td>{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
-            <td>{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
-            <td>{{item.chgPct === null ? '--':Number(item.chgPct/100).toFixed(2)+'%'}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
+            <td v-z3-updowncolor="item.chgPct">{{item.chgPct === null ? '--':Number(item.chgPct).toFixed(2)+'%'}}
+            </td>
           </tr>
         </tbody>
       </table>
-      <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+      <div style="text-align: center;">
+        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+      </div>
     </div>
   </div>
 </div>
@@ -222,9 +249,11 @@ export default {
         ['收益月统计', 'syytj'],
         ['收益率分布', 'sylfb'],
         ['交易详情', 'mrjy'],
-        ['今日买入信号', 'mrxh'],
-        ['今日卖出信号', 'mcxh']
-      ]
+        ['调入信号', 'mrxh'],
+        ['调出信号', 'mcxh']
+      ],
+      mrxhPage: 0,
+      mcxhPage: 0
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
   },
@@ -268,6 +297,7 @@ export default {
       }).then(() => {})
     },
     goMrxhPage (data) {
+      this.mrxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'buy',
@@ -275,6 +305,7 @@ export default {
       }).then(() => {})
     },
     goMcxhPage (data) {
+      this.mcxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
         type: 'sell',

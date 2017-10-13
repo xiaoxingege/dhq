@@ -2,10 +2,12 @@
 @import '../assets/css/base.css';
 * {
     text-align: justify;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei";
 }
 body {
     font-size: 12px;
-    background: #f2f2f2;
+    background: #141518;
 }
 h3 {
     font-weight: 400;
@@ -21,15 +23,21 @@ i {
     float: left;
 }
 .blue {
-    color: #2388da;
+    color: #1984ea;
 }
 .red {
-    color: #e6363a;
+    color: #ca4941;
 }
 .green {
-    color: #48a854;
+    color: #56a870;
 }
-/*  */
+.lightcolor {
+    color: #c9d0d7;
+}
+.gray {
+    color: #808ba1;
+}
+
 .display-box {
     display: -webkit-box;
     display: -moz-box;
@@ -65,72 +73,111 @@ i {
     -o-box-flex: 4;
     box-flex: 4;
 }
+.describe-box {
+    background: #141518;
+
+}
 .describe-wrap {
     width: 100%;
     font-size: 12px;
-    color: #696969;
+    color: #c9d0d7;
 }
 .bfilter-header {
-    padding: 11px 0 9px 6px;
+    /* padding: 11px 0 9px 6px; */
+    padding: 20px 0 20px 20px;
+    color: #c9d0d7;
 }
 .header-title {
-    font-size: 12px;
+    font-size: 16px;
+}
+.header-title span {
+    font-size: 16px;
 }
 .describe-left {
     width: 55%;
-    background: #fff;
-    padding: 14px 10px 0;
+    /* padding: 14px 10px 0; */
+    padding: 14px 46px 0 20px;
 }
 .desc-title {
-    padding-bottom: 13px;
+    padding-bottom: 11px;
+    font-size: 14px;
+    font-weight: 900;
 }
 .desc-con {
-    line-height: 18px;
+    line-height: 20px;
     /* margin-top: 12px; */
-    padding-bottom: 30px;
+    padding-bottom: 22px;
 }
 .desc-ul {
     padding: 0 0 26px;
     width: 100%;
 }
+.desc-ul tr:nth-child(1) td {
+    color: #808ba1;
+}
 .desc-ul tr:nth-child(2) td {
-    padding-top: 12px;
-    color: #696969;
+    /* padding-top: 12px; */
+    color: #c9d0d7;
+    font-size: 14px;
 }
 .desc-ul td {
     /* width: 20%; */
-    color: #a5a5a5;
-    text-align: center;
-
+    color: #c9d0d7;
+    text-align: left;
+    line-height: 20px;
+    font-size: 12px;
 }
 
 .desc-txt {
     position: relative;
-    width: 16%;
-    color: #a5a5a5;
-    text-align: center;
+    /* width: 16%; */
+    color: #c9d0d7;
+    text-align: left;
 
 }
 .desc-num {
     /*  position: absolute;
       top: 20px;
       left: 0; */
-    color: #696969;
+    color: #c9d0d7;
     position: absolute;
     top: 0;
     left: 0;
     line-height: 60px;
-    text-align: center;
+    text-align: left;
+    font-size: 14px;
     width: 100%;
+    white-space: nowrap;
 }
 .describe-right {
-    margin-left: 8px;
+    /* margin-left: 8px; */
     width: 42%;
-    background: #fff;
-    padding: 14px 10px 0;
+    /* padding: 14px 10px 0; */
+    padding: 14px 20px 0 43px;
+    border-left: 1px solid #0d0e0f;
 }
 .evaluat-box {
-    padding-top: 5px;
+    /*  padding-top: 5px; */
+    padding-top: 18px;
+    border-collapse: collapse;
+    width: 100%;
+    color: #c9d0d7;
+}
+.eval-tr1 {}
+.eval-tr2 {}
+.evaluat-box tr:nth-child(1) td {
+    /* padding-bottom: 13px; */
+    padding-bottom: 16px;
+    border-bottom: 1px solid #23272c;
+}
+.evaluat-box tr:nth-child(2) td {
+    /* padding-top: 14px; */
+    padding-top: 17px;
+}
+.desc-num1 {
+    /* line-height: 24px; */
+    line-height: 26px;
+    font-size: 14px;
 }
 .income_list span {
     display: inline-block;
@@ -140,79 +187,70 @@ i {
     margin-top: 100px;
 }
 .desc-txt2 {
-    width: 16%;
+    /* width: 16%; */
+    /* width: 28%; */
     /* padding-bottom: 48px; */
     height: 53px;
 }
 .desc-txt3 {
-    width: 28%;
+    width: 26%;
 }
 </style>
 <template>
 <div class="describe-box">
   <div class="bfilter-header clearfix">
-    <div class="blue header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div>
+    <div class="header-title fl"><span>{{ basicFilter.strategyName}}</span><i></i></div>
   </div>
   <div class="describe-wrap clearfix display-box">
-
     <div class="describe-left box-flex-2">
-      <div class="desc-title">策略描述：</div>
+      <div class="desc-title">策略描述</div>
       <div class="desc-con">
         {{ basicFilter.strategyDesc}}
       </div>
-      <div class="desc-title">选股条件：</div>
-
-      <!--  <ul class="clearfix desc-ul">
-                        <li class="fl desc-txt"><span>失灵率</span><span class="desc-num">10%</span></li>
-                        <li class="fl desc-txt"><span>失灵率2</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率3</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率4</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率5</span><span class="desc-num">11%</span></li>
-                        <li class="fl desc-txt"><span>失灵率6</span><span class="desc-num">11%</span></li>
-                  </ul> -->
+      <div class="desc-title">选股条件</div>
       <table class="desc-ul">
         <tr v-for="trItem in filterSummary" class="trtxt">
           <td v-for="tdItem in trItem" class="tdtxt">{{tdItem}}</td>
         </tr>
       </table>
-
     </div>
     <div class="describe-right box-flex-2">
-      <div class="desc-title">策略表现：</div>
-      <div class="clearfix evaluat-box">
-        <div class="desc-txt desc-txt2 desc-txt4 fl">
-          <span>胜率</span>
-          <span class="desc-num" v-z3-updowncolor="eval.winRatio">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 desc-txt5 fl">
-          <span>平均超额收益</span>
-          <span class="desc-num" v-z3-updowncolor="eval.avgReturnExcess">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 fl">
-          <span>平均收益</span>
-          <span class="desc-num" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 desc-txt6 fl">
-          <span>盈亏比</span>
-          <span class="desc-num">{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 fl">
-          <span>持有天数</span>
-          <span class="desc-num">{{basicFilter.holdDay==null?'--':basicFilter.holdDay}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 fl">
-          <span>最大盈利</span>
-          <span class="desc-num" v-z3-updowncolor="eval.maxWin">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 fl">
-          <span>最大亏损</span>
-          <span class="desc-num" v-z3-updowncolor="eval.maxLoss">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
-        </div>
-        <div class="desc-txt desc-txt2 desc-txt3 fl">
-          <span>回测区间</span>
-          <span class="desc-num">{{basicFilter.backtestStartDate==null?'--':changeDate(basicFilter.backtestStartDate)}}-{{basicFilter.backtestEndDate==null?'--':changeDate(basicFilter.backtestEndDate)}}</span>
-        </div>
-      </div>
+      <div class="desc-title">策略表现</div>
+      <table class="evaluat-box">
+        <tr class="eval-tr1 clearfix">
+          <td>
+            <span class="gray">胜率
+              </span></br><span class="desc-num1" v-z3-updowncolor="eval.winRatio">{{eval.winRatio==null?'--':changePer(eval.winRatio)}}</span>
+          </td>
+          <td>
+            <span class="gray">平均超额收益
+              </span></br><span class="desc-num1" v-z3-updowncolor="eval.avgReturnExcess">{{eval.avgReturnExcess==null?'--':changePer(eval.avgReturnExcess)}}</span></td>
+          <td>
+            <span class="gray">平均收益
+              </span></br><span class="desc-num1" v-z3-updowncolor="eval.avgReturn">{{eval.avgReturn==null?'--':changePer(eval.avgReturn)}}</span></td>
+          <td>
+            <span class="gray">盈亏比
+              </span></br><span class="desc-num1">{{eval.winLossRatio==null?'--':Number(eval.winLossRatio).toFixed(2)}}</span></td>
+        </tr>
+        <tr class="eval-tr2 clearfix">
+          <td>
+            <span class="gray">持有天数
+              </span></br><span class="desc-num1">{{basicFilter.holdDay==null?'--':basicFilter.holdDay}}</span>
+          </td>
+          <td>
+            <span class="gray">最大盈利
+              </span></br><span class="desc-num1" v-z3-updowncolor="eval.maxWin">{{eval.maxWin==null?'--':changePer(eval.maxWin)}}</span>
+          </td>
+          <td>
+            <span class="gray">最大亏损
+              </span></br><span class="desc-num1" v-z3-updowncolor="eval.maxLoss">{{eval.maxLoss==null?'--':changePer(eval.maxLoss)}}</span>
+          </td>
+          <td>
+            <span class="gray">回测区间
+             </span></br><span class="desc-num1">{{basicFilter.backtestStartDate==null?'--':changeDate(basicFilter.backtestStartDate)}}～{{basicFilter.backtestEndDate==null?'--':changeDate(basicFilter.backtestEndDate)}}</span>
+          </td>
+        </tr>
+      </table>
 
     </div>
 
@@ -276,7 +314,7 @@ export default {
       return (Number(num) * 100).toFixed(2) + '%'
     },
     changeDate (time) {
-      return (time + '').substring(0, 4) + '.' + (time + '').substring(4, 6) + '.' + (time + '').substring(6, (time + '').length)
+      return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },

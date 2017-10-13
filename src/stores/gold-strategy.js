@@ -157,7 +157,7 @@ export default {
     setRadarData (state, result) {
       if (result.errCode === 0) {
         const radarData = result.data
-        const colorArr = ['#F6B03D', '#4591FC', '#73BF1C']
+        const colorArr = ['#246AF4', '#26B27A', '#EEB235']
         for (var i = 0; i < radarData.length; i++) {
           state.radarData.legend.push(radarData[i].tradeDate)
           state.radarData.data.push({
@@ -168,6 +168,7 @@ export default {
                 color: colorArr[i]
               }
             }
+
           })
         }
       } else {

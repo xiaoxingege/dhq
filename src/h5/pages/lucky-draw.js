@@ -15,10 +15,12 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-import user from 'stores/lucky-draw-data'
+import user from 'stores/user'
+import luckDrawData from 'stores/lucky-draw-data'
 const store = new Vuex.Store({
   modules: {
-    user
+    user,
+    luckDrawData
   }
 })
 

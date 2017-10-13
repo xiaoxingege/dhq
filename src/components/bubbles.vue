@@ -2,6 +2,7 @@
 .bubblesChart {
     width: 100%;
 }
+
 .siweiDialog {
     width: 450px;
     height: 247px;
@@ -69,7 +70,7 @@ export default {
   },
   watch: {
     'options': {
-      deep: true,
+      deep: false,
       handler: function () {
         this.updateBubbles()
       }
@@ -264,6 +265,9 @@ export default {
           } else if (selectVal === 'order' || selectVal === 'staff_num') {
             return Number(showData).toFixed(0)
           } else {
+            if (showData === null) {
+              return '--'
+            }
             return Number(showData).toFixed(2)
           }
         }
@@ -593,15 +597,16 @@ export default {
         })
         window.onresize = function () {
           that.chart.resize({
-            height: window.innerHeight - 85
+            height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
           })
-          that.height = window.innerHeight - 85
+          that.height = window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
         }
 
         this.chart.hideLoading()
       })
     },
     updateBubbles () {
+      console.log('update')
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
@@ -618,22 +623,23 @@ export default {
       this.chart.showLoading()
       setTimeout(() => {
         this.$emit('toHideDialog', false)
-      }, 0) /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
+      }, 0)
+      /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
     }
 
   },
+
   mounted () {
     const that = this
-    const p = new Promise((resolve, reject) => {
-      if (window.Z3) {
-        window.Z3.SndStockPoolInfo((data) => {
-          that.options.innerCode = data
-          resolve()
-        })
-      }
-      resolve()
-    })
-    p.then(this.initBubbles)
+
+    if (window.Z3) {
+      window.Z3.SndStockPoolInfo((data) => {
+        that.options.innerCode = data
+        this.initBubbles()
+      })
+    } else {
+      this.initBubbles()
+    }
   }
 }
 </script>

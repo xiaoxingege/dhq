@@ -25,45 +25,35 @@ body {
 
 .strategy-wrap1 {
   height: 100%;
-  padding: 8px;
   min-width: 1217px;
-  min-height: 704px;
-  background-color: #ebecee
+  background-color: #0d0e0f;
+  color: #c9d0d7;
 }
 
 .strategy-wrap1>ul {
   height: 100%;
+  padding: 3px 1px;
 }
 
 .strategy-wrap1>ul>li {
-  background-color: #fff;
-  margin-right: 0.5%;
-  padding: 10px 10px 0px 10px;
-  width: 33%;
+  background-color: #0d0e0f;
+  padding: 0px 1px 3px 1px;
+  width: 25%;
   float: left;
   display: inline-block;
-  height: 32.8%;
-  margin-bottom: 0.5%;
-}
-
-.strategy-wrap1 li:nth-child(3),
-.strategy-wrap1 li:nth-child(6),
-.strategy-wrap1 li:nth-child(9) {
-  margin-right: 0px;
-}
-
-.strategy-wrap1 li:nth-child(7),
-.strategy-wrap1 li:nth-child(8),
-.strategy-wrap1 li:nth-child(9) {
-  margin-bottom: 0px;
+  height: 33.33%;
 }
 
 .strategy-wrap1 .page {
   background-color: transparent !important;
 }
 
-a {
-  color: #2388da;
+.page-wrap {
+  background-color: #0d0e0f;
+}
+
+.page-wrap>div {
+  text-align: center;
 }
 </style>
 <template>
@@ -80,7 +70,9 @@ a {
             <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[7]:null" v-if="strategyList.length>7"></StrategyListHome>
             <StrategyListHome :benchmarkObj="benchmarkObj" :strategyData="strategyList.length>0?strategyList[8]:null" v-if="strategyList.length>8"></StrategyListHome>-->
   </ul>
-  <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0" />
+  <div class="page-wrap">
+    <Pagination :totalPage="totalPage" v-on:getPageFromChild="goToPage" v-if="totalPage !== 0" />
+  </div>
 </div>
 </template>
 <script type="text/javascript">
@@ -102,10 +94,9 @@ export default {
       },
       sort: 'createDate',
       direction: 'desc',
-      size: 4,
       strategyList: [],
       totalPage: 0,
-      pageSize: 9,
+      pageSize: 12,
       query: '',
       testQuery: ''
     }
@@ -127,8 +118,8 @@ export default {
         this.query = query.query
       } else {
         console.log(query.query)
-        return
-        // this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
+        // return
+        this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
       }
       this.$store.dispatch('z3touguIndex/getStrategyBlock', {
         query: this.query,

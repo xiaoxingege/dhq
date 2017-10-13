@@ -1,9 +1,8 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
 .topNav {
-    height: 23px;
-    border-bottom: 1px solid #D2D2D2;
-    background: #EEF3F7;
+    height: 25px;
+    background: #32383E;
 }
 .goldH5 .topNav ul li {
     float: left;
@@ -15,14 +14,17 @@
 .topNav ul li > span {
     font-size: 12px;
     display: block;
-    height: 23px;
-    line-height: 23px;
-    padding: 0 10px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 15px;
     text-align: center;
     cursor: pointer;
+    color: #c9d0d7;
+    border-right: 1px solid #1A1B20;
+
 }
 .active {
-    background: #2388da;
+    background: #535A65;
     color: #fff;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {

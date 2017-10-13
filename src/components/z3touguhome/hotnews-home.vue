@@ -51,12 +51,12 @@
   <div class="news-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     <p class="more-news">
-      <router-link :to="{name:'newslist',query:{newsId:''}}">更多></router-link>
+      <router-link :to="{name:'newslist',query:{type:type}}">更多></router-link>
     </p>
   </div>
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
-      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsIndex:index}}">{{item.title}}</router-link>
+      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsIndex:index,type:type}}">{{item.title}}</router-link>
       <span class="fr">{{item.makedate.substring(11)}}</span>
     </li>
   </ul>
