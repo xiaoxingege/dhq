@@ -99,11 +99,11 @@ input {
 }
 .footer {
     width: 100%;
-    height: 212px;
+    height: 210px;
     position: fixed;
     bottom: 0;
     margin-top: -100px;
-    background: url("../assets/images/jzxg-activity/jzxg-web-footer-1.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-footer-1.png") center 0 no-repeat;
     z-index: 10;
 }
 </style>
@@ -232,7 +232,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '极致选股'
+    document.title = '极智选股-金融界'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})
