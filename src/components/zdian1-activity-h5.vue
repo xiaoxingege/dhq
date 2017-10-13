@@ -538,6 +538,7 @@ export default {
             if (!this.err) {
               this.prize = this.lotteryResult.prizePosition * 1
             }
+            this.$store.dispatch('actZdfl/getLotteryInfo')
           })
         }
       }
