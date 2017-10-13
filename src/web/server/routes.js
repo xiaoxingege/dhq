@@ -33,16 +33,17 @@ module.exports = function(router) {
     // 继续执行后面的中间件
     await next();
   });
-  router.get('/zdian1-activity', async(ctx, next) => {
-    ctx.template = 'zdian1-activity';
-    // 渲染vue对象为html字符串
-    let html = '';
-    // 向浏览器输出完整的html
-    ctx.body = html;
-    // 继续执行后面的中间件
-    await next();
-  });
+  // router.get('/zdian1-activity', async(ctx, next) => {
+  //   ctx.template = 'zdian1-activity';
+  //   // 渲染vue对象为html字符串
+  //   let html = '';
+  //   // 向浏览器输出完整的html
+  //   ctx.body = html;
+  //   // 继续执行后面的中间件
+  //   await next();
+  // });
   router.get('*', async(ctx, next) => {
+    ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';
     // 向浏览器输出完整的html
