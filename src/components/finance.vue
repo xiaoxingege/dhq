@@ -135,9 +135,12 @@ export default {
   },
   methods: {
     formatDate (time) {
-      const year = time.getYear()
-      const month = time.getMonth() + 1
+      const year = time.getFullYear()
+      let month = time.getMonth() + 1
       const date = time.getDate()
+      if (month < 10) {
+        month = '0' + month
+      }
       return year + '-' + month + '-' + date
     }
   },

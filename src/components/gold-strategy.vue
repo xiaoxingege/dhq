@@ -46,7 +46,7 @@ html {
 }
 .radarChart {
     width: 456px;
-    height: auto;
+    height: 336px;
 
 }
 .attention {
@@ -206,8 +206,10 @@ a {
         <Goldrecommends :data="recommendData"></Goldrecommends>
       </div>
     </div>
-    <div class="radarChart">
-      <Radarchart :strategyId="strategyId"></Radarchart>
+    <div style="width: 456px;height: auto;">
+      <div class="radarChart">
+        <Radarchart :strategyId="strategyId"></Radarchart>
+      </div>
     </div>
     <img class="radarImg" @mouseover="showRadar" @mouseout="hideRadar" src="../assets/images/help.png" />
     <div class="radarNotice" v-if="radarShow">
