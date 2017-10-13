@@ -5,9 +5,13 @@
 }
 .data-table {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
     border-spacing: 0;
 }
+/*.data-table tr{
+    height:12.5%;
+  }*/
 .data-table td {
     border: 1px solid #23272c;
     text-align: right;
@@ -40,10 +44,10 @@
     transform: translate(-50%,-50%);
     color: #808ba1;
 }
-.data-table tr td:first-child {
+.data-table .stock-hover {
     cursor: pointer;
 }
-.data-table tr td:first-child:hover {
+.data-table .stock-hover:hover {
     background-color: #2e4465;
 }
 </style>
@@ -52,11 +56,16 @@
   <div v-if="isNoData" class="no-data">
     <span>暂无信号</span>
   </div>
-  <table v-if="!isNoData" class="data-table" :style="{height:tableHeight}">
+  <table v-if="!isNoData" class="data-table">
     <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode">{{item.name === null?'--':item.name}}</td>
-      <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
+    </tr>
+    <tr v-for="item of noDataList">
+      <td>{{item.name}}</td>
+      <td>{{item.px}}</td>
+      <td>{{item.chgPct}}</td>
     </tr>
   </table>
   <StockBox ref="stockbox"></StockBox>
@@ -69,13 +78,24 @@ export default {
   data () {
     return {
       isNoData: false,
-      tableHeight: '100%'
+      noDataList: []
     }
   },
   watch: {
     dataList () {
+      this.noDataList = []
       if (this.dataList.length > 0) {
-        this.tableHeight = (this.dataList.length / 8) * 100 + '%'
+        // this.tableHeight = (this.dataList.length / 8) * 100 + '%'
+        if (this.dataList.length < 8) {
+          const noDataListLength = 8 - this.dataList.length
+          for (let i = 0; i < noDataListLength; i++) {
+            this.noDataList.push({
+              name: '',
+              px: '',
+              chgPct: ''
+            })
+          }
+        }
         this.isNoData = false
       } else {
         this.isNoData = true

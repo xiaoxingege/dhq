@@ -8,20 +8,20 @@ input {
   outline: none;
 }
 
-.bg5 .box-con .swiper-container {
-  top: 95px;
-  left: 236px;
+.bg6 .box-con .swiper-container {
+  top: 102px;
+  left: 245px;
   margin: 0;
   overflow: visible;
 }
 
-.bg5 .box-con .swiper-pagination {
+.bg6 .box-con .swiper-pagination {
   width: 233px;
   height: 319px;
   left: -250px;
 }
 
-.bg5 .box-con .swiper-pagination span {
+.bg6 .box-con .swiper-pagination span {
   width: 233px;
   height: 69px;
   float: left;
@@ -53,33 +53,33 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg1-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg1.jpg") center 0 no-repeat;
     height: 474px;
 }
 .bg2 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg2-2.jpg") center 0 no-repeat;
-    height: 601px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg2.jpg") center 0 no-repeat;
+    height: 603px;
 }
 .bg3 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg3.jpg") center 0 no-repeat;
-    height: 646px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg3.jpg") center 0 no-repeat;
+    height: 649px;
 }
 .bg4 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg4-1.jpg") center 0 no-repeat;
-    height: 646px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg4.jpg") center 0 no-repeat;
+    height: 542px;
 }
 .bg5 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg5.jpg") center 0 no-repeat;
-    height: 415px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg5.jpg") center 0 no-repeat;
+    height: 591px;
 }
 .bg6 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg6-1.jpg") center 0 no-repeat;
-    height: 466px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-bg6.jpg") center 0 no-repeat;
+    height: 706px;
 }
-.bg7 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg7.jpg") center 0 no-repeat;
-    height: 401px;
-}
+// .bg7 {
+//     background: url("../assets/images/jzxg-activity/jzxg-web-new-bg7.jpg") center 0 no-repeat;
+//     height: 401px;
+// }
 .box-con {
     width: 1000px;
     margin: 0 auto;
@@ -99,11 +99,11 @@ input {
 }
 .footer {
     width: 100%;
-    height: 212px;
+    height: 210px;
     position: fixed;
     bottom: 0;
     margin-top: -100px;
-    background: url("../assets/images/jzxg-activity/jzxg-web-footer-1.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-footer-1.png") center 0 no-repeat;
     z-index: 10;
 }
 </style>
@@ -119,16 +119,16 @@ input {
   <div class="bg4">
   </div>
   <div class="bg5">
+  </div>
+  <div class="bg6">
     <div class="box-con">
       <activity-slider :listData="listData" />
     </div>
   </div>
-  <div class="bg6">
-  </div>
-  <div class="bg7">
-  </div>
-  <div class="nav-fixed" @click="navFixed">
-  </div>
+  <!-- <div class="bg7">
+    </div> -->
+  <!-- <div class="nav-fixed" @click="navFixed">
+    </div> -->
   <div class="footer" @click="submit">
 
   </div>
@@ -151,7 +151,7 @@ export default {
   data () {
     return {
       listData: {
-        conWidth: '743px',
+        conWidth: '755px',
         conHeight: '320px',
         conPadding: '0',
         pagShow: true,
@@ -232,7 +232,7 @@ export default {
     }
   },
   mounted () {
-    document.title = '极致选股'
+    document.title = '极智选股-金融界'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
       this.$store.dispatch('user/checkBindingInfo', {})

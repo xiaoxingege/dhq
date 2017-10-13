@@ -46,7 +46,7 @@ html {
 }
 .radarChart {
     width: 456px;
-    height: auto;
+    height: 336px;
 
 }
 .attention {
@@ -206,8 +206,10 @@ a {
         <Goldrecommends :data="recommendData"></Goldrecommends>
       </div>
     </div>
-    <div class="radarChart">
-      <Radarchart :strategyId="strategyId"></Radarchart>
+    <div style="width: 456px;height: auto;background:#141518;">
+      <div class="radarChart">
+        <Radarchart :strategyId="strategyId"></Radarchart>
+      </div>
     </div>
     <img class="radarImg" @mouseover="showRadar" @mouseout="hideRadar" src="../assets/images/help.png" />
     <div class="radarNotice" v-if="radarShow">
@@ -249,7 +251,7 @@ import {
 import * as Data from '../z3tougu/constant/siwei.js'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId,
       type: '',
@@ -272,13 +274,13 @@ export default {
   },
   computed: mapState({
     goldResult: state => state.goldStrategy.goldResult,
-    articleData: function () {
+    articleData: function() {
       return {
         title: '策略描述:',
         content: this.goldResult === null ? '' : this.goldResult.strategyDesc
       }
     },
-    recommendData: function () {
+    recommendData: function() {
       if (this.goldResult === null) {
         return {
           choseStockData: null,
@@ -428,6 +430,15 @@ export default {
         const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
         const stockSortData = this.stockSort[v] + '(' + s + ')'
 
+        let fundAllocateData = ''
+        if (this.goldResult.fundAllocate === 'fund_value') {
+          fundAllocateData = '资金等权'
+        } else if (this.goldResult.fundAllocate === 'market_value') {
+          fundAllocateData = '市值等权'
+        } else if (this.goldResult.fundAllocate === 'fix_value') {
+          fundAllocateData = '最大持仓数等分'
+        }
+
         return {
           choseStockData: {
             filterSummary: JSON.parse(this.goldResult.filterSummary)
@@ -448,7 +459,7 @@ export default {
           },
           tradeParamsData: {
             initFund: this.goldResult.initFund / 10000 + '万',
-            fundAllocate: this.goldResult.fundAllocate === 'fund_value' ? '资金等权' : '市值等权',
+            fundAllocate: fundAllocateData,
             buyPriceType: buyType,
             sellPriceType: this.goldResult.sellPriceType === 'open' ? '开盘价' : '收盘价',
             backtestDate: startDate.substring(0, 4) + '.' + startDate.substring(4, 6) + '.' + startDate.substring(6) + '-' + endDate.substring(0, 4) + '.' + endDate.substring(4, 6) + '.' + endDate.substring(6),
@@ -467,17 +478,17 @@ export default {
     }
   }),
   methods: {
-    showQrcode () {
+    showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox
     },
-    showRadar () {
+    showRadar() {
       this.radarShow = true
     },
-    hideRadar () {
+    hideRadar() {
       this.radarShow = false
     }
   },
-  mounted () {
+  mounted() {
     this.type = this.$route.params.showType
 
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
@@ -496,9 +507,9 @@ export default {
     })
 
     const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+    qrcode.toDataURL(this.$refs.qrcode, url, function() {})
     const clipboard = new Clipboard('.copy', {
-      text: function () {
+      text: function() {
         return url
       }
     })

@@ -338,7 +338,8 @@ export default {
       this.playLineIndex = 19
     },
     condition () {
-      this.updateDataByCodition()
+      // this.updateDataByCodition()
+      this.updateData()
     },
     focusStockName () {
       this.focusStock()
@@ -543,6 +544,8 @@ export default {
       this.$store.dispatch('stockMap/queryRangeByCode', {
         code: this.rangeCode
       }).then(() => {
+        this.$refs.treemap.style.left = 0
+        this.$refs.treemap.style.top = 0
         this.initOption(this.mapData)
         /* this.chart && this.chart.setOption({
           series: [{
@@ -1135,6 +1138,8 @@ export default {
         height: this.$refs.treemap.offsetHeight,
         width: this.$refs.treemap.offsetWidth
       })
+      this.$refs.treemap.style.left = 0
+      this.$refs.treemap.style.top = 0
     },
     getTime: function () {
       const date = new Date()
