@@ -145,8 +145,9 @@ export default {
     financeData: state => state.finance.financeData
   }),
   mounted () {
+    const stockCode = this.$route.query.stockCode
     this.$store.dispatch('finance/getFinData', {
-      stockCode: '002087.SZ'
+      stockCode: stockCode
     })
   }
 }
