@@ -546,7 +546,7 @@ export default {
       }).then(() => {
         this.$refs.treemap.style.left = 0
         this.$refs.treemap.style.top = 0
-        this.scale = 1
+        this.scale = 1;
         this.initOption(this.mapData)
         /* this.chart && this.chart.setOption({
           series: [{
@@ -829,19 +829,22 @@ export default {
               gapWidth: 2 // 第一层块间隔距离
             }
           },
-          { // 第一层
-            itemStyle: {
-              normal: {
-                borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
-                color: '#141518',
-                borderWidth: 1, // 第一层矩形间距
-                gapWidth: 1 // 第二层矩形间距
-              },
-              emphasis: {}
-            },
-            emphasis: {
-
+          upperLabel: {
+            normal: {
+              show: false
             }
+          },
+          silent: true
+        },
+        { // 第一层
+          itemStyle: {
+            normal: {
+              borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
+              color: '#141518',
+              borderWidth: 1, // 第一层矩形间距
+              gapWidth: 1 // 第二层矩形间距
+            },
+            emphasis: {}
           },
           silent: true,
           upperLabel: {
