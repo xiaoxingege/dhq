@@ -492,7 +492,7 @@ html {
     /* left: -56px; */
     /* top: 64px; */
     /* max-width: 1040px; */
-    max-width: 742px;
+    max-width: 40%;
 }
 .stock-td3:hover span {
     display: block;
