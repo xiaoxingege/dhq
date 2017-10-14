@@ -266,7 +266,8 @@ export default {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
-      groupid: 4973837,
+      groupid: 10428569,
+      // groupid: this.getQueryString('groupid'),
       dataarr1: [],
       dataarr2: [],
       dataarr3: [],
@@ -310,6 +311,8 @@ export default {
     fetchData () {
       var urll = this.urllink[this.typeurl]
       var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
+      alert(url)
+      alert(this.groupid)
       var _this = this
       if (!window.jrj) {
         setTimeout(this.fetchData.bind(this), 100)
