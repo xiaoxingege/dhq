@@ -829,22 +829,19 @@ export default {
               gapWidth: 2 // 第一层块间隔距离
             }
           },
-          upperLabel: {
-            normal: {
-              show: false
-            }
-          },
-          silent: true
-        },
-        { // 第一层
-          itemStyle: {
-            normal: {
-              borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
-              color: '#141518',
-              borderWidth: 1, // 第一层矩形间距
-              gapWidth: 1 // 第二层矩形间距
+          { // 第一层
+            itemStyle: {
+              normal: {
+                borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
+                color: '#141518',
+                borderWidth: 1, // 第一层矩形间距
+                gapWidth: 1 // 第二层矩形间距
+              },
+              emphasis: {}
             },
-            emphasis: {}
+            emphasis: {
+
+            }
           },
           silent: true,
           upperLabel: {
