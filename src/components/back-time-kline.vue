@@ -175,6 +175,7 @@ textarea:-ms-input-placeholder {
     /* border-bottom: 1px solid #808ba1; */
     cursor: pointer;
 }
+
 .search-ul li.active {
     background: #1984ea;
     color: #c9d0d7;
@@ -196,7 +197,7 @@ textarea:-ms-input-placeholder {
     <span class="ana-btn" @click="submitSearch($event)" style="display: none">分析</span>
     <label class="label-txt lightcolor">*仅支持分析A股，价格为前复权</label>
     <ul class="search-ul" id="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
-      <li v-for="list of searchData.searchList" @click="focusStock($event)" class="ss"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
+      <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
     </ul>
     <!-- <ul class="search-ul" v-else>
                   <li>暂无数据</li>
@@ -234,9 +235,8 @@ export default {
       // showMa: false,
       strategyId: this.$route.params.strategyId,
       searchList: [],
-      isShowLine: 'none',
       istyle: false,
-      current: -1,
+      current: 0,
       fullHeight1: document.documentElement.clientHeight - 562
     }
   },
@@ -441,10 +441,17 @@ export default {
       this.$store.dispatch('backtestDetail/querySearch', {
         keyword
       })
+      console.log(this.searchData.searchList.length)
+      if (this.searchData.searchList.length > 0) {
+        var ul = document.getElementById('search-ul')
+        var lis = ul.getElementsByTagName('li')
+        lis[0].className = 'active'
+      }
       if (this.message === '') {
         // this.showMa = false
       } else {
         this.istyle = true
+        console.log(this.searchData.searchList.length)
         this.init()
       }
       // this.filterStocks(keyword)
@@ -462,7 +469,6 @@ export default {
     submitSearch (e) {
       e.preventDefault()
       // this.showMa = true
-      /* this.isShowLine = 'block'*/
 
       this.init()
     },
@@ -496,7 +502,6 @@ export default {
     addActive () {
       var ul = document.getElementById('search-ul')
       var lis = ul.getElementsByTagName('li')
-      console.log(ul.length)
       /* } else {
          var ul = document.getElementById('search-ul')
          var lis = ul.getElementsByTagName('li')
