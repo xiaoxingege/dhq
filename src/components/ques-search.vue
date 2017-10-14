@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
+
 .ques-search {
     width: 90%;
     height: 1rem;
@@ -9,6 +10,7 @@
     background-color: #fff;
     z-index: 2;
 }
+
 .ques-search i {
     width: 0.42rem;
     height: 0.41rem;
@@ -18,6 +20,7 @@
     left: 5%;
     top: 0.3rem;
 }
+
 .ques-search input {
     width: 80%;
     float: left;
@@ -29,9 +32,11 @@
     outline: none;
     color: #333;
 }
+
 .ques-search input::-webkit-input-placeholder {
     color: #999;
 }
+
 .ques-search ul {
     border-bottom: 0.01rem #e6e6e6 solid;
     width: 100%;
@@ -41,6 +46,7 @@
     background-color: #fff;
     z-index: 1;
 }
+
 .ques-search ul li {
     width: 90%;
     margin: 0 5%;
@@ -52,19 +58,23 @@
 .ques-search ul li:last-child {
     border-bottom: none;
 }
+
 .ques-search ul li p {
     width: 33%;
     float: left;
     text-align: center;
     font-size: 0.3rem;
 }
+
 .ques-search ul li p span {
     color: #6284e6;
 }
+
 .search-no {
     text-align: center;
     color: #ccc;
 }
+
 .ques-search ul li.cur {
     background-color: #6284e6;
 }
@@ -96,7 +106,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       searchNo: false,
       dataType: false,
@@ -112,16 +122,14 @@ export default {
       return state.quesSearch.CodeData
     }
   }),
-  components: {
-
-  },
+  components: {},
   methods: {
-    searchInput (value) {
+    searchInput(value) {
       this.$store.dispatch('quesSearch/fetch', {
         key: value
       })
     },
-    searchDataClick (index) {
+    searchDataClick(index) {
       var value = this.CodeData[index].name + '(' + this.CodeData[index].code + ')'
       this.value = value
       this.stid = this.CodeData[index].stid
@@ -129,14 +137,14 @@ export default {
 
       this.$emit('searchVal', value)
     },
-    inputBlur () {
+    inputBlur() {
       this.searchDataType = false
     },
-    inputFocus () {
+    inputFocus() {
       this.searchDataType = true
     }
   },
-  mounted () {
+  mounted() {
     this.$watch('CodeData', CodeData => {
       if (CodeData.length === 0) {
         this.searchNo = true

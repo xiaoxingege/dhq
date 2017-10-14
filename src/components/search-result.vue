@@ -1,26 +1,28 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
+body {
+    height: 100%;
+    background: #191A1D;
+}
 .searchResult {
-    background: #fff;
+    width: 50%;
+    background: #191A1D;
     font-size: 12px;
-    color: #191919;
-    font-family: "宋体";
+    color: #c9d0d7;
+    padding-left: 10px;
 }
 .searchResult > p {
     padding-left: 7px;
 }
-.searchResult ul {
-    background: #fff;
-}
 .searchResult ul > p {
-    background: #F2F2F2;
-    line-height: 30px;
+    font-size: 14px;
+    margin-top: 15px;
 }
 .searchResult ul li {
-    padding-left: 7px;
     text-align: left;
-    widt: 70%;
-    border-bottom: 1px solid #F7F7F7;
+
+    border-bottom: 1px solid #24262C;
 }
 .searchResult ul li p {
     margin-bottom: 9px;
@@ -28,40 +30,45 @@
 .searchResult ul li a {
     display: block;
     padding-top: 15px;
+    font-size: 14px;
 }
 .searchInfo {
     line-height: 24px;
 }
 .searchTime {
-    color: #7e7e7e;
+    color: #505A66;
 }
 .newsSource {
     margin-left: 20px;
 }
 .searchSort {
     position: absolute;
-    right: 20px;
+    right: 0;
     top: 3px;
 }
 .searchSort span {
     display: inline-block;
-    background: #fff;
-    color: #409cf7;
+    background: #808BA1;
+    color: #c9d0d7;
     padding: 4px 7px;
     cursor: pointer;
+    border-radius: 3px;
 }
 .searchSort span:first-child {
     margin-right: 15px;
 }
+.searchSort span:last-child {
+    padding: 4px 12px;
+}
 .searchSort span.active {
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background: #1984ea;
 }
 .searchSort span img {
     position: relative;
     margin-left: 3px;
     width: 10px;
-    top: 2px;
+    height: 10px;
+    top: 4px;
 }
 </style>
 <template>
@@ -74,9 +81,10 @@
     </li>
   </ul>
   <ul v-if="searchType == 'theme'">
-    <p>搜索主题数：<span>{{total}}</span></p>
+    <p>搜索题材数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
-      <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}</router-link>
+      <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl===null?'':item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}
+      </router-link>
       <p class="searchInfo">{{item.themeExplain}}</p>
       <p class="searchTime">{{item.themeTime}}</p>
     </li>
@@ -90,7 +98,9 @@
   </ul>
   <ul v-if="searchType == 'infor'" style="position: relative;">
     <p>搜索资讯数：<span>{{total}}</span></p>
-    <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img src="../assets/images/searchOrder.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img src="../assets/images/searchOrder.png"></span></div>
+    <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img
+            src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
+            src="../assets/images/search-arrows.png"></span></div>
     <!--<span>关联度排序</span><span>时间排序</span>-->
     <li v-for="item of resultData">
       <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}" target="_blank">{{item.newsTitle}}</router-link>
@@ -100,14 +110,19 @@
   </ul>
   <ul v-if="searchType == 'report'" style="position: relative;">
     <p>搜索研报数：<span>{{total}}</span></p>
-    <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img src="../assets/images/searchOrder.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img src="../assets/images/searchOrder.png"></span></div>
+    <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img
+            src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
+            src="../assets/images/search-arrows.png"></span></div>
     <li v-for="item of resultData">
       <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}" target="_blank">{{item.reportTitle}}</router-link>
       <p class="searchInfo">{{item.reportSummary}}</p>
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
   </ul>
-  <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+  <div style="width:100%; text-align: center;">
+    <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+  </div>
+
 </div>
 </template>
 <script>

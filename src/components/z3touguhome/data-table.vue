@@ -9,16 +9,19 @@
     border-collapse: collapse;
     border-spacing: 0;
 }
+/*.data-table tr{
+    height:12.5%;
+  }*/
 .data-table td {
     border: 1px solid #23272c;
-    color: #ca4941;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .data-table tr:nth-child(1) td {
     border-top-width: 0;
 }
-.data-table tr:last-child td {
+.data-table tr:nth-child(8) td {
     border-bottom-width: 0;
 }
 .data-table tr td:last-child {
@@ -41,23 +44,28 @@
     transform: translate(-50%,-50%);
     color: #808ba1;
 }
-.data-table tr td:first-child {
+.data-table .stock-hover {
     cursor: pointer;
 }
-.data-table tr td:first-child:hover {
+.data-table .stock-hover:hover {
     background-color: #2e4465;
 }
 </style>
 <template>
 <div class="table-wrap">
   <div v-if="isNoData" class="no-data">
-    <span>暂无数据</span>
+    <span>暂无信号</span>
   </div>
   <table v-if="!isNoData" class="data-table">
     <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}">{{item.name === null?'--':item.name}}</td>
-      <td v-z3-updowncolor="item.px">{{item.px === null?'--':item.px.toFixed(2)}}</td>
+      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</td>
+      <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
+    </tr>
+    <tr v-for="item of noDataList">
+      <td>{{item.name}}</td>
+      <td>{{item.px}}</td>
+      <td>{{item.chgPct}}</td>
     </tr>
   </table>
   <StockBox ref="stockbox"></StockBox>
@@ -67,15 +75,27 @@
 import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
-  data() {
+  data () {
     return {
-      isNoData: false
+      isNoData: false,
+      noDataList: []
     }
   },
   watch: {
-    dataList() {
-      console.log(this.dataList)
+    dataList () {
+      this.noDataList = []
       if (this.dataList.length > 0) {
+        // this.tableHeight = (this.dataList.length / 8) * 100 + '%'
+        if (this.dataList.length < 8) {
+          const noDataListLength = 8 - this.dataList.length
+          for (let i = 0; i < noDataListLength; i++) {
+            this.noDataList.push({
+              name: '',
+              px: '',
+              chgPct: ''
+            })
+          }
+        }
         this.isNoData = false
       } else {
         this.isNoData = true
@@ -86,17 +106,22 @@ export default {
     StockBox
   },
   methods: {
-    formatData: function(val) {
+    formatData: function (val) {
       let getVal
       if (val) {
-        getVal = (100 * val).toFixed(2) + '%'
+        getVal = val.toFixed(2) + '%'
       } else {
         getVal = '--'
       }
       return getVal
+    },
+    linkStock: function (innerCode) {
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
     }
   },
-  mounted() {
+  mounted () {
     console.log(this.dataList)
   }
 }

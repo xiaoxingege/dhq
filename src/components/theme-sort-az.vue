@@ -2,6 +2,11 @@
 @import '../assets/css/base.css';
 * {
     text-align: justify;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 em,
 i {
@@ -9,30 +14,31 @@ i {
 }
 
 .blue {
-    color: #2388da;
-    font-size: 12px;
+    color: #1984ea;
 }
 .red {
-    color: #e6363a !important;
+    color: #ca4941;
 }
 .green {
-    color: #48a854 !important;
+    color: #56a870;
+}
+
+.lightcolor {
+    color: #c9d0d7;
+}
+
+.gray {
+    color: #808ba1;
 }
 
 span {
-    color: #696969;
+    color: #c9d0d7;
 }
 body,
 html {
-    background: #f2f2f2;
-
-}
+    }
 .sortaz-wrap {
-    /*  background: #f2f2f2;
-      width: 100%;
-      font-size: 12px;
-      color: #696969; */
-}
+    }
 .az-main {}
 .sort-hot {
 
@@ -43,25 +49,49 @@ html {
     margin-left: 19px;
     display: inline-block;
    } */
-.every-topical-wrap {
-    background: #ffff;
-    padding-left: 11px;
-    padding-right: 8px;
+.themeList .every-topical-wrap {
+    padding-left: 4px;
+    /* padding-left: 11px;
+  padding-right: 8px; */
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     min-height: 50px;
     overflow-y: scroll;
 }
+.every-topical-wrap {
+    padding-left: 4px;
+    /* padding-left: 11px;
+    padding-right: 8px; */
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
 .every-main {
-    border-bottom: 1px solid #e5e5e5;
-    font-size: 12px;
-    color: #696969;
-    padding: 7px 16px 9px;
+    border-bottom: 1px solid #0d0e0f;
+    /*  font-size: 12px; */
+    color: #c9d0d7;
+    /* padding: 7px 16px 9px; */
+    padding: 18px 20px;
+}
+
+.themeList .every-main {
+    border-bottom: 1px solid #acacac;
+    color: #666;
 }
 .letter {
-    line-height: 20px;
-    width: 5%;
+    /* line-height: 20px; */
+    line-height: 30px;
+    /* width: 5%; */
+    font-size: 14px;
+}
+.letter span {
+
+    font-size: 14px;
+}
+
+.themeList .letter span {
+    color: #666;
 }
 .letter i {
     margin-left: 8px;
@@ -70,37 +100,49 @@ html {
     width: 91%;
     /* padding-left: 2%; */
 }
+
 .every-name .tname {
     /* padding: 0 10px; */
-    width: 10%;
-    line-height: 20px;
-    color: #696969;
+    /* width: 10%; */
+    /* width: 11%; */
+    /* width: 14%; */
+    width: 13%;
+    /* line-height: 20px; */
+    line-height: 30px;
+    color: #c9d0d7;
     display: inline-block;
     cursor: pointer;
+    /* padding-left: 40px; */
+    padding-left: 65px;
+
+}
+
+.themeList .every-name .tname {
+    color: #666;
+}
+.tname a {
+    font-size: 14px;
+    white-space: nowrap;
 }
 .every-name a:hover {
     text-decoration: underline;
 }
 .block {
-    color: #696969;
+    color: #c9d0d7;
 }
 </style>
 <template>
 <div class="every-topical-wrap">
   <div class="every-main clearfix" v-for="key of sortList">
     <div class="fl letter"><span>{{key}}</span><i>></i></div>
-    <div class="fl every-name" v-if="routeName === 'themeindex'">
-      <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
-        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" v-if="islink">
+    <div class="fl every-name" v-if="islink">
+      <span v-for="g of groupTopics[key]" :value="g.topicCode" class="tname">
+        <router-link :to="{name:'topicDetail',params:{topicId:g.topicCode}}" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'">
           {{g.topicName}}</router-link>
-      </a>
-
-      <a v-for="g of groupTopics[key]" :value="g.topicCode" class="tname" v-if="!islink">
-          {{g.topicName}}
-      </a>
+      </span>
     </div>
     <div class="fl every-name" v-else>
-      <a v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)" class="tname">{{g.topicName}}</a>
+      <span v-for="g of groupTopics[key]" :class="g.topicMarket!=null ? checkClass(g.topicMarket.chngPct):'block'" :value="g.topicCode" @click="getVal($event)" class="tname">{{g.topicName}}</span>
     </div>
   </div>
 
@@ -115,7 +157,7 @@ import {
 export default {
   data () {
     return {
-      routeName: this.$route.name
+      /* routeName: this.$route.name*/
     }
   },
   props: ['islink'],

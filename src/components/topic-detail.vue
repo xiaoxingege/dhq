@@ -2,9 +2,15 @@
 @import '../assets/css/base.css';
 * {
     text-align: justify;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     box-sizing: border-box;
     font-family: "Microsoft YaHei";
 }
+
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 ::-webkit-scrollbar {
     width: 5px;
@@ -12,16 +18,18 @@
     background-color: #eee;
     border-radius: 10px;
 }
+
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    background-color: #eee;
+    background-color: #515A65;
 }
+
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #808ba1;
 }
 em,
@@ -30,6 +38,7 @@ i {
 }
 a {
     color: #c9d0d7;
+    text-decoration: none;
 }
 .blue {
     color: #1984ea;
@@ -40,9 +49,11 @@ a {
 .green {
     color: #56a870;
 }
-.color {
+
+.lightcolor {
     color: #c9d0d7;
 }
+
 .gray {
     color: #808ba1;
 }
@@ -82,7 +93,7 @@ html {
     background: #141518;
     font-size: 12px;
     color: #c9d0d7;
-    height: 100%;
+    /* height: 100%; */
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
@@ -90,6 +101,7 @@ html {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
 }
+
 .header strong {
     font-weight: normal;
     font-size: 16px;
@@ -110,7 +122,7 @@ html {
 }
 .time-num2 {
     /*  width: 48px;
-    text-align: center; */
+  text-align: center; */
     padding-left: 6px;
     padding-right: 16px;
 }
@@ -122,19 +134,22 @@ html {
 }
 .time-num4 {
     /* width: 36px;
-    text-align: center; */
+  text-align: center; */
     color: #808ba1;
 }
 
 .detail-content {
     /*  margin: 9px; */
+    background: #141518;
 }
 .detail-main {
-    }
+    margin-bottom: 18px;
+}
 .main-left {
     width: 60%;
     border: 1px solid #0d0e0f;
     border-left: none;
+    border-right: none;
 }
 .left-con1 {
     padding: 20px 21px 18px 20px;
@@ -152,25 +167,66 @@ html {
     width: 48%;
     color: #c9d0d7;
     margin-right: 29px;
+    position: relative;
+}
+.tip-1 i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; 
+    left: 157px;*/
+    top: 40px;
+}
+.tip-1:hover i {
+    display: block;
+}
+.tip-2 i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; 
+    left: 157px;*/
+    top: 40px;
+}
+.tip-2:hover i {
+    display: block;
 }
 .con1-event {
     width: 47%;
     color: #c9d0d7;
+    position: relative;
 }
-.left-con1 a:hover {
+.con1-event a:hover {
     color: #1984ea;
+    text-decoration: none;
 }
 .left-con2 {
     /* height: 317px; */
-    height: 303px;
+    /* height: 303px; */
+    height: 321px;
     /* padding: 11px 19px 12px 0; */
     padding: 19px 18px 20px 20px;
     position: relative;
     border-bottom: 1px solid #0d0e0f;
 }
 .left-con3 {
-    padding: 20px 20px 14px;
-    border-bottom: 1px solid #0d0e0f;
+    /* padding: 20px 20px 14px; */
+    /* padding: 20px 20px 17px; */
+    /* padding: 0 0 17px; */
+    padding: 0;
+    /* border-bottom: 1px solid #0d0e0f; */
     /* padding: 13px 25px 10px 13px; */
 
 }
@@ -181,10 +237,26 @@ html {
     line-height: 18px;
     /* height: 168px;*/
     overflow: auto;
-
+    position: relative;
+    padding: 0 20px;
 }
+
 .in-content-a {
     line-height: 26px;
+}
+.in-content-b {
+    font-size: 14px;
+    text-align: center;
+    position: absolute;
+    top: 18%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.in-content-no {
+    text-align: center;
+
+    position: relative;
 }
 .in-title {
     line-height: 62px;
@@ -216,12 +288,28 @@ html {
     text-align: right;
     color: #c9d0d7;
 }
-.in-content a:hover {
+.new-tit:hover {
     color: #1984ea;
+}
+.new-tit:hover i {
+    display: block;
+}
+.new-tit i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 9px 20px 9px 12px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 3px;
+    z-index: 999;
+    /* top: 25px; */
+    /* top: 23px; */
+    left: 157px;
 }
 .left-con3 strong {
     display: inline-block;
-    margin-bottom: 6px;
+    /* margin-bottom: 6px; */
     font-weight: 400;
     color: #808ba1;
 }
@@ -253,7 +341,10 @@ html {
     /* max-height: 898px; */
     /* max-height: 74.7em;
       height: 55.7rem;*/
+    border: 1px solid #0d0e0f;
+    border-right: none;
 }
+
 .right-top {
     padding-left: 10px;
     font-size: 12px;
@@ -261,23 +352,37 @@ html {
     color: #808ba1;
     background: #23272c;
 }
+.right-top2 {
+    margin-bottom: 8px;
+}
 .see-filter {
     padding-right: 20px;
     padding-left: 29px;
     cursor: pointer;
 }
+.see-filter a {
+    text-decoration: none;
+}
+.see-filter a:hover {
+    text-decoration: none;
+}
+
 .mo-sort {
     cursor: pointer;
 }
+
 .right-table {
     border-collapse: collapse;
     width: 97%;
     margin-left: 3%;
     font-size: 12px;
+    /*  position: relative; */
 }
+
 .td-txt {
     position: relative;
 }
+
 .td-txt i {
     width: 11px;
     height: 6px;
@@ -287,8 +392,9 @@ html {
     /* right: 15%; */
     padding-left: 4px;
 }
-.td-txt.active {
-    }
+
+.td-txt.active {}
+
 .td-txt.active .sort-down {
     width: 11px;
     height: 6px;
@@ -296,6 +402,7 @@ html {
     background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
 
 }
+
 .td-txt.active .sort-up {
     width: 11px;
     height: 6px;
@@ -304,7 +411,7 @@ html {
 }
 .right-table tr:nth-child(1) {
     /* background: #f2f2f2;
-      color: #666; */
+    color: #666; */
     font-size: 12px;
     cursor: pointer;
 }
@@ -316,22 +423,29 @@ html {
     text-align: left;
 
 }
+
 .right-table tr {
-    }
+    position: relative;
+}
+
 .right-table tr td {
-    /* text-align: center; */
+    text-align: center;
     height: 44px;
     border-bottom: 1px solid #23272c;
 }
+
 .stock-td1 {
     /* position: relative; */
 }
+
 .stock-td2 {
     /* text-align: right; */
     /* position: relative; */
-    padding-left: 34px;
+    text-align: center;
+    /* padding-left: 34px; */
     cursor: pointer;
 }
+
 .numTopic {
     position: absolute;
     display: none;
@@ -342,17 +456,27 @@ html {
     z-index: 999;
     cursor: pointer;
 }
+
 .numTopic span {
     margin-left: 8px;
     cursor: pointer;
+    line-height: 20px;
 }
+
 .numTopic span a {
     color: #666666;
 }
+.numTopic span a:hover {
+    color: #1984ea;
+}
 .stock-td3 {
-    text-align: left;
+    /* text-align: left; */
+    text-align: center;
     cursor: pointer;
-    position: relative;
+    /* position: relative; */
+}
+.see-topic {
+    display: none;
 }
 .see-topicmark {
     display: none;
@@ -363,23 +487,31 @@ html {
     border-radius: 10px;
     z-index: 999;
     cursor: pointer;
-    left: -56px;
+    right: 0;
+    /* left: -927px; */
+    /* left: -56px; */
+    /* top: 64px; */
+    /* max-width: 1040px; */
+    max-width: 742px;
 }
 .stock-td3:hover span {
     display: block;
 }
+
 .main-right .page {
     background: #141518;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 0 0;
     width: 100%;
     zoom: 1;
     clear: both;
 }
+
 .main-right .page .pages li {
     background: #141518;
 
 }
+
 /* .main-right2 {
     height: 896px;
 } */
@@ -430,7 +562,7 @@ table {
 }
 .num-td {
     /* position: absolute;
-    top: 10px; */
+  top: 10px; */
     /* left: 34%; */
     /* left: 39%; */
     font-size: 12px;
@@ -458,10 +590,10 @@ table {
     border: 1px solid #23272c;
     /* padding: 5px 10px; */
     padding: 7px 6px;
-    margin-right: -1px;
+    /*  margin-right: -1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 2px; */
     cursor: pointer;
 }
 .chart-title {
@@ -477,12 +609,21 @@ table {
 .mo {
     display: none;
 }
+
 .foot-tishi {
     font-size: 12px;
     /*  position: absolute;
-  bottom: 0; */
+bottom: 0; */
+    background: #141518;
     color: #808ba1;
     line-height: 24px;
+
+}
+.no-data {
+    width: 176px;
+    height: 168px;
+    display: inline-block;
+    background: url("../assets/images/z3img/no-data.png") no-repeat;
 }
 </style>
 <template>
@@ -515,59 +656,73 @@ table {
         </div>
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
-            <strong>题材简介:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}">
-              <span>{{checkNull(detail.topicDesc)}}</span>
-            </router-link>
+            <strong>题材简介：</strong>
+            <!-- <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> -->
+            <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
+            <!-- </router-link> -->
           </div>
           <div class="con1-event box-flex-1">
-            <strong>驱动事件:</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> <span>{{checkNull(detail.drivenEvent)}}</span></router-link>
+            <strong>驱动事件：</strong>
+            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
+            </router-link>
           </div>
         </div>
         <div class="left-con3 clearfix">
-          <strong>相关资讯</strong>
-          <div class="in-content" :style="{  height: fullHeight1 + 'px' }">
+          <div class="right-top right-top2"><strong>相关资讯</strong></div>
+          <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
-                <span class="new-tit">{{checkNull(infor.title)}}</span>
+                <span class="new-tit">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
               </router-link>
             </a>
 
           </div>
+          <div class="in-content-no" :style="{  height: (fullHeight1+36) + 'px' }" v-if="informatList.length<=0">
+            <!-- <a class="clearfix in-content-b" >
+               暂无相关资讯
+               </a> -->
+            <div class="no-data"></div>
+          </div>
           <!-- <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
             <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
           </div> -->
         </div>
       </div>
-      <div class="main-right box-flex-1" :class="stockList.length<15&&size>13?'main-right2':''">
-        <div class="right-top"><span>成分股</span><span class="blue fr see-filter"><a :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank" class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''"
-            @click="initStockList">默认相关度排序</span></div>
+      <div class="main-right box-flex-1">
+        <div class="right-top"><span>成份股</span><span class="blue fr see-filter"><a
+                :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="sortStock($event,'recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
-            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">股票名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
-            <td>关联主题</td>
+            <td>关联题材</td>
             <td>关联说明</td>
           </tr>
           <tr v-for="stock of stockList">
-            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br><small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small></a></td>
+            <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
+              <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
+            </a></td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
             <td class="gray">{{checkNull(stock.industryName)}}</td>
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
-              <span v-for="number of numberTopic"><router-link :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
+              <span v-for="number of numberTopic"><router-link
+                      :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark}}</span></td>
+
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
-    <div class="foot-tishi">温馨提示：本题材过往业绩并不预示未来表现，也不构成本题材的业绩保证。题材提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
+    <div class="foot-tishi clearfix">
+      风险提示：本题材业绩表现及成份股仅供参考，不作为买卖建议，风险自担！
+    </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -579,14 +734,15 @@ import {
 } from 'vuex'
 import echarts from 'echarts'
 import {
-  formatDate
+  formatDate,
+  cutString
 } from 'utils/date'
 // import { mutationTypes } from 'stores/z3tougu-theme'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 import Pagination from './pagination'
 export default {
-  data () {
+  data() {
     return {
       period: {
         all: 'ALL',
@@ -604,21 +760,24 @@ export default {
         curChngPct: 'marketData.curChngPct',
         industryName: 'industryName'
       },
-      direction: 'DESC',
+      direction: '',
       isDireSymbol: true,
       isDirePrice: true,
       isDireCurChng: true,
       isDireIndustry: true,
+      isRecommendIndex: true,
       topicCode: this.$route.params.topicId,
-      fullHeight1: document.documentElement.clientHeight - 547,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 204) / 44),
-      fullHeight3: document.documentElement.clientHeight - 204,
+      fullHeight1: document.documentElement.clientHeight - 546,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
+      fullHeight3: document.documentElement.clientHeight - 166,
       size: 12,
       inforPageSize: 100,
       endAll: '',
       alltimers: '',
-      stockPage: '',
-      stockPageSize: ''
+      stockPage: 0,
+      stockPageSize: '',
+      showSee: false,
+      stockList: []
 
     }
   },
@@ -652,7 +811,10 @@ export default {
       news: state => state.topic.news,
       informatList: state => state.topic.informatList,
       inforTotalElements: state => state.topic.inforTotalElements,
-      stockList: state => state.topic.stockList,
+      stockData: state => {
+        const listData = state.topic.stockList
+        return listData
+      },
       detail: state => state.topic.detail,
       chartData: state => {
         const chartData = state.topic.allCharts
@@ -672,6 +834,7 @@ export default {
           chartDataEnd = chartData[chartData.length - 1].tradeDate
           // console.log(chartDataEnd)
         })
+
         return {
           topicReturnRate: topicReturnRate,
           hs300ReturnRate: hs300ReturnRate,
@@ -720,7 +883,6 @@ export default {
           }
         }
         // console.log(tradeMin)
-
         realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
           topicTimeName = item.topicName
@@ -735,6 +897,7 @@ export default {
           }
           /* tradeMin.push(tradeMinDate)*/
         })
+
         return {
           topicChgPct: topicChgPct,
           hs300ChgPct: hs300ChgPct,
@@ -744,7 +907,7 @@ export default {
           realData: realData
         }
       },
-      xLabelInterval () {
+      xLabelInterval() {
         let interval = 'auto'
         if (this.period === 'day') {
           interval = 14
@@ -759,19 +922,19 @@ export default {
     })
   },
   watch: {
-    relatedStocks () {
+    relatedStocks() {
       if (z3websocket.ws) {
         z3websocket.ws && z3websocket.ws.close()
       } else {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    stockMessage () {
+    stockMessage() {
       if (this.stockMessage) {
         this.updateStock()
       }
     },
-    socketState () {
+    socketState() {
       if (this.socketState === 1) {
         // 建立连接
         this.subscribeStock()
@@ -780,7 +943,7 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    realTimeData () {
+    realTimeData() {
       this.$store.dispatch('topic/queryRealtimeChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
@@ -788,12 +951,13 @@ export default {
         console.log(12)
       })
     },
-    stockPage () {
+    stockPage() {
+      this.stockList = []
       this.initStockList(this.stockPage)
     }
   },
   methods: {
-    initChart () {
+    initChart() {
       this.chart = echarts.init(this.$refs.chart)
       // var _this = this
       this.period = 'ALL'
@@ -809,10 +973,11 @@ export default {
       this.renderCharts(this.period)
       // console.log(this.handleResize)
     },
-    goToPage (page) {
+    goToPage(page) {
       this.stockPage = Number(page) - 1
+      console.log(this.stockPage)
     },
-    renderCharts (type) {
+    renderCharts(type) {
       this.period = type
       console.log(type)
       var _this = this
@@ -821,33 +986,34 @@ export default {
           period: this.period,
           topicCode: this.topicCode
         }).then(() => {
-          this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
-          // clearInterval(this.alltimers)
-          this.alltimers = setInterval(function () {
+          console.log(this.detail.topicName)
+          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          clearInterval(this.alltimers)
+          clearInterval(this.alls)
+          this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
           }, 3000)
         })
       } else {
         this.$store.dispatch('topic/queryAllCharts', {
-          period: this.period,
-          topicCode: this.topicCode
-        })
+            period: this.period,
+            topicCode: this.topicCode
+          })
           .then(() => {
             this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
-            /* clearInterval(this.alltimers)
-            this.alltimers = setInterval(function () {*/
-            // this.updateChartAll()
-            // }, 3000)
+            clearInterval(this.alltimers)
+            clearInterval(this.alls)
+            this.alls = setInterval(function() {
+              _this.updateChartAll()
+            }, 5000)
           })
-        // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
       }
     },
-    updateChartAll () {
+    updateChartAll() {
       this.$store.dispatch('topic/queryAllChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
       }).then(() => {
-        // console.log(this)
         // this.endAll = this.allLimit.limitAllX
         console.log(this.chartData.chartDataEnd) // chartHs
         if (this.allLimit[0].tradeDate === this.chartData.chartDataEnd) {
@@ -858,10 +1024,15 @@ export default {
           console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
           // console.log(chartReturn)
           // console.log(allLimitReturn)
+        } else {
+          this.chartData.chartDataEnd = this.allLimit[0].tradeDate
+          this.chartData.hs300ReturnRate.push(this.allLimit[0].hs300ReturnRate.toFixed(2))
+          this.chartData.topicReturnRate.push(this.allLimit[0].topicReturnRate.toFixed(2))
+          this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
         }
       })
     },
-    updateChartRealTime () {
+    updateChartRealTime() {
       this.$store.dispatch('topic/queryRealtimeChartsLimit', {
         period: this.period,
         topicCode: this.topicCode
@@ -870,8 +1041,9 @@ export default {
         // console.log(this.realTimeData.realData[this.realTimeData.realData.length - 1].tradeMin)
         // this.endAll = this.allLimit.limitAllX
         // console.log(this.chartData.chartDataEnd)
-        console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
-        console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)
+        /* console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
+         console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)*/
+        // console.log(this.realtimeLimit[0].length)
         if (this.realtimeLimit[0].tradeMin === this.realTimeData.realTimeEnd) {
           const realTimeLimitHs = Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2) // xin
           const realTimeLimitReturn = Number(this.realtimeLimit[0].topicChgPct).toFixed(2)
@@ -882,51 +1054,49 @@ export default {
         } else {
           console.log('不相同')
           this.realTimeData.realTimeEnd = this.realtimeLimit[0].tradeMin
-          this.realTimeData.topicChgPct.push(this.realtimeLimit[0].topicChgPct)
-          this.realTimeData.hs300ChgPct.push(this.realtimeLimit[0].hs300ChgPct)
-          this.drawCharts(this.realTimeData.topicTimeName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          this.realTimeData.topicChgPct.push(this.realtimeLimit[0].topicChgPct.toFixed(2))
+          this.realTimeData.hs300ChgPct.push(this.realtimeLimit[0].hs300ChgPct.toFixed(2))
+          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
         }
       })
     },
-    handleResize (event) {
+    handleResize(event) {
       this.fullHeight = document.documentElement.clientHeight
-      // console.log(this.fullHeight > 710 ? this.size = 20 : this.size = 12)
-      // console.log(this.fullHeight)
-      /* this.fullHeight > 710 ? this.size = 20 : this.size = 12*/
     },
 
-    initStockList (stockPage) {
-      this.stockSort = 'recommendIndex'
+    initStockList(type, stockPage) {
+      if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
+        this.direction = 'DESC'
+      }
+      // this.stockSort = 'recommendIndex'
       // this.direction = 'DESC'
       //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
       // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       // console.log(this.size)
-      console.log(this.fullHeight2)
+      /* this.stockList = []*/
+      console.log(this.stockList)
       this.$store.dispatch('topic/queryStockList', {
         topicCode: this.topicCode,
         sortField: this.stockSort,
-        direction: 'DESC',
+        direction: this.direction,
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
       })
-      console.log(this.stockPageSize)
+      console.log(this.stockList)
+      /* console.log(this.stockData.stockList)*/
     },
-    initInformatList () {
-      /* this.fullHeight > 710 ? (this.fullHeight > 876 ? this.inforPageSize = 15 : this.inforPageSize = 9) : this.inforPageSize = 5*/
-
+    initInformatList() {
       this.$store.dispatch('topic/queryInformatList', {
         topicCode: this.topicCode,
         inforPageSize: this.inforPageSize
       })
     },
-    enterNumberTopic (e, innerCode) {
+    enterNumberTopic(e, innerCode) {
       e.preventDefault()
-      // const focusStockId = e.currentTarget.children[0].innerText
-      // console.log(e.currentTarget.children[0])
-      // console.log(innerCode)
-      // console.log(document.getElementsByClassName('numTopic'))
-      // this.isStyle = 'block'
       var numTopics = document.getElementsByClassName('numTopic')
       for (var i = 0; i < numTopics.length; i++) { // 遍历内容块
         numTopics[i].style.display = 'none'
@@ -936,22 +1106,36 @@ export default {
         innerCode: innerCode
       })
     },
-    leaveNumberTopic (e) {
+    leaveNumberTopic(e) {
       e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
-    sortStock (e, type, dire) {
+    enterSee(e) {
+      e.preventDefault()
+      console.log(e.currentTarget.nextElementSibling)
+      e.currentTarget.nextElementSibling.style.display = 'block'
+    },
+    leaveSee(e) {
+      e.preventDefault()
+      e.currentTarget.nextElementSibling.style.display = 'none'
+    },
+    sortStock(e, type, dire) {
       e.preventDefault()
       this.stockSort = type
+      this.direction = dire
       console.log(type)
       if (type === 'symbol') {
         this.isDireSymbol = !this.isDireSymbol
       } else if (type === 'marketData.price') {
+        console.log(this.isDirePrice)
         this.isDirePrice = !this.isDirePrice
       } else if (type === 'marketData.curChngPct') {
+        console.log(this.isDireCurChng)
         this.isDireCurChng = !this.isDireCurChng
       } else if (type === 'industryName') {
         this.isDireIndustry = !this.isDireIndustry
+      } else if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
       }
       console.log(dire)
       this.$store.dispatch('topic/queryStockList', {
@@ -960,13 +1144,16 @@ export default {
         direction: dire,
         stockPage: this.stockPage,
         stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
       })
+      console.log(this.stockPage)
     },
-    drawCharts (topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
+    drawCharts(topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
-          formatter: function (params) {
+          formatter: function(params) {
             if (params.length) {
               if (params[0].value !== '') {
                 var boxHtml = '<div style="color:#c9d0d7;">' + params[0].name + '<br/>'
@@ -983,23 +1170,23 @@ export default {
         },
         legend: {
           left: '3%',
-          top: 30,
+          top: 5,
           itemWidth: 15,
           itemHeight: 8,
           data: [{
-            name: topicName,
-            icon: 'pin',
-            textStyle: {
-              color: '#c9d0d7'
+              name: topicName,
+              icon: 'pin',
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            {
+              name: '沪深300',
+              icon: 'pin',
+              textStyle: {
+                color: '#c9d0d7'
+              }
             }
-          },
-          {
-            name: '沪深300',
-            icon: 'pin',
-            textStyle: {
-              color: '#c9d0d7'
-            }
-          }
           ]
 
         },
@@ -1040,7 +1227,7 @@ export default {
         }],
         grid: {
           /* width: '97%',*/
-          left: '2%',
+          left: '10px',
           /* right: '3%',*/
           /* right: '4%',*/
           /* right: '4.7%',*/
@@ -1048,117 +1235,132 @@ export default {
           /* bottom: '50',*/
           containLabel: true
         },
+
         dataZoom: [{
+          backgroundColor: '#32383E',
+          type: 'slider',
           show: true,
           showDetail: false,
-          showDataShadow: true,
-          type: 'slider',
-          y: '88%',
+          xAxisIndex: [0],
+          // bottom:-10,
+          left: '2%',
+          bottom: 0,
           start: 0,
           end: 100,
+          textStyle: {
+            // color: '#aed2ff'
+          },
+          // borderColor: '#d5dbe4',
+          width: '95%',
+          height: '8%',
+          handleSize: '100%',
           dataBackground: {
-            lineStyle: {
-              color: '#18191d'
-            },
             areaStyle: {
-              color: '#2f3034'
+              // color: '#cad2db'
+            },
+            lineStyle: {
+              /* opacity: 0.9,
+               color: '#a7b7cc'*/
             }
           },
           handleStyle: {
-            color: '#0d0e0f'
-          },
-          backgroundColor: '#4d4e52',
-          fillerColor: '#4d4e52',
-          borderColor: 'none'
+            // color: '#a7b7cc'
+          }
         }],
         series: [{
-          name: topicName,
-          type: 'line',
-          smooth: true,
-          data: topicReturnRate,
-          lineStyle: { // 网格线
-            normal: {
-              color: '#CA4A41'
-            }
-          },
-          itemStyle: { // 折线拐点标志的样式
-            normal: {
-              opacity: 0,
-              color: '#CA4A41'
-            }
-          },
-          markPoint: { // 图标标注
-            data: [{
-              type: 'max',
-              name: '最大值'
-            },
-            {
-              type: 'min',
-              name: '最小值'
-            }
-            ],
-            label: {
+            name: topicName,
+            type: 'line',
+            smooth: true,
+            data: topicReturnRate,
+            lineStyle: { // 网格线
               normal: {
-                show: false
+                color: '#1984ea'
               }
             },
-            symbolSize: 10, // 标记大小
-            symbol: '' // 标记的图形
-          }
-        },
-        {
-          name: '沪深300',
-          type: 'line',
-          smooth: true,
-          data: hs300ReturnRate,
-          lineStyle: {
-            normal: {
-              color: '#2388DA'
-            }
-          },
-          itemStyle: {
-            normal: {
-              opacity: 0,
-              color: '#2388DA'
-            }
-          },
-          markPoint: { // 图标标注
-            data: [{
-              type: 'max',
-              name: '最大值'
-            },
-            {
-              type: 'min',
-              name: '最小值'
-            }
-            ],
-            label: {
+            itemStyle: { // 折线拐点标志的样式
               normal: {
-                show: false
+                opacity: 0,
+                color: '#1984ea'
               }
             },
-            symbolSize: 10, // 标记大小
-            symbol: '' // 标记的图形
+            markPoint: { // 图标标注
+              data: [{
+                  type: 'max',
+                  name: '最大值'
+                },
+                {
+                  type: 'min',
+                  name: '最小值'
+                }
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              symbolSize: 10, // 标记大小
+              symbol: '' // 标记的图形
+            }
+          },
+          {
+            name: '沪深300',
+            type: 'line',
+            smooth: true,
+            data: hs300ReturnRate,
+            lineStyle: {
+              normal: {
+                color: '#ca4941'
+              }
+            },
+            itemStyle: {
+              normal: {
+                opacity: 0,
+                color: '#ca4941'
+              }
+            },
+            markPoint: { // 图标标注
+              data: [{
+                  type: 'max',
+                  name: '最大值'
+                },
+                {
+                  type: 'min',
+                  name: '最小值'
+                }
+              ],
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              symbolSize: 10, // 标记大小
+              symbol: '' // 标记的图形
+            }
           }
-        }
         ]
 
       })
     },
-    format (date) {
+    format(date) {
       return formatDate(date)
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
+        return '--'
+      }
+      if (str === undefined) {
         return '--'
       } else {
         return str
       }
     },
-    updateStock (stock) {
+    cutStr(str, len) {
+      return cutString(str, len)
+    },
+    updateStock(stock) {
       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
     },
-    subscribeStock () {
+    subscribeStock() {
       const msg = {
         subject: 'snapshot',
         type: '1',
@@ -1168,31 +1370,28 @@ export default {
       }
       this.$store.dispatch('z3sockjs/send', msg)
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     }
-    /* this.$store.dispatch('stockMap/queryRangeByCode', { code: this.rangeCode })
-                        .then(() => {
-                          this.chart.setOption({*/
-    /* drawCharts () {
-      const myChart = echarts.init(document.getElementById('chart'))*/
 
   },
-  created () {
+  created() {
     window.addEventListener('resize', this.handleResize)
   },
-  mounted () {
+  mounted() {
     this.initChart()
-    this.initStockList()
+    this.initStockList('recommendIndex')
     this.initInformatList()
     console.log(this.fullHeight2)
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
+    console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
+    console.log(document.documentElement.clientHeight - 166)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
   }
 }

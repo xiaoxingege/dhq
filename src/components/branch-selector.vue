@@ -14,20 +14,21 @@ import {
 import cookie from 'component-cookie'
 
 export default {
-  data () {
+  data() {
     return {
 
     }
   },
   computed: mapState({}),
-  mounted () {
+  mounted() {
 
   },
   methods: {
-    setCookie () {
+    setCookie() {
       cookie('__branch', this.$refs.branch.value, {
         maxage: 1000 * 3600 * 24 * 30
       })
+      location.reload();
     }
   }
 }

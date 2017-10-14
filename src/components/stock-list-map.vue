@@ -86,9 +86,9 @@ td {
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
-    <span v-z3-updowncolor="titleChngPct">{{titleChngPct}}</span>
-    <span class="stock-down fr">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span v-z3-updowncolor="titleChngPct" v-if="condition === 'mkt_idx.cur_chng_pct'">{{titleChngPct}}%</span>
+    <span class="stock-down fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -106,7 +106,7 @@ td {
           <div class="stocklist-chart" ref="chart"></div>
         </td>
         <td class="price">{{stock.price}}</td>
-        <td class="change" :style="{color:stock.itemStyle.normal.color}">{{stock.perfText}}</td>
+        <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
       </tr>
     </tbody>
   </table>
@@ -123,8 +123,8 @@ export default {
       stockListTop: 0,
       titlePrice: 0,
       titleChngPct: '',
-      stockUpNo: '',
-      stockDownNo: ''
+      stockUpNo: 0,
+      stockDownNo: 0
     }
   },
   watch: {
@@ -185,7 +185,9 @@ export default {
   },
   methods: {
     updateChart: function () {
-      this.stockList = this.parent.children
+      if (this.parent.children) {
+        this.stockList = this.parent.children
+      }
       this.$store.dispatch('stockMap/stockChartData', {
         stockId: this.stockId,
         code: this.indexCode
@@ -243,12 +245,12 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-          this.stockUpNo = ''
-          this.stockDownNo = ''
+          this.stockUpNo = 0
+          this.stockDownNo = 0
           this.stockList.forEach(function (stock) {
-            if (stock.perf >= 0) {
+            if (stock.perf && stock.perf >= 0) {
               _this.stockUpNo++
-            } else {
+            } else if (stock.perf && stock.perf < 0) {
               _this.stockDownNo++
             }
             stock.chartData = _this.stockChartData[stock.name]

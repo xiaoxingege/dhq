@@ -26,6 +26,7 @@
     border: 1px solid #23272c;
     text-align: right;
     padding-right: 20px;
+    height: auto;
 }
 .sectors-table:nth-child(1) td {
     color: #ca4941;
@@ -46,7 +47,8 @@
     border-left-width: 0;
 }
 .sectors-table tr td:first-child {
-    text-align: center;
+    text-align: left;
+    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
 }
@@ -72,16 +74,16 @@
   <div class="sectors-table-wrap clearfix">
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{key === null?'--':key}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
+        <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+        <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}">{{key === null?'--':key}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
-        <td>{{value === null?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
+        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
+        <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+        <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
   </div>
@@ -94,7 +96,7 @@ import DataTable from 'components/z3touguhome/data-table'
 import StockBox from 'components/stock-box'
 export default {
   props: ['strategyId'],
-  data() {
+  data () {
     return {
       navText: [
         ['上证A股', 'SHQuote'],
@@ -113,7 +115,9 @@ export default {
     }
   },
   watch: {
-    type() {
+    type () {
+      /* this.rankUp = {}
+      this.rankDown = {}*/
       this.initSectors() // 点击板块标签初始化表格数据
     }
   },
@@ -123,34 +127,32 @@ export default {
     StockBox
   },
   computed: {
-    shangZRankData: function() {
+    shangZRankData: function () {
       const shangZRankData = this.$store.state.z3touguIndex.shangZRank // 上证A股
       return shangZRankData
     },
-    shenZRankData: function() {
+    shenZRankData: function () {
       const shenZRankData = this.$store.state.z3touguIndex.shenZRank // 深证A股
       return shenZRankData
     },
-    zXBRankData: function() {
+    zXBRankData: function () {
       const zXBRankData = this.$store.state.z3touguIndex.zXBRank // 中小板
       return zXBRankData
     },
-    cYBRankData: function() {
+    cYBRankData: function () {
       const cYBRankData = this.$store.state.z3touguIndex.cYBRank // 创业板
       return cYBRankData
     }
   },
   methods: {
-    changeNavType(data) {
+    changeNavType (data) {
       this.type = data
     },
-    initSectors(date) {
+    initSectors (date) {
       this.$store.dispatch('z3touguIndex/getSectorsData', {
-          size: this.size
-        })
+        size: this.size
+      })
         .then(() => {
-          this.rankUp = {}
-          this.rankDown = {}
           if (this.type === 'SHQuote') {
             this.rankUp = this.shangZRankData['1']
             this.rankDown = this.shangZRankData['-1']
@@ -166,26 +168,33 @@ export default {
           }
         })
     },
-    autoUpdate: function() {
+    autoUpdate: function () {
       const _this = this
       if (this.updateDataPid) {
         clearInterval(this.updateDataPid)
       } else {
-        this.updateDataPid = setInterval(function() {
+        this.updateDataPid = setInterval(function () {
           _this.initSectors()
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function(innerCode) {
+    linkStock: function (innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toStockList: function(type) {
+    toStockList: function (type) {
       window.open(type)
+    },
+    formateData: function (value) {
+      if (value) {
+        return false
+      } else {
+        return true
+      }
     }
   },
-  mounted() {
+  mounted () {
     this.initSectors()
     this.autoUpdate()
   }

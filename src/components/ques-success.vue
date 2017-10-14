@@ -7,10 +7,12 @@
     background: url("../assets/images/ques-alading/success-i1.png") no-repeat;
     background-size: 100% 100%;
 }
+
 .ques-success-box {
     float: left;
     margin: 0.63rem 0 0 0.99rem;
 }
+
 .ques-success-box i {
     width: 0.88rem;
     height: 2.2rem;
@@ -18,26 +20,32 @@
     background-size: 100% 100%;
     float: left;
 }
+
 .ques-success-box div {
     width: 5rem;
     float: left;
     margin: 0 0 0.5rem 0.3rem;
     color: #fff;
 }
+
 .ques-success-box div h3 {
     font-size: 0.42rem;
     font-weight: normal;
 }
+
 .ques-success-box div h4 {
     font-size: 0.32rem;
     font-weight: normal;
 }
+
 .ques-success-box div p {
     font-size: 0.26rem;
 }
+
 .ques-detail-list {
     width: 100%;
 }
+
 .ques-detail-list h3 {
     font-size: 0.3rem;
     color: #555;
@@ -47,16 +55,19 @@
     padding: 0 2.5%;
     font-weight: normal;
 }
+
 .ques-detail-list li {
     width: 100%;
     background-color: #fff;
     margin-bottom: 0.2rem;
     position: relative;
 }
+
 .ques-tg-list-box {
     width: 95%;
     padding: 0.3rem 2.5%;
 }
+
 .ques-tg-list-box h5 {
     font-size: 0.34rem;
     color: #333;
@@ -64,9 +75,11 @@
     border-bottom: 0.01rem #e6e6e6 solid;
     padding-bottom: 0.2rem;
 }
+
 .ques-tg-list-box h5 a {
     color: #333;
 }
+
 .ques-tg-list-box .niceLink {
     color: #333;
     width: 100%;
@@ -76,6 +89,7 @@
     left: 0;
     z-index: 1;
 }
+
 .ques-tg-list-box img {
     width: 0.6rem;
     height: 0.6rem;
@@ -83,18 +97,21 @@
     margin-top: 0.32rem;
     border-radius: 50%;
 }
+
 .ques-tg-list-box p {
     width: 6rem;
     float: left;
     margin: 0.3rem 0 0 0.2rem;
     position: relative;
 }
+
 .ques-tg-list-box p span {
     font-size: 0.26rem;
     color: #666;
     float: left;
     width: 100%;
 }
+
 .ques-tg-list-box p em {
     font-size: 0.24rem;
     color: #aaa;
@@ -103,6 +120,7 @@
     right: 0;
     top: 0;
 }
+
 .ques-tg-list-box p strong {
     font-size: 0.3rem;
     color: #555;
@@ -110,11 +128,12 @@
     font-weight: normal;
     margin-top: 0.1rem;
 }
+
 .ques-tg-list-box p strong a {
     color: #2e7cd7;
 }
-// 111
-.circleProgress_wrapper {
+
+/ / 111 .circleProgress_wrapper {
     width: 2.46rem;
     height: 3.4rem;
     position: relative;
@@ -207,6 +226,7 @@
     font-size: 0.26rem;
     color: #ff5e33;
 }
+
 .ques-success-load-desc {
     position: absolute;
     bottom: 0;
@@ -214,11 +234,13 @@
     width: 3.8rem;
     text-align: center;
 }
+
 .ques-success-load-desc h3 {
     font-size: 0.38rem;
     color: #fff;
     font-weight: normal;
 }
+
 .ques-success-load-desc p {
     font-size: 0.24rem;
     color: #fff;
@@ -274,7 +296,8 @@
               <span>{{item.lastedAnswer.adviserUser.userName}}</span>
               <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
               <strong v-html="item.lastedAnswer.content" v-if="focusResult && focusShow"></strong>
-              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
+                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
               <strong v-else>请在手机百度APP中查看</strong>
             </p>
           </div>
@@ -292,7 +315,8 @@
               <span>{{item.userInfo.userName}}</span>
               <em>{{moment(parseInt(item.answerTime))}}</em>
               <strong v-html="item.answerContent" v-if="focusResult && focusShow"></strong>
-              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;" @click="authorize">金融界</a>，查看回答详情</strong>
+              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
+                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
               <strong v-else>请在手机百度APP中查看</strong>
             </p>
           </div>
@@ -311,13 +335,13 @@ import moment from 'moment'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-  data () {
+  data() {
     var _this = this
-    setTimeout(function () {
+    setTimeout(function() {
       _this.quesSuccessLoadShow = false
       clearInterval(numAdSet)
     }, 1000)
-    var numAdSet = setInterval(function () {
+    var numAdSet = setInterval(function() {
       _this.numAdd()
     }, 100)
     return {
@@ -344,7 +368,7 @@ export default {
     quesNav
   },
   methods: {
-    moment (time, format) {
+    moment(time, format) {
       if (format) {
         return moment(time).format(format)
       } else {
@@ -357,17 +381,17 @@ export default {
         })
       }
     },
-    navBak () {
+    navBak() {
       history.back()
       //   window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
-    navEvents () {
+    navEvents() {
       window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
     },
-    numAdd () {
+    numAdd() {
       this.num = this.num + Math.floor(Math.random() * 900) + 100
     },
-    authorize () {
+    authorize() {
       if (this.userId) {
         window.cambrian.subscribe({
           data: {
@@ -376,16 +400,16 @@ export default {
             describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
             button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          success: function (res) {
+          success: function(res) {
             location.reload()
             // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
           },
-          fail: function (res) {
+          fail: function(res) {
             // res结构如下，可通过status、msg判断错误原因
             // 如：{"status": 100, "msg":"not login", "result": 0}
           },
-          complete: function (res) {
+          complete: function(res) {
             // res结构如下，
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
           }
@@ -395,7 +419,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     if (getQueryString('success') === 'true') {
       this.quesSuccessLoadShow = false
     } else {
@@ -440,23 +464,23 @@ export default {
             describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
             button: '关注并继续' // 按钮文字，字数限制：2-6个字
           },
-          success: function (res) {
+          success: function(res) {
             location.reload()
             // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
           },
-          fail: function (res) {
+          fail: function(res) {
             // res结构如下，可通过status、msg判断错误原因
             // 如：{"status": 100, "msg":"not login", "result": 0}
           },
-          complete: function (res) {
+          complete: function(res) {
             // res结构如下，
             // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
           }
         })
       }
       window.cambrian.isBox({
-        success: function (res) {
+        success: function(res) {
           // res结构如下，result字段，在手百环境返回ture，否则返回false
           // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
           if (res.result) {

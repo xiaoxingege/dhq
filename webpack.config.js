@@ -79,7 +79,7 @@ module.exports = {
       exclude: /(node_modules|plugins)/,
       loader: 'eslint-loader',
       options: {
-        fix: true
+        // fix: true
       }
     }, {
       test: /\.vue$/,

@@ -12,6 +12,7 @@
     border-radius: 0.1rem;
     z-index: 11;
 }
+
 .close {
     width: 0.28rem;
     height: 0.28rem;
@@ -21,6 +22,7 @@
     background: url("../assets/images/ques-alading/close.png") no-repeat;
     background-size: 100% 100%;
 }
+
 .ques-license-user {
     width: 90%;
     padding: 0 5%;
@@ -29,23 +31,27 @@
     height: 0.6rem;
     line-height: 0.6rem;
 }
+
 .ques-license-user img {
     width: 0.6rem;
     height: 0.6rem;
     float: left;
     border-radius: 50%;
 }
+
 .ques-license-user strong {
     font-size: 0.3rem;
     color: #333;
     float: left;
     margin-left: 0.24rem;
 }
+
 .ques-license-user a {
     font-size: 0.26rem;
     color: #2e7cd7;
     float: right;
 }
+
 .ques-license button {
     width: 90%;
     background-color: #3388ff;
@@ -59,6 +65,7 @@
     line-height: 0.9rem;
     font-size: 0.32rem;
 }
+
 .ques-license p {
     font-size: 0.26rem;
     color: #555;
@@ -66,17 +73,20 @@
     padding: 0 5%;
     float: left;
 }
+
 .ques-license-checkbox {
     width: 90%;
     float: left;
     padding: 0.3rem 5%;
     height: 0.3rem;
 }
+
 .ques-license-checkbox input {
     width: 0.3rem;
     height: 0.3rem;
     float: left;
 }
+
 .ques-license-checkbox span {
     font-size: 0.24rem;
     color: #999;
@@ -107,7 +117,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       //   txtVal: '0'
     }
@@ -121,11 +131,11 @@ export default {
     // quesSearch
   },
   methods: {
-    close () {
+    close() {
       this.$emit('licenseClose')
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

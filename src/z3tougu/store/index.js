@@ -18,6 +18,7 @@ import funcArchives from 'stores/fund-archives'
 import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
+import finance from 'stores/finance'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -63,7 +64,7 @@ const getters = {
   }
 }
 const actions = {
-  authSetting({
+  authSetting ({
     state,
     commit
   }) {
@@ -91,10 +92,10 @@ const actions = {
   }
 }
 const mutations = {
-  [mutationTypes.REQUEST_ERROR](state, error) {
+  [mutationTypes.REQUEST_ERROR] (state, error) {
     // state.error = error.message
   },
-  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
+  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
       clientid: authInfo.clientid,
@@ -130,6 +131,7 @@ export default new Vuex.Store({
     fundRecord,
     filter,
     backtestDetailH5,
-    indexChart
+    indexChart,
+    finance
   }
 })

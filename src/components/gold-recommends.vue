@@ -1,19 +1,18 @@
 <style lang="scss" scoped>
-.choseStock {
-    padding-top: 20px;
-}
-.sellCondition {
-    padding: 15px;
+.choseStock .tableList {
+    background: #141518;
 }
 .controlStrategy {
     padding: 20px 15px;
     font-size: 14px;
+    color: #c9d0d7;
 }
-.sellCondition tr td {
-    color: #696969 !important;
+.controlStrategy p {
+    line-height: 25px;
 }
-.sellCondition tr:first-child td {
-    color: #a5a5a5 !important;
+
+.tradeParams {
+    padding-top: 20px;
 }
 .tradeParams tr:nth-child(2n) td {
     font-weight: bold !important;
@@ -34,37 +33,32 @@
         font-size: 0.18rem;
         text-align: left;
     }
-    .sellCondition tr td {
-        color: #696969 !important;
-    }
-    .sellCondition tr:first-child td {
-        color: #a5a5a5 !important;
-    }
 }
 </style>
 <template>
 <div>
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
 
-  <div v-if="type === 'choseStock'" class="choseStock">
+  <div v-if="type === 'choseStock'" class="choseStock choseStockWeb">
     <Tablelist :data="choseStockData"></Tablelist>
   </div>
-  <div v-if="type === 'sellCondition'" class="sellCondition">
-    <div style="margin-bottom: 20px;">
-      <div>买入条件</div>
-      <Tablelist :data="sellConditionData.buyData"></Tablelist>
-      <div>买入表达式：{{data.sellConditiondata.buy.buyConExp}}</div>
-    </div>
+  <div v-if="type === 'buyCondition'" class="sellCondition  sellConditionWeb">
     <div>
-      <div>卖出条件</div>
+      <Tablelist :data="sellConditionData.buyData"></Tablelist>
+      <div style="color:#d3d9dd; line-height: 42px;">买入表达式：{{data.sellConditiondata.buy.buyConExp}}</div>
+    </div>
+  </div>
+  <div v-if="type === 'sellCondition'" class="sellCondition  sellConditionWeb">
+    <div>
       <Tablelist :data="sellConditionData.sellData"></Tablelist>
-      <div>卖出表达式：{{data.sellConditiondata.sell.sellConExp}}</div>
+      <div style="color:#d3d9dd; line-height: 42px;">卖出表达式：{{data.sellConditiondata.sell.sellConExp}}</div>
     </div>
   </div>
   <div v-if="type === 'controlStrategy'" class="controlStrategy">
-    {{data.positionModel.modelName}}：<span style="color:#666;">{{data.positionModel.modelValue}}</span>
+    <p>{{data.positionModel.modelName}}：</p>
+    <p>{{data.positionModel.modelValue}}</p>
   </div>
-  <div v-if="type === 'tradeParams'" class="tradeParams">
+  <div v-if="type === 'tradeParams'" class="tradeParams tradeParamsWeb">
     <Tablelist :data="tradeParamData"></Tablelist>
   </div>
 </div>
@@ -79,7 +73,8 @@ export default {
     return {
       navText: [
         ['选股条件', 'choseStock'],
-        ['买卖条件', 'sellCondition'],
+        ['买入条件', 'buyCondition'],
+        ['卖出条件', 'sellCondition'],
         ['仓控策略', 'controlStrategy'],
         ['交易参数', 'tradeParams']
       ],
@@ -184,8 +179,8 @@ export default {
         [tableData.initFund, tableData.fundAllocate, tableData.buyPriceType, tableData.sellPriceType, tableData.backtestDate],
         ['最大持仓', '个股最大仓位', '条件优先序', '交易费用', '调仓周期'],
         [tableData.maxHolding, tableData.stockMaxHolding, tableData.conPriority, tableData.commission, tableData.tradeCycle],
-        ['买卖滑点', '收益基准', '无风险利率'],
-        [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio]
+        ['买卖滑点', '收益基准', '无风险利率', '入选股排序'],
+        [tableData.slippage, tableData.benchmark, tableData.riskFreeRatio, tableData.stockSort]
       ]
     }
 

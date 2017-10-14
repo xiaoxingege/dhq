@@ -9,7 +9,7 @@ html {
     font-size: 12px;
 }
 .map {
-    background-color: #1a1b1e;
+    background-color: #141518;
     height: 100%;
     min-width: 1217px;
 }
@@ -29,7 +29,12 @@ html {
     color: #fff;
     border: none;
     padding-left: 10px;
-    background: url("../assets/images/stock-map/tuXi_select.png") no-repeat scroll right center transparent;
+    background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
+    background-color: #23272c;
+    height: 22px;
+    background-position-x: 95%;
+    border-radius: 3px;
+    line-height: 22px;
 }
 .condition select option:first-child {
     border-top-left-radius: 3px;
@@ -39,9 +44,12 @@ html {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .code-select {
     width: 150px;
+    margin-right: 30px;
 }
+
 .condition-select {
     width: 166px;
 }
@@ -49,11 +57,14 @@ html {
     border: none;
     outline: none;
 }
+
 .condition select option {
     -webkit-appearance: none;
-    color: #000;
+    background-color: #cccfd9;
+    color: #666;
     display: inline-block;
-    height: 30px;
+    /* height: 30px;
+    padding: 50px;*/
 }
 .condition_wrap {
     height: 35px;

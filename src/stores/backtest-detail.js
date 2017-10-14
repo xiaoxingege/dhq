@@ -58,7 +58,8 @@ export default {
     buyStocks: [], // 买入卖出
     buyPageSize: BUY_PAGE_SIZE,
     buyPage: 1,
-    buyTotalPage: 0
+    buyTotalPage: 0,
+    buysell: [] // 新买入卖出
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
@@ -85,6 +86,9 @@ export default {
     updateBuyPage (state, options) {
       console.log(options.totalPages)
       state.buyTotalPage = options.totalPages
+    },
+    updateBuysellStocks (state, buysell) {
+      state.buysell = buysell
     },
     updateNowStock (state, stock) {
       state.nowStock = stock
@@ -176,6 +180,24 @@ export default {
         }
       })
     },
+    queryBuysellStocks ({
+      commit
+    }, {
+      strategyId,
+      backtestDate,
+      sort
+    }) {
+      fetch(`${domain}/openapi/backtest/filterStrategy/buySellStocks.shtml?strategyId=${strategyId}&backtestDate=${backtestDate}&direction=${sort}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          console.log(result.data)
+          commit('updateBuysellStocks', result.data)
+        }
+      })
+    },
     queryNowStock ({
       commit
     }, {
@@ -239,7 +261,7 @@ export default {
     }, {
       keyword
     }) {
-      return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}`, {
+      return fetch(`${domain}/openapi/search/stock.shtml?w=${keyword}&size=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
