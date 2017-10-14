@@ -266,7 +266,7 @@ export default {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
-      groupid: 4973837,
+      groupid: 10428569,
       dataarr1: [],
       dataarr2: [],
       dataarr3: [],
