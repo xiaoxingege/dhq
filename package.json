@@ -25,9 +25,6 @@
     "branch-selector": {
       "port": 3300
     },
-    "ques_alading": {
-      "port": 3000
-    },
     "z3tougu": {
       "port": 3000
     }
