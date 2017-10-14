@@ -226,19 +226,23 @@
   color:#333;
   text-align:center;
 }
+#pop-ensure .ensure-hint{
+  position: relative;
+}
 .ensure-hint{
   height: 0.4rem;
   width:2.2rem;
   margin:0.2rem auto 0;
   line-height: 0.4rem;
-  overflow:hidden;
 }
 .pop-hint .ensure-hint{
   width:100%;
   height: auto;
 }
 .ensure-hint span{
-  float: left;
+  position: absolute;
+  top:0;
+  left:0;
   width:0.4rem;
   height: 0.4rem;
   margin-right: 0.12rem;
@@ -251,8 +255,17 @@
   background: url(../assets/images/lucky-draw/ensure-icon-true.png) center no-repeat;
   background-size: 100%;
 } 
+#pop-ensure .ensure-text{
+  top:0;
+  left:0.52rem;
+  position: absolute;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  width:3.5rem;
+  text-align: left;
+}
 .ensure-text{
-  float: left;
+  /*float: left;*/
   font-size: 0.28rem;
   line-height: 0.43rem;
   color:#8d2b00;
@@ -362,7 +375,7 @@
   <div class="award-info">
     <h2>一. 活动简介</h2>
     <p>活动期间，用户登录进入大转盘，每次抽奖需要扣除{{consumenum}}金豆（具体扣除以实际活动为准），扣除的金豆不退还，每天参与抽奖次数不限;</p>
-    <p>请注意：此次活动点击“开始抽奖”会立即金豆，请知晓，谢谢。</p>
+    <p>请注意：此次活动点击“开始抽奖”会立减金豆，请知晓，谢谢。</p>
     <h2>二.面向用户</h2>
     <p>金融界App所有登录用户</p>
     <h2>三.中奖商品发放期限及方式</h2>
