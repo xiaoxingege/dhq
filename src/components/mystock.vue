@@ -167,7 +167,7 @@ body {
   <div class="alldata clearfix">
     <div class="data_l fl">
       <div class="data_hd">
-        <span v-if="typeurl == 1">股票名称</span>
+        <span v-if="typeurl == 1">股票名称2</span>
         <span v-if="typeurl == 2">概念</span>
         <span v-if="typeurl == 3">行业</span>
       </div>
@@ -266,7 +266,7 @@ export default {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
-      groupid: 4973837,
+      groupid: this.getQueryString('groupid'),
       dataarr1: [],
       dataarr2: [],
       dataarr3: [],
@@ -316,9 +316,6 @@ export default {
         return
       }
       window.callbackgobtninfo = function (t) {
-        if (typeof t === 'string') {
-          t = JSON.parse(t)
-        }
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
       if (window.jrj && window.jrj.jsCallNative) {
