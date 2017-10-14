@@ -546,6 +546,7 @@ export default {
       }).then(() => {
         this.$refs.treemap.style.left = 0
         this.$refs.treemap.style.top = 0
+        this.scale = 1;
         this.initOption(this.mapData)
         /* this.chart && this.chart.setOption({
           series: [{
