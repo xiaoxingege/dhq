@@ -370,7 +370,7 @@ export default {
             if (stockData) {
               if (_this.condition === 'act_date') {
                 stock.perf = stockData[stock.name]
-                if (stock.perf !== null && typeof(stock.perf) !== 'undefined') {
+                if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   const pbDate = new Date(stock.perf)
                   const nowDate = new Date()
                   stock.perfText = _this.dateFormatUtil(pbDate)
@@ -391,7 +391,7 @@ export default {
                 }
               } else {
                 stock.perf = stockData[stock.id] || stockData[stock.name]
-                if (stock.perf !== null && typeof(stock.perf) !== 'undefined') {
+                if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
                       if (stock.perf >= 0) {
@@ -546,7 +546,7 @@ export default {
       }).then(() => {
         this.$refs.treemap.style.left = 0
         this.$refs.treemap.style.top = 0
-        this.scale = 1;
+        this.scale = 1
         this.initOption(this.mapData)
         /* this.chart && this.chart.setOption({
           series: [{
@@ -647,7 +647,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof(params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof params.data.perf !== 'undefined' && params.data.perf !== null) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
@@ -746,7 +746,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof(params.data.perf) !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof params.data.perf !== 'undefined' && params.data.perf !== null) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText

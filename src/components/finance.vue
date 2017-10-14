@@ -14,9 +14,9 @@
 </style>
 <template>
 <div class="finance">
-  <p><span>总股本(万股)：</span><span v-if="financeData !== null">{{financeData.totlNum === null ? '--':financeData.totlNum}}</span></p>
+  <p><span>总股本(万股)：</span><span v-if="financeData !== null">{{financeData.totlNum === null ? '--':(financeData.totlNum/10e3).toFixed(2)}}</span></p>
 
-  <p><span>流通A股(万股)：</span><span v-if="financeData !== null">{{financeData.aMktNum === null ? '--':financeData.aMktNum}}</span></p>
+  <p><span>流通A股(万股)：</span><span v-if="financeData !== null">{{financeData.aMktNum === null ? '--':(financeData.aMktNum/10e3).toFixed(2)}}</span></p>
 
   <p><span>股东总数(A股)：</span><span v-if="financeData !== null">{{financeData.total_hld_a === null ? '--':financeData.total_hld_a}}</span>
   </p>
@@ -51,10 +51,10 @@
   <p><span>速动比率：</span><span v-if="financeData !== null">{{financeData.finData.quickRatio === null ? '--':financeData.finData.quickRatio}}</span>
   </p>
 
-  <p><span>总市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.tcap === null ? '--':financeData.marketData.tcap}}</span>
+  <p><span>总市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.tcap === null ? '--':(financeData.marketData.tcap/10e7).toFixed(2)}}</span>
   </p>
 
-  <p><span>流通A股市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.mktcap === null ? '--':financeData.marketData.mktcap}}</span>
+  <p><span>流通A股市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.mktcapA === null ? '--':(financeData.marketData.mktcap/10e7).toFixed(2)}}</span>
   </p>
 
   <p><span>每股收益(元)：</span><span v-if="financeData !== null">{{financeData.marketData2.epsTtm === null ? '--':financeData.marketData2.epsTtm}}</span>
@@ -81,22 +81,22 @@
   <p><span>投资回报率：</span><span v-if="financeData !== null">{{financeData.finData.roic === null ? '--':financeData.finData.roic+'%'}}</span>
   </p>
 
-  <p><span>营业收入(万元)：</span><span v-if="financeData !== null">{{financeData.finData.sale === null ? '--':financeData.finData.sale}}</span>
+  <p><span>营业收入(万元)：</span><span v-if="financeData !== null">{{financeData.finData.sale === null ? '--':(financeData.finData.sale/10e3).toFixed(2)}}</span>
   </p>
 
-  <p><span>营业总收入(万元)：</span><span v-if="financeData !== null">{{financeData.finData.totRevenue === null ? '--':financeData.finData.totRevenue}}</span>
+  <p><span>营业总收入(万元)：</span><span v-if="financeData !== null">{{financeData.finData.totRevenue === null ? '--':(financeData.finData.totRevenue/10e3).toFixed(2)}}</span>
   </p>
 
-  <p><span>资产总计(万元)：</span><span v-if="financeData !== null">{{financeData.total_asset === null ? '--':financeData.total_asset}}</span>
+  <p><span>资产总计(万元)：</span><span v-if="financeData !== null">{{financeData.total_asset === null ? '--':(financeData.total_asset/10e3).toFixed(2)}}</span>
   </p>
 
-  <p><span>总负债(万元)：</span><span v-if="financeData !== null">{{financeData.total_debts === null ? '--':financeData.total_debts}}</span>
+  <p><span>总负债(万元)：</span><span v-if="financeData !== null">{{financeData.total_debts === null ? '--':(financeData.total_debts/10e3).toFixed(2)}}</span>
   </p>
 
-  <p><span>股东权益(万元)：</span><span v-if="financeData !== null">{{financeData.marketData2.netAsset === null ? '--':financeData.marketData2.netAsset}}</span>
+  <p><span>股东权益(万元)：</span><span v-if="financeData !== null">{{financeData.marketData2.netAsset === null ? '--':(financeData.marketData2.netAsset/10e3).toFixed(2)}}</span>
   </p>
 
-  <p><span>资本公积(万元)：</span><span v-if="financeData !== null">{{financeData.cap_reserve === null ? '--':financeData.cap_reserve}}</span>
+  <p><span>资本公积(万元)：</span><span v-if="financeData !== null">{{financeData.cap_reserve === null ? '--':(financeData.cap_reserve/10e3).toFixed(2)}}</span>
   </p>
 
   <p><span>总负债/股东权益：</span><span v-if="financeData !== null">{{financeData.finData.totLiabEqu === null ? '--':financeData.finData.totLiabEqu}}</span>
@@ -117,7 +117,7 @@
   <p><span>股息支付率：</span><span v-if="financeData !== null">{{financeData.divPct === null ? '--':financeData.divPct+'%'}}</span>
   </p>
 
-  <p><span>净利润(万元)：</span><span v-if="financeData !== null">{{financeData.net_profit === null ? '--':financeData.net_profit}}</span>
+  <p><span>净利润(万元)：</span><span v-if="financeData !== null">{{financeData.net_profit === null ? '--':(financeData.net_profit/10e3).toFixed(2)}}</span>
   </p>
 
   <p><span>报告日期：</span><span v-if="financeData !== null">{{financeData.finData.finEnddate === null ? '--':formatDate(new Date(financeData.finData.finEnddate))}}</span>
@@ -130,11 +130,11 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data () {
+  data() {
     return {}
   },
   methods: {
-    formatDate (time) {
+    formatDate(time) {
       const year = time.getFullYear()
       let month = time.getMonth() + 1
       const date = time.getDate()
@@ -147,7 +147,7 @@ export default {
   computed: mapState({
     financeData: state => state.finance.financeData
   }),
-  mounted () {
+  mounted() {
     const stockCode = this.$route.query.stockCode
     this.$store.dispatch('finance/getFinData', {
       stockCode: stockCode
