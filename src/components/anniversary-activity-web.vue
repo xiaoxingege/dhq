@@ -185,8 +185,8 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data() {
-    $(function() {
+  data () {
+    $(function () {
       if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
         localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
       } else {
@@ -199,7 +199,7 @@ export default {
       }).then(data => {
         $('.footer img').attr('src', 'http://wx.jrj.com.cn' + data.imgurl)
       })
-      $('.nav-fixed a').click(function() {
+      $('.nav-fixed a').click(function () {
         var index = $(this).index() + 2
         var pos = $('.bg' + index).offset().top
         // 实现平滑移动 1000代表时间ms
@@ -230,13 +230,13 @@ export default {
           marginTop: '-34px'
         },
         list: [{
-            imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner1.png'),
-            link: ''
-          },
-          {
-            imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner2.png'),
-            link: ''
-          }
+          imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner1.png'),
+          link: ''
+        },
+        {
+          imgUrl: require('assets/images/anniversary-activity/anniversary-web-banner2.png'),
+          link: ''
+        }
         ]
       },
       popShow: false,
@@ -248,16 +248,16 @@ export default {
     activitySlider
   },
   methods: {
-    popClick() {
+    popClick () {
       var codeSrc = $('.footer img').attr('src')
       this.codeImg = codeSrc
       this.popShow = true
     },
-    close() {
+    close () {
       this.popShow = false
     }
   },
-  mounted() {
+  mounted () {
     document.title = '辉煌金融界上市13周年庆'
   }
 }
