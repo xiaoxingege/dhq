@@ -54,7 +54,7 @@
   <p><span>总市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.tcap === null ? '--':(financeData.marketData.tcap/10e7).toFixed(2)}}</span>
   </p>
 
-  <p><span>流通A股市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.mktcapA === null ? '--':(financeData.marketData.mktcap/10e7).toFixed(2)}}</span>
+  <p><span>流通A股市值(亿元)：</span><span v-if="financeData !== null">{{financeData.marketData.mktcapA === null ? '--':(financeData.marketData.mktcapA/10e7).toFixed(2)}}</span>
   </p>
 
   <p><span>每股收益(元)：</span><span v-if="financeData !== null">{{financeData.marketData2.epsTtm === null ? '--':financeData.marketData2.epsTtm}}</span>
