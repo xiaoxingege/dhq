@@ -80,7 +80,7 @@ input {
     height: 1.57rem;
     position: fixed;
     bottom: -0.01rem;
-    background: url("../assets/images/anniversary-activity/anniversary-h5-footer.png") center 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-h5-footer-1.png") center 0 no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -125,6 +125,14 @@ input {
     position: absolute;
     right: 0.31rem;
     top: -0.18rem;
+    display: none;
+}
+.footer .box-con div {
+    width: 2.89rem;
+    height: 0.63rem;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.43rem;
 }
 .jzxgLink {
     width: 1.93rem;
@@ -185,6 +193,7 @@ input {
     <div class="footer">
         <div class="box-con">
             <img src="" />
+            <div @click="popClick" class="clipboard" data-clipboard-text=""></div>
         </div>
     </div>
     <div class='fixBg' v-if="popShow"></div>
@@ -210,97 +219,97 @@ import Clipboard from '../assets/plugins/clipboard/clipboard.min.js'
 window.Clipboard = Clipboard
 
 export default {
-  data () {
-    $(function () {
-      if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
-        localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
-      } else {
-        localStorage.QcodeNum = '1'
-      }
-      $.ajax({
-        url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
-        dataType: 'jsonp',
-        jsonpCallback: 'callback'
-      }).then(data => {
-        $('.footer img').attr({
-          'src': 'http://wx.jrj.com.cn' + data.imgurl,
-          'qcode': data.wxid
-        })
-        $('.clipboard').attr('data-clipboard-text', data.wxid)
-      })
-      $('.nav-fixed a').click(function () {
-        var index = $(this).index() + 2
-        var pos = $('.bg' + index).offset().top
+    data() {
+        $(function() {
+            if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
+                localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
+            } else {
+                localStorage.QcodeNum = '1'
+            }
+            $.ajax({
+                url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
+                dataType: 'jsonp',
+                jsonpCallback: 'callback'
+            }).then(data => {
+                $('.footer img').attr({
+                    'src': 'http://wx.jrj.com.cn' + data.imgurl,
+                    'qcode': data.wxid
+                })
+                $('.clipboard').attr('data-clipboard-text', data.wxid)
+            })
+            $('.nav-fixed a').click(function() {
+                var index = $(this).index() + 2
+                var pos = $('.bg' + index).offset().top
                 // 实现平滑移动 1000代表时间ms
-        $('html,body').stop().animate({
-          scrollTop: pos
-        }, 500)
-      })
+                $('html,body').stop().animate({
+                    scrollTop: pos
+                }, 500)
+            })
             // 微信分享
-      window.InitWeChatShare({
-        shareTitle: window.document.title,
-        shareLink: window.location.href,
-        shareDesc: '庆祝金融界成立18周年、上市13周年，极智选股2.0全心升级，钜惠来袭……',
-        shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/anniversary-h5-b1.jpg',
-        callback: function (wx) {
+            window.InitWeChatShare({
+                shareTitle: window.document.title,
+                shareLink: window.location.href,
+                shareDesc: '庆祝金融界成立18周年、上市13周年，极智选股2.0全心升级，钜惠来袭……',
+                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/anniversary-h5-b1.jpg',
+                callback: function(wx) {
 
+                }
+            })
+        })
+        return {
+            listData: {
+                conWidth: '7.07rem',
+                conHeight: '3.63rem',
+                conPadding: '0',
+                pagShow: false,
+                arrowShow: true,
+                loop: true,
+                prev: {
+                    imgUrl: require('assets/images/anniversary-activity/anniversary-web-prev.png'),
+                    width: '0.68rem',
+                    height: '0.68rem',
+                    marginTop: '-0.34rem'
+                },
+                next: {
+                    imgUrl: require('assets/images/anniversary-activity/anniversary-web-next.png'),
+                    width: '0.68rem',
+                    height: '0.68rem',
+                    marginTop: '-0.34rem'
+                },
+                list: [{
+                        imgUrl: require('assets/images/anniversary-activity/anniversary-h5-banner1.png'),
+                        link: ''
+                    },
+                    {
+                        imgUrl: require('assets/images/anniversary-activity/anniversary-h5-banner2.png'),
+                        link: ''
+                    }
+                ]
+            },
+            popShow: false,
+            codeImg: '',
+            qcode: ''
         }
-      })
-    })
-    return {
-      listData: {
-        conWidth: '7.07rem',
-        conHeight: '3.63rem',
-        conPadding: '0',
-        pagShow: false,
-        arrowShow: true,
-        loop: true,
-        prev: {
-          imgUrl: require('assets/images/anniversary-activity/anniversary-web-prev.png'),
-          width: '0.68rem',
-          height: '0.68rem',
-          marginTop: '-0.34rem'
-        },
-        next: {
-          imgUrl: require('assets/images/anniversary-activity/anniversary-web-next.png'),
-          width: '0.68rem',
-          height: '0.68rem',
-          marginTop: '-0.34rem'
-        },
-        list: [{
-          imgUrl: require('assets/images/anniversary-activity/anniversary-h5-banner1.png'),
-          link: ''
-        },
-        {
-          imgUrl: require('assets/images/anniversary-activity/anniversary-h5-banner2.png'),
-          link: ''
-        }
-        ]
-      },
-      popShow: false,
-      codeImg: '',
-      qcode: ''
-    }
-  },
-  computed: mapState({}),
-  components: {
-    activitySlider
-  },
-  methods: {
-    popClick () {
-      var qcode = $('.footer img').attr('qcode')
-      this.qcode = qcode
-      this.popShow = true
-            // 复制粘贴
-      new Clipboard('.clipboard')
     },
-    close () {
-      this.popShow = false
-      location.href = 'weixin://'
+    computed: mapState({}),
+    components: {
+        activitySlider
+    },
+    methods: {
+        popClick() {
+            var qcode = $('.footer img').attr('qcode')
+            this.qcode = qcode
+            this.popShow = true
+            // 复制粘贴
+            new Clipboard('.clipboard')
+        },
+        close() {
+            this.popShow = false
+            location.href = 'weixin://'
+        }
+    },
+    mounted() {
+        document.title = '辉煌金融界上市13周年庆'
     }
-  },
-  mounted () {
-    document.title = '辉煌金融界上市13周年庆'
-  }
 }
 </script>
