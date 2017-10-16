@@ -29,6 +29,7 @@ const buildEntry = function() {
     let dir = path.join(__dirname, entryPath);
     let entries = fs.readdirSync(dir);
     entries.forEach(entry => {
+      if(entry.charAt(0) === '.') return;
       ret[path.basename(entry, '.js')] = `${entryPath}/${entry}`
     });
   }
@@ -39,6 +40,7 @@ const buildHTML = function() {
   let dir = path.join(__dirname, `src/${featureName}/pages`);
   let entries = fs.readdirSync(dir);
   return entries.map(entry => {
+    if(entry.charAt(0) === '.') return;
     let basename = path.basename(entry, '.js');
     return new HtmlWebpackPlugin({
       filename: `${featureName}/${basename}.html`,
@@ -79,7 +81,7 @@ module.exports = {
       exclude: /(node_modules|plugins)/,
       loader: 'eslint-loader',
       options: {
-        fix: true
+        // fix: true
       }
     }, {
       test: /\.vue$/,

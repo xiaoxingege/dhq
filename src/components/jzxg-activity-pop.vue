@@ -36,18 +36,18 @@
 
 <template>
 <div>
-    <div class='fixBg'></div>
-    <div class="pop">
-        <div class="pop-top">
-            <slot></slot>
-        </div>
-        <a href="javascript:;" class="close" @click="close"></a>
+  <div class='fixBg'></div>
+  <div class="pop">
+    <div class="pop-top">
+      <slot></slot>
     </div>
+    <a href="javascript:;" class="close" @click="close"></a>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 export default {
   data () {

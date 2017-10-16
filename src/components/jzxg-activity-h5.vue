@@ -55,13 +55,13 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/jzxg-activity/section-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-1-1.jpg") center 0 no-repeat;
     height: 5.03rem;
     width: 7.5rem;
     background-size: 100% 100%;
 }
 .bg2 {
-    background: url("../assets/images/jzxg-activity/section-2.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-2-1.jpg") center 0 no-repeat;
     height: 11.21rem;
     width: 7.5rem;
     background-size: 100% 100%;
@@ -91,7 +91,7 @@ input {
     background-size: 100% 100%;
 }
 .bg7 {
-    background: url("../assets/images/jzxg-activity/section-7.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/section-7-1.jpg") center 0 no-repeat;
     height: 10.69rem;
     width: 7.5rem;
     background-size: 100% 100%;
@@ -110,13 +110,14 @@ input {
     cursor: pointer;
 }
 .bottom-fixed {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 7.5rem;
     height: 2rem;
-    background: url("../assets/images/jzxg-activity/h5-bottom.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/h5-bottom-1.png") center 0 no-repeat;
     background-size: 100%;
+    z-index: 10;
 }
 #divdown1 {
     position: absolute;
@@ -125,6 +126,16 @@ input {
     font-size: 0.4rem;
     color: #ffe0c0;
     letter-spacing: 0.249rem;
+}
+.shareInBrowser {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url("https://i0.jrjimg.cn/activity/strategy-fans/img/shareInBrowser.png");
+    background-size: 100% 100%;
+    z-index: 9999;
+    display: none;
 }
 </style>
 
@@ -147,16 +158,11 @@ input {
   </div>
   <div class="bg7">
     <div class="bottom-fixed" @click="submit">
-      <div id="divdown1">
-        <span id="t_d">00</span>
-        <span id="t_h">00</span>
-        <span id="t_m">00</span>
-        <span id="t_s">00</span>
-      </div>
     </div>
   </div>
   <div class="nav-fixed" @click="navFixed">
   </div>
+  <div class="shareInBrowser" ref="shareLayer" @click="hideShareLayer"></div>
 </div>
 </template>
 <script>
@@ -169,39 +175,6 @@ import activitySlider from 'components/activity-slider'
 
 export default {
   data () {
-    function GetRTime () {
-      var EndTime = new Date('2017/09/30 23:59:59')
-      var NowTime = new Date()
-      var t = EndTime.getTime() - NowTime.getTime()
-      var d = 0
-      var h = 0
-      var m = 0
-      var s = 0
-      if (t >= 0) {
-        d = Math.floor(t / 1000 / 60 / 60 / 24)
-        h = Math.floor(t / 1000 / 60 / 60 % 24)
-        m = Math.floor(t / 1000 / 60 % 60)
-        s = Math.floor(t / 1000 % 60)
-      }
-      if (d < 10) {
-        d = '0' + d
-      }
-      if (h < 10) {
-        h = '0' + h
-      }
-      if (m < 10) {
-        m = '0' + m
-      }
-      if (s < 10) {
-        s = '0' + s
-      }
-      document.getElementById('t_d').innerHTML = d
-      document.getElementById('t_h').innerHTML = h
-      document.getElementById('t_m').innerHTML = m
-      document.getElementById('t_s').innerHTML = s
-    }
-    // 倒计时开关
-    setInterval(GetRTime, 1000)
     return {
       listData: {
         conWidth: '6.97rem',
@@ -214,7 +187,7 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
           link: ''
         },
         {
@@ -245,26 +218,40 @@ export default {
     activitySlider
   },
   methods: {
+    hideShareLayer () {
+      this.$refs.shareLayer.style.display = 'none'
+    },
+    showShareLayer () {
+      this.$refs.shareLayer.style.display = 'block'
+      this.$refs.shareLayer.style.height = $(window).height() + 'px'
+    },
     navFixed () {
-      var pos = $('.bottom-fixed').offset().top
+      var pos = $('.bg7').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
     submit () {
-      if (this.loginStatus === 'no') {
-        window.jrj.jsCallNative('108', JSON.stringify({
-          returnUrl: encodeURI(window.location.href)
-        }))
-      } else if (this.loginStatus === 'yes') {
-        if (!this.riskAssessed) {
-          location.href = `http://i.jrj.com.cn/home/app/fxcpNotes?ReturnURL=${encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')}`
+      if (window.app.name === '{{appid}}') {
+        if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+          this.showShareLayer()
         } else {
-          location.href = 'http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4'
+          window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/jzxg-activity'
+          setTimeout(function () {
+            window.location = 'http://sjcms.jrj.com.cn/app_tg.php?channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+          }, 1500)
         }
       } else {
-        alert('正在获取用户信息，请稍候')
+        if (this.loginStatus === 'no') {
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
+        } else if (this.loginStatus === 'yes') {
+          location.href = '/actm/pre-pay?payUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=100050008&reNew=5&type=4')
+        } else {
+          alert('正在获取用户信息，请稍候')
+        }
       }
     }
   },
@@ -274,6 +261,14 @@ export default {
       this.$store.dispatch('user/checkBindingInfo', {})
     })
     this.$store.dispatch('user/checkLogin')
+    if (window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+      window.InitWeChatShare({
+        shareTitle: '极智选股双节大礼包',
+        shareLink: window.location.href,
+        shareDesc: '国庆中秋双节将至，金融界极智选股送您万元投资礼包，快来领取~',
+        shareImg: 'http://i0.jrjimg.cn/assets/images/jzxg-300x300.jpg'
+      })
+    }
   }
 }
 </script>

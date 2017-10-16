@@ -64,13 +64,15 @@ export default {
         } else {
           const script = document.createElement('script')
           script.addEventListener('load', function () {
-            commit('fetch', {
-              ssoId: window.sso_userID
-            })
-            if (window.sso_userID) {
-              commit('setLoginStatus', 'yes')
-            } else {
-              commit('setLoginStatus', 'no')
+            if (window.basicUserInfo) {
+              commit('fetch', {
+                ssoId: window.basicUserInfo.userId
+              })
+              if (window.basicUserInfo.userId) {
+                commit('setLoginStatus', 'yes')
+              } else {
+                commit('setLoginStatus', 'no')
+              }
             }
             document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
@@ -79,7 +81,7 @@ export default {
             document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
           })
-          script.src = 'http://sso.jrj.com.cn/sso/js/userInfo.jsp?' + (new Date()).getTime()
+          script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + (new Date()).getTime()
           document.getElementsByTagName('head')[0].appendChild(script)
         }
       })

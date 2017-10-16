@@ -1,24 +1,41 @@
-<style lang="scss" scoped>
+<style lang="scss">
+@import '../assets/css/base.css';
+
+.app,
+body,
+html {
+    height: 100%;
+}
+
 .news {
-    color: #191919;
-    padding: 50px 0;
-    font-family: "宋体";
+    min-height: 100%;
+}
+.news {
     font-size: 12px;
     text-align: left;
-    background: #fff;
+    background: #131417;
 }
 .newTitle {
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
+    color: #c9d0d7;
+    padding-top: 50px;
+
 }
 .newMain {
     line-height: 20px;
     text-indent: 2em;
+    color: #c9d0d7;
+}
+
+.newMain p {
+    margin-bottom: 20px;
 }
 .newDetail {
     text-align: center;
-    margin: 10px 0;
+    margin: 20px 0;
+    color: #808ba1;
 }
 .newDetail a,
 .newDetail span {
@@ -30,6 +47,10 @@
     border-right: 1px solid #181818;
     padding-right: 20px;
 }
+
+.newsDiv {
+    padding-bottom: 50px;
+}
 .newsDiv,
 .reportDiv {
     width: 850px;
@@ -37,6 +58,7 @@
 }
 .reportDownload {
     margin-top: 50px;
+    color: #c9d0d7;
 }
 .reportTime {
     margin: 0 75px;
@@ -45,6 +67,7 @@
     display: block;
     margin-top: 50px;
     margin-bottom: 25px;
+    color: #c9d0d7;
 }
 .moreNewsList {
     /*margin:0 0 0 -40px;*/
@@ -78,6 +101,16 @@ a:hover {
     margin-left: 30px;
     color: #666;
 }
+.svg_icon_q {
+    font-size: 20px;
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    overflow: hidden;
+    margin-top: -2px;
+    position: relative;
+    top: 3px;
+}
 </style>
 <template>
 <div class="news">
@@ -86,10 +119,19 @@ a:hover {
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
       <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}</span>
-      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews" class="mr-10"><a :href='"stock/"+item.innerCode' target="_blank">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span></span>
-      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关主题：<span class="mr-15" v-for="item in result.topicNews"><router-link :to="{name:'topicDetail',params:{topicId:item.topicCode}}">{{item.topicName}}</router-link></span></span>
+      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"
+                                                                                   class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</span></span>
+      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关题材：<span class="mr-15"
+                                                                                    v-for="item in result.topicNews">{{item.topicName}}</span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
+    <div class="newMain" v-if="result && result.news.fileType === 'pdf'">
+      正文请详见附件 :
+      <a :href="'http://www.z3quant.com/openapi/news/downAccFile/'+result.news.newsId+'.shtml'">查看附件
+        <svg class="svg_icon_q" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M672 96L149.333333 608c-42.666667 32-64 85.333333-64 138.666667s21.333333 106.666667 64 149.333333 96 64 149.333334 64c64 0 117.333333-21.333333 160-64l490.666666-490.666667 42.666667 42.666667-501.333333 490.666667c-53.333333 53.333333-117.333333 85.333333-192 85.333333-64 0-128-32-181.333334-74.666667l-10.666666-10.666666c-53.333333-53.333333-74.666667-117.333333-74.666667-192 0-64 21.333333-128 74.666667-181.333334L629.333333 53.333333l21.333334 21.333334-21.333334-21.333334c32-32 85.333333-53.333333 128-53.333333 53.333333 0 106.666667 21.333333 138.666667 53.333333 42.666667 42.666667 53.333333 85.333333 53.333333 138.666667 0 42.666667-10.666667 96-53.333333 128L448 757.333333c-21.333333 21.333333-53.333333 32-74.666667 32s-53.333333 0-74.666666-21.333333v-10.666667c-21.333333-21.333333-32-42.666667-32-74.666666 0-21.333333 10.666667-53.333333 32-74.666667l426.666666-426.666667 42.666667 42.666667-437.333333 426.666667c-10.666667 10.666667-10.666667 21.333333-10.666667 32s0 32 10.666667 42.666666 32 10.666667 42.666666 10.666667 21.333333 0 32-10.666667l448-448c32-21.333333 42.666667-53.333333 42.666667-85.333333 0-42.666667-10.666667-74.666667-42.666667-96-21.333333-21.333333-53.333333-42.666667-96-42.666667-32 0-64 21.333333-85.333333 42.666667z" p-id="421"></path></svg>
+      </a>
+    </div>
     <span class="moreNews">更多相关资讯</span>
     <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result && result.equityNews.length !== 0">
       <li value="item.newsId">

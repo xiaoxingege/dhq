@@ -47,6 +47,7 @@ app.use(async function(ctx, next) {
       ctx.body = ctx.body.replace('{{appid}}', appid).replace('{{passportId}}', passportId);
     }
   }
+  ctx.set('Cache-Control', 'no-cache');
   await next();
 });
 

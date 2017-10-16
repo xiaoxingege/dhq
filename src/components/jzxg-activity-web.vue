@@ -53,11 +53,11 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg1.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-bg1-1.jpg") center 0 no-repeat;
     height: 474px;
 }
 .bg2 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-bg2-2.jpg") center 0 no-repeat;
     height: 601px;
 }
 .bg3 {
@@ -65,15 +65,15 @@ input {
     height: 646px;
 }
 .bg4 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg4.jpg") center 0 no-repeat;
-    height: 647px;
+    background: url("../assets/images/jzxg-activity/jzxg-web-bg4-1.jpg") center 0 no-repeat;
+    height: 646px;
 }
 .bg5 {
     background: url("../assets/images/jzxg-activity/jzxg-web-bg5.jpg") center 0 no-repeat;
     height: 415px;
 }
 .bg6 {
-    background: url("../assets/images/jzxg-activity/jzxg-web-bg6.jpg") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-bg6-1.jpg") center 0 no-repeat;
     height: 466px;
 }
 .bg7 {
@@ -103,33 +103,8 @@ input {
     position: fixed;
     bottom: 0;
     margin-top: -100px;
-    background: url("../assets/images/jzxg-activity/jzxg-web-footer.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-footer-1.png") center 0 no-repeat;
     z-index: 10;
-}
-.footer .box-con div {
-    height: 66px;
-    float: left;
-    margin: 61px 0 0 298px;
-}
-.footer .box-con div span {
-    width: 120px;
-    height: 66px;
-    float: left;
-    margin-right: 57px;
-    font-size: 40px;
-    color: #ffe0c0;
-    letter-spacing: 40px;
-    text-indent: 17px;
-    line-height: 66px;
-}
-.footer .box-con div span:last-child {
-    margin-right: 0;
-}
-.footer .box-con a {
-    width: 214px;
-    height: 63px;
-    float: left;
-    margin: 13px 0 0 378px;
 }
 </style>
 
@@ -154,16 +129,8 @@ input {
   </div>
   <div class="nav-fixed" @click="navFixed">
   </div>
-  <div class="footer">
-    <div class="box-con">
-      <div id="divdown1">
-        <span id="t_d">00</span>
-        <span id="t_h">00</span>
-        <span id="t_m">00</span>
-        <span id="t_s">00</span>
-      </div>
-      <a href="javascript:;" @click="submit"></a>
-    </div>
+  <div class="footer" @click="submit">
+
   </div>
   <jzxg-activity-pop v-if="popShow" @close="popClose">
     <div v-html="popHtml">
@@ -181,40 +148,7 @@ import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-  data() {
-    function GetRTime() {
-      var EndTime = new Date('2017/09/30 23:59:59')
-      var NowTime = new Date()
-      var t = EndTime.getTime() - NowTime.getTime()
-      var d = 0
-      var h = 0
-      var m = 0
-      var s = 0
-      if (t >= 0) {
-        d = Math.floor(t / 1000 / 60 / 60 / 24)
-        h = Math.floor(t / 1000 / 60 / 60 % 24)
-        m = Math.floor(t / 1000 / 60 % 60)
-        s = Math.floor(t / 1000 % 60)
-      }
-      if (d < 10) {
-        d = '0' + d
-      }
-      if (h < 10) {
-        h = '0' + h
-      }
-      if (m < 10) {
-        m = '0' + m
-      }
-      if (s < 10) {
-        s = '0' + s
-      }
-      document.getElementById('t_d').innerHTML = d
-      document.getElementById('t_h').innerHTML = h
-      document.getElementById('t_m').innerHTML = m
-      document.getElementById('t_s').innerHTML = s
-    }
-    // 倒计时开关
-    setInterval(GetRTime, 1000)
+  data () {
     return {
       listData: {
         conWidth: '743px',
@@ -227,21 +161,21 @@ export default {
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         list: [{
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
-            link: ''
-          },
-          {
-            imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
-            link: ''
-          }
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/zytd-1.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/lxsf.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/dwcl.jpg',
+          link: ''
+        },
+        {
+          imgUrl: 'http://i0.jrjimg.cn/assets/images/sjtm.jpg',
+          link: ''
+        }
         ]
       },
       popHtml: '',
@@ -259,14 +193,14 @@ export default {
     jzxgActivityPop
   },
   methods: {
-    navFixed() {
+    navFixed () {
       var pos = $('.bg6').offset().top
       // 实现平滑移动 1000代表时间ms
       $('html,body').stop().animate({
         scrollTop: pos
       }, 500)
     },
-    popClose() {
+    popClose () {
       this.popShow = false
       this.popHtml = ''
       if (!this.bindingMobile) {
@@ -279,7 +213,7 @@ export default {
         location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
       }
     },
-    submit() {
+    submit () {
       if (this.loginStatus === 'no') {
         location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
       } else if (this.loginStatus === 'unknown') {
@@ -297,7 +231,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     document.title = '极致选股'
     this.$store.dispatch('user/checkLogin')
     this.$watch('loginStatus', () => {
