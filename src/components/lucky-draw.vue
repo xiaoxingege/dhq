@@ -461,17 +461,6 @@ export default {
 
     document.title = '金豆大转盘'
     const _this = this
-    this.$store.dispatch('user/checkLogin').then(() => {
-      if (this.loginStatus === 'no') {
-        if (window.jrj && window.jrj.jsCallNative) {
-          window.jrj.jsCallNative('108', JSON.stringify({
-            returnUrl: encodeURI(window.location.href)
-          }))
-        }
-      } else {
-        return this.$store.dispatch('user/getBeanNum')
-      }
-    })
     this.$store.dispatch('luckDrawData/getLuckUsers').then(() => {
       _this.scrolllist()
     })
