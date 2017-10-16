@@ -39,8 +39,9 @@ const buildEntry = function() {
 const buildHTML = function() {
   let dir = path.join(__dirname, `src/${featureName}/pages`);
   let entries = fs.readdirSync(dir);
-  return entries.map(entry => {
-    if(entry.charAt(0) === '.') return;
+  return entries.filter((item) => {
+    return entry.charAt(0) !== '.';
+  }).map(entry => {
     let basename = path.basename(entry, '.js');
     return new HtmlWebpackPlugin({
       filename: `${featureName}/${basename}.html`,
