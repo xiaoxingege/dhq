@@ -311,7 +311,7 @@ export default {
             if (/iphone|ipad|ipod/.test(ua) && typeof window.jrj !== 'undefined') {
                 location.href = 'weixin://?about:blank'
             } else if (/android/.test(ua) && typeof window.jrj !== 'undefined') {
-
+                return
             } else {
                 location.href = 'weixin://'
             }
