@@ -39,7 +39,7 @@ const buildEntry = function() {
 const buildHTML = function() {
   let dir = path.join(__dirname, `src/${featureName}/pages`);
   let entries = fs.readdirSync(dir);
-  return entries.filter((item) => {
+  return entries.filter((entry) => {
     return entry.charAt(0) !== '.';
   }).map(entry => {
     let basename = path.basename(entry, '.js');
