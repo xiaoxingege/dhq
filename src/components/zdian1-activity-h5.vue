@@ -393,7 +393,7 @@ a.link2 {
     </div>
     <div class="ui-five" id="d1">
       <a href="http://itougu.jrj.com.cn/tips/438.jspa" class="link1" @click="grab"></a>
-      <a href="http://itougu.jrj.com.cn/tips/439.jspa" class="link2" @click="grab"></a>
+      <a href="http://itougu.jrj.com.cn/tips/433.jspa" class="link2" @click="grab"></a>
     </div>
     <div class="ui-six" id="d2">
       <h5>您有 {{lotteryInfo.drawNum || 0}} 次抽奖机会</h5>
