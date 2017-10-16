@@ -308,8 +308,10 @@ export default {
             // location.href = 'weixin://'
 
             var ua = navigator.userAgent.toLowerCase()
-            if (/iphone|ipad|ipod/.test(ua)) {
+            if (/iphone|ipad|ipod/.test(ua) && typeof window.jrj !== 'undefined') {
                 location.href = 'weixin://?about:blank'
+            } else if (/android/.test(ua) && typeof window.jrj !== 'undefined') {
+
             } else {
                 location.href = 'weixin://'
             }
