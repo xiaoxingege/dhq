@@ -305,7 +305,14 @@ export default {
         },
         close() {
             this.popShow = false
-            location.href = 'weixin://'
+            // location.href = 'weixin://'
+
+            var ua = navigator.userAgent.toLowerCase()
+            if (/iphone|ipad|ipod/.test(ua)) {
+                location.href = 'weixin://?about:blank'
+            } else {
+                location.href = 'weixin://'
+            }
         }
     },
     mounted() {
