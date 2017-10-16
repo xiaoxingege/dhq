@@ -389,8 +389,8 @@ input {
         <li>2&nbsp;&nbsp;金融界智能操盘工具促销598元/季，1980元/年，用券再减88元/288元！</li>
         <li>3&nbsp;&nbsp;参与现金券抢购的用户均可参与抽奖，赢万元专属定制投资服务！</li>
       </ol>
-      <a href="http://itougu.jrj.com.cn/tips/438.jspa" class="link1" @click="grab('1')"></a>
-      <a href="http://itougu.jrj.com.cn/tips/433.jspa" class="link2" @click="grab('2')"></a>
+      <a href="http://itougu.jrj.com.cn/tips/10940.jspa" class="link1" @click="grab('1')"></a>
+      <a href="http://itougu.jrj.com.cn/tips/10941.jspa" class="link2" @click="grab('2')"></a>
       <div class="notice">
         <p>温馨提示：现金券订阅成功后，将在次日发放，如遇休息日顺延，可在个人</p>
         <p>中心查看并使用。一经订阅，概不退款~</p>
