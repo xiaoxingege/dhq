@@ -284,7 +284,7 @@ export default {
   methods: {
     dealData(zeroArr) {
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof zeroArr === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
@@ -299,7 +299,7 @@ export default {
         return ''
       }
       var r = []
-      if (typeof(zeroArr) === 'undefined') {
+      if (typeof zeroArr === 'undefined') {
         return r
       }
       for (var i = 0; i < zeroArr.length; i++) {
