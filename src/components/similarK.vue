@@ -44,8 +44,7 @@
 其它股票的历史k线形态进行对比，找出相似特征最高
 的几只个股，并展示与之对应的后期走势。</p>
   <h2 class="title">
-    <span class="title-blue">相似k线的</span>
-    <span class="title-red">价值？</span>
+    <span class="title-blue">相似k线的</span><span class="title-red">价值？</span>
   </h2>
   <p>相似k线适用于喜欢k线形态分析的投资者，可以通过该
 功能发现走势相近的股票后期的走势情，从而分析并获
