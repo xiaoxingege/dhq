@@ -1,51 +1,69 @@
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/css/reset.css';
-@import '../assets/css/swiper.min.css';
+@import '~swiper/dist/idangerous.swiper.css';
+.swiper-pagination {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+.swiper-pagination-switch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: #999;
+    box-shadow: 0 1px 2px #555 inset;
+    margin: 0 3px;
+    cursor: pointer;
+}
+.swiper-active-switch {
+    background: #fff;
+}
 </style>
 
 <template>
 <!-- Swiper -->
-    <div class="swiper-container" :style="{width:listData.conWidth,height:listData.conHeight,padding:listData.conPadding}">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="item in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}"></div>
-        </div>
+<div class="swiper-container" :style="{width:listData.conWidth,height:listData.conHeight,padding:listData.conPadding}">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" v-for="item in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}"></div>
+  </div>
 
-        <!-- Add Pagination -->
-        <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
 
-        <!-- Add Arrows -->
-        <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
-        <div class="swiper-button-next" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.next.imgUrl+')',width: listData.next.width,height:listData.next.height,backgroundSize:'100% 100%',marginTop:listData.next.marginTop}"></div>
-    </div>
+  <!-- Add Arrows -->
+  <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
+  <div class="swiper-button-next" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.next.imgUrl+')',width: listData.next.width,height:listData.next.height,backgroundSize:'100% 100%',marginTop:listData.next.marginTop}"></div>
+</div>
 </template>
 <script>
-import Swiper from '../assets/plugins/activity-slider/swiper.min.js'
-window.Swiper = Swiper
+import Swiper from 'swiper/dist/idangerous.swiper.js'
 export default {
   data () {
     return {
-    //   listData: {
-    //     conWidth: '500px',
-    //     conHeight: '500px',
-    //     conPadding: '50px',
-    //     pagShow: false,
-    //     arrowShow: true,
-    //     loop: false,
-    //     list: [
-    //       {
-    //         imgUrl: require('assets/images/activity-slider/fade1.jpg'),
-    //         link: ''
-    //       },
-    //       {
-    //         imgUrl: require('assets/images/activity-slider/fade2.jpg'),
-    //         link: ''
-    //       },
-    //       {
-    //         imgUrl: require('assets/images/activity-slider/fade3.jpg'),
-    //         link: ''
-    //       }
-    //     ]
-    //   }
+      //   listData: {
+      //     conWidth: '500px',
+      //     conHeight: '500px',
+      //     conPadding: '50px',
+      //     pagShow: false,
+      //     arrowShow: true,
+      //     loop: false,
+      //     list: [
+      //       {
+      //         imgUrl: require('assets/images/activity-slider/fade1.jpg'),
+      //         link: ''
+      //       },
+      //       {
+      //         imgUrl: require('assets/images/activity-slider/fade2.jpg'),
+      //         link: ''
+      //       },
+      //       {
+      //         imgUrl: require('assets/images/activity-slider/fade3.jpg'),
+      //         link: ''
+      //       }
+      //     ]
+      //   }
     }
   },
   props: ['listData'],
@@ -57,10 +75,11 @@ export default {
   },
   mounted () {
     var _this = this
-    window.Swiper('.swiper-container', {
+    new Swiper('.swiper-container', {
       pagination: '.swiper-pagination',
       effect: 'fade',
       grabCursor: true,
+      createPagination: true,
       nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
       loop: _this.listData.loop,

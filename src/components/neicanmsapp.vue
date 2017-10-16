@@ -453,7 +453,7 @@ export default {
   }),
   mounted () {
     this.$store.dispatch('user/fetch')
-    document.title = '内参秒杀test'
+    document.title = '内参秒杀'
     this.timebtn()
     setInterval(this.timebtn, 1000)
     this.tongji01()

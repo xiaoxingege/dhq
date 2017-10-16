@@ -20,6 +20,7 @@ require('./routes')(router);
 app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */
+/* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
 const templateCache = {};
 const loadTemplate = function(name) {

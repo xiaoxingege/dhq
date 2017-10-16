@@ -246,6 +246,9 @@ else
       rm -rf $file
     fi
   done
+  rm -rf dist/$feature/images
+  rm -rf dist/$feature/*.js
+  rm -rf dist/$feature/*.css
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
   if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
