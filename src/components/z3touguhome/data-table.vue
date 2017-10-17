@@ -9,23 +9,15 @@
     border-collapse: collapse;
     border-spacing: 0;
 }
-/*.data-table tr{
-    height:12.5%;
-  }*/
+.data-table tbody {
+    height: 100%;
+}
 .data-table td {
     border: 1px solid #23272c;
     text-align: right;
     padding-right: 20px;
-    height: auto;
-}
-.data-table tr:nth-child(1) td {
-    border-top-width: 0;
-}
-.data-table tr:nth-child(8) td {
-    border-bottom-width: 0;
-}
-.data-table tr td:last-child {
-    border-right-width: 0;
+    box-sizing: border-box;
+    height: 12.5%;
 }
 .data-table tr td:first-child {
     text-align: center;
@@ -53,20 +45,19 @@
 </style>
 <template>
 <div class="table-wrap">
-  <div v-if="isNoData" class="no-data">
-    <span>暂无信号</span>
-  </div>
   <table v-if="!isNoData" class="data-table">
-    <tr v-for="item of dataList">
-      <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</td>
-      <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
-      <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
-    </tr>
-    <tr v-for="item of noDataList">
-      <td>{{item.name}}</td>
-      <td>{{item.px}}</td>
-      <td>{{item.chgPct}}</td>
-    </tr>
+    <tbody>
+      <tr v-for="item of dataList">
+        <td v-z3-stock="{ref:'stockbox',code:item.innerCode}" @click="linkStock(item.innerCode)" :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</td>
+        <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
+      </tr>
+      <tr v-for="item of noDataList">
+        <td>{{item.name}}</td>
+        <td>{{item.px}}</td>
+        <td>{{item.chgPct}}</td>
+      </tr>
+    </tbody>
   </table>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -75,14 +66,14 @@
 import StockBox from 'components/stock-box'
 export default {
   props: ['dataList'],
-  data () {
+  data() {
     return {
       isNoData: false,
       noDataList: []
     }
   },
   watch: {
-    dataList () {
+    dataList() {
       this.noDataList = []
       if (this.dataList.length > 0) {
         // this.tableHeight = (this.dataList.length / 8) * 100 + '%'
@@ -106,7 +97,7 @@ export default {
     StockBox
   },
   methods: {
-    formatData: function (val) {
+    formatData: function(val) {
       let getVal
       if (val) {
         getVal = val.toFixed(2) + '%'
@@ -115,13 +106,13 @@ export default {
       }
       return getVal
     },
-    linkStock: function (innerCode) {
+    linkStock: function(innerCode) {
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     }
   },
-  mounted () {
+  mounted() {
     console.log(this.dataList)
   }
 }
