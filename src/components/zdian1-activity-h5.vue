@@ -421,12 +421,12 @@ a.link2 {
     <a href="javascript:;" data-index="1"></a>
     <a href="javascript:;" data-index="2"></a>
   </div>
-  <zdian1-activity-pop1 @close="pop1Close" v-if="pop1Show">
+  <zdian1-activity-pop1 scale="1" @close="pop1Close" v-if="pop1Show">
     <div v-html="pop1Html">
 
     </div>
   </zdian1-activity-pop1>
-  <zdian1-activity-pop2 @pop2Close="pop2Close" v-if="pop2Show">
+  <zdian1-activity-pop2 scale="1" @pop2Close="pop2Close" v-if="pop2Show">
     <div v-html="pop2Html">
 
     </div>
