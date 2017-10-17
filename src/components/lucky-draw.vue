@@ -398,10 +398,9 @@
       </div>
     </div>
     <div id="pop-lackBeanNum" class="pop-ensure pop-hint">
-      <h3>金豆不足</h3>
+      <h3>提示</h3>
       <div class="ensure-hint">
-        <p class="ensure-text">您当前的金豆数不足20个，</p>
-        <p class="ensure-text">不能参与抽奖！</p>
+        <p class="ensure-text">{{hintContent}}</p>
       </div>
       <div class="ensure-button">
         <span class="ensure-button-true" v-on:click="closeLackBeanNum">确定</span>
@@ -437,7 +436,8 @@ export default {
       consumenum: 20,
       hint: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
-      falseclass: 'ensure-icon-false'
+      falseclass: 'ensure-icon-false',
+      hintContent:''
     }
   },
   computed: mapState({
@@ -560,15 +560,50 @@ export default {
           return false
         }
         return this.$store.dispatch('luckDrawData/getDraw').then(() => {
-          this.position = this.draw.data.position
-          this.name = this.draw.data.name
+          var this_=this
           this.retCode = this.draw.retCode
-          if (this.isGO) {
+
+          if (this.retCode===0) {
+            this_.position = this_.draw.data.position
+            this_.name = this_.draw.data.name
+            if (this_.isGO) {
+              return false
+            }
+            this_.isGO = true
+            var __this = this_
+            this_.drawPrize(this_.position, __this)
             return false
           }
-          this.isGO = true
-          var __this = this
-          this.drawPrize(this.position, __this)
+          if (this.retCode===1) {
+            this.hintContent='金豆数量不足！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===2) {
+            this.hintContent='抽奖次数已用完！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===4) {
+            this.hintContent='前置活动还没有结束！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===6) {
+            this.hintContent='活动还没有开始！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===7) {
+            this.hintContent='活动已结束！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===1001||this.retCode===80007) {
+            this.hintContent='抽奖繁忙，请稍后再试！'
+            this.openLackBeanNum()
+            return false
+          }
         })
       })
     },
