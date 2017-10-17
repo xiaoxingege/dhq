@@ -45,6 +45,9 @@
 </style>
 <template>
 <div class="table-wrap">
+  <div v-if="isNoData" class="no-data">
+    <span>暂无信号</span>
+  </div>
   <table v-if="!isNoData" class="data-table">
     <tbody>
       <tr v-for="item of dataList">
