@@ -1,6 +1,10 @@
 <style lang="scss">
 @import '../assets/css/reset.css';
 @import '~swiper/dist/idangerous.swiper.css';
+.swiper-box {
+    position: absolute;
+    width: 100%;
+}
 .swiper-pagination {
     position: absolute;
     bottom: 0;
@@ -24,69 +28,89 @@
 
 <template>
 <!-- Swiper -->
-<div class="swiper-container" :style="{width:listData.conWidth,height:listData.conHeight,padding:listData.conPadding}">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide" v-for="item in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}"></div>
-  </div>
+<div class="swiper-box">
 
-  <!-- Add Pagination -->
-  <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
 
-  <!-- Add Arrows -->
-  <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
-  <div class="swiper-button-next" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.next.imgUrl+')',width: listData.next.width,height:listData.next.height,backgroundSize:'100% 100%',marginTop:listData.next.marginTop}"></div>
+    <div class="swiper-container" :style="{width:listData.conWidth,height:listData.conHeight,padding:listData.conPadding}">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="item in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}"></div>
+        </div>
+
+        <!-- Add Pagination -->
+
+
+        <!-- Add Arrows -->
+
+    </div>
+    <div class="swiper-pagination" v-if="listData.pagShow" style="bottom:0;"></div>
+    <div class="swiper-button-prev" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.prev.imgUrl+')',width: listData.prev.width,height:listData.prev.height,backgroundSize:'100% 100%',marginTop:listData.prev.marginTop}"></div>
+    <div class="swiper-button-next" v-if="listData.arrowShow" :style="{backgroundImage:'url('+listData.next.imgUrl+')',width: listData.next.width,height:listData.next.height,backgroundSize:'100% 100%',marginTop:listData.next.marginTop}"></div>
 </div>
 </template>
 <script>
 import Swiper from 'swiper/dist/idangerous.swiper.js'
 export default {
-  data () {
-    return {
-      //   listData: {
-      //     conWidth: '500px',
-      //     conHeight: '500px',
-      //     conPadding: '50px',
-      //     pagShow: false,
-      //     arrowShow: true,
-      //     loop: false,
-      //     list: [
-      //       {
-      //         imgUrl: require('assets/images/activity-slider/fade1.jpg'),
-      //         link: ''
-      //       },
-      //       {
-      //         imgUrl: require('assets/images/activity-slider/fade2.jpg'),
-      //         link: ''
-      //       },
-      //       {
-      //         imgUrl: require('assets/images/activity-slider/fade3.jpg'),
-      //         link: ''
-      //       }
-      //     ]
-      //   }
+    data() {
+        return {
+            //   listData: {
+            //     conWidth: '500px',
+            //     conHeight: '500px',
+            //     conPadding: '50px',
+            //     pagShow: false,
+            //     arrowShow: true,
+            //     loop: false,
+            //     list: [
+            //       {
+            //         imgUrl: require('assets/images/activity-slider/fade1.jpg'),
+            //         link: ''
+            //       },
+            //       {
+            //         imgUrl: require('assets/images/activity-slider/fade2.jpg'),
+            //         link: ''
+            //       },
+            //       {
+            //         imgUrl: require('assets/images/activity-slider/fade3.jpg'),
+            //         link: ''
+            //       }
+            //     ]
+            //   }
+        }
+    },
+    props: ['listData'],
+    methods: {
+        closeChapterDialog() {
+            this.addChapterShow = false
+            this.fixBgShow = false
+        }
+    },
+    mounted() {
+        var _this = this
+        var paginationClass
+        if (this.listData.pagShow) {
+            paginationClass = '.swiper-pagination'
+        } else {
+            paginationClass = ''
+        }
+        var mySwiper = new Swiper('.swiper-container', {
+            pagination: paginationClass,
+            effect: 'fade',
+            grabCursor: true,
+            createPagination: true,
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            loop: _this.listData.loop,
+            paginationClickable: _this.listData.paginationClickable,
+            autoplay: _this.listData.autoplay,
+            autoplayDisableOnInteraction: _this.listData.autoplayDisableOnInteraction
+        })
+        $('.swiper-button-prev').on('click', function(e) {
+            e.preventDefault()
+            mySwiper.swipePrev()
+        })
+        $('.swiper-button-next').on('click', function(e) {
+            e.preventDefault()
+            mySwiper.swipeNext()
+        })
     }
-  },
-  props: ['listData'],
-  methods: {
-    closeChapterDialog () {
-      this.addChapterShow = false
-      this.fixBgShow = false
-    }
-  },
-  mounted () {
-    var _this = this
-    new Swiper('.swiper-container', {
-      pagination: '.swiper-pagination',
-      effect: 'fade',
-      grabCursor: true,
-      createPagination: true,
-      nextButton: '.swiper-button-next',
-      prevButton: '.swiper-button-prev',
-      loop: _this.listData.loop,
-      paginationClickable: _this.listData.paginationClickable,
-      autoplay: _this.listData.autoplay,
-      autoplayDisableOnInteraction: _this.listData.autoplayDisableOnInteraction
-    })
-  }
 }
 </script>

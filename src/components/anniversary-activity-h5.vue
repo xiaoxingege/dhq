@@ -8,17 +8,22 @@ input {
     outline: none;
 }
 
-.bg5 .box-con .swiper-container {
+.bg5 .box-con .swiper-box {
     top: 0.75rem;
-    overflow: visible;
 }
 
 .bg5 .swiper-button-next {
-    right: 0.05rem;
+    position: absolute;
+    right: 0.3rem;
+    top: 50%;
+    z-index: 10;
 }
 
 .bg5 .swiper-button-prev {
-    left: 0.05rem;
+    position: absolute;
+    left: 0.3rem;
+    top: 50%;
+    z-index: 10;
 }
 </style>
 <style lang="scss" scoped>
