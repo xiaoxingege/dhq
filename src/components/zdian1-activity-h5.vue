@@ -311,6 +311,9 @@ input {
         position: relative;
         overflow: hidden;
     }
+    li {
+      color: #efb351;
+    }
     .cur {
         font-size: 0.26rem;
         color: #efb351;
@@ -656,7 +659,7 @@ export default {
       document.getElementById('text-sec').innerHTML = pad(second, 2)
     }
     window.setInterval(function() {
-      ShowCountDown(2017, 10, 22, 'divdown1')
+      ShowCountDown(2017, 11, 1, 'divdown1')
     }, 1000)
     $('.nav a').click(e => {
       var index = $(e.target).attr('data-index')

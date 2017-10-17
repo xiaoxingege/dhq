@@ -57,7 +57,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data () {
+  data() {
     return {}
   },
   computed: mapState({
@@ -65,16 +65,19 @@ export default {
     //     return state.reservation.type
     // }
   }),
+  props: ['scale'],
   components: {},
   methods: {
-    close () {
+    close() {
       this.$emit('pop2Close')
     }
   },
-  mounted () {
-    $(this.$refs.pop).css({
-      transform: `scale(${$(window).width() * 0.9 / 731})`
-    })
+  mounted() {
+    if (this.scale) {
+      $(this.$refs.pop).css({
+        transform: `scale(${$(window).width() * 0.9 / 731})`
+      })
+    }
   }
 }
 </script>

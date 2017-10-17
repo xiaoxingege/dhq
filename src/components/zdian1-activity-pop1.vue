@@ -52,20 +52,23 @@ import {
 } from 'vuex'
 import $ from 'jquery'
 export default {
-  data () {
+  data() {
     return {}
   },
   computed: mapState({}),
+  props: ['scale'],
   components: {},
   methods: {
-    close () {
+    close() {
       this.$emit('close')
     }
   },
-  mounted () {
-    $(this.$refs.pop).css({
-      transform: `scale(${$(window).width() * 0.9 / 731})`
-    })
+  mounted() {
+    if (this.scale) {
+      $(this.$refs.pop).css({
+        transform: `scale(${$(window).width() * 0.9 / 731})`
+      })
+    }
   }
 }
 </script>
