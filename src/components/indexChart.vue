@@ -364,10 +364,10 @@ export default {
           top: 5
         },
         grid: {
-          left: 60,
+          left: 65,
           top: 40,
           bottom: 30,
-          right: 20
+          right: 15
         },
         calculable: true,
         xAxis: [{

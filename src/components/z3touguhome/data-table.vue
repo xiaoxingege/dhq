@@ -102,7 +102,7 @@ export default {
   methods: {
     formatData: function(val) {
       let getVal
-      if (val) {
+      if (val !== null) {
         getVal = val.toFixed(2) + '%'
       } else {
         getVal = '--'
