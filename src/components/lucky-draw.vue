@@ -433,6 +433,7 @@ export default {
       isGO: false,
       position: 3,
       name: '',
+      retCode: 0,
       consumenum: 20,
       hint: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
@@ -461,6 +462,13 @@ export default {
 
     document.title = '金豆大转盘'
     const _this = this
+    this.$store.dispatch('user/checkLogin').then(() => {
+      if (this.loginStatus === 'no') {
+        return false
+      } 
+      this.$store.dispatch('user/getBeanNum')
+    })
+
     this.$store.dispatch('luckDrawData/getLuckUsers').then(() => {
       _this.scrolllist()
     })
@@ -542,27 +550,36 @@ export default {
     },
 
     rotate: function () {
+      // else if (this.beanNum < this.consumenum) {
+        //   this.openLackBeanNum()
+        // } 
       this.$store.dispatch('user/checkLogin').then(() => {
+        //判断 未登录状态 弹出提示框
         if (this.loginStatus === 'no') {
           if (window.jrj && window.jrj.jsCallNative) {
             window.jrj.jsCallNative('108', JSON.stringify({
               returnUrl: encodeURI(window.location.href)
             }))
           }
-        } else if (this.beanNum < this.consumenum) {
-          this.openLackBeanNum()
-        } else {
-          return this.$store.dispatch('luckDrawData/getDraw').then(() => {
-            if (this.isGO) {
-              return false
-            }
-            this.position = this.draw.data.position
-            this.name = this.draw.data.name
-            this.isGO = true
-            var __this = this
-            this.drawPrize(this.position, __this)
-          })
-        }
+          return false
+        } 
+        //已登录状态 调用 抽奖结果接口
+        return this.$store.dispatch('luckDrawData/getDraw').then(() => {
+          
+          this.position = this.draw.data.position
+          this.name = this.draw.data.name
+          this.retCode = this.draw.retCode
+
+
+
+          
+          if (this.isGO) {
+            return false
+          }
+          this.isGO = true
+          var __this = this
+          this.drawPrize(this.position, __this)
+        })
       })
     },
     drawPrize: function (position, __this) {
