@@ -550,11 +550,15 @@ export default {
     },
 
     rotate: function () {
-      // else if (this.beanNum < this.consumenum) {
+
+        // else if (this.beanNum < this.consumenum) {
         //   this.openLackBeanNum()
         // } 
+
       this.$store.dispatch('user/checkLogin').then(() => {
-        //判断 未登录状态 弹出提示框
+
+          //判断 未登录状态 弹出提示框
+
         if (this.loginStatus === 'no') {
           if (window.jrj && window.jrj.jsCallNative) {
             window.jrj.jsCallNative('108', JSON.stringify({
@@ -563,7 +567,9 @@ export default {
           }
           return false
         } 
-        //已登录状态 调用 抽奖结果接口
+
+          //已登录状态 调用 抽奖结果接口
+
         return this.$store.dispatch('luckDrawData/getDraw').then(() => {
           
           this.position = this.draw.data.position
@@ -572,7 +578,7 @@ export default {
 
 
 
-          
+
           if (this.isGO) {
             return false
           }
