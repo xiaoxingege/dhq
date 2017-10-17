@@ -311,6 +311,9 @@ input {
         position: relative;
         overflow: hidden;
     }
+    li {
+      color: #efb351;
+    }
     .cur {
         font-size: 0.26rem;
         color: #efb351;
