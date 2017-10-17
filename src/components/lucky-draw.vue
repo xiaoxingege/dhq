@@ -563,7 +563,7 @@ export default {
           var this_=this
           this.retCode = this.draw.retCode
 
-          if (this.retCode===0) {
+          if (this.retCode===801000) {
             this_.position = this_.draw.data.position
             this_.name = this_.draw.data.name
             if (this_.isGO) {
@@ -604,6 +604,8 @@ export default {
             this.openLackBeanNum()
             return false
           }
+          this.hintContent='服务器请求错误！'
+          this.openLackBeanNum()
         })
       })
     },
