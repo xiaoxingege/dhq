@@ -697,7 +697,7 @@ export default {
           this.hoverNode = params.data
         }
         if (this.focusEl) {
-          let preNodeStl = this.focusEl.style;
+          const preNodeStl = this.focusEl.style;
           preNodeStl.stroke = null;
           this.focusEl.setStyle(preNodeStl);
           this.focusEl = null;
@@ -814,13 +814,13 @@ export default {
               const y = industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
               const obj = _this.chart._zr.findHover(x, y);
               if (_this.focusEl) {
-                let preNodeStl = _this.focusEl.style;
+                const preNodeStl = _this.focusEl.style;
                 preNodeStl.stroke = null;
                 _this.focusEl.setStyle(preNodeStl);
               }
               _this.focusEl = obj.target;
-              let nextNodeStl = obj.target.style;
-              nextNodeStl.stroke = "#ffd614";
+              const nextNodeStl = obj.target.style;
+              nextNodeStl.stroke = '#ffd614';
               obj.target.setStyle(nextNodeStl);
               let left = _this.mapWidth / 2 - 4 / _this.scale * x;
               let top = _this.mapHeight / 2 - 4 / _this.scale * y;
