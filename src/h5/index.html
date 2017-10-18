@@ -2,14 +2,16 @@
 <html>
 
 <head>
-	<title></title>
+	<title>{{title}}</title>
+	<meta name="keywords" content="{{meta_keywords}}">
+	<meta name="description" content="{{meta_description}}">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,initial-scale=1.0" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="format-detection" content="telephone=no" />
 	<script>
-		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+		document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 * 0.75 + '%'
 		window.app = {
 			name: "{{appid}}",
 			passportId: "{{passportId}}"

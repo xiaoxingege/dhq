@@ -39,6 +39,15 @@ app.use(async function(ctx, next) {
     if (appid) {
       ctx.body = ctx.body.replace('{{appid}}', appid).replace('{{passportId}}', passportId);
     }
+    if (ctx.metaKeywords) {
+      ctx.body = ctx.body.replace('{{meta_keywords}}', ctx.metaKeywords);
+    }
+    if (ctx.metaDescription) {
+      ctx.body = ctx.body.replace('{{meta_description}}', ctx.metaDescription);
+    }
+    if (ctx.title) {
+      ctx.body = ctx.body.replace('{{title}}', ctx.title);
+    }
   }
   ctx.set('Cache-Control', 'no-cache');
   await next();
