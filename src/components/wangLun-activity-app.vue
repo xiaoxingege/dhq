@@ -14,7 +14,7 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/wangLun-activity/wangLun-h5-b1.jpg") center 0 no-repeat;
+    background: url("../assets/images/wangLun-activity/wangLun-h5-b1-1.jpg") center 0 no-repeat;
     background-size: 100%;
     height: 8.04rem;
 }
