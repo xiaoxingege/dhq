@@ -30,7 +30,7 @@ export default ({
       default: 200
     }
   },
-  data () {
+  data() {
     return {
       klineType: 'day', // day||week...
       showX: true
@@ -55,7 +55,7 @@ export default ({
           }
         }
       },
-      lineData (state) {
+      lineData(state) {
         var data = {
           times: [],
           tradeTimeArr: [],
@@ -171,7 +171,7 @@ export default ({
         }
         return data
       },
-      xLabelInterval () {
+      xLabelInterval() {
         let interval = 17
         if (this.klineType === 'min5') {
           interval = 48
@@ -189,7 +189,7 @@ export default ({
     })
   },
   methods: {
-    initChart () {
+    initChart() {
       this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
       //          this.$store.dispatch('stock/queryKline', { stockCode: this.stockCode }).then(() => {
       const lineData = this.lineData
@@ -207,114 +207,114 @@ export default ({
           }
         },
         grid: [{
-          left: 35,
-          right: 10,
-          top: 35,
-          height: '60%',
-          show: false
-        },
-        {
-          left: 35,
-          right: 10,
-          bottom: 0,
-          height: '15%',
-          show: false
-        }
+            left: 35,
+            right: 10,
+            top: 35,
+            height: '60%',
+            show: false
+          },
+          {
+            left: 35,
+            right: 10,
+            bottom: 0,
+            height: '15%',
+            show: false
+          }
         ],
         xAxis: [{
-          show: this.showX,
-          type: 'category',
-          data: lineData.times,
-          scale: true,
-          axisTick: {
-            show: false
-          },
-          boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
-          axisLine: {
-            lineStyle: {
-              type: 'dashed',
-              color: '#808080'
+            show: this.showX,
+            type: 'category',
+            data: lineData.times,
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+            axisLine: {
+              lineStyle: {
+                type: 'dashed',
+                color: '#808080'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                type: 'dashed',
+                color: '#e0e0e0'
+              }
+            },
+            min: 'dataMin',
+            max: 'dataMax',
+            axisLabel: {
+              interval: this.xLabelInterval,
+              showMinLabel: true
             }
           },
-          splitLine: {
-            show: false,
-            lineStyle: {
-              type: 'dashed',
-              color: '#e0e0e0'
-            }
-          },
-          min: 'dataMin',
-          max: 'dataMax',
-          axisLabel: {
-            interval: this.xLabelInterval,
-            showMinLabel: true
-          }
-        },
-        {
-          type: 'category',
-          gridIndex: 1,
-          data: lineData.times,
-          scale: true,
-          boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: false
-          },
-          axisLabel: {
-            show: false
-          },
-          min: 'dataMin',
-          max: 'dataMax',
-          axisPointer: {
-            label: {
-              formatter: function (params) {
-                var seriesValue = (params.seriesData[0] || {}).value
-                return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
+          {
+            type: 'category',
+            gridIndex: 1,
+            data: lineData.times,
+            scale: true,
+            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            },
+            axisLabel: {
+              show: false
+            },
+            min: 'dataMin',
+            max: 'dataMax',
+            axisPointer: {
+              label: {
+                formatter: function(params) {
+                  var seriesValue = (params.seriesData[0] || {}).value
+                  return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
+                }
               }
             }
           }
-        }
         ],
         yAxis: [{
-          scale: true,
-          axisTick: {
-            show: false
-          },
-          splitArea: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              type: 'dashed',
-              color: '#808080'
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            splitArea: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                type: 'dashed',
+                color: '#808080'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#e0e0e0'
+              }
             }
           },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#e0e0e0'
+          {
+            scale: true,
+            gridIndex: 1,
+            splitNumber: 2,
+            axisLabel: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
             }
           }
-        },
-        {
-          scale: true,
-          gridIndex: 1,
-          splitNumber: 2,
-          axisLabel: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: false
-          }
-        }
         ],
         brush: {
           xAxisIndex: 'all',
@@ -324,83 +324,83 @@ export default ({
           }
         },
         series: [{
-          name: 'K线',
-          type: 'candlestick',
-          data: lineData.kdata,
+            name: 'K线',
+            type: 'candlestick',
+            data: lineData.kdata,
             // barCategoryGap: '3',
             // barWidth : data.length<30?8:3.5,//柱图宽度
-          itemStyle: {
-            normal: {
-              color: config.upColor,
-              color0: config.downColor,
-              borderColor: config.upColor,
-              borderColor0: config.downColor
+            itemStyle: {
+              normal: {
+                color: config.upColor,
+                color0: config.downColor,
+                borderColor: config.upColor,
+                borderColor0: config.downColor
+              }
             }
-          }
-        },
-        {
-          name: 'MA20',
-          type: 'line',
-          data: lineData.ma20,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              color: '#e75443',
-              opacity: 0.5
+          },
+          {
+            name: 'MA20',
+            type: 'line',
+            data: lineData.ma20,
+            showSymbol: false,
+            lineStyle: {
+              normal: {
+                color: '#e75443',
+                opacity: 0.5
+              }
             }
-          }
-        },
-        {
-          name: 'MA60',
-          type: 'line',
-          data: lineData.ma60,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              color: '#6999d1',
-              opacity: 0.5
+          },
+          {
+            name: 'MA60',
+            type: 'line',
+            data: lineData.ma60,
+            showSymbol: false,
+            lineStyle: {
+              normal: {
+                color: '#6999d1',
+                opacity: 0.5
+              }
             }
-          }
-        },
-        {
-          name: 'MA120',
-          type: 'line',
-          data: lineData.ma120,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              color: '#f6bc4d',
-              opacity: 0.5
+          },
+          {
+            name: 'MA120',
+            type: 'line',
+            data: lineData.ma120,
+            showSymbol: false,
+            lineStyle: {
+              normal: {
+                color: '#f6bc4d',
+                opacity: 0.5
+              }
             }
-          }
-        },
-        {
-          name: '成交量',
-          type: 'bar',
-          xAxisIndex: 1,
-          yAxisIndex: 1,
-          data: lineData.vols,
-          barCategoryGap: '3', // 需要根据宽度定
-          itemStyle: {
-            normal: {
-              color: function (params) {
-                return lineData.kdata[params.dataIndex][1] > lineData.kdata[params.dataIndex][0] ? config.upColor : config.downColor
+          },
+          {
+            name: '成交量',
+            type: 'bar',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: lineData.vols,
+            barCategoryGap: '3', // 需要根据宽度定
+            itemStyle: {
+              normal: {
+                color: function(params) {
+                  return lineData.kdata[params.dataIndex][1] > lineData.kdata[params.dataIndex][0] ? config.upColor : config.downColor
+                }
               }
             }
           }
-        }
 
         ]
       }
       this.chart.setOption(opt)
       //          })
     },
-    formatDate (datestr) {
+    formatDate(datestr) {
       return formatDateStr(datestr, 'yyyyMMdd', 'yyyy-MM-dd')
     }
   },
   watch: {
-    stockCode () {
+    stockCode() {
       if (!this.stockCode) {
         console.info('[component:stock-kline]:stockCode is necessary!')
         return
@@ -412,12 +412,12 @@ export default ({
         stockCode: this.stockCode
       })
     },
-    lineData () {
+    lineData() {
       this.initChart()
     }
   },
 
-  mounted () {
+  mounted() {
     if (!this.stockCode) {
       return
     }
@@ -441,19 +441,19 @@ export default ({
 .stock-kline .ma {
     position: absolute;
     top: 4px;
-    left: 35px;
+    right: 10px;
     font-size: 12px;
 }
 .stock-kline .ma .ma20 {
-    padding-right: 15px;
+    padding-right: 10px;
     color: #e75443;
 }
 .stock-kline .ma .ma60 {
-    padding-right: 15px;
+    padding-right: 10px;
     color: #6999d1;
 }
 .stock-kline .ma .ma120 {
-    padding-right: 15px;
+    padding-right: 0;
     color: #f6bc4d;
 }
 </style>
