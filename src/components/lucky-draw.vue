@@ -366,7 +366,7 @@
         </li>
       </ul>
       <div class="award-click">
-        <div class="get-award" v-on:click="e=>{this.hint ? this.openEnture() : this.rotate()}">
+        <div class="get-award" v-on:click="go">
           <p>{{consumenum}}豆/次</p>
         </div>
       </div>
@@ -437,7 +437,8 @@ export default {
       hint: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
       falseclass: 'ensure-icon-false',
-      hintContent:''
+      hintContent:'',
+      flag:true  // true 打开go点击   false 关闭go点击事件
     }
   },
   computed: mapState({
@@ -548,7 +549,12 @@ export default {
       var closeGetDraw = document.getElementById('pop-getDraw')
       closeGetDraw.style.display = 'none'
     },
-
+    go: function () {
+      if (this.flag === false) {
+        return false
+      }
+      this.hint ? this.openEnture() : this.rotate()
+    },
     rotate: function () {
       this.$store.dispatch('user/checkLogin').then(() => {
         if (this.loginStatus === 'no') {
@@ -617,6 +623,7 @@ export default {
       var last = 0
       this.$set(_this.prizeList[0], 'active', true)
       clearInterval(timer)
+      this.flag=false
       timer = setInterval(function () {
         last = now
         now++
@@ -631,6 +638,7 @@ export default {
         count--
         if (count <= 0) {
           clearInterval(timer)
+          __this.flag=true
           __this.isGO = false
           __this.openGetDraw()
           __this.$store.dispatch('user/getBeanNum')
