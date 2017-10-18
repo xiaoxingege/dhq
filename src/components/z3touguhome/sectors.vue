@@ -18,15 +18,17 @@
 }
 .sectors-table tr td:first-child {
     cursor: pointer;
+    width: 40%;
 }
 .sectors-table tr td:first-child:hover {
     background-color: #2e4465;
 }
 .sectors-table td {
     border: 1px solid #23272c;
-    text-align: right;
+    text-align: center;
     padding-right: 20px;
     height: 10%;
+    width: 30%;
 }
 .sectors-table:nth-child(1) td {
     color: #ca4941;

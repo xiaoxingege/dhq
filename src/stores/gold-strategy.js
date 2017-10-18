@@ -43,17 +43,17 @@ export default {
     }
   },
   mutations: {
-    setGoldOptions (state, result) {
+    setGoldOptions(state, result) {
       state.strategyId = result
     },
-    setGoldData (state, result) {
+    setGoldData(state, result) {
       if (result.errCode === 0) {
         state.goldResult = result.data
       } else {
         state.goldResult = null
       }
     },
-    setSyqxtData (state, result) {
+    setSyqxtData(state, result) {
       if (result.errCode === 0) {
         state.syqxtData.xData = []
         state.syqxtData.data1 = []
@@ -70,7 +70,7 @@ export default {
         state.syqxtData.data2 = []
       }
     },
-    setDrykData (state, result) {
+    setDrykData(state, result) {
       if (result.errCode === 0) {
         state.drykData.xData = []
         state.drykData.data1 = []
@@ -95,7 +95,7 @@ export default {
         state.drykData.data2 = []
       }
     },
-    setMrccData (state, result) {
+    setMrccData(state, result) {
       if (result.errCode === 0) {
         state.mrccData.xData = []
         state.mrccData.data1 = []
@@ -109,7 +109,7 @@ export default {
         state.mrccData.data1 = []
       }
     },
-    setSyytjData (state, result) {
+    setSyytjData(state, result) {
       if (result.errCode === 0) {
         state.syytjData.xData = []
         state.syytjData.data1 = []
@@ -124,14 +124,14 @@ export default {
         state.syytjData.data2 = []
       }
     },
-    setSylfbData (state, result) {
+    setSylfbData(state, result) {
       if (result.errCode === 0) {
         state.sylfbData.xData = []
         state.sylfbData.data1 = []
         state.sylfbData.data2 = []
         const data = result.data
         for (var i = 0; i < data.rates.length; i++) {
-          state.sylfbData.xData.push(Number(data.rates[i]).toFixed(2) + '%')
+          state.sylfbData.xData.push((Number(data.rates[i]) * 100).toFixed(2) + '%')
           if (data.rates[i] < 0) {
             state.sylfbData.data1.push(data.counts[i])
             state.sylfbData.data2.push(0)
@@ -146,7 +146,7 @@ export default {
         state.sylfbData.data2 = []
       }
     },
-    setMrjyData (state, result) {
+    setMrjyData(state, result) {
       if (result.errCode === 0) {
         state.mrjyData = null
         state.mrjyData = result.data
@@ -154,7 +154,7 @@ export default {
         state.mrjyData = null
       }
     },
-    setRadarData (state, result) {
+    setRadarData(state, result) {
       if (result.errCode === 0) {
         const radarData = result.data
         const colorArr = ['#246AF4', '#26B27A', '#EEB235']
@@ -175,7 +175,7 @@ export default {
         state.radarData = null
       }
     },
-    setMrxhData (state, result) {
+    setMrxhData(state, result) {
       if (result.errCode === 0) {
         state.mrxhData = null
         state.mrxhData = result.data
@@ -183,7 +183,7 @@ export default {
         state.mrxhData = null
       }
     },
-    setMcxhData (state, result) {
+    setMcxhData(state, result) {
       if (result.errCode === 0) {
         state.mcxhData = null
         state.mcxhData = result.data
@@ -193,7 +193,7 @@ export default {
     }
   },
   actions: {
-    getGoldStrategyData ({
+    getGoldStrategyData({
       commit
     }, {
       strategyId
@@ -207,7 +207,7 @@ export default {
         commit('setGoldData', body)
       })
     },
-    getSyqxtData ({
+    getSyqxtData({
       commit
     }, {
       strategyId
@@ -221,7 +221,7 @@ export default {
         commit('setSyqxtData', body)
       })
     },
-    getDrykData ({
+    getDrykData({
       commit
     }, {
       strategyId
@@ -235,7 +235,7 @@ export default {
         commit('setDrykData', body)
       })
     },
-    getMrccData ({
+    getMrccData({
       commit
     }, {
       strategyId
@@ -249,7 +249,7 @@ export default {
         commit('setMrccData', body)
       })
     },
-    getSyytjData ({
+    getSyytjData({
       commit
     }, {
       strategyId
@@ -263,7 +263,7 @@ export default {
         commit('setSyytjData', body)
       })
     },
-    getSylfbData ({
+    getSylfbData({
       commit
     }, {
       strategyId
@@ -277,7 +277,7 @@ export default {
         commit('setSylfbData', body)
       })
     },
-    getMrjyData ({
+    getMrjyData({
       commit
     }, {
       strategyId,
@@ -292,7 +292,7 @@ export default {
         commit('setMrjyData', body)
       })
     },
-    getRadarData ({
+    getRadarData({
       commit
     }, {
       strategyId
@@ -306,7 +306,7 @@ export default {
         commit('setRadarData', body)
       })
     },
-    getMrxhData ({
+    getMrxhData({
       commit
     }, {
       strategyId,
