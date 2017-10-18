@@ -414,7 +414,7 @@ export default {
             } else {
                 window.jrj.jsCallNative(109, JSON.stringify({
                     url: window.location.href
-                }));
+                }))
             }
         },
         req() {
@@ -472,7 +472,7 @@ export default {
             $(e.target).addClass('yl').siblings().removeClass('yl')
         },
         submit() {
-            if (!this.index1 || !this.index2 || !this.index3 || !this.index4) {
+            if (!this.index1 || !this.index2 || !this.index3 || !this.index4 || !this.index5) {
                 alert('请答完全部题目')
                 return
             } else {
@@ -492,7 +492,7 @@ export default {
         }
     },
     mounted() {
-        document.title = '辉煌金融界上市13周年庆'
+        document.title = '央视嘉宾王伦全网限时回馈'
         this.$store.dispatch('user/checkLogin')
     }
 }
