@@ -18,7 +18,7 @@
     padding-right: 5px;
 }
 .bottomLeft {
-    box-sizing: content;
+    box-sizing: content-box;
     width: 125px;
     font-size: 12px;
     padding: 0 10px;
