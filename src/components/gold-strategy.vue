@@ -251,7 +251,7 @@ import {
 import * as Data from '../z3tougu/constant/siwei.js'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId,
       type: '',
@@ -274,13 +274,13 @@ export default {
   },
   computed: mapState({
     goldResult: state => state.goldStrategy.goldResult,
-    articleData: function () {
+    articleData: function() {
       return {
         title: '策略描述:',
         content: this.goldResult === null ? '' : this.goldResult.strategyDesc
       }
     },
-    recommendData: function () {
+    recommendData: function() {
       if (this.goldResult === null) {
         return {
           choseStockData: null,
@@ -425,10 +425,12 @@ export default {
         } else if (commission === 0.005) {
           commisVal = '千五'
         }
-
-        const v = this.goldResult.stockSort.split(',')[0]
-        const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
-        const stockSortData = this.stockSort[v] + '(' + s + ')'
+        var stockSortData = ''
+        if (this.goldResult.stockSort) {
+          const v = this.goldResult.stockSort.split(',')[0]
+          const s = this.goldResult.stockSort.split(',')[1] === 'asc' ? '升' : '降'
+          stockSortData = this.stockSort[v] + '(' + s + ')'
+        }
 
         let fundAllocateData = ''
         if (this.goldResult.fundAllocate === 'fund_value') {
@@ -478,17 +480,17 @@ export default {
     }
   }),
   methods: {
-    showQrcode () {
+    showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox
     },
-    showRadar () {
+    showRadar() {
       this.radarShow = true
     },
-    hideRadar () {
+    hideRadar() {
       this.radarShow = false
     }
   },
-  mounted () {
+  mounted() {
     this.type = this.$route.params.showType
 
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
@@ -507,9 +509,9 @@ export default {
     })
 
     const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+    qrcode.toDataURL(this.$refs.qrcode, url, function() {})
     const clipboard = new Clipboard('.copy', {
-      text: function () {
+      text: function() {
         return url
       }
     })

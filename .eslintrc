@@ -19,14 +19,16 @@
     "no-extra-semi": "error",
     "no-console": "off",
     "space-before-function-paren": "off",
-		"indent":"off",
-		"space-in-parens":"off",
-		"no-multi-spaces":"off",
-		"key-spacing":"off",
-		"no-spaced-func":"off",
-		"operator-linebreak":"off",
-		"space-infix-ops":"off",
-		"no-multiple-empty-lines":"off",
-		"no-trailing-spaces":"off"
+    "indent": "off",
+    "space-in-parens": "off",
+    "no-multi-spaces": "off",
+    "key-spacing": "off",
+    "no-spaced-func": "off",
+    "operator-linebreak": "off",
+    "space-infix-ops": "off",
+    "no-multiple-empty-lines": "off",
+    "no-trailing-spaces": "off",
+    "eol-last": "off",
+    "semi":"off"
   }
 }
