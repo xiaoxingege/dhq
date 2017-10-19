@@ -258,8 +258,8 @@ span.copy {
 }
 
 .code-box {
-    width: 180px;
-    height: 200px;
+    // width: 180px;
+    // height: 200px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;

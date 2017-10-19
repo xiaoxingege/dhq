@@ -98,6 +98,7 @@ a {
 
 .qrcode {
     position: absolute;
+    // box-sizing: border-box;
     top: 51px;
     right: 18px;
     /* top: 40px;
@@ -118,15 +119,14 @@ a {
 }
 
 .code-box {
-    width: 180px;
-    height: 200px;
+    // width: 200px;
+    // height: 214px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
     color: #666666;
     padding: 10px;
 }
-
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
