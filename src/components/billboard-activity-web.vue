@@ -340,11 +340,7 @@ export default {
         }
     },
     mounted() {
-<<<<<<< HEAD
         document.title='抓涨龙虎榜'
-=======
-        document.title='抓涨龙虎榜';
->>>>>>> 74c3f61c34ebe2f94c11b5300dcaffa075d38ca5
     }
 }
 </script>
