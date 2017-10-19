@@ -44,7 +44,7 @@ input {
     height: 1004px;
 }
 .bg4 {
-    background: url("../assets/images/anniversary-activity/anniversary-web-b4.jpg") center 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-web-b4-1.jpg") center 0 no-repeat;
     height: 2003px;
 }
 .bg5 {
@@ -96,14 +96,14 @@ input {
     z-index: 11;
 }
 .pop {
-    width: 879px;
+    width: 913px;
     height: 465px;
-    background: url("../assets/images/anniversary-activity/anniversary-web-pop.png") 0 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-web-pop-1.png") 0 0 no-repeat;
     position: fixed;
     top: 50%;
     margin-top: -232.5px;
     left: 50%;
-    margin-left: -439.5px;
+    margin-left: -456.5px;
     z-index: 12;
 }
 .pop img {
@@ -186,6 +186,55 @@ input {
     right: 0;
     top: -1px;
 }
+
+.join {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.join span {
+    position: absolute;
+}
+.join span input {
+    width: 255px;
+    height: 40px;
+    line-height: 40px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #452609;
+}
+.join span input::-webkit-input-placeholder {
+    color: #A78B67;
+}
+.join .userNamebox {
+    top: 185px;
+    left: 323px;
+}
+.join .phonebox {
+    top: 250px;
+    left: 323px;
+}
+.join .phonebox input {
+    width: 248px;
+}
+.join .btn-join {
+    position: absolute;
+    bottom: 70px;
+    left: 332px;
+    opacity: 0;
+    width: 207px;
+    height: 65px;
+}
+.join em {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    background: #fff;
+    border: 1px red solid;
+    border-radius: 5px;
+    padding: 5px;
+}
 </style>
 
 <template>
@@ -233,8 +282,19 @@ input {
     </div>
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
-        <img :src="codeImg" />
-        <a href="javascript:;" class="close" @click="close"></a>
+        <div class="join">
+            <span class="userNamebox">
+              <input type="text" class="userName" placeholder="请输入您的中文名" v-model="userName" />
+              <em v-html="txtUHtml" v-if="txtUShow"></em>
+          </span>
+            <span class="phonebox">
+              <input type="text" class="phone" placeholder="请输入您的11位手机号码" v-model="phone" />
+              <em v-html="txtPHtml" v-if="txtPShow"></em>
+          </span>
+            <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
+        </div>
+        <!-- <img :src="codeImg" />
+        <a href="javascript:;" class="close" @click="close"></a> -->
     </div>
 </div>
 </template>
@@ -333,6 +393,39 @@ export default {
         close() {
             this.popShow = false
         },
+        joinSubmit() {
+            if (!this.type) {
+                alert('提交中')
+                return
+            }
+            var regname = /^[\u4e00-\u9fa5]+$/gi
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+            if (!this.userName || this.userName.length === 0) {
+                this.txtUShow = true
+                this.txtUHtml = '姓名不能为空！'
+                return
+            } else if (!regname.test(this.userName)) {
+                this.txtUShow = true
+                this.txtUHtml = '请输入中文名'
+                return
+            } else if (!this.phone || this.phone.length === 0) {
+                this.txtPShow = true
+                this.txtPHtml = '手机号不能为空！'
+                return
+            } else if (!reg.test(this.phone)) {
+                this.txtPShow = true
+                this.txtPHtml = '手机号输入不正确！'
+                return
+            }
+            this.$store.dispatch('reservation/fetch', {
+                aid: '786965762733092864',
+                userName: this.userName,
+                phone: this.phone,
+                bizsource: 'ZNTF',
+                source: '1',
+                tgqdcode: 'MRD9MC9J'
+            })
+        },
         fJoinSubmit() {
             if (!this.type) {
                 alert('提交中')
@@ -358,12 +451,12 @@ export default {
                 return
             }
             this.$store.dispatch('reservation/fetch', {
-                aid: '774663343076651008',
+                aid: '786965762733092864',
                 userName: this.fUserName,
                 phone: this.fPhone,
-                bizsource: 'HD_ZNTF_PC',
+                bizsource: 'ZNTF',
                 source: '1',
-                tgqdcode: 'L54MST72'
+                tgqdcode: 'MRD9MC9J'
             })
         }
     },

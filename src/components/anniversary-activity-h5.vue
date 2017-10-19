@@ -82,10 +82,10 @@ input {
 }
 .footer {
     width: 100%;
-    height: 1.57rem;
+    height: 1.21rem;
     position: fixed;
     bottom: -0.01rem;
-    background: url("../assets/images/anniversary-activity/anniversary-h5-footer-1.png") center 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-h5-footer-2.png") center 0 no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -102,7 +102,7 @@ input {
 .pop {
     width: 100%;
     height: 5.01rem;
-    background: url("../assets/images/anniversary-activity/anniversary-h5-pop.png") 0 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-h5-pop-1.png") 0 0 no-repeat;
     background-size: 100% 100%;
     position: fixed;
     top: 50%;
@@ -124,21 +124,21 @@ input {
     bottom: 0.41rem;
     left: 2.76rem;
 }
-.footer .box-con img {
-    width: 1.80rem;
-    height: 1.75rem;
-    position: absolute;
-    right: 0.31rem;
-    top: -0.18rem;
-    display: none;
-}
-.footer .box-con div {
-    width: 2.89rem;
-    height: 0.63rem;
-    position: absolute;
-    top: 0.5rem;
-    right: 0.43rem;
-}
+// .footer .box-con img {
+//     width: 1.80rem;
+//     height: 1.75rem;
+//     position: absolute;
+//     right: 0.31rem;
+//     top: -0.18rem;
+//     display: none;
+// }
+// .footer .box-con div {
+//     width: 2.89rem;
+//     height: 0.63rem;
+//     position: absolute;
+//     top: 0.5rem;
+//     right: 0.43rem;
+// }
 .jzxgLink {
     width: 1.93rem;
     height: 0.39rem;
@@ -156,7 +156,7 @@ input {
 .pop div {
     width: 100%;
     float: left;
-    margin-top: 1.82rem;
+    // margin-top: 1.82rem;
 }
 .pop p {
     font-family: '微软雅黑';
@@ -166,6 +166,113 @@ input {
 }
 .pop p .co {
     color: #e84a19;
+}
+
+.footer .box-con div {
+    float: left;
+}
+// .footer div p:first-child {
+//     margin-left: 95px;
+// }
+.footer div p {
+    // width: 2.3rem;
+    height: 0.42rem;
+    line-height: 0.42rem;
+    float: left;
+    margin: 0.67rem 0 0 0.35rem;
+    position: relative;
+}
+.footer div p span {
+    font-size: 0.16rem;
+    color: #fff;
+    float: left;
+    width: 0.55rem;
+    text-align: left;
+    text-indent: -9999px;
+}
+.footer div p input {
+    width: 1.51rem;
+    height: 0.3rem;
+    padding: 0.05rem 0.1rem;
+    float: left;
+    // background-color: #4d4b4a;
+    background: none;
+    border: none;
+    color: #000;
+}
+.footer a {
+    width: 1.62rem;
+    height: 0.65rem;
+    position: absolute;
+    top: 0.47rem;
+    right: 0.23rem;
+}
+.footer em {
+    float: left;
+    font-size: 0.12rem;
+    background: #fff;
+    border: 0.01rem red solid;
+    border-radius: 0.03rem;
+    padding: 0 0.05rem;
+    position: absolute;
+    right: 0;
+    top: -0.01rem;
+}
+
+.join {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.join span {
+    position: absolute;
+}
+.join span input {
+    width: 2.91rem;
+    height: 0.54rem;
+    line-height: 0.54rem;
+    background: none;
+    border: none;
+    font-size: 0.2rem;
+    color: #452609;
+    position: absolute;
+}
+.join span input::-webkit-input-placeholder {
+    color: #A78B67;
+}
+.join .userNamebox {
+    width: 2.91rem;
+    height: 0.54rem;
+    top: 1.94rem;
+    left: 2.49rem;
+}
+.join .phonebox {
+    width: 2.91rem;
+    height: 0.54rem;
+    top: 2.64rem;
+    left: 2.49rem;
+}
+.join .phonebox input {
+    width: 2.91rem;
+}
+.join .btn-join {
+    position: absolute;
+    bottom: 0.72rem;
+    left: 2.65rem;
+    opacity: 0;
+    width: 2.29rem;
+    height: 0.71rem;
+}
+.join em {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #fff;
+    border: 0.01rem red solid;
+    border-radius: 0.05rem;
+    padding: 0 0.05rem;
+    font-size: 0.16rem;
+    line-height: 0.54rem;
 }
 </style>
 
@@ -197,19 +304,41 @@ input {
     </div>
     <div class="footer">
         <div class="box-con">
-            <img src="" />
-            <div @click="popClick" class="clipboard" data-clipboard-text=""></div>
+            <div>
+                <p>
+                    <span>姓名</span>
+                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="fUserName" />
+                    <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
+                </p>
+                <p style="margin-left:0.1rem;">
+                    <span>手机</span>
+                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="fPhone" style="width:1.96rem;" />
+                    <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
+                </p>
+            </div>
+            <a href="javascript:;" @click="fJoinSubmit">&nbsp;</a>
         </div>
     </div>
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
         <!-- <img :src="codeImg" /> -->
-        <div>
+        <!-- <div>
             <p>微信号 <span class="co">{{qcode}}</span> 复制成功</p>
             <p>打开微信 添加好友</p>
             <p>即可免费领取每日<span class="co">极智金股</span></p>
         </div>
-        <a href="javascript:;" class="close" @click="close"></a>
+        <a href="javascript:;" class="close" @click="close"></a> -->
+        <div class="join">
+            <span class="userNamebox">
+              <input type="text" class="userName" placeholder="请输入您的中文名" v-model="userName" />
+              <em v-html="txtUHtml" v-if="txtUShow"></em>
+          </span>
+            <span class="phonebox">
+              <input type="text" class="phone" placeholder="请输入您的11位手机号码" v-model="phone" />
+              <em v-html="txtPHtml" v-if="txtPShow"></em>
+          </span>
+            <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
+        </div>
     </div>
 </div>
 </template>
@@ -226,22 +355,22 @@ window.Clipboard = Clipboard
 export default {
     data() {
         $(function() {
-            if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
-                localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
-            } else {
-                localStorage.QcodeNum = '1'
-            }
-            $.ajax({
-                url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
-                dataType: 'jsonp',
-                jsonpCallback: 'callback'
-            }).then(data => {
-                $('.footer img').attr({
-                    'src': 'http://wx.jrj.com.cn' + data.imgurl,
-                    'qcode': data.wxid
-                })
-                $('.clipboard').attr('data-clipboard-text', data.wxid)
-            })
+            // if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
+            //     localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
+            // } else {
+            //     localStorage.QcodeNum = '1'
+            // }
+            // $.ajax({
+            //     url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
+            //     dataType: 'jsonp',
+            //     jsonpCallback: 'callback'
+            // }).then(data => {
+            //     $('.footer img').attr({
+            //         'src': 'http://wx.jrj.com.cn' + data.imgurl,
+            //         'qcode': data.wxid
+            //     })
+            //     $('.clipboard').attr('data-clipboard-text', data.wxid)
+            // })
             $('.nav-fixed a').click(function() {
                 var index = $(this).index() + 2
                 var pos = $('.bg' + index).offset().top
@@ -293,10 +422,25 @@ export default {
             },
             popShow: false,
             codeImg: '',
-            qcode: ''
+            qcode: '',
+            txtUHtml: '',
+            txtUShow: false,
+            txtPHtml: '',
+            txtPShow: false,
+            fTxtUHtml: '',
+            fTxtUShow: false,
+            fTxtPHtml: '',
+            fTxtPShow: false
         }
     },
-    computed: mapState({}),
+    computed: mapState({
+        type: state => {
+            return state.reservation.type
+        },
+        err: state => {
+            return state.reservation.err
+        }
+    }),
     components: {
         activitySlider
     },
@@ -320,10 +464,113 @@ export default {
             } else {
                 location.href = 'weixin://'
             }
+        },
+        joinSubmit() {
+            if (!this.type) {
+                alert('提交中')
+                return
+            }
+            var regname = /^[\u4e00-\u9fa5]+$/gi
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+            if (!this.userName || this.userName.length === 0) {
+                this.txtUShow = true
+                this.txtUHtml = '姓名不能为空！'
+                return
+            } else if (!regname.test(this.userName)) {
+                this.txtUShow = true
+                this.txtUHtml = '请输入中文名'
+                return
+            } else if (!this.phone || this.phone.length === 0) {
+                this.txtPShow = true
+                this.txtPHtml = '手机号不能为空！'
+                return
+            } else if (!reg.test(this.phone)) {
+                this.txtPShow = true
+                this.txtPHtml = '手机号输入不正确！'
+                return
+            }
+            this.$store.dispatch('reservation/fetch', {
+                aid: '786965762733092864',
+                userName: this.userName,
+                phone: this.phone,
+                bizsource: 'ZNTF',
+                source: '1',
+                tgqdcode: 'MRD9MC9J'
+            })
+        },
+        fJoinSubmit() {
+            if (!this.type) {
+                alert('提交中')
+                return
+            }
+            var regname = /^[\u4e00-\u9fa5]+$/gi
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+            if (!this.fUserName || this.fUserName.length === 0) {
+                this.fTxtUShow = true
+                this.fTxtUHtml = '姓名不能为空！'
+                return
+            } else if (!regname.test(this.fUserName)) {
+                this.fTxtUShow = true
+                this.fTxtUHtml = '请输入中文名'
+                return
+            } else if (!this.fPhone || this.fPhone.length === 0) {
+                this.fTxtPShow = true
+                this.fTxtPHtml = '手机号不能为空！'
+                return
+            } else if (!reg.test(this.fPhone)) {
+                this.fTxtPShow = true
+                this.fTxtPHtml = '手机号输入不正确！'
+                return
+            }
+            this.$store.dispatch('reservation/fetch', {
+                aid: '786965762733092864',
+                userName: this.fUserName,
+                phone: this.fPhone,
+                bizsource: 'ZNTF',
+                source: '1',
+                tgqdcode: 'MRD9MC9J'
+            })
         }
     },
     mounted() {
         document.title = '辉煌金融界上市13周年庆'
+        var _this = this
+        this.$watch('txtUShow', txtUShow => {
+            setTimeout(function() {
+                _this.txtUShow = false
+                _this.txtUHtml = ''
+            }, 1000)
+        })
+        this.$watch('txtPShow', txtPShow => {
+            setTimeout(function() {
+                _this.txtPShow = false
+                _this.txtPHtml = ''
+            }, 1000)
+        })
+        this.$watch('fTxtUShow', fTxtUShow => {
+            setTimeout(function() {
+                _this.fTxtUShow = false
+                _this.fTxtUHtml = ''
+            }, 1000)
+        })
+        this.$watch('fTxtPShow', fTxtPShow => {
+            setTimeout(function() {
+                _this.fTxtPShow = false
+                _this.fTxtPHtml = ''
+            }, 1000)
+        })
+        this.$watch('type', type => {
+            if (type) {
+                this.maskShow = true
+                this.successShow = true
+                this.joinShow = false
+            }
+        }, {
+            deep: true
+        })
+        this.$watch('err', err => {
+            alert(err.msg)
+        })
     }
 }
 </script>
