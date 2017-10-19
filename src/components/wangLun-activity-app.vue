@@ -430,7 +430,7 @@ export default {
                 },
                 success: function(data) {
                     if (data === 1) {
-                        alert('成功')
+                        // alert('成功')
                         _this.popReturn.title = '恭喜您！'
                         _this.popReturn.content = '<span class="yl">700元</span>现金券已发放到您的账户，<br />请尽快使用！'
                         _this.popShow = false
@@ -438,7 +438,7 @@ export default {
                         _this.answerShow = false
                         _this.returnShow = true
                     } else if (data === 2) {
-                        alert('领取过')
+                        // alert('领取过')
                         _this.popReturn.title = '很抱歉！'
                         _this.popReturn.content = '您已经领取过现金券，请尽快使用！'
                         _this.popShow = false
@@ -446,7 +446,7 @@ export default {
                         _this.answerShow = false
                         _this.returnShow = true
                     } else if (data === 3) {
-                        alert('失败')
+                        // alert('失败')
                         _this.popReturn.title = '很抱歉！'
                         _this.popReturn.content = '您所参加的活动已过期！<br />欢迎关注伦哥量化其他内容，<br />可以享受更多服务哦！'
                         _this.popShow = false
