@@ -79,10 +79,10 @@ input {
 }
 .footer {
     width: 100%;
-    height: 163px;
+    height: 115px;
     position: fixed;
     bottom: 0;
-    background: url("../assets/images/anniversary-activity/anniversary-web-footer.png") center bottom no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-web-footer-1.png") center bottom no-repeat;
     z-index: 10;
 }
 .fixBg {
@@ -120,13 +120,6 @@ input {
     bottom: 41px;
     left: 327px;
 }
-.footer .box-con img {
-    width: 162px;
-    height: 162px;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
 .jzxgLink {
     width: 154px;
     height: 31px;
@@ -140,6 +133,58 @@ input {
     position: absolute;
     top: 677px;
     left: 414px;
+}
+
+.footer .box-con div {
+    height: 147px;
+    float: left;
+}
+.footer div p:first-child {
+    margin-left: 95px;
+}
+.footer div p {
+    width: 251px;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    margin: 64px 0 0 35px;
+    position: relative;
+}
+.footer div p span {
+    font-size: 16px;
+    color: #fff;
+    float: left;
+    width: 40px;
+    text-align: left;
+    text-indent: -9999px;
+}
+.footer div p input {
+    width: 191px;
+    height: 24px;
+    padding: 5px 10px;
+    float: left;
+    // background-color: #4d4b4a;
+    background: none;
+    border: none;
+    color: #000;
+}
+.footer a {
+    width: 207px;
+    height: 65px;
+    float: right;
+    margin: 34px 87px 0 0;
+}
+.footer em {
+    margin-left: 40px;
+    float: left;
+    font-size: 12px;
+    background: #fff;
+    border: 1px red solid;
+    border-radius: 3px;
+    padding: 0 5px;
+    position: absolute;
+    right: 0;
+    top: -1px;
 }
 </style>
 
@@ -171,7 +216,19 @@ input {
     </div>
     <div class="footer">
         <div class="box-con">
-            <img src="" />
+            <div>
+                <p>
+                    <span>姓名</span>
+                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="fUserName" />
+                    <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
+                </p>
+                <p>
+                    <span>手机</span>
+                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="fPhone" />
+                    <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
+                </p>
+            </div>
+            <a href="javascript:;" @click="fJoinSubmit">&nbsp;</a>
         </div>
     </div>
     <div class='fixBg' v-if="popShow"></div>
@@ -192,18 +249,18 @@ window.jQuery = window.$ = jQuery
 export default {
     data() {
         $(function() {
-            if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
-                localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
-            } else {
-                localStorage.QcodeNum = '1'
-            }
-            $.ajax({
-                url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
-                dataType: 'jsonp',
-                jsonpCallback: 'callback'
-            }).then(data => {
-                $('.footer img').attr('src', 'http://wx.jrj.com.cn' + data.imgurl)
-            })
+            // if (localStorage.QcodeNum && parseInt(localStorage.QcodeNum) < 30) {
+            //     localStorage.QcodeNum = parseInt(localStorage.QcodeNum) + 1
+            // } else {
+            //     localStorage.QcodeNum = '1'
+            // }
+            // $.ajax({
+            //     url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
+            //     dataType: 'jsonp',
+            //     jsonpCallback: 'callback'
+            // }).then(data => {
+            //     $('.footer img').attr('src', 'http://wx.jrj.com.cn' + data.imgurl)
+            // })
             $('.nav-fixed a').click(function() {
                 var index = $(this).index() + 2
                 var pos = $('.bg' + index).offset().top
@@ -245,10 +302,25 @@ export default {
                 ]
             },
             popShow: false,
-            codeImg: ''
+            codeImg: '',
+            txtUHtml: '',
+            txtUShow: false,
+            txtPHtml: '',
+            txtPShow: false,
+            fTxtUHtml: '',
+            fTxtUShow: false,
+            fTxtPHtml: '',
+            fTxtPShow: false
         }
     },
-    computed: mapState({}),
+    computed: mapState({
+        type: state => {
+            return state.reservation.type
+        },
+        err: state => {
+            return state.reservation.err
+        }
+    }),
     components: {
         activitySlider
     },
@@ -260,10 +332,80 @@ export default {
         },
         close() {
             this.popShow = false
+        },
+        fJoinSubmit() {
+            if (!this.type) {
+                alert('提交中')
+                return
+            }
+            var regname = /^[\u4e00-\u9fa5]+$/gi
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+            if (!this.fUserName || this.fUserName.length === 0) {
+                this.fTxtUShow = true
+                this.fTxtUHtml = '姓名不能为空！'
+                return
+            } else if (!regname.test(this.fUserName)) {
+                this.fTxtUShow = true
+                this.fTxtUHtml = '请输入中文名'
+                return
+            } else if (!this.fPhone || this.fPhone.length === 0) {
+                this.fTxtPShow = true
+                this.fTxtPHtml = '手机号不能为空！'
+                return
+            } else if (!reg.test(this.fPhone)) {
+                this.fTxtPShow = true
+                this.fTxtPHtml = '手机号输入不正确！'
+                return
+            }
+            this.$store.dispatch('reservation/fetch', {
+                aid: '774663343076651008',
+                userName: this.fUserName,
+                phone: this.fPhone,
+                bizsource: 'HD_ZNTF_PC',
+                source: '1',
+                tgqdcode: 'L54MST72'
+            })
         }
     },
     mounted() {
         document.title = '辉煌金融界上市13周年庆'
+        var _this = this
+        this.$watch('txtUShow', txtUShow => {
+            setTimeout(function() {
+                _this.txtUShow = false
+                _this.txtUHtml = ''
+            }, 1000)
+        })
+        this.$watch('txtPShow', txtPShow => {
+            setTimeout(function() {
+                _this.txtPShow = false
+                _this.txtPHtml = ''
+            }, 1000)
+        })
+        this.$watch('fTxtUShow', fTxtUShow => {
+            setTimeout(function() {
+                _this.fTxtUShow = false
+                _this.fTxtUHtml = ''
+            }, 1000)
+        })
+        this.$watch('fTxtPShow', fTxtPShow => {
+            setTimeout(function() {
+                _this.fTxtPShow = false
+                _this.fTxtPHtml = ''
+            }, 1000)
+        })
+        this.$watch('type', type => {
+            if (type) {
+                this.maskShow = true
+                this.successShow = true
+                this.joinShow = false
+            }
+        }, {
+            deep: true
+        })
+        this.$watch('err', err => {
+            alert(err.msg)
+        })
     }
 }
 </script>
