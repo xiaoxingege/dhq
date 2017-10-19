@@ -450,12 +450,15 @@ export default {
     draw: state => state.luckDrawData.draw
   }),
   beforecreated () {
+    alert('beforecreated1')
     document.title = '金豆大转盘'
+    alert('beforecreated2')
   },
   created () {
 
   },
   mounted () {
+    alert('mounted')
     if (!localStorage.getItem('hintStorage')) {
       localStorage.setItem('hintStorage', this.hint)
     } else {
