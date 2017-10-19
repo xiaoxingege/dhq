@@ -1173,9 +1173,10 @@ export default {
     },
     restoreMap: function() {
       this.chart.resize({
-        height: this.$refs.treemap.offsetHeight,
-        width: this.$refs.treemap.offsetWidth
+        height: this.mapHeight,
+        width: this.mapWidth
       })
+      this.scale = 1;
       this.$refs.treemap.style.left = 0
       this.$refs.treemap.style.top = 0
     },

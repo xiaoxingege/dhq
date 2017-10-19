@@ -37,7 +37,7 @@
 <template>
 <div class="dialog">
   <div class="top clearfix">
-    <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode}}]</span>
+    <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
     <span class="fr">
                 <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
