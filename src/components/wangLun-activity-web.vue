@@ -315,7 +315,9 @@ export default {
             $('.nav-fixed a').click(function() {
                 var index = $(this).index() + 1
                 var pos = $('.bg' + index).offset().top
-
+                if (index === 1) {
+                    pos = pos + 660
+                }
                 // 实现平滑移动 1000代表时间ms
                 $('html,body').stop().animate({
                     scrollTop: pos
