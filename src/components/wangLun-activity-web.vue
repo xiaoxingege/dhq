@@ -18,7 +18,7 @@ input {
     height: 849px;
 }
 .bg2 {
-    background: url("../assets/images/wangLun-activity/wangLun-web-b2.jpg") center 0 no-repeat;
+    background: url("../assets/images/wangLun-activity/wangLun-web-b2-1.jpg") center 0 no-repeat;
     height: 269px;
 }
 .bg3 {
