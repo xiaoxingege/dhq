@@ -453,12 +453,9 @@ export default {
     
   },
   created () {
-    alert('created1')
     document.title = '金豆大转盘'
-    alert('created2')
   },
   mounted () {
-    alert('mounted')
     if (!localStorage.getItem('hintStorage')) {
       localStorage.setItem('hintStorage', this.hint)
     } else {
