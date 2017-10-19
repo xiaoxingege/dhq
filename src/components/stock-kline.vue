@@ -123,7 +123,7 @@ export default ({
           //   }
           // echarts只比较openPx和closePx;3.7.2会修改次BUG,如果相等会与上一条数据的closePx比较。目前先暂时微改 openPx和closePx的数值大小
           if (openPx === closePx) {
-            if (prevClosePx < closePx) {
+            if (prevClosePx <= closePx) {
               closePx += 0.0001
             } else {
               openPx += 0.0001

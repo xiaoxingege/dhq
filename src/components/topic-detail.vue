@@ -713,7 +713,7 @@ bottom: 0; */
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
-            <td class="blue stock-td3">查看<span class="see-topicmark">{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
