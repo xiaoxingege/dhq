@@ -450,12 +450,12 @@ export default {
     draw: state => state.luckDrawData.draw
   }),
   beforecreated () {
-    alert('beforecreated1')
-    document.title = '金豆大转盘'
-    alert('beforecreated2')
+    
   },
   created () {
-
+    alert('created1')
+    document.title = '金豆大转盘'
+    alert('created2')
   },
   mounted () {
     alert('mounted')
