@@ -1,10 +1,5 @@
 <style lang="scss">
 @import '../assets/css/base.css';
-* {
-    text-align: justify;
-    box-sizing: border-box;
-    font-size: 12px;
-}
 body,
 html {
     height: 100%;
@@ -35,25 +30,25 @@ body {
 .backtest-time {
     background: #141518;
     color: #c9d0d7;
-    width: 100%;
-    border-bottom: 3px solid #0d0e0f;
-    border-left: 1px solid #0d0e0f;
+    // border-bottom: 3px solid #0d0e0f;
+    // border-left: 1px solid #0d0e0f;
     /* padding: 0 20px 20px 0; */
-    padding-right: 20px;
-    padding-bottom: 20px;
+    // padding-right: 20px;
+    // padding-bottom: 20px;
     min-height: 100%;
     position: relative;
 }
 .btime-main {
     /* padding: 0 10px 0; */
     position: relative;
+    padding-bottom: 20px;
 }
 .icon {
     position: absolute;
     /* right: 15px;
         top: 8px; */
     /* right: 17px; */
-    right: -2px;
+    right: 18px;
     top: 20px;
 }
 .icon span {
@@ -91,38 +86,10 @@ span.copy {
 .copy.active {
     background-position: 0 -34px;
 }
-
-/* .icon{
-      position: absolute;
-      right: 15px;
-      top: 8px;
-    }
-    .weixin{
-      height: 22px;
-      width: 24px;
-      display: inline-block;
-      background: url(../assets/images/z3img/back-weixin.png) no-repeat;
-      margin-right: 12px;
-      cursor:pointer;
-    }
-    .copy{
-      height: 22px;
-      width: 24px;
-      display: inline-block;
-      background: url(../assets/images/z3img/back-copy.png) no-repeat;
-      cursor:pointer;
-    } */
-/* .qrcode{
-      position:absolute;
-      top:40px;
-      right:10px;
-      box-shadow:4px 4px 4px 2px #eee;
-      border:1px solid #eee
-    } */
 .qrcode {
     position: absolute;
     top: 51px;
-    right: 41px;
+    right: 18px;
     /* top: 40px;
         right: 10px; */
     /* box-shadow: 4px 4px 4px 2px #eee;
@@ -137,29 +104,11 @@ span.copy {
     position: absolute;
     top: -26px;
     right: 32px;
-
 }
 
-/* .code-box {
-    width: 189px;
-    height: 205px;
-    background: #fff;
-    border-radius: 10px;
-    font-size: 12px;
-    color: #666666;
-    padding: 10px;
-} */
-
-/* .code-txt {
-    text-align: center;
-    margin-top: -3px;
-} */
-
-/* code=180 */
-
 .code-box {
-    width: 200px;
-    height: 214px;
+    width: 180px;
+    height: 200px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
@@ -175,7 +124,7 @@ span.copy {
 .foots-tishi {
     font-size: 12px;
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     color: #808ba1;
     /* padding-bottom: 24px;
       padding-left: 20px; */
@@ -218,7 +167,7 @@ import {
   ctx
 } from '../z3tougu/config'
 export default {
-  data () {
+  data() {
     return {
       showQrcodeBox: false,
       strategyId: this.$route.params.strategyId,
@@ -235,23 +184,20 @@ export default {
     toast
   },
   methods: {
-    showQrcode () {
+    showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox
     },
-    showCode () {
+    showCode() {
       this.showQrcodeBox = !this.showQrcodeBox
     }
   },
-  mounted () {
-    console.log(document.getElementsByClassName('k-line-box')[0].offsetTop)
-    // console.log(document.getElementsByClassName('time-bottom')[0].clientHeight)
-    // console.log(document.getElementById('ss').offsetTop)
-
+  mounted() {
     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
-    console.info(url)
-    qrcode.toDataURL(this.$refs.qrcode, url, function () {})
+    qrcode.toDataURL(this.$refs.qrcode, url, {
+      version: 5
+    }, function() {})
     const clipboard = new Clipboard(this.$refs.copy2share, {
-      text: function () {
+      text: function() {
         return url
       }
     })

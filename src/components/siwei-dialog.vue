@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
 .dialog {
-    width: 450px;
+    width: 470px;
     height: 240px;
     background: #4B515E;
 }
@@ -30,7 +30,7 @@
     margin-bottom: 7px;
 }
 .bottomRight {
-    width: 300px;
+    width: 320px;
     height: 200px;
 }
 </style>
@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="bottomRight fl">
-      <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="300" :chartHeight="200"></Stockkline>
+      <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
     </div>
   </div>
 </div>

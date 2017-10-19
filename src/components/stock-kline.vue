@@ -441,15 +441,15 @@ export default ({
 .stock-kline .ma {
     position: absolute;
     top: 4px;
-    right: 10px;
+    left: 35px;
     font-size: 12px;
 }
 .stock-kline .ma .ma20 {
-    padding-right: 10px;
+    padding-right: 8px;
     color: #e75443;
 }
 .stock-kline .ma .ma60 {
-    padding-right: 10px;
+    padding-right: 8px;
     color: #6999d1;
 }
 .stock-kline .ma .ma120 {

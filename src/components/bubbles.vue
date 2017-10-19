@@ -4,7 +4,7 @@
 }
 
 .siweiDialog {
-    width: 450px;
+    width: 470px;
     height: 247px;
     position: absolute;
 }

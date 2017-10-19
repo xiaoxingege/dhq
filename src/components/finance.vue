@@ -6,6 +6,8 @@
     color: #c9d0d7;
     font-size: 12px;
     padding: 10px 0 10px 10px;
+    line-height: 20px;
+    font-family: 'Microsoft Yahei';
 }
 
 .finance p span {
