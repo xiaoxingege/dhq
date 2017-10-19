@@ -153,7 +153,7 @@
         </li>
         <li class="fl">
           <p>手机</p>
-          <input type="text" ref="bottomPhone" placeholder="请输入11位手机号">
+          <input type="text" ref="bottomPhone" placeholder="请输入11位手机号" >
         </li>
         <span class="errorMsg"></span>
         <div class="appointmentBtn" @click="submitPhone"></div>
@@ -171,11 +171,11 @@
         <ul>
           <li>
             <p>姓名</p>
-            <input ref="layerName" type="text"  placeholder="请输入4字以内的姓名">
+            <input ref="layerName" type="text"  placeholder="请输入4字以内的姓名" class="clear">
           </li>
           <li>
             <p>手机</p>
-            <input ref="layerPhone" type="text" placeholder="请输入11位手机号">
+            <input ref="layerPhone" type="text" placeholder="请输入11位手机号"  class="clear">
           </li>
           <span class="errorMsg"></span>
         </ul>
@@ -327,12 +327,20 @@ export default {
             }else{
               this.showLayer = true;
               this.layerType = '2';
+              if(this.$refs.layerName){
+                this.$refs.layerName.value=" ";
+                this.$refs.layerPhone.value=" ";
+              }
+              if(this.$refs.bottomName){
+                this.$refs.bottomName.value=" ";
+                this.$refs.bottomPhone.value=" ";
+              }
             }
           })
         }
     },
     mounted() {
-        
+        document.title='抓涨龙虎榜';
     }
 }
 </script>
