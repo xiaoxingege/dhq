@@ -313,7 +313,6 @@ export default {
           this.submitSuccess(layerName,layerPhone);
         },
         submitPhone:function(){
-          debugger
           let bottomName = this.$refs.bottomName.value;
           let bottomPhone = this.$refs.bottomPhone.value;  
                   
