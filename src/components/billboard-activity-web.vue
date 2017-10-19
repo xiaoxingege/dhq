@@ -5,7 +5,7 @@
 .fall {color: #2DC678 !important;}
 .up {color: #F24637 !important;}
  #Billboard{width: 100%;}
-.banner div:first-child{height:530px;display: block; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_01.jpg') center 0 no-repeat;}
+.banner div:first-child{height:530px;display: block;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_01.jpg') center 0 no-repeat;}
 .banner div:first-child +div{height: 469px;display: block; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_02.jpg') center 0 no-repeat;}
 .part01{width: 100%;height: 487px; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part01_bg.jpg') no-repeat;background-size: 100% 100%;}
 .tit01{width: 1000px;margin: 0 auto;}
@@ -14,7 +14,7 @@
 .tit01Content>div{width: 731px;height: 335px;border: solid #cf9700 6px;}
 .tit01Content>ul{width: 229px;}
 .tit01Content>ul>li{width: 100%;height: 91px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/partBtn.png') no-repeat;background-size: 100% 100%;overflow:hidden;}
-.tit01Content>ul>li p{width: 100%; font-size: 28px;line-height: 28px;margin-top: 13px;text-align: center;color: #2f1635;}
+.tit01Content>ul>li p{width: 100%; font-size: 28px;line-height: 28px;margin-top: 13px;text-align: center;color: #2f1635;font-weight: 600;}
 .tit01Content>ul>li span{width: 100%; font-size: 20px;line-height: 20px;margin-top: 6px;text-align: center;color: #311e00;display: block;}
 /*第二部分*/
 .part02{width: 100%;height: 504px; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part02_bg.jpg') no-repeat;background-size: 100% 100%;}
@@ -28,7 +28,7 @@
 .part05 ul li:first-child img{width: 441px;height: 236px;display: block;margin-top: 139px;margin-left: 20px;}
 .part05 ul li:first-child +li{width: 50%;height: 100%;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part05_content02.jpg') no-repeat;background-size: 100% 100%;}
 .part05 ul li:first-child +li img{width: 441px;height: 236px;display: block;margin-top: 139px;margin-left: 44px;}
-.part06>img{width: 100%;height: 423px;display: block;}
+.part06 .part61{width: 100%;height: 423px;display: block;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part06_img.jpg') center 0 no-repeat;}
 .part06{margin-bottom: 161px;}
 .part06>div{width: 100%;height: 234px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part06_bg.jpg') no-repeat;background-size: 100% 100%;}
 
@@ -58,13 +58,13 @@
   .maskCenter{width: 692px;height: 446px;margin: 0 auto;margin-top: 5%;position: relative;}
   .closeImg{width: 46px;height: 46px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/close.png')no-repeat;background-size: 100% 100%;position: absolute;top: -46px;right: -46px;}
   .part06 .swiper-box{width: 100%;height: 204px;margin-bottom: 161px;padding-bottom: 30px;}
-  .swiper-container {width: 1000px;height: 100%; margin: 0 auto;}
+  .swiper-container {width: 1000px;height: 100%; margin: 0 auto;position: relative;}
   .swiper-slide {text-align: center;font-size: 18px;background: #fff;/* Center slide text vertically */display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center;}
   .swiper-slide>img{width: 100%;height: 100%;}
   .tanBook{width: 220px;height: 70px;margin: 0 auto;margin-top: 30px;}
 </style>
 <style>
-.part06 .swiper-box{position:static;width: 100%;height: 204px;margin-bottom: 161px;}
+.part06 .swiper-box{position:relative;width: 1000px !important;height: 204px;margin-bottom: 161px;margin: 0 auto;}
 .device {width: 660px;position: relative;margin: 10px auto;height: 250px;padding: 30px 40px;border-radius: 20px;background: #000;border:3px solid #fff;box-shadow: 0px 0px 5px #000;}
 .swiper-container {width: 660px;height: 250px;color: #fff;background: #222;text-align: center;}
 .swiper-slide {height: 100%;opacity: 0.4;-webkit-transition: 300ms;-moz-transition: 300ms;-ms-transition: 300ms;-o-transition: 300ms;transition: 300ms;-webkit-transform: scale(0);-moz-transform: scale(0);-ms-transform: scale(0);-o-transform: scale(0);transform: scale(0);}
@@ -76,6 +76,9 @@
 .swiper-visible-switch {opacity: 1;top: 0;background: #aaa;}
 .swiper-active-switch {background: #fff;}
 .errorMsg{color: red;line-height: 42px;text-align: center;}
+.swiper-button-prev{float: left;position: absolute;top: 75px;left:-68px;z-index: 20}
+.swiper-button-next{float: left;position: absolute;top: 75px;right:-68px;z-index: 20}
+input{font-size: 16px;}
 </style>
 
 <template>
@@ -128,7 +131,7 @@
       </ul>
     </div>
     <div class="part06">
-      <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part06_img.jpg" alt="">
+      <div class="part61"></div>
       <!-- <div class="swiperBox">
           <div class="swiper-container">
               <div class="swiper-wrapper">
@@ -143,7 +146,10 @@
               <div class="swiper-button-prev"></div>
           </div>
       </div> -->
-       <activity-slider :listData="listData" @clickimg="onImageClick" />
+      <div>
+        <activity-slider :listData="listData" @clickimg="onImageClick" />
+      </div>        
+       
     </div>
     <div class="bottomFix">
       <ul class="clearfix">
@@ -226,7 +232,7 @@ export default {
                 conHeight: '204px',
                 conPadding: '0',
                 pagShow: false,
-                arrowShow: false,
+                arrowShow: true,
                 paginationClickable: true,
                 slidesPerView:3,
                 spaceBetween:30,
@@ -235,6 +241,16 @@ export default {
                 watchActiveIndex: true,
                 centeredSlides: true,
                 autoplayDisableOnInteraction: false,
+                prev: {
+                    imgUrl: require('assets/images/anniversary-activity/left.png'),
+                    width: '56px',
+                    height: '56px'
+                },
+                next: {
+                    imgUrl: require('assets/images/anniversary-activity/right.png'),
+                    width: '56px',
+                    height: '56px'
+                },
                 list: [{
                         imgUrl: 'http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/tan01.jpg',
                         link: ''
@@ -297,18 +313,18 @@ export default {
           this.submitSuccess(layerName,layerPhone);
         },
         submitPhone:function(){
+          debugger
           let bottomName = this.$refs.bottomName.value;
           let bottomPhone = this.$refs.bottomPhone.value;  
                   
           var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
           if(!regname.test(bottomName)){
-              return;
+                return;
           }          
           var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
           if (!reg.test(bottomPhone)) {
                 return;
           }
-
 
           this.submitSuccess(bottomName,bottomPhone);
 
@@ -328,12 +344,12 @@ export default {
               this.showLayer = true;
               this.layerType = '2';
               if(this.$refs.layerName){
-                this.$refs.layerName.value=" ";
-                this.$refs.layerPhone.value=" ";
+                this.$refs.layerName.value="";
+                this.$refs.layerPhone.value="";
               }
               if(this.$refs.bottomName){
-                this.$refs.bottomName.value=" ";
-                this.$refs.bottomPhone.value=" ";
+                this.$refs.bottomName.value="";
+                this.$refs.bottomPhone.value="";
               }
             }
           })
