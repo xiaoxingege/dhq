@@ -18,6 +18,7 @@
     padding-right: 5px;
 }
 .bottomLeft {
+    box-sizing: content-box;
     width: 125px;
     font-size: 12px;
     padding: 0 10px;
@@ -77,7 +78,7 @@ import {
 
 export default {
   props: ['dialogOptions'],
-  data () {
+  data() {
     return {
       xSelectData: Data.xSelectData,
       bubbleSizeSelect: Data.bubbleSizeSelect,
@@ -96,7 +97,7 @@ export default {
     bubbleSize: state => state.bubbles.parameterData.bubblesSize,
     bubbleColor: state => state.bubbles.parameterData.bubbleColor,
     hoverStock: state => state.stock.stock,
-    colorS: function () {
+    colorS: function() {
       if (Number(this.hoverStock.chgPx) > 0) {
         return '#ca4941'
       } else if (Number(this.hoverStock.chgPx) < 0) {
@@ -109,7 +110,7 @@ export default {
   methods: {
 
   },
-  mounted () {
+  mounted() {
 
   }
 }
