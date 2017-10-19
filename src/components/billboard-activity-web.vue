@@ -40,7 +40,7 @@
 .bottomFix input{width: 216px;height: 40px;border: solid #656197 1px;background: #393377;opacity: 0.8;margin-left: 12px;}
 .appointmentBtn{width: 223px;height: 76px;background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/appointmentBtn.png) no-repeat;background-size: 100% 100%;position: absolute;top:-20px;right: 62px;}
 /*右侧*/
-.sidebar{width:70px;position: fixed;top: 30%;right: 3%;}
+.sidebar{width:70px;position: fixed;top: 20%;right: 3%;z-index:999}
 .sidebar a{display: block;width:70px;height:70px;background-size: 100% 100%;margin-top: 11px;margin-bottom: 11px;}
   .item-qq{background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/qq.jpg) top center;}
 .item-code{background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/erCode.jpg) top center;}
@@ -55,7 +55,7 @@
   .mask li{margin-top: 10px;}
   .mask p{font-size: 22px;line-height: 49px;color: #ffce4a;float: left;}
   .mask input{width: 216px;height: 47px;border: solid #656197 1px;background: #393377;opacity: 0.8;margin-left: 12px;}
-  .maskCenter{width: 692px;height: 446px;margin: 0 auto;margin-top: 15%;position: relative;}
+  .maskCenter{width: 692px;height: 446px;margin: 0 auto;margin-top: 5%;position: relative;}
   .closeImg{width: 46px;height: 46px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/close.png')no-repeat;background-size: 100% 100%;position: absolute;top: -46px;right: -46px;}
   .part06 .swiper-box{width: 100%;height: 204px;margin-bottom: 161px;padding-bottom: 30px;}
   .swiper-container {width: 1000px;height: 100%; margin: 0 auto;}
@@ -75,6 +75,7 @@
 .swiper-pagination-switch {display: inline-block;width: 10px;height: 10px;border-radius: 8px;background: #aaa;margin-right: 8px;cursor: pointer;-webkit-transition: 300ms;-moz-transition: 300ms;-ms-transition: 300ms;-o-transition: 300ms;transition: 300ms;opacity: 0;position: relative;top: -50px;}
 .swiper-visible-switch {opacity: 1;top: 0;background: #aaa;}
 .swiper-active-switch {background: #fff;}
+.errorMsg{color: red;line-height: 42px;text-align: center;}
 </style>
 
 <template>
@@ -148,16 +149,15 @@
       <ul class="clearfix">
         <li class="fl">
           <p>姓名</p>
-          <input type="text" ref="bottomName">
+          <input type="text" ref="bottomName" placeholder="请输入4字以内的姓名">
         </li>
         <li class="fl">
           <p>手机</p>
-          <input type="text" ref="bottomPhone">
+          <input type="text" ref="bottomPhone" placeholder="请输入11位手机号">
         </li>
         <span class="errorMsg"></span>
         <div class="appointmentBtn" @click="submitPhone"></div>
       </ul>
-      
     </div>
     <div class="sidebar">
       <a class="item-qq" onclick="javascript: window.open('http://bizapp.qq.com/webc.htm?new=0&sid=800089887&o=b.qq.com&q=7', '_blank', 'height=544, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');" title="在线咨询"></a>
@@ -171,11 +171,11 @@
         <ul>
           <li>
             <p>姓名</p>
-            <input ref="layerName" type="text">
+            <input ref="layerName" type="text"  placeholder="请输入4字以内的姓名">
           </li>
           <li>
             <p>手机</p>
-            <input ref="layerPhone" type="text">
+            <input ref="layerPhone" type="text" placeholder="请输入11位手机号">
           </li>
           <span class="errorMsg"></span>
         </ul>
@@ -212,7 +212,7 @@
 import {
     mapState
 } from 'vuex'
-import $ from 'jquery'
+// import $ from 'jquery'
 import activitySlider from 'components/activity-slider'
 
 export default {
@@ -286,12 +286,10 @@ export default {
           let layerPhone = this.$refs.layerPhone.value;
           var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
           if(!regname.test(layerName)){
-              $('.errorMsg').text('请输入4字以内的姓名');
               return;
           }          
           var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
           if (!reg.test(layerPhone)) {
-                $('.errorMsg').text('手机号码不符合规则');
                 return;
           }
           
@@ -304,12 +302,10 @@ export default {
                   
           var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
           if(!regname.test(bottomName)){
-              $('.errorMsg').text('请输入4字以内的姓名');
               return;
           }          
           var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
           if (!reg.test(bottomPhone)) {
-                $('.errorMsg').text('手机号码不符合规则');
                 return;
           }
 
