@@ -3394,10 +3394,6 @@ js-beautify@^1.6.3:
     mkdirp "~0.5.0"
     nopt "~3.0.1"
 
-js-sha1@^0.4.1:
-  version "0.4.1"
-  resolved "http://registry.npm.taobao.org/js-sha1/download/js-sha1-0.4.1.tgz#d118479722a766822e951513c897a31c9654a5b8"
-
 js-stringify@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/js-stringify/-/js-stringify-1.0.2.tgz#1736fddfd9724f28a3682adc6230ae7e4e9679db"
