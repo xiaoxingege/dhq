@@ -4,8 +4,9 @@
 .disnone{  display: none;}
 .fall {color: #2DC678 !important;}
 .up {color: #F24637 !important;}
-.banner img:first-child{width: 100%;height:530px;display: block;}
-.banner img:first-child +img{width: 100%;height: 469px;display: block;}
+ #Billboard{width: 100%;}
+.banner div:first-child{height:530px;display: block; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_01.jpg') center 0 no-repeat;}
+.banner div:first-child +div{height: 469px;display: block; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_02.jpg') center 0 no-repeat;}
 .part01{width: 100%;height: 487px; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part01_bg.jpg') no-repeat;background-size: 100% 100%;}
 .tit01{width: 1000px;margin: 0 auto;}
 .tit01>img{height: 90px;width: 100%;display: block;}
@@ -31,7 +32,7 @@
 .part06{margin-bottom: 161px;}
 .part06>div{width: 100%;height: 234px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part06_bg.jpg') no-repeat;background-size: 100% 100%;}
 
-.bottomFix{width: 100%;height: 161px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/appointmentBtn.jpg') no-repeat;background-size: 100% 100%;position: fixed;bottom: 0;left: 0;z-index: 4;}
+.bottomFix{width: 100%;height: 161px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/appointmentBtn.jpg') center 0 no-repeat;position: fixed;bottom: 0;left: 0;z-index: 4;}
 .bottomFix ul{width: 1000px;margin: 0 auto;margin-top: 100px;position: relative;}
 .bottomFix ul li:first-child{margin-left: 65px;}
 .bottomFix ul li:first-child +li{margin-left: 13px;}
@@ -79,8 +80,8 @@
 <template>
     <div id="Billboard">
     <div class="banner">
-      <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_01.jpg" alt="">
-      <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/banner_02.jpg" alt="">
+      <div></div>
+      <div></div>
     </div>
     <div class="part01">
       <div class="tit01">
