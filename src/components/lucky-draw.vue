@@ -450,10 +450,10 @@ export default {
     draw: state => state.luckDrawData.draw
   }),
   beforecreated () {
-
+    
   },
   created () {
-
+    document.title = '金豆大转盘'
   },
   mounted () {
     if (!localStorage.getItem('hintStorage')) {
@@ -461,8 +461,6 @@ export default {
     } else {
       this.hint = localStorage.getItem('hintStorage') !== 'false'
     }
-
-    document.title = '金豆大转盘'
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
