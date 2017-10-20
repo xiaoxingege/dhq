@@ -108,7 +108,7 @@ export default {
     data() {
         return {
             showLayer:false,
-            layerType:'',
+            layerType:''
         }
     },
     computed: mapState({
