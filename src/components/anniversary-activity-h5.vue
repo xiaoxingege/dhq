@@ -47,7 +47,7 @@ input {
     background-size: 100% 100%;
 }
 .bg4 {
-    background: url("../assets/images/anniversary-activity/anniversary-h5-b4.jpg") center 0 no-repeat;
+    background: url("../assets/images/anniversary-activity/anniversary-h5-b4-1.jpg") center 0 no-repeat;
     height: 24.66rem;
     background-size: 100% 100%;
 }
@@ -446,11 +446,11 @@ export default {
     },
     methods: {
         popClick() {
-            var qcode = $('.footer img').attr('qcode')
-            this.qcode = qcode
+            // var qcode = $('.footer img').attr('qcode')
+            // this.qcode = qcode
             this.popShow = true
             // 复制粘贴
-            new Clipboard('.clipboard')
+            // new Clipboard('.clipboard')
         },
         close() {
             this.popShow = false
@@ -493,7 +493,7 @@ export default {
                 aid: '786965762733092864',
                 userName: this.userName,
                 phone: this.phone,
-                bizsource: 'ZNTF',
+                bizsource: 'mSite',
                 source: '1',
                 tgqdcode: 'MRD9MC9J'
             })
@@ -526,7 +526,7 @@ export default {
                 aid: '786965762733092864',
                 userName: this.fUserName,
                 phone: this.fPhone,
-                bizsource: 'ZNTF',
+                bizsource: 'mSite',
                 source: '1',
                 tgqdcode: 'MRD9MC9J'
             })
@@ -561,9 +561,10 @@ export default {
         })
         this.$watch('type', type => {
             if (type) {
-                this.maskShow = true
-                this.successShow = true
-                this.joinShow = false
+                alert('报名成功')
+                // this.maskShow = true
+                // this.successShow = true
+                this.popShow = false
             }
         }, {
             deep: true

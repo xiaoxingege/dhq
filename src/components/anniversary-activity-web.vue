@@ -386,8 +386,8 @@ export default {
     },
     methods: {
         popClick() {
-            var codeSrc = $('.footer img').attr('src')
-            this.codeImg = codeSrc
+            // var codeSrc = $('.footer img').attr('src')
+            // this.codeImg = codeSrc
             this.popShow = true
         },
         close() {
@@ -489,9 +489,10 @@ export default {
         })
         this.$watch('type', type => {
             if (type) {
-                this.maskShow = true
-                this.successShow = true
-                this.joinShow = false
+                alert('报名成功')
+                // this.maskShow = true
+                // this.successShow = true
+                this.popShow = false
             }
         }, {
             deep: true
