@@ -197,8 +197,6 @@ export default {
 
         document.title='抓涨龙虎榜';
 
-        window.addEventListener('touchmove', evt => evt.preventDefault())
-        
         document.addEventListener("visibilitychange", function(){
             document.hidden ? vi[0].pause(): vi[0].play();
         });
