@@ -60,6 +60,12 @@
                     <li class="fl"  @click="openLayer('1')"></li>
                 </ul>
             </div>
+            <ul class="clearfix">
+                <li class="fl" @click="openLayer('1')"></li>
+                <li class="fl" @click="openLayer('1')"></li>
+                <li class="fl" @click="openLayer('1')"></li>
+                <li class="fl" @click="openLayer('1')"></li>
+            </ul>
         </div>
         <div class="item4"></div>
         <div class="item5"></div>
@@ -75,39 +81,38 @@
         <div class="item10">
           <ul class="clearfix">
             <li class="fl">
-              <p>姓名</p>
-              <input type="text" placeholder="请输入中文名" ref="bottomName">
+                <p>姓名</p>
+                <input type="text" placeholder="请输入中文名" ref="bottomName">
             </li>
             <li class="fl">
-              <p>手机</p>
-              <input type="text" placeholder="请输入手机号" ref="bottomPhone">
+                <p>手机</p>
+                <input type="text" placeholder="请输入手机号" ref="bottomPhone">
             </li>
             <span class="errorMsg"></span>
-            <div class="appointmentBtn fr"  @click="submitPhone"></div>
-          </ul>
-        </div>
-        <div class="mask" v-if="showLayer">
-           <div class="tan"  v-if="layerType === '1'">
-              <div class="closeTan" @click="closeLayer"></div>
-                <ul>
-                  <li class="clearfix">
+            <div class="appointmentBtn fr" @click="submitPhone"></div>
+        </ul>
+    </div>
+    <div class="mask" v-if="showLayer">
+        <div class="tan" v-if="layerType === '1'">
+            <div class="closeTan" @click="closeLayer"></div>
+            <ul>
+                <li class="clearfix">
                     <p>姓名</p>
-                    <input type="text"  placeholder="请输入中文名" class="clear"  ref="layerName">
-                  </li>
-                  <li class="clearfix">
+                    <input type="text" placeholder="请输入中文名" class="clear" ref="layerName">
+                </li>
+                <li class="clearfix">
                     <p>手机</p>
-                    <input  type="text" placeholder="请输入手机号"  class="clear" ref="layerPhone">
-                  </li>
-                  <span class="errorMsg"></span>
-                </ul>
-                <div class="tanBook" @click="submitPhoneFromLayer"></div>
-            </div>
-           <div class="tanSuc"  v-if="layerType === '2'">
-                <div class="closeTan" @click="closeLayer"></div>
-            </div>
+                    <input type="text" placeholder="请输入手机号" class="clear" ref="layerPhone">
+                </li>
+                <span class="errorMsg"></span>
+            </ul>
+            <div class="tanBook" @click="submitPhoneFromLayer"></div>
+        </div>
+        <div class="tanSuc" v-if="layerType === '2'">
+            <div class="closeTan" @click="closeLayer"></div>
         </div>
     </div>
-
+</div>
 </template>
 
 <script>
@@ -123,42 +128,38 @@ export default {
         }
     },
     computed: mapState({
-        submitPhoneError:state => {
-          return state.reservation.err
+        submitPhoneError: state => {
+            return state.reservation.err
         }
     }),
     methods: {
-        openLayer(type){
-          this.showLayer = true;
-          this.layerType = type;
+        openLayer(type) {
+            this.showLayer = true;
+            this.layerType = type;
         },
-        closeLayer(){
-          this.showLayer = false;
+        closeLayer() {
+            this.showLayer = false;
         },
-        submitPhone:function(){
-          let bottomName = this.$refs.bottomName.value;
-          let bottomPhone = this.$refs.bottomPhone.value;  
-                  
-          var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
-          if(!regname.test(bottomName)){
+        submitPhone: function() {
+            let bottomName = this.$refs.bottomName.value;
+            let bottomPhone = this.$refs.bottomPhone.value;
+
+            var regname = /^[\u4e00-\u9fa5]{1,4}$/gi;
+            if (!regname.test(bottomName)) {
                 return;
-          }          
-          var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-          if (!reg.test(bottomPhone)) {
+            }
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+            if (!reg.test(bottomPhone)) {
                 return;
-          }
-          this.submitSuccess(bottomName,bottomPhone);
+            }
+            this.submitSuccess(bottomName, bottomPhone);
 
         },
-        submitPhoneFromLayer(){
-          let layerName = this.$refs.layerName.value;
-          let layerPhone = this.$refs.layerPhone.value;
-          var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
-          if(!regname.test(layerName)){
-              return;
-          }          
-          var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-          if (!reg.test(layerPhone)) {
+        submitPhoneFromLayer() {
+            let layerName = this.$refs.layerName.value;
+            let layerPhone = this.$refs.layerPhone.value;
+            var regname = /^[\u4e00-\u9fa5]{1,4}$/gi;
+            if (!regname.test(layerName)) {
                 return;
           }
           this.submitSuccess(layerName,layerPhone);
@@ -186,7 +187,36 @@ export default {
                 this.$refs.bottomPhone.value="";
               }
             }
-          })
+            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+            if (!reg.test(layerPhone)) {
+                return;
+            }
+            this.submitSuccess(layerName, layerPhone);
+        },
+        submitSuccess(name, phone) {
+            this.$store.dispatch('reservation/fetch', {
+                aid: '786988146961793024',
+                userName: name,
+                phone: phone,
+                bizsource: 'TG_Msite',
+                tgqdcode: 'ZNDQNTBE',
+                source: 1
+            }).then(() => {
+                if (this.submitPhoneError) {
+                    alert(this.submitPhoneError.msg)
+                } else {
+                    this.showLayer = true;
+                    this.layerType = '2';
+                    if (this.$refs.layerName) {
+                        this.$refs.layerName.value = "";
+                        this.$refs.layerPhone.value = "";
+                    }
+                    if (this.$refs.bottomName) {
+                        this.$refs.bottomName.value = "";
+                        this.$refs.bottomPhone.value = "";
+                    }
+                }
+            })
         }
     },
     mounted() {
@@ -201,7 +231,6 @@ export default {
         document.addEventListener("visibilitychange", function(){
             document.hidden ? vi[0].pause(): vi[0].play();
         });
-
     }
 }
 </script>
