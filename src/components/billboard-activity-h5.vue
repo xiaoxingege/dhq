@@ -155,11 +155,15 @@ export default {
             this.submitSuccess(bottomName, bottomPhone);
 
         },
-        submitPhoneFromLayer() {
-            let layerName = this.$refs.layerName.value;
-            let layerPhone = this.$refs.layerPhone.value;
-            var regname = /^[\u4e00-\u9fa5]{1,4}$/gi;
-            if (!regname.test(layerName)) {
+        submitPhoneFromLayer(){
+          let layerName = this.$refs.layerName.value;
+          let layerPhone = this.$refs.layerPhone.value;
+          var regname=/^[\u4e00-\u9fa5]{1,4}$/gi;
+          if(!regname.test(layerName)){
+              return;
+          }          
+          var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+          if (!reg.test(layerPhone)) {
                 return;
           }
           this.submitSuccess(layerName,layerPhone);
@@ -187,36 +191,7 @@ export default {
                 this.$refs.bottomPhone.value="";
               }
             }
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-            if (!reg.test(layerPhone)) {
-                return;
-            }
-            this.submitSuccess(layerName, layerPhone);
-        },
-        submitSuccess(name, phone) {
-            this.$store.dispatch('reservation/fetch', {
-                aid: '786988146961793024',
-                userName: name,
-                phone: phone,
-                bizsource: 'TG_Msite',
-                tgqdcode: 'ZNDQNTBE',
-                source: 1
-            }).then(() => {
-                if (this.submitPhoneError) {
-                    alert(this.submitPhoneError.msg)
-                } else {
-                    this.showLayer = true;
-                    this.layerType = '2';
-                    if (this.$refs.layerName) {
-                        this.$refs.layerName.value = "";
-                        this.$refs.layerPhone.value = "";
-                    }
-                    if (this.$refs.bottomName) {
-                        this.$refs.bottomName.value = "";
-                        this.$refs.bottomPhone.value = "";
-                    }
-                }
-            })
+          })
         }
     },
     mounted() {
