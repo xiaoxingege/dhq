@@ -49,7 +49,7 @@
             <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_03.jpg" alt="">
             <div class="videoBox">
                 <div>
-                    <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20171017z3.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill" loop="loop" controls='controls'></video>
+                    <video id="#bgMusic" src="http://flvdata.jrj.com.cn/2012/2017/qita/20171017z3.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill" loop="loop" controls='controls'></video>
                 </div>
                 <ul class="clearfix">
                     <li class="fl"  @click="openLayer('1')"></li>
@@ -190,6 +190,8 @@ export default {
     mounted() {
         document.getElementsByTagName('html')[0].style.fontSize= document.documentElement.getBoundingClientRect().width / 750 * 625 * 0.75 + '%' 
         document.title='抓涨龙虎榜';
+        var vi = document.getElementsByTagName('video');
+        vi[0].play();
     }
 }
 </script>
