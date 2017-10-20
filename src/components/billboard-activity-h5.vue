@@ -60,12 +60,6 @@
                     <li class="fl"  @click="openLayer('1')"></li>
                 </ul>
             </div>
-            <ul class="clearfix">
-                <li class="fl" @click="openLayer('1')"></li>
-                <li class="fl" @click="openLayer('1')"></li>
-                <li class="fl" @click="openLayer('1')"></li>
-                <li class="fl" @click="openLayer('1')"></li>
-            </ul>
         </div>
         <div class="item4"></div>
         <div class="item5"></div>
