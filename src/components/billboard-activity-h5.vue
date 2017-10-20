@@ -36,6 +36,10 @@
     .tan ul p{float: left;font-size: 0.2933rem;line-height: 0.6133rem;color: #ffce4a;font-weight: 600;}
     .tan ul input{width: 2.88rem;height: 0.6133rem;border: 1px solid #5461a8;background:  #353473;display: block;float: left;margin-left: 0.16rem;}
     .tanBook{width: 2.8rem;height: 0.96rem;margin: 0 auto;margin-top: 0.3467rem;}
+    .item7 ul{width:8.9867rem;height: 2.2667rem;margin: 0 auto;margin-top: 2.0933rem;}
+    .item7 ul li{width: 4.2133rem;height: 100%;background: red;float: left;}
+    .item7 ul li:first-child{background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part04_img_right.png') no-repeat;background-size: 100% 100%;}
+    .item7 ul li:first-child +li{margin-left: 0.56rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part04_img_right.png') no-repeat;background-size: 100% 100%;}
 </style>
 <template>
     <div>
@@ -58,7 +62,12 @@
         <div class="item4"></div>
         <div class="item5"></div>
         <div class="item6"></div>
-        <div class="item7"></div>
+        <div class="item7">
+            <ul class="clearfix">
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
         <div class="item8"></div>
         <div class="item9"></div>
         <div class="item10">
