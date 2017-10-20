@@ -25,7 +25,7 @@
     .item10{width: 100%;height:1.8667rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_11.jpg') center 0 no-repeat;background-size: 100% 100%;position: fixed;bottom: 0;left: 0;}
     .item10 ul{width: 9.2667rem;margin: 0 auto;margin-top: 1.16rem;}
     .item10 ul p{float: left;font-size: 0.2933rem;line-height: 0.56rem;color: #ffce4a;font-weight: 600;margin-left: 0.0667rem;}
-    .item10 ul input{width: 2.3467rem;height: 0.5333rem;border: 1px solid #5c5a86;background: #353473;margin-left: 0.16rem;font-size: 0.14rem;display: block;float: left;}
+    .item10 ul input{width: 2.3467rem;height: 0.5333rem;border: 1px solid #5c5a86;background: #353473;margin-left: 0.16rem;display: block;float: left;}
     .appointmentBtn{width:2.1333rem;height: 0.88rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item10Btn.png') center 0 no-repeat;background-size: 100% 100%;margin-left: 0.16rem;margin-top: -0.1333rem;}
     .mask{width: 100%;height: 100%;background-color:rgba(0,0,0,0.5);position: fixed;top: 0;left: 0;z-index: 5;overflow: hidden;}
     .tan{overflow: hidden; width: 8.5733rem;height: 5.9333rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/tanBgH5.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;margin-left: auto;margin-right: auto;margin-top: 40%;position: relative;text-align: center;}
