@@ -190,13 +190,15 @@ export default {
     },
     mounted() {
         document.getElementsByTagName('html')[0].style.fontSize= document.documentElement.getBoundingClientRect().width / 750 * 625 * 0.75 + '%' 
-        var vi = document.getElementsByTagName('video');
-        vi[0].play();
 
-        document.getElementById("BillboardH5").addEventListener('touchmove', evt => evt.preventDefault());
+        var vi = document.getElementsByTagName('video');
+
+        vi[0].play();
 
         document.title='抓涨龙虎榜';
 
+        window.addEventListener('touchmove', evt => evt.preventDefault())
+        
         document.addEventListener("visibilitychange", function(){
             document.hidden ? vi[0].pause(): vi[0].play();
         });
