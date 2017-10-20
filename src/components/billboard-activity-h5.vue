@@ -29,7 +29,7 @@
     .item10 ul input{width: 2.3467rem;height: 0.5333rem;border: 1px solid #5c5a86;background: #353473;margin-left: 0.16rem;display: block;float: left;}
     .appointmentBtn{width:2.1333rem;height: 0.88rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item10Btn.png') center 0 no-repeat;background-size: 100% 100%;margin-left: 0.16rem;margin-top: -0.1333rem;}
     .mask{width: 100%;height: 100%;background-color:rgba(0,0,0,0.5);position: fixed;top: 0;left: 0;z-index: 5;overflow: hidden;}
-    .tan{overflow: hidden; width: 8.5733rem;height: 5.9333rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/tanBgH5.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;margin-left: auto;margin-right: auto;margin-top: 30%;position: relative;text-align: center;}
+    .tan{overflow: hidden; width: 8.5733rem;height: 5.9333rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/tanBgH5.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;margin-left: auto;margin-right: auto;margin-top: 25%;position: relative;text-align: center;}
     .tanSuc{width:9.3867rem;height:3.9467rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/tanCusH5.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;margin-left: auto;margin-right: auto;margin-top: 40%;position: relative;}
     .closeTan{width: 0.7467rem;height: 0.7467rem;position: absolute;top: 0;right: 0;}
     .tan ul{width: 3.8rem;margin: 0 auto;margin-top: 2.5333rem;}
@@ -169,7 +169,7 @@ export default {
             phone:phone,
             bizsource:'TG_Msite',
             tgqdcode:'ZNDQNTBE',
-            source:1
+            source:4
           }).then(() => {
             if(this.submitPhoneError) {
               alert(this.submitPhoneError.msg)
@@ -193,11 +193,14 @@ export default {
         var vi = document.getElementsByTagName('video');
         vi[0].play();
 
+        document.getElementById("BillboardH5").addEventListener('touchmove', evt => evt.preventDefault());
+
         document.title='抓涨龙虎榜';
 
         document.addEventListener("visibilitychange", function(){
             document.hidden ? vi[0].pause(): vi[0].play();
         });
+
     }
 }
 </script>
