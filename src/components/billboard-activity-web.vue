@@ -14,8 +14,8 @@
 .tit01Content>div{width: 731px;height: 335px;border: solid #cf9700 6px;}
 .tit01Content>ul{width: 229px;}
 .tit01Content>ul>li{width: 100%;height: 91px;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/partBtn.png') no-repeat;background-size: 100% 100%;overflow:hidden;}
-.tit01Content>ul>li p{width: 100%; font-size: 28px;line-height: 28px;margin-top: 13px;text-align: center;color: #2f1635;font-weight: 600;}
-.tit01Content>ul>li span{width: 100%; font-size: 20px;line-height: 20px;margin-top: 6px;text-align: center;color: #311e00;display: block;}
+.tit01Content>ul>li p{width: 100%; font-size: 28px;line-height: 28px;margin-top: 13px;text-align: center;color: #2f1635;font-weight: 600;font-family: "黑体"}
+.tit01Content>ul>li span{width: 100%; font-size: 20px;line-height: 20px;margin-top: 6px;text-align: center;color: #311e00;display: block;font-family: "黑体"}
 /*第二部分*/
 .part02{width: 100%;height: 504px; background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part02_bg.jpg') no-repeat;background-size: 100% 100%;}
 .imgAuto{width: 1000px;height: 100%;margin: 0 auto;display: block;}
@@ -100,7 +100,7 @@ input{font-size: 16px;}
               <span>上涨集结号</span>
             </li>
             <li @click="openLayer('1')">
-              <p>抓涨龙虎榜(二 )</p>
+              <p>抓涨龙虎榜(二)</p>
               <span>神龙大探底</span>
             </li>
             <li @click="openLayer('1')">
@@ -308,8 +308,6 @@ export default {
           if (!reg.test(layerPhone)) {
                 return;
           }
-          
-
           this.submitSuccess(layerName,layerPhone);
         },
         submitPhone:function(){
