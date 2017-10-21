@@ -41,7 +41,7 @@
     .item7 ul{width:8.9867rem;height: 2.2667rem;margin: 0 auto;margin-top: 2.0933rem;}
     .item7 ul li{width: 4.2133rem;height: 100%;background: red;float: left;}
     .item7 ul li:first-child{background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part04_img_right.png') no-repeat;background-size: 100% 100%;}
-    .item7 ul li:first-child +li{margin-left: 0.56rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part04_img_right.png') no-repeat;background-size: 100% 100%;}
+    .item7 ul li:first-child +li{margin-left: 0.56rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/part04_img.png') no-repeat;background-size: 100% 100%;}
 </style>
 <template>
     <div id="BillboardH5">
@@ -134,7 +134,7 @@ export default {
         problem(){
             var u = navigator.userAgent;
             if (u.indexOf('iPhone') > -1){
-                $(".footer").css({
+                $(".item10").css({
                     "position": "static",
                     "bottom": '0',
                     'margin-top': '-1.8667rem'
@@ -144,7 +144,7 @@ export default {
         saveProblem(){
             var u = navigator.userAgent;
             if (u.indexOf('iPhone') > -1){
-                $(".footer").css({
+                $(".item10").css({
                     "position": "fixed",
                     "bottom": '0'
                 });                   
