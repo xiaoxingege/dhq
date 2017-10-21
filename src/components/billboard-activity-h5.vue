@@ -98,11 +98,11 @@
             <ul>
                 <li class="clearfix">
                     <p>姓名</p>
-                    <input type="text" placeholder="请输入中文名" class="clear" ref="layerName">
+                    <input type="text" placeholder="请输入中文名" class="clear" ref="layerName" v-on:focus="problem" v-on:blur="saveProblem">
                 </li>
                 <li class="clearfix">
                     <p>手机</p>
-                    <input type="text" placeholder="请输入手机号" class="clear" ref="layerPhone">
+                    <input type="text" placeholder="请输入手机号" class="clear" ref="layerPhone" v-on:focus="problem" v-on:blur="saveProblem">
                 </li>
                 <span class="errorMsg"></span>
             </ul>
@@ -119,7 +119,7 @@
 import {
     mapState
 } from 'vuex'
-// import $ from 'jquery'
+import $ from 'jquery'
 export default {
     data() {
         return {
@@ -136,6 +136,25 @@ export default {
         openLayer(type) {
             this.showLayer = true;
             this.layerType = type;
+        },
+        problem(){
+            var u = navigator.userAgent;
+            if (u.indexOf('iPhone') > -1){
+                $(".footer").css({
+                    "position": "static",
+                    "bottom": '0',
+                    'margin-top': '-1.8667rem'
+                });                 
+            } 
+        },
+        saveProblem(){
+            var u = navigator.userAgent;
+            if (u.indexOf('iPhone') > -1){
+                $(".footer").css({
+                    "position": "fixed",
+                    "bottom": '0'
+                });                   
+            }  
         },
         closeLayer() {
             this.showLayer = false;
