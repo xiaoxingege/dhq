@@ -24,7 +24,7 @@
     .item8{width: 100%;height:6.0rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_09.jpg') center 0 no-repeat;background-size: 100% 100%;}
     .item9{width: 100%;height: 5.3733rem;background:url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_10.jpg')  center 0 no-repeat;background-size: 100% 100%;}
     /*.item9:after{ content:" ";display:block;visibility:hidden;height:1.8667rem;}*/
-    .item10{width: 100%;height:1.8667rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_11.jpg') center 0 no-repeat;background-size: 100% 100%;position: fixed;bottom: 0;left: 0;}
+    .item10{width: 100%;height:1.8667rem;background: url('http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Billboard/img/item_11.jpg') center 0 no-repeat;background-size: 100% 100%;position: fixed;bottom: 0;left: 0;overflow: hidden;}
     .item10 ul{width: 9.2667rem;margin: 0 auto;margin-top: 1.16rem;}
     .item10 ul p{float: left;font-size: 0.2933rem;line-height: 0.56rem;color: #ffce4a;font-weight: 600;margin-left: 0.0667rem;}
     .item10 ul input{width: 2.3467rem;height: 0.5333rem;border: 1px solid #5c5a86;background: #353473;margin-left: 0.16rem;display: block;float: left;}
@@ -76,11 +76,11 @@
           <ul class="clearfix">
             <li class="fl">
                 <p>姓名</p>
-                <input type="text" placeholder="请输入中文名" ref="bottomName">
+                <input type="text" placeholder="请输入中文名" ref="bottomName" v-on:focus="problem" v-on:blur="saveProblem">
             </li>
             <li class="fl">
                 <p>手机</p>
-                <input type="text" placeholder="请输入手机号" ref="bottomPhone">
+                <input type="text" placeholder="请输入手机号" ref="bottomPhone" v-on:focus="problem" v-on:blur="saveProblem">
             </li>
             <span class="errorMsg"></span>
             <div class="appointmentBtn fr" @click="submitPhone"></div>
@@ -92,11 +92,11 @@
             <ul>
                 <li class="clearfix">
                     <p>姓名</p>
-                    <input type="text" placeholder="请输入中文名" class="clear" ref="layerName" v-on:focus="problem" v-on:blur="saveProblem">
+                    <input type="text" placeholder="请输入中文名" class="clear" ref="layerName" >
                 </li>
                 <li class="clearfix">
                     <p>手机</p>
-                    <input type="text" placeholder="请输入手机号" class="clear" ref="layerPhone" v-on:focus="problem" v-on:blur="saveProblem">
+                    <input type="text" placeholder="请输入手机号" class="clear" ref="layerPhone" >
                 </li>
                 <span class="errorMsg"></span>
             </ul>
@@ -133,11 +133,12 @@ export default {
         },
         problem(){
             var u = navigator.userAgent;
+            var footerHeight = $('.item10').height();
             if (u.indexOf('iPhone') > -1){
                 $(".item10").css({
                     "position": "static",
                     "bottom": '0',
-                    'margin-top': '-1.8667rem'
+                    'margin-top': -footerHeight
                 });                 
             } 
         },
