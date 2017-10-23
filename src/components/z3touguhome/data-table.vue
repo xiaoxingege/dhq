@@ -18,11 +18,15 @@
     padding-right: 20px;
     box-sizing: border-box;
     height: 12.5%;
+    text-align: center;
+    width: 30%;
 }
 .data-table tr td:first-child {
-    text-align: center;
+    text-align: left;
     color: #c9d0d7;
     padding-right: 0;
+    padding-left: 48px;
+    width: 40%;
 }
 .no-data {
     width: 100%;

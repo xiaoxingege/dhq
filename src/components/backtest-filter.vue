@@ -1,10 +1,6 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
-* {
-    text-align: justify;
-    font-family: "Microsoft YaHei";
-    box-sizing: border-box;
-}
+
 body {
     background: #141518;
 }
@@ -35,7 +31,6 @@ body {
 .backtest-filter {
     background: #141518;
     color: #c9d0d7;
-    width: 100%;
     border-bottom: 3px solid #0d0e0f;
     border-left: 1px solid #0d0e0f;
     /* padding: 0 20px 20px 0; */
@@ -245,7 +240,7 @@ span.copy {
 .qrcode {
     position: absolute;
     top: 51px;
-    right: 41px;
+    right: 18px;
     /* top: 40px;
     right: 10px; */
     /* box-shadow: 4px 4px 4px 2px #eee;
@@ -260,12 +255,11 @@ span.copy {
     position: absolute;
     top: -26px;
     right: 32px;
-
 }
 
 .code-box {
-    width: 200px;
-    height: 214px;
+    // width: 180px;
+    // height: 200px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
@@ -586,7 +580,9 @@ export default {
   mounted() {
     this.initData()
     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, function() {})
+    qrcode.toDataURL(this.$refs.qrcode, url, {
+      version: 5
+    }, function() {})
     const clipboard = new Clipboard('.copy', {
       text: function() {
         return url

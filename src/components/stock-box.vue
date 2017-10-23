@@ -1,8 +1,7 @@
 <template>
 <div class="stock-box" :style="position" v-show="isShow">
-  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
-    <span
-      class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
+  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
+    <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
   </div>
   <div>
     <StockKline :stockCode="stockCode" chartWidth="360" chartHeight="250"></StockKline>
@@ -18,7 +17,7 @@ import {
 import config from '../z3tougu/config'
 export default {
   props: ['stockCode', 'top', 'left'],
-  data () {
+  data() {
     return {
       isShow: false
     }
@@ -30,10 +29,10 @@ export default {
     ...mapState({
       stock: state => state.stock.stock
     }),
-    position () {
+    position() {
       return 'top:' + this.top + 'px;left:' + this.left + 'px'
     },
-    updownMark () {
+    updownMark() {
       let flag = this.stock.chgPx
       let mark = ''
       if (flag === config.emptyValue) {

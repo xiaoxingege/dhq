@@ -30,7 +30,10 @@
     "no-trailing-spaces": "off",
     "eol-last": "off",
     "semi":"off",
+    "comma-spacing":"off",
     "space-before-blocks":"off",
-    "keyword-spacing":"off"
+    "keyword-spacing":"off",
+    "padded-blocks":"off",
+    "prefer-const":"off"
   }
 }

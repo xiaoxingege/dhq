@@ -652,7 +652,7 @@ a.kuai_icon {
           </div>
           <div class="con-bar-2 box-flex-1">
             <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div>
-            <div><span>成分股数：</span><span class="time-num2">{{allTopic.equityNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
+            <div><span>成份股数：</span><span class="time-num2">{{allTopic.equityNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
             <div class="topic-stk-box"><span>上涨家数：</span><span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌家数：</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span></div>
           </div>
           <div class="con-cen box-flex-1">

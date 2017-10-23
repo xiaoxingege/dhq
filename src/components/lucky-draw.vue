@@ -191,7 +191,8 @@
   font-weight:normal;
 }
 .award-info h2{
-  line-height: 1.16rem;
+  padding-top: 0.36rem;
+  padding-bottom: 0.06rem;
 }
 .award-info p{
   line-height: 0.36rem;
@@ -366,7 +367,7 @@
         </li>
       </ul>
       <div class="award-click">
-        <div class="get-award" v-on:click="e=>{this.hint ? this.openEnture() : this.rotate()}">
+        <div class="get-award" v-on:click="go">
           <p>{{consumenum}}豆/次</p>
         </div>
       </div>
@@ -374,14 +375,14 @@
   </div>
   <div class="award-info">
     <h2>一. 活动简介</h2>
-    <p>活动期间，用户登录进入大转盘，每次抽奖需要扣除{{consumenum}}金豆（具体扣除以实际活动为准），扣除的金豆不退还，每天参与抽奖次数不限;</p>
+    <p>活动期间，用户登录进入大转盘，每次抽奖需要扣除{{consumenum}}金豆（具体扣除以实际活动为准），扣除的金豆不退还，每天可抽奖5次；</p>
     <p>请注意：此次活动点击“开始抽奖”会立减金豆，请知晓，谢谢。</p>
     <h2>二.面向用户</h2>
-    <p>金融界App所有登录用户</p>
+    <p>金融界App所有登录用户。</p>
     <h2>三.中奖商品发放期限及方式</h2>
     <p>金豆类：直接累加至金豆总数；</p>
-    <p>优惠券类:可重复获得，获得后可于“用户中心”－“优惠券”查看；</p>
-    <p>Level-2行情、Z点操盘:使用权限从获奖当日计算，多次获得则累加。</p>
+    <p>优惠券类：可重复获得，获得后可于“用户中心”－“优惠券”查看；</p>
+    <p>Level-2行情、Z点操盘：使用权限从获奖当日计算，多次获得则累加。</p>
     <h2>四.中奖资格的排除</h2>
     <p>活动过程中如发现您有碍其他用户公平参加本活动或违反本活动目的之行为的（包括但不限于作弊领取、机器刷奖、恶意套现等）金融界有权取消您参加本次活动的资格或您因参加活动所获商品或因此享有的所有利益。</p>
   </div>
@@ -398,10 +399,9 @@
       </div>
     </div>
     <div id="pop-lackBeanNum" class="pop-ensure pop-hint">
-      <h3>金豆不足</h3>
+      <h3>提示</h3>
       <div class="ensure-hint">
-        <p class="ensure-text">您当前的金豆数不足20个，</p>
-        <p class="ensure-text">不能参与抽奖！</p>
+        <p class="ensure-text">{{hintContent}}</p>
       </div>
       <div class="ensure-button">
         <span class="ensure-button-true" v-on:click="closeLackBeanNum">确定</span>
@@ -433,10 +433,13 @@ export default {
       isGO: false,
       position: 3,
       name: '',
+      retCode: 0,
       consumenum: 20,
       hint: true, // true 下次提醒 false 下次不提醒
       trueclass: 'ensure-icon-true',
-      falseclass: 'ensure-icon-false'
+      falseclass: 'ensure-icon-false',
+      hintContent:'',
+      flag:true  // true 打开go点击   false 关闭go点击事件
     }
   },
   computed: mapState({
@@ -447,10 +450,10 @@ export default {
     draw: state => state.luckDrawData.draw
   }),
   beforecreated () {
-
+    
   },
   created () {
-
+    document.title = '金豆大转盘'
   },
   mounted () {
     if (!localStorage.getItem('hintStorage')) {
@@ -458,20 +461,14 @@ export default {
     } else {
       this.hint = localStorage.getItem('hintStorage') !== 'false'
     }
-
-    document.title = '金豆大转盘'
     const _this = this
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
-        if (window.jrj && window.jrj.jsCallNative) {
-          window.jrj.jsCallNative('108', JSON.stringify({
-            returnUrl: encodeURI(window.location.href)
-          }))
-        }
-      } else {
-        return this.$store.dispatch('user/getBeanNum')
-      }
+        return false
+      } 
+      this.$store.dispatch('user/getBeanNum')
     })
+
     this.$store.dispatch('luckDrawData/getLuckUsers').then(() => {
       _this.scrolllist()
     })
@@ -551,7 +548,12 @@ export default {
       var closeGetDraw = document.getElementById('pop-getDraw')
       closeGetDraw.style.display = 'none'
     },
-
+    go: function () {
+      if (this.flag === false) {
+        return false
+      }
+      this.hint ? this.openEnture() : this.rotate()
+    },
     rotate: function () {
       this.$store.dispatch('user/checkLogin').then(() => {
         if (this.loginStatus === 'no') {
@@ -560,20 +562,56 @@ export default {
               returnUrl: encodeURI(window.location.href)
             }))
           }
-        } else if (this.beanNum < this.consumenum) {
-          this.openLackBeanNum()
-        } else {
-          return this.$store.dispatch('luckDrawData/getDraw').then(() => {
-            if (this.isGO) {
+          return false
+        }
+        return this.$store.dispatch('luckDrawData/getDraw').then(() => {
+          var this_=this
+          this.retCode = this.draw.retCode
+
+          if (this.retCode===801000) {
+            this_.position = this_.draw.data.position
+            this_.name = this_.draw.data.name
+            if (this_.isGO) {
               return false
             }
-            this.position = this.draw.data.position
-            this.name = this.draw.data.name
-            this.isGO = true
-            var __this = this
-            this.drawPrize(this.position, __this)
-          })
-        }
+            this_.isGO = true
+            var __this = this_
+            this_.drawPrize(this_.position, __this)
+            return false
+          }
+          if (this.retCode===1) {
+            this.hintContent='金豆数量不足！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===2) {
+            this.hintContent='抽奖次数已用完！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===4) {
+            this.hintContent='前置活动还没有结束！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===6) {
+            this.hintContent='活动还没有开始！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===7) {
+            this.hintContent='活动已结束！'
+            this.openLackBeanNum()
+            return false
+          }
+          if (this.retCode===1001||this.retCode===80007) {
+            this.hintContent='抽奖繁忙，请稍后再试！'
+            this.openLackBeanNum()
+            return false
+          }
+          this.hintContent='服务器请求错误！'
+          this.openLackBeanNum()
+        })
       })
     },
     drawPrize: function (position, __this) {
@@ -584,6 +622,7 @@ export default {
       var last = 0
       this.$set(_this.prizeList[0], 'active', true)
       clearInterval(timer)
+      this.flag=false
       timer = setInterval(function () {
         last = now
         now++
@@ -598,6 +637,7 @@ export default {
         count--
         if (count <= 0) {
           clearInterval(timer)
+          __this.flag=true
           __this.isGO = false
           __this.openGetDraw()
           __this.$store.dispatch('user/getBeanNum')

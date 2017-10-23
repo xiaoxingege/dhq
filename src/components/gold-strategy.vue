@@ -98,8 +98,9 @@ a {
 
 .qrcode {
     position: absolute;
+    // box-sizing: border-box;
     top: 51px;
-    right: 41px;
+    right: 18px;
     /* top: 40px;
   right: 10px; */
     /* box-shadow: 4px 4px 4px 2px #eee;
@@ -118,15 +119,14 @@ a {
 }
 
 .code-box {
-    width: 200px;
-    height: 214px;
+    // width: 200px;
+    // height: 214px;
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
     color: #666666;
     padding: 10px;
 }
-
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
@@ -509,7 +509,9 @@ export default {
     })
 
     const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, function() {})
+    qrcode.toDataURL(this.$refs.qrcode, url, {
+      version: 5
+    }, function() {})
     const clipboard = new Clipboard('.copy', {
       text: function() {
         return url
