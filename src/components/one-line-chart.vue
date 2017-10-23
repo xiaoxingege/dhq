@@ -20,7 +20,7 @@ import echarts from 'echarts'
 export default {
   props: ['strategyId'],
   methods: {
-    initMrccChart () {
+    initMrccChart() {
       this.$store.dispatch('goldStrategy/getMrccData', {
         strategyId: this.strategyId
       }).then(() => {
@@ -34,10 +34,10 @@ export default {
               align: 'left',
               fontFamily: '微软雅黑'
             },
-            formatter: function (params) {
+            formatter: function(params) {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
-                s = s + '<br/>每日仓位: ' + params[i].value * 100 + '%'
+                s = s + '<br/>每日仓位: ' + Number(params[i].value * 100).toFixed(2) + '%'
               }
               return s
             }
@@ -62,7 +62,7 @@ export default {
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: function (val) {
+              formatter: function(val) {
                 return val * 100 + '%'
               },
               color: '#808ba1'
@@ -131,7 +131,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.initMrccChart()
   }
 }
