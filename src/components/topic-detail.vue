@@ -458,7 +458,7 @@ html {
 }
 
 .numTopic span {
-    margin-left: 8px;
+    margin-right: 8px;
     cursor: pointer;
     line-height: 20px;
 }
@@ -631,7 +631,7 @@ bottom: 0; */
   <div class="header clearfix">
     <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
     <div class="topic-time fl">
-      <span class="time-num4">成分股数</span><span class="time-num2">{{detail.equityNum}}只
+      <span class="time-num4">成份股数</span><span class="time-num2">{{detail.equityNum}}只
       </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}
       </span><span class="time-num4">下跌股票</span><span class="green time-num2">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}
       </span><span class="time-num4">相关新闻</span><span class="time-num2">{{detail.eventNum}}条
