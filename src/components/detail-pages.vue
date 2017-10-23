@@ -228,7 +228,7 @@ export default {
             this.moreInfor = this.$store.state.zhikuanDetailPages.moreData
           })
         } else if (this.result.equityNews.length === 0) {
-          const topicCode = this.$store.state.zhikuanDetailPages.dataList[this.type].topicNews[0].topicCode
+          const topicCode = this.$store.state.zhikuanDetailPages.dataList[this.type].news.newsId
           const topicName = this.$store.state.zhikuanDetailPages.dataList[this.type].topicNews[0].topicName
           this.$store.dispatch('zhikuanDetailPages/getTopicRelate', {
             topicName: topicName,
