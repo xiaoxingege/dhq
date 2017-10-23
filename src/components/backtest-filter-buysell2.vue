@@ -427,18 +427,6 @@ export default {
   mounted () {
     this.init()
     console.log(this.$route.query.strategyId)
-    /* var preScrollTop = 0  // 滚动条事件之前文档滚动高度
-    var objTopic
-    window.onload = function () {
-      preScrollTop = (document.documentElement.scrollTop || document.body.scrollTop)
-      objTopic = document.getElementById('topic')
-    }
-    window.onscroll = function () {
-      if (preScrollTop !== (document.documentElement.scrollTop || document.body.scrollTop)) {
-        preScrollTop = (document.documentElement.scrollTop || document.body.scrollTop)
-        objTopic.style.top = preScrollTop + 'px'
-      }
-    }*/
   }
 }
 </script>

@@ -11,12 +11,12 @@ p {
 .news-list-wrap {
     padding: 1px;
     min-width: 1217px;
-    min-height: 710px;
+    min-height: 100%;
     background-color: #0d0e0f;
 }
 .news-list-wrap > div {
     width: 50%;
-    min-height: 710px;
+    min-height: 100%;
 }
 .news-list {
     background-color: #141518;
@@ -25,6 +25,7 @@ p {
 .news-list-con {
     color: #c9d0d7;
     padding: 5px 0;
+    overflow: auto;
 }
 .news-list-con li {
     height: 25px;
@@ -61,27 +62,6 @@ p {
 .news-list-top .top-nav {
     padding-left: 0;
 }
-/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    background-color: #eee;
-    border-radius: 10px;
-}
-
-/*定义滚动条轨道 内阴影+圆角*/
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #515A65;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #808ba1;
-}
 </style>
 <template>
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
@@ -89,7 +69,7 @@ p {
     <div class="news-list-top">
       <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
     </div>
-    <ul class="news-list-con">
+    <ul class="news-list-con" :style="{height:wrapHeight-2-25+'px'}">
       <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
         <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
         <span class="fr">{{item.makedate.substring(11)}}</span>
@@ -106,7 +86,7 @@ import NavBar from 'components/z3touguhome/nav-bar'
 import newsDetail from 'components/z3touguhome/news-details'
 export default {
   props: [],
-  data () {
+  data() {
     return {
       navText: [
         ['财经要闻', 'ywnews'],
@@ -128,7 +108,7 @@ export default {
     }
   },
   watch: {
-    type () {
+    type() {
       this.changeNews()
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -141,21 +121,21 @@ export default {
     newsDetail
   },
   computed: {
-    financeNewsData: function () {
+    financeNewsData: function() {
       const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
       return financeNewsData
     },
-    listedCompanyNewsData: function () {
+    listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
       return listedCompanyNewsData
     }
   },
   methods: {
-    getNews: function () {
+    getNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
             if (this.newsIndex) {
@@ -166,8 +146,8 @@ export default {
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
             if (this.newsIndex) {
@@ -178,56 +158,56 @@ export default {
           })
       }
     },
-    changeNews: function () {
+    changeNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
             this.newsId = this.financeNewsData[0].iiid
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
             this.newsId = this.listedCompanyNewsData[0].iiid
           })
       }
     },
-    changeNewsUpdate: function () {
+    changeNewsUpdate: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
           })
       }
     },
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    updateNews: function () {
+    updateNews: function() {
       const _this = this
       if (this.updateNewsPid) {
         clearInterval(this.updateNewsPid)
       } else {
-        this.updateNewsPid = setInterval(function () {
+        this.updateNewsPid = setInterval(function() {
           _this.changeNewsUpdate()
         }, 60 * 1000 * _this.intervalTime)
       }
     },
-    focusLi: function (id, index) {
+    focusLi: function(id, index) {
       this.newsId = id
       for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
         document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
@@ -235,7 +215,7 @@ export default {
       document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
     }
   },
-  mounted () {
+  mounted() {
     this.getNews()
     this.updateNews()
   }

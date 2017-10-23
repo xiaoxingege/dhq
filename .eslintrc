@@ -1,22 +1,39 @@
 {
-	"extends": ["eslint:recommended", "vue"],
-	"parserOptions": {
-		"sourceType": "module"
-	},
-	"globals": {
-		"$": true
-	},
-	"env": {
-		"browser": true,
-		"node": true,
-		"amd": true,
-		"es6": true
-	},
-	"rules": {
-		"quotes": [1, "single"],
-		"no-undef": "error",
-		"strict": "error",
-		"no-extra-semi": "error",
-		"no-console": "off"
-	}
+  "extends": ["eslint:recommended", "vue"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "$": true
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "amd": true,
+    "es6": true
+  },
+  "rules": {
+    "quotes": [1, "single"],
+    "no-undef": "error",
+    "strict": "error",
+    "no-extra-semi": "error",
+    "no-console": "off",
+    "space-before-function-paren": "off",
+    "indent": "off",
+    "space-in-parens": "off",
+    "no-multi-spaces": "off",
+    "key-spacing": "off",
+    "no-spaced-func": "off",
+    "operator-linebreak": "off",
+    "space-infix-ops": "off",
+    "no-multiple-empty-lines": "off",
+    "no-trailing-spaces": "off",
+    "eol-last": "off",
+    "semi":"off",
+    "comma-spacing":"off",
+    "space-before-blocks":"off",
+    "keyword-spacing":"off",
+    "padded-blocks":"off",
+    "prefer-const":"off"
+  }
 }

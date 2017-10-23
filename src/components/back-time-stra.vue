@@ -308,23 +308,6 @@ i {
   <div class="time-bottom clearfix display-box">
     <div class="express-buy-box box-flex-1">
       <div class="exp-buy lightcolor">买入条件</div>
-      <!-- <table class="exp-buy-table lightcolor">
-                     <tr>
-                        <td>序号</td>
-                        <td>指标</td>
-                        <td>参数</td>
-                        <td>运算符</td>
-                        <td>数值</td>
-                        <td>{{this.timeStrategy2.buyParms}}</td>
-                     </tr>
-                     <tr v-for="(sellList,index) of this.timeStrategy2.buyStrategy">
-                        {{index}}<td>{{this.timeStrategy2.pageOrder}}</td>
-                        <td>{{this.timeStrategy2.indexName}}</td>
-                        <td>{{this.timeStrategy2.indexParams}}</td>
-                        <td>{{this.timeStrategy2.operator}}</td>
-                        <td>{{this.timeStrategy2.comparisonValue}}</td>
-                     </tr>
-                </table> -->
       <table cellspacing="0" cellpadding="0" class="exp-buy-table lightcolor">
         <tr v-for="trItem in this.timeStrategy2.buyData">
           <td v-for="tdItem in trItem">{{tdItem}}</td>
@@ -338,22 +321,6 @@ i {
     </div>
     <div class="express-buy-box box-flex-1 express-sell-box">
       <div class="exp-buy lightcolor exp-sell">卖出条件</div>
-      <!-- <table class="exp-buy-table lightcolor">
-                     <tr>
-                        <td>序号</td>
-                        <td>指标</td>
-                        <td>参数</td>
-                        <td>运算符</td>
-                        <td>数值</td>
-                     </tr>
-                     <tr v-for="(sellList,index) of timeStrategy.sellStrategyIndexList">
-                        <td>{{this.timeStrategy2.pageOrder}}</td>
-                        <td>{{this.timeStrategy2.indexName}}</td>
-                        <td>{{this.timeStrategy2.indexParams}}</td>
-                        <td>{{this.timeStrategy2.operator}}</td>
-                        <td>{{this.timeStrategy2.comparisonValue}}</td>
-                     </tr>
-                </table> -->
       <table cellspacing="0" cellpadding="0" class="exp-buy-table lightcolor">
         <tr v-for="trItem in this.timeStrategy2.sellData">
           <td v-for="tdItem in trItem">{{tdItem}}</td>
@@ -365,19 +332,6 @@ i {
                     </span>
       </div>
     </div>
-    <!-- <div class="desc-title">策略条件：</div> -->
-    <!-- <div class="express-buy">买入条件：
-                  <span v-for="buyList of timeStrategy.buyStrategyIndexList">{{buyList.pageOrder}}（{{buyList.indexName}}{{buyList.operator}}{{buyList.comparisonValue}}）；
-                  </span><span>条件表达式：
-                  </span><span>{{timeStrategy.buyConExp}}
-                  </span>
-              </div> 
-              <div class="express-buy">买出条件：
-                   <span v-for="sellList of timeStrategy.sellStrategyIndexList">{{sellList.pageOrder}}（{{sellList.indexName}}{{sellList.operator}}{{sellList.comparisonValue}}）；
-                    </span><span>条件表达式：
-                    </span><span>{{timeStrategy.sellConExp}}
-                    </span>
-              </div> -->
   </div>
 </div>
 </template>

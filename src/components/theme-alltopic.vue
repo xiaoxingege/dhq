@@ -87,12 +87,15 @@ span {
 }
 .topic-head {
     font-weight: normal;
+    z-index: 1;
     /* padding-left: 15px;
     margin: 12px 0 -4px; */
     /* padding: 9px 7px 9px 10px; */
     padding: 2px 7px 2px 10px;
     border-bottom: 1px solid #0d0e0f;
     background: #23272c;
+    position: fixed;
+    width: 100%;
 }
 .topic-head .head-title {
     margin-right: 10px;
@@ -101,6 +104,9 @@ span {
 }
 .topic-head strong {
     font-weight: 400;
+}
+.main-list {
+    padding-top: 30px;
 }
 .topic-num {
     margin-left: 6px;
@@ -495,6 +501,7 @@ a.kuai_icon {
     /*  display: none; */
     /* padding: 0 8px;
     margin-top: 12px; */
+    padding-top: 30px;
     background: #141518;
 }
 .az-main {
@@ -692,7 +699,6 @@ a.kuai_icon {
   <div class="sortaz-wrap clearfix" v-show="showAz">
     <div class="az-main">
       <div class="sort-hot-wrap">
-        <!-- <div class="sort-title fl"><span>推荐</span><i>></i>推荐 ></div> -->
         <div class="sort-title fl">推荐<i>></i></div>
         <div class="sort-hot fl">
           <a class="blue hot-name" v-for="(updownTopic,index) of listChange">
@@ -721,7 +727,7 @@ import ThemeSortAz from './theme-sort-az'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 export default {
-  data () {
+  data() {
     return {
       FIELDS: {
         hot: 'topicMarket.realChngPctWeek',
@@ -797,7 +803,7 @@ export default {
     StockBox
   },
   methods: {
-    query (type, page) {
+    query(type, page) {
       // if (this.sortField === type && page) {
       //   return
       // }
@@ -813,43 +819,43 @@ export default {
         this.themeList = this.themeListData
       })
     },
-    list (type, page) {
+    list(type, page) {
       this.$store.dispatch('topic/queryListChange', {
         sortField: this.FIELDS.hot,
         page: this.page,
         pagesize: this.pagesize
       })
     },
-    goToPage (page) {
+    goToPage(page) {
       this.page = Number(page) - 1
     },
-    updateVal () {
+    updateVal() {
       this.direName = 'df'
     },
     /* showList: false,
           showAz: false,*/
-    listClick (e) {
+    listClick(e) {
       e.preventDefault()
       this.showList = true
       this.showAz = false
       this.query('hot')
       this.isStyle = ''
     },
-    azClick (e) {
+    azClick(e) {
       e.preventDefault()
       this.showList = false
       this.showAz = true
       this.list('updown')
       this.isStyle = 'none'
     },
-    enterTopictit (e) {
+    enterTopictit(e) {
       e.preventDefault()
       this.showNewTit = true
       /* console.log(e.currentTarget.children[0])*/
       e.currentTarget.children[0].style.display = 'block'
       e.currentTarget.setAttribute('class', 'news-cons news-cons2')
     },
-    leaveTopictit (e) {
+    leaveTopictit(e) {
       e.preventDefault()
       this.showNewTit = false
       e.currentTarget.children[0].style.display = 'none'
@@ -866,26 +872,26 @@ export default {
         this.isStyle = ''
       }
     },*/
-    format (date) {
+    format(date) {
       return formatDate(date)
     },
-    cutStr (str, len) {
+    cutStr(str, len) {
       return cutString(str, len)
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    updateStock (stock) {
+    updateStock(stock) {
       this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
     },
-    subscribeStock () {
+    subscribeStock() {
       const msg = {
         subject: 'snapshot',
         type: '1',
@@ -897,11 +903,11 @@ export default {
     }
   },
   watch: {
-    page () {
+    page() {
       this.themeList = []
       this.query(this.sortField, this.page)
     },
-    relatedStocks () {
+    relatedStocks() {
       console.log(this.relatedStocks)
       if (z3websocket.ws) {
         z3websocket.ws && z3websocket.ws.close()
@@ -909,14 +915,14 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    stockMessage () {
+    stockMessage() {
       console.log(this.stockMessage)
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
     },
 
-    socketState () {
+    socketState() {
       if (this.socketState === 1) {
         // 建立连接
         this.subscribeStock()
@@ -926,17 +932,15 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.query('hot')
     var _this = this
-    /* console.log(this)
-     console.log(_this)*/
     this.$store.dispatch('topic/querySummary')
-    setInterval(function () {
+    setInterval(function() {
       _this.$store.dispatch('topic/querySummary')
     }, 30000)
   },
-  destroyed () {
+  destroyed() {
     z3websocket.ws && z3websocket.ws.close()
   }
 }

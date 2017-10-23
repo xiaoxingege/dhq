@@ -1251,6 +1251,10 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
+classlist.js@^1.1.20150312:
+  version "1.1.20150312"
+  resolved "https://registry.npmjs.org/classlist.js/-/classlist.js-1.1.20150312.tgz#1d70842f7022f08d9ac086ce69e5b250f2c57789"
+
 clean-css@3.4.x, clean-css@^3.3.0:
   version "3.4.27"
   resolved "https://registry.npmjs.org/clean-css/-/clean-css-3.4.27.tgz#adef75b31c160ffa5d72f4de67966e2660c1a255"
@@ -3389,10 +3393,6 @@ js-beautify@^1.6.3:
     editorconfig "^0.13.2"
     mkdirp "~0.5.0"
     nopt "~3.0.1"
-
-js-sha1@^0.4.1:
-  version "0.4.1"
-  resolved "http://registry.npm.taobao.org/js-sha1/download/js-sha1-0.4.1.tgz#d118479722a766822e951513c897a31c9654a5b8"
 
 js-stringify@^1.0.1:
   version "1.0.2"
@@ -5822,6 +5822,10 @@ swap-case@^1.1.0:
   dependencies:
     lower-case "^1.1.1"
     upper-case "^1.1.1"
+
+swiper@^2:
+  version "2.7.6"
+  resolved "https://registry.npmjs.org/swiper/-/swiper-2.7.6.tgz#9b6c782adde0301a35d7219cf4d850964a43687a"
 
 sync-request@3.0.1:
   version "3.0.1"

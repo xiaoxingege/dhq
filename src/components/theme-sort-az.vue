@@ -36,15 +36,9 @@ span {
 }
 body,
 html {
-    /* background: #f2f2f2; */
-
-}
+    }
 .sortaz-wrap {
-    /*  background: #f2f2f2;
-      width: 100%;
-      font-size: 12px;
-      color: #696969; */
-}
+    }
 .az-main {}
 .sort-hot {
 
@@ -56,7 +50,6 @@ html {
     display: inline-block;
    } */
 .themeList .every-topical-wrap {
-    /* background: #ffff; */
     padding-left: 4px;
     /* padding-left: 11px;
   padding-right: 8px; */
@@ -67,7 +60,6 @@ html {
     overflow-y: scroll;
 }
 .every-topical-wrap {
-    /* background: #ffff; */
     padding-left: 4px;
     /* padding-left: 11px;
     padding-right: 8px; */
@@ -113,7 +105,8 @@ html {
     /* padding: 0 10px; */
     /* width: 10%; */
     /* width: 11%; */
-    width: 14%;
+    /* width: 14%; */
+    width: 13%;
     /* line-height: 20px; */
     line-height: 30px;
     color: #c9d0d7;

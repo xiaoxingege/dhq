@@ -221,8 +221,8 @@ body {
             <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
             <span class="green">{{item.mainForceOutflow | changyi }}</span>
             <span>{{item.dealBalance | changyi }}</span>
-            <span :class="addcolor(item.cat)">{{item.cat}}</span>
-            <span>{{item.tr}}</span>
+            <span :class="addcolor(item.cat)">{{item.cat}}%</span>
+            <span>{{item.tr}}%</span>
             <span>{{item.cmv | changyi }}</span>
             <span>{{item.tmv | changyi }}</span>
           </li>
@@ -266,7 +266,7 @@ export default {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
-      groupid: 4973837,
+      groupid: this.getQueryString('groupid'),
       dataarr1: [],
       dataarr2: [],
       dataarr3: [],
@@ -316,9 +316,6 @@ export default {
         return
       }
       window.callbackgobtninfo = function (t) {
-        if (typeof t === 'string') {
-          t = JSON.parse(t)
-        }
         _this.$data['dataarr' + _this.typeurl] = t.data.items
       }
       if (window.jrj && window.jrj.jsCallNative) {

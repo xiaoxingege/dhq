@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
 .dialog {
-    width: 450px;
+    width: 470px;
     height: 240px;
     background: #4B515E;
 }
@@ -18,6 +18,7 @@
     padding-right: 5px;
 }
 .bottomLeft {
+    box-sizing: content-box;
     width: 125px;
     font-size: 12px;
     padding: 0 10px;
@@ -29,14 +30,14 @@
     margin-bottom: 7px;
 }
 .bottomRight {
-    width: 300px;
+    width: 320px;
     height: 200px;
 }
 </style>
 <template>
 <div class="dialog">
   <div class="top clearfix">
-    <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode}}]</span>
+    <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
     <span class="fr">
                 <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
@@ -63,7 +64,7 @@
       </div>
     </div>
     <div class="bottomRight fl">
-      <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="300" :chartHeight="200"></Stockkline>
+      <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
     </div>
   </div>
 </div>
@@ -77,7 +78,7 @@ import {
 
 export default {
   props: ['dialogOptions'],
-  data () {
+  data() {
     return {
       xSelectData: Data.xSelectData,
       bubbleSizeSelect: Data.bubbleSizeSelect,
@@ -96,7 +97,7 @@ export default {
     bubbleSize: state => state.bubbles.parameterData.bubblesSize,
     bubbleColor: state => state.bubbles.parameterData.bubbleColor,
     hoverStock: state => state.stock.stock,
-    colorS: function () {
+    colorS: function() {
       if (Number(this.hoverStock.chgPx) > 0) {
         return '#ca4941'
       } else if (Number(this.hoverStock.chgPx) < 0) {
@@ -109,7 +110,7 @@ export default {
   methods: {
 
   },
-  mounted () {
+  mounted() {
 
   }
 }

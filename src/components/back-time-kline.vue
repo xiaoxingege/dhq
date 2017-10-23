@@ -108,7 +108,8 @@ textarea:-ms-input-placeholder {
 }
 .label-txt {
     /* padding-right: 50px; */
-    padding-left: 27px;
+    /* padding-left: 27px; */
+    padding-left: 12px;
 }
 .k-line-box {
     /* padding: 11px 7px 20px 6px; */
@@ -150,7 +151,8 @@ textarea:-ms-input-placeholder {
 
     width: 256px;
     /* top: 82%; */
-    top: 104%;
+    /* top: 104%; */
+    top: 101%;
     left: 20px;
     position: absolute;
     /* left: 14.7%; */
@@ -162,16 +164,21 @@ textarea:-ms-input-placeholder {
     color: #666666;
     font-size: 12px;
     background: #cccfd9;
-    padding: 0 10px;
-    border-radius: 3px;
+    /* border-radius: 3px; */
 }
 .search-ul li {
     /* line-height: 30px; */
     line-height: 20px;
+    padding: 0 10px;
     /* border-bottom: 1px solid #262931; */
     /* border-bottom: 1px solid #e5e5e5; */
     /* border-bottom: 1px solid #808ba1; */
     cursor: pointer;
+}
+
+.search-ul li.active {
+    background: #1984ea;
+    color: #c9d0d7;
 }
 .search-ul li span:first-child {
     margin-right: 10px;
@@ -186,16 +193,16 @@ textarea:-ms-input-placeholder {
 
   <div class="time-inp-box">
     <div class="desc-title">机会分析</div>
-    <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keyup="keyEnter($event)">
-    <span class="ana-btn" @click="submitSearch($event)">分析</span>
+    <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keydown="keyEnter($event)">
+    <span class="ana-btn" @click="submitSearch($event)" style="display: none">分析</span>
     <label class="label-txt lightcolor">*仅支持分析A股，价格为前复权</label>
-    <ul class="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
+    <ul class="search-ul" id="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
       <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
     </ul>
     <!-- <ul class="search-ul" v-else>
                   <li>暂无数据</li>
                   
-               </ul> :style="{ display: none } :style="{ display: isShowLine }""-->
+               </ul> -->
   </div>
   <div class="k-line-box" id="ss" v-if="istyle">
     <!-- <div>格力电器买卖点分析</div> -->
@@ -228,8 +235,8 @@ export default {
       // showMa: false,
       strategyId: this.$route.params.strategyId,
       searchList: [],
-      isShowLine: 'none',
       istyle: false,
+      current: 0,
       fullHeight1: document.documentElement.clientHeight - 562
     }
   },
@@ -417,7 +424,6 @@ export default {
   methods: {
     init () {
       this.chart = echarts.init(this.$refs.kcharts)
-
       // console.log(this.message)
       this.innerCode = this.message
       this.$store.dispatch('backtestDetail/queryKline', {
@@ -435,10 +441,17 @@ export default {
       this.$store.dispatch('backtestDetail/querySearch', {
         keyword
       })
+      console.log(this.searchData.searchList.length)
+      if (this.searchData.searchList.length > 0) {
+        var ul = document.getElementById('search-ul')
+        var lis = ul.getElementsByTagName('li')
+        lis[0].className = 'active'
+      }
       if (this.message === '') {
         // this.showMa = false
       } else {
         this.istyle = true
+        console.log(this.searchData.searchList.length)
         this.init()
       }
       // this.filterStocks(keyword)
@@ -448,28 +461,62 @@ export default {
       this.$emit('focusStockId', focusStockId)
       this.message = focusStockId
       this.showSearchList = false
-      // this.searchList = []
-
       this.searchData.searchList = []
       console.log(this.searchData.searchList)
-
-      // this.init()
+      this.istyle = true
+      this.init()
     },
     submitSearch (e) {
       e.preventDefault()
       // this.showMa = true
-      /* this.isShowLine = 'block'*/
 
       this.init()
     },
+
     keyEnter (e) {
-      if (e.keyCode === 13) {
-        const keyword = this.$refs.keyword.value
-        this.message = keyword
-        this.$store.dispatch('backtestDetail/querySearch', {
-          keyword
-        })
+      switch (e.keyCode) {
+        case 38:
+          this.current--
+          console.log(this.current)
+          this.addActive()
+          break
+        case 40:
+          this.current++
+          console.log(this.current)
+          this.addActive()
+          break
+        case 13:
+          var ul = document.getElementById('search-ul')
+          var lis = ul.getElementsByTagName('li')
+          if (this.current !== -1) {
+            console.log(lis[this.current].getElementsByTagName('span')[0].innerText)
+            this.message = lis[this.current].getElementsByTagName('span')[0].innerText
+            this.searchData.searchList = []
+            this.init()
+          }
+          break
+        default:
+          break
       }
+    },
+    addActive () {
+      var ul = document.getElementById('search-ul')
+      var lis = ul.getElementsByTagName('li')
+      /* } else {
+         var ul = document.getElementById('search-ul')
+         var lis = ul.getElementsByTagName('li')
+       }*/
+      // console.log(lis.length)
+      for (var i = 0; i < lis.length; i++) {
+        lis[i].className = ''
+      }
+      if (this.current < 0) {
+        this.current = lis.length - 1
+      }
+      if (this.current === lis.length) {
+        this.current = 0
+      }
+      lis[this.current].className = 'active'
     },
     drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
       console.log(seriesData)

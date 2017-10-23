@@ -20,6 +20,7 @@ require('./routes')(router);
 app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */
+/* 读取编译后的相应的html模板文件 */
 const templatePath = getTemplatePath();
 const templateCache = {};
 const loadTemplate = function(name) {
@@ -37,6 +38,9 @@ app.use(async function(ctx, next) {
   if (template) {
     ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
+    ctx.body = ctx.body.replace('{{meta_keywords}}', ctx.metaKeywords || '');
+    ctx.body = ctx.body.replace('{{meta_description}}', ctx.metaDescription || '');
+    ctx.body = ctx.body.replace('{{title}}', ctx.title || '');
   }
   ctx.set('Cache-Control', 'no-cache');
   await next();

@@ -24,35 +24,20 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('/jzxg-activity', async(ctx, next) => {
-    ctx.template = 'jzxg-activity';
-    // 渲染vue对象为html字符串
-    let html = '';
-    // 向浏览器输出完整的html
-    ctx.body = html;
-    // 继续执行后面的中间件
-    await next();
-  });
-  router.get('/mystock', async(ctx, next) => {
-    ctx.template = 'mystock';
-    // 渲染vue对象为html字符串
-    let html = '';
-    // 向浏览器输出完整的html
-    ctx.body = html;
-    // 继续执行后面的中间件
-    await next();
-  });
-  router.get('/pre-pay', async(ctx, next) => {
-    ctx.template = 'pre-pay';
-    // 渲染vue对象为html字符串
-    let html = '';
-    // 向浏览器输出完整的html
-    ctx.body = html;
-    // 继续执行后面的中间件
-    await next();
-  });
-  router.get('/lucky-draw', async(ctx, next) => {
-    ctx.template = 'lucky-draw';
+    router.get('/wangLun-activity', async(ctx, next) => {
+        ctx.title='央视嘉宾王伦全网限时回馈';
+        ctx.metaDescription = '';
+        ctx.metaKeywords = '王伦,伦哥量化,优惠券';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
+  router.get('*', async(ctx, next) => {
+    ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';
     // 向浏览器输出完整的html
