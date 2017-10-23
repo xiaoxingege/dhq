@@ -162,17 +162,17 @@ a:hover {
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       type: this.$route.params.detailType,
       moreInfor: null
     }
   },
   computed: {
-    result: function () {
+    result: function() {
       return this.$store.state.zhikuanDetailPages.dataList[this.type]
     },
-    reformatNewsContent: function () {
+    reformatNewsContent: function() {
       if (this.result === null || this.result.news.content === null) {
         return
       }
@@ -183,7 +183,7 @@ export default {
       })
       return con
     },
-    reformatReportContent: function () {
+    reformatReportContent: function() {
       const content = this.result.summary.split('\n')
       let con = ''
       content.forEach((p) => {
@@ -191,28 +191,28 @@ export default {
       })
       return con
     },
-    urlId: function () {
+    urlId: function() {
       return this.$route.params.id
     },
-    date: function () {
+    date: function() {
       if (this.result === null) {
         return
       }
-      const date = new Date(this.result.news.createTime)
+      const date = new Date(this.result.news.declareDate)
       return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
     },
-    reportDate: function () {
+    reportDate: function() {
       const date = new Date(this.result.declareDate)
       return date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' + date.getDate() + ' '
     }
   },
   watch: {
-    urlId: function () {
+    urlId: function() {
       this.getDetailPages()
     }
   },
   methods: {
-    getDetailPages () {
+    getDetailPages() {
       const id = this.$route.params.id
       const detailType = this.$route.params.detailType
       this.$store.dispatch('zhikuanDetailPages/getDetailPages', {
@@ -260,7 +260,7 @@ export default {
     }
 
   },
-  mounted () {
+  mounted() {
     this.getDetailPages()
   }
 }
