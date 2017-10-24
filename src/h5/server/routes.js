@@ -37,7 +37,6 @@ module.exports = function(router) {
       await next();
     });
     router.get('/ydzxDetail', async(ctx, next) => {
-        ctx.title='11';
         ctx.htmlHeader = '<link rel="stylesheet" href="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.css" type="text/css">';
         ctx.htmlFooter = '<script src="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.js"></script>';
       ctx.template = ctx.path.substring(1);
