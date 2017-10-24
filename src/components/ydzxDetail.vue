@@ -1,5 +1,4 @@
 <style>
-@import '../assets/css/reset.css';
 .link{
 	margin-bottom: 20px;
 }
