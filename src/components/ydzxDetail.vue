@@ -117,7 +117,6 @@ export default {
 			    	this.userName=data.userName
 			    	var d = new Date(data.ctime);
 			    	this.ctime=this.formatDate(d);
-			    	console.log(data)
 			    	this.avator=data.userInfo.headImage;
 			    	$("#yidian-content").html(data.content)
 			    	this.link='http://z.jrj.com.cn/?tgid='+data.userId+'&showVP=true&tgqdcode=DZSBHER4#!/'
