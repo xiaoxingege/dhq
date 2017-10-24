@@ -9,6 +9,7 @@
 </style>
 
 <template>
+	<div class="ydzxDetail">
 	<div class="yidian-header">
       <a href="http://m.jrj.com.cn/?channel=NXPZDH4ZY&tgqdcode=DZSBHER4">
         <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/ydzx_20170526/img/logo.png" style="height: 24px;"/>
@@ -37,6 +38,7 @@
       		点击进入我的直播间>></a>
       </p>
     </article>
+</div>
 </template>
 
 <script>
