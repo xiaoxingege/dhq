@@ -305,6 +305,7 @@ input {
     position: absolute;
     top: 8.9rem;
     width: 100%;
+    height: 2.2rem;
     text-align: center;
     font-size: 0.24rem;
     p {
