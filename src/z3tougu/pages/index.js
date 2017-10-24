@@ -15,6 +15,9 @@ Vue.use(z3)
  * @store  vuex的数据仓库
  * @routes  路由配置
  */
+
+Vue.config.devtools = true;
+
 initVue({
   el: 'app',
   store,
@@ -22,7 +25,7 @@ initVue({
     transition: false,
     routes,
     historyMode: 'history',
-    beforeEach (to, from, next) {
+    beforeEach(to, from, next) {
       if (!store.state.auth.authorization) {
         store.dispatch('authSetting').then(next).catch(next)
       } else {

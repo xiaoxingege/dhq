@@ -174,6 +174,22 @@ export default {
         }
       }
     );
+    Vue.filter('money', function(value) {
+      let val = Number(value);
+      if (isNaN(val)) {
+        return config.emptyValue
+      } else {
+        return val.toFixed(2);
+      }
+    });
+    Vue.filter('price', function(value) {
+      let val = Number(value);
+      if (isNaN(val)) {
+        return config.emptyValue
+      } else {
+        return val.toFixed(2);
+      }
+    })
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"
