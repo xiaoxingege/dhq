@@ -669,7 +669,7 @@ export default {
                 }
                 return formatterText
               },
-              height: 20
+              height: 15
             }
           },
           itemStyle: {
@@ -774,7 +774,7 @@ export default {
                 }
                 return formatterText
               },
-              height: 20
+              height: 15
             }
           },
           itemStyle: {
