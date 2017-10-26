@@ -78,18 +78,19 @@ a {
     top: 0;
     cursor: pointer;
 }
-.syqxt{
-  position: relative;
-}
-.syqx-tab{
-  position: absolute;
-  right:0;
-  top:0;
-}
-.syqx-tab li{
-  float: left;
-  color:#fff;
-}
+
+/*.syqxt{*/
+/*position: relative;*/
+/*}*/
+/*.syqx-tab{*/
+/*position: absolute;*/
+/*right:0;*/
+/*top:0;*/
+/*}*/
+/*.syqx-tab li{*/
+/*float: left;*/
+/*color:#fff;*/
+/*}*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .dqxg,
     .dryk,
@@ -111,14 +112,14 @@ a {
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
   <div>
     <div v-if="type === 'syqxt'" class="syqxt">
-      <ul class="syqx-tab">
-        <li>近1月</li>
-        <li>近3月</li>
-        <li>近6月</li>
-        <li>近1年</li>
-        <li>近3年</li>
-        <li>全部</li>
-      </ul>
+      <!--<ul class="syqx-tab">
+          <li>近1月</li>
+          <li>近3月</li>
+          <li>近6月</li>
+          <li>近1年</li>
+          <li>近3年</li>
+          <li>全部</li>
+        </ul>-->
       <Linechart :strategyId="strategyId"></Linechart>
     </div>
     <div v-if="type === 'dryk'" class="dryk">
@@ -260,7 +261,7 @@ export default {
     }
   },
   // ['data', 'strategyId', 'showType'],
-  data () {
+  data() {
     return {
       navText: [
         ['收益曲线图', 'syqxt'],
@@ -289,34 +290,34 @@ export default {
   },
   computed: {
 
-    mrjyData: function () {
+    mrjyData: function() {
       return this.$store.state.goldStrategy.mrjyData
     },
-    dqxgData: function () {
+    dqxgData: function() {
       return this.$store.state.goldStrategy.dqxgData
     },
-    authInfo: function () {
+    authInfo: function() {
       return this.$store.state.auth
     },
-    mrxhData: function () {
+    mrxhData: function() {
       return this.$store.state.goldStrategy.mrxhData
     },
-    mcxhData: function () {
+    mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     }
 
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    goMrjyPage (data) {
+    goMrjyPage(data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goMrxhPage (data) {
+    goMrxhPage(data) {
       this.mrxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
@@ -324,7 +325,7 @@ export default {
         page: data - 1
       }).then(() => {})
     },
-    goMcxhPage (data) {
+    goMcxhPage(data) {
       this.mcxhPage = data - 1
       this.$store.dispatch('goldStrategy/getMrxhData', {
         strategyId: this.strategyId,
@@ -332,7 +333,7 @@ export default {
         page: data - 1
       }).then(() => {})
     },
-    exportData (type) {
+    exportData(type) {
       var type2 = ''
       if (type === 'mrjy') {
         type2 = 'goldDetail'
@@ -357,7 +358,7 @@ export default {
         })
       }
     },
-    createForm (id, type, token, clientid, deviceid) {
+    createForm(id, type, token, clientid, deviceid) {
       var url = `${domain}/openapi/excels/excelByType.shtml`
       var postForm = document.createElement('form') // 表单对象
       postForm.style.display = 'none'
@@ -369,6 +370,6 @@ export default {
       // document.body.removeChild(postForm)
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>
