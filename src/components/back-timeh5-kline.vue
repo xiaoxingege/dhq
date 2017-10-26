@@ -201,7 +201,7 @@ import {
 import echarts from 'echarts'
 
 export default {
-  data () {
+  data() {
     return {
       ma5: '--',
       ma10: '--',
@@ -281,7 +281,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -308,7 +308,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -344,7 +344,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -368,7 +368,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -400,20 +400,20 @@ export default {
 
   },
   methods: {
-    init () {
+    init() {
       this.chart = echarts.init(this.$refs.kcharts)
 
       // console.log(this.message)
       this.innerCode = this.message
       this.$store.dispatch('backtestDetail/queryKline', {
-        innerCode: this.innerCode,
-        strategyId: this.strategyId
-      })
+          innerCode: this.innerCode,
+          strategyId: this.strategyId
+        })
         .then(() => {
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
         })
     },
-    search (e) {
+    search(e) {
       e.preventDefault()
       const keyword = this.$refs.keyword.value
       this.message = keyword
@@ -427,7 +427,7 @@ export default {
       }
       // this.filterStocks(keyword)
     },
-    focusStock (e) {
+    focusStock(e) {
       const focusStockId = e.currentTarget.children[0].innerText
       this.$emit('focusStockId', focusStockId)
       this.message = focusStockId
@@ -437,12 +437,12 @@ export default {
       console.log(this.searchData.searchList)
       // this.init()
     },
-    submitSearch (e) {
+    submitSearch(e) {
       e.preventDefault()
       // this.showMa = true
       this.init()
     },
-    keyEnter (e) {
+    keyEnter(e) {
       if (e.keyCode === 13) {
         const keyword = this.$refs.keyword.value
         this.message = keyword
@@ -451,7 +451,7 @@ export default {
         })
       }
     },
-    drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
+    drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
       console.log(seriesData)
       const self = this
       self.chart.setOption({
@@ -471,7 +471,7 @@ export default {
           axisPointer: {
             type: 'cross'
           },
-          formatter: function (t) {
+          formatter: function(t) {
             // console.log(t)
             var time = t[0].name
             var openPx = t[0].value[1]
@@ -528,7 +528,7 @@ export default {
           /* left: '2.5%',*/
           /* right: '2%',*/
           left: '2%',
-          right: '1%',
+          right: '3%',
           top: '3.2%',
           bottom: '0',
           /* bottom: '10%',*/
@@ -596,34 +596,34 @@ export default {
         },
 
         series: [{
-          name: '日K',
-          type: 'candlestick',
-          data: kLineYdata,
-          barWidth: '3',
-          itemStyle: {
-            normal: {
-              color: '#e6363a',
-              color0: '#48a854',
-              borderColor: '#ff4040',
-              borderColor0: '#2dc678'
-            }
-          },
-          markPoint: { /* image://src/assets/images/z3img/kline-red.png*/
-              // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
-            label: {
+            name: '日K',
+            type: 'candlestick',
+            data: kLineYdata,
+            barWidth: '3',
+            itemStyle: {
               normal: {
-                formatter: function (param) {
-                  return param != null ? Math.round(param.value) : ''
-                }
+                color: '#e6363a',
+                color0: '#48a854',
+                borderColor: '#ff4040',
+                borderColor0: '#2dc678'
               }
             },
-            data: pointData,
-            tooltip: {
-              formatter: function (param) {
-                return param.name + '<br>' + (param.data.coord || '')
+            markPoint: { /* image://src/assets/images/z3img/kline-red.png*/
+              // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
+              label: {
+                normal: {
+                  formatter: function(param) {
+                    return param != null ? Math.round(param.value) : ''
+                  }
+                }
+              },
+              data: pointData,
+              tooltip: {
+                formatter: function(param) {
+                  return param.name + '<br>' + (param.data.coord || '')
+                }
               }
             }
-          }
             /*,
                          markLine: {
 
@@ -636,7 +636,7 @@ export default {
                            }]]
 
                          }*/
-        },
+          },
           /* {
             name: 'MA5',
             type: 'line',
@@ -685,29 +685,29 @@ export default {
               }
             }
           },*/
-        {
-          type: 'line',
-          data: seriesData,
-          lineStyle: {
-            normal: {
-              width: 3,
-              color: '#888888'
+          {
+            type: 'line',
+            data: seriesData,
+            lineStyle: {
+              normal: {
+                width: 3,
+                color: '#888888'
+              }
             }
           }
-        }
 
         ]
       })
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },
-  mounted () {
+  mounted() {
     // this.init()
     // this.$store.dispatch('')
 
