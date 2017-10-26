@@ -634,7 +634,7 @@ export default {
 
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        that.options.innerCode = data
+        that.options.innerCode = data || null
         this.initBubbles()
       })
     } else {
