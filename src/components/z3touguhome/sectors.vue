@@ -199,6 +199,9 @@ export default {
   mounted() {
     this.initSectors()
     this.autoUpdate()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
