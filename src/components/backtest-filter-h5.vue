@@ -144,7 +144,7 @@ body {
     line-height: 0.4rem;
 }
 .desc-ul2 tr:nth-child(1) td {
-    font-size: 12px;
+    font-size: 0.24rem;
     color: #888888;
 }
 .desc-ul2 tr:nth-child(2) td {
@@ -387,7 +387,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId
     }
@@ -433,25 +433,25 @@ export default {
   },
   components: {},
   methods: {
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },
-  mounted () {
+  mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
     this.$store.dispatch('backtestDetail/queryBasicFilter', {
       strategyId: this.strategyId
@@ -462,7 +462,7 @@ export default {
       stockPagesize: this.stockPagesize
     })
     // console.log(state.backtestDetail.basicFilter.filterSummary)
-    this.$watch('basicFilter', function (basicFilter) {
+    this.$watch('basicFilter', function(basicFilter) {
       if (basicFilter) {
         console.log(this.$emit('basicFilterName', basicFilter.strategyName))
         this.$emit('basicFilterName', basicFilter.strategyName)
