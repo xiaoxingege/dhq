@@ -1286,6 +1286,9 @@ export default {
   mounted() {
     this.isFullScreen()
     this.initMap()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

@@ -198,6 +198,9 @@ export default {
   mounted() {
     this.initTopIndustry()
     this.autoUpdate()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
