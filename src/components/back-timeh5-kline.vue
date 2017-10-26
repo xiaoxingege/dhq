@@ -528,7 +528,7 @@ export default {
           /* left: '2.5%',*/
           /* right: '2%',*/
           left: '2%',
-          right: '3%',
+          right: '5%',
           top: '3.2%',
           bottom: '0',
           /* bottom: '10%',*/
