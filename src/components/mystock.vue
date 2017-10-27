@@ -268,7 +268,6 @@ export default {
       scrollleftpx: '30%',
       groupid: this.getQueryString('groupid'),
       url:'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
-      sortcolumn: '1', // 排序字段
       ordertype: 'desc', // asc=升，desc=降，默认降序
       dataarr:[]
       // dataarr1: [],
