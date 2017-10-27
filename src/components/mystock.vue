@@ -184,25 +184,25 @@ body {
     <div class="data_r fl" @scroll="scrollLeft($event)">
       <div :class="typeurl == '1' ? 'bigwidth' : ''">
         <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 1" ref="myspanbox">
-          <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon" ></i></span>
-          <span data-index='2' :class="sortcolumn ==='2' ? 'icondown' : '' " @click="paixu($event)">现价<i class="icon"></i></span>
-          <span data-index='3' :class="iconClassObject" @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='4' :class="sortcolumn ==='3' ? 'icondown' : '' " @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='5' :class="sortcolumn ==='5' ? 'icondown' : '' " @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='6' :class="sortcolumn ==='6' ? 'icondown' : '' " @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='7' :class="sortcolumn ==='7' ? 'icondown' : '' " @click="paixu($event)">量比<i class="icon"></i></span>
-          <span data-index='8' :class="sortcolumn ==='8' ? 'icondown' : '' " @click="paixu($event)">换手率<i class="icon"></i></span>
-          <span data-index='9' :class="sortcolumn ==='9' ? 'icondown' : '' " @click="paixu($event)">流通市值<i class="icon"></i></span>
-          <span data-index='10' :class="sortcolumn ==='10' ? 'icondown' : '' " @click="paixu($event)">总市值<i class="icon"></i></span>
+          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入<i class="icon" ></i></span>
+          <span data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='6' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='7' @click="paixu($event)">量比<i class="icon"></i></span>
+          <span data-index='8' @click="paixu($event)">换手率<i class="icon"></i></span>
+          <span data-index='9' @click="paixu($event)">流通市值<i class="icon"></i></span>
+          <span data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 2">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
           <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='6'>领涨股</span>
-          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='2' :class="sortcolumn ==='2' ? 'icondown' : '' " @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='3' :class="sortcolumn ==='3' ? 'icondown' : '' " @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='5' :class="sortcolumn ==='5' ? 'icondown' : '' " @click="paixu($event)">涨股比<i class="icon"></i></span>
+          <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd3" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon "></i></span>
@@ -214,18 +214,6 @@ body {
           <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
         </div>
         <ul class="data_you datayou1" v-if="typeurl == 1">
-          <li class="clearfix">
-            <span >111</span>
-            <span >222</span>
-            <span >333</span>
-            <span >444</span>
-            <span class="green">555</span>
-            <span>666</span>
-            <span >777%</span>
-            <span>888%</span>
-            <span>99</span>
-            <span>10</span>
-          </li>
           <li class="clearfix" v-for="item in dataarr1" @click="gotostock(item.stockName,item.stockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi  }}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.currentPrice}}</span>
@@ -276,7 +264,7 @@ export default {
   data () {
     return {
       typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
-      sortcolumn: this.getQueryString('sortcolumn') ? this.getQueryString('sortcolumn') : '0', // 默认排序 0  按主力净流入排序 1  涨跌幅排序
+      sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
       groupid: this.getQueryString('groupid'),
       dataarr1: [],
@@ -285,35 +273,21 @@ export default {
       urllink: {
         1: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
-          'sort_column': this.getQueryString('sortcolumn') ? this.getQueryString('sortcolumn') : '0', // 排序字段
-          'order_type': this.getQueryString('order') ? this.getQueryString('order'): 'desc' // asc=升，desc=降，默认降序
+          'sort_column': '1', // 排序字段
+          'order_type': 'desc' // asc=升，desc=降，默认降序
         },
         2: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-          'sort_column': this.getQueryString('sortcolumn') ? this.getQueryString('sortcolumn') : '0', // 排序字段
-          'order_type': this.getQueryString('order') ? this.getQueryString('order'): 'desc' // asc=升，desc=降，默认降序
+          'sort_column': this.getQueryString('sortcolumn'), // 排序字段
+          'order_type': 'desc' // asc=升，desc=降，默认降序
         },
         3: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
           'sort_column': this.getQueryString('sortcolumn'), // 排序字段
-          'order_type': this.getQueryString('order') ? this.getQueryString('order'): 'desc' // asc=升，desc=降，默认降序
+          'order_type': 'desc' // asc=升，desc=降，默认降序
         }
       },
       titlearr: ['个股', '概念', '行业']
-    }
-  },
-  computed: {
-    iconClassObject: function () {
-      if (this.typeurl==='1'&&this.sortcolumn==='3'&&this.getQueryString('order')==='asc') {
-        return{
-          iconup:true
-        }
-      }
-      if (this.typeurl==='1'&&this.sortcolumn==='3'&&this.getQueryString('order')===null){
-        return{
-          icondown:true
-        }
-      }
     }
   },
   mounted () {
@@ -335,13 +309,10 @@ export default {
     },
     fetchData () {
       var urll = this.urllink[this.typeurl]
-      // console.log(this.getQueryString('order'))
-      // console.log(urll.order_type)
       var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
-      console.log(url)
       var _this = this
       if (!window.jrj) {
-        setTimeout(this.fetchData.bind(this), 5000)
+        setTimeout(this.fetchData.bind(this), 100)
         return
       }
       window.callbackgobtninfo = function (t) {
@@ -368,12 +339,6 @@ export default {
     scrollLeft (v) {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
     },
-    // show(){
-    //   if (this.typeurl === '1' && this.sortcolumn === '8') {
-    //     this.scrollLeft ($event)
-    //     console.log(18)
-    //   }
-    // },
     paixu (v) {
       var o = this.urllink[this.typeurl]
       o['pn'] = 1
