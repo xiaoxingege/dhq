@@ -167,7 +167,7 @@ body {
   <div class="alldata clearfix">
     <div class="data_l fl">
       <div class="data_hd">
-        <span v-if="typeurl == 1">股票名称</span>
+        <span v-if="typeurl == 1">股票名称1</span>
         <span v-if="typeurl == 2">概念</span>
         <span v-if="typeurl == 3">行业</span>
       </div>
