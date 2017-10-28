@@ -168,16 +168,16 @@ body {
     <div class="data_r fl" @scroll="scrollLeft($event)">
       <div :class="typeurl == '1' ? 'bigwidth' : ''">
         <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 1" ref="myspanbox">
-          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入<i class="icon" ></i></span>
-          <span  data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
-          <span  data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span  data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span  data-index='5' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span  data-index='6' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span  data-index='7' @click="paixu($event)">量比<i class="icon"></i></span>
-          <span  data-index='8' @click="paixu($event)">换手率<i class="icon"></i></span>
-          <span  data-index='9' @click="paixu($event)">流通市值<i class="icon"></i></span>
-          <span  data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
+          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon" ></i></span>
+          <span data-index='2' :class="sortcolumn ==='2' ? 'icondown' : '' " @click="paixu($event)">现价<i class="icon"></i></span>
+          <span data-index='3' :class="iconClassObject" @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='5' :class="sortcolumn ==='5' ? 'icondown' : '' " @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='6' :class="sortcolumn ==='6' ? 'icondown' : '' " @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='7' :class="sortcolumn ==='7' ? 'icondown' : '' " @click="paixu($event)">量比<i class="icon"></i></span>
+          <span id="turnover" data-index='8' :class="sortcolumn ==='8' ? 'icondown' : '' " @click="paixu($event)">换手率<i class="icon"></i></span>
+          <span data-index='9' :class="sortcolumn ==='9' ? 'icondown' : '' " @click="paixu($event)">流通市值<i class="icon"></i></span>
+          <span data-index='10' :class="sortcolumn ==='10' ? 'icondown' : '' " @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
         <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}"  v-if="typeurl == 2">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
@@ -259,8 +259,8 @@ export default {
       urllink: {
         1: {
           'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/stockfundflow/query_stock_fund_flow',
-          'sort_column': '1', // 排序字段
-          'order_type': 'desc', // asc=升，desc=降，默认降序
+          'sort_column': this.getQueryString('sortcolumn') ? this.getQueryString('sortcolumn') : '1', // 排序字段
+          'order_type' : this.getQueryString('order') ? this.getQueryString('order') : 'desc', // asc=升，desc=降，默认降序
           'pn': 1, // 页码
           'ps': 20 // 每页条数
         },
@@ -284,10 +284,25 @@ export default {
       titlearr: ['个股', '概念', '行业']
     }
   },
+  computed: {
+    iconClassObject: function () {
+      if (this.typeurl==='1'&&this.sortcolumn==='3'&&this.getQueryString('order')==='asc') {
+        return{
+          iconup:true
+        }
+      }
+      if (this.typeurl==='1'&&this.sortcolumn==='3'&&this.getQueryString('order')===null){
+        return{
+          icondown:true
+        }
+      }
+    }
+  },
   mounted () {
     window.jQuery = window.$ = jQuery
     document.title = this.titlearr[this.typeurl - 1]
-
+    var turnover=document.getElementById('turnover') // 换手率
+    this.slideShow('1','8',turnover)
     this.jiazaidata()
     var _this = this
     var sw = true
@@ -361,6 +376,15 @@ export default {
     },
     scrollLeft (v) {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
+      console.log('scrollLeft'+v.target.scrollLeft)
+      console.log('offsetLeft'+v.target.offsetLeft)
+    },
+    slideShow(a,sortcolumn,itemDom){
+      if (this.typeurl === a && this.sortcolumn === sortcolumn){
+        var viewWidth=document.body.offsetWidth;
+        var viewLeftWidth=viewWidth * parseInt(this.scrollleftpx)/100;
+        this.scrollleftpx=-(itemDom.scrollLeft+viewLeftWidth - itemDom.offsetLeft)
+      }
     },
     paixu (v) {
       var o = this.urllink[this.typeurl]
