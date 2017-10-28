@@ -165,7 +165,7 @@ body {
         <li v-for="item in dataarr3" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
       </ul>
     </div>
-    <div class="data_r fl" @scroll="scrollLeft($event)">
+    <div id="dataRightContainer" class="data_r fl" @scroll="scrollLeft($event)">
       <div :class="typeurl == '1' ? 'bigwidth' : ''">
         <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 1" ref="myspanbox">
           <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon" ></i></span>
@@ -302,7 +302,8 @@ export default {
     window.jQuery = window.$ = jQuery
     document.title = this.titlearr[this.typeurl - 1]
     var turnover=document.getElementById('turnover') // 换手率
-    this.slideShow('1','8',turnover)
+    var dataRightContainer=document.getElementById('dataRightContainer') // 滑动父层元素节点
+    this.initialShow('1','8',turnover,dataRightContainer)
     this.jiazaidata()
     var _this = this
     var sw = true
@@ -376,14 +377,17 @@ export default {
     },
     scrollLeft (v) {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
-      console.log('scrollLeft'+v.target.scrollLeft)
-      console.log('offsetLeft'+v.target.offsetLeft)
     },
-    slideShow(a,sortcolumn,itemDom){
+    /*
+    *功能：初始化显示 某短柱维度(如初始化显示换手率维度数据)
+    *a: 表示选中那条维度的数据 个股1，概念2，行业3
+    *sortcolumn: 选取短柱维度
+    *itemDom：选取短柱维度的元素节点
+    *scrollFather：实现scroll滑动的父层节点
+    */
+    initialShow(a,sortcolumn,itemDom,scrollFather){
       if (this.typeurl === a && this.sortcolumn === sortcolumn){
-        var viewWidth=document.body.offsetWidth;
-        var viewLeftWidth=viewWidth * parseInt(this.scrollleftpx)/100;
-        this.scrollleftpx=-(itemDom.scrollLeft+viewLeftWidth - itemDom.offsetLeft)
+        scrollFather.scrollLeft=itemDom.offsetLeft
       }
     },
     paixu (v) {
