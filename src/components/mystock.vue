@@ -265,8 +265,9 @@ export default {
     return {
       // typeurl: this.getQueryString('a'), // 自选股
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
-      scrollleftpx: '30%',
       groupid: this.getQueryString('groupid'),
+      stockcodes: this.getQueryString('stockcodes'),
+      scrollleftpx: '30%',
       url:'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
       ordertype: 'desc', // asc=升，desc=降，默认降序
       dataarr:[]
@@ -312,7 +313,15 @@ export default {
     },
     fetchData () {
       // var urll = this.urllink[this.typeurl]
-      var url = this.url + '?group_id=' + this.groupid + '&sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype
+      var url=''
+      if (this.stockcodes) {
+        url = this.url + '?group_id=' + this.groupid + '&sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype+'&stock_codes='+this.stockcodes
+        console.log(url)
+      }else{
+        url = this.url + '?group_id=' + this.groupid + '&sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype
+        console.log(url)
+      }
+      
       var _this = this
       if (!window.jrj) {
         setTimeout(this.fetchData.bind(this), 100)
