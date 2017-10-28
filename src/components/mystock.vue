@@ -184,7 +184,7 @@ body {
     <div class="data_r fl" @scroll="scrollLeft($event)">
       <div :class="bigwidth">
         <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" ref="myspanbox">
-          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入1<i class="icon" ></i></span>
+          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入<i class="icon" ></i></span>
           <span data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
