@@ -71,7 +71,7 @@ body {
 }
 
 .data_hd,
-.alldata li {
+.alldata .dataitem {
   border-bottom: 1px solid #e6e6e6;
 }
 
@@ -80,7 +80,7 @@ body {
   padding-top: .77rem;
 }
 
-.alldata li {
+.alldata .dataitem {
   position: relative;
   height: 1.2rem
 }
@@ -163,58 +163,32 @@ body {
 </style>
 
 <template>
-<div class="hangqing">
+<div class="mystock">
   <div class="alldata clearfix">
     <div class="data_l fl">
       <div class="data_hd">
         <span>股票名称</span>
-        <!-- <span v-if="typeurl == 2">概念</span>
-        <span v-if="typeurl == 3">行业</span> -->
       </div>
       <ul class="data_zuo datazuo1" >
         <li v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
       </ul>
-      <!-- <ul class="data_zuo datazuo2" v-if="typeurl == 2">
-        <li v-for="item in dataarr2" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
-      </ul>
-      <ul class="data_zuo datazuo3" v-if="typeurl == 3">
-        <li v-for="item in dataarr3" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
-      </ul> -->
     </div>
     <div class="data_r fl" @scroll="scrollLeft($event)">
-      <div :class="bigwidth">
+      <div class="bigwidth">
         <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" ref="myspanbox">
-          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入1<i class="icon" ></i></span>
-          <span data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
-          <span data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='5' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='6' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='7' @click="paixu($event)">量比<i class="icon"></i></span>
-          <span data-index='8' @click="paixu($event)">换手率<i class="icon"></i></span>
-          <span data-index='9' @click="paixu($event)">流通市值<i class="icon"></i></span>
-          <span data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
+          <span data-index='1' :class="sortcolumn ==='1' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon" ></i></span>
+          <span data-index='2' :class="sortcolumn ==='2' ? 'icondown' : '' " @click="paixu($event)">现价<i class="icon"></i></span>
+          <span data-index='3' :class="sortcolumn ==='3' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
+          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">主力流入<i class="icon"></i></span>
+          <span data-index='5' :class="sortcolumn ==='5' ? 'icondown' : '' " @click="paixu($event)">主力流出<i class="icon"></i></span>
+          <span data-index='6' :class="sortcolumn ==='6' ? 'icondown' : '' " @click="paixu($event)">总成交额<i class="icon"></i></span>
+          <span data-index='7' :class="sortcolumn ==='7' ? 'icondown' : '' " @click="paixu($event)">量比<i class="icon"></i></span>
+          <span data-index='8' :class="sortcolumn ==='8' ? 'icondown' : '' " @click="paixu($event)">换手率<i class="icon"></i></span>
+          <span data-index='9' :class="sortcolumn ==='9' ? 'icondown' : '' " @click="paixu($event)">流通市值<i class="icon"></i></span>
+          <span data-index='10' :class="sortcolumn ==='10' ? 'icondown' : '' " @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
-        <!-- <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 2">
-          <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
-          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='6'>领涨股</span>
-          <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
-        </div>
-        <div class="data_hd clearfix datahd3" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 3">
-          <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon "></i></span>
-          <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
-          <span data-index='6'>领涨股</span>
-          <span data-index='1' @click="paixu($event)">主力流入<i class="icon"></i></span>
-          <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
-          <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
-          <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
-        </div> -->
-        <ul class="data_you datayou1">
-          <li class="clearfix" v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)">
+        <div class="data_you datayou1">
+          <div class="clearfix dataitem" v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi  }}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.currentPrice}}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
@@ -225,30 +199,8 @@ body {
             <span>{{item.tr}}%</span>
             <span>{{item.cmv | changyi }}</span>
             <span>{{item.tmv | changyi }}</span>
-          </li>
-        </ul>
-        <!-- <ul class="data_you datayou2" v-if="typeurl == 2">
-          <li class="clearfix" v-for="item in dataarr2">
-            <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi}}</span>
-            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
-            <span @click="gotostock(item.leaderStockName,item.leaderStockCode)">{{item.leaderStockName}}</span>
-            <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
-            <span class="green">{{item.mainForceOutflow | changyi }}</span>
-            <span>{{item.dealBalance | changyi }}</span>
-            <span>{{item.shareRatio}}%</span>
-          </li>
-        </ul> -->
-        <!-- <ul class="data_you datayou3" v-if="typeurl == 3">
-          <li class="clearfix" v-for="item in dataarr3">
-            <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi }}</span>
-            <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
-            <span @click="gotostock(item.leaderStockName,item.leaderStockCode)">{{item.leaderStockName}}</span>
-            <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
-            <span class="green">{{item.mainForceOutflow | changyi }}</span>
-            <span>{{item.dealBalance | changyi }}</span>
-            <span>{{item.shareRatio}}%</span>
-          </li>
-        </ul> -->
+          </div>
+        </div>
       </div>
     </div>
     <i class="mask"></i>
@@ -263,40 +215,25 @@ import 'whatwg-fetch'
 export default {
   data () {
     return {
-      // typeurl: this.getQueryString('a'), // 自选股
-      sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
-      scrollleftpx: '30%',
+      sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 1  按主力净流入排序 3  涨跌幅排序
       groupid: this.getQueryString('groupid'),
+      stockcodes: this.getQueryString('stockcodes'),
+      scrollleftpx: '30%',
       url:'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
       ordertype: 'desc', // asc=升，desc=降，默认降序
       dataarr:[]
-      // dataarr1: [],
-      // dataarr2: [],
-      // dataarr3: [],
-      // urllink: {
-      //   1: {
-      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
-      //     'sort_column': '1', // 排序字段
-      //     'order_type': 'desc' // asc=升，desc=降，默认降序
-      //   },
-      //   2: {
-      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-      //     'sort_column': this.getQueryString('sortcolumn'), // 排序字段
-      //     'order_type': 'desc' // asc=升，desc=降，默认降序
-      //   },
-      //   3: {
-      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-      //     'sort_column': this.getQueryString('sortcolumn'), // 排序字段
-      //     'order_type': 'desc' // asc=升，desc=降，默认降序
-      //   }
-      // },
-      // titlearr: ['个股', '概念', '行业']
     }
   },
   mounted () {
     window.jQuery = window.$ = jQuery
     document.title = '自选股'
-    this.fetchData()
+
+    // stockcodes存在 加载未登录数据，否则加载登录数据
+    if (this.stockcodes) { 
+      this.fetchLogoutData()
+    }else{
+      this.fetchLoginData()
+    }
   },
   filters: {
     changyi (v) {
@@ -310,9 +247,29 @@ export default {
       if (r != null) return unescape(r[2])
       return null
     },
-    fetchData () {
-      // var urll = this.urllink[this.typeurl]
-      var url = this.url + '?group_id=' + this.groupid + '&sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype
+    fetchLogoutData () {
+      var url=''
+      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype+'&stock_codes='+this.stockcodes
+      console.log('fetchLogoutData: '+url)
+
+      fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+      }).then((res) => {
+        return res.json()
+      }).then(v => {
+        this.$data['dataarr'] = v.data.items
+      }).catch(v2 => {
+        console.log(v2)
+      })
+
+    },
+    fetchLoginData () {
+      var url=''
+      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype+'&group_id=' + this.groupid
+      console.log('fetchLoginData: '+url)
+      
       var _this = this
       if (!window.jrj) {
         setTimeout(this.fetchData.bind(this), 100)
@@ -320,6 +277,7 @@ export default {
       }
       window.callbackgobtninfo = function (t) {
         _this.$data['dataarr'] = t.data.items
+        console.log('回调')
       }
       if (window.jrj && window.jrj.jsCallNative) {
         window.jrj.jsCallNative('130', JSON.stringify({
@@ -331,6 +289,7 @@ export default {
         }))
       }
     },
+    
     // 正红负绿
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
@@ -343,29 +302,6 @@ export default {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
     },
     paixu (v) {
-      // var o = this.urllink[this.typeurl]
-      // o['pn'] = 1
-      // document.body.scrollTop = 0
-      // if (o['sort_column'] === v.currentTarget.getAttribute('data-index')) {
-      //   if (o['order_type'] === 'asc') {
-      //     o['order_type'] = 'desc'
-      //     v.currentTarget.setAttribute('class', 'icondown')
-      //   } else {
-      //     o['order_type'] = 'asc'
-      //     v.currentTarget.setAttribute('class', 'iconup')
-      //   }
-      // } else {
-      //   o['sort_column'] = v.currentTarget.getAttribute('data-index')
-      //   o['order_type'] = 'desc'
-
-      //   $('.data_hd span').removeClass('icondown').removeClass('iconup')
-      //   v.currentTarget.setAttribute('class', 'icondown')
-      // }
-      // this.fetchData()
-
-
-      // var o = this.urllink[this.typeurl]
-      // o['pn'] = 1
       document.body.scrollTop = 0
       if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
         if (this.ordertype === 'asc') {
@@ -382,7 +318,11 @@ export default {
         $('.data_hd span').removeClass('icondown').removeClass('iconup')
         v.currentTarget.setAttribute('class', 'icondown')
       }
-      this.fetchData()
+      if (this.stockcodes) { 
+        this.fetchLogoutData()
+      }else{
+        this.fetchLoginData()
+      }
     },
     gotostock (stockName, stockCode) {
       window.jrj.jsCallNative('100', JSON.stringify({
