@@ -196,15 +196,23 @@ export default {
     getGoldStrategyData({
       commit
     }, {
-      strategyId
+      strategyId,
+      share
     }) {
       commit('setGoldOptions', strategyId)
-      return fetch(`${domain}/openapi/backtest/goldStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/basicAndIndex.shtml?strategyId=${strategyId}&share=${share}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setGoldData', body)
+        if (body.errCode === 0) {
+          commit('setGoldData', body)
+        } else if (body.errCode === 1703) {
+          alert(body.msg);
+        } else {
+          alert('error');
+        }
+
       })
     },
     getSyqxtData({

@@ -249,6 +249,7 @@ import {
   ctx
 } from '../z3tougu/config'
 import * as Data from '../z3tougu/constant/siwei.js'
+import base64 from 'base-64'
 
 export default {
   data() {
@@ -481,7 +482,15 @@ export default {
   }),
   methods: {
     showQrcode() {
-      this.showQrcodeBox = !this.showQrcodeBox
+      this.showQrcodeBox = !this.showQrcodeBox;
+      let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
+      let shareMark = new Date().getTime();
+      shareMark = base64.encode(shareMark);
+      shareMark = base64.encode(shareMark);
+      let dataUrl = url + '?share=' + shareMark;
+      qrcode.toDataURL(this.$refs.qrcode, dataUrl, {
+        version: 5
+      }, function() {})
     },
     showRadar() {
       this.radarShow = true
@@ -492,9 +501,11 @@ export default {
   },
   mounted() {
     this.type = this.$route.params.showType
-
+    let share = base64.encode("JRJ");
+    share = base64.encode(share);
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
-      strategyId: this.strategyId
+      strategyId: this.strategyId,
+      share: share
     })
     this.$store.dispatch('goldStrategy/getMrjyData', {
       strategyId: this.strategyId
@@ -508,13 +519,14 @@ export default {
       type: 'sell'
     })
 
-    const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, {
-      version: 5
-    }, function() {})
+    let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
     const clipboard = new Clipboard('.copy', {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {
