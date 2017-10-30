@@ -170,7 +170,7 @@ body {
         <span>股票名称</span>
       </div>
       <ul class="data_zuo datazuo1" >
-        <li v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
+        <li class="dataitem" v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
       </ul>
     </div>
     <div class="data_r fl" @scroll="scrollLeft($event)">
