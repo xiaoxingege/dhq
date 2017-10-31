@@ -686,10 +686,15 @@ export default {
   },
   mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
-
     this.strategyId = this.$route.params.strategyId
+    const share = this.$route.query.share;
+    if (!share) {
+      alert('no share');
+      return
+    }
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
-      strategyId: this.strategyId
+      strategyId: this.strategyId,
+      share: share
     }).then(() => {})
     this.$store.dispatch('goldStrategy/getMrxhData', {
       strategyId: this.strategyId,

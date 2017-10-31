@@ -167,24 +167,24 @@ body {
   <div class="alldata clearfix">
     <div class="data_l fl">
       <div class="data_hd">
-        <span v-if="typeurl == 1">股票名称</span>
-        <span v-if="typeurl == 2">概念</span>
-        <span v-if="typeurl == 3">行业</span>
+        <span>股票名称</span>
+        <!-- <span v-if="typeurl == 2">概念</span>
+        <span v-if="typeurl == 3">行业</span> -->
       </div>
-      <ul class="data_zuo datazuo1" v-if="typeurl == 1">
-        <li v-for="item in dataarr1" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
+      <ul class="data_zuo datazuo1" >
+        <li v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
       </ul>
-      <ul class="data_zuo datazuo2" v-if="typeurl == 2">
+      <!-- <ul class="data_zuo datazuo2" v-if="typeurl == 2">
         <li v-for="item in dataarr2" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
       </ul>
       <ul class="data_zuo datazuo3" v-if="typeurl == 3">
         <li v-for="item in dataarr3" @click="gotobankuai(item.name,item.code)"><b>{{item.name}}</b></li>
-      </ul>
+      </ul> -->
     </div>
     <div class="data_r fl" @scroll="scrollLeft($event)">
-      <div :class="typeurl == '1' ? 'bigwidth' : ''">
-        <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 1" ref="myspanbox">
-          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入<i class="icon" ></i></span>
+      <div :class="bigwidth">
+        <div class="data_hd clearfix datahd1" :style="{left:-scrollleftpx+'px'}" ref="myspanbox">
+          <span data-index='1' class="icondown" @click="paixu($event)">主力净流入1<i class="icon" ></i></span>
           <span data-index='2' @click="paixu($event)">现价<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='4' @click="paixu($event)">主力流入<i class="icon"></i></span>
@@ -195,7 +195,7 @@ body {
           <span data-index='9' @click="paixu($event)">流通市值<i class="icon"></i></span>
           <span data-index='10' @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
-        <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 2">
+        <!-- <div class="data_hd clearfix datahd2" :style="{left:-scrollleftpx+'px'}" v-if="typeurl == 2">
           <span data-index='0' :class="sortcolumn ==='0' ? 'icondown' : '' " @click="paixu($event)">主力净流入<i class="icon"></i></span>
           <span data-index='4' :class="sortcolumn ==='4' ? 'icondown' : '' " @click="paixu($event)">涨跌幅<i class="icon"></i></span>
           <span data-index='6'>领涨股</span>
@@ -212,9 +212,9 @@ body {
           <span data-index='2' @click="paixu($event)">主力流出<i class="icon"></i></span>
           <span data-index='3' @click="paixu($event)">总成交额<i class="icon"></i></span>
           <span data-index='5' @click="paixu($event)">涨股比<i class="icon"></i></span>
-        </div>
-        <ul class="data_you datayou1" v-if="typeurl == 1">
-          <li class="clearfix" v-for="item in dataarr1" @click="gotostock(item.stockName,item.stockCode)">
+        </div> -->
+        <ul class="data_you datayou1">
+          <li class="clearfix" v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi  }}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.currentPrice}}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
@@ -227,7 +227,7 @@ body {
             <span>{{item.tmv | changyi }}</span>
           </li>
         </ul>
-        <ul class="data_you datayou2" v-if="typeurl == 2">
+        <!-- <ul class="data_you datayou2" v-if="typeurl == 2">
           <li class="clearfix" v-for="item in dataarr2">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi}}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
@@ -237,8 +237,8 @@ body {
             <span>{{item.dealBalance | changyi }}</span>
             <span>{{item.shareRatio}}%</span>
           </li>
-        </ul>
-        <ul class="data_you datayou3" v-if="typeurl == 3">
+        </ul> -->
+        <!-- <ul class="data_you datayou3" v-if="typeurl == 3">
           <li class="clearfix" v-for="item in dataarr3">
             <span :class="addcolor(item.mainForceNetInflow)">{{item.mainForceNetInflow | changyi }}</span>
             <span :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio}}%</span>
@@ -248,7 +248,7 @@ body {
             <span>{{item.dealBalance | changyi }}</span>
             <span>{{item.shareRatio}}%</span>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <i class="mask"></i>
@@ -263,31 +263,34 @@ import 'whatwg-fetch'
 export default {
   data () {
     return {
-      typeurl: this.getQueryString('a'), // 个股1，概念2，行业3
+      // typeurl: this.getQueryString('a'), // 自选股
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 0  按主力净流入排序 1  涨跌幅排序
       scrollleftpx: '30%',
       groupid: this.getQueryString('groupid'),
-      dataarr1: [],
-      dataarr2: [],
-      dataarr3: [],
-      urllink: {
-        1: {
-          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
-          'sort_column': '1', // 排序字段
-          'order_type': 'desc' // asc=升，desc=降，默认降序
-        },
-        2: {
-          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-          'sort_column': this.getQueryString('sortcolumn'), // 排序字段
-          'order_type': 'desc' // asc=升，desc=降，默认降序
-        },
-        3: {
-          'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
-          'sort_column': this.getQueryString('sortcolumn'), // 排序字段
-          'order_type': 'desc' // asc=升，desc=降，默认降序
-        }
-      },
-      titlearr: ['个股', '概念', '行业']
+      url:'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
+      ordertype: 'desc', // asc=升，desc=降，默认降序
+      dataarr:[]
+      // dataarr1: [],
+      // dataarr2: [],
+      // dataarr3: [],
+      // urllink: {
+      //   1: {
+      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
+      //     'sort_column': '1', // 排序字段
+      //     'order_type': 'desc' // asc=升，desc=降，默认降序
+      //   },
+      //   2: {
+      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
+      //     'sort_column': this.getQueryString('sortcolumn'), // 排序字段
+      //     'order_type': 'desc' // asc=升，desc=降，默认降序
+      //   },
+      //   3: {
+      //     'url': 'https://sslapi.jrj.com.cn/zxhq/sapi/plat/list',
+      //     'sort_column': this.getQueryString('sortcolumn'), // 排序字段
+      //     'order_type': 'desc' // asc=升，desc=降，默认降序
+      //   }
+      // },
+      // titlearr: ['个股', '概念', '行业']
     }
   },
   mounted () {
@@ -308,15 +311,15 @@ export default {
       return null
     },
     fetchData () {
-      var urll = this.urllink[this.typeurl]
-      var url = urll.url + '?group_id=' + this.groupid + '&sort_column=' + urll.sort_column + '&order_type=' + urll.order_type
+      // var urll = this.urllink[this.typeurl]
+      var url = this.url + '?group_id=' + this.groupid + '&sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype
       var _this = this
       if (!window.jrj) {
         setTimeout(this.fetchData.bind(this), 100)
         return
       }
       window.callbackgobtninfo = function (t) {
-        _this.$data['dataarr' + _this.typeurl] = t.data.items
+        _this.$data['dataarr'] = t.data.items
       }
       if (window.jrj && window.jrj.jsCallNative) {
         window.jrj.jsCallNative('130', JSON.stringify({
@@ -340,20 +343,41 @@ export default {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
     },
     paixu (v) {
-      var o = this.urllink[this.typeurl]
-      o['pn'] = 1
+      // var o = this.urllink[this.typeurl]
+      // o['pn'] = 1
+      // document.body.scrollTop = 0
+      // if (o['sort_column'] === v.currentTarget.getAttribute('data-index')) {
+      //   if (o['order_type'] === 'asc') {
+      //     o['order_type'] = 'desc'
+      //     v.currentTarget.setAttribute('class', 'icondown')
+      //   } else {
+      //     o['order_type'] = 'asc'
+      //     v.currentTarget.setAttribute('class', 'iconup')
+      //   }
+      // } else {
+      //   o['sort_column'] = v.currentTarget.getAttribute('data-index')
+      //   o['order_type'] = 'desc'
+
+      //   $('.data_hd span').removeClass('icondown').removeClass('iconup')
+      //   v.currentTarget.setAttribute('class', 'icondown')
+      // }
+      // this.fetchData()
+
+
+      // var o = this.urllink[this.typeurl]
+      // o['pn'] = 1
       document.body.scrollTop = 0
-      if (o['sort_column'] === v.currentTarget.getAttribute('data-index')) {
-        if (o['order_type'] === 'asc') {
-          o['order_type'] = 'desc'
+      if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
+        if (this.ordertype === 'asc') {
+          this.ordertype = 'desc'
           v.currentTarget.setAttribute('class', 'icondown')
         } else {
-          o['order_type'] = 'asc'
+          this.ordertype = 'asc'
           v.currentTarget.setAttribute('class', 'iconup')
         }
       } else {
-        o['sort_column'] = v.currentTarget.getAttribute('data-index')
-        o['order_type'] = 'desc'
+        this.sortcolumn = v.currentTarget.getAttribute('data-index')
+        this.ordertype = 'desc'
 
         $('.data_hd span').removeClass('icondown').removeClass('iconup')
         v.currentTarget.setAttribute('class', 'icondown')
@@ -364,13 +388,6 @@ export default {
       window.jrj.jsCallNative('100', JSON.stringify({
         'stockName': stockName,
         'stockCode': stockCode
-      }))
-    },
-    gotobankuai (platname, platcode) {
-      window.jrj.jsCallNative('161', JSON.stringify({
-        'platname': platname,
-        'platcode': platcode,
-        'plattype': this.urllink[this.typeurl].platType
       }))
     }
   }
