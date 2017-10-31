@@ -402,7 +402,7 @@ span.copy {
     风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证；策略提示的当前选股仅供投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
-    <div class="angle" @click="showCode"></div>
+    <div class="angle"></div>
     <div class="code-box">
       <canvas ref="qrcode"></canvas>
       <div class="code-txt">微信扫码转发</div>
@@ -421,6 +421,7 @@ import Pagination from './pagination'
 import qrcode from 'qrcode'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import base64 from 'base-64'
 import {
   ctx
 } from '../z3tougu/config'
@@ -562,10 +563,12 @@ export default {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     },
     showQrcode() {
-      this.showQrcodeBox = !this.showQrcodeBox
-    },
-    showCode() {
-      this.showQrcodeBox = !this.showQrcodeBox
+      let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
+      let shareMark = new Date().getTime();
+      shareMark = base64.encode(shareMark);
+      shareMark = base64.encode(shareMark);
+      let dataUrl = url + '?share=' + shareMark
+      qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
     }
   },
   watch: {
@@ -585,7 +588,11 @@ export default {
     }, function() {})
     const clipboard = new Clipboard('.copy', {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {

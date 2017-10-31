@@ -12,8 +12,8 @@ export default {
     maskColor: 'rgba(20,21,24,0.8)'
   }
 }
-// const domain = 'https://test.z3quant.com'
-const domain = 'https://www.z3quant.com' // openapi domain
+const domain = 'https://test.z3quant.com'
+// const domain = 'https://www.z3quant.com' // openapi domain
 const ctx = '/zstgweb'
 // const ctx = '';
 // const domain = '//www.z3quant.com'

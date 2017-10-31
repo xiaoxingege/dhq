@@ -72,56 +72,57 @@ export default {
 
   },
   mutations: {
-    updateBasicFilter (state, filterdetail) {
+    updateBasicFilter(state, filterdetail) {
       console.log(filterdetail.filterSummary)
       state.basicFilter = filterdetail
       state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
     },
-    updateTradeDetail (state, tradeDetail) {
+    updateTradeDetail(state, tradeDetail) {
       state.tradeDetail = tradeDetail
     },
-    updateBuyStocks (state, buyStocks) {
+    updateBuyStocks(state, buyStocks) {
       state.buyStocks = buyStocks
     },
-    updateBuyPage (state, options) {
+    updateBuyPage(state, options) {
       console.log(options.totalPages)
       state.buyTotalPage = options.totalPages
     },
-    updateBuysellStocks (state, buysell) {
+    updateBuysellStocks(state, buysell) {
       state.buysell = buysell
     },
-    updateNowStock (state, stock) {
+    updateNowStock(state, stock) {
       state.nowStock = stock
     },
-    updateTimeStrategy (state, timestra) {
+    updateTimeStrategy(state, timestra) {
       // console.log(timestra)
       state.timeStrategy = timestra
       // console.log(state.timeStrategy.buyStrategyIndexList[0].indexParams)
     },
-    updateKline (state, kLineData) {
+    updateKline(state, kLineData) {
       // console.log(kLineData)
       state.kLineData = kLineData
     },
-    updateStockPage (state, options) {
+    updateStockPage(state, options) {
       console.log(options.totalPages)
       state.stockTotal = options.totalPages
     },
-    updateTradePage (state, options) {
+    updateTradePage(state, options) {
       console.log(options.totalPages)
       state.tradeTotalPage = options.totalPages
     },
-    updateSearch (state, search) {
+    updateSearch(state, search) {
       state.searchList = search
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    queryBasicFilter ({
+    queryBasicFilter({
       commit
     }, {
-      strategyId
+      strategyId,
+      share
     }) {
-      fetch(`${domain}/openapi/backtest/filterStrategy/basicAndIndex.shtml?strategyId=${strategyId}`, {
+      fetch(`${domain}/openapi/backtest/filterStrategy/basicAndIndex.shtml?strategyId=${strategyId}&share=${share}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -130,10 +131,14 @@ export default {
           // console.log(result.data)
           // console.log(result.data.evaluationIndexs.winRatio)
           commit('updateBasicFilter', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },
-    queryTradeDetail ({
+    queryTradeDetail({
       commit
     }, {
       tradePage,
@@ -155,7 +160,7 @@ export default {
         }
       })
     },
-    queryBuyStocks ({
+    queryBuyStocks({
       commit
     }, {
       stockType,
@@ -180,7 +185,7 @@ export default {
         }
       })
     },
-    queryBuysellStocks ({
+    queryBuysellStocks({
       commit
     }, {
       strategyId,
@@ -198,7 +203,7 @@ export default {
         }
       })
     },
-    queryNowStock ({
+    queryNowStock({
       commit
     }, {
       stockPage,
@@ -223,7 +228,7 @@ export default {
         }
       })
     },
-    queryTimeStrategy ({
+    queryTimeStrategy({
       commit
     }, {
       strategyId
@@ -239,7 +244,7 @@ export default {
         }
       })
     },
-    queryKline ({
+    queryKline({
       commit
     }, {
       innerCode,
@@ -256,7 +261,7 @@ export default {
         }
       })
     },
-    querySearch ({
+    querySearch({
       commit
     }, {
       keyword

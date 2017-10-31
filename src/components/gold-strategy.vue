@@ -483,14 +483,14 @@ export default {
   methods: {
     showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox;
-      let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-      let shareMark = new Date().getTime();
-      shareMark = base64.encode(shareMark);
-      shareMark = base64.encode(shareMark);
-      let dataUrl = url + '?share=' + shareMark;
-      qrcode.toDataURL(this.$refs.qrcode, dataUrl, {
-        version: 5
-      }, function() {})
+      if (this.showQrcodeBox) {
+        let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
     },
     showRadar() {
       this.radarShow = true
@@ -501,7 +501,7 @@ export default {
   },
   mounted() {
     this.type = this.$route.params.showType
-    let share = base64.encode("JRJ");
+    let share = base64.encode('JRJ');
     share = base64.encode(share);
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
       strategyId: this.strategyId,
