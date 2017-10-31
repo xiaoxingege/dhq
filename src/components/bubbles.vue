@@ -274,6 +274,7 @@ export default {
       }
     },
     initBubbles() {
+      // alert(this.options.innerCode+'init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading(config.loadingConfig);
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -634,7 +635,8 @@ export default {
 
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        that.options.innerCode = data || null
+        // window.alert(data+'mounted')
+        that.options.innerCode = data
         this.initBubbles()
       })
     } else {

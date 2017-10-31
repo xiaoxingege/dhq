@@ -10,7 +10,11 @@ export default {
   state: {
     goldResult: null,
     strategyId: '',
+    startDate:'',
+    endDate:'',
     syqxtData: {
+      firstDate:'',
+      lastDate:'',
       xData: [],
       data1: [],
       data2: []
@@ -44,7 +48,9 @@ export default {
   },
   mutations: {
     setGoldOptions(state, result) {
-      state.strategyId = result
+      state.strategyId = result.strategyId
+        state.startDate = result.startDate
+        state.endDate = result.endDate
     },
     setGoldData(state, result) {
       if (result.errCode === 0) {
@@ -55,16 +61,28 @@ export default {
     },
     setSyqxtData(state, result) {
       if (result.errCode === 0) {
+          if(state.startDate === '' && state.endDate === ''){
+              state.syqxtData.firstDate = ''
+              state.syqxtData.lastDate = ''
+          }
+
         state.syqxtData.xData = []
         state.syqxtData.data1 = []
         state.syqxtData.data2 = []
         const data = result.data
+        const dataLen = data.length-1
+          if(state.startDate === '' && state.endDate === ''){
+              state.syqxtData.firstDate = data[0].backtestDate
+              state.syqxtData.lastDate = data[dataLen].backtestDate
+          }
         for (var i = 0; i < data.length; i++) {
           state.syqxtData.xData.push(data[i].backtestDate)
           state.syqxtData.data1.push(Number(data[i].totalReturn).toFixed(2))
           state.syqxtData.data2.push(Number(data[i].benchmarkPeriodReturn).toFixed(2))
         }
       } else {
+        state.syqxtData.firstDate = ''
+        state.syqxtData.lastDate = ''
         state.syqxtData.xData = []
         state.syqxtData.data1 = []
         state.syqxtData.data2 = []
@@ -210,10 +228,11 @@ export default {
     getSyqxtData({
       commit
     }, {
-      strategyId
+      strategyId,startDate,endDate
     }) {
-      commit('setGoldOptions', strategyId)
-      return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
+      commit('setGoldOptions', { strategyId,startDate,endDate })
+      // return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate || ''}&endDate=${endDate || ''}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

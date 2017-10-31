@@ -229,7 +229,7 @@
     <div style="width:100% " class="goldH5">
       <div class="mrmcSignal-header clearfix">
         <div class="fl">
-          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.85rem;">今日调入信号</span>
+          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.5rem;">今日调入信号</span>
           <span ref="mcxh" @click="changeMcxhType($event)">今日调出信号</span>
         </div>
         <div class="fr" style="color:#888;" v-if="mrxhData !== null && mrxhData.content !== null && mrxhData.content.length !== 0 && type==='mrxh'">
@@ -239,7 +239,7 @@
         </div>
       </div>
       <div v-if="type === 'mrxh'" class="mrxh">
-        <span v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="text-align: center; line-height: 0.6rem; font-size:0.16rem;">今日无交易信号</span>
+        <span v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="width: 100%; text-align:center; display: inline-block; line-height: 50px; font-size:0.16rem;">今日无交易信号</span>
         <table v-if="mrxhData !== null && mrxhData !== '' && mrxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -264,11 +264,12 @@
             </tr>
           </tbody>
         </table>
-        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+        <div>
+          <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+        </div>
       </div>
       <div v-if="type === 'mcxh'" class="mcxh">
-        <div v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="text-align: center; line-height: 50px; font-size:0.16rem;">今日无交易信号
-        </div>
+        <span v-if="mcxhData === null || mcxhData === '' || mcxhData.content.length === 0" style="width: 100%; text-align:center; display: inline-block; line-height: 50px; font-size:0.16rem;">今日无交易信号</span>
         <table v-if="mcxhData !== null && mcxhData !== '' && mcxhData.content.length !== 0" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -292,7 +293,9 @@
             </tr>
           </tbody>
         </table>
-        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+        <div>
+          <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+        </div>
       </div>
 
     </div>
@@ -301,7 +304,7 @@
   <!--买入、卖出信号 end-->
 
   <!--选股、买入、卖出条件 start-->
-  <div>
+  <!--<div>
     <div class="choseStock" style="padding-top: 0.35rem;">
       <div class="header-title">选股条件</div>
       <Tablelist :data="choseStockData"></Tablelist>
@@ -320,7 +323,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
   <!--选股、买入、卖出条件 end-->
 
   <div class="wxts">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</div>
@@ -344,7 +347,7 @@ import Twobarchart from 'components/two-bar-chart'
 import Pagination from 'components/pagination'
 
 export default {
-  data () {
+  data() {
     return {
       navText: [
         ['选股条件', 'choseStock'],
@@ -371,13 +374,13 @@ export default {
   },
   computed: mapState({
     goldResult: state => state.goldStrategy.goldResult,
-    articleData: function () {
+    articleData: function() {
       return {
         title: '策略描述:',
         content: this.goldResult === null ? '' : this.goldResult.strategyDesc
       }
     },
-    recommendData: function () {
+    recommendData: function() {
       if (this.goldResult === null) {
         return {
           choseStockData: null,
@@ -557,7 +560,7 @@ export default {
         }
       }
     },
-    choseStockData: function () {
+    choseStockData: function() {
       if (this.recommendData.choseStockData === null) {
         return []
       } else {
@@ -592,7 +595,7 @@ export default {
         return [arr1, arr2]
       }
     },
-    sellConditionData: function () {
+    sellConditionData: function() {
       const buyData = [
         ['序号', '指标', '参数', '运算符', '数值']
       ]
@@ -644,44 +647,44 @@ export default {
         sellData: sellData
       }
     },
-    tableData: function () {
+    tableData: function() {
       return this.recommendData.tradeParamsData
     },
-    mrxhData: function () {
+    mrxhData: function() {
       return this.$store.state.goldStrategy.mrxhData
     },
-    mcxhData: function () {
+    mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     }
   }),
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    goMrjyPage (data) {
+    goMrjyPage(data) {
       this.$store.dispatch('goldStrategy/getMrjyData', {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
     },
-    goDqxgPage (data) {
+    goDqxgPage(data) {
       this.$store.dispatch('goldStrategy/getDqxgData', {
         strategyId: this.strategyId,
         pageNum: data - 1
       }).then(() => {})
     },
-    changeMrxhType (e) {
+    changeMrxhType(e) {
       e.target.setAttribute('class', 'active')
       this.$refs.mcxh.removeAttribute('class', 'active')
       this.type = 'mrxh'
     },
-    changeMcxhType (e) {
+    changeMcxhType(e) {
       e.target.setAttribute('class', 'active')
       this.$refs.mrxh.removeAttribute('class', 'active')
       this.type = 'mcxh'
     }
   },
-  mounted () {
+  mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
     this.strategyId = this.$route.params.strategyId
