@@ -183,7 +183,7 @@ body {
           <span data-index='5' :class="sortcolumn ==='5' ? 'icondown' : '' " @click="paixu($event)">主力流出<i class="icon"></i></span>
           <span data-index='6' :class="sortcolumn ==='6' ? 'icondown' : '' " @click="paixu($event)">总成交额<i class="icon"></i></span>
           <span data-index='7' :class="sortcolumn ==='7' ? 'icondown' : '' " @click="paixu($event)">量比<i class="icon"></i></span>
-          <span data-index='8' :class="sortcolumn ==='8' ? 'icondown' : '' " @click="paixu($event)">换手率1<i class="icon"></i></span>
+          <span data-index='8' :class="sortcolumn ==='8' ? 'icondown' : '' " @click="paixu($event)">换手率<i class="icon"></i></span>
           <span data-index='9' :class="sortcolumn ==='9' ? 'icondown' : '' " @click="paixu($event)">流通市值<i class="icon"></i></span>
           <span data-index='10' :class="sortcolumn ==='10' ? 'icondown' : '' " @click="paixu($event)">总市值<i class="icon"></i></span>
         </div>
