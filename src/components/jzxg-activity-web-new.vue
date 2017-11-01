@@ -103,7 +103,7 @@ input {
     position: fixed;
     bottom: 0;
     margin-top: -100px;
-    background: url("../assets/images/jzxg-activity/jzxg-web-new-footer-1.png") center 0 no-repeat;
+    background: url("../assets/images/jzxg-activity/jzxg-web-new-footer-2.png") center 0 no-repeat;
     z-index: 10;
 }
 </style>
