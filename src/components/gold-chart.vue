@@ -348,6 +348,8 @@ export default {
       // document.body.removeChild(postForm)
     }
   },
-  mounted() {}
+  mounted() {
+    this.type = this.$route.params.showType
+  }
 }
 </script>
