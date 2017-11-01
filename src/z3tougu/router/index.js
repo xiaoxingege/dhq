@@ -35,6 +35,7 @@ import backtestHelp from 'components/help'
 import finance from 'components/finance'
 import blank from 'components/z3touguhome/blank'
 import errorPage from 'components/z3tougu-error-page'
+import CustomerList from 'components/customer-list'
 import {
   ctx
 } from '../config'
@@ -253,6 +254,11 @@ export default [{
     path: ctx + '/error',
     name: 'error',
     component: errorPage
+  },
+  {
+    path: ctx + '/customerList',
+    name: 'customerlist',
+    component: CustomerList
   }
 
 ]
