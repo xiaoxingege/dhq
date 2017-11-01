@@ -402,7 +402,7 @@ span.copy {
     风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证；策略提示的当前选股仅供投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
-    <div class="angle"></div>
+    <div class="angle" @click="showCode"></div>
     <div class="code-box">
       <canvas ref="qrcode"></canvas>
       <div class="code-txt">微信扫码转发</div>
@@ -569,6 +569,10 @@ export default {
       shareMark = base64.encode(shareMark);
       let dataUrl = url + '?share=' + shareMark
       qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      this.showQrcodeBox = !this.showQrcodeBox
+    },
+    showCode() {
+      this.showQrcodeBox = !this.showQrcodeBox
     }
   },
   watch: {
