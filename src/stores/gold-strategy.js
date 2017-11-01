@@ -10,11 +10,11 @@ export default {
   state: {
     goldResult: null,
     strategyId: '',
-    startDate:'',
-    endDate:'',
+    startDate: '',
+    endDate: '',
     syqxtData: {
-      firstDate:'',
-      lastDate:'',
+      firstDate: '',
+      lastDate: '',
       xData: [],
       data1: [],
       data2: []
@@ -49,8 +49,8 @@ export default {
   mutations: {
     setGoldOptions(state, result) {
       state.strategyId = result.strategyId
-        state.startDate = result.startDate
-        state.endDate = result.endDate
+      state.startDate = result.startDate
+      state.endDate = result.endDate
     },
     setGoldData(state, result) {
       if (result.errCode === 0) {
@@ -61,20 +61,20 @@ export default {
     },
     setSyqxtData(state, result) {
       if (result.errCode === 0) {
-          if(state.startDate === '' && state.endDate === ''){
-              state.syqxtData.firstDate = ''
-              state.syqxtData.lastDate = ''
-          }
+        if (state.startDate === '' && state.endDate === '') {
+          state.syqxtData.firstDate = ''
+          state.syqxtData.lastDate = ''
+        }
 
         state.syqxtData.xData = []
         state.syqxtData.data1 = []
         state.syqxtData.data2 = []
         const data = result.data
-        const dataLen = data.length-1
-          if(state.startDate === '' && state.endDate === ''){
-              state.syqxtData.firstDate = data[0].backtestDate
-              state.syqxtData.lastDate = data[dataLen].backtestDate
-          }
+        const dataLen = data.length - 1
+        if (state.startDate === '' && state.endDate === '') {
+          state.syqxtData.firstDate = data[0].backtestDate
+          state.syqxtData.lastDate = data[dataLen].backtestDate
+        }
         for (var i = 0; i < data.length; i++) {
           state.syqxtData.xData.push(data[i].backtestDate)
           state.syqxtData.data1.push(Number(data[i].totalReturn).toFixed(2))
@@ -212,7 +212,8 @@ export default {
   },
   actions: {
     getGoldStrategyData({
-      commit
+      commit,
+      rootState
     }, {
       strategyId,
       share
@@ -225,20 +226,25 @@ export default {
       }).then(body => {
         if (body.errCode === 0) {
           commit('setGoldData', body)
-        } else if (body.errCode === 1703) {
-          alert(body.msg);
         } else {
-          alert('error');
+          commit('ERROR', body, {
+            root: true
+          })
         }
-
       })
     },
     getSyqxtData({
       commit
     }, {
-      strategyId,startDate,endDate
+      strategyId,
+      startDate,
+      endDate
     }) {
-      commit('setGoldOptions', { strategyId,startDate,endDate })
+      commit('setGoldOptions', {
+        strategyId,
+        startDate,
+        endDate
+      })
       // return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
       return fetch(`https://test.z3quant.com/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate || ''}&endDate=${endDate || ''}`, {
         mode: 'cors'

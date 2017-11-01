@@ -1,21 +1,26 @@
 <template>
 <div class="error-page">
   <div class="con">
-    <p>{{message}}</p>
+    <p>{{error.errorMsg}}</p>
   </div>
 </div>
 </template>
 
 <script>
+import {
+  mapState
+} from 'vuex'
 export default {
-  prop: ['message'],
   data() {
     return {
       icon: '',
       message: '您访问的页面出错...'
     }
   },
-  mount() {
+  computed: mapState({
+    error: state => state.error
+  }),
+  mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
   }
 }
@@ -42,13 +47,14 @@ body,
   top: 50%;
   transform: translate(0, -50%);
   background: url("../assets/images/z3img/page-error.png") center 4px no-repeat;
-  background-size: 13.7rem 14.4rem
+  background-size: 1.37rem 1.44rem
 }
 
 .con p {
-  margin-top: 15.6rem;
-  line-height: 2.0rem;
-  font-size: 1.4rem;
+  margin-top: 2.0rem;
+  line-height: 0.54rem;
+  font-size: 0.36rem;
   text-align: center;
+  color: #727373
 }
 </style>

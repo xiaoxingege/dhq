@@ -655,8 +655,18 @@ export default {
     },
     mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
-    }
+    },
+    error: state => state.error
   }),
+  watch: {
+    error() {
+      if (this.error) {
+        this.$router.push({
+          name: 'error'
+        });
+      }
+    }
+  },
   methods: {
     changeNavType(data) {
       this.type = data
@@ -689,7 +699,6 @@ export default {
     this.strategyId = this.$route.params.strategyId
     const share = this.$route.query.share;
     if (!share) {
-      alert('no share');
       return
     }
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {

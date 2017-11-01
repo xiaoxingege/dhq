@@ -428,8 +428,18 @@ export default {
           }
         }
         return [arr1, arr2]
-      }
+      },
+      error: state => state.error
     })
+  },
+  watch: {
+    error() {
+      if (this.error) {
+        this.$router.push({
+          name: 'error'
+        });
+      }
+    }
   },
   components: {},
   methods: {

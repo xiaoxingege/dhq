@@ -421,6 +421,7 @@ import Pagination from './pagination'
 import qrcode from 'qrcode'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import base64 from 'base-64'
 import {
   ctx
 } from '../z3tougu/config'
@@ -562,6 +563,12 @@ export default {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     },
     showQrcode() {
+      let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
+      let shareMark = new Date().getTime();
+      shareMark = base64.encode(shareMark);
+      shareMark = base64.encode(shareMark);
+      let dataUrl = url + '?share=' + shareMark
+      qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
       this.showQrcodeBox = !this.showQrcodeBox
     },
     showCode() {
@@ -585,7 +592,11 @@ export default {
     }, function() {})
     const clipboard = new Clipboard('.copy', {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {
