@@ -40,7 +40,7 @@ export default {
       bubbleSizeSelect: Data.bubbleSizeSelect,
       bubbleColorSelect: Data.bubbleColorSelect,
       /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-      height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82,
+      height: window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82,
       isShowDialog: false,
       dialogOptions: {
         stockName: '',
@@ -598,9 +598,9 @@ export default {
         })
         window.onresize = function() {
           that.chart.resize({
-            height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
+            height: window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82
           })
-          that.height = window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
+          that.height = window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82
         }
 
         this.chart.hideLoading()
