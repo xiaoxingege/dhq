@@ -7,6 +7,7 @@ import Router from 'koa-router'
 import fs from 'fs'
 import path from 'path'
 import getTemplatePath from 'utils/getTemplatePath'
+import body from 'koa-body'
 
 const app = new Koa();
 
@@ -17,6 +18,7 @@ const router = new Router();
  */
 require('./routes')(router);
 
+app.use(body());
 app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */
@@ -34,7 +36,7 @@ const loadTemplate = function(name) {
   }
 };
 app.use(async function(ctx, next) {
-  let template = loadTemplate(ctx.template || 'default');
+  let template = loadTemplate(ctx.template);
   if (template) {
     ctx.type = 'text/html';
     ctx.body = template.replace(/<!--content-->/, ctx.body);
@@ -46,4 +48,5 @@ app.use(async function(ctx, next) {
   await next();
 });
 
+console.log('listening: ', PORT || 3000)
 app.listen(PORT || 3000);
