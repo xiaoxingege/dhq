@@ -31,7 +31,8 @@ let db = null;
 
 const connectDb = async(dbName) => {
   try {
-    let url = 'mongodb://mongodb:27017/' + dbName;
+    // let url = 'mongodb://mongodb:27017/' + dbName;
+    let url = 'mongodb://mongodb:8080/' + dbName;
     db = await pify(MongoClient.connect)(url)
   } catch (e) {
     console.log(e);
@@ -170,8 +171,6 @@ module.exports = function(router) {
         order = order.substring(1);
       }
     }
-    // Connection URL
-    var url = 'mongodb://mongodb:27017/crud';
     await connectDb('crud');
     if (!db) {
       ctx.body = {
