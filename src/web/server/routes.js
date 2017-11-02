@@ -31,8 +31,7 @@ let db = null;
 
 const connectDb = async(dbName) => {
   try {
-    // let url = 'mongodb://mongodb:27017/' + dbName;
-    let url = 'mongodb://mongodb:8080/' + dbName;
+    let url = 'mongodb://mongodb:27017/' + dbName;
     db = await pify(MongoClient.connect)(url)
   } catch (e) {
     console.log(e);
