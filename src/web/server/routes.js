@@ -105,6 +105,7 @@ module.exports = function(router) {
     let objectId = ctx.params.objectId;
     let query = ctx.request.query;
     let where = query.where;
+    console.log(where)
     if (!objectId && !where) {
       ctx.body = {
         code: 1,
