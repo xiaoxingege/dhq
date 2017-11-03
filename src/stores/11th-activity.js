@@ -33,7 +33,7 @@ export default {
             rootState
         }, options) {
             $.ajax({
-                url: 'http://itougu.jrj.com.cn/act/crud/11thActivity?limit=10',
+                url: 'http://itougu.jrj.com.cn/act/crud/11thActivity?limit=10&order=-createDataTime',
                 type: 'get',
                 dataType: 'json'
             }).then(data => {
