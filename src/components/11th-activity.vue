@@ -394,13 +394,7 @@ input {
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元5</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元6</li>
-                        <li>XX月XX日XX时XX分，138****2198 抽中600元7</li>
+                        <li v-for="item in whereList">{{item.createDataTime}}，{{item.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2")}} 抽中{{item.msg}}</li>
                     </ul>
                 </div>
                 <div style="display:none;">
@@ -456,6 +450,7 @@ input {
             <a href="javascript:;" class="btn-close" @click="close">知道了</a>
         </div>
     </div>
+    <input type="text" name="" value="" class="mobile_tel">
 </div>
 </template>
 <script>
@@ -464,11 +459,11 @@ import {
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
+import getQueryString from 'utils/getQueryString'
 
 export default {
     data() {
         $(function() {
-
             // 微信分享
             window.InitWeChatShare({
                 shareTitle: window.document.title,
@@ -498,6 +493,12 @@ export default {
     computed: mapState({
         type: state => {
             return state.reservation.type
+        },
+        whereList: state => {
+            return state.activity11Th.dataList
+        },
+        repeatType: state => {
+            return state.activity11Th.repeatType
         },
         err: state => {
             return state.reservation.err
@@ -529,14 +530,10 @@ export default {
                 this.txtPHtml = '手机号输入不正确！'
                 return
             }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '792322625599270912',
-                userName: this.userName,
-                phone: this.phone,
-                bizsource: 'mSite',
-                source: '1',
-                tgqdcode: 'MRD9MC9J'
+            this.$store.dispatch('activity11Th/repeatFind', {
+                phone: this.phone
             })
+
         },
         close() {
             this.popShow = false
@@ -563,17 +560,7 @@ export default {
         }
     },
     mounted() {
-        var liHeight = $('.text-scroll ul li').height()
-        setInterval(function() {
-            $('.text-scroll ul').animate({
-                'margin-top': '-' + liHeight
-            }, 500, function() {
-                $('.text-scroll ul').append($('.text-scroll ul li:first'))
-                $('.text-scroll ul').css({
-                    'margin-top': '0'
-                })
-            })
-        }, 1000)
+
         $('.text-nav a').click(function() {
             var index = $(this).index()
             $('.text-box div').eq(index).show().siblings().hide()
@@ -763,8 +750,17 @@ export default {
                     var day = new Date();
                     day.setTime(day.getTime());
                     var s2 = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-                    var html = '<li>' + s2 + '，' + _this.phone + ' 抽中' + resultAngle[resultIndex].t + '</li>'
+                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2") + ' 抽中' + resultAngle[resultIndex].t + '</li>'
                     $('.text-scroll ul').append(html)
+                    _this.$store.dispatch('activity11Th/addData', {
+                        userName: _this.userName,
+                        phone: _this.phone,
+                        bizsource: getQueryString('bizsource') || 'mSite',
+                        tgqdcode: getQueryString('tgqdcode') || 'E6JYHN3V',
+                        createDataTime: s2,
+                        msg: resultAngle[resultIndex].t,
+                        boolean: true
+                    })
                 }, duringTime * 1000);
             }
         }
@@ -787,6 +783,38 @@ export default {
             }
 
         });
+        this.$store.dispatch('activity11Th/whereList')
+        this.$watch('repeatType', repeatType => {
+            if (repeatType === 1) {
+                this.$store.dispatch('reservation/fetch', {
+                    aid: '792322625599270912',
+                    userName: this.userName,
+                    phone: this.phone,
+                    bizsource: getQueryString('bizsource') || 'mSite',
+                    source: '4',
+                    tgqdcode: getQueryString('tgqdcode') || 'E6JYHN3V'
+                })
+            } else if (repeatType === 2) {
+                _this.popShow = true
+                _this.joinShow = false
+                _this.lotteryMsgShow = false
+                _this.lotteryMsg1Show = true
+            }
+        })
+        this.$watch('whereList', whereList => {
+            var liHeight = $('.text-scroll ul li').height()
+            setInterval(function() {
+                $('.text-scroll ul').animate({
+                    'margin-top': '-' + liHeight
+                }, 500, function() {
+                    $('.text-scroll ul').append($('.text-scroll ul li:first'))
+                    $('.text-scroll ul').css({
+                        'margin-top': '0'
+                    })
+                })
+            }, 1000)
+        })
+
     }
 }
 </script>
