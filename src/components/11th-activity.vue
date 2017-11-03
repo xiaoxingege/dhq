@@ -367,6 +367,25 @@ input {
     bottom: 0.11rem;
     left: 2.56rem;
 }
+.pop1 {
+    width: 5.17rem;
+    height: 1.86rem;
+    background: url("../assets/images/11th-activity/11th-pop-bg-1.png") 0 0 no-repeat;
+    background-size: 100% 100%;
+    position: fixed;
+    top: 50%;
+    margin-top: -0.93rem;
+    margin-left: -2.58rem;
+    left: 50%;
+    z-index: 12;
+}
+.pop1 a {
+    width: 1.83rem;
+    height: 0.52rem;
+    position: absolute;
+    bottom: 0.27rem;
+    left: 1.67rem;
+}
 </style>
 
 <template>
@@ -421,7 +440,7 @@ input {
             <a href="javascript:;" @click="pop">&nbsp;</a>
         </div>
     </div>
-    <div class='fixBg' v-if="popShow"></div>
+    <div class='fixBg' v-if="popShow || pop1Show"></div>
     <div class="pop" v-if="popShow">
         <div class="join" v-if="joinShow">
             <strong>您离大奖只有一步之遥</strong>
@@ -449,6 +468,9 @@ input {
             <p>每个人只有1次抽奖机会，<br />要知足哟~</p>
             <a href="javascript:;" class="btn-close" @click="close">知道了</a>
         </div>
+    </div>
+    <div class="pop1" v-if="pop1Show">
+        <a href="javascript:;" @click="close1"></a>
     </div>
 </div>
 </template>
@@ -486,7 +508,8 @@ export default {
             lotteryText: '',
             perText: '',
             lotteryType: false,
-            lotteryNum: '0'
+            lotteryNum: '0',
+            pop1Show: false
         }
     },
     computed: mapState({
@@ -536,11 +559,19 @@ export default {
         },
         close() {
             this.popShow = false
+            this.pop1Show = false
             this.joinShow = false
             this.lotteryMsgShow = false
             this.lotteryMsg1Show = false
             this.phone = ''
             this.userName = ''
+        },
+        close1() {
+            this.popShow = false
+            this.pop1Show = false
+            this.joinShow = false
+            this.lotteryMsgShow = false
+            this.lotteryMsg1Show = false
         },
         pop() {
             // this.popShow = true
@@ -550,8 +581,10 @@ export default {
                 this.joinShow = true
                 this.lotteryMsgShow = false
                 this.lotteryMsg1Show = false
+                this.pop1Show = false
             } else {
                 this.popShow = true
+                this.pop1Show = false
                 this.joinShow = false
                 this.lotteryMsgShow = false
                 this.lotteryMsg1Show = true
@@ -643,9 +676,7 @@ export default {
         })
         this.$watch('type', type => {
             if (type) {
-                alert('报名成功')
-                // this.maskShow = true
-                // this.successShow = true
+                this.pop1Show = true
                 this.popShow = false
                 this.joinShow = false
                 this.lotteryNum = '1'
@@ -764,6 +795,7 @@ export default {
                     }
                     _this.lotteryText = resultAngle[resultIndex].t + '现金券'
                     _this.popShow = true
+                    _this.pop1Show = false
                     _this.joinShow = false
                     _this.lotteryMsgShow = true
                     _this.lotteryMsg1Show = false
@@ -794,11 +826,13 @@ export default {
                 }
             } else if (!_this.lotteryType && _this.lotteryNum === '0') {
                 _this.popShow = true
+                _this.pop1Show = false
                 _this.joinShow = true
                 _this.lotteryMsgShow = false
                 _this.lotteryMsg1Show = false
             } else {
                 _this.popShow = true
+                _this.pop1Show = false
                 _this.joinShow = false
                 _this.lotteryMsgShow = false
                 _this.lotteryMsg1Show = true
@@ -818,6 +852,7 @@ export default {
                 })
             } else if (repeatType === 2) {
                 _this.popShow = true
+                _this.pop1Show = false
                 _this.joinShow = false
                 _this.lotteryMsgShow = false
                 _this.lotteryMsg1Show = true
