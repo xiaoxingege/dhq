@@ -165,7 +165,7 @@ a {
     border-radius: 5px;
     padding: 10px 15px;
     line-height: 18px;
-    z-index: 9999;
+    z-index: 99999;
 }
 </style>
 <template>
@@ -217,7 +217,7 @@ a {
     </div>
   </div>
   <div>
-    <Goldchart :strategyId="strategyId" :type="type"></Goldchart>
+    <Goldchart :strategyId="strategyId"></Goldchart>
   </div>
   <div style="color:#999;line-height: 50px; background: #141518;">
     风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证。策略提示的调入信号、调出信号、Barra风格值等仅供投资者投资参考，不作为买卖建议，风险自担！
@@ -506,7 +506,6 @@ export default {
     }
   },
   mounted() {
-    this.type = this.$route.params.showType
     let share = base64.encode('JRJ');
     share = base64.encode(share);
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
