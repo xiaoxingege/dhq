@@ -450,7 +450,6 @@ input {
             <a href="javascript:;" class="btn-close" @click="close">知道了</a>
         </div>
     </div>
-    <input type="text" name="" value="" class="mobile_tel">
 </div>
 </template>
 <script>
@@ -468,8 +467,8 @@ export default {
             window.InitWeChatShare({
                 shareTitle: window.document.title,
                 shareLink: window.location.href,
-                shareDesc: '庆祝金融界成立18周年、上市13周年，极智选股2.0全心升级，钜惠来袭……',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/anniversary-h5-b1.jpg',
+                shareDesc: '双11金融界狂送10000万，还有免费iPhone可以抢~',
+                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th-bg1.jpg',
                 callback: function(wx) {
 
                 }
@@ -590,10 +589,33 @@ export default {
             document.getElementById('text-min').innerHTML = pad(minute, 2)
             document.getElementById('text-sec').innerHTML = pad(second, 2)
         }
-        window.setInterval(function() {
-            ShowCountDown(2017, 11, 11, 'divdown1')
 
-        }, 1000)
+        function transdate(endTime) {
+            var date = new Date();
+            date.setFullYear(endTime.substring(0, 4));
+            date.setMonth(endTime.substring(5, 7) - 1);
+            date.setDate(endTime.substring(8, 10));
+            date.setHours(endTime.substring(11, 13));
+            date.setMinutes(endTime.substring(14, 16));
+            date.setSeconds(endTime.substring(17, 19));
+            return Date.parse(date) / 1000;
+        }
+        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 00:00:00')) {
+            window.setInterval(function() {
+                ShowCountDown(2017, 11, 17, 'divdown1')
+
+            }, 1000)
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 00:00:00')) {
+            window.setInterval(function() {
+                ShowCountDown(2017, 11, 24, 'divdown1')
+
+            }, 1000)
+        } else {
+            window.setInterval(function() {
+                ShowCountDown(2017, 11, 11, 'divdown1')
+
+            }, 1000)
+        }
         window.setInterval(function() {
             $('.bg1-1').animate({
                 'opacity': '0'
@@ -814,7 +836,6 @@ export default {
                 })
             }, 1000)
         })
-
     }
 }
 </script>
