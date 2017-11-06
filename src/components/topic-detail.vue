@@ -713,7 +713,7 @@ bottom: 0; */
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
-            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
@@ -987,8 +987,12 @@ export default {
         }).then(() => {
           console.log(this.detail.topicName)
           this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
-          clearInterval(this.alltimers)
-          clearInterval(this.alls)
+          if (this.alltimers) {
+            clearInterval(this.alltimers)
+          } else if (this.alls) {
+            clearInterval(this.alls)
+          }
+
           this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
           }, 3000)
@@ -1000,8 +1004,11 @@ export default {
           })
           .then(() => {
             this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
-            clearInterval(this.alltimers)
-            clearInterval(this.alls)
+            if (this.alltimers) {
+              clearInterval(this.alltimers)
+            } else if (this.alls) {
+              clearInterval(this.alls)
+            }
             this.alls = setInterval(function() {
               _this.updateChartAll()
             }, 5000)
@@ -1389,6 +1396,10 @@ export default {
     // console.log(this.innerCode)
     // this.drawCharts()
     console.log(document.documentElement.clientHeight - 166)
+  },
+  destroyed() {
+    this.alltimers && clearInterval(this.alltimers)
+    this.alls && clearInterval(this.alls)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)

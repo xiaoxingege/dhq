@@ -165,7 +165,7 @@ a {
     border-radius: 5px;
     padding: 10px 15px;
     line-height: 18px;
-    z-index: 9999;
+    z-index: 99999;
 }
 </style>
 <template>

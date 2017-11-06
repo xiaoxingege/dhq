@@ -372,6 +372,7 @@ a.kuai_icon {
 }
 .con-bar-1:hover {
     background: #1984ea;
+
 }
 .topic-chng-box {
     text-align: center;
@@ -936,12 +937,13 @@ export default {
     this.query('hot')
     var _this = this
     this.$store.dispatch('topic/querySummary')
-    setInterval(function() {
+    this.sumTime = setInterval(function() {
       _this.$store.dispatch('topic/querySummary')
     }, 30000)
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()
+    this.sumTime && clearInterval(this.sumTime)
   }
 }
 </script>
