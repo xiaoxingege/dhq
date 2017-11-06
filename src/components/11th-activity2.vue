@@ -8,56 +8,17 @@ input {
     outline: none;
 }
 
-.ui-three .swiper-pagination {
-    z-index: 10;
+.bg2 .lottery-box .inner_01>ul {
+    width: 5.77rem;
+    margin-top: 0;
 }
 
-.ui-six .lottery-box .inner_01>ul li {
-    width: 167px;
-    height: 140px;
-    margin: 2px 3px;
-    border-radius: 15px;
-}
-
-.ui-six .lottery-box .inner_01>ul {
-    width: 520px;
-    margin: 0 auto;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b1 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg1.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b2 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg3.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b3 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg9.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b4 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg7.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b5 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg2.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b6 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg6.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b7 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg4.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.b8 {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg8.png") 0 0 no-repeat;
-}
-
-.ui-six .lottery-box .inner_01>ul li.btn-lottery {
-    background: url("../assets/images/zdian1-activity/web-lottery-bg5.png") 0 0 no-repeat;
+.bg2 .lottery-box .inner_01>ul li {
+    width: 1.86rem;
+    height: 1.55rem;
+    margin: 0 0.03rem 0.03rem 0.03rem;
+    border-radius: 10px;
+    background: none;
 }
 </style>
 <style lang="scss" scoped>
@@ -81,7 +42,7 @@ input {
 //     left: 0;
 // }
 .bg2 {
-    background: url("../assets/images/11th-activity2/11th2-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/11th-activity2/11th2-bg2-2.jpg") center 0 no-repeat;
     height: 6.53rem;
     background-size: 100% 100%;
 }
@@ -387,32 +348,25 @@ input {
 #divdown1 {
     position: absolute;
     color: white;
-    width: 5.2rem;
+    width: 6rem;
     font-size: 0.34rem;
-    top: 0.1rem;
-    left: 1.95rem;
+    bottom: 0.17rem;
+    left: 1rem;
     font-family: Consolas, Monaco, monospace;
 }
-.footer div span {
+#divdown1 span {
     letter-spacing: 0.25rem;
     text-indent: 0.1rem;
-    width: 1.06rem;
+    width: 1.1rem;
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
     float: left;
-    margin-right: 0.32rem;
+    margin-right: 0.36rem;
     line-height: 0.66rem;
 }
-.footer div span:last-child {
+#divdown1span:last-child {
     margin: 0;
-}
-.footer a {
-    width: 2.33rem;
-    height: 0.59rem;
-    position: absolute;
-    bottom: 0.11rem;
-    left: 2.56rem;
 }
 .pop1 {
     width: 5.17rem;
@@ -432,6 +386,12 @@ input {
     position: absolute;
     bottom: 0.27rem;
     left: 1.67rem;
+}
+
+.lottery-box {
+    width: 100%;
+    float: left;
+    margin-top: 0.35rem;
 }
 </style>
 
@@ -557,7 +517,9 @@ export default {
             perText: '',
             lotteryType: false,
             lotteryNum: '0',
-            pop1Show: false
+            pop1Show: false,
+            lotteryBoxWidth: 0,
+            prize: 0
         }
     },
     computed: mapState({
@@ -578,68 +540,71 @@ export default {
         lottery
     },
     methods: {
-        joinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.userName || this.userName.length === 0) {
-                this.txtUShow = true
-                this.txtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.userName)) {
-                this.txtUShow = true
-                this.txtUHtml = '请输入中文名'
-                return
-            } else if (!this.phone || this.phone.length === 0) {
-                this.txtPShow = true
-                this.txtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.phone)) {
-                this.txtPShow = true
-                this.txtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('activity11Th/repeatFind', {
-                phone: this.phone
-            })
-
-        },
-        close() {
-            this.popShow = false
-            this.pop1Show = false
-            this.joinShow = false
-            this.lotteryMsgShow = false
-            this.lotteryMsg1Show = false
-            this.phone = ''
-            this.userName = ''
-        },
-        close1() {
-            this.popShow = false
-            this.pop1Show = false
-            this.joinShow = false
-            this.lotteryMsgShow = false
-            this.lotteryMsg1Show = false
-        },
-        pop() {
-            // this.popShow = true
-            // this.joinShow = true
-            if (!this.lotteryType && this.lotteryNum === '0') {
-                this.popShow = true
-                this.joinShow = true
-                this.lotteryMsgShow = false
-                this.lotteryMsg1Show = false
-                this.pop1Show = false
-            } else {
-                this.popShow = true
-                this.pop1Show = false
-                this.joinShow = false
-                this.lotteryMsgShow = false
-                this.lotteryMsg1Show = true
-            }
+        playLottery() {
+            this.prize = 8
         }
+        // joinSubmit() {
+        //     if (!this.type) {
+        //         alert('提交中')
+        //         return
+        //     }
+        //     var regname = /^[\u4e00-\u9fa5]+$/gi
+        //     var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+        //     if (!this.userName || this.userName.length === 0) {
+        //         this.txtUShow = true
+        //         this.txtUHtml = '姓名不能为空！'
+        //         return
+        //     } else if (!regname.test(this.userName)) {
+        //         this.txtUShow = true
+        //         this.txtUHtml = '请输入中文名'
+        //         return
+        //     } else if (!this.phone || this.phone.length === 0) {
+        //         this.txtPShow = true
+        //         this.txtPHtml = '手机号不能为空！'
+        //         return
+        //     } else if (!reg.test(this.phone)) {
+        //         this.txtPShow = true
+        //         this.txtPHtml = '手机号输入不正确！'
+        //         return
+        //     }
+        //     this.$store.dispatch('activity11Th/repeatFind', {
+        //         phone: this.phone
+        //     })
+        //
+        // },
+        // close() {
+        //     this.popShow = false
+        //     this.pop1Show = false
+        //     this.joinShow = false
+        //     this.lotteryMsgShow = false
+        //     this.lotteryMsg1Show = false
+        //     this.phone = ''
+        //     this.userName = ''
+        // },
+        // close1() {
+        //     this.popShow = false
+        //     this.pop1Show = false
+        //     this.joinShow = false
+        //     this.lotteryMsgShow = false
+        //     this.lotteryMsg1Show = false
+        // },
+        // pop() {
+        //     // this.popShow = true
+        //     // this.joinShow = true
+        //     if (!this.lotteryType && this.lotteryNum === '0') {
+        //         this.popShow = true
+        //         this.joinShow = true
+        //         this.lotteryMsgShow = false
+        //         this.lotteryMsg1Show = false
+        //         this.pop1Show = false
+        //     } else {
+        //         this.popShow = true
+        //         this.pop1Show = false
+        //         this.joinShow = false
+        //         this.lotteryMsgShow = false
+        //         this.lotteryMsg1Show = true
+        //     }
+        // }
     },
     mounted() {
 
@@ -854,7 +819,7 @@ export default {
                     var day = new Date();
                     day.setTime(day.getTime());
                     var s2 = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2") + ' 抽中' + resultAngle[resultIndex].t + '</li>'
+                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2') + ' 抽中' + resultAngle[resultIndex].t + '</li>'
                     $('.text-scroll ul').append(html)
                     _this.$store.dispatch('activity11Th/addData', {
                         userName: _this.userName,
