@@ -34,7 +34,8 @@ var s = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + 
 var msgArr = ['100元', '200元', '300元', '400元'];
 
 var ss = Math.floor(Math.random() * 10 + 1);
-if(ss === 5){
+// if(ss === 5){
+for(var i=0; i<5; i++){
     co(function*() {
         let result = yield request({
           url: `${urlBase}/11thActivity`,
@@ -54,6 +55,8 @@ if(ss === 5){
     },function(){
         process.exit(0);
     });
-}else{
-    process.exit(0);
 }
+
+// }else{
+//     process.exit(0);
+// }
