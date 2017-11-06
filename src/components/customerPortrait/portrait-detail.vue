@@ -53,20 +53,22 @@ body {
 <template>
 <div class="portrait-wrap clearfix">
   <div class="con-left">
-
+    <PortraitDetailLeft></PortraitDetailLeft>
   </div>
   <PortraitDetailRight></PortraitDetailRight>
 </div>
 </template>
 <script type="text/javascript">
 import PortraitDetailRight from 'components/customerPortrait/portrait-detail-right'
+import PortraitDetailLeft from 'components/customerPortrait/portrait-detail-left'
 export default {
   data() {
 
   },
   props: [''],
   components: {
-    PortraitDetailRight
+    PortraitDetailRight,
+    PortraitDetailLeft
   },
   computed: {
 

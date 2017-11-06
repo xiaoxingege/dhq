@@ -569,10 +569,10 @@ export default {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
         })
         that.chart.on('mouseover', function(params) {
-          if ((params.event.offsetX + 460) > that.$refs.bubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 480
+          if ((params.event.offsetX + 485) >= that.$refs.bubbles.clientWidth) {
+            that.offsetX = params.event.offsetX - 485
           } else {
-            that.offsetX = params.event.offsetX + 20
+            that.offsetX = params.event.offsetX + 18
           }
 
           if ((params.event.offsetY + 247) > that.$refs.bubbles.clientHeight) {
@@ -632,7 +632,6 @@ export default {
 
   mounted() {
     const that = this
-
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
         // window.alert(data+'mounted')
