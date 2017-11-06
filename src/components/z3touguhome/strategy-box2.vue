@@ -17,6 +17,7 @@
     left: 8px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
 }
 .strategy-title select option {
     color: #666;
