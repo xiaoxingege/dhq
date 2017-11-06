@@ -5,11 +5,11 @@
     position: relative;
 }
 .strategy-title select {
-    width: 248px;
+    width: 247px;
     color: #1984ea;
     -webkit-appearance: none;
     padding-left: 4px;
-    background: url("../../assets/images/selectindex.png") no-repeat scroll 229px center transparent;
+    background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
     background-color: #141518;
     border-radius: 3px;
     border: 1px solid #141518;
@@ -29,7 +29,7 @@
     color: #808ba1;
     display: inline-block;
     position: absolute;
-    right: 16px;
+    right: 9px;
     top: 50%;
     transform: translateY(-50%);
 }
