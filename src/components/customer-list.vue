@@ -27,29 +27,103 @@ a,
 
 .blue {
   color: #1984ea;
-  font-size: 12px;
+}
+
+.red {
+  color: #ca4941;
+}
+
+.green {
+  color: #56a870;
+}
+
+.lightcolor {
+  color: #c9d0d7;
+}
+
+.gray {
+  color: #808ba1;
 }
 
 .customer-list-wrap {
-  padding: 20px 20px 3px 20px;
+  /* padding: 20px 20px 3px 20px; */
   background: #141518;
   border-bottom: 3px solid #0d0e0f;
-  position: relative;
+  border-top: 3px solid #0d0e0f;
+  border-left: 3px solid #0d0e0f;
   color: #c9d0d7;
+  font-size: 12px;
 }
 
-.head {
-  font-size: 16px;
-  font-weight: normal;
-  position: relative;
-  color: #c9d0d7;
+.cur-head {
+  font-size: 14px;
+  background: #23272c;
+  height: 25px;
+  padding-left: 9px;
 }
 
-.one-td {}
+.inp-head {
+  margin-top: 13px;
+  padding-left: 10px;
+}
+
+.inp-box2 {
+  margin-left: 13px;
+}
+
+.inp-text1 {
+  width: 98px;
+  height: 25px;
+  background: #23272c;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  color: #c9d0d7;
+  padding-left: 10px;
+  margin-left: 8px;
+}
+
+.search-btn {
+  width: 44px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  background: #23272c;
+  margin-left: 13px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.customer-list {
+  margin-top: 10px;
+}
 
 .customer-list-wrap .page {
   background: #141518;
   text-align: center;
+}
+
+.table-box {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+
+.table-box tr td {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #23272c;
+  border-left: none;
+}
+
+.table-box tr:nth-child(1) {
+  background: #23272c;
+  border: none;
+}
+
+.table-box tr:nth-child(1) td {
+  height: 30px;
 }
 
 .foot-tishi {
@@ -63,60 +137,56 @@ a,
 </style>
 <template>
 <div class="customer-list-wrap">
-  <div class="customer-list">
-    <!-- <table class="table-box" cellpadding="0" cellspacing="0" v-else>
-      <tr>
-        <td class="t-head">序号</td>
-        <td class="t-head">
-          <div>股票代码</div>
-        </td>
-        <td class="t-head">股票简称</td>
-        <td class="t-head td-txt" :class="this.stockSort==='sell'?'active':''" @click="isDirebuyType===true?sortStock($event,'desc','sell'):sortStock($event,'asc','sell')">买卖方向<i :class="isDirebuyType===true?'sort-up':'sort-down'"></i></td>
-        <td class="t-head">买入日期</td>
-        <td class="t-head">卖出日期</td>
-        <td class="t-head">买入价格(前复权)</td>
-        <td class="t-head">卖出价格</td>
-        <td class="t-head">盈亏</td>
-        <td class="t-head">收益率</td>
-      </tr>
-      <tbody>
-        <div class="td-body" :style="{  height: fullHeight + 'px' }">
-          <tr v-for="(stock,index) of buysell">
-            <td class="one-td td">
-              <div>{{index+1}}</div>
-            </td>
-            <td class="td">
-              <div>{{stock.innerCode}}</div>
-            </td>
-            <td class="td">
-              <div class="blue"><a :href="'/stock/'+ stock.innerCode" target="_blank">{{stock.name}}</a></div>
-            </td>
-            <td class="td">
-              <div>{{stock.buySellType}}</div>
-            </td>
-            <td class="td">
-              <div>{{stock.buyDate===null?'--':changeDate(stock.buyDate)}}</div>
-            </td>
-            <td class="td">
-              <div>{{stock.sellDate===null?'--':changeDate(stock.sellDate)}}</div>
-            </td>
-            <td class="td">
-              <div>{{checkNull(stock.buyPrice)}}</div>
-            </td>
-            <td class="td">
-              <div v-z3-updowncolor="stock.winLoss">{{checkNull(stock.sellPrice)}}</div>
-            </td>
-            <td class="td">
-              <div v-z3-updowncolor="stock.winLoss">{{stock.winLoss==null?'--':changePlus(stock.winLoss)}}</div>
-            </td>
-            <td class="td">
-              <div v-z3-updowncolor="stock.returnRatio">{{stock.returnRatio==null?'--':changeAdd(stock.returnRatio)}}</div>
-            </td>
+  <div class="header clearfix">
+    <div class="cur-head">
+      <span class="lightcolor">客户列表</span>
+    </div>
+    <div class="inp-head clearfix">
+      <div class="inp-box1 fl">
+        <label>资金账户：</label><input type="text" class="inp-text1">
+      </div>
+      <div class="inp-box1 fl ml-20">
+        <label>客户姓名：</label><input type="text" class="inp-text1">
+      </div>
+      <div class="inp-box1 fl inp-box2">
+        <label>客户手机号：</label><input type="text" class="inp-text1">
+      </div>
+      <div class="search-btn fl">查找</div>
 
-          </tr>
-        </div>
-      </tbody>
-    </table> -->
+    </div>
+    <div class="inp-head">
+      <label>数量：</label><span class="pl-5">462</span>
+    </div>
+  </div>
+  <div class="customer-list">
+    <table class="table-box" cellpadding="0" cellspacing="0">
+      <tr>
+        <td class="t-head">资金账户</td>
+        <td class="t-head">客户姓名</td>
+        <td>性别</td>
+        <td>资产分级</td>
+        <td>活跃度</td>
+        <td>本户持仓比</td>
+        <td>交易次数(近3月)</td>
+        <td>开户时间</td>
+        <td>交易能力</td>
+        <td>手机号</td>
+        <td>关注度</td>
+      </tr>
+      <tr>
+        <td>fdshfsf1</td>
+        <td>fdshfsf2</td>
+        <td>fdshfsf3</td>
+        <td>fdshfsf4</td>
+        <td>fdshfsf5</td>
+        <td>fdshfsf6</td>
+        <td>fdshfsf7</td>
+        <td>fdshfsf8</td>
+        <td>fdshfsf9</td>
+        <td>fdshfsf10</td>
+        <td>fdshfsf11</td>
+      </tr>
+    </table>
   </div>
   <p class="foot-tishi">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p>
 </div>

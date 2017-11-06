@@ -474,7 +474,7 @@ export default {
   watch: {
     error() {
       if (this.error) {
-        this.$router.push({
+        this.$router.replace({
           name: 'error'
         });
       }

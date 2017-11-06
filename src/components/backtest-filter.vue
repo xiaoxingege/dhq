@@ -311,7 +311,7 @@ span.copy {
 }
 </style>
 <template>
-<div class="backtest-filter">
+<div class="backtest-filter" @click="hideCode($event)">
   <div class="bfilter-main">
     <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span>
     </div>
@@ -490,6 +490,13 @@ export default {
       const numDate = e.currentTarget.previousElementSibling.innerHTML.replace(/\./g, '')
       console.log(numDate)
     },*/
+
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
+      }
+    },
     excelExport(type) {
       const id = this.strategyId
       const expires = this.authInfo.expires

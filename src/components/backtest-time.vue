@@ -133,7 +133,7 @@ span.copy {
 }
 </style>
 <template>
-<div class="backtest-time">
+<div class="backtest-time" @click="hideCode($event)">
   <div class="btime-main">
     <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享" :class="showQrcodeBox===true?'active':''"></span><span class="copy" title="复制分享链接" ref='copy2share' :class="showToast===true?'active':''"></span></div>
     <BackTimeStra/>
@@ -194,6 +194,12 @@ export default {
         shareMark = base64.encode(shareMark);
         let dataUrl = url + '?share=' + shareMark;
         qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
+    },
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
       }
     }
   },

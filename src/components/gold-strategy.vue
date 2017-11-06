@@ -169,7 +169,7 @@ a {
 }
 </style>
 <template>
-<div class="goldRecommend">
+<div class="goldRecommend" @click="hideCode($event)">
 
   <div class="strategyHeader clear">
     <div class="fl">
@@ -490,6 +490,12 @@ export default {
         shareMark = base64.encode(shareMark);
         let dataUrl = url + '?share=' + shareMark;
         qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
+    },
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
       }
     },
     showRadar() {
