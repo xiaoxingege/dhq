@@ -7,8 +7,8 @@
 .strategy-title select {
     width: 242px;
     color: #1984ea;
+    background: url("../../assets/images/selectindex.png") no-repeat scroll 223px center transparent;
     background-color: #141518;
-    background: url("../../assets/images/selectindex.png") no-repeat 223px center;
     border-radius: 3px;
     border: 1px solid #141518;
     position: absolute;
