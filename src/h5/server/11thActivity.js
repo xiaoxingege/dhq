@@ -31,7 +31,7 @@ function getMoble() {
 var day = new Date();
 day.setTime(day.getTime());
 var s = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-var msgArr = ['500元', '600元'];
+var msgArr = ['100元', '200元', '300元', '400元'];
 
 var ss = Math.floor(Math.random() * 10 + 1);
 if(ss === 5){
@@ -45,7 +45,7 @@ if(ss === 5){
             'bizsource': '',
             'tgqdcode': '',
             'createDataTime': s,
-            'msg': msgArr[parseInt(2 * Math.random())],
+            'msg': msgArr[parseInt(4 * Math.random())],
             'boolean': false
           })
         });
