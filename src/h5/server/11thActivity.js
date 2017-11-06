@@ -35,8 +35,8 @@ var msgArr = ['100元', '200元', '300元', '400元'];
 
 var ss = Math.floor(Math.random() * 10 + 1);
 // if(ss === 5){
-for(var i=0; i<5; i++){
-    co(function*() {
+co(function*() {
+    for(var i=0; i<5; i++){
         let result = yield request({
           url: `${urlBase}/11thActivity`,
           method: 'post',
@@ -50,12 +50,12 @@ for(var i=0; i<5; i++){
             'boolean': false
           })
         });
-    }).then(function(){
-        process.exit(0);
-    },function(){
-        process.exit(0);
-    });
-}
+    }
+}).then(function(){
+    process.exit(0);
+},function(){
+    process.exit(0);
+});
 
 // }else{
 //     process.exit(0);
