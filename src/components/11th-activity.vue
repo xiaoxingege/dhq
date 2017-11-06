@@ -44,7 +44,7 @@ input {
     background-size: 100% 100%;
 }
 .bg5 {
-    background: url("../assets/images/11th-activity/11th-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/11th-activity/11th-bg5-1.jpg") center 0 no-repeat;
     height: 6.22rem;
     background-size: 100% 100%;
 }
@@ -121,7 +121,7 @@ input {
 .text-box div {
     line-height: 0.38rem;
     width: 5.80rem;
-    height: 2.1rem;
+    height: 2.2rem;
     float: left;
     margin: 0.21rem 0 0 0.5rem;
     overflow: hidden;
