@@ -7,6 +7,58 @@ body {
 input {
     outline: none;
 }
+
+.ui-three .swiper-pagination {
+    z-index: 10;
+}
+
+.ui-six .lottery-box .inner_01>ul li {
+    width: 167px;
+    height: 140px;
+    margin: 2px 3px;
+    border-radius: 15px;
+}
+
+.ui-six .lottery-box .inner_01>ul {
+    width: 520px;
+    margin: 0 auto;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b1 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg1.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b2 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg3.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b3 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg9.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b4 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg7.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b5 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg2.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b6 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg6.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b7 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg4.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.b8 {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg8.png") 0 0 no-repeat;
+}
+
+.ui-six .lottery-box .inner_01>ul li.btn-lottery {
+    background: url("../assets/images/zdian1-activity/web-lottery-bg5.png") 0 0 no-repeat;
+}
 </style>
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
@@ -14,38 +66,33 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/11th-activity/11th-bg1.jpg") center 0 no-repeat;
-    height: 6.76rem;
+    background: url("../assets/images/11th-activity2/11th2-bg1.jpg") center 0 no-repeat;
+    height: 7.09rem;
     background-size: 100% 100%;
     position: relative;
 }
-.bg1-1 {
-    width: 100%;
-    background: url("../assets/images/11th-activity/11th-bg1-1.jpg") center 0 no-repeat;
-    height: 6.76rem;
-    background-size: 100% 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+// .bg1-1 {
+//     width: 100%;
+//     background: url("../assets/images/11th-activity2/11th2-bg1-1.jpg") center 0 no-repeat;
+//     height: 6.76rem;
+//     background-size: 100% 100%;
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+// }
 .bg2 {
-    background: url("../assets/images/11th-activity/11th-bg2.jpg") center 0 no-repeat;
-    height: 8.09rem;
+    background: url("../assets/images/11th-activity2/11th2-bg2.jpg") center 0 no-repeat;
+    height: 6.53rem;
     background-size: 100% 100%;
 }
 .bg3 {
-    background: url("../assets/images/11th-activity/11th-bg3.jpg") center 0 no-repeat;
-    height: 3.75rem;
+    background: url("../assets/images/11th-activity2/11th2-bg3.jpg") center 0 no-repeat;
+    height: 3.41rem;
     background-size: 100% 100%;
 }
 .bg4 {
-    background: url("../assets/images/11th-activity/11th-bg4.jpg") center 0 no-repeat;
-    height: 7.88rem;
-    background-size: 100% 100%;
-}
-.bg5 {
-    background: url("../assets/images/11th-activity/11th-bg5-1.jpg") center 0 no-repeat;
-    height: 6.22rem;
+    background: url("../assets/images/11th-activity2/11th2-bg4.jpg") center 0 no-repeat;
+    height: 7.37rem;
     background-size: 100% 100%;
 }
 .box-con {
@@ -391,16 +438,17 @@ input {
 <template>
 <div class="box">
     <div class="bg1">
-        <div class="bg1-1">
-
+        <div id="divdown1">
+            <span id="text-day" class="text-day"></span>
+            <span id="text-hour" class="text-hour"></span>
+            <span id="text-min" class="text-min"></span>
+            <span id="text-sec" class="text-sec"></span>
         </div>
     </div>
     <div class="bg2">
         <div class="box-con">
-            <p>您当前有<span v-text='lotteryNum'>1</span>次抽奖机会</p>
-            <div class="lottery">
-                <div class="lottery-plate rotate_origin" id="i_bg"></div>
-                <div class="lottery-pointer rotate_origin1" id="i_cont"></div>
+            <div class="lottery-box" ref="lotteryBox">
+                <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" :box-width="lotteryBoxWidth" />
             </div>
         </div>
     </div>
@@ -426,10 +474,8 @@ input {
     </div>
     <div class="bg4">
     </div>
-    <div class="bg5">
-    </div>
 
-    <div class="footer">
+    <!-- <div class="footer">
         <div class="box-con">
             <div id="divdown1">
                 <span id="text-day" class="text-day"></span>
@@ -439,7 +485,7 @@ input {
             </div>
             <a href="javascript:;" @click="pop">&nbsp;</a>
         </div>
-    </div>
+    </div> -->
     <div class='fixBg' v-if="popShow || pop1Show"></div>
     <div class="pop" v-if="popShow">
         <div class="join" v-if="joinShow">
@@ -481,6 +527,8 @@ import {
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import getQueryString from 'utils/getQueryString'
+import lottery from 'components/lottery'
+
 
 export default {
     data() {
@@ -526,7 +574,9 @@ export default {
             return state.reservation.err
         }
     }),
-    components: {},
+    components: {
+        lottery
+    },
     methods: {
         joinSubmit() {
             if (!this.type) {
@@ -649,15 +699,15 @@ export default {
 
             }, 1000)
         }
-        window.setInterval(function() {
-            $('.bg1-1').animate({
-                'opacity': '0'
-            }, 350, function() {
-                $('.bg1-1').animate({
-                    'opacity': '1'
-                }, 350)
-            })
-        }, 700)
+        // window.setInterval(function() {
+        //     $('.bg1-1').animate({
+        //         'opacity': '0'
+        //     }, 350, function() {
+        //         $('.bg1-1').animate({
+        //             'opacity': '1'
+        //         }, 350)
+        //     })
+        // }, 700)
         var _this = this
         this.$watch('txtUShow', txtUShow => {
             setTimeout(function() {
