@@ -8,6 +8,9 @@
 	background:#fff;
 	margin-bottom: 0.2rem
 }
+.equity-trading .detail{
+	margin:0;
+}
 .title{
 	height: 0.88rem;
 	line-height: 0.88rem;
@@ -37,16 +40,16 @@
 	font-family:PingFangSC-Regular;
 	color:rgba(136,136,136,1);
 }
-.grey{
+.change em{
 	float: left;
 	margin-right: 0.4rem;
 	font-size: 0.3rem;
 	color:rgba(136,136,136,1);
 }
-.green{
+.change .green{
  	color: #26BE6A;
 }
-.red{
+.change .red{
 	color:#FF4040;
 }
 .title-tab{
@@ -156,11 +159,11 @@
 	background: url(http://i0.jrjimg.cn/optional/default.png) center no-repeat;
 	background-size: contain;
 }
-.detail-title .detail-title-lists li .desc{
+.detail-title .detail-title-lists .desc span{
 	background: url(http://i0.jrjimg.cn/optional/desc.png) center no-repeat;
 	background-size: contain;
 }
-.detail-title .detail-title-lists li .asce{
+.detail-title .detail-title-lists .asce span{
 	background: url(http://i0.jrjimg.cn/optional/asce.png) center no-repeat;
 	background-size: contain;
 }
@@ -189,6 +192,15 @@
 .detail-lists li .red{
 	color:#FF4040;
 }
+.detail-more{
+	height: 1.36rem;
+	line-height: 1.36rem;
+}
+.detail-more p{
+	font-size: 0.28rem;
+	color: #3996F2;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -197,10 +209,10 @@
 			<div class="title">
 				<span class="red-block"></span>	
 				<h2>两市融资融券余额历史走势</h2>
-				<p class="title-time">({{curveTime}})</p>
+				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
 			<div class="curve-content">
-				<ul class="curve-list">
+				<ul class="curve-list" v-if="curveList">
 					<li v-for="item in curveList">
 						{{item.date}}
 						{{item.marginBalance}}
@@ -212,10 +224,10 @@
 			<div class="title">
 				<span class="red-block"></span>
 				<h2>余额变动：</h2>
-				<span class="grey red">{{balance}}</span>
+				<em :class="addcolor(balance)">{{balance | convert}}</em>
 				<h2>环比变动：</h2>
-				<span class="grey green">{{percent}}%</span>
-			</div>
+				<em :class="addcolor(percent)">{{percent}}%</em>
+			</div> 
 			<div class="change-content">
 				<table class="change-table" cellpadding="0" cellspacing="0">
 					<tr>
@@ -224,11 +236,11 @@
 						<th style="width:1.95rem;">融券卖出</th>
 						<th style="width:2rem;">融资融券余额</th>
 					</tr>
-					<tr v-for="item in gatherList">
+					<tr v-if="gatherList" v-for="item in gatherList">
 						<td class="market">{{item.tradeMkt}}</td>
-						<td>{{item.buyVal}}</td>
-						<td>{{item.sellVal}}</td>
-						<td class="green">{{item.marginBalance}}</td>
+						<td>{{item.buyVal | convert}}</td>
+						<td>{{item.sellVal | convert}}</td>
+						<td>{{item.marginBalance | convert}}</td>
 					</tr>
 				</table>
 			</div>
@@ -238,40 +250,32 @@
 				<span class="red-block"></span>	
 				<h2>融资融券交易明细</h2>
 				<ul class="title-tab">
-					<li class="active">今日</li>
-					<li>3日</li>
-					<li>5日</li>
+					<li class="active" data-index='1' @click="dayTab($event)">今日</li>
+					<li data-index='5' @click="dayTab($event)">5日</li>
+					<li data-index='10' @click="dayTab($event)">10日</li>
 				</ul>
 			</div>
 			<div class="detail-content">
-				<h2 class="detail-title">
+				<div class="detail-title">
 					<ul class="detail-title-lists">
 						<li style="width:1.49rem">股票名称</li>
-						<li class="sort" style="width:1.3rem;marginLeft:0.65rem;">融资净买入<span></span></li>
-						<li class="sort" style="width:1.08rem;marginLeft:0.65rem;">融资买入<span class="desc"></span></li>
-						<li class="sort" style="width:1.08rem;marginLeft:0.65rem;">融券卖出<span class="asce"></span></li>
+						<li data-index='0' @click="clickSort($event)" style="width:1.3rem;marginLeft:0.65rem;" class="desc">融资净买入<span></span></li>
+						<li data-index='1' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融资买入<span></span></li>
+						<li data-index='2' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融券卖出<span></span></li>
 					</ul>
-				</h2>
-				<ul class="detail-lists">
-					<li>
-						<p style="width:1.49rem">格力电器</p>
-						<span class="red" style="width:1.3rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
-					</li>
-					<li>
-						<p style="width:1.49rem">格力电器</p>
-						<span class="red" style="width:1.3rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
-					</li>
-					<li>
-						<p style="width:1.49rem">格力电器</p>
-						<span class="green" style="width:1.3rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">1.55亿</span>
+				</div>
+				<ul class="detail-lists" v-if="detailList">
+					<li v-for="item in detailList">
+						<p style="width:1.49rem">{{item.stockName}}</p>
+						<span :class="addcolor(item.netBuyVal)" style="width:1.3rem;marginLeft:0.65rem;">{{item.netBuyVal | convert2}}</span>
+						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.buyVal | convert2}}</span>
+						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
+				<div class="detail-more">
+					<p v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></p>
+					<p v-if="detailDataFlag===false">没有更多数据了</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -287,9 +291,16 @@ export default {
     return {
     	curveTime:'',
     	curveList:[],
-    	balance:'',
-    	percent:'',
-    	gatherList:[]
+    	balance:'0',
+    	percent:'0',
+    	gatherList:[],
+    	detailList:[],
+    	day:'1', // 1,5,10
+    	sortcol:'0', // 0=净买入，1=买入，2=卖出
+    	sortt:'0', // 0=降序，1=升序
+    	pn:'1', // 页码
+    	ps:'20', // 每页条数
+    	detailDataFlag:true// 1 有数据 0无数据
     }
   },
   beforecreated () {
@@ -301,8 +312,81 @@ export default {
   mounted () {
     this.getCurveList()
     this.getGatherList()
+    this.getDetailList()
+    
+  },
+  filters: {
+    convert (d) {
+    	if (d/100000000>=1 || d/100000000<=-1) {
+    		return (d / 100000000).toFixed(2) + '亿'
+    	}else if(d/100000>=1 || d/100000<=-1){
+    		return (d / 10000).toFixed(2) + '万'
+    	}else{
+    		return d+'元'
+    	}
+    },
+    convert2 (d) {
+    	if (d/100000000>=1 || d/100000000<=-1) {
+    		return (d / 100000000).toFixed(2) + '亿'
+    	}else{
+    		return (d / 10000).toFixed(2) + '万'
+    	}
+    }
   },
   methods: {
+  	addcolor (v) {
+      if ((v + '').indexOf('-') !== -1) {
+        return 'green'
+      } else {
+        return 'red'
+      }
+    },
+    dayTab (e) {
+    	$('.title-tab li').removeClass('active')
+    	e.currentTarget.setAttribute('class','active')
+    	this.day = e.currentTarget.getAttribute('data-index')
+    	this.getDetailList()
+    },
+    clickSort (e) {
+    	// if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
+    	if (this.sortcol === e.currentTarget.getAttribute('data-index')) {
+    		if (this.sortt === '0') {
+    			this.sortt='1'
+    			e.currentTarget.setAttribute('class','asce')
+    		}else{
+    			this.sortt='0'
+    			e.currentTarget.setAttribute('class','desc')
+    		}
+    	}else{
+    		this.sortcol = e.currentTarget.getAttribute('data-index')
+    		this.sortt='0'
+    		$('.detail-title-lists li').removeClass('desc').removeClass('asce')
+    		e.currentTarget.setAttribute('class','desc')
+    	}
+    	this.getDetailList()
+    },
+    inquireMore(){
+    	this.pn++
+    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
+    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+    	console.log(url)
+    	fetch(url,{
+    		method:'GET',
+    		mode:'cors',
+    		cache:'default'
+    	}).then(res => {
+	        return res.json()
+	    }).then(v => {
+	    	if (v.data.items.length===0) {
+	    		this.detailDataFlag=false
+	    	}else{
+	    		this.detailList=this.detailList.concat(v.data.items)
+	    		this.detailDataFlag=true
+	    	}
+    	}).catch(v2 => {
+    		console.log(v2)
+    	})
+    },
     getCurveList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/mkt'
     	fetch(url,{
@@ -330,13 +414,32 @@ export default {
     		this.balance=v.data.banlanceChg
     		this.percent=v.data.percentChg
     		this.gatherList=v.data.marginTradingStsList
-    		console.log(this.gatherList)
     	}).catch(v2 => {
     		console.log(v2)
     	})
     },
     getDetailList(){
-    	
+    	// https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt?day=1&sort_col=0&sort=0&pn=1&ps=20
+    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
+    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+    	console.log(url)
+    	fetch(url,{
+    		method:'GET',
+    		mode:'cors',
+    		cache:'default'
+    	}).then(res => {
+	        return res.json()
+	    }).then(v => {
+	    	this.detailList=v.data.items
+	    	if (this.detailList.length===0) {
+		    	this.detailDataFlag=false
+
+		    }else{
+		    	this.detailDataFlag=true
+		    }
+    	}).catch(v2 => {
+    		console.log(v2)
+    	})
     }
   }
 }
