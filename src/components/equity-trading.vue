@@ -196,9 +196,14 @@
 	height: 1.36rem;
 	line-height: 1.36rem;
 }
-.detail-more p{
+.detail-more h3{
 	font-size: 0.28rem;
 	color: #3996F2;
+	text-align: center;
+}
+.detail-more h4{
+	font-size: 0.28rem;
+	color: #aaa;
 	text-align: center;
 }
 </style>
@@ -273,8 +278,8 @@
 					</li>
 				</ul>
 				<div class="detail-more">
-					<p v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></p>
-					<p v-if="detailDataFlag===false">没有更多数据了</p>
+					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
+					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
 				</div>
 			</div>
 		</div>
@@ -430,12 +435,11 @@ export default {
     	}).then(res => {
 	        return res.json()
 	    }).then(v => {
-	    	this.detailList=v.data.items
-	    	if (this.detailList.length===0) {
+	    	if (v.data.items.length===0) {
 		    	this.detailDataFlag=false
-
 		    }else{
 		    	this.detailDataFlag=true
+		    	this.detailList=v.data.items
 		    }
     	}).catch(v2 => {
     		console.log(v2)
