@@ -84,20 +84,15 @@ input {
     margin: 0 0.1rem;
 }
 .text-box {
-    width: 6.78rem;
-    height: 2.6rem;
     float: left;
-    margin: 0.8rem 0 0 0.36rem;
-    background: #fcae2b;
-    border-radius: 0.15rem;
-    box-shadow: 0.05rem 0.05rem 0.05rem #3d3232;
+    margin-left: 0.4rem;
     font-size: 0.26rem;
-    color: #78000e;
+    color: #fef0cc;
 }
 .text-box div {
     line-height: 0.38rem;
     width: 5.80rem;
-    height: 2.2rem;
+    height: 1.8rem;
     float: left;
     margin: 0.21rem 0 0 0.5rem;
     overflow: hidden;
@@ -109,15 +104,6 @@ input {
 }
 .text-box div p {
     font-size: 0.24rem;
-}
-.footer {
-    width: 100%;
-    height: 1.52rem;
-    position: fixed;
-    bottom: -0.01rem;
-    background: url("../assets/images/11th-activity/11th-footer.jpg") center 0 no-repeat;
-    background-size: 100% 100%;
-    z-index: 10;
 }
 .fixBg {
     width: 100%;
@@ -140,133 +126,6 @@ input {
     margin-left: -2.65rem;
     left: 50%;
     z-index: 12;
-}
-.join {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.join strong {
-    font-size: 0.38rem;
-    font-weight: bold;
-    color: #840135;
-    text-align: center;
-    float: left;
-    width: 100%;
-    margin-top: 0.6rem;
-}
-.join p {
-    font-size: 0.24rem;
-    color: #cc2564;
-    text-align: center;
-}
-.join span {
-    font-size: 0.24rem;
-    color: #840034;
-    position: absolute;
-    line-height: 0.46rem;
-}
-.join span input {
-    width: 2.04rem;
-    height: 0.44rem;
-    line-height: 0.44rem;
-    background: none;
-    border: none;
-    font-size: 0.24rem;
-    color: #452609;
-    position: absolute;
-    border: 0.01rem #840034 solid;
-    background-color: #feecba;
-    margin-left: 0.1rem;
-}
-.join span input::-webkit-input-placeholder {
-    color: #A78B67;
-}
-.join .userNamebox {
-    width: 2.65rem;
-    height: 0.44rem;
-    top: 1.7rem;
-    left: 1.3rem;
-}
-.join .phonebox {
-    width: 2.65rem;
-    height: 0.44rem;
-    top: 2.3rem;
-    left: 1.3rem;
-}
-
-.join .btn-join {
-    position: absolute;
-    bottom: 0.7rem;
-    left: 1.65rem;
-    width: 2.1rem;
-    height: 0.56rem;
-    background-color: #840034;
-    color: #fff;
-    font-size: 0.3rem;
-    text-align: center;
-    border-radius: 0.15rem;
-    line-height: 0.56rem;
-}
-.join em {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #fff;
-    border: 0.01rem red solid;
-    border-radius: 0.05rem;
-    padding: 0 0.05rem;
-    font-size: 0.16rem;
-    line-height: 0.44rem;
-}
-.lottery-msg {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.lottery-msg strong {
-    font-size: 0.46rem;
-    font-weight: bold;
-    color: #840135;
-    text-align: center;
-    float: left;
-    width: 100%;
-    margin-top: 0.6rem;
-}
-.lottery-msg p {
-    float: left;
-    width: 100%;
-    margin-top: 0.2rem;
-    text-align: center;
-    font-size: 0.26rem;
-    color: #840034;
-    line-height: 0.4rem;
-}
-.lottery-msg p span {
-    font-weight: bold;
-}
-.lottery-msg a {
-    position: absolute;
-    bottom: 1.14rem;
-    left: 1.65rem;
-    width: 2.1rem;
-    height: 0.56rem;
-    background-color: #840034;
-    color: #fff;
-    font-size: 0.3rem;
-    text-align: center;
-    border-radius: 0.15rem;
-    line-height: 0.56rem;
-}
-.lottery-msg em {
-    width: 100%;
-    position: absolute;
-    bottom: 0.45rem;
-    font-size: 0.22rem;
-    text-align: center;
-    color: #cc2564;
-    left: 0;
-    padding-left: 0.15rem;
 }
 .lottery-msg1 {
     width: 100%;
@@ -293,7 +152,7 @@ input {
 }
 .lottery-msg1 a {
     position: absolute;
-    bottom: 1.14rem;
+    bottom: 0.8rem;
     left: 1.65rem;
     width: 2.1rem;
     height: 0.56rem;
@@ -330,30 +189,29 @@ input {
 #divdown1span:last-child {
     margin: 0;
 }
-.pop1 {
-    width: 5.17rem;
-    height: 1.86rem;
-    background: url("../assets/images/11th-activity/11th-pop-bg-1.png") 0 0 no-repeat;
-    background-size: 100% 100%;
-    position: fixed;
-    top: 50%;
-    margin-top: -0.93rem;
-    margin-left: -2.58rem;
-    left: 50%;
-    z-index: 12;
-}
-.pop1 a {
-    width: 1.83rem;
-    height: 0.52rem;
-    position: absolute;
-    bottom: 0.27rem;
-    left: 1.67rem;
-}
 
 .lottery-box {
     width: 100%;
     float: left;
     margin-top: 0.35rem;
+}
+.bg3 .box-con strong {
+    width: 100%;
+    float: left;
+    height: 0.5rem;
+    font-size: 0.3rem;
+    color: #fef0cc;
+    line-height: 0.5rem;
+    text-align: center;
+}
+.bg3 .box-con p {
+    font-size: 0.22rem;
+    color: #fef0cc;
+    width: 100%;
+    float: left;
+    height: 0.47rem;
+    line-height: 0.47rem;
+    text-align: center;
 }
 </style>
 
@@ -377,6 +235,8 @@ input {
     </div>
     <div class="bg3">
         <div class="box-con">
+            <strong>我的可选奖品//用户中奖纪录</strong>
+            <p>（您可以从中奖记录中任选1个进行兑奖）</p>
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
@@ -389,48 +249,14 @@ input {
     <div class="bg4">
     </div>
 
-    <!-- <div class="footer">
-        <div class="box-con">
-            <div id="divdown1">
-                <span id="text-day" class="text-day"></span>
-                <span id="text-hour" class="text-hour"></span>
-                <span id="text-min" class="text-min"></span>
-                <span id="text-sec" class="text-sec"></span>
-            </div>
-            <a href="javascript:;" @click="pop">&nbsp;</a>
-        </div>
-    </div> -->
-    <div class='fixBg' v-if="popShow || pop1Show"></div>
+
+    <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
-        <div class="join" v-if="joinShow">
-            <strong>您离大奖只有一步之遥</strong>
-            <p>快速报名，获取抽奖机会</p>
-            <span class="userNamebox">
-                姓名
-              <input type="text" class="userName" placeholder="请输入您的中文名" v-model="userName" />
-              <em v-html="txtUHtml" v-if="txtUShow"></em>
-          </span>
-            <span class="phonebox">
-                手机
-              <input type="text" class="phone" placeholder="请输入您的手机号" v-model="phone" />
-              <em v-html="txtPHtml" v-if="txtPShow"></em>
-          </span>
-            <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
-        </div>
-        <div class="lottery-msg" v-if="lotteryMsgShow">
-            <strong>太幸运啦！</strong>
-            <p>恭喜您成功获得<span v-text="lotteryText">600元现金券</span>。<br />您的运气值战胜了<span v-text="perText">99.80%</span>的用户！</p>
-            <a href="javascript:;" class="btn-close" @click="close">知道了</a>
-            <em>奖品有效期为48小时，<br />请及时联系投服领取。</em>
-        </div>
-        <div class="lottery-msg1" v-if="lotteryMsg1Show">
-            <strong>很遗憾</strong>
-            <p>每个人只有1次抽奖机会，<br />要知足哟~</p>
+        <div class="lottery-msg1">
+            <strong v-text="lotteryTitle"></strong>
+            <p v-html="lotteryMsg"></p>
             <a href="javascript:;" class="btn-close" @click="close">知道了</a>
         </div>
-    </div>
-    <div class="pop1" v-if="pop1Show">
-        <a href="javascript:;" @click="close1"></a>
     </div>
 </div>
 </template>
@@ -440,7 +266,6 @@ import {
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
-import getQueryString from 'utils/getQueryString'
 import lottery from 'components/lottery'
 
 
@@ -460,18 +285,17 @@ export default {
         })
         return {
             popShow: false,
-            txtUHtml: '',
-            txtUShow: false,
-            txtPHtml: '',
-            txtPShow: false,
-            joinShow: false,
-            lotteryMsgShow: false,
-            lotteryMsg1Show: false,
-            lotteryText: '',
-            perText: '',
+            lotteryTitle: '抽奖还未开始',
+            lotteryMsg: '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。',
+            // 抽奖还未开始
+            // 抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。
+            // 很遗憾
+            // 恭喜您！
+            // 您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。
+            // 您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。
+            // 本次抽中了XXXXXXXXXX<br />您可以在“我的可选奖品”中查看。
             lotteryType: false,
             lotteryNum: '0',
-            pop1Show: false,
             lotteryBoxWidth: 0,
             prize: 0
         }
@@ -488,86 +312,35 @@ export default {
         },
         err: state => {
             return state.reservation.err
-        }
+        },
+        loginStatus: state => state.user.loginStatus
     }),
     components: {
         lottery
     },
     methods: {
         playLottery() {
-            this.prize = 8
+            if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
+                if (this.loginStatus === 'no') {
+                    window.jrj.jsCallNative('108', JSON.stringify({
+                        returnUrl: encodeURI(window.location.href)
+                    }))
+                } else {
+                    this.prize = 8
+                }
+            } else {
+                window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/11th-activity2'
+            }
         },
         showLotteryResult() {
             alert(this.prize)
             this.prize = -1
+        },
+        close() {
+            this.popShow = false
         }
-        // joinSubmit() {
-        //     if (!this.type) {
-        //         alert('提交中')
-        //         return
-        //     }
-        //     var regname = /^[\u4e00-\u9fa5]+$/gi
-        //     var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-        //     if (!this.userName || this.userName.length === 0) {
-        //         this.txtUShow = true
-        //         this.txtUHtml = '姓名不能为空！'
-        //         return
-        //     } else if (!regname.test(this.userName)) {
-        //         this.txtUShow = true
-        //         this.txtUHtml = '请输入中文名'
-        //         return
-        //     } else if (!this.phone || this.phone.length === 0) {
-        //         this.txtPShow = true
-        //         this.txtPHtml = '手机号不能为空！'
-        //         return
-        //     } else if (!reg.test(this.phone)) {
-        //         this.txtPShow = true
-        //         this.txtPHtml = '手机号输入不正确！'
-        //         return
-        //     }
-        //     this.$store.dispatch('activity11Th/repeatFind', {
-        //         phone: this.phone
-        //     })
-        //
-        // },
-        // close() {
-        //     this.popShow = false
-        //     this.pop1Show = false
-        //     this.joinShow = false
-        //     this.lotteryMsgShow = false
-        //     this.lotteryMsg1Show = false
-        //     this.phone = ''
-        //     this.userName = ''
-        // },
-        // close1() {
-        //     this.popShow = false
-        //     this.pop1Show = false
-        //     this.joinShow = false
-        //     this.lotteryMsgShow = false
-        //     this.lotteryMsg1Show = false
-        // },
-        // pop() {
-        //     // this.popShow = true
-        //     // this.joinShow = true
-        //     if (!this.lotteryType && this.lotteryNum === '0') {
-        //         this.popShow = true
-        //         this.joinShow = true
-        //         this.lotteryMsgShow = false
-        //         this.lotteryMsg1Show = false
-        //         this.pop1Show = false
-        //     } else {
-        //         this.popShow = true
-        //         this.pop1Show = false
-        //         this.joinShow = false
-        //         this.lotteryMsgShow = false
-        //         this.lotteryMsg1Show = true
-        //     }
-        // }
     },
     mounted() {
-
-
-
         function pad(str, len) {
             str = str + ''
             if (str.length < len) {
@@ -578,15 +351,21 @@ export default {
             return str
         }
 
-        function ShowCountDown(year, month, day, divname) {
+        function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
             var now = new Date()
-            var endDate = new Date(year, month - 1, day)
+            var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
             var leftTime = endDate.getTime() - now.getTime()
             var leftsecond = parseInt(leftTime / 1000)
             var day1 = Math.floor(leftsecond / (60 * 60 * 24))
             var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
             var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
             var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+            if (day1 < 0) {
+                day1 = '00';
+                hour = '00';
+                minute = '00';
+                second = '00';
+            }
             document.getElementById('text-day').innerHTML = pad(day1, 2)
             document.getElementById('text-hour').innerHTML = pad(hour, 2)
             document.getElementById('text-min').innerHTML = pad(minute, 2)
@@ -603,35 +382,27 @@ export default {
             date.setSeconds(endTime.substring(17, 19));
             return Date.parse(date) / 1000;
         }
-        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 00:00:00')) {
+        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-13 20:00:00')) {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 17, 'divdown1')
+                ShowCountDown(2017, 11, 17, 20, 0, 0)
 
             }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 00:00:00')) {
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-19 20:00:00')) {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 24, 'divdown1')
+                ShowCountDown(2017, 11, 24, 20, 0, 0)
+
+            }, 1000)
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-26 20:00:00')) {
+            window.setInterval(function() {
+                ShowCountDown(2017, 11, 30, 20, 0, 0)
 
             }, 1000)
         } else {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 11, 'divdown1')
+                ShowCountDown(2017, 11, 11, 20, 0, 0)
 
             }, 1000)
         }
-        var _this = this
-        this.$watch('txtUShow', txtUShow => {
-            setTimeout(function() {
-                _this.txtUShow = false
-                _this.txtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('txtPShow', txtPShow => {
-            setTimeout(function() {
-                _this.txtPShow = false
-                _this.txtPHtml = ''
-            }, 1000)
-        })
         this.$watch('err', err => {
             alert(err.msg)
         })
@@ -645,26 +416,7 @@ export default {
         }, {
             deep: true
         })
-
         this.$store.dispatch('activity11Th/whereList')
-        this.$watch('repeatType', repeatType => {
-            if (repeatType === 1) {
-                this.$store.dispatch('reservation/fetch', {
-                    aid: '792322625599270912',
-                    userName: this.userName,
-                    phone: this.phone,
-                    bizsource: getQueryString('bizsource') || 'mSite',
-                    source: '4',
-                    tgqdcode: getQueryString('tgqdcode') || 'E6JYHN3V'
-                })
-            } else if (repeatType === 2) {
-                _this.popShow = true
-                _this.pop1Show = false
-                _this.joinShow = false
-                _this.lotteryMsgShow = false
-                _this.lotteryMsg1Show = true
-            }
-        })
         this.$watch('whereList', whereList => {
             var liHeight = $('.text-scroll ul li').height()
             setInterval(function() {

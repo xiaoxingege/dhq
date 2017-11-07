@@ -15,10 +15,12 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
- import reservation from 'stores/reservation'
+import user from 'stores/user'
+import reservation from 'stores/reservation'
 import activity11Th from 'stores/11th-activity'
 const store = new Vuex.Store({
   modules: {
+    user,
     reservation,
     activity11Th
   }
