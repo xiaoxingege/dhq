@@ -609,7 +609,7 @@ export default {
             document.getElementById('text-sec').innerHTML = pad(second, 2)
         }
         window.setInterval(function() {
-            ShowCountDown(2017, 11, 1, 'divdown1')
+            ShowCountDown(2017, 12, 31, 'divdown1')
         }, 1000)
         $('.nav a').click((e) => {
             var index = $(e.target).attr('data-index')
