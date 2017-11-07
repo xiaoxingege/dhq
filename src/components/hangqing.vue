@@ -205,8 +205,8 @@ body {
             <span :class="addcolor(item.mainForceInflow)">{{item.mainForceInflow | changyi }}</span>
             <span class="green">{{item.mainForceOutflow | changyi }}</span>
             <span>{{item.dealBalance | changyi }}</span>
-            <span :class="addcolor(item.cat)">{{item.cat}}</span>
-            <span>{{item.tr}}</span>
+            <span :class="addcolor(item.cat)">{{item.cat}}%</span>
+            <span>{{item.tr}}%</span>
             <span>{{item.cmv | changyi }}</span>
             <span>{{item.tmv | changyi }}</span>
           </li>
