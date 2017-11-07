@@ -9,7 +9,7 @@
 	margin-bottom: 0.2rem
 }
 .equity-trading .detail{
-	margin:0;
+	margin-bottom:1.2rem;
 }
 .title{
 	height: 0.88rem;
@@ -126,6 +126,28 @@
 	color: #aaa;
 	text-align: center;
 }
+
+.skip{
+	background: #fff;
+	width:100%;
+	height: 0.9rem;
+	padding:0.15rem 0;
+	position: fixed;
+	bottom: 0;
+	left:0;
+	z-index: 100;
+}
+.skip p{
+	width:6.9rem;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	text-align:center;
+	margin:0 auto;
+	font-size: 0.3rem;
+	color:#FF4040;
+	border-radius: 0.04rem;
+	border:1px solid #FF4040;
+}
 </style>
 
 <template>
@@ -172,6 +194,10 @@
 					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
 				</div>
 			</div>
+		</div>
+		
+		<div class="skip">
+			<p>点击查看个股详情</p>
 		</div>
 	</div>
 </template>
