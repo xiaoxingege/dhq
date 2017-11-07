@@ -32,15 +32,6 @@ input {
     background-size: 100% 100%;
     position: relative;
 }
-// .bg1-1 {
-//     width: 100%;
-//     background: url("../assets/images/11th-activity2/11th2-bg1-1.jpg") center 0 no-repeat;
-//     height: 6.76rem;
-//     background-size: 100% 100%;
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-// }
 .bg2 {
     background: url("../assets/images/11th-activity2/11th2-bg2-2.jpg") center 0 no-repeat;
     height: 6.53rem;
@@ -60,29 +51,6 @@ input {
     position: relative;
     height: 100%;
 }
-.lottery {
-    width: 6.74rem;
-    height: 6.72rem;
-    position: absolute;
-    bottom: 0;
-    left: 0.38rem;
-    overflow: hidden;
-}
-.lottery-plate {
-    width: 100%;
-    height: 100%;
-    background: url('../assets/images/11th-activity/11th-plate.png') center 0 no-repeat;
-    background-size: 100% 100%;
-}
-.lottery-pointer {
-    position: absolute;
-    width: 0.47rem;
-    height: 2.36rem;
-    left: 3.16rem;
-    bottom: 3rem;
-    background: url('../assets/images/11th-activity/11th-pointer.png') center 0 no-repeat;
-    background-size: 100% 100%;
-}
 .rotate_origin {
     transform-origin: 50% 50%;
     -ms-transform-origin: 50% 50%;
@@ -99,19 +67,19 @@ input {
 }
 .bg2 .box-con p {
     width: 100%;
-    height: 0.42rem;
-    line-height: 0.42rem;
+    height: 0.48rem;
+    line-height: 0.48rem;
     text-align: center;
     font-weight: bold;
-    font-size: 0.3rem;
-    color: #fef0cc;
+    font-size: 0.34rem;
+    color: #ff6547;
     float: left;
-    margin-top: 0.9rem;
+    margin-top: 0.65rem;
 }
 .bg2 .box-con p span {
-    width: 0.49rem;
-    height: 0.4rem;
-    border: 0.01rem #fef0cc solid;
+    width: 0.59rem;
+    height: 0.48rem;
+    border: 0.01rem #ff6547 solid;
     display: inline-block;
     margin: 0 0.1rem;
 }
@@ -119,7 +87,7 @@ input {
     width: 6.78rem;
     height: 2.6rem;
     float: left;
-    margin: 0.3rem 0 0 0.36rem;
+    margin: 0.8rem 0 0 0.36rem;
     background: #fcae2b;
     border-radius: 0.15rem;
     box-shadow: 0.05rem 0.05rem 0.05rem #3d3232;
@@ -141,15 +109,6 @@ input {
 }
 .text-box div p {
     font-size: 0.24rem;
-}
-.text-nav {
-    width: 100%;
-    height: 0.65rem;
-}
-.text-nav a {
-    width: 50%;
-    height: 0.65rem;
-    float: left;
 }
 .footer {
     width: 100%;
@@ -365,6 +324,9 @@ input {
     margin-right: 0.36rem;
     line-height: 0.66rem;
 }
+#divdown1 .text-day {
+    text-indent: 0.15rem;
+}
 #divdown1span:last-child {
     margin: 0;
 }
@@ -410,24 +372,16 @@ input {
             <div class="lottery-box" ref="lotteryBox">
                 <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" :box-width="lotteryBoxWidth" />
             </div>
+            <p>您当前有<span v-text='lotteryNum'>1</span>次抽奖机会</p>
         </div>
     </div>
     <div class="bg3">
         <div class="box-con">
-            <div class="text-nav">
-                <a href="javascript:;"></a>
-                <a href="javascript:;"></a>
-            </div>
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
                         <li v-for="item in whereList">{{item.createDataTime}}，{{item.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2")}} 抽中{{item.msg}}</li>
                     </ul>
-                </div>
-                <div style="display:none;">
-                    <p>1、11月6日-11月30日，金融界付费用户，及200名幸运用户，有机会参与幸运抽奖；</p>
-                    <p>2、所有奖品将在24小时后发放，奖项可用于订阅极智选股、Z量化、工作室等金融界核心产品；</p>
-                    <p>3、奖品有效期为48小时，中奖后请及时联系专属投服兑换；如没有专属投服，请咨询400-166-1188转1；</p>
                 </div>
             </div>
         </div>
@@ -542,6 +496,10 @@ export default {
     methods: {
         playLottery() {
             this.prize = 8
+        },
+        showLotteryResult() {
+            alert(this.prize)
+            this.prize = -1
         }
         // joinSubmit() {
         //     if (!this.type) {
@@ -608,10 +566,7 @@ export default {
     },
     mounted() {
 
-        $('.text-nav a').click(function() {
-            var index = $(this).index()
-            $('.text-box div').eq(index).show().siblings().hide()
-        })
+
 
         function pad(str, len) {
             str = str + ''
@@ -664,15 +619,6 @@ export default {
 
             }, 1000)
         }
-        // window.setInterval(function() {
-        //     $('.bg1-1').animate({
-        //         'opacity': '0'
-        //     }, 350, function() {
-        //         $('.bg1-1').animate({
-        //             'opacity': '1'
-        //         }, 350)
-        //     })
-        // }, 700)
         var _this = this
         this.$watch('txtUShow', txtUShow => {
             setTimeout(function() {
@@ -699,161 +645,7 @@ export default {
         }, {
             deep: true
         })
-        // 转盘样式，a：旋转角度，p：概率（1代表100%），t：需要显示的其它信息（文案or分享）
-        var resultAngle = [{
-                a: 0,
-                p: 0,
-                t: '300元'
-            },
-            {
-                a: 60,
-                p: 0.5,
-                t: '500元'
-            },
-            {
-                a: 120,
-                p: 0,
-                t: '100元'
-            },
-            {
-                a: 180,
-                p: 0,
-                t: '200元'
-            },
-            {
-                a: 240,
-                p: 0,
-                t: '400元'
-            },
-            {
-                a: 300,
-                p: 0.5,
-                t: '600元'
-            }
-        ]
-        var rotate = {
-            // 起始位置为0
-            rotateAngle: 0,
-            // 转盘转动过程中不可再次触发
-            flagClick: true,
-            // type:0,箭头转动,1,背景转动;during_time:持续时间(s)
-            calculateResult: function(type, duringTime) {
-                var self = this;
-                // 默认为箭头转动
-                type = type || 0;
-                // 默认为1s
-                duringTime = duringTime || 1;
 
-                // 用来判断的随机数，1-100
-                var randNum = Math.ceil(Math.random() * 100);
-
-                // 最终要旋转到哪一块，对应result_angle的下标
-                var resultIndex;
-                // 判断的角度值起始位置和结束位置
-                var startPos;
-                var endPos = startPos = 0;
-
-                for (var i in resultAngle) {
-                    // 区块的起始值
-                    startPos = endPos + 1;
-                    // 区块的结束值
-                    endPos = endPos + 100 * resultAngle[i].p;
-
-                    // 如果随机数落在当前区块，那么获取到最终要旋转到哪一块
-                    if (randNum >= startPos && randNum <= endPos) {
-                        resultIndex = i;
-                        break;
-                    }
-                }
-                // 附加多转几圈，2-3
-                var randCircle = Math.ceil(Math.random() * 2) + 1;
-
-                // 旋转结束前，不允许再次触发
-                self.flagClick = false;
-                // 转动盘子
-                if (type === 1) {
-                    self.rotateAngle = self.rotateAngle - randCircle * 360 - resultAngle[resultIndex].a - self.rotateAngle % 360;
-                    $('#i_bg').css({
-                        'transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-ms-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-webkit-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-moz-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-o-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        'transition': 'transform ease-out ' + duringTime + 's',
-                        '-moz-transition': '-moz-transform ease-out ' + duringTime + 's',
-                        '-webkit-transition': '-webkit-transform ease-out ' + duringTime + 's',
-                        '-o-transition': '-o-transform ease-out ' + duringTime + 's'
-                    });
-                } else {
-                    // 转动指针
-                    self.rotateAngle = self.rotateAngle + randCircle * 360 + resultAngle[resultIndex].a - self.rotateAngle % 360;
-                    $('#i_cont').css({
-                        'transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-ms-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-webkit-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-moz-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        '-o-transform': 'rotate(' + self.rotateAngle + 'deg)',
-                        'transition': 'transform ease-out ' + duringTime + 's',
-                        '-moz-transition': '-moz-transform ease-out ' + duringTime + 's',
-                        '-webkit-transition': '-webkit-transform ease-out ' + duringTime + 's',
-                        '-o-transition': '-o-transform ease-out ' + duringTime + 's'
-                    });
-                }
-                // 旋转结束后，允许再次触发
-                setTimeout(function() {
-                    self.flagClick = true;
-                    // 告诉结果
-                    if (resultIndex === '5') {
-                        _this.perText = '99.80%'
-                    } else {
-                        _this.perText = '90.00%'
-                    }
-                    _this.lotteryText = resultAngle[resultIndex].t + '现金券'
-                    _this.popShow = true
-                    _this.pop1Show = false
-                    _this.joinShow = false
-                    _this.lotteryMsgShow = true
-                    _this.lotteryMsg1Show = false
-                    _this.lotteryType = true
-                    _this.lotteryNum = '0'
-                    var day = new Date();
-                    day.setTime(day.getTime());
-                    var s2 = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2') + ' 抽中' + resultAngle[resultIndex].t + '</li>'
-                    $('.text-scroll ul').append(html)
-                    _this.$store.dispatch('activity11Th/addData', {
-                        userName: _this.userName,
-                        phone: _this.phone,
-                        bizsource: getQueryString('bizsource') || 'mSite',
-                        tgqdcode: getQueryString('tgqdcode') || 'E6JYHN3V',
-                        createDataTime: s2,
-                        msg: resultAngle[resultIndex].t,
-                        boolean: true
-                    })
-                }, duringTime * 1000);
-            }
-        }
-        $('#i_cont').click(function() {
-            // 旋转结束前，不允许再次触发
-            if (!_this.lotteryType && _this.lotteryNum === '1') {
-                if (rotate.flagClick) {
-                    rotate.calculateResult(1, 1);
-                }
-            } else if (!_this.lotteryType && _this.lotteryNum === '0') {
-                _this.popShow = true
-                _this.pop1Show = false
-                _this.joinShow = true
-                _this.lotteryMsgShow = false
-                _this.lotteryMsg1Show = false
-            } else {
-                _this.popShow = true
-                _this.pop1Show = false
-                _this.joinShow = false
-                _this.lotteryMsgShow = false
-                _this.lotteryMsg1Show = true
-            }
-
-        });
         this.$store.dispatch('activity11Th/whereList')
         this.$watch('repeatType', repeatType => {
             if (repeatType === 1) {
