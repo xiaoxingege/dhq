@@ -333,7 +333,7 @@ export default {
                                 this.popShow = true
                                 this.lotteryTitle = '很遗憾'
                                 this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
-                            } else if (err.retCode === -1) {
+                            } else if (err.retCode === -1 || err.retCode === -5) {
                                 alert(err.msg)
                             }
                         })
