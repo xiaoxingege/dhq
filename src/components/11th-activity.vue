@@ -44,7 +44,7 @@ input {
     background-size: 100% 100%;
 }
 .bg5 {
-    background: url("../assets/images/11th-activity/11th-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/11th-activity/11th-bg5-1.jpg") center 0 no-repeat;
     height: 6.22rem;
     background-size: 100% 100%;
 }
@@ -121,7 +121,7 @@ input {
 .text-box div {
     line-height: 0.38rem;
     width: 5.80rem;
-    height: 2.1rem;
+    height: 2.2rem;
     float: left;
     margin: 0.21rem 0 0 0.5rem;
     overflow: hidden;
@@ -419,7 +419,7 @@ input {
                 <div style="display:none;">
                     <p>1、11月6日-11月30日，金融界付费用户，及200名幸运用户，有机会参与幸运抽奖；</p>
                     <p>2、所有奖品将在24小时后发放，奖项可用于订阅极智选股、Z量化、工作室等金融界核心产品；</p>
-                    <p>3、奖品有效期为48小时，中奖后请及时联系专属投服兑换；如没有专属投服，请咨询400-166-1188转1；</p>
+                    <p>3、奖品有效期为48小时，中奖后请及时联系专属投服兑换；如没有专属投服，请咨询400-166-1188；</p>
                 </div>
             </div>
         </div>
@@ -608,9 +608,9 @@ export default {
             return str
         }
 
-        function ShowCountDown(year, month, day, divname) {
+        function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
             var now = new Date()
-            var endDate = new Date(year, month - 1, day)
+            var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
             var leftTime = endDate.getTime() - now.getTime()
             var leftsecond = parseInt(leftTime / 1000)
             var day1 = Math.floor(leftsecond / (60 * 60 * 24))
@@ -633,19 +633,26 @@ export default {
             date.setSeconds(endTime.substring(17, 19));
             return Date.parse(date) / 1000;
         }
-        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 00:00:00')) {
+
+
+        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 20:00:00')) {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 17, 'divdown1')
+                ShowCountDown(2017, 11, 17, 20, 0, 0, 'divdown1')
 
             }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 00:00:00')) {
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 20:00:00')) {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 24, 'divdown1')
+                ShowCountDown(2017, 11, 24, 20, 0, 0, 'divdown1')
+
+            }, 1000)
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-24 20:00:00')) {
+            window.setInterval(function() {
+                ShowCountDown(2017, 11, 30, 20, 0, 0, 'divdown1')
 
             }, 1000)
         } else {
             window.setInterval(function() {
-                ShowCountDown(2017, 11, 11, 'divdown1')
+                ShowCountDown(2017, 11, 11, 20, 0, 0, 'divdown1')
 
             }, 1000)
         }
@@ -804,7 +811,7 @@ export default {
                     var day = new Date();
                     day.setTime(day.getTime());
                     var s2 = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2") + ' 抽中' + resultAngle[resultIndex].t + '</li>'
+                    var html = '<li>' + s2 + '，' + _this.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2') + ' 抽中' + resultAngle[resultIndex].t + '</li>'
                     $('.text-scroll ul').append(html)
                     _this.$store.dispatch('activity11Th/addData', {
                         userName: _this.userName,

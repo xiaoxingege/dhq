@@ -31,11 +31,12 @@ function getMoble() {
 var day = new Date();
 day.setTime(day.getTime());
 var s = (day.getMonth() + 1) + '月' + day.getDate() + '日' + day.getHours() + '时' + day.getMinutes() + '分';
-var msgArr = ['500元', '600元'];
+var msgArr = ['100元', '200元', '300元', '400元'];
 
 var ss = Math.floor(Math.random() * 10 + 1);
-if(ss === 5){
-    co(function*() {
+// if(ss === 5){
+co(function*() {
+    for(var i=0; i<5; i++){
         let result = yield request({
           url: `${urlBase}/11thActivity`,
           method: 'post',
@@ -45,15 +46,17 @@ if(ss === 5){
             'bizsource': '',
             'tgqdcode': '',
             'createDataTime': s,
-            'msg': msgArr[parseInt(2 * Math.random())],
+            'msg': msgArr[parseInt(4 * Math.random())],
             'boolean': false
           })
         });
-    }).then(function(){
-        process.exit(0);
-    },function(){
-        process.exit(0);
-    });
-}else{
+    }
+}).then(function(){
     process.exit(0);
-}
+},function(){
+    process.exit(0);
+});
+
+// }else{
+//     process.exit(0);
+// }

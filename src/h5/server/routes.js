@@ -48,6 +48,18 @@ module.exports = function(router) {
       // 继续执行后面的中间件
       await next();
     });
+    router.get('/11th-activity2', async(ctx, next) => {
+        ctx.title='订阅抽大奖，100%中奖-金融界';
+        ctx.metaDescription = '';
+        ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
     router.get('/ydzxDetail', async(ctx, next) => {
         ctx.htmlHeader = '<link rel="stylesheet" href="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.css" type="text/css">';
         ctx.htmlFooter = '<script src="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.js"></script>';
