@@ -304,13 +304,18 @@ export default {
         },
         loginStatus: state => state.user.loginStatus,
         remainCnt: state => state.activity11Th.remainCnt,
-        lotteryResult: state => state.activity11Th.lotteryResult
+        lotteryResult: state => state.activity11Th.lotteryResult,
+        ssoId: state => state.user.ssoId
     }),
     components: {
         lottery
     },
     methods: {
         playLottery() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (/micromessager/.test(ua)) {
+                alert('请在浏览器中打开')
+            }
             if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
                 if (this.loginStatus === 'no') {
                     window.jrj.jsCallNative('108', JSON.stringify({
@@ -318,7 +323,7 @@ export default {
                     }))
                 } else {
                     this.$store.dispatch('activity11Th/lotteryDraw', {
-                        userId: window.basicUserInfo.userId
+                        userId: this.ssoId
                     }).then(() => {
                         this.$watch('err', err => {
                             if (err.retCode === -2) {
@@ -439,7 +444,7 @@ export default {
         }
         this.$store.dispatch('user/checkLogin').then(() => {
             this.$store.dispatch('activity11Th/whereList', {
-                userId: window.basicUserInfo.userId || ''
+                userId: this.ssoId || ''
             })
         })
         if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
