@@ -239,7 +239,7 @@ input {
     <div class="bg3">
         <div class="box-con">
             <strong v-text="loginMsg"></strong>
-            <p :class="loginStatus === 'yes' ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
+            <p :class="userId ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
@@ -319,7 +319,7 @@ export default {
                 alert('请在浏览器中打开')
             }
             if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
-                if (this.loginStatus === 'no') {
+                if (!this.userId) {
                     window.jrj.jsCallNative('108', JSON.stringify({
                         returnUrl: encodeURI(window.location.href)
                     }))
@@ -452,7 +452,7 @@ export default {
                 userId: this.userId || ''
             })
         })
-        if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+        if (!this.userId) {
             this.loginMsg = '用户中奖纪录'
         } else {
             this.loginMsg = '我的可选奖品'
