@@ -270,6 +270,7 @@ import {
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import lottery from 'components/lottery'
+import getCookie from 'utils/getCookie'
 
 
 export default {
@@ -382,15 +383,6 @@ export default {
         }
     },
     mounted() {
-        function getCookie(name) {
-            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-
-            if (arr = document.cookie.match(reg))
-
-                return unescape(arr[2]);
-            else
-                return null;
-        }
         this.userId = getCookie('passportId')
 
         function pad(str, len) {
