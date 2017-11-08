@@ -313,7 +313,7 @@ export default {
     methods: {
         playLottery() {
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+            if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
                 alert('请在浏览器中打开')
             }
             if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
@@ -375,7 +375,8 @@ export default {
             this.prize = -1
         },
         close() {
-            window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
+            window.location.reload(true)
+            // window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
             this.popShow = false
         }
     },
