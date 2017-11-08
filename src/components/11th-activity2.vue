@@ -213,6 +213,9 @@ input {
     line-height: 0.47rem;
     text-align: center;
 }
+.vihi {
+    visibility: hidden;
+}
 </style>
 
 <template>
@@ -230,17 +233,17 @@ input {
             <div class="lottery-box" ref="lotteryBox">
                 <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" :box-width="lotteryBoxWidth" />
             </div>
-            <p>您当前有<span v-text='lotteryNum'>1</span>次抽奖机会</p>
+            <p>您当前有<span v-text='remainCnt'></span>次抽奖机会</p>
         </div>
     </div>
     <div class="bg3">
         <div class="box-con">
-            <strong>我的可选奖品//用户中奖纪录</strong>
-            <p>（您可以从中奖记录中任选1个进行兑奖）</p>
+            <strong v-text="loginMsg"></strong>
+            <p :class="loginStatus === 'yes' ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
-                        <li v-for="item in whereList">{{item.createDataTime}}，{{item.phone.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2")}} 抽中{{item.msg}}</li>
+                        <li v-for="item in whereList">{{item.userName}}抽中{{item.prizeName}}奖品</li>
                     </ul>
                 </div>
             </div>
@@ -276,44 +279,32 @@ export default {
             window.InitWeChatShare({
                 shareTitle: window.document.title,
                 shareLink: window.location.href,
-                shareDesc: '双11金融界狂送10000万，还有免费iPhone可以抢~',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th-bg1.jpg',
-                callback: function(wx) {
-
-                }
+                shareDesc: '双11疯狂送，11月6日-11月30日极智选股、Z量化等产品，免费来抢iPhoneX~',
+                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th2-share-img.jpg',
+                callback: function(wx) {}
             })
         })
         return {
             popShow: false,
-            lotteryTitle: '抽奖还未开始',
-            lotteryMsg: '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。',
-            // 抽奖还未开始
-            // 抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。
-            // 很遗憾
-            // 恭喜您！
-            // 您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。
-            // 您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。
-            // 本次抽中了XXXXXXXXXX<br />您可以在“我的可选奖品”中查看。
+            lotteryTitle: '',
+            lotteryMsg: '',
             lotteryType: false,
             lotteryNum: '0',
             lotteryBoxWidth: 0,
-            prize: 0
+            prize: 0,
+            loginMsg: ''
         }
     },
     computed: mapState({
-        type: state => {
-            return state.reservation.type
-        },
         whereList: state => {
             return state.activity11Th.dataList
         },
-        repeatType: state => {
-            return state.activity11Th.repeatType
-        },
         err: state => {
-            return state.reservation.err
+            return state.activity11Th.err
         },
-        loginStatus: state => state.user.loginStatus
+        loginStatus: state => state.user.loginStatus,
+        remainCnt: state => state.activity11Th.remainCnt,
+        lotteryResult: state => state.activity11Th.lotteryResult
     }),
     components: {
         lottery
@@ -326,17 +317,60 @@ export default {
                         returnUrl: encodeURI(window.location.href)
                     }))
                 } else {
-                    this.prize = 8
+                    this.$store.dispatch('activity11Th/lotteryDraw', {
+                        userId: window.basicUserInfo.userId
+                    }).then(() => {
+                        this.$watch('err', err => {
+                            if (err.retCode === -2) {
+                                this.popShow = true
+                                this.lotteryTitle = '抽奖还未开始'
+                                this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
+                            } else if (err.retCode === -3) {
+                                this.popShow = true
+                                this.lotteryTitle = '很遗憾'
+                                this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
+                            } else if (err.retCode === -4) {
+                                this.popShow = true
+                                this.lotteryTitle = '很遗憾'
+                                this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
+                            } else if (err.retCode === -1) {
+                                alert(err.msg)
+                            }
+                        })
+                        this.$watch('lotteryResult', lotteryResult => {
+                            if (lotteryResult.prizeId === 1) {
+                                this.prize = 2
+                            } else if (lotteryResult.prizeId === 2) {
+                                this.prize = 3
+                            } else if (lotteryResult.prizeId === 3) {
+                                this.prize = 4
+                            } else if (lotteryResult.prizeId === 4) {
+                                this.prize = 5
+                            } else if (lotteryResult.prizeId === 5) {
+                                this.prize = 6
+                            } else if (lotteryResult.prizeId === 6) {
+                                this.prize = 7
+                            } else if (lotteryResult.prizeId === 7) {
+                                this.prize = 8
+                            } else if (lotteryResult.prizeId === 8) {
+                                this.prize = 1
+                            }
+                            this.lotteryTitle = '恭喜您！'
+                            this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
+                            this.remainCnt = this.remainCnt - 1
+                        })
+                    })
                 }
             } else {
                 window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/11th-activity2'
             }
         },
         showLotteryResult() {
-            alert(this.prize)
+            this.popShow = true
             this.prize = -1
         },
         close() {
+            window.location.reload()
             this.popShow = false
         }
     },
@@ -403,32 +437,30 @@ export default {
 
             }, 1000)
         }
-        this.$watch('err', err => {
-            alert(err.msg)
+        this.$store.dispatch('user/checkLogin').then(() => {
+            this.$store.dispatch('activity11Th/whereList', {
+                userId: window.basicUserInfo.userId || ''
+            })
         })
-        this.$watch('type', type => {
-            if (type) {
-                this.pop1Show = true
-                this.popShow = false
-                this.joinShow = false
-                this.lotteryNum = '1'
-            }
-        }, {
-            deep: true
-        })
-        this.$store.dispatch('activity11Th/whereList')
+        if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+            this.loginMsg = '用户中奖纪录'
+        } else {
+            this.loginMsg = '我的可选奖品'
+        }
         this.$watch('whereList', whereList => {
-            var liHeight = $('.text-scroll ul li').height()
-            setInterval(function() {
-                $('.text-scroll ul').animate({
-                    'margin-top': '-' + liHeight
-                }, 500, function() {
-                    $('.text-scroll ul').append($('.text-scroll ul li:first'))
-                    $('.text-scroll ul').css({
-                        'margin-top': '0'
+            if (whereList.length > 5) {
+                var liHeight = $('.text-scroll ul li').height()
+                setInterval(function() {
+                    $('.text-scroll ul').animate({
+                        'margin-top': '-' + liHeight
+                    }, 500, function() {
+                        $('.text-scroll ul').append($('.text-scroll ul li:first'))
+                        $('.text-scroll ul').css({
+                            'margin-top': '0'
+                        })
                     })
-                })
-            }, 1000)
+                }, 1000)
+            }
         })
     }
 }
