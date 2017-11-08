@@ -313,7 +313,7 @@ export default {
     methods: {
         playLottery() {
             var ua = navigator.userAgent.toLowerCase();
-            if (/micromessager/.test(ua)) {
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
                 alert('请在浏览器中打开')
             }
             if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
