@@ -292,7 +292,8 @@ export default {
             lotteryNum: '0',
             lotteryBoxWidth: 0,
             prize: 0,
-            loginMsg: ''
+            loginMsg: '',
+            userId: ''
         }
     },
     computed: mapState({
@@ -323,7 +324,7 @@ export default {
                     }))
                 } else {
                     this.$store.dispatch('activity11Th/lotteryDraw', {
-                        userId: this.ssoId
+                        userId: this.userId
                     }).then(() => {
                         this.$watch('err', err => {
                             if (err.retCode === -2) {
@@ -381,6 +382,17 @@ export default {
         }
     },
     mounted() {
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+
+            if (arr = document.cookie.match(reg))
+
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+        this.userId = getCookie('passportId')
+
         function pad(str, len) {
             str = str + ''
             if (str.length < len) {
@@ -445,7 +457,7 @@ export default {
         }
         this.$store.dispatch('user/checkLogin').then(() => {
             this.$store.dispatch('activity11Th/whereList', {
-                userId: this.ssoId || ''
+                userId: this.userId || ''
             })
         })
         if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
