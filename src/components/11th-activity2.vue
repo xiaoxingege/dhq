@@ -375,7 +375,7 @@ export default {
             this.prize = -1
         },
         close() {
-            window.location.reload()
+            window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
             this.popShow = false
         }
     },
