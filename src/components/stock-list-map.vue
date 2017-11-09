@@ -133,7 +133,7 @@ export default {
         const lineData = binding.value.lineData;
         const catId = binding.value.catId;
         const vm = vnode.context;
-        //加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
+        // 加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
         setTimeout(() => {
           vm.drawStockLine(el, lineData, catId)
         }, 0);
