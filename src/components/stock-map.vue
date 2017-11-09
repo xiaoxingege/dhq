@@ -367,7 +367,6 @@ export default {
     },
     stockData: function() {
       const map = this.mapData
-      debugger;
       const stockData = this.$store.state.stockMap.stockData
       if (!stockData) {
         return null
