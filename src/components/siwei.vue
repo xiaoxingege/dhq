@@ -912,7 +912,7 @@ export default {
     }, 1000)
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        if (!data) {
+        if (data.length !== 0) {
           this.tmpId = 'demoTmp0'
         }
 
