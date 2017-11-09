@@ -221,7 +221,7 @@ export default {
 	  	});
     },
     clickLi(li){
-  		window.location.href='http://localhost:8080/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName  
+  		window.location.href='http://localhost:8080/dist/h5/block-single.html?stockcode='+li[1]+'&stockname='+li[2]
   	}
   }
 }
