@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.602",
+  "version": "0.0.603",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -88,12 +88,11 @@
     "winston": "^2.3.1"
   },
   "dependencies": {
-    "base-64": "^0.1.0",
     "bem-sha1": "^1.0.3",
     "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
     "clipboard": "^1.7.1",
-    "echarts": "^3.7.2",
+    "echarts": "^3.7.0",
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
     "hsy-vue-tooltip": "^0.0.7",
