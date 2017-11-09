@@ -180,6 +180,7 @@ input {
 }
 
 .bubbles-select input {
+    font-size: 12px;
     padding-left: 12px;
     background: #1E2329;
 }
@@ -245,14 +246,14 @@ input {
     </div>
     <div class="fl mr-30">
       筛股策略：
-      <select v-model="stockRangeOptions.strategyDefault">
+      <select v-model="stockRangeOptions.strategyDefault" @change="showSelectData">
                 <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
                 <option value="">请选择</option>
             </select>
     </div>
     <div class="fl mr-30">
       股票池：
-      <select v-model="stockRangeOptions.stockPoolDefault">
+      <select v-model="stockRangeOptions.stockPoolDefault" @change="showSelectData">
                 <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
                 <option value="">请选择</option>
             </select>
@@ -911,7 +912,10 @@ export default {
     }, 1000)
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-        this.tmpId = 'demoTmp0'
+        if (!data) {
+          this.tmpId = 'demoTmp0'
+        }
+
       })
     }
   }
