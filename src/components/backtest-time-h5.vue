@@ -228,6 +228,7 @@ body {
 .bfilter-cont-4 {
     margin-top: 0.2rem;
     padding-bottom: 0;
+    display: none;
 }
 .right-table {
     border-collapse: collapse;
@@ -504,9 +505,15 @@ export default {
   },
   mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+    const share = this.$route.query.share;
+    if (!share) {
+      return
+    }
     this.$store.dispatch('backtestDetail/queryTimeStrategy', {
-      strategyId: this.strategyId
-    })
+      strategyId: this.strategyId,
+      share: share
+
+    }).then(() => {})
   }
 
 }

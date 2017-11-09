@@ -173,19 +173,19 @@ a,
         <td>手机号</td>
         <td>关注度</td>
       </tr>
-      <tr>
-        <td>fdshfsf1</td>
-        <td>fdshfsf2</td>
-        <td>fdshfsf3</td>
-        <td>fdshfsf4</td>
-        <td>fdshfsf5</td>
-        <td>fdshfsf6</td>
-        <td>fdshfsf7</td>
-        <td>fdshfsf8</td>
-        <td>fdshfsf9</td>
-        <td>fdshfsf10</td>
-        <td>fdshfsf11</td>
-      </tr>
+      <!-- <tr v-for="list for curList">
+        <td>{{list.fundCount}}</td>
+        <td>{{list.userName}}</td>
+        <td>{{list.sex}}</td>
+        <td>{{list.assetLevel}}</td>
+        <td>{{list.active}}</td>
+        <td>{{list.positionRatio}}</td>
+        <td>{{list.tradeNumLast3m}}</td>
+        <td>{{list.openTime}}</td>
+        <td>{{list.tradeLevel}}</td>
+        <td>{{list.phone}}</td>
+        <td>{{list.attention}}</td>
+      </tr> -->
     </table>
   </div>
   <p class="foot-tishi">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p>
@@ -207,12 +207,12 @@ export default {
   },
   components: {},
   computed: mapState({
-
+    curList: state => state.customerList.customersList
   }),
 
   methods: {
     init(buyPage) {
-
+      this.$store.dispatch('customerList/queryCustomers')
     },
     routerBack() {
       this.$router.go(-1)

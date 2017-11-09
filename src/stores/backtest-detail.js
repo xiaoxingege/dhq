@@ -231,9 +231,10 @@ export default {
     queryTimeStrategy({
       commit
     }, {
-      strategyId
+      strategyId,
+      share
     }) {
-      fetch(`${domain}/openapi/backtest/timeStrategy/${strategyId}.shtml`, {
+      fetch(`${domain}/openapi/backtest/timeStrategy/${strategyId}.shtml?share=${share}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -241,6 +242,10 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateTimeStrategy', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },

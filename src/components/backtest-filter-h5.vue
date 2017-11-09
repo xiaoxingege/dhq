@@ -78,6 +78,8 @@ body {
 .bfilter-cont-1 {
     background: #fff;
     padding-top: 0.4rem;
+
+    padding-bottom: 0.24rem;
 }
 .desc-title {
     position: relative;
@@ -113,6 +115,7 @@ body {
 }
 .bfilter-cont-2 {
     padding-bottom: 0.24rem;
+    display: none;
 }
 .desc-ul {
     /* padding: 0 0 26px 20px; */
@@ -463,9 +466,14 @@ export default {
   },
   mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+    const share = this.$route.query.share;
+    if (!share) {
+      return
+    }
     this.$store.dispatch('backtestDetail/queryBasicFilter', {
-      strategyId: this.strategyId
-    })
+      strategyId: this.strategyId,
+      share: share
+    }).then(() => {})
     this.$store.dispatch('backtestDetail/queryNowStock', {
       strategyId: this.strategyId,
       stockPage: this.stockPage,
