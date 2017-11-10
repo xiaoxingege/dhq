@@ -30,11 +30,13 @@ let assert = require('assert');
 let db = null;
 
 const connectDb = async(dbName) => {
-  try {
-    let url = 'mongodb://mongodb:27017/' + dbName;
-    db = await pify(MongoClient.connect)(url)
-  } catch (e) {
-    console.log(e);
+  if (!db) {
+    try {
+      let url = 'mongodb://mongodb:27017/' + dbName;
+      db = await pify(MongoClient.connect)(url)
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 
@@ -105,7 +107,6 @@ module.exports = function(router) {
     let objectId = ctx.params.objectId;
     let query = ctx.request.query;
     let where = query.where;
-    console.log(where)
     if (!objectId && !where) {
       ctx.body = {
         code: 1,
