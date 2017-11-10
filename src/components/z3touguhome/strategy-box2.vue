@@ -5,16 +5,19 @@
     position: relative;
 }
 .strategy-title select {
-    width: 242px;
+    width: 247px;
     color: #1984ea;
+    -webkit-appearance: none;
+    padding-left: 4px;
+    background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
     background-color: #141518;
-    background: url("../../assets/images/selectindex.png") no-repeat 223px center;
     border-radius: 3px;
     border: 1px solid #141518;
     position: absolute;
     left: 8px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
 }
 .strategy-title select option {
     color: #666;
@@ -27,7 +30,7 @@
     color: #808ba1;
     display: inline-block;
     position: absolute;
-    right: 16px;
+    right: 9px;
     top: 50%;
     transform: translateY(-50%);
 }
