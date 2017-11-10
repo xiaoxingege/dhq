@@ -357,16 +357,29 @@ export default {
 		    },
 		    xAxis: {
 		        type: 'category',
-		        boundaryGap: false,
-		        // boundaryGap: ['20%', '20%'],
-		        // X轴数据
 		        data: dataX
 		    },
 		    yAxis: {
 		        type: 'value',
 		        position:'right',
 		        boundaryGap: ['10%', '10%'],
-		        scale:true
+		        scale:true,
+		        splitNumber:2,
+		        axisLine:{
+		        	show:false,
+		       		symbol:'arrow'
+		        },
+		        axisTick:{
+		        	show:false,
+		        	length:10
+		        },
+		        splitLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)',
+		        		type:'dotted'
+		        	}
+		        }
+		       
 		    },
 		    series: [
 		        {
