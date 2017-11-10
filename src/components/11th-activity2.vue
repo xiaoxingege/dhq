@@ -239,7 +239,7 @@ input {
     <div class="bg3">
         <div class="box-con">
             <strong v-text="loginMsg"></strong>
-            <p :class="loginStatus === 'yes' ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
+            <p :class="userId ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
             <div class="text-box">
                 <div class="text-scroll">
                     <ul>
@@ -270,6 +270,7 @@ import {
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import lottery from 'components/lottery'
+import getCookie from 'utils/getCookie'
 
 
 export default {
@@ -292,7 +293,9 @@ export default {
             lotteryNum: '0',
             lotteryBoxWidth: 0,
             prize: 0,
-            loginMsg: ''
+            loginMsg: '',
+            userId: '',
+            paltid: ''
         }
     },
     computed: mapState({
@@ -313,59 +316,112 @@ export default {
     methods: {
         playLottery() {
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+            if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
                 alert('请在浏览器中打开')
             }
             if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
-                if (this.loginStatus === 'no') {
-                    window.jrj.jsCallNative('108', JSON.stringify({
-                        returnUrl: encodeURI(window.location.href)
-                    }))
+                if (this.paltid === 'android') {
+                    if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+                        window.jrj.jsCallNative('108', JSON.stringify({
+                            returnUrl: encodeURI(window.location.href)
+                        }))
+                    } else {
+                        this.$store.dispatch('activity11Th/lotteryDraw', {
+                            userId: this.ssoId
+                        }).then(() => {
+                            this.$watch('err', err => {
+                                if (err.retCode === -2) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '抽奖还未开始'
+                                    this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
+                                } else if (err.retCode === -3) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '很遗憾'
+                                    this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
+                                } else if (err.retCode === -4) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '很遗憾'
+                                    this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
+                                } else if (err.retCode === -1 || err.retCode === -5) {
+                                    alert(err.msg)
+                                }
+                            })
+                            this.$watch('lotteryResult', lotteryResult => {
+                                if (lotteryResult.prizeId === 1) {
+                                    this.prize = 2
+                                } else if (lotteryResult.prizeId === 2) {
+                                    this.prize = 3
+                                } else if (lotteryResult.prizeId === 3) {
+                                    this.prize = 4
+                                } else if (lotteryResult.prizeId === 4) {
+                                    this.prize = 5
+                                } else if (lotteryResult.prizeId === 5) {
+                                    this.prize = 6
+                                } else if (lotteryResult.prizeId === 6) {
+                                    this.prize = 7
+                                } else if (lotteryResult.prizeId === 7) {
+                                    this.prize = 8
+                                } else if (lotteryResult.prizeId === 8) {
+                                    this.prize = 1
+                                }
+                                this.lotteryTitle = '恭喜您！'
+                                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
+                                this.remainCnt = this.remainCnt - 1
+                            })
+                        })
+                    }
                 } else {
-                    this.$store.dispatch('activity11Th/lotteryDraw', {
-                        userId: this.ssoId
-                    }).then(() => {
-                        this.$watch('err', err => {
-                            if (err.retCode === -2) {
-                                this.popShow = true
-                                this.lotteryTitle = '抽奖还未开始'
-                                this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
-                            } else if (err.retCode === -3) {
-                                this.popShow = true
-                                this.lotteryTitle = '很遗憾'
-                                this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
-                            } else if (err.retCode === -4) {
-                                this.popShow = true
-                                this.lotteryTitle = '很遗憾'
-                                this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
-                            } else if (err.retCode === -1 || err.retCode === -5) {
-                                alert(err.msg)
-                            }
+                    if (!this.userId) {
+                        window.jrj.jsCallNative('108', JSON.stringify({
+                            returnUrl: encodeURI(window.location.href)
+                        }))
+                    } else {
+                        this.$store.dispatch('activity11Th/lotteryDraw', {
+                            userId: this.userId
+                        }).then(() => {
+                            this.$watch('err', err => {
+                                if (err.retCode === -2) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '抽奖还未开始'
+                                    this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
+                                } else if (err.retCode === -3) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '很遗憾'
+                                    this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
+                                } else if (err.retCode === -4) {
+                                    this.popShow = true
+                                    this.lotteryTitle = '很遗憾'
+                                    this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
+                                } else if (err.retCode === -1 || err.retCode === -5) {
+                                    alert(err.msg)
+                                }
+                            })
+                            this.$watch('lotteryResult', lotteryResult => {
+                                if (lotteryResult.prizeId === 1) {
+                                    this.prize = 2
+                                } else if (lotteryResult.prizeId === 2) {
+                                    this.prize = 3
+                                } else if (lotteryResult.prizeId === 3) {
+                                    this.prize = 4
+                                } else if (lotteryResult.prizeId === 4) {
+                                    this.prize = 5
+                                } else if (lotteryResult.prizeId === 5) {
+                                    this.prize = 6
+                                } else if (lotteryResult.prizeId === 6) {
+                                    this.prize = 7
+                                } else if (lotteryResult.prizeId === 7) {
+                                    this.prize = 8
+                                } else if (lotteryResult.prizeId === 8) {
+                                    this.prize = 1
+                                }
+                                this.lotteryTitle = '恭喜您！'
+                                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
+                                this.remainCnt = this.remainCnt - 1
+                            })
                         })
-                        this.$watch('lotteryResult', lotteryResult => {
-                            if (lotteryResult.prizeId === 1) {
-                                this.prize = 2
-                            } else if (lotteryResult.prizeId === 2) {
-                                this.prize = 3
-                            } else if (lotteryResult.prizeId === 3) {
-                                this.prize = 4
-                            } else if (lotteryResult.prizeId === 4) {
-                                this.prize = 5
-                            } else if (lotteryResult.prizeId === 5) {
-                                this.prize = 6
-                            } else if (lotteryResult.prizeId === 6) {
-                                this.prize = 7
-                            } else if (lotteryResult.prizeId === 7) {
-                                this.prize = 8
-                            } else if (lotteryResult.prizeId === 8) {
-                                this.prize = 1
-                            }
-                            this.lotteryTitle = '恭喜您！'
-                            this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
-                            this.remainCnt = this.remainCnt - 1
-                        })
-                    })
+                    }
                 }
+
             } else {
                 window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/11th-activity2'
             }
@@ -375,11 +431,15 @@ export default {
             this.prize = -1
         },
         close() {
-            window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
+            window.location.reload(true)
+            // window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
             this.popShow = false
         }
     },
     mounted() {
+        this.userId = getCookie('passportId')
+        this.paltid = getCookie('paltid')
+
         function pad(str, len) {
             str = str + ''
             if (str.length < len) {
@@ -442,15 +502,28 @@ export default {
 
             }, 1000)
         }
-        this.$store.dispatch('user/checkLogin').then(() => {
-            this.$store.dispatch('activity11Th/whereList', {
-                userId: this.ssoId || ''
+        if (this.paltid === 'android') {
+            this.$store.dispatch('user/checkLogin').then(() => {
+                this.$store.dispatch('activity11Th/whereList', {
+                    userId: this.ssoId || ''
+                })
             })
-        })
-        if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
-            this.loginMsg = '用户中奖纪录'
+            if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+                this.loginMsg = '用户中奖纪录'
+            } else {
+                this.loginMsg = '我的可选奖品'
+            }
         } else {
-            this.loginMsg = '我的可选奖品'
+            this.$store.dispatch('user/checkLogin').then(() => {
+                this.$store.dispatch('activity11Th/whereList', {
+                    userId: this.userId || ''
+                })
+            })
+            if (!this.userId) {
+                this.loginMsg = '用户中奖纪录'
+            } else {
+                this.loginMsg = '我的可选奖品'
+            }
         }
         this.$watch('whereList', whereList => {
             if (whereList.length > 5) {
