@@ -570,13 +570,15 @@ export default {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     },
     showQrcode() {
-      let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
-      let shareMark = new Date().getTime();
-      shareMark = base64.encode(shareMark);
-      shareMark = base64.encode(shareMark);
-      let dataUrl = url + '?share=' + shareMark
-      qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
       this.showQrcodeBox = !this.showQrcodeBox
+      if (this.showQrcodeBox) {
+        let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark
+        qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
     },
     showCode() {
       this.showQrcodeBox = !this.showQrcodeBox

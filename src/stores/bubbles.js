@@ -107,10 +107,6 @@ export default {
     },
     setStockPool(state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({
-          poolId: '',
-          poolName: '全部'
-        })
         state.stockPool = result.data
       }
     },
@@ -119,10 +115,6 @@ export default {
     },
     setStrategy(state, result) {
       if (result.errCode === 0) {
-        result.data.unshift({
-          id: '',
-          strategyName: '全部'
-        })
         state.userStrategy = result.data
       }
     }
