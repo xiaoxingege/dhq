@@ -216,9 +216,7 @@
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
-			<div class="curve-content">
-				<div id="curve" style="width: 6.9rem;height:3.53rem;"></div>
-			</div>
+			<div id="curve" style="width:100%;height:4.53rem; margin-left:-0.2rem;"></div>
 		</div>
 		<div class="block change">
 			<div class="title">
@@ -337,6 +335,7 @@ export default {
   	insertEchart(){
 
   		// 基于准备好的dom，初始化echarts实例
+  		
         var myChart = echarts.init(document.getElementById('curve'));
 
 		var data=this.curveList;
@@ -348,6 +347,7 @@ export default {
 		}
 		console.log(dataX)
 		console.log(dataY)
+		var interval=dataY.length-2
 		var option = {
 		    tooltip: {
 		        trigger: 'axis',
@@ -357,7 +357,30 @@ export default {
 		    },
 		    xAxis: {
 		        type: 'category',
-		        data: dataX
+		        data: dataX,
+		        min:function(d){
+		        	return d.min
+		        },
+		        max:function(d){
+		        	return d.max
+		        },
+		        axisLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)'
+		        	}
+		        },
+		        axisTick:{
+		        	show:false
+		        },
+		        axisLabel:{
+		        	// show:false,
+		        	interval:interval,
+		        	margin:10,
+		        	showMinLabel:true,
+		        	showMaxLabel:true,
+		        	color:'rgba(170,170,170,1)',
+		        	align:'center'
+		        }
 		    },
 		    yAxis: {
 		        type: 'value',
@@ -366,12 +389,21 @@ export default {
 		        scale:true,
 		        splitNumber:2,
 		        axisLine:{
-		        	show:false,
-		       		symbol:'arrow'
+		        	show:false
 		        },
 		        axisTick:{
-		        	show:false,
-		        	length:10
+		        	show:false
+		        },
+		        axisLabel:{
+		        	margin:6,
+		        	formatter: function (d) {
+					   if (d/100000000>=1 || d/100000000<=-1) {
+				    		return (d / 100000000) + '亿'
+				    	}else{
+				    		return (d / 10000) + '万'
+				    	}
+					},
+					color:'rgba(170,170,170,1)'
 		        },
 		        splitLine:{
 		        	lineStyle:{
@@ -383,7 +415,6 @@ export default {
 		    },
 		    series: [
 		        {
-		            name:'模拟数据',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'none',
