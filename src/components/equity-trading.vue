@@ -216,7 +216,7 @@
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
-			<div id="curve" style="width:100%;height:4.53rem; margin-left:-0.2rem;"></div>
+			<div id="curve" style="width:100%;height:3.53rem;"></div>
 		</div>
 		<div class="block change">
 			<div class="title">
@@ -333,9 +333,7 @@ export default {
   },
   methods: {
   	insertEchart(){
-
   		// 基于准备好的dom，初始化echarts实例
-  		
         var myChart = echarts.init(document.getElementById('curve'));
 
 		var data=this.curveList;
@@ -345,10 +343,14 @@ export default {
 			dataX.push(data[i].date)
 			dataY.push(data[i].marginBalance)
 		}
-		console.log(dataX)
-		console.log(dataY)
 		var interval=dataY.length-2
 		var option = {
+			grid:{
+				top:'18%',
+				left:'8%',
+				right:'20%',
+				bottom:'20%'
+			},
 		    tooltip: {
 		        trigger: 'axis',
 		        position: function (pt) {
@@ -375,7 +377,7 @@ export default {
 		        axisLabel:{
 		        	// show:false,
 		        	interval:interval,
-		        	margin:10,
+		        	margin:15,
 		        	showMinLabel:true,
 		        	showMaxLabel:true,
 		        	color:'rgba(170,170,170,1)',
@@ -395,7 +397,7 @@ export default {
 		        	show:false
 		        },
 		        axisLabel:{
-		        	margin:6,
+		        	margin:20,
 		        	formatter: function (d) {
 					   if (d/100000000>=1 || d/100000000<=-1) {
 				    		return (d / 100000000) + '亿'
