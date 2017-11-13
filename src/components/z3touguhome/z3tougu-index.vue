@@ -14,6 +14,7 @@ html,
 body,
 .app {
   height: 100%;
+  background-color: #141518;
 }
 
 .wrap {
@@ -21,6 +22,7 @@ body,
   min-width: 1217px;
   height: 100%;
   background-color: #0d0e0f;
+  min-height: 100%;
 }
 
 .index-wrap {
