@@ -199,6 +199,12 @@ a {
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
+            <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
+              {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':this.goldResult.evaluationIndexs.avgHoldDays}}
+            </td>
+            <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
+              {{this.goldResult.evaluationIndexs.capitalCapacity === null ? '--':(Number(this.goldResult.evaluationIndexs.capitalCapacity)/10000).toFixed(2)}}
+            </td>
           </tr>
         </table>
       </div>
@@ -259,7 +265,7 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
+      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率', '平均持有天数', '资金容量(万)'],
       radarShow: false,
       stockSort: Data.stockSort
     }

@@ -99,7 +99,7 @@
     .strategyForm ul li {
         width: 100%;
         box-sizing: border-box;
-        padding: 0 0.6rem;
+        padding: 0 0.1rem;
     }
 
     .strategyForm ul li span {
@@ -108,12 +108,12 @@
         float: left;
         height: 0.55rem;
         line-height: 0.55rem;
-        text-align: left;
+        text-align: right;
         color: #888888;
         font-size: 0.24rem;
     }
     .strategyForm ul li span:last-child {
-        text-align: right;
+        text-align: center;
         color: #333;
         font-weight: bold;
     }
@@ -167,43 +167,51 @@
     </div>
     <div class="strategyForm clearfix">
       <ul>
-        <li>
+        <li class="clearfix">
           <span>年化收益</span>
           <span v-if="this.goldResult" v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>波动率</span>
           <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>最大回撤</span>
           <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>Beta</span>
           <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>换手率</span>
           <span v-if="this.goldResult">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</span>
         </li>
+        <li class="clearfix">
+          <span>资金容量(万)</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.capitalCapacity === null? '--':(Number(this.goldResult.evaluationIndexs.capitalCapacity)/10000).toFixed(2)}}</span>
+        </li>
       </ul>
       <ul>
-        <li>
+        <li class="clearfix">
           <span>超额收益</span>
           <span v-if="this.goldResult" v-z3-updowncolor="this.goldResult.evaluationIndexs === null?'':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>夏普比率</span>
           <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>Alpha</span>
           <span v-if="this.goldResult">{{this.goldResult.evaluationIndexs === null?'':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</span>
         </li>
-        <li>
+        <li class="clearfix">
           <span>胜率</span>
           <span v-if="this.goldResult">{{this.goldResult === null?'':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</span>
+        </li>
+        <li class="clearfix">
+          <span>平均持有天数</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':this.goldResult.evaluationIndexs.avgHoldDays}}</span>
         </li>
       </ul>
     </div>
