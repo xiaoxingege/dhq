@@ -179,7 +179,8 @@ body {
     /* padding: 20px; */
     /*  */
     width: 100%;
-    padding: 0.37rem 0.6rem 0;
+    /* padding: 0.37rem 0.6rem 0; */
+    padding: 0.37rem 0.4rem 0 0.6rem;
     /* border-collapse: collapse;
  */
 }
@@ -342,6 +343,7 @@ body {
             <td><span>最大盈利</span></td>
             <td><span>最大亏损</span></td>
             <td><span>盈亏比</span></td>
+            <td><span>平均持有天数</span></td>
           </tr>
           <tr class="eval-tr1 clearfix">
             <td>
@@ -354,6 +356,8 @@ body {
               <span class="desc-num1" v-z3-updowncolor="timeEval.maxLoss">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span></td>
             <td>
               <span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
+            <td>
+              <span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Number(timeEval.avgHoldDays).toFixed(2)}}</span></td>
           </tr>
 
         </table>
