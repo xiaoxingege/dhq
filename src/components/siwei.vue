@@ -34,14 +34,16 @@
     color: #c9d0d7;
     background-color: #1A1D23;
 }
-
+.bubbles-bar select:focus {
+    outline: none;
+}
 .template select {
     color: #1984ea;
     background-color: #23272C;
 }
 .template select option {
-    background: #cccfd9;
-    color: #666;
+    background: #1E2329;
+    color: #c9d0d7;
     border-radius: 3px;
 }
 .template select:focus {
@@ -159,6 +161,7 @@ button {
     font-size: 12px;
     padding-left: 10px;
     box-sizing: border-box;
+    -webkit-appearance: none;
 }
 
 .bubbles-select > div {
@@ -191,7 +194,9 @@ input {
     background-position-x: 95%;
     background-color: #1E2329;
 }
-
+.bubbles-select select:focus {
+    outline: none;
+}
 .changeXY {
     position: absolute;
     top: 48px;
@@ -247,142 +252,21 @@ input {
     <div class="fl mr-30">
       筛股策略：
       <select v-model="stockRangeOptions.strategyDefault" @change="showSelectData">
-                <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
-                <option value="">请选择</option>
+        <option value="">请选择</option>
+        <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
             </select>
     </div>
     <div class="fl mr-30">
       股票池：
       <select v-model="stockRangeOptions.stockPoolDefault" @change="showSelectData">
-                <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-                <option value="">请选择</option>
+        <option value="">请选择</option>
+        <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
             </select>
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <div class="fr">
       <span class="times">{{currentTime}}</span>
     </div>
-    <!--<div>-->
-    <!--<Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="自定义">-->
-    <!--<div slot="content" class="dialogMain clearfix">-->
-    <!--<div class="weiduRange">-->
-    <!--<div style="text-align: left">坐标维度：</div>-->
-    <!--<div class="display-box mb-20">-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr">-->
-    <!--X轴-->
-    <!--<select ref="xData" v-model="dimensionOptions.xDefault">-->
-    <!--<option v-for="(val,key) in xDataList" :value="key"-->
-    <!--:style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr">-->
-    <!--Y轴-->
-    <!--<select ref="yData" v-model="dimensionOptions.yDefault">-->
-    <!--<option v-for="(val,key) in xDataList" :value="key"-->
-    <!--:style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr">-->
-    <!--气泡大小-->
-    <!--<select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">-->
-    <!--<option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<span style="display: block" class="clearfix">-->
-    <!--<div class="fr">-->
-    <!--气泡颜色-->
-    <!--<select ref="bubbleColor" v-model="dimensionOptions.colorDefault">-->
-    <!--<option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="stockRange">-->
-    <!--<div class="mt-20" style="text-align: left">股票范围：</div>-->
-    <!--<div class="stockRange-slect">-->
-    <!--<div class="mt-10 display-box">-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr">-->
-    <!--指数-->
-    <!--<select v-model="stockRangeOptions.indexRangeDefault">-->
-    <!--<option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr">-->
-    <!--行业-->
-    <!--<select v-model="stockRangeOptions.industryRangeDefault">-->
-    <!--<option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1 clearfix">-->
-    <!--<div class="fr" style="position: relative;">-->
-    <!--主题-->
-    <!--<input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value=""-->
-    <!--readonly/>-->
-    <!--<input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName"-->
-    <!--readonly/>-->
-    <!--<span v-if="topicName !== '全部'" @click="clearTheme" class="clearTheme">×</span>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--<div class="mt-20 display-box">-->
-    <!--<span style="display: block" class="box-flex-1">-->
-    <!--<div class="fr">-->
-    <!--流通市值-->
-    <!--<select v-model="stockRangeOptions.marketValueDefault">-->
-    <!--<option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1">-->
-    <!--<div class="fr">-->
-    <!--历史成交量-->
-    <!--<select v-model="stockRangeOptions.historyValueRangeDefault">-->
-    <!--<option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--<span style="display: block" class="box-flex-1">-->
-    <!--<div class="fr">-->
-    <!--筛股策略-->
-    <!--<select v-model="stockRangeOptions.strategyDefault">-->
-    <!--<option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--<div class="mt-20 display-box">-->
-
-    <!--<span style="display: block" class="clearfix">-->
-    <!--<div class="fr">-->
-    <!--股票池-->
-    <!--<select v-model="stockRangeOptions.stockPoolDefault">-->
-    <!--<option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div slot="footer" class="mt-20 mb-20">-->
-    <!--<button class="sureBtn mr-20" @click="showSelectData">确定</button>-->
-    <!--<button class="cancleBtn" @click="hideDialog">取消</button>-->
-    <!--</div>-->
-    <!--</Dialog>-->
-    <!--</div>-->
   </div>
   <div class="bubbles display-box">
     <div class="bubbles-select ">
@@ -590,6 +474,10 @@ export default {
         topicNameDefalut: '全部'
       },
       templateList: {
+        'demoTmp0': {
+          name: '请选择',
+          explain: '双击鼠标进入个股页面。'
+        },
         'demoTmp5': {
           name: '估值 VS 业绩选股',
           options: {
@@ -733,11 +621,6 @@ export default {
             topic: ''
           },
           explain: '通过分析师预期，选择上涨空间较高的个股。距离X轴的距离越远，股价预期上涨空间越高；颜色越亮则成交越活跃，越暗则成交尚未激活。'
-        },
-
-        'demoTmp0': {
-          name: '请选择',
-          explain: '双击鼠标进入个股页面。'
         }
       },
       currentTime: '',
@@ -803,7 +686,7 @@ export default {
       this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
       this.stockRangeOptions.strategyDefault = this.templateList[tmpValue].options.strategyDefault
       this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
-      // this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
+      this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
@@ -900,7 +783,14 @@ export default {
     },
     'stockRangeOptions.topic': function() {
       this.showSelectData()
+    },
+    'stockRangeOptions.strategyDefault': function() {
+      this.stockRangeOptions.stockPoolDefault = ''
+    },
+    'stockRangeOptions.stockPoolDefault': function() {
+      this.stockRangeOptions.strategyDefault = ''
     }
+
   },
   mounted() {
     this.$store.dispatch('bubbles/getStrategy')
@@ -910,13 +800,8 @@ export default {
     setInterval(function() {
       that.getTime()
     }, 1000)
-    if (window.Z3) {
-      window.Z3.SndStockPoolInfo((data) => {
-        if (data.length !== 0) {
-          this.tmpId = 'demoTmp0'
-        }
-
-      })
+    if (this.$route.params.isFilter === 'isFromFilter') {
+      this.tmpId = 'demoTmp0'
     }
   }
 }

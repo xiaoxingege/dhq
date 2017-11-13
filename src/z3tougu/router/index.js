@@ -101,6 +101,11 @@ export default [{
     component: Siwei
   },
   {
+    path: ctx + '/siwei/:isFilter',
+    name: 'bubbles',
+    component: Siwei
+  },
+  {
     path: ctx + '/informatList/:inforId',
     name: 'themeInformat',
     component: ThemeInformat

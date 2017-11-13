@@ -66,7 +66,7 @@ const xSelectData = {
   'in_hld_pct': '内部持股比例',
   'org_hld_pct': '机构持股比例',
   'fcst_idx.rating_syn': '分析师观点',
-  'mkt_idx.expect_price_chng_pct': '目标价格'
+  'mkt_idx.expect_price_chng_pct': '目标价格涨幅'
 }
 
 // 气泡大小轴下拉框数据

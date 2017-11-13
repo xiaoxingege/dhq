@@ -77,8 +77,8 @@ export default {
         }
         for (var i = 0; i < data.length; i++) {
           state.syqxtData.xData.push(data[i].backtestDate)
-          state.syqxtData.data1.push(Number(data[i].totalReturn).toFixed(2))
-          state.syqxtData.data2.push(Number(data[i].benchmarkPeriodReturn).toFixed(2))
+          state.syqxtData.data1.push(Number(data[i].totalReturn))
+          state.syqxtData.data2.push(Number(data[i].benchmarkPeriodReturn))
         }
       } else {
         state.syqxtData.firstDate = ''
