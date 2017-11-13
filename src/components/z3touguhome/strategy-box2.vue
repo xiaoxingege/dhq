@@ -105,7 +105,7 @@
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['benchmarkObj'],
+  props: ['benchmarkObj', 'isResizeStrategyChart'],
   data() {
     return {
       sort: 'sharpe',
@@ -126,6 +126,12 @@ export default {
       this.getStrategyIndexs()
       this.drawChart()
       this.$emit('getStrategyId', this.strategyId)
+    },
+    isResizeStrategyChart() {
+      this.chart.resize({
+        width: (window.innerWidth * 0.5) * 0.5 < 1217 * 0.5 * 0.5 ? 1217 * 0.5 * 0.5 : (window.innerWidth * 0.5) * 0.5,
+        height: (window.innerHeight * 0.285) * 0.67 < 710 * 0.285 * 0.67 ? 710 * 0.285 * 0.67 : (window.innerHeight * 0.285) * 0.67
+      })
     }
   },
   computed: {
@@ -154,7 +160,6 @@ export default {
   },
   methods: {
     initStrategy: function() {
-      this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
       this.$store.dispatch('z3touguIndex/getStrategyName', {
           sort: this.sort,
           direction: this.direction,
@@ -371,6 +376,7 @@ export default {
     }
   },
   mounted() {
+    this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
     this.initStrategy()
   }
 }
