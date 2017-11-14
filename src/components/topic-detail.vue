@@ -97,12 +97,13 @@ html {
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
-.header {
+.topic-head {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
+    background: #141518;
 }
 
-.header strong {
+.topic-head strong {
     font-weight: normal;
     font-size: 16px;
 }
@@ -628,7 +629,7 @@ bottom: 0; */
 </style>
 <template>
 <div class="topic-detail">
-  <div class="header clearfix">
+  <div class="topic-head clearfix">
     <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
     <div class="topic-time fl">
       <span class="time-num4">成份股数</span><span class="time-num2">{{detail.equityNum}}只
@@ -713,7 +714,7 @@ bottom: 0; */
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
-            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=200?stock.topicMark:stock.topicMark.substring(0,201)+'…'}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
