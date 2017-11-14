@@ -240,7 +240,7 @@ export default {
         } else {
           tmpSelect = this.xSelectData[this.parameterData[select]]
         }
-        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0) {
+        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0 && tmpSelect.indexOf('销率') < 0 && tmpSelect.indexOf('现率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('比率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0 || tmpSelect.indexOf('MA') >= 0 || tmpSelect.indexOf('股东权益') >= 0) {
           return showData === null ? '--' : Number(showData).toFixed(2) + '%'
         } else {
           var selectVal = this.parameterData[select]
@@ -633,7 +633,6 @@ export default {
     const that = this
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
-
         that.options.innerCode = data
         this.$emit('changeOptions', data)
         this.initBubbles()

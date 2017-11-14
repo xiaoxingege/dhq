@@ -17,10 +17,10 @@
     border-spacing: 0;
 }
 .sectors-table tr td:first-child {
-    cursor: pointer;
     width: 40%;
 }
-.sectors-table tr td:first-child:hover {
+.sectors-table tr:hover {
+    cursor: pointer;
     background-color: #2e4465;
 }
 .sectors-table td {

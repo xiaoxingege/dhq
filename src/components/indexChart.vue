@@ -326,6 +326,7 @@ export default {
       return timeline
     },
     refreshEcharts(datas, index, chartName) {
+      const _this = this
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -493,6 +494,8 @@ export default {
         }]
       })
       window.onresize = function() {
+        const timestampResize = new Date().getTime()
+        _this.$emit('isResize', timestampResize)
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
           height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
