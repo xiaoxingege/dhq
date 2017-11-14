@@ -154,7 +154,7 @@
 	<div class="equity-trading">
 		<div class="block curve">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
@@ -162,7 +162,7 @@
 		</div>
 		<div class="block detail">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>数据明细</h2>
 			</div>
 			<div class="detail-content">
@@ -188,7 +188,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="skip">
 			<p>点击查看个股详情</p>
 		</div>
@@ -219,7 +219,7 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = this.stockname+'_融资融券'
@@ -227,7 +227,7 @@ export default {
   mounted () {
     this.getCurveList()
     this.getDetailList()
-    
+
   },
   filters: {
     convert2 (d) {
@@ -254,7 +254,7 @@ export default {
 		var option = {
 			grid:{
 				top:'18%',
-				left:'8%',
+				left:'10%',
 				right:'20%',
 				bottom:'20%'
 			},
@@ -320,7 +320,7 @@ export default {
 		        		type:'dotted'
 		        	}
 		        }
-		       
+
 		    },
 		    series: [
 		        {

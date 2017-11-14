@@ -90,7 +90,7 @@
 .change-content{
 	width:6.9rem;
 	margin:0 auto;
-	padding:0.46rem 0 0.5rem; 
+	padding:0.46rem 0 0.5rem;
 	overflow: hidden;
 }
 .change-table{
@@ -114,7 +114,7 @@
 	border:0.01rem solid #E6E6E6;
 }
 .change-table td{
-	height:0.80rem; 
+	height:0.80rem;
 	padding:0.16rem 0;
 	font-size:0.28rem;
 	font-family:PingFangSC-Regular;
@@ -212,7 +212,7 @@
 	<div class="equity-trading">
 		<div class="block curve">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
@@ -225,7 +225,7 @@
 				<em :class="addcolor(balance)">{{balance | convert}}</em>
 				<h2>环比变动：</h2>
 				<em :class="addcolor(percent)">{{percent}}%</em>
-			</div> 
+			</div>
 			<div class="change-content">
 				<table class="change-table" cellpadding="0" cellspacing="0">
 					<tr>
@@ -245,7 +245,7 @@
 		</div>
 		<div class="block detail">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<ul class="title-tab">
 					<li class="active" data-index='1' @click="dayTab($event)">今日</li>
@@ -303,7 +303,7 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = '融资融券'
@@ -347,7 +347,7 @@ export default {
 		var option = {
 			grid:{
 				top:'18%',
-				left:'8%',
+				left:'10%',
 				right:'20%',
 				bottom:'20%'
 			},
@@ -413,7 +413,7 @@ export default {
 		        		type:'dotted'
 		        	}
 		        }
-		       
+
 		    },
 		    series: [
 		        {
@@ -553,7 +553,7 @@ export default {
     	})
     },
     clickLi(li){
-  		window.location.href='http://localhost:8080/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName  
+  		window.location.href='http://localhost:8080/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName
   	}
   }
 }
