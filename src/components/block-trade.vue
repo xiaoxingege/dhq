@@ -33,12 +33,14 @@
 	font-size:0.3rem;
 	color: #333333;
 }
-.title-time{
-	float: left;
-	margin-left:0.3rem;
-	font-size:0.26rem;
-	font-family:PingFangSC-Regular;
-	color:rgba(136,136,136,1);
+.title-right{
+	float: right;
+	padding-right: 0.56rem;
+	height: 0.37rem;
+	line-height: 0.37rem;
+}
+.title-right input{
+	width:auto;
 }
 
 .detail-title{
@@ -100,14 +102,184 @@
 	color: #aaa;
 	text-align: center;
 }
+
+.pika-single {
+    z-index: 9999;
+    display: block;
+    position: relative;
+    width: 240px;
+    padding: 8px;
+    color: #333;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.pika-single.is-hidden {
+    display: none;
+}
+
+.pika-single.is-bound {
+    position: absolute;
+    box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
+}
+
+.pika-title {
+    position: relative;
+    text-align: center;
+}
+
+.pika-label {
+    display: inline-block;
+    *display: inline;
+    position: relative;
+    z-index: 9999;
+    overflow: hidden;
+    margin: 0;
+    padding: 5px 3px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: bold;
+    background-color: #fff;
+}
+.pika-title select {
+    cursor: pointer;
+    position: absolute;
+    z-index: 9998;
+    margin: 0;
+    left: 0;
+    top: 5px;
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+
+.pika-prev,
+.pika-next {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    border: 0;
+    padding: 0;
+    width: 20px;
+    height: 30px;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 75% 75%;
+    white-space: nowrap;
+    text-indent: 100%;
+    overflow: hidden;
+    opacity: .5;
+    *position: absolute;
+    *top: 0;
+}
+
+.pika-prev:hover,
+.pika-next:hover {
+    opacity: 1;
+}
+
+.pika-prev,
+.is-rtl .pika-next {
+    float: left;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');
+    *left: 0;
+}
+
+.pika-next,
+.is-rtl .pika-prev {
+    float: right;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');
+    *right: 0;
+}
+
+.pika-prev.is-disabled,
+.pika-next.is-disabled {
+    cursor: default;
+    opacity: .2;
+}
+
+.pika-select {
+    display: inline-block;
+    *display: inline;
+}
+
+.pika-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+}
+
+.pika-table th,
+.pika-table td {
+    width: 14.285714285714286%;
+}
+
+.pika-table th {
+    color: #999;
+    font-size: 12px;
+    line-height: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.pika-button {
+    cursor: pointer;
+    display: block;
+    outline: none;
+    border: 0;
+    margin: 0;
+    width: 100%;
+    padding: 5px;
+    color: #666;
+    font-size: 12px;
+    line-height: 15px;
+    text-align:center;
+    background: #f5f5f5;
+}
+
+.is-today .pika-button {
+    color: #33aaff;
+    font-weight: bold;
+}
+
+.is-selected .pika-button {
+    color: #fff;
+    font-weight: bold;
+    background: #33aaff;
+    box-shadow: inset 0 1px 3px #178fe5;
+    border-radius: 3px;
+}
+
+.is-disabled .pika-button {
+    pointer-events: none;
+    cursor: default;
+    color: #999;
+    opacity: .3;
+}
+
+.pika-button:hover {
+    color: #fff !important;
+    background: #ff8000 !important;
+    box-shadow: none !important;
+    border-radius: 3px !important;
+}
+
 </style>
 
 <template>
 	<div class="equity-trading">
 		<div class="block detail">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
+				<div class="title-right">
+					<input id="datepicker" type="text"  value="2017-11-14"/>
+					<span class="calendar-icon"></span>
+				</div>
 			</div>
 			<div class="detail-content">
 				<div class="detail-title">
@@ -139,6 +311,8 @@
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import 'whatwg-fetch'
+window.moment = require('moment')
+const Pikaday = require('../assets/plugins/calendar/calendar.js')
 
 export default {
   data () {
@@ -151,16 +325,26 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = '大宗交易明细'
   },
   mounted () {
     this.getDetailList()
-    
+		this.addcalendar()
   },
   methods: {
+		addcalendar(){
+			new Pikaday(
+	    {
+	        field: document.getElementById('datepicker'),
+	        firstDay: 1,
+	        minDate: new Date('2010-01-01'),
+	        maxDate: new Date('2020-12-31'),
+	        yearRange: [2000,2020]
+	    });
+		},
   	addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
