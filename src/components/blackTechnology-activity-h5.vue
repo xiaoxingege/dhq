@@ -94,7 +94,7 @@ input {
     height: 1.21rem;
     position: fixed;
     bottom: -0.01rem;
-    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-footer.jpg") center 0 no-repeat;
+    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-footer-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -261,16 +261,16 @@ export default {
             var ua = navigator.userAgent.toLowerCase();
             if (/iphone|ipad|ipod/.test(ua)) {
                 $('.fUserName').on('focus', function() {
-                    var footerHeight = $(".footer").height()
-                    $(".footer").css({
-                        "position": "static",
-                        "bottom": '0',
+                    var footerHeight = $('.footer').height()
+                    $('.footer').css({
+                        'position': 'static',
+                        'bottom': '0',
                         'margin-top': -footerHeight
                     });
-                }).bind("blur", function() {
-                    $(".footer").css({
-                        "position": "fixed",
-                        "bottom": '0'
+                }).bind('blur', function() {
+                    $('.footer').css({
+                        'position': 'fixed',
+                        'bottom': '0'
                     });
                 });
             }
