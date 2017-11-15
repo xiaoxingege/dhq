@@ -595,6 +595,7 @@ export default {
     },
     updateMapData: function() {
       if (this.stockData === null) {
+        this.restoreMap();
         return;
       }
       this.chart.setOption({
@@ -719,11 +720,13 @@ export default {
         }
       });
       this.chart._chartsViews[0]._controller.on('zoom', (delta, a, b, c, d, e) => {
-        // this.chart._chartsViews[0]._controller.disable();
         if (delta > 1) {
           this.zoomDelta++
         } else if (delta < 1) {
-          this.zoomDelta--
+          this.zoomDelta--;
+          if (this.zoomDelta < 0) {
+            this.zoomDelta = 0
+          }
         }
         if (this.zoomDelta === 0) {
           this.autoUpdate = true;
@@ -751,10 +754,6 @@ export default {
         industry.children.forEach(function(lvl2) {
           lvl2.children.forEach(function(stock) {
             if (stock.name === _this.focusStockName[0]) {
-              // stock.itemStyle.normal.borderColor = '#ffd614'
-              // stock.itemStyle.normal.borderWidth = 2
-              // lvl2.itemStyle.normal.borderColor = '#ffd614'     
-              // const treemap = _this.$refs.treemap
               const lvl2Node = stock.parentNode;
               const industryNode = lvl2Node.parentNode;
               const nodeLayout = stock.getLayout();
@@ -772,7 +771,8 @@ export default {
               obj.target.setStyle(nextNodeStl);
               chartView._zoomToNode({
                 node: stock
-              })
+              });
+              _this.autoUpdate = false;
               //   let left = _this.mapWidth / 2 - 4 / _this.scale * x;
               //   let top = _this.mapHeight / 2 - 4 / _this.scale * y;
               //   if (_this.scale !== 4) {
@@ -1127,9 +1127,10 @@ export default {
         height: this.mapHeight,
         width: this.mapWidth
       })
-      this.scale = 1;
-      this.$refs.treemap.style.left = 0
-      this.$refs.treemap.style.top = 0
+      this.autoUpdate = true;
+      // this.scale = 1;
+      // this.$refs.treemap.style.left = 0
+      // this.$refs.treemap.style.top = 0
     },
     getTime: function() {
       const date = new Date()

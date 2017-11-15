@@ -65,7 +65,7 @@
 </template>
 <script type="text/javascript">
 export default {
-  data () {
+  data() {
     return {
       stockSelectList: [],
       message: ''
@@ -74,7 +74,7 @@ export default {
   props: [],
   watch: {},
   methods: {
-    search (e) {
+    search(e) {
       e.preventDefault()
       e.stopPropagation()
       let keyword = this.$refs.keyword.value
@@ -82,13 +82,13 @@ export default {
       this.message = keyword
       this.filterStocks(keyword)
     },
-    filterStocks: function (keyword) {
+    filterStocks: function(keyword) {
       const mapData = [].concat(this.$store.state.stockMap.industries)
       const _this = this
       this.stockSelectList = []
-      mapData.forEach(function (industry) {
-        industry.children.forEach(function (lel2) {
-          lel2.children.forEach(function (stock) {
+      mapData.forEach(function(industry) {
+        industry.children.forEach(function(lel2) {
+          lel2.children.forEach(function(stock) {
             const isSelected = stock.id.indexOf(keyword) === 0 || stock.name.toUpperCase().indexOf(keyword) === 0 || (stock.chiSpel != null && stock.chiSpel.indexOf(keyword.toUpperCase()) === 0)
             if (isSelected && _this.stockSelectList.length < 10) {
               _this.stockSelectList.push({
@@ -100,8 +100,7 @@ export default {
         })
       })
     },
-    focusStock: function (e) {
-      e.stopPropagation()
+    focusStock: function(e) {
       e.stopPropagation()
       const focusStockId = e.currentTarget.children[0].children[0].innerText
       const focusStockName = e.currentTarget.children[0].children[1].innerText
@@ -117,9 +116,9 @@ export default {
       this.message = keyword
     }*/
   },
-  mounted () {
+  mounted() {
     const _this = this
-    document.getElementsByTagName('body')[0].onclick = function (e) {
+    document.getElementsByTagName('body')[0].onclick = function(e) {
       _this.message = ''
       _this.stockSelectList = []
     }
