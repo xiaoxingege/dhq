@@ -258,6 +258,31 @@ input {
     top: 287px;
     right: -96px;
 }
+.codeImg {
+    width: 200px;
+    height: 230px;
+    position: fixed;
+    bottom: 160px;
+    right: 0;
+    z-index: 999;
+    background-color: #011f86;
+    color: #07b0f5;
+    border-radius: 10px;
+}
+.codeImg p {
+    width: 100%;
+    line-height: 30px;
+    font-size: 16px;
+    float: left;
+    text-align: center;
+
+}
+.codeImg img {
+    width: 190px;
+    height: 190px;
+    float: left;
+    margin-left: 5px;
+}
 </style>
 
 <template>
@@ -313,6 +338,11 @@ input {
             </div>
             <a href="javascript:;" @click="fJoinSubmit">&nbsp;</a>
         </div>
+    </div>
+
+    <div class="codeImg">
+        <p>扫码抽奖</p>
+        <img src="http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th-activity-code.png" />
     </div>
     <div class="mask" v-if="maskShow"></div>
     <div class="layer success" v-if="successShow">

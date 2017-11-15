@@ -64,9 +64,16 @@ input {
     background-size: 100% 100%;
 }
 .bg6 {
-    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-bg6.jpg") center 0 no-repeat;
+    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-bg6-1.jpg") center 0 no-repeat;
     height: 6.98rem;
     background-size: 100% 100%;
+}
+.bg6 .box-con a {
+    width: 100%;
+    height: 0.9rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 .bg7 {
     background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-bg7.jpg") center 0 no-repeat;
@@ -79,6 +86,7 @@ input {
     background-size: 100% 100%;
 }
 .box-con {
+    height: 100%;
     position: relative;
 }
 .footer {
@@ -120,11 +128,6 @@ input {
     left: 2.74rem;
 }
 .pop .close {
-    // width: 2rem;
-    // height: 0.52rem;
-    // position: absolute;
-    // bottom: 0.41rem;
-    // left: 2.76rem;
     position: absolute;
     right: -0.05rem;
     top: -0.6rem;
@@ -143,7 +146,6 @@ input {
     float: left;
 }
 .footer div p {
-    // width: 2.3rem;
     height: 0.42rem;
     line-height: 0.42rem;
     float: left;
@@ -151,19 +153,19 @@ input {
     position: relative;
 }
 .footer div p span {
-    font-size: 0.16rem;
+    font-size: 0.14rem;
     color: #fff;
     float: left;
     width: 0.55rem;
     text-align: left;
     text-indent: -9999px;
+    -webkit-text-size-adjust: none;
 }
 .footer div p input {
     width: 1.51rem;
     height: 0.3rem;
     padding: 0.05rem 0.1rem;
     float: left;
-    // background-color: #4d4b4a;
     background: none;
     border: none;
     color: #000;
@@ -201,6 +203,9 @@ input {
     <div class="bg5">
     </div>
     <div class="bg6">
+        <div class="box-con">
+            <a href="http://itougu.jrj.com.cn/actm/11th-activity2"></a>
+        </div>
     </div>
     <div class="bg7">
     </div>
@@ -214,12 +219,12 @@ input {
             <div>
                 <p>
                     <span>姓名</span>
-                    <input type="text" value="" placeholder="请输入中文名" v-model="fUserName" />
+                    <input type="text" value="" placeholder="" v-model="fUserName" class="fUserName" />
                     <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
                 </p>
                 <p style="margin-left:0.1rem;">
                     <span>手机</span>
-                    <input type="text" value="" placeholder="请输入手机号" v-model="fPhone" />
+                    <input type="text" value="" placeholder="" v-model="fPhone" class="fUserName" />
                     <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
                 </p>
             </div>
@@ -228,28 +233,7 @@ input {
     </div>
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
-        <!-- <img :src="codeImg" /> -->
-        <!-- <div>
-            <p>微信号 <span class="co">{{qcode}}</span> 复制成功</p>
-            <p>打开微信 添加好友</p>
-            <p>即可免费领取每日<span class="co">极智金股</span></p>
-        </div>
-        <a href="javascript:;" class="close" @click="close"></a> -->
-        <!-- <div class="join">
-            <span class="userNamebox">
-              <input type="text" class="userName" placeholder="请输入中文名" v-model="userName" />
-              <em v-html="txtUHtml" v-if="txtUShow"></em>
-          </span>
-            <span class="phonebox">
-              <input type="text" class="phone" placeholder="请输入手机号" v-model="phone" />
-              <em v-html="txtPHtml" v-if="txtPShow"></em>
-          </span>
-            <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
-        </div> -->
         <a href="javascript:;" class="close" @click="close"></a>
-        <!-- <div class="successPop">
-
-        </div> -->
     </div>
 </div>
 </template>
@@ -274,6 +258,22 @@ export default {
 
                 }
             })
+            var ua = navigator.userAgent.toLowerCase();
+            if (/iphone|ipad|ipod/.test(ua)) {
+                $('.fUserName').on('focus', function() {
+                    var footerHeight = $(".footer").height()
+                    $(".footer").css({
+                        "position": "static",
+                        "bottom": '0',
+                        'margin-top': -footerHeight
+                    });
+                }).bind("blur", function() {
+                    $(".footer").css({
+                        "position": "fixed",
+                        "bottom": '0'
+                    });
+                });
+            }
         })
         return {
             listData: {
@@ -283,6 +283,7 @@ export default {
                 pagShow: true,
                 arrowShow: true,
                 loop: true,
+                autoplay: 3000,
                 prev: {
                     imgUrl: require('assets/images/anniversary-activity/anniversary-web-prev.png'),
                     width: '0.68rem',
@@ -448,9 +449,6 @@ export default {
         })
         this.$watch('type', type => {
             if (type) {
-                // alert('报名成功')
-                // this.maskShow = true
-                // this.successShow = true
                 this.popShow = true
             }
         }, {
