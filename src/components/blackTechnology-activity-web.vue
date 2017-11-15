@@ -409,12 +409,12 @@ export default {
                 return
             }
             this.$store.dispatch('reservation/fetch', {
-                aid: '774663343076651008',
+                aid: '796677455495147520',
                 userName: this.userName,
                 phone: this.phone,
-                bizsource: 'HD_ZNTF_PC',
+                bizsource: 'mSite',
                 source: '1',
-                tgqdcode: 'L54MST72'
+                tgqdcode: '6YXK263WM'
             })
         },
         fJoinSubmit() {
@@ -442,17 +442,17 @@ export default {
                 return
             }
             this.$store.dispatch('reservation/fetch', {
-                aid: '774663343076651008',
+                aid: '796677455495147520',
                 userName: this.fUserName,
                 phone: this.fPhone,
-                bizsource: 'HD_ZNTF_PC',
+                bizsource: 'mSite',
                 source: '1',
-                tgqdcode: 'L54MST72'
+                tgqdcode: '6YXK263WM'
             })
         }
     },
     mounted() {
-        document.title = '股市惊现“黑科技”'
+        // document.title = '股市惊现“黑科技”'
         window.Swiper('.swiper-container', {
             slidesPerView: 1,
             paginationClickable: true,
