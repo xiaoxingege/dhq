@@ -341,6 +341,7 @@ export default {
     },
     condition() {
       // this.updateDataByCodition()
+      this.isContinue = 1
       this.updateData()
     },
     focusStockName() {
@@ -504,26 +505,31 @@ export default {
   methods: {
     initMap: function() {
       this.chart = echarts.init(this.$refs.treemap)
-      const _this = this
-      this.$store.dispatch('stockMap/queryRangeByCode', {
+      const _this = this;
+      let p1 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/queryRangeByCode', {
           code: this.rangeCode
-        })
-        .then(() => {
-          this.initOption(this.mapData)
         }).then(() => {
-          this.$store.dispatch('stockMap/updateData', {
-            isContinue: this.isContinue,
-            condition: this.condition,
-            code: this.rangeCode
-          }).then(() => {
-            this.updateMapData();
-          }).then(() => {
-            this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
-              this.playBackDate = this.$store.state.stockMap.calendarsData
-              this.playBackDateShow = this.timeFormat(this.playBackDate)
-            })
-          })
+          this.initOption(this.mapData);
+          resolve();
         })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/updateData', {
+          isContinue: this.isContinue,
+          condition: this.condition,
+          code: this.rangeCode
+        }).then(() => {
+          resolve();
+        })
+      });
+      Promise.all([p1, p2]).then(() => {
+        this.updateMapData();
+      })
+      this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
+        this.playBackDate = this.$store.state.stockMap.calendarsData
+        this.playBackDateShow = this.timeFormat(this.playBackDate)
+      })
       this.chart.showLoading(config.loadingConfig)
       this.getLegendColor()
       window.onresize = function() {
