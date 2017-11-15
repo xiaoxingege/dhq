@@ -1,4 +1,4 @@
-<style scoped="">
+<style>
 @import '../../assets/css/base.css';
 @import '../../assets/css/map.css';
 @import '../../assets/css/znty.css';
