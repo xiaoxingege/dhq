@@ -64,7 +64,7 @@ input {
     background-size: 100% 100%;
 }
 .bg6 {
-    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-bg6-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/blackTechnology-activity/blackTechnology-h5-bg6-2.jpg") center 0 no-repeat;
     height: 6.98rem;
     background-size: 100% 100%;
 }
@@ -204,7 +204,7 @@ input {
     </div>
     <div class="bg6">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/actm/11th-activity2"></a>
+            <a href="http://t.cn/RjJi24m"></a>
         </div>
     </div>
     <div class="bg7">
