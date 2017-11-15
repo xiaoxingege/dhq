@@ -6,30 +6,41 @@
     height: 100%;
     padding: 10px;
     box-sizing: border-box;
-
     color: #c9d0d7;
     font-size: 12px;
+    background: #141518;
 }
 
 .customInfo {
     width: 100%;
-    background: #141518;
+    height: 40%;
 }
 
-.customInfo table {
+.customInfo table,
+.posAdvice > table {
     width: 100%;
 }
 
-.customInfo table tr td {
-    height: 30px;
+.customInfo table {
+    height: 39%;
+}
+
+.posAdvice > table {
+    height: 80%;
+}
+
+.customInfo table tr td,
+.posAdvice > table tr td {
     text-align: center;
     border-top: 1px solid #23272c;
     border-left: 1px solid #23272c;
 }
-.customInfo table tr td:last-child {
+.customInfo table tr td:last-child,
+.posAdvice > table tr td:last-child {
     border-right: 1px solid #23272c;
 }
-.customInfo table tr:last-child td {
+.customInfo table tr:last-child td,
+.posAdvice > table tr:last-child td {
     border-bottom: 1px solid #23272c;
 }
 
@@ -44,6 +55,9 @@
     border-radius: 5px;
 }
 
+.customTag {
+    padding-bottom: 20px;
+}
 .customTag .tags li {
     color: #7D8BA1;
     padding: 0 10px;
@@ -56,8 +70,27 @@
 }
 
 .abilityAnaly {
-    margin-top: 3px;
+    height: 40%;
+    box-sizing: border-box;
+    padding-top: 3px;
+    background: #0d0e0f;
+}
+
+.abilityAnaly > * {
     background: #141518;
+}
+
+.abilityAnaly > p {
+    line-height: 20px;
+}
+
+.posAdvice {
+    height: 20%;
+}
+
+.posAdvice > p {
+    height: 20%;
+    vertical-align: middle;
 }
 </style>
 <template>
@@ -115,18 +148,53 @@
   </div>
   <div class="abilityAnaly">
     <p>能力分析</p>
-    <div></div>
+    <div>
+      <Radarchart></Radarchart>
+    </div>
     <p>客户选股能力较强，但仓控、择时能力较弱，建议投顾重点给予客户仓位控制以及交易时点的相关信息和指导，提高客户的盈利能力。</p>
   </div>
-  <div></div>
+  <div class="posAdvice">
+    <p>仓位建议</p>
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <td>市场</td>
+        <td>操作建议</td>
+        <td>仓位建议</td>
+      </tr>
+      <tr>
+        <td>上证50(大盘)</td>
+        <td>建议参与</td>
+        <td>50%-100%</td>
+      </tr>
+      <tr>
+        <td>沪深300(中盘)</td>
+        <td>建议参与</td>
+        <td>20%-70%</td>
+      </tr>
+      <tr>
+        <td>中证500(小盘)</td>
+        <td>建议参与</td>
+        <td>0%-30%</td>
+      </tr>
+      <tr>
+        <td>创业板</td>
+        <td>不建议参与</td>
+        <td>0%</td>
+      </tr>
+    </table>
+  </div>
 </div>
 </template>
 <script>
+import Radarchart from 'components/radar-chart'
 export default {
   data() {
     return {
       tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中']
     }
+  },
+  components: {
+    Radarchart
   }
 }
 </script>
