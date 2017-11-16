@@ -357,7 +357,7 @@ body {
             <td>
               <span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
             <td>
-              <span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Number(timeEval.avgHoldDays).toFixed(2)}}</span></td>
+              <span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Math.round(timeEval.avgHoldDays)}}</span></td>
           </tr>
 
         </table>

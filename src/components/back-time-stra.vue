@@ -293,7 +293,7 @@ i {
                          </span></br><span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
           <td>
             <span class="gray">平均持有天数
-                         </span></br><span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Number(timeEval.avgHoldDays).toFixed(2)}}</span></td>
+                         </span></br><span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Math.round(timeEval.avgHoldDays)}}</span></td>
           <td>
             <span class="gray">回测区间
                          </span></br><span class="desc-num1">{{timeStrategy.backtestStartDate==null?'--':changeDate(timeStrategy.backtestStartDate)}}～{{timeStrategy.backtestEndDate==null?'--':changeDate(timeStrategy.backtestEndDate)}}</span>
