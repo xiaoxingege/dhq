@@ -332,7 +332,7 @@
 			<div class="detail-content">
 				<div class="detail-title">
 					<ul class="detail-title-lists">
-						<li style="width:1.49rem">股票名称1</li>
+						<li style="width:1.49rem">股票名称</li>
 						<li class="r" style="width:1.5rem;">成交价</li>
 						<li class="r" style="width:2.39rem;">成交量（万股）</li>
 						<li class="r" style="width:1.5rem;">溢价率</li>
