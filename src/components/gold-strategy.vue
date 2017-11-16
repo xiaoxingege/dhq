@@ -200,10 +200,10 @@ a {
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
             <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
-              {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':this.goldResult.evaluationIndexs.avgHoldDays}}
+              {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':Number(this.goldResult.evaluationIndexs.avgHoldDays).toFixed(0)}}
             </td>
             <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
-              {{this.goldResult.evaluationIndexs.capitalCapacity === null ? '--':(Number(this.goldResult.evaluationIndexs.capitalCapacity)/10000).toFixed(2)}}
+              {{this.goldResult.evaluationIndexs.capitalCapacity === null ? '--':this.capitalCapacity}}
             </td>
           </tr>
         </table>
@@ -483,6 +483,22 @@ export default {
             stockSort: stockSortData
           }
         }
+      }
+    },
+    capitalCapacity: function() {
+      let cValue = (Number(this.goldResult.evaluationIndexs.capitalCapacity) / 10000).toFixed(0)
+      if (cValue.length > 5 || cValue.length === 5) {
+        let result = cValue.substring(0, 3)
+        for (var i = 0; i < (cValue.length - 3); i++) {
+          result += '0'
+        }
+        return result
+      } else if (cValue.length === 4) {
+        return cValue.substring(0, 2) + '00'
+      } else if (cValue.length === 3) {
+        return cValue.substring(0, 1) + '00'
+      } else {
+        return cValue
       }
     }
   }),

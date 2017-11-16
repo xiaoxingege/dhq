@@ -1,0 +1,30 @@
+/*模拟select样式*/
+.vSelect {
+    width: 200px;
+    position: relative;
+}
+
+.vSelect input {
+    display: block;
+    width: 100%;
+    height: 28px;
+    border: 1px solid #393F48;
+    background: url("../images/select-arrow.png") no-repeat scroll right center transparent;
+    background-position-x: 95%;
+    background-color: #1E2329;
+    color: #c9d0d7;
+    padding-left: 10px;
+}
+
+.vUl {
+    position: absolute;
+    top: 28px;
+    width: 100%;
+}
+
+.vUl li {
+    padding-left: 10px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #1E2329;
+}
