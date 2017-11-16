@@ -22,12 +22,16 @@ export default {
   mounted() {
     const query = qs.parse(location.search.substring(1))
     const payUrl = query.payUrl
+    const debug = query.debug
     const skipRiskAssessed = query.skipRiskAssessed === '1'
     const payQuery = qs.parse(payUrl.replace(/.*?\?/, ''))
     this.$store.dispatch('user/checkLogin').then(() => {
       return this.$store.dispatch('user/checkBindingInfo', {})
     }).then(() => {
       setTimeout(() => {
+        if (debug) {
+          alert(`${this.bindingMobile},${this.bindingIdentity},${this.riskAssessed},${skipRiskAssessed},${window.jrj},${payQuery.productId},${payQuery.type}`)
+        }
         if (!this.bindingMobile && !this.bindingIdentity && !this.riskAssessed) {
           // 未绑定手机号未实名验证未评测
           const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
@@ -46,8 +50,8 @@ export default {
           location.replace(idUrl)
         } else if (this.bindingMobile && this.bindingIdentity) {
           if (!this.riskAssessed) {
-            if (skipRiskAssessed) {
-              jrj.jsCallNative(1114, JSON.stringify({
+            if (skipRiskAssessed && window.jrj) {
+              window.jrj.jsCallNative(1114, JSON.stringify({
                 bizCode: '5',
                 productId: '5',
                 productSubId: payQuery.productId,
