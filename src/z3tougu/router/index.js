@@ -36,8 +36,8 @@ import finance from 'components/finance'
 import blank from 'components/z3touguhome/blank'
 import errorPage from 'components/z3tougu-error-page'
 import CustomerList from 'components/customer-list'
-import PortraitDetail from 'components/customerPortrait/portrait-detail'
-import StockMapOld from 'components/stockmap-old/stockmap-old'
+/* import PortraitDetail from 'components/customerPortrait/portrait-detail' */
+/* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
 } from '../config'
@@ -266,13 +266,13 @@ export default [{
     path: ctx + '/customerList',
     name: 'customerlist',
     component: CustomerList
-  },
-  {
-    path: ctx + '/portraitDetail',
-    name: 'portraitDetail',
-    component: PortraitDetail
-  },
-  {
+  }
+  /*  {
+     path: ctx + '/portraitDetail',
+     name: 'portraitDetail',
+     component: PortraitDetail
+   } */
+  /* {
     path: ctx + '/stockMapOld/fullScreen',
     name: 'stockMapOldBig',
     component: StockMapOld
@@ -281,6 +281,6 @@ export default [{
     path: ctx + '/stockMapOld/normal',
     name: 'stockMapOldNormal',
     component: StockMapOld
-  }
+  } */
 
 ]

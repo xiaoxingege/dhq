@@ -4,14 +4,19 @@
     position: relative;
 }
 .portarit-strategy-title select {
-    color: #1984ea;
-    background-color: #141518;
-    border-radius: 3px;
-    border: 1px solid #141518;
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+  width: 247px;
+  color: #1984ea;
+  -webkit-appearance: none;
+  padding-left: 4px;
+  background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
+  background-color: #141518;
+  border-radius: 3px;
+  border: 1px solid #141518;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 .portarit-strategy-title select option {
     color: #666;
@@ -23,7 +28,7 @@
 .strategy-chart-link {
     display: inline-block;
     width: 100%;
-    height: 67%;
+    height: 78.8%;
 }
 .strategy-chart {
     height: 100%;
@@ -31,7 +36,7 @@
 }
 .rate-labels {
     padding-top: 5px;
-    height: 18%;
+    height: 21.2%;
     color: #c9d0d7;
 }
 .rate-labels li {
@@ -56,36 +61,42 @@
     width: 100%;
     text-align: center;
 }
+  .portrait-strategy-chart{
+    height:85%;
+    border:1px solid #23272c;
+  }
 </style>
 <template>
-<div>
+<div style="width: 60%">
   <div class="portarit-strategy-title">
     <span></span>
     <select v-model="strategyId">
                 <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
             </select>
   </div>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
-    <div class="strategy-chart" ref="chart"></div>
-  </router-link>
-  <ul class="rate-labels clearfix">
-    <li>
-      <span>年化收益率</span>
-      <span :class="parseFloat(annualReturn)>0 ? 'c_up':'c_down'">{{annualReturn}}</span>
-    </li>
-    <li>
-      <span>夏普比率</span>
-      <span>{{sharpe}}</span>
-    </li>
-    <li>
-      <span>胜率</span>
-      <span>{{winRatio}}</span>
-    </li>
-    <li>
-      <span>最大回撤</span>
-      <span>{{maxDrawdown}}</span>
-    </li>
-  </ul>
+  <div class="portrait-strategy-chart">
+    <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
+      <div class="strategy-chart" ref="chart"></div>
+    </router-link>
+    <ul class="rate-labels clearfix">
+      <li>
+        <span>年化收益率</span>
+        <span :class="parseFloat(annualReturn)>0 ? 'c_up':'c_down'">{{annualReturn}}</span>
+      </li>
+      <li>
+        <span>夏普比率</span>
+        <span>{{sharpe}}</span>
+      </li>
+      <li>
+        <span>胜率</span>
+        <span>{{winRatio}}</span>
+      </li>
+      <li>
+        <span>最大回撤</span>
+        <span>{{maxDrawdown}}</span>
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 <script type="text/javascript">

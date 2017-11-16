@@ -49,6 +49,9 @@
 .template select:focus {
     outline: none;
 }
+.template select option:focus {
+    outline: none;
+}
 .legend {
     color: #fff;
     min-height: 50px;
@@ -251,14 +254,14 @@ input {
     </div>
     <div class="fl mr-30">
       筛股策略：
-      <select v-model="stockRangeOptions.strategyDefault" @change="showSelectData">
+      <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
         <option value="">请选择</option>
         <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
             </select>
     </div>
     <div class="fl mr-30">
       股票池：
-      <select v-model="stockRangeOptions.stockPoolDefault" @change="showSelectData">
+      <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
         <option value="">请选择</option>
         <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
             </select>
@@ -747,6 +750,14 @@ export default {
         ...this.dimensionOptions,
         ...this.stockRangeOptions
       }
+    },
+    changeStrategy() {
+      this.stockRangeOptions.stockPoolDefault = ''
+      this.showSelectData()
+    },
+    changePool() {
+      this.stockRangeOptions.strategyDefault = ''
+      this.showSelectData()
     }
   },
   computed: {
@@ -783,14 +794,7 @@ export default {
     },
     'stockRangeOptions.topic': function() {
       this.showSelectData()
-    },
-    'stockRangeOptions.strategyDefault': function() {
-      this.stockRangeOptions.stockPoolDefault = ''
-    },
-    'stockRangeOptions.stockPoolDefault': function() {
-      this.stockRangeOptions.strategyDefault = ''
     }
-
   },
   mounted() {
     this.$store.dispatch('bubbles/getStrategy')

@@ -17,7 +17,6 @@
 }
 
 .portrait-gold-strategy>div {
-  width: 50%;
   height: 100%;
   float: left;
 }
@@ -36,14 +35,14 @@
   </div>
   <div class="portrait-gold-strategy clearfix">
     <PortraitStrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId"></PortraitStrategyBox>
-    <tradeSignals :strategyId="strategyId"></tradeSignals>
+    <PortraitTradeSignals :strategyId="strategyId"></PortraitTradeSignals>
   </div>
 
 </div>
 </template>
 <script type="text/javascript">
 import PortraitStrategyBox from 'components/customerPortrait/portrait-strategy-box'
-import tradeSignals from 'components/z3touguhome/trade-signals'
+import PortraitTradeSignals from 'components/customerPortrait/portrait-trade-signals'
 export default {
   data() {
     return {
@@ -64,7 +63,7 @@ export default {
   props: [''],
   components: {
     PortraitStrategyBox,
-    tradeSignals
+      PortraitTradeSignals
   },
   computed: {
 
