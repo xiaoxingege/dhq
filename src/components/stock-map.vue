@@ -750,6 +750,7 @@ export default {
       // const focusStockData = this.stockData
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
+      const rootLayout = treeRoot.getLayout();
       treeRoot.children.forEach(function(industry) {
         industry.children.forEach(function(lvl2) {
           lvl2.children.forEach(function(stock) {
@@ -757,9 +758,16 @@ export default {
               const lvl2Node = stock.parentNode;
               const industryNode = lvl2Node.parentNode;
               const nodeLayout = stock.getLayout();
-              const x = industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
-              const y = industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
-              const obj = _this.chart._zr.findHover(x, y);
+              const x = rootLayout.x + industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
+              const y = rootLayout.y + industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
+              let obj = _this.chart._zr.findHover(x, y);
+              if (nodeLayout.area === 0) {
+                chartView._onZoom(1.1, x, y);
+                setTimeout(function() {
+                  _this.focusStock()
+                }, 0);
+                return;
+              }
               if (_this.focusEl) {
                 const preNodeStl = _this.focusEl.style;
                 preNodeStl.stroke = null;
