@@ -15,11 +15,15 @@ export default {
   components: {},
   computed: mapState({
     loginStatus: state => state.user.loginStatus,
-    riskAssessed: state => state.user.riskAssessed,
+    riskAssessed: state => {
+      const query = qs.parse(location.search.substring(1))
+      const skipRiskAssessed = query.skipRiskAssessed === '1'
+      return state.user.riskAssessed || skipRiskAssessed
+    },
     bindingMobile: state => state.user.bindingMobile,
     bindingIdentity: state => state.user.bindingIdentity
   }),
-  mounted () {
+  mounted() {
     const query = qs.parse(location.search.substring(1))
     const payUrl = query.payUrl
     this.$store.dispatch('user/checkLogin').then(() => {
