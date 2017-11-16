@@ -340,7 +340,6 @@ export default {
       this.playLineIndex = 19
     },
     condition() {
-      // this.updateDataByCodition()
       this.isContinue = 1
       this.updateData()
     },
@@ -550,20 +549,24 @@ export default {
     },
     updateMap: function() {
       this.isContinue = 1;
-      /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
-      this.$store.dispatch('stockMap/queryRangeByCode', {
-        code: this.rangeCode
-      }).then(() => {
-        this.$refs.treemap.style.left = 0
-        this.$refs.treemap.style.top = 0
-        this.scale = 1
-        this.initOption(this.mapData)
-      })
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
+      let p1 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/queryRangeByCode', {
+          code: this.rangeCode
+        }).then(() => {
+          this.initOption(this.mapData);
+          resolve();
+        })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/updateData', {
+          isContinue: this.isContinue,
+          condition: this.condition,
+          code: this.rangeCode
+        }).then(() => {
+          resolve();
+        })
+      });
+      Promise.all([p1, p2]).then(() => {
         this.updateMapData();
       })
     },
@@ -578,19 +581,6 @@ export default {
           this.playLineIndex = 19
         }
         this.updateMapData()
-      })
-    },
-    updateDataByCodition: function() {
-      this.getLegendColor()
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
-        if (this.playLineIndex >= 18) {
-          this.playLineIndex = 19
-        }
-        this.initOption(this.stockData)
       })
     },
     updateMapData: function() {
@@ -618,6 +608,7 @@ export default {
       }
     },
     initOption: function(data) {
+      this.autoUpdate = true
       if (this.chart) {
         this.chart.clear();
         this.chart.dispose()

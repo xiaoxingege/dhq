@@ -3,11 +3,11 @@
         width: 40%;
     }
     .trade-signal-top {
-        height: 14%;
+        height: 16.5%;
         position: relative;
     }
     .signal-table {
-        height: 85%;
+        height: 83.5%;
     }
     .portrait-signal-title{
         width: 100%;
@@ -27,6 +27,12 @@
     .trade-signal-top>div{
         background-color: #141518;
         padding-left:10px;
+    }
+    .trade-signal-top li{
+        width: 65px;
+    }
+    .trade-signal-top li span{
+        width: 65px;
     }
     .table-wrap {
         width: 100%;
@@ -73,7 +79,7 @@
         background-color: #2e4465;
     }
     .portrait-signal-con{
-
+        height:85%;
     }
 </style>
 <template>
