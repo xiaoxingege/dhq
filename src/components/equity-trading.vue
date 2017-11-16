@@ -553,7 +553,7 @@ export default {
     	})
     },
     clickLi(li){
-  		window.location.href='http://localhost:8080/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName
+  		window.location.href='http://itougu.jrj.com.cn/h5/equity-single?stockcode='+li.stockCode+'&stockname='+li.stockName
   	}
   }
 }
