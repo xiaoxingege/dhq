@@ -115,6 +115,7 @@ a,
   text-align: center;
   border: 1px solid #23272c;
   border-left: none;
+  position: relative;
 }
 
 .table-box tr:nth-child(1) {
@@ -124,6 +125,25 @@ a,
 
 .table-box tr:nth-child(1) td {
   height: 30px;
+}
+
+.sort-down {
+  width: 11px;
+  height: 6px;
+  display: block;
+  background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
+  position: absolute;
+  bottom: 0px;
+}
+
+.sort-up {
+  width: 11px;
+  height: 6px;
+  display: block;
+  background: url("../assets/images/z3img/topic-sort-up.png") no-repeat;
+  position: absolute;
+  bottom: 0px;
+  left: 45%;
 }
 
 .foot-tishi {
@@ -161,14 +181,14 @@ a,
   <div class="customer-list">
     <table class="table-box" cellpadding="0" cellspacing="0">
       <tr>
-        <td class="t-head">资金账户</td>
+        <td class="t-head">资金账户<i class="sort-up"></i></td>
         <td class="t-head">客户姓名</td>
         <td>性别</td>
         <td>资产分级</td>
         <td>活跃度</td>
-        <td>本户持仓比</td>
-        <td>交易次数(近3月)</td>
-        <td>开户时间</td>
+        <td>本户持仓比<i class="sort-up"></i></td>
+        <td>交易次数(近3月)<i class="sort-up"></i></td>
+        <td>开户时间<i class="sort-up"></i></td>
         <td>交易能力</td>
         <td>手机号</td>
         <td>关注度</td>
