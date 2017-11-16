@@ -932,7 +932,14 @@ export default {
       }
     },
     startPlay: function() {
-      clearInterval(this.updateDataPid)
+      clearInterval(this.updateDataPid);
+      if (!this.autoUpdate) {
+        this.restoreMap();
+        setTimeout(() => {
+          this.startPlay();
+        }, 500);
+        return;
+      }
       this.updateDataPid = null
       if (this.playBackState) { // 播放中点击暂停
         this.playBackState = false
@@ -1239,7 +1246,8 @@ export default {
     this.initMap()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid);
+    this.chart.dispose();
   }
 }
 </script>
