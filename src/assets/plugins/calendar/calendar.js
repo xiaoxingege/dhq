@@ -344,7 +344,7 @@ function(e) {
             }
             a + n > s && (a = a - n + e.offsetWidth),
             f + i > o + u && (f = f - i - e.offsetHeight),
-            this.el.style.cssText = "position:absolute;left:" + a + "px;top:" + f + "px;"
+            this.el.style.cssText = "position:absolute;left:0px;top:0.88rem;"
         },
         render: function(e, t) {
             var n = this._o,

@@ -35,12 +35,38 @@
 }
 .title-right{
 	float: right;
-	padding-right: 0.56rem;
+	margin:0.25rem 0;
+	width:2.18rem;
 	height: 0.37rem;
+	box-sizing: border-box;
 	line-height: 0.37rem;
+	position: relative;
 }
 .title-right input{
-	width:auto;
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 10;
+	width:2.18rem;
+	height: 0.37rem;
+	box-sizing: border-box;
+	line-height: 0.37rem;
+	text-align: left;
+	font-size: 0.26rem;
+	color:#888888;
+	outline: none;
+	border:none;
+	background: rgba(255,255,255,0);
+}
+.title-right .calendar-icon{
+	position: absolute;
+	top:-0.01rem;
+	right:0;
+	z-index: 1;
+	width:0.4rem;
+	height: 0.37rem;
+	background: url('http://i0.jrjimg.cn/optional/date.png');
+	background-size: contain;
 }
 
 .detail-title{
@@ -107,12 +133,9 @@
     z-index: 9999;
     display: block;
     position: relative;
-    width: 240px;
-    padding: 8px;
+    width: 100%;
     color: #333;
     background: #fff;
-    border: 1px solid #ccc;
-    border-bottom-color: #bbb;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -122,24 +145,25 @@
 
 .pika-single.is-bound {
     position: absolute;
-    box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
 }
 
 .pika-title {
     position: relative;
     text-align: center;
+		height:1.05rem;
+		margin-bottom: 0.14rem;
+		font-size: 0.32rem;
 }
 
 .pika-label {
     display: inline-block;
-    *display: inline;
     position: relative;
     z-index: 9999;
     overflow: hidden;
-    margin: 0;
-    padding: 5px 3px;
-    font-size: 14px;
-    line-height: 20px;
+    margin: 0.3rem 0;
+    font-size: 0.32rem;
+		height: 0.45rem;
+    line-height: 0.45rem;
     font-weight: bold;
     background-color: #fff;
 }
@@ -162,16 +186,16 @@
     outline: none;
     border: 0;
     padding: 0;
-    width: 20px;
-    height: 30px;
+    width: 0.13rem;
+    height:0.16rem;
     background-color: transparent;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 75% 75%;
+    background-size: 100% 100%;
     white-space: nowrap;
     text-indent: 100%;
     overflow: hidden;
-    opacity: .5;
+    opacity: .9;
     *position: absolute;
     *top: 0;
 }
@@ -183,16 +207,21 @@
 
 .pika-prev,
 .is-rtl .pika-next {
-    float: left;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');
-    *left: 0;
+    position: absolute;
+		top:0.44rem;
+		left:2.4rem;
+    background-image: url('http://i0.jrjimg.cn/optional/left.png');
+		*left: 0;
 }
 
 .pika-next,
 .is-rtl .pika-prev {
+		position: absolute;
+		top:0.44rem;
+		right:2.4rem;
     float: right;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');
-    *right: 0;
+    background-image: url('http://i0.jrjimg.cn/optional/right.png');
+		*right: 0;
 }
 
 .pika-prev.is-disabled,
@@ -208,50 +237,57 @@
 
 .pika-table {
     width: 100%;
-    border-collapse: collapse;
     border-spacing: 0;
     border: 0;
+		padding-bottom:0.07rem;
 }
-
+.pika-table tr{
+	overflow: hidden;
+}
 .pika-table th,
 .pika-table td {
-    width: 14.285714285714286%;
+		float: left;
+    width:1.07rem;
 }
+.pika-table td {
+	height: 0.8rem;
+	box-sizing: border-box;
 
+}
 .pika-table th {
-    color: #999;
-    font-size: 12px;
-    line-height: 25px;
-    font-weight: bold;
+    color: #aaa;
+    font-size: 0.24rem;;
+    line-height:0.33rem;
+		height: 0.33rem;.pika-button
     text-align: center;
+		margin-bottom: 0.12rem;
 }
 
 .pika-button {
+		float: left;
     cursor: pointer;
-    display: block;
     outline: none;
     border: 0;
-    margin: 0;
-    width: 100%;
-    padding: 5px;
-    color: #666;
-    font-size: 12px;
-    line-height: 15px;
+    margin: 0.04rem 0.175rem;
+    width: 0.72rem;
+		height: 0.72rem;
+		line-height: 0.72rem;
+    color: #333;
+		background: #fff;
+    font-size:0.28rem;
     text-align:center;
-    background: #f5f5f5;
 }
 
 .is-today .pika-button {
-    color: #33aaff;
+    color:#FF4040;
     font-weight: bold;
 }
 
 .is-selected .pika-button {
     color: #fff;
     font-weight: bold;
-    background: #33aaff;
-    box-shadow: inset 0 1px 3px #178fe5;
-    border-radius: 3px;
+    background: #FF4040;
+    border-radius:50%;
 }
 
 .is-disabled .pika-button {
@@ -263,11 +299,23 @@
 
 .pika-button:hover {
     color: #fff !important;
-    background: #ff8000 !important;
+    background: #FF4040 !important;
     box-shadow: none !important;
-    border-radius: 3px !important;
+    border-radius: 50% !important;
 }
-
+.mask{
+	display: none;
+	width:100%;
+	height: 100%;
+	background: rgba(0,0,0,0.6);
+	position: fixed;
+	top:0.88rem;
+	left:0;
+	z-index:100;
+}
+.show{
+	display: block!important;
+}
 </style>
 
 <template>
@@ -277,7 +325,7 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="text"  value="2017-11-14"/>
+					<input id="datepicker" type="text" v-model="date" @change="calcange()" ref="inputDate"/>
 					<span class="calendar-icon"></span>
 				</div>
 			</div>
@@ -304,6 +352,10 @@
 				</div>
 			</div>
 		</div>
+		<div :class="['mask',{'show': openMask}]">
+
+		</div>
+
 	</div>
 </template>
 
@@ -317,11 +369,12 @@ const Pikaday = require('../assets/plugins/calendar/calendar.js')
 export default {
   data () {
     return {
-    	data:'2017-11-07',// 初始日期
+    	date:'2017-11-14',// 初始日期
     	detailList:[],
     	pn:'1', // 页码
     	ps:'20', // 每页条数
-    	detailDataFlag:true// 1 有数据 0无数据
+    	detailDataFlag:true,// 1 有数据 0无数据
+			openMask:false // show
     }
   },
   beforecreated () {
@@ -331,18 +384,26 @@ export default {
     document.title = '大宗交易明细'
   },
   mounted () {
+		// this.$watch('date',date => {
+		// 	console.log(date)
+		// })
     this.getDetailList()
 		this.addcalendar()
   },
-  methods: {
-		addcalendar(){
+  methods:{
+		calcange () {
+			this.date=this.$refs.inputDate.value
+			console.log(this.date)
+			this.getDetailList()
+		},
+		addcalendar () {
 			new Pikaday(
 	    {
 	        field: document.getElementById('datepicker'),
 	        firstDay: 1,
-	        minDate: new Date('2010-01-01'),
-	        maxDate: new Date('2020-12-31'),
-	        yearRange: [2000,2020]
+	        minDate: new Date('2000-01-01'),
+	        maxDate: new Date('2030-12-31'),
+	        yearRange: [2000,2030]
 	    });
 		},
   	addcolor (v) {
@@ -356,8 +417,7 @@ export default {
     },
     inquireMore(){
     	this.pn++
-    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.data+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-
+    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
     	$.ajax({
 		   	url:url,
 		    type:'get',
@@ -383,8 +443,7 @@ export default {
     getDetailList(){
     	// http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate=2017-10-17&order=asc&sort=stockcode&page=1&psize=20&_dc=1509343987308
 
-    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.data+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-
+    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
     	$.ajax({
 		   	url:url,
 		    type:'get',
@@ -405,7 +464,7 @@ export default {
 	  	});
     },
     clickLi(li){
-  		window.location.href='http://localhost:8080/dist/h5/block-single.html?stockcode='+li[1]+'&stockname='+li[2]
+  		window.location.href='http://itougu.jrj.com.cn/h5/block-single?stockcode='+li[1]+'&stockname='+li[2]
   	}
   }
 }
