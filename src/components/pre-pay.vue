@@ -60,7 +60,7 @@ export default {
                 pageReturnUrl: 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa?type=paySuccess#/success',
                 asynReturnUrl: 'http://itougu.jrj.com.cn/smartstock/api/ordercompleted.jspa',
                 source: '',
-                callback: '',
+                callback: ''
               }))
             } else {
               // 已绑手机号已验证实名未测评
