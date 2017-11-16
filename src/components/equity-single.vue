@@ -154,22 +154,15 @@
 	<div class="equity-trading">
 		<div class="block curve">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
-			<div class="curve-content">
-				<ul class="curve-list" v-if="curveList">
-					<li v-for="item in curveList">
-						{{item.date}}
-						{{item.marginBalance}}
-					</li>
-				</ul>
-			</div>
+			<div id="curve" style="width:100%;height:3.53rem;"></div>
 		</div>
 		<div class="block detail">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>数据明细</h2>
 			</div>
 			<div class="detail-content">
@@ -195,7 +188,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="skip">
 			<p>点击查看个股详情</p>
 		</div>
@@ -206,6 +199,8 @@
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import 'whatwg-fetch'
+var echarts = require('echarts')
+
 
 export default {
   data () {
@@ -224,7 +219,7 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = this.stockname+'_融资融券'
@@ -232,7 +227,7 @@ export default {
   mounted () {
     this.getCurveList()
     this.getDetailList()
-    
+
   },
   filters: {
     convert2 (d) {
@@ -244,6 +239,119 @@ export default {
     }
   },
   methods: {
+  	insertEchart(){
+  		// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('curve'));
+
+		var data=this.curveList;
+		var dataX=[];
+		var dataY=[];
+		for (var i = 0; i < data.length; i++) {
+			dataX.push(data[i].date)
+			dataY.push(data[i].marginBalance)
+		}
+		var interval=dataY.length-2
+		var option = {
+			grid:{
+				top:'18%',
+				left:'10%',
+				right:'20%',
+				bottom:'20%'
+			},
+		    tooltip: {
+		        trigger: 'axis',
+		        position: function (pt) {
+		            return [pt[0], '10%'];
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        data: dataX,
+		        min:function(d){
+		        	return d.min
+		        },
+		        max:function(d){
+		        	return d.max
+		        },
+		        axisLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)'
+		        	}
+		        },
+		        axisTick:{
+		        	show:false
+		        },
+		        axisLabel:{
+		        	// show:false,
+		        	interval:interval,
+		        	margin:15,
+		        	showMinLabel:true,
+		        	showMaxLabel:true,
+		        	color:'rgba(170,170,170,1)',
+		        	align:'center'
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        position:'right',
+		        boundaryGap: ['10%', '10%'],
+		        scale:true,
+		        splitNumber:2,
+		        axisLine:{
+		        	show:false
+		        },
+		        axisTick:{
+		        	show:false
+		        },
+		        axisLabel:{
+		        	margin:20,
+		        	formatter: function (d) {
+					   if (d/100000000>=1 || d/100000000<=-1) {
+				    		return (d / 100000000) + '亿'
+				    	}else{
+				    		return (d / 10000) + '万'
+				    	}
+					},
+					color:'rgba(170,170,170,1)'
+		        },
+		        splitLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)',
+		        		type:'dotted'
+		        	}
+		        }
+
+		    },
+		    series: [
+		        {
+		            type:'line',
+		            smooth:true,
+		            symbol: 'none',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'rgba(80,188,253,1)'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+		                        offset: 0,
+		                        color: 'rgba(80,188,253,0.6)'
+		                    }, {
+		                        offset: 1,
+		                        color: 'rgba(80,188,253,0)'
+		                    }])
+		                }
+		            },
+		            data: dataY
+		        }
+		    ]
+		};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+  	},
   	getQueryString (name) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
@@ -309,6 +417,7 @@ export default {
 	    }).then(v => {
     		this.curveList=v.data.list
     		this.curveTime=v.data.date
+    		this.insertEchart()
     	}).catch(v2 => {
     		console.log(v2)
     	})

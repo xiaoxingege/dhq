@@ -90,7 +90,7 @@
 .change-content{
 	width:6.9rem;
 	margin:0 auto;
-	padding:0.46rem 0 0.5rem; 
+	padding:0.46rem 0 0.5rem;
 	overflow: hidden;
 }
 .change-table{
@@ -114,7 +114,7 @@
 	border:0.01rem solid #E6E6E6;
 }
 .change-table td{
-	height:0.80rem; 
+	height:0.80rem;
 	padding:0.16rem 0;
 	font-size:0.28rem;
 	font-family:PingFangSC-Regular;
@@ -212,18 +212,11 @@
 	<div class="equity-trading">
 		<div class="block curve">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>两市融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
-			<div class="curve-content">
-				<ul class="curve-list" v-if="curveList">
-					<li v-for="item in curveList">
-						{{item.date}}
-						{{item.marginBalance}}
-					</li>
-				</ul>
-			</div>
+			<div id="curve" style="width:100%;height:3.53rem;"></div>
 		</div>
 		<div class="block change">
 			<div class="title">
@@ -232,7 +225,7 @@
 				<em :class="addcolor(balance)">{{balance | convert}}</em>
 				<h2>环比变动：</h2>
 				<em :class="addcolor(percent)">{{percent}}%</em>
-			</div> 
+			</div>
 			<div class="change-content">
 				<table class="change-table" cellpadding="0" cellspacing="0">
 					<tr>
@@ -252,7 +245,7 @@
 		</div>
 		<div class="block detail">
 			<div class="title">
-				<span class="red-block"></span>	
+				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<ul class="title-tab">
 					<li class="active" data-index='1' @click="dayTab($event)">今日</li>
@@ -290,6 +283,7 @@
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import 'whatwg-fetch'
+var echarts = require('echarts')
 
 export default {
   data () {
@@ -309,7 +303,7 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = '融资融券'
@@ -318,7 +312,6 @@ export default {
     this.getCurveList()
     this.getGatherList()
     this.getDetailList()
-    
   },
   filters: {
     convert (d) {
@@ -339,6 +332,119 @@ export default {
     }
   },
   methods: {
+  	insertEchart(){
+  		// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('curve'));
+
+		var data=this.curveList;
+		var dataX=[];
+		var dataY=[];
+		for (var i = 0; i < data.length; i++) {
+			dataX.push(data[i].date)
+			dataY.push(data[i].marginBalance)
+		}
+		var interval=dataY.length-2
+		var option = {
+			grid:{
+				top:'18%',
+				left:'10%',
+				right:'20%',
+				bottom:'20%'
+			},
+		    tooltip: {
+		        trigger: 'axis',
+		        position: function (pt) {
+		            return [pt[0], '10%'];
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        data: dataX,
+		        min:function(d){
+		        	return d.min
+		        },
+		        max:function(d){
+		        	return d.max
+		        },
+		        axisLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)'
+		        	}
+		        },
+		        axisTick:{
+		        	show:false
+		        },
+		        axisLabel:{
+		        	// show:false,
+		        	interval:interval,
+		        	margin:15,
+		        	showMinLabel:true,
+		        	showMaxLabel:true,
+		        	color:'rgba(170,170,170,1)',
+		        	align:'center'
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        position:'right',
+		        boundaryGap: ['10%', '10%'],
+		        scale:true,
+		        splitNumber:2,
+		        axisLine:{
+		        	show:false
+		        },
+		        axisTick:{
+		        	show:false
+		        },
+		        axisLabel:{
+		        	margin:20,
+		        	formatter: function (d) {
+					   if (d/100000000>=1 || d/100000000<=-1) {
+				    		return (d / 100000000) + '亿'
+				    	}else{
+				    		return (d / 10000) + '万'
+				    	}
+					},
+					color:'rgba(170,170,170,1)'
+		        },
+		        splitLine:{
+		        	lineStyle:{
+		        		color:'rgba(219,219,219,1)',
+		        		type:'dotted'
+		        	}
+		        }
+
+		    },
+		    series: [
+		        {
+		            type:'line',
+		            smooth:true,
+		            symbol: 'none',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'rgba(80,188,253,1)'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+		                        offset: 0,
+		                        color: 'rgba(80,188,253,0.6)'
+		                    }, {
+		                        offset: 1,
+		                        color: 'rgba(80,188,253,0)'
+		                    }])
+		                }
+		            },
+		            data: dataY
+		        }
+		    ]
+		};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+  	},
   	addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
@@ -403,6 +509,7 @@ export default {
 	    }).then(v => {
     		this.curveList=v.data.list
     		this.curveTime=v.data.date
+    		this.insertEchart()
     	}).catch(v2 => {
     		console.log(v2)
     	})
@@ -446,7 +553,7 @@ export default {
     	})
     },
     clickLi(li){
-  		window.location.href='http://localhost:8080/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName  
+  		window.location.href='http://itougu.jrj.com.cn/h5/equity-single?stockcode='+li.stockCode+'&stockname='+li.stockName
   	}
   }
 }
