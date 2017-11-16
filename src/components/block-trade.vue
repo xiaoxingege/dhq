@@ -325,25 +325,25 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="text" v-model="date" @change="calcange()" ref="inputDate"/>
+					<input id="datepicker" type="button" v-model="date" @change="calcange()"  @focus="calfocus()" ref="inputDate"/>
 					<span class="calendar-icon"></span>
 				</div>
 			</div>
 			<div class="detail-content">
 				<div class="detail-title">
 					<ul class="detail-title-lists">
-						<li style="width:1.49rem">股票名称</li>
-						<li class="r" style="width:0.7rem;marginLeft:0.80rem;">成交价</li>
-						<li class="r" style="width:1.58rem;marginLeft:0.81rem;">成交量（万股）</li>
-						<li class="r" style="width:0.7rem;marginLeft:0.80rem;">溢价率</li>
+						<li style="width:1.49rem">股票名称1</li>
+						<li class="r" style="width:1.5rem;">成交价</li>
+						<li class="r" style="width:2.39rem;">成交量（万股）</li>
+						<li class="r" style="width:1.5rem;">溢价率</li>
 					</ul>
 				</div>
 				<ul class="detail-lists" v-if="detailList">
 					<li v-for="item in detailList" @click="clickLi(item)">
 						<p style="width:1.49rem">{{item[2]}}</p>
-						<span style="width:1rem;marginLeft:0.50rem;">{{item[4].toFixed(2)}}</span>
-						<span style="width:1.4rem;marginLeft:0.81rem;">{{item[6].toFixed(2)}}</span>
-						<span :class="addcolor(item[5])" style="width:1rem;marginLeft:0.68rem;">{{item[5].toFixed(2)}}%</span>
+						<span style="width:1.5rem;">{{item[4].toFixed(2)}}</span>
+						<span style="width:2.21rem;">{{item[6].toFixed(2)}}</span>
+						<span :class="addcolor(item[5])" style="width:1.68rem;">{{item[5].toFixed(2)}}%</span>
 					</li>
 				</ul>
 				<div class="detail-more">
@@ -391,10 +391,14 @@ export default {
 		this.addcalendar()
   },
   methods:{
+		calfocus(){
+
+		},
 		calcange () {
 			this.date=this.$refs.inputDate.value
 			console.log(this.date)
 			this.getDetailList()
+			 // document.activeElement.blur();
 		},
 		addcalendar () {
 			new Pikaday(

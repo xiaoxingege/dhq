@@ -64,10 +64,16 @@
 }
 .detail-title .detail-title-lists li{
 	float: left;
-	text-align:left;
+	text-align:right;
+	padding-right: 0.2rem;
+	box-sizing: border-box;
 	font-size: 0.22rem;
 	color: #aaa;
 	position: relative;
+}
+.detail-title .detail-title-lists .time{
+	width:2.04rem;
+	text-align: left;
 }
 .detail-title .detail-title-lists li span{
 	width:0.13rem;
@@ -168,18 +174,18 @@
 			<div class="detail-content">
 				<div class="detail-title">
 					<ul class="detail-title-lists">
-						<li style="width:2.14rem">时间</li>
-						<li data-index='0' @click="clickSort($event)" style="width:1.3rem;" class="desc">融资净买入<span></span></li>
-						<li data-index='1' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融资买入<span></span></li>
-						<li data-index='2' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融券卖出<span></span></li>
+						<li class="time">时间</li>
+						<li data-index='0' @click="clickSort($event)" style="width:1.4rem;" class="desc">融资净买入<span></span></li>
+						<li data-index='1' @click="clickSort($event)" style="width:1.73rem;">融资买入<span></span></li>
+						<li data-index='2' @click="clickSort($event)" style="width:1.73rem;">融券卖出<span></span></li>
 					</ul>
 				</div>
 				<ul class="detail-lists" v-if="detailList">
 					<li v-for="item in detailList">
-						<p style="width:2.14rem">{{item.date}}</p>
-						<span :class="addcolor(item.netBuyVal)" style="width:1.3rem;">{{item.netBuyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.buyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.sellVal | convert2}}</span>
+						<p style="width:2.04rem">{{item.date}}</p>
+						<span :class="addcolor(item.netBuyVal)" style="width:1.4rem;">{{item.netBuyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.buyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
 				<div class="detail-more">
@@ -206,7 +212,7 @@ export default {
   data () {
     return {
     	stockcode:this.getQueryString('stockcode'),
-    	stockname:this.getQueryString('stockname'),
+    	stockname:this.getQueryString('stockname','chinese'),
     	curveTime:'',
     	curveList:[],
     	detailList:[],
@@ -352,10 +358,14 @@ export default {
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
   	},
-  	getQueryString (name) {
+		getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
-      if (r != null) return unescape(r[2])
+			if (chinese) {
+				if (r != null) return decodeURI(r[2])
+			}else{
+				if (r != null) return unescape(r[2])
+			}
       return null
     },
   	addcolor (v) {

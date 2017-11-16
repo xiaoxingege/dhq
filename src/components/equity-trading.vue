@@ -144,10 +144,16 @@
 }
 .detail-title .detail-title-lists li{
 	float: left;
-	text-align:left;
+	text-align:right;
+	padding-right: 0.2rem;
+	box-sizing: border-box;
 	font-size: 0.22rem;
 	color: #aaa;
 	position: relative;
+}
+.detail-title .detail-title-lists .name{
+	width:1.49rem;
+	text-align: left;
 }
 .detail-title .detail-title-lists li span{
 	width:0.13rem;
@@ -256,18 +262,18 @@
 			<div class="detail-content">
 				<div class="detail-title">
 					<ul class="detail-title-lists">
-						<li style="width:1.49rem">股票名称</li>
-						<li data-index='0' @click="clickSort($event)" style="width:1.3rem;marginLeft:0.65rem;" class="desc">融资净买入<span></span></li>
-						<li data-index='1' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融资买入<span></span></li>
-						<li data-index='2' @click="clickSort($event)" style="width:1.08rem;marginLeft:0.65rem;">融券卖出<span></span></li>
+						<li class="name">股票名称</li>
+						<li data-index='0' @click="clickSort($event)" style="width:1.95rem;" class="desc">融资净买入<span></span></li>
+						<li data-index='1' @click="clickSort($event)" style="width:1.73rem;">融资买入<span></span></li>
+						<li data-index='2' @click="clickSort($event)" style="width:1.73rem;">融券卖出<span></span></li>
 					</ul>
 				</div>
 				<ul class="detail-lists" v-if="detailList">
 					<li v-for="item in detailList" @click="clickLi(item)">
 						<p style="width:1.49rem">{{item.stockName}}</p>
-						<span :class="addcolor(item.netBuyVal)" style="width:1.3rem;marginLeft:0.65rem;">{{item.netBuyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.buyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.sellVal | convert2}}</span>
+						<span :class="addcolor(item.netBuyVal)" style="width:1.95rem;">{{item.netBuyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.buyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
 				<div class="detail-more">

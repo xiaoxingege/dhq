@@ -168,7 +168,7 @@ export default {
     	startdate:'2017-01-01',
     	enddate:'2017-11-09',
     	stockcode:this.getQueryString('stockcode'),
-    	stockname:this.getQueryString('stockname'),
+    	stockname:this.getQueryString('stockname','chinese'),
     	pn:'1', // 页码
     	ps:'20', // 每页条数
     	detailList:[],
@@ -191,10 +191,14 @@ export default {
   	}
   },
   methods: {
-  	getQueryString (name) {
+  	getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
-      if (r != null) return unescape(r[2])
+			if (chinese) {
+				if (r != null) return decodeURI(r[2])
+			}else{
+				if (r != null) return unescape(r[2])
+			}
       return null
     },
   	addcolor (v) {
@@ -245,7 +249,6 @@ export default {
 		    		this.detailDataFlag=false
 		    	}else{
 		    		this.detailList=window.dzStockList.data
-		    		console.log(this.detailList)
 		    		this.detailDataFlag=true
 		    	}
 		    },
