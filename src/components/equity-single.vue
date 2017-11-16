@@ -212,7 +212,7 @@ export default {
   data () {
     return {
     	stockcode:this.getQueryString('stockcode'),
-    	stockname:this.getQueryString('stockname'),
+    	stockname:this.getQueryString('stockname','chinese'),
     	curveTime:'',
     	curveList:[],
     	detailList:[],
@@ -228,7 +228,6 @@ export default {
 
   },
   created () {
-    decodeURI(this.stockname)
     document.title = this.stockname+'_融资融券'
   },
   mounted () {
@@ -359,10 +358,14 @@ export default {
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
   	},
-  	getQueryString (name) {
+		getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
-      if (r != null) return decodeURI(r[2])
+			if (chinese) {
+				if (r != null) return decodeURI(r[2])
+			}else{
+				if (r != null) return unescape(r[2])
+			}
       return null
     },
   	addcolor (v) {
