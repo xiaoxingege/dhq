@@ -265,9 +265,9 @@
 				<ul class="detail-lists" v-if="detailList">
 					<li v-for="item in detailList" @click="clickLi(item)">
 						<p style="width:1.49rem">{{item.stockName}}</p>
-						<span :class="addcolor(item.netBuyVal)" style="width:1.3rem;marginLeft:0.65rem;">{{item.netBuyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.buyVal | convert2}}</span>
-						<span style="width:1.08rem;marginLeft:0.65rem;">{{item.sellVal | convert2}}</span>
+						<span :class="addcolor(item.netBuyVal)" style="width:1.95rem;">{{item.netBuyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.buyVal | convert2}}</span>
+						<span style="width:1.73rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
 				<div class="detail-more">
