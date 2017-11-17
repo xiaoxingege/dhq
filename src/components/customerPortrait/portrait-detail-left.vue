@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 @import '../../assets/css/base.css';
-
+@import '../../assets/css/z3.css';
 .portrait-custom {
     width: 100%;
     height: 100%;
@@ -13,7 +13,7 @@
 
 .customInfo {
     width: 100%;
-    height: 40%;
+    height: 39%;
 }
 
 .customInfo table,
@@ -22,7 +22,7 @@
 }
 
 .customInfo table {
-    height: 39%;
+    height: 42%;
 }
 
 .posAdvice > table {
@@ -70,7 +70,7 @@
 }
 
 .abilityAnaly {
-    height: 40%;
+    height: 39%;
     box-sizing: border-box;
     padding-top: 3px;
     background: #0d0e0f;
@@ -85,12 +85,25 @@
 }
 
 .posAdvice {
-    height: 20%;
+    height: 22%;
 }
 
-.posAdvice > p {
+.posAdvice > div {
     height: 20%;
-    vertical-align: middle;
+    position: relative;
+}
+
+.posAdvice > div > span {
+    display: block;
+    position: absolute;
+    top: 20%;
+}
+.posAdvice table tr:nth-child(2) td:nth-child(2),
+.posAdvice table tr:nth-child(3) td:nth-child(2),
+.posAdvice table tr:nth-child(4) td:nth-child(2),
+.posAdvice table tr:nth-child(5) td:nth-child(2) {
+    text-align: left;
+    text-indent: 2em;
 }
 </style>
 <template>
@@ -127,7 +140,13 @@
         <td>开户时间</td>
         <td>2016.11.12</td>
         <td>关注度</td>
-        <td></td>
+        <td>
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star-gray.png">
+          <img src="../../assets/images/z3img/star-gray.png">
+        </td>
       </tr>
 
     </table>
@@ -154,7 +173,7 @@
     <p>客户选股能力较强，但仓控、择时能力较弱，建议投顾重点给予客户仓位控制以及交易时点的相关信息和指导，提高客户的盈利能力。</p>
   </div>
   <div class="posAdvice">
-    <p>仓位建议</p>
+    <div><span>仓位建议</span></div>
     <table cellpadding="0" cellspacing="0">
       <tr>
         <td>市场</td>
@@ -183,6 +202,7 @@
       </tr>
     </table>
   </div>
+  <!--<div v-select="message" style="margin-bottom: 100px;"></div>-->
 </div>
 </template>
 <script>
@@ -190,7 +210,8 @@ import Radarchart from 'components/radar-chart'
 export default {
   data() {
     return {
-      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中']
+      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
+      message: 'hello'
     }
   },
   components: {

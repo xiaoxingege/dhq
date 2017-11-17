@@ -340,8 +340,8 @@ export default {
       this.playLineIndex = 19
     },
     condition() {
-      // this.updateDataByCodition()
       this.isContinue = 1
+      this.autoUpdate = true
       this.updateData()
     },
     focusStockName() {
@@ -550,20 +550,24 @@ export default {
     },
     updateMap: function() {
       this.isContinue = 1;
-      /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
-      this.$store.dispatch('stockMap/queryRangeByCode', {
-        code: this.rangeCode
-      }).then(() => {
-        this.$refs.treemap.style.left = 0
-        this.$refs.treemap.style.top = 0
-        this.scale = 1
-        this.initOption(this.mapData)
-      })
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
+      let p1 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/queryRangeByCode', {
+          code: this.rangeCode
+        }).then(() => {
+          this.initOption(this.mapData);
+          resolve();
+        })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/updateData', {
+          isContinue: this.isContinue,
+          condition: this.condition,
+          code: this.rangeCode
+        }).then(() => {
+          resolve();
+        })
+      });
+      Promise.all([p1, p2]).then(() => {
         this.updateMapData();
       })
     },
@@ -578,19 +582,6 @@ export default {
           this.playLineIndex = 19
         }
         this.updateMapData()
-      })
-    },
-    updateDataByCodition: function() {
-      this.getLegendColor()
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
-        if (this.playLineIndex >= 18) {
-          this.playLineIndex = 19
-        }
-        this.initOption(this.stockData)
       })
     },
     updateMapData: function() {
@@ -618,6 +609,7 @@ export default {
       }
     },
     initOption: function(data) {
+      this.autoUpdate = true
       if (this.chart) {
         this.chart.clear();
         this.chart.dispose()
@@ -750,6 +742,7 @@ export default {
       // const focusStockData = this.stockData
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
+      const rootLayout = treeRoot.getLayout();
       treeRoot.children.forEach(function(industry) {
         industry.children.forEach(function(lvl2) {
           lvl2.children.forEach(function(stock) {
@@ -757,9 +750,16 @@ export default {
               const lvl2Node = stock.parentNode;
               const industryNode = lvl2Node.parentNode;
               const nodeLayout = stock.getLayout();
-              const x = industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
-              const y = industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
-              const obj = _this.chart._zr.findHover(x, y);
+              const x = rootLayout.x + industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
+              const y = rootLayout.y + industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
+              let obj = _this.chart._zr.findHover(x, y);
+              if (nodeLayout.area === 0) {
+                chartView._onZoom(1.1, x, y);
+                setTimeout(function() {
+                  _this.focusStock()
+                }, 0);
+                return;
+              }
               if (_this.focusEl) {
                 const preNodeStl = _this.focusEl.style;
                 preNodeStl.stroke = null;
@@ -933,7 +933,14 @@ export default {
       }
     },
     startPlay: function() {
-      clearInterval(this.updateDataPid)
+      clearInterval(this.updateDataPid);
+      if (!this.autoUpdate) {
+        this.restoreMap();
+        setTimeout(() => {
+          this.startPlay();
+        }, 500);
+        return;
+      }
       this.updateDataPid = null
       if (this.playBackState) { // 播放中点击暂停
         this.playBackState = false
@@ -1240,7 +1247,8 @@ export default {
     this.initMap()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid);
+    this.chart.dispose();
   }
 }
 </script>

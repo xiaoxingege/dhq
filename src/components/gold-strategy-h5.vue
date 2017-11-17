@@ -189,7 +189,7 @@
         </li>
         <li class="clearfix">
           <span>资金容量(万)</span>
-          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.capitalCapacity === null? '--':(Number(this.goldResult.evaluationIndexs.capitalCapacity)/10000).toFixed(2)}}</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.capitalCapacity === null? '--': this.capitalCapacity}}</span>
         </li>
       </ul>
       <ul>
@@ -211,7 +211,7 @@
         </li>
         <li class="clearfix">
           <span>平均持有天数</span>
-          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':this.goldResult.evaluationIndexs.avgHoldDays}}</span>
+          <span v-if="this.goldResult">{{this.goldResult === null?'':this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':Number(this.goldResult.evaluationIndexs.avgHoldDays).toFixed(0)}}</span>
         </li>
       </ul>
     </div>
@@ -664,7 +664,23 @@ export default {
     mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     },
-    error: state => state.error
+    error: state => state.error,
+    capitalCapacity: function() {
+      let cValue = (Number(this.goldResult.evaluationIndexs.capitalCapacity) / 10000).toFixed(0)
+      if (cValue.length > 5 || cValue.length === 5) {
+        let result = cValue.substring(0, 3)
+        for (var i = 0; i < (cValue.length - 3); i++) {
+          result += '0'
+        }
+        return result
+      } else if (cValue.length === 4) {
+        return cValue.substring(0, 2) + '00'
+      } else if (cValue.length === 3) {
+        return cValue.substring(0, 1) + '00'
+      } else {
+        return cValue
+      }
+    }
   }),
   watch: {
     error() {

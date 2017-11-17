@@ -241,6 +241,9 @@ export default {
           tmpSelect = this.xSelectData[this.parameterData[select]]
         }
         if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0 && tmpSelect.indexOf('销率') < 0 && tmpSelect.indexOf('现率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('比率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0 || tmpSelect.indexOf('MA') >= 0 || tmpSelect.indexOf('股东权益') >= 0) {
+          if (tmpSelect.indexOf('MA') >= 0) {
+            return showData === null ? '--' : Number(showData * 100).toFixed(2) + '%'
+          }
           return showData === null ? '--' : Number(showData).toFixed(2) + '%'
         } else {
           var selectVal = this.parameterData[select]
