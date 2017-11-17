@@ -133,7 +133,7 @@ span.copy {
 }
 </style>
 <template>
-<div class="backtest-time">
+<div class="backtest-time" @click="hideCode($event)">
   <div class="btime-main">
     <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享" :class="showQrcodeBox===true?'active':''"></span><span class="copy" title="复制分享链接" ref='copy2share' :class="showToast===true?'active':''"></span></div>
     <BackTimeStra/>
@@ -144,7 +144,7 @@ span.copy {
     风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证。策略提示的买入时机、卖出时机，或买卖区间等仅供投资者投资参考，不作为买卖建议，风险自担！
   </div>
   <div v-show="showQrcodeBox" class="qrcode">
-    <div class="angle" @click="showCode"></div>
+    <div class="angle"></div>
     <div class="code-box">
       <canvas ref="qrcode"></canvas>
       <div class="code-txt">微信扫码转发</div>
@@ -163,6 +163,7 @@ import BackTimeKline from './back-time-kline'
 import qrcode from 'qrcode'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import base64 from 'base-64'
 import {
   ctx
 } from '../z3tougu/config'
@@ -185,20 +186,32 @@ export default {
   },
   methods: {
     showQrcode() {
-      this.showQrcodeBox = !this.showQrcodeBox
+      this.showQrcodeBox = !this.showQrcodeBox;
+      if (this.showQrcodeBox) {
+        let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
     },
-    showCode() {
-      this.showQrcodeBox = !this.showQrcodeBox
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
+      }
     }
   },
   mounted() {
     const url = window.location.protocol + '//' + window.location.host + ctx + '/backtestTimeH5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, {
-      version: 5
-    }, function() {})
     const clipboard = new Clipboard(this.$refs.copy2share, {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {

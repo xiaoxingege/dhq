@@ -19,13 +19,19 @@ export default {
     bindingMobile: state => state.user.bindingMobile,
     bindingIdentity: state => state.user.bindingIdentity
   }),
-  mounted () {
+  mounted() {
     const query = qs.parse(location.search.substring(1))
     const payUrl = query.payUrl
+    const debug = query.debug
+    const skipRiskAssessed = query.skipRiskAssessed === '1'
+    const payQuery = qs.parse(payUrl.replace(/.*?\?/, ''))
     this.$store.dispatch('user/checkLogin').then(() => {
       return this.$store.dispatch('user/checkBindingInfo', {})
     }).then(() => {
       setTimeout(() => {
+        if (debug) {
+          alert(`${this.bindingMobile},${this.bindingIdentity},${this.riskAssessed},${skipRiskAssessed},${window.jrj},${payQuery.productId},${payQuery.type}`)
+        }
         if (!this.bindingMobile && !this.bindingIdentity && !this.riskAssessed) {
           // 未绑定手机号未实名验证未评测
           const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
@@ -42,12 +48,53 @@ export default {
           const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
           const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(cpUrl)
           location.replace(idUrl)
-        } else if (this.bindingMobile && this.bindingIdentity && !this.riskAssessed) {
-          // 已绑手机号已验证实名未测评
-          const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
-          location.replace(cpUrl)
-        } else if (this.bindingMobile && this.bindingIdentity && this.riskAssessed) {
-          location.replace(payUrl)
+        } else if (this.bindingMobile && this.bindingIdentity) {
+          if (!this.riskAssessed) {
+            if (skipRiskAssessed && window.jrj) {
+              alert(JSON.stringify({
+                bizCode: '5',
+                productId: '5',
+                productSubId: payQuery.productId,
+                type: payQuery.type,
+                nums: '1',
+                pageReturnUrl: 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa?type=paySuccess#/success',
+                asynReturnUrl: 'http://itougu.jrj.com.cn/smartstock/api/ordercompleted.jspa',
+                source: '',
+                callback: ''
+              }))
+              window.jrj.jsCallNative(1114, JSON.stringify({
+                bizCode: '5',
+                productId: '5',
+                productSubId: payQuery.productId,
+                type: payQuery.type,
+                nums: '1',
+                pageReturnUrl: 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa?type=paySuccess#/success',
+                asynReturnUrl: 'http://itougu.jrj.com.cn/smartstock/api/ordercompleted.jspa',
+                source: '',
+                callback: ''
+              }))
+            } else {
+              // 已绑手机号已验证实名未测评
+              const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
+              location.replace(cpUrl)
+            }
+          } else {
+            if (skipRiskAssessed && window.jrj) {
+              window.jrj.jsCallNative(1114, JSON.stringify({
+                bizCode: '5',
+                productId: '5',
+                productSubId: payQuery.productId,
+                type: payQuery.type,
+                nums: '1',
+                pageReturnUrl: 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa?type=paySuccess#/success',
+                asynReturnUrl: 'http://itougu.jrj.com.cn/smartstock/api/ordercompleted.jspa',
+                source: '',
+                callback: ''
+              }))
+            } else {
+              location.replace(payUrl)
+            }
+          }
         }
       }, 0)
     })

@@ -153,7 +153,7 @@
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.downNum, total, 2)}}</span>
           <span class="mr-5">下跌</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.downNum">{{barData.downNum === null ? '--':barData.downNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="Number(-barData.downNum)">{{barData.downNum === null ? '--':barData.downNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(0)" @mouseout="hideAlert(0)" class="chartInfo_bar clearfix">
@@ -171,7 +171,7 @@
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.limitDownNum, total, 2)}}</span>
           <span class="mr-5">跌停</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.limitDownNum">{{barData.limitDownNum === null ? '--':barData.limitDownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="Number(-barData.limitDownNum)">{{barData.limitDownNum === null ? '--':barData.limitDownNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(1)" @mouseout="hideAlert(1)" class="chartInfo_bar clearfix">
@@ -190,7 +190,7 @@
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.newLowNum, total, 2)}}</span>
           <span class="mr-5">创新低</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.newLowNum">{{barData.newLowNum === null ? '--':barData.newLowNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="Number(-barData.newLowNum)">{{barData.newLowNum === null ? '--':barData.newLowNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(2)" @mouseout="hideAlert(2)" class="chartInfo_bar clearfix">
@@ -209,7 +209,7 @@
         <div class="fr">
           <span class="mr-5" v-if="barData && barData!==''">{{toPercent(barData.crossMa5DownNum, total, 2)}}</span>
           <span class="mr-5">下穿MA5</span>
-          <span v-if="barData && barData!==''" v-z3-updowncolor="barData.crossMa5DownNum">{{barData.crossMa5DownNum === null ? '--':barData.crossMa5DownNum}}</span>
+          <span v-if="barData && barData!==''" v-z3-updowncolor="Number(-barData.crossMa5DownNum)">{{barData.crossMa5DownNum === null ? '--':barData.crossMa5DownNum}}</span>
         </div>
       </div>
       <div @mouseover="showAlert(3)" @mouseout="hideAlert(3)" class="chartInfo_bar clearfix">
@@ -326,6 +326,7 @@ export default {
       return timeline
     },
     refreshEcharts(datas, index, chartName) {
+      const _this = this
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -493,6 +494,8 @@ export default {
         }]
       })
       window.onresize = function() {
+        const timestampResize = new Date().getTime()
+        _this.$emit('isResize', timestampResize)
         echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
           height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
