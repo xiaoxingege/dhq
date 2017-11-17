@@ -341,6 +341,7 @@ export default {
     },
     condition() {
       this.isContinue = 1
+      this.autoUpdate = true
       this.updateData()
     },
     focusStockName() {
