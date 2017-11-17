@@ -121,6 +121,7 @@ a,
 .table-box tr:nth-child(1) {
   background: #23272c;
   border: none;
+  cursor: pointer;
 }
 
 .table-box tr:nth-child(1) td {
@@ -146,6 +147,39 @@ a,
   left: 45%;
 }
 
+.search-ul {
+  width: 98px;
+  top: 101%;
+  left: 67px;
+  position: absolute;
+  z-index: 99999;
+  color: #666666;
+  font-size: 12px;
+  background: #cccfd9;
+}
+
+.search-ul li {
+  line-height: 20px;
+  padding: 0 10px;
+  /* border-bottom: 1px solid #262931; */
+  /* border-bottom: 1px solid #e5e5e5; */
+  /* border-bottom: 1px solid #808ba1; */
+  cursor: pointer;
+}
+
+.search-ul li.active {
+  background: #1984ea;
+  color: #c9d0d7;
+}
+
+.search-ul li span:first-child {
+  margin-right: 10px;
+}
+
+.inp-box1 {
+  position: relative;
+}
+
 .foot-tishi {
   font-size: 12px;
   color: #808ba1;
@@ -164,6 +198,11 @@ a,
     <div class="inp-head clearfix">
       <div class="inp-box1 fl">
         <label>资金账户：</label><input type="text" class="inp-text1">
+        <ul class="search-ul" id="search-ul">
+          <li><span>sdsd</span><span>112345</span></li>
+          <li><span>sdsd</span><span>112345</span></li>
+          <li><span>sdsd</span><span>112345</span></li>
+        </ul>
       </div>
       <div class="inp-box1 fl ml-20">
         <label>客户姓名：</label><input type="text" class="inp-text1">
