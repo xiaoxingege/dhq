@@ -161,7 +161,7 @@
 		<div class="block curve">
 			<div class="title">
 				<span class="red-block"></span>
-				<h2>两市融资融券余额历史走势</h2>
+				<h2>两市融资融券余额历史走势1</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
 			<div id="curve" style="width:100%;height:3.53rem;"></div>
@@ -196,7 +196,7 @@
 		</div>
 
 		<div class="skip">
-			<p>点击查看个股详情</p>
+			<p @click="toStock">点击查看个股详情</p>
 		</div>
 	</div>
 </template>
@@ -245,6 +245,21 @@ export default {
     }
   },
   methods: {
+		toStock(){
+				var stockCode=this.stockcode
+				let market = '';
+				if((stockCode.slice(0,3) == '000') || (stockCode.slice(0,3) == '002') || (stockCode.slice(0,3) == '300')){
+						market = 'sz'
+				}else {
+						market = 'sh'
+				}
+				if (window.jrj && window.jrj.jsCallNative) {
+						window.jrj.jsCallNative(100, JSON.stringify({
+							stockCode:stockCode,
+							stockMarket:market
+						}))
+				}
+		},
   	insertEchart(){
   		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('curve'));

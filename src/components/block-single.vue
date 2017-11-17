@@ -150,9 +150,9 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="skip">
-			<p>点击查看个股详情</p>
+			<p @click="toStock">点击查看个股详情</p>
 		</div>
 	</div>
 </template>
@@ -256,7 +256,22 @@ export default {
 		    	console.log('error');
 		    }
 	  	});
-    }
+    },
+		toStock(){
+				var stockCode=this.stockcode
+				let market = '';
+				if((stockCode.slice(0,3) == '000') || (stockCode.slice(0,3) == '002') || (stockCode.slice(0,3) == '300')){
+						market = 'sz'
+				}else {
+						market = 'sh'
+				}
+				if (window.jrj && window.jrj.jsCallNative) {
+						window.jrj.jsCallNative(100, JSON.stringify({
+							stockCode:stockCode,
+							stockMarket:market
+						}))
+				}
+		}
   }
 }
 </script>
