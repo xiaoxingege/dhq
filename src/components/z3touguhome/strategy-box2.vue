@@ -106,7 +106,6 @@
 import echarts from 'echarts'
 export default {
   props: ['benchmarkObj', 'isResizeStrategyChart'],
-  s
   data() {
     return {
       sort: 'sharpe',
