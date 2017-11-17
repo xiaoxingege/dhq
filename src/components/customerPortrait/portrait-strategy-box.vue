@@ -4,19 +4,19 @@
     position: relative;
 }
 .portarit-strategy-title select {
-  width: 247px;
-  color: #1984ea;
-  -webkit-appearance: none;
-  padding-left: 4px;
-  background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
-  background-color: #141518;
-  border-radius: 3px;
-  border: 1px solid #141518;
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
+    width: 247px;
+    color: #1984ea;
+    -webkit-appearance: none;
+    padding-left: 4px;
+    background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
+    background-color: #141518;
+    border-radius: 3px;
+    border: 1px solid #141518;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 .portarit-strategy-title select option {
     color: #666;
@@ -61,10 +61,10 @@
     width: 100%;
     text-align: center;
 }
-  .portrait-strategy-chart{
-    height:85%;
-    border:1px solid #23272c;
-  }
+.portrait-strategy-chart {
+    height: 85%;
+    border: 1px solid #23272c;
+}
 </style>
 <template>
 <div style="width: 60%">
@@ -160,7 +160,6 @@ export default {
         .then(() => {
           if (this.strategyNameData.length > 0) {
             this.strategyNames = this.strategyNameData
-              debugger
             this.strategyId = this.strategyNames[0].id
             this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
                 strategyId: this.strategyId
