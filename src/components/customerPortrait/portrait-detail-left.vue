@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 @import '../../assets/css/base.css';
-
+@import '../../assets/css/z3.css';
 .portrait-custom {
     width: 100%;
     height: 100%;
@@ -13,7 +13,7 @@
 
 .customInfo {
     width: 100%;
-    height: 40%;
+    height: 39%;
 }
 
 .customInfo table,
@@ -70,7 +70,7 @@
 }
 
 .abilityAnaly {
-    height: 40%;
+    height: 39%;
     box-sizing: border-box;
     padding-top: 3px;
     background: #0d0e0f;
@@ -85,12 +85,19 @@
 }
 
 .posAdvice {
-    height: 20%;
+    height: 22%;
 }
 
 .posAdvice > p {
     height: 20%;
     vertical-align: middle;
+}
+.posAdvice table tr:nth-child(2) td:nth-child(2),
+.posAdvice table tr:nth-child(3) td:nth-child(2),
+.posAdvice table tr:nth-child(4) td:nth-child(2),
+.posAdvice table tr:nth-child(5) td:nth-child(2) {
+    text-align: left;
+    text-indent: 2em;
 }
 </style>
 <template>
@@ -183,6 +190,7 @@
       </tr>
     </table>
   </div>
+  <div v-select="message" style="margin-bottom: 100px;"></div>
 </div>
 </template>
 <script>
@@ -190,7 +198,8 @@ import Radarchart from 'components/radar-chart'
 export default {
   data() {
     return {
-      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中']
+      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
+      message: 'hello'
     }
   },
   components: {
