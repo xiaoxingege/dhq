@@ -266,7 +266,7 @@ export default [{
     path: ctx + '/customerList',
     name: 'customerlist',
     component: CustomerList
-  },
+  }
   //  {
   //   path: ctx + '/portraitDetail',
   //   name: 'portraitDetail',
