@@ -206,6 +206,14 @@ export default {
         return val.toFixed(2);
       }
     })
+    Vue.filter('decimal', function(value, num) {
+      let val = Number(value);
+      if (isNaN(val)) {
+        return config.emptyValue
+      } else {
+        return Math.round(value * Math.pow(10, num)) / Math.pow(10, num);
+      }
+    })
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"
