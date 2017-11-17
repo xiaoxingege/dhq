@@ -103,7 +103,7 @@ td {
       <tr v-for="stock of stockList">
         <td class="tiker">{{stock.name}}</td>
         <td>
-          <div class="stocklist-chart" ref="chart"></div>
+          <div class="stocklist-chart" v-trend-line="{'lineData':stock.chartData,'catId':stockId}"></div>
         </td>
         <td class="price">{{stock.price}}</td>
         <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
@@ -116,7 +116,7 @@ td {
 import echarts from 'echarts'
 export default {
   props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
-  data () {
+  data() {
     return {
       stockList: [],
       stockListLeft: 0,
@@ -127,71 +127,84 @@ export default {
       stockDownNo: 0
     }
   },
+  directives: {
+    'trend-line': {
+      update(el, binding, vnode) {
+        const lineData = binding.value.lineData;
+        const catId = binding.value.catId;
+        const vm = vnode.context;
+        // 加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
+        setTimeout(() => {
+          vm.drawStockLine(el, lineData, catId)
+        }, 0);
+      }
+    }
+  },
   watch: {
-    stockId () {
+    stockId() {
       this.updateChart()
     },
-    nodeId () {
+    nodeId() {
       this.updateHoverTitle()
     }
   },
   computed: {
-    stockId () {
+    stockId() {
       if (this.parent && this.parent.id) {
         return this.parent.id
       }
     },
-    bgColor () {
+    bgColor() {
       if (this.node && this.node.itemStyle) {
         return this.node.itemStyle.normal.color
       }
     },
-    nodeId () {
+    nodeId() {
       if (this.node && this.node.id) {
         return this.node.id
       }
     },
-    titleStockName () {
+    titleStockName() {
       if (this.node && this.node.name) {
         return this.node.name
       }
     },
-    titleStockCondtion () {
+    titleStockCondtion() {
       if (this.node && this.node.perfText) {
         return this.node.perfText
       }
     },
-    titleName () {
+    titleName() {
       if (this.node && this.node.titleName) {
         return this.node.titleName
       }
     },
-    titleNameLel2 () {
+    titleNameLel2() {
       if (this.parent && this.parent.name) {
         return this.parent.name
       }
     },
-    titleChartData () {
+    titleChartData() {
       return this.node.chartData
     },
-    stockChartData: function () {
+    stockChartData: function() {
       const stockChartData = this.$store.state.stockMap.stockChartData
       return stockChartData
     },
-    industryChngPct: function () {
+    industryChngPct: function() {
       const industryChngPct = this.$store.state.stockMap.industryChngPct
       return industryChngPct
     }
   },
   methods: {
-    updateChart: function () {
+    updateChart: function() {
       if (this.parent.children) {
         this.stockList = this.parent.children
       }
       this.$store.dispatch('stockMap/stockChartData', {
-        stockId: this.stockId,
-        code: this.indexCode
-      })
+          stockId: this.stockId,
+          code: this.indexCode
+        })
         .then(() => {
           const _this = this
           // 悬浮框的表头
@@ -247,7 +260,7 @@ export default {
           // 计算每只股票的最新价 上涨股票数和下跌股票数
           this.stockUpNo = 0
           this.stockDownNo = 0
-          this.stockList.forEach(function (stock) {
+          this.stockList.forEach(function(stock) {
             if (stock.perf && stock.perf >= 0) {
               _this.stockUpNo++
             } else if (stock.perf && stock.perf < 0) {
@@ -270,56 +283,56 @@ export default {
               this.$emit('updateWrapHeight', wrapHeight)
             }
             // 悬浮框股票列表
-            for (const i in this.stockList) {
-              if (this.$refs.chart && this.$refs.chart.length > 0) {
-                this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
-                this.stockList[i].chart.setOption({
-                  grid: {
-                    show: false,
-                    left: 5,
-                    top: 5,
-                    bottom: 5,
-                    right: 0
-                  },
-                  xAxis: [{
-                    axisLine: false,
-                    splitLine: {
-                      show: false
-                    },
-                    type: 'category',
-                    data: new Array(17)
-                  }],
-                  yAxis: [{
-                    type: 'value',
-                    axisLine: false,
-                    splitLine: {
-                      show: false
-                    },
-                    min: 'dataMin',
-                    max: 'dataMax'
-                  }],
-                  animation: false,
-                  series: [{
-                    type: 'line',
-                    smooth: true,
-                    showSymbol: false,
-                    lineStyle: {
-                      normal: {
-                        color: '#666',
-                        width: 1
-                      }
-                    },
-                    data: this.stockList[i].chartData
-                  }]
-                })
-              } else {
-                // debugger
-              }
-            }
+            // for (const i in this.stockList) {
+            //   if (this.$refs.chart && this.$refs.chart.length > 0) {
+            //     this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
+            //     this.stockList[i].chart.setOption({
+            //       grid: {
+            //         show: false,
+            //         left: 5,
+            //         top: 5,
+            //         bottom: 5,
+            //         right: 0
+            //       },
+            //       xAxis: [{
+            //         axisLine: false,
+            //         splitLine: {
+            //           show: false
+            //         },
+            //         type: 'category',
+            //         data: new Array(17)
+            //       }],
+            //       yAxis: [{
+            //         type: 'value',
+            //         axisLine: false,
+            //         splitLine: {
+            //           show: false
+            //         },
+            //         min: 'dataMin',
+            //         max: 'dataMax'
+            //       }],
+            //       animation: false,
+            //       series: [{
+            //         type: 'line',
+            //         smooth: true,
+            //         showSymbol: false,
+            //         lineStyle: {
+            //           normal: {
+            //             color: '#666',
+            //             width: 1
+            //           }
+            //         },
+            //         data: this.stockList[i].chartData
+            //       }]
+            //     })
+            //   } else {
+            //     // debugger
+            //   }
+            // }
           })
         })
     },
-    updateHoverTitle: function () {
+    updateHoverTitle: function() {
       // 悬浮框的表头
       this.node.chartData = this.stockChartData[this.node.name]
       if (this.node.chartData) {
@@ -368,11 +381,57 @@ export default {
           data: this.node.chartData
         }]
       })
+    },
+    drawStockLine: function(el, lineData, catId) {
+      if (catId !== this.stockId || el.clientHeight === 0) {
+        return;
+      }
+      let chart = echarts.getInstanceByDom(el) || echarts.init(el);
+      // chart.clear();
+      chart.setOption({
+        grid: {
+          show: false,
+          left: 5,
+          top: 5,
+          bottom: 5,
+          right: 0
+        },
+        xAxis: [{
+          axisLine: false,
+          splitLine: {
+            show: false
+          },
+          type: 'category',
+          data: new Array(17)
+        }],
+        yAxis: [{
+          type: 'value',
+          axisLine: false,
+          splitLine: {
+            show: false
+          },
+          min: 'dataMin',
+          max: 'dataMax'
+        }],
+        animation: false,
+        series: [{
+          type: 'line',
+          smooth: true,
+          showSymbol: false,
+          lineStyle: {
+            normal: {
+              color: '#666',
+              width: 1
+            }
+          },
+          data: lineData
+        }]
+      })
     }
   },
-  mounted () {
+  mounted() {
     this.updateChart()
-    this.chart = echarts.init(this.$refs.chartTitle)
+    this.chart = echarts.init(this.$refs.chartTitle);
   }
 }
 </script>

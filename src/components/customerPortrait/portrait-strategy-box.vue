@@ -1,10 +1,9 @@
 <style lang="scss" scoped="">
-.strategy-title {
+.portarit-strategy-title {
     height: 15%;
-    background-color: #23272c;
     position: relative;
 }
-.strategy-title select {
+.portarit-strategy-title select {
     width: 247px;
     color: #1984ea;
     -webkit-appearance: none;
@@ -19,25 +18,17 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-.strategy-title select option {
+.portarit-strategy-title select option {
     color: #666;
     background-color: #d6d6d6;
 }
-.strategy-title select:focus {
+.portarit-strategy-title select:focus {
     outline: none;
-}
-.follow-no {
-    color: #808ba1;
-    display: inline-block;
-    position: absolute;
-    right: 9px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 .strategy-chart-link {
     display: inline-block;
     width: 100%;
-    height: 67%;
+    height: 78.8%;
 }
 .strategy-chart {
     height: 100%;
@@ -45,7 +36,7 @@
 }
 .rate-labels {
     padding-top: 5px;
-    height: 18%;
+    height: 21.2%;
     color: #c9d0d7;
 }
 .rate-labels li {
@@ -70,43 +61,48 @@
     width: 100%;
     text-align: center;
 }
+.portrait-strategy-chart {
+    height: 85%;
+    border: 1px solid #23272c;
+}
 </style>
 <template>
-<div>
-  <div class="strategy-title">
+<div style="width: 60%">
+  <div class="portarit-strategy-title">
+    <span></span>
     <select v-model="strategyId">
                 <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
             </select>
-    <p class="follow-no">关注{{followCnt === null?0:followCnt}}</p>
   </div>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
-    <div class="strategy-chart" ref="chart"></div>
-  </router-link>
-  <ul class="rate-labels clearfix">
-    <li>
-      <span>年化收益率</span>
-      <span :class="parseFloat(annualReturn)>0 ? 'c_up':'c_down'">{{annualReturn}}</span>
-    </li>
-    <li>
-      <span>夏普比率</span>
-      <span>{{sharpe}}</span>
-    </li>
-    <li>
-      <span>胜率</span>
-      <span>{{winRatio}}</span>
-    </li>
-    <li>
-      <span>最大回撤</span>
-      <span>{{maxDrawdown}}</span>
-    </li>
-  </ul>
+  <div class="portrait-strategy-chart">
+    <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
+      <div class="strategy-chart" ref="chart"></div>
+    </router-link>
+    <ul class="rate-labels clearfix">
+      <li>
+        <span>年化收益率</span>
+        <span :class="parseFloat(annualReturn)>0 ? 'c_up':'c_down'">{{annualReturn}}</span>
+      </li>
+      <li>
+        <span>夏普比率</span>
+        <span>{{sharpe}}</span>
+      </li>
+      <li>
+        <span>胜率</span>
+        <span>{{winRatio}}</span>
+      </li>
+      <li>
+        <span>最大回撤</span>
+        <span>{{maxDrawdown}}</span>
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['benchmarkObj', 'isResizeStrategyChart'],
-  s
+  props: ['benchmarkObj'],
   data() {
     return {
       sort: 'sharpe',
@@ -127,12 +123,6 @@ export default {
       this.getStrategyIndexs()
       this.drawChart()
       this.$emit('getStrategyId', this.strategyId)
-    },
-    isResizeStrategyChart() {
-      this.chart.resize({
-        width: (window.innerWidth * 0.5) * 0.5 < 1217 * 0.5 * 0.5 ? 1217 * 0.5 * 0.5 : (window.innerWidth * 0.5) * 0.5,
-        height: (window.innerHeight * 0.285) * 0.67 < 710 * 0.285 * 0.67 ? 710 * 0.285 * 0.67 : (window.innerHeight * 0.285) * 0.67
-      })
     }
   },
   computed: {
@@ -161,6 +151,7 @@ export default {
   },
   methods: {
     initStrategy: function() {
+      this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
       this.$store.dispatch('z3touguIndex/getStrategyName', {
           sort: this.sort,
           direction: this.direction,
@@ -169,6 +160,7 @@ export default {
         .then(() => {
           if (this.strategyNameData.length > 0) {
             this.strategyNames = this.strategyNameData
+            debugger
             this.strategyId = this.strategyNames[0].id
             this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
                 strategyId: this.strategyId
@@ -377,7 +369,6 @@ export default {
     }
   },
   mounted() {
-    this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
     this.initStrategy()
   }
 }

@@ -169,7 +169,7 @@ a {
 }
 </style>
 <template>
-<div class="goldRecommend">
+<div class="goldRecommend" @click="hideCode($event)">
 
   <div class="strategyHeader clear">
     <div class="fl">
@@ -199,6 +199,12 @@ a {
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
             <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
+            <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
+              {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':Number(this.goldResult.evaluationIndexs.avgHoldDays).toFixed(0)}}
+            </td>
+            <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
+              {{this.goldResult.evaluationIndexs.capitalCapacity === null ? '--':this.capitalCapacity}}
+            </td>
           </tr>
         </table>
       </div>
@@ -217,7 +223,7 @@ a {
     </div>
   </div>
   <div>
-    <Goldchart :strategyId="strategyId" :type="type"></Goldchart>
+    <Goldchart :strategyId="strategyId"></Goldchart>
   </div>
   <div style="color:#999;line-height: 50px; background: #141518;">
     风险提示：本策略过往业绩并不预示未来表现，也不构成业绩保证。策略提示的调入信号、调出信号、Barra风格值等仅供投资者投资参考，不作为买卖建议，风险自担！
@@ -249,6 +255,7 @@ import {
   ctx
 } from '../z3tougu/config'
 import * as Data from '../z3tougu/constant/siwei.js'
+import base64 from 'base-64'
 
 export default {
   data() {
@@ -258,7 +265,7 @@ export default {
       showQrcodeBox: false,
       toastmsg: '',
       showToast: false,
-      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率'],
+      trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率', '平均持有天数', '资金容量(万)'],
       radarShow: false,
       stockSort: Data.stockSort
     }
@@ -477,11 +484,41 @@ export default {
           }
         }
       }
+    },
+    capitalCapacity: function() {
+      let cValue = (Number(this.goldResult.evaluationIndexs.capitalCapacity) / 10000).toFixed(0)
+      if (cValue.length > 5 || cValue.length === 5) {
+        let result = cValue.substring(0, 3)
+        for (var i = 0; i < (cValue.length - 3); i++) {
+          result += '0'
+        }
+        return result
+      } else if (cValue.length === 4) {
+        return cValue.substring(0, 2) + '00'
+      } else if (cValue.length === 3) {
+        return cValue.substring(0, 1) + '00'
+      } else {
+        return cValue
+      }
     }
   }),
   methods: {
     showQrcode() {
-      this.showQrcodeBox = !this.showQrcodeBox
+      this.showQrcodeBox = !this.showQrcodeBox;
+      if (this.showQrcodeBox) {
+        let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
+    },
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
+      }
     },
     showRadar() {
       this.radarShow = true
@@ -491,10 +528,11 @@ export default {
     }
   },
   mounted() {
-    this.type = this.$route.params.showType
-
+    let share = base64.encode('JRJ');
+    share = base64.encode(share);
     this.$store.dispatch('goldStrategy/getGoldStrategyData', {
-      strategyId: this.strategyId
+      strategyId: this.strategyId,
+      share: share
     })
     this.$store.dispatch('goldStrategy/getMrjyData', {
       strategyId: this.strategyId
@@ -508,13 +546,14 @@ export default {
       type: 'sell'
     })
 
-    const url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
-    qrcode.toDataURL(this.$refs.qrcode, url, {
-      version: 5
-    }, function() {})
+    let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
     const clipboard = new Clipboard('.copy', {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {
