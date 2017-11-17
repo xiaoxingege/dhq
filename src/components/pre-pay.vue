@@ -68,7 +68,21 @@ export default {
               location.replace(cpUrl)
             }
           } else {
-            location.replace(payUrl)
+            if (skipRiskAssessed && window.jrj) {
+              window.jrj.jsCallNative(1114, JSON.stringify({
+                bizCode: '5',
+                productId: '5',
+                productSubId: payQuery.productId,
+                type: payQuery.type,
+                nums: '1',
+                pageReturnUrl: 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa?type=paySuccess#/success',
+                asynReturnUrl: 'http://itougu.jrj.com.cn/smartstock/api/ordercompleted.jspa',
+                source: '',
+                callback: ''
+              }))
+            } else {
+              location.replace(payUrl)
+            }
           }
         }
       }, 0)
