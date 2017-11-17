@@ -325,7 +325,7 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="button" v-model="date" @change="calcange()"  @focus="calfocus()" ref="inputDate"/>
+					<input id="datepicker" type="text" v-model="date" @change="calcange()"  @focus="calfocus()" ref="inputDate"/>
 					<span class="calendar-icon"></span>
 				</div>
 			</div>
@@ -369,7 +369,7 @@ const Pikaday = require('../assets/plugins/calendar/calendar.js')
 export default {
   data () {
     return {
-    	date:'2017-11-14',// 初始日期
+    	date:'2017-11-07',// 初始日期
     	detailList:[],
     	pn:'1', // 页码
     	ps:'20', // 每页条数
