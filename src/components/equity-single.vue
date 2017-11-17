@@ -248,7 +248,7 @@ export default {
 		toStock(){
 				var stockCode=this.stockcode
 				let market = '';
-				if((stockCode.slice(0,3) == '000') || (stockCode.slice(0,3) == '002') || (stockCode.slice(0,3) == '300')){
+				if((stockCode.slice(0,3) === '000') || (stockCode.slice(0,3) === '002') || (stockCode.slice(0,3) === '300')){
 						market = 'sz'
 				}else {
 						market = 'sh'
