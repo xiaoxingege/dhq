@@ -127,53 +127,69 @@ export default {
         };
       }
     })
-    Vue.directive('drag', //自定义指令                                      JS
-      {
-        bind: function(el, binding) {
-          let oDiv = el; //当前元素
-          let self = this; //上下文
-          var l;
-          var num;
-          oDiv.onmousedown = function(e) {
-            //鼠标按下，计算当前元素距离可视区的距离
-            let disX = e.clientX - oDiv.offsetLeft;
-            //let disY = e.clientY - oDiv.offsetTop;
-            e.preventDefault()
-            document.onmousemove = function(e) {
-              //通过事件委托，计算移动的距离
-              l = e.clientX - disX;
-              //let t = e.clientY - disY;
-              //移动当前元素
-              if (l < 16) {
-                l = 16
-              }
-              if (l > 274) {
-                l = 274
-              }
-              oDiv.style.left = l + 'px';
-              //oDiv.style.top = t + 'px';
-              //将此时的位置传出去
-              num = Math.round(((l - 16) / 28.66))
-              binding.value({
-                x: e.pageX,
-                num: num
-              })
-            };
-            document.onmouseup = function(e) {
-
-              l = num * 28.66 + 16
-              oDiv.style.left = l + 'px';
-              binding.value({
-                x: e.pageX,
-                num: num
-              })
-              document.onmousemove = null;
-              document.onmouseup = null;
-            };
+    Vue.directive('drag', {
+      bind: function(el, binding) {
+        let oDiv = el; //当前元素
+        let self = this; //上下文
+        var l;
+        var num;
+        oDiv.onmousedown = function(e) {
+          //鼠标按下，计算当前元素距离可视区的距离
+          let disX = e.clientX - oDiv.offsetLeft;
+          //let disY = e.clientY - oDiv.offsetTop;
+          e.preventDefault()
+          document.onmousemove = function(e) {
+            //通过事件委托，计算移动的距离
+            l = e.clientX - disX;
+            //let t = e.clientY - disY;
+            //移动当前元素
+            if (l < 16) {
+              l = 16
+            }
+            if (l > 274) {
+              l = 274
+            }
+            oDiv.style.left = l + 'px';
+            //oDiv.style.top = t + 'px';
+            //将此时的位置传出去
+            num = Math.round(((l - 16) / 28.66))
+            binding.value({
+              x: e.pageX,
+              num: num
+            })
           };
-        }
+          document.onmouseup = function(e) {
+
+            l = num * 28.66 + 16
+            oDiv.style.left = l + 'px';
+            binding.value({
+              x: e.pageX,
+              num: num
+            })
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
       }
-    );
+    }); //自定义指令JS
+    Vue.directive('select', {
+      inserted: function(el, binding, vnode, oldVnode) {
+        el.innerHTML = '<div class="vSelect"><input class="vInput" type="text"  value="1" readonly/><ul class="vUl" style="display: none;"><li value="one">1</li><li value="two">2</li></ul></div>'
+        el.addEventListener('click', (event) => {
+          const ul = document.getElementsByClassName('vUl')[0]
+          const lis = document.getElementsByTagName('li')
+          for (var i = 0; i < lis.length; i++) {
+            lis[i].addEventListener('click', (event) => {
+              event.target.getAttribute('value')
+            })
+          }
+
+          ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
+
+        })
+      }
+
+    })
     Vue.filter('money', function(value) {
       let val = Number(value);
       if (isNaN(val)) {
@@ -188,6 +204,14 @@ export default {
         return config.emptyValue
       } else {
         return val.toFixed(2);
+      }
+    })
+    Vue.filter('decimal', function(value, num) {
+      let val = Number(value);
+      if (isNaN(val)) {
+        return config.emptyValue
+      } else {
+        return Math.round(value * Math.pow(10, num)) / Math.pow(10, num);
       }
     })
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {

@@ -29,7 +29,7 @@ const buildEntry = function() {
     let dir = path.join(__dirname, entryPath);
     let entries = fs.readdirSync(dir);
     entries.forEach(entry => {
-      if(entry.charAt(0) === '.') return;
+      if (entry.charAt(0) === '.') return;
       ret[path.basename(entry, '.js')] = `${entryPath}/${entry}`
     });
   }
@@ -82,7 +82,7 @@ module.exports = {
       exclude: /(node_modules|plugins)/,
       loader: 'eslint-loader',
       options: {
-        // fix: true
+        fix: process.env.NODE_ENV == 'production' ? true : false
       }
     }, {
       test: /\.vue$/,

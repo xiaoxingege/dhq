@@ -5,6 +5,27 @@
   padding-top: 20px;
 }
 
+.syqxTab {
+  position: absolute;
+  right: 53px;
+  top: 23px;
+  z-index: 9999;
+}
+
+.syqxTab li {
+  float: left;
+  background: #23272C;
+  padding: 5px 7px;
+  margin-right: 1px;
+  font-size: 12px;
+  color: #C9D0D7;
+  cursor: pointer;
+}
+
+.syqxTab li.active {
+  background: #1984EA;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
   .lineChart {
     width: 100%;
@@ -15,7 +36,17 @@
 }
 </style>
 <template>
-<div class="lineChart" ref="lineChart"></div>
+<div style="position: relative;">
+  <ul class="syqxTab">
+    <li @click="changeSyTab($event,1)">近1月</li>
+    <li @click="changeSyTab($event,3)">近3月</li>
+    <li @click="changeSyTab($event,6)">近6月</li>
+    <li @click="changeSyTab($event,12)">近1年</li>
+    <li @click="changeSyTab($event,36)">近3年</li>
+    <li @click="changeSyTab($event,'all')" class="active">全部</li>
+  </ul>
+  <div class="lineChart" ref="lineChart"></div>
+</div>
 </template>
 <script>
 import echarts from 'echarts'
@@ -25,7 +56,7 @@ import {
 
 export default {
   props: ['options', 'strategyId'],
-  data () {
+  data() {
     return {
 
     }
@@ -34,14 +65,26 @@ export default {
 
   },
   computed: mapState({
-    lineData: state => state.goldStrategy.syqxtData
+    lineData: state => state.goldStrategy.syqxtData,
+    syqxLastDate: function() {
+      return this.$store.state.goldStrategy.syqxtData.lastDate
+    },
+    syqxFirstDate: function() {
+      return this.$store.state.goldStrategy.syqxtData.firstDate
+    }
   }),
   methods: {
-    initChart () {
+    initChart(startDate, endDate) {
+      if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
+        this.chart.dispose();
+      }
       this.$store.dispatch('goldStrategy/getSyqxtData', {
-        strategyId: this.strategyId
+        strategyId: this.strategyId,
+        startDate: startDate || '',
+        endDate: endDate || ''
       }).then(() => {
         const lineData = this.$store.state.goldStrategy.syqxtData
+        // echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) ||
         this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
@@ -75,18 +118,19 @@ export default {
             axisPointer: {
               type: 'line'
             },
-            formatter: function (params) {
+            formatter: function(params) {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
+                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>策略累计收益率: ' +
-                    (params[i].value * 100).toFixed(2) + '%'
+                    params[i].color + '"></span>策略累计收益率: ' + (params[i].value < 0 ? '-' : '') + (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
                 if (i === 1) {
+                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>基准累计收益率: ' +
-                    (params[i].value * 100).toFixed(2) + '%'
+                    params[i].color + '"></span>基准累计收益率: ' + (params[i].value < 0 ? '-' : '') +
+                    (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
               }
               return s
@@ -113,7 +157,7 @@ export default {
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: function (val) {
+              formatter: function(val) {
                 return (val * 100).toFixed(2) + '%'
               },
               color: '#808ba1'
@@ -133,27 +177,27 @@ export default {
             }
           },
           series: [{
-            data: lineData.data1,
-            name: '策略收益率',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              normal: {
-                width: 2
+              data: lineData.data1,
+              name: '策略收益率',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: {
+                normal: {
+                  width: 2
+                }
+              }
+            },
+            {
+              data: lineData.data2,
+              name: '沪深300',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: {
+                normal: {
+                  width: 2
+                }
               }
             }
-          },
-          {
-            data: lineData.data2,
-            name: '沪深300',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              normal: {
-                width: 2
-              }
-            }
-          }
           ],
           color: ['#0C86ED', '#E73E3A', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
@@ -198,16 +242,47 @@ export default {
           }]
         })
         const that = this
-        window.onresize = function () {
+        window.onresize = function() {
           that.chart.resize()
         }
       })
     },
-    updateChart () {
+    changeSyTab(e, dateNum) {
+
+      /* 切换标签选中样式*/
+
+      const tabs = document.getElementsByClassName('syqxTab')[0].getElementsByTagName('li')
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].removeAttribute('class', 'active')
+      }
+      e.target.setAttribute('class', 'active')
+
+      /* 切换标签切换数据*/
+
+      if (dateNum === 'all') {
+        this.initChart()
+        return
+      }
+      let syqxYear = String(this.syqxLastDate).substring(0, 4)
+      let syqxMonth = String(this.syqxLastDate).substring(4, 6)
+      const syqxDay = String(this.syqxLastDate).substring(6)
+      const mValue = Number(syqxMonth) - dateNum
+      if (dateNum >= 12) {
+        syqxYear = Number(syqxYear) - dateNum / 12
+      } else {
+        if (mValue <= 0) {
+          syqxYear = Number(syqxYear) - 1
+          syqxMonth = 12 + mValue < 10 ? '0' + (12 + mValue) : 12 + mValue
+        } else {
+          syqxMonth = mValue < 10 ? '0' + String(mValue) : mValue
+        }
+      }
+      let lastDate = Number(syqxYear + syqxMonth + syqxDay) < Number(this.syqxFirstDate) ? this.syqxFirstDate : syqxYear + syqxMonth + syqxDay
+      this.initChart(lastDate, this.syqxLastDate)
 
     }
   },
-  mounted () {
+  mounted() {
     this.initChart()
   }
 }

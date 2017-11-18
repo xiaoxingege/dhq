@@ -9,8 +9,9 @@
     width: 100%;
     min-height: 690px;
     min-width: 1190px;
-    padding: 0 1px;
     box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 5px;
 }
 .bubbles-bar {
     font-size: 12px;
@@ -18,9 +19,9 @@
     height: 32px;
     line-height: 32px;
 }
-.template select {
+
+.bubbles-bar select {
     width: 185px;
-    color: #c9d0d7;
     border: 0;
     height: 22px;
     font-size: 12px;
@@ -30,15 +31,25 @@
     -webkit-appearance: none;
     background: url("../assets/images/select-arrow.png") no-repeat scroll right center transparent;
     background-position-x: 95%;
-    background-color: #23272C;
+    color: #c9d0d7;
+    background-color: #1A1D23;
+}
+.bubbles-bar select:focus {
+    outline: none;
+}
+.template select {
     color: #1984ea;
+    background-color: #23272C;
 }
 .template select option {
-    background: #cccfd9;
-    color: #666;
+    background: #1E2329;
+    color: #c9d0d7;
     border-radius: 3px;
 }
 .template select:focus {
+    outline: none;
+}
+.template select option:focus {
     outline: none;
 }
 .legend {
@@ -133,193 +144,278 @@ button {
     height: 28px;
     line-height: 28px;
     position: absolute;
-    right: 4px;
-    top: 2px;
+    right: 0;
+    top: 0;
     width: 20px;
     font-size: 20px;
     cursor: pointer;
+    z-index: 999999;
+}
+
+.bubbles {
+    background: #1A1D23;
+}
+
+.bubbles-select {
+    /* width:17%;*/
+    width: 210px;
+    color: #c9d0d7;
+    background: #1A1D23;
+    font-size: 12px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+}
+
+.bubbles-select > div {
+    width: 85%;
+}
+
+.bubbles-select p {
+    line-height: 34px;
+}
+
+.bubbles-select select,
+input {
+    height: 28px;
+    width: 100%;
+    color: #c9d0d7;
+    border: 1px solid #393F48;
+    padding-left: 8px;
+    box-sizing: border-box;
+}
+
+.bubbles-select input {
+    font-size: 12px;
+    padding-left: 12px;
+    background: #1E2329;
+}
+
+.bubbles-select select {
+    -webkit-appearance: none;
+    background: url("../assets/images/select-arrow.png") no-repeat scroll right center transparent;
+    background-position-x: 95%;
+    background-color: #1E2329;
+}
+.bubbles-select select:focus {
+    outline: none;
+}
+.changeXY {
+    position: absolute;
+    top: 48px;
+    right: -21px;
+    cursor: pointer;
+}
+
+.bubbles-chart {
+    width: 95%;
+}
+
+.defaultSet {
+    cursor: pointer;
+}
+@media only screen and (min-height: 800px) and (max-height: 1024px) {
+    .bubbles-select p {
+        line-height: 45px;
+    }
+
+    .changeXY {
+        position: absolute;
+        top: 65px;
+        right: -21px;
+    }
+
+    .bubbles-select {
+        padding-left: 15px;
+    }
+
+    .bubbles-select > div {
+        width: 88%;
+    }
+
+    .bubbles-select {
+        width: 210px;
+    }
+
+    .bubbles-chart {
+        width: 87%;
+    }
 }
 </style>
 <template>
 <div class="siwei">
   <div class="bubbles-bar clearfix">
-    <div class="template fl mr-20">
+    <div class="template fl mr-30">
       常用推荐：
-      <select @change="changeTmp($event)" v-model="tmpId" @click="simOptionClick4IE">
-            <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}</option>
-      </select>
+      <select @change="changeTmp($event)" v-model="tmpId">
+                <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
+                </option>
+            </select>
     </div>
-    <div class="fl">
-      <span class="mr-20">X轴：<span>{{xData}}</span></span>
-      <span class="mr-20">Y轴：<span>{{yData}}</span></span>
-      <span class="mr-20">气泡大小：<span>{{sizeData}}</span></span>
-      <span class="mr-20">气泡颜色：<span>{{colorData}}</span></span>
+    <div class="fl mr-30">
+      筛股策略：
+      <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
+        <option value="">请选择</option>
+        <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
+            </select>
     </div>
+    <div class="fl mr-30">
+      股票池：
+      <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
+        <option value="">请选择</option>
+        <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
+            </select>
+    </div>
+    <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <div class="fr">
       <span class="times">{{currentTime}}</span>
     </div>
-    <div>
-      <Dialog v-on:toHideDialog="hideDialog" v-if="showStockRangeDialog" title="自定义">
-        <div slot="content" class="dialogMain clearfix">
-          <div class="weiduRange">
-            <div style="text-align: left">坐标维度：</div>
-            <div class="display-box mb-20">
-              <span style="display: block" class="box-flex-1 clearfix">
-                  <div class="fr">
-                      X轴
-                      <select ref="xData" v-model="dimensionOptions.xDefault">
-                         <option v-for="(val,key) in xDataList" :value="key"
-                                 :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
-                      </select>
-                  </div>
-              </span>
-              <span style="display: block" class="box-flex-1 clearfix">
-                  <div class="fr">
-                      Y轴
-                      <select ref="yData" v-model="dimensionOptions.yDefault">
-                         <option v-for="(val,key) in xDataList" :value="key"
-                                 :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">{{val}}</option>
-                      </select>
-                  </div>
-              </span>
-              <span style="display: block" class="box-flex-1 clearfix">
-                  <div class="fr">
-                      气泡大小
-                      <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault">
-                         <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
-                      </select>
-                  </div>
-              </span>
-            </div>
-            <div>
-              <span style="display: block" class="clearfix">
-                      <div class="fr">
-                         气泡颜色
-                         <select ref="bubbleColor" v-model="dimensionOptions.colorDefault">
-                            <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
-                         </select>
-                      </div>
-                  </span>
-            </div>
-          </div>
-          <div class="stockRange">
-            <div class="mt-20" style="text-align: left">股票范围：</div>
-            <div class="stockRange-slect">
-              <div class="mt-10 display-box">
-                <span style="display: block" class="box-flex-1 clearfix">
-                    <div class="fr">
-                        指数
-                        <select v-model="stockRangeOptions.indexRangeDefault">
-                           <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
+  </div>
+  <div class="bubbles display-box">
+    <div class="bubbles-select ">
+      <div class="mb-15 pb-30" style="position: relative; border-bottom: 1px solid #2B2D34;">
+        <div class="scatterX">
+          <p>X轴</p>
+          <div>
+            <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData">
+                            <option v-for="(val,key) in xDataList" :value="key"
+                                    :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                                {{val}}
+                            </option>
                         </select>
-                    </div>
-                </span>
-                <span style="display: block" class="box-flex-1 clearfix">
-                    <div class="fr">
-                        行业
-                        <select v-model="stockRangeOptions.industryRangeDefault">
-                           <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
-                        </select>
-                    </div>
-                </span>
-                <span style="display: block" class="box-flex-1 clearfix">
-                    <div class="fr" style="position: relative;">
-                        主题
-                        <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value=""
-                               readonly/>
-                        <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName"
-                               readonly/>
-                        <span v-if="topicName !== '全部'" @click="clearTheme" class="clearTheme">×</span>
-              </div>
-              </span>
-            </div>
-            <div class="mt-20 display-box">
-              <span style="display: block" class="box-flex-1">
-                      <div class="fr">
-                          流通市值
-                          <select v-model="stockRangeOptions.marketValueDefault">
-                             <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
-                          </select>
-                      </div>
-                  </span>
-              <span style="display: block" class="box-flex-1">
-                      <div class="fr">
-                          历史成交量
-                          <select v-model="stockRangeOptions.historyValueRangeDefault">
-                             <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
-                          </select>
-                      </div>
-                  </span>
-              <span style="display: block" class="box-flex-1">
-                      <div class="fr">
-                          筛股策略
-                          <select v-model="stockRangeOptions.strategyDefault">
-                             <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
-                          </select>
-                      </div>
-                  </span>
-            </div>
-            <div class="mt-20 display-box">
-
-              <span style="display: block" class="clearfix">
-                    <div class="fr">
-                        股票池
-                        <select v-model="stockRangeOptions.stockPoolDefault">
-                           <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-                        </select>
-                    </div>
-                </span>
-            </div>
           </div>
         </div>
+        <div class="scatterY">
+          <p>Y轴</p>
+          <div>
+            <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData">
+                            <option v-for="(val,key) in xDataList" :value="key"
+                                    :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                                {{val}}
+                            </option>
+                        </select>
+          </div>
+        </div>
+        <div class="scatterSize">
+          <p>气泡大小</p>
+          <div>
+            <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault" @change="showSelectData">
+                            <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
+                        </select>
+          </div>
+        </div>
+        <div class="scatterColor">
+          <p>气泡颜色</p>
+          <div>
+            <select ref="bubbleColor" v-model="dimensionOptions.colorDefault" @change="showSelectData">
+                            <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
+                        </select>
+          </div>
+        </div>
+        <img class="changeXY" @click="changeXY" src="../assets/images/scatterChangeXY.png">
+      </div>
+      <div class="range">
+        <!--指数-->
+        <div>
+          <p>指数</p>
+          <div>
+            <select v-model="stockRangeOptions.indexRangeDefault" @change="showSelectData">
+                            <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
+                        </select>
+          </div>
+        </div>
+        <!--行业-->
+        <div>
+          <p>行业</p>
+          <div>
+            <select v-model="stockRangeOptions.industryRangeDefault" @change="showSelectData">
+                            <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
+                        </select>
+          </div>
+        </div>
+        <!--主题-->
+        <div>
+          <p>主题</p>
+          <div style="position: relative;">
+            <input v-model="stockRangeOptions.topic" style="cursor: pointer" type="hidden" value="" readonly/>
+            <input ref="themeV" @click="showTheme()" style="cursor: pointer" type="text" :value="topicName" readonly/>
+            <span v-if="topicName !== '全部'" @click="clearTheme" class="clearTheme">×</span>
+          </div>
+        </div>
+        <!--流通市值-->
+        <div>
+          <p>流通市值</p>
+          <div>
+            <select v-model="stockRangeOptions.marketValueDefault" @change="showSelectData">
+                            <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
+                        </select>
+          </div>
+        </div>
+        <!--历史成交量-->
+        <div>
+          <p>历史成交量</p>
+          <div>
+            <select v-model="stockRangeOptions.historyValueRangeDefault" @change="showSelectData">
+                            <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
+                        </select>
+          </div>
+        </div>
+      </div>
     </div>
-    <div slot="footer" class="mt-20 mb-20">
-      <button class="sureBtn mr-20" @click="showSelectData">确定</button>
-      <button class="cancleBtn" @click="hideDialog">取消</button>
+    <div class="bubbles-chart box-flex-1">
+      <bubbles :options="options" v-on:changeOptions="changeOptionsInerCode"></bubbles>
     </div>
-    </Dialog>
   </div>
-</div>
-<bubbles :options="options" v-on:toHideDialog="hideAlert"></bubbles>
-<div class="legend clearfix">
-  <p v-if="tmpId !== 'demoTmp0'" class="fl tempDesc" :style="{width: colorData==='行业'? '28%' :'50%'}">
-    模板说明：{{templateList[tmpId].explain}}</p>
-  <div class="fr" style="margin-top: 5px;">
-    <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
-      <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
-    </ul>
-    <ul v-if="options.colorDefault==='mkt_idx.tcap' || options.colorDefault==='mkt_idx.mktcap'" class="clearfix">
-      <li v-for="(item,index) in marketArr" :style="{'background':volumeColor[index]}">{{item}}亿</li>
-    </ul>
-    <ul v-if="options.colorDefault==='mkt_idx.volume' || options.colorDefault==='perf_idx.avg_vol_3month'" class="clearfix">
-      <li v-for="(item,index) in volumeArr" :style="{'background':volumeColor[index]}">{{item}}万</li>
-    </ul>
-    <ul v-if="options.colorDefault==='mkt_idx.rela_volume'" class="clearfix">
-      <li v-for="(item,index) in relaVolume" :style="{'background':volumeColor[index]}">{{item}}</li>
-    </ul>
-    <ul class="clearfix">
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.chng_pct_week'">{{item*2}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_month'">{{item*3}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_3month'">{{item*6}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_6month'">{{item*8}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year'">{{item*9}}%</li>
-      <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year_sofar'">{{item*8}}%</li>
-    </ul>
-    <ul v-if="options.colorDefault==='fcst_idx.rating_syn'" class="clearfix">
-      <li v-for="(item,index) in analystPoint" :style="{'background':analystColor[index]}">{{item}}</li>
-    </ul>
-  </div>
-</div>
-<div class="masks" v-show="isShowTheme">
-  <div class="themeList">
-    <div class="themeTitle clearfix">
-      <span class="fl">主题列表</span>
-      <span class="closeTheme" @click="closeTheme()">×</span>
+  <!--图例-->
+  <div class="legend clearfix">
+    <p v-if="tmpId !== 'demoTmp0'" class="fl tempDesc" :style="{width: colorData==='行业'? '28%' :'50%'}">
+      模板说明：{{templateList[tmpId].explain}}</p>
+    <p v-if="tmpId === 'demoTmp0'" class="fl tempDesc" :style="{width: colorData==='行业'? '28%' :'50%'}">
+      温馨提示：{{templateList[tmpId].explain}}</p>
+    <div class="fr" style="margin-top: 5px;">
+      <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
+        <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
+      </ul>
+      <ul v-if="options.colorDefault==='mkt_idx.tcap' || options.colorDefault==='mkt_idx.mktcap'" class="clearfix">
+        <li v-for="(item,index) in marketArr" :style="{'background':volumeColor[index]}">{{item}}亿</li>
+      </ul>
+      <ul v-if="options.colorDefault==='mkt_idx.volume' || options.colorDefault==='perf_idx.avg_vol_3month'" class="clearfix">
+        <li v-for="(item,index) in volumeArr" :style="{'background':volumeColor[index]}">{{item}}万</li>
+      </ul>
+      <ul v-if="options.colorDefault==='mkt_idx.rela_volume'" class="clearfix">
+        <li v-for="(item,index) in relaVolume" :style="{'background':volumeColor[index]}">{{item}}</li>
+      </ul>
+      <ul class="clearfix">
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.chng_pct_week'">{{item*2}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_month'">{{item*3}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_3month'">{{item*6}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_6month'">{{item*8}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year'">{{item*9}}%
+        </li>
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='perf_idx.chng_pct_year_sofar'">{{item*8}}%
+        </li>
+      </ul>
+      <ul v-if="options.colorDefault==='fcst_idx.rating_syn'" class="clearfix">
+        <li v-for="(item,index) in analystPoint" :style="{'background':analystColor[index]}">{{item}}</li>
+      </ul>
     </div>
-    <ThemeSortAz v-on:getThemeValue="getThemeVal" />
   </div>
-</div>
+  <!--主题列表-->
+  <div class="masks" v-show="isShowTheme">
+    <div class="themeList">
+      <div class="themeTitle clearfix">
+        <span class="fl">主题列表</span>
+        <span class="closeTheme" @click="closeTheme()">×</span>
+      </div>
+      <ThemeSortAz v-on:getThemeValue="getThemeVal" />
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -328,7 +424,7 @@ import * as Data from '../z3tougu/constant/siwei.js'
 import Bubbles from 'components/bubbles'
 import ThemeSortAz from 'components/theme-sort-az'
 export default {
-  data () {
+  data() {
     return {
       showStockRangeDialog: false,
       xDataList: Data.xSelectData,
@@ -380,11 +476,11 @@ export default {
         topic: '',
         topicNameDefalut: '全部'
       },
-      xData: '近1月涨跌幅',
-      yData: 'EPS增长率(未来3年)',
-      sizeData: '流通市值',
-      colorData: '近1月涨跌幅',
       templateList: {
+        'demoTmp0': {
+          name: '请选择',
+          explain: '双击鼠标进入个股页面。'
+        },
         'demoTmp5': {
           name: '估值 VS 业绩选股',
           options: {
@@ -515,7 +611,7 @@ export default {
           name: '分析师观点 VS 股价涨跌',
           options: {
             xDefault: 'fcst_idx.rating_syn',
-            yDefault: 'fcst_idx.expect_price_med',
+            yDefault: 'mkt_idx.expect_price_chng_pct',
             sizeDefault: '',
             colorDefault: 'mkt_idx.rela_volume',
             indexRangeDefault: '',
@@ -528,10 +624,6 @@ export default {
             topic: ''
           },
           explain: '通过分析师预期，选择上涨空间较高的个股。距离X轴的距离越远，股价预期上涨空间越高；颜色越亮则成交越活跃，越暗则成交尚未激活。'
-        },
-
-        'demoTmp0': {
-          name: '自定义'
         }
       },
       currentTime: '',
@@ -546,25 +638,14 @@ export default {
 
   },
   methods: {
-    showOptionValue () {
+    showOptionValue() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
         this.showStockRangeDialog = false
       }
     },
-    simOptionClick4IE () {
-      const that = this
-      var evt = window.event
-      var selectObj = evt ? evt.srcElement : null
-      // IE Only
-      if (evt && selectObj && evt.offsetY && evt.button !== 2 && (evt.offsetY > selectObj.offsetHeight || evt.offsetY < 0)) {
-        // 记录原先的选中项
-        // var oldIdx = selectObj.selectedIndex
-        setTimeout(that.showOptionValue(), 60)
-      }
-    },
-    hideDialog () {
+    hideDialog() {
       this.showStockRangeDialog = false
       this.dimensionOptions.xDefault = this.options.xDefault
       this.dimensionOptions.yDefault = this.options.yDefault
@@ -579,28 +660,25 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelectData () {
-      this.xData = this.xDataList[this.dimensionOptions.xDefault]
-      this.yData = this.xDataList[this.dimensionOptions.yDefault]
-      this.sizeData = this.options.sizeDefault === '' ? '常规' : this.bubbleSizeList[this.dimensionOptions.sizeDefault]
-      this.colorData = this.options.colorDefault === '' ? '常规' : this.bubbleColorList[this.dimensionOptions.colorDefault]
+    showSelectData() {
       this.stockRangeOptions.topicNameDefalut = this.topicName
       this.options = { ...this.dimensionOptions,
         ...this.stockRangeOptions
       }
       this.tmpId = 'demoTmp0'
     },
-    changeTmp (e) {
-      const tmpValue = e.target.value
-      this.tmpId = tmpValue
+    changeTmp(e) {
+      let tmpValue = ''
+      if (e) {
+        tmpValue = e.target.value
+        this.tmpId = tmpValue
+      } else {
+        tmpValue = this.tmpId
+      }
       if (tmpValue === 'demoTmp0') {
         return
       }
       this.options = this.templateList[tmpValue].options
-      this.xData = this.xDataList[this.templateList[tmpValue].options.xDefault]
-      this.yData = this.xDataList[this.templateList[tmpValue].options.yDefault]
-      this.sizeData = this.bubbleSizeList[this.templateList[tmpValue].options.sizeDefault]
-      this.colorData = this.bubbleColorList[this.templateList[tmpValue].options.colorDefault]
       this.dimensionOptions.xDefault = this.templateList[tmpValue].options.xDefault
       this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
       this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
@@ -611,11 +689,11 @@ export default {
       this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
       this.stockRangeOptions.strategyDefault = this.templateList[tmpValue].options.strategyDefault
       this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
-      // this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
+      this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
     },
-    getTime () {
+    getTime() {
       var date = new Date()
       var seperator2 = ':'
       var month = date.getMonth() + 1
@@ -637,35 +715,61 @@ export default {
       var currentdate = date.getFullYear() + '-' + month + '-' + strDate + ' ' + strHour + seperator2 + strMin
       this.currentTime = currentdate
     },
-    showTheme () {
+    showTheme() {
       this.isShowTheme = true
     },
-    closeTheme () {
+    closeTheme() {
       this.isShowTheme = false
     },
-    getThemeVal (data) {
+    getThemeVal(data) {
       this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
-    hideAlert (data) {
-      this.showStockRangeDialog = data
+    changeOptionsInerCode(data) {
+      this.stockRangeOptions.innerCode = data
     },
-    clearTheme () {
+    clearTheme() {
       this.topicName = '全部'
       this.stockRangeOptions.topic = ''
+      this.options = {
+        ...this.dimensionOptions,
+        ...this.stockRangeOptions
+      }
+    },
+    defaultSet() {
+      this.tmpId = 'demoTmp1'
+      this.changeTmp()
+    },
+    changeXY() {
+      this.tmpId = 'demoTmp0'
+      const midValue = this.dimensionOptions.xDefault
+      this.dimensionOptions.xDefault = this.dimensionOptions.yDefault
+      this.dimensionOptions.yDefault = midValue
+      this.options = {
+        ...this.dimensionOptions,
+        ...this.stockRangeOptions
+      }
+    },
+    changeStrategy() {
+      this.stockRangeOptions.stockPoolDefault = ''
+      this.showSelectData()
+    },
+    changePool() {
+      this.stockRangeOptions.strategyDefault = ''
+      this.showSelectData()
     }
   },
   computed: {
-    stockPool: function () {
+    stockPool: function() {
       return this.$store.state.bubbles.stockPool
     },
-    userStrategy: function () {
+    userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
     }
   },
   watch: {
-    'dimensionOptions.xDefault': function () {
+    'dimensionOptions.xDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -673,7 +777,7 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'dimensionOptions.yDefault': function () {
+    'dimensionOptions.yDefault': function() {
       if ((this.dimensionOptions.xDefault === 'order' && (this.dimensionOptions.yDefault === 'sw_indu_name' || this.dimensionOptions.yDefault === 'chi_spel' || this.dimensionOptions.yDefault === 'order'))) {
         this.dimensionOptions.xDefault = 'sw_indu_name'
       }
@@ -681,22 +785,28 @@ export default {
         this.dimensionOptions.yDefault = 'sw_indu_name'
       }
     },
-    'tmpId': function () {
+    'tmpId': function() {
       if (this.tmpId === 'demoTmp0') {
         this.showStockRangeDialog = true
       } else {
         this.showStockRangeDialog = false
       }
+    },
+    'stockRangeOptions.topic': function() {
+      this.showSelectData()
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 
     const that = this
-    setInterval(function () {
+    setInterval(function() {
       that.getTime()
     }, 1000)
+    if (this.$route.params.isFilter === 'isFromFilter') {
+      this.tmpId = 'demoTmp0'
+    }
   }
 }
 </script>

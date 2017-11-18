@@ -179,7 +179,8 @@ body {
     /* padding: 20px; */
     /*  */
     width: 100%;
-    padding: 0.37rem 0.6rem 0;
+    /* padding: 0.37rem 0.6rem 0; */
+    padding: 0.37rem 0.4rem 0 0.6rem;
     /* border-collapse: collapse;
  */
 }
@@ -228,6 +229,7 @@ body {
 .bfilter-cont-4 {
     margin-top: 0.2rem;
     padding-bottom: 0;
+    display: none;
 }
 .right-table {
     border-collapse: collapse;
@@ -341,6 +343,7 @@ body {
             <td><span>最大盈利</span></td>
             <td><span>最大亏损</span></td>
             <td><span>盈亏比</span></td>
+            <td><span>平均持有天数</span></td>
           </tr>
           <tr class="eval-tr1 clearfix">
             <td>
@@ -353,6 +356,8 @@ body {
               <span class="desc-num1" v-z3-updowncolor="timeEval.maxLoss">{{timeEval.maxLoss==null?'--':changePer(timeEval.maxLoss)}}</span></td>
             <td>
               <span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
+            <td>
+              <span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Math.round(timeEval.avgHoldDays)}}</span></td>
           </tr>
 
         </table>
@@ -408,7 +413,7 @@ import {
 import BackTimeH5Kline from './back-timeh5-kline'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId
     }
@@ -467,37 +472,52 @@ export default {
           sellData: sellData
         }
       },
-      timeEval: state => state.backtestDetail.timeStrategy.evaluationIndexs
-
+      timeEval: state => state.backtestDetail.timeStrategy.evaluationIndexs,
+      error: state => state.error
     })
+  },
+  watch: {
+    error() {
+      if (this.error) {
+        this.$router.replace({
+          name: 'error'
+        });
+      }
+    }
   },
   components: {
     BackTimeH5Kline
   },
   methods: {
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },
-  mounted () {
+  mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+    const share = this.$route.query.share;
+    if (!share) {
+      return
+    }
     this.$store.dispatch('backtestDetail/queryTimeStrategy', {
-      strategyId: this.strategyId
-    })
+      strategyId: this.strategyId,
+      share: share
+
+    }).then(() => {})
   }
 
 }

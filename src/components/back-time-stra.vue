@@ -292,6 +292,9 @@ i {
             <span class="gray">盈亏比
                          </span></br><span class="desc-num1">{{timeEval.winLossRatio==null?'--':Number(timeEval.winLossRatio).toFixed(2)}}</span></td>
           <td>
+            <span class="gray">平均持有天数
+                         </span></br><span class="desc-num1">{{timeEval.avgHoldDays==null?'--':Math.round(timeEval.avgHoldDays)}}</span></td>
+          <td>
             <span class="gray">回测区间
                          </span></br><span class="desc-num1">{{timeStrategy.backtestStartDate==null?'--':changeDate(timeStrategy.backtestStartDate)}}～{{timeStrategy.backtestEndDate==null?'--':changeDate(timeStrategy.backtestEndDate)}}</span>
           </td>
@@ -340,9 +343,10 @@ i {
 import {
   mapState
 } from 'vuex'
+import base64 from 'base-64'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId
     }
@@ -405,17 +409,20 @@ export default {
   }),
   components: {},
   methods: {
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },
-  mounted () {
+  mounted() {
+    let share = base64.encode('JRJ');
+    share = base64.encode(share);
     this.$store.dispatch('backtestDetail/queryTimeStrategy', {
-      strategyId: this.strategyId
+      strategyId: this.strategyId,
+      share: share
     })
   }
 

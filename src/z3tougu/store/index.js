@@ -19,16 +19,17 @@ import fundRecord from 'stores/fund-record'
 import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
+import customerList from 'stores/customers'
 Vue.use(Vuex)
 
 const mutationTypes = {
-  'REQUEST_ERROR': 'REQUEST_ERROR',
+  'ERROR': 'ERROR',
   'UPDATE_AUTH_SETTING': 'UPDATE_AUTH_SETTING'
 }
 const state = {
-  request: {
-    statusCode: null,
-    errMsg: null
+  error: {
+    errorCode: null,
+    errorMsg: null
   },
   auth: {
     authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
@@ -64,7 +65,7 @@ const getters = {
   }
 }
 const actions = {
-  authSetting ({
+  authSetting({
     state,
     commit
   }) {
@@ -92,10 +93,13 @@ const actions = {
   }
 }
 const mutations = {
-  [mutationTypes.REQUEST_ERROR] (state, error) {
-    // state.error = error.message
+  [mutationTypes.ERROR](state, error) {
+    state.error = {
+      errorCode: error.errCode,
+      errorMsg: error.msg
+    };
   },
-  [mutationTypes.UPDATE_AUTH_SETTING] (state, authInfo) {
+  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
       clientid: authInfo.clientid,
@@ -132,6 +136,7 @@ export default new Vuex.Store({
     filter,
     backtestDetailH5,
     indexChart,
-    finance
+    finance,
+    customerList
   }
 })

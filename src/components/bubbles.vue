@@ -40,7 +40,7 @@ export default {
       bubbleSizeSelect: Data.bubbleSizeSelect,
       bubbleColorSelect: Data.bubbleColorSelect,
       /* height: (window.innerHeight - 85) / (window.devicePixelRatio || 1),*/
-      height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82,
+      height: window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82,
       isShowDialog: false,
       dialogOptions: {
         stockName: '',
@@ -240,7 +240,10 @@ export default {
         } else {
           tmpSelect = this.xSelectData[this.parameterData[select]]
         }
-        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0) {
+        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0 && tmpSelect.indexOf('销率') < 0 && tmpSelect.indexOf('现率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('比率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0 || tmpSelect.indexOf('MA') >= 0 || tmpSelect.indexOf('股东权益') >= 0) {
+          if (tmpSelect.indexOf('MA') >= 0) {
+            return showData === null ? '--' : Number(showData * 100).toFixed(2) + '%'
+          }
           return showData === null ? '--' : Number(showData).toFixed(2) + '%'
         } else {
           var selectVal = this.parameterData[select]
@@ -274,6 +277,7 @@ export default {
       }
     },
     initBubbles() {
+      // alert(this.options.innerCode+'init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading(config.loadingConfig);
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -568,10 +572,10 @@ export default {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
         })
         that.chart.on('mouseover', function(params) {
-          if ((params.event.offsetX + 460) > that.$refs.bubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 480
+          if ((params.event.offsetX + 500) >= that.$refs.bubbles.clientWidth) {
+            that.offsetX = params.event.offsetX - 280
           } else {
-            that.offsetX = params.event.offsetX + 20
+            that.offsetX = params.event.offsetX + 255
           }
 
           if ((params.event.offsetY + 247) > that.$refs.bubbles.clientHeight) {
@@ -597,16 +601,15 @@ export default {
         })
         window.onresize = function() {
           that.chart.resize({
-            height: window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
+            height: window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82
           })
-          that.height = window.innerHeight - 85 < 710 ? 710 - 85 : window.innerHeight - 82
+          that.height = window.innerHeight < 710 ? 710 - 85 : window.innerHeight - 82
         }
 
         this.chart.hideLoading()
       })
     },
     updateBubbles() {
-      console.log('update')
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
@@ -631,10 +634,10 @@ export default {
 
   mounted() {
     const that = this
-
     if (window.Z3) {
       window.Z3.SndStockPoolInfo((data) => {
         that.options.innerCode = data
+        this.$emit('changeOptions', data)
         this.initBubbles()
       })
     } else {
