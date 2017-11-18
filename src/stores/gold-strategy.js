@@ -246,7 +246,7 @@ export default {
         endDate
       })
       // return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate || ''}&endDate=${endDate || ''}`, {
+      return fetch(`${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate || ''}&endDate=${endDate || ''}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
