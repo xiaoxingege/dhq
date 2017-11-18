@@ -130,8 +130,8 @@ a {
 }
 
 .code-box {
-    / / width: 200 px;
-    / / height: 214 px;
+    /*width: 200 px;*/
+    /*height: 214 px;*/
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
