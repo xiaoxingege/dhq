@@ -495,7 +495,7 @@ export default {
         return result
       } else if (cValue.length === 5) {
         let result = cValue.substring(0, 3)
-        for (var i = 0; i < (cValue.length - 3); i++) {
+        for (var j = 0; j < (cValue.length - 3); j++) {
           result += '0'
         }
         return result
