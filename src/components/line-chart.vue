@@ -124,13 +124,12 @@ export default {
                 if (i === 0) {
                   let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>策略累计收益率: ' +
-                    (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
+                    params[i].color + '"></span>策略累计收益率: ' + (params[i].value < 0 ? '-' : '') + (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
                 if (i === 1) {
                   let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>基准累计收益率: ' +
+                    params[i].color + '"></span>基准累计收益率: ' + (params[i].value < 0 ? '-' : '') +
                     (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
               }
