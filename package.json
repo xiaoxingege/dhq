@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "@koa/cors": "2",
+    "base-64": "^0.1.0",
     "bem-sha1": "^1.0.3",
     "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
