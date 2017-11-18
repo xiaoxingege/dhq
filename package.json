@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.615",
+  "version": "0.0.620",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "@koa/cors": "2",
+    "base-64": "^0.1.0",
     "bem-sha1": "^1.0.3",
     "bemcloud-storage": "^1.0.40",
     "blueimp-md5": "^2.7.0",
