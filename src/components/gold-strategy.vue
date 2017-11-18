@@ -109,7 +109,7 @@ a {
 
 .qrcode {
     position: absolute;
-    / / box-sizing: border-box;
+    /*box-sizing: border-box;*/
     top: 51px;
     right: 18px;
     /* top: 40px;
