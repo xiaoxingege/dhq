@@ -9,7 +9,7 @@ export default {
     Vue.directive('z3-stock', {
       bind(el, binding, vnode, oldVnode) {
         let popup = binding.value.ref;
-        //let code = binding.value.code;
+        // let code = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
         el.addEventListener('mouseover', (event) => {
@@ -26,13 +26,13 @@ export default {
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
           const winW = window.document.body.scrollWidth;
-          let left = event.x + parseInt(scrollleft) + 40;
+          let left = event.x + parseInt(scrollleft) + 50;
           let top = event.y + parseInt(scrollTop) - 20;
           if (winH - top < 300) {
             top = winH - 300;
           }
           if (winW - left < 400) {
-            left = event.x + parseInt(scrollleft) - 400;
+            left = event.x + parseInt(scrollleft) - 430;
           }
           popupVm.$props.left = left
           popupVm.$props.top = top
