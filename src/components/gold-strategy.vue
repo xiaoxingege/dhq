@@ -487,9 +487,15 @@ export default {
     },
     capitalCapacity: function() {
       let cValue = (Number(this.goldResult.evaluationIndexs.capitalCapacity) / 10000).toFixed(0)
-      if (cValue.length > 5 || cValue.length === 5) {
+      if (cValue.length > 5) {
+        let result = cValue.substring(0, (cValue.length - 2))
+        for (var i = 0; i < (cValue.length - (cValue.length - 2)); i++) {
+          result += '0'
+        }
+        return result
+      } else if (cValue.length === 5) {
         let result = cValue.substring(0, 3)
-        for (var i = 0; i < (cValue.length - 3); i++) {
+        for (var j = 0; j < (cValue.length - 3); j++) {
           result += '0'
         }
         return result
