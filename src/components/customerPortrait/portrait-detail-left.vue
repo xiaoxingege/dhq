@@ -22,7 +22,7 @@
 }
 
 .customInfo table {
-    height: 39%;
+    height: 42%;
 }
 
 .posAdvice > table {
@@ -88,9 +88,15 @@
     height: 22%;
 }
 
-.posAdvice > p {
+.posAdvice > div {
     height: 20%;
-    vertical-align: middle;
+    position: relative;
+}
+
+.posAdvice > div > span {
+    display: block;
+    position: absolute;
+    top: 20%;
 }
 .posAdvice table tr:nth-child(2) td:nth-child(2),
 .posAdvice table tr:nth-child(3) td:nth-child(2),
@@ -134,7 +140,13 @@
         <td>开户时间</td>
         <td>2016.11.12</td>
         <td>关注度</td>
-        <td></td>
+        <td>
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star.png">
+          <img src="../../assets/images/z3img/star-gray.png">
+          <img src="../../assets/images/z3img/star-gray.png">
+        </td>
       </tr>
 
     </table>
@@ -161,7 +173,7 @@
     <p>客户选股能力较强，但仓控、择时能力较弱，建议投顾重点给予客户仓位控制以及交易时点的相关信息和指导，提高客户的盈利能力。</p>
   </div>
   <div class="posAdvice">
-    <p>仓位建议</p>
+    <div><span>仓位建议</span></div>
     <table cellpadding="0" cellspacing="0">
       <tr>
         <td>市场</td>
@@ -190,7 +202,7 @@
       </tr>
     </table>
   </div>
-  <div v-select="message" style="margin-bottom: 100px;"></div>
+  <!--<div v-select="message" style="margin-bottom: 100px;"></div>-->
 </div>
 </template>
 <script>

@@ -160,7 +160,6 @@ export default {
         .then(() => {
           if (this.strategyNameData.length > 0) {
             this.strategyNames = this.strategyNameData
-            debugger
             this.strategyId = this.strategyNames[0].id
             this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
                 strategyId: this.strategyId
