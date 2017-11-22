@@ -1004,6 +1004,7 @@ export default {
         this.playBackSrc = playStopSrc
         this.isStopPlayback = false
         this.$emit('isStopPlayback', this.isStopPlayback)
+        this.isContinue = 1
         this.updateData()
         this.autoUpdateData()
       } else {

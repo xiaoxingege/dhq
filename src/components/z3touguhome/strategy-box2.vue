@@ -30,7 +30,7 @@
     color: #808ba1;
     display: inline-block;
     position: absolute;
-    right: 16px;
+    right: 9px;
     top: 50%;
     transform: translateY(-50%);
 }

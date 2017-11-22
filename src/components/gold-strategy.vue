@@ -4,6 +4,7 @@
 html {
     height: 100%;
 }
+
 .goldRecommend {
     min-height: 100%;
     font-size: 12px;
@@ -11,12 +12,14 @@ html {
     padding: 0 1px;
     box-sizing: border-box;
 }
+
 .strategyHeader {
     height: 32px;
     text-align: left;
     background: #141518;
     padding-left: 10px;
 }
+
 .strategyHeader span {
     display: inline-block;
     height: 32px;
@@ -24,40 +27,48 @@ html {
     color: #c9d0d7;
     font-size: 16px;
 }
+
 .strategyTop {
     /*height:375px;*/
     margin-bottom: 3px;
     position: relative;
 }
+
 .strategyDesc {
     margin-right: 3px;
     /*height:345px;*/
     text-align: left;
     background: #0d0e0f;
 }
+
 .strategyDescTop {
     /*height:214px;*/
     background: #141518;
     padding: 15px 10px;
 }
+
 .strategyDescBottom {
     min-height: 190px;
     background: #141518;
 }
+
 .radarChart {
     width: 456px;
     height: 336px;
 
 }
+
 .attention {
     margin-left: 20px;
     margin-right: 80px;
     position: relative;
     top: 2px;
 }
+
 a {
     cursor: pointer;
 }
+
 .topNav ul li > span {
     width: 75px;
 }
@@ -98,7 +109,7 @@ a {
 
 .qrcode {
     position: absolute;
-    // box-sizing: border-box;
+    /*box-sizing: border-box;*/
     top: 51px;
     right: 18px;
     /* top: 40px;
@@ -119,19 +130,21 @@ a {
 }
 
 .code-box {
-    // width: 200px;
-    // height: 214px;
+    /*width: 200 px;*/
+    /*height: 214 px;*/
     background: #fff;
     border-radius: 10px;
     font-size: 12px;
     color: #666666;
     padding: 10px;
 }
+
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
     margin-top: -5px;
 }
+
 .strategyDescTable {
     width: 100%;
 }
@@ -141,6 +154,7 @@ a {
 .strategyDescTable tr:last-child td {
     color: #d3d9dd;
 }
+
 .strategyDescTable td {
     color: #191919;
     text-align: center;
@@ -190,15 +204,26 @@ a {
             <td v-for="item in trData">{{item}}</td>
           </tr>
           <tr>
-            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</td>
-            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
+            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.annualReturn">
+              {{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}
+            </td>
+            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.excessReturn">
+              {{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}
+            </td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}
+            </td>
             <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
               {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':Number(this.goldResult.evaluationIndexs.avgHoldDays).toFixed(0)}}
             </td>
