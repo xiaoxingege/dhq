@@ -14,6 +14,7 @@ html,
 body,
 .app {
   height: 100%;
+  background-color: #141518;
 }
 
 .wrap {
@@ -21,6 +22,7 @@ body,
   min-width: 1217px;
   height: 100%;
   background-color: #0d0e0f;
+  min-height: 100%;
 }
 
 .index-wrap {
@@ -98,7 +100,7 @@ body {
 <template>
 <div class="wrap index-wrap">
   <div class="news-wrap clearfix">
-    <IndexChart></IndexChart>
+    <IndexChart @isResize='isResizeStrategy'></IndexChart>
   </div>
   <div class="sector-wrap clearfix">
     <div class="sectors">
@@ -110,7 +112,7 @@ body {
   </div>
   <div class="con-bottom clearfix">
     <div class="con-bottom-left clearfix">
-      <StrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId"></StrategyBox>
+      <StrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId" :isResizeStrategyChart='isResizeStrategyChart'></StrategyBox>
       <tradeSignals :strategyId="strategyId"></tradeSignals>
     </div>
     <div class="con-bottom-right">
@@ -140,7 +142,8 @@ export default {
         '399906': '中证800',
         '000852': '中证1000'
       },
-      strategyId: ''
+      strategyId: '',
+      isResizeStrategyChart: ''
     }
   },
   props: [''],
@@ -158,6 +161,9 @@ export default {
   methods: {
     passStrategyId: function(msg) {
       this.strategyId = msg
+    },
+    isResizeStrategy: function(msg) {
+      this.isResizeStrategyChart = msg
     }
   },
   mounted() {

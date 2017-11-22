@@ -97,12 +97,13 @@ html {
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
-.header {
+.topic-head {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
+    background: #141518;
 }
 
-.header strong {
+.topic-head strong {
     font-weight: normal;
     font-size: 16px;
 }
@@ -291,9 +292,9 @@ html {
 .new-tit:hover {
     color: #1984ea;
 }
-.new-tit:hover i {
+/*.new-tit:hover i {
     display: block;
-}
+}*/
 .new-tit i {
     color: #1984ea;
     position: absolute;
@@ -307,6 +308,7 @@ html {
     /* top: 23px; */
     left: 157px;
 }
+
 .left-con3 strong {
     display: inline-block;
     /* margin-bottom: 6px; */
@@ -628,7 +630,7 @@ bottom: 0; */
 </style>
 <template>
 <div class="topic-detail">
-  <div class="header clearfix">
+  <div class="topic-head clearfix">
     <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
     <div class="topic-time fl">
       <span class="time-num4">成份股数</span><span class="time-num2">{{detail.equityNum}}只
@@ -672,7 +674,7 @@ bottom: 0; */
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
-                <span class="new-tit">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
+                <span class="new-tit" @mouseenter="enterNewTit($event)" @mouseleave="leaveNewTit($event)">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
               </router-link>
@@ -713,7 +715,7 @@ bottom: 0; */
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
-            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=150?stock.topicMark:stock.topicMark.substring(0,151)+'…'}}</span></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=200?stock.topicMark:stock.topicMark.substring(0,201)+'…'}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
@@ -1021,13 +1023,13 @@ export default {
         topicCode: this.topicCode
       }).then(() => {
         // this.endAll = this.allLimit.limitAllX
-        console.log(this.chartData.chartDataEnd) // chartHs
+        //  console.log(this.chartData.chartDataEnd) // chartHs
         if (this.allLimit[0].tradeDate === this.chartData.chartDataEnd) {
           const allLimitHs = Number(this.allLimit[0].hs300ReturnRate).toFixed(2) // 新
           const allLimitReturn = Number(this.allLimit[0].topicReturnRate).toFixed(2)
           this.chartData.hs300ReturnRate[this.chartData.hs300ReturnRate.length - 1] = allLimitHs
           this.chartData.topicReturnRate[this.chartData.topicReturnRate.length - 1] = allLimitReturn
-          console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
+          // console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
           // console.log(chartReturn)
           // console.log(allLimitReturn)
         } else {
@@ -1113,6 +1115,20 @@ export default {
       })
     },
     leaveNumberTopic(e) {
+      e.preventDefault()
+      e.currentTarget.children[0].style.display = 'none'
+    },
+    enterNewTit(e) {
+      e.preventDefault()
+      var inContent = document.getElementsByClassName('in-content')[0]
+      var inDivHight = inContent.clientHeight
+      e.currentTarget.children[0].style.display = 'block'
+      if (e.currentTarget.offsetTop > inDivHight) {
+        e.currentTarget.children[0].style.top = e.currentTarget.offsetTop - 20 + 'px'
+        e.currentTarget.children[0].style.left = e.currentTarget.offsetLeft + 200 + 'px'
+      }
+    },
+    leaveNewTit(e) {
       e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
@@ -1388,14 +1404,15 @@ export default {
     this.initChart()
     this.initStockList('recommendIndex')
     this.initInformatList()
-    console.log(this.fullHeight2)
+    // console.log(this.fullHeight2)
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
-    console.log(this.sortStock)
+    // console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
     console.log(document.documentElement.clientHeight - 166)
+
   },
   destroyed() {
     this.alltimers && clearInterval(this.alltimers)

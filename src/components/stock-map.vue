@@ -205,7 +205,7 @@
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
-    <div class="chart" ref="treemap" v-on:mousemove="move($event)" @mousewheel="zoom($event)" v-z3-drag="{containment:'mapcontainment'}"></div>
+    <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback">
@@ -328,7 +328,9 @@ export default {
       wrapHeight: 0,
       clientX: 0,
       clientY: 0,
-      scale: 1
+      scale: 1,
+      zoomDelta: 0,
+      autoUpdate: true
     }
   },
   watch: {
@@ -338,11 +340,15 @@ export default {
       this.playLineIndex = 19
     },
     condition() {
-      // this.updateDataByCodition()
+      this.isContinue = 1
+      this.autoUpdate = true
       this.updateData()
     },
     focusStockName() {
       this.focusStock()
+    },
+    hoverStock() {
+      this.renderStockList();
     }
   },
   computed: {
@@ -363,6 +369,9 @@ export default {
     stockData: function() {
       const map = this.mapData
       const stockData = this.$store.state.stockMap.stockData
+      if (!stockData) {
+        return null
+      }
       const _this = this
       map.forEach(function(industry) {
         industry.children && industry.children.forEach(function(lvl2) {
@@ -496,31 +505,31 @@ export default {
   methods: {
     initMap: function() {
       this.chart = echarts.init(this.$refs.treemap)
-      const _this = this
-      this.$store.dispatch('stockMap/queryRangeByCode', {
+      const _this = this;
+      let p1 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/queryRangeByCode', {
           code: this.rangeCode
-        })
-        .then(() => {
-          this.initOption(this.mapData)
         }).then(() => {
-          this.$store.dispatch('stockMap/updateData', {
-            isContinue: this.isContinue,
-            condition: this.condition,
-            code: this.rangeCode
-          }).then(() => {
-            /* this.chart.setOption({
-              series: [{
-                data: this.stockData
-              }]
-            })*/
-            this.initOption(this.stockData)
-          }).then(() => {
-            this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
-              this.playBackDate = this.$store.state.stockMap.calendarsData
-              this.playBackDateShow = this.timeFormat(this.playBackDate)
-            })
-          })
+          this.initOption(this.mapData);
+          resolve();
         })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/updateData', {
+          isContinue: this.isContinue,
+          condition: this.condition,
+          code: this.rangeCode
+        }).then(() => {
+          resolve();
+        })
+      });
+      Promise.all([p1, p2]).then(() => {
+        this.updateMapData();
+      })
+      this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
+        this.playBackDate = this.$store.state.stockMap.calendarsData
+        this.playBackDateShow = this.timeFormat(this.playBackDate)
+      })
       this.chart.showLoading(config.loadingConfig)
       this.getLegendColor()
       window.onresize = function() {
@@ -540,31 +549,26 @@ export default {
       this.updateTime()
     },
     updateMap: function() {
-      /* if (this.rangeCode !== '') { this.rangeCode = 'auth/' + this.rangeCode }*/
-      this.$store.dispatch('stockMap/queryRangeByCode', {
-        code: this.rangeCode
-      }).then(() => {
-        this.$refs.treemap.style.left = 0
-        this.$refs.treemap.style.top = 0
-        this.scale = 1
-        this.initOption(this.mapData)
-        /* this.chart && this.chart.setOption({
-          series: [{
-            data: this.mapData
-          }]
-        })*/
-      })
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
-        this.initOption(this.stockData)
-        /* this.chart && this.chart.setOption({
-          series: [{
-            data: this.stockData
-          }]
-        })*/
+      this.isContinue = 1;
+      let p1 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/queryRangeByCode', {
+          code: this.rangeCode
+        }).then(() => {
+          this.initOption(this.mapData);
+          resolve();
+        })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        this.$store.dispatch('stockMap/updateData', {
+          isContinue: this.isContinue,
+          condition: this.condition,
+          code: this.rangeCode
+        }).then(() => {
+          resolve();
+        })
+      });
+      Promise.all([p1, p2]).then(() => {
+        this.updateMapData();
       })
     },
     updateData: function() {
@@ -580,29 +584,16 @@ export default {
         this.updateMapData()
       })
     },
-    updateDataByCodition: function() {
-      this.getLegendColor()
-      this.$store.dispatch('stockMap/updateData', {
-        isContinue: this.isContinue,
-        condition: this.condition,
-        code: this.rangeCode
-      }).then(() => {
-        if (this.playLineIndex >= 18) {
-          this.playLineIndex = 19
-        }
-        this.initOption(this.stockData)
-      })
-    },
     updateMapData: function() {
-      /* this.initOption(this.stockData)*/
+      if (this.stockData === null) {
+        this.restoreMap();
+        return;
+      }
       this.chart.setOption({
         series: [{
           data: this.stockData
         }]
       })
-      // this.chart.clear()
-      // this.chart.setOption(this.getOption())
-      // this.chart.trigger('emphasis')
     },
     autoUpdateData: function() {
       const _this = this
@@ -610,12 +601,17 @@ export default {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function() {
-          _this.updateData()
+          if (_this.autoUpdate) {
+            _this.isContinue = 0;
+            _this.updateData()
+          }
         }, 1000 * _this.intervalTime)
       }
     },
     initOption: function(data) {
+      this.autoUpdate = true
       if (this.chart) {
+        this.chart.clear();
         this.chart.dispose()
         console.log('销毁echart实例!')
       }
@@ -625,9 +621,9 @@ export default {
         progressive: 1000,
         animation: false,
         squareRatio: 0.5,
-        tooltip: {
-          triggerOn: 'none'
-        },
+        // tooltip: {
+        //   formatter:this.showCategoryStocks
+        // },
         series: [{
           name: '',
           type: 'treemap',
@@ -679,7 +675,7 @@ export default {
             show: false
           },
           nodeClick: false,
-          roam: false,
+          roam: true,
           levels: this.getLevelOption(),
           data: data
         }]
@@ -714,7 +710,24 @@ export default {
           el.__normalStl.stroke = null
           el.setStyle(el.__normalStl)
         }
-      })
+      });
+      this.chart._chartsViews[0]._controller.on('zoom', (delta, a, b, c, d, e) => {
+        if (delta > 1) {
+          this.zoomDelta++
+        } else if (delta < 1) {
+          this.zoomDelta--;
+          if (this.zoomDelta < 0) {
+            this.zoomDelta = 0
+          }
+        }
+        if (this.zoomDelta === 0) {
+          this.autoUpdate = true;
+        } else {
+          this.autoUpdate = false;
+        }
+        console.info('zoomDelta:' + this.zoomDelta);
+        console.info('autoUpdate:' + this.autoUpdate);
+      });
       this.chart.on('dblclick', (params) => {
         if (params.treePathInfo.length <= 3) {
           return
@@ -724,95 +737,29 @@ export default {
         }
       })
     },
-    getOption: function() {
-      return {
-        hoverLayerThreshold: 10000,
-        progressive: 1000,
-        animation: false,
-        squareRatio: 0.5,
-        tooltip: {
-          triggerOn: 'none'
-        },
-        series: [{
-          name: '',
-          type: 'treemap',
-          visibleMin: -1,
-          childrenVisibleMin: 20,
-          width: '100%',
-          height: '100%',
-          label: {
-            normal: {
-              distance: 0,
-              ellipsis: false,
-              show: true,
-              formatter: (params) => {
-                const node = this.getNode(params)
-                const nodeLayout = node.getLayout()
-                let formatterText = ''
-                if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
-                  formatterText += params.name
-                }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof params.data.perf !== 'undefined' && params.data.perf !== null) {
-                  formatterText += '\n' + params.data.perfText
-                }
-                return formatterText
-              },
-              textStyle: {
-                fontSize: 12
-              }
-            }
-          },
-          upperLabel: {
-            normal: {
-              show: true,
-              formatter: (params) => {
-                const node = this.getNode(params)
-                const nodeLayout = node.getLayout()
-                let formatterText = ''
-                if (nodeLayout.width > 48 && nodeLayout.height > 20) {
-                  formatterText += params.name
-                }
-                return formatterText
-              },
-              height: 15
-            }
-          },
-          itemStyle: {
-            normal: {}
-          },
-          breadcrumb: {
-            show: false
-          },
-          nodeClick: false,
-          roam: false,
-          levels: this.getLevelOption(),
-          data: this.stockData
-        }]
-      }
-    },
     focusStock: function() {
       const _this = this
       // const focusStockData = this.stockData
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
+      const rootLayout = treeRoot.getLayout();
       treeRoot.children.forEach(function(industry) {
         industry.children.forEach(function(lvl2) {
           lvl2.children.forEach(function(stock) {
             if (stock.name === _this.focusStockName[0]) {
-              // stock.itemStyle.normal.borderColor = '#ffd614'
-              // stock.itemStyle.normal.borderWidth = 2
-              // lvl2.itemStyle.normal.borderColor = '#ffd614'
-              // chartView._zoomToNode({
-              //   node: stock
-              // })
-              // treemapHelper.retrieveTargetInfo({type:'treemapZoomToNode',targetId:});
-              const treemap = _this.$refs.treemap
               const lvl2Node = stock.parentNode;
               const industryNode = lvl2Node.parentNode;
               const nodeLayout = stock.getLayout();
-              const x = industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
-              const y = industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
-              const obj = _this.chart._zr.findHover(x, y);
+              const x = rootLayout.x + industryNode.getLayout().x + lvl2Node.getLayout().x + nodeLayout.x + nodeLayout.width / 2;
+              const y = rootLayout.y + industryNode.getLayout().y + lvl2Node.getLayout().y + nodeLayout.y + nodeLayout.height / 2;
+              let obj = _this.chart._zr.findHover(x, y);
+              if (nodeLayout.area === 0) {
+                chartView._onZoom(1.1, x, y);
+                setTimeout(function() {
+                  _this.focusStock()
+                }, 0);
+                return;
+              }
               if (_this.focusEl) {
                 const preNodeStl = _this.focusEl.style;
                 preNodeStl.stroke = null;
@@ -822,35 +769,39 @@ export default {
               const nextNodeStl = obj.target.style;
               nextNodeStl.stroke = '#ffd614';
               obj.target.setStyle(nextNodeStl);
-              let left = _this.mapWidth / 2 - 4 / _this.scale * x;
-              let top = _this.mapHeight / 2 - 4 / _this.scale * y;
-              if (_this.scale !== 4) {
-                _this.scale = 4;
-                _this.chart.resize({
-                  width: _this.mapWidth * _this.scale,
-                  height: _this.mapHeight * _this.scale
-                })
-              }
-              const leftRange = {
-                min: (1 - _this.scale) * _this.mapWidth,
-                max: 0
-              }
-              const topRange = {
-                min: (1 - _this.scale) * _this.mapHeight,
-                max: 0
-              }
-              if (left >= leftRange.max) {
-                left = leftRange.max
-              } else {
-                left = Math.max(leftRange.min, left);
-              }
-              if (top >= topRange.max) {
-                top = topRange.max;
-              } else {
-                top = Math.max(topRange.min, top);
-              }
-              treemap.style.top = top + 'px'
-              treemap.style.left = left + 'px'
+              chartView._zoomToNode({
+                node: stock
+              });
+              _this.autoUpdate = false;
+              //   let left = _this.mapWidth / 2 - 4 / _this.scale * x;
+              //   let top = _this.mapHeight / 2 - 4 / _this.scale * y;
+              //   if (_this.scale !== 4) {
+              //     _this.scale = 4;
+              //     _this.chart.resize({
+              //       width: _this.mapWidth * _this.scale,
+              //       height: _this.mapHeight * _this.scale
+              //     })
+              //   }
+              //   const leftRange = {
+              //     min: (1 - _this.scale) * _this.mapWidth,
+              //     max: 0
+              //   }
+              //   const topRange = {
+              //     min: (1 - _this.scale) * _this.mapHeight,
+              //     max: 0
+              //   }
+              //   if (left >= leftRange.max) {
+              //     left = leftRange.max
+              //   } else {
+              //     left = Math.max(leftRange.min, left);
+              //   }
+              //   if (top >= topRange.max) {
+              //     top = topRange.max;
+              //   } else {
+              //     top = Math.max(topRange.min, top);
+              //   }
+              //   treemap.style.top = top + 'px'
+              //   treemap.style.left = left + 'px'
             }
           })
         })
@@ -982,7 +933,14 @@ export default {
       }
     },
     startPlay: function() {
-      clearInterval(this.updateDataPid)
+      clearInterval(this.updateDataPid);
+      if (!this.autoUpdate) {
+        this.restoreMap();
+        setTimeout(() => {
+          this.startPlay();
+        }, 500);
+        return;
+      }
       this.updateDataPid = null
       if (this.playBackState) { // 播放中点击暂停
         this.playBackState = false
@@ -1046,6 +1004,7 @@ export default {
         this.playBackSrc = playStopSrc
         this.isStopPlayback = false
         this.$emit('isStopPlayback', this.isStopPlayback)
+        this.isContinue = 1
         this.updateData()
         this.autoUpdateData()
       } else {
@@ -1176,9 +1135,10 @@ export default {
         height: this.mapHeight,
         width: this.mapWidth
       })
-      this.scale = 1;
-      this.$refs.treemap.style.left = 0
-      this.$refs.treemap.style.top = 0
+      this.autoUpdate = true;
+      // this.scale = 1;
+      // this.$refs.treemap.style.left = 0
+      // this.$refs.treemap.style.top = 0
     },
     getTime: function() {
       const date = new Date()
@@ -1223,72 +1183,73 @@ export default {
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
       return treeRoot.hostTree._nodes[params.dataIndex]
-    },
-    zoom: function(event) {
-      if (this.zoomFlag) {
-        return
-      }
-      this.zoomFlag = true
-      setTimeout(() => {
-        this.zoomFlag = false
-      }, 800)
-      const treemap = this.$refs.treemap
-      const offsetX = event.offsetX
-      const offsetY = event.offsetY
-      const containerX = event.pageX - 20
-      const containerY = event.pageY - 28
-      const deltaY = event.deltaY
-      var top = 0
-      var left = 0
-      if (deltaY < 0 && this.scale < 4) {
-        this.scale++
-          left = containerX - this.scale / (this.scale - 1) * offsetX
-        top = containerY - this.scale / (this.scale - 1) * offsetY
-      } else if (deltaY > 0 && this.scale > 1) {
-        this.scale--
-          if (this.scale === 1) {
-            top = 0
-            left = 0
-          } else {
-            left = containerX - this.scale / (this.scale + 1) * offsetX
-            top = containerY - this.scale / (this.scale + 1) * offsetY
-          }
-      } else {
-        return
-      }
-
-      this.chart.resize({
-        width: this.mapWidth * this.scale,
-        height: this.mapHeight * this.scale
-      })
-      const leftRange = {
-        min: (1 - this.scale) * this.mapWidth,
-        max: 0
-      }
-      const topRange = {
-        min: (1 - this.scale) * this.mapHeight,
-        max: 0
-      }
-      if (left >= leftRange.max) {
-        left = leftRange.max
-      } else {
-        left = Math.max(leftRange.min, left);
-      }
-      if (top >= topRange.max) {
-        top = topRange.max;
-      } else {
-        top = Math.max(topRange.min, top);
-      }
-      treemap.style.top = top + 'px'
-      treemap.style.left = left + 'px'
     }
+    // zoom: function(event) {
+    //   if (this.zoomFlag) {
+    //     return
+    //   }
+    //   this.zoomFlag = true
+    //   setTimeout(() => {
+    //     this.zoomFlag = false
+    //   }, 800)
+    //   const treemap = this.$refs.treemap
+    //   const offsetX = event.offsetX
+    //   const offsetY = event.offsetY
+    //   const containerX = event.pageX - 20
+    //   const containerY = event.pageY - 28
+    //   const deltaY = event.deltaY
+    //   var top = 0
+    //   var left = 0
+    //   if (deltaY < 0 && this.scale < 4) {
+    //     this.scale++
+    //       left = containerX - this.scale / (this.scale - 1) * offsetX
+    //     top = containerY - this.scale / (this.scale - 1) * offsetY
+    //   } else if (deltaY > 0 && this.scale > 1) {
+    //     this.scale--
+    //       if (this.scale === 1) {
+    //         top = 0
+    //         left = 0
+    //       } else {
+    //         left = containerX - this.scale / (this.scale + 1) * offsetX
+    //         top = containerY - this.scale / (this.scale + 1) * offsetY
+    //       }
+    //   } else {
+    //     return
+    //   }
+
+    //   this.chart.resize({
+    //     width: this.mapWidth * this.scale,
+    //     height: this.mapHeight * this.scale
+    //   })
+    //   const leftRange = {
+    //     min: (1 - this.scale) * this.mapWidth,
+    //     max: 0
+    //   }
+    //   const topRange = {
+    //     min: (1 - this.scale) * this.mapHeight,
+    //     max: 0
+    //   }
+    //   if (left >= leftRange.max) {
+    //     left = leftRange.max
+    //   } else {
+    //     left = Math.max(leftRange.min, left);
+    //   }
+    //   if (top >= topRange.max) {
+    //     top = topRange.max;
+    //   } else {
+    //     top = Math.max(topRange.min, top);
+    //   }
+    //   treemap.style.top = top + 'px'
+    //   treemap.style.left = left + 'px'
+    // }
   },
   mounted() {
     this.isFullScreen()
     this.initMap()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid);
+    this.chart.dispose();
   }
 }
 </script>

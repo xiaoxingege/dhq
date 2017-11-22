@@ -259,12 +259,13 @@ i {
 </template>
 
 <script>
+import base64 from 'base-64'
 import {
   mapState
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       strategyId: this.$route.params.strategyId
     }
@@ -310,20 +311,23 @@ export default {
   },
   components: {},
   methods: {
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
 
   },
-  mounted () {
+  mounted() {
+    let share = base64.encode('JRJ');
+    share = base64.encode(share);
     this.$store.dispatch('backtestDetail/queryBasicFilter', {
-      strategyId: this.strategyId
+      strategyId: this.strategyId,
+      share: share
     })
     // console.log(state.backtestDetail.basicFilter.filterSummary)
-    this.$watch('basicFilter', function (basicFilter) {
+    this.$watch('basicFilter', function(basicFilter) {
       if (basicFilter) {
         console.log(this.$emit('basicFilterName', basicFilter.strategyName))
         this.$emit('basicFilterName', basicFilter.strategyName)

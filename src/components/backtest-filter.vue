@@ -311,7 +311,7 @@ span.copy {
 }
 </style>
 <template>
-<div class="backtest-filter">
+<div class="backtest-filter" @click="hideCode($event)">
   <div class="bfilter-main">
     <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span>
     </div>
@@ -421,6 +421,7 @@ import Pagination from './pagination'
 import qrcode from 'qrcode'
 import Clipboard from 'clipboard'
 import toast from 'components/toast'
+import base64 from 'base-64'
 import {
   ctx
 } from '../z3tougu/config'
@@ -489,6 +490,13 @@ export default {
       const numDate = e.currentTarget.previousElementSibling.innerHTML.replace(/\./g, '')
       console.log(numDate)
     },*/
+
+    hideCode(e) {
+      var _weixin = document.getElementsByClassName('weixin')[0]
+      if (_weixin !== event.target) {
+        this.showQrcodeBox = false
+      }
+    },
     excelExport(type) {
       const id = this.strategyId
       const expires = this.authInfo.expires
@@ -563,6 +571,14 @@ export default {
     },
     showQrcode() {
       this.showQrcodeBox = !this.showQrcodeBox
+      if (this.showQrcodeBox) {
+        let url = window.location.protocol + '//' + window.location.host + ctx + '/backtestFilterH5/' + this.strategyId
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark
+        qrcode.toDataURL(this.$refs.qrcode, dataUrl, function() {})
+      }
     },
     showCode() {
       this.showQrcodeBox = !this.showQrcodeBox
@@ -585,7 +601,11 @@ export default {
     }, function() {})
     const clipboard = new Clipboard('.copy', {
       text: function() {
-        return url
+        let shareMark = new Date().getTime();
+        shareMark = base64.encode(shareMark);
+        shareMark = base64.encode(shareMark);
+        let dataUrl = url + '?share=' + shareMark;
+        return dataUrl;
       }
     })
     clipboard.on('success', (e) => {

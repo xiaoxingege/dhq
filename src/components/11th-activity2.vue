@@ -499,25 +499,29 @@ export default {
             date.setSeconds(endTime.substring(17, 19));
             return Date.parse(date) / 1000;
         }
-        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-13 20:00:00')) {
+        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-13 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-19 20:00:00')) {
+            console.log('1')
             $(".bg1").addClass('bg1-1')
             window.setInterval(function() {
                 ShowCountDown(2017, 11, 17, 20, 0, 0)
 
             }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-19 20:00:00')) {
+        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-19 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-26 20:00:00')) {
+            console.log('2')
             $(".bg1").addClass('bg1-2')
             window.setInterval(function() {
                 ShowCountDown(2017, 11, 24, 20, 0, 0)
 
             }, 1000)
         } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-26 20:00:00')) {
+            console.log('3')
             $(".bg1").addClass('bg1-3')
             window.setInterval(function() {
                 ShowCountDown(2017, 11, 30, 20, 0, 0)
 
             }, 1000)
         } else {
+            console.log('4')
             window.setInterval(function() {
                 ShowCountDown(2017, 11, 11, 20, 0, 0)
 

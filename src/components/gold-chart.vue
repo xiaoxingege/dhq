@@ -78,19 +78,6 @@ a {
     top: 0;
     cursor: pointer;
 }
-
-/*.syqxt{*/
-/*position: relative;*/
-/*}*/
-/*.syqx-tab{*/
-/*position: absolute;*/
-/*right:0;*/
-/*top:0;*/
-/*}*/
-/*.syqx-tab li{*/
-/*float: left;*/
-/*color:#fff;*/
-/*}*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
     .dqxg,
     .dryk,
@@ -112,14 +99,6 @@ a {
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
   <div>
     <div v-if="type === 'syqxt'" class="syqxt">
-      <!--<ul class="syqx-tab">
-          <li>近1月</li>
-          <li>近3月</li>
-          <li>近6月</li>
-          <li>近1年</li>
-          <li>近3年</li>
-          <li>全部</li>
-        </ul>-->
       <Linechart :strategyId="strategyId"></Linechart>
     </div>
     <div v-if="type === 'dryk'" class="dryk">
@@ -305,7 +284,6 @@ export default {
     mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     }
-
   },
   methods: {
     changeNavType(data) {
@@ -370,6 +348,8 @@ export default {
       // document.body.removeChild(postForm)
     }
   },
-  mounted() {}
+  mounted() {
+    this.type = this.$route.params.showType
+  }
 }
 </script>
