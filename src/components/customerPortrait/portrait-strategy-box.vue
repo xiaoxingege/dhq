@@ -13,7 +13,7 @@
     border-radius: 3px;
     border: 1px solid #141518;
     position: absolute;
-    left: 8px;
+    left: 58px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -24,6 +24,29 @@
 }
 .portarit-strategy-title select:focus {
     outline: none;
+}
+.portarit-strategy-title .portarit-strategy-lable1 {
+    color: #c9d0d7;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.portarit-strategy-title .portarit-strategy-lable2 {
+    color: #1984ea;
+    position: absolute;
+    left: 312px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 60px;
+    height: 100%;
+}
+.portarit-strategy-lable2 span {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .strategy-chart-link {
     display: inline-block;
@@ -69,10 +92,13 @@
 <template>
 <div style="width: 60%">
   <div class="portarit-strategy-title">
-    <span></span>
+    <span class="portarit-strategy-lable1">金牌策略</span>
     <select v-model="strategyId">
-                <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
-            </select>
+        <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
+    </select>
+    <p class="portarit-strategy-lable2">
+      <span class="">策略详情</span>
+    </p>
   </div>
   <div class="portrait-strategy-chart">
     <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
