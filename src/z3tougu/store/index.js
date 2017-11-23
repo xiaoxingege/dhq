@@ -45,20 +45,11 @@ const state = {
 const getters = {
   authHeader: state => {
     if (state.auth.authorization) {
-      if (window.Z3) {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
-      } else {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
+      return {
+        authorization: state.auth.authorization,
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid,
+        userId: state.user.userId
       }
     }
     return {}

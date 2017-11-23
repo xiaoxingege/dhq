@@ -214,6 +214,13 @@ export default {
         return Math.round(value * Math.pow(10, num)) / Math.pow(10, num);
       }
     })
+    Vue.filter('isNull', function(value) {
+      if (value === null || value === '') {
+        return config.emptyValue
+      } else {
+        return value
+      }
+    })
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"

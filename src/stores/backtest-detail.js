@@ -59,7 +59,10 @@ export default {
     buyPageSize: BUY_PAGE_SIZE,
     buyPage: 1,
     buyTotalPage: 0,
-    buysell: [] // 新买入卖出
+    buysell: [], // 新买入卖出
+    attentionData: null,
+    addAttention: false,
+    delAttention: false
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
@@ -112,6 +115,29 @@ export default {
     },
     updateSearch(state, search) {
       state.searchList = search
+    },
+    setAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.attentionData = true
+      } else if (result.errCode === 1233) {
+        state.attentionData = false
+      } else {
+        state.attentionData = null
+      }
+    },
+    addAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.addAttention = true
+      } else {
+        state.addAttention = false
+      }
+    },
+    delAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.delAttention = true
+      } else {
+        state.delAttention = false
+      }
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -280,6 +306,60 @@ export default {
           // console.log(result.data.kLine)
           commit('updateSearch', result.data.list)
         }
+      })
+    },
+    getAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setAttentionData', body)
+      })
+    },
+    createAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'POST',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('addAttentionData', body)
+      })
+    },
+    cancleAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'DELETE',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('delAttentionData', body)
       })
     }
   }

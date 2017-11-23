@@ -99,7 +99,7 @@ a {
 .qrcode {
     position: absolute;
     // box-sizing: border-box;
-    top: 51px;
+    top: 42px;
     right: 18px;
     /* top: 40px;
   right: 10px; */
@@ -167,6 +167,19 @@ a {
     line-height: 18px;
     z-index: 99999;
 }
+
+.recommend button {
+    width: 90px;
+    height: 24px;
+    line-height: 24px;
+    border: none;
+    background: #535A64;
+    border-radius: 3px;
+    color: #B0B7BF;
+    margin-right: 10px;
+    cursor: pointer;
+    outline: none;
+}
 </style>
 <template>
 <div class="goldRecommend" @click="hideCode($event)">
@@ -176,8 +189,15 @@ a {
       <span>{{goldResult===null?'':goldResult.strategyName}}</span>
     </div>
     <div class="fr recommend">
-      <span class="mr-10 weixin" @click="showQrcode"></span>
-      <span class="copy mr-20 copy"></span>
+      <button @click="oneButtomBacktest">一键回测</button>
+      <button v-if="!simulationData" @click="oneButtonSimulation">一键模拟</button>
+      <button v-if="simulationData" @click="simulationDetail">模拟详情</button>
+      <span class="mr-10">
+        <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
+        <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
+      </span>
+      <span class="mr-10 weixin" @click="showQrcode" style="top:3px;"></span>
+      <span class="copy mr-20 copy" style="top:3px;"></span>
     </div>
   </div>
   <div class="strategyTop display-box">
@@ -267,7 +287,8 @@ export default {
       showToast: false,
       trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率', '平均持有天数', '资金容量(万)'],
       radarShow: false,
-      stockSort: Data.stockSort
+      stockSort: Data.stockSort,
+      showAttention: false
     }
   },
   components: {
@@ -506,7 +527,11 @@ export default {
       } else {
         return cValue
       }
-    }
+    },
+    attentionData: state => state.goldStrategy.attentionData,
+    addAttention: state => state.goldStrategy.addAttention,
+    delAttention: state => state.goldStrategy.delAttention,
+    simulationData: state => state.goldStrategy.simulationData
   }),
   methods: {
     showQrcode() {
@@ -531,6 +556,37 @@ export default {
     },
     hideRadar() {
       this.radarShow = false
+    },
+    changeAttention() {
+      if (this.showAttention) {
+        this.$store.dispatch('goldStrategy/cancleAttention', {
+          strategyId: this.strategyId,
+          strategyType: 3
+        }).then(() => {
+          if (this.delAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      } else {
+        this.$store.dispatch('goldStrategy/createAttention', {
+          strategyId: this.strategyId,
+          strategyType: 3
+        }).then(() => {
+          if (this.addAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      }
+
+    },
+    oneButtonSimulation() {
+      window.open('http://test.z3quant.com/dbus/moni?strategyId=' + this.goldResult.strategyId + '&strategyName=' + this.goldResult.strategyName)
+    },
+    oneButtomBacktest() {
+      window.open('http://test.z3quant.com/dbus/huice?strategyId=' + this.goldResult.strategyId + '&strategyName=' + this.goldResult.strategyName)
+    },
+    simulationDetail() {
+      window.open('http://test.z3quant.com/dbus/moni?strategyId=' + this.simulationData.id)
     }
   },
   mounted() {
@@ -550,6 +606,15 @@ export default {
     this.$store.dispatch('goldStrategy/getMrxhData', {
       strategyId: this.strategyId,
       type: 'sell'
+    })
+    this.$store.dispatch('goldStrategy/getAttention', {
+      strategyId: this.strategyId,
+      strategyType: 3
+    }).then(() => {
+      this.showAttention = this.attentionData
+    })
+    this.$store.dispatch('goldStrategy/getSimulation', {
+      strategyId: this.strategyId
     })
 
     let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId

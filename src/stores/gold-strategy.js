@@ -44,7 +44,11 @@ export default {
     radarData: {
       legend: [],
       data: []
-    }
+    },
+    attentionData: null,
+    simulationData: null,
+    addAttention: false,
+    delAttention: false
   },
   mutations: {
     setGoldOptions(state, result) {
@@ -208,6 +212,38 @@ export default {
       } else {
         state.mcxhData = null
       }
+    },
+    setAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.attentionData = true
+      } else if (result.errCode === 1233) {
+        state.attentionData = false
+      } else {
+        state.attentionData = null
+      }
+    },
+    setSimulation(state, result) {
+      if (result.errCode === 0) {
+        state.simulationData = result.data
+      } else if (result.errCode === 1233) {
+        state.simulationData = false
+      } else {
+        state.simulationData = null
+      }
+    },
+    addAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.addAttention = true
+      } else {
+        state.addAttention = false
+      }
+    },
+    delAttentionData(state, result) {
+      if (result.errCode === 0) {
+        state.delAttention = true
+      } else {
+        state.delAttention = false
+      }
     }
   },
   actions: {
@@ -356,6 +392,73 @@ export default {
         } else if (type === 'sell') {
           commit('setMcxhData', body)
         }
+      })
+    },
+    getAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setAttentionData', body)
+      })
+    },
+    createAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'POST',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('addAttentionData', body)
+      })
+    },
+    cancleAttention({
+      commit,
+      rootState
+    }, {
+      strategyId,
+      strategyType
+    }) {
+      const userId = rootState.user.userId
+      // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
+      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+        method: 'DELETE',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('delAttentionData', body)
+      })
+    },
+    getSimulation({
+      commit
+    }, {
+      strategyId
+    }) {
+      return fetch(`${domain}/openapi/backtest/strategySimulate.shtml?strategyId=${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setSimulation', body)
       })
     }
   }

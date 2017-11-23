@@ -313,7 +313,13 @@ span.copy {
 <template>
 <div class="backtest-filter" @click="hideCode($event)">
   <div class="bfilter-main">
-    <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span>
+    <div class="fr icon">
+      <div style="display: inline-block; position: relative; top: -2px;" class="mr-10">
+        <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
+        <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
+      </div>
+      <span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span>
+      <span class="copy" :class="showToast===true?'active':''"></span>
     </div>
     <BackFilterDescr @basicFilterName="listenToBasic" />
     <div class="bfilter-bottom">
@@ -447,7 +453,8 @@ export default {
       fullHeight2: parseInt((document.documentElement.clientHeight - 390) / 30),
       pageSize: parseInt((document.documentElement.clientHeight - 390) / 30),
       fullHeight3: parseInt((document.documentElement.clientHeight - 390) / 30),
-      basicName: ''
+      basicName: '',
+      showAttention: false
     }
   },
   computed: {
@@ -456,7 +463,10 @@ export default {
       nowChooseStock: state => state.backtestDetail.nowStock,
       totalPage: state => state.backtestDetail.stockTotal,
       tradeTotalPage: state => state.backtestDetail.tradeTotalPage,
-      authInfo: state => state.auth
+      authInfo: state => state.auth,
+      attentionData: state => state.backtestDetail.attentionData,
+      addAttention: state => state.backtestDetail.addAttention,
+      delAttention: state => state.backtestDetail.delAttention
     })
   },
   components: {
@@ -484,6 +494,28 @@ export default {
     tradeDay() {
       this.showTradeDay = true
       this.showNowStock = false
+    },
+    changeAttention() {
+      if (this.showAttention) {
+        this.$store.dispatch('backtestDetail/cancleAttention', {
+          strategyId: this.strategyId,
+          strategyType: 1
+        }).then(() => {
+          if (this.delAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      } else {
+        this.$store.dispatch('backtestDetail/createAttention', {
+          strategyId: this.strategyId,
+          strategyType: 1
+        }).then(() => {
+          if (this.addAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      }
+
     },
     /* buysNums (e) {
 
@@ -621,6 +653,12 @@ export default {
       setTimeout(() => {
         this.showToast = false
       }, 2500)
+    })
+    this.$store.dispatch('backtestDetail/getAttention', {
+      strategyId: this.strategyId,
+      strategyType: 1
+    }).then(() => {
+      this.showAttention = this.attentionData
     })
   }
 
