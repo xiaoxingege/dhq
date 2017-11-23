@@ -62,7 +62,8 @@ export default {
     buysell: [], // 新买入卖出
     attentionData: null,
     addAttention: false,
-    delAttention: false
+    delAttention: false,
+    stockList: []
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
