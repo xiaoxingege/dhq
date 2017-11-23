@@ -4,7 +4,6 @@
 html {
     height: 100%;
 }
-
 .goldRecommend {
     min-height: 100%;
     font-size: 12px;
@@ -12,14 +11,12 @@ html {
     padding: 0 1px;
     box-sizing: border-box;
 }
-
 .strategyHeader {
     height: 32px;
     text-align: left;
     background: #141518;
     padding-left: 10px;
 }
-
 .strategyHeader span {
     display: inline-block;
     height: 32px;
@@ -27,48 +24,40 @@ html {
     color: #c9d0d7;
     font-size: 16px;
 }
-
 .strategyTop {
     /*height:375px;*/
     margin-bottom: 3px;
     position: relative;
 }
-
 .strategyDesc {
     margin-right: 3px;
     /*height:345px;*/
     text-align: left;
     background: #0d0e0f;
 }
-
 .strategyDescTop {
     /*height:214px;*/
     background: #141518;
     padding: 15px 10px;
 }
-
 .strategyDescBottom {
     min-height: 190px;
     background: #141518;
 }
-
 .radarChart {
     width: 456px;
     height: 336px;
 
 }
-
 .attention {
     margin-left: 20px;
     margin-right: 80px;
     position: relative;
     top: 2px;
 }
-
 a {
     cursor: pointer;
 }
-
 .topNav ul li > span {
     width: 75px;
 }
@@ -110,7 +99,7 @@ a {
 .qrcode {
     position: absolute;
     /*box-sizing: border-box;*/
-    top: 51px;
+    top: 42px;
     right: 18px;
     /* top: 40px;
   right: 10px; */
@@ -138,13 +127,11 @@ a {
     color: #666666;
     padding: 10px;
 }
-
 .code-txt {
     text-align: center;
     /* line-height: 13px; */
     margin-top: -5px;
 }
-
 .strategyDescTable {
     width: 100%;
 }
@@ -154,7 +141,6 @@ a {
 .strategyDescTable tr:last-child td {
     color: #d3d9dd;
 }
-
 .strategyDescTable td {
     color: #191919;
     text-align: center;
@@ -181,6 +167,19 @@ a {
     line-height: 18px;
     z-index: 99999;
 }
+
+.recommend button {
+    width: 90px;
+    height: 24px;
+    line-height: 24px;
+    border: none;
+    background: #535A64;
+    border-radius: 3px;
+    color: #B0B7BF;
+    margin-right: 10px;
+    cursor: pointer;
+    outline: none;
+}
 </style>
 <template>
 <div class="goldRecommend" @click="hideCode($event)">
@@ -190,8 +189,15 @@ a {
       <span>{{goldResult===null?'':goldResult.strategyName}}</span>
     </div>
     <div class="fr recommend">
-      <span class="mr-10 weixin" @click="showQrcode"></span>
-      <span class="copy mr-20 copy"></span>
+      <button @click="oneButtomBacktest">一键回测</button>
+      <button v-if="!simulationData" @click="oneButtonSimulation">一键模拟</button>
+      <button v-if="simulationData" @click="simulationDetail">模拟详情</button>
+      <span class="mr-10">
+        <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
+        <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
+      </span>
+      <span class="mr-10 weixin" @click="showQrcode" style="top:3px;"></span>
+      <span class="copy mr-20 copy" style="top:3px;"></span>
     </div>
   </div>
   <div class="strategyTop display-box">
@@ -204,26 +210,15 @@ a {
             <td v-for="item in trData">{{item}}</td>
           </tr>
           <tr>
-            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.annualReturn">
-              {{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}
-            </td>
-            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.excessReturn">
-              {{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}
-            </td>
-            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}
-            </td>
+            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.annualReturn">{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.annualReturn) * 100).toFixed(2) + '%'}}</td>
+            <td v-z3-updowncolor="this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':this.goldResult.evaluationIndexs.excessReturn">{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null?'':(Number(this.goldResult.evaluationIndexs.excessReturn) * 100).toFixed(2) + '%'}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.algoVolatility) * 100).toFixed(2) + '%'}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.sharpe).toFixed(2)}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.maxDrawdown) * 100).toFixed(2) + '%'}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.alpha).toFixed(2)}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':Number(this.goldResult.evaluationIndexs.beta).toFixed(2)}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.winRatio) * 100).toFixed(2) + '%'}}</td>
+            <td>{{this.goldResult === null?'':this.goldResult.evaluationIndexs === null ? '':(Number(this.goldResult.evaluationIndexs.turnover) * 100).toFixed(2) + '%'}}</td>
             <td v-if="this.goldResult !== null && this.goldResult.evaluationIndexs !== null">
               {{this.goldResult.evaluationIndexs.avgHoldDays === null ? '--':Number(this.goldResult.evaluationIndexs.avgHoldDays).toFixed(0)}}
             </td>
@@ -292,7 +287,8 @@ export default {
       showToast: false,
       trData: ['年化收益', '超额收益', '波动率', '夏普比率', '最大回撤', 'Alpha', 'Beta', '胜率', '换手率', '平均持有天数', '资金容量(万)'],
       radarShow: false,
-      stockSort: Data.stockSort
+      stockSort: Data.stockSort,
+      showAttention: false
     }
   },
   components: {
@@ -531,7 +527,11 @@ export default {
       } else {
         return cValue
       }
-    }
+    },
+    attentionData: state => state.goldStrategy.attentionData,
+    addAttention: state => state.goldStrategy.addAttention,
+    delAttention: state => state.goldStrategy.delAttention,
+    simulationData: state => state.goldStrategy.simulationData
   }),
   methods: {
     showQrcode() {
@@ -556,6 +556,37 @@ export default {
     },
     hideRadar() {
       this.radarShow = false
+    },
+    changeAttention() {
+      if (this.showAttention) {
+        this.$store.dispatch('goldStrategy/cancleAttention', {
+          strategyId: this.strategyId,
+          strategyType: 3
+        }).then(() => {
+          if (this.delAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      } else {
+        this.$store.dispatch('goldStrategy/createAttention', {
+          strategyId: this.strategyId,
+          strategyType: 3
+        }).then(() => {
+          if (this.addAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      }
+
+    },
+    oneButtonSimulation() {
+      window.open('http://test.z3quant.com/dbus/moni?strategyId=' + this.goldResult.strategyId + '&strategyName=' + this.goldResult.strategyName)
+    },
+    oneButtomBacktest() {
+      window.open('http://test.z3quant.com/dbus/huice?strategyId=' + this.goldResult.strategyId + '&strategyName=' + this.goldResult.strategyName)
+    },
+    simulationDetail() {
+      window.open('http://test.z3quant.com/dbus/moni?strategyId=' + this.simulationData.id)
     }
   },
   mounted() {
@@ -575,6 +606,15 @@ export default {
     this.$store.dispatch('goldStrategy/getMrxhData', {
       strategyId: this.strategyId,
       type: 'sell'
+    })
+    this.$store.dispatch('goldStrategy/getAttention', {
+      strategyId: this.strategyId,
+      strategyType: 3
+    }).then(() => {
+      this.showAttention = this.attentionData
+    })
+    this.$store.dispatch('goldStrategy/getSimulation', {
+      strategyId: this.strategyId
     })
 
     let url = window.location.protocol + '//' + window.location.host + ctx + '/gold-strategy-h5/' + this.strategyId
