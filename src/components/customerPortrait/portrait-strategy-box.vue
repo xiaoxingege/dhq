@@ -42,7 +42,7 @@
     width: 60px;
     height: 100%;
 }
-.portarit-strategy-lable2 span {
+.portarit-strategy-lable2 a {
     position: absolute;
     left: 5px;
     top: 50%;
@@ -97,7 +97,7 @@
         <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
     </select>
     <p class="portarit-strategy-lable2">
-      <span class="">策略详情</span>
+      <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
     </p>
   </div>
   <div class="portrait-strategy-chart">

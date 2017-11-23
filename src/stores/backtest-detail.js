@@ -112,6 +112,9 @@ export default {
     },
     updateSearch(state, search) {
       state.searchList = search
+    },
+    setStockList(state, options) {
+      state.stockList = options
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -279,6 +282,21 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
           commit('updateSearch', result.data.list)
+        }
+      })
+    },
+    queryStockList({
+      commit
+    }, {
+      strategyId
+    }) {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/listEquities.shtml?strategyId=${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          commit('setStockList', result.data)
         }
       })
     }

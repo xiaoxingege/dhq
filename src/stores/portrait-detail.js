@@ -6,7 +6,9 @@ export default {
   namespaced: true,
   state: {
     timeStrategyList: [],
-    customerPositionList: []
+    customerPositionList: [],
+    customerFilterStrategy: [],
+    dayStockSelection: []
   },
   mutations: {
     setTimeStrategyList(state, options) {
@@ -19,6 +21,18 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.customerPositionList = result.data
+      }
+    },
+    setCustomerFilterStrategy(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.customerFilterStrategy = result.data
+      }
+    },
+    setDayStockSelection(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.dayStockSelection = result.data.content
       }
     }
   },
@@ -47,6 +61,36 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setCustomerPosition', {
+          result: body
+        })
+      })
+    },
+    getCustomerFilterStrategy({
+      commit
+    }, {
+      clientPassport
+    }) {
+      const url = `${domain}/openapi/personas/filterStrategy.shtml?clientPassport=${clientPassport}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setCustomerFilterStrategy', {
+          result: body
+        })
+      })
+    },
+    getDayStockSelection({
+      commit
+    }, {
+      clientPassport,
+      pageNum,
+      pageSize
+    }) {
+      const url = `${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=${clientPassport}&pageNum=${pageNum}&pageSize=${pageSize}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setDayStockSelection', {
           result: body
         })
       })

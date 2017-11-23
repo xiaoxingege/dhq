@@ -243,7 +243,6 @@ export default {
       const kLine = dataAll.kLine
       const sellData = dataAll.sellDay
       const buyData = dataAll.buyDay
-      // console.log(sellData)
       const kLineXdata = []
       const kLineYdata = []
       const ma5 = []
@@ -260,7 +259,6 @@ export default {
         const highPx = item.highPx // 最高价
         const lowPx = item.lowPx // 最低价
         const endDate = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
-        // console.log(endDate)
         kLineXdata.push(endDate)
         kLineYdata.push([openPx, closePx, highPx, lowPx])
         ma5.push(item.ma5)
@@ -269,16 +267,9 @@ export default {
         ma30.push(item.ma30)
         name = item.name
         code = item.innerCode
-        // console.log(sellData[0])
-        // console.log(sellData[0] === item.endDate)
         for (let i = 0; i < sellData.length; i++) {
-          // console.log(sellData[i] === item.endDate)
           if (sellData[i] === item.endDate) {
-            // const ss = sellData[i]
-            // console.log(sellData[i])
-            // console.log(highPx)
             seriesData.push([endDate, closePx])
-            // console.log(seriesData)
             const point = {
               name: 'XX标点',
               coord: [endDate, closePx],
@@ -331,15 +322,9 @@ export default {
           }
         }
         for (let i = 0; i < buyData.length; i++) {
-          // console.log(sellData[i] === item.endDate)
 
           if (buyData[i] === item.endDate) {
-            /* const ss = buyData[i]*/
-            console.log(buyData[i])
-            console.log(item.endDate)
             seriesData.push([endDate + '', closePx])
-            // seriesData.push([item.endDate + '', lowPx])
-            console.log(seriesData[i])
             const point = {
               name: 'XX标点',
               coord: [endDate, closePx],
@@ -446,7 +431,6 @@ export default {
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, pointData, seriesData) {
-      console.log(seriesData)
       const self = this
       self.chart.setOption({
         tooltip: {
