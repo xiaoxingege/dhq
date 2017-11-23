@@ -20,7 +20,6 @@
     width: 40%;
 }
 .sectors-table tr:hover {
-    cursor: pointer;
     background-color: #2e4465;
 }
 .sectors-table td {
@@ -29,6 +28,9 @@
     padding-right: 20px;
     height: 10%;
     width: 30%;
+}
+.sectors-table td span {
+    cursor: pointer;
 }
 .sectors-table:nth-child(1) td {
     color: #ca4941;
@@ -56,13 +58,19 @@
 }
 .more-sectors {
     cursor: pointer;
+    display: inline-block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     right: 10px;
+    width: 40px;
+    height: 100%;
 }
 .more-sectors a {
     color: #808ba1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
 }
 </style>
 <template>
@@ -76,14 +84,14 @@
   <div class="sectors-table-wrap clearfix">
     <table class="sectors-table">
       <tr v-for="(value,key) of rankUp">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
+        <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="sectors-table">
       <tr v-for="(value,key) of rankDown">
-        <td @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</td>
+        <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
         <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
       </tr>

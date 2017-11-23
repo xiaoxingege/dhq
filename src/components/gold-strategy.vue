@@ -98,7 +98,7 @@ a {
 
 .qrcode {
     position: absolute;
-    // box-sizing: border-box;
+    /*box-sizing: border-box;*/
     top: 42px;
     right: 18px;
     /* top: 40px;
@@ -119,8 +119,8 @@ a {
 }
 
 .code-box {
-    // width: 200px;
-    // height: 214px;
+    /*width: 200 px;*/
+    /*height: 214 px;*/
     background: #fff;
     border-radius: 10px;
     font-size: 12px;

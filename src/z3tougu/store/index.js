@@ -20,6 +20,7 @@ import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
 import customerList from 'stores/customers'
+import portraitDetail from 'stores/portrait-detail'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -128,6 +129,7 @@ export default new Vuex.Store({
     backtestDetailH5,
     indexChart,
     finance,
-    customerList
+    customerList,
+    portraitDetail
   }
 })

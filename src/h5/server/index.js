@@ -42,8 +42,8 @@ app.use(async function(ctx, next) {
     ctx.body = ctx.body.replace('{{meta_keywords}}', ctx.metaKeywords || '');
     ctx.body = ctx.body.replace('{{meta_description}}', ctx.metaDescription || '');
     ctx.body = ctx.body.replace('{{title}}', ctx.title || '');
-    ctx.body = ctx.body.replace('{{html_header}}', ctx.htmlHeader || '');
-    ctx.body = ctx.body.replace('{{html_footer}}', ctx.htmlFooter || '');
+    ctx.body = ctx.body.replace('<!--html_header-->', ctx.htmlHeader || '');
+    ctx.body = ctx.body.replace('<!--html_footer-->', ctx.htmlFooter || '');
   }
   ctx.set('Cache-Control', 'no-cache');
   await next();
