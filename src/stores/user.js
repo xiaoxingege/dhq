@@ -94,7 +94,7 @@ export default {
       return $.ajax({
         url: 'http://itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
         headers: {
-          passportId: state.ssoId || '170907010029048531'
+          passportId: state.ssoId
         }
       }).then(data => {
         commit('setBindingInfo', data.data)
