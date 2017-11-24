@@ -46,7 +46,6 @@ module.exports = function(router) {
     let passportId = ctx.headers.passportid || '';
     ctx.type = 'application/json'
     ctx.body = { passportId }
-    await next();
   });
 
   router.post('/crud/:className', async(ctx, next) => {
@@ -221,9 +220,9 @@ module.exports = function(router) {
     await next();
   });
   router.get('/blackTechnology-activity', async(ctx, next) => {
-      ctx.title='股市惊现“黑科技”';
-      ctx.metaDescription = '';
-      ctx.metaKeywords = '';
+    ctx.title = '股市惊现“黑科技”';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
     ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';
