@@ -82,11 +82,11 @@ export default {
     getDayStockSelection({
       commit
     }, {
-      clientPassport,
+      strategyId,
       pageNum,
       pageSize
     }) {
-      const url = `${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=${clientPassport}&pageNum=${pageNum}&pageSize=${pageSize}`
+      const url = `${domain}/openapi/backtest/filterStrategy/stock.shtml?strategyId=${strategyId}&pageNum=${pageNum}&pageSize=${pageSize}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
