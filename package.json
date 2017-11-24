@@ -27,6 +27,9 @@
     },
     "z3tougu": {
       "port": 3000
+    },
+    "jrj-sdk": {
+      "port": 19999
     }
   },
   "devDependencies": {
