@@ -62,7 +62,8 @@ export default {
     buysell: [], // 新买入卖出
     attentionData: null,
     addAttention: false,
-    delAttention: false
+    delAttention: false,
+    stockList: []
     /* evaluationIndexs: {
       winRatio:'',
       avgReturnExcess:'',
@@ -115,6 +116,9 @@ export default {
     },
     updateSearch(state, search) {
       state.searchList = search
+    },
+    setStockList(state, options) {
+      state.stockList = options
     },
     setAttentionData(state, result) {
       if (result.errCode === 0) {
@@ -305,6 +309,21 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
           commit('updateSearch', result.data.list)
+        }
+      })
+    },
+    queryStockList({
+      commit
+    }, {
+      strategyId
+    }) {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/listEquities.shtml?strategyId=${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          commit('setStockList', result.data)
         }
       })
     },

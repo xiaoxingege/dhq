@@ -29,7 +29,7 @@
 <template>
 <div class="con-right">
   <div class="portrait-filter-strategy">
-
+    <PortraitFilterStrategy></PortraitFilterStrategy>
   </div>
   <div class="portrait-timing-strategy">
     <PortraitTimingStrategy></PortraitTimingStrategy>
@@ -44,6 +44,7 @@
 import PortraitStrategyBox from 'components/customerPortrait/portrait-strategy-box'
 import PortraitTradeSignals from 'components/customerPortrait/portrait-trade-signals'
 import PortraitTimingStrategy from 'components/customerPortrait/portrait-timing-strategy'
+import PortraitFilterStrategy from 'components/customerPortrait/customer-filter-strategy'
 export default {
   data() {
     return {
@@ -65,7 +66,8 @@ export default {
   components: {
     PortraitStrategyBox,
     PortraitTradeSignals,
-    PortraitTimingStrategy
+    PortraitTimingStrategy,
+    PortraitFilterStrategy
   },
   computed: {
 
