@@ -45,18 +45,21 @@
     <li>
       <router-link :to="{name:'search',params:{ linkText : 'report' }}">研报</router-link>
     </li>
+    <li>
+      <router-link :to="{name:'search',params:{ linkText : 'strategy' }}">策略</router-link>
+    </li>
   </ul>
 </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       activeSearch: this.$route.params.linkText
     }
   },
   watch: {
-    'this.activeSearch': function () {
+    'this.activeSearch': function() {
 
     }
   },
@@ -64,11 +67,11 @@ export default {
 
   },
   methods: {
-    changeTab () {
+    changeTab() {
       this.activeSearch = this.$route.params.linkText
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

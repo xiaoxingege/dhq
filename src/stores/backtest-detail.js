@@ -336,7 +336,7 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'GET',
         mode: 'cors'
       }).then((res) => {
@@ -354,7 +354,7 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'POST',
         mode: 'cors'
       }).then((res) => {
@@ -372,7 +372,7 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'DELETE',
         mode: 'cors'
       }).then((res) => {
