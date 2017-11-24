@@ -24,12 +24,6 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('/checkLogin', async(ctx, next) => {
-    let passportId = ctx.headers.passportid || '';
-    ctx.type = 'application/json'
-    ctx.body = { passportId }
-    await next();
-  });
   router.get('/wangLun-activity', async(ctx, next) => {
     ctx.title = '央视嘉宾王伦全网限时回馈';
     ctx.metaDescription = '';

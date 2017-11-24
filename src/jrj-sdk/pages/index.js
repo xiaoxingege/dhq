@@ -6,7 +6,12 @@ const $ = require('jquery')
 window.jrjs = {
   checkLogin(callback) {
     if (callback) {
-      $.ajax('http://itougu.jrj.com.cn/actm/checkLogin').then(data => {
+      $.ajax({
+        url: 'http://itougu.jrj.com.cn/actm/checkLogin',
+        headers: {
+          passportId: '171028010087487321'
+        }
+      }).then(data => {
         callback(data)
       })
     }
