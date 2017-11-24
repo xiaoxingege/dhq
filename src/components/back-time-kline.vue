@@ -272,7 +272,7 @@ export default {
       } else {
         this.isShowInput = false
         this.searchData.searchList = []
-        this.innerCode = this.selectInnerCode + '.SZ'
+        this.innerCode = this.selectInnerCode
         this.init()
       }
     }
@@ -815,7 +815,7 @@ export default {
         .then(() => {
           this.stockList = this.stockListData
           this.selectInnerCode = this.stockList[0].innerCode
-          this.innerCode = this.selectInnerCode + '.SZ'
+          this.innerCode = this.selectInnerCode
           this.init()
         })
     }
