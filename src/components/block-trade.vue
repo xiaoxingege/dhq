@@ -56,17 +56,8 @@
 	color:#888888;
 	outline: none;
 	border:none;
-	background: rgba(255,255,255,0);
-}
-.title-right .calendar-icon{
-	position: absolute;
-	top:-0.01rem;
-	right:0;
-	z-index: 1;
-	width:0.4rem;
-	height: 0.37rem;
-	background: url('http://i0.jrjimg.cn/optional/date.png');
-	background-size: contain;
+	background: rgba(255,255,255,0) url('http://i0.jrjimg.cn/optional/date.png') 1.78rem -0.01rem no-repeat;
+	background-size: 0.4rem 0.37rem;
 }
 
 .detail-title{
@@ -325,8 +316,7 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="text" v-model="date" @change="calcange()"  @focus="calfocus()" ref="inputDate"/>
-					<span class="calendar-icon"></span>
+					<input id="datepicker" type="button" v-model="date" @click="calcange()" ref="inputDate"/>
 				</div>
 			</div>
 			<div class="detail-content">
@@ -391,9 +381,6 @@ export default {
 		this.addcalendar()
   },
   methods:{
-		calfocus(){
-
-		},
 		calcange () {
 			this.date=this.$refs.inputDate.value
 			console.log(this.date)
