@@ -7,11 +7,9 @@ window.jrjs = {
   checkLogin(callback) {
     if (callback) {
       $.ajax({
-        url: 'http://itougu.jrj.com.cn/act/checkLogin',
-        headers: {
-          passportId: '171028010087487321'
-        }
+        url: 'http://itougu.jrj.com.cn/act/checkLogin'
       }).then(data => {
+        alert(data.passportId)
         callback(data)
       })
     }
