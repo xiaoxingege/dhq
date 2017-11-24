@@ -128,7 +128,7 @@ module.exports = {
 }
 
 module.exports.plugins = buildHTML().concat([
-  featureName === 'jrj-sdk' ? null : new webpack.optimize.CommonsChunkPlugin({
+  featureName === 'jrj-sdk' ? function() {} : new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     filename: process.env.NODE_ENV === 'production' ? featureName + '/vendors.[chunkhash:12].js' : featureName + '/vendors.js',
     minChunks: function(module, count) {
