@@ -24,25 +24,6 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
-  router.get('/checkLogin', async(ctx, next) => {
-    let passportId = ctx.headers.passportid || ''
-    ctx.body = `
-    <html>
-      <head>
-        <script>
-          window.passportId = "${passportId}"
-          window.addEventListener('message', function(e) {
-            if(e.source !== window.parent) return
-            if(e.data !== 'getPassportId') return
-            window.parent.postMessage(passportId, '*')
-          })
-        </script>
-      </head>
-      <body></body>
-    </html>
-    `
-    ctx.type = 'text/html'
-  });
   router.get('/wangLun-activity', async(ctx, next) => {
     ctx.title = '央视嘉宾王伦全网限时回馈';
     ctx.metaDescription = '';

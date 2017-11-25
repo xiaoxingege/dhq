@@ -4,24 +4,45 @@
 
 window.jrjs = {
   checkLogin(callback) {
+    let user = {}
     if (callback) {
-      let iframe = document.createElement('iframe')
-      iframe.src = 'http://itougu.jrj.com.cn/actm/checkLogin'
-      iframe.frameBorder = 0
-      iframe.width = 0
-      iframe.height = 0
-      document.body.appendChild(iframe)
-      iframe.onload = function(){
-        iframe.contentWindow.postMessage('getPassportId', '*')
+      let cookies = document.cookie.split(';')
+      let passportId = cookies.filter((item) => {
+        return item.trim().match(/^passportId=.*/)
+      })
+      if (passportId.length === 0) {
+        return callback(user)
       }
-      if (!window.__onmessage) {
-        window.addEventListener('message', function(ev) {
-          if(ev.source !== iframe.contentWindow) return
-          let passportId = ev.data
-          callback({ passportId })
-        })
-        window.__onmessage = true
+      passportId = passportId[0].trim().replace(/^passportId=/, '')
+      let accessToken = cookies.filter((item) => {
+        return item.trim().match(/^accessToken=.*/)
+      })
+      if (accessToken.length === 0) {
+        return callback(user)
       }
+      accessToken = accessToken[0].trim().replace(/^accessToken=/, '')
+
+      var xhr = new XMLHttpRequest();
+      xhr.timeout = 3000;
+      xhr.responseType = 'text';
+      xhr.open('GET', `http://sso.jrj.com.cn/sso/passport/checkAccessToken.jsp?passportId=${passportId}&accessToken=${accessToken}`, true);
+      xhr.onload = function(e) {
+        if (this.status === 200) {
+          let result = JSON.parse(this.responseText);
+          if (result.resultCode === '0') {
+            user.passportId = passportId
+            user.accessToken = accessToken
+          }
+          callback(user)
+        }
+      };
+      xhr.ontimeout = function(e) {
+        callback(user)
+      };
+      xhr.onerror = function(e) {
+        callback(user)
+      };
+      xhr.send(null);
     }
   },
   login(redirectUrl) {
