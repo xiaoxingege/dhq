@@ -1,8 +1,7 @@
 <style>
 .lineChart {
   width: 100%;
-  height: 420px;
-  padding-top: 20px;
+  height: 100%;
 }
 
 .syqxTab {
@@ -36,7 +35,7 @@
 }
 </style>
 <template>
-<div style="position: relative;">
+<div style="position: relative;" :style="{  height: height + 'px' }">
   <ul class="syqxTab">
     <li @click="changeSyTab($event,1)">近1月</li>
     <li @click="changeSyTab($event,3)">近3月</li>
@@ -55,22 +54,17 @@ import {
 } from 'vuex'
 
 export default {
-  props: ['strategyId'],
+  props: ['strategyId', 'height'],
   data() {
-    return {
-
-    }
-  },
-  watch: {
-
+    return {}
   },
   computed: mapState({
-    lineData: state => state.goldStrategy.syqxtData,
+    lineData: state => state.backtestDetail.syqxtData,
     syqxLastDate: function() {
-      return this.$store.state.goldStrategy.syqxtData.lastDate
+      return this.$store.state.backtestDetail.syqxtData.lastDate
     },
     syqxFirstDate: function() {
-      return this.$store.state.goldStrategy.syqxtData.firstDate
+      return this.$store.state.backtestDetail.syqxtData.firstDate
     }
   }),
   methods: {
@@ -78,12 +72,12 @@ export default {
       if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
         this.chart.dispose();
       }
-      this.$store.dispatch('goldStrategy/getSyqxtData', {
+      this.$store.dispatch('backtestDetail/getFilterReturns', {
         strategyId: this.strategyId,
         startDate: startDate || '',
         endDate: endDate || ''
       }).then(() => {
-        const lineData = this.$store.state.goldStrategy.syqxtData
+        const lineData = this.$store.state.backtestDetail.syqxtData
         // echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) ||
         this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], {
           width: window.screen.width / 100 + 'rem',
@@ -93,7 +87,7 @@ export default {
         this.chart.setOption({
           legend: {
             left: '1%',
-            top: 0,
+            top: 20,
             itemWidth: 8,
             orient: 'vertical',
             textStyle: {
@@ -207,7 +201,7 @@ export default {
             width: '97%',
             height: '75%',
             left: 0,
-            top: '15%',
+            top: '10%',
             containLabel: true
           },
           dataZoom: [{
@@ -218,7 +212,7 @@ export default {
             xAxisIndex: [0],
             // bottom:-10,
             left: '2%',
-            bottom: 0,
+            bottom: 10,
             start: 0,
             end: 100,
             textStyle: {
