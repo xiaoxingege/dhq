@@ -42,12 +42,6 @@ const connectDb = async(dbName) => {
 
 module.exports = function(router) {
 
-  router.get('/checkLogin', async(ctx, next) => {
-    let passportId = ctx.headers.passportid || '';
-    ctx.type = 'application/json'
-    ctx.body = { passportId }
-  });
-
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
