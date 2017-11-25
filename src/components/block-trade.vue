@@ -1,7 +1,6 @@
 <style>
 @import '../assets/css/reset.css';
 .equity-trading{
-	background:rgba(242,242,242,1);
 	box-sizing: border-box;
 	position: relative;
 }
@@ -120,7 +119,6 @@
 	color: #aaa;
 	text-align: center;
 }
-
 .pika-single {
     z-index: 9999;
     display: block;
@@ -317,7 +315,7 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="button" v-model="date" ref="inputDate" />
+					<input id="datepicker" type="text" :value="date" ref="inputDate" readonly/>
 				</div>
 			</div>
 			<div class="detail-content">
@@ -340,11 +338,11 @@
 				<div class="detail-more">
 					<h3 v-if="datelength === true && detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
 					<h4 v-if="datelength === true && detailDataFlag===false">没有更多数据了</h4>
-					<h4 v-if="datelength === false">暂无收据</h4>
+					<h4 class="dateEmpty" v-if="datelength === false">暂无数据</h4>
 				</div>
 			</div>
 		</div>
-		<div :class="['mask',{'show': openMask}]">
+		<div :class="['mask',{'show': openMask}]" @click="maskclose()">
 
 		</div>
 
@@ -361,13 +359,18 @@ const Pikaday = require('../assets/plugins/calendar/calendar.js')
 export default {
   data () {
     return {
+			clientH:document.documentElement.clientHeight,
 			currentDate:'',
     	date:'',// 初始日期
     	detailList:[],
     	pn:'1', // 页码
     	ps:'20', // 每页条数
+			openMask:false, // false 蒙版关闭  true  蒙版打开
 			datelength:true, // true 有数据 false 数据为空
-    	detailDataFlag:true// 1 有数据 0无数据
+    	detailDataFlag:true,// 1 有数据 0无数据
+			picker:null,
+			close:false,
+			select:false
     }
   },
   beforecreated () {
@@ -377,11 +380,10 @@ export default {
     document.title = '大宗交易明细'
   },
   mounted () {
-		// this.$watch('date',date => {
-		// 	console.log(date)
-		// })
+		$('.equity-trading').css('min-height',this.clientH)
     this.getDetailList()
 		this.addcalendar()
+
   },
 	filters: {
   	covert (d) {
@@ -393,40 +395,33 @@ export default {
   	}
   },
   methods:{
-		calcange () {
-			console.log('click')
-			// this.date=this.$refs.inputDate.value
-			// alert(this.date)
-			// this.getDetailList()
-			 // document.activeElement.blur();
+		maskclose () {
+			this.picker.hide()
+			this.close=true
 		},
 		addcalendar () {
 			var _this=this
 			this.picker=new Pikaday(
 	    {
 	        field: document.getElementById('datepicker'),
-	        firstDay: 1,
+	        firstDay: 0,
 	        minDate: new Date('2000-01-01'),
 	        maxDate: new Date('2030-12-31'),
+					weekdaysShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 	        yearRange: [2000,2030],
 					disableWeekends:true,
 					onSelect:function(){
 						console.log('select')
 					},
 					onOpen:function() {
-						$('.mask').show()
-						// console.log(this.openMask)
-						console.log('open')
+						_this.openMask=true
+						event.preventDefault();
 					},
 					onClose:function(){
-						$('.mask').hide()
+						_this.openMask=false
 						_this.date=_this.$refs.inputDate.value
 						_this.getDetailList()
-						console.log(_this.date)
-						console.log('close')
-					},
-					onDraw:function(){
-						console.log('draw')
+						_this.close=true
 					}
 
 	    });
@@ -443,7 +438,6 @@ export default {
     inquireMore(){
     	this.pn++
     	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-			console.log(url)
 			$.ajax({
 		   	url:url,
 		    type:'get',
@@ -470,7 +464,6 @@ export default {
     	// http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate=2017-10-17&order=asc&sort=stockcode&page=1&psize=20&_dc=1509343987308
 
     	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-			console.log(url)
 			$.ajax({
 		   	url:url,
 		    type:'get',
@@ -480,13 +473,10 @@ export default {
 		    success:() => {
 		    	if (window.dazongStock.data.length===0) {
 		    		this.datelength=false
-						console.log('this.datelength:'+this.datelength)
 		    	}else{
 		    		this.detailList=window.dazongStock.data
-						console.log(this.detailList)
 						this.date=this.detailList[0][0];
 		    		this.datelength=true
-						console.log('this.datelength:'+this.datelength)
 		    	}
 		    },
 		    error : function() {
