@@ -1,8 +1,8 @@
 <style>
 @import '../assets/css/reset.css';
 .equity-trading{
-	background:rgba(242,242,242,1);
 	box-sizing: border-box;
+	position: relative;
 }
 .equity-trading .block{
 	background:#fff;
@@ -56,17 +56,8 @@
 	color:#888888;
 	outline: none;
 	border:none;
-	background: rgba(255,255,255,0);
-}
-.title-right .calendar-icon{
-	position: absolute;
-	top:-0.01rem;
-	right:0;
-	z-index: 1;
-	width:0.4rem;
-	height: 0.37rem;
-	background: url('http://i0.jrjimg.cn/optional/date.png');
-	background-size: contain;
+	background: rgba(255,255,255,0) url('http://i0.jrjimg.cn/optional/date.png') 1.78rem -0.01rem no-repeat;
+	background-size: 0.4rem 0.37rem;
 }
 
 .detail-title{
@@ -128,7 +119,6 @@
 	color: #aaa;
 	text-align: center;
 }
-
 .pika-single {
     z-index: 9999;
     display: block;
@@ -308,7 +298,7 @@
 	width:100%;
 	height: 100%;
 	background: rgba(0,0,0,0.6);
-	position: fixed;
+	position: absolute;
 	top:0.88rem;
 	left:0;
 	z-index:100;
@@ -325,8 +315,7 @@
 				<span class="red-block"></span>
 				<h2>融资融券交易明细</h2>
 				<div class="title-right">
-					<input id="datepicker" type="text" v-model="date" @change="calcange()"  @focus="calfocus()" ref="inputDate"/>
-					<span class="calendar-icon"></span>
+					<input id="datepicker" type="text" :value="date" ref="inputDate" readonly/>
 				</div>
 			</div>
 			<div class="detail-content">
@@ -338,21 +327,22 @@
 						<li class="r" style="width:1.5rem;">溢价率</li>
 					</ul>
 				</div>
-				<ul class="detail-lists" v-if="detailList">
+				<ul class="detail-lists" v-if="datelength===true">
 					<li v-for="item in detailList" @click="clickLi(item)">
 						<p style="width:1.49rem">{{item[2]}}</p>
 						<span style="width:1.5rem;">{{item[4].toFixed(2)}}</span>
 						<span style="width:2.21rem;">{{item[6].toFixed(2)}}</span>
-						<span :class="addcolor(item[5])" style="width:1.68rem;">{{item[5].toFixed(2)}}%</span>
+						<span :class="addcolor(item[5])" style="width:1.68rem;">{{item[5] | covert}}</span>
 					</li>
 				</ul>
 				<div class="detail-more">
-					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
-					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
+					<h3 v-if="datelength === true && detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
+					<h4 v-if="datelength === true && detailDataFlag===false">没有更多数据了</h4>
+					<h4 class="dateEmpty" v-if="datelength === false">暂无数据</h4>
 				</div>
 			</div>
 		</div>
-		<div :class="['mask',{'show': openMask}]">
+		<div :class="['mask',{'show': openMask}]" @click="maskclose()">
 
 		</div>
 
@@ -369,12 +359,18 @@ const Pikaday = require('../assets/plugins/calendar/calendar.js')
 export default {
   data () {
     return {
-    	date:'2017-11-07',// 初始日期
+			clientH:document.documentElement.clientHeight,
+			currentDate:'',
+    	date:'',// 初始日期
     	detailList:[],
     	pn:'1', // 页码
     	ps:'20', // 每页条数
+			openMask:false, // false 蒙版关闭  true  蒙版打开
+			datelength:true, // true 有数据 false 数据为空
     	detailDataFlag:true,// 1 有数据 0无数据
-			openMask:false // show
+			picker:null,
+			close:false,
+			select:false
     }
   },
   beforecreated () {
@@ -384,36 +380,56 @@ export default {
     document.title = '大宗交易明细'
   },
   mounted () {
-		// this.$watch('date',date => {
-		// 	console.log(date)
-		// })
+		$('.equity-trading').css('min-height',this.clientH)
     this.getDetailList()
 		this.addcalendar()
+
+  },
+	filters: {
+  	covert (d) {
+			if (d || d === 0) {
+				return d.toFixed(2)+'%'
+			} else {
+				return '--'
+			}
+  	}
   },
   methods:{
-		calfocus(){
-
-		},
-		calcange () {
-			this.date=this.$refs.inputDate.value
-			console.log(this.date)
-			this.getDetailList()
-			 // document.activeElement.blur();
+		maskclose () {
+			this.picker.hide()
+			this.close=true
 		},
 		addcalendar () {
-			new Pikaday(
+			var _this=this
+			this.picker=new Pikaday(
 	    {
 	        field: document.getElementById('datepicker'),
-	        firstDay: 1,
+	        firstDay: 0,
 	        minDate: new Date('2000-01-01'),
 	        maxDate: new Date('2030-12-31'),
-	        yearRange: [2000,2030]
+					weekdaysShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+	        yearRange: [2000,2030],
+					disableWeekends:true,
+					onSelect:function(){
+						console.log('select')
+					},
+					onOpen:function() {
+						_this.openMask=true
+						event.preventDefault();
+					},
+					onClose:function(){
+						_this.openMask=false
+						_this.date=_this.$refs.inputDate.value
+						_this.getDetailList()
+						_this.close=true
+					}
+
 	    });
 		},
   	addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
-      } else if(v===0){
+      } else if(v===0 || !v){
         return ''
       }else{
       	return 'red'
@@ -421,8 +437,8 @@ export default {
     },
     inquireMore(){
     	this.pn++
-    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-    	$.ajax({
+    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
+			$.ajax({
 		   	url:url,
 		    type:'get',
 		    cache : false,
@@ -447,8 +463,8 @@ export default {
     getDetailList(){
     	// http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate=2017-10-17&order=asc&sort=stockcode&page=1&psize=20&_dc=1509343987308
 
-    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa'+'?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
-    	$.ajax({
+    	var url='http://stock.jrj.com.cn/action/dazong/getBlockTradesStock.jspa?vname=dazongStock&order2=asc&sort2=stockcode&enddate='+this.date+'&order=asc&sort=stockcode&page='+this.pn+'&psize='+this.ps
+			$.ajax({
 		   	url:url,
 		    type:'get',
 		    cache : false,
@@ -456,10 +472,11 @@ export default {
 		    jsonp: 'callback',
 		    success:() => {
 		    	if (window.dazongStock.data.length===0) {
-		    		this.detailDataFlag=false
+		    		this.datelength=false
 		    	}else{
 		    		this.detailList=window.dazongStock.data
-		    		this.detailDataFlag=true
+						this.date=this.detailList[0][0];
+		    		this.datelength=true
 		    	}
 		    },
 		    error : function() {

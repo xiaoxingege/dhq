@@ -55,7 +55,6 @@
 .title-tab{
 	margin:0.20rem 0;
 	float: right;
-	overflow: hidden;
 }
 .title-tab li{
 	float: left;
