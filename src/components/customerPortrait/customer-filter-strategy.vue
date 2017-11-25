@@ -60,6 +60,7 @@
 .filter-strategy-table th {
   color: #c9d0d7;
   font-weight: normal;
+  border: 1px solid #23272c;
 }
 
 .filter-strategy-table td {
@@ -91,17 +92,19 @@
   width: 40%;
   height: 100%;
   float: right;
+  padding-left: 1px;
 }
 
 .filter-stock-table {
   width: 100%;
+  height: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  background: #23272c;
 }
 
 .filter-stock-table td {
   box-sizing: border-box;
-  border: 1px solid #23272c;
   text-align: center;
   width: 20%;
   color: #c9d0d7;
@@ -214,6 +217,7 @@ export default {
           }).then(() => {
             if (this.dayStockSelection.length > 0) {
               this.currentStockSelectionList = this.dayStockSelection
+
             }
           })
         }
