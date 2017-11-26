@@ -21,6 +21,7 @@ import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
 import customerList from 'stores/customers'
+import portraitDetail from 'stores/portrait-detail'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -46,20 +47,11 @@ const state = {
 const getters = {
   authHeader: state => {
     if (state.auth.authorization) {
-      if (window.Z3) {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
-      } else {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
+      return {
+        authorization: state.auth.authorization,
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid,
+        userId: state.user.userId
       }
     }
     return {}
@@ -139,6 +131,7 @@ export default new Vuex.Store({
     backtestDetailH5,
     indexChart,
     finance,
-    customerList
+    customerList,
+    portraitDetail
   }
 })

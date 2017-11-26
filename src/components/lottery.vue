@@ -94,7 +94,7 @@ import jquery from 'jquery'
 window.$ = jquery
 
 export default {
-  data () {
+  data() {
     return {
       lottery: {
         index: 0, // 当前转动到哪个位置
@@ -117,11 +117,11 @@ export default {
   }),
   components: {},
   methods: {
-    init (selector) {
+    init(selector) {
       this.lottery.obj = $(selector)
       this.lottery.counts = this.lottery.obj.find('.item').length
     },
-    rolls () {
+    rolls() {
       var _this = this
       var index = this.lottery.index
       var count = this.lottery.counts
@@ -137,7 +137,7 @@ export default {
         clearTimeout(this.lottery.timer)
         this.lottery.speed = 200
         this.lottery.times = 0
-        setTimeout(function () {
+        setTimeout(function() {
           _this.$emit('stop')
         }, 1000)
       } else {
@@ -156,12 +156,11 @@ export default {
         this.lottery.timer = setTimeout(this.rolls, this.lottery.speed)
       }
     },
-    lotterys () {
+    lotterys() {
       this.$emit('start')
     }
   },
-  mounted () {
-    document.title = '抽奖'
+  mounted() {
     this.init('#lottery')
     this.$watch('prize', (prize) => {
       if (prize * 1 > 0) {
