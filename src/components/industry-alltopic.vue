@@ -648,9 +648,8 @@ a.kuai_icon {
   <div class="clearfix topic-head">
     <div class="fl head-left">
       <strong class="head-title gray">行业累计总数</strong><em class="sum1" v-if="this.summary!==null" v-for="sum of this.summary.induNum">{{sum}}</em><strong class="sum2 gray">上涨行业</strong><em class="red topic-num">{{checkNull(this.summary.induUpNum)}}</em>
-      <strong
-        class="sum3 gray">下跌行业</strong>
-        <em class="green topic-num">{{checkNull(this.summary.induDownNum)}}</em>
+      <strong class="sum3 gray">下跌行业</strong>
+      <em class="green topic-num">{{checkNull(this.summary.induDownNum)}}</em>
     </div>
     <div class="fr sort-head">
       <!-- <em>全部主题概念</em> -->

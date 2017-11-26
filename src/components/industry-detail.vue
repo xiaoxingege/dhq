@@ -999,7 +999,7 @@ export default {
 
           this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
-          }, 3000)
+          }, 30000)
         })
       } else {
         this.$store.dispatch('industry/queryAllCharts', {
@@ -1015,7 +1015,7 @@ export default {
             }
             this.alls = setInterval(function() {
               _this.updateChartAll()
-            }, 5000)
+            }, 50000)
           })
       }
     },
