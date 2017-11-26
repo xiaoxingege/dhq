@@ -292,9 +292,9 @@ html {
 .new-tit:hover {
     color: #1984ea;
 }
-.new-tit:hover i {
+/*.new-tit:hover i {
     display: block;
-}
+}*/
 .new-tit i {
     color: #1984ea;
     position: absolute;
@@ -308,6 +308,7 @@ html {
     /* top: 23px; */
     left: 157px;
 }
+
 .left-con3 strong {
     display: inline-block;
     /* margin-bottom: 6px; */
@@ -673,7 +674,7 @@ bottom: 0; */
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
               <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
-                <span class="new-tit">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
+                <span class="new-tit" @mouseenter="enterNewTit($event)" @mouseleave="leaveNewTit($event)">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
               </router-link>
@@ -883,6 +884,21 @@ export default {
           }
         }
         // console.log(tradeMin)
+        function getIndex(time) {
+          if (time > 930 && time <= 959) {
+            return time - 930;
+          } else if (time >= 1000 && time <= 1059) {
+            return 30 + (time - 1000);
+          } else if (time >= 1100 && time <= 1130) {
+            return 90 + (time - 1100);
+          } else if (time > 1300 && time <= 1359) {
+            return 120 + (time - 1300);
+          } else if (time >= 1400 && time <= 1459) {
+            return 180 + (time - 1400);
+          } else if (time === 1500) {
+            return 240;
+          }
+        }
         realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
           topicTimeName = item.topicName
@@ -892,8 +908,11 @@ export default {
             topicChgPct.push(0)
             hs300ChgPct.push(0)
           } else {
-            topicChgPct.push(Number(item.topicChgPct).toFixed(2))
-            hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+            var indexs = getIndex(item.tradeMin)
+            topicChgPct[indexs] = Number(item.topicChgPct).toFixed(2)
+            hs300ChgPct[indexs] = Number(item.hs300ChgPct).toFixed(2)
+            // topicChgPct.push(Number(item.topicChgPct).toFixed(2))
+            // hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
           }
           /* tradeMin.push(tradeMinDate)*/
         })
@@ -996,7 +1015,7 @@ export default {
 
           this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
-          }, 3000)
+          }, 30000)
         })
       } else {
         this.$store.dispatch('topic/queryAllCharts', {
@@ -1012,7 +1031,7 @@ export default {
             }
             this.alls = setInterval(function() {
               _this.updateChartAll()
-            }, 5000)
+            }, 50000)
           })
       }
     },
@@ -1022,19 +1041,19 @@ export default {
         topicCode: this.topicCode
       }).then(() => {
         // this.endAll = this.allLimit.limitAllX
-        console.log(this.chartData.chartDataEnd) // chartHs
+        //  console.log(this.chartData.chartDataEnd) // chartHs
         if (this.allLimit[0].tradeDate === this.chartData.chartDataEnd) {
           const allLimitHs = Number(this.allLimit[0].hs300ReturnRate).toFixed(2) // 新
           const allLimitReturn = Number(this.allLimit[0].topicReturnRate).toFixed(2)
           this.chartData.hs300ReturnRate[this.chartData.hs300ReturnRate.length - 1] = allLimitHs
           this.chartData.topicReturnRate[this.chartData.topicReturnRate.length - 1] = allLimitReturn
-          console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
+          // console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
           // console.log(chartReturn)
           // console.log(allLimitReturn)
         } else {
           this.chartData.chartDataEnd = this.allLimit[0].tradeDate
-          this.chartData.hs300ReturnRate.push(this.allLimit[0].hs300ReturnRate.toFixed(2))
-          this.chartData.topicReturnRate.push(this.allLimit[0].topicReturnRate.toFixed(2))
+          this.chartData.hs300ReturnRate.push(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
+          this.chartData.topicReturnRate.push(Number(this.allLimit[0].topicReturnRate).toFixed(2))
           this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
         }
       })
@@ -1061,8 +1080,8 @@ export default {
         } else {
           console.log('不相同')
           this.realTimeData.realTimeEnd = this.realtimeLimit[0].tradeMin
-          this.realTimeData.topicChgPct.push(this.realtimeLimit[0].topicChgPct.toFixed(2))
-          this.realTimeData.hs300ChgPct.push(this.realtimeLimit[0].hs300ChgPct.toFixed(2))
+          this.realTimeData.topicChgPct.push(Number(this.realtimeLimit[0].topicChgPct).toFixed(2))
+          this.realTimeData.hs300ChgPct.push(Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2))
           this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
         }
       })
@@ -1114,6 +1133,20 @@ export default {
       })
     },
     leaveNumberTopic(e) {
+      e.preventDefault()
+      e.currentTarget.children[0].style.display = 'none'
+    },
+    enterNewTit(e) {
+      e.preventDefault()
+      var inContent = document.getElementsByClassName('in-content')[0]
+      var inDivHight = inContent.clientHeight
+      e.currentTarget.children[0].style.display = 'block'
+      if (e.currentTarget.offsetTop > inDivHight) {
+        e.currentTarget.children[0].style.top = e.currentTarget.offsetTop - 20 + 'px'
+        e.currentTarget.children[0].style.left = e.currentTarget.offsetLeft + 200 + 'px'
+      }
+    },
+    leaveNewTit(e) {
       e.preventDefault()
       e.currentTarget.children[0].style.display = 'none'
     },
@@ -1389,14 +1422,15 @@ export default {
     this.initChart()
     this.initStockList('recommendIndex')
     this.initInformatList()
-    console.log(this.fullHeight2)
+    // console.log(this.fullHeight2)
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
-    console.log(this.sortStock)
+    // console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
     console.log(document.documentElement.clientHeight - 166)
+
   },
   destroyed() {
     this.alltimers && clearInterval(this.alltimers)
