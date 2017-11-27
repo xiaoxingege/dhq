@@ -214,9 +214,9 @@ module.exports = function(router) {
     await next();
   });
   router.get('/blackTechnology-activity', async(ctx, next) => {
-      ctx.title='股市惊现“黑科技”';
-      ctx.metaDescription = '';
-      ctx.metaKeywords = '';
+    ctx.title = '股市惊现“黑科技”';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
     ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';
