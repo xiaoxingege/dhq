@@ -25,7 +25,7 @@ import {
 
 export default {
   props: ['options', 'strategyId'],
-  data () {
+  data() {
     return {}
   },
   watch: {},
@@ -33,7 +33,7 @@ export default {
     lineData: state => state.goldStrategy.syqxtData
   }),
   methods: {
-    initChart () {
+    initChart() {
       this.$store.dispatch('goldStrategy/getSyqxtData', {
         strategyId: this.strategyId
       }).then(() => {
@@ -63,7 +63,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
-            padding: [10, 55, 10, 20],
+            //padding: [10, 55, 10, 20],
             textStyle: {
               align: 'left',
               fontFamily: '微软雅黑'
@@ -71,7 +71,7 @@ export default {
             axisPointer: {
               type: 'line'
             },
-            formatter: function (params) {
+            formatter: function(params) {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
@@ -109,7 +109,7 @@ export default {
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: function (val) {
+              formatter: function(val) {
                 return (val * 100).toFixed(2) + '%'
               },
               color: '#808ba1'
@@ -129,27 +129,27 @@ export default {
             }
           },
           series: [{
-            data: lineData.data1,
-            name: '策略收益率',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              normal: {
-                width: 1
+              data: lineData.data1,
+              name: '策略收益率',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              }
+            },
+            {
+              data: lineData.data2,
+              name: '沪深300',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
               }
             }
-          },
-          {
-            data: lineData.data2,
-            name: '沪深300',
-            type: 'line',
-            symbol: 'none',
-            lineStyle: {
-              normal: {
-                width: 1
-              }
-            }
-          }
           ],
           color: ['#E73E3A', '#0C86ED', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)',
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
@@ -193,16 +193,16 @@ export default {
           }]
         })
         const that = this
-        window.onresize = function () {
+        window.onresize = function() {
           that.chart.resize()
         }
       })
     },
-    updateChart () {
+    updateChart() {
 
     }
   },
-  mounted () {
+  mounted() {
     this.initChart()
   }
 }
