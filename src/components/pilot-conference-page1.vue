@@ -13,7 +13,9 @@ body {
 }
 .box-con {
     width: 1455px;
+    height: 1080px;
     margin: 0 auto;
+    position: relative;
 }
 .left {
     float: left;
@@ -21,7 +23,12 @@ body {
     height: 720px;
     margin: 218px 0 0 62px;
     display: inline;
+    overflow-y: scroll;
 }
+// .left ul {
+//     height: 720px;
+//
+// }
 .left li {
     width: 100%;
     height: 120px;
@@ -112,14 +119,55 @@ body {
 .right li div.red {
     color: #f5514e;
 }
+
+.left .b li {
+    height: 0;
+    overflow: hidden;
+}
 </style>
 
 <template>
 <div class="box">
     <div class="box-con">
+        <!-- <div class="gp-text">京东方A</div>
+        <div class="gp-">
+
+        </div> -->
         <div class="left">
+            <ul class="b">
+                <li v-for="item in dataList" :style="item.a ? 'height:120px;transition: height 1s;':''">
+                    <div>
+                        <img :src="item.headImg" />
+                        <p>
+                            <strong>{{item.userName}}</strong>
+                            <span>{{item.phoneNum}}</span>
+                        </p>
+                    </div>
+                    <div>
+                        <strong>{{item.gpText}}</strong>
+                    </div>
+                    <div>
+                        <strong>{{item.gpRise}}</strong>
+                    </div>
+                </li>
+            </ul>
             <ul>
-                <li>
+                <li v-for="item in dataList" v-if="!item.a">
+                    <div>
+                        <img :src="item.headImg" />
+                        <p>
+                            <strong>{{item.userName}}</strong>
+                            <span>{{item.phoneNum}}</span>
+                        </p>
+                    </div>
+                    <div>
+                        <strong>{{item.gpText}}</strong>
+                    </div>
+                    <div>
+                        <strong>{{item.gpRise}}</strong>
+                    </div>
+                </li>
+                <!-- <li>
                     <div>
                         <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
                         <p>
@@ -193,22 +241,7 @@ body {
                     <div>
                         <strong>＋10%</strong>
                     </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="right">
@@ -243,7 +276,46 @@ window.jQuery = window.$ = jQuery
 
 export default {
     data() {
-        return {}
+
+        return {
+            dataList: [{
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }, {
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }, {
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }, {
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }, {
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }, {
+                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+                'userName': '用户名',
+                'phoneNum': '186****0000',
+                'gpText': '京东方A',
+                'gpRise': '＋10%'
+            }]
+        }
     },
     computed: mapState({
         // type: state => {
@@ -261,6 +333,39 @@ export default {
     },
     mounted() {
         document.title = '领航中国大会'
+        var a = [{
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '111用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '222用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '333用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }]
+        var _this = this;
+
+        function doSetTimeout(i) {
+            setTimeout(function() {
+                _this.dataList.unshift(a[i])
+            }, i * 1000);
+        }
+
+        for (var i = 0; i < a.length; ++i) {
+            doSetTimeout(i);
+        }
     }
 }
 </script>
