@@ -367,7 +367,7 @@ a.kuai_icon {
     margin-right: 5%;
     float: left;*/
     cursor: pointer;
-    /* padding: 39px 0 10px;*/
+    /*padding: 39px 0 10px;*/
     padding: 35px 0 10px;
 
 }
@@ -411,8 +411,11 @@ a.kuai_icon {
 .topic-date-box {
     padding: 18px 0 34px;
 }
+.topic-num-box {
+    padding-top: 33px;
+}
 .topic-stk-box {
-    padding: 20px 0;
+    padding: 38px 0;
 }
 .topic-time {
     float: left;
@@ -644,15 +647,15 @@ a.kuai_icon {
 <div class="alltopic clearfix">
   <div class="clearfix topic-head">
     <div class="fl head-left">
-      <strong class="head-title gray">题材累计总数</strong><em class="sum1" v-for="sum of this.summary.topicNum">{{sum}}</em><strong class="sum2 gray">上涨题材</strong><em class="red topic-num">{{checkNull(this.summary.topicUpNum)}}</em><strong class="sum3 gray">下跌题材</strong>
-      <em class="green topic-num">{{checkNull(this.summary.topicDownNum)}}</em>
+      <strong class="head-title gray">行业累计总数</strong><em class="sum1" v-if="this.summary!==null" v-for="sum of this.summary.induNum">{{sum}}</em><strong class="sum2 gray">上涨行业</strong><em class="red topic-num">{{checkNull(this.summary.induUpNum)}}</em>
+      <strong class="sum3 gray">下跌行业</strong>
+      <em class="green topic-num">{{checkNull(this.summary.induDownNum)}}</em>
     </div>
     <div class="fr sort-head">
       <!-- <em>全部主题概念</em> -->
       <strong :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='keepDay'?'active':''" @click="query('keepDay')" :style="{display:isStyle}">连涨排序<i class="time_icon"></i></strong>
       <strong @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></strong>
-      <strong :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></strong>
       <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部题材</em>
       <em class="all-ti all-ti2 lightcolor" :class="this.showAz==true?'active':''" @click="listClick($event)" v-show="showAz" id="ss">返回列表</em>
     </div>
@@ -661,24 +664,24 @@ a.kuai_icon {
   </div>
   <div class="main-list" v-show="showList">
     <ol class="topic-ol" :style="{  minHeight: fullHeight + 'px' }">
-      <li v-for="allTopic of themeList" class="clearfix">
+      <li v-for="allTopic of themeList">
         <div class="content-box clearfix display-box">
           <div class="con-bar-1 box-flex-1">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue ">
-              <div class="topic-name lightcolor">{{ allTopic.topicName }}</div>
+            <router-link :to="{name:'industryDetail',params:{industryId:allTopic.induCode}}" class="blue ">
+              <div class="topic-name lightcolor">{{ allTopic.induName }}</div>
               <div class="topic-chng-box">
-                <span class="topic-chng" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span>
+                <span class="topic-chng" v-z3-updowncolor="allTopic.induMarket===null || allTopic.induMarket.chngPct===null?'--':allTopic.induMarket.chngPct">{{ allTopic.induMarket===null || allTopic.induMarket.chngPct===null?'--':changeTofixed(allTopic.induMarket.chngPct)}}</span>
               </div>
-              <div class="keepdays" v-if="allTopic.topicMarket!==null && allTopic.topicMarket.chngPct!==null">
-                <span class="keep-num" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday>=2">{{allTopic.topicMarket.keepDaysToday}}连涨</span>
-                <span class="keep-num keep-num1" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday<=-2">{{Math.abs(allTopic.topicMarket.keepDaysToday)}}连跌</span>
+              <div class="keepdays" v-if="allTopic.induMarket!==null && allTopic.induMarket.chngPct!==null">
+                <span class="keep-num" v-z3-updowncolor="allTopic.induMarket.keepDaysToday" v-if="allTopic.induMarket.keepDaysToday>=2">{{allTopic.induMarket.keepDaysToday}}连涨</span>
+                <span class="keep-num keep-num1" v-z3-updowncolor="allTopic.induMarket.keepDaysToday" v-if="allTopic.induMarket.keepDaysToday<=-2">{{Math.abs(allTopic.induMarket.keepDaysToday)}}连跌</span>
               </div>
             </router-link>
           </div>
           <div class="con-bar-2 box-flex-1">
-            <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div>
-            <div><span>成份股数：</span><span class="time-num2">{{allTopic.equityNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
-            <div class="topic-stk-box"><span>上涨家数：</span><span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌家数：</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span></div>
+            <!-- <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div> -->
+            <div class="topic-num-box"><span>成份股数：</span><span class="time-num2">{{allTopic.samNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
+            <div class="topic-stk-box"><span>上涨家数：</span><span class="red time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkUpNum ===null?'--':allTopic.induMarket.stkUpNum}}</span><span>下跌家数：</span><span class="green time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkDownNum ===null?'--':allTopic.induMarket.stkDownNum}}</span></div>
           </div>
           <div class="con-cen box-flex-1">
             <div v-for="equity of allTopic.relatedEquity">
@@ -697,26 +700,22 @@ a.kuai_icon {
             </div>
           </div>
           <div class="con-right box-flex-1">
-            <div v-for="news of allTopic.relatedNews" class="clearfix news-box">
+            <div v-if="allTopic.relatedNews.length<=0">暂无数据</div>
+            <div v-for="news of allTopic.relatedNews" class="clearfix news-box" v-if="allTopic.relatedNews.length>0">
               <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}">
                 <span @mouseenter="enterTopictit($event)" @mouseleave="leaveTopictit($event)" class="news-cons">
                         <i>{{news.title}}</i>
                         <span class="img fl"></span>
                 <span class="new-tit">{{news.title==null?'--':news.title}}</span>
                 <span class="new-date">[{{news.declareDate==null?'--':format(news.declareDate)}}]</span>
-                <!-- <span class="new-srcname">{{news.srcName==null?'--':news.srcName}}</span> -->
                 </span>
               </router-link>
             </div>
           </div>
           <div class="con-bar-3 box-flex-1">
-            <!-- <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}"> -->
-            <span class="desc-con" ref='text'><strong>主题简介：</strong>{{cutStr(allTopic.topicDesc,180)}}<i>{{allTopic.topicDesc}}</i></span>
-            <!-- </router-link> -->
+            <span class="desc-con" ref='text'><strong>行业简介：</strong>{{allTopic.induDesc===null?'--':cutStr(allTopic.induDesc,180)}}<i v-if="allTopic.induDesc!==null">{{allTopic.induDesc}}</i></span>
           </div>
-
         </div>
-
       </li>
     </ol>
     <Pagination @getPageFromChild="goToPage" :totalPage="totalPage" />
@@ -755,10 +754,9 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'topicMarket.realChngPctWeek',
-        keepDay: 'topicMarket.keepDaysToday',
-        time: 'declareDate',
-        updown: 'topicMarket.chngPct'
+        hot: 'induMarket.realChngPctWeek',
+        keepDay: 'induMarket.keepDaysToday',
+        updown: 'induMarket.chngPct'
       },
       sortField: '',
       fullHeight: document.documentElement.clientHeight - 133,
@@ -786,23 +784,24 @@ export default {
   computed: mapState({
     /* themeList: state => state.topic.themeList,*/
     themeListData: state => {
-      const listData = state.topic.themeList
+      const listData = state.industry.themeList
       return listData
     },
-    totalPage: state => state.topic.total,
-    listChange: state => state.topic.listChange,
-    relatedStocks: state => state.topic.relatedStocks,
+    totalPage: state => state.industry.total,
+    listChange: state => state.industry.listChange,
+    relatedStocks: state => state.industry.relatedStocks,
     socketState: state => state.z3sockjs.readystate,
     summary: state => {
-      const startdata = state.topic.themeSummary
+      const startdata = state.industry.themeSummary
       // let summaryArr = []
-      console.log(startdata.topicNum)
-      const topicNum = startdata.topicNum + ''.split('')
-      console.log(topicNum)
+      console.log(startdata)
+      // console.log(startdata.induNum)
+      const induNum = startdata.induNum + ''.split('')
+      console.log(induNum)
       return {
-        topicNum: topicNum,
-        topicUpNum: startdata.topicUpNum,
-        topicDownNum: startdata.topicDownNum
+        induNum: induNum,
+        induUpNum: startdata.induUpNum,
+        induDownNum: startdata.induDownNum
 
       }
     },
@@ -837,16 +836,17 @@ export default {
       // sortField, page, pagesize, totalPages
       // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
       this.themeList = []
-      this.$store.dispatch('topic/queryAllTopic', {
+      this.$store.dispatch('industry/queryAllTopic', {
         sortField: this.FIELDS[this.sortField],
         page: this.page,
         pagesize: this.pagesize
       }).then(() => {
         this.themeList = this.themeListData
+
       })
     },
     list(type, page) {
-      this.$store.dispatch('topic/queryListChange', {
+      this.$store.dispatch('industry/queryListChange', {
         sortField: this.FIELDS.hot,
         page: this.page,
         pagesize: this.pagesize
@@ -915,7 +915,7 @@ export default {
       }
     },
     updateStock(stock) {
-      this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
+      this.$store.commit('industry/UPDATE_TOPIC_RELSTOCK', stock)
     },
     subscribeStock() {
       const msg = {
@@ -961,10 +961,11 @@ export default {
   mounted() {
     this.query('hot')
     var _this = this
-    this.$store.dispatch('topic/querySummary')
+    this.$store.dispatch('industry/querySummary')
     this.sumTime = setInterval(function() {
-      _this.$store.dispatch('topic/querySummary')
+      _this.$store.dispatch('industry/querySummary')
     }, 30000)
+    console.log(this.themeList)
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()

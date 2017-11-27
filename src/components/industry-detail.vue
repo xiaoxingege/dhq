@@ -631,20 +631,20 @@ bottom: 0; */
 <template>
 <div class="topic-detail">
   <div class="topic-head clearfix">
-    <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
+    <strong class="fl">{{detail.induName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.induMarket===null || detail.induMarket.chngPct===null?'--':detail.induMarket.chngPct">{{detail.induMarket===null || detail.induMarket.chngPct==null?'--':changeTofixed(detail.induMarket.chngPct)}}</span>
     <div class="topic-time fl">
-      <span class="time-num4">成份股数</span><span class="time-num2">{{detail.equityNum}}只
-      </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}
-      </span><span class="time-num4">下跌股票</span><span class="green time-num2">{{detail.topicMarket===null || detail.topicMarket.stkDownNum==null?'--':detail.topicMarket.stkDownNum}}
+      <span class="time-num4">成份股数</span><span class="time-num2">{{detail.samNum}}只
+      </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.induMarket===null || detail.induMarket.stkUpNum==null?'--':detail.induMarket.stkUpNum}}
+      </span><span class="time-num4">下跌股票</span><span class="green time-num2">{{detail.induMarket===null || detail.induMarket.stkDownNum==null?'--':detail.induMarket.stkDownNum}}
       </span><span class="time-num4">相关新闻</span><span class="time-num2">{{detail.eventNum}}条
-      </span><span class="time-num4">发布时间</span><span class="time-num2">{{detail.declareDate==null?'--':format(detail.declareDate)}}</span>
+      </span>
     </div>
   </div>
   <div class="detail-content clearfix">
     <div class="detail-main clearfix display-box">
       <div class="main-left box-flex-1">
         <div class="left-con2">
-          <!-- <div class="chart-title">主题<span class="blue">[{{detail.topicName}}]</span>累计收益率</div> -->
+          <!-- <div class="chart-title">主题<span class="blue">[{{detail.induName}}]</span>累计收益率</div> -->
           <ul class="time-ul">
             <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
@@ -658,16 +658,16 @@ bottom: 0; */
         </div>
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
-            <strong>题材简介：</strong>
+            <strong>行业简介：</strong>
             <!-- <router-link :to="{name:'detailPages',params:{id : detail.newsId, detailType:'news'}}"> -->
-            <span class="tip-1">{{cutStr(checkNull(detail.topicDesc)+'',201)}}<i>{{checkNull(detail.topicDesc)}}</i></span>
+            <span class="tip-1">{{cutStr(checkNull(detail.induDesc)+'',201)}}<i>{{checkNull(detail.induDesc)}}</i></span>
             <!-- </router-link> -->
           </div>
-          <div class="con1-event box-flex-1">
+          <!-- <div class="con1-event box-flex-1">
             <strong>驱动事件：</strong>
             <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
-          </div>
+          </div> -->
         </div>
         <div class="left-con3 clearfix">
           <div class="right-top right-top2"><strong>相关资讯</strong></div>
@@ -687,14 +687,11 @@ bottom: 0; */
                </a> -->
             <div class="no-data"></div>
           </div>
-          <!-- <div class="view-all blue fr" v-if="index==0" v-for="(item,index) of informatList">
-            <router-link :to="{name:'themeInformat',params:{inforId:item.topicCode}}" class="blue"><span>查看全部</span><i></i></router-link>
-          </div> -->
         </div>
       </div>
       <div class="main-right box-flex-1">
         <div class="right-top"><span>成份股</span><span class="blue fr see-filter"><a
-                :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
+                :href="'/filter.shtml?from=subIndustry&IndustryCode='+detail.induCode" target="_blank"
                 class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="sortStock($event,'recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
@@ -703,7 +700,7 @@ bottom: 0; */
             <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
             <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
             <td>关联题材</td>
-            <td>关联说明</td>
+            <td>主营业务</td>
           </tr>
           <tr v-for="stock of stockList">
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
@@ -711,18 +708,18 @@ bottom: 0; */
             </a></td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
             <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
-            <td class="gray">{{checkNull(stock.industryName)}}</td>
+            <td class="gray">{{checkNull(stock.induName)}}</td>
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
-            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=200?stock.topicMark:stock.topicMark.substring(0,201)+'…'}}</span></td>
+            <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.induMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.induMark!==null'>{{stock.induMark.length<=200?stock.induMark:stock.induMark.substring(0,201)+'…'}}</span></td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
       </div>
     </div>
     <div class="foot-tishi clearfix">
-      风险提示：本题材业绩表现及成份股仅供参考，不作为买卖建议，风险自担！
+      风险提示：本行业业绩表现及成份股仅供参考，不作为买卖建议，风险自担！
     </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -767,7 +764,7 @@ export default {
       isDireCurChng: true,
       isDireIndustry: true,
       isRecommendIndex: true,
-      topicCode: this.$route.params.topicId,
+      induCode: this.$route.params.industryId,
       fullHeight1: document.documentElement.clientHeight - 546,
       fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
       fullHeight3: document.documentElement.clientHeight - 166,
@@ -788,11 +785,11 @@ export default {
   },
   computed: {
     ...mapState({
-      relatedStocks: state => state.topic.relatedStocks,
-      allLimit: state => state.topic.allLimit,
-      realtimeLimit: state => state.topic.realtimeLimit,
-      numberTopic: state => state.topic.numberTopic,
-      stockTotal: state => state.topic.stockTotal,
+      relatedStocks: state => state.industry.relatedStocks,
+      allLimit: state => state.industry.allLimit,
+      realtimeLimit: state => state.industry.realtimeLimit,
+      numberTopic: state => state.industry.numberTopic,
+      stockTotal: state => state.industry.stockTotal,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -808,47 +805,47 @@ export default {
           return null
         }
       },
-      lineData: state => state.topic.lineData,
-      news: state => state.topic.news,
-      informatList: state => state.topic.informatList,
-      inforTotalElements: state => state.topic.inforTotalElements,
+      lineData: state => state.industry.lineData,
+      news: state => state.industry.news,
+      informatList: state => state.industry.informatList,
+      inforTotalElements: state => state.industry.inforTotalElements,
       stockData: state => {
-        const listData = state.topic.stockList
+        const listData = state.industry.stockList
         return listData
       },
-      detail: state => state.topic.detail,
+      detail: state => state.industry.detail,
       chartData: state => {
-        const chartData = state.topic.allCharts
-        const topicReturnRate = []
+        const chartData = state.industry.allCharts
+        const induReturnRate = []
         const hs300ReturnRate = []
         const tradeDate = []
-        let topicName = ''
+        let induName = ''
         let time = ''
         let chartDataEnd = ''
         chartData && chartData.forEach(item => {
           time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-          topicReturnRate.push(Number(item.topicReturnRate).toFixed(2))
+          induReturnRate.push(Number(item.induReturnRate).toFixed(2))
           hs300ReturnRate.push(Number(item.hs300ReturnRate).toFixed(2))
           tradeDate.push(time)
-          topicName = item.topicName
+          induName = item.induName
           // console.log(chartData.length)
           chartDataEnd = chartData[chartData.length - 1].tradeDate
           // console.log(chartDataEnd)
         })
 
         return {
-          topicReturnRate: topicReturnRate,
+          induReturnRate: induReturnRate,
           hs300ReturnRate: hs300ReturnRate,
           tradeDate: tradeDate,
-          topicName: topicName,
+          induName: induName,
           chartDataEnd: chartDataEnd
         }
       },
       realTimeData: state => {
-        const realtimeCharts = state.topic.realtimeCharts
-        const realData = state.topic.realtimeCharts
-        const topicChgPct = []
-        const hs300ChgPct = []
+        const realtimeCharts = state.industry.realtimeCharts
+        const realData = state.industry.realtimeCharts
+        const induChngPct = []
+        const hs300ChngPct = []
         const tradeMin = []
         const arr = [9, 10, 11, 13, 14, 15]
         let start = null
@@ -875,15 +872,16 @@ export default {
             if (arr[i] === 11 && j === 30) {
               break
             } else if (arr[i] === 13 && j === '00') {
-              // realTime = '11:30' + '/' + arr[i] + ':' + j
-              realTime = arr[i] + ':' + j
+              realTime = '11:30' + '/' + arr[i] + ':' + j
+              //  realTime = arr[i] + ':' + j
             } else {
               realTime = arr[i] + ':' + j
             }
+            // console.log(realTime)
             tradeMin.push(realTime)
           }
         }
-        // console.log(tradeMin)
+
         function getIndex(time) {
           if (time > 930 && time <= 959) {
             return time - 930;
@@ -900,26 +898,25 @@ export default {
           }
         }
         realtimeCharts && realtimeCharts.forEach((item, index) => {
-          // console.log(index === 0)
-          topicTimeName = item.topicName
+          topicTimeName = item.induName
           realTimeEnd = realtimeCharts[realtimeCharts.length - 1].tradeMin
           console.log(realTimeEnd)
           if (index === 0) {
-            topicChgPct.push(0)
-            hs300ChgPct.push(0)
+            induChngPct.push(0)
+            hs300ChngPct.push(0)
           } else {
             var indexs = getIndex(item.tradeMin)
-            topicChgPct[indexs] = Number(item.topicChgPct).toFixed(2)
-            hs300ChgPct[indexs] = Number(item.hs300ChgPct).toFixed(2)
-            // topicChgPct.push(Number(item.topicChgPct).toFixed(2))
-            // hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+            induChngPct[indexs] = Number(item.induChngPct).toFixed(2)
+            hs300ChngPct[indexs] = Number(item.hs300ChngPct).toFixed(2)
+            // induChngPct.push(Number(item.induChngPct).toFixed(2))
+            // hs300ChngPct.push(Number(item.hs300ChngPct).toFixed(2))
           }
           /* tradeMin.push(tradeMinDate)*/
         })
 
         return {
-          topicChgPct: topicChgPct,
-          hs300ChgPct: hs300ChgPct,
+          induChngPct: induChngPct,
+          hs300ChngPct: hs300ChngPct,
           tradeMin: tradeMin,
           topicTimeName: topicTimeName,
           realTimeEnd: realTimeEnd,
@@ -935,8 +932,6 @@ export default {
         }
         return interval
       }
-      //   stockNum: state => state.topic.stockList.length,
-      //   newsNum: state => state.topic.news.length
 
     })
   },
@@ -963,9 +958,9 @@ export default {
       }
     },
     realTimeData() {
-      this.$store.dispatch('topic/queryRealtimeChartsLimit', {
+      this.$store.dispatch('industry/queryRealtimeChartsLimit', {
         period: this.period,
-        topicCode: this.topicCode
+        induCode: this.induCode
       }).then((v) => {
         console.log(12)
       })
@@ -978,35 +973,24 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$refs.chart)
-      // var _this = this
       this.period = 'ALL'
-      /* this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
-                  .then(() => {
-                    this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
-                    // console.log(this.chartData.tradeDate.length)
-                    // console.log(this.chartData.tradeDate[this.chartData.tradeDate.length - 1])
-                    setInterval(function () {
-                      _this.updateChartAll()
-                    }, 3000)
-                  })*/
       this.renderCharts(this.period)
-      // console.log(this.handleResize)
     },
     goToPage(page) {
       this.stockPage = Number(page) - 1
-      console.log(this.stockPage)
+      // console.log(this.stockPage)
     },
     renderCharts(type) {
       this.period = type
       console.log(type)
       var _this = this
       if (type === 'day') {
-        this.$store.dispatch('topic/queryRealtimeCharts', {
+        this.$store.dispatch('industry/queryRealtimeCharts', {
           period: this.period,
-          topicCode: this.topicCode
+          induCode: this.induCode
         }).then(() => {
-          console.log(this.detail.topicName)
-          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          console.log(this.detail.induName)
+          this.drawCharts(this.detail.induName, this.realTimeData.tradeMin, this.realTimeData.induChngPct, this.realTimeData.hs300ChngPct)
           if (this.alltimers) {
             clearInterval(this.alltimers)
           } else if (this.alls) {
@@ -1018,12 +1002,12 @@ export default {
           }, 30000)
         })
       } else {
-        this.$store.dispatch('topic/queryAllCharts', {
+        this.$store.dispatch('industry/queryAllCharts', {
             period: this.period,
-            topicCode: this.topicCode
+            induCode: this.induCode
           })
           .then(() => {
-            this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+            this.drawCharts(this.chartData.induName, this.chartData.tradeDate, this.chartData.induReturnRate, this.chartData.hs300ReturnRate)
             if (this.alltimers) {
               clearInterval(this.alltimers)
             } else if (this.alls) {
@@ -1036,53 +1020,43 @@ export default {
       }
     },
     updateChartAll() {
-      this.$store.dispatch('topic/queryAllChartsLimit', {
+      this.$store.dispatch('industry/queryAllChartsLimit', {
         period: this.period,
-        topicCode: this.topicCode
+        induCode: this.induCode
       }).then(() => {
-        // this.endAll = this.allLimit.limitAllX
-        //  console.log(this.chartData.chartDataEnd) // chartHs
         if (this.allLimit[0].tradeDate === this.chartData.chartDataEnd) {
           const allLimitHs = Number(this.allLimit[0].hs300ReturnRate).toFixed(2) // 新
-          const allLimitReturn = Number(this.allLimit[0].topicReturnRate).toFixed(2)
-          this.chartData.hs300ReturnRate[this.chartData.hs300ReturnRate.length - 1] = allLimitHs
-          this.chartData.topicReturnRate[this.chartData.topicReturnRate.length - 1] = allLimitReturn
-          // console.log(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
-          // console.log(chartReturn)
-          // console.log(allLimitReturn)
+          const allLimitReturn = Number(this.allLimit[0].induReturnRate).toFixed(2)
+          var hsLen = this.chartData.hs300ReturnRate.length - 1
+          var induLen = this.chartData.induReturnRate.length - 1
+          console.log(induLen)
+          this.chartData.hs300ReturnRate[hsLen] = allLimitHs
+          this.chartData.induReturnRate[induLen] = allLimitReturn
         } else {
           this.chartData.chartDataEnd = this.allLimit[0].tradeDate
           this.chartData.hs300ReturnRate.push(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
-          this.chartData.topicReturnRate.push(Number(this.allLimit[0].topicReturnRate).toFixed(2))
-          this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
+          this.chartData.induReturnRate.push(Number(this.allLimit[0].induReturnRate).toFixed(2))
+          this.drawCharts(this.chartData.induName, this.chartData.tradeDate, this.chartData.induReturnRate, this.chartData.hs300ReturnRate)
         }
       })
     },
     updateChartRealTime() {
-      this.$store.dispatch('topic/queryRealtimeChartsLimit', {
+      this.$store.dispatch('industry/queryRealtimeChartsLimit', {
         period: this.period,
-        topicCode: this.topicCode
+        induCode: this.induCode
       }).then((v) => {
-        // console.log(this.realtimeLimit[0].tradeMin)
-        // console.log(this.realTimeData.realData[this.realTimeData.realData.length - 1].tradeMin)
-        // this.endAll = this.allLimit.limitAllX
-        // console.log(this.chartData.chartDataEnd)
-        /* console.log('this.realtimeLimit[0].tradeMin=' + this.realtimeLimit[0].tradeMin)
-         console.log(' this.realTimeData.realTimeEnd=' + this.realTimeData.realTimeEnd)*/
-        // console.log(this.realtimeLimit[0].length)
         if (this.realtimeLimit[0].tradeMin === this.realTimeData.realTimeEnd) {
-          const realTimeLimitHs = Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2) // xin
-          const realTimeLimitReturn = Number(this.realtimeLimit[0].topicChgPct).toFixed(2)
-
-          this.realTimeData.hs300ChgPct[this.realTimeData.hs300ChgPct.length - 1] = realTimeLimitHs
-          this.realTimeData.topicChgPct[this.realTimeData.topicChgPct.length - 1] = realTimeLimitReturn
+          const realTimeLimitHs = Number(this.realtimeLimit[0].hs300ChngPct).toFixed(2) // xin
+          const realTimeLimitReturn = Number(this.realtimeLimit[0].induChngPct).toFixed(2)
+          this.realTimeData.hs300ChngPct[this.realTimeData.hs300ChngPct.length - 1] = realTimeLimitHs
+          this.realTimeData.induChngPct[this.realTimeData.induChngPct.length - 1] = realTimeLimitReturn
           console.log('1')
         } else {
           console.log('不相同')
           this.realTimeData.realTimeEnd = this.realtimeLimit[0].tradeMin
-          this.realTimeData.topicChgPct.push(Number(this.realtimeLimit[0].topicChgPct).toFixed(2))
-          this.realTimeData.hs300ChgPct.push(Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2))
-          this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
+          this.realTimeData.induChngPct.push(Number(this.realtimeLimit[0].induChngPct).toFixed(2))
+          this.realTimeData.hs300ChngPct.push(Number(this.realtimeLimit[0].hs300ChngPct).toFixed(2))
+          this.drawCharts(this.detail.induName, this.realTimeData.tradeMin, this.realTimeData.induChngPct, this.realTimeData.hs300ChngPct)
         }
       })
     },
@@ -1095,16 +1069,11 @@ export default {
         this.stockSort = 'recommendIndex'
         this.direction = 'DESC'
       }
-      // this.stockSort = 'recommendIndex'
-      // this.direction = 'DESC'
-      //   this.$store.dispatch('z3tougu-theme/queryTopicStocks')
-      // console.log(this.fullHeight)
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
-      // console.log(this.size)
       /* this.stockList = []*/
       console.log(this.stockList)
-      this.$store.dispatch('topic/queryStockList', {
-        topicCode: this.topicCode,
+      this.$store.dispatch('industry/queryStockList', {
+        induCode: this.induCode,
         sortField: this.stockSort,
         direction: this.direction,
         stockPage: this.stockPage,
@@ -1116,8 +1085,8 @@ export default {
       /* console.log(this.stockData.stockList)*/
     },
     initInformatList() {
-      this.$store.dispatch('topic/queryInformatList', {
-        topicCode: this.topicCode,
+      this.$store.dispatch('industry/queryInformatList', {
+        induCode: this.induCode,
         inforPageSize: this.inforPageSize
       })
     },
@@ -1128,7 +1097,7 @@ export default {
         numTopics[i].style.display = 'none'
       }
       e.currentTarget.children[0].style.display = 'block'
-      this.$store.dispatch('topic/queryStockNumberTopic', {
+      this.$store.dispatch('industry/queryStockNumberTopic', {
         innerCode: innerCode
       })
     },
@@ -1178,8 +1147,8 @@ export default {
         this.stockSort = 'recommendIndex'
       }
       console.log(dire)
-      this.$store.dispatch('topic/queryStockList', {
-        topicCode: this.topicCode,
+      this.$store.dispatch('industry/queryStockList', {
+        induCode: this.induCode,
         sortField: this.stockSort,
         direction: dire,
         stockPage: this.stockPage,
@@ -1187,9 +1156,9 @@ export default {
       }).then(() => {
         this.stockList = this.stockData
       })
-      console.log(this.stockPage)
+      console.log(this.induCode)
     },
-    drawCharts(topicName, tradeDate, topicReturnRate, hs300ReturnRate) {
+    drawCharts(induName, tradeDate, induReturnRate, hs300ReturnRate) {
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -1214,7 +1183,7 @@ export default {
           itemWidth: 15,
           itemHeight: 8,
           data: [{
-              name: topicName,
+              name: induName,
               icon: 'pin',
               textStyle: {
                 color: '#c9d0d7'
@@ -1308,10 +1277,10 @@ export default {
           }
         }],
         series: [{
-            name: topicName,
+            name: induName,
             type: 'line',
             smooth: true,
-            data: topicReturnRate,
+            data: induReturnRate,
             lineStyle: { // 网格线
               normal: {
                 color: '#1984ea'
@@ -1398,7 +1367,7 @@ export default {
       return cutString(str, len)
     },
     updateStock(stock) {
-      this.$store.commit('topic/UPDATE_TOPIC_RELSTOCK', stock)
+      this.$store.commit('industry/UPDATE_TOPIC_RELSTOCK', stock)
     },
     subscribeStock() {
       const msg = {
@@ -1422,12 +1391,10 @@ export default {
     this.initChart()
     this.initStockList('recommendIndex')
     this.initInformatList()
-    // console.log(this.fullHeight2)
-    this.$store.dispatch('topic/queryDetailHead', {
-      topicCode: this.topicCode
+    this.chart = echarts.init(this.$refs.chart)
+    this.$store.dispatch('industry/queryDetailHead', {
+      induCode: this.induCode
     })
-    // console.log(this.sortStock)
-    // console.log(this.innerCode)
     // this.drawCharts()
     console.log(document.documentElement.clientHeight - 166)
 
