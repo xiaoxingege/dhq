@@ -85,7 +85,8 @@ export default {
       }).then(() => {
         const lineData = this.$store.state.goldStrategy.syqxtData
         // echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) ||
-        this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], {
+
+        this.chart = echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) || echarts.init(document.getElementsByClassName('lineChart')[0], {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })

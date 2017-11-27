@@ -107,7 +107,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
-            //padding: [10, 55, 10, 20],
+            // padding: [10, 55, 10, 20],
             textStyle: {
               align: 'left',
               fontFamily: '微软雅黑'
@@ -181,7 +181,7 @@ export default {
               symbol: 'none',
               lineStyle: {
                 normal: {
-                  width: 2
+                  width: 1
                 }
               }
             },
@@ -192,7 +192,7 @@ export default {
               symbol: 'none',
               lineStyle: {
                 normal: {
-                  width: 2
+                  width: 1
                 }
               }
             }

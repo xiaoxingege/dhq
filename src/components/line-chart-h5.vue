@@ -63,7 +63,7 @@ export default {
           tooltip: {
             show: true,
             trigger: 'axis',
-            //padding: [10, 55, 10, 20],
+            // padding: [10, 55, 10, 20],
             textStyle: {
               align: 'left',
               fontFamily: '微软雅黑'
