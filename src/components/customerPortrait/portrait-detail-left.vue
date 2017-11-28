@@ -49,10 +49,18 @@
 }
 
 .monthTag {
-    height: 30px;
+    height: 25px;
     width: 147px;
     border: 1px solid #23272c;
     border-radius: 5px;
+    background: url("../../assets/images/z3img/time.png") no-repeat;
+    background-position: 95% 50%;
+}
+
+.timeBox {
+    width: 147px;
+    height: 30px;
+    background: red;
 }
 
 .customTag {
@@ -178,12 +186,11 @@
     </table>
     <div class="customTag">
       <div class="customTag-header clearfix">
-        <p class="fl" style="line-height: 30px;">客户标签</p>
+        <p class="fl" style="line-height: 25px;">客户标签</p>
         <div class="fr">
-          <p class="fl mr-15" style="line-height: 30px;">标签月份</p>
-          <span class="monthTag fr">
-
-                    </span>
+          <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
+          <span class="monthTag fr" @click="showTime"></span>
+          <div class="timeBox"></div>
         </div>
       </div>
       <ul class="tags clearfix">
@@ -263,6 +270,9 @@ export default {
   methods: {
     changeStar: function(e) {
 
+
+    },
+    showTime: function() {
 
     }
   },

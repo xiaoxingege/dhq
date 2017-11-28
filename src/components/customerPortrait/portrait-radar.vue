@@ -149,9 +149,7 @@ export default {
             label: {
               normal: {
                 show: true,
-                formatter: function(params) {
-                  console.log(params);
-                },
+                formatter: function(params) {},
                 position: 'top'
               }
             }
@@ -192,9 +190,7 @@ export default {
             label: {
               normal: {
                 show: true,
-                formatter: function(params) {
-                  console.log(params);
-                },
+                formatter: function(params) {},
                 position: 'bottom'
               }
             }
