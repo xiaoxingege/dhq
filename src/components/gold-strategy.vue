@@ -180,6 +180,10 @@ a {
     cursor: pointer;
     outline: none;
 }
+.recommend button:hover {
+    background: #2388DA;
+    color: #fff;
+}
 </style>
 <template>
 <div class="goldRecommend" @click="hideCode($event)">

@@ -39,6 +39,10 @@
   height: 100%;
 }
 
+.indexChart>div:hover {
+  cursor: pointer !important;
+}
+
 .indexNum {
   position: absolute;
   top: 5px;

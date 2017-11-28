@@ -1,17 +1,16 @@
-<style>
+<style lang="scss" scoped>
 .lineChart {
-  width: 100%;
-  height: 420px;
-  padding-top: 20px;
-}
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
-  .lineChart {
     width: 100%;
-    height: 4.2rem;
-    padding-top: 0;
-    padding-bottom: 0.1rem;
-  }
+    height: 420px;
+    padding-top: 20px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
+    .lineChart {
+        width: 100%;
+        height: 4.2rem;
+        padding-top: 0;
+        padding-bottom: 0.1rem;
+    }
 }
 </style>
 <template>
