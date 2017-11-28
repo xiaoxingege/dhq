@@ -875,8 +875,9 @@ export default {
             if (arr[i] === 11 && j === 30) {
               break
             } else if (arr[i] === 13 && j === '00') {
+              realTime = '11:30'
               // realTime = '11:30' + '/' + arr[i] + ':' + j
-              realTime = arr[i] + ':' + j
+              // realTime = arr[i] + ':' + j
             } else {
               realTime = arr[i] + ':' + j
             }
@@ -1380,6 +1381,7 @@ export default {
         ]
 
       })
+      window.onresize = this.chart.resize
     },
     format(date) {
       return formatDate(date)

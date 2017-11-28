@@ -726,11 +726,11 @@ a.kuai_icon {
         <div class="sort-title fl">推荐<i>></i></div>
         <div class="sort-hot fl">
           <a class="blue hot-name" v-for="(updownTopic,index) of listChange">
-            <router-link :to="{name:'topicDetail',params:{topicId:updownTopic.topicCode}}">{{updownTopic.topicName}}</router-link>
+            <router-link :to="{name:'industryDetail',params:{industryId:updownTopic.induCode}}">{{updownTopic.induName}}</router-link>
           </a>
         </div>
       </div>
-      <ThemeSortAz :islink="true" />
+      <IndustrySortAz/>
     </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -746,7 +746,7 @@ import {
   cutString
 } from 'utils/date'
 import Pagination from './pagination'
-import ThemeSortAz from './theme-sort-az'
+import IndustrySortAz from './industry-sort-az'
 //  import { mutationTypes } from 'stores/z3tougu-theme'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
@@ -775,7 +775,6 @@ export default {
         price: '',
         chg: '',
         curChngPct: ''
-
       },
       themeList: []
     }
@@ -824,7 +823,7 @@ export default {
   }),
   components: {
     Pagination,
-    ThemeSortAz,
+    IndustrySortAz,
     StockBox
   },
   methods: {

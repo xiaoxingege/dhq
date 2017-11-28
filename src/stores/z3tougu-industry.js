@@ -101,7 +101,7 @@ export default {
     },
     updateStockList(state, stockList) {
       state.stockList = stockList
-      console.log(state.stockList)
+      // console.log(state.stockList)
       const stocks = {}
       for (const stock of stockList) {
         stocks[stock.innerCode] = stock
@@ -166,6 +166,8 @@ export default {
       stocks[stock.innerCode].chg = stock.chg !== null ? parseFloat(stock.chg).toFixed(2) : config.emptyValue
       stocks[stock.innerCode].curChngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
       // state.topic.relatedStocks = { ...stocks, stock }
+      console.log(stocks[stock.innerCode])
+      console.log(stock)
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -234,9 +236,7 @@ export default {
     }) {
       page = page || 0
       pagesize = pagesize || PAGE_SIZE
-      return fetch(`${domain}/openapi/topic/pageTopic.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {
-        mode: 'cors'
-      }).then((res) => {
+      return fetch(`${domain}/openapi/industry/pageIndustry.shtml?sort=${sortField},desc&page=${page}&size=${pagesize}`, {}).then((res) => {
         return res.json()
       }).then(result => {
         // console.log(result)
@@ -322,7 +322,7 @@ export default {
       }).then(result => {
         // console.log(result.data.size)
         if (result.errCode === 0) {
-          console.log(result.data.content)
+          // console.log(result.data.content)
           commit('updateStockList', result.data.content)
           commit('updateStockPage', {
             stockPage: result.data.number,
@@ -422,7 +422,7 @@ export default {
     queryGroupTopics({
       commit
     }) {
-      fetch(`${domain}/openapi/topic/groupTopics.shtml`, {
+      fetch(`${domain}/openapi/industrylist.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -444,7 +444,7 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
+          // console.log(result.data)
           commit('updateStockNumberTopic', result.data)
         }
       })
