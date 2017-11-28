@@ -872,7 +872,8 @@ export default {
             if (arr[i] === 11 && j === 30) {
               break
             } else if (arr[i] === 13 && j === '00') {
-              realTime = '11:30' + '/' + arr[i] + ':' + j
+              realTime = '11:30'
+              // realTime = '11:30' + '/' + arr[i] + ':' + j
               //  realTime = arr[i] + ':' + j
             } else {
               realTime = arr[i] + ':' + j
@@ -1071,7 +1072,6 @@ export default {
       }
       this.fullHeight > 710 ? (this.fullHeight > 876 ? this.size = 18 : this.size = 15) : this.size = 12
       /* this.stockList = []*/
-      console.log(this.stockList)
       this.$store.dispatch('industry/queryStockList', {
         induCode: this.induCode,
         sortField: this.stockSort,
@@ -1081,8 +1081,7 @@ export default {
       }).then(() => {
         this.stockList = this.stockData
       })
-      console.log(this.stockList)
-      /* console.log(this.stockData.stockList)*/
+
     },
     initInformatList() {
       this.$store.dispatch('industry/queryInformatList', {
@@ -1349,6 +1348,7 @@ export default {
         ]
 
       })
+      window.onresize = this.chart.resize
     },
     format(date) {
       return formatDate(date)

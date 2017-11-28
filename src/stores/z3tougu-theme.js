@@ -66,13 +66,13 @@ export default {
      tradeDate: []*/ // 全部charts
   },
   mutations: {
-    [mutationTypes.UPDATE_HOTLIST] (state, hotList) {
+    [mutationTypes.UPDATE_HOTLIST](state, hotList) {
       state.hotlist = hotList
     },
-    updateSummary (state, summary) {
+    updateSummary(state, summary) {
       state.themeSummary = summary
     },
-    updateAllTopic (state, themeList) {
+    updateAllTopic(state, themeList) {
       state.themeList = themeList
       const stocks = {}
       for (const topic of themeList) {
@@ -83,23 +83,23 @@ export default {
       }
       state.relatedStocks = stocks
     },
-    updatePage (state, options) {
+    updatePage(state, options) {
       console.log(options.totalPages)
       state.pagesize = options.pageSize || PAGE_SIZE
       state.page = options.page || 1
       state.total = options.totalPages
     },
-    updateInforPage (state, options) {
+    updateInforPage(state, options) {
       console.log(options)
       state.inforPageSize = options.inforPageSize || INFOR_PAGESIZE
       state.inforPage = options.inforPage || 1
       state.inforTotal = options.inforTotal
       state.inforTotalElements = options.totalElements
     },
-    updateInformat (state, infor) {
+    updateInformat(state, infor) {
       state.informatList = infor
     },
-    updateStockList (state, stockList) {
+    updateStockList(state, stockList) {
       state.stockList = stockList
       const stocks = {}
       for (const stock of stockList) {
@@ -107,15 +107,15 @@ export default {
       }
       state.relatedStocks = stocks
     },
-    updateStockPage (state, options) {
+    updateStockPage(state, options) {
       state.stockPageSize = options.stockPageSize || STOCK_PAGESIZE
       state.stockPage = options.stockPage || 1
       state.stockTotal = options.stockTotal
     },
-    updateDetailHead (state, detailHead) {
+    updateDetailHead(state, detailHead) {
       state.detail = detailHead
     },
-    updateAllCharts (state, allCharts) {
+    updateAllCharts(state, allCharts) {
       state.allCharts = allCharts
 
       /* state.allCharts && state.allCharts.forEach(item => {
@@ -124,42 +124,42 @@ export default {
          state.tradeDate.push(item.tradeDate)
        })*/
     },
-    upAllChartsLimit (state, allLimit) {
+    upAllChartsLimit(state, allLimit) {
       state.allLimit = allLimit
     },
-    updateRealtimeChartsLimit (state, realtimeLimit) {
+    updateRealtimeChartsLimit(state, realtimeLimit) {
       state.realtimeLimit = realtimeLimit
     },
-    updateListChange (state, listChange) {
+    updateListChange(state, listChange) {
       state.listChange = listChange
     },
-    updateRealtimeCharts (state, realtime) {
+    updateRealtimeCharts(state, realtime) {
       state.realtimeCharts = realtime
     },
-    updateGroupTopics (state, group) {
+    updateGroupTopics(state, group) {
       state.groupTopics = group
     },
-    updateStockNumberTopic (state, numberTopic) {
+    updateStockNumberTopic(state, numberTopic) {
       state.numberTopic = numberTopic
     },
-    [mutationTypes.UPDATE_TOPIC_SUMMARY] (state, detail) {
+    [mutationTypes.UPDATE_TOPIC_SUMMARY](state, detail) {
       /* state.topic || (state.topic = {})
       state.topic = topic*/
       state.detail = detail
     },
-    [mutationTypes.UPDATE_TOPIC_LINEDATA] (state, lineData) {
+    [mutationTypes.UPDATE_TOPIC_LINEDATA](state, lineData) {
       state.topic || (state.topic = {})
       state.topic.lineDate = lineData
     },
-    [mutationTypes.UPDATE_TOPIC_NEWS] (state, news) {
+    [mutationTypes.UPDATE_TOPIC_NEWS](state, news) {
       state.topic || (state.topic = {})
       state.topic.news = news // 资讯
     },
-    [mutationTypes.UPDATE_TOPIC_STOCKLIST] (state, news) {
+    [mutationTypes.UPDATE_TOPIC_STOCKLIST](state, news) {
       state.topic || (state.topic = {})
       state.topic.news = news
     },
-    [mutationTypes.UPDATE_TOPIC_RELSTOCK] (state, stock) {
+    [mutationTypes.UPDATE_TOPIC_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
       stocks[stock.innerCode].price = stock.price !== null ? parseFloat(stock.price).toFixed(2) : config.emptyValue
       stocks[stock.innerCode].chg = stock.chg !== null ? parseFloat(stock.chg).toFixed(2) : config.emptyValue
@@ -169,7 +169,7 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    queryHot ({
+    queryHot({
       commit
     }) {
       return fetch(`${domain}/openapi/topic/hotTopic.shtml`, {
@@ -182,7 +182,7 @@ export default {
         }
       })
     },
-    querySummary ({
+    querySummary({
       commit
     }) {
       fetch(`${domain}/openapi/topic/topicStat.shtml`, {
@@ -195,7 +195,7 @@ export default {
         }
       })
     },
-    queryAllTopic ({
+    queryAllTopic({
       commit
     }, {
       sortField,
@@ -224,7 +224,7 @@ export default {
         }
       })
     },
-    queryListChange ({
+    queryListChange({
       commit
     }, {
       sortField,
@@ -253,7 +253,7 @@ export default {
         }
       })
     },
-    queryInformatList ({
+    queryInformatList({
       commit
     }, {
       topicCode,
@@ -291,7 +291,7 @@ export default {
            }
          })
        },*/
-    queryTopicLineData ({
+    queryTopicLineData({
       commit
     }, {
       topicId,
@@ -304,7 +304,7 @@ export default {
         commit(mutationTypes.UPDATE_TOPIC_LINEDATA)
       })
     },
-    queryStockList ({
+    queryStockList({
       commit
     }, {
       topicCode,
@@ -331,7 +331,7 @@ export default {
         }
       })
     },
-    queryDetailHead ({
+    queryDetailHead({
       commit
     }, {
       topicCode
@@ -347,7 +347,7 @@ export default {
         }
       })
     },
-    queryAllCharts ({
+    queryAllCharts({
       commit
     }, {
       period,
@@ -364,7 +364,7 @@ export default {
         }
       })
     },
-    queryAllChartsLimit ({
+    queryAllChartsLimit({
       commit
     }, {
       period,
@@ -381,7 +381,7 @@ export default {
         }
       })
     },
-    queryRealtimeCharts ({
+    queryRealtimeCharts({
       commit
     }, {
       period,
@@ -400,7 +400,7 @@ export default {
       })
     },
     /* http://test.z3quant.com/openapi/topic/realtime/400130025.shtml?limit=1*/
-    queryRealtimeChartsLimit ({
+    queryRealtimeChartsLimit({
       commit
     }, {
       period,
@@ -418,7 +418,7 @@ export default {
         }
       })
     },
-    queryGroupTopics ({
+    queryGroupTopics({
       commit
     }) {
       fetch(`${domain}/openapi/topic/groupTopics.shtml`, {
@@ -432,7 +432,7 @@ export default {
         }
       })
     },
-    queryStockNumberTopic ({
+    queryStockNumberTopic({
       commit
     }, {
       innerCode
@@ -448,7 +448,7 @@ export default {
         }
       })
     },
-    queryTopicLineDataRealtime ({
+    queryTopicLineDataRealtime({
       commit
     }) {
 
