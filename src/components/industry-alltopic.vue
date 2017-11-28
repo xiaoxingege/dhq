@@ -656,7 +656,7 @@ a.kuai_icon {
       <strong :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='keepDay'?'active':''" @click="query('keepDay')" :style="{display:isStyle}">连涨排序<i class="time_icon"></i></strong>
       <strong @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></strong>
-      <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部题材</em>
+      <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部行业</em>
       <em class="all-ti all-ti2 lightcolor" :class="this.showAz==true?'active':''" @click="listClick($event)" v-show="showAz" id="ss">返回列表</em>
     </div>
     <!-- <div class="fr changelist"><a @click="listClick($event)" class="list_icon" :class="this.showList==true?'active':''"></a><a class="kuai_icon" @click="azClick($event)" :class="this.showAz==true?'active':''"></a>
