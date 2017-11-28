@@ -391,9 +391,9 @@ export default {
       var u = navigator.userAgent;
       var footerHeight = $('.item10').height();
       if (u.indexOf('iPhone') > -1) {
-        $(".item10").css({
-          "position": "static",
-          "bottom": '0',
+        $('.item10').css({
+          'position': 'static',
+          'bottom': '0',
           'margin-top': -footerHeight
         });
       }
@@ -401,9 +401,9 @@ export default {
     saveProblem() {
       var u = navigator.userAgent;
       if (u.indexOf('iPhone') > -1) {
-        $(".item10").css({
-          "position": "fixed",
-          "bottom": '0'
+        $('.item10').css({
+          'position': 'fixed',
+          'bottom': '0'
         });
       }
     },
@@ -453,12 +453,12 @@ export default {
           this.showLayer = true;
           this.layerType = '2';
           if (this.$refs.layerName) {
-            this.$refs.layerName.value = "";
-            this.$refs.layerPhone.value = "";
+            this.$refs.layerName.value = '';
+            this.$refs.layerPhone.value = '';
           }
           if (this.$refs.bottomName) {
-            this.$refs.bottomName.value = "";
-            this.$refs.bottomPhone.value = "";
+            this.$refs.bottomName.value = '';
+            this.$refs.bottomPhone.value = '';
           }
         }
       })
@@ -473,7 +473,7 @@ export default {
 
     document.title = '抓涨龙虎榜';
 
-    document.addEventListener("visibilitychange", function() {
+    document.addEventListener('visibilitychange', function() {
       document.hidden ? vi[0].pause() : vi[0].play();
     });
   }

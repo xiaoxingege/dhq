@@ -30,7 +30,7 @@
         <!-- #{正文内容，图片地址请使用alt_src代替src属性来提供图片地址，使用alt_width和alt_height属性来提供图片尺寸（可选）}
         #{图片说明请使用figcaption标签}
         #{视频请在video标签外使用<div class="video-content"></div>作为父节点，并设置preload="none"} -->
-        
+
       </div>
       <p class="link">
       	<a v-bind:href='link'>
@@ -62,7 +62,7 @@ export default {
 
 	},
 	mounted () {
-		
+
 		this.getMessage()
 		this.aoto()
 
@@ -71,9 +71,9 @@ export default {
 		aoto(){
 			var _hmt = _hmt || [];
 			(function() {
-			  var hm = document.createElement("script");
-			  hm.src = "https://hm.baidu.com/hm.js?6192aee994b1917d6f855505ff585178";
-			  var s = document.getElementsByTagName("script")[0]; 
+			  var hm = document.createElement('script');
+			  hm.src = 'https://hm.baidu.com/hm.js?6192aee994b1917d6f855505ff585178';
+			  var s = document.getElementsByTagName('script')[0];
 			  s.parentNode.insertBefore(hm, s);
 			})();
 		},
@@ -84,10 +84,10 @@ export default {
 			return null
 		},
 		formatDate (now) {
-			var year = now.getFullYear (); 
-		    var month = now.getMonth ()+1; 
-		    var date = now.getDate (); 
-		    var hour=now.getHours (); 
+			var year = now.getFullYear ();
+		    var month = now.getMonth ()+1;
+		    var date = now.getDate ();
+		    var hour=now.getHours ();
 		    var minute=now.getMinutes ();
 
 		    if(month <= 9){
@@ -102,7 +102,7 @@ export default {
 		    if(minute <= 9){
 		      minute = '0'+minute;
 		    }
-		    return year+'-'+month+'-'+date+' '+hour+':'+minute; 
+		    return year+'-'+month+'-'+date+' '+hour+':'+minute;
 		},
 		getMessage:function(){
 			$.ajax({
@@ -118,7 +118,7 @@ export default {
 			    	var d = new Date(data.ctime);
 			    	this.ctime=this.formatDate(d);
 			    	this.avator=data.userInfo.headImage;
-			    	$("#yidian-content").html(data.content)
+			    	$('#yidian-content').html(data.content)
 			    	this.link='http://z.jrj.com.cn/?tgid='+data.userId+'&showVP=true&tgqdcode=DZSBHER4#!/'
 
 			    },
