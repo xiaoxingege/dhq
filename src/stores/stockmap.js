@@ -9,6 +9,8 @@ const state = {
   stockData: null,
   stockChartData: null,
   calendarsData: null,
+  curTimeItem: '0930',
+  industryAvg: '',
   industryChngPct: ''
 }
 
@@ -21,12 +23,14 @@ const mutationsTypes = {
   QUERY_RANGE_BY_CODE: 'QUERY_RANGE_BY_CODE',
   UPDATE_DATA: 'UPDATE_DATA',
   STOCK_CHART_DATA: 'STOCK_CHART_DATA',
+  INDUSTRY_AVG: '',
   CALENDARS_DATA: 'CALENDARS_DATA',
+  CUR_TIME_ITEM: 'CUR_TIME_ITEM',
   ERROR: 'ERROR'
 }
 // actions
 const actions = {
-  queryRangeByCode ({
+  queryRangeByCode({
     commit,
     state
   }, {
@@ -49,7 +53,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateData ({
+  updateData({
     commit,
     state
   }, {
@@ -66,7 +70,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateDataByDate ({
+  updateDataByDate({
     commit,
     state
   }, {
@@ -82,14 +86,28 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  stockChartData ({
+  updateDataByTime({
+    commit,
+    state
+  }, {
+    time
+  }) {
+    const url = `${domain}/openapi/openjson/tx/min/${time}.json`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((data) => {
+      commit(mutationsTypes.UPDATE_DATA, data)
+    })
+  },
+  stockChartData({
     commit,
     state
   }, {
     stockId,
-    code
+    code,
+    condition
   }) {
-    const url = domain + '/openapi/industries/' + stockId + '.json?indexCode=' + code
+    const url = `${domain}/openapi/industries/${stockId}.shtml?t=sec&indexCode=${code}&condition=${condition}`;
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -98,7 +116,22 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  queryCalendarsData ({
+  queryCurTimeItem({
+    commit,
+    state
+  }) {
+    const url = `${domain}/openapi/time/map`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((result) => {
+      if (result.errCode === 0) {
+        commit(mutationsTypes.CUR_TIME_ITEM, result.data);
+      }
+    }).catch(() => {
+      commit(mutationsTypes.ERROR)
+    })
+  },
+  queryCalendarsData({
     commit,
     state
   }) {
@@ -114,20 +147,24 @@ const actions = {
 }
 // mutations
 const mutations = {
-  [mutationsTypes.QUERY_RANGE_BY_CODE] (state, industries) {
+  [mutationsTypes.QUERY_RANGE_BY_CODE](state, industries) {
     state.industries = industries
   },
-  [mutationsTypes.UPDATE_DATA] (state, stockData) {
+  [mutationsTypes.UPDATE_DATA](state, stockData) {
     state.stockData = stockData
   },
-  [mutationsTypes.STOCK_CHART_DATA] (state, result) {
+  [mutationsTypes.STOCK_CHART_DATA](state, result) {
     if (result.errCode === 0) {
       state.stockChartData = result.data
-      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2)
+      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2);
+      state.industryAvg = parseFloat(result.msg.split(':')[1]).toFixed(2);
     }
   },
-  [mutationsTypes.CALENDARS_DATA] (state, calendarsData) {
+  [mutationsTypes.CALENDARS_DATA](state, calendarsData) {
     state.calendarsData = calendarsData
+  },
+  [mutationsTypes.CUR_TIME_ITEM](state, curTime) {
+    state.curTimeItem = curTime;
   }
 }
 
