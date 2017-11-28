@@ -214,7 +214,7 @@ textarea:-ms-input-placeholder {
     <div class="desc-title">机会分析</div>
     <select v-model="selectInnerCode" class="chance-analysis">
       <option value="please-input">请输入股票代码或简称</option>
-      <option v-for="(item,index) of stockList" :value='item.innerCode' :selected='index === 0'>{{item.name}} {{item.innerCode}}</option>
+      <option v-for="(item,index) of stockList" :value='item.innerCode' :selected='index === 0'>{{item.innerCode}}&nbsp;&nbsp;{{item.name}}</option>
     </select>
     <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keydown="keyEnter($event)" v-if="isShowInput">
     <span class="ana-btn" @click="submitSearch($event)" style="display: none">分析</span>
