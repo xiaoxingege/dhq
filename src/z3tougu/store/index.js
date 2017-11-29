@@ -22,6 +22,7 @@ import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
 import customerList from 'stores/customers'
 import portraitDetail from 'stores/portrait-detail'
+import optionalStock from 'stores/optional-stock'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -132,6 +133,7 @@ export default new Vuex.Store({
     indexChart,
     finance,
     customerList,
-    portraitDetail
+    portraitDetail,
+    optionalStock
   }
 })
