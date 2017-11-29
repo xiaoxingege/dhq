@@ -44,6 +44,7 @@
   position: absolute;
   top: 0px;
   left: 0px;
+  background: #2c2e31;
   color: #fff;
 }
 
@@ -85,20 +86,13 @@
   float: left;
   font-size: 12px;
   text-align: center;
-  border-right: 2px solid #141518;
+  margin-left: 4px;
   background-color: #262626;
-}
-
-.disable_time {
-  background-color: #717171;
-  color: #999;
-  border-right: 2px solid #999;
 }
 
 .playback_btn {
   margin-left: 0;
-  margin-right: 0px;
-  width: 20px;
+  width: 25px;
   cursor: pointer;
   line-height: 25px;
 }
@@ -141,11 +135,6 @@
 .enlarge a,
 .narrow a {
   cursor: pointer
-}
-
-.enlarge .restore,
-.narrow .restore {
-  z-index: 3;
 }
 
 .enlarge img {
@@ -206,12 +195,12 @@
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
-    <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
+    <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
     <router-link class="enlarge-link" :to="{name:'bigMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt="" /></router-link>
   </div>
   <div class="narrow" v-if="isEnlarge">
-    <a v-on:click="restoreData"><span>恢复默认</span></a>
+    <a v-on:click="restoreMap"><span>恢复默认</span></a>
     <span class="currentTime">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
@@ -221,9 +210,8 @@
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback">
       <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-      <div class="play_line" ref="playLine" :style="{left:playBackIndex*35+playLineLeft+'px'}" v-if="(!isEnlarge || isPlaybackShow) && playBackIndex>=0"></div>
-      <!--div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div-->
-      <div v-for="(time,index) of timeList.slice(1)" :class="playBackIndex<=index?'perday disable_time':'perday'" v-if="!isEnlarge || isPlaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
+      <div class="play_line" ref="playLine" :style="{left:playLineIndex*39+playLineLeft+'px'}" v-if="(!isEnlarge || isPlaybackShow) && playLineIndex>=0"></div>
+      <div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div>
       <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
       <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && isPlaybackShow" v-on:click="switchPlayback">
     </div>
@@ -250,9 +238,7 @@ const valueRangeRelvol = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8] // 图例
 const valueRangeGX = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6] // 股息率
 const valueRangeSJ = [0, 1.2, 2.4, 3.6, 4.8, 6, 7.2, 8.4, 9.6] // 股息率
 const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
-const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 let pid
-let syncDateTimePid
 export default {
   props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
   components: {
@@ -280,8 +266,7 @@ export default {
         'mkt_idx.pe_ttm': colorsList1, // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': colorsList1, // 预测市盈率
         'fin_idx.eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
-        'act_date': colorsList3, // 业绩公布日
-        'mkt_idx.keep_days_today': colorsList1.slice().reverse() // 连涨天数
+        'act_date': colorsList3 // 业绩公布日
       },
       rangeValues: {
         'mkt_idx.cur_chng_pct': valueRange1d, // 涨跌幅
@@ -299,8 +284,7 @@ export default {
         'mkt_idx.pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
         'fin_idx.eps_5year': this.fmtraneValue(valueRange1d, 9), // EPS增长率(过去5年)
-        'act_date': valueRangeEd, // 业绩公布日
-        'mkt_idx.keep_days_today': valueRangeUD
+        'act_date': valueRangeEd // 业绩公布日
       },
       isUnit: {
         'mkt_idx.cur_chng_pct': '%', // 涨跌幅 绿-红
@@ -318,13 +302,12 @@ export default {
         'mkt_idx.pe_ttm': '', // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': '', // 预测市盈率
         'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
-        'act_date': '', // 业绩公布日
-        'mkt_idx.keep_days_today': '天'
+        'act_date': '' // 业绩公布日
       },
       legendList: [],
-      timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
       playBackDate: [],
       playBackDateShow: [],
+      playBackIndex: 19,
       playBackState: false, // 默认是停止不回放
       playBackSrc: playStopSrc,
       mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
@@ -339,25 +322,22 @@ export default {
       updateDataPid: null,
       updateTimePid: null,
       currentTime: '',
-      // playLineIndex: 0, // 回放index
-      playBackIndex: 0, // 回放index
-      datetimeIndex: 0, // 当前时间index
-      playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 25.5 : 17.5,
+      playLineIndex: 19,
+      playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 54.5 : 46.5,
       isStopPlayback: false,
       wrapHeight: 0,
       clientX: 0,
       clientY: 0,
       scale: 1,
       zoomDelta: 0,
-      autoUpdate: true,
-      loopDateTime: true
+      autoUpdate: true
     }
   },
   watch: {
     rangeCode() {
       this.updateMap()
-      this.playBackIndex = this.datetimeIndex;
-      // this.playLineIndex = 19
+      this.playBackIndex = 19
+      this.playLineIndex = 19
     },
     condition() {
       this.isContinue = 1
@@ -369,19 +349,6 @@ export default {
     },
     hoverStock() {
       this.renderStockList();
-    },
-    // datetimeIndex(){
-
-    // },
-    loopDateTime() {
-      if (this.loopDateTime) {
-        // 后台数据10分钟更新一次，前端开始1分钟轮询一次（避免最坏情况），TODO 当数据发生变化后再10分钟轮询一次。
-        syncDateTimePid = setInterval(() => {
-          this.updateDatetime();
-        }, 1000 * 60)
-      } else {
-        clearInterval(syncDateTimePid);
-      }
     }
   },
   computed: {
@@ -445,10 +412,7 @@ export default {
                       stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                     }
                   } else {
-                    stock.perfText = parseFloat(stock.perf).toFixed(2);
-                    if (_this.condition === 'mkt_idx.keep_days_today') {
-                      stock.perfText = Math.abs(stock.perf) + "天";
-                    }
+                    stock.perfText = parseFloat(stock.perf).toFixed(2)
                   }
                 } else {
                   stock.perfText = '--'
@@ -561,9 +525,11 @@ export default {
       });
       Promise.all([p1, p2]).then(() => {
         this.updateMapData();
-      });
-      // 获取当日最新时点
-      this.updateDatetime();
+      })
+      this.$store.dispatch('stockMap/queryCalendarsData').then(() => {
+        this.playBackDate = this.$store.state.stockMap.calendarsData
+        this.playBackDateShow = this.timeFormat(this.playBackDate)
+      })
       this.chart.showLoading(config.loadingConfig)
       this.getLegendColor()
       window.onresize = function() {
@@ -612,9 +578,9 @@ export default {
         condition: this.condition,
         code: this.rangeCode
       }).then(() => {
-        // if (this.playLineIndex >= 18) {
-        //   this.playLineIndex = 19
-        // }
+        if (this.playLineIndex >= 18) {
+          this.playLineIndex = 19
+        }
         this.updateMapData()
       })
     },
@@ -641,14 +607,6 @@ export default {
           }
         }, 1000 * _this.intervalTime)
       }
-    },
-    updateDatetime: function() {
-      this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
-        // this.playBackDate = this.$store.state.stockMap.calendarsData
-        // this.playBackDateShow = this.timeFormat(this.playBackDate)
-        this.playBackTime = this.$store.state.stockMap.curTimeItem;
-        // this.playBackIndex = this.datetimeIndex = this.timeList.indexOf(this.playBackTime);
-      })
     },
     initOption: function(data) {
       this.autoUpdate = true
@@ -815,6 +773,35 @@ export default {
                 node: stock
               });
               _this.autoUpdate = false;
+              //   let left = _this.mapWidth / 2 - 4 / _this.scale * x;
+              //   let top = _this.mapHeight / 2 - 4 / _this.scale * y;
+              //   if (_this.scale !== 4) {
+              //     _this.scale = 4;
+              //     _this.chart.resize({
+              //       width: _this.mapWidth * _this.scale,
+              //       height: _this.mapHeight * _this.scale
+              //     })
+              //   }
+              //   const leftRange = {
+              //     min: (1 - _this.scale) * _this.mapWidth,
+              //     max: 0
+              //   }
+              //   const topRange = {
+              //     min: (1 - _this.scale) * _this.mapHeight,
+              //     max: 0
+              //   }
+              //   if (left >= leftRange.max) {
+              //     left = leftRange.max
+              //   } else {
+              //     left = Math.max(leftRange.min, left);
+              //   }
+              //   if (top >= topRange.max) {
+              //     top = topRange.max;
+              //   } else {
+              //     top = Math.max(topRange.min, top);
+              //   }
+              //   treemap.style.top = top + 'px'
+              //   treemap.style.left = left + 'px'
             }
           })
         })
@@ -948,7 +935,6 @@ export default {
     startPlay: function() {
       clearInterval(this.updateDataPid);
       if (!this.autoUpdate) {
-        // 回放前将图表恢复到默认（延迟500ms执行回放）        
         this.restoreMap();
         setTimeout(() => {
           this.startPlay();
@@ -966,20 +952,45 @@ export default {
         if (this.condition !== 'mkt_idx.cur_chng_pct') {
           this.condition = 'mkt_idx.cur_chng_pct'
           this.$emit('toZdfCondition', this.condition)
+          this.playBackIndex = 19
+          this.playLineIndex = 19
         }
-        this.playBackIndex = 0
-        // this.playLineIndex = 0
         this.playBackState = true
         this.playBackSrc = playBackSrc
         this.isStopPlayback = true
         this.$emit('isStopPlayback', this.isStopPlayback)
-        // if (this.playBackIndex >= this.playBackDate.length - 1) {
-        //   this.playBackIndex = 0
-        // }
-        // if (this.playLineIndex >= this.playBackDate.length - 1) {
-        //   this.playLineIndex = -1
-        // }
+        if (this.playBackIndex >= this.playBackDate.length - 1) {
+          this.playBackIndex = 0
+        }
+        if (this.playLineIndex >= this.playBackDate.length - 1) {
+          this.playLineIndex = -1
+        }
         this.queryPlaybackData(this.playBackIndex)
+        /* pid = setInterval(() => {
+          if (this.playBackIndex >= this.playBackDate.length - 1) { // 如果已经播完
+            this.playBackIndex = this.playBackDate.length - 1
+            this.playBackState = false
+            this.playBackSrc = playStopSrc
+            clearInterval(pid)
+            this.isStopPlayback = false
+            this.$emit('isStopPlayback', this.isStopPlayback)
+            this.updateData()
+            this.autoUpdateData()
+          }
+          if (this.playLineIndex >= this.playBackDate.length - 1) {
+            this.playLineIndex = this.playBackDate.length - 1
+          }
+          const playBackDate = this.playBackDate[this.playBackIndex]
+          if (this.playBackIndex < 19) {
+            this.$store.dispatch('stockMap/updateDataByDate', {
+              date: playBackDate
+            }).then(() => {
+              this.updateMapData()
+              this.playLineIndex++ // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
+              this.playBackIndex++
+            })
+          }
+        }, 500)*/
       }
     },
     queryPlaybackData: function(playBackIndex) {
@@ -987,29 +998,27 @@ export default {
       if (!this.playBackState) {
         return
       }
-      // 回放完成
-      if (playBackIndex > this.datetimeIndex) {
+      if (playBackIndex >= this.playBackDate.length - 1) {
         this.playBackIndex = this.playBackDate.length - 1
         this.playBackState = false
         this.playBackSrc = playStopSrc
         this.isStopPlayback = false
         this.$emit('isStopPlayback', this.isStopPlayback)
-        // 回放完成，获取最新数据
         this.isContinue = 1
         this.updateData()
         this.autoUpdateData()
       } else {
-        const playBackTime = this.timeList[playBackIndex]
+        const playBackDate = this.playBackDate[playBackIndex]
         setTimeout(function() {
           if (!_this.playBackState) {
             return
           }
-          _this.$store.dispatch('stockMap/updateDataByTime', {
-            time: playBackTime
+          _this.$store.dispatch('stockMap/updateDataByDate', {
+            date: playBackDate
           }).then(() => {
             _this.updateMapData()
-            // _this.playLineIndex++ // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
-            _this.playBackIndex++
+            _this.playLineIndex++ // 为了让请求的回放数据先返回过来并渲染完矩形图 再让回放的竖线往后移动一个格 所以定义playBackIndex(为请求数据用的)和playLineIndex两个变量
+              _this.playBackIndex++
               _this.queryPlaybackData(_this.playBackIndex)
           })
         }, 250)
@@ -1127,11 +1136,9 @@ export default {
         width: this.mapWidth
       })
       this.autoUpdate = true;
-    },
-    restoreData: function() {
-      // 停止回放
-      this.playBackState = false;
-      this.updateData();
+      // this.scale = 1;
+      // this.$refs.treemap.style.left = 0
+      // this.$refs.treemap.style.top = 0
     },
     getTime: function() {
       const date = new Date()
@@ -1177,6 +1184,64 @@ export default {
       const treeRoot = chartView.seriesModel._viewRoot
       return treeRoot.hostTree._nodes[params.dataIndex]
     }
+    // zoom: function(event) {
+    //   if (this.zoomFlag) {
+    //     return
+    //   }
+    //   this.zoomFlag = true
+    //   setTimeout(() => {
+    //     this.zoomFlag = false
+    //   }, 800)
+    //   const treemap = this.$refs.treemap
+    //   const offsetX = event.offsetX
+    //   const offsetY = event.offsetY
+    //   const containerX = event.pageX - 20
+    //   const containerY = event.pageY - 28
+    //   const deltaY = event.deltaY
+    //   var top = 0
+    //   var left = 0
+    //   if (deltaY < 0 && this.scale < 4) {
+    //     this.scale++
+    //       left = containerX - this.scale / (this.scale - 1) * offsetX
+    //     top = containerY - this.scale / (this.scale - 1) * offsetY
+    //   } else if (deltaY > 0 && this.scale > 1) {
+    //     this.scale--
+    //       if (this.scale === 1) {
+    //         top = 0
+    //         left = 0
+    //       } else {
+    //         left = containerX - this.scale / (this.scale + 1) * offsetX
+    //         top = containerY - this.scale / (this.scale + 1) * offsetY
+    //       }
+    //   } else {
+    //     return
+    //   }
+
+    //   this.chart.resize({
+    //     width: this.mapWidth * this.scale,
+    //     height: this.mapHeight * this.scale
+    //   })
+    //   const leftRange = {
+    //     min: (1 - this.scale) * this.mapWidth,
+    //     max: 0
+    //   }
+    //   const topRange = {
+    //     min: (1 - this.scale) * this.mapHeight,
+    //     max: 0
+    //   }
+    //   if (left >= leftRange.max) {
+    //     left = leftRange.max
+    //   } else {
+    //     left = Math.max(leftRange.min, left);
+    //   }
+    //   if (top >= topRange.max) {
+    //     top = topRange.max;
+    //   } else {
+    //     top = Math.max(topRange.min, top);
+    //   }
+    //   treemap.style.top = top + 'px'
+    //   treemap.style.left = left + 'px'
+    // }
   },
   mounted() {
     this.isFullScreen()

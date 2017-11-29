@@ -211,7 +211,7 @@ export default {
       if (isNaN(val)) {
         return config.emptyValue
       } else {
-        return Number(Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num);
+        return Math.round(value * Math.pow(10, num)) / Math.pow(10, num);
       }
     })
     Vue.filter('isNull', function(value) {

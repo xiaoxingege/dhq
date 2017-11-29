@@ -37,6 +37,7 @@ import blank from 'components/z3touguhome/blank'
 import errorPage from 'components/z3tougu-error-page'
 import CustomerList from 'components/customer-list'
 import PortraitDetail from 'components/customerPortrait/portrait-detail'
+import OptionalStock from 'components/optional-stock/optional-stock'
 import IndustryIndex from 'components/industry-index'
 import IndustryDetail from 'components/industry-detail'
 import TimeIndex from 'components/time-index'
@@ -286,26 +287,30 @@ export default [{
     path: ctx + '/portraitDetail',
     name: 'portraitDetail',
     component: PortraitDetail
-  }, /**/
-  {
-    path: ctx + '/timeIndex',
-    name: 'timeindex',
-    component: TimeIndex
   },
   {
-    path: ctx + '/bullStockList',
-    name: 'bullstocklist',
-    component: BullStockList
+    path: ctx + '/optionalStock',
+    name: 'optionalStock',
+    component: OptionalStock
   }
-  /* {
-    path: ctx + '/stockMapOld/fullScreen',
-    name: 'stockMapOldBig',
-    component: StockMapOld
-  },
-  {
-    path: ctx + '/stockMapOld/normal',
-    name: 'stockMapOldNormal',
-    component: StockMapOld
-  } */
+}, {
+  path: ctx + '/timeIndex',
+  name: 'timeindex',
+  component: TimeIndex
+}, {
+  path: ctx + '/bullStockList',
+  name: 'bullstocklist',
+  component: BullStockList
+}
+/* {
+  path: ctx + '/stockMapOld/fullScreen',
+  name: 'stockMapOldBig',
+  component: StockMapOld
+},
+{
+  path: ctx + '/stockMapOld/normal',
+  name: 'stockMapOldNormal',
+  component: StockMapOld
+} */
 
 ]

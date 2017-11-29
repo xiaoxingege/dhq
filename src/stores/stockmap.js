@@ -9,8 +9,6 @@ const state = {
   stockData: null,
   stockChartData: null,
   calendarsData: null,
-  curTimeItem: '0930',
-  industryAvg: '',
   industryChngPct: ''
 }
 
@@ -23,9 +21,7 @@ const mutationsTypes = {
   QUERY_RANGE_BY_CODE: 'QUERY_RANGE_BY_CODE',
   UPDATE_DATA: 'UPDATE_DATA',
   STOCK_CHART_DATA: 'STOCK_CHART_DATA',
-  INDUSTRY_AVG: '',
   CALENDARS_DATA: 'CALENDARS_DATA',
-  CUR_TIME_ITEM: 'CUR_TIME_ITEM',
   ERROR: 'ERROR'
 }
 // actions
@@ -86,47 +82,18 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateDataByTime({
-    commit,
-    state
-  }, {
-    time
-  }) {
-    const url = `${domain}/openapi/openjson/tx/min/${time}.json`
-    return fetch(url).then((res) => {
-      return res.json()
-    }).then((data) => {
-      commit(mutationsTypes.UPDATE_DATA, data)
-    })
-  },
   stockChartData({
     commit,
     state
   }, {
     stockId,
-    code,
-    condition
+    code
   }) {
-    const url = `${domain}/openapi/industries/${stockId}.shtml?t=sec&indexCode=${code}&condition=${condition}`;
+    const url = domain + '/openapi/industries/' + stockId + '.json?indexCode=' + code
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
       commit(mutationsTypes.STOCK_CHART_DATA, data)
-    }).catch(() => {
-      commit(mutationsTypes.ERROR)
-    })
-  },
-  queryCurTimeItem({
-    commit,
-    state
-  }) {
-    const url = `${domain}/openapi/time/map`
-    return fetch(url).then((res) => {
-      return res.json()
-    }).then((result) => {
-      if (result.errCode === 0) {
-        commit(mutationsTypes.CUR_TIME_ITEM, result.data);
-      }
     }).catch(() => {
       commit(mutationsTypes.ERROR)
     })
@@ -156,15 +123,11 @@ const mutations = {
   [mutationsTypes.STOCK_CHART_DATA](state, result) {
     if (result.errCode === 0) {
       state.stockChartData = result.data
-      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2);
-      state.industryAvg = parseFloat(result.msg.split(':')[1]).toFixed(2);
+      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2)
     }
   },
   [mutationsTypes.CALENDARS_DATA](state, calendarsData) {
     state.calendarsData = calendarsData
-  },
-  [mutationsTypes.CUR_TIME_ITEM](state, curTime) {
-    state.curTimeItem = curTime;
   }
 }
 
