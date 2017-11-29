@@ -1,38 +1,37 @@
-<style>
+<style lang="scss" scoped>
 .lineChart {
-  width: 100%;
-  height: 420px;
-  padding-top: 20px;
+    width: 100%;
+    height: 420px;
+    padding-top: 20px;
 }
 
 .syqxTab {
-  position: absolute;
-  right: 53px;
-  top: 23px;
-  z-index: 9999;
+    position: absolute;
+    right: 53px;
+    top: 23px;
+    z-index: 9999;
 }
 
 .syqxTab li {
-  float: left;
-  background: #23272C;
-  padding: 5px 7px;
-  margin-right: 1px;
-  font-size: 12px;
-  color: #C9D0D7;
-  cursor: pointer;
+    float: left;
+    background: #23272C;
+    padding: 5px 7px;
+    margin-right: 1px;
+    font-size: 12px;
+    color: #C9D0D7;
+    cursor: pointer;
 }
 
 .syqxTab li.active {
-  background: #1984EA;
+    background: #1984EA;
 }
-
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
-  .lineChart {
-    width: 100%;
-    height: 4.2rem;
-    padding-top: 0;
-    padding-bottom: 0.1rem;
-  }
+    .lineChart {
+        width: 100%;
+        height: 4.2rem;
+        padding-top: 0;
+        padding-bottom: 0.1rem;
+    }
 }
 </style>
 <template>
@@ -55,7 +54,7 @@ import {
 } from 'vuex'
 
 export default {
-  props: ['options', 'strategyId'],
+  props: ['strategyId'],
   data() {
     return {
 
@@ -85,7 +84,8 @@ export default {
       }).then(() => {
         const lineData = this.$store.state.goldStrategy.syqxtData
         // echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) ||
-        this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], {
+
+        this.chart = echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) || echarts.init(document.getElementsByClassName('lineChart')[0], {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })

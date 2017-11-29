@@ -119,10 +119,12 @@ a:hover {
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
       <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}</span>
-      <span v-if="result && result.equityNews.length!==0" class="ml-15">相关股票：<span v-for="item in result.equityNews"
-                                                                                   class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</span></span>
-      <span v-if="result && result.topicNews.length!==0" class="ml-15">相关题材：<span class="mr-15"
-                                                                                    v-for="item in result.topicNews">{{item.topicName}}</span></span>
+      <span v-if="result !== null && result.equityList!== null && result.equityList.length!==0" class="ml-15">相关股票：<span
+                v-for="item in result.equityList"
+              class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</span></span>
+      <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：<span
+                class="mr-15"
+                v-for="item in result.topicList">{{item.topicName}}</span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <div class="newMain" v-if="result && result.news.fileType === 'pdf'">
@@ -133,12 +135,12 @@ a:hover {
       </a>
     </div>
     <span class="moreNews">更多相关资讯</span>
-    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result && result.equityNews.length !== 0">
+    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null &&  result.equityList.length !== 0">
       <li value="item.newsId">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'news'}}">{{item.title}}</router-link>
       </li>
     </ul>
-    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result.equityNews.length === 0">
+    <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null && result.equityList.length === 0">
       <li value="item.id">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsUrl.substring(6,item.newsUrl.indexOf('.')), detailType:'news'}}">{{item.newsTitle}}</router-link>
       </li>
@@ -219,17 +221,17 @@ export default {
         id,
         detailType
       }).then(() => {
-        if (this.result.topicNews.length === 0) {
-          const innerCode = this.$store.state.zhikuanDetailPages.dataList[this.type].equityNews[0].innerCode
+        if (this.result !== null && this.result.topicList !== null && this.result.topicList.length === 0) {
+          const innerCode = this.$store.state.zhikuanDetailPages.dataList[this.type].equityList[0].innerCode
           this.$store.dispatch('zhikuanDetailPages/getInforRelate', {
             id,
             innerCode
           }).then(() => {
             this.moreInfor = this.$store.state.zhikuanDetailPages.moreData
           })
-        } else if (this.result.equityNews.length === 0) {
+        } else if (this.result !== null && this.result.equityList !== null && this.result.equityList.length === 0) {
           const topicCode = this.$store.state.zhikuanDetailPages.dataList[this.type].news.newsId
-          const topicName = this.$store.state.zhikuanDetailPages.dataList[this.type].topicNews[0].topicName
+          const topicName = this.$store.state.zhikuanDetailPages.dataList[this.type].topicList[0].topicName
           this.$store.dispatch('zhikuanDetailPages/getTopicRelate', {
             topicName: topicName,
             topicCode: topicCode
@@ -237,7 +239,7 @@ export default {
             this.moreInfor = this.$store.state.zhikuanDetailPages.moreData
           })
         } else {
-          const innerCode = this.$store.state.zhikuanDetailPages.dataList[this.type].equityNews[0].innerCode
+          const innerCode = this.$store.state.zhikuanDetailPages.dataList[this.type].equityList[0].innerCode
           this.$store.dispatch('zhikuanDetailPages/getInforRelate', {
             id,
             innerCode

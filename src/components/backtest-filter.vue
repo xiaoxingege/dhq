@@ -324,7 +324,9 @@ span.copy {
     <BackFilterDescr @basicFilterName="listenToBasic" />
     <div class="bfilter-bottom">
       <ul class="bfilter-ul clearfix">
+        <li class="fl" @click="returns" :class="showReturns===true?'active':''">收益率曲线</li>
         <li class="fl" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
+        <li class="fl" @click="sellProfit" :class="showSellProfit===true?'active':''">收益率分布</li>
         <li class="fl" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
         <!-- <li class="export-box"><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li> -->
         <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
@@ -402,6 +404,12 @@ span.copy {
         </div>
         <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
       </div>
+      <div v-if="showReturns" :style="{  minHeight: (fullHeight+80) + 'px' }">
+        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+80)"></LineChartFilter>
+      </div>
+      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+80) + 'px' }">
+        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+80)"></OneBarFilter>
+      </div>
     </div>
   </div>
   <div class="foots-tishi">
@@ -435,6 +443,8 @@ import {
   domain
 } from '../z3tougu/config'
 import store from '../z3tougu/store'
+import LineChartFilter from 'components/line-chart-filter'
+import OneBarFilter from 'components/one-bar-filter'
 export default {
   data() {
     return {
@@ -442,8 +452,10 @@ export default {
       stockPagesize: '',
       tradePage: 0,
       tradePagesize: '',
-      showNowStock: true,
+      showNowStock: false,
       showTradeDay: false,
+      showReturns: true,
+      showSellProfit: false,
       showIcon: true,
       strategyId: this.$route.params.strategyId,
       showQrcodeBox: false,
@@ -472,7 +484,9 @@ export default {
   components: {
     BackFilterDescr,
     Pagination,
-    toast
+    toast,
+    LineChartFilter,
+    OneBarFilter
   },
   methods: {
     initData(stockPage, tradePage) {
@@ -488,12 +502,28 @@ export default {
       })
     },
     nowStock() {
-      this.showNowStock = true
+      this.showReturns = false
       this.showTradeDay = false
+      this.showNowStock = true
+      this.showSellProfit = false
     },
     tradeDay() {
+      this.showReturns = false
       this.showTradeDay = true
       this.showNowStock = false
+      this.showSellProfit = false
+    },
+    returns() {
+      this.showReturns = true
+      this.showTradeDay = false
+      this.showNowStock = false
+      this.showSellProfit = false
+    },
+    sellProfit() {
+      this.showReturns = false
+      this.showTradeDay = false
+      this.showNowStock = false
+      this.showSellProfit = true
     },
     changeAttention() {
       if (this.showAttention) {
@@ -539,10 +569,8 @@ export default {
       const token = this.authInfo.authorization.split(' ')[1]
       this.showIcon = false
       if (expires !== -1 && now - updateTime < expires * 1000) {
-        console.log(0)
         this.createForm(id, type, token, clientid, deviceid)
       } else {
-        console.log(111111)
         return store.dispatch('authSetting').then(() => {
           this.createForm(id, type, token, clientid, deviceid)
         })
@@ -567,7 +595,6 @@ export default {
     },
     listenToBasic(name) {
       this.basicName = name
-      console.log(this.basicName)
     },
     /* goToPage (page) {
       this.page = Number(page) - 1
@@ -659,6 +686,9 @@ export default {
       strategyType: 1
     }).then(() => {
       this.showAttention = this.attentionData
+    })
+    this.$store.dispatch('backtestDetail/getFilterProfit', {
+      strategyId: this.strategyId
     })
   }
 

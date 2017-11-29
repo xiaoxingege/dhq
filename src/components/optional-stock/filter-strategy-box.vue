@@ -40,9 +40,9 @@ export default {
     }
   },
   computed: {
-    incomeListData: function() {
-      if (this.$store.state.z3touguIndex.incomeListData && this.$store.state.z3touguIndex.incomeListData.length > 0) {
-        const incomeListData = this.$store.state.z3touguIndex.incomeListData
+    filterIncomeData: function() {
+      if (this.$store.state.optionalStock.filerIncome && this.$store.state.optionalStock.filerIncome.length > 0) {
+        const incomeListData = this.$store.state.optionalStock.filerIncome
         incomeListData.backtestDate = []
         incomeListData.totalReturn = []
         incomeListData.benchmarkPeriodReturn = []
@@ -61,11 +61,11 @@ export default {
   },
   methods: {
     drawChart: function() {
-      this.$store.dispatch('z3touguIndex/getIncomeList', {
+      this.$store.dispatch('optionalStock/getFilterIncome', {
           strategyId: this.strategyId
         })
         .then(() => {
-          if (this.incomeListData && this.incomeListData.length > 0) {
+          if (this.filterIncomeData && this.filterIncomeData.length > 0) {
             this.chart.setOption({
               legend: {
                 left: 50,
@@ -80,7 +80,7 @@ export default {
                     icon: 'circle'
                   },
                   {
-                    name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                    name: '沪深300',
                     icon: 'circle'
                   }
                 ]
@@ -106,7 +106,7 @@ export default {
                 axisTick: {
                   show: false
                 },
-                data: this.incomeListData.backtestDate
+                data: this.filterIncomeData.backtestDate
               },
               yAxis: {
                 type: 'value',
@@ -136,7 +136,7 @@ export default {
                   type: 'line',
                   showSymbol: false,
                   hoverAnimation: false,
-                  data: this.incomeListData.totalReturn,
+                  data: this.filterIncomeData.totalReturn,
                   lineStyle: {
                     normal: {
                       width: 1
@@ -144,11 +144,11 @@ export default {
                   }
                 },
                 {
-                  name: this.benchmarkObj[this.strategyIndexsData.strategy.benchmark],
+                  name: '沪深300',
                   type: 'line',
                   showSymbol: false,
                   hoverAnimation: false,
-                  data: this.incomeListData.benchmarkPeriodReturn,
+                  data: this.filterIncomeData.benchmarkPeriodReturn,
                   lineStyle: {
                     normal: {
                       width: 1
@@ -159,9 +159,6 @@ export default {
             })
           }
         })
-      this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
-        strategyId: this.strategyId
-      })
     },
     formatData: function(val) {
       let getVal

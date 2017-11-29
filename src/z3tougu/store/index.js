@@ -5,6 +5,7 @@ import zhikuanSearchList from 'stores/zhikuan-search-list'
 import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
 import topic from 'stores/z3tougu-theme'
+import industry from 'stores/z3tougu-industry'
 import bubbles from 'stores/bubbles'
 import stock from 'stores/stock'
 import z3sockjs from 'stores/z3sockjs'
@@ -21,6 +22,7 @@ import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
 import customerList from 'stores/customers'
 import portraitDetail from 'stores/portrait-detail'
+import optionalStock from 'stores/optional-stock'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -115,6 +117,7 @@ export default new Vuex.Store({
     stockMap,
     zhikuanDetailPages,
     topic,
+    industry,
     bubbles,
     stock,
     z3sockjs,
@@ -130,6 +133,7 @@ export default new Vuex.Store({
     indexChart,
     finance,
     customerList,
-    portraitDetail
+    portraitDetail,
+    optionalStock
   }
 })
