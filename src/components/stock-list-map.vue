@@ -86,9 +86,12 @@ td {
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
-    <span v-z3-updowncolor="titleChngPct" v-if="condition === 'mkt_idx.cur_chng_pct'">{{titleChngPct}}%</span>
-    <span class="stock-down fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
+    <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':Math.abs(industryAvg)}}天</span>
+    <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
+    <span v-else>{{industryAvg}}</span>
+    <span class="stock-down fr" v-if="stockDownNo!==null">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="stockUpNo!==null">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -123,8 +126,8 @@ export default {
       stockListTop: 0,
       titlePrice: 0,
       titleChngPct: '',
-      stockUpNo: 0,
-      stockDownNo: 0
+      stockUpNo: null,
+      stockDownNo: null
     }
   },
   directives: {
@@ -194,6 +197,17 @@ export default {
     industryChngPct: function() {
       const industryChngPct = this.$store.state.stockMap.industryChngPct
       return industryChngPct
+    },
+    industryAvg: function() {
+      let avg = this.$store.state.stockMap.industryAvg;
+      if (this.condition === 'mkt_idx.keep_days_today') {
+        if (avg === 'NaN') {
+          avg = '';
+        } else {
+          avg = parseInt(avg);
+        }
+      }
+      return avg === 'NaN' ? '' : avg;
     }
   },
   methods: {
@@ -203,7 +217,8 @@ export default {
       }
       this.$store.dispatch('stockMap/stockChartData', {
           stockId: this.stockId,
-          code: this.indexCode
+          code: this.indexCode,
+          condition: this.condition
         })
         .then(() => {
           const _this = this
@@ -258,77 +273,34 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-          this.stockUpNo = 0
-          this.stockDownNo = 0
-          this.stockList.forEach(function(stock) {
-            if (stock.perf && stock.perf >= 0) {
-              _this.stockUpNo++
-            } else if (stock.perf && stock.perf < 0) {
-              _this.stockDownNo++
-            }
-            stock.chartData = _this.stockChartData[stock.name]
-            if (stock.chartData) {
-              const stockDetailLength = stock.chartData.length
-              if (stock.chartData[stockDetailLength - 1]) {
-                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-              } else {
-                stock.price = '--'
+
+          if (this.condition.indexOf('chng_pct') !== -1) {
+            this.stockUpNo = 0
+            this.stockDownNo = 0
+            this.stockList.forEach(function(stock) {
+              if (stock.perf && stock.perf >= 0) {
+                _this.stockUpNo++
+              } else if (stock.perf && stock.perf < 0) {
+                _this.stockDownNo++
               }
-            }
-          })
+              stock.chartData = _this.stockChartData[stock.name]
+              if (stock.chartData) {
+                const stockDetailLength = stock.chartData.length
+                if (stock.chartData[stockDetailLength - 1]) {
+                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+                } else {
+                  stock.price = '--'
+                }
+              }
+            })
+          }
+
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
-            // 悬浮框股票列表
-            // for (const i in this.stockList) {
-            //   if (this.$refs.chart && this.$refs.chart.length > 0) {
-            //     this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
-            //     this.stockList[i].chart.setOption({
-            //       grid: {
-            //         show: false,
-            //         left: 5,
-            //         top: 5,
-            //         bottom: 5,
-            //         right: 0
-            //       },
-            //       xAxis: [{
-            //         axisLine: false,
-            //         splitLine: {
-            //           show: false
-            //         },
-            //         type: 'category',
-            //         data: new Array(17)
-            //       }],
-            //       yAxis: [{
-            //         type: 'value',
-            //         axisLine: false,
-            //         splitLine: {
-            //           show: false
-            //         },
-            //         min: 'dataMin',
-            //         max: 'dataMax'
-            //       }],
-            //       animation: false,
-            //       series: [{
-            //         type: 'line',
-            //         smooth: true,
-            //         showSymbol: false,
-            //         lineStyle: {
-            //           normal: {
-            //             color: '#666',
-            //             width: 1
-            //           }
-            //         },
-            //         data: this.stockList[i].chartData
-            //       }]
-            //     })
-            //   } else {
-            //     // debugger
-            //   }
-            // }
           })
         })
     },
