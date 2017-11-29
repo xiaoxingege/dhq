@@ -4,12 +4,13 @@ body {
     font-family: '微软雅黑';
 }
 </style>
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/css/reset.css';
 .box {
     width: 100%;
     height: 1080px;
     background: url("../assets/images/pilot-conference/pilot-conference-bg1.jpg") center 0 no-repeat;
+    position: relative;
 }
 .box-con {
     width: 1455px;
@@ -23,7 +24,7 @@ body {
     height: 720px;
     margin: 218px 0 0 62px;
     display: inline;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 // .left ul {
 //     height: 720px;
@@ -31,7 +32,8 @@ body {
 // }
 .left li {
     width: 100%;
-    height: 120px;
+    height: 0;
+    overflow: hidden;
 }
 .left li:nth-of-type(odd) {
     background: #063968;
@@ -119,40 +121,34 @@ body {
 .right li div.red {
     color: #f5514e;
 }
-
-.left .b li {
-    height: 0;
-    overflow: hidden;
+.left-link {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.right-link {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 </style>
 
 <template>
 <div class="box">
+    <a href="javascript:history.go(-1);" class="left-link"></a>
+    <div class="right-link" @click="rightLink"></div>
     <div class="box-con">
         <!-- <div class="gp-text">京东方A</div>
         <div class="gp-">
 
         </div> -->
         <div class="left">
-            <ul class="b">
-                <li v-for="item in dataList" :style="item.a ? 'height:120px;transition: height 1s;':''">
-                    <div>
-                        <img :src="item.headImg" />
-                        <p>
-                            <strong>{{item.userName}}</strong>
-                            <span>{{item.phoneNum}}</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>{{item.gpText}}</strong>
-                    </div>
-                    <div>
-                        <strong>{{item.gpRise}}</strong>
-                    </div>
-                </li>
-            </ul>
             <ul>
-                <li v-for="item in dataList" v-if="!item.a">
+                <!-- <li v-for="item in dataList">
                     <div>
                         <img :src="item.headImg" />
                         <p>
@@ -166,7 +162,7 @@ body {
                     <div>
                         <strong>{{item.gpRise}}</strong>
                     </div>
-                </li>
+                </li> -->
                 <!-- <li>
                     <div>
                         <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
@@ -327,9 +323,9 @@ export default {
     }),
     components: {},
     methods: {
-        // popClick() {
-        //     this.popShow = true
-        // }
+        rightLink() {
+            window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages2.html?level=3'
+        }
     },
     mounted() {
         document.title = '领航中国大会'
@@ -354,18 +350,66 @@ export default {
             'gpText': '京东方A',
             'gpRise': '＋10%',
             'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '111用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '222用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '333用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '111用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '222用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
+        }, {
+            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+            'userName': '333用户名',
+            'phoneNum': '186****0000',
+            'gpText': '京东方A',
+            'gpRise': '＋10%',
+            'a': true
         }]
-        var _this = this;
+        // var _this = this;
 
         function doSetTimeout(i) {
             setTimeout(function() {
-                _this.dataList.unshift(a[i])
-            }, i * 1000);
+                // _this.dataList.unshift(a[i])
+                var htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + require('../assets/images/pilot-conference/pilot-conference-img1.png') +
+                    '" /><p><strong>用户名</strong><span>186****0000</span></p></div><div><strong>京东方A' + i +
+                    '</strong></div><div><strong>＋10%</strong></div></li>'
+                $('.left ul').prepend(htmls)
+                $('.a' + i).height('120px')
+            }, i * 800);
         }
 
         for (var i = 0; i < a.length; ++i) {
             doSetTimeout(i);
         }
+        console.log(Math.round((new Date().getTime() - 60000 * 5) / 1000))
     }
 }
 </script>

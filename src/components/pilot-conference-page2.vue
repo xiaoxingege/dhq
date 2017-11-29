@@ -10,6 +10,7 @@ body {
     width: 100%;
     height: 1080px;
     background: url("../assets/images/pilot-conference/pilot-conference-bg2.jpg") center 0 no-repeat;
+    position: relative;
 }
 .box.level1 {
     width: 100%;
@@ -94,10 +95,26 @@ body {
     line-height: inherit;
     text-align: left;
 }
+.left-link {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.right-link {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
 </style>
 
 <template>
 <div :class="level == 1 ? 'box' : level > 1 && level < 3 ? 'box level1' : 'box level2'">
+    <a href="javascript:history.go(-1);" class="left-link"></a>
+    <div class="right-link" @click="rightLink"></div>
     <div class="box-con">
         <div class="title">
             <strong>京东方A</strong>
@@ -411,9 +428,15 @@ export default {
     }),
     components: {},
     methods: {
-        // popClick() {
-        //     this.popShow = true
-        // }
+        rightLink() {
+            if (getQueryString('level') === '1') {
+                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=1'
+            } else if (getQueryString('level') === '2') {
+                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=2'
+            } else if (getQueryString('level') === '3') {
+                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=3'
+            }
+        }
     },
     mounted() {
         document.title = '领航中国大会'
