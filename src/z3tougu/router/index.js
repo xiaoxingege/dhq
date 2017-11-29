@@ -39,6 +39,7 @@ import CustomerList from 'components/customer-list'
 import PortraitDetail from 'components/customerPortrait/portrait-detail'
 import IndustryIndex from 'components/industry-index'
 import IndustryDetail from 'components/industry-detail'
+import TimeIndex from 'components/time-index'
 
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
@@ -284,6 +285,11 @@ export default [{
     path: ctx + '/portraitDetail',
     name: 'portraitDetail',
     component: PortraitDetail
+  }, /**/
+  {
+    path: ctx + '/timeIndex',
+    name: 'timeindex',
+    component: TimeIndex
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',
