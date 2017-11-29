@@ -34,8 +34,8 @@ export default {
     },
     isResizeStrategyChart() {
       this.chart.resize({
-        width: (window.innerWidth * 0.5) * 0.5 < 1217 * 0.5 * 0.5 ? 1217 * 0.5 * 0.5 : (window.innerWidth * 0.5) * 0.5,
-        height: (window.innerHeight * 0.285) * 0.67 < 710 * 0.285 * 0.67 ? 710 * 0.285 * 0.67 : (window.innerHeight * 0.285) * 0.67
+        width: (window.innerWidth - 5) * 0.3333,
+        height: 229 * 0.83
       })
     }
   },
@@ -47,7 +47,7 @@ export default {
         incomeListData.totalReturn = []
         incomeListData.benchmarkPeriodReturn = []
         for (let i = 0; i < incomeListData.length; i++) {
-          incomeListData.backtestDate.push(incomeListData[i].backtestDate) // 时间
+          incomeListData.backtestDate.push(this.getTime(incomeListData[i].backtestDate)) // 时间
           incomeListData.totalReturn.push(incomeListData[i].totalReturn) // 总收益率
           incomeListData.benchmarkPeriodReturn.push(incomeListData[i].benchmarkPeriodReturn) // 基准收益率
         }
@@ -95,6 +95,7 @@ export default {
               xAxis: {
                 type: 'category',
                 axisLabel: {
+                  align: 'left',
                   color: '#c9d0d7'
                 },
                 axisLine: {
@@ -168,6 +169,13 @@ export default {
         getVal = '--'
       }
       return getVal
+    },
+    getTime: function() {
+      const date = new Date()
+      let month = date.getMonth() + 1
+      let strDate = date.getDate()
+      const currentDate = date.getFullYear() + '-' + month + '-' + strDate
+      return currentDate
     }
   },
   mounted() {
