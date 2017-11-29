@@ -26,7 +26,7 @@ const mutationsTypes = {
 }
 // actions
 const actions = {
-  queryRangeByCode ({
+  queryRangeByCode({
     commit,
     state
   }, {
@@ -49,7 +49,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateData ({
+  updateData({
     commit,
     state
   }, {
@@ -66,7 +66,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateDataByDate ({
+  updateDataByDate({
     commit,
     state
   }, {
@@ -82,7 +82,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  stockChartData ({
+  stockChartData({
     commit,
     state
   }, {
@@ -98,7 +98,7 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  queryCalendarsData ({
+  queryCalendarsData({
     commit,
     state
   }) {
@@ -114,19 +114,19 @@ const actions = {
 }
 // mutations
 const mutations = {
-  [mutationsTypes.QUERY_RANGE_BY_CODE] (state, industries) {
+  [mutationsTypes.QUERY_RANGE_BY_CODE](state, industries) {
     state.industries = industries
   },
-  [mutationsTypes.UPDATE_DATA] (state, stockData) {
+  [mutationsTypes.UPDATE_DATA](state, stockData) {
     state.stockData = stockData
   },
-  [mutationsTypes.STOCK_CHART_DATA] (state, result) {
+  [mutationsTypes.STOCK_CHART_DATA](state, result) {
     if (result.errCode === 0) {
       state.stockChartData = result.data
       state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2)
     }
   },
-  [mutationsTypes.CALENDARS_DATA] (state, calendarsData) {
+  [mutationsTypes.CALENDARS_DATA](state, calendarsData) {
     state.calendarsData = calendarsData
   }
 }

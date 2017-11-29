@@ -60,7 +60,34 @@
 .timeBox {
     width: 147px;
     height: 30px;
-    background: red;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    border-radius: 3px;
+    z-index: 999999;
+}
+
+.timeBox .ymdDate {
+    line-height: 25px;
+    text-align: center;
+    background: #2A3138;
+    border-bottom: 2px solid #141518;
+}
+
+.monthBox {
+    background: #21252C;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.monthBox > div > div {
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    width: 25%;
+}
+.monthBox > div > div:hover {
+    background: #457CB6;
 }
 
 .customTag {
@@ -187,10 +214,36 @@
     <div class="customTag">
       <div class="customTag-header clearfix">
         <p class="fl" style="line-height: 25px;">客户标签</p>
-        <div class="fr">
+        <div class="fr" style="position: relative">
           <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
           <span class="monthTag fr" @click="showTime"></span>
-          <div class="timeBox"></div>
+          <div class="timeBox">
+            <div class="ymdDate">
+              <span><img src="../../assets/images/z3img/leftArrow.png"></span>
+              <span>2016</span>
+              <span><img src="../../assets/images/z3img/rightArrow.png"></span>
+            </div>
+            <div class="monthBox">
+              <div class="clearfix">
+                <div class="fl">1月</div>
+                <div class="fl">2月</div>
+                <div class="fl">3月</div>
+                <div class="fl">4月</div>
+              </div>
+              <div class="clearfix">
+                <div class="fl">5月</div>
+                <div class="fl">6月</div>
+                <div class="fl">7月</div>
+                <div class="fl">8月</div>
+              </div>
+              <div class="clearfix">
+                <div class="fl">9月</div>
+                <div class="fl">10月</div>
+                <div class="fl">11月</div>
+                <div class="fl">12月</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ul class="tags clearfix">
