@@ -478,7 +478,7 @@ export default {
       authInfo: state => state.auth,
       attentionData: state => state.backtestDetail.attentionData,
       addAttention: state => state.backtestDetail.addAttention,
-      delAttention: state => state.backtestDetail.delAttention
+      delAttention: state => state.backtestDetail.delAttention,
     })
   },
   components: {
@@ -650,7 +650,6 @@ export default {
     tradePage() {
       this.initData(this.tradePage)
     }
-
   },
   mounted() {
     this.initData()

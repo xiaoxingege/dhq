@@ -7,7 +7,7 @@
 .syqxTab {
     position: absolute;
     right: 53px;
-    top: 23px;
+    top: 8px;
     z-index: 9999;
 }
 
@@ -69,6 +69,11 @@ export default {
       return this.$store.state.backtestDetail.syqxtData.firstDate
     }
   }),
+  watch: {
+    'height': function() {
+      alert('change')
+    }
+  },
   methods: {
     initChart(startDate, endDate) {
       if (this.chart !== null && this.chart !== '' && this.chart !== undefined) {
@@ -89,7 +94,7 @@ export default {
         this.chart.setOption({
           legend: {
             left: '1%',
-            top: 20,
+            top: 8,
             itemWidth: 8,
             orient: 'vertical',
             textStyle: {
@@ -239,9 +244,7 @@ export default {
           }]
         })
         const that = this
-        window.onresize = function() {
-          that.chart.resize()
-        }
+        window.onresize = that.chart.resize
       })
     },
     changeSyTab(e, dateNum) {
