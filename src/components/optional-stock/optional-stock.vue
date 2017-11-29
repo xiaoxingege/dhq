@@ -39,54 +39,51 @@ body,
 }
 </style>
 <template>
-<div style="height:100%;background: #fff;">
+<div style="height:234px;background: #fff;">
   <div class="strategy-box-wrap clearfix">
     <div class="">
       <SelectNavBar @strategyId='passGoldStrategyId' :dataList='goldStrategyList' :strategyLabel='goldLabel'></SelectNavBar>
-      <GoldStrategyBox :benchmarkObj='benchmarkObj' :strategyId='goldStrategyId' :boxHeight='boxHeight'></GoldStrategyBox>
+      <GoldStrategyBox :strategyId='goldStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart'></GoldStrategyBox>
     </div>
     <div class="">
       <SelectNavBar @strategyId='passFilterStrategyId' :dataList='filterStrategyList' :strategyLabel='filterLabel'></SelectNavBar>
-      <FilterStrategyBox :benchmarkObj='benchmarkObj' :strategyId='filterStrategyId' :boxHeight='boxHeight'></FilterStrategyBox>
+      <FilterStrategyBox :strategyId='filterStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart'></FilterStrategyBox>
     </div>
-    <!--<div class="">
-               <GoldStrategyBox :benchmarkObj='benchmarkObj' :goldStrategyList='goldStrategyList'></GoldStrategyBox>
-           </div>-->
+    <div class="">
+      <SelectNavBar @strategyId='passTimeStrategyId' :dataList='timeStrategyList' :strategyLabel='timeLabel'></SelectNavBar>
+      <TimeCharts :chartWidth="boxWidth" :chartHeight="boxHeight" :strategyId="timeStrategyId" :innerCode="innerCode" @isResize='isResizeStrategy'></TimeCharts>
+    </div>
   </div>
 </div>
 </template>
 <script type="text/javascript">
 import GoldStrategyBox from 'components/optional-stock/gold-strategy-box'
 import FilterStrategyBox from 'components/optional-stock/filter-strategy-box'
+import TimeCharts from 'components/time-charts'
 import SelectNavBar from 'components/optional-stock/select-nav'
 export default {
   data() {
     return {
-      benchmarkObj: {
-        '000300': '沪深300',
-        '000001': '上证指数',
-        '399001': '深圳成指',
-        '399006': '创业板指',
-        '399005': '中小板指',
-        '000016': '上证50',
-        '399905': '中证500',
-        '399906': '中证800',
-        '000852': '中证1000'
-      },
       goldStrategyList: [],
       filterStrategyList: [],
+      timeStrategyList: [],
       goldStrategyId: '',
       filterStrategyId: '',
-      innerCode: '000001.SZ',
+      timeStrategyId: '',
+      innerCode: '',
       limit: 5,
       boxHeight: '83%',
+      boxWidth: '100%',
       goldLabel: '金牌策略',
-      filterLabel: '筛股策略'
+      filterLabel: '筛股策略',
+      timeLabel: '择时策略',
+      isResizeStrategyChart: ''
     }
   },
   components: {
     GoldStrategyBox,
     FilterStrategyBox,
+    TimeCharts,
     SelectNavBar
   },
   watch: {
@@ -100,17 +97,21 @@ export default {
     goldStrategyData: function() {
       const goldStrategyList = this.$store.state.optionalStock.goldStrategyList
       return goldStrategyList
+    },
+    timeStrategyData: function() {
+      const timeStrategyList = this.$store.state.optionalStock.timeStrategyList
+      return timeStrategyList
     }
   },
   methods: {
-    initGoldStrategyList: function() {
+    initStrategyList: function() {
       const query = this.$route.query
-      if (query && query.query) {
-        this.query = query.query
+      if (query && query.innerCode) {
+        this.innerCode = query.innerCode
       } else {
-        console.log(query.query)
+        console.log(query.innerCode)
         // return
-        this.query = 'innerCode=0'
+        this.innerCode = '000001.SZ'
       }
       this.$store.dispatch('optionalStock/getGoldStrategyList', {
           innerCode: this.innerCode,
@@ -126,16 +127,29 @@ export default {
         .then(() => {
           this.filterStrategyList = this.filterStrategyData
         })
+      this.$store.dispatch('optionalStock/getTimeStrategyList', {
+          innerCode: this.innerCode,
+          limit: this.limit
+        })
+        .then(() => {
+          this.timeStrategyList = this.timeStrategyData
+        })
     },
     passGoldStrategyId: function(id) {
       this.goldStrategyId = id
     },
     passFilterStrategyId: function(id) {
       this.filterStrategyId = id
+    },
+    passTimeStrategyId: function(id) {
+      this.timeStrategyId = id
+    },
+    isResizeStrategy: function(msg) {
+      this.isResizeStrategyChart = msg
     }
   },
   mounted() {
-    this.initGoldStrategyList()
+    this.initStrategyList()
   }
 }
 </script>

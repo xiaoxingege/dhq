@@ -40,7 +40,6 @@ i {
     color: #808ba1;
 }
 .time-kline-wrap {
-    background: #141518;
     color: #c9d0d7;
     width: 100%;
     font-size: 12px;
@@ -50,12 +49,13 @@ i {
     /* padding: 11px 7px 20px 6px; */
     /* padding-bottom: 20px; */
     position: relative;
+    height: 100%;
 
 }
 .kcharts {
     /* height: 360px; */
     /* height: 398px; */
-    height: 417px;
+    height: 100%;
 }
 .ma-box {
     position: absolute;
@@ -81,9 +81,9 @@ i {
 }
 </style>
 <template>
-<div class="time-kline-wrap">
+<div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
   <div class="k-line-box">
-    <div class="kcharts" ref="kcharts" :style="{width:chartWidth+'px', height:chartHeight+'px'}"></div>
+    <div class="kcharts" ref="kcharts"></div>
   </div>
 </div>
 </template>
@@ -287,6 +287,15 @@ export default {
   methods: {
     init() {
       this.chart = echarts.init(this.$refs.kcharts) || echarts.getInstanceByDom(this.$refs.kcharts)
+      const _this = this
+      window.onresize = function() {
+        const timestampResize = new Date().getTime()
+        _this.$emit('isResize', timestampResize)
+        _this.chart.resize({
+          width: (window.innerWidth - 5) * 0.3333,
+          height: 229 * 0.83
+        })
+      }
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
           strategyId: this.strategyId
@@ -299,85 +308,12 @@ export default {
       console.log(seriesData)
       const self = this
       self.chart.setOption({
-        /* title: {
-          text: name + '买卖点分析',
-          left: '2.2%',
-          textStyle: {
-            color: '#696969',
-            fontFamily: '宋体',
-            fontSize: 12,
-            fontStyle: 'normal',
-            fontWeight: 'normal'
-          }
-        },*/
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          },
-          formatter: function(t) {
-            // console.log(t)
-            var time = t[0].name
-            var openPx = t[0].value[1]
-            var closePx = t[0].value[2]
-            var highPx = t[0].value[3]
-            var lowPx = t[0].value[4]
-            /* if (t[1].value === null) {
-              self.ma5 = '--'
-            } else {
-              self.ma5 = t[1].value
-            }
-            self.ma10 = t[2].value
-            self.ma20 = t[3].value
-            self.ma30 = t[4].value*/
-            // console.log(self.ma5)
-            /* for (var i = 0; i < t.length; i++) {
-              if (t[i].seriesName === 'MA5') {
-                var ma5 = t[i].value*/
-
-            // this.ma5 = t[1].value
-
-            // 更新ma20
-            // $('#kma20').html(ma20)
-            /* } else if (t[i].seriesName === 'MA10') {
-              var ma10 = t[i].value*/
-            // this.ma10 = t[2].value
-
-            // 更新ma60
-            // $('#kma60').html(ma60)
-            /* } else if (t[i].seriesName === 'MA20') {
-              var ma20 = t[i].value*/
-            // this.ma20 = t[3].value
-
-            // 更新ma120
-            // $('#kma120').html(ma120)
-            /* } else if (t[i].seriesName === 'MA30') {
-              var ma30 = t[i].value*/
-            // this.ma30 = t[4].value
-
-            // 更新ma120
-            // $('#kma120').html(ma120)
-            /*  }
-            }*/
-            // return 123
-            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
-              '<br/>最低价：' + (lowPx || '--') + '<br/>'
-          }
-        },
-        /* legend: {
-          data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30', 'pointLine']
-        },*/
         grid: {
-          /* left: '2.5%',*/
-          /* left: '2.5%',*/
-          /* right: '2%',*/
-          left: '24px',
-          right: '36px',
-          top: '30px',
-          bottom: '20px',
-          /* bottom: '10%',*/
-          /*, */
-          containLabel: true
+          containLabel: true,
+          left: 10,
+          top: 10,
+          bottom: 10,
+          right: 10
         },
 
         xAxis: {
@@ -387,15 +323,17 @@ export default {
           boundaryGap: false,
           /* axisLine: {  },*/
           axisLine: {
-            onZero: false,
             lineStyle: {
-              color: '#23272c'
+              color: '#23272c',
+              width: 1
             }
+          },
+          axisTick: {
+            show: false
           },
           splitLine: {
             show: false
           },
-          splitNumber: 5,
           min: 'dataMin',
           max: 'dataMax',
           axisLabel: {
@@ -415,19 +353,18 @@ export default {
             show: false
           },
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
               // 使用深浅的间隔色
               color: '#23272c'
             }
           },
           axisLine: {
-            show: false,
             lineStyle: {
-              color: '#23272c'
+              color: '#23272c',
+              width: 1
             }
           },
-          position: 'right',
           type: 'value',
           axisLabel: {
             formatter: '{value}',
@@ -456,6 +393,7 @@ export default {
                 borderColor0: '#2dc678'
               }
             },
+            hoverAnimation: false,
             markPoint: { /* image://src/assets/images/z3img/kline-red.png*/
               // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
               label: {
@@ -536,6 +474,7 @@ export default {
           {
             type: 'line',
             data: seriesData,
+            hoverAnimation: false,
             lineStyle: {
               normal: {
                 width: 3,
@@ -546,7 +485,6 @@ export default {
 
         ]
       })
-      window.onresize = this.chart.resize
     }
   },
   mounted() {
