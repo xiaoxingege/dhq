@@ -19,6 +19,9 @@ window.jrjs = {
       let fnName = 'cb' + Date.now()
       window[fnName] = function(data) {
         delete window[fnName]
+        if(typeof data === 'string') {
+          data = JSON.parse(data)
+        }
         callback(data)
       }
       window.jrj.jsCallNative('130', JSON.stringify({
