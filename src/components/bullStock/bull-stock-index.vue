@@ -23,14 +23,15 @@ body {
 
 .bullStock {
     min-height: 710px;
-    padding: 3px 1px;
     min-width: 1217px;
     height: 100%;
     background-color: #0d0e0f;
+    font-size: 12px;
 }
 
 .bullLeft {
-    background: gray;
+    background: #0d0e0f;
+    padding-top: 5px;
 }
 
 .bullRight {
@@ -39,10 +40,17 @@ body {
 </style>
 <template>
 <div class="bullStock display-box">
-  <div class="bullLeft box-flex-3"></div>
+  <div class="bullLeft box-flex-3">
+    <Bullstockleft></Bullstockleft>
+  </div>
   <div class="bullRight box-flex-1"></div>
 </div>
 </template>
 <script>
-
+import Bullstockleft from '../../components/bullStock/bull-stock-left.vue'
+export default {
+  components: {
+    Bullstockleft
+  }
+}
 </script>
