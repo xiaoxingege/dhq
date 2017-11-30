@@ -16,23 +16,16 @@ window.jrjs = {
   },
   checkLogin(callback) {
     if (callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.timeout = 3000;
-      xhr.responseType = 'text';
-      xhr.open('GET', `http://itougu.jrj.com.cn/act/getClientInfo`, true);
-      xhr.onload = function(e) {
-        if (this.status === 200) {
-          let result = JSON.parse(this.responseText);
-          callback(result)
-        }
-      };
-      xhr.ontimeout = function(e) {
-        callback({})
-      };
-      xhr.onerror = function(e) {
-        callback({})
-      };
-      xhr.send(null);
+      let fnName = 'cb' + Date.now()
+      window[fnName] = function(data) {
+        delete window[fnName]
+        callback(data)
+      }
+      window.jrj.jsCallNative('130', JSON.stringify({
+        method: 'get',
+        url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+        callback: fnName
+      }))
     }
   },
   login(redirectUrl) {
