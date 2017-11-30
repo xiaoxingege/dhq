@@ -7,6 +7,7 @@ export default {
   state: {
     filterStrategyList: [],
     goldStrategyList: [],
+    timeStrategyList: [],
     filerIncome: []
   },
   mutations: {
@@ -20,6 +21,12 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.goldStrategyList = result.data
+      }
+    },
+    setTimeStrategyList(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.timeStrategyList = result.data
       }
     },
     setFilterIncome(state, options) {
@@ -56,6 +63,21 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setGoldStrategyList', {
+          result: body
+        })
+      })
+    },
+    getTimeStrategyList({
+      commit
+    }, {
+      innerCode,
+      limit
+    }) {
+      const url = `${domain}/openapi/backtest/timeStrategy/equityStrategy.shtml?innerCode=${innerCode}&limit=${limit}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setTimeStrategyList', {
           result: body
         })
       })

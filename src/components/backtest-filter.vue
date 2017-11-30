@@ -650,7 +650,6 @@ export default {
     tradePage() {
       this.initData(this.tradePage)
     }
-
   },
   mounted() {
     this.initData()

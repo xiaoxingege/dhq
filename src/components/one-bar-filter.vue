@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .barChart {
     width: 100%;
-    height: 100%;
+    height: 420px;
     padding-top: 20px;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {

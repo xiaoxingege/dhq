@@ -42,6 +42,7 @@ import IndustryIndex from 'components/industry-index'
 import IndustryDetail from 'components/industry-detail'
 import TimeIndex from 'components/time-index'
 import BullStockList from 'components/bull-stock-list'
+import BullStock from 'components/bullStock/bull-stock-index'
 
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
@@ -292,14 +293,17 @@ export default [{
     path: ctx + '/optionalStock',
     name: 'optionalStock',
     component: OptionalStock
-
+  },
+  {
+    path: ctx + '/bullStock',
+    name: 'bullStock',
+    component: BullStock
   },
   {
     path: ctx + '/timeIndex',
     name: 'timeindex',
     component: TimeIndex
-  },
-  {
+  }, {
     path: ctx + '/bullStockList',
     name: 'bullstocklist',
     component: BullStockList

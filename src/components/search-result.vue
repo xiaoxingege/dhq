@@ -70,10 +70,6 @@ body {
     height: 10px;
     top: 4px;
 }
-
-.searchStrategy .searchTime {
-    font-weight: 800;
-}
 </style>
 <template>
 <div class="searchResult">
@@ -128,9 +124,9 @@ body {
     <li v-for="item of resultData">
       <router-link v-if="item.strategyTypeCode === 3" :to="{name:'goldStrategy' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
       </router-link>
-      <router-link v-if="item.strategyTypeCode === 2" :to="{name:'backtestfilter' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
+      <router-link v-if="item.strategyTypeCode === 2" :to="{name:'backtesttime' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
       </router-link>
-      <router-link v-if="item.strategyTypeCode === 1" :to="{name:'backtesttime' , params:{ strategyId : item.id, detailType:'news'}}" target="_blank">
+      <router-link v-if="item.strategyTypeCode === 1" :to="{name:'backtestfilter' , params:{ strategyId : item.id, detailType:'news'}}" target="_blank">
         {{item.strategyName}}
       </router-link>
       <p class="searchInfo">{{item.strategyDesc}}</p>
@@ -143,16 +139,16 @@ body {
       </p>
       <p class="searchTime" v-if="item.strategyTypeCode === 2">
         {{item.strategyTypeName}}
-        <span class="ml-40">胜率{{item.winRatio | decimal(2)}}%，</span>
+        <span class="ml-40">胜率{{(item.winRatio*100) | decimal(2)}}%，</span>
         <span>盈亏比{{item.winLossRatio | decimal(2)}}，</span>
-        <span>平均持有{{item.holdDay | decimal(0)}}天</span>
+        <span>平均持有{{item.avgHoldDays | decimal(0)}}天</span>
       </p>
       <p class="searchTime" v-if="item.strategyTypeCode === 1">
         {{item.strategyTypeName}}
-        <span class="ml-40">胜率{{item.winRatio | decimal(2)}}%，</span>
+        <span class="ml-40">胜率{{(item.winRatio*100) | decimal(2)}}%，</span>
         <span>盈亏比{{item.winLossRatio | decimal(2)}}，</span>
-        <span>平均收益率{{item.avgReturn | decimal(2)}}%，</span>
-        <span>平均超额收益率{{item.avgReturnExcess | decimal(2)}}%，</span>
+        <span>平均收益率{{(item.avgReturn*100) | decimal(2)}}%，</span>
+        <span>平均超额收益率{{(item.avgReturnExcess*100) | decimal(2)}}%，</span>
         <span>平均持有{{item.holdDay | decimal(0)}}天</span>
       </p>
     </li>
