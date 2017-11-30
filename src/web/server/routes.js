@@ -42,6 +42,25 @@ const connectDb = async(dbName) => {
 
 module.exports = function(router) {
 
+  router.get('/getClientInfo', async(ctx, next) => {
+    ctx.body = {
+      passportId: ctx.headers.passportId,
+      devId: ctx.headers.devid,
+      mobile: ctx.headers.mobile,
+      accessToken: ctx.headers.accessToken,
+      verifyCode: ctx.headers.verifyCode,
+      productId: ctx.headers.productid,
+      network: ctx.headers.network,
+      systemVersion: ctx.headers.systemVersion,
+      appver: ctx.headers.appver,
+      pixel: ctx.headers.pixel,
+      appId: ctx.headers.appid,
+      mac: ctx.headers.mac,
+      paltId: ctx.headers.paltid,
+      userAgent: ctx.headers['User-Agent']
+    }
+  })
+
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
