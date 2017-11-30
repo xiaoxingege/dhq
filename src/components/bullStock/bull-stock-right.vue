@@ -1,5 +1,5 @@
 <style scoped>
-@import '../assets/css/base.css';
+@import '../../assets/css/base.css';
 input {
   outline: none;
 }
@@ -138,19 +138,6 @@ th {
   position: relative;
   color: #c9d0d7;
 }
-
-.head .back {
-  width: 16px;
-  height: 12px;
-  display: inline-block;
-  background: url("../assets/images/z3img/buysell-back.png") no-repeat;
-  /* margin-right: 8px; */
-  margin-left: 6px;
-  cursor: pointer;
-  position: absolute;
-  top: 5px;
-}
-
 .ba-name {
   padding-left: 22px;
   font-size: 16px;
@@ -227,20 +214,6 @@ th {
 
 .td-txt.active {}
 
-.td-txt.active .sort-down {
-  width: 11px;
-  height: 6px;
-  display: inline-block;
-  background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
-}
-
-.td-txt.active .sort-up {
-  width: 11px;
-  height: 6px;
-  display: inline-block;
-  background: url("../assets/images/z3img/topic-sort-up.png") no-repeat;
-}
-
 .bull-stock-wrap {
   background: #141518;
   margin: 8px 5px 10px 5px;
@@ -259,6 +232,7 @@ th {
   border-collapse: collapse;
   width: 100%;
   font-size: 12px;
+  color: #c9d0d7;
 }
 </style>
 <template>
@@ -272,6 +246,7 @@ th {
         </td>
       </tr>
       <tr>
+        <td><span>成长性</span><span>{{stockStyle.growth}}</span><span>高成长</span></td>
         <td></td>
         <td></td>
         <td></td>
@@ -297,7 +272,7 @@ export default {
   },
   components: {},
   computed: mapState({
-    buysell: state => state.backtestDetail.buysell
+    stockStyle: state => state.bullStock.stockStyle
   }),
   methods: {
     checkNull(str) {
@@ -337,7 +312,7 @@ export default {
 
   },
   mounted() {
-
+   this.$store.dispatch('bullStock/queryStockStyle')
   }
 }
 </script>
