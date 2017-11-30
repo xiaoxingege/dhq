@@ -44,20 +44,20 @@ module.exports = function(router) {
 
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
-      passportId: ctx.headers.passportId,
+      passportId: ctx.headers.passportid,
       devId: ctx.headers.devid,
       mobile: ctx.headers.mobile,
-      accessToken: ctx.headers.accessToken,
-      verifyCode: ctx.headers.verifyCode,
+      accessToken: ctx.headers.accesstoken,
+      verifyCode: ctx.headers.verifycode,
       productId: ctx.headers.productid,
       network: ctx.headers.network,
-      systemVersion: ctx.headers.systemVersion,
+      systemVersion: ctx.headers.systemversion,
       appver: ctx.headers.appver,
       pixel: ctx.headers.pixel,
       appId: ctx.headers.appid,
       mac: ctx.headers.mac,
       paltId: ctx.headers.paltid,
-      userAgent: ctx.headers['User-Agent']
+      userAgent: ctx.headers['user-agent']
     }
   })
 
