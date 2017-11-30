@@ -329,70 +329,70 @@ export default {
     },
     mounted() {
         document.title = '领航中国大会'
-        var a = [{
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '111用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '222用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '333用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '111用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '222用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '333用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '111用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '222用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }, {
-            'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-            'userName': '333用户名',
-            'phoneNum': '186****0000',
-            'gpText': '京东方A',
-            'gpRise': '＋10%',
-            'a': true
-        }]
+        // var a = [{
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '111用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '222用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '333用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '111用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '222用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '333用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '111用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '222用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }, {
+        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
+        //     'userName': '333用户名',
+        //     'phoneNum': '186****0000',
+        //     'gpText': '京东方A',
+        //     'gpRise': '＋10%',
+        //     'a': true
+        // }]
         // var _this = this;
 
         function doSetTimeout(i) {
@@ -405,11 +405,9 @@ export default {
                 $('.a' + i).height('120px')
             }, i * 800);
         }
-
-        for (var i = 0; i < a.length; ++i) {
+        for (var i = 0; i < 6; ++i) {
             doSetTimeout(i);
         }
-        console.log(Math.round((new Date().getTime() - 60000 * 5) / 1000))
     }
 }
 </script>
