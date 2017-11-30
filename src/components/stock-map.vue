@@ -419,7 +419,7 @@ export default {
                   stock.actDateFlag = -1
                 }
               } else {
-                stock.perf = stockData[stock.id] || stockData[stock.name]
+                stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
@@ -440,6 +440,7 @@ export default {
                 } else {
                   stock.perfText = '--'
                 }
+
                 stock.itemStyle = {
                   normal: {
                     color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
