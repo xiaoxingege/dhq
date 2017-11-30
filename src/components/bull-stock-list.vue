@@ -39,7 +39,7 @@ body {
 </template>
 
 <script>
-import BullStockRight from 'components/bull-stock-right'
+import BullStockRight from 'components/bullStock/bull-stock-right'
 export default {
   data() {
     return {}

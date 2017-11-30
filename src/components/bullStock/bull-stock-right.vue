@@ -1,5 +1,5 @@
 <style scoped>
-@import '../assets/css/base.css';
+@import '../../assets/css/base.css';
 input {
   outline: none;
 }
@@ -139,18 +139,6 @@ th {
   color: #c9d0d7;
 }
 
-.head .back {
-  width: 16px;
-  height: 12px;
-  display: inline-block;
-  background: url("../assets/images/z3img/buysell-back.png") no-repeat;
-  /* margin-right: 8px; */
-  margin-left: 6px;
-  cursor: pointer;
-  position: absolute;
-  top: 5px;
-}
-
 .ba-name {
   padding-left: 22px;
   font-size: 16px;
@@ -227,20 +215,6 @@ th {
 
 .td-txt.active {}
 
-.td-txt.active .sort-down {
-  width: 11px;
-  height: 6px;
-  display: inline-block;
-  background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
-}
-
-.td-txt.active .sort-up {
-  width: 11px;
-  height: 6px;
-  display: inline-block;
-  background: url("../assets/images/z3img/topic-sort-up.png") no-repeat;
-}
-
 .bull-stock-wrap {
   background: #141518;
   margin: 8px 5px 10px 5px;
@@ -259,6 +233,7 @@ th {
   border-collapse: collapse;
   width: 100%;
   font-size: 12px;
+  color: #c9d0d7;
 }
 </style>
 <template>
@@ -272,9 +247,16 @@ th {
         </td>
       </tr>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><span>成长性</span><span>{{stockStyle.growth}}</span><span>高成长</span></td>
+        <td><span>杠杆</span><span>{{stockStyle.leverage}}</span><span>高成长</span></td>
+        <td><span>流动性</span><span>{{stockStyle.liquidity}}</span><span>高成长</span></td>
+        <td><span>动量</span><span>{{stockStyle.momentum}}</span><span>高成长</span></td>
+        <td><span>规模</span><span>{{stockStyle.scale}}</span><span>高成长</span></td>
+        <td><span>估值</span><span>{{stockStyle.valuation}}</span><span>高成长</span></td>
+        <td><span>波动</span><span>{{stockStyle.volatility}}</span><span>高成长</span></td>
+        <td><span>质量</span><span>{{stockStyle.quality}}</span><span>高成长</span></td>
+        <td><span>分析师预期</span><span>{{stockStyle.analystExpect}}</span><span>高成长</span></td>
+        <td><span>股东</span><span>{{stockStyle.holdDegree}}</span><span>高成长</span></td>
       </tr>
     </table>
   </div>
@@ -297,7 +279,7 @@ export default {
   },
   components: {},
   computed: mapState({
-    buysell: state => state.backtestDetail.buysell
+    stockStyle: state => state.bullStock.stockStyle
   }),
   methods: {
     checkNull(str) {
@@ -337,7 +319,7 @@ export default {
 
   },
   mounted() {
-
+    this.$store.dispatch('bullStock/queryStockStyle')
   }
 }
 </script>
