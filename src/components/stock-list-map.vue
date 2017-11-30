@@ -87,7 +87,7 @@ td {
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
     <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
-    <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':Math.abs(industryAvg)}}天</span>
+    <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
     <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
     <span v-else>{{industryAvg}}</span>
     <span class="stock-down fr" v-if="stockDownNo!==null">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
