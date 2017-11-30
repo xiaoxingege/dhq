@@ -292,25 +292,27 @@ export default [{
     path: ctx + '/optionalStock',
     name: 'optionalStock',
     component: OptionalStock
+
+  },
+  {
+    path: ctx + '/timeIndex',
+    name: 'timeindex',
+    component: TimeIndex
+  },
+  {
+    path: ctx + '/bullStockList',
+    name: 'bullstocklist',
+    component: BullStockList
   }
-}, {
-  path: ctx + '/timeIndex',
-  name: 'timeindex',
-  component: TimeIndex
-}, {
-  path: ctx + '/bullStockList',
-  name: 'bullstocklist',
-  component: BullStockList
-}
-/* {
-  path: ctx + '/stockMapOld/fullScreen',
-  name: 'stockMapOldBig',
-  component: StockMapOld
-},
-{
-  path: ctx + '/stockMapOld/normal',
-  name: 'stockMapOldNormal',
-  component: StockMapOld
-} */
+  /* {
+    path: ctx + '/stockMapOld/fullScreen',
+    name: 'stockMapOldBig',
+    component: StockMapOld
+  },
+  {
+    path: ctx + '/stockMapOld/normal',
+    name: 'stockMapOldNormal',
+    component: StockMapOld
+  } */
 
 ]
