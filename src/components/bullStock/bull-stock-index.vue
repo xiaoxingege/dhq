@@ -32,18 +32,22 @@ body {
 .bullLeft {
     background: #0d0e0f;
     padding-top: 5px;
+    height: 100%;
+    width: 75%;
 }
 
 .bullRight {
     background: white;
+    width: 25%;
+    height: 100%;
 }
 </style>
 <template>
-<div class="bullStock display-box">
-  <div class="bullLeft box-flex-3">
-    <Bullstockleft></Bullstockleft>
+<div class="bullStock clearfix">
+  <div class="bullLeft fl">
+    <Bullstockleft @changeSelectValue="getSelectValue"></Bullstockleft>
   </div>
-  <div class="bullRight box-flex-1"></div>
+  <div class="bullRight fl"></div>
 </div>
 </template>
 <script>
@@ -51,6 +55,11 @@ import Bullstockleft from '../../components/bullStock/bull-stock-left.vue'
 export default {
   components: {
     Bullstockleft
+  },
+  methods: {
+    getSelectValue: function(v) {
+      console.log(v)
+    }
   }
 }
 </script>

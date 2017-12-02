@@ -208,7 +208,8 @@ th {
       </tr>
       <tr v-for="style of stockStyle">
         <td>{{style.cname}}</td>
-        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value)) * 20 +'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span></td>
+        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value)) * 20 +'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span>
+        </td>
         <td>{{style.remark}}</td>
       </tr>
     </table>
@@ -223,11 +224,17 @@ th {
       </tr>
       <tr v-for="topic of topics" class="topic-tr">
         <td>
-          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}">{{topic.topicName===null?'--':topic.topicName}}</router-link>
+          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}">
+            {{topic.topicName===null?'--':topic.topicName}}
+          </router-link>
         </td>
         <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':topic.topicMarket.heatIndex}}</td>
-        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">{{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}</td>
-        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':topic.topicMarket.keepDaysToday">{{topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':checkContinu(topic.topicMarket.keepDaysToday)}}</td>
+        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
+          {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
+        </td>
+        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':topic.topicMarket.keepDaysToday">
+          {{topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':checkContinu(topic.topicMarket.keepDaysToday)}}
+        </td>
       </tr>
     </table>
     <div class="industry">
@@ -239,11 +246,18 @@ th {
         </tr>
         <tr v-for="industry of industrys" class="topic-tr">
           <td>
-            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}">{{industry.induName===null?'--':industry.induName}}</router-link>
+            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}">
+              {{industry.induName===null?'--':industry.induName}}
+            </router-link>
           </td>
-          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':industry.induMarket.heatIndex}}</td>
-          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.chngPct===null?'--':industry.induMarket.chngPct">{{industry.induMarket===null || industry.induMarket.chngPct===null?'--':changeTofixed(industry.induMarket.chngPct)}}</td>
-          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':industry.induMarket.keepDaysToday">{{industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':checkContinu(industry.induMarket.keepDaysToday)}}</td>
+          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':industry.induMarket.heatIndex}}
+          </td>
+          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.chngPct===null?'--':industry.induMarket.chngPct">
+            {{industry.induMarket===null || industry.induMarket.chngPct===null?'--':changeTofixed(industry.induMarket.chngPct)}}
+          </td>
+          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':industry.induMarket.keepDaysToday">
+            {{industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':checkContinu(industry.induMarket.keepDaysToday)}}
+          </td>
         </tr>
       </table>
     </div>

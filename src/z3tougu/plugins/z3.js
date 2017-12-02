@@ -56,6 +56,17 @@ export default {
 
       }
     })
+    Vue.directive('z3-updowncolor-bg', (el, binding, vnode, oldVnode) => {
+      var flag = binding.value;
+      if (flag > 0) {
+        el.style.backgroundColor = config.upColor
+      } else if (flag < 0) {
+        el.style.backgroundColor = config.downColor
+      } else {
+        el.style.backgroundColor = config.flatColor
+
+      }
+    })
     Vue.directive('title', {
       inserted: function(el, binding) {
         document.title = el.dataset.title
