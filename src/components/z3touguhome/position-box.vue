@@ -3,7 +3,7 @@
   <div v-if="isNoData" class="no-data">
     <span>暂无数据</span>
   </div>
-  <table class="bull-stock-table" v-if="!isNoData && type === 'goldTop'">
+  <table class="position-box-table" v-if="!isNoData && type === 'goldTop'">
     <tr v-for="item of positionList">
       <td style="color:#666;">{{formatData(item.id)?'--':item.id}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
@@ -11,7 +11,7 @@
       <td v-z3-updowncolor="item.percent">{{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}</td>
     </tr>
   </table>
-  <table class="bull-stock-table" v-if="!isNoData && type === 'filterTop'">
+  <table class="position-box-table" v-if="!isNoData && type === 'filterTop'">
     <tr v-for="item of positionList">
       <td style="color:#666;">{{formatData(item.innerCode)?'--':item.innerCode}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
@@ -113,14 +113,14 @@ export default {
   max-height: 186px;
 }
 
-.bull-stock-table {
+.position-box-table {
   width: 100%;
   height: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.bull-stock-table td {
+.position-box-table td {
   border-bottom: 1px solid #dedede;
   height: 24px;
   /*color: #c9d0d7;*/

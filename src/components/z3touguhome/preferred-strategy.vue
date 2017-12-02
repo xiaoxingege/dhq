@@ -193,7 +193,7 @@ export default {
       let scrollleft = window.pageXOffset || window.scrollX;
       const winH = window.document.body.scrollHeight;
       const winW = window.document.body.scrollWidth;
-      let left = event.x + parseInt(scrollleft) + 50;
+      let left = event.x + parseInt(scrollleft) + 100;
       let top = event.y + parseInt(scrollTop) - 20;
       if (winH - top < 186) {
         top = winH - 186;
