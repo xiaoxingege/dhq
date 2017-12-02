@@ -238,7 +238,7 @@ export default {
             top = winH - 300;
           }
           if (winW - left < 400) {
-            left = event.x + parseInt(scrollleft) - 330;
+            left = event.x + parseInt(scrollleft) - 320;
           }
           hDiv.style.left = left + 'px'
           hDiv.style.top = top + 20 + 'px'
