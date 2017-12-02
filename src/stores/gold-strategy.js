@@ -41,6 +41,7 @@ export default {
     mrjyData: null,
     mrxhData: null,
     mcxhData: null,
+    dqccData: null,
     radarData: {
       legend: [],
       data: []
@@ -211,6 +212,14 @@ export default {
         state.mcxhData = result.data
       } else {
         state.mcxhData = null
+      }
+    },
+    setDqccData(state, result) {
+      if (result.errCode === 0) {
+        state.dqccData = null
+        state.dqccData = result.data
+      } else {
+        state.dqccData = null
       }
     },
     setAttentionData(state, result) {
@@ -392,6 +401,19 @@ export default {
         } else if (type === 'sell') {
           commit('setMcxhData', body)
         }
+      })
+    },
+    getDqccData({
+      commit
+    }, {
+      strategyId
+    }) {
+      return fetch(`${domain}/openapi/backtest/commend/strategy/${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setDqccData', body)
       })
     },
     getAttention({

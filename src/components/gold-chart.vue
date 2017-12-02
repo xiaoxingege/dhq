@@ -1,7 +1,9 @@
 <style lang="scss" scoped>
+@import '../assets/css/base.css';
 a {
     color: #1984ea;
 }
+.dqcc table,
 .dqxg table,
 .mcxh table,
 .mrjy table,
@@ -10,11 +12,34 @@ a {
     margin: 0 auto;
     color: #c9d0d7;
 }
+.dqcc table thead,
 .dqxg table thead,
 .mcxh table thead,
 .mrjy table thead,
 .mrxh table thead {
     background: #23282F;
+}
+
+.dqcc table tbody ul,
+.dqcc table thead ul {
+    width: 100%;
+}
+
+.dqcc table tbody ul li,
+.dqcc table thead ul li {
+    float: left;
+    width: 11%;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #1D1F25;
+}
+
+.dqcc table thead ul li {
+    height: 25px;
+    line-height: 25px;
+    color: #c9d0d7;
+    border-bottom: none;
 }
 .dqxg table thead tr th,
 .mcxh table thead tr th,
@@ -33,6 +58,7 @@ a {
     line-height: 35px;
     border-bottom: 1px solid #1D1F25;
 }
+.dqcc,
 .dqxg,
 .dryk,
 .mcxh,
@@ -45,6 +71,12 @@ a {
     min-height: 467px;
     width: 100%;
     background: #141518;
+}
+
+.dqcc table tbody {
+    display: block;
+    height: 467px;
+    overflow: auto;
 }
 .export {
     position: absolute;
@@ -93,13 +125,47 @@ a {
 </style>
 <template>
 <div style="width:100%">
-  <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' " class="export">
+  <div v-if="type === 'mrjy' || type === 'mcxh' || type === 'mrxh' || type === 'dqcc' " class="export">
     <span @click="exportData(type)" class="goldExport"></span>
   </div>
   <Navbar :data="navText" :type="type" v-on:changeType="changeNavType"></Navbar>
   <div>
     <div v-if="type === 'syqxt'" class="syqxt">
       <Linechart :strategyId="strategyId"></Linechart>
+    </div>
+    <div v-if="type === 'dqcc'" class="dqcc">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <!--<div>-->
+          <ul class="clearfix">
+            <li>序号</li>
+            <li>股票代码</li>
+            <li>股票简称</li>
+            <li>参考成本(元)</li>
+            <li>参考市价(元)</li>
+            <li>持股数量</li>
+            <li>参考市值(万元)</li>
+            <li>参考盈亏(元)</li>
+            <li>盈亏比例</li>
+          </ul>
+          <!--</div>-->
+        </thead>
+        <tbody>
+          <!-- <div style="height:467px; width:100%; overflow-y: scroll">-->
+          <ul v-if="dqccData!== null" v-for="(item,index) of dqccData">
+            <li>{{(dqccPage*10)+Number(index+1)}}</li>
+            <li>{{item.innerCode}}</li>
+            <li><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></li>
+            <li>{{item.costPrice | decimal(2)}}</li>
+            <li>{{item.marketPrice | decimal(2)}}</li>
+            <li>{{item.holdVolume}}</li>
+            <li>{{item.marketValue | decimal(2)}}</li>
+            <li v-z3-updowncolor="item.profitLossAmout">{{item.profitLossAmout | decimal(2)}}</li>
+            <li v-z3-updowncolor="item.profitLossRatio">{{(item.profitLossRatio*100) | decimal(2)}}%</li>
+          </ul>
+          <!-- </div>-->
+        </tbody>
+      </table>
     </div>
     <div v-if="type === 'dryk'" class="dryk">
       <Barupdown :strategyId="strategyId"></Barupdown>
@@ -244,8 +310,9 @@ export default {
     return {
       navText: [
         ['收益曲线图', 'syqxt'],
+        ['当前持仓', 'dqcc'],
         ['当日盈亏', 'dryk'],
-        ['每日持仓', 'mrcc'],
+        ['每日仓位', 'mrcc'],
         ['收益月统计', 'syytj'],
         ['收益率分布', 'sylfb'],
         ['交易详情', 'mrjy'],
@@ -253,7 +320,8 @@ export default {
         ['调出信号', 'mcxh']
       ],
       mrxhPage: 0,
-      mcxhPage: 0
+      mcxhPage: 0,
+      dqccPage: 0
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
   },
@@ -283,6 +351,9 @@ export default {
     },
     mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
+    },
+    dqccData: function() {
+      return this.$store.state.goldStrategy.dqccData
     }
   },
   methods: {
@@ -319,6 +390,8 @@ export default {
         type2 = 'goldBuySignal'
       } else if (type === 'mcxh') {
         type2 = 'goldSellSignal'
+      } else if (type === 'dqcc') {
+        type2 = 'goldCommendDetail'
       }
       const id = this.strategyId
       const expires = this.authInfo.expires

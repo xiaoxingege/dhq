@@ -434,7 +434,7 @@ export default {
                   } else {
                     stock.perfText = parseFloat(stock.perf).toFixed(2);
                     if (_this.condition === 'mkt_idx.keep_days_today') {
-                      stock.perfText = Math.abs(stock.perf) + "天";
+                      stock.perfText = Math.abs(stock.perf) + '天';
                     }
                   }
                 } else {
