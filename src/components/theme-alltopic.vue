@@ -755,7 +755,7 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'topicMarket.realChngPctWeek',
+        hot: 'topicMarket.heatIndex',
         keepDay: 'topicMarket.keepDaysToday',
         time: 'declareDate',
         updown: 'topicMarket.chngPct'

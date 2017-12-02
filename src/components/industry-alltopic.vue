@@ -754,7 +754,7 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'induMarket.realChngPctWeek',
+        hot: 'induMarket.heatIndex',
         keepDay: 'induMarket.keepDaysToday',
         updown: 'induMarket.chngPct'
       },
