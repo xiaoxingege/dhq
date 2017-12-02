@@ -56,6 +56,17 @@ export default {
 
       }
     })
+    Vue.directive('z3-updowncolor-bg', (el, binding, vnode, oldVnode) => {
+      var flag = binding.value;
+      if (flag > 0) {
+        el.style.backgroundColor = config.upColor
+      } else if (flag < 0) {
+        el.style.backgroundColor = config.downColor
+      } else {
+        el.style.backgroundColor = config.flatColor
+
+      }
+    })
     Vue.directive('title', {
       inserted: function(el, binding) {
         document.title = el.dataset.title
@@ -221,6 +232,37 @@ export default {
         return value
       }
     })
+    Vue.directive('z3-help', {
+      bind(el, binding, vnode, oldVnode) {
+        el.addEventListener('mouseover', (event) => {
+          event.currentTarget.parentNode.insertAdjacentHTML("beforeBegin", "<div id=\"icon-help\" style=\"position: absolute;top: 32px;width: 300px;display: block;padding: 18px 16px;color: #666666;background: #cccfd9;border-radius: 10px;z-index: 999;line-height: 18px;font-size: 12px;\">123");
+          event.currentTarget.parentNode.insertAdjacentHTML("afterend", "</div>");
+          var hDiv = document.getElementById('icon-help')
+          hDiv.innerHTML = binding.value
+          let scrollTop = window.pageYOffset || window.scrollY;
+          let scrollleft = window.pageXOffset || window.scrollX;
+          const winH = window.document.body.scrollHeight;
+          const winW = window.document.body.scrollWidth;
+          let left = event.x + parseInt(scrollleft) + 50;
+          let top = event.y + parseInt(scrollTop) - 20;
+          if (winH - top < 300) {
+            top = winH - 300;
+          }
+          if (winW - left < 400) {
+            left = event.x + parseInt(scrollleft) - 330;
+          }
+          hDiv.style.left = left + 'px'
+          hDiv.style.top = top + 20 + 'px'
+
+        });
+        el.addEventListener('mouseout', (event) => {
+          var hDiv = document.getElementById('icon-help')
+          hDiv.parentNode.removeChild(hDiv);
+        })
+      }
+
+    })
+
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"

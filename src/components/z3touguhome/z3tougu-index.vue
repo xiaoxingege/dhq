@@ -43,19 +43,20 @@ body {
 }
 
 .con-bottom>div {
-  width: 50%;
+  width: 33.33%;
   height: 100%;
   float: left;
 }
 
-.con-bottom-left {
+.con-bottom-left,
+.con-bottom-center {
   padding-right: 1px;
 }
 
-.con-bottom-left>div {
-  width: 50%;
+.con-bottom-left>div,
+.con-bottom-center>div {
+  width: 100%;
   height: 100%;
-  float: left;
   background-color: #141518;
 }
 
@@ -77,17 +78,19 @@ body {
 }
 
 .sector-wrap>div {
-  width: 50%;
+  width: 33.33%;
   display: inline-block;
   float: left;
   height: 100%;
 }
 
-.sectors {
+.sectors,
+.preferred-stock {
   padding-right: 1px;
 }
 
 .sectors>div,
+.preferred-stock>div,
 .top-industry>div {
   background-color: #141518;
   height: 100%;
@@ -103,6 +106,9 @@ body {
     <IndexChart @isResize='isResizeStrategy'></IndexChart>
   </div>
   <div class="sector-wrap clearfix">
+    <div class="preferred-stock">
+      <TopPreferredStock></TopPreferredStock>
+    </div>
     <div class="sectors">
       <Sectors></Sectors>
     </div>
@@ -111,9 +117,13 @@ body {
     </div>
   </div>
   <div class="con-bottom clearfix">
-    <div class="con-bottom-left clearfix">
-      <StrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId" :isResizeStrategyChart='isResizeStrategyChart'></StrategyBox>
-      <tradeSignals :strategyId="strategyId"></tradeSignals>
+    <div class="con-bottom-left">
+      <!--<StrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId" :isResizeStrategyChart='isResizeStrategyChart'></StrategyBox>
+          <tradeSignals :strategyId="strategyId"></tradeSignals>-->
+      <BullStock></BullStock>
+    </div>
+    <div class="con-bottom-center">
+      <TopPreferredStrategy></TopPreferredStrategy>
     </div>
     <div class="con-bottom-right">
       <NewsListHome></NewsListHome>
@@ -127,6 +137,9 @@ import NewsListHome from 'components/z3touguhome/hotnews-home'
 import tradeSignals from 'components/z3touguhome/trade-signals'
 import Sectors from 'components/z3touguhome/sectors'
 import TopIndustry from 'components/z3touguhome/top-industry'
+import TopPreferredStock from 'components/z3touguhome/preferred-stock'
+import TopPreferredStrategy from 'components/z3touguhome/preferred-strategy'
+import BullStock from 'components/z3touguhome/bull-stock'
 import IndexChart from 'components/indexChart'
 export default {
   data() {
@@ -153,6 +166,9 @@ export default {
     tradeSignals,
     Sectors,
     TopIndustry,
+    TopPreferredStock,
+    TopPreferredStrategy,
+    BullStock,
     IndexChart
   },
   computed: {

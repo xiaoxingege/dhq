@@ -48,80 +48,19 @@ body {
   clear: both;
 }
 
-a,
-.blue {
-  color: #1984ea;
-}
-
-.blue {
-  color: #1984ea;
-  font-size: 12px;
-}
-
-.backt-buysell-wrap {
-  padding: 20px 20px 3px 20px;
-  background: #141518;
-  /* margin-bottom: 3px; */
-  border-bottom: 3px solid #0d0e0f;
-  position: relative;
+a {
   color: #c9d0d7;
 }
 
-.table-box {
-  border-collapse: collapse;
-  width: 100%;
+.blue {
+  color: #1984ea;
   font-size: 12px;
-}
-
-.table-box .td-body {
-  /* height: 100px; */
-  overflow: auto;
-  display: block;
-}
-
-.table-box tr th {
-  width: 1%;
-}
-
-.table-box tr:nth-child(1) {
-  /* background: #f2f2f2;
-      color: #666; */
-  font-size: 12px;
-  display: block;
-}
-
-.table-box tr td {
-  width: 1%;
-  /* padding-left: 8px; */
-}
-
-.table-box tr:nth-child(1) td {
-  height: 30px;
-  /* padding-left: 0; */
-}
-
-.td-body tr:nth-child(1) td {
-  /* padding-left: 5px; */
-}
-
-.td {
-  border-bottom: 1px solid #23272c;
-  text-align: center;
-  /* padding-left: 8px; */
-  padding-left: 3px;
-}
-
-.t-head {
-  border-bottom: none;
-  background: #23272c;
-  color: #c9d0d7;
-  text-align: center;
 }
 
 td,
 th {
   word-break: break-all;
-  height: 30px;
+  /*height: 30px;*/
 }
 
 .td div {
@@ -129,104 +68,19 @@ th {
   padding: 5px 0;
 }
 
-.head {
-  /*  margin-top: 20px; */
-  /* padding:0 0 14px 3px; */
-  /* padding-bottom: 20px; */
-  font-size: 16px;
-  font-weight: normal;
-  position: relative;
-  color: #c9d0d7;
-}
-
-.ba-name {
-  padding-left: 22px;
-  font-size: 16px;
-}
-
-.shu {
-  margin: 0 24px;
-  display: inline-block;
-  width: 1px;
-  height: 12px;
-  background: #808ba1;
-}
-
-.date-in {
-  /* margin-left: 8px; */
-  font-size: 16px;
-}
-
-.date {
-  margin-left: 11px;
-  font-size: 16px;
-}
-
-.sell {
-  width: 44px;
-  display: inline-block;
-  border: 1px solid #56a870;
-  color: #56a870;
-  text-align: center;
-  /*  padding: 4px 0 5px 0; */
-  padding: 0px 0 2px 0;
-  border-radius: 2px;
-  font-size: 14px;
-}
-
-.buy {
-  border: 1px solid #ca4941;
-  color: #ca4941;
-}
-
-.tit {
-  text-align: center;
-  line-height: 50px;
-  font-size: 12px;
-}
-
-.one-td {
-  /* width: 18%; */
-}
-
-.backt-buysell-wrap .page {
-  background: #141518;
-  text-align: center;
-}
-
-.backtestInfoList {
-  /*  min-height: 500px; */
-  /* margin-bottom: 10px; */
-}
-
-.td-txt {
-  position: relative;
-}
-
-.td-txt i {
-  width: 11px;
-  height: 6px;
-  display: inline-block;
-  position: absolute;
-  top: 12px;
-  /* right: 15%; */
-  padding-left: 4px;
-}
-
-.td-txt.active {}
-
 .bull-stock-wrap {
-  background: #141518;
   margin: 8px 5px 10px 5px;
 }
 
 .bull-style {
-  padding: 12px 12px 0 13px;
+  padding: 12px 12px 22px 13px;
+  background: #141518;
 }
 
 .bull-head {
   font-size: 16px;
   color: #c9d0d7;
+  padding-bottom: 7px;
 }
 
 .style-table-box {
@@ -235,30 +89,178 @@ th {
   font-size: 12px;
   color: #c9d0d7;
 }
+
+.style-table-box td {
+  height: 24px;
+}
+
+.style-table-box2 tr td:nth-child(3) {
+  text-align: right;
+}
+
+.style-table-box2 tr:nth-child(1) td {
+  text-align: left;
+}
+
+.style-table-box2 tr:nth-child(1) td:nth-child(3) {
+  text-align: right;
+}
+
+.style-table-box tr:not(:first-child) td {
+  padding-left: 3px;
+}
+
+.topic-box tr td:first-child {
+  cursor: pointer;
+}
+
+.topic-box tr td:not(:first-child) {
+  text-align: right;
+}
+
+.industry-box tr td:first-child {
+  cursor: pointer;
+}
+
+.industry-box tr td:not(:first-child) {
+  text-align: right;
+}
+
+.leading-plate {
+  margin-top: 5px;
+  padding: 12px 12px 16px 13px;
+  background: #141518;
+}
+
+.topic-box {
+  margin-bottom: 15px;
+}
+
+.industry {
+  border-top: 1px solid #2a2b31;
+}
+
+.industry-box {
+  margin-top: 15px;
+}
+
+.progress-box {
+  width: 100%;
+  display: inline-block;
+}
+
+.progress {
+  background: red;
+  width: 10%;
+  height: 100%;
+  display: inline-block;
+  text-align: center;
+  height: 14px;
+  line-height: 13px;
+}
+
+.redbg {
+  background: #ca4941;
+}
+
+.greenbg {
+  background: #56a870;
+}
+
+.topic-tr td:nth-child(1) {
+  width: 26%;
+}
+
+.help-img {
+  width: 15px;
+  height: 15px;
+  background: url("../../assets/images/z3img/help.png") no-repeat;
+  position: relative;
+  cursor: pointer;
+}
+
+.bull-head .icon-show {
+  position: absolute;
+  right: 31px;
+  top: 32px;
+  max-width: 300px;
+  display: block;
+  padding: 18px 16px;
+  color: #666666;
+  background: #cccfd9;
+  border-radius: 10px;
+  z-index: 999;
+  line-height: 18px;
+  font-size: 12px;
+}
 </style>
 <template>
 <div class="bull-stock-wrap">
   <div class="bull-style">
-    <div class="bull-head">牛股风格</div>
-    <table class="style-table-box">
+    <div class="bull-head">牛股风格
+      <div class="help-img fr" v-z3-help="iconHelpMsg"></div>
+    </div>
+    <table class="style-table-box style-table-box2">
       <tr>
         <td v-for="(item,index) in tabledata.th1" class="lightcolor">
           {{item}}
         </td>
       </tr>
-      <tr>
-        <td><span>成长性</span><span>{{stockStyle.growth}}</span><span>高成长</span></td>
-        <td><span>杠杆</span><span>{{stockStyle.leverage}}</span><span>高成长</span></td>
-        <td><span>流动性</span><span>{{stockStyle.liquidity}}</span><span>高成长</span></td>
-        <td><span>动量</span><span>{{stockStyle.momentum}}</span><span>高成长</span></td>
-        <td><span>规模</span><span>{{stockStyle.scale}}</span><span>高成长</span></td>
-        <td><span>估值</span><span>{{stockStyle.valuation}}</span><span>高成长</span></td>
-        <td><span>波动</span><span>{{stockStyle.volatility}}</span><span>高成长</span></td>
-        <td><span>质量</span><span>{{stockStyle.quality}}</span><span>高成长</span></td>
-        <td><span>分析师预期</span><span>{{stockStyle.analystExpect}}</span><span>高成长</span></td>
-        <td><span>股东</span><span>{{stockStyle.holdDegree}}</span><span>高成长</span></td>
+      <tr v-for="style of stockStyle">
+        <td>{{style.cname}}</td>
+        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value)) * 20 +'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span>
+        </td>
+        <td>{{style.remark}}</td>
       </tr>
     </table>
+  </div>
+  <div class="leading-plate">
+    <div class="bull-head">领先板块</div>
+    <table class="style-table-box topic-box" v-for="(topics,key,index) of topicAndIndustry" v-if="index===1">
+      <tr>
+        <td v-for="(item,index) in tabledata.th2" class="lightcolor">
+          {{item}}
+        </td>
+      </tr>
+      <tr v-for="topic of topics" class="topic-tr">
+        <td>
+          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}">
+            {{topic.topicName===null?'--':topic.topicName}}
+          </router-link>
+        </td>
+        <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':topic.topicMarket.heatIndex}}</td>
+        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
+          {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
+        </td>
+        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':topic.topicMarket.keepDaysToday">
+          {{topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':checkContinu(topic.topicMarket.keepDaysToday)}}
+        </td>
+      </tr>
+    </table>
+    <div class="industry">
+      <table class="style-table-box industry-box" v-for="(industrys,key,index) of topicAndIndustry" v-if="index===0">
+        <tr>
+          <td v-for="(item,index) in tabledata.th3" class="lightcolor">
+            {{item}}
+          </td>
+        </tr>
+        <tr v-for="industry of industrys" class="topic-tr">
+          <td>
+            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}">
+              {{industry.induName===null?'--':industry.induName}}
+            </router-link>
+          </td>
+          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':industry.induMarket.heatIndex}}
+          </td>
+          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.chngPct===null?'--':industry.induMarket.chngPct">
+            {{industry.induMarket===null || industry.induMarket.chngPct===null?'--':changeTofixed(industry.induMarket.chngPct)}}
+          </td>
+          <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':industry.induMarket.keepDaysToday">
+            {{industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':checkContinu(industry.induMarket.keepDaysToday)}}
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
 </template>
@@ -269,19 +271,32 @@ import {
 export default {
   data() {
     return {
+      browseIndex: 'keepDaysToday',
+      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。',
       tabledata: {
         th1: ['名称', '风格指数', '风格描述'],
-        th2: ['名称', '风格指数', '风格描述'],
-        th3: ['名称', '风格指数', '风格描述'],
+        th2: ['题材名称', '热度指数', '涨跌幅', '涨跌天数'],
+        th3: ['行业名称', '热度指数', '涨跌幅', '涨跌天数'],
         td: {}
       }
     }
   },
   components: {},
   computed: mapState({
-    stockStyle: state => state.bullStock.stockStyle
+    stockStyle: state => state.bullStock.stockStyle,
+    topicAndIndustry: state => state.bullStock.topicAndIndustry
   }),
   methods: {
+    checkContinu(num) {
+      if (num > 0) {
+        return num + '连涨'
+      } else if (num < 0) {
+        return Math.abs(num) + '连跌'
+      } else if (num === 0) {
+        return '无涨跌'
+      }
+
+    },
     checkNull(str) {
       if (str === null) {
         return '--'
@@ -320,6 +335,20 @@ export default {
   },
   mounted() {
     this.$store.dispatch('bullStock/queryStockStyle')
+    this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+      browseIndex: this.browseIndex
+    })
+    var _this = this
+    this.updateTime = setInterval(function() {
+      _this.$store.dispatch('bullStock/queryStockStyle')
+      _this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+        browseIndex: this.browseIndex
+      })
+    }, 600000)
+
+  },
+  destroyed() {
+    this.updateTime && clearInterval(this.updateTime)
   }
 }
 </script>

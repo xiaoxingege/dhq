@@ -16,18 +16,6 @@ export default {
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
     stockStyle: {},
-    /* topicData:{
-     heatIndex:[],
-     chngPct:[],
-     keepDaysToday:[],
-     name:[]
-     },
-     industryData:{
-     heatIndex:[],
-     chngPct:[],
-     keepDaysToday:[],
-     name:[]
-     } */
     topicData: [],
     industryData: []
   },
@@ -54,32 +42,6 @@ export default {
           }
         }
       }
-      /* function compare(property){
-       return function(a,b){
-       var value1 = a[property];
-       var value2 = b[property];
-       return value1 - value2;
-       }
-       }
-       let arr1 = result.data.题材板块.sort(compare('chngPct'))
-       console.log(arr1)*/
-      // if(result.errCode === 0){
-      //   for(var i=0; i<result.data.题材板块.length; i++){
-      //       state.topicData.heatIndex.push(result.data.题材板块[i].topicMarket.heatIndex)
-      //       state.topicData.chngPct.push(result.data.题材板块[i].topicMarket.chngPct)
-      //       state.topicData.keepDaysToday.push(result.data.题材板块[i].topicMarket.keepDaysToday)
-      //       state.topicData.name.push(result.data.题材板块[i].topicName)
-      //   }
-      //   for(var j=0; j<result.data.行业板块.length; j++){
-      //       state.industryData.heatIndex.push(result.data.行业板块[j].induMarket.heatIndex)
-      //       state.industryData.chngPct.push(result.data.行业板块[j].induMarket.chngPct)
-      //       state.industryData.keepDaysToday.push(result.data.行业板块[j].induMarket.keepDaysToday)
-      //       state.industryData.name.push(result.data.行业板块[j].induName)
-      //   }
-      // }else{
-      //     state.topicData = null
-      //     state.industryData = null
-      // }
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
