@@ -160,10 +160,20 @@ export default {
       valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12]
     }
   },
-  computed: mapState({
-    topicData: state => state.bullStock.topicData,
-    industryData: state => state.bullStock.industryData
-  }),
+  computed: {
+    ...mapState({
+      topicData: state => state.bullStock.topicData,
+      industryData: state => state.bullStock.industryData
+    }),
+    visualMin: function() {
+      const range = this.ranges[this.bullSelected];
+      return -range[range.length - 1]
+    },
+    visualMax: function() {
+      const range = this.ranges[this.bullSelected];
+      return range[range.length - 1]
+    }
+  },
   methods: {
     getTime() {
       var date = new Date()
@@ -265,6 +275,17 @@ export default {
         this.industryChart = echarts.init(document.getElementsByClassName('industryBox')[0])
         this.chart.setOption({
           animation: true,
+          visualMap: [{
+            type: 'continuous',
+            show: false,
+            min: this.visualMin,
+            max: this.visualMax,
+            calculable: true,
+            realtime: false,
+            inRange: {
+              color: colorsList.slice().reverse()
+            }
+          }],
           grid: {
             height: '100%',
             top: 0,
@@ -299,10 +320,10 @@ export default {
             itemStyle: {
               normal: {
                 borderColor: 'black',
-                borderWidth: 10,
-                color: function(params) {
-                  return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
-                }
+                borderWidth: 10
+                // color: function(params) {
+                //   return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
+                // }
               }
 
             }
@@ -310,6 +331,17 @@ export default {
         })
         this.industryChart.setOption({
           animation: true,
+          visualMap: [{
+            type: 'continuous',
+            show: false,
+            min: this.visualMin,
+            max: this.visualMax,
+            calculable: true,
+            realtime: false,
+            inRange: {
+              color: colorsList.slice().reverse()
+            }
+          }],
           grid: {
             height: '100%',
             top: 0,
@@ -344,10 +376,10 @@ export default {
             itemStyle: {
               normal: {
                 borderColor: 'black',
-                borderWidth: 10,
-                color: function(params) {
-                  return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
-                }
+                borderWidth: 10
+                // color: function(params) {
+                //   return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
+                // }
               }
             }
           }]
