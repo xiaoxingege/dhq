@@ -8,7 +8,9 @@
       <td style="color:#666;">{{formatData(item.id)?'--':item.id}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
       <td v-z3-updowncolor="item.num">{{formatData(item.num)?'--':parseFloat(item.num).toFixed(2)}}</td>
-      <td v-z3-updowncolor="item.percent">{{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}</td>
+      <td v-z3-updowncolor="item.percent">
+        {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
+      </td>
     </tr>
   </table>
   <table class="position-box-table" v-if="!isNoData && type === 'filterTop'">
@@ -16,7 +18,9 @@
       <td style="color:#666;">{{formatData(item.innerCode)?'--':item.innerCode}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
       <td v-z3-updowncolor="item.price">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-      <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
+      <td v-z3-updowncolor="item.curChngPct">
+        {{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}
+      </td>
     </tr>
   </table>
 </div>
@@ -32,9 +36,7 @@ export default {
       isNoData: false
     }
   },
-  components: {
-
-  },
+  components: {},
   watch: {
     strategyId() {
       if (!this.strategyId) {

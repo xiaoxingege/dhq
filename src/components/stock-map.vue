@@ -221,7 +221,7 @@
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback">
       <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-      <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="(!isEnlarge || isPlaybackShow) && playBackIndex>=0"></div>
+      <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="!isEnlarge || isPlaybackShow"></div>
       <!--div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div-->
       <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" v-if="!isEnlarge || isPlaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
       <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
@@ -331,6 +331,7 @@ export default {
       mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
       showHover: false,
       hoverNode: null,
+      hoverNodeEl: null,
       legendWidth: 36,
       isEnlarge: false,
       isLegendShow: true,
@@ -338,10 +339,9 @@ export default {
       intervalTime: 10,
       updateDataPid: null,
       updateTimePid: null,
-
       currentTime: '',
       playBackTradeDate: null,
-      playBackIndex: 0, // 回放index;当为0时表示未回放
+      playBackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
       datetimeIndex: 0, // 当前时间index
       playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 25.5 : 17.5,
       isStopPlayback: false,
@@ -356,8 +356,7 @@ export default {
   watch: {
     rangeCode() {
       this.updateMap()
-      this.playBackIndex = this.datetimeIndex;
-      // this.playLineIndex = 19
+      this.playBackIndex = -1;
     },
     condition() {
       this.isContinue = 1
@@ -434,7 +433,7 @@ export default {
                   } else {
                     stock.perfText = parseFloat(stock.perf).toFixed(2);
                     if (_this.condition === 'mkt_idx.keep_days_today') {
-                      stock.perfText = stock.perf + "天";
+                      stock.perfText = stock.perf + '天';
                     }
                   }
                 } else {
@@ -526,7 +525,7 @@ export default {
       return parentNode
     },
     playbackLineIndex: function() {
-      return this.playBackIndex === 0 ? this.datetimeIndex : this.playBackIndex
+      return this.playBackIndex === -1 ? this.datetimeIndex : this.playBackIndex
     }
   },
   methods: {
@@ -601,10 +600,16 @@ export default {
         isContinue: this.isContinue,
         condition: this.condition,
         code: this.rangeCode
-      }).then(() => {
-        // if (this.playLineIndex >= 18) {
-        //   this.playLineIndex = 19
-        // }
+      }).then(({
+        result,
+        condition,
+        code
+      }) => {
+        // 如果条件已改变则不再执行回调方法
+        if (condition !== this.condition || code !== this.rangeCode) {
+          console.info('invalide callback and do nothing');
+          return;
+        }
         this.updateMapData()
       })
     },
@@ -719,6 +724,8 @@ export default {
         if (params.treePathInfo.length <= 2) {
           return
         }
+        const x = params.event.offsetX;
+        const y = params.event.offsetY;
         this.showHover = true
         // this.updateMapData()
         if (params.treePathInfo.length === 3) {
@@ -732,6 +739,7 @@ export default {
           this.focusEl.setStyle(preNodeStl);
           this.focusEl = null;
         }
+        this.focusEl = this.chart._zr.findHover(x, y).target;
         this.hoverNode.titleName = params.treePathInfo[1].name
       })
       this.chart.on('mouseout', (params) => {
@@ -773,7 +781,6 @@ export default {
     },
     focusStock: function() {
       const _this = this
-      // const focusStockData = this.stockData
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
       const rootLayout = treeRoot.getLayout();
@@ -940,6 +947,7 @@ export default {
     startPlay: function() {
       clearInterval(this.updateDataPid);
       if (!this.autoUpdate) {
+        this.autoUpdate = true;
         // 回放前将图表恢复到默认（延迟500ms执行回放）        
         this.restoreMap();
         setTimeout(() => {
@@ -977,7 +985,7 @@ export default {
       // 回放完成
       if (playBackIndex > this.datetimeIndex) {
         this.playBackState = false
-        this.playBackIndex = 0;
+        this.playBackIndex = -1;
         this.playBackSrc = playStopSrc
         this.isStopPlayback = false
         this.$emit('isStopPlayback', this.isStopPlayback)
@@ -994,6 +1002,10 @@ export default {
           _this.$store.dispatch('stockMap/updateDataByTime', {
             time: _this.playBackTradeDate + playBackTime
           }).then(() => {
+            // 如果外部状态改变（跳出回放），则不再执行回调。
+            if (!_this.playBackState && this.this.playBackIndex === -1) {
+              return
+            }
             _this.updateMapData()
             _this.playBackIndex++
               _this.queryPlaybackData(_this.playBackIndex + 1);
@@ -1075,24 +1087,6 @@ export default {
       }
       return day
     },
-    /* enlargeMap: function () {
-       if (this.isEnlarge) {
-         this.isEnlarge = false// 非全屏
-         this.mapHeight = window.innerHeight - 80
-         this.chart.resize({
-           height: window.innerHeight - 80,
-           width: window.innerWidth - 40
-         })
-       } else {
-         this.isEnlarge = true// 全屏
-         this.mapHeight = window.innerHeight
-         this.chart.resize({
-           height: window.innerHeight,
-           width: window.innerWidth
-         })
-       }
-       this.$emit('isEnlarge', this.isEnlarge)
-     },*/
     switchLegend: function() {
       if (this.isLegendShow) {
         this.isLegendShow = false
@@ -1117,13 +1111,15 @@ export default {
     },
     // 恢复图表到最新状态
     restoreData: function() {
-      // 停止回放
-      this.playBackState = false;
-      this.playBackIndex = 0;
-      this.isStopPlayback = false;
-      this.playBackSrc = playStopSrc;
+      // 如果处于回放过程中，停止回放
+      if (this.playBackIndex > -1) {
+        this.playBackState = false;
+        this.playBackIndex = -1;
+        this.isStopPlayback = false;
+        this.playBackSrc = playStopSrc;
+        this.$emit('isStopPlayback', this.isStopPlayback)
+      }
       this.autoUpdate = true;
-      this.$emit('isStopPlayback', this.isStopPlayback)
       this.updateData();
       this.autoUpdateData();
     },
@@ -1160,12 +1156,6 @@ export default {
         }, 1000)
       }
     },
-    /* toFullScreen: function () {
-      window.open(ctx + '/map/fullScreen/' + this.rangeCode + '/' + this.condition)
-    },
-    toNormal: function () {
-      window.open(ctx + '/map/normal/' + this.rangeCode + '/' + this.condition)
-    },*/
     getNode: function(params) {
       const chartView = this.chart._chartsViews[0]
       const treeRoot = chartView.seriesModel._viewRoot
@@ -1173,7 +1163,7 @@ export default {
     },
     loopDateTime() {
       var _datetimeIndex = this.datetimeIndex;
-      // 后台数据10分钟更新一次，前端开始30秒轮询一次（避免最坏情况），当数据发生变化后再10分钟轮询一次。
+      // 后台数据10分钟更新一次，前端开始5秒轮询一次（避免最坏情况），当数据发生变化后再10分钟轮询一次。
       syncDateTimePid = setInterval(() => {
         if (_datetimeIndex !== this.datetimeIndex && this.datetimeIndex !== 0) {
           clearInterval(syncDateTimePid);
@@ -1190,7 +1180,7 @@ export default {
             clearInterval(syncDateTimePid);
           }
         }
-      }, 1000 * 20)
+      }, 1000 * 5)
     }
   },
   mounted() {

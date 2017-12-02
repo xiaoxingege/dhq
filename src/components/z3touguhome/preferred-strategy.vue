@@ -2,13 +2,16 @@
 .preferred-strategy-con {
     width: 100%;
 }
+
 .preferred-strategy-top {
     height: 11.5%;
     position: relative;
 }
+
 .preferred-strategy-table-wrap {
     height: 88.5%;
 }
+
 .preferred-strategy-table {
     float: left;
     width: 100%;
@@ -22,9 +25,11 @@
 .preferred-strategy-table tr:first-child:hover {
     background-color: #141518;
 }
+
 .preferred-strategy-table td span {
     cursor: pointer;
 }
+
 .preferred-strategy-table td {
     border: 1px solid #23272c;
     text-align: right;
@@ -51,6 +56,7 @@
     border: 0 solid #23272c;
     height: 16%;
 }
+
 .more-preferred-strategy {
     cursor: pointer;
     display: inline-block;
@@ -60,6 +66,7 @@
     width: 40px;
     height: 100%;
 }
+
 .more-preferred-strategy a {
     color: #808ba1;
     position: absolute;
@@ -85,8 +92,11 @@
       </tr>
       <tr v-for="item of stockList">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':item.num}}</span></td>
-        <td v-z3-updowncolor="item.percent">{{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}</td>
+        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':item.num}}</span>
+        </td>
+        <td v-z3-updowncolor="item.percent">
+          {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
+        </td>
       </tr>
     </table>
   </div>

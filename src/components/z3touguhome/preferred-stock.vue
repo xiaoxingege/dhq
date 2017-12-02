@@ -2,13 +2,16 @@
 .preferred-stock-con {
     width: 100%;
 }
+
 .preferred-stock-top {
     height: 11.5%;
     position: relative;
 }
+
 .preferred-stock-table-wrap {
     height: 88.5%;
 }
+
 .preferred-stock-table {
     float: left;
     width: 100%;
@@ -19,9 +22,11 @@
 .preferred-stock-table tr:hover {
     background-color: #2e4465;
 }
+
 .preferred-stock-table td span {
     cursor: pointer;
 }
+
 .preferred-stock-table td {
     border: 1px solid #23272c;
     text-align: right;
@@ -44,6 +49,7 @@
     padding-right: 0;
     border-left-width: 0;
 }
+
 .more-preferred-stock {
     cursor: pointer;
     display: inline-block;
@@ -53,6 +59,7 @@
     width: 40px;
     height: 100%;
 }
+
 .more-preferred-stock a {
     color: #808ba1;
     position: absolute;
@@ -73,9 +80,15 @@
     <table class="preferred-stock-table">
       <tr v-for="item of stockList">
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
-        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-        <td style="color:#c9d0d7">{{formatData(item.volume)?'--':(parseFloat(item.volume).toFixed(2)>=0?parseFloat(item.volume).toFixed(2):'-'+parseFloat(item.volume).toFixed(2))}}</td>
+        <td v-z3-updowncolor="item.curChngPct">
+          {{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}
+        </td>
+        <td v-z3-updowncolor="item.curChngPct">
+          {{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}
+        </td>
+        <td style="color:#c9d0d7">
+          {{formatData(item.volume)?'--':(parseFloat(item.volume).toFixed(2)>=0?parseFloat(item.volume).toFixed(2):'-'+parseFloat(item.volume).toFixed(2))}}
+        </td>
       </tr>
     </table>
   </div>

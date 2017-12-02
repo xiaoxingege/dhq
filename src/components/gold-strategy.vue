@@ -611,6 +611,9 @@ export default {
       strategyId: this.strategyId,
       type: 'sell'
     })
+    this.$store.dispatch('goldStrategy/getDqccData', {
+      strategyId: this.strategyId
+    })
     this.$store.dispatch('goldStrategy/getAttention', {
       strategyId: this.strategyId,
       strategyType: 3

@@ -119,7 +119,7 @@ body {
   <div class="con-bottom clearfix">
     <div class="con-bottom-left">
       <!--<StrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId" :isResizeStrategyChart='isResizeStrategyChart'></StrategyBox>
-      <tradeSignals :strategyId="strategyId"></tradeSignals>-->
+          <tradeSignals :strategyId="strategyId"></tradeSignals>-->
       <BullStock></BullStock>
     </div>
     <div class="con-bottom-center">
