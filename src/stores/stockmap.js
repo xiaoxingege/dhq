@@ -65,7 +65,12 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
-      commit(mutationsTypes.UPDATE_DATA, data.data)
+      commit(mutationsTypes.UPDATE_DATA, data.data);
+      return {
+        result: data.data,
+        condition: condition,
+        code: code
+      };
     }).catch(() => {
       commit(mutationsTypes.ERROR)
     })
@@ -113,7 +118,11 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
-      commit(mutationsTypes.STOCK_CHART_DATA, data)
+      commit(mutationsTypes.STOCK_CHART_DATA, data);
+      return {
+        result: data,
+        catId: stockId
+      }
     }).catch(() => {
       commit(mutationsTypes.ERROR)
     })

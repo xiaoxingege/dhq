@@ -220,7 +220,13 @@ export default {
           code: this.indexCode,
           condition: this.condition
         })
-        .then(() => {
+        .then(({
+          result,
+          catId
+        }) => {
+          if (catId !== this.stockId) {
+            return;
+          }
           const _this = this
           // 悬浮框的表头
           this.titleChngPct = this.industryChngPct
