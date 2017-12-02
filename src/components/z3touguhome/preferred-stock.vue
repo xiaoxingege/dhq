@@ -191,10 +191,10 @@ export default {
   },
   mounted() {
     this.initPreferredStock()
-    this.autoUpdate()
+    // this.autoUpdate()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    // this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

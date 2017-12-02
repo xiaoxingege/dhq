@@ -115,7 +115,7 @@ export default {
       ],
       type: 'bullStockStyle',
       updateDataPid: null,
-      intervalTime: 6,
+      intervalTime: 10,
       bullStockList: []
     }
   },
@@ -151,7 +151,7 @@ export default {
       } else {
         this.updateDataPid = setInterval(function() {
           _this.initBullStock()
-        }, 1000 * _this.intervalTime)
+        }, 60000 * _this.intervalTime)
       }
     },
     formatValue: function(val) {

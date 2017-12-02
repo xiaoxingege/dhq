@@ -80,12 +80,12 @@
     <table class="preferred-strategy-table">
       <tr>
         <td>策略名称</td>
-        <td>当前持仓</td>
+        <td>{{positionNum}}</td>
         <td>近一周收益率</td>
       </tr>
       <tr v-for="item of stockList">
-        <td><span :value="item.id" @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox' @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span>{{formatData(item.num)?'--':item.num}}</span></td>
+        <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
+        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':item.num}}</span></td>
         <td v-z3-updowncolor="item.percent">{{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}</td>
       </tr>
     </table>
@@ -116,7 +116,8 @@ export default {
       strategyId: '',
       top: '',
       left: '',
-      isShow: false
+      isShow: false,
+      positionNum: '当前持仓'
     }
   },
   watch: {
@@ -149,16 +150,19 @@ export default {
     },
     initPreferredStrategy() {
       if (this.type === 'goldTop') {
+        this.positionNum = '当前持仓'
         this.$store.dispatch('z3touguIndex/getPreferredGoldData')
           .then(() => {
             this.stockList = this.preferredGoldData
           })
       } else if (this.type === 'filterTop') {
+        this.positionNum = '当前选股'
         this.$store.dispatch('z3touguIndex/getPreferredFilterData')
           .then(() => {
             this.stockList = this.preferredFilterData
           })
       } else if (this.type === 'timeTop') {
+        this.positionNum = '平均持有天数'
         this.$store.dispatch('z3touguIndex/getPreferredTimeData')
           .then(() => {
             this.stockList = this.preferredTimeData
@@ -179,7 +183,7 @@ export default {
       window.open(type)
     },
     formatData: function(value) {
-      if (value) {
+      if (value || value === 0) {
         return false
       } else {
         return true
@@ -196,7 +200,7 @@ export default {
       let scrollleft = window.pageXOffset || window.scrollX;
       const winH = window.document.body.scrollHeight;
       const winW = window.document.body.scrollWidth;
-      let left = event.x + parseInt(scrollleft) + 100;
+      let left = event.x + parseInt(scrollleft) + 30;
       let top = event.y + parseInt(scrollTop) - 20;
       if (winH - top < 186) {
         top = winH - 186;
@@ -222,10 +226,10 @@ export default {
   },
   mounted() {
     this.initPreferredStrategy()
-    this.autoUpdate()
+    // this.autoUpdate()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    // this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
