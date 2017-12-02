@@ -84,7 +84,7 @@
         <td>近一周收益率</td>
       </tr>
       <tr v-for="item of stockList">
-        <td><span :value="item.id" @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.name)?'--':item.name}}</span></td>
+        <td><span :value="item.id" @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox' @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
         <td><span>{{formatData(item.num)?'--':item.num}}</span></td>
         <td v-z3-updowncolor="item.percent">{{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}</td>
       </tr>
@@ -97,6 +97,9 @@
 import NavBar from 'components/z3touguhome/nav-bar'
 import DataTable from 'components/z3touguhome/data-table'
 import PositionBox from 'components/z3touguhome/position-box'
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: [],
   data() {
@@ -206,6 +209,15 @@ export default {
     },
     hidePositionBox: function() {
       this.isShow = false
+    },
+    linkDetail: function(id) {
+      if (this.type === 'goldTop') {
+        window.open(ctx + '/gold-strategy/' + id)
+      } else if (this.type === 'filterTop') {
+        window.open(ctx + '/backtestFilter/' + id)
+      } else if (this.type === 'timeTop') {
+        window.open(ctx + '/backtesttime/' + id)
+      }
     }
   },
   mounted() {
