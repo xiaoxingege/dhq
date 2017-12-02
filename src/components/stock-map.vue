@@ -419,7 +419,7 @@ export default {
                   stock.actDateFlag = -1
                 }
               } else {
-                stock.perf = stockData[stock.id] || stockData[stock.name]
+                stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
@@ -434,12 +434,13 @@ export default {
                   } else {
                     stock.perfText = parseFloat(stock.perf).toFixed(2);
                     if (_this.condition === 'mkt_idx.keep_days_today') {
-                      stock.perfText = Math.abs(stock.perf) + "天";
+                      stock.perfText = stock.perf + "天";
                     }
                   }
                 } else {
                   stock.perfText = '--'
                 }
+
                 stock.itemStyle = {
                   normal: {
                     color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
@@ -632,7 +633,7 @@ export default {
       }
     },
     updateDatetime: function() {
-      this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
+      return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
         // this.playBackDate = this.$store.state.stockMap.calendarsData
         // this.playBackDateShow = this.timeFormat(this.playBackDate)
         const playBackDatetime = this.$store.state.stockMap.curTimeItem;
@@ -976,6 +977,7 @@ export default {
       // 回放完成
       if (playBackIndex > this.datetimeIndex) {
         this.playBackState = false
+        this.playBackIndex = 0;
         this.playBackSrc = playStopSrc
         this.isStopPlayback = false
         this.$emit('isStopPlayback', this.isStopPlayback)
@@ -1105,21 +1107,25 @@ export default {
         this.isPlaybackShow = true
       }
     },
+    // 恢复图表默认大小
     restoreMap: function() {
       this.chart.resize({
         height: this.mapHeight,
         width: this.mapWidth
       })
-      this.autoUpdate = true;
+      // this.autoUpdate = true;
     },
+    // 恢复图表到最新状态
     restoreData: function() {
       // 停止回放
       this.playBackState = false;
       this.playBackIndex = 0;
       this.isStopPlayback = false;
-      this.playBackSrc = playStopSrc
+      this.playBackSrc = playStopSrc;
+      this.autoUpdate = true;
       this.$emit('isStopPlayback', this.isStopPlayback)
       this.updateData();
+      this.autoUpdateData();
     },
     getTime: function() {
       const date = new Date()
@@ -1167,24 +1173,32 @@ export default {
     },
     loopDateTime() {
       var _datetimeIndex = this.datetimeIndex;
-      // 后台数据10分钟更新一次，前端开始1分钟轮询一次（避免最坏情况），TODO 当数据发生变化后再10分钟轮询一次。
+      // 后台数据10分钟更新一次，前端开始30秒轮询一次（避免最坏情况），当数据发生变化后再10分钟轮询一次。
       syncDateTimePid = setInterval(() => {
         if (_datetimeIndex !== this.datetimeIndex && this.datetimeIndex !== 0) {
           clearInterval(syncDateTimePid);
+          this.updateDatetime();
           syncDateTimePid = setInterval(() => {
             this.updateDatetime();
+            if (this.datetimeIndex === 24) {
+              clearInterval(syncDateTimePid);
+            }
           }, 1000 * 60 * 10)
         } else {
           this.updateDatetime();
+          if (this.datetimeIndex === 24) {
+            clearInterval(syncDateTimePid);
+          }
         }
-      }, 1000 * 60)
+      }, 1000 * 20)
     }
   },
   mounted() {
     this.isFullScreen()
     this.initMap();
-    this.updateDatetime();
-    this.loopDateTime();
+    this.updateDatetime().then(() => {
+      this.loopDateTime();
+    });
   },
   destroyed() {
     this.updateDataPid && clearInterval(this.updateDataPid);
