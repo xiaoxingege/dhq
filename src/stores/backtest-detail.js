@@ -63,21 +63,40 @@ export default {
     attentionData: null,
     addAttention: false,
     delAttention: false,
-    stockList: []
+    stockList: [],
+    syqxtData: {
+      firstDate: '',
+      lastDate: '',
+      xData: [],
+      data1: [],
+      data2: []
+    },
+    sylfbData: {
+      xData: [],
+      data1: [],
+      data2: []
+    },
+    startDate: '',
+    endDate: '',
+    strategyId: ''
     /* evaluationIndexs: {
-      winRatio:'',
-      avgReturnExcess:'',
-      avgReturn:'',
-      winLossRatio:'',
-      holdDay:'',
-      maxWin:'',
-      maxLoss:''
-    },*/
+     winRatio:'',
+     avgReturnExcess:'',
+     avgReturn:'',
+     winLossRatio:'',
+     holdDay:'',
+     maxWin:'',
+     maxLoss:''
+     },*/
 
   },
   mutations: {
+    setFilterOptions(state, result) {
+      state.strategyId = result.strategyId
+      state.startDate = result.startDate
+      state.endDate = result.endDate
+    },
     updateBasicFilter(state, filterdetail) {
-      console.log(filterdetail.filterSummary)
       state.basicFilter = filterdetail
       state.basicFilter.filterSummary = JSON.parse(filterdetail.filterSummary)
     },
@@ -88,7 +107,6 @@ export default {
       state.buyStocks = buyStocks
     },
     updateBuyPage(state, options) {
-      console.log(options.totalPages)
       state.buyTotalPage = options.totalPages
     },
     updateBuysellStocks(state, buysell) {
@@ -107,11 +125,9 @@ export default {
       state.kLineData = kLineData
     },
     updateStockPage(state, options) {
-      console.log(options.totalPages)
       state.stockTotal = options.totalPages
     },
     updateTradePage(state, options) {
-      console.log(options.totalPages)
       state.tradeTotalPage = options.totalPages
     },
     updateSearch(state, search) {
@@ -142,7 +158,59 @@ export default {
       } else {
         state.delAttention = false
       }
+    },
+    setSylqxData(state, result) {
+      if (result.errCode === 0) {
+        if (state.startDate === '' && state.endDate === '') {
+          state.syqxtData.firstDate = ''
+          state.syqxtData.lastDate = ''
+        }
+
+        state.syqxtData.xData = []
+        state.syqxtData.data1 = []
+        state.syqxtData.data2 = []
+        const data = result.data
+        const dataLen = data.length - 1
+        if (state.startDate === '' && state.endDate === '') {
+          state.syqxtData.firstDate = data[0].backtestDate
+          state.syqxtData.lastDate = data[dataLen].backtestDate
+        }
+        for (var i = 0; i < data.length; i++) {
+          state.syqxtData.xData.push(data[i].backtestDate)
+          state.syqxtData.data1.push(Number(data[i].totalReturn))
+          state.syqxtData.data2.push(Number(data[i].benchmarkPeriodReturn))
+        }
+      } else {
+        state.syqxtData.firstDate = ''
+        state.syqxtData.lastDate = ''
+        state.syqxtData.xData = []
+        state.syqxtData.data1 = []
+        state.syqxtData.data2 = []
+      }
+    },
+    setSylfbData(state, result) {
+      if (result.errCode === 0) {
+        state.sylfbData.xData = []
+        state.sylfbData.data1 = []
+        state.sylfbData.data2 = []
+        const data = result.data
+        for (var i = 0; i < data.rates.length; i++) {
+          state.sylfbData.xData.push((Number(data.rates[i]) * 100).toFixed(2) + '%')
+          if (data.rates[i] < 0) {
+            state.sylfbData.data1.push(data.counts[i])
+            state.sylfbData.data2.push(0)
+          } else {
+            state.sylfbData.data1.push(0)
+            state.sylfbData.data2.push(data.counts[i])
+          }
+        }
+      } else {
+        state.sylfbData.xData = []
+        state.sylfbData.data1 = []
+        state.sylfbData.data2 = []
+      }
     }
+
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
@@ -228,7 +296,6 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          console.log(result.data)
           commit('updateBuysellStocks', result.data)
         }
       })
@@ -336,7 +403,7 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'GET',
         mode: 'cors'
       }).then((res) => {
@@ -354,7 +421,7 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'POST',
         mode: 'cors'
       }).then((res) => {
@@ -372,13 +439,47 @@ export default {
     }) {
       const userId = rootState.user.userId
       // return fetch(`${domain}/openapi/backtest/strategy/risk.shtml?strategyId=${strategyId}`, {
-      return fetch(`https://test.z3quant.com/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
+      return fetch(`${domain}/openapi/backtest/follows.shtml?strategyId=${strategyId}&strategyType=${strategyType}&userId=${userId}`, {
         method: 'DELETE',
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(body => {
         commit('delAttentionData', body)
+      })
+    },
+    getFilterReturns({
+      commit
+    }, {
+      strategyId,
+      startDate,
+      endDate
+    }) {
+      commit('setFilterOptions', {
+        strategyId,
+        startDate,
+        endDate
+      })
+      return fetch(`${domain}/openapi/backtest/filterStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate || ''}&endDate=${endDate || ''}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setSylqxData', body)
+      })
+    },
+    getFilterProfit({
+      commit
+    }, {
+      strategyId
+    }) {
+
+      return fetch(`${domain}/openapi/backtest/filterStrategy/sellProfit.shtml?strategyId=${strategyId}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setSylfbData', body)
       })
     }
   }

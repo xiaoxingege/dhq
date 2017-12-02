@@ -396,7 +396,7 @@ export default {
         console.log(result)
         if (result.errCode === 0) {
           // console.log(result.data.tradeMin)
-          commit('updateRealtimeCharts', result.data)
+          commit('updateRealtimeCharts', result.data.reverse())
         }
       })
     },

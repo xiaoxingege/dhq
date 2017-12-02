@@ -367,7 +367,8 @@ a.kuai_icon {
     margin-right: 5%;
     float: left;*/
     cursor: pointer;
-    padding: 39px 0 10px;
+    /* padding: 39px 0 10px;*/
+    padding: 35px 0 10px;
 
 }
 .con-bar-1:hover {
@@ -376,13 +377,31 @@ a.kuai_icon {
 }
 .topic-chng-box {
     text-align: center;
-    padding-bottom: 39px;
+    /*padding-bottom: 39px;*/
+    padding-bottom: 9px;
 }
 .topic-chng {
     font-weight: 900;
     font-size: 16px;
     text-align: center;
 
+}
+.keepdays {
+    text-align: center;
+
+}
+.keep-num {
+    /*width: 68px;*/
+    /*height: 18px;*/
+    text-align: center;
+    padding: 0 15px 2px;
+    display: inline-block;
+    border: 1px solid #ca4941;
+    border-radius: 3px;
+
+}
+.keep-num1 {
+    border: 1px solid #56a870;
 }
 .con-bar-2 {
     /* margin-left: 30px; */
@@ -631,6 +650,7 @@ a.kuai_icon {
     <div class="fr sort-head">
       <!-- <em>全部主题概念</em> -->
       <strong :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></strong>
+      <strong :class="sortField==='keepDay'?'active':''" @click="query('keepDay')" :style="{display:isStyle}">连涨排序<i class="time_icon"></i></strong>
       <strong @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></strong>
       <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部题材</em>
@@ -648,6 +668,10 @@ a.kuai_icon {
               <div class="topic-name lightcolor">{{ allTopic.topicName }}</div>
               <div class="topic-chng-box">
                 <span class="topic-chng" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span>
+              </div>
+              <div class="keepdays" v-if="allTopic.topicMarket!==null && allTopic.topicMarket.chngPct!==null">
+                <span class="keep-num" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday>=2">{{allTopic.topicMarket.keepDaysToday}}连涨</span>
+                <span class="keep-num keep-num1" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday<=-2">{{Math.abs(allTopic.topicMarket.keepDaysToday)}}连跌</span>
               </div>
             </router-link>
           </div>
@@ -731,7 +755,8 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'topicMarket.realChngPctWeek',
+        hot: 'topicMarket.heatIndex',
+        keepDay: 'topicMarket.keepDaysToday',
         time: 'declareDate',
         updown: 'topicMarket.chngPct'
       },

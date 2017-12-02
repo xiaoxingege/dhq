@@ -76,7 +76,7 @@ html {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 2;
 }
 </style>
 <template>
@@ -111,6 +111,7 @@ html {
                 <option value="mkt_idx.fir_fcst_pe">预测市盈率</option>
                 <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
                 <option value="act_date">业绩公布日</option>
+                <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
             </select>
     </div>
     <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>

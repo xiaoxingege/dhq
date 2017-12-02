@@ -446,11 +446,13 @@ export default {
       })
     },
     getSimulation({
-      commit
+      commit,
+      rootState
     }, {
       strategyId
     }) {
-      return fetch(`${domain}/openapi/backtest/strategySimulate.shtml?strategyId=${strategyId}`, {
+      const userId = rootState.user.userId
+      return fetch(`${domain}/openapi/backtest/strategySimulate.shtml?strategyId=${strategyId}&userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
