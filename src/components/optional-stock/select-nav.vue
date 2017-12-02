@@ -7,11 +7,12 @@
 
 .gold-strategy-title select {
   width: 247px;
+  height: 25px;
   color: #1984ea;
   -webkit-appearance: none;
   padding-left: 4px;
   background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
-  background-color: #141518;
+  background-color: #0d0e0f;
   border-radius: 3px;
   border: 1px solid #141518;
   position: absolute;
