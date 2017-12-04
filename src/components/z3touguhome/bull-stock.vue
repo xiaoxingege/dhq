@@ -28,7 +28,7 @@
 }
 .bull-stock-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     padding-right: 0;
     border-left-width: 0;
 }
