@@ -47,6 +47,7 @@ h1 {
 }
 .box-con div button:disabled {
     background-color: #dddddd;
+    cursor: default;
 }
 .box-con ul {
     padding: 20px;
