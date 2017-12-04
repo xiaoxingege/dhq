@@ -230,7 +230,7 @@ export default {
       window.open('goldStockPool')
     },
     formatData: function(value) {
-      if (value) {
+      if (value || value === 0) {
         return false
       } else {
         return true
