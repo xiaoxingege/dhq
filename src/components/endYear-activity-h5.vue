@@ -94,7 +94,7 @@ button {
     height: 3.28rem;
     position: fixed;
     bottom: 0;
-    background: url("../assets/images/endYear-activity/endYear-h5-footer.png") center bottom no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-h5-footer1.png") center bottom no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -283,10 +283,10 @@ button {
     overflow: hidden;
 }
 .popClick3 {
-    width: 2.65rem;
-    height: 0.46rem;
+    width: 3.22rem;
+    height: 0.57rem;
     position: absolute;
-    right: 1.37rem;
+    right: 1rem;
     bottom: 0.66rem;
 }
 .swiper1-container .slide-img1 {
