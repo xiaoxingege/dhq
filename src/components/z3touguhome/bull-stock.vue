@@ -121,7 +121,7 @@ export default {
       return Math.ceil(Math.abs(val))
     },
     formatData: function(value) {
-      if (value) {
+      if (value || value === 0) {
         return false
       } else {
         return true
