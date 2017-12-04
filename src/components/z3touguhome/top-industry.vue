@@ -191,7 +191,7 @@ export default {
       if (type === 'topic') {
         window.open(ctx + '/themeIndex')
       } else if (type === 'industry') {
-        window.open(ctx + '/themeIndex')
+        window.open(ctx + '/industryIndex')
       }
     },
     formateData: function(value) {

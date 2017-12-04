@@ -4,12 +4,12 @@
 }
 
 .preferred-strategy-top {
-    height: 11.5%;
+    height: 15%;
     position: relative;
 }
 
 .preferred-strategy-table-wrap {
-    height: 88.5%;
+    height: 85%;
 }
 
 .preferred-strategy-table {
