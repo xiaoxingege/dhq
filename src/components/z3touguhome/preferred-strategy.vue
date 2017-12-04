@@ -91,7 +91,7 @@
       </tr>
       <tr v-for="item of stockList">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':item.num}}</span>
+        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span>
         </td>
         <td v-z3-updowncolor="item.percent">
           {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
