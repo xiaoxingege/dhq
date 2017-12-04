@@ -90,8 +90,8 @@ td {
     <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
     <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
     <span v-else>{{industryAvg}}</span>
-    <span class="stock-down fr" v-if="stockDownNo!==null">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr" v-if="stockUpNo!==null">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -106,7 +106,7 @@ td {
       <tr v-for="stock of stockList">
         <td class="tiker">{{stock.name}}</td>
         <td>
-          <div class="stocklist-chart" v-trend-line="{'lineData':stock.chartData,'catId':stockId}"></div>
+          <div class="stocklist-chart" v-trend-line="{'name':stock.name,'catId':stockId}"></div>
         </td>
         <td class="price">{{stock.price}}</td>
         <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
@@ -126,25 +126,26 @@ export default {
       stockListTop: 0,
       titlePrice: 0,
       titleChngPct: '',
-      stockUpNo: null,
-      stockDownNo: null
+      stockUpNo: 0,
+      stockDownNo: 0
     }
   },
   directives: {
     'trend-line': {
       update(el, binding, vnode) {
-        const lineData = binding.value.lineData;
+        const stockName = binding.value.name;
         const catId = binding.value.catId;
         const vm = vnode.context;
         // 加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
         setTimeout(() => {
-          vm.drawStockLine(el, lineData, catId)
+          vm.drawStockLine(el, stockName, catId)
         }, 0);
       }
     }
   },
   watch: {
     stockId() {
+      console.info('stockId changed!');
       this.updateChart()
     },
     nodeId() {
@@ -154,6 +155,7 @@ export default {
   computed: {
     stockId() {
       if (this.parent && this.parent.id) {
+        console.info('stockId:' + this.parent.id);
         return this.parent.id
       }
     },
@@ -207,7 +209,7 @@ export default {
           avg = parseInt(avg);
         }
       }
-      return avg === 'NaN' ? '' : avg;
+      return avg === 'NaN' ? '--' : avg;
     }
   },
   methods: {
@@ -280,26 +282,24 @@ export default {
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
 
-          if (this.condition.indexOf('chng_pct') !== -1) {
-            this.stockUpNo = 0
-            this.stockDownNo = 0
-            this.stockList.forEach(function(stock) {
-              if (stock.perf && stock.perf >= 0) {
-                _this.stockUpNo++
-              } else if (stock.perf && stock.perf < 0) {
-                _this.stockDownNo++
+          // if (this.condition.indexOf('chng_pct') !== -1) {
+          this.stockList.forEach(function(stock) {
+            if (stock.perf && stock.perf >= 0) {
+              _this.stockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              _this.stockDownNo++
+            }
+            stock.chartData = _this.stockChartData[stock.name]
+            if (stock.chartData) {
+              const stockDetailLength = stock.chartData.length
+              if (stock.chartData[stockDetailLength - 1]) {
+                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+              } else {
+                stock.price = '--'
               }
-              stock.chartData = _this.stockChartData[stock.name]
-              if (stock.chartData) {
-                const stockDetailLength = stock.chartData.length
-                if (stock.chartData[stockDetailLength - 1]) {
-                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-                } else {
-                  stock.price = '--'
-                }
-              }
-            })
-          }
+            }
+          })
+          // }
 
           this.$nextTick(() => {
             let wrapHeight
@@ -360,9 +360,13 @@ export default {
         }]
       })
     },
-    drawStockLine: function(el, lineData, catId) {
+    drawStockLine: function(el, stockName, catId) {
       if (catId !== this.stockId || el.clientHeight === 0) {
         return;
+      }
+      const lineData = this.stockChartData[stockName];
+      if (!this.stockChartData[stockName]) {
+        return
       }
       let chart = echarts.getInstanceByDom(el) || echarts.init(el);
       // chart.clear();
