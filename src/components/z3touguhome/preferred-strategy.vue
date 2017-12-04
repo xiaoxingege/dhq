@@ -91,11 +91,15 @@
       </tr>
       <tr v-for="item of stockList">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span>
-        </td>
+        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span></td>
         <td v-z3-updowncolor="item.percent">
           {{formatData(item.percent)?'--':formatDataPercent(item.percent)}}
         </td>
+      </tr>
+      <tr v-for="item of noDataList">
+        <td>{{item.name}}</td>
+        <td>{{item.num}}</td>
+        <td>{{item.percent}}</td>
       </tr>
     </table>
   </div>
@@ -120,6 +124,7 @@ export default {
       ],
       type: 'goldTop',
       stockList: [],
+      noDataList: [],
       updateDataPid: null,
       intervalTime: 6,
       strategyId: '',
@@ -164,21 +169,51 @@ export default {
         this.tableTitle = '近一周累计收益'
         this.$store.dispatch('z3touguIndex/getPreferredGoldData')
           .then(() => {
-            this.stockList = this.preferredGoldData
+            if (this.preferredGoldData && this.preferredGoldData.length > 0) {
+              this.stockList = this.preferredGoldData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       } else if (this.type === 'filterTop') {
         this.positionNum = '当前选股'
         this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredFilterData')
           .then(() => {
-            this.stockList = this.preferredFilterData
+            if (this.preferredFilterData && this.preferredFilterData.length > 0) {
+              this.stockList = this.preferredFilterData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       } else if (this.type === 'timeTop') {
         this.positionNum = '平均持有天数'
         this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredTimeData')
           .then(() => {
-            this.stockList = this.preferredTimeData
+            if (this.preferredTimeData && this.preferredTimeData.length > 0) {
+              this.stockList = this.preferredTimeData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       }
     },
