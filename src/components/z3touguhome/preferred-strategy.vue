@@ -94,7 +94,7 @@
         <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span>
         </td>
         <td v-z3-updowncolor="item.percent">
-          {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
+          {{formatData(item.percent)?'--':formatDataPercent(item.percent)}}
         </td>
       </tr>
     </table>
@@ -201,6 +201,15 @@ export default {
       } else {
         return true
       }
+    },
+    formatDataPercent: function(val) {
+      let getVal
+      if (val) {
+        getVal = (100 * val).toFixed(2) + '%'
+      } else {
+        getVal = '--'
+      }
+      return getVal
     },
     showPositionBox: function(id, event) {
       if (this.type === 'timeTop') {

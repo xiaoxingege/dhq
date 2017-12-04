@@ -127,7 +127,7 @@ export default {
       updateDataPid: null,
       intervalTime: 6,
       preferredType: 'strategy',
-      preferredId: 'gold',
+      preferredId: 'nearWeekReturn',
       limit: 10,
       noDataList: []
     }
