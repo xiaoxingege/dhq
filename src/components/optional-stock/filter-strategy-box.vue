@@ -12,7 +12,7 @@
 </style>
 <template>
 <div :style={height:boxHeight}>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
+  <router-link :to="{name:'backtestfilter',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
     <div class="gold-strategy-chart" ref="chart"></div>
   </router-link>
 </div>
@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     drawChart: function() {
+      const _this = this
       this.$store.dispatch('optionalStock/getFilterIncome', {
           strategyId: this.strategyId
         })
@@ -128,6 +129,21 @@ export default {
                 },
                 axisTick: {
                   show: false
+                }
+              },
+              tooltip: {
+                trigger: 'axis',
+                textStyle: {
+                  align: 'left',
+                  fontFamily: '微软雅黑',
+                  fontSize: 12
+                },
+                formatter: function(params) {
+                  var s = params[0].name;
+                  for (var i = 0; i < params.length; i++) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + _this.formatData(params[i].value) + '%';
+                  }
+                  return s;
                 }
               },
               color: ['#1984ea', '#ca4941'],

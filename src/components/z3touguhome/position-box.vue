@@ -1,6 +1,6 @@
 <template>
 <div class="position-box" :style="position" v-if="isShow">
-  <div v-if="isNoData" class="no-data">
+  <div v-if="isNoData" class="no-data-position">
     <span>暂无数据</span>
   </div>
   <table class="position-box-table" v-if="!isNoData && type === 'goldTop'">
@@ -134,13 +134,13 @@ export default {
   /*color: #c9d0d7;*/
 }
 
-.no-data {
+.no-data-position {
   width: 100%;
   height: 150px;
   position: relative;
 }
 
-.no-data span {
+.no-data-position span {
   position: absolute;
   top: 50%;
   left: 50%;
