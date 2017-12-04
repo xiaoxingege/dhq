@@ -390,10 +390,10 @@ export default {
         }
         let url = window.location.href.substring(0, window.location.href.indexOf('zstgweb') + 8)
         this.chart.on('dblclick', function(params) {
-          window.location.href = url + 'topic/' + that.topicData[params.dataIndex].topicCode
+          window.open(url + 'topic/' + that.topicData[params.dataIndex].topicCode)
         })
         this.industryChart.on('dblclick', function(params) {
-          window.location.href = url + 'industry/' + that.industryData[params.dataIndex].induCode
+          window.open(url + 'industry/' + that.industryData[params.dataIndex].induCode)
         })
 
       })

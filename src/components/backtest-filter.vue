@@ -404,11 +404,11 @@ span.copy {
         </div>
         <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
       </div>
-      <div v-if="showReturns" :style="{  minHeight: (fullHeight+80) + 'px' }">
-        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+80)"></LineChartFilter>
+      <div v-if="showReturns" :style="{  minHeight: (fullHeight+180) + 'px' }">
+        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+180)"></LineChartFilter>
       </div>
-      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+80) + 'px' }">
-        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+80)"></OneBarFilter>
+      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+180) + 'px' }">
+        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+180)"></OneBarFilter>
       </div>
     </div>
   </div>
