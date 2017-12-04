@@ -15,14 +15,16 @@ export default {
   namespaced: true,
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
-    stockStyle: {},
     topicData: [],
-    industryData: []
+    industryData: [],
+    stockStyle: [],
+    topicAndIndustry: {
+      instury: [],
+      topic: []
+
+    }
   },
   mutations: {
-    updateStockStyle(state, stockStyle) {
-      state.stockStyle = stockStyle
-    },
     setTopicAndIndustry(state, result) {
       if (result.errCode === 0) {
         for (var i = 0; i < result.data.题材板块.length; i++) {
@@ -42,25 +44,29 @@ export default {
           }
         }
       }
+    },
+    updateStockStyle(state, stockStyle) {
+      state.stockStyle = stockStyle
+    },
+    updateTopicAndIndustry(state, topicAndIndustry) {
+      state.topicAndIndustry = topicAndIndustry
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    queryCustomers({
+    queryTopicAndIndustry({
       commit
     }, {
-      sortField
-
+      browseIndex
     }) {
-
-      return fetch(`${domain}/openapi/personas/JRJ2001803730/customers?sort=${sortField}`, {
+      return fetch(`${domain}/openapi/topicAndIndustry.shtml?index=${browseIndex}&limit=5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
-          commit('updateCustomersList', result.data)
+          commit('updateTopicAndIndustry', result.data)
           // console.log(result.data)
         } else {
           commit('ERROR', result, {

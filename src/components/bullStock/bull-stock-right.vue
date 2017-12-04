@@ -91,7 +91,7 @@ th {
 }
 
 .style-table-box td {
-  height: 24px;
+  height: 28px;
 }
 
 .style-table-box2 tr td:nth-child(3) {
@@ -269,6 +269,7 @@ import {
   mapState
 } from 'vuex'
 export default {
+
   data() {
     return {
       browseIndex: 'keepDaysToday',
@@ -281,6 +282,7 @@ export default {
       }
     }
   },
+  props: ['browseIndex'],
   components: {},
   computed: mapState({
     stockStyle: state => state.bullStock.stockStyle,
@@ -331,7 +333,12 @@ export default {
     }
   },
   watch: {
-
+    browseIndex() {
+      // this.updateTime && clearInterval(this.updateTime)
+      this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+        browseIndex: this.browseIndex
+      });
+    }
   },
   mounted() {
     this.$store.dispatch('bullStock/queryStockStyle')

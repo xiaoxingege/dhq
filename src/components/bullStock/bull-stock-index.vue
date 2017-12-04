@@ -37,7 +37,7 @@ body {
 }
 
 .bullRight {
-    background: white;
+    background: #0d0e0f;
     width: 25%;
     height: 100%;
 }
@@ -45,20 +45,29 @@ body {
 <template>
 <div class="bullStock clearfix">
   <div class="bullLeft fl">
-    <Bullstockleft @changeSelectValue="getSelectValue"></Bullstockleft>
+    <Bullstockleft @changeSelectValue="setSelectValue"></Bullstockleft>
   </div>
-  <div class="bullRight fl"></div>
+  <div class="bullRight fl">
+    <BullStockRight :browseIndex='condition' />
+  </div>
 </div>
 </template>
 <script>
 import Bullstockleft from '../../components/bullStock/bull-stock-left.vue'
+import BullStockRight from '../../components/bullStock/bull-stock-right'
 export default {
+  data() {
+    return {
+      condition: ''
+    }
+  },
   components: {
-    Bullstockleft
+    Bullstockleft,
+    BullStockRight
   },
   methods: {
-    getSelectValue: function(v) {
-      console.log(v)
+    setSelectValue: function(v) {
+      this.condition = v;
     }
   }
 }
