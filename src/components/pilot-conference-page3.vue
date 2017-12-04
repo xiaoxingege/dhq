@@ -190,7 +190,7 @@ body {
             </ul>
         </div>
         <div class="level-con1" v-if="level == 1">
-            <div v-for="item in getTopUserListData.winList" style="margin-top:220px;">
+            <div v-for="item in getWinerUserListData.winList" style="margin-top:220px;">
                 <img :src="item.headImage" />
                 <p>
                     <strong>{{item.userName}}</strong>
@@ -199,7 +199,7 @@ body {
             </div>
         </div>
         <div class="level-con2" v-if="level == 2">
-            <div v-for="item in getTopUserListData.winList">
+            <div v-for="item in getWinerUserListData.winList">
                 <img :src="item.headImage" />
                 <p>
                     <strong>{{item.userName}}</strong>
@@ -208,7 +208,7 @@ body {
             </div>
         </div>
         <div class="level-con3" v-if="level == 3">
-            <div v-for="item in getTopUserListData.winList">
+            <div v-for="item in getWinerUserListData.winList">
                 <img :src="item.headImage" />
                 <p>
                     <strong>{{item.userName}}</strong>
@@ -274,6 +274,9 @@ export default {
         letteryType: state => {
             return state.pilotConference.letteryType
         },
+        getWinerUserListData: state => {
+            return state.pilotConference.getWinerUserListData
+        },
         getTopUserListData: state => {
             return state.pilotConference.getTopUserListData
         }
@@ -300,12 +303,15 @@ export default {
         this.$store.dispatch('pilotConference/lettery', {
             level: _this.level
         })
+        this.$store.dispatch('pilotConference/getTopUserList', {
+            level: _this.level
+        })
         this.$watch('letteryType', letteryType => {
             if (letteryType) {
-                this.$store.dispatch('pilotConference/getTopUserList', {
+                this.$store.dispatch('pilotConference/getWinerUserList', {
                     level: _this.level
                 })
-                this.$watch('getTopUserListData', getTopUserListData => {
+                this.$watch('getWinerUserListData', getWinerUserListData => {
                     _this.show = true
                     $(function() {
                         var liHeight = $('.level-con1 li').height() + 227

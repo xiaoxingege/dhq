@@ -16,6 +16,7 @@ export default {
         getTopUserListData1:{},
         getTopUserListData2:{},
         getTopUserListData3:{},
+        getWinerUserListData:{},
         id:0,
         letteryType:false,
         openType:false,
@@ -37,6 +38,9 @@ export default {
         },
         getTopUserListData3(state, res){
             state.getTopUserListData3 = res
+        },
+        getWinerUserListData(state, res){
+            state.getWinerUserListData = res
         },
         setId(state, res){
             state.id = res
@@ -149,6 +153,25 @@ export default {
             }).then(json => {
               if (json.retCode === 0) {
                 commit('closeType', true)
+              } else {
+                commit('setError', {
+                  retCode: json.retCode,
+                  msg: json.msg
+                })
+              }
+            })
+        },
+        getWinerUserList({
+            commit,
+            rootState
+        }, options) {
+            fetch(`http://itougu.jrj.com.cn/smartstock/dlottery/getWinerUserList/${options.level}.jspa`, {
+              credentials: 'include'
+            }).then(res => {
+              return res.json()
+            }).then(json => {
+              if (json.retCode === 0) {
+                commit('getWinerUserListData', json.data)
               } else {
                 commit('setError', {
                   retCode: json.retCode,
