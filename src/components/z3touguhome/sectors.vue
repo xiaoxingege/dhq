@@ -25,7 +25,6 @@
 .sectors-table td {
     border: 1px solid #23272c;
     text-align: center;
-    padding-right: 20px;
     height: 10%;
     width: 30%;
 }

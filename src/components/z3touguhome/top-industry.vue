@@ -24,8 +24,7 @@
 }
 .top-industry-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 10%;
 }
 .top-industry-table tr:nth-child(1) td {

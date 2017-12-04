@@ -14,7 +14,6 @@
 }
 .data-table td {
     border: 1px solid #23272c;
-    padding-right: 20px;
     box-sizing: border-box;
     height: 12.5%;
     text-align: center;

@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     drawChart: function() {
+      const _this = this
       this.$store.dispatch('z3touguIndex/getIncomeList', {
           strategyId: this.strategyId
         })
@@ -124,6 +125,21 @@ export default {
                 },
                 axisTick: {
                   show: false
+                }
+              },
+              tooltip: {
+                trigger: 'axis',
+                textStyle: {
+                  align: 'left',
+                  fontFamily: '微软雅黑',
+                  fontSize: 12
+                },
+                formatter: function(params) {
+                  var s = params[0].name;
+                  for (var i = 0; i < params.length; i++) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + _this.formatData(params[i].value) + '%';
+                  }
+                  return s;
                 }
               },
               color: ['#1984ea', '#ca4941'],
