@@ -55,6 +55,7 @@
     border-radius: 5px;
     background: url("../../assets/images/z3img/time.png") no-repeat;
     background-position: 95% 50%;
+    cursor: pointer;
 }
 
 .timeBox {
@@ -72,6 +73,19 @@
     text-align: center;
     background: #2A3138;
     border-bottom: 2px solid #141518;
+    position: relative;
+}
+.timeBox .ymdDate span:first-child {
+    position: absolute;
+    left: 7px;
+    top: 4px;
+    cursor: pointer;
+}
+.timeBox .ymdDate span:last-child {
+    position: absolute;
+    right: 7px;
+    top: 4px;
+    cursor: pointer;
 }
 
 .monthBox {
@@ -80,13 +94,15 @@
     border-radius: 3px;
 }
 
-.monthBox > div > div {
+.monthBox .month > div {
     text-align: center;
     line-height: 30px;
     cursor: pointer;
     width: 25%;
+    float: left;
 }
-.monthBox > div > div:hover {
+.monthBox .month > div.active,
+.monthBox .month > div:hover {
     background: #457CB6;
 }
 
@@ -219,28 +235,19 @@
           <span class="monthTag fr" @click="showTime"></span>
           <div class="timeBox">
             <div class="ymdDate">
-              <span><img src="../../assets/images/z3img/leftArrow.png"></span>
-              <span>2016</span>
-              <span><img src="../../assets/images/z3img/rightArrow.png"></span>
+              <span @click="changeYear(minus)"><img src="../../assets/images/z3img/leftArrow.png"></span>
+              <span>{{currentY}}</span>
+              <span @click="changeYear(add)"><img src="../../assets/images/z3img/rightArrow.png"></span>
             </div>
             <div class="monthBox">
-              <div class="clearfix">
-                <div class="fl">1月</div>
-                <div class="fl">2月</div>
-                <div class="fl">3月</div>
-                <div class="fl">4月</div>
+              <div class="month clearfix">
+                <div :class="currentM === item ? 'active':''" v-for="item in 4">{{item}}月</div>
               </div>
-              <div class="clearfix">
-                <div class="fl">5月</div>
-                <div class="fl">6月</div>
-                <div class="fl">7月</div>
-                <div class="fl">8月</div>
+              <div class="month clearfix">
+                <div :class="currentM === item ? 'active':''" v-for="item in [5,6,7,8]">{{item}}月</div>
               </div>
-              <div class="clearfix">
-                <div class="fl">9月</div>
-                <div class="fl">10月</div>
-                <div class="fl">11月</div>
-                <div class="fl">12月</div>
+              <div class="month clearfix">
+                <div :class="currentM === item ? 'active':''" v-for="item in [9,10,11,12]">{{item}}月</div>
               </div>
             </div>
           </div>
@@ -299,7 +306,9 @@ export default {
   data() {
     return {
       tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
-      message: 'hello'
+      message: 'hello',
+      currentY: '',
+      currentM: ''
     }
   },
   computed: {
@@ -316,6 +325,7 @@ export default {
     customerPosition: function() {
       return this.$store.state.customerList.customerPosition
     }
+
   },
   components: {
     Portraitradar
@@ -325,7 +335,15 @@ export default {
 
 
     },
-    showTime: function() {
+    getCurrentTime: function() {
+      const date = new Date();
+      this.currentY = date.getFullYear()
+      this.currentM = date.getMonth() + 1
+      console.log(this.currentY)
+      console.log(this.currentM)
+
+    },
+    changeYear: function(type) {
 
     }
   },
@@ -334,6 +352,7 @@ export default {
     this.$store.dispatch('customerList/getCustomerTag')
     this.$store.dispatch('customerList/getAnalyAbility')
     this.$store.dispatch('customerList/getPositonCommand')
+    this.getCurrentTime()
   }
 }
 </script>
