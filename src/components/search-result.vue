@@ -132,9 +132,9 @@ body {
       <p class="searchInfo">{{item.strategyDesc}}</p>
       <p class="searchTime" v-if="item.strategyTypeCode === 3">
         {{item.strategyTypeName}}
-        <span class="ml-40">近1周{{item.nearWeekReturn | decimal(2)}}%，</span>
-        <span>近1月{{item.near3monReturn | decimal(2)}}%，</span>
-        <span>近3月{{item.near6monReturn | decimal(2)}}%，</span>
+        <span class="ml-40">近1周{{(item.nearWeekReturn*100) | decimal(2)}}%，</span>
+        <span>近1月{{(item.near3monReturn*100) | decimal(2)}}%，</span>
+        <span>近3月{{(item.near6monReturn*100) | decimal(2)}}%，</span>
         <span>平均持有{{item.avgHoldDays | decimal(0)}}天</span>
       </p>
       <p class="searchTime" v-if="item.strategyTypeCode === 2">
