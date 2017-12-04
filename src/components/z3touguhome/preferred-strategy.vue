@@ -88,7 +88,7 @@
       <tr>
         <td>策略名称</td>
         <td>{{positionNum}}</td>
-        <td>近一周收益率</td>
+        <td>{{tableTitle}}</td>
       </tr>
       <tr v-for="item of stockList">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
@@ -127,7 +127,8 @@ export default {
       top: '',
       left: '',
       isShow: false,
-      positionNum: '当前持仓'
+      positionNum: '当前持仓',
+      tableTitle: '近一周累计收益'
     }
   },
   watch: {
@@ -161,18 +162,21 @@ export default {
     initPreferredStrategy() {
       if (this.type === 'goldTop') {
         this.positionNum = '当前持仓'
+        this.tableTitle = '近一周累计收益'
         this.$store.dispatch('z3touguIndex/getPreferredGoldData')
           .then(() => {
             this.stockList = this.preferredGoldData
           })
       } else if (this.type === 'filterTop') {
         this.positionNum = '当前选股'
+        this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredFilterData')
           .then(() => {
             this.stockList = this.preferredFilterData
           })
       } else if (this.type === 'timeTop') {
         this.positionNum = '平均持有天数'
+        this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredTimeData')
           .then(() => {
             this.stockList = this.preferredTimeData
