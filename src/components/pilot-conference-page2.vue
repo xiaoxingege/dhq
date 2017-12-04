@@ -173,11 +173,11 @@ export default {
     methods: {
         rightLink() {
             if (getQueryString('level') === '1') {
-                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=1'
+                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages3?level=1'
             } else if (getQueryString('level') === '2') {
-                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=2'
+                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages3?level=2'
             } else if (getQueryString('level') === '3') {
-                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages3.html?level=3'
+                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages3?level=3'
             }
         }
     },

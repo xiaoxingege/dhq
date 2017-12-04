@@ -6,6 +6,7 @@ body {
 </style>
 <style lang="scss">
 @import '../assets/css/reset.css';
+@import '../assets/css/animate.min.css';
 .box {
     width: 100%;
     height: 1080px;
@@ -26,10 +27,6 @@ body {
     display: inline;
     overflow: hidden;
 }
-// .left ul {
-//     height: 720px;
-//
-// }
 .left li {
     width: 100%;
     height: 0;
@@ -148,10 +145,11 @@ body {
         </div>
         <div class="right">
             <ul>
-                <li v-for="item in LastLotteryData.topInfoList" v-if="show">
-                    <div>{{item.stockName}}</div>
-                    <div>{{item.rate}}%</div>
-                    <div class="red">{{item.size}}人</div>
+                <li v-for="item,index in LastLotteryData.topInfoList" v-if="show" :class="item.size > 0 ? 'animated flipInX':' animated'">
+                    <div v-if='item.size === 0'>Top{{index+1}}</div>
+                    <div v-if='item.size > 0'>{{item.stockName}} </div>
+                    <div v-if='item.size > 0'>{{item.rate}}%</div>
+                    <div class="red" v-if='item.size > 0'>{{item.size}}人</div>
                 </li>
             </ul>
             <img src="../assets/images/pilot-conference/pilot-conference-img2.png" />
@@ -186,7 +184,7 @@ export default {
     methods: {
         rightLink() {
             if (this.LastLotteryData.status === 2) {
-                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages2.html?level=3'
+                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=3'
             } else {
                 alert('请先停止选股')
             }
