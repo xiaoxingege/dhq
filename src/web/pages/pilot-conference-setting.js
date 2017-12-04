@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/pilot-conference-page3'
+import App from 'components/pilot-conference-setting'
 
 /*
  * 引入vuex

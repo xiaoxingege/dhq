@@ -142,120 +142,16 @@ body {
     <a href="javascript:history.go(-1);" class="left-link"></a>
     <div class="right-link" @click="rightLink"></div>
     <div class="box-con">
-        <!-- <div class="gp-text">京东方A</div>
-        <div class="gp-">
-
-        </div> -->
         <div class="left">
             <ul>
-                <!-- <li v-for="item in dataList">
-                    <div>
-                        <img :src="item.headImg" />
-                        <p>
-                            <strong>{{item.userName}}</strong>
-                            <span>{{item.phoneNum}}</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>{{item.gpText}}</strong>
-                    </div>
-                    <div>
-                        <strong>{{item.gpRise}}</strong>
-                    </div>
-                </li> -->
-                <!-- <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                    <div>
-                        <strong>京东方A</strong>
-                    </div>
-                    <div>
-                        <strong>＋10%</strong>
-                    </div>
-                </li> -->
             </ul>
         </div>
         <div class="right">
             <ul>
-                <li>
-                    <div>京东方A</div>
-                    <div>＋10%</div>
-                    <div class="red">40人</div>
-                </li>
-                <li>
-                    <div>京东方A</div>
-                    <div>＋10%</div>
-                    <div class="red">40人</div>
-                </li>
-                <li>
-                    <div>京东方A</div>
-                    <div>＋10%</div>
-                    <div class="red">40人</div>
+                <li v-for="item in LastLotteryData.topInfoList" v-if="show">
+                    <div>{{item.stockName}}</div>
+                    <div>{{item.rate}}%</div>
+                    <div class="red">{{item.size}}人</div>
                 </li>
             </ul>
             <img src="../assets/images/pilot-conference/pilot-conference-img2.png" />
@@ -274,140 +170,77 @@ export default {
     data() {
 
         return {
-            dataList: [{
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }, {
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }, {
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }, {
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }, {
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }, {
-                'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-                'userName': '用户名',
-                'phoneNum': '186****0000',
-                'gpText': '京东方A',
-                'gpRise': '＋10%'
-            }]
+            show: false,
+            id: ''
         }
     },
     computed: mapState({
-        // type: state => {
-        //     return state.reservation.type
-        // },
-        // err: state => {
-        //     return state.reservation.err
-        // }
+        LastLotteryData: state => {
+            return state.pilotConference.LastLotteryData
+        },
+        err: state => {
+            return state.pilotConference.err
+        }
     }),
     components: {},
     methods: {
         rightLink() {
-            window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages2.html?level=3'
+            if (this.LastLotteryData.status === 2) {
+                window.location.href = 'http://localhost:8081/dist/web/pilot-conference-stages2.html?level=3'
+            } else {
+                alert('请先停止选股')
+            }
         }
     },
     mounted() {
         document.title = '领航中国大会'
-        // var a = [{
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '111用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '222用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '333用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '111用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '222用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '333用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '111用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '222用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }, {
-        //     'headImg': require('../assets/images/pilot-conference/pilot-conference-img1.png'),
-        //     'userName': '333用户名',
-        //     'phoneNum': '186****0000',
-        //     'gpText': '京东方A',
-        //     'gpRise': '＋10%',
-        //     'a': true
-        // }]
-        // var _this = this;
+        var _this = this
+        this.$store.dispatch('pilotConference/getLastLottery', {
+            id: 0
+        })
+        this.$watch('LastLotteryData', LastLotteryData => {
+            var htmls = ''
+            this.show = true
 
-        function doSetTimeout(i) {
-            setTimeout(function() {
-                // _this.dataList.unshift(a[i])
-                var htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + require('../assets/images/pilot-conference/pilot-conference-img1.png') +
-                    '" /><p><strong>用户名</strong><span>186****0000</span></p></div><div><strong>京东方A' + i +
-                    '</strong></div><div><strong>＋10%</strong></div></li>'
-                $('.left ul').prepend(htmls)
-                $('.a' + i).height('120px')
-            }, i * 800);
-        }
-        for (var i = 0; i < 6; ++i) {
-            doSetTimeout(i);
-        }
+            if (LastLotteryData.userList.length === 0) {
+                setTimeout(function() {
+                    _this.$store.dispatch('pilotConference/getLastLottery', {
+                        id: _this.id
+                    })
+                }, 1000)
+            } else {
+                for (var i = 0; i < LastLotteryData.userList.length; ++i) {
+                    doSetTimeout(i);
+                }
+            }
+
+            function doSetTimeout(i) {
+                if (i + 1 === LastLotteryData.userList.length) {
+                    setTimeout(function() {
+                        _this.id = LastLotteryData.userList[0].id
+                        _this.$store.dispatch('pilotConference/getLastLottery', {
+                            id: LastLotteryData.userList[0].id
+                        })
+                    }, (LastLotteryData.userList.length) * 400)
+                }
+                setTimeout(function() {
+                    if (LastLotteryData.userList[i].mobile) {
+                        htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
+                            '" /><p><strong>' + LastLotteryData.userList[i].userName + '</strong><span>' + LastLotteryData.userList[i].mobile + '</span></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
+                            '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
+                            '%</strong></div></li>'
+                    } else {
+                        htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
+                            '" /><p><strong style="margin-top:20px;">' + LastLotteryData.userList[i].userName + '</strong></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
+                            '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
+                            '%</strong></div></li>'
+                    }
+                    $('.left ul').prepend(htmls)
+                    $('.a' + i).height('120px')
+                }, i * 400);
+            }
+
+        })
     }
 }
 </script>

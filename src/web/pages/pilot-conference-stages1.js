@@ -15,10 +15,10 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
-// import user from 'stores/user'
+import pilotConference from 'stores/pilot-conference'
 const store = new Vuex.Store({
   modules: {
-    // user
+    pilotConference
   }
 })
 

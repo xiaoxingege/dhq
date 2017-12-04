@@ -25,6 +25,7 @@ body {
 .box-con {
     width: 1455px;
     margin: 0 auto;
+    position: relative;
 }
 .box-con .title {
     width: 395px;
@@ -109,6 +110,16 @@ body {
     bottom: 0;
     right: 0;
 }
+.title1 {
+    color: #03fdfd;
+    font-size: 36px;
+    position: absolute;
+    left: 905px;
+    top: 163px;
+}
+.title1 span {
+    color: #f56e5e;
+}
 </style>
 
 <template>
@@ -117,286 +128,17 @@ body {
     <div class="right-link" @click="rightLink"></div>
     <div class="box-con">
         <div class="title">
-            <strong>京东方A</strong>
-            <span>+10%</span>
+            <strong>{{getTopUserListData.stockName}}</strong>
+            <span>+{{getTopUserListData.rate}}%</span>
         </div>
+        <div class="title1" v-if="show"><em v-text="level == 1 ? '一' : level > 1 && level < 3 ? '二' : '三'"></em>等奖获奖者将从以下<span>{{getTopUserListData.userList.length}}人</span>中抽出</div>
         <ul>
-            <li>
+            <li v-for="item in getTopUserListData.userList" v-if="show">
                 <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
+                    <img :src="item.headImage" />
                     <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                    <p>
-                        <strong>用户名</strong>
-                        <span>186****0000</span>
+                        <strong>{{item.userName}}</strong>
+                        <span>{{item.mobile}}</span>
                     </p>
                 </div>
             </li>
@@ -415,16 +157,17 @@ window.jQuery = window.$ = jQuery
 export default {
     data() {
         return {
-            level: ''
+            level: '',
+            show: false
         }
     },
     computed: mapState({
-        // type: state => {
-        //     return state.reservation.type
-        // },
-        // err: state => {
-        //     return state.reservation.err
-        // }
+        getTopUserListData: state => {
+            return state.pilotConference.getTopUserListData
+        },
+        err: state => {
+            return state.pilotConference.err
+        }
     }),
     components: {},
     methods: {
@@ -440,11 +183,21 @@ export default {
     },
     mounted() {
         document.title = '领航中国大会'
+        var _this = this
         if (!getQueryString('level')) {
             this.level = '1'
         } else {
             this.level = getQueryString('level')
         }
+        this.$store.dispatch('pilotConference/getTopUserList', {
+            level: _this.level
+        })
+        this.$watch('getTopUserListData', getTopUserListData => {
+            if (getTopUserListData.userList.length !== 0) {
+                _this.show = true
+
+            }
+        })
     }
 }
 </script>

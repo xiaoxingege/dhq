@@ -177,87 +177,44 @@ body {
     <div class="box-con">
         <div class="level-con1" v-if="show">
             <ul>
-                <li>
+                <li v-for="item in getTopUserListData.userList">
                     <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
+                        <img :src="item.headImage" />
                         <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                        <p>
-                            <strong>用户名</strong>
-                            <span>186****0000</span>
+                            <strong>{{item.userName}}</strong>
+                            <span>{{item.mobile}}</span>
                         </p>
                     </div>
                 </li>
             </ul>
         </div>
         <div class="level-con1" v-if="level == 1">
-            <div style="margin-top:227px;">
-                <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
+            <div v-for="item in getTopUserListData.winList" style="margin-top:220px;">
+                <img :src="item.headImage" />
                 <p>
-                    <strong>用户名123123123</strong>
-                    <span>186****0000</span>
+                    <strong>{{item.userName}}</strong>
+                    <span>{{item.mobile}}</span>
                 </p>
             </div>
         </div>
         <div class="level-con2" v-if="level == 2">
-            <div>
-                <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
+            <div v-for="item in getTopUserListData.winList">
+                <img :src="item.headImage" />
                 <p>
-                    <strong>用户名</strong>
-                    <span>186****0000</span>
-                </p>
-            </div>
-            <div>
-                <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                <p>
-                    <strong>用户名</strong>
-                    <span>186****0000</span>
-                </p>
-            </div>
-            <div>
-                <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                <p>
-                    <strong>用户名</strong>
-                    <span>186****0000</span>
+                    <strong>{{item.userName}}</strong>
+                    <span>{{item.mobile}}</span>
                 </p>
             </div>
         </div>
         <div class="level-con3" v-if="level == 3">
-            <div>
+            <div v-for="item in getTopUserListData.winList">
+                <img :src="item.headImage" />
+                <p>
+                    <strong>{{item.userName}}</strong>
+                    <span>{{item.mobile}}</span>
+                </p>
+            </div>
+            <!-- <div>
                 <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
                 <p>
                     <strong>用户名</strong>
@@ -291,14 +248,7 @@ body {
                     <strong>用户名</strong>
                     <span>186****0000</span>
                 </p>
-            </div>
-            <div>
-                <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
-                <p>
-                    <strong>用户名</strong>
-                    <span>186****0000</span>
-                </p>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -315,16 +265,16 @@ export default {
     data() {
         return {
             level: '',
-            show: true
+            show: false
         }
     },
     computed: mapState({
-        // type: state => {
-        //     return state.reservation.type
-        // },
-        // err: state => {
-        //     return state.reservation.err
-        // }
+        letteryType: state => {
+            return state.pilotConference.letteryType
+        },
+        getTopUserListData: state => {
+            return state.pilotConference.getTopUserListData
+        }
     }),
     components: {},
     methods: {
@@ -344,22 +294,37 @@ export default {
         } else {
             _this.level = getQueryString('level')
         }
-        $(function() {
-            var liHeight = $('.level-con1 li').height() + 227
-            var timeBox = setInterval(function() {
-                $('.level-con1 ul').animate({
-                    'margin-top': '-' + liHeight
-                }, 220, 'linear', function() {
-                    $('.level-con1 ul').append($('.level-con1 ul li:first'))
-                    $('.level-con1 ul').css({
-                        'margin-top': '227px'
+
+        this.$store.dispatch('pilotConference/lettery', {
+            level: _this.level
+        })
+        this.$watch('letteryType', letteryType => {
+            if (letteryType) {
+                this.$store.dispatch('pilotConference/getTopUserList', {
+                    level: _this.level
+                })
+                this.$watch('getTopUserListData', getTopUserListData => {
+                    // console.log(winListData)
+                    _this.show = true
+                    $(function() {
+                        var liHeight = $('.level-con1 li').height() + 227
+                        var timeBox = setInterval(function() {
+                            $('.level-con1 ul').animate({
+                                'margin-top': '-' + liHeight
+                            }, 220, 'linear', function() {
+                                $('.level-con1 ul').append($('.level-con1 ul li:first'))
+                                $('.level-con1 ul').css({
+                                    'margin-top': '227px'
+                                })
+                            })
+                        }, 220)
+                        setTimeout(function() {
+                            clearInterval(timeBox)
+                            _this.show = false
+                        }, 5000)
                     })
                 })
-            }, 220)
-            setTimeout(function() {
-                clearInterval(timeBox)
-                _this.show = false
-            }, 5000)
+            }
         })
     }
 }
