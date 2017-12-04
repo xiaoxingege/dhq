@@ -24,7 +24,7 @@
     text-align: left;
     color: #c9d0d7;
     padding-right: 0;
-    padding-left: 48px;
+    padding-left: 23px;
     width: 40%;
 }
 .no-data {

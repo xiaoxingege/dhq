@@ -52,7 +52,7 @@
 }
 .sectors-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
 }

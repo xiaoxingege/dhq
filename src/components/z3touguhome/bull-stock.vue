@@ -3,11 +3,11 @@
     width: 100%;
 }
 .bull-stock-top {
-    height: 11.5%;
+    height: 15%;
     position: relative;
 }
 .bull-stock-table-wrap {
-    height: 88.5%;
+    height: 85%;
 }
 .bull-stock-table {
     width: 100%;
@@ -28,7 +28,7 @@
 }
 .bull-stock-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     padding-right: 0;
     border-left-width: 0;
 }
