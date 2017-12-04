@@ -47,7 +47,7 @@ export default {
         incomeListData.totalReturn = []
         incomeListData.benchmarkPeriodReturn = []
         for (let i = 0; i < incomeListData.length; i++) {
-          incomeListData.backtestDate.push(this.getTime(incomeListData[i].backtestDate)) // 时间
+          incomeListData.backtestDate.push(this.dateFormatUtil(incomeListData[i].backtestDate)) // 时间
           incomeListData.totalReturn.push(incomeListData[i].totalReturn) // 总收益率
           incomeListData.benchmarkPeriodReturn.push(incomeListData[i].benchmarkPeriodReturn) // 基准收益率
         }
@@ -182,12 +182,13 @@ export default {
       }
       return getVal
     },
-    getTime: function() {
-      const date = new Date()
-      let month = date.getMonth() + 1
-      let strDate = date.getDate()
-      const currentDate = date.getFullYear() + '-' + month + '-' + strDate
-      return currentDate
+    dateFormatUtil: function(date) {
+      date = date.toString()
+      let dateTypeDate = ''
+      dateTypeDate += date.substring(0, 4) // 年
+      dateTypeDate += '-' + date.substring(4, 6) // 月
+      dateTypeDate += '-' + date.substring(6, 8) // 日
+      return dateTypeDate
     }
   },
   mounted() {
