@@ -32,8 +32,7 @@
 
 .preferred-strategy-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 12%;
     color: #c9d0d7;
 }

@@ -29,8 +29,7 @@
 
 .preferred-stock-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 10%;
 }
 .preferred-stock-table tr:nth-child(1) td {
@@ -97,7 +96,7 @@
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-        <td style="color:#c9d0d7">{{formatData(item.totlNum)?'--':(item.totlNum/10000).toFixed(2)+'万'}}</td>
+        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.totlNum)?'--':(item.totlNum/10000).toFixed(2)+'万'}}</td>
       </tr>
       <tr v-for="item of noDataList">
         <td>{{item.name}}</td>

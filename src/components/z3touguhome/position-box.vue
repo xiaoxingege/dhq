@@ -4,6 +4,12 @@
     <span>暂无数据</span>
   </div>
   <table class="position-box-table" v-if="!isNoData && type === 'goldTop'">
+    <tr style="color:#666;">
+      <td>股票代码</td>
+      <td>股票简称</td>
+      <td>最新价</td>
+      <td>涨跌幅</td>
+    </tr>
     <tr v-for="item of positionList">
       <td style="color:#666;">{{formatData(item.id)?'--':item.id}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
