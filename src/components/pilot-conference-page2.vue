@@ -124,8 +124,8 @@ body {
 
 <template>
 <div :class="level == 1 ? 'box' : level > 1 && level < 3 ? 'box level1' : 'box level2'">
-    <a href="javascript:history.go(-1);" class="left-link"></a>
-    <div class="right-link" @click="rightLink"></div>
+    <a href="javascript:history.go(-1);" class="left-link" v-if="linkShow"></a>
+    <div class="right-link" @click="rightLink" v-if="linkShow"></div>
     <div class="box-con">
         <div class="title">
             <strong>{{getTopUserListData.stockName}}</strong>
@@ -158,7 +158,8 @@ export default {
     data() {
         return {
             level: '',
-            show: false
+            show: false,
+            linkShow: false
         }
     },
     computed: mapState({
@@ -198,6 +199,9 @@ export default {
 
             }
         })
+        setTimeout(function() {
+            _this.linkShow = true
+        }, 3000)
     }
 }
 </script>

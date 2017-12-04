@@ -78,24 +78,24 @@ body {
 
 .level-con2 {
     float: left;
-    margin: 513px 0 0;
+    margin: 450px 0 0;
 }
 .box-con .level-con2 div {
-    height: 180px;
+    height: 335px;
     float: left;
-    width: 485px;
-    background: url("../assets/images/pilot-conference/pilot-conference-head-bg3.png") 26px 0 no-repeat;
+    width: 290px;
+    background: url("../assets/images/pilot-conference/pilot-conference-head-bg3.png") center 0 no-repeat;
 }
 .box-con .level-con2 div img {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
     float: left;
     border-radius: 50%;
-    margin: 10px 0 0 40px;
+    margin: 15px 0 0 80px;
     display: inline;
 }
 .box-con .level-con2 div p {
-    width: 260px;
+    width: 290px;
     float: left;
     margin-left: 20px;
     color: #fff;
@@ -106,45 +106,47 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: center;
 }
 .box-con .level-con2 div p span {
     font-size: 38px;
+    text-align: center;
 }
 
 .level-con3 {
     float: left;
-    margin: 380px 0 0;
+    margin: 275px 0 0;
 }
 .box-con .level-con3 div {
-    height: 170px;
+    height: 335px;
     float: left;
-    width: 485px;
-    background: url("../assets/images/pilot-conference/pilot-conference-head-bg4.png") 26px 0 no-repeat;
-    margin-bottom: 84px;
+    width: 290px;
+    background: url("../assets/images/pilot-conference/pilot-conference-head-bg4.png") center 0 no-repeat;
 }
 .box-con .level-con3 div img {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     float: left;
     border-radius: 50%;
-    margin: 10px 0 0 40px;
+    margin: 15px 0 0 80px;
     display: inline;
 }
 .box-con .level-con3 div p {
-    width: 260px;
+    width: 290px;
     float: left;
-    margin-left: 20px;
     color: #fff;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 .box-con .level-con3 div p strong {
     font-size: 44px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: center;
 }
 .box-con .level-con3 div p span {
     font-size: 36px;
+    text-align: center;
 }
 .box-con div p span,
 .box-con div p strong {
@@ -171,9 +173,8 @@ body {
 
 <template>
 <div :class="level == 1 ? 'box' : level > 1 && level < 3 ? 'box level1' : 'box level2'">
-    <!-- <div class="left-link" @click="leftLink"></div> -->
-    <a href="javascript:history.go(-1);" class="left-link"></a>
-    <div class="right-link" @click="rightLink"></div>
+    <a href="javascript:history.go(-1);" class="left-link" v-if="linkShow"></a>
+    <div class="right-link" @click="rightLink" v-if="linkShow"></div>
     <div class="box-con">
         <div class="level-con1" v-if="show">
             <ul>
@@ -265,7 +266,8 @@ export default {
     data() {
         return {
             level: '',
-            show: false
+            show: false,
+            linkShow: false
         }
     },
     computed: mapState({
@@ -304,7 +306,6 @@ export default {
                     level: _this.level
                 })
                 this.$watch('getTopUserListData', getTopUserListData => {
-                    // console.log(winListData)
                     _this.show = true
                     $(function() {
                         var liHeight = $('.level-con1 li').height() + 227
@@ -326,6 +327,9 @@ export default {
                 })
             }
         })
+        setTimeout(function() {
+            _this.linkShow = true
+        }, 3000)
     }
 }
 </script>

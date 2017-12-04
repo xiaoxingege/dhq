@@ -100,6 +100,24 @@ body {
     background: url("../assets/images/pilot-conference/pilot-conference-right-bg.png") 0 0 no-repeat;
     margin-bottom: 18px;
 }
+.right li.rightList-1 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg4.png") 0 0 no-repeat;
+}
+.right li.rightList-2 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg.png") 0 0 no-repeat;
+}
+.right li.rightList-3 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg.png") 0 0 no-repeat;
+}
+.right li.rightList1 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg1.png") 0 0 no-repeat;
+}
+.right li.rightList2 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg2.png") 0 0 no-repeat;
+}
+.right li.rightList3 {
+    background: url("../assets/images/pilot-conference/pilot-conference-right-bg3.png") 0 0 no-repeat;
+}
 .right li:last-child {
     margin-bottom: 13px;
 }
@@ -145,8 +163,7 @@ body {
         </div>
         <div class="right">
             <ul>
-                <li v-for="item,index in LastLotteryData.topInfoList" v-if="show" :class="item.size > 0 ? 'animated flipInX':' animated'">
-                    <div v-if='item.size === 0'>Top{{index+1}}</div>
+                <li v-for="item,index in LastLotteryData.topInfoList" v-if="show" :class="item.size > 0 ? 'animated flipInX rightList-'+(index+1):' animated rightList'+(index+1)">
                     <div v-if='item.size > 0'>{{item.stockName}} </div>
                     <div v-if='item.size > 0'>{{item.rate}}%</div>
                     <div class="red" v-if='item.size > 0'>{{item.size}}人</div>
@@ -186,7 +203,7 @@ export default {
             if (this.LastLotteryData.status === 2) {
                 window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=3'
             } else {
-                alert('请先停止选股')
+                return
             }
         }
     },
