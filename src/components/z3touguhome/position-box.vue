@@ -101,7 +101,6 @@ export default {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function() {
-          debugger
           _this.init()
         }, 1000 * _this.intervalTime)
       }
