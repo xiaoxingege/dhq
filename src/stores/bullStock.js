@@ -32,7 +32,8 @@ export default {
             heatIndex: result.data.题材板块[i].topicMarket.heatIndex,
             chngPct: result.data.题材板块[i].topicMarket.chngPct,
             keepDaysToday: result.data.题材板块[i].topicMarket.keepDaysToday,
-            name: result.data.题材板块[i].topicName
+            name: result.data.题材板块[i].topicName,
+            topicCode: result.data.题材板块[i].topicCode
           }
         }
         for (var j = 0; j < result.data.行业板块.length; j++) {
@@ -40,7 +41,8 @@ export default {
             heatIndex: result.data.行业板块[j].induMarket.heatIndex,
             chngPct: result.data.行业板块[j].induMarket.chngPct,
             keepDaysToday: result.data.行业板块[j].induMarket.keepDaysToday,
-            name: result.data.行业板块[j].induName
+            name: result.data.行业板块[j].induName,
+            induCode: result.data.行业板块[j].induCode
           }
         }
       }
@@ -90,8 +92,10 @@ export default {
     },
     getTopicAndIndustry({
       commit
+    }, {
+      index
     }) {
-      return fetch(`${domain}/openapi/topicAndIndustry.shtml?index=keepDaysToday&limit=20`, {
+      return fetch(`${domain}/openapi/topicAndIndustry.shtml?index=${index}&limit=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

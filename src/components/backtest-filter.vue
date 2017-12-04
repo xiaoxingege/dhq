@@ -58,7 +58,7 @@ body {
 .bfilter-ul li {
     /* padding: 7px 15px 5px 14px; */
     padding: 4px 17px 5px 18px;
-    /* border: 1px solid #0d0e0f; */
+    border-right: 1px solid #1A1B20;
     cursor: pointer;
 }
 .bfilter-ul li.active {

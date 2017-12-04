@@ -198,7 +198,6 @@ export default {
       this.currentTime = currentdate
     },
     initChart(key) {
-
       let model = {
         yCates: ['1', '2', '3', '4', '5'],
         xCates: ['1', '2', '3', '4'],
@@ -250,8 +249,9 @@ export default {
         ]
 
       }
-
-      this.$store.dispatch('bullStock/getTopicAndIndustry').then(() => {
+      this.$store.dispatch('bullStock/getTopicAndIndustry', {
+        index: this.bullSelected
+      }).then(() => {
         const that = this
 
         let tData = this.topicData.sort(this.compare(key)).slice().reverse()
@@ -263,16 +263,16 @@ export default {
         for (let j = 0; j < model.induData.length; j++) {
           model.induData[j][2] = iData[j][key]
         }
+
         let dataT = model.topicData.map(function(item) {
           return [item[1], item[0], item[2] || '-'];
         });
         let dataI = model.induData.map(function(item) {
           return [item[1], item[0], item[2] || '-'];
         })
-        // console.log(dataT)
-        // console.log(dataI)
-        this.chart = echarts.init(document.getElementsByClassName('themeBox')[0])
-        this.industryChart = echarts.init(document.getElementsByClassName('industryBox')[0])
+        this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
+        this.industryChart = echarts.getInstanceByDom(document.getElementsByClassName('industryBox')[0]) || echarts.init(document.getElementsByClassName('industryBox')[0])
+
         this.chart.setOption({
           animation: true,
           visualMap: [{
@@ -367,7 +367,7 @@ export default {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
-                    return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
+                    return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
                   return that.industryData[params.dataIndex].name + '\n\n' + params.data[2]
                 }
@@ -388,8 +388,13 @@ export default {
           that.chart.resize()
           that.industryChart.resize()
         }
-        // this.chart.resize
-        // this.industryChart.resize
+        let url = window.location.href.substring(0, window.location.href.indexOf('zstgweb') + 8)
+        this.chart.on('dblclick', function(params) {
+          window.location.href = url + 'topic/' + that.topicData[params.dataIndex].topicCode
+        })
+        this.industryChart.on('dblclick', function(params) {
+          window.location.href = url + 'industry/' + that.industryData[params.dataIndex].induCode
+        })
 
       })
     },
@@ -424,7 +429,9 @@ export default {
     setInterval(function() {
       that.getTime()
     }, 1000)
-    // this.$store.dispatch('bullStock/getTopicAndIndustry')
+    setInterval(function() {
+      that.initChart(that.bullSelected)
+    }, 60000)
     this.initChart(this.bullSelected)
   }
 
