@@ -208,6 +208,8 @@ export default {
         } else {
           avg = parseInt(avg);
         }
+      } else if (this.condition === 'act_date') {
+        avg = '';
       }
       return avg === 'NaN' ? '--' : avg;
     }
