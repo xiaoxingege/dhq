@@ -21,7 +21,12 @@
     color: #C9D0D7;
     cursor: pointer;
 }
-
+.syqxTab li:first-child {
+    border-radius: 3px 0 0 3px;
+}
+.syqxTab li:last-child {
+    border-radius: 0 3px 3px 0;
+}
 .syqxTab li.active {
     background: #1984EA;
 }
