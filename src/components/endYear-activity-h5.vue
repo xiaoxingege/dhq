@@ -79,9 +79,9 @@ button {
     width: 1.33rem;
     height: 1.64rem;
     position: fixed;
-    top: 30%;
+    top: 53%;
     right: 0;
-    background: url("../assets/images/endYear-activity/endYear-h5-nav.png") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-h5-nav1.png") center 0 no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
