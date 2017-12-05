@@ -640,17 +640,17 @@ export default {
             _this.needle = '#i_cont'
             if (_this.lotteryNum > 0) {
                 if (_this.lotteryNum === 1) {
-                    _this.resultAngle[0].p = 0
+                    // _this.resultAngle[0].p = 0
                     _this.resultAngle[1].p = 0
                     _this.resultAngle[3].p = 0
                     _this.resultAngle[4].p = 0
-                    _this.resultAngle[2].p = 0.5
-                    _this.resultAngle[5].p = 0.5
+                    // _this.resultAngle[2].p = 0.5
+                    _this.resultAngle[5].p = 1
                 } else if (_this.lotteryNum === 2) {
-                    _this.resultAngle[0].p = 0.25
-                    _this.resultAngle[1].p = 0.25
-                    _this.resultAngle[3].p = 0.25
-                    _this.resultAngle[4].p = 0.25
+                    // _this.resultAngle[0].p = 0.25
+                    _this.resultAngle[1].p = 0.33
+                    _this.resultAngle[3].p = 0.33
+                    _this.resultAngle[4].p = 0.33
                 }
                 rotate.calculateResult(1, 1);
             } else {
@@ -663,17 +663,17 @@ export default {
             _this.needle = '#i_cont1'
             if (_this.lotteryNum > 0) {
                 if (_this.lotteryNum === 1) {
-                    _this.resultAngle[0].p = 0
+                    // _this.resultAngle[0].p = 0
                     _this.resultAngle[1].p = 0
                     _this.resultAngle[3].p = 0
                     _this.resultAngle[4].p = 0
-                    _this.resultAngle[2].p = 0.5
-                    _this.resultAngle[5].p = 0.5
+                    // _this.resultAngle[2].p = 0.5
+                    _this.resultAngle[5].p = 1
                 } else if (_this.lotteryNum === 2) {
-                    _this.resultAngle[0].p = 0.25
-                    _this.resultAngle[1].p = 0.25
-                    _this.resultAngle[3].p = 0.25
-                    _this.resultAngle[4].p = 0.25
+                    // _this.resultAngle[0].p = 0.25
+                    _this.resultAngle[1].p = 0.33
+                    _this.resultAngle[3].p = 0.33
+                    _this.resultAngle[4].p = 0.33
                 }
                 rotate.calculateResult(1, 1);
             } else {
