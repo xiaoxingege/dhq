@@ -42,6 +42,9 @@
 </div>
 </template>
 <script>
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: ['data', 'type', 'styleObject'],
   data() {
@@ -62,6 +65,9 @@ export default {
     changeTab(e) {
       const type = e.target.getAttribute('value')
       this.$emit('changeType', type)
+      if (type === 'bullStockStyle') {
+        window.open(ctx + '/bullStock')
+      }
     }
   },
   mounted() {
