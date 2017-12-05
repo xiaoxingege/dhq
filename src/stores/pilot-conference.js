@@ -13,10 +13,10 @@ export default {
         dataList: {},
         LastLotteryData:{},
         getTopUserListData:{},
-        getTopUserListData1:{},
-        getTopUserListData2:{},
-        getTopUserListData3:{},
         getWinerUserListData:{},
+        getWinerUserListData1:{},
+        getWinerUserListData2:{},
+        getWinerUserListData3:{},
         id:0,
         letteryType:false,
         openType:false,
@@ -30,14 +30,14 @@ export default {
         getTopUserListData(state, res){
             state.getTopUserListData = res
         },
-        getTopUserListData1(state, res){
-            state.getTopUserListData1 = res
+        getWinerUserListData1(state, res){
+            state.getWinerUserListData1 = res
         },
-        getTopUserListData2(state, res){
-            state.getTopUserListData2 = res
+        getWinerUserListData2(state, res){
+            state.getWinerUserListData2 = res
         },
-        getTopUserListData3(state, res){
-            state.getTopUserListData3 = res
+        getWinerUserListData3(state, res){
+            state.getWinerUserListData3 = res
         },
         getWinerUserListData(state, res){
             state.getWinerUserListData = res
@@ -165,13 +165,23 @@ export default {
             commit,
             rootState
         }, options) {
-            fetch(`http://itougu.jrj.com.cn/smartstock/dlottery/getWinerUserList/${options.level}.jspa`, {
+            var url
+            if(options.type){
+                url = `http://itougu.jrj.com.cn/smartstock/dlottery/getWinerUserList/${options.level}.jspa?allFlag=1`
+            }else{
+                url = `http://itougu.jrj.com.cn/smartstock/dlottery/getWinerUserList/${options.level}.jspa`
+            }
+            fetch(url, {
               credentials: 'include'
             }).then(res => {
               return res.json()
             }).then(json => {
               if (json.retCode === 0) {
-                commit('getWinerUserListData', json.data)
+                if(options.type){
+                    commit('getWinerUserListData'+options.level, json.data)
+                }else{
+                    commit('getWinerUserListData', json.data)
+                }
               } else {
                 commit('setError', {
                   retCode: json.retCode,

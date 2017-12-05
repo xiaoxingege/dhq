@@ -111,7 +111,7 @@ h1 {
         <div>
             <span>三等奖获奖名单</span>
             <ul>
-                <li v-for="item in getTopUserListData3.winList">
+                <li v-for="item in getWinerUserListData3.winList">
                     <img :src="item.headImage" />
                     <p>
                         <strong>{{item.userName}}</strong>
@@ -123,7 +123,7 @@ h1 {
         <div>
             <span>二等奖获奖名单</span>
             <ul>
-                <li v-for="item in getTopUserListData2.winList">
+                <li v-for="item in getWinerUserListData2.winList">
                     <img :src="item.headImage" />
                     <p>
                         <strong>{{item.userName}}</strong>
@@ -135,7 +135,7 @@ h1 {
         <div>
             <span>一等奖获奖名单</span>
             <ul>
-                <li v-for="item in getTopUserListData1.winList">
+                <li v-for="item in getWinerUserListData1.winList">
                     <img :src="item.headImage" />
                     <p>
                         <strong>{{item.userName}}</strong>
@@ -171,14 +171,14 @@ export default {
         LastLotteryData: state => {
             return state.pilotConference.LastLotteryData
         },
-        getTopUserListData1: state => {
-            return state.pilotConference.getTopUserListData1
+        getWinerUserListData1: state => {
+            return state.pilotConference.getWinerUserListData1
         },
-        getTopUserListData2: state => {
-            return state.pilotConference.getTopUserListData2
+        getWinerUserListData2: state => {
+            return state.pilotConference.getWinerUserListData2
         },
-        getTopUserListData3: state => {
-            return state.pilotConference.getTopUserListData3
+        getWinerUserListData3: state => {
+            return state.pilotConference.getWinerUserListData3
         },
         err: state => {
             return state.pilotConference.err
@@ -209,15 +209,15 @@ export default {
         this.$store.dispatch('pilotConference/getLastLottery', {
             id: 0
         })
-        this.$store.dispatch('pilotConference/getTopUserList', {
+        this.$store.dispatch('pilotConference/getWinerUserList', {
             level: 1,
             type: true
         })
-        this.$store.dispatch('pilotConference/getTopUserList', {
+        this.$store.dispatch('pilotConference/getWinerUserList', {
             level: 2,
             type: true
         })
-        this.$store.dispatch('pilotConference/getTopUserList', {
+        this.$store.dispatch('pilotConference/getWinerUserList', {
             level: 3,
             type: true
         })
