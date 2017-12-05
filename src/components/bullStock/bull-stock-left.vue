@@ -16,7 +16,8 @@
   padding: 0 15px;
   width: 100%;
   top: 0;
-  height: 24px;
+  height: 50px;
+  line-height: 50px;
 }
 
 .bullChartHeader select {
@@ -35,13 +36,13 @@
 }
 
 .currentTime {
-  line-height: 24px;
+  line-height: 50px;
 }
 
 .bullChart {
   position: absolute;
   width: 100%;
-  top: 30px;
+  top: 50px;
   bottom: 30px;
   /*padding-top: 15px;*/
   box-sizing: border-box;
@@ -259,21 +260,34 @@ export default {
       }).then(() => {
         const that = this
 
-        let tData = this.topicData.sort(this.compare(key)).reverse()
-        let iData = this.industryData.sort(this.compare(key)).reverse()
+        let tData = this.topicData
+        let iData = this.industryData
 
         for (let i = 0; i < model.topicData.length; i++) {
-          model.topicData[i][2] = tData[i][key]
+          if (tData[i][key] === null) {
+            model.topicData[i][2] = 0
+            model.topicData[i][3] = null
+          } else {
+            model.topicData[i][2] = tData[i][key]
+            model.topicData[i][3] = 0
+          }
+
         }
         for (let j = 0; j < model.induData.length; j++) {
-          model.induData[j][2] = iData[j][key]
+          if (iData[j][key] === null) {
+            model.induData[j][2] = 0
+            model.induData[j][3] = null
+          } else {
+            model.induData[j][2] = iData[j][key]
+            model.induData[j][3] = 0
+          }
         }
 
         let dataT = model.topicData.map(function(item) {
-          return [item[1], item[0], item[2] || '-'];
+          return [item[1], item[0], item[2], item[3]];
         });
         let dataI = model.induData.map(function(item) {
-          return [item[1], item[0], item[2] || '-'];
+          return [item[1], item[0], item[2], item[3]];
         })
         this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
         this.industryChart = echarts.getInstanceByDom(document.getElementsByClassName('industryBox')[0]) || echarts.init(document.getElementsByClassName('industryBox')[0])
@@ -302,9 +316,9 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
-                    //                      if(params.data[2] < 0 && params.data[2] >=-5000){
-                    //                          return that.topicData[params.dataIndex].name + '\n\n' + '--'
-                    //                      }
+                    if (params.data[3] === null) {
+                      return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                    }
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
@@ -318,11 +332,6 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                /* color: function(params) {
-                 if(params.data[2] < 0 && params.data[2] >=-5000){
-                 return '#2f323d'
-                 }
-                 }*/
               }
 
             }
@@ -337,9 +346,7 @@ export default {
             inRange: {
               color: colorsList.slice().reverse()
             },
-            outRange: {
-              color: ['#2f323d']
-            }
+            dimension: 2
           }]
         })
         this.industryChart.setOption({
@@ -353,7 +360,8 @@ export default {
             realtime: false,
             inRange: {
               color: colorsList.slice().reverse()
-            }
+            },
+            dimension: 2
           }],
           grid: {
             height: '100%',
@@ -377,6 +385,9 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
+                    if (params.data[3] === null) {
+                      return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                    }
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
@@ -390,9 +401,6 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                // color: function(params) {
-                //   return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
-                // }
               }
             }
           }]
