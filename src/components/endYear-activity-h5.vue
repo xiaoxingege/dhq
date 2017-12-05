@@ -313,7 +313,7 @@ button {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <div class="popClick1" @click="popClick(1)"></div>
+            <div class="popClick1" @click="popClick(1)" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>
         </div>
     </div>
     <div class="bg3">
@@ -331,7 +331,7 @@ button {
     </div>
     <div class="bg4">
         <div class="box-con">
-            <div class="popClick2" @click="popClick(1)"></div>
+            <div class="popClick2" @click="popClick(1)" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>
             <div class="lottery">
                 <div class="lottery-plate rotate_origin" id="i_bg"></div>
                 <div class="lottery-pointer rotate_origin1" id="i_cont"></div>
@@ -351,13 +351,13 @@ button {
             <activity-slider :listData="listData" />
         </div>
     </div>
-    <div class="nav-fixed">
+    <div class="nav-fixed" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat">
         <div @click="popClick(1)"></div>
         <div></div>
     </div>
     <div class="footer">
         <div class="box-con">
-            <div class="popClick3" @click="popClick(4)"></div>
+            <div class="popClick3" @click="popClick(4)" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>
             <div class="f-lottery">
                 <div class="f-lottery-plate rotate_origin" id="i_bg1"></div>
                 <div class="f-lottery-pointer rotate_origin1" id="i_cont1"></div>

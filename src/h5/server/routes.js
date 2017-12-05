@@ -112,7 +112,7 @@ module.exports = function(router) {
             }
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ta, s);
         })(window);
-    </script><div tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>`;
+    </script>`;
     ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';
