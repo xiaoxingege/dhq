@@ -57,6 +57,10 @@ html {}
     min-height: 50px;
     overflow-y: scroll;
 }
+.themeList .every-topical-wrap .every-name .tname {
+    width: 16%;
+
+}
 .every-topical-wrap {
     padding-left: 4px;
     /* padding-left: 11px;

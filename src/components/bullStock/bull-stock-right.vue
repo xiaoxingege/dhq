@@ -12,6 +12,7 @@ input {
 
 body {
   background: #141518;
+  height: 100%;
 }
 
 .blue {
@@ -69,12 +70,16 @@ th {
 }
 
 .bull-stock-wrap {
-  margin: 8px 5px 10px 5px;
+  margin: 0 5px 0 5px;
+  padding: 8px 0 10px 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .bull-style {
   padding: 12px 12px 22px 13px;
   background: #141518;
+  height: 45%;
 }
 
 .bull-head {
@@ -91,7 +96,12 @@ th {
 }
 
 .style-table-box td {
-  height: 28px;
+  /*height: 28px;*/
+  /*height:2.2rem;*/
+}
+
+.style-table-box2 {
+  height: 95%;
 }
 
 .style-table-box2 tr td:nth-child(3) {
@@ -130,18 +140,22 @@ th {
   margin-top: 5px;
   padding: 12px 12px 16px 13px;
   background: #141518;
+  height: 54%;
 }
 
 .topic-box {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px;*/
+  height: 53%;
 }
 
 .industry {
   border-top: 1px solid #2a2b31;
+  height: 47%;
 }
 
 .industry-box {
   margin-top: 15px;
+  height: 80%;
 }
 
 .progress-box {

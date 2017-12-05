@@ -3,6 +3,7 @@
 
 html {
     height: 100%;
+    font-family: 微软雅黑 !important;
 }
 .goldRecommend {
     min-height: 100%;
