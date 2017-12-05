@@ -935,7 +935,7 @@ export default {
     relatedStocks() {
       console.log(this.relatedStocks)
       if (z3websocket.ws) {
-        z3websocket.ws && z3websocket.ws.close()
+        // z3websocket.ws && z3websocket.ws.close()
       } else {
         this.$store.dispatch('z3sockjs/init')
       }
@@ -967,7 +967,7 @@ export default {
     console.log(this.themeList)
   },
   destroyed() {
-    z3websocket.ws && z3websocket.ws.close()
+    // z3websocket.ws && z3websocket.ws.close()
     this.sumTime && clearInterval(this.sumTime)
   }
 }

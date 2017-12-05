@@ -101,7 +101,7 @@ export default {
     },
     updateStockList(state, stockList) {
       state.stockList = stockList
-      // console.log(state.stockList)
+      console.log(stockList)
       const stocks = {}
       for (const stock of stockList) {
         stocks[stock.innerCode] = stock
@@ -166,8 +166,6 @@ export default {
       stocks[stock.innerCode].chg = stock.chg !== null ? parseFloat(stock.chg).toFixed(2) : config.emptyValue
       stocks[stock.innerCode].curChngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
       // state.topic.relatedStocks = { ...stocks, stock }
-      console.log(stocks[stock.innerCode])
-      console.log(stock)
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store

@@ -235,9 +235,11 @@
           <span class="monthTag fr" @click="showTime"></span>
           <div class="timeBox">
             <div class="ymdDate">
-              <span @click="changeYear(minus)"><img src="../../assets/images/z3img/leftArrow.png"></span>
+              <span @click="changeYear('minus')" :style="{display:currentY === currentC ? 'none':'block'}"><img
+                      src="../../assets/images/z3img/leftArrow.png"></span>
               <span>{{currentY}}</span>
-              <span @click="changeYear(add)"><img src="../../assets/images/z3img/rightArrow.png"></span>
+              <span @click="changeYear('add')" :style="{display:currentY === currentC ? 'block':'none'}"><img
+                      src="../../assets/images/z3img/rightArrow.png"></span>
             </div>
             <div class="monthBox">
               <div class="month clearfix">
@@ -308,6 +310,7 @@ export default {
       tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
       message: 'hello',
       currentY: '',
+      currentC: '',
       currentM: ''
     }
   },
@@ -338,12 +341,18 @@ export default {
     getCurrentTime: function() {
       const date = new Date();
       this.currentY = date.getFullYear()
+      this.currentY = date.getFullYear()
       this.currentM = date.getMonth() + 1
       console.log(this.currentY)
       console.log(this.currentM)
 
     },
     changeYear: function(type) {
+      if (type === 'add') {
+        this.currentY = this.currentY + 1
+      } else if (type === 'minus') {
+        this.currentY = this.currentY - 1
+      }
 
     }
   },

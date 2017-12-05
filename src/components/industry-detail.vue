@@ -97,6 +97,9 @@ html {
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
+.topic-detail a:hover {
+    text-decoration: none;
+}
 .topic-head {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
@@ -706,8 +709,8 @@ bottom: 0; */
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
               <small class="num-td">{{stock.symbol==null?'--':stock.symbol}}</small>
             </a></td>
-            <td v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':parseFloat(stock.price).toFixed(2)}}</td>
-            <td v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</td>
+            <td v-z3-updowncolor="stock.curChngPct">{{relatedStocks[stock.innerCode].price==null?'--':relatedStocks[stock.innerCode].price}}</td>
+            <td v-z3-updowncolor="stock.curChngPct">{{relatedStocks[stock.innerCode].curChngPct==null?'--':changeTofixed(relatedStocks[stock.innerCode].curChngPct)}}</td>
             <td class="gray">{{checkNull(stock.induName)}}</td>
             <td class="blue stock-td2" @mouseenter="enterNumberTopic($event,stock.innerCode)" @mouseleave="leaveNumberTopic($event)">{{checkNull(stock.relaTopicNum)}}<a class="numTopic">
               <span v-for="number of numberTopic"><router-link
@@ -790,14 +793,16 @@ export default {
       realtimeLimit: state => state.industry.realtimeLimit,
       numberTopic: state => state.industry.numberTopic,
       stockTotal: state => state.industry.stockTotal,
+      socketState: state => state.z3sockjs.readystate,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
           const record = msg.data
+          console.log(record)
           return {
             innerCode: record.stockCode,
-            name: record.stockName,
-            price: record.lastPx,
+            // name: record.stockname,
+            price: record.lastpx,
             chg: record.pxchg,
             curChngPct: record.pxchgratio
           }
@@ -946,7 +951,8 @@ export default {
     },
     stockMessage() {
       if (this.stockMessage) {
-        this.updateStock()
+        console.log(this.stockMessage)
+        this.updateStock(this.stockMessage)
       }
     },
     socketState() {
@@ -1400,6 +1406,7 @@ export default {
 
   },
   destroyed() {
+    z3websocket.ws && z3websocket.ws.close()
     this.alltimers && clearInterval(this.alltimers)
     this.alls && clearInterval(this.alls)
   },
