@@ -34,10 +34,10 @@
     width: 25%;
 }
 .bull-stock-table tr td:nth-child(2) {
-    width: 25%;
+  width: 25%;
 }
 .bull-stock-table tr td:nth-child(3) {
-    width: 50%;
+  width: 50%;
 }
 .bull-stock-table tr:first-child td {
     border-bottom: 1px solid #23272c;
