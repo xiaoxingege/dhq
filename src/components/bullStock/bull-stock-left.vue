@@ -1,5 +1,9 @@
 <style>
 @import '../../assets/css/base.css';
+.bullBox * {
+  font-family: 微软雅黑 !important;
+}
+
 .bullBox {
   width: 100%;
   height: 100%;
@@ -27,6 +31,7 @@
   background-position-x: 95%;
   color: #c9d0d7;
   background-color: #1A1D23;
+  cursor: pointer;
 }
 
 .currentTime {
@@ -275,17 +280,6 @@ export default {
 
         this.chart.setOption({
           animation: true,
-          visualMap: [{
-            type: 'continuous',
-            show: false,
-            min: this.visualMin,
-            max: this.visualMax,
-            calculable: true,
-            realtime: false,
-            inRange: {
-              color: colorsList.slice().reverse()
-            }
-          }],
           grid: {
             height: '100%',
             top: 0,
@@ -308,6 +302,9 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
+                    //                      if(params.data[2] < 0 && params.data[2] >=-5000){
+                    //                          return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                    //                      }
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
@@ -321,11 +318,27 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                // color: function(params) {
-                //   return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
-                // }
+                /*color: function(params) {
+                 if(params.data[2] < 0 && params.data[2] >=-5000){
+                 return '#2f323d'
+                 }
+                 }*/
               }
 
+            }
+          }],
+          visualMap: [{
+            type: 'continuous',
+            show: false,
+            min: this.visualMin,
+            max: this.visualMax,
+            calculable: true,
+            realtime: false,
+            inRange: {
+              color: colorsList.slice().reverse()
+            },
+            outRange: {
+              color: ['#2f323d']
             }
           }]
         })
