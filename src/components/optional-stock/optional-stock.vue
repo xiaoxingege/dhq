@@ -18,7 +18,7 @@ body,
 
 .strategy-box-wrap {
   width: 100%;
-  height: 234px;
+  height: 100%;
   padding: 5px 0px 0px 5px;
   background: #141518;
 }
@@ -26,6 +26,13 @@ body,
 .strategy-box-wrap>div {
   height: 100%;
   width: 33.33%;
+  float: left;
+  padding-right: 5px;
+}
+
+.strategy-box-wrap>div:last-child {
+  height: 100%;
+  width: 33.34%;
   float: left;
   padding-right: 5px;
 }
@@ -53,7 +60,7 @@ body,
 }
 </style>
 <template>
-<div style="height:234px;background: #fff;">
+<div style="height:100%;">
   <div class="strategy-box-wrap clearfix">
     <div class="">
       <div v-if="isNoDataStrategy" class="no-data">

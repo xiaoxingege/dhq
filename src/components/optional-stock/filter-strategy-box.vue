@@ -35,7 +35,7 @@ export default {
     isResizeStrategyChart() {
       this.chart.resize({
         width: (window.innerWidth - 5) * 0.3333,
-        height: 229 * 0.83
+        height: (window.innerHeight - 5) * 0.83
       })
     }
   },

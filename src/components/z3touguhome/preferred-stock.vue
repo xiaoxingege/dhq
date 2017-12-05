@@ -96,7 +96,7 @@
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.totlNum)?'--':(item.totlNum/10000).toFixed(2)+'万'}}</td>
+        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.totlNum)?'--':formatDataRound(item.totlNum)}}</td>
       </tr>
       <tr v-for="item of noDataList">
         <td>{{item.name}}</td>
@@ -234,6 +234,14 @@ export default {
       } else {
         return true
       }
+    },
+    formatDataRound: function(value) {
+      if (value > 10000) {
+        value = Math.round(value / 10000) + '万手'
+      } else {
+        value = Math.round(value) + '手'
+      }
+      return value
     }
   },
   mounted() {
