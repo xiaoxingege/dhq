@@ -314,7 +314,7 @@ span.copy {
 <div class="backtest-filter" @click="hideCode($event)">
   <div class="bfilter-main">
     <div class="fr icon">
-      <div style="display: inline-block; position: relative; top: -2px;" class="mr-10">
+      <div style="display: inline-block; position: relative; top: -4px;" class="mr-10">
         <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
         <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
       </div>

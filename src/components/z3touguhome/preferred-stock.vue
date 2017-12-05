@@ -96,7 +96,7 @@
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.totlNum)?'--':formatDataRound(item.totlNum)}}</td>
+        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.tvolLot)?'--':formatDataRound(item.tvolLot)}}</td>
       </tr>
       <tr v-for="item of noDataList">
         <td>{{item.name}}</td>

@@ -1,9 +1,6 @@
 <template>
-<div class="position-box" :style="position" v-if="isShow">
-  <div v-if="isNoData" class="no-data-position">
-    <span>暂无数据</span>
-  </div>
-  <table class="position-box-table" v-if="!isNoData && type === 'goldTop'">
+<div class="position-box" v-bind:class="{'position-box-null':positionList.length===0}">
+  <table class="position-box-table" v-if="type === 'goldTop' && positionList.length>0">
     <tr style="color:#666;">
       <td>股票代码</td>
       <td>股票简称</td>
@@ -19,7 +16,13 @@
       </td>
     </tr>
   </table>
-  <table class="position-box-table" v-if="!isNoData && type === 'filterTop'">
+  <table class="position-box-table" v-if="type === 'filterTop' && positionList.length>0">
+    <tr style="color:#666;">
+      <td>股票代码</td>
+      <td>股票简称</td>
+      <td>最新价</td>
+      <td>涨跌幅</td>
+    </tr>
     <tr v-for="item of positionList">
       <td style="color:#666;">{{formatData(item.innerCode)?'--':item.innerCode}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
@@ -34,14 +37,14 @@
 
 <script>
 export default {
-  props: ['strategyId', 'top', 'left', 'isShow', 'type'],
+  props: ['strategyId', 'isShow', 'type'],
   data() {
     return {
       isShow: false,
       positionList: [],
-      isNoData: false,
       updateDataPid: null,
-      intervalTime: 6
+      intervalTime: 6,
+      pageSize: -1
     }
   },
   components: {},
@@ -52,8 +55,15 @@ export default {
       }
       this.init()
     },
-    type() {
-
+    isShow() {
+      console.info(this.isShow);
+    },
+    positionList() {
+      if (this.positionList && this.positionList.length > 0) {
+        this.$emit('isHavePosition', true)
+      } else {
+        this.$emit('isHavePosition', false)
+      }
     }
   },
   computed: {
@@ -64,34 +74,23 @@ export default {
     positionListFilterData: function() {
       const positionListFilterData = this.$store.state.z3touguIndex.positionListFilter
       return positionListFilterData
-    },
-    position() {
-      return 'top:' + this.top + 'px;left:' + this.left + 'px'
     }
   },
   methods: {
     init: function() {
       if (this.type === 'goldTop') {
         this.$store.dispatch('z3touguIndex/getPositionList', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          pageSize: this.pageSize
         }).then(() => {
-          if (this.positionListData.length > 0) {
-            this.isNoData = false
-            this.positionList = this.positionListData
-          } else {
-            this.isNoData = true
-          }
+          this.positionList = this.positionListData
         })
       } else if (this.type === 'filterTop') {
         this.$store.dispatch('z3touguIndex/getPositionListFilter', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          pageSize: this.pageSize
         }).then(() => {
-          if (this.positionListFilterData.length > 0) {
-            this.isNoData = false
-            this.positionList = this.positionListFilterData
-          } else {
-            this.isNoData = true
-          }
+          this.positionList = this.positionListFilterData
         })
       }
     },
@@ -134,7 +133,17 @@ export default {
   background: #fff;
   z-index: 999;
   width: 350px;
-  max-height: 186px;
+  max-height: 290px;
+  overflow: auto;
+  left: 60px;
+  bottom: 10px;
+  display: none;
+}
+
+.position-box-null {
+  height: 0px;
+  padding: 0px;
+  border: 0px solid #eee;
 }
 
 .position-box-table {
@@ -148,19 +157,5 @@ export default {
   border-bottom: 1px solid #dedede;
   height: 24px;
   /*color: #c9d0d7;*/
-}
-
-.no-data-position {
-  width: 100%;
-  height: 150px;
-  position: relative;
-}
-
-.no-data-position span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #808ba1;
 }
 </style>

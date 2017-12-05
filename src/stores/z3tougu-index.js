@@ -460,9 +460,10 @@ export default {
     getPositionList({
       commit
     }, {
-      strategyId
+      strategyId,
+        pageSize
     }) {
-      const url = domain + '/openapi/backtest/prior/gold/' + strategyId
+      const url = domain + '/openapi/backtest/prior/gold/' + strategyId + '?pageSize=' + pageSize
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -474,9 +475,10 @@ export default {
     getPositionListFilter({
       commit
     }, {
-      strategyId
+      strategyId,
+        pageSize
     }) {
-      const url = domain + '/openapi/backtest/prior/filter/' + strategyId
+      const url = domain + '/openapi/backtest/prior/filter/' + strategyId + '?pageSize=' + pageSize
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
