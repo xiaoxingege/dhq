@@ -318,7 +318,7 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                /*color: function(params) {
+                /* color: function(params) {
                  if(params.data[2] < 0 && params.data[2] >=-5000){
                  return '#2f323d'
                  }
