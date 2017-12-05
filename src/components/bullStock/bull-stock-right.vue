@@ -272,7 +272,7 @@ export default {
 
   data() {
     return {
-      defaultKeep: 'keepDaysToday',
+      defaultKeep: 'heatIndex',
       iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。',
       tabledata: {
         th1: ['名称', '风格指数', '风格描述'],
