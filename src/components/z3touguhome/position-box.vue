@@ -39,7 +39,9 @@ export default {
     return {
       isShow: false,
       positionList: [],
-      isNoData: false
+      isNoData: false,
+      updateDataPid: null,
+      intervalTime: 6
     }
   },
   components: {},
@@ -93,6 +95,16 @@ export default {
         })
       }
     },
+    autoUpdate: function() {
+      const _this = this
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(function() {
+          _this.init()
+        }, 1000 * _this.intervalTime)
+      }
+    },
     formatData: function(value) {
       if (value || value === 0) {
         return false
@@ -106,6 +118,10 @@ export default {
       return
     }
     this.init()
+    this.autoUpdate()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

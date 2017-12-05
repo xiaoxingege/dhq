@@ -33,23 +33,6 @@
     background: #525a65;
     color: #c9d0d7 !important;
 }
-@media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
-    .top-nav {
-        height: 0.6rem;
-        border-bottom: 1px solid #0799E5;
-        background: #fff;
-    }
-    .top-nav ul li > span {
-        font-size: 0.24rem;
-        display: block;
-        height: 0.6rem;
-        line-height: 0.6rem;
-        width: auto;
-        padding: 0 0.1rem;
-        text-align: center;
-        cursor: pointer;
-    }
-}
 </style>
 <template>
 <div class="top-nav">
@@ -61,14 +44,14 @@
 <script>
 export default {
   props: ['data', 'type', 'styleObject'],
-  data () {
+  data() {
     return {
       activeSearch: this.$route.params.linkText,
       styleObj: this.styleObject || {}
     }
   },
   watch: {
-    'this.activeSearch': function () {
+    'this.activeSearch': function() {
 
     }
   },
@@ -76,12 +59,12 @@ export default {
 
   },
   methods: {
-    changeTab (e) {
+    changeTab(e) {
       const type = e.target.getAttribute('value')
       this.$emit('changeType', type)
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

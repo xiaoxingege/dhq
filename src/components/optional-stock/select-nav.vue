@@ -6,7 +6,7 @@
 }
 
 .gold-strategy-title select {
-  width: 247px;
+  width: 200px;
   height: 25px;
   color: #1984ea;
   -webkit-appearance: none;
