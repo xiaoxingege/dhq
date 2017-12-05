@@ -31,6 +31,13 @@
     padding-left: 23px;
     padding-right: 0;
     border-left-width: 0;
+    width: 25%;
+}
+.bull-stock-table tr td:nth-child(2) {
+    width: 25%;
+}
+.bull-stock-table tr td:nth-child(3) {
+    width: 50%;
 }
 .bull-stock-table tr:first-child td {
     border-bottom: 1px solid #23272c;
@@ -51,8 +58,8 @@
       </tr>
       <tr v-for='item of bullStockList'>
         <td>{{bullStockList.length>0 && formatData(item.cname)?'--':item.cname}}</td>
-        <td><span v-z3-updowncolor-bg="bullStockList.length>0 && formatData(item.value)?'--':item.value" :style="{width:formatValueBg(item.value)*45+'px'}">{{formatValue(item.value)}}</span></td>
         <td>{{bullStockList.length>0 && formatData(item.remark)?'--':item.remark}}</td>
+        <td><span v-z3-updowncolor-bg="bullStockList.length>0 && formatData(item.value)?'--':item.value" :style="{width:formatValueBg(item.value)*2.25+'px'}">{{formatValue(item.value)}}</span></td>
       </tr>
     </table>
   </div>
