@@ -60,7 +60,7 @@
   background:#F54949;
 }
 .down .summary-top span{
-  background:#26BE6A;
+  background:#00B267;
 }
 .summary-top p{
   float: left;
@@ -88,7 +88,7 @@
   color:#F54949;
 }
 .down .summary-bottom P .num{
-  color:#26BE6A;
+  color:#00B267;
 }
 
 .graph{
@@ -141,7 +141,7 @@
   height: 0.6rem;
   line-height: 0.6rem;
   color:rgba(136,136,136,1);
-  font-size:0.22rem;
+  font-size:0.26rem;
   border-bottom:0.01rem solid rgba(230,230,230,1);
 }
 .lists-left .lists-title{
@@ -154,7 +154,6 @@
 }
 .lists-con li{
   height: 1rem;
-  line-height: 1rem;
   font-size: 0.28rem;
   color:rgba(51,51,51,1);
   border-bottom: 0.01rem solid rgba(230,230,230,1);
@@ -162,8 +161,24 @@
 .lists-left .lists-con li{
   padding-left:0.3rem;
   text-align:left;
+  height: 1rem;
 }
-
+.lists-right .lists-con li{
+  overflow: hidden;
+  line-height: 1rem;
+}
+.lists-left .lists-con li h6{
+  height: 0.32rem;
+  font-size: 0.32rem;
+  color:#333333;
+  padding-top:0.2rem;
+}
+.lists-left .lists-con li p{
+  height: 0.22rem;
+  font-size: 0.22rem;
+  color:#AAAAAA;
+  padding-top:0.1rem;
+}
 .lists-right-container{
   width:18.2rem;
 }
@@ -200,6 +215,8 @@
       </div>
     </div>
 
+    <div id="graph" style="width:100%;height:3.9rem;"></div>
+
     <div class="summary">
       <div class="summary-item up">
         <div class="summary-top">
@@ -233,11 +250,6 @@
 
     </div>
 
-    <!-- <div class="graph">
-
-    </div> -->
-    <div id="graph" style="width:100%;height:3.9rem;"></div>
-
     <div class="limitmove-tab">
       <div class="active">
         涨停强度
@@ -253,7 +265,10 @@
           股票名称
         </div>
         <ul class="lists-con">
-          <li v-for="item in limitList">{{item[1]}}</li>
+          <li v-for="item in limitList">
+            <h6>{{item[1]}}</h6>
+            <p>{{item[0]}}</p>
+          </li>
         </ul>
       </div>
       <div class="lists-right">
@@ -351,9 +366,9 @@ export default {
       var option = {
           grid:{
     				top:'14%',
-    				left:'4%',
-    				right:'10%',
-    				bottom:'20%'
+    				left:'10%',
+    				right:'4%',
+    				bottom:'14%'
     			},
           tooltip: {
               trigger: 'axis'
@@ -372,7 +387,7 @@ export default {
   		        },
   		        axisLabel:{
   		        	interval:50,
-  		        	margin:8,
+  		        	margin:10,
   		        	showMinLabel:true,
   		        	showMaxLabel:true,
   		        	color:'rgba(170,170,170,1)',
@@ -381,10 +396,10 @@ export default {
           },
           yAxis: {
               type: 'value',
-              position:'right',
+              position:'left',
   		        boundaryGap: ['1%', '2%'],
               scale:true,
-  		        splitNumber:4,
+  		        splitNumber:2,
               axisLine:{
   		        	show:false
   		        },
@@ -439,9 +454,9 @@ export default {
                         x2: 0,
                         y2: 1,
                         colorStops: [{
-                            offset: 0, color: 'rgba(38,190,106,1)' // 0% 处的颜色
+                            offset: 0, color: 'rgba(0,178,103,1)' // 0% 处的颜色
                         }, {
-                            offset: 1, color: 'rgba(38,190,106,1)' // 100% 处的颜色
+                            offset: 1, color: 'rgba(0,178,103,1)' // 100% 处的颜色
                         }],
                         globalCoord: false // 缺省为 false
                       }
@@ -564,7 +579,7 @@ export default {
       var date=new Date();
       console.log(date)
       $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/ztForce/20171130.js',
+        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/ztForce/20171205.js',
         type:'get',
         cache:false,
         dataType:'script',
@@ -583,7 +598,7 @@ export default {
     },
     getLimitDownList(){
       $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/dtForce/20171130.js',
+        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/dtForce/20171205.js',
         type:'get',
         cache:false,
         dataType:'script',
