@@ -1401,14 +1401,20 @@ export default {
     this.$store.dispatch('industry/queryDetailHead', {
       induCode: this.induCode
     })
-    // this.drawCharts()
-    console.log(document.documentElement.clientHeight - 166)
+    var _this = this
+    this.updateDetail = setInterval(function() {
+      _this.$store.dispatch('industry/queryDetailHead', {
+        induCode: _this.induCode
+      })
+    }, 60000)
+    console.log(_this.induCode)
 
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()
     this.alltimers && clearInterval(this.alltimers)
     this.alls && clearInterval(this.alls)
+    this.updateDetail && clearInterval(this.updateDetail)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)

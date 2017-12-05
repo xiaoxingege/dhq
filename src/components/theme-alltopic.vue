@@ -844,6 +844,16 @@ export default {
       }).then(() => {
         this.themeList = this.themeListData
       })
+      var _this = this
+      this.updateChg = setInterval(function() {
+        _this.$store.dispatch('topic/queryAllTopic', {
+          sortField: _this.FIELDS[_this.sortField],
+          page: _this.page,
+          pagesize: _this.pagesize
+        }).then(() => {
+          _this.themeList = _this.themeListData
+        })
+      }, 60000)
     },
     list(type, page) {
       this.$store.dispatch('topic/queryListChange', {
@@ -969,6 +979,7 @@ export default {
   destroyed() {
     // z3websocket.ws && z3websocket.ws.close()
     this.sumTime && clearInterval(this.sumTime)
+    this.updateChg && clearInterval(this.updateChg)
   }
 }
 </script>

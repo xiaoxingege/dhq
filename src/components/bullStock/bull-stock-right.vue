@@ -222,9 +222,10 @@ th {
       </tr>
       <tr v-for="style of stockStyle">
         <td>{{style.cname}}</td>
-        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value)) * 20 +'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span>
-        </td>
         <td>{{style.remark}}</td>
+        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span>
+        </td>
+
       </tr>
     </table>
   </div>
@@ -238,7 +239,7 @@ th {
       </tr>
       <tr v-for="topic of topics" class="topic-tr">
         <td>
-          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}">
+          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" target="_blank">
             {{topic.topicName===null?'--':topic.topicName}}
           </router-link>
         </td>
@@ -260,7 +261,7 @@ th {
         </tr>
         <tr v-for="industry of industrys" class="topic-tr">
           <td>
-            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}">
+            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}" target="_blank">
               {{industry.induName===null?'--':industry.induName}}
             </router-link>
           </td>
@@ -287,9 +288,9 @@ export default {
   data() {
     return {
       defaultKeep: 'heatIndex',
-      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。',
+      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。',
       tabledata: {
-        th1: ['名称', '风格指数', '风格描述'],
+        th1: ['名称', '风格描述', '风格指数'],
         th2: ['题材名称', '热度指数', '涨跌幅', '涨跌天数'],
         th3: ['行业名称', '热度指数', '涨跌幅', '涨跌天数'],
         td: {}

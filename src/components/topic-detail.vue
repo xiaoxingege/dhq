@@ -1432,6 +1432,13 @@ export default {
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
+
+    var _this = this
+    this.updateDetail = setInterval(function() {
+      _this.$store.dispatch('topic/queryDetailHead', {
+        topicCode: _this.topicCode
+      })
+    }, 60000)
     // console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
@@ -1442,6 +1449,7 @@ export default {
     z3websocket.ws && z3websocket.ws.close()
     this.alltimers && clearInterval(this.alltimers)
     this.alls && clearInterval(this.alls)
+    this.updateDetail && clearInterval(this.updateDetail)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
