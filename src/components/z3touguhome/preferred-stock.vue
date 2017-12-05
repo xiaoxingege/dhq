@@ -29,8 +29,7 @@
 
 .preferred-stock-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 10%;
 }
 .preferred-stock-table tr:nth-child(1) td {
@@ -44,7 +43,7 @@
 }
 .preferred-stock-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
@@ -67,6 +66,18 @@
     transform: translateY(-50%);
     right: 0;
 }
+.no-data-stock {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.no-data-stock span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #808ba1;
+}
 </style>
 <template>
 <div class="preferred-stock-con">
@@ -77,18 +88,21 @@
     </p>
   </div>
   <div class="preferred-stock-table-wrap clearfix">
-    <table class="preferred-stock-table">
+    <div v-if="isNoData" class="no-data-stock">
+      <span>暂无数据</span>
+    </div>
+    <table class="preferred-stock-table" v-if="!isNoData">
       <tr v-for="item of stockList">
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
-        <td v-z3-updowncolor="item.curChngPct">
-          {{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}
-        </td>
-        <td v-z3-updowncolor="item.curChngPct">
-          {{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}
-        </td>
-        <td style="color:#c9d0d7">
-          {{formatData(item.volume)?'--':(parseFloat(item.volume).toFixed(2)>=0?parseFloat(item.volume).toFixed(2):'-'+parseFloat(item.volume).toFixed(2))}}
-        </td>
+        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
+        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.totlNum)?'--':formatDataRound(item.totlNum)}}</td>
+      </tr>
+      <tr v-for="item of noDataList">
+        <td>{{item.name}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.curChngPct}}</td>
+        <td>{{item.totlNum}}</td>
       </tr>
     </table>
   </div>
@@ -113,13 +127,33 @@ export default {
       updateDataPid: null,
       intervalTime: 6,
       preferredType: 'strategy',
-      preferredId: 'gold',
-      limit: 10
+      preferredId: 'nearWeekReturn',
+      limit: 10,
+      noDataList: []
     }
   },
   watch: {
     type() {
-      this.initPreferredStock() // 点击板块标签初始化表格数据
+      this.initPreferredStock()
+    },
+    stockList() {
+      this.noDataList = []
+      if (this.stockList.length > 0) {
+        if (this.stockList.length < 10) {
+          const noDataListLength = 10 - this.stockList.length
+          for (let i = 0; i < noDataListLength; i++) {
+            this.noDataList.push({
+              name: '',
+              price: '',
+              curChngPct: '',
+              totlNum: ''
+            })
+          }
+        }
+        this.isNoData = false
+      } else {
+        this.isNoData = true
+      }
     }
   },
   components: {
@@ -195,19 +229,27 @@ export default {
       window.open('goldStockPool')
     },
     formatData: function(value) {
-      if (value) {
+      if (value || value === 0) {
         return false
       } else {
         return true
       }
+    },
+    formatDataRound: function(value) {
+      if (value > 10000) {
+        value = Math.round(value / 10000) + '万手'
+      } else {
+        value = Math.round(value) + '手'
+      }
+      return value
     }
   },
   mounted() {
     this.initPreferredStock()
-    // this.autoUpdate()
+    this.autoUpdate()
   },
   destroyed() {
-    // this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>

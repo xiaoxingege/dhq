@@ -25,7 +25,6 @@
 .sectors-table td {
     border: 1px solid #23272c;
     text-align: center;
-    padding-right: 20px;
     height: 10%;
     width: 30%;
 }
@@ -52,9 +51,14 @@
 }
 .sectors-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
     color: #c9d0d7;
     padding-right: 0;
+}
+.sectors-table:first-child tr td:first-child {
+    padding-left: 23px;
+}
+.sectors-table:nth-child(2) tr td:first-child {
+    padding-left: 18px;
 }
 .more-sectors {
     cursor: pointer;

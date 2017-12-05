@@ -24,8 +24,7 @@
 }
 .top-industry-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 10%;
 }
 .top-industry-table tr:nth-child(1) td {
@@ -39,14 +38,14 @@
 }
 .top-industry-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
 }
@@ -191,7 +190,7 @@ export default {
       if (type === 'topic') {
         window.open(ctx + '/themeIndex')
       } else if (type === 'industry') {
-        window.open(ctx + '/themeIndex')
+        window.open(ctx + '/industryIndex')
       }
     },
     formateData: function(value) {

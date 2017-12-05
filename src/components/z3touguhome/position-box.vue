@@ -1,9 +1,15 @@
 <template>
 <div class="position-box" :style="position" v-if="isShow">
-  <div v-if="isNoData" class="no-data">
+  <div v-if="isNoData" class="no-data-position">
     <span>暂无数据</span>
   </div>
   <table class="position-box-table" v-if="!isNoData && type === 'goldTop'">
+    <tr style="color:#666;">
+      <td>股票代码</td>
+      <td>股票简称</td>
+      <td>最新价</td>
+      <td>涨跌幅</td>
+    </tr>
     <tr v-for="item of positionList">
       <td style="color:#666;">{{formatData(item.id)?'--':item.id}}</td>
       <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
@@ -33,7 +39,9 @@ export default {
     return {
       isShow: false,
       positionList: [],
-      isNoData: false
+      isNoData: false,
+      updateDataPid: null,
+      intervalTime: 6
     }
   },
   components: {},
@@ -87,8 +95,18 @@ export default {
         })
       }
     },
+    autoUpdate: function() {
+      const _this = this
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(function() {
+          _this.init()
+        }, 1000 * _this.intervalTime)
+      }
+    },
     formatData: function(value) {
-      if (value) {
+      if (value || value === 0) {
         return false
       } else {
         return true
@@ -100,6 +118,10 @@ export default {
       return
     }
     this.init()
+    this.autoUpdate()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
@@ -128,13 +150,13 @@ export default {
   /*color: #c9d0d7;*/
 }
 
-.no-data {
+.no-data-position {
   width: 100%;
   height: 150px;
   position: relative;
 }
 
-.no-data span {
+.no-data-position span {
   position: absolute;
   top: 50%;
   left: 50%;

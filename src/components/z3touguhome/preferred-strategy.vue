@@ -4,12 +4,12 @@
 }
 
 .preferred-strategy-top {
-    height: 11.5%;
+    height: 15%;
     position: relative;
 }
 
 .preferred-strategy-table-wrap {
-    height: 88.5%;
+    height: 85%;
 }
 
 .preferred-strategy-table {
@@ -32,8 +32,7 @@
 
 .preferred-strategy-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 12%;
     color: #c9d0d7;
 }
@@ -48,7 +47,7 @@
 }
 .preferred-strategy-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     padding-right: 0;
     border-left-width: 0;
 }
@@ -88,15 +87,19 @@
       <tr>
         <td>策略名称</td>
         <td>{{positionNum}}</td>
-        <td>近一周收益率</td>
+        <td>{{tableTitle}}</td>
       </tr>
       <tr v-for="item of stockList">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':item.num}}</span>
-        </td>
+        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span></td>
         <td v-z3-updowncolor="item.percent">
-          {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
+          {{formatData(item.percent)?'--':formatDataPercent(item.percent)}}
         </td>
+      </tr>
+      <tr v-for="item of noDataList">
+        <td>{{item.name}}</td>
+        <td>{{item.num}}</td>
+        <td>{{item.percent}}</td>
       </tr>
     </table>
   </div>
@@ -121,13 +124,15 @@ export default {
       ],
       type: 'goldTop',
       stockList: [],
+      noDataList: [],
       updateDataPid: null,
       intervalTime: 6,
       strategyId: '',
       top: '',
       left: '',
       isShow: false,
-      positionNum: '当前持仓'
+      positionNum: '当前持仓',
+      tableTitle: '近一周累计收益'
     }
   },
   watch: {
@@ -161,21 +166,54 @@ export default {
     initPreferredStrategy() {
       if (this.type === 'goldTop') {
         this.positionNum = '当前持仓'
+        this.tableTitle = '近一周累计收益'
         this.$store.dispatch('z3touguIndex/getPreferredGoldData')
           .then(() => {
-            this.stockList = this.preferredGoldData
+            if (this.preferredGoldData && this.preferredGoldData.length > 0) {
+              this.stockList = this.preferredGoldData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       } else if (this.type === 'filterTop') {
         this.positionNum = '当前选股'
+        this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredFilterData')
           .then(() => {
-            this.stockList = this.preferredFilterData
+            if (this.preferredFilterData && this.preferredFilterData.length > 0) {
+              this.stockList = this.preferredFilterData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       } else if (this.type === 'timeTop') {
         this.positionNum = '平均持有天数'
+        this.tableTitle = '胜率'
         this.$store.dispatch('z3touguIndex/getPreferredTimeData')
           .then(() => {
-            this.stockList = this.preferredTimeData
+            if (this.preferredTimeData && this.preferredTimeData.length > 0) {
+              this.stockList = this.preferredTimeData
+            } else {
+              for (let i = 0; i < 9; i++) {
+                this.noDataList.push({
+                  name: '',
+                  num: '',
+                  percent: ''
+                })
+              }
+            }
           })
       }
     },
@@ -198,6 +236,15 @@ export default {
       } else {
         return true
       }
+    },
+    formatDataPercent: function(val) {
+      let getVal
+      if (val) {
+        getVal = (100 * val).toFixed(2) + '%'
+      } else {
+        getVal = '--'
+      }
+      return getVal
     },
     showPositionBox: function(id, event) {
       if (this.type === 'timeTop') {

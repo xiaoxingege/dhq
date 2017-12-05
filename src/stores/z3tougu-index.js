@@ -412,7 +412,7 @@ export default {
     getPreferredGoldData({
       commit
     }) {
-      const url = domain + '/openapi/backtest/prior/god'
+      const url = domain + '/openapi/backtest/prior/gold'
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -462,7 +462,7 @@ export default {
     }, {
       strategyId
     }) {
-      const url = domain + '/openapi/backtest/prior/god/' + strategyId
+      const url = domain + '/openapi/backtest/prior/gold/' + strategyId
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {

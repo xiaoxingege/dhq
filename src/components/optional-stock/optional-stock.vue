@@ -18,7 +18,7 @@ body,
 
 .strategy-box-wrap {
   width: 100%;
-  height: 234px;
+  height: 100%;
   padding: 5px 0px 0px 5px;
   background: #141518;
 }
@@ -31,27 +31,57 @@ body,
 }
 
 .strategy-box-wrap>div:last-child {
+  height: 100%;
+  width: 33.34%;
+  float: left;
+  padding-right: 5px;
+}
+
+.strategy-box-wrap>div:last-child {
   padding-right: 0px;
 }
 
 .strategy-box-wrap>div>div {
   background-color: #181b1f;
 }
+
+.no-data {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.no-data span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #808ba1;
+}
 </style>
 <template>
-<div style="height:234px;background: #fff;">
+<div style="height:100%;">
   <div class="strategy-box-wrap clearfix">
     <div class="">
-      <SelectNavBar @strategyId='passGoldStrategyId' :dataList='goldStrategyList' :strategyLabel='goldLabel'></SelectNavBar>
-      <GoldStrategyBox :strategyId='goldStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart'></GoldStrategyBox>
+      <div v-if="isNoDataStrategy" class="no-data">
+        <span>暂无匹配金牌策略</span>
+      </div>
+      <SelectNavBar @strategyId='passGoldStrategyId' :dataList='goldStrategyList' :strategyLabel='goldLabel' v-if="!isNoDataStrategy"></SelectNavBar>
+      <GoldStrategyBox :strategyId='goldStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart' v-if="!isNoDataStrategy"></GoldStrategyBox>
     </div>
     <div class="">
-      <SelectNavBar @strategyId='passFilterStrategyId' :dataList='filterStrategyList' :strategyLabel='filterLabel'></SelectNavBar>
-      <FilterStrategyBox :strategyId='filterStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart'></FilterStrategyBox>
+      <div v-if="isNoDataFilter" class="no-data">
+        <span>暂无匹配筛股策略</span>
+      </div>
+      <SelectNavBar @strategyId='passFilterStrategyId' :dataList='filterStrategyList' :strategyLabel='filterLabel' v-if="!isNoDataFiter"></SelectNavBar>
+      <FilterStrategyBox :strategyId='filterStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart' v-if="!isNoDataFiter"></FilterStrategyBox>
     </div>
     <div class="">
-      <SelectNavBar @strategyId='passTimeStrategyId' :dataList='timeStrategyList' :strategyLabel='timeLabel'></SelectNavBar>
-      <TimeCharts :chartWidth="boxWidth" :chartHeight="boxHeight" :strategyId="timeStrategyId" :innerCode="innerCode" @isResize='isResizeStrategy'></TimeCharts>
+      <div v-if="isNoDataTime" class="no-data">
+        <span>暂无匹配择时策略</span>
+      </div>
+      <SelectNavBar @strategyId='passTimeStrategyId' :dataList='timeStrategyList' :strategyLabel='timeLabel' v-if="!isNoDataTime"></SelectNavBar>
+      <TimeCharts :chartWidth="boxWidth" :chartHeight="boxHeight" :strategyId="timeStrategyId" :innerCode="innerCode" @isResize='isResizeStrategy' v-if="!isNoDataTime"></TimeCharts>
     </div>
   </div>
 </div>
@@ -77,7 +107,10 @@ export default {
       goldLabel: '金牌策略',
       filterLabel: '筛股策略',
       timeLabel: '择时策略',
-      isResizeStrategyChart: ''
+      isResizeStrategyChart: '',
+      isNoDataStrategy: false,
+      isNoDataFilter: false,
+      isNoDataTime: false
     }
   },
   components: {
@@ -87,7 +120,27 @@ export default {
     SelectNavBar
   },
   watch: {
-
+    goldStrategyList() {
+      if (this.goldStrategyList.length > 0) {
+        this.isNoDataStrategy = false
+      } else {
+        this.isNoDataStrategy = true
+      }
+    },
+    filterStrategyList() {
+      if (this.filterStrategyList.length > 0) {
+        this.isNoDataFilter = false
+      } else {
+        this.isNoDataFilter = true
+      }
+    },
+    timeStrategyList() {
+      if (this.timeStrategyList.length > 0) {
+        this.isNoDataTime = false
+      } else {
+        this.isNoDataTime = true
+      }
+    }
   },
   computed: {
     filterStrategyData: function() {

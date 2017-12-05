@@ -20,7 +20,12 @@
     color: #C9D0D7;
     cursor: pointer;
 }
-
+.syqxTab li:first-child {
+    border-radius: 3px 0 0 3px;
+}
+.syqxTab li:last-child {
+    border-radius: 0 3px 3px 0;
+}
 .syqxTab li.active {
     background: #1984EA;
 }
@@ -123,13 +128,13 @@ export default {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
-                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
+                  let result = Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                     params[i].color + '"></span>策略累计收益率: ' +
                     Number(Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
                 if (i === 1) {
-                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
+                  let result = Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
                     params[i].color + '"></span>基准累计收益率: ' +
                     Number(Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'

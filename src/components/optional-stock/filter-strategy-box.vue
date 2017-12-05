@@ -12,7 +12,7 @@
 </style>
 <template>
 <div :style={height:boxHeight}>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
+  <router-link :to="{name:'backtestfilter',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
     <div class="gold-strategy-chart" ref="chart"></div>
   </router-link>
 </div>
@@ -35,7 +35,7 @@ export default {
     isResizeStrategyChart() {
       this.chart.resize({
         width: (window.innerWidth - 5) * 0.3333,
-        height: 229 * 0.83
+        height: (window.innerHeight - 5) * 0.83
       })
     }
   },
@@ -47,7 +47,7 @@ export default {
         incomeListData.totalReturn = []
         incomeListData.benchmarkPeriodReturn = []
         for (let i = 0; i < incomeListData.length; i++) {
-          incomeListData.backtestDate.push(this.getTime(incomeListData[i].backtestDate)) // 时间
+          incomeListData.backtestDate.push(this.dateFormatUtil(incomeListData[i].backtestDate)) // 时间
           incomeListData.totalReturn.push(incomeListData[i].totalReturn) // 总收益率
           incomeListData.benchmarkPeriodReturn.push(incomeListData[i].benchmarkPeriodReturn) // 基准收益率
         }
@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     drawChart: function() {
+      const _this = this
       this.$store.dispatch('optionalStock/getFilterIncome', {
           strategyId: this.strategyId
         })
@@ -130,6 +131,21 @@ export default {
                   show: false
                 }
               },
+              tooltip: {
+                trigger: 'axis',
+                textStyle: {
+                  align: 'left',
+                  fontFamily: '微软雅黑',
+                  fontSize: 12
+                },
+                formatter: function(params) {
+                  var s = params[0].name;
+                  for (var i = 0; i < params.length; i++) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + _this.formatData(params[i].value) + '%';
+                  }
+                  return s;
+                }
+              },
               color: ['#1984ea', '#ca4941'],
               animation: false,
               series: [{
@@ -170,12 +186,13 @@ export default {
       }
       return getVal
     },
-    getTime: function() {
-      const date = new Date()
-      let month = date.getMonth() + 1
-      let strDate = date.getDate()
-      const currentDate = date.getFullYear() + '-' + month + '-' + strDate
-      return currentDate
+    dateFormatUtil: function(date) {
+      date = date.toString()
+      let dateTypeDate = ''
+      dateTypeDate += date.substring(0, 4) // 年
+      dateTypeDate += '-' + date.substring(4, 6) // 月
+      dateTypeDate += '-' + date.substring(6, 8) // 日
+      return dateTypeDate
     }
   },
   mounted() {

@@ -49,8 +49,9 @@ i {
     /* padding: 11px 7px 20px 6px; */
     /* padding-bottom: 20px; */
     position: relative;
+    display: inline-block;
     height: 100%;
-
+    width: 100%;
 }
 .kcharts {
     /* height: 360px; */
@@ -82,9 +83,9 @@ i {
 </style>
 <template>
 <div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
-  <div class="k-line-box">
+  <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" class="k-line-box" target="_blank">
     <div class="kcharts" ref="kcharts"></div>
-  </div>
+  </router-link>
 </div>
 </template>
 <script>
@@ -292,8 +293,8 @@ export default {
         const timestampResize = new Date().getTime()
         _this.$emit('isResize', timestampResize)
         _this.chart.resize({
-          width: (window.innerWidth - 5) * 0.3333,
-          height: 229 * 0.83
+          width: (window.innerWidth - 5) * 0.3334,
+          height: (window.innerHeight - 5) * 0.83
         })
       }
       this.$store.dispatch('backtestDetail/queryKline', {
@@ -372,14 +373,24 @@ export default {
               color: '#c9d0d7'
             }
           }
-
-          /* axisLabel: {
-            formatter: function (val) {
-              return val
-            }
-          }*/
         },
-
+        tooltip: {
+          trigger: 'axis',
+          textStyle: {
+            align: 'left',
+            fontFamily: '微软雅黑',
+            fontSize: 12
+          },
+          formatter: function(t) {
+            var time = t[0].name
+            var openPx = t[0].value[1]
+            var closePx = t[0].value[2]
+            var highPx = t[0].value[3]
+            var lowPx = t[0].value[4]
+            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+              '<br/>最低价：' + (lowPx || '--') + '<br/>'
+          }
+        },
         series: [{
             name: '日K',
             type: 'candlestick',
