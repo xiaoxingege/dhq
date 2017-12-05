@@ -259,8 +259,8 @@ export default {
       }).then(() => {
         const that = this
 
-        let tData = this.topicData.sort(this.compare(key)).slice().reverse()
-        let iData = this.industryData.sort(this.compare(key)).slice().reverse()
+        let tData = this.topicData.sort(this.compare(key)).reverse()
+        let iData = this.industryData.sort(this.compare(key)).reverse()
 
         for (let i = 0; i < model.topicData.length; i++) {
           model.topicData[i][2] = tData[i][key]
