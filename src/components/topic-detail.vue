@@ -97,6 +97,9 @@ html {
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
+.topic-detail a:hover {
+    text-decoration: none;
+}
 .topic-head {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
@@ -793,14 +796,15 @@ export default {
       realtimeLimit: state => state.topic.realtimeLimit,
       numberTopic: state => state.topic.numberTopic,
       stockTotal: state => state.topic.stockTotal,
+      socketState: state => state.z3sockjs.readystate,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
           const record = msg.data
           return {
             innerCode: record.stockCode,
-            name: record.stockName,
-            price: record.lastPx,
+            // name: record.stockname,
+            price: record.lastpx,
             chg: record.pxchg,
             curChngPct: record.pxchgratio
           }
@@ -951,7 +955,7 @@ export default {
     },
     stockMessage() {
       if (this.stockMessage) {
-        this.updateStock()
+        this.updateStock(this.stockMessage)
       }
     },
     socketState() {
@@ -1435,6 +1439,7 @@ export default {
 
   },
   destroyed() {
+    z3websocket.ws && z3websocket.ws.close()
     this.alltimers && clearInterval(this.alltimers)
     this.alls && clearInterval(this.alls)
   },

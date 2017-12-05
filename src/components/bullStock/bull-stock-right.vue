@@ -228,7 +228,7 @@ th {
             {{topic.topicName===null?'--':topic.topicName}}
           </router-link>
         </td>
-        <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':topic.topicMarket.heatIndex}}</td>
+        <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':Math.round(topic.topicMarket.heatIndex)}}</td>
         <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
           {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
         </td>
@@ -250,7 +250,7 @@ th {
               {{industry.induName===null?'--':industry.induName}}
             </router-link>
           </td>
-          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':industry.induMarket.heatIndex}}
+          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':Math.round(industry.induMarket.heatIndex)}}
           </td>
           <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.chngPct===null?'--':industry.induMarket.chngPct">
             {{industry.induMarket===null || industry.induMarket.chngPct===null?'--':changeTofixed(industry.induMarket.chngPct)}}
@@ -272,7 +272,7 @@ export default {
 
   data() {
     return {
-      browseIndex: 'keepDaysToday',
+      defaultKeep: 'keepDaysToday',
       iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。',
       tabledata: {
         th1: ['名称', '风格指数', '风格描述'],
@@ -289,6 +289,20 @@ export default {
     topicAndIndustry: state => state.bullStock.topicAndIndustry
   }),
   methods: {
+    initStyle() {
+      this.$store.dispatch('bullStock/queryStockStyle')
+    },
+    initTopicAndIndustry() {
+      if (this.browseIndex) {
+        this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+          browseIndex: this.browseIndex
+        })
+      } else {
+        this.$store.dispatch('bullStock/queryTopicAndIndustry', {
+          browseIndex: this.defaultKeep
+        })
+      }
+    },
     checkContinu(num) {
       if (num > 0) {
         return num + '连涨'
@@ -338,24 +352,24 @@ export default {
       this.$store.dispatch('bullStock/queryTopicAndIndustry', {
         browseIndex: this.browseIndex
       });
+
     }
   },
   mounted() {
-    this.$store.dispatch('bullStock/queryStockStyle')
-    this.$store.dispatch('bullStock/queryTopicAndIndustry', {
-      browseIndex: this.browseIndex
-    })
+    this.initStyle()
+    this.initTopicAndIndustry()
     var _this = this
     this.updateTime = setInterval(function() {
-      _this.$store.dispatch('bullStock/queryStockStyle')
-      _this.$store.dispatch('bullStock/queryTopicAndIndustry', {
-        browseIndex: this.browseIndex
-      })
+      _this.initStyle()
     }, 600000)
+    this.updateTopicandIndu = setInterval(function() {
+      _this.initTopicAndIndustry()
+    }, 60000)
 
   },
   destroyed() {
     this.updateTime && clearInterval(this.updateTime)
+    this.updateTopicandIndu && clearInterval(this.updateTopicandIndu)
   }
 }
 </script>
