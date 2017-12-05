@@ -61,7 +61,7 @@ h1 {
 .box-con li {
     height: 89px;
     float: left;
-    width: 250px;
+    width: 50%;
     background: url("../assets/images/pilot-conference/pilot-conference-head-bg1.png") 24px 0 no-repeat;
     margin: 10px 0;
 }
@@ -74,17 +74,18 @@ h1 {
     display: inline;
 }
 .box-con li p {
-    width: 120px;
+    width: 265px;
     float: left;
     margin-left: 10px;
     color: #fff;
     line-height: 40px;
 }
 .box-con li p strong {
-    font-size: 22px;
+    font-size: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: normal;
 }
 .box-con li p span {
     font-size: 18px;
