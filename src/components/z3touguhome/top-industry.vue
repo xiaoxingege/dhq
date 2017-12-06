@@ -77,7 +77,7 @@
   <div class="top-industry-table-wrap clearfix">
     <table class="top-industry-table" v-if="type === 'industry'">
       <tr v-for="item of industryList">
-        <td>{{item.industryName === null?'--':item.industryName}}</td>
+        <td @click="toIndustryDetail(item.innerCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
         <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
@@ -185,6 +185,11 @@ export default {
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
+    },
+    toIndustryDetail:function (code) {
+        if (code) {
+         //   window.open(ctx + '/industry/' + code.split('.')[0])
+        }
     },
     toStockList: function(type) {
       if (type === 'topic') {
