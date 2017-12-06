@@ -85,9 +85,11 @@ export default {
     getFilterIncome({
       commit
     }, {
-      strategyId
+      strategyId,
+      startDate,
+      endDate
     }) {
-      const url = `${domain}/openapi/backtest/filterStrategy/returns.shtml?strategyId=${strategyId}`
+      const url = `${domain}/openapi/backtest/filterStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {

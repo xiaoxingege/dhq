@@ -251,9 +251,11 @@ export default {
     getIncomeList({
       commit
     }, {
-      strategyId
+      strategyId,
+      startDate,
+      endDate
     }) {
-      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`
+      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
