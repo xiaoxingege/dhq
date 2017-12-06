@@ -18,8 +18,8 @@ body,
 
 .strategy-box-wrap {
   width: 100%;
-  height: 100%;
-  padding: 5px 0px 0px 1px;
+  height: 99%;
+  padding: 0px 0px 0px 1px;
   background: #0d0e0f;
 }
 
@@ -32,6 +32,7 @@ body,
 
 .strategy-box-wrap>div:last-child {
   padding-right: 0px;
+  width: 33.34%;
 }
 
 .strategy-box-wrap>div>div {

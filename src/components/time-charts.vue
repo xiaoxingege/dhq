@@ -296,7 +296,7 @@ export default {
         const timestampResize = new Date().getTime()
         _this.$emit('isResize', timestampResize)
         _this.chart.resize({
-          width: (window.innerWidth - 5) * 0.3334,
+          width: (window.innerWidth - 1) * 0.3334,
           height: (window.innerHeight - 5) * 0.83
         })
       }
