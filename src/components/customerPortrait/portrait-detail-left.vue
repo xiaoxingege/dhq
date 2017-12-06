@@ -247,16 +247,16 @@
             </div>
             <div class="monthBox">
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in 4">
+                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC) ? 'gray':'')]" v-for="item in 4">
                   {{item}}月
                 </div>
               </div>
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [5,6,7,8]">{{item}}月
+                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC )? 'gray':'')]" v-for="item in [5,6,7,8]">{{item}}月
                 </div>
               </div>
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [9,10,11,12]">{{item}}月
+                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC)? 'gray':'')]" v-for="item in [9,10,11,12]">{{item}}月
                 </div>
               </div>
             </div>
