@@ -135,7 +135,7 @@ export default {
   width: 350px;
   max-height: 290px;
   overflow: auto;
-  left: 60px;
+  left: 55px;
   bottom: 10px;
   display: none;
 }
