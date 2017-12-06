@@ -235,7 +235,7 @@ export default {
     Vue.directive('z3-help', {
       bind(el, binding, vnode, oldVnode) {
         el.addEventListener('mouseover', (event) => {
-          event.currentTarget.parentNode.insertAdjacentHTML("beforeBegin", "<div id=\"icon-help\" style=\"position: absolute;top: 32px;width: 300px;display: block;padding: 18px 16px;color: #666666;background: #cccfd9;border-radius: 10px;z-index: 999;line-height: 18px;font-size: 12px;\">123");
+          event.currentTarget.parentNode.insertAdjacentHTML("beforeBegin", "<div id=\"icon-help\" style=\"position: absolute;top: 32px;width: 300px;display: block;padding: 15px;color: #666666;background: #cccfd9;border-radius: 10px;z-index: 999;line-height: 18px;font-size: 12px;\">123");
           event.currentTarget.parentNode.insertAdjacentHTML("afterend", "</div>");
           var hDiv = document.getElementById('icon-help')
           hDiv.innerHTML = binding.value
