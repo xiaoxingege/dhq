@@ -461,7 +461,7 @@ export default {
       commit
     }, {
       strategyId,
-        pageSize
+      pageSize
     }) {
       const url = domain + '/openapi/backtest/prior/gold/' + strategyId + '?pageSize=' + pageSize
       return fetch(url).then((res) => {
@@ -476,7 +476,7 @@ export default {
       commit
     }, {
       strategyId,
-        pageSize
+      pageSize
     }) {
       const url = domain + '/openapi/backtest/prior/filter/' + strategyId + '?pageSize=' + pageSize
       return fetch(url).then((res) => {
