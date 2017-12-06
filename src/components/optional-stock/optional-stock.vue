@@ -66,8 +66,8 @@ body,
       <div v-if="isNoDataFilter" class="no-data">
         <span>暂无匹配筛股策略</span>
       </div>
-      <SelectNavBar @strategyId='passFilterStrategyId' :dataList='filterStrategyList' :strategyLabel='filterLabel' v-if="!isNoDataFiter"></SelectNavBar>
-      <FilterStrategyBox :strategyId='filterStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart' v-if="!isNoDataFiter"></FilterStrategyBox>
+      <SelectNavBar @strategyId='passFilterStrategyId' :dataList='filterStrategyList' :strategyLabel='filterLabel' v-if="!isNoDataFilter"></SelectNavBar>
+      <FilterStrategyBox :strategyId='filterStrategyId' :boxHeight='boxHeight' :isResizeStrategyChart='isResizeStrategyChart' v-if="!isNoDataFilter"></FilterStrategyBox>
     </div>
     <div class="">
       <div v-if="isNoDataTime" class="no-data">
@@ -157,7 +157,7 @@ export default {
       } else {
         console.log(query.innerCode)
         // return
-        this.innerCode = '000001.SZ'
+        this.innerCode = '000007.SZ'
       }
       this.$store.dispatch('optionalStock/getGoldStrategyList', {
           innerCode: this.innerCode,
