@@ -7,6 +7,7 @@ html {
 * {
     box-sizing: border-box;
     font-size: 12px;
+    font-family: '微软雅黑';
 }
 .map {
     background-color: #141518;
@@ -26,7 +27,7 @@ html {
 }
 .condition select {
     -webkit-appearance: none;
-    color: #fff;
+    color: #c9d0d7;
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
@@ -60,8 +61,6 @@ html {
 
 .condition select option {
     -webkit-appearance: none;
-    background-color: #cccfd9;
-    color: #666;
     display: inline-block;
     /* height: 30px;
     padding: 50px;*/

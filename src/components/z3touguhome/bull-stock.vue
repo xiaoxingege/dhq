@@ -43,11 +43,22 @@
     border-bottom: 1px solid #23272c;
     height: 16%;
 }
+.help-img-wrap {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
 </style>
 <template>
 <div class="bull-stock-con">
   <div class="bull-stock-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <div class="help-img-wrap fr" v-z3-help="iconHelpMsg"></div>
   </div>
   <div class="bull-stock-table-wrap">
     <table class="bull-stock-table">
@@ -84,7 +95,8 @@ export default {
       updateDataPid: null,
       intervalTime: 10,
       bullStockList: [],
-      noDataList: []
+      noDataList: [],
+      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。'
     }
   },
   watch: {

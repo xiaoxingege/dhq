@@ -1,7 +1,7 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 </style>
 <style lang="scss" scoped>
@@ -168,54 +168,55 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 999;
 }
 </style>
 
 <template>
 <div :class="level == 1 ? 'box' : level > 1 && level < 3 ? 'box level1' : 'box level2'">
-    <a href="javascript:history.go(-1);" class="left-link" v-if="linkShow"></a>
-    <div class="right-link" @click="rightLink" v-if="linkShow"></div>
-    <div class="box-con">
-        <div class="level-con1" v-if="show">
-            <ul>
-                <li v-for="item in getTopUserListData.userList">
-                    <div>
-                        <img :src="item.headImage" />
-                        <p>
-                            <strong>{{item.userName}}</strong>
-                            <span>{{item.mobile}}</span>
-                        </p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="level-con1" v-if="level == 1">
-            <div v-for="item in getWinerUserListData.winList" style="margin-top:220px;">
-                <img :src="item.headImage" />
-                <p>
-                    <strong>{{item.userName}}</strong>
-                    <span>{{item.mobile}}</span>
-                </p>
-            </div>
-        </div>
-        <div class="level-con2" v-if="level == 2">
-            <div v-for="item in getWinerUserListData.winList">
-                <img :src="item.headImage" />
-                <p>
-                    <strong>{{item.userName}}</strong>
-                    <span>{{item.mobile}}</span>
-                </p>
-            </div>
-        </div>
-        <div class="level-con3" v-if="level == 3">
-            <div v-for="item in getWinerUserListData.winList">
-                <img :src="item.headImage" />
-                <p>
-                    <strong>{{item.userName}}</strong>
-                    <span>{{item.mobile}}</span>
-                </p>
-            </div>
-            <!-- <div>
+  <a href="javascript:history.go(-1);" class="left-link" v-if="linkShow"></a>
+  <div class="right-link" @click="rightLink" v-if="linkShow"></div>
+  <div class="box-con">
+    <div class="level-con1" v-if="show">
+      <ul>
+        <li v-for="item in getTopUserListData.userList">
+          <div>
+            <img :src="item.headImage" />
+            <p>
+              <strong>{{item.userName}}</strong>
+              <span>{{item.mobile}}</span>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="level-con1" v-if="level == 1">
+      <div v-for="item in getWinerUserListData.winList" style="margin-top:220px;">
+        <img :src="item.headImage" />
+        <p>
+          <strong>{{item.userName}}</strong>
+          <span>{{item.mobile}}</span>
+        </p>
+      </div>
+    </div>
+    <div class="level-con2" v-if="level == 2">
+      <div v-for="item in getWinerUserListData.winList">
+        <img :src="item.headImage" />
+        <p>
+          <strong>{{item.userName}}</strong>
+          <span>{{item.mobile}}</span>
+        </p>
+      </div>
+    </div>
+    <div class="level-con3" v-if="level == 3">
+      <div v-for="item in getWinerUserListData.winList">
+        <img :src="item.headImage" />
+        <p>
+          <strong>{{item.userName}}</strong>
+          <span>{{item.mobile}}</span>
+        </p>
+      </div>
+      <!-- <div>
                 <img src="../assets/images/pilot-conference/pilot-conference-img1.png" />
                 <p>
                     <strong>用户名</strong>
@@ -250,92 +251,93 @@ body {
                     <span>186****0000</span>
                 </p>
             </div> -->
-        </div>
     </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 import getQueryString from 'utils/getQueryString'
 window.jQuery = window.$ = jQuery
 
 export default {
-    data() {
-        return {
-            level: '',
-            show: false,
-            linkShow: false
-        }
-    },
-    computed: mapState({
-        letteryType: state => {
-            return state.pilotConference.letteryType
-        },
-        getWinerUserListData: state => {
-            return state.pilotConference.getWinerUserListData
-        },
-        getTopUserListData: state => {
-            return state.pilotConference.getTopUserListData
-        }
-    }),
-    components: {},
-    methods: {
-        rightLink() {
-            if (getQueryString('level') === '3') {
-                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=2'
-            } else if (getQueryString('level') === '2') {
-                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=1'
-            }
-        }
-    },
-    mounted() {
-        document.title = '领航中国大会'
-        var _this = this
-        if (!getQueryString('level')) {
-            _this.level = '1'
-        } else {
-            _this.level = getQueryString('level')
-        }
-
-        this.$store.dispatch('pilotConference/lettery', {
-            level: _this.level
-        })
-        this.$store.dispatch('pilotConference/getTopUserList', {
-            level: _this.level
-        })
-        this.$watch('letteryType', letteryType => {
-            if (letteryType) {
-                this.$store.dispatch('pilotConference/getWinerUserList', {
-                    level: _this.level
-                })
-                this.$watch('getWinerUserListData', getWinerUserListData => {
-                    _this.show = true
-                    $(function() {
-                        var liHeight = $('.level-con1 li').height() + 227
-                        var timeBox = setInterval(function() {
-                            $('.level-con1 ul').animate({
-                                'margin-top': '-' + liHeight
-                            }, 220, 'linear', function() {
-                                $('.level-con1 ul').append($('.level-con1 ul li:first'))
-                                $('.level-con1 ul').css({
-                                    'margin-top': '227px'
-                                })
-                            })
-                        }, 220)
-                        setTimeout(function() {
-                            clearInterval(timeBox)
-                            _this.show = false
-                        }, 5000)
-                    })
-                })
-            }
-        })
-        setTimeout(function() {
-            _this.linkShow = true
-        }, 3000)
+  data() {
+    return {
+      level: '',
+      show: false,
+      linkShow: false
     }
+  },
+  computed: mapState({
+    letteryType: state => {
+      return state.pilotConference.letteryType
+    },
+    getWinerUserListData: state => {
+      return state.pilotConference.getWinerUserListData
+    },
+    getTopUserListData: state => {
+      return state.pilotConference.getTopUserListData
+    }
+  }),
+  components: {},
+  methods: {
+    rightLink() {
+      if (getQueryString('level') === '3') {
+        window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=2'
+      } else if (getQueryString('level') === '2') {
+        window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=1'
+      }
+    }
+  },
+  mounted() {
+    document.title = '领航中国大会'
+    var _this = this
+    if (!getQueryString('level')) {
+      _this.level = '1'
+    } else {
+      _this.level = getQueryString('level')
+    }
+
+    this.$store.dispatch('pilotConference/lettery', {
+      level: _this.level
+    })
+    this.$store.dispatch('pilotConference/getTopUserList', {
+      level: _this.level
+    })
+    this.$watch('letteryType', letteryType => {
+      if (letteryType) {
+        this.$store.dispatch('pilotConference/getWinerUserList', {
+          level: _this.level
+        })
+        this.$watch('getTopUserListData', getTopUserListData => {
+          _this.show = true
+          $(function() {
+            var liHeight = $('.level-con1 li').height() + 227
+            console.log('liHeight:' + liHeight)
+            var timeBox = setInterval(function() {
+              $('.level-con1 ul').animate({
+                'margin-top': '-' + liHeight
+              }, 220, 'linear', function() {
+                $('.level-con1 ul').append($('.level-con1 ul li:first'))
+                $('.level-con1 ul').css({
+                  'margin-top': '227px'
+                })
+              })
+            }, 220)
+            setTimeout(function() {
+              clearInterval(timeBox)
+              _this.show = false
+            }, 5000)
+          })
+        })
+      }
+    })
+    setTimeout(function() {
+      _this.linkShow = true
+    }, 3000)
+  }
 }
 </script>

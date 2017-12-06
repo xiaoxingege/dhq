@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.650",
+  "version": "0.0.654",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -106,6 +106,7 @@
     "node-fetch": "^1.7.1",
     "pify": "^3.0.0",
     "qrcode": "^0.9.0",
+    "request-promise": "^4.2.2",
     "sass": "^1.0.0-beta.2",
     "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.4.2",

@@ -55,7 +55,7 @@
 <div class="gold-strategy-title">
   <span class="gold-strategy-label">{{strategyLabel}}：</span>
   <select v-model="id">
-            <option v-for="item of dataList" :value='item.id'>{{cutStr(item.name,30)}}</option>
+            <option v-for="item of dataList" :value='item.id'>{{cutStr(item.name,28)}}</option>
         </select>
 </div>
 </template>
