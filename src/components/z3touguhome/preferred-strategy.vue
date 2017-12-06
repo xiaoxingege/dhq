@@ -89,7 +89,7 @@
         <td>{{positionNum}}</td>
         <td>{{tableTitle}}</td>
       </tr>
-      <tr v-for="(item,index) of stockList">
+      <tr v-for="(item,index) of stockList" v-if="stockList.length>0">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
         <td @mouseover='showPositionBox(item,index)' @mouseout='hidePositionBox(item,index)' style="position: relative">
           <span>{{formatData(item.num)?'--':Math.round(item.num)}}</span>
@@ -99,7 +99,7 @@
           {{formatData(item.percent)?'--':formatDataPercent(item.percent)}}
         </td>
       </tr>
-      <tr v-for="item of noDataList">
+      <tr v-for="item of noDataList" v-if="stockList.length===0">
         <td>{{item.name}}</td>
         <td>{{item.num}}</td>
         <td>{{item.percent}}</td>
@@ -171,14 +171,6 @@ export default {
           .then(() => {
             if (this.preferredGoldData && this.preferredGoldData.length > 0) {
               this.stockList = this.preferredGoldData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
       } else if (this.type === 'filterTop') {
@@ -188,14 +180,6 @@ export default {
           .then(() => {
             if (this.preferredFilterData && this.preferredFilterData.length > 0) {
               this.stockList = this.preferredFilterData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
       } else if (this.type === 'timeTop') {
@@ -205,16 +189,15 @@ export default {
           .then(() => {
             if (this.preferredTimeData && this.preferredTimeData.length > 0) {
               this.stockList = this.preferredTimeData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
+      }
+      for (let i = 0; i < 6; i++) {
+        this.noDataList.push({
+          name: '',
+          num: '',
+          percent: ''
+        })
       }
     },
     autoUpdate: function() {

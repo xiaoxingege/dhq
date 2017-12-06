@@ -34,10 +34,10 @@
     width: 25%;
 }
 .bull-stock-table tr td:nth-child(2) {
-  width: 25%;
+    width: 25%;
 }
 .bull-stock-table tr td:nth-child(3) {
-  width: 50%;
+    width: 50%;
 }
 .bull-stock-table tr:first-child td {
     border-bottom: 1px solid #23272c;
@@ -56,10 +56,15 @@
         <td>风格指数</td>
         <td>风格描述</td>
       </tr>
-      <tr v-for='item of bullStockList'>
+      <tr v-for='item of bullStockList' v-if="bullStockList.length>0">
         <td>{{bullStockList.length>0 && formatData(item.cname)?'--':item.cname}}</td>
         <td>{{bullStockList.length>0 && formatData(item.remark)?'--':item.remark}}</td>
         <td><span v-z3-updowncolor-bg="bullStockList.length>0 && formatData(item.value)?'--':item.value" :style="{width:formatValueBg(item.value)*2.25+'px'}">{{formatValue(item.value)}}</span></td>
+      </tr>
+      <tr v-for="item of noDataList" v-if="bullStockList.length===0">
+        <td>{{item.cname}}</td>
+        <td>{{item.remark}}</td>
+        <td>{{item.value}}</td>
       </tr>
     </table>
   </div>
@@ -78,7 +83,8 @@ export default {
       type: 'bullStockStyle',
       updateDataPid: null,
       intervalTime: 10,
-      bullStockList: []
+      bullStockList: [],
+      noDataList: []
     }
   },
   watch: {
@@ -101,10 +107,17 @@ export default {
     initBullStock() {
       this.$store.dispatch('z3touguIndex/getBullStock')
         .then(() => {
-          if (this.bullStockListData.length > 0) {
+          if (this.bullStockListData.length && this.bullStockListData.length > 0) {
             this.bullStockList = this.bullStockListData
           }
         })
+      for (let i = 0; i < 9; i++) {
+        this.noDataList.push({
+          cname: '',
+          remark: '',
+          value: ''
+        })
+      }
     },
     autoUpdate: function() {
       const _this = this
@@ -137,10 +150,10 @@ export default {
   },
   mounted() {
     this.initBullStock()
-    this.autoUpdate()
+    // this.autoUpdate()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    // this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
