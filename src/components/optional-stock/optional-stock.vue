@@ -19,7 +19,7 @@ body,
 .strategy-box-wrap {
   width: 100%;
   height: 100%;
-  padding: 5px 0px 0px 5px;
+  padding: 5px 0px 0px 1px;
   background: #0d0e0f;
 }
 

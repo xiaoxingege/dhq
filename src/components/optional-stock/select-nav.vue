@@ -6,7 +6,11 @@
 }
 
 .gold-strategy-title select {
+  display: inline-block;
   width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   height: 25px;
   color: #1984ea;
   -webkit-appearance: none;
@@ -20,6 +24,14 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+
+.gold-strategy-title select option {
+  display: inline-block;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gold-strategy-label {
@@ -43,11 +55,14 @@
 <div class="gold-strategy-title">
   <span class="gold-strategy-label">{{strategyLabel}}：</span>
   <select v-model="id">
-            <option v-for="item of dataList" :value='item.id'>{{item.name}}</option>
+            <option v-for="item of dataList" :value='item.id'>{{cutStr(item.name,30)}}</option>
         </select>
 </div>
 </template>
 <script type="text/javascript">
+import {
+  cutString
+} from 'utils/date'
 export default {
   props: ['dataList', 'strategyLabel'],
   data() {
@@ -72,6 +87,9 @@ export default {
       if (this.dataList.length > 0) {
         this.id = this.dataList[0].id
       }
+    },
+    cutStr: function(str, len) {
+      return cutString(str, len)
     }
   },
   mounted() {

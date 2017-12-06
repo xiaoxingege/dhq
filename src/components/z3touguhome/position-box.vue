@@ -117,10 +117,10 @@ export default {
       return
     }
     this.init()
-    this.autoUpdate()
+    // this.autoUpdate()
   },
   destroyed() {
-    this.updateDataPid && clearInterval(this.updateDataPid)
+    // this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
