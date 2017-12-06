@@ -220,6 +220,18 @@ module.exports = function(router) {
     ctx.body = result
   });
 
+  router.get('/endYear-activity', async(ctx, next) => {
+    ctx.title = '每日3只强势股-金融界';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
   router.get('/wangLun-activity', async(ctx, next) => {
     ctx.title = '央视嘉宾王伦全网限时回馈';
     ctx.metaDescription = '';

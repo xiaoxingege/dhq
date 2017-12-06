@@ -86,9 +86,12 @@ td {
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
-    <span v-z3-updowncolor="titleChngPct" v-if="condition === 'mkt_idx.cur_chng_pct'">{{titleChngPct}}%</span>
-    <span class="stock-down fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr" v-if="condition === 'mkt_idx.cur_chng_pct'">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
+    <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
+    <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
+    <span v-else>{{industryAvg}}</span>
+    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -103,7 +106,7 @@ td {
       <tr v-for="stock of stockList">
         <td class="tiker">{{stock.name}}</td>
         <td>
-          <div class="stocklist-chart" v-trend-line="{'lineData':stock.chartData,'catId':stockId}"></div>
+          <div class="stocklist-chart" v-trend-line="{'name':stock.name,'catId':stockId}"></div>
         </td>
         <td class="price">{{stock.price}}</td>
         <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
@@ -130,18 +133,19 @@ export default {
   directives: {
     'trend-line': {
       update(el, binding, vnode) {
-        const lineData = binding.value.lineData;
+        const stockName = binding.value.name;
         const catId = binding.value.catId;
         const vm = vnode.context;
         // 加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
         setTimeout(() => {
-          vm.drawStockLine(el, lineData, catId)
+          vm.drawStockLine(el, stockName, catId)
         }, 0);
       }
     }
   },
   watch: {
     stockId() {
+      console.info('stockId changed!');
       this.updateChart()
     },
     nodeId() {
@@ -151,6 +155,7 @@ export default {
   computed: {
     stockId() {
       if (this.parent && this.parent.id) {
+        console.info('stockId:' + this.parent.id);
         return this.parent.id
       }
     },
@@ -194,6 +199,19 @@ export default {
     industryChngPct: function() {
       const industryChngPct = this.$store.state.stockMap.industryChngPct
       return industryChngPct
+    },
+    industryAvg: function() {
+      let avg = this.$store.state.stockMap.industryAvg;
+      if (this.condition === 'mkt_idx.keep_days_today') {
+        if (avg === 'NaN') {
+          avg = '';
+        } else {
+          avg = parseInt(avg);
+        }
+      } else if (this.condition === 'act_date') {
+        avg = '';
+      }
+      return avg === 'NaN' ? '--' : avg;
     }
   },
   methods: {
@@ -203,9 +221,16 @@ export default {
       }
       this.$store.dispatch('stockMap/stockChartData', {
           stockId: this.stockId,
-          code: this.indexCode
+          code: this.indexCode,
+          condition: this.condition
         })
-        .then(() => {
+        .then(({
+          result,
+          catId
+        }) => {
+          if (catId !== this.stockId) {
+            return;
+          }
           const _this = this
           // 悬浮框的表头
           this.titleChngPct = this.industryChngPct
@@ -258,8 +283,9 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-          this.stockUpNo = 0
-          this.stockDownNo = 0
+          _this.stockUpNo = 0;
+          _this.stockDownNo = 0;
+          // if (this.condition.indexOf('chng_pct') !== -1) {
           this.stockList.forEach(function(stock) {
             if (stock.perf && stock.perf >= 0) {
               _this.stockUpNo++
@@ -276,59 +302,14 @@ export default {
               }
             }
           })
+          // }
+
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
               wrapHeight = document.getElementsByClassName('hover-wrapper')[0].offsetHeight
               this.$emit('updateWrapHeight', wrapHeight)
             }
-            // 悬浮框股票列表
-            // for (const i in this.stockList) {
-            //   if (this.$refs.chart && this.$refs.chart.length > 0) {
-            //     this.stockList[i].chart = echarts.getInstanceByDom(this.$refs.chart[i]) || echarts.init(this.$refs.chart[i])
-            //     this.stockList[i].chart.setOption({
-            //       grid: {
-            //         show: false,
-            //         left: 5,
-            //         top: 5,
-            //         bottom: 5,
-            //         right: 0
-            //       },
-            //       xAxis: [{
-            //         axisLine: false,
-            //         splitLine: {
-            //           show: false
-            //         },
-            //         type: 'category',
-            //         data: new Array(17)
-            //       }],
-            //       yAxis: [{
-            //         type: 'value',
-            //         axisLine: false,
-            //         splitLine: {
-            //           show: false
-            //         },
-            //         min: 'dataMin',
-            //         max: 'dataMax'
-            //       }],
-            //       animation: false,
-            //       series: [{
-            //         type: 'line',
-            //         smooth: true,
-            //         showSymbol: false,
-            //         lineStyle: {
-            //           normal: {
-            //             color: '#666',
-            //             width: 1
-            //           }
-            //         },
-            //         data: this.stockList[i].chartData
-            //       }]
-            //     })
-            //   } else {
-            //     // debugger
-            //   }
-            // }
           })
         })
     },
@@ -382,9 +363,13 @@ export default {
         }]
       })
     },
-    drawStockLine: function(el, lineData, catId) {
+    drawStockLine: function(el, stockName, catId) {
       if (catId !== this.stockId || el.clientHeight === 0) {
         return;
+      }
+      const lineData = this.stockChartData[stockName];
+      if (!this.stockChartData[stockName]) {
+        return
       }
       let chart = echarts.getInstanceByDom(el) || echarts.init(el);
       // chart.clear();

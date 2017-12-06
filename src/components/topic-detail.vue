@@ -97,6 +97,9 @@ html {
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
 }
+.topic-detail a:hover {
+    text-decoration: none;
+}
 .topic-head {
     /* padding: 19px 0 6px 18px; */
     padding: 13px 0 13px 10px;
@@ -793,14 +796,15 @@ export default {
       realtimeLimit: state => state.topic.realtimeLimit,
       numberTopic: state => state.topic.numberTopic,
       stockTotal: state => state.topic.stockTotal,
+      socketState: state => state.z3sockjs.readystate,
       stockMessage: state => {
         const msg = state.z3sockjs.message
         if (msg && msg.data && msg.data.subject === 'snapshot') {
           const record = msg.data
           return {
             innerCode: record.stockCode,
-            name: record.stockName,
-            price: record.lastPx,
+            // name: record.stockname,
+            price: record.lastpx,
             chg: record.pxchg,
             curChngPct: record.pxchgratio
           }
@@ -875,8 +879,9 @@ export default {
             if (arr[i] === 11 && j === 30) {
               break
             } else if (arr[i] === 13 && j === '00') {
+              realTime = '11:30'
               // realTime = '11:30' + '/' + arr[i] + ':' + j
-              realTime = arr[i] + ':' + j
+              // realTime = arr[i] + ':' + j
             } else {
               realTime = arr[i] + ':' + j
             }
@@ -884,6 +889,21 @@ export default {
           }
         }
         // console.log(tradeMin)
+        function getIndex(time) {
+          if (time > 930 && time <= 959) {
+            return time - 930;
+          } else if (time >= 1000 && time <= 1059) {
+            return 30 + (time - 1000);
+          } else if (time >= 1100 && time <= 1130) {
+            return 90 + (time - 1100);
+          } else if (time > 1300 && time <= 1359) {
+            return 120 + (time - 1300);
+          } else if (time >= 1400 && time <= 1459) {
+            return 180 + (time - 1400);
+          } else if (time === 1500) {
+            return 240;
+          }
+        }
         realtimeCharts && realtimeCharts.forEach((item, index) => {
           // console.log(index === 0)
           topicTimeName = item.topicName
@@ -893,8 +913,11 @@ export default {
             topicChgPct.push(0)
             hs300ChgPct.push(0)
           } else {
-            topicChgPct.push(Number(item.topicChgPct).toFixed(2))
-            hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
+            var indexs = getIndex(item.tradeMin)
+            topicChgPct[indexs] = Number(item.topicChgPct).toFixed(2)
+            hs300ChgPct[indexs] = Number(item.hs300ChgPct).toFixed(2)
+            // topicChgPct.push(Number(item.topicChgPct).toFixed(2))
+            // hs300ChgPct.push(Number(item.hs300ChgPct).toFixed(2))
           }
           /* tradeMin.push(tradeMinDate)*/
         })
@@ -932,7 +955,7 @@ export default {
     },
     stockMessage() {
       if (this.stockMessage) {
-        this.updateStock()
+        this.updateStock(this.stockMessage)
       }
     },
     socketState() {
@@ -997,7 +1020,7 @@ export default {
 
           this.alltimers = setInterval(function() {
             _this.updateChartRealTime()
-          }, 3000)
+          }, 30000)
         })
       } else {
         this.$store.dispatch('topic/queryAllCharts', {
@@ -1013,7 +1036,7 @@ export default {
             }
             this.alls = setInterval(function() {
               _this.updateChartAll()
-            }, 5000)
+            }, 50000)
           })
       }
     },
@@ -1034,8 +1057,8 @@ export default {
           // console.log(allLimitReturn)
         } else {
           this.chartData.chartDataEnd = this.allLimit[0].tradeDate
-          this.chartData.hs300ReturnRate.push(this.allLimit[0].hs300ReturnRate.toFixed(2))
-          this.chartData.topicReturnRate.push(this.allLimit[0].topicReturnRate.toFixed(2))
+          this.chartData.hs300ReturnRate.push(Number(this.allLimit[0].hs300ReturnRate).toFixed(2))
+          this.chartData.topicReturnRate.push(Number(this.allLimit[0].topicReturnRate).toFixed(2))
           this.drawCharts(this.chartData.topicName, this.chartData.tradeDate, this.chartData.topicReturnRate, this.chartData.hs300ReturnRate)
         }
       })
@@ -1062,8 +1085,8 @@ export default {
         } else {
           console.log('不相同')
           this.realTimeData.realTimeEnd = this.realtimeLimit[0].tradeMin
-          this.realTimeData.topicChgPct.push(this.realtimeLimit[0].topicChgPct.toFixed(2))
-          this.realTimeData.hs300ChgPct.push(this.realtimeLimit[0].hs300ChgPct.toFixed(2))
+          this.realTimeData.topicChgPct.push(Number(this.realtimeLimit[0].topicChgPct).toFixed(2))
+          this.realTimeData.hs300ChgPct.push(Number(this.realtimeLimit[0].hs300ChgPct).toFixed(2))
           this.drawCharts(this.detail.topicName, this.realTimeData.tradeMin, this.realTimeData.topicChgPct, this.realTimeData.hs300ChgPct)
         }
       })
@@ -1362,6 +1385,7 @@ export default {
         ]
 
       })
+      window.onresize = this.chart.resize
     },
     format(date) {
       return formatDate(date)
@@ -1408,6 +1432,13 @@ export default {
     this.$store.dispatch('topic/queryDetailHead', {
       topicCode: this.topicCode
     })
+
+    var _this = this
+    this.updateDetail = setInterval(function() {
+      _this.$store.dispatch('topic/queryDetailHead', {
+        topicCode: _this.topicCode
+      })
+    }, 60000)
     // console.log(this.sortStock)
     // console.log(this.innerCode)
     // this.drawCharts()
@@ -1415,8 +1446,10 @@ export default {
 
   },
   destroyed() {
+    z3websocket.ws && z3websocket.ws.close()
     this.alltimers && clearInterval(this.alltimers)
     this.alls && clearInterval(this.alls)
+    this.updateDetail && clearInterval(this.updateDetail)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)

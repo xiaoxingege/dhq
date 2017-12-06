@@ -2,6 +2,7 @@
 .con-right {
   float: right;
   background-color: #141518;
+  padding: 10px 10px 10px 0px;
 }
 
 .portrait-filter-strategy {
@@ -28,21 +29,22 @@
 <template>
 <div class="con-right">
   <div class="portrait-filter-strategy">
-
+    <PortraitFilterStrategy></PortraitFilterStrategy>
   </div>
   <div class="portrait-timing-strategy">
-
+    <PortraitTimingStrategy></PortraitTimingStrategy>
   </div>
   <div class="portrait-gold-strategy clearfix">
     <PortraitStrategyBox :benchmarkObj="benchmarkObj" @getStrategyId="passStrategyId"></PortraitStrategyBox>
     <PortraitTradeSignals :strategyId="strategyId"></PortraitTradeSignals>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
 import PortraitStrategyBox from 'components/customerPortrait/portrait-strategy-box'
 import PortraitTradeSignals from 'components/customerPortrait/portrait-trade-signals'
+import PortraitTimingStrategy from 'components/customerPortrait/portrait-timing-strategy'
+import PortraitFilterStrategy from 'components/customerPortrait/customer-filter-strategy'
 export default {
   data() {
     return {
@@ -63,7 +65,9 @@ export default {
   props: [''],
   components: {
     PortraitStrategyBox,
-    PortraitTradeSignals
+    PortraitTradeSignals,
+    PortraitTimingStrategy,
+    PortraitFilterStrategy
   },
   computed: {
 

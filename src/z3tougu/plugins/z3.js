@@ -9,7 +9,7 @@ export default {
     Vue.directive('z3-stock', {
       bind(el, binding, vnode, oldVnode) {
         let popup = binding.value.ref;
-        //let code = binding.value.code;
+        // let code = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
         el.addEventListener('mouseover', (event) => {
@@ -26,13 +26,13 @@ export default {
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
           const winW = window.document.body.scrollWidth;
-          let left = event.x + parseInt(scrollleft) + 40;
+          let left = event.x + parseInt(scrollleft) + 50;
           let top = event.y + parseInt(scrollTop) - 20;
           if (winH - top < 300) {
             top = winH - 300;
           }
           if (winW - left < 400) {
-            left = event.x + parseInt(scrollleft) - 400;
+            left = event.x + parseInt(scrollleft) - 430;
           }
           popupVm.$props.left = left
           popupVm.$props.top = top
@@ -53,6 +53,17 @@ export default {
         el.style.color = config.downColor
       } else {
         el.style.color = config.flatColor
+
+      }
+    })
+    Vue.directive('z3-updowncolor-bg', (el, binding, vnode, oldVnode) => {
+      var flag = binding.value;
+      if (flag > 0) {
+        el.style.backgroundColor = config.upColor
+      } else if (flag < 0) {
+        el.style.backgroundColor = config.downColor
+      } else {
+        el.style.backgroundColor = config.flatColor
 
       }
     })
@@ -211,9 +222,47 @@ export default {
       if (isNaN(val)) {
         return config.emptyValue
       } else {
-        return Math.round(value * Math.pow(10, num)) / Math.pow(10, num);
+        return (Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num)
       }
     })
+    Vue.filter('isNull', function(value) {
+      if (value === null || value === '') {
+        return config.emptyValue
+      } else {
+        return value
+      }
+    })
+    Vue.directive('z3-help', {
+      bind(el, binding, vnode, oldVnode) {
+        el.addEventListener('mouseover', (event) => {
+          event.currentTarget.parentNode.insertAdjacentHTML("beforeBegin", "<div id=\"icon-help\" style=\"position: absolute;top: 32px;width: 300px;display: block;padding: 15px;color: #666666;background: #cccfd9;border-radius: 10px;z-index: 999;line-height: 18px;font-size: 12px;\">123");
+          event.currentTarget.parentNode.insertAdjacentHTML("afterend", "</div>");
+          var hDiv = document.getElementById('icon-help')
+          hDiv.innerHTML = binding.value
+          let scrollTop = window.pageYOffset || window.scrollY;
+          let scrollleft = window.pageXOffset || window.scrollX;
+          const winH = window.document.body.scrollHeight;
+          const winW = window.document.body.scrollWidth;
+          let left = event.x + parseInt(scrollleft) + 50;
+          let top = event.y + parseInt(scrollTop) - 20;
+          if (winH - top < 300) {
+            top = winH - 300;
+          }
+          if (winW - left < 400) {
+            left = event.x + parseInt(scrollleft) - 320;
+          }
+          hDiv.style.left = left + 'px'
+          hDiv.style.top = top + 20 + 'px'
+
+        });
+        el.addEventListener('mouseout', (event) => {
+          var hDiv = document.getElementById('icon-help')
+          hDiv.parentNode.removeChild(hDiv);
+        })
+      }
+
+    })
+
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"

@@ -1,38 +1,42 @@
-<style>
+<style lang="scss" scoped>
 .lineChart {
-  width: 100%;
-  height: 420px;
-  padding-top: 20px;
+    width: 100%;
+    height: 420px;
+    padding-top: 20px;
 }
 
 .syqxTab {
-  position: absolute;
-  right: 53px;
-  top: 23px;
-  z-index: 9999;
+    position: absolute;
+    right: 53px;
+    top: 23px;
+    z-index: 9999;
 }
 
 .syqxTab li {
-  float: left;
-  background: #23272C;
-  padding: 5px 7px;
-  margin-right: 1px;
-  font-size: 12px;
-  color: #C9D0D7;
-  cursor: pointer;
+    float: left;
+    background: #23272C;
+    padding: 5px 7px;
+    margin-right: 1px;
+    font-size: 12px;
+    color: #C9D0D7;
+    cursor: pointer;
 }
-
+.syqxTab li:first-child {
+    border-radius: 3px 0 0 3px;
+}
+.syqxTab li:last-child {
+    border-radius: 0 3px 3px 0;
+}
 .syqxTab li.active {
-  background: #1984EA;
+    background: #1984EA;
 }
-
 @media only screen and (min-device-width: 320px) and (max-device-width: 1217px) {
-  .lineChart {
-    width: 100%;
-    height: 4.2rem;
-    padding-top: 0;
-    padding-bottom: 0.1rem;
-  }
+    .lineChart {
+        width: 100%;
+        height: 4.2rem;
+        padding-top: 0;
+        padding-bottom: 0.1rem;
+    }
 }
 </style>
 <template>
@@ -55,7 +59,7 @@ import {
 } from 'vuex'
 
 export default {
-  props: ['options', 'strategyId'],
+  props: ['strategyId'],
   data() {
     return {
 
@@ -85,7 +89,8 @@ export default {
       }).then(() => {
         const lineData = this.$store.state.goldStrategy.syqxtData
         // echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) ||
-        this.chart = echarts.init(document.getElementsByClassName('lineChart')[0], {
+
+        this.chart = echarts.getInstanceByDom(document.getElementsByClassName('lineChart')[0]) || echarts.init(document.getElementsByClassName('lineChart')[0], {
           width: window.screen.width / 100 + 'rem',
           height: 2.1 + 'rem'
         })
@@ -122,15 +127,16 @@ export default {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
-                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
+                  let result = Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>策略累计收益率: ' + (params[i].value < 0 ? '-' : '') + (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
+                    params[i].color + '"></span>策略累计收益率: ' +
+                    Number(Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
                 if (i === 1) {
-                  let result = params[i].value < 0 ? Number(params[i].value) * -1 : Number(params[i].value)
+                  let result = Number(params[i].value)
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-                    params[i].color + '"></span>基准累计收益率: ' + (params[i].value < 0 ? '-' : '') +
-                    (Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
+                    params[i].color + '"></span>基准累计收益率: ' +
+                    Number(Math.round(result * Math.pow(10, 4)) / Math.pow(10, 2)).toFixed(2) + '%'
                 }
               }
               return s

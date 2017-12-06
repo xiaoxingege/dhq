@@ -135,7 +135,12 @@ span.copy {
 <template>
 <div class="backtest-time" @click="hideCode($event)">
   <div class="btime-main">
-    <div class="fr icon"><span class="weixin" @click="showQrcode" title="二维码分享" :class="showQrcodeBox===true?'active':''"></span><span class="copy" title="复制分享链接" ref='copy2share' :class="showToast===true?'active':''"></span></div>
+    <div class="fr icon">
+      <div style="display: inline-block;position: relative; top: -5px;" class="mr-10">
+        <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
+        <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
+      </div>
+      <span class="weixin" @click="showQrcode" title="二维码分享" :class="showQrcodeBox===true?'active':''"></span><span class="copy" title="复制分享链接" ref='copy2share' :class="showToast===true?'active':''"></span></div>
     <BackTimeStra/>
     <BackTimeKline/>
     <div></div>
@@ -173,11 +178,14 @@ export default {
       showQrcodeBox: false,
       strategyId: this.$route.params.strategyId,
       toastmsg: '',
-      showToast: false
+      showToast: false,
+      showAttention: false
     }
   },
   computed: mapState({
-
+    attentionData: state => state.backtestDetail.attentionData,
+    addAttention: state => state.backtestDetail.addAttention,
+    delAttention: state => state.backtestDetail.delAttention
   }),
   components: {
     BackTimeStra,
@@ -201,6 +209,28 @@ export default {
       if (_weixin !== event.target) {
         this.showQrcodeBox = false
       }
+    },
+    changeAttention() {
+      if (this.showAttention) {
+        this.$store.dispatch('backtestDetail/cancleAttention', {
+          strategyId: this.strategyId,
+          strategyType: 2
+        }).then(() => {
+          if (this.delAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      } else {
+        this.$store.dispatch('backtestDetail/createAttention', {
+          strategyId: this.strategyId,
+          strategyType: 2
+        }).then(() => {
+          if (this.addAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      }
+
     }
   },
   mounted() {
@@ -228,6 +258,13 @@ export default {
         this.showToast = false
       }, 2500)
     })
+    this.$store.dispatch('backtestDetail/getAttention', {
+      strategyId: this.strategyId,
+      strategyType: 2
+    }).then(() => {
+      this.showAttention = this.attentionData
+    })
+
   }
 }
 </script>

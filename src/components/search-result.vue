@@ -119,6 +119,40 @@ body {
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
   </ul>
+  <ul v-if="searchType == 'strategy'" class="searchStrategy">
+    <p>搜索策略数：<span>{{total}}</span></p>
+    <li v-for="item of resultData">
+      <router-link v-if="item.strategyTypeCode === 3" :to="{name:'goldStrategy' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
+      </router-link>
+      <router-link v-if="item.strategyTypeCode === 2" :to="{name:'backtesttime' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
+      </router-link>
+      <router-link v-if="item.strategyTypeCode === 1" :to="{name:'backtestfilter' , params:{ strategyId : item.id, detailType:'news'}}" target="_blank">
+        {{item.strategyName}}
+      </router-link>
+      <p class="searchInfo">{{item.strategyDesc}}</p>
+      <p class="searchTime" v-if="item.strategyTypeCode === 3">
+        {{item.strategyTypeName}}
+        <span class="ml-40">近1周{{(item.nearWeekReturn*100) | decimal(2)}}%，</span>
+        <span>近1月{{(item.nearMonReturn*100) | decimal(2)}}%，</span>
+        <span>近3月{{(item.near3monReturn*100) | decimal(2)}}%，</span>
+        <span>平均持有{{item.avgHoldDays | decimal(0)}}天</span>
+      </p>
+      <p class="searchTime" v-if="item.strategyTypeCode === 2">
+        {{item.strategyTypeName}}
+        <span class="ml-40">胜率{{(item.winRatio*100) | decimal(2)}}%，</span>
+        <span>盈亏比{{item.winLossRatio | decimal(2)}}，</span>
+        <span>平均持有{{item.avgHoldDays | decimal(0)}}天</span>
+      </p>
+      <p class="searchTime" v-if="item.strategyTypeCode === 1">
+        {{item.strategyTypeName}}
+        <span class="ml-40">胜率{{(item.winRatio*100) | decimal(2)}}%，</span>
+        <span>盈亏比{{item.winLossRatio | decimal(2)}}，</span>
+        <span>平均收益率{{(item.avgReturn*100) | decimal(2)}}%，</span>
+        <span>平均超额收益率{{(item.avgReturnExcess*100) | decimal(2)}}%，</span>
+        <span>平均持有{{item.holdDay | decimal(0)}}天</span>
+      </p>
+    </li>
+  </ul>
   <div style="width:100%; text-align: center;">
     <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
   </div>
@@ -129,7 +163,7 @@ body {
 import Pagination from 'components/pagination.vue'
 export default {
   // props: ['linkText'],
-  data () {
+  data() {
     return {
       resultData: [],
       total: '',
@@ -146,7 +180,7 @@ export default {
 
   },
   methods: {
-    showSearchList (currentPage) {
+    showSearchList(currentPage) {
       const keyword = this.$store.state.zhikuanSearch.keyword === '' ? this.$route.params.keyword : this.$store.state.zhikuanSearch.keyword
       const linkText = this.$route.params.linkText
       this.$store.dispatch('zhikuanSearchList/searchList', {
@@ -160,10 +194,10 @@ export default {
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
       })
     },
-    goToPage (data) {
+    goToPage(data) {
       this.showSearchList(data)
     },
-    relativeSort (e) {
+    relativeSort(e) {
       const relativeBtn = this.$refs.relativeBtn
       const btn = this.$refs.timeBtn
       if (relativeBtn.className === 'active') {
@@ -188,7 +222,7 @@ export default {
         this.pageTo = this.$store.state.zhikuanSearchList.currentPage
       })
     },
-    timeSort (e) {
+    timeSort(e) {
       const timeBtn = this.$refs.timeBtn
       const btn = this.$refs.relativeBtn
       if (timeBtn.className === 'active') {
@@ -215,7 +249,7 @@ export default {
 
   },
   watch: {
-    '$route': function () {
+    '$route': function() {
       const keyword = this.$route.params.keyword
       const linkText = this.$route.params.linkText
       this.searchType = this.$route.params.linkText
@@ -230,7 +264,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.showSearchList()
   }
 
