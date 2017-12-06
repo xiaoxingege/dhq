@@ -61,7 +61,6 @@
 </template>
 <script type="text/javascript">
 import {
-  formatDate,
   cutString
 } from 'utils/date'
 export default {
