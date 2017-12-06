@@ -23,7 +23,7 @@
     font-size: 10px;
 }
 .bull-stock-table td {
-    height: 12%;
+    height: 8.4%;
     color: #c9d0d7;
 }
 .bull-stock-table tr td:first-child {
@@ -31,13 +31,13 @@
     padding-left: 23px;
     padding-right: 0;
     border-left-width: 0;
-    width: 25%;
+    width: 28%;
 }
 .bull-stock-table tr td:nth-child(2) {
     width: 25%;
 }
 .bull-stock-table tr td:nth-child(3) {
-    width: 50%;
+    width: 47%;
 }
 .bull-stock-table tr:first-child td {
     border-bottom: 1px solid #23272c;
