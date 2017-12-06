@@ -236,10 +236,10 @@ export default {
       }
     },
     formatDataRound: function(value) {
-      if (value > 10000) {
-        value = Math.round(value / 10000) + '万手'
+      if (value > 1000000) {
+        value = Math.round(value / 1000000) + '万手'
       } else {
-        value = Math.round(value) + '手'
+        value = Math.round(value / 100) + '手'
       }
       return value
     }

@@ -53,8 +53,8 @@
     <table class="bull-stock-table">
       <tr>
         <td>名称</td>
-        <td>风格指数</td>
         <td>风格描述</td>
+        <td>风格指数</td>
       </tr>
       <tr v-for='item of bullStockList' v-if="bullStockList.length>0">
         <td>{{bullStockList.length>0 && formatData(item.cname)?'--':item.cname}}</td>
