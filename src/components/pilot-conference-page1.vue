@@ -135,6 +135,7 @@ body {
 }
 .right li div.red {
     color: #f5514e;
+    font-size: 36px;
 }
 .left-link {
     width: 200px;

@@ -108,6 +108,7 @@ h1 {
             <span>活动开关</span>
             <button type="button" name="button" @click="open" :disabled="LastLotteryData.status === 1">开&nbsp;启</button>
             <button type="button" name="button" @click="close" :disabled="LastLotteryData.status === 2">关&nbsp;闭</button>
+            <button type="button" name="button" @click="clear" :disabled="clearType" style='float:right;'>清&nbsp;缓&nbsp;存</button>
         </div>
         <div>
             <span>三等奖获奖名单</span>
@@ -159,7 +160,8 @@ export default {
     data() {
         return {
             level: '',
-            show: false
+            show: false,
+            clearType: false
         }
     },
     computed: mapState({
@@ -202,6 +204,24 @@ export default {
             } else if (mymessage === false) {
                 return
             }
+        },
+        clear() {
+            var _this = this
+            $.ajax({
+                url: `http://itougu.jrj.com.cn/smartstock/godmode/clearCache/onestep:smartstock:DIAGNOSE_STOCK_POOL.jspa?clearAll=1`,
+                dataType: 'json',
+                method: 'GET',
+                success: function(data) {
+                    $.ajax({
+                        url: `http://mapi.itougu.jrj.com.cn/wireless/smartStock/smartDiagnosis.jspa`,
+                        dataType: 'json',
+                        method: 'GET',
+                        success: function(data) {
+                            _this.clearType = true
+                        }
+                    })
+                }
+            })
         }
     },
     mounted() {
