@@ -94,11 +94,11 @@ html {
     left: 15px;
 }
 
-a {
+.news a {
     color: #2388da;
     text-decoration: none;
 }
-a:hover {
+.news a:hover {
     text-decoration: underline;
     cursor: pointer;
 }

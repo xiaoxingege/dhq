@@ -16,8 +16,8 @@
   padding: 0 15px;
   width: 100%;
   top: 0;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
 }
 
 .bullChartHeader select {
@@ -31,18 +31,19 @@
   background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
   background-position-x: 95%;
   color: #c9d0d7;
-  background-color: #1A1D23;
+  background-color: #23272C;
   cursor: pointer;
 }
 
 .currentTime {
-  line-height: 50px;
+  line-height: 40px;
+  color: #c9d0d7;
 }
 
 .bullChart {
   position: absolute;
   width: 100%;
-  top: 50px;
+  top: 40px;
   bottom: 30px;
   /*padding-top: 15px;*/
   box-sizing: border-box;
@@ -324,7 +325,7 @@ export default {
                   if (that.bullSelected === 'heatIndex') {
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },
@@ -393,7 +394,7 @@ export default {
                   if (that.bullSelected === 'heatIndex') {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },

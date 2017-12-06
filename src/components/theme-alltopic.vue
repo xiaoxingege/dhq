@@ -639,6 +639,9 @@ a.kuai_icon {
 .sort-hot a:hover {
     text-decoration: underline;
 }
+.alltopic a:hover {
+    text-decoration: none;
+}
 </style>
 <template>
 <div class="alltopic clearfix">

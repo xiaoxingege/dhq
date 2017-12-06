@@ -174,7 +174,7 @@ th {
 }
 
 .progress {
-  background: red;
+  background: #ca4941;
   width: 10%;
   height: 100%;
   display: inline-block;
@@ -268,7 +268,7 @@ th {
       <tr v-for="style of stockStyle" v-if="stockStyle && stockStyle.length>0">
         <td>{{style.cname}}</td>
         <td>{{style.remark}}</td>
-        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'" :class="redbg">{{Math.round(style.value)}}</span>
+        <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'">{{Math.round(style.value)}}</span>
         </td>
 
       </tr>
@@ -438,16 +438,12 @@ export default {
     this.initStyle()
     this.initTopicAndIndustry()
     var _this = this
-    this.updateTime = setInterval(function() {
-      _this.initStyle()
-    }, 600000)
     this.updateTopicandIndu = setInterval(function() {
       _this.initTopicAndIndustry()
     }, 60000)
-
   },
   destroyed() {
-    this.updateTime && clearInterval(this.updateTime)
+    // this.updateTime && clearInterval(this.updateTime)
     this.updateTopicandIndu && clearInterval(this.updateTopicandIndu)
   }
 }
