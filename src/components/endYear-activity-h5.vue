@@ -456,14 +456,14 @@ export default {
                         imgUrl: require('assets/images/endYear-activity/endYear-slide1-img10.png'),
                         link: ''
                     },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img11.png'),
-                        link: ''
-                    },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img12.png'),
-                        link: ''
-                    },
+                    // {
+                    //     imgUrl: require('assets/images/endYear-activity/endYear-slide1-img11.png'),
+                    //     link: ''
+                    // },
+                    // {
+                    //     imgUrl: require('assets/images/endYear-activity/endYear-slide1-img12.png'),
+                    //     link: ''
+                    // },
                     {
                         imgUrl: require('assets/images/endYear-activity/endYear-slide1-img13.png'),
                         link: ''

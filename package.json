@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.589",
+  "version": "0.0.590",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
