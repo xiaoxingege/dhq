@@ -102,10 +102,14 @@
     float: left;
 }
 .monthBox .month > div.active,
-.monthBox .month > div:hover {
+.monthBox .month > div.active:hover {
     background: #457CB6;
 }
 
+.monthBox .month .gray {
+    color: gray;
+    cursor: default;
+}
 .customTag {
     padding-bottom: 20px;
 }
@@ -235,21 +239,25 @@
           <span class="monthTag fr" @click="showTime"></span>
           <div class="timeBox">
             <div class="ymdDate">
-              <span @click="changeYear('minus')" :style="{display:currentY === currentC ? 'none':'block'}"><img
+              <span @click="changeYear('minus')" :style="{display:currentY === currentC ? 'block':'none'}"><img
                       src="../../assets/images/z3img/leftArrow.png"></span>
               <span>{{currentY}}</span>
-              <span @click="changeYear('add')" :style="{display:currentY === currentC ? 'block':'none'}"><img
+              <span @click="changeYear('add')" :style="{display:currentY === currentC ? 'none':'block'}"><img
                       src="../../assets/images/z3img/rightArrow.png"></span>
             </div>
             <div class="monthBox">
               <div class="month clearfix">
-                <div :class="currentM === item ? 'active':''" v-for="item in 4">{{item}}月</div>
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in 4">
+                  {{item}}月
+                </div>
               </div>
               <div class="month clearfix">
-                <div :class="currentM === item ? 'active':''" v-for="item in [5,6,7,8]">{{item}}月</div>
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [5,6,7,8]">{{item}}月
+                </div>
               </div>
               <div class="month clearfix">
-                <div :class="currentM === item ? 'active':''" v-for="item in [9,10,11,12]">{{item}}月</div>
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [9,10,11,12]">{{item}}月
+                </div>
               </div>
             </div>
           </div>
@@ -341,7 +349,7 @@ export default {
     getCurrentTime: function() {
       const date = new Date();
       this.currentY = date.getFullYear()
-      this.currentY = date.getFullYear()
+      this.currentC = date.getFullYear()
       this.currentM = date.getMonth() + 1
       console.log(this.currentY)
       console.log(this.currentM)
