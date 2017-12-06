@@ -174,7 +174,7 @@ th {
 }
 
 .progress {
-  background: red;
+  background: #ca4941;
   width: 10%;
   height: 100%;
   display: inline-block;
@@ -268,7 +268,7 @@ th {
       <tr v-for="style of stockStyle" v-if="stockStyle && stockStyle.length>0">
         <td>{{style.cname}}</td>
         <td>{{style.remark}}</td>
-        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'" :class="redbg">{{Math.round(style.value)}}</span>
+        <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'">{{Math.round(style.value)}}</span>
         </td>
 
       </tr>
