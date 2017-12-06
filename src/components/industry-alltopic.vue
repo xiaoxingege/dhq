@@ -642,6 +642,9 @@ a.kuai_icon {
 .sort-hot a:hover {
     text-decoration: underline;
 }
+.alltopic a:hover {
+    text-decoration: none;
+}
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -853,7 +856,6 @@ export default {
           _this.themeList = _this.themeListData
         })
       }, 60000)
-
     },
     list(type, page) {
       this.$store.dispatch('industry/queryListChange', {
