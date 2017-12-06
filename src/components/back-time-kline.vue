@@ -153,7 +153,7 @@ textarea:-ms-input-placeholder {
     /* top: 82%; */
     /* top: 104%; */
     top: 101%;
-    left: 20px;
+    left: 194px;
     position: absolute;
     /* left: 14.7%; */
     /* left: 276px; */
@@ -187,13 +187,36 @@ textarea:-ms-input-placeholder {
     padding-bottom: 23px;
     font-size: 14px;
 }
+.chance-analysis {
+    display: inline-block;
+    width: 170px;
+    height: 25px;
+    border: none;
+    cursor: pointer;
+    background: #30353b;
+    color: #c9d0d7;
+    outline: none;
+    font-size: 12px;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+.chance-analysis option {
+    background-color: #bab6b8;
+    color: #666;
+    font-size: 12px;
+    padding-left: 10px;
+}
 </style>
 <template>
 <div class="time-kline-wrap">
 
   <div class="time-inp-box">
     <div class="desc-title">机会分析</div>
-    <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keydown="keyEnter($event)">
+    <select v-model="selectInnerCode" class="chance-analysis">
+      <option value="please-input">请输入股票代码或简称</option>
+      <option v-for="(item,index) of stockList" :value='item.innerCode' :selected='index === 0'>{{item.innerCode}}&nbsp;&nbsp;{{item.name}}</option>
+    </select>
+    <input type="text" name="inp" placeholder="请输入一只股票代码/简称" class="time-inp lightcolor" @input="search($event)" ref="keyword" autocomplete="off" v-model="message" @keydown="keyEnter($event)" v-if="isShowInput">
     <span class="ana-btn" @click="submitSearch($event)" style="display: none">分析</span>
     <label class="label-txt lightcolor">*仅支持分析A股，价格为前复权</label>
     <ul class="search-ul" id="search-ul" v-if="searchData.searchList && searchData.searchList.length > 0 && message!=''">
@@ -204,7 +227,7 @@ textarea:-ms-input-placeholder {
                   
                </ul> -->
   </div>
-  <div class="k-line-box" id="ss" v-if="istyle">
+  <div class="k-line-box" id="ss">
     <!-- <div>格力电器买卖点分析</div> -->
     <!-- <div class="ma-box" v-show="showMa">
                      <span class="ma5">MA5：</span><span class="ma5 mawidth">{{ma5}}</span><span class="ma10">MA10：</span><span class="ma10 mawidth">{{ma10}}</span><span class="ma20">MA20：</span><span class="ma20 mawidth">{{ma20}}</span><span class="ma30">MA30：</span><span class="ma30 mawidth">{{ma30}}</span>
@@ -223,7 +246,7 @@ import {
 import echarts from 'echarts'
 
 export default {
-  data () {
+  data() {
     return {
       ma5: '--',
       ma10: '--',
@@ -231,13 +254,27 @@ export default {
       ma30: '--',
       message: '',
       showSearchList: true,
+      selectInnerCode: '',
       innerCode: '',
-      // showMa: false,
       strategyId: this.$route.params.strategyId,
       searchList: [],
-      istyle: false,
       current: 0,
-      fullHeight1: document.documentElement.clientHeight - 562
+      fullHeight1: document.documentElement.clientHeight - 562,
+      stockList: [],
+      isShowInput: false
+    }
+  },
+  watch: {
+    selectInnerCode() {
+      if (this.selectInnerCode === 'please-input') {
+        this.isShowInput = true
+        this.message = ''
+      } else {
+        this.isShowInput = false
+        this.searchData.searchList = []
+        this.innerCode = this.selectInnerCode
+        this.init()
+      }
     }
   },
   computed: mapState({
@@ -305,7 +342,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -330,7 +367,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -366,7 +403,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -390,7 +427,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  formatter: function (params, ticket, callback) {
+                  formatter: function(params, ticket, callback) {
                     return ''
                   },
                   textStyle: {
@@ -416,73 +453,67 @@ export default {
         pointData: pointData,
         seriesData: seriesData
       }
+    },
+    stockListData: state => {
+      const stockList = state.backtestDetail.stockList
+      return stockList
     }
   }),
   components: {
 
   },
   methods: {
-    init () {
-      this.chart = echarts.init(this.$refs.kcharts)
-      // console.log(this.message)
-      this.innerCode = this.message
+    init() {
+      this.chart = echarts.init(this.$refs.kcharts) || echarts.getInstanceByDom(this.$refs.kcharts)
       this.$store.dispatch('backtestDetail/queryKline', {
-        innerCode: this.innerCode,
-        strategyId: this.strategyId
-      })
+          innerCode: this.innerCode,
+          strategyId: this.strategyId
+        })
         .then(() => {
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
         })
     },
-    search (e) {
+    search(e) {
       e.preventDefault()
       const keyword = this.$refs.keyword.value
       this.message = keyword
       this.$store.dispatch('backtestDetail/querySearch', {
         keyword
       })
-      console.log(this.searchData.searchList.length)
       if (this.searchData.searchList.length > 0) {
         var ul = document.getElementById('search-ul')
         var lis = ul.getElementsByTagName('li')
         lis[0].className = 'active'
       }
-      if (this.message === '') {
-        // this.showMa = false
-      } else {
-        this.istyle = true
-        console.log(this.searchData.searchList.length)
-        this.init()
-      }
-      // this.filterStocks(keyword)
+      /* if (this.message !== ''){
+         this.innerCode = this.message
+         this.init()
+       }*/
     },
-    focusStock (e) {
+    focusStock(e) {
       const focusStockId = e.currentTarget.children[0].innerText
       this.$emit('focusStockId', focusStockId)
       this.message = focusStockId
       this.showSearchList = false
       this.searchData.searchList = []
-      console.log(this.searchData.searchList)
-      this.istyle = true
+      this.innerCode = this.message
       this.init()
     },
-    submitSearch (e) {
+    submitSearch(e) {
       e.preventDefault()
-      // this.showMa = true
-
+      this.innerCode = this.message
       this.init()
     },
-
-    keyEnter (e) {
+    keyEnter(e) {
       switch (e.keyCode) {
         case 38:
           this.current--
-          console.log(this.current)
+            console.log(this.current)
           this.addActive()
           break
         case 40:
           this.current++
-          console.log(this.current)
+            console.log(this.current)
           this.addActive()
           break
         case 13:
@@ -492,6 +523,7 @@ export default {
             console.log(lis[this.current].getElementsByTagName('span')[0].innerText)
             this.message = lis[this.current].getElementsByTagName('span')[0].innerText
             this.searchData.searchList = []
+            this.innerCode = this.message
             this.init()
           }
           break
@@ -499,7 +531,7 @@ export default {
           break
       }
     },
-    addActive () {
+    addActive() {
       var ul = document.getElementById('search-ul')
       var lis = ul.getElementsByTagName('li')
       /* } else {
@@ -518,7 +550,7 @@ export default {
       }
       lis[this.current].className = 'active'
     },
-    drawCharts (name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
+    drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
       console.log(seriesData)
       const self = this
       self.chart.setOption({
@@ -538,7 +570,7 @@ export default {
           axisPointer: {
             type: 'cross'
           },
-          formatter: function (t) {
+          formatter: function(t) {
             // console.log(t)
             var time = t[0].name
             var openPx = t[0].value[1]
@@ -667,34 +699,34 @@ export default {
         },
 
         series: [{
-          name: '日K',
-          type: 'candlestick',
-          data: kLineYdata,
-          barWidth: '3',
-          itemStyle: {
-            normal: {
-              color: '#e6363a',
-              color0: '#48a854',
-              borderColor: '#ff4040',
-              borderColor0: '#2dc678'
-            }
-          },
-          markPoint: { /* image://src/assets/images/z3img/kline-red.png*/
-              // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
-            label: {
+            name: '日K',
+            type: 'candlestick',
+            data: kLineYdata,
+            barWidth: '3',
+            itemStyle: {
               normal: {
-                formatter: function (param) {
-                  return param != null ? Math.round(param.value) : ''
-                }
+                color: '#e6363a',
+                color0: '#48a854',
+                borderColor: '#ff4040',
+                borderColor0: '#2dc678'
               }
             },
-            data: pointData,
-            tooltip: {
-              formatter: function (param) {
-                return param.name + '<br>' + (param.data.coord || '')
+            markPoint: { /* image://src/assets/images/z3img/kline-red.png*/
+              // symbol: 'image://https://ws1.sinaimg.cn/large/006cGJIjly1fiza2t2r6qj30go09ejt8.jpg',
+              label: {
+                normal: {
+                  formatter: function(param) {
+                    return param != null ? Math.round(param.value) : ''
+                  }
+                }
+              },
+              data: pointData,
+              tooltip: {
+                formatter: function(param) {
+                  return param.name + '<br>' + (param.data.coord || '')
+                }
               }
             }
-          }
             /*,
                          markLine: {
 
@@ -707,7 +739,7 @@ export default {
                            }]]
 
                          }*/
-        },
+          },
           /* {
             name: 'MA5',
             type: 'line',
@@ -756,32 +788,40 @@ export default {
               }
             }
           },*/
-        {
-          type: 'line',
-          data: seriesData,
-          lineStyle: {
-            normal: {
-              width: 3,
-              color: '#fff'
+          {
+            type: 'line',
+            data: seriesData,
+            lineStyle: {
+              normal: {
+                width: 3,
+                color: '#fff'
+              }
             }
           }
-        }
 
         ]
       })
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+    },
+    initStockList() {
+      this.$store.dispatch('backtestDetail/queryStockList', {
+          strategyId: this.strategyId
+        })
+        .then(() => {
+          this.stockList = this.stockListData
+          this.selectInnerCode = this.stockList[0].innerCode
+          this.innerCode = this.selectInnerCode
+          this.init()
+        })
     }
-
   },
-  mounted () {
-
-    // this.init()
-    // this.$store.dispatch('')
+  mounted() {
+    this.initStockList()
   }
 
 }

@@ -214,6 +214,10 @@ body {
 .bfilter-cont-4 {
     margin-top: 0.2rem;
 }
+
+.bfilter-cont-6 {
+    margin-top: 0.2rem;
+}
 .right-table {
     border-collapse: collapse;
     width: 100%;
@@ -351,6 +355,10 @@ body {
           </div>
         </div>
       </div>
+      <div class="bfilter-cont-1 bfilter-cont-6">
+        <div class="desc-title"><em></em><span class="tit1">收益率曲线</span></div>
+        <ChartFilterH5 :strategyId="strategyId" :height="fullHeight3"></ChartFilterH5>
+      </div>
       <div class="bfilter-cont-1 bfilter-cont-4">
         <div class="desc-title"><em></em><span class="tit1">当前选股</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
@@ -388,6 +396,7 @@ body {
 import {
   mapState
 } from 'vuex'
+import ChartFilterH5 from 'components/chart-filter-h5'
 
 export default {
   data() {
@@ -444,7 +453,9 @@ export default {
       }
     }
   },
-  components: {},
+  components: {
+    ChartFilterH5
+  },
   methods: {
     checkNull(str) {
       if (str === null) {

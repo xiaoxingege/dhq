@@ -169,7 +169,7 @@ body {
       <div class="data_hd">
         <span>股票名称</span>
       </div>
-      <ul class="data_zuo datazuo1" >
+      <ul class="data_zuo datazuo1">
         <li class="dataitem" v-for="item in dataarr" @click="gotostock(item.stockName,item.stockCode)"><b>{{item.stockName}}</b><em>{{item.stockCode}}</em></li>
       </ul>
     </div>
@@ -213,44 +213,44 @@ import jQuery from 'jquery'
 import 'whatwg-fetch'
 
 export default {
-  data () {
+  data() {
     return {
       sortcolumn: this.getQueryString('sortcolumn'), // 默认排序 1  按主力净流入排序 3  涨跌幅排序
       groupid: this.getQueryString('groupid'),
       stockcodes: this.getQueryString('stockcodes'),
       scrollleftpx: '30%',
-      url:'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
+      url: 'https://sslapi.jrj.com.cn/zxhq/sapi/mystock/query_stock_fund_flow',
       ordertype: 'desc', // asc=升，desc=降，默认降序
-      dataarr:[]
+      dataarr: []
     }
   },
-  mounted () {
+  mounted() {
     window.jQuery = window.$ = jQuery
     document.title = '自选股'
 
     // stockcodes存在 加载未登录数据，否则加载登录数据
-    if (this.stockcodes) { 
+    if (this.stockcodes) {
       this.fetchLogoutData()
-    }else{
+    } else {
       this.fetchLoginData()
     }
   },
   filters: {
-    changyi (v) {
+    changyi(v) {
       return (v / 100000000).toFixed(2) + '亿'
     }
   },
   methods: {
-    getQueryString (name) {
+    getQueryString(name) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
       if (r != null) return unescape(r[2])
       return null
     },
-    fetchLogoutData () {
-      var url=''
-      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype+'&stock_codes='+this.stockcodes
-      console.log('fetchLogoutData: '+url)
+    fetchLogoutData() {
+      var url = ''
+      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype + '&stock_codes=' + this.stockcodes
+      console.log('fetchLogoutData: ' + url)
 
       fetch(url, {
         method: 'GET',
@@ -265,17 +265,17 @@ export default {
       })
 
     },
-    fetchLoginData () {
-      var url=''
-      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype+'&group_id=' + this.groupid
-      console.log('fetchLoginData: '+url)
-      
+    fetchLoginData() {
+      var url = ''
+      url = this.url + '?sort_column=' + this.sortcolumn + '&order_type=' + this.ordertype + '&group_id=' + this.groupid
+      console.log('fetchLoginData: ' + url)
+
       var _this = this
       if (!window.jrj) {
         setTimeout(this.fetchData.bind(this), 100)
         return
       }
-      window.callbackgobtninfo = function (t) {
+      window.callbackgobtninfo = function(t) {
         _this.$data['dataarr'] = t.data.items
         console.log('回调')
       }
@@ -289,19 +289,19 @@ export default {
         }))
       }
     },
-    
+
     // 正红负绿
-    addcolor (v) {
+    addcolor(v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
       } else {
         return 'red'
       }
     },
-    scrollLeft (v) {
+    scrollLeft(v) {
       this.scrollleftpx = v.target.scrollLeft - v.target.offsetLeft
     },
-    paixu (v) {
+    paixu(v) {
       document.body.scrollTop = 0
       if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
         if (this.ordertype === 'asc') {
@@ -318,13 +318,13 @@ export default {
         $('.data_hd span').removeClass('icondown').removeClass('iconup')
         v.currentTarget.setAttribute('class', 'icondown')
       }
-      if (this.stockcodes) { 
+      if (this.stockcodes) {
         this.fetchLogoutData()
-      }else{
+      } else {
         this.fetchLoginData()
       }
     },
-    gotostock (stockName, stockCode) {
+    gotostock(stockName, stockCode) {
       window.jrj.jsCallNative('100', JSON.stringify({
         'stockName': stockName,
         'stockCode': stockCode

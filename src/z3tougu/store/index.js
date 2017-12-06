@@ -5,6 +5,7 @@ import zhikuanSearchList from 'stores/zhikuan-search-list'
 import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
 import topic from 'stores/z3tougu-theme'
+import industry from 'stores/z3tougu-industry'
 import bubbles from 'stores/bubbles'
 import stock from 'stores/stock'
 import z3sockjs from 'stores/z3sockjs'
@@ -20,6 +21,9 @@ import backtestDetailH5 from 'stores/backtest-detail-h5'
 import indexChart from 'stores/indexChart'
 import finance from 'stores/finance'
 import customerList from 'stores/customers'
+import portraitDetail from 'stores/portrait-detail'
+import optionalStock from 'stores/optional-stock'
+import bullStock from 'stores/bullStock'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -45,20 +49,11 @@ const state = {
 const getters = {
   authHeader: state => {
     if (state.auth.authorization) {
-      if (window.Z3) {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
-      } else {
-        return {
-          authorization: state.auth.authorization,
-          clientid: state.auth.clientid,
-          deviceid: state.auth.deviceid,
-          userId: state.user.userId
-        }
+      return {
+        authorization: state.auth.authorization,
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid,
+        userId: state.user.userId
       }
     }
     return {}
@@ -123,6 +118,7 @@ export default new Vuex.Store({
     stockMap,
     zhikuanDetailPages,
     topic,
+    industry,
     bubbles,
     stock,
     z3sockjs,
@@ -137,6 +133,9 @@ export default new Vuex.Store({
     backtestDetailH5,
     indexChart,
     finance,
-    customerList
+    customerList,
+    portraitDetail,
+    optionalStock,
+    bullStock
   }
 })

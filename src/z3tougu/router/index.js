@@ -36,7 +36,14 @@ import finance from 'components/finance'
 import blank from 'components/z3touguhome/blank'
 import errorPage from 'components/z3tougu-error-page'
 import CustomerList from 'components/customer-list'
-/* import PortraitDetail from 'components/customerPortrait/portrait-detail' */
+import PortraitDetail from 'components/customerPortrait/portrait-detail'
+import OptionalStock from 'components/optional-stock/optional-stock'
+import IndustryIndex from 'components/industry-index'
+import IndustryDetail from 'components/industry-detail'
+import TimeIndex from 'components/time-index'
+import BullStockList from 'components/bull-stock-list'
+import BullStock from 'components/bullStock/bull-stock-index'
+
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -97,6 +104,11 @@ export default [{
     component: ThemeIndex
   },
   {
+    path: ctx + '/industryIndex',
+    name: 'industryindex',
+    component: IndustryIndex
+  },
+  {
     path: ctx + '/siwei',
     name: 'bubbles',
     component: Siwei
@@ -115,6 +127,11 @@ export default [{
     path: ctx + '/topic/:topicId',
     name: 'topicDetail',
     component: TopicDetail
+  },
+  {
+    path: ctx + '/industry/:industryId',
+    name: 'industryDetail',
+    component: IndustryDetail
   },
   {
     path: ctx + '/gold-strategy/:strategyId',
@@ -266,12 +283,31 @@ export default [{
     path: ctx + '/customerList',
     name: 'customerlist',
     component: CustomerList
+  },
+  {
+    path: ctx + '/portraitDetail',
+    name: 'portraitDetail',
+    component: PortraitDetail
+  },
+  {
+    path: ctx + '/optionalStock',
+    name: 'optionalStock',
+    component: OptionalStock
+  },
+  {
+    path: ctx + '/bullStock',
+    name: 'bullStock',
+    component: BullStock
+  },
+  {
+    path: ctx + '/timeIndex',
+    name: 'timeindex',
+    component: TimeIndex
+  }, {
+    path: ctx + '/bullStockList',
+    name: 'bullstocklist',
+    component: BullStockList
   }
-  /*  {
-     path: ctx + '/portraitDetail',
-     name: 'portraitDetail',
-     component: PortraitDetail
-   } */
   /* {
     path: ctx + '/stockMapOld/fullScreen',
     name: 'stockMapOldBig',

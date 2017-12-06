@@ -22,7 +22,7 @@
 }
 
 .customInfo table {
-    height: 39%;
+    height: 42%;
 }
 
 .posAdvice > table {
@@ -49,12 +49,67 @@
 }
 
 .monthTag {
-    height: 30px;
+    height: 25px;
     width: 147px;
     border: 1px solid #23272c;
     border-radius: 5px;
+    background: url("../../assets/images/z3img/time.png") no-repeat;
+    background-position: 95% 50%;
+    cursor: pointer;
 }
 
+.timeBox {
+    width: 147px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    border-radius: 3px;
+    z-index: 999999;
+}
+
+.timeBox .ymdDate {
+    line-height: 25px;
+    text-align: center;
+    background: #2A3138;
+    border-bottom: 2px solid #141518;
+    position: relative;
+}
+.timeBox .ymdDate span:first-child {
+    position: absolute;
+    left: 7px;
+    top: 4px;
+    cursor: pointer;
+}
+.timeBox .ymdDate span:last-child {
+    position: absolute;
+    right: 7px;
+    top: 4px;
+    cursor: pointer;
+}
+
+.monthBox {
+    background: #21252C;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.monthBox .month > div {
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    width: 25%;
+    float: left;
+}
+.monthBox .month > div.active,
+.monthBox .month > div.active:hover {
+    background: #457CB6;
+}
+
+.monthBox .month .gray {
+    color: gray;
+    cursor: default;
+}
 .customTag {
     padding-bottom: 20px;
 }
@@ -72,8 +127,8 @@
 .abilityAnaly {
     height: 39%;
     box-sizing: border-box;
-    padding-top: 3px;
-    background: #0d0e0f;
+    border-top: 3px solid #0d0e0f;
+    border-bottom: 3px solid #0d0e0f;
 }
 
 .abilityAnaly > * {
@@ -88,9 +143,15 @@
     height: 22%;
 }
 
-.posAdvice > p {
+.posAdvice > div {
     height: 20%;
-    vertical-align: middle;
+    position: relative;
+}
+
+.posAdvice > div > span {
+    display: block;
+    position: absolute;
+    top: 20%;
 }
 .posAdvice table tr:nth-child(2) td:nth-child(2),
 .posAdvice table tr:nth-child(3) td:nth-child(2),
@@ -99,6 +160,35 @@
     text-align: left;
     text-indent: 2em;
 }
+
+.radar {
+    height: 80%;
+}
+
+.posAdvice .help {
+    width: 13px;
+    position: relative;
+    left: 20px;
+    top: 1px;
+    cursor: pointer;
+}
+
+.posAdvice .help i {
+    display: none;
+}
+.posAdvice .help:hover i {
+    display: inline-block;
+    position: absolute;
+    left: 30px;
+    width: 200px;
+    background: #cccfd9;
+    color: #666;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 99999;
+    text-align: left;
+    ine-height: 18px;
+}
 </style>
 <template>
 <div class="portrait-custom">
@@ -106,74 +196,100 @@
     <table cellpadding="0" cellspacing="0">
       <tr>
         <td>资金账号</td>
-        <td>63510246</td>
+        <td v-if="customerInfo!==null">{{customerInfo.userid | isNull}}</td>
         <td>本户持仓比</td>
-        <td>32%</td>
+        <td v-if="customerInfo!==null">{{customerInfo.position_radio_ofall | isNull}}</td>
         <td>交易次数</td>
-        <td>1245(近3月)</td>
+        <td v-if="customerInfo!==null">{{customerInfo.trade_nums | isNull}} (近3月)</td>
       </tr>
       <tr>
         <td>姓名</td>
-        <td>王小丫</td>
+        <td v-if="customerInfo!==null">{{customerInfo.username | isNull}}</td>
         <td>资产分级</td>
-        <td>低净值群体</td>
+        <td v-if="customerInfo!==null">{{customerInfo.asset_class | isNull}}</td>
         <td>活跃度</td>
-        <td>重要发展客户</td>
+        <td v-if="customerInfo!==null">{{customerInfo.activation | isNull}}</td>
       </tr>
       <tr>
         <td>性别</td>
-        <td>女</td>
+        <td v-if="customerInfo!==null">{{customerInfo.gender | isNull}}</td>
         <td>属地</td>
-        <td>北京</td>
+        <td v-if="customerInfo!==null">{{customerInfo.belongto | isNull}}</td>
         <td>交易能力</td>
-        <td>青铜级</td>
+        <td v-if="customerInfo!==null">{{customerInfo.trade_ability | isNull}}</td>
       </tr>
       <tr>
         <td>手机</td>
-        <td>138-0987-3567</td>
+        <td v-if="customerInfo!==null">{{customerInfo.phonenumber | isNull}}</td>
         <td>开户时间</td>
-        <td>2016.11.12</td>
+        <td v-if="customerInfo!==null">{{customerInfo.ctime | isNull}}</td>
         <td>关注度</td>
-        <td></td>
+        <td v-if="customerInfo!==null && customerInfo.attention !== null">
+          <img @click="changeStar" v-for="item in customerInfo.attention" value="item" src="../../assets/images/z3img/star.png">
+          <img @click="changeStar" v-for="item in (5-customerInfo.attention)" value="item" src="../../assets/images/z3img/star-gray.png">
+        </td>
       </tr>
 
     </table>
     <div class="customTag">
       <div class="customTag-header clearfix">
-        <p class="fl" style="line-height: 30px;">客户标签</p>
-        <div class="fr">
-          <p class="fl mr-15" style="line-height: 30px;">标签月份</p>
-          <span class="monthTag fr">
-
-                    </span>
+        <p class="fl" style="line-height: 25px;">客户标签</p>
+        <div class="fr" style="position: relative">
+          <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
+          <span class="monthTag fr" @click="showTime"></span>
+          <div class="timeBox">
+            <div class="ymdDate">
+              <span @click="changeYear('minus')" :style="{display:currentY === currentC ? 'block':'none'}"><img
+                      src="../../assets/images/z3img/leftArrow.png"></span>
+              <span>{{currentY}}</span>
+              <span @click="changeYear('add')" :style="{display:currentY === currentC ? 'none':'block'}"><img
+                      src="../../assets/images/z3img/rightArrow.png"></span>
+            </div>
+            <div class="monthBox">
+              <div class="month clearfix">
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in 4">
+                  {{item}}月
+                </div>
+              </div>
+              <div class="month clearfix">
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [5,6,7,8]">{{item}}月
+                </div>
+              </div>
+              <div class="month clearfix">
+                <div :class="[(currentM === item ? 'active':''),(item < currentM ? 'gray':'')]" v-for="item in [9,10,11,12]">{{item}}月
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ul class="tags clearfix">
-        <li v-for="item in tagArr">{{item}}</li>
+        <li v-for="item in customerTag">{{item}}</li>
       </ul>
     </div>
   </div>
   <div class="abilityAnaly">
-    <p>能力分析</p>
-    <div>
-      <Radarchart></Radarchart>
+    <p style="padding-top: 10px">能力分析</p>
+    <div class="radar">
+      <Portraitradar></Portraitradar>
     </div>
-    <p>客户选股能力较强，但仓控、择时能力较弱，建议投顾重点给予客户仓位控制以及交易时点的相关信息和指导，提高客户的盈利能力。</p>
+    <p v-if="customerAnaly !== null">{{customerAnaly.advice}}</p>
   </div>
   <div class="posAdvice">
-    <p>仓位建议</p>
+    <div><span>仓位建议</span></div>
     <table cellpadding="0" cellspacing="0">
       <tr>
         <td>市场</td>
         <td>操作建议</td>
-        <td>仓位建议</td>
+        <td>仓位建议<span class="help"><img src="../../assets/images/help.png"><i>基于多种仓位控制模型给出的持仓建议，并通过一套严谨的算法模型经过二次计算，给出最终的仓位建议。</i></span>
+        </td>
       </tr>
-      <tr>
-        <td>上证50(大盘)</td>
-        <td>建议参与</td>
-        <td>50%-100%</td>
+      <tr v-for="item in customerPosition">
+        <td>{{item.market_name}}</td>
+        <td>{{item.op_advise}}</td>
+        <td>{{item.op_value}}</td>
       </tr>
-      <tr>
+      <!--<tr>
         <td>沪深300(中盘)</td>
         <td>建议参与</td>
         <td>20%-70%</td>
@@ -187,23 +303,73 @@
         <td>创业板</td>
         <td>不建议参与</td>
         <td>0%</td>
-      </tr>
+      </tr>-->
     </table>
   </div>
-  <div v-select="message" style="margin-bottom: 100px;"></div>
+  <!--<div v-select="message" style="margin-bottom: 100px;"></div>-->
 </div>
 </template>
 <script>
-import Radarchart from 'components/radar-chart'
+import Portraitradar from 'components/customerPortrait/portrait-radar'
+
 export default {
   data() {
     return {
       tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
-      message: 'hello'
+      message: 'hello',
+      currentY: '',
+      currentC: '',
+      currentM: ''
     }
   },
+  computed: {
+
+    customerInfo: function() {
+      return this.$store.state.customerList.customerInfo
+    },
+    customerTag: function() {
+      return this.$store.state.customerList.customerTag
+    },
+    customerAnaly: function() {
+      return this.$store.state.customerList.customerAnaly
+    },
+    customerPosition: function() {
+      return this.$store.state.customerList.customerPosition
+    }
+
+  },
   components: {
-    Radarchart
+    Portraitradar
+  },
+  methods: {
+    changeStar: function(e) {
+
+
+    },
+    getCurrentTime: function() {
+      const date = new Date();
+      this.currentY = date.getFullYear()
+      this.currentC = date.getFullYear()
+      this.currentM = date.getMonth() + 1
+      console.log(this.currentY)
+      console.log(this.currentM)
+
+    },
+    changeYear: function(type) {
+      if (type === 'add') {
+        this.currentY = this.currentY + 1
+      } else if (type === 'minus') {
+        this.currentY = this.currentY - 1
+      }
+
+    }
+  },
+  mounted() {
+    this.$store.dispatch('customerList/getCustomerInfo')
+    this.$store.dispatch('customerList/getCustomerTag')
+    this.$store.dispatch('customerList/getAnalyAbility')
+    this.$store.dispatch('customerList/getPositonCommand')
+    this.getCurrentTime()
   }
 }
 </script>

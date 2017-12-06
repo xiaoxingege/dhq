@@ -121,22 +121,33 @@ a,
 .table-box tr:nth-child(1) {
   background: #23272c;
   border: none;
+  cursor: pointer;
 }
 
 .table-box tr:nth-child(1) td {
   height: 30px;
 }
 
-.sort-down {
+.td-txt i {
+  width: 11px;
+  height: 6px;
+  display: inline-block;
+  position: absolute;
+}
+
+.td-txt.active {}
+
+.td-txt.active .sort-down {
   width: 11px;
   height: 6px;
   display: block;
   background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
   position: absolute;
   bottom: 0px;
+  left: 45%;
 }
 
-.sort-up {
+.td-txt.active .sort-up {
   width: 11px;
   height: 6px;
   display: block;
@@ -144,6 +155,81 @@ a,
   position: absolute;
   bottom: 0px;
   left: 45%;
+}
+
+.search-ul {
+  width: 98px;
+  top: 101%;
+  left: 67px;
+  position: absolute;
+  z-index: 99999;
+  color: #666666;
+  font-size: 12px;
+  background: #cccfd9;
+}
+
+.search-ul2 {
+  width: 98px;
+  top: 101%;
+  left: 67px;
+  position: absolute;
+  z-index: 99999;
+  color: #666666;
+  font-size: 12px;
+  background: #cccfd9;
+}
+
+.search-ul3 {
+  width: 98px;
+  top: 101%;
+  left: 67px;
+  position: absolute;
+  z-index: 99999;
+  color: #666666;
+  font-size: 12px;
+  background: #cccfd9;
+}
+
+.search-ul li,
+.search-ul2 li,
+.search-ul3 li {
+  line-height: 20px;
+  padding: 0 10px;
+  /* border-bottom: 1px solid #262931; */
+  /* border-bottom: 1px solid #e5e5e5; */
+  /* border-bottom: 1px solid #808ba1; */
+  cursor: pointer;
+}
+
+.search-ul li.active {
+  background: #1984ea;
+  color: #c9d0d7;
+}
+
+.search-ul2 li.active {
+  background: #1984ea;
+  color: #c9d0d7;
+}
+
+.search-ul3 li.active {
+  background: #1984ea;
+  color: #c9d0d7;
+}
+
+.search-ul li span:first-child {
+  margin-right: 10px;
+}
+
+.search-ul2 li span:first-child {
+  margin-right: 10px;
+}
+
+.search-ul3 li span:first-child {
+  margin-right: 10px;
+}
+
+.inp-box1 {
+  position: relative;
 }
 
 .foot-tishi {
@@ -163,13 +249,22 @@ a,
     </div>
     <div class="inp-head clearfix">
       <div class="inp-box1 fl">
-        <label>资金账户：</label><input type="text" class="inp-text1">
+        <label>资金账户：</label><input type="text" class="inp-text1" @input="search($event,'acct')" ref="keyAcct" autocomplete="off" v-model="message1" maxlength="20">
+        <ul class="search-ul" v-if="this.customersFuzzy.searchList && this.customersFuzzy.searchList.length > 0 && message1!=''" v-show="acctVal">
+          <li v-for="fuzzy of this.customersFuzzy.searchList" @click="focusUser($event,'acct')"><span>{{fuzzy.userid}}</span></li>
+        </ul>
       </div>
       <div class="inp-box1 fl ml-20">
-        <label>客户姓名：</label><input type="text" class="inp-text1">
+        <label>客户姓名：</label><input type="text" class="inp-text1" @input="search($event,'name')" ref="keyName" autocomplete="off" v-model="message2" maxlength="20">
+        <ul class="search-ul2" v-if="this.customersFuzzy.searchList && this.customersFuzzy.searchList.length > 0 && message2!=''" v-show="nameVal">
+          <li v-for="fuzzy of this.customersFuzzy.searchList" @click="focusUser($event,'name')"><span>{{fuzzy.username}}</span></li>
+        </ul>
       </div>
       <div class="inp-box1 fl inp-box2">
-        <label>客户手机号：</label><input type="text" class="inp-text1">
+        <label>客户手机号：</label><input type="text" class="inp-text1" @input="search($event,'phone')" ref="keyPhone" autocomplete="off" v-model="message3" maxlength="11">
+        <ul class="search-ul3" v-if="this.customersFuzzy.searchList && this.customersFuzzy.searchList.length > 0 && message3!=''" v-show="phoneVal">
+          <li v-for="fuzzy of this.customersFuzzy.searchList" @click="focusUser($event,'phone')"><span>{{fuzzy.phonenumber}}</span></li>
+        </ul>
       </div>
       <div class="search-btn fl">查找</div>
 
@@ -181,32 +276,34 @@ a,
   <div class="customer-list">
     <table class="table-box" cellpadding="0" cellspacing="0">
       <tr>
-        <td class="t-head">资金账户<i class="sort-up"></i></td>
-        <td class="t-head">客户姓名</td>
+        <td class="td-txt" @click="isDireSymbol===true?sortStock($event,'1','userid'):sortStock($event,'-1','userid')" :class="this.name==='userid'?'active':''">资金账户<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+        <td class="td-txt">客户姓名</td>
         <td>性别</td>
         <td>资产分级</td>
         <td>活跃度</td>
-        <td>本户持仓比<i class="sort-up"></i></td>
-        <td>交易次数(近3月)<i class="sort-up"></i></td>
-        <td>开户时间<i class="sort-up"></i></td>
+        <td class="td-txt" @click="isRadioice===true?sortStock($event,'-2','radioice'):sortStock($event,'2','radioice')" :class="this.name==='radioice'?'active':''">本户持仓比<i :class="isRadioice===true?'sort-up':'sort-down'"></i></td>
+        <td class="td-txt" @click="isTradeNums===true?sortStock($event,'-3','tradeNums'):sortStock($event,'3','tradeNums')" :class="this.name==='tradeNums'?'active':''">交易次数(近3月)<i :class="isTradeNums===true?'sort-up':'sort-down'"></i></td>
+        <td class="td-txt" @click="isCtime===true?sortStock($event,'-4','ctime'):sortStock($event,'4','ctime')" :class="this.name==='ctime'?'active':''">开户时间<i :class="isCtime===true?'sort-up':'sort-down'"></i></td>
         <td>交易能力</td>
         <td>手机号</td>
-        <td>关注度</td>
+        <td class="td-txt" @click="isAttention===true?sortStock($event,'-5','attention'):sortStock($event,'5','attention')" :class="this.name==='attention'?'active':''">关注度<i :class="isAttention===true?'sort-up':'sort-down'"></i></td>
       </tr>
-      <!-- <tr v-for="list for curList">
-        <td>{{list.fundCount}}</td>
-        <td>{{list.userName}}</td>
-        <td>{{list.sex}}</td>
-        <td>{{list.assetLevel}}</td>
-        <td>{{list.active}}</td>
-        <td>{{list.positionRatio}}</td>
-        <td>{{list.tradeNumLast3m}}</td>
-        <td>{{list.openTime}}</td>
-        <td>{{list.tradeLevel}}</td>
-        <td>{{list.phone}}</td>
+      <!--  <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td> -->
+      <tr v-for="list of listDetail">
+        <td>{{list.userid}}</td>
+        <td>{{list.username}}</td>
+        <td>{{list.gender}}</td>
+        <td>{{list.asset_class}}</td>
+        <td>{{list.activation}}</td>
+        <td>{{list.position_radio_ofall}}</td>
+        <td>{{list.trade_nums}}</td>
+        <td>{{list.ctime}}</td>
+        <td>{{list.trade_ability}}</td>
+        <td>{{list.phonenumber}}</td>
         <td>{{list.attention}}</td>
-      </tr> -->
+      </tr>
     </table>
+    <Pagination @getPageFromChild="goToPage" :totalPage="totalPage" />
   </div>
   <p class="foot-tishi">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p>
 </div>
@@ -215,9 +312,31 @@ a,
 import {
   mapState
 } from 'vuex'
+import Pagination from './pagination'
 export default {
   data() {
     return {
+      message1: '',
+      message2: '',
+      message3: '',
+      paramValue: '',
+      acctVal: true,
+      nameVal: true,
+      phoneVal: true,
+      searchList: [],
+      name: '',
+      stockSort: {
+        userid: 1,
+        radioice: 2,
+        tradeNums: 3,
+        ctime: 4,
+        attention: 5
+      },
+      isDireSymbol: true,
+      isRadioice: true,
+      isTradeNums: true,
+      isCtime: true,
+      isAttention: true,
       tabledata: {
         th: ['序号', '股票代码', '股票简称', '买卖方向', '买入日期', '卖出日期', '买入价格(前复权)', '卖出价格', '盈亏', '收益率'],
         td: {}
@@ -225,17 +344,135 @@ export default {
 
     }
   },
-  components: {},
-  computed: mapState({
-    curList: state => state.customerList.customersList
-  }),
+  computed: {
+    ...mapState({
+      listDetail: state => state.customerList.customersList,
+      customersFuzzy: state => {
+        const listData = state.customerList.customersFuzzy
+        return {
+          searchList: listData
 
+        }
+      }
+
+    })
+  },
+  components: {
+    Pagination
+  },
   methods: {
-    init(buyPage) {
-      this.$store.dispatch('customerList/queryCustomers')
+    init() {
+      this.$store.dispatch('customerList/queryCustomers', {
+        sortField: 1
+      })
     },
-    routerBack() {
-      this.$router.go(-1)
+    search(e, type) {
+      e.preventDefault()
+      if (type === 'acct') {
+        const keyAcct = this.$refs.keyAcct.value
+        this.message1 = keyAcct
+        this.paramValue = keyAcct
+        /* if(this.acctVal){
+          this.nameVal = false
+        }else{
+          this.nameVal = true
+        } */
+        if (this.message === '') {
+          this.acctVal = false
+
+        } else {
+          this.acctVal = true
+          this.nameVal = false
+          this.phoneVal = false
+        }
+        var reg = /^[1-9]\d{0,19}$/;
+        if (!reg.test(keyAcct)) {
+          this.acctVal = false
+          return false
+        } else {
+          this.$store.dispatch('customerList/queryCustomersFuzzy', {
+            type: type,
+            paramValue: keyAcct
+          })
+          return true
+        }
+
+      } else if (type === 'name') {
+        const keyName = this.$refs.keyName.value
+        this.message2 = keyName
+        this.paramValue = keyName
+
+        /* if(this.nameVal){
+           this.acctVal = false
+         }else{
+           this.acctVal = true
+         } */
+        if (this.message2 === '') {
+          this.nameVal = false
+        } else {
+          this.nameVal = true
+          this.acctVal = false
+          this.phoneVal = false
+        }
+        console.log(this.message2)
+        this.$store.dispatch('customerList/queryCustomersFuzzy', {
+          type: type,
+          paramValue: keyName
+        })
+      } else if (type === 'phone') {
+        const keyPhone = this.$refs.keyPhone.value
+        this.message3 = keyPhone
+        if (this.message3 === '') {
+          this.phoneVal = false
+        } else {
+          this.phoneVal = true
+          this.nameVal = false
+          this.acctVal = false
+
+        }
+        this.$store.dispatch('customerList/queryCustomersFuzzy', {
+          type: type,
+          paramValue: keyPhone
+        })
+      }
+
+
+
+    },
+    focusUser(e, type) {
+      const focusUserId = e.currentTarget.children[0].innerText
+      this.$emit('focusUserId', focusUserId)
+      if (type === 'acct') {
+        this.message1 = focusUserId
+      } else if (type === 'name') {
+        this.message2 = focusUserId
+      } else if (type === 'phone') {
+        this.message3 = focusUserId
+      }
+
+      this.customersFuzzy.searchList = []
+
+    },
+    sortStock(e, type, name) {
+      e.preventDefault()
+      this.stockSort = type
+      this.name = name
+      console.log(type)
+      if (name === 'userid') {
+        this.isDireSymbol = !this.isDireSymbol
+      } else if (name === 'radioice') {
+        this.isRadioice = !this.isRadioice
+      } else if (name === 'tradeNums') {
+        console.log(this.isDireCurChng)
+        this.isTradeNums = !this.isTradeNums
+      } else if (name === 'ctime') {
+        this.isCtime = !this.isCtime
+      } else if (name === 'attention') {
+        this.isAttention = !this.isAttention
+      }
+      this.$store.dispatch('customerList/queryCustomers', {
+        sortField: this.stockSort
+      })
     },
     checkNull(str) {
       if (str === null) {
@@ -270,15 +507,8 @@ export default {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
   },
-  watch: {
-    buyPage() {
-      this.init(this.buyPage)
-    }
-
-  },
   mounted() {
     this.init()
-    console.log(this.$route.query.strategyId)
   }
 }
 </script>
