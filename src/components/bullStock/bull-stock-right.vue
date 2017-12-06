@@ -438,16 +438,12 @@ export default {
     this.initStyle()
     this.initTopicAndIndustry()
     var _this = this
-    this.updateTime = setInterval(function() {
-      _this.initStyle()
-    }, 600000)
     this.updateTopicandIndu = setInterval(function() {
       _this.initTopicAndIndustry()
     }, 60000)
-
   },
   destroyed() {
-    this.updateTime && clearInterval(this.updateTime)
+    // this.updateTime && clearInterval(this.updateTime)
     this.updateTopicandIndu && clearInterval(this.updateTopicandIndu)
   }
 }
