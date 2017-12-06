@@ -62,8 +62,16 @@ export default {
   methods: {
     drawChart: function() {
       const _this = this
+      const day = new Date();
+      day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
+      const y = day.getFullYear()
+      const d = day.getDate() < 10 ? '0' + day.getDate() : day.getDate()
+      const endDate = y + '' + (day.getMonth() + 1) + '' + d;
+      const startDate = y - 1 + '' + (day.getMonth() + 1) + '' + d;
       this.$store.dispatch('optionalStock/getFilterIncome', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          startDate: startDate,
+          endDate: endDate
         })
         .then(() => {
           if (this.filterIncomeData && this.filterIncomeData.length > 0) {
