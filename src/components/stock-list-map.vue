@@ -283,7 +283,8 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-
+          _this.stockUpNo = 0;
+          _this.stockDownNo = 0;
           // if (this.condition.indexOf('chng_pct') !== -1) {
           this.stockList.forEach(function(stock) {
             if (stock.perf && stock.perf >= 0) {

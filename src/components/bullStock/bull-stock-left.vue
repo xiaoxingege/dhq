@@ -325,7 +325,7 @@ export default {
                   if (that.bullSelected === 'heatIndex') {
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },
@@ -394,7 +394,7 @@ export default {
                   if (that.bullSelected === 'heatIndex') {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },

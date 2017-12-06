@@ -20,21 +20,14 @@ body,
   width: 100%;
   height: 100%;
   padding: 5px 0px 0px 5px;
-  background: #141518;
+  background: #0d0e0f;
 }
 
 .strategy-box-wrap>div {
   height: 100%;
   width: 33.33%;
   float: left;
-  padding-right: 5px;
-}
-
-.strategy-box-wrap>div:last-child {
-  height: 100%;
-  width: 33.34%;
-  float: left;
-  padding-right: 5px;
+  padding-right: 1px;
 }
 
 .strategy-box-wrap>div:last-child {
@@ -42,7 +35,7 @@ body,
 }
 
 .strategy-box-wrap>div>div {
-  background-color: #181b1f;
+  background-color: #141518;
 }
 
 .no-data {

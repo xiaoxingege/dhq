@@ -137,7 +137,7 @@ export default {
                 formatter: function(params) {
                   var s = params[0].name;
                   for (var i = 0; i < params.length; i++) {
-                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + _this.formatData(params[i].value) + '%';
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + _this.formatData(params[i].value);
                   }
                   return s;
                 }

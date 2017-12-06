@@ -77,7 +77,8 @@ th {
 }
 
 .bull-style {
-  padding: 12px 12px 22px 13px;
+  /*padding: 12px 12px 22px 13px;*/
+  padding: 5px 12px 22px 13px;
   background: #141518;
   height: 45%;
 }
@@ -105,7 +106,7 @@ th {
 }
 
 .style-table-box2 tr td:nth-child(3) {
-  text-align: right;
+  text-align: left;
 }
 
 .style-table-box2 tr:nth-child(1) td {
@@ -113,11 +114,11 @@ th {
 }
 
 .style-table-box2 tr:nth-child(1) td:nth-child(3) {
-  text-align: right;
+  text-align: left;
 }
 
 .style-table-box tr:not(:first-child) td {
-  padding-left: 3px;
+  /*padding-left: 3px;*/
 }
 
 .topic-box tr td:first-child {
@@ -125,7 +126,7 @@ th {
 }
 
 .topic-box tr td:not(:first-child) {
-  text-align: right;
+  text-align: center;
 }
 
 .industry-box tr td:first-child {
@@ -133,7 +134,7 @@ th {
 }
 
 .industry-box tr td:not(:first-child) {
-  text-align: right;
+  text-align: center;
 }
 
 .leading-plate {
@@ -143,19 +144,28 @@ th {
   height: 54%;
 }
 
+.leading-plate .bull-head {
+  height: 7%;
+  padding-bottom: 0;
+}
+
+.topic {
+  height: 45%;
+}
+
 .topic-box {
   /* margin-bottom: 15px;*/
-  height: 53%;
+  height: 98%;
 }
 
 .industry {
   border-top: 1px solid #2a2b31;
-  height: 47%;
+  height: 45%;
 }
 
 .industry-box {
-  margin-top: 15px;
-  height: 80%;
+  /* margin-top: 15px;*/
+  height: 98%;
 }
 
 .progress-box {
@@ -164,7 +174,7 @@ th {
 }
 
 .progress {
-  background: red;
+  background: #ca4941;
   width: 10%;
   height: 100%;
   display: inline-block;
@@ -182,7 +192,7 @@ th {
 }
 
 .topic-tr td:nth-child(1) {
-  width: 26%;
+  width: 31%;
 }
 
 .help-img {
@@ -194,7 +204,7 @@ th {
 }
 
 .bull-head .icon-show {
-  position: absolute;
+  position: relative;
   right: 31px;
   top: 32px;
   max-width: 300px;
@@ -206,6 +216,40 @@ th {
   z-index: 999;
   line-height: 18px;
   font-size: 12px;
+}
+
+.tr-no2 {
+  /*text-align: center;*/
+  position: relative;
+}
+
+.style-table-box {
+  position: relative;
+}
+
+.no-data {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 176px;
+  height: 168px;
+  display: inline-block;
+  background: url("../../assets/images/z3img/no-data.png") no-repeat;
+}
+
+.no-data1 {
+  top: 10%;
+}
+
+.no-data2 {
+  top: 20%;
+}
+
+.no-data3 {
+  top: 40%;
 }
 </style>
 <template>
@@ -220,37 +264,52 @@ th {
           {{item}}
         </td>
       </tr>
-      <tr v-for="style of stockStyle">
+
+      <tr v-for="style of stockStyle" v-if="stockStyle && stockStyle.length>0">
         <td>{{style.cname}}</td>
-        <td class="progress-box"><span class="progress" :style="'width:'+ Math.ceil(Math.abs(style.value)) * 20 +'%;'" :class="style.value>0?'redbg':'greenbg'">{{style.value>0?Math.ceil(style.value):Math.floor(style.value)}}</span>
-        </td>
         <td>{{style.remark}}</td>
+        <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(style.value))+'%;'">{{Math.round(style.value)}}</span>
+        </td>
+
+      </tr>
+      <tr v-if="stockStyle.length<=0" class="tr-no2 ">
+        <td></td>
+        <td class="no-data no-data1"></td>
+        <td></td>
       </tr>
     </table>
   </div>
   <div class="leading-plate">
     <div class="bull-head">领先板块</div>
-    <table class="style-table-box topic-box" v-for="(topics,key,index) of topicAndIndustry" v-if="index===1">
-      <tr>
-        <td v-for="(item,index) in tabledata.th2" class="lightcolor">
-          {{item}}
-        </td>
-      </tr>
-      <tr v-for="topic of topics" class="topic-tr">
-        <td>
-          <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}">
-            {{topic.topicName===null?'--':topic.topicName}}
-          </router-link>
-        </td>
-        <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':Math.round(topic.topicMarket.heatIndex)}}</td>
-        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
-          {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
-        </td>
-        <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':topic.topicMarket.keepDaysToday">
-          {{topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':checkContinu(topic.topicMarket.keepDaysToday)}}
-        </td>
-      </tr>
-    </table>
+    <div class="topic">
+      <table class="style-table-box topic-box" v-for="(topics,key,index) of topicAndIndustry" v-if="index===1">
+        <tr>
+          <td v-for="(item,index) in tabledata.th2" class="lightcolor">
+            {{item}}
+          </td>
+        </tr>
+
+        <tr v-for="topic of topics" class="topic-tr" v-if="topics && topics.length>0">
+          <td>
+            <router-link :to="{name:'topicDetail',params:{topicId:topic.topicCode}}" target="_blank">
+              {{topic.topicName===null?'--':topic.topicName}}
+            </router-link>
+          </td>
+          <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':Math.round(topic.topicMarket.heatIndex)}}</td>
+          <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
+            {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
+          </td>
+          <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':topic.topicMarket.keepDaysToday">
+            {{topic.topicMarket===null || topic.topicMarket.keepDaysToday===null?'--':checkContinu(topic.topicMarket.keepDaysToday)}}
+          </td>
+        </tr>
+        <tr v-if="topics.length<=0" class="tr-no2">
+          <td></td>
+          <td class="no-data no-data2"></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
     <div class="industry">
       <table class="style-table-box industry-box" v-for="(industrys,key,index) of topicAndIndustry" v-if="index===0">
         <tr>
@@ -258,9 +317,10 @@ th {
             {{item}}
           </td>
         </tr>
-        <tr v-for="industry of industrys" class="topic-tr">
+
+        <tr v-for="industry of industrys" class="topic-tr" v-if="industrys && industrys.length>0">
           <td>
-            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}">
+            <router-link :to="{name:'industryDetail',params:{industryId:industry.induCode}}" target="_blank">
               {{industry.induName===null?'--':industry.induName}}
             </router-link>
           </td>
@@ -272,6 +332,11 @@ th {
           <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':industry.induMarket.keepDaysToday">
             {{industry.induMarket===null || industry.induMarket.keepDaysToday===null?'--':checkContinu(industry.induMarket.keepDaysToday)}}
           </td>
+        </tr>
+        <tr v-if="industrys.length<=0" class="tr-no2">
+          <td></td>
+          <td class="no-data no-data3"></td>
+          <td></td>
         </tr>
       </table>
     </div>
@@ -287,9 +352,9 @@ export default {
   data() {
     return {
       defaultKeep: 'heatIndex',
-      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。',
+      iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。',
       tabledata: {
-        th1: ['名称', '风格指数', '风格描述'],
+        th1: ['名称', '风格描述', '风格指数'],
         th2: ['题材名称', '热度指数', '涨跌幅', '涨跌天数'],
         th3: ['行业名称', '热度指数', '涨跌幅', '涨跌天数'],
         td: {}
@@ -373,16 +438,12 @@ export default {
     this.initStyle()
     this.initTopicAndIndustry()
     var _this = this
-    this.updateTime = setInterval(function() {
-      _this.initStyle()
-    }, 600000)
     this.updateTopicandIndu = setInterval(function() {
       _this.initTopicAndIndustry()
     }, 60000)
-
   },
   destroyed() {
-    this.updateTime && clearInterval(this.updateTime)
+    // this.updateTime && clearInterval(this.updateTime)
     this.updateTopicandIndu && clearInterval(this.updateTopicandIndu)
   }
 }

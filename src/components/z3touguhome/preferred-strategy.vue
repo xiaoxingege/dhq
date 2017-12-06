@@ -89,21 +89,23 @@
         <td>{{positionNum}}</td>
         <td>{{tableTitle}}</td>
       </tr>
-      <tr v-for="item of stockList">
+      <tr v-for="(item,index) of stockList" v-if="stockList.length>0">
         <td><span :value="item.id" @click='linkDetail(item.id)'>{{formatData(item.name)?'--':item.name}}</span></td>
-        <td><span @mouseover='showPositionBox(item.id,$event)' @mouseout='hidePositionBox'>{{formatData(item.num)?'--':Math.round(item.num)}}</span></td>
+        <td @mouseover='showPositionBox(item,index)' @mouseout='hidePositionBox(item,index)' style="position: relative">
+          <span>{{formatData(item.num)?'--':Math.round(item.num)}}</span>
+          <PositionBox :strategyId='strategyId' :type='type' v-if="type==='goldTop'|| type==='filterTop'"></PositionBox>
+        </td>
         <td v-z3-updowncolor="item.percent">
           {{formatData(item.percent)?'--':formatDataPercent(item.percent)}}
         </td>
       </tr>
-      <tr v-for="item of noDataList">
+      <tr v-for="item of noDataList" v-if="stockList.length===0">
         <td>{{item.name}}</td>
         <td>{{item.num}}</td>
         <td>{{item.percent}}</td>
       </tr>
     </table>
   </div>
-  <PositionBox :strategyId='strategyId' :top='top' :left='left' :isShow="isShow" :type='type'></PositionBox>
 </div>
 </template>
 <script>
@@ -128,8 +130,6 @@ export default {
       updateDataPid: null,
       intervalTime: 6,
       strategyId: '',
-      top: '',
-      left: '',
       isShow: false,
       positionNum: '当前持仓',
       tableTitle: '近一周累计收益'
@@ -171,14 +171,6 @@ export default {
           .then(() => {
             if (this.preferredGoldData && this.preferredGoldData.length > 0) {
               this.stockList = this.preferredGoldData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
       } else if (this.type === 'filterTop') {
@@ -188,14 +180,6 @@ export default {
           .then(() => {
             if (this.preferredFilterData && this.preferredFilterData.length > 0) {
               this.stockList = this.preferredFilterData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
       } else if (this.type === 'timeTop') {
@@ -205,16 +189,15 @@ export default {
           .then(() => {
             if (this.preferredTimeData && this.preferredTimeData.length > 0) {
               this.stockList = this.preferredTimeData
-            } else {
-              for (let i = 0; i < 9; i++) {
-                this.noDataList.push({
-                  name: '',
-                  num: '',
-                  percent: ''
-                })
-              }
             }
           })
+      }
+      for (let i = 0; i < 6; i++) {
+        this.noDataList.push({
+          name: '',
+          num: '',
+          percent: ''
+        })
       }
     },
     autoUpdate: function() {
@@ -246,30 +229,23 @@ export default {
       }
       return getVal
     },
-    showPositionBox: function(id, event) {
+    showPositionBox: function(item, index) {
       if (this.type === 'timeTop') {
-        this.isShow = false
         return
       }
-      this.isShow = true
-      this.strategyId = id
-      let scrollTop = window.pageYOffset || window.scrollY;
-      let scrollleft = window.pageXOffset || window.scrollX;
-      const winH = window.document.body.scrollHeight;
-      const winW = window.document.body.scrollWidth;
-      let left = event.x + parseInt(scrollleft) + 30;
-      let top = event.y + parseInt(scrollTop) - 20;
-      if (winH - top < 186) {
-        top = winH - 186;
+      item.isShow = true
+      this.strategyId = item.id
+      for (let i = 0; i < document.getElementsByClassName('preferred-strategy-table')[0].getElementsByTagName('div').length; i++) {
+        document.getElementsByClassName('preferred-strategy-table')[0].getElementsByTagName('div')[i].style.display = 'none'
       }
-      if (winW - left < 350) {
-        left = event.x + parseInt(scrollleft) - 380;
-      }
-      this.top = top
-      this.left = left
+      document.getElementsByClassName('preferred-strategy-table')[0].getElementsByTagName('div')[index].style.display = 'block'
     },
-    hidePositionBox: function() {
-      this.isShow = false
+    hidePositionBox: function(item, index) {
+      if (this.type === 'timeTop') {
+        return
+      }
+      document.getElementsByClassName('preferred-strategy-table')[0].getElementsByTagName('div')[index].style.display = 'none'
+      item.isShow = false
     },
     linkDetail: function(id) {
       if (this.type === 'goldTop') {

@@ -180,10 +180,6 @@
   width: 20px;
 }
 
-.currentTime {
-  color: #fff;
-}
-
 .map_wrap {
   position: relative;
 }
@@ -207,12 +203,12 @@
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
-    <span class="currentTime">{{currentTime}}</span>
+    <span class="">{{currentTime}}</span>
     <router-link class="enlarge-link" :to="{name:'bigMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt="" /></router-link>
   </div>
   <div class="narrow" v-if="isEnlarge">
     <a v-on:click="restoreData"><span>恢复默认</span></a>
-    <span class="currentTime">{{currentTime}}</span>
+    <span class="">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
