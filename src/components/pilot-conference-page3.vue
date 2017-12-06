@@ -311,10 +311,11 @@ export default {
                 this.$store.dispatch('pilotConference/getWinerUserList', {
                     level: _this.level
                 })
-                this.$watch('getWinerUserListData', getWinerUserListData => {
+                this.$watch('getTopUserListData', getTopUserListData => {
                     _this.show = true
                     $(function() {
                         var liHeight = $('.level-con1 li').height() + 227
+                        console.log('liHeight:' + liHeight)
                         var timeBox = setInterval(function() {
                             $('.level-con1 ul').animate({
                                 'margin-top': '-' + liHeight
