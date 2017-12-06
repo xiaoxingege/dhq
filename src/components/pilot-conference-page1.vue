@@ -150,6 +150,9 @@ body {
     bottom: 0;
     right: 0;
 }
+.yyy {
+    background: url("../assets/images/pilot-conference/pilot-conference-yyy.gif") center center no-repeat;
+}
 </style>
 
 <template>
@@ -157,7 +160,7 @@ body {
     <a href="javascript:history.go(-1);" class="left-link"></a>
     <div class="right-link" @click="rightLink"></div>
     <div class="box-con">
-        <div class="left">
+        <div class="left yyy">
             <ul>
             </ul>
         </div>
@@ -224,6 +227,7 @@ export default {
                     })
                 }, 1000)
             } else {
+                $('.left').removeClass('yyy')
                 for (var i = 0; i < LastLotteryData.userList.length; ++i) {
                     doSetTimeout(i);
                 }
