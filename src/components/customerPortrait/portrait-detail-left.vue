@@ -225,8 +225,7 @@
         <td v-if="customerInfo!==null">{{customerInfo.ctime | isNull}}</td>
         <td>关注度</td>
         <td v-if="customerInfo!==null && customerInfo.attention !== null">
-          <img @click="changeStar" v-for="item in customerInfo.attention" value="item" src="../../assets/images/z3img/star.png">
-          <img @click="changeStar" v-for="item in (5-customerInfo.attention)" value="item" src="../../assets/images/z3img/star-gray.png">
+          <Z3Star :value="customerInfo.attention" @valueChange="setAttention"></Z3Star>
         </td>
       </tr>
 
@@ -311,7 +310,7 @@
 </template>
 <script>
 import Portraitradar from 'components/customerPortrait/portrait-radar'
-
+import Z3Star from 'components/z3star'
 export default {
   data() {
     return {
@@ -339,12 +338,12 @@ export default {
 
   },
   components: {
-    Portraitradar
+    Portraitradar,
+    Z3Star
   },
   methods: {
-    changeStar: function(e) {
-
-
+    setAttention: function(val) {
+      this.customerInfo && (this.customerInfo.attention = val);
     },
     getCurrentTime: function() {
       const date = new Date();
