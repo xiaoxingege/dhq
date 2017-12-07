@@ -196,6 +196,12 @@
   float: left;
   text-align: right;
 }
+.lists-right .lists-con li span.red{
+  color:#F54949;
+}
+.lists-right .lists-con li span.green{
+  color:#00B267;
+}
 </style>
 
 <template>
@@ -251,10 +257,10 @@
     </div>
 
     <div class="limitmove-tab">
-      <div class="active">
+      <div :class="{active:clickActive}" @click="limitUpClick()">
         涨停强度
       </div>
-      <div>
+      <div :class="{active:!clickActive}" @click="limitDownClick()">
         跌停强度
       </div>
     </div>
@@ -266,8 +272,8 @@
         </div>
         <ul class="lists-con">
           <li v-for="item in limitList">
-            <h6>{{item[1]}}</h6>
-            <p>{{item[0]}}</p>
+            <h6>{{item.stockname}}</h6>
+            <p>{{item.stockcode}}</p>
           </li>
         </ul>
       </div>
@@ -279,7 +285,7 @@
             <p style="width:1.74rem">涨跌幅</p>
             <p style="width:1.48rem">涨停强度</p>
             <p style="width:1.44rem">封单手数</p>
-            <p style="width:1.77rem">封单金额(万元)</p>
+            <p style="width:1.77rem">封单金额</p>
             <p style="width:1.77rem">涨停类型</p>
             <p style="width:1.77rem">第一次涨停时间</p>
             <p style="width:1.87rem">最后一次涨停时间</p>
@@ -289,17 +295,17 @@
           </div>
           <ul class="lists-con">
             <li v-for="item in limitList">
-                <span style="width:1.3rem">{{item[2]}}</span>
-                <span style="width:1.74rem">{{item[3].toFixed(2)}}%</span>
-                <span style="width:1.48rem">{{item[11].toFixed(0)}}</span>
-                <span style="width:1.44rem">{{item[6]/item[2]}} </span>
-                <span style="width:1.77rem">{{item[6] | covert6}}</span>
-                <span style="width:1.77rem">自然涨停</span>
-                <span style="width:1.77rem">{{item[8]}}</span>
-                <span style="width:1.87rem">{{item[7]}}</span>
-                <span style="width:1.52rem">{{item[9]}}</span>
-                <span style="width:1.52rem">是</span>
-                <span style="width:1.52rem; padding-right:0.5rem;">{{item[9]+1}}</span>
+                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.74rem">{{item.priceLimit.toFixed(2)}}%</span>
+                <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
+                <span style="width:1.44rem">{{item.fdHands | convert}} </span>
+                <span style="width:1.77rem">{{item.fdMoney | convert}}</span>
+                <span style="width:1.77rem">{{item.type}}</span>
+                <span style="width:1.77rem">{{item.firstZtTime}}</span>
+                <span style="width:1.87rem">{{item.lastZtTime}}</span>
+                <span style="width:1.52rem">{{item.opentime}}</span>
+                <span style="width:1.52rem">{{item.continueUpDown}}</span>
+                <span style="width:1.52rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
             </li>
           </ul>
         </div>
@@ -327,7 +333,9 @@ export default {
       yzlimitUp:0,
       yzlimitDown:0,
       graphData:[],
-      limitList:[]
+      limitType:1,
+      limitList:[],
+      clickActive:true
     }
   },
   beforecreated () {
@@ -343,15 +351,39 @@ export default {
     this.getYzlimitUp()
     this.getYzlimitDown()
     this.getGraphData()
-    this.getLimitUpList()
-    // this.getLimitDownList()
+    this.getLimitList()
   },
   filters: {
-    covert6 (d) {
-      return (d/10000).toFixed(2)
-  	}
+    convert (d) {
+    	if (d/100000000>=1 || d/100000000<=-1) {
+    		return (d / 100000000).toFixed(2) + '亿'
+    	}else if(d/100000>=1 || d/100000<=-1){
+    		return (d / 10000).toFixed(2) + '万'
+    	}else{
+    		return d
+    	}
+    }
   },
   methods: {
+    addcolor (v) {
+      if ((v + '').indexOf('-') !== -1) {
+        return 'green'
+      } else if(v===0){
+        return ''
+      }else{
+      	return 'red'
+      }
+    },
+    limitUpClick(){
+      this.clickActive=true
+      this.limitType=1
+      this.getLimitList()
+    },
+    limitDownClick(){
+      this.clickActive=false
+      this.limitType=2
+      this.getLimitList()
+    },
     insertEchart(){
       var myChart = echarts.init(document.getElementById('graph'));
       var data= this.graphData;
@@ -575,39 +607,26 @@ export default {
         }
       })
     },
-    getLimitUpList(){
-      var date=new Date();
-      console.log(date)
+    getLimitList(){
+      // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
+      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitType
       $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/ztForce/20171205.js',
+        url:url,
         type:'get',
         cache:false,
-        dataType:'script',
-        jsonp:'callback',
-        success:() => {
-          if ( window.yzb_ztForce ) {
-            this.limitList = window.yzb_ztForce.Data
-            console.log(window.yzb_ztForce.column)
-            console.log(this.limitList)
+        dataType:'json',
+        success:(d) => {
+          if (d.retcode === 0) {
+            console.log(d.data.items)
+            if (d.data.items.length === 0) {
+              this.limitList = []
+            }else{
+              this.limitList=d.data.items
+            }
+          }else{
+            console.log(d.msg)
           }
-        },
-        error:function(){
-          console.log('error');
-        }
-      })
-    },
-    getLimitDownList(){
-      $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/dtForce/20171205.js',
-        type:'get',
-        cache:false,
-        dataType:'script',
-        jsonp:'callback',
-        success:() => {
-          if ( window.yzb_dtForce ) {
-            this.limitList = window.yzb_dtForce.Data
-            console.log(this.limitList)
-          }
+          // console.log(this.limitList)
         },
         error:function(){
           console.log('error');
