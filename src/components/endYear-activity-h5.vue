@@ -1,6 +1,6 @@
 <style>
 body {
-    background-color: #000 !important;
+    background-color: #7e1d17 !important;
     font-family: '微软雅黑';
 }
 
@@ -70,6 +70,12 @@ button {
     background: url("../assets/images/endYear-activity/endYear-H5-bg6.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 6.78rem;
+}
+.bg6-1 {
+    background: url("../assets/images/endYear-activity/endYear-H5-bg6-1.jpg") center 0 no-repeat;
+    background-size: 100% 100%;
+    height: 3.79rem;
+    margin-top: -0.1rem;
 }
 .box-con {
     height: 100%;
@@ -346,10 +352,13 @@ button {
             </div>
         </div>
     </div>
-    <div class="bg6">
+    <div class="bg6" v-if="type">
         <div class="box-con">
             <activity-slider :listData="listData" />
         </div>
+    </div>
+    <div class="bg6-1" v-else>
+
     </div>
     <div class="nav-fixed" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat">
         <div @click="popClick(1)"></div>
@@ -402,7 +411,7 @@ window.jQuery = window.$ = jQuery
 import Swiper from 'swiper/dist/idangerous.swiper.js'
 import Clipboard from '../assets/plugins/clipboard/clipboard.min.js'
 window.Clipboard = Clipboard
-
+import getQueryString from 'utils/getQueryString'
 
 export default {
     data() {
@@ -510,7 +519,8 @@ export default {
             lotteryText: '',
             lotteryText1: '',
             lotteryText2: '',
-            wxid: ''
+            wxid: '',
+            type: true
         }
     },
     computed: mapState({}),
@@ -726,6 +736,9 @@ export default {
                 })
             }, 1000)
         })
+        if (getQueryString('type')) {
+            _this.type = false
+        }
     }
 }
 </script>
