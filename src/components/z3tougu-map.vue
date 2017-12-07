@@ -7,7 +7,7 @@ html {
 * {
     box-sizing: border-box;
     font-size: 12px;
-    font-family: '微软雅黑';
+    font-family: 'Microsoft YaHei';
 }
 .map {
     background-color: #141518;
