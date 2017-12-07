@@ -205,7 +205,13 @@
     border-bottom:0.02rem solid #cccccc;
     position: relative;
 }
-
+.ziranAll .zirTit .zirJt {
+    position: absolute;
+    width: 100%;
+    height: 0.68rem;
+    top: 0;
+    right: 0.18rem;
+}
 .ziranAll .zirTit .zirRed {
     border-bottom: 0.04rem solid #c0163a;
     height:0.66rem;
@@ -398,10 +404,11 @@ table {
 								</table>
 						</div>
 				</div>
+
 				<div class="ziranAll">
 						<div class="zirTit">
 								<div class="title zirGreen">
-										一字涨停(<i id="yzb_zt_total">7</i>)
+										一字涨停(<i id="yzb_zt_total">{{yzztNum}}</i>)
 								</div>
 								<div class="zirJt">
 										<a href="http://mapp.jrj.com.cn/stock/getWdjList?param=yzb_zt">&nbsp;</a>
@@ -410,7 +417,8 @@ table {
 						<div class="zirBot">
 								<table cellpadding="0" cellspacing="0" border="0" width="100%" class="zirTab">
 									 <tbody id="yzb_zt">
-										 <tr>
+										 <div v-if="yzztList.length===0" class="zirBot"><div class="zwsj">暂无数据</div></div>
+										 <tr v-if="yzztList.length>0">
 											 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=000503&amp;name=海虹控股&quot;">
 												 <div class="wzT wzTGreen">海虹控股</div>
 												 <div class="wzN wzTRed">000503</div>
@@ -435,7 +443,7 @@ table {
 												 </div>
 											 </td>
 										 </tr>
-										 <tr>
+										 <tr v-if="yzztList.length>0">
 											 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
 												 <div class="wzT wzTRed">乐歌股份</div>
 												 <div class="wzN wzTRed">300729</div>
@@ -477,7 +485,14 @@ import 'whatwg-fetch'
 export default {
   data () {
     return {
-
+			zrztNum:0,
+			zrztList:[],
+			yzztNum:0,
+			yzztList:[],
+			zrdtNum:0,
+			zrdtList:[],
+			yzdtNum:0,
+			yzdtList:[]
     }
   },
   beforecreated () {
@@ -487,12 +502,93 @@ export default {
     document.title = '涨停追击'
   },
   mounted () {
-
+		this.getUpAndDown()
   },
   filters: {
 
   },
   methods: {
+		/*
+		 * 一字板涨跌停数据获取
+		 */
+		 getUpAndDown (){
+			 var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/yzbzt.js';
+			 // var col = 'wzTRed';
+			 // var param = '涨停';
+			 $.ajax({
+         url:url,
+         type:'post',
+         cache:false,
+         dataType:'script',
+				 scriptCharset: 'gbk',
+         success:() => {
+					 // console.log(window.yzb_zt)
+					 // console.log(window.yzb_zt.Data)
+					 this.yzztNum=window.yzb_zt.size
+					 // if (window.yzb_zt.Data.length===0) {
+						//  this.yzztList=[];
+					 // }else{
+						//  this.yzztList=window.yzb_zt.Data
+					 // }
+					 this.yzztList=[
+										    // [
+										    //     "002915",
+										    //     "中欣氟材",
+										    //     10.190,
+										    //     10.040
+										    // ],
+										    // [
+										    //     "300727",
+										    //     "润禾材料",
+										    //     23.400,
+										    //     10.010
+										    // ],
+										    // [
+										    //     "300729",
+										    //     "乐歌股份",
+										    //     30.780,
+										    //     10.010
+										    // ],
+										    // [
+										    //     "300730",
+										    //     "科创信息",
+										    //     13.240,
+										    //     9.970
+										    // ],
+										    // [
+										    //     "603711",
+										    //     "香飘飘",
+										    //     29.900,
+										    //     10.010
+										    // ],
+										    // [
+										    //     "603848",
+										    //     "好太太",
+										    //     15.130,
+										    //     10.040
+										    // ],
+										    // [
+										    //     "603917",
+										    //     "合力科技",
+										    //     24.780,
+										    //     9.990
+										    // ]
+										]
+
+										console.log(this.yzztList)
+					 // console.log(window.yzb_zt.size)
+					 // console.log(window.yzb_zt.Data)
+           // if ( window.yzb_dtForce ) {
+           //   this.limitList = window.yzb_dtForce.Data
+           //   console.log(this.limitList)
+           // }
+         },
+         error:function(){
+           console.log('error');
+         }
+       })
+
+		 }
   }
 }
 </script>
