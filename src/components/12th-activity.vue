@@ -29,6 +29,13 @@ input {
     line-height: 0.66rem;
     text-indent: 0.25rem;
 }
+
+.bg6 .swiper-pagination {
+    z-index: 10;
+    text-align: right;
+    right: 0.5rem;
+    bottom: -0.1rem !important;
+}
 </style>
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
@@ -41,15 +48,6 @@ input {
     background-size: 100% 100%;
     position: relative;
 }
-// .bg1-1 {
-//     width: 100%;
-//     background: url("../assets/images/12th-activity/12th-bg1-1.jpg") center 0 no-repeat;
-//     height: 6.76rem;
-//     background-size: 100% 100%;
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-// }
 .bg2 {
     background: url("../assets/images/12th-activity/12th-bg2.jpg") center 0 no-repeat;
     height: 3.29rem;
@@ -119,26 +117,29 @@ input {
 }
 #divdown1 {
     position: absolute;
-    color: white;
-    width: 5.2rem;
-    font-size: 0.34rem;
-    top: 0.1rem;
-    left: 1.95rem;
+    font-size: 0.32rem;
+    top: 0.15rem;
+    right: 0;
     font-family: Consolas, Monaco, monospace;
+    color: #492828;
 }
 .footer div span {
-    letter-spacing: 0.25rem;
-    text-indent: 0.1rem;
-    width: 1.06rem;
+    letter-spacing: 0.05rem;
+    text-indent: 0.05rem;
+    padding: 0.1rem;
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
-    float: left;
-    margin-right: 0.32rem;
-    line-height: 0.66rem;
+    background-color: #492828;
+    border-radius: 0.15rem;
+    color: white;
+    margin: 0 0.05rem;
 }
-.footer div span:last-child {
-    margin: 0;
+.footer div em {
+    display: inline-block;
+}
+.footer div em:last-child {
+    margin-right: 0.1rem;
 }
 .bg2 .box-con div,
 .bg3 .box-con div,
@@ -193,10 +194,7 @@ input {
     <div class="footer">
         <div class="box-con">
             <div id="divdown1">
-                <span id="text-day" class="text-day"></span>
-                <span id="text-hour" class="text-hour"></span>
-                <span id="text-min" class="text-min"></span>
-                <span id="text-sec" class="text-sec"></span>
+                <span id="text-day" class="text-day"></span><em>天</em><span id="text-hour" class="text-hour"></span><em>时</em><span id="text-min" class="text-min"></span><em>分</em><span id="text-sec" class="text-sec"></span><em>秒</em>
             </div>
         </div>
     </div>
@@ -237,11 +235,12 @@ export default {
                 conWidth: '7rem',
                 conHeight: '3.62rem',
                 conPadding: '0',
-                pagShow: false,
+                pagShow: true,
                 arrowShow: false,
                 loop: true,
                 autoplay: 4000,
                 textType: true,
+                paginationClickable: true,
                 list: [{
                         imgUrl: require('assets/images/endYear-activity/endYear-slide1-img1.png'),
                         text: '营业执照、投顾资质、奖杯等1'
@@ -281,6 +280,16 @@ export default {
     methods: {
         popClick() {
             this.popShow = true
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:3000/checkUserIsYG',
+                data: {
+                    userId: '170607010031105263'
+                },
+                success: function(result) {
+                    console.log(result)
+                }
+            });
         },
         close() {
             this.popShow = false
@@ -319,48 +328,9 @@ export default {
             document.getElementById('text-sec').innerHTML = pad(second, 2)
         }
 
-        function transdate(endTime) {
-            var date = new Date();
-            date.setFullYear(endTime.substring(0, 4));
-            date.setMonth(endTime.substring(5, 7) - 1);
-            date.setDate(endTime.substring(8, 10));
-            date.setHours(endTime.substring(11, 13));
-            date.setMinutes(endTime.substring(14, 16));
-            date.setSeconds(endTime.substring(17, 19));
-            return Date.parse(date) / 1000;
-        }
-
-
-        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-19 20:00:00')) {
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 17, 20, 0, 0, 'divdown1')
-
-            }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-26 20:00:00')) {
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 24, 20, 0, 0, 'divdown1')
-
-            }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-24 20:00:00')) {
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 30, 20, 0, 0, 'divdown1')
-
-            }, 1000)
-        } else {
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 11, 20, 0, 0, 'divdown1')
-
-            }, 1000)
-        }
         window.setInterval(function() {
-            $('.bg1-1').animate({
-                'opacity': '0'
-            }, 350, function() {
-                $('.bg1-1').animate({
-                    'opacity': '1'
-                }, 350)
-            })
-        }, 700)
+            ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
+        }, 1000)
         // var _this = this
 
     }
