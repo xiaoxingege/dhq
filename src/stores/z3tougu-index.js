@@ -252,15 +252,15 @@ export default {
       commit
     }, {
       strategyId,
-      startDate,
-      endDate
+        startDate,
+        endDate
     }) {
-      if (!startDate) {
-        startDate = ''
+      if(!startDate){
+          startDate = ''
       }
-      if (!endDate) {
-        endDate = ''
-      }
+        if(!endDate){
+            endDate = ''
+        }
       const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`
       return fetch(url).then((res) => {
         return res.json()
