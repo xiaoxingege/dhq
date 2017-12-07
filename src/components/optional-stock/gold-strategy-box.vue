@@ -34,7 +34,7 @@ export default {
     },
     isResizeStrategyChart() {
       this.chart.resize({
-        width: (window.innerWidth - 5) * 0.3333,
+        width: (window.innerWidth - 1) * 0.3333,
         height: (window.innerHeight - 5) * 0.83
       })
     }
@@ -58,8 +58,16 @@ export default {
   methods: {
     drawChart: function() {
       const _this = this
+      const day = new Date();
+      day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
+      const y = day.getFullYear()
+      const d = day.getDate() < 10 ? '0' + day.getDate() : day.getDate()
+      const endDate = y + '' + (day.getMonth() + 1) + '' + d;
+      const startDate = y - 1 + '' + (day.getMonth() + 1) + '' + d;
       this.$store.dispatch('z3touguIndex/getIncomeList', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          startDate: startDate,
+          endDate: endDate
         })
         .then(() => {
           if (this.incomeListData && this.incomeListData.length > 0) {

@@ -1,7 +1,7 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 </style>
 <style lang="scss">
@@ -135,6 +135,7 @@ body {
 }
 .right li div.red {
     color: #f5514e;
+    font-size: 36px;
 }
 .left-link {
     width: 200px;
@@ -150,112 +151,116 @@ body {
     bottom: 0;
     right: 0;
 }
+.yyy {
+    background: url("../assets/images/pilot-conference/pilot-conference-yyy.gif") center center no-repeat;
+}
 </style>
 
 <template>
 <div class="box">
-    <a href="javascript:history.go(-1);" class="left-link"></a>
-    <div class="right-link" @click="rightLink"></div>
-    <div class="box-con">
-        <div class="left">
-            <ul>
-            </ul>
-        </div>
-        <div class="right">
-            <ul>
-                <li v-for="item,index in LastLotteryData.topInfoList" v-if="show" :class="item.size > 0 ? 'animated flipInX rightList-'+(index+1):' animated rightList'+(index+1)">
-                    <div v-if='item.size > 0'>{{item.stockName}} </div>
-                    <div v-if='item.size > 0'>{{item.rate}}%</div>
-                    <div class="red" v-if='item.size > 0'>{{item.size}}人</div>
-                </li>
-            </ul>
-            <img src="../assets/images/pilot-conference/pilot-conference-img2.png" />
-        </div>
+  <a href="javascript:history.go(-1);" class="left-link"></a>
+  <div class="right-link" @click="rightLink"></div>
+  <div class="box-con">
+    <div class="left yyy">
+      <ul>
+      </ul>
     </div>
+    <div class="right">
+      <ul>
+        <li v-for="item,index in LastLotteryData.topInfoList" v-if="show" :class="item.size > 0 ? 'animated flipInX rightList-'+(index+1):' animated rightList'+(index+1)">
+          <div v-if='item.size > 0'>{{item.stockName}} </div>
+          <div v-if='item.size > 0'>{{item.rate}}%</div>
+          <div class="red" v-if='item.size > 0'>{{item.size}}人</div>
+        </li>
+      </ul>
+      <img src="../assets/images/pilot-conference/pilot-conference-img2.png" />
+    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-    data() {
+  data() {
 
-        return {
-            show: false,
-            id: ''
-        }
-    },
-    computed: mapState({
-        LastLotteryData: state => {
-            return state.pilotConference.LastLotteryData
-        },
-        err: state => {
-            return state.pilotConference.err
-        }
-    }),
-    components: {},
-    methods: {
-        rightLink() {
-            if (this.LastLotteryData.status === 2) {
-                window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=3'
-            } else {
-                return
-            }
-        }
-    },
-    mounted() {
-        document.title = '领航中国大会'
-        var _this = this
-        this.$store.dispatch('pilotConference/getLastLottery', {
-            id: 0
-        })
-        this.$watch('LastLotteryData', LastLotteryData => {
-            var htmls = ''
-            this.show = true
-
-            if (LastLotteryData.userList.length === 0) {
-                setTimeout(function() {
-                    _this.$store.dispatch('pilotConference/getLastLottery', {
-                        id: _this.id
-                    })
-                }, 1000)
-            } else {
-                for (var i = 0; i < LastLotteryData.userList.length; ++i) {
-                    doSetTimeout(i);
-                }
-            }
-
-            function doSetTimeout(i) {
-                if (i + 1 === LastLotteryData.userList.length) {
-                    setTimeout(function() {
-                        _this.id = LastLotteryData.userList[0].id
-                        _this.$store.dispatch('pilotConference/getLastLottery', {
-                            id: LastLotteryData.userList[0].id
-                        })
-                    }, (LastLotteryData.userList.length) * 400)
-                }
-                setTimeout(function() {
-                    if (LastLotteryData.userList[i].mobile) {
-                        htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
-                            '" /><p><strong>' + LastLotteryData.userList[i].userName + '</strong><span>' + LastLotteryData.userList[i].mobile + '</span></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
-                            '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
-                            '%</strong></div></li>'
-                    } else {
-                        htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
-                            '" /><p><strong style="margin-top:20px;">' + LastLotteryData.userList[i].userName + '</strong></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
-                            '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
-                            '%</strong></div></li>'
-                    }
-                    $('.left ul').prepend(htmls)
-                    $('.a' + i).height('120px')
-                }, i * 400);
-            }
-
-        })
+    return {
+      show: false,
+      id: ''
     }
+  },
+  computed: mapState({
+    LastLotteryData: state => {
+      return state.pilotConference.LastLotteryData
+    },
+    err: state => {
+      return state.pilotConference.err
+    }
+  }),
+  components: {},
+  methods: {
+    rightLink() {
+      if (this.LastLotteryData.status === 2) {
+        window.location.href = 'http://itougu.jrj.com.cn/act/pilot-conference-stages2?level=3'
+      } else {
+        return
+      }
+    }
+  },
+  mounted() {
+    document.title = '领航中国大会'
+    var _this = this
+    this.$store.dispatch('pilotConference/getLastLottery', {
+      id: 0
+    })
+    this.$watch('LastLotteryData', LastLotteryData => {
+      var htmls = ''
+      this.show = true
+
+      if (LastLotteryData.userList.length === 0) {
+        setTimeout(function() {
+          _this.$store.dispatch('pilotConference/getLastLottery', {
+            id: _this.id
+          })
+        }, 1000)
+      } else {
+        $('.left').removeClass('yyy')
+        for (var i = 0; i < LastLotteryData.userList.length; ++i) {
+          doSetTimeout(i);
+        }
+      }
+
+      function doSetTimeout(i) {
+        if (i + 1 === LastLotteryData.userList.length) {
+          setTimeout(function() {
+            _this.id = LastLotteryData.userList[0].id
+            _this.$store.dispatch('pilotConference/getLastLottery', {
+              id: LastLotteryData.userList[0].id
+            })
+          }, (LastLotteryData.userList.length) * 400)
+        }
+        setTimeout(function() {
+          if (LastLotteryData.userList[i].mobile) {
+            htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
+              '" /><p><strong>' + LastLotteryData.userList[i].userName + '</strong><span>' + LastLotteryData.userList[i].mobile + '</span></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
+              '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
+              '%</strong></div></li>'
+          } else {
+            htmls = '<li class="a' + i + '" style="transition:height 0.8s;"><div><img src="' + LastLotteryData.userList[i].headImage +
+              '" /><p><strong style="margin-top:20px;">' + LastLotteryData.userList[i].userName + '</strong></p></div><div><strong>' + LastLotteryData.userList[i].stockName +
+              '</strong></div><div><strong>＋' + LastLotteryData.userList[i].rate +
+              '%</strong></div></li>'
+          }
+          $('.left ul').prepend(htmls)
+          $('.a' + i).height('120px')
+        }, i * 400);
+      }
+
+    })
+  }
 }
 </script>

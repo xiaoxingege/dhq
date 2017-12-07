@@ -43,11 +43,41 @@
     border-bottom: 1px solid #23272c;
     height: 16%;
 }
+.help-img-wrap {
+    width: 20px;
+    height: 100%;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+.help-img-wrap img {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.help-window {
+    position: absolute;
+    bottom: 30px;
+    left: 27px;
+    padding: 15px;
+    width: 300px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 10px;
+    line-height: 18px;
+    z-index: 9999;
+}
 </style>
 <template>
 <div class="bull-stock-con">
   <div class="bull-stock-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <div class="help-img-wrap">
+      <img src='../../assets/images/z3img/help.png' @mouseover="showWindow" @mouseout="hideWindow" />
+      <div class="help-window" v-if="isShowWindow">根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。</div>
+    </div>
   </div>
   <div class="bull-stock-table-wrap">
     <table class="bull-stock-table">
@@ -84,7 +114,8 @@ export default {
       updateDataPid: null,
       intervalTime: 10,
       bullStockList: [],
-      noDataList: []
+      noDataList: [],
+      isShowWindow: false
     }
   },
   watch: {
@@ -128,6 +159,12 @@ export default {
           _this.initBullStock()
         }, 60000 * _this.intervalTime)
       }
+    },
+    showWindow: function() {
+      this.isShowWindow = true
+    },
+    hideWindow: function() {
+      this.isShowWindow = false
     },
     formatValue: function(val) {
       if (val >= 0) {

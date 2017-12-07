@@ -118,7 +118,9 @@ export default {
       annualReturn: '',
       sharpe: '',
       winRatio: '',
-      maxDrawdown: ''
+      maxDrawdown: '',
+      startDate: '',
+      endDate: ''
     }
   },
   watch: {
@@ -182,7 +184,9 @@ export default {
                 }
               })
             this.$store.dispatch('z3touguIndex/getIncomeList', {
-                strategyId: this.strategyId
+                strategyId: this.strategyId,
+                startDate: this.startDate,
+                endDate: this.endDate
               })
               .then(() => {
                 if (this.incomeListData.length > 0) {
@@ -284,7 +288,9 @@ export default {
     },
     drawChart: function() {
       this.$store.dispatch('z3touguIndex/getIncomeList', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          startDate: this.startDate,
+          endDate: this.endDate
         })
         .then(() => {
           if (this.incomeListData.length > 0) {

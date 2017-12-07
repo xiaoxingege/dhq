@@ -85,17 +85,17 @@ echo version=$(echo $version) > /tmp/$feature.profile
 pinfo 'current version: '$version
 
 yarn config set registry https://registry.npm.taobao.org
-code="1"
-while [ "$code" != "0" ]
-do
-  yarn install
-  code=$?
-  if [ "$code" != "0" ]; then
-    pinfo 'retry install modules...'
-    rm -rf node_modules
-    sleep 5s
-  fi
-done
+# code="1"
+# while [ "$code" != "0" ]
+# do
+#   yarn install
+#   code=$?
+#   if [ "$code" != "0" ]; then
+#     pinfo 'retry install modules...'
+#     rm -rf node_modules
+#     sleep 5s
+#   fi
+# done
 pinfo 'yarn install done.'
 
 rm -rf dist/$feature/*.*

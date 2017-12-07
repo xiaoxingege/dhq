@@ -191,7 +191,7 @@ export default {
             limit: this.limit
           })
           .then(() => {
-            this.stockList = this.preferredStrategyData.slice(0, 11)
+            this.stockList = this.preferredStrategyData
           })
       } else if (this.type === 'signalTop') {
         this.$store.dispatch('z3touguIndex/getPreferredSignalData')

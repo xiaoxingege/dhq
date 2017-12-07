@@ -75,9 +75,7 @@ export default {
     }
   }),
   watch: {
-    'height': function() {
-      alert('change')
-    }
+    'height': function() {}
   },
   methods: {
     initChart(startDate, endDate) {
