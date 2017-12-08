@@ -354,23 +354,26 @@ export default {
         window.setInterval(function() {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
-        if (this.loginStatus === 'yes') {
-            $.ajax({
-                type: 'get',
-                url: '/checkUserIsYG',
-                data: {
-                    userId: _this.ssoId
-                },
-                success: function(result) {
-                    alert(result.retCode)
-                    if (result.retCode === 0) {
-                        if (result.data.belongYG === 0) {
-                            _this.ygType = true
+        this.$watch('loginStatus', loginStatus => {
+            alert(loginStatus)
+            if (loginStatus === 'yes') {
+                $.ajax({
+                    type: 'get',
+                    url: '/checkUserIsYG',
+                    data: {
+                        userId: _this.ssoId
+                    },
+                    success: function(result) {
+                        alert(result.retCode)
+                        if (result.retCode === 0) {
+                            if (result.data.belongYG === 0) {
+                                _this.ygType = true
+                            }
                         }
                     }
-                }
-            });
-        }
+                });
+            }
+        })
     }
 }
 </script>
