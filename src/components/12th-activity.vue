@@ -294,11 +294,11 @@ export default {
                         },
                         success: function(result) {
                             if (result.type) {
-                                window.location.href = `http://itougu.jrj.com.cn/actm/pre-pay?payUrl=encodeURI(http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=${productSubId}&type=${type})`
-                                // skipRiskAssessed=1
-                            } else {
                                 // alert('你已经买过了')
                                 this.popShow = true
+                            } else {
+                                window.location.href = `http://itougu.jrj.com.cn/actm/pre-pay?payUrl=encodeURI(http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=${productSubId}&type=${type})`
+                                // skipRiskAssessed=1
                             }
                         }
                     });
@@ -359,7 +359,7 @@ export default {
             if (loginStatus === 'yes') {
                 $.ajax({
                     type: 'get',
-                    url: '/checkUserIsYG',
+                    url: '/actm/checkUserIsYG',
                     data: {
                         userId: _this.ssoId
                     },
