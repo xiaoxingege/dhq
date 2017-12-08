@@ -43,13 +43,13 @@ input {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/12th-activity/12th-bg1.jpg") center 0 no-repeat;
+    background: url("../assets/images/12th-activity/12th-bg1-1.jpg") center 0 no-repeat;
     height: 5.56rem;
     background-size: 100% 100%;
     position: relative;
 }
 .bg2 {
-    background: url("../assets/images/12th-activity/12th-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/12th-activity/12th-bg2-1.jpg") center 0 no-repeat;
     height: 3.29rem;
     background-size: 100% 100%;
 }
@@ -69,7 +69,7 @@ input {
     background-size: 100% 100%;
 }
 .bg6 {
-    background: url("../assets/images/12th-activity/12th-bg6.jpg") center 0 no-repeat;
+    background: url("../assets/images/12th-activity/12th-bg6-1.jpg") center 0 no-repeat;
     height: 6.85rem;
     background-size: 100% 100%;
 }
@@ -194,7 +194,7 @@ input {
     <div class="footer">
         <div class="box-con">
             <div id="divdown1">
-                <span id="text-day" class="text-day"></span><em>天</em><span id="text-hour" class="text-hour"></span><em>时</em><span id="text-min" class="text-min"></span><em>分</em><span id="text-sec" class="text-sec"></span><em>秒</em>
+                <span id="text-day" class="text-day">00</span><em>天</em><span id="text-hour" class="text-hour">00</span><em>时</em><span id="text-min" class="text-min">00</span><em>分</em><span id="text-sec" class="text-sec">00</span><em>秒</em>
             </div>
         </div>
     </div>
@@ -243,28 +243,12 @@ export default {
                 textType: true,
                 paginationClickable: true,
                 list: [{
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img1.png'),
+                        imgUrl: require('assets/images/12th-activity/12th-img1.jpg'),
                         text: '营业执照、投顾资质、奖杯等1'
                     },
                     {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img2.png'),
+                        imgUrl: require('assets/images/12th-activity/12th-img2.jpg'),
                         text: '营业执照、投顾资质、奖杯等2'
-                    },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img3.png'),
-                        text: '营业执照、投顾资质、奖杯等3'
-                    },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img4.png'),
-                        text: '营业执照、投顾资质、奖杯等4'
-                    },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img5.png'),
-                        text: '营业执照、投顾资质、奖杯等5'
-                    },
-                    {
-                        imgUrl: require('assets/images/endYear-activity/endYear-slide1-img6.png'),
-                        text: '营业执照、投顾资质、奖杯等6'
                     }
                 ]
             }
