@@ -297,7 +297,8 @@ export default {
                                 // alert('你已经买过了')
                                 this.popShow = true
                             } else {
-                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + encodeURI('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type)
+                                var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type);
+                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url
                                 // skipRiskAssessed=1
                             }
                         }
@@ -353,9 +354,10 @@ export default {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
         this.$store.dispatch('user/checkLogin')
+        alert(loginStatus + '1')
         this.$watch('loginStatus', loginStatus => {
+            alert(loginStatus + '2')
             if (loginStatus === 'yes') {
-                alert(loginStatus)
                 $.ajax({
                     type: 'get',
                     url: '/actm/checkUserIsYG',
