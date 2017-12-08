@@ -71,6 +71,7 @@ module.exports = function(router) {
               method: 'get'
             });
             ssoResult = JSON.parse(ssoResult)
+            console.log(ssoResult)
             if(ssoResult[0].bizSource.substring(0,2) === 'YG'){
                 ctx.body = {type:true}
             }else{
