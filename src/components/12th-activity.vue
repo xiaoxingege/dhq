@@ -297,7 +297,7 @@ export default {
                                 // alert('你已经买过了')
                                 this.popShow = true
                             } else {
-                                window.location.href = `http://itougu.jrj.com.cn/actm/pre-pay?payUrl=encodeURI(http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=${productSubId}&type=${type})`
+                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + encodeURI('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type)
                                 // skipRiskAssessed=1
                             }
                         }
@@ -309,8 +309,6 @@ export default {
                 }
             } else {
                 window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
-                // window.location.href = 'jrjnews://tougu?t=web&url=http://10.66.82.0:8081/dist/h5/12th-activity.html'
-
             }
         },
         close() {
@@ -357,6 +355,7 @@ export default {
         this.$store.dispatch('user/checkLogin')
         this.$watch('loginStatus', loginStatus => {
             if (loginStatus === 'yes') {
+                alert(loginStatus)
                 $.ajax({
                     type: 'get',
                     url: '/actm/checkUserIsYG',
