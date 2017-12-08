@@ -151,6 +151,16 @@ input {
     top: 2.19rem;
     right: 0.68rem;
 }
+.bg2 .box-con a,
+.bg3 .box-con a,
+.bg4 .box-con a,
+.bg5 .box-con a {
+    width: 6.33rem;
+    height: 1.81rem;
+    position: absolute;
+    top: 0.21rem;
+    left: 0.57rem;
+}
 </style>
 
 <template>
@@ -159,6 +169,7 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
+            <a href="javascript:;"></a>
             <div @click="popClick('100050007','1006')">
 
             </div>
@@ -166,6 +177,7 @@ input {
     </div>
     <div class="bg3">
         <div class="box-con">
+            <a href="javascript:;"></a>
             <div @click="popClick('100050008','1007')">
 
             </div>
@@ -173,6 +185,7 @@ input {
     </div>
     <div class="bg4">
         <div class="box-con">
+            <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493"></a>
             <div @click="ygType ? popClick('100050014','1009') : popClick('100050016','1008')">
 
             </div>
@@ -180,6 +193,7 @@ input {
     </div>
     <div class="bg5">
         <div class="box-con">
+            <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421"></a>
             <div @click="ygType ? popClick('100050013','1011') : popClick('100050010','1010')">
 
             </div>
@@ -266,6 +280,7 @@ export default {
     },
     methods: {
         popClick(productSubId, type) {
+            var _this = this
             if (window.app.name !== '{{appid}}') {
                 if (this.loginStatus === 'yes') {
                     $.ajax({
@@ -283,7 +298,7 @@ export default {
                                 // skipRiskAssessed=1
                             } else {
                                 // alert('你已经买过了')
-                                this.popShow = true
+                                _this.popShow = true
                             }
                         }
                     });
