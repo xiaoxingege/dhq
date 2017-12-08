@@ -354,7 +354,7 @@ export default {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
         this.$store.dispatch('user/checkLogin')
-        alert(loginStatus + '1')
+        alert(this.loginStatus + '1')
         this.$watch('loginStatus', loginStatus => {
             alert(loginStatus + '2')
             if (loginStatus === 'yes') {
