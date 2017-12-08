@@ -278,12 +278,12 @@ export default {
                         },
                         success: function(result) {
                             if (result.type) {
-                                // alert('你已经买过了')
-                                this.popShow = true
-                            } else {
                                 var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type);
                                 window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url
                                 // skipRiskAssessed=1
+                            } else {
+                                // alert('你已经买过了')
+                                this.popShow = true
                             }
                         }
                     });
