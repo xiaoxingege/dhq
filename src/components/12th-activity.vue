@@ -354,8 +354,8 @@ export default {
         window.setInterval(function() {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
+        this.$store.dispatch('user/checkLogin')
         this.$watch('loginStatus', loginStatus => {
-            alert(loginStatus)
             if (loginStatus === 'yes') {
                 $.ajax({
                     type: 'get',
