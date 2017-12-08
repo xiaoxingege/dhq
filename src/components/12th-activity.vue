@@ -169,7 +169,7 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro"></a>
             <div @click="popClick('100050007','1006')">
 
             </div>
@@ -177,7 +177,7 @@ input {
     </div>
     <div class="bg3">
         <div class="box-con">
-            <a href="javascript:;"></a>
+            <a href="http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay"></a>
             <div @click="popClick('100050008','1007')">
 
             </div>
@@ -236,8 +236,8 @@ export default {
             window.InitWeChatShare({
                 shareTitle: window.document.title,
                 shareLink: window.location.href,
-                shareDesc: '双11金融界狂送10000万，还有免费iPhone可以抢~',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th-bg1.jpg',
+                shareDesc: '金融界为1212名用户送上“加1元赠30天”福利，快来领取一份有爱的礼包…',
+                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/12th-bg1-1.jpg',
                 callback: function(wx) {
 
                 }
@@ -254,7 +254,7 @@ export default {
                 arrowShow: false,
                 loop: true,
                 autoplay: 4000,
-                textType: true,
+                textType: false,
                 paginationClickable: true,
                 list: [{
                         imgUrl: require('assets/images/12th-activity/12th-img1.jpg'),
@@ -280,6 +280,7 @@ export default {
     },
     methods: {
         popClick(productSubId, type) {
+
             var _this = this
             if (window.app.name !== '{{appid}}') {
                 if (this.loginStatus === 'yes') {
@@ -310,6 +311,7 @@ export default {
             } else {
                 window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
             }
+            window.dcsMultiTrack('DCS.dcsuri', '12th-activity-' + productSubId, 'WT.ti', '12th-activity-' + productSubId)
         },
         close() {
             this.popShow = false
@@ -350,7 +352,7 @@ export default {
         }
 
         window.setInterval(function() {
-            ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
+            ShowCountDown(2017, 12, 16, 0, 0, 0, 'divdown1')
         }, 1000)
         this.$store.dispatch('user/checkLogin')
         if (this.loginStatus === 'yes') {
@@ -361,10 +363,8 @@ export default {
                     userId: _this.ssoId
                 },
                 success: function(result) {
-                    if (result.retCode === 0) {
-                        if (result.data.belongYG === 0) {
-                            _this.ygType = true
-                        }
+                    if (result.type) {
+                        _this.ygType = true
                     }
                 }
             });
