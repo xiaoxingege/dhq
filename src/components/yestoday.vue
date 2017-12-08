@@ -80,10 +80,6 @@
 	color:#00B267;
 }
 
-.graph{
-	height:4.4rem;
-	background: #ccc;
-}
 .limitmove-lists{
   width:100%;
   background: #fff;
@@ -143,7 +139,7 @@
   padding-top:0.1rem;
 }
 .lists-right-container{
-  width:18.2rem;
+  width:15.8rem;
 }
 .lists-right .lists-title{
   overflow: hidden;
@@ -186,22 +182,22 @@
 
 		<div class="summary">
 			<p class="hint1">*昨板今均是指昨日涨停股票今日涨跌幅的平均表现</p>
-			<p class="hint2">赚钱效应一般</p>
+			<p class="hint2">赚钱效应{{benefit}}</p>
 			<div class="hint3">
 				<p>
-					今日：<span class="red">3.28%</span>
+					今日：<span class="red">{{yestoday}}%</span>
 				</p>
 				<p>
-					昨日：<span class="green">3.28%</span>
+					昨日：<span class="green">{{today}}%</span>
 				</p>
 				<p class="tongbi">
-					同比：<span>|</span><span class="green">3.28%</span>
+					同比：<span>|</span><span class="green">{{tongbi}}%</span>
 				</p>
 			</div>
 		</div>
 
-		<div class="graph"></div>
-
+		<!-- <div class="graph"></div> -->
+		<div id="curve" style="width:100%;height:4.4rem;"></div>
 		<div class="limitmove-lists" v-if="lists">
       <div class="lists-left">
         <div class="lists-title">
@@ -212,11 +208,6 @@
             <h6>{{item[2]}}</h6>
             <p>{{item[1]}}</p>
           </li>
-
-					<li>
-            <h6>股票名称</h6>
-            <p>股票代码</p>
-          </li>
         </ul>
       </div>
       <div class="lists-right">
@@ -225,44 +216,25 @@
           <div class="lists-title">
             <p style="width:1.3rem">最新价</p>
             <p style="width:1.74rem">开盘涨跌</p>
-            <p style="width:1.48rem">涨停强度</p>
-            <p style="width:1.44rem">今日涨幅</p>
-            <p style="width:1.77rem">今日最高</p>
-            <p style="width:1.77rem">今日最低</p>
-						<p style="width:1.52rem">是否连续涨停</p>
-						<p style="width:1.52rem;">连续涨停次数</p>
-            <p style="width:1.77rem">第一次涨停时间</p>
-            <p style="width:1.87rem">最后一次涨停时间</p>
-            <p style="width:1.52rem">打开次数</p>
-
-
+            <p style="width:1.74rem">今日涨幅</p>
+            <p style="width:1.74rem">今日最高</p>
+            <p style="width:1.74rem">今日最低</p>
+						<p style="width:1.77rem">是否连续涨停</p>
+						<p style="width:1.77rem;">连续涨停次数</p>
+            <p style="width:1.77rem">昨日涨停强度</p>
+            <p style="width:1.87rem;padding-right:0.3rem;">今日涨停强度</p>
           </div>
           <ul class="lists-con">
-            <!-- <li v-for="item in limitList">
-                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
-                <span :class="addcolor(item.priceLimit)" style="width:1.74rem">{{item.priceLimit.toFixed(2)}}%</span>
-                <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
-                <span style="width:1.44rem">{{item.fdHands | convert}} </span>
-                <span style="width:1.77rem">{{item.fdMoney | convert}}</span>
-                <span style="width:1.77rem">{{item.type}}</span>
-                <span style="width:1.77rem">{{item.firstZtTime}}</span>
-                <span style="width:1.87rem">{{item.lastZtTime}}</span>
-                <span style="width:1.52rem">{{item.opentime}}</span>
-                <span style="width:1.52rem">{{item.continueUpDown}}</span>
-                <span style="width:1.52rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
-            </li> -->
-						<li>
-                <span  style="width:1.3rem">.nowPrice.toFixed(2)</span>
-                <span  style="width:1.74rem">.priceLimit.toFixed(2)%</span>
-                <span style="width:1.48rem">.force.toFixed(0)</span>
-                <span style="width:1.44rem">.fdHands </span>
-                <span style="width:1.77rem">.fdMoney</span>
-                <span style="width:1.77rem">.type</span>
-                <span style="width:1.77rem">.firstZtTime</span>
-                <span style="width:1.87rem">.lastZtTime</span>
-                <span style="width:1.52rem">.opentime</span>
-                <span style="width:1.52rem">.continueUpDown</span>
-                <span style="width:1.52rem; padding-right:0.5rem;">continueUpDownTimes</span>
+            <li v-for="item in lists">
+                <span style="width:1.3rem">{{item[14].toFixed(2)}}</span>
+                <span style="width:1.74rem">{{(item[16]*100).toFixed(2)}}%</span>
+                <span style="width:1.74rem">{{item[5]}}%</span>
+                <span style="width:1.74rem">{{(item[6]*100).toFixed(2)}}%</span>
+                <span style="width:1.74rem">{{(item[7]*100).toFixed(2)}}%</span>
+                <span style="width:1.77rem">{{item[8]===1? '是':'否'}}</span>
+                <span style="width:1.77rem">{{item[9]}}</span>
+                <span style="width:1.77rem">{{item[10].toFixed(2)}}</span>
+                <span style="width:1.87rem;padding-right:0.3rem;">{{item[11]| conver9}}</span>
             </li>
           </ul>
         </div>
@@ -277,10 +249,16 @@
 <script>
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
+import echarts from 'echarts'
 
 export default {
   data () {
     return {
+			yestoday:0,
+			today:0,
+			tongbi:0,
+			benefit:'',
+			graph:[],
 			lists:[]
     }
   },
@@ -291,12 +269,193 @@ export default {
     document.title = '涨停追击'
   },
   mounted () {
+		this.getbenefit()
 		this.getlist()
+		// this.getsummaryData()
   },
   filters: {
-
+		conver9(d){
+			if (d===0) {
+				return '--'
+			} else {
+				return d.toFixed(2)
+			}
+		}
   },
   methods: {
+		insertEchart(){
+  		// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('curve'));
+
+				var data=this.graph;
+				var dataX=[];
+				var dataY=[];
+				for (var i = 0; i < data.length; i++) {
+					dataX.push(data[i][0])
+					dataY.push(data[i][1])
+				}
+				var interval=dataY.length-2
+				var option = {
+					grid:{
+						top:'5%',
+						left:'5%',
+						right:'15%',
+						bottom:'20%'
+					},
+				    tooltip: {
+				        trigger: 'axis',
+				        position: function (pt) {
+				            return [pt[0], '10%'];
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        data: dataX,
+				        min:function(d){
+				        	return d.min
+				        },
+				        max:function(d){
+				        	return d.max
+				        },
+				        axisLine:{
+				        	lineStyle:{
+				        		color:'rgba(219,219,219,1)'
+				        	}
+				        },
+				        axisTick:{
+				        	show:false
+				        },
+				        axisLabel:{
+				        	// show:false,
+				        	interval:interval,
+				        	margin:15,
+				        	showMinLabel:true,
+				        	showMaxLabel:true,
+				        	color:'rgba(170,170,170,1)',
+				        	align:'center'
+				        }
+				    },
+				    yAxis: {
+				        type: 'value',
+				        position:'right',
+				        boundaryGap: ['10%', '10%'],
+				        scale:true,
+				        splitNumber:2,
+				        axisLine:{
+				        	show:false
+				        },
+				        axisTick:{
+				        	show:false
+				        },
+				        axisLabel:{
+				        	margin:10,
+				        	formatter: function (d) {
+									   return d.toFixed(2)+'%'
+									},
+									color:'rgba(170,170,170,1)'
+				        },
+				        splitLine:{
+				        	lineStyle:{
+				        		color:'rgba(219,219,219,1)',
+				        		type:'dotted'
+				        	}
+				        }
+
+				    },
+				    series: [
+				        {
+				            type:'line',
+				            smooth:true,
+				            symbol: 'none',
+				            sampling: 'average',
+				            itemStyle: {
+				                normal: {
+				                    color: 'rgba(80,188,253,1)'
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+				                        offset: 0,
+				                        color: 'rgba(80,188,253,0.6)'
+				                    }, {
+				                        offset: 1,
+				                        color: 'rgba(80,188,253,0)'
+				                    }])
+				                }
+				            },
+				            data: dataY
+				        }
+				    ]
+				};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+  	},
+		// 获取赚钱效益 结果
+		getbenefit(){
+			$.ajax({
+        url:'http://hqdata.jrj.com.cn/zrztjrbx/min_performance.js',
+        type:'get',
+        cache:false,
+        dataType:'script',
+        jsonp:'callback',
+        success:() => {
+          if ( window.min_performance ) {
+						if (window.min_performance.Data.length===0) {
+							this.graph=[]
+							this.benefit=''
+						}else{
+							this.graph=window.min_performance.Data
+							console.log(this.graph)
+							this.insertEchart()
+							var len=window.min_performance.Data.length
+							var benefit=window.min_performance.Data[len-1][1]
+							if (benefit>=5) {
+								this.benefit='爆棚'
+							}else if (benefit>=3){
+								this.benefit='强'
+							}else if(benefit>=0){
+								this.benefit='弱'
+							}else if (benefit>=-3){
+								this.benefit='差'
+							}else if(benefit>=-5){
+								this.benefit='资金被套'
+							}else{
+								this.benefit='被坑杀'
+							}
+						}
+          }
+        },
+        error:function(){
+          console.log('error');
+        }
+      })
+		},
+		// 获取今日、昨日、同比 数据
+		getsummaryData(){
+      $.ajax({
+        url:'https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit_ana',
+        type:'get',
+        cache:false,
+        dataType:'json',
+        success:(d) => {
+          if (d.retcode === 0) {
+            if (d.data) {
+							this.yestoday=d.data.todayRatio
+							this.today=d.data.lastDayRatio
+							this.tongbi=d.data.percent
+            }
+          }else{
+            console.log(d.msg)
+          }
+        },
+        error:function(){
+          console.log('error');
+        }
+      })
+		},
+		// 获取涨跌停列表
 		getlist(){
 			$.ajax({
         url:'http://hqdata.jrj.com.cn/zrztjrbx/limitup.js',
@@ -312,7 +471,6 @@ export default {
 							this.lists=window.stock_performance.Data
 						}
           }
-					console.log(this.lists)
         },
         error:function(){
           console.log('error');
