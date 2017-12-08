@@ -177,7 +177,7 @@ input {
     </div>
     <div class="bg3">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay"></a>
+            <a :href="appType ? 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay': 'http://itougu.jrj.com.cn/marketing/gotoAppZquantize.jspa'"></a>
             <div @click="popClick('100050008','1007')">
 
             </div>
@@ -185,7 +185,7 @@ input {
     </div>
     <div class="bg4">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493"></a>
+            <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a>
             <div @click="ygType ? popClick('100050014','1009') : popClick('100050016','1008')">
 
             </div>
@@ -193,7 +193,7 @@ input {
     </div>
     <div class="bg5">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421"></a>
+            <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a>
             <div @click="ygType ? popClick('100050013','1011') : popClick('100050010','1010')">
 
             </div>
@@ -256,6 +256,7 @@ export default {
                 autoplay: 4000,
                 textType: false,
                 paginationClickable: true,
+                appType: false,
                 list: [{
                         imgUrl: require('assets/images/12th-activity/12th-img1.jpg'),
                         text: '营业执照、投顾资质、奖杯等1'
@@ -295,7 +296,7 @@ export default {
                         success: function(result) {
                             if (result.type) {
                                 var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type);
-                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url
+                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url + '&' + Math.round(new Date().getTime() / 1000)
                                 // skipRiskAssessed=1
                             } else {
                                 // alert('你已经买过了')
@@ -310,6 +311,11 @@ export default {
                 }
             } else {
                 window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
+                setTimeout(function() {
+                    if (!document.webkitHidden) {
+                        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+                    }
+                }, 1500);
             }
             window.dcsMultiTrack('DCS.dcsuri', '12th-activity-' + productSubId, 'WT.ti', '12th-activity-' + productSubId)
         },
@@ -369,6 +375,10 @@ export default {
                 }
             });
         }
+        if (window.app.name !== '{{appid}}') {
+            _this.appType = true
+        }
+
     }
 }
 </script>
