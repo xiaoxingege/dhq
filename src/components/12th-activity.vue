@@ -159,28 +159,28 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <div @click="popClick">
+            <div @click="popClick('100050007','1006')">
 
             </div>
         </div>
     </div>
     <div class="bg3">
         <div class="box-con">
-            <div>
+            <div @click="popClick('100050008','1007')">
 
             </div>
         </div>
     </div>
     <div class="bg4">
         <div class="box-con">
-            <div>
+            <div @click="ygType ? popClick('100050014','1009') : popClick('100050016','1008')">
 
             </div>
         </div>
     </div>
     <div class="bg5">
         <div class="box-con">
-            <div>
+            <div @click="ygType ? popClick('100050013','1011') : popClick('100050010','1010')">
 
             </div>
         </div>
@@ -231,6 +231,7 @@ export default {
         })
         return {
             popShow: false,
+            ygType: false,
             listData: {
                 conWidth: '7rem',
                 conHeight: '3.62rem',
@@ -270,6 +271,8 @@ export default {
         }
     },
     computed: mapState({
+        loginStatus: state => state.user.loginStatus,
+        ssoId: state => state.user.ssoId
         // type: state => {
         //     return state.reservation.type
         // }
@@ -278,24 +281,44 @@ export default {
         activitySlider
     },
     methods: {
-        popClick() {
-            this.popShow = true
-            $.ajax({
-                type: 'get',
-                url: 'http://localhost:3000/checkUserIsYG',
-                data: {
-                    userId: '170607010031105263'
-                },
-                success: function(result) {
-                    console.log(result)
+        popClick(productSubId, type) {
+            if (window.app.name !== '{{appid}}') {
+                if (this.loginStatus === 'yes') {
+                    $.ajax({
+                        type: 'get',
+                        url: '/listByUidAndProductId',
+                        data: {
+                            uid: this.ssoId,
+                            productSubId: productSubId,
+                            type: type
+                        },
+                        success: function(result) {
+                            if (result.type) {
+                                window.location.href = `http://itougu.jrj.com.cn/actm/pre-pay?payUrl=encodeURI(http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=${productSubId}&type=${type})`
+                                // skipRiskAssessed=1
+                            } else {
+                                // alert('你已经买过了')
+                                this.popShow = true
+                            }
+                        }
+                    });
+                } else {
+                    window.jrj.jsCallNative('108', JSON.stringify({
+                        returnUrl: encodeURI(window.location.href)
+                    }))
                 }
-            });
+            } else {
+                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
+                // window.location.href = 'jrjnews://tougu?t=web&url=http://10.66.82.0:8081/dist/h5/12th-activity.html'
+
+            }
         },
         close() {
             this.popShow = false
         }
     },
     mounted() {
+        var _this = this
 
         function pad(str, len) {
             str = str + ''
@@ -331,8 +354,23 @@ export default {
         window.setInterval(function() {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
-        // var _this = this
-
+        if (this.loginStatus === 'yes') {
+            $.ajax({
+                type: 'get',
+                url: '/checkUserIsYG',
+                data: {
+                    userId: _this.ssoId
+                },
+                success: function(result) {
+                    alert(result.retCode)
+                    if (result.retCode === 0) {
+                        if (result.data.belongYG === 0) {
+                            _this.ygType = true
+                        }
+                    }
+                }
+            });
+        }
     }
 }
 </script>

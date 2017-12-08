@@ -16,6 +16,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {}
 })
+const request = require('request-promise');
 
 // 实例化vue对象
 const app = new Vue({
@@ -24,6 +25,44 @@ const app = new Vue({
 })
 
 module.exports = function(router) {
+    router.get('/checkUserIsYG', async(ctx, next) => {
+        let result = await request({
+          headers:{
+            'content-type':'application/json',
+          },
+          url: `http://crm.jrj.com/jrjcrm/callCenter/interface/checkUserIsYG.do?userId=${ctx.query.userId}`,
+          method: 'get'
+        });
+        result = JSON.parse(result)
+        ctx.body = result
+    })
+    router.get('/listByUidAndProductId', async(ctx, next) => {
+        let result = await request({
+          headers:{
+            'content-type':'application/json',
+          },
+          url: `http://cashier.jrjc.local/order/listByUidAndProductId?uid=${ctx.query.uid}&productSubId=${ctx.query.productSubId}`,
+          method: 'get'
+        });
+        result = JSON.parse(result)
+        if(result.retCode === 0 && result.orderList.length !== 0){
+            for(var i=0;i<result.orderList.length;i++){
+                if(result.orderList[i].productType === parseInt(ctx.query.type)){
+                    ctx.body = {
+                        type: false
+                    };
+                }else{
+                    ctx.body = {
+                        type: true
+                    };
+                }
+            }
+        }else{
+            ctx.body = {
+                type: false
+            };
+        }
+    })
     router.get('/endYear-activity', async(ctx, next) => {
       ctx.title = '每日3只强势股-金融界';
       ctx.metaDescription = '';

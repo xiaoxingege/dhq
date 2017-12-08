@@ -27,7 +27,6 @@ let pify = require('pify');
 let MongoClient = require('mongodb').MongoClient;
 let ObjectId = require('mongodb').ObjectId;
 let assert = require('assert');
-const request = require('request-promise');
 let db = null;
 
 const connectDb = async(dbName) => {
@@ -42,39 +41,6 @@ const connectDb = async(dbName) => {
 }
 
 module.exports = function(router) {
-
-    router.get('/checkUserIsYG', async(ctx, next) => {
-        let result = await request({
-          headers:{
-            'content-type':'application/json',
-          },
-          url: `http://crm.jrj.com/jrjcrm/callCenter/interface/checkUserIsYG.do?userId=${ctx.query.userId}`,
-          method: 'get'
-        });
-        result = JSON.parse(result)
-        ctx.body = result
-    })
-    router.get('/listByUidAndProductId', async(ctx, next) => {
-        let result = await request({
-          headers:{
-            'content-type':'application/json',
-          },
-          url: `http://cashier.jrjc.local/order/listByUidAndProductId?uid=${ctx.query.uid}&productSubId=${ctx.query.productSubId}`,
-          method: 'get'
-        });
-        result = JSON.parse(result)
-        ctx.body = result;
-        // if(result.retCode === 0 && result.orderList.length !== 0){
-        //     var arr = [];
-        //     for(var i=0; i<result.orderList.length; i++){
-        //         arr.push(result.orderList[i].completeTime)
-        //     }
-        //     ctx.body = arr;
-        // }else{
-        //     ctx.body = result;
-        // }
-    })
-
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
       passportId: ctx.headers.passportid,
