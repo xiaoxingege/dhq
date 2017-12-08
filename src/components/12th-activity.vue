@@ -354,27 +354,22 @@ export default {
             ShowCountDown(2017, 12, 12, 0, 0, 0, 'divdown1')
         }, 1000)
         this.$store.dispatch('user/checkLogin')
-        alert(this.loginStatus + '1')
-        this.$watch('loginStatus', loginStatus => {
-            alert(loginStatus + '2')
-            if (loginStatus === 'yes') {
-                $.ajax({
-                    type: 'get',
-                    url: '/actm/checkUserIsYG',
-                    data: {
-                        userId: _this.ssoId
-                    },
-                    success: function(result) {
-                        alert(result.retCode)
-                        if (result.retCode === 0) {
-                            if (result.data.belongYG === 0) {
-                                _this.ygType = true
-                            }
+        if (this.loginStatus === 'yes') {
+            $.ajax({
+                type: 'get',
+                url: '/actm/checkUserIsYG',
+                data: {
+                    userId: _this.ssoId
+                },
+                success: function(result) {
+                    if (result.retCode === 0) {
+                        if (result.data.belongYG === 0) {
+                            _this.ygType = true
                         }
                     }
-                });
-            }
-        })
+                }
+            });
+        }
     }
 }
 </script>
