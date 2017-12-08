@@ -53,8 +53,7 @@ module.exports = function(router) {
                   method: 'get'
                 });
                 ssoResult = JSON.parse(ssoResult)
-                console.log(ssoResult)
-                if(ssoResult[0].bizSource.substring(0,2) === 'YG'){
+                if(ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0,2) === 'YG'){
                     ctx.body = {type:true}
                 }else{
                     ctx.body = {type:false}
@@ -71,8 +70,7 @@ module.exports = function(router) {
               method: 'get'
             });
             ssoResult = JSON.parse(ssoResult)
-            console.log(ssoResult)
-            if(ssoResult[0].bizSource.substring(0,2) === 'YG'){
+            if(ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0,2) === 'YG'){
                 ctx.body = {type:true}
             }else{
                 ctx.body = {type:false}
