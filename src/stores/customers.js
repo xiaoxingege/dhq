@@ -105,8 +105,10 @@ export default {
     },
     getCustomerTag({
       commit
+    }, {
+      dateTime
     }) {
-      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/win_100036?dateTime=201711`, {
+      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/win_100036?dateTime=${dateTime}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
