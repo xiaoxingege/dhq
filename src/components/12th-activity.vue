@@ -286,7 +286,7 @@ export default {
                 if (this.loginStatus === 'yes') {
                     $.ajax({
                         type: 'get',
-                        url: '/listByUidAndProductId',
+                        url: '/actm/listByUidAndProductId',
                         data: {
                             uid: this.ssoId,
                             productSubId: productSubId,
