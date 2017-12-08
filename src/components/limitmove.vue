@@ -617,7 +617,6 @@ export default {
         dataType:'json',
         success:(d) => {
           if (d.retcode === 0) {
-            console.log(d.data.items)
             if (d.data.items.length === 0) {
               this.limitList = []
             }else{
