@@ -60,8 +60,15 @@
 	font-size:0.28rem;
 	color:#333;
 }
+
 .hint3  p span{
 	/*float: left;*/
+}
+.hint3 .left span{
+	float: left;
+}
+.hint3  .tongbi span{
+	float: right;
 }
 .hint3  p span.red{
 	color:#F54949;
@@ -70,8 +77,22 @@
 	color:#00B267;
 }
 
-.hint3  .tongbi span{
-
+.hint3  .tongbi em{
+	display: none;
+	float: right;
+	width:0.1rem;
+	height: 0.2rem;
+	margin:0.1rem 0.02rem 0.1rem 0.04rem;
+}
+.hint3  .tongbi em.red{
+	display: block;
+	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') center no-repeat;
+	background-size: contain;
+}
+.hint3  .tongbi em.green{
+	display: block;
+	background:url('http://i0.jrjimg.cn/optional/yestoday/down.png') center no-repeat;
+	background-size: contain;
 }
 .hint3  .tongbi span.red{
 	color:#F54949;
@@ -184,14 +205,14 @@
 			<p class="hint1">*昨板今均是指昨日涨停股票今日涨跌幅的平均表现</p>
 			<p class="hint2">赚钱效应{{benefit}}</p>
 			<div class="hint3">
-				<p>
-					今日：<span class="red">{{yestoday}}%</span>
+				<p class="left">
+					<span>今日：</span><span :class="addcolor(yestoday)">{{yestoday}}%</span>
 				</p>
 				<p>
-					昨日：<span class="green">{{today}}%</span>
+					昨日：<span :class="addcolor(today)">{{today}}%</span>
 				</p>
 				<p class="tongbi">
-					同比：<span>|</span><span class="green">{{tongbi}}%</span>
+					<span :class="addcolor(tongbi)">{{tongbi}}%</span><em :class="addcolor(tongbi)"></em><span>同比：</span>
 				</p>
 			</div>
 		</div>
@@ -226,11 +247,11 @@
           </div>
           <ul class="lists-con">
             <li v-for="item in lists">
-                <span style="width:1.3rem">{{item[14].toFixed(2)}}</span>
-                <span style="width:1.74rem">{{(item[16]*100).toFixed(2)}}%</span>
-                <span style="width:1.74rem">{{item[5]}}%</span>
-                <span style="width:1.74rem">{{(item[6]*100).toFixed(2)}}%</span>
-                <span style="width:1.74rem">{{(item[7]*100).toFixed(2)}}%</span>
+                <span :class="addcolor(item[14])" style="width:1.3rem">{{item[14].toFixed(2)}}</span>
+                <span :class="addcolor(item[16])" style="width:1.74rem">{{(item[16]*100).toFixed(2)}}%</span>
+                <span :class="addcolor(item[5])" style="width:1.74rem">{{item[5].toFixed(2)}}%</span>
+                <span :class="addcolor(item[6])" style="width:1.74rem">{{(item[6]*100).toFixed(2)}}%</span>
+                <span :class="addcolor(item[7])" style="width:1.74rem">{{(item[7]*100).toFixed(2)}}%</span>
                 <span style="width:1.77rem">{{item[8]===1? '是':'否'}}</span>
                 <span style="width:1.77rem">{{item[9]}}</span>
                 <span style="width:1.77rem">{{item[10].toFixed(2)}}</span>
@@ -271,7 +292,7 @@ export default {
   mounted () {
 		this.getbenefit()
 		this.getlist()
-		// this.getsummaryData()
+		this.getsummaryData()
   },
   filters: {
 		conver9(d){
@@ -283,6 +304,15 @@ export default {
 		}
   },
   methods: {
+		addcolor (v) {
+      if ((v + '').indexOf('-') !== -1) {
+        return 'green'
+      } else if(v===0){
+        return ''
+      }else{
+      	return 'red'
+      }
+    },
 		insertEchart(){
   		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('curve'));
