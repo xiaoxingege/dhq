@@ -171,13 +171,13 @@
     <p class="portrait-timing-lable2">
       <span class="">策略详情</span>
     </p>
-    <p class="portrait-timing-more" @click="">
+    <p class="portrait-timing-more" @click="toStrategyList">
       <a>更多>></a>
     </p>
   </div>
   <div class="portrait-timing-con clearfix">
     <div v-if="isNoData" class="timing-no-data">
-      <span>暂无持仓</span>
+      <span>客户无持仓，点击更多，查看择时策略</span>
     </div>
     <div class="portrait-timing-table" v-if="!isNoData">
       <div class="timing-table-wrap">
@@ -578,6 +578,9 @@ export default {
       this.stockName = name
       this.innerCode = code
       this.trIndex = index
+    },
+    toStrategyList: function() {
+      window.open('timeTop')
     },
     formatData: function(val) {
       let getVal

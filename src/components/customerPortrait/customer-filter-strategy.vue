@@ -125,7 +125,7 @@
 <div style="height:100%;">
   <div class="portrait-filer-title">
     <span class="portrait-filter-lable">筛股策略</span>
-    <p class="portrait-fiter-more" @click="">
+    <p class="portrait-fiter-more" @click="toStrategyList">
       <a>更多>></a>
     </p>
   </div>
@@ -243,6 +243,9 @@ export default {
           _this.initDayStockSelection()
         }, 1000 * _this.intervalTime)
       }
+    },
+    toStrategyList: function() {
+      window.open('filterTop')
     },
     formatData: function(val) {
       let getVal
