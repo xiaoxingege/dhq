@@ -155,7 +155,7 @@ input {
         <div class="box-con">
             <!-- <a href="http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro"></a> -->
             <a @click="linkClick"></a>
-            <div @click="popClick('100050007','1006')">
+            <div @click="popClick('100050008','1007')">
 
             </div>
         </div>
