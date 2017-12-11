@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
-import App from 'components/12th-activity'
+import App from 'components/12th-activity2'
 
 /*
  * 引入vuex

@@ -24,14 +24,14 @@ const app = new Vue({
   store
 })
 function transdate(endTime) {
-  var date = new Date();
-  date.setFullYear(endTime.substring(0, 4));
-  date.setMonth(endTime.substring(5, 7) - 1);
-  date.setDate(endTime.substring(8, 10));
-  date.setHours(endTime.substring(11, 13));
-  date.setMinutes(endTime.substring(14, 16));
-  date.setSeconds(endTime.substring(17, 19));
-  return Date.parse(date) / 1000;
+    var date = new Date();
+    date.setFullYear(endTime.substring(0, 4));
+    date.setMonth(endTime.substring(4, 6) - 1);
+    date.setDate(endTime.substring(6, 8));
+    date.setHours(endTime.substring(8, 10));
+    date.setMinutes(endTime.substring(10, 12));
+    date.setSeconds(endTime.substring(12, 14));
+    return Date.parse(date) / 1000;
 }
 module.exports = function(router) {
     router.get('/checkUserIsYG', async(ctx, next) => {
@@ -86,16 +86,22 @@ module.exports = function(router) {
           method: 'get'
         });
         result = JSON.parse(result)
-        if(result.retCode === 0 && result.orderList.length !== 0 && Math.round(new Date().getTime() / 1000) < transdate('2017-12-16 00:00:00')){
+        if(result.retCode === 0 && result.orderList.length !== 0 && Math.round(new Date().getTime() / 1000) < transdate('20171218000000')){
             for(var i=0;i<result.orderList.length;i++){
                 if(result.orderList[i].productType === parseInt(ctx.query.type)){
                     ctx.body = {
                         type: false
                     };
                 }else{
-                    ctx.body = {
-                        type: true
-                    };
+                    if(transdate(result.orderList[i].completeTime) > transdate('20171211000000') && transdate(result.orderList[i].completeTime) < transdate('20171218000000')){
+                        ctx.body = {
+                            type: true
+                        };
+                    }else{
+                        ctx.body = {
+                            type: false
+                        };
+                    }
                 }
             }
         }else{
@@ -105,6 +111,18 @@ module.exports = function(router) {
         }
     })
     router.get('/12th-activity', async(ctx, next) => {
+      ctx.title = '双12 就要爱-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
+    router.get('/12th-activity2', async(ctx, next) => {
       ctx.title = '双12 就要爱-金融界';
       ctx.metaDescription = '';
       ctx.metaKeywords = '';
