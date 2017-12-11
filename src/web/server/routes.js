@@ -41,7 +41,6 @@ const connectDb = async(dbName) => {
 }
 
 module.exports = function(router) {
-
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
       retCode: 0,
