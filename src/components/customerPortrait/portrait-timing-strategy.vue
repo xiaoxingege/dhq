@@ -156,6 +156,10 @@
   color: #c9d0d7;
   padding-left: 20px;
 }
+
+.tr-focus {
+  background-color: #2e4465
+}
 </style>
 <template>
 <div style="height:100%;">
@@ -172,15 +176,15 @@
     </p>
   </div>
   <div class="portrait-timing-con clearfix">
-    <div class="portrait-timing-table">
+    <div v-if="isNoData" class="timing-no-data">
+      <span>暂无持仓</span>
+    </div>
+    <div class="portrait-timing-table" v-if="!isNoData">
       <div class="timing-table-wrap">
-        <div v-if="isNoData" class="timing-no-data">
-          <span>暂无持仓</span>
-        </div>
         <div style="height: 100%;">
           <p class="position-title">当前持仓</p>
-          <ul v-if="!isNoData" class="timing-data-table">
-            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li">
+          <ul class="timing-data-table">
+            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li" :class="{'tr-focus':index === trIndex}">
               <span :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{item.price === null?'--':item.price.toFixed(2)}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)}}</span>
@@ -189,7 +193,7 @@
         </div>
       </div>
     </div>
-    <div class="portrait-timing-chart">
+    <div class="portrait-timing-chart" v-if="!isNoData">
       <p class="time-chart-title">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
       <div class="kcharts" ref="kcharts"></div>
     </div>
@@ -211,7 +215,8 @@ export default {
       timeStrategyList: [],
       clientPassport: 3454565,
       innerCode: '',
-      stockName: ''
+      stockName: '',
+      trIndex: 0
     }
   },
   watch: {
@@ -417,8 +422,9 @@ export default {
         })
       });
       Promise.all([p1, p2]).then(() => {
-        document.getElementsByClassName('stock-li')[0].style.backgroundColor = '#2e4465'
-        this.initTimeChart();
+        if (!this.isNoData) {
+          this.initTimeChart();
+        }
       })
     },
     initTimeChart: function() {
@@ -558,17 +564,20 @@ export default {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function() {
-          _this.initTradeSignal()
+          _this.$store.dispatch('portraitDetail/getCustomerPosition', {
+            clientPassport: _this.clientPassport
+          }).then(() => {
+            if (_this.timeStrategyListData.length > 0) {
+              _this.dataList = _this.customerPositionList
+            }
+          })
         }, 1000 * _this.intervalTime)
       }
     },
     changeKline: function(name, code, index) {
       this.stockName = name
       this.innerCode = code
-      for (let i = 0; i < document.getElementsByClassName('stock-li').length; i++) {
-        document.getElementsByClassName('stock-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('stock-li')[index].style.backgroundColor = '#2e4465'
+      this.trIndex = index
     },
     formatData: function(val) {
       let getVal
@@ -582,9 +591,10 @@ export default {
   },
   mounted() {
     this.initTimeStrategy()
+    this.autoUpdate()
   },
   destroyed() {
-    // this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
