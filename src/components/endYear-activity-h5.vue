@@ -67,12 +67,12 @@ button {
     height: 7.63rem;
 }
 .bg6 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg6.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg6-2.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 6.78rem;
 }
 .bg6-1 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg6-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg6-3.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 3.79rem;
     margin-top: -0.1rem;
