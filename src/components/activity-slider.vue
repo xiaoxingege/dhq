@@ -33,7 +33,11 @@
 
     <div class="swiper-container" :style="{width:listData.conWidth,height:listData.conHeight,padding:listData.conPadding}">
         <div class="swiper-wrapper" @click="clickImg">
-            <div class="swiper-slide" v-for="item,index in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}" :data-index="index"></div>
+            <div class="swiper-slide" v-for="item,index in listData.list" :style="{backgroundImage:'url('+item.imgUrl+')',backgroundSize:'100% 100%'}" :data-index="index">
+                <div v-if="listData.textType">
+                    <p v-text="item.text"></p>
+                </div>
+            </div>
         </div>
 
         <!-- Add Pagination -->
@@ -83,11 +87,11 @@ export default {
             this.addChapterShow = false
             this.fixBgShow = false
         },
-        clickImg(e){
+        clickImg(e) {
             let target = e.target;
             let index = target.getAttribute('data-index');
-            if(index){
-                this.$emit('clickimg',index)
+            if (index) {
+                this.$emit('clickimg', index)
             }
         }
     },
@@ -106,8 +110,8 @@ export default {
             centeredSlides: _this.listData.centeredSlides || false,
             watchActiveIndex: _this.listData.watchActiveIndex || false,
             createPagination: true,
-            slidesPerView:_this.listData.slidesPerView || 1,
-            spaceBetween:_this.listData.spaceBetween || 0,
+            slidesPerView: _this.listData.slidesPerView || 1,
+            spaceBetween: _this.listData.spaceBetween || 0,
             nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
             loop: _this.listData.loop,
