@@ -116,6 +116,10 @@
   padding-left: 10px;
   width: 40%;
 }
+
+.li-focus {
+  background-color: #2e4465
+}
 </style>
 <template>
 <div style="height:100%;">
@@ -137,7 +141,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item of filterStrategyList" @click='changeStrategy(item.name,item.innerCode,index)' class="filter-li">
+          <tr v-for="(item,index) of filterStrategyList" @click='changeStrategy(item.strategyId,index)' class="filter-li" :class="{'li-focus':index === liIndex}">
             <td>{{item.strategyName === null?'--':item.strategyName}}</td>
             <td>{{item.evaluationIndexs.winRatio === null?'--':item.evaluationIndexs.winRatio.toFixed(2)}}</td>
             <td>{{item.evaluationIndexs.winLossRatio === null?'--':item.evaluationIndexs.winLossRatio.toFixed(2)}}</td>
@@ -184,12 +188,13 @@ export default {
       currentStockSelectionList: [],
       clientPassport: 3454565,
       pageNum: 0,
-      pageSize: 4
+      pageSize: 4,
+      liIndex: 0
     }
   },
   watch: {
     strategyId() {
-
+      this.initDayStockSelection()
     }
   },
   computed: {
@@ -210,26 +215,34 @@ export default {
         if (this.customerFilterStrategy.length > 0) {
           this.filterStrategyList = this.customerFilterStrategy
           this.strategyId = this.filterStrategyList[0].strategyId
-          this.$store.dispatch('portraitDetail/getDayStockSelection', {
-            strategyId: this.strategyId,
-            pageNum: this.pageNum,
-            pageSize: this.pageSize
-          }).then(() => {
-            if (this.dayStockSelection.length > 0) {
-              this.currentStockSelectionList = this.dayStockSelection
-
-            }
-          })
+          this.initDayStockSelection()
         }
       })
     },
-    changeStrategy: function(name, code, index) {
-      this.stockName = name
-      this.innerCode = code
-      for (let i = 0; i < document.getElementsByClassName('filter-li').length; i++) {
-        document.getElementsByClassName('filter-li')[i].style.backgroundColor = '#141518'
+    initDayStockSelection: function() {
+      this.$store.dispatch('portraitDetail/getDayStockSelection', {
+        strategyId: this.strategyId,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }).then(() => {
+        if (this.dayStockSelection.length > 0) {
+          this.currentStockSelectionList = this.dayStockSelection
+        }
+      })
+    },
+    changeStrategy: function(id, index) {
+      this.strategyId = id
+      this.liIndex = index
+    },
+    autoUpdate: function() {
+      const _this = this
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(function() {
+          _this.initDayStockSelection()
+        }, 1000 * _this.intervalTime)
       }
-      document.getElementsByClassName('filter-li')[index].style.backgroundColor = '#2e4465'
     },
     formatData: function(val) {
       let getVal
@@ -243,9 +256,10 @@ export default {
   },
   mounted() {
     this.initFilterStrategy()
+    this.autoUpdate()
   },
   destroyed() {
-    // this.updateDataPid && clearInterval(this.updateDataPid)
+    this.updateDataPid && clearInterval(this.updateDataPid)
   }
 }
 </script>
