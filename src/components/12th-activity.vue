@@ -170,7 +170,8 @@ input {
     <div class="bg2">
         <div class="box-con">
             <a @click="linkClick(1)"></a>
-            <div @click="popClick('100050007','1006')">
+            <div @click="popClick('100050008','1007')">
+
 
             </div>
         </div>
@@ -179,7 +180,7 @@ input {
         <div class="box-con">
             <!-- <a :href="appType ? 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay': 'http://itougu.jrj.com.cn/marketing/gotoAppZquantize.jspa'"></a> -->
             <a @click="linkClick(2)"></a>
-            <div @click="popClick('100050008','1007')">
+            <div @click="popClick('100050007','1006')">
 
             </div>
         </div>
