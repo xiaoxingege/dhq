@@ -153,7 +153,8 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro"></a>
+            <!-- <a href="http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro"></a> -->
+            <a @click="linkClick"></a>
             <div @click="popClick('100050007','1006')">
 
             </div>
@@ -269,7 +270,7 @@ export default {
                     }))
                 }
             } else {
-                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
+                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity2'
                 setTimeout(function() {
                     if (!document.webkitHidden) {
                         window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
@@ -280,6 +281,21 @@ export default {
         },
         close() {
             this.popShow = false
+        },
+        linkClick() {
+            var linkUrl = ''
+            if (window.app.name === '{{appid}}') {
+                linkUrl = 'http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro'
+                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity2'
+                setTimeout(function() {
+                    if (!document.webkitHidden) {
+                        window.location.href = linkUrl
+                    }
+                }, 1500);
+            } else {
+                linkUrl = 'http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro'
+                window.location.href = linkUrl
+            }
         }
     },
     mounted() {

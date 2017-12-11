@@ -169,7 +169,7 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro"></a>
+            <a @click="linkClick(1)"></a>
             <div @click="popClick('100050007','1006')">
 
             </div>
@@ -177,7 +177,8 @@ input {
     </div>
     <div class="bg3">
         <div class="box-con">
-            <a :href="appType ? 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay': 'http://itougu.jrj.com.cn/marketing/gotoAppZquantize.jspa'"></a>
+            <!-- <a :href="appType ? 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay': 'http://itougu.jrj.com.cn/marketing/gotoAppZquantize.jspa'"></a> -->
+            <a @click="linkClick(2)"></a>
             <div @click="popClick('100050008','1007')">
 
             </div>
@@ -185,7 +186,8 @@ input {
     </div>
     <div class="bg4">
         <div class="box-con">
-            <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a>
+            <!-- <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a> -->
+            <a @click="linkClick(3)"></a>
             <div @click="ygType ? popClick('100050014','1009') : popClick('100050016','1008')">
 
             </div>
@@ -193,7 +195,8 @@ input {
     </div>
     <div class="bg5">
         <div class="box-con">
-            <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a>
+            <!-- <a :href="appType ? 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421' : 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'"></a> -->
+            <a @click="linkClick(4)"></a>
             <div @click="ygType ? popClick('100050013','1011') : popClick('100050010','1010')">
 
             </div>
@@ -321,6 +324,35 @@ export default {
         },
         close() {
             this.popShow = false
+        },
+        linkClick(num) {
+            var linkUrl = ''
+            if (window.app.name === '{{appid}}') {
+                if (num === 1) {
+                    linkUrl = 'http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro'
+                } else if (num === 2) {
+                    linkUrl = 'http://itougu.jrj.com.cn/marketing/gotoAppZquantize.jspa'
+                } else if (num === 3 || num === 4) {
+                    linkUrl = 'http://itougu.jrj.com.cn/activity/app/vipapp.jspa'
+                }
+                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
+                setTimeout(function() {
+                    if (!document.webkitHidden) {
+                        window.location.href = linkUrl
+                    }
+                }, 1500);
+            } else {
+                if (num === 1) {
+                    linkUrl = 'http://itougu.jrj.com.cn/activity/app/midblack.jspa#/midblackPayIntro'
+                } else if (num === 2) {
+                    linkUrl = 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay'
+                } else if (num === 3) {
+                    linkUrl = 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493'
+                } else if (num === 4) {
+                    linkUrl = 'http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421'
+                }
+                window.location.href = linkUrl
+            }
         }
     },
     mounted() {
@@ -378,7 +410,6 @@ export default {
         if (window.app.name !== '{{appid}}') {
             _this.appType = true
         }
-
     }
 }
 </script>
