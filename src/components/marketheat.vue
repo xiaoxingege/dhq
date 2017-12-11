@@ -193,6 +193,13 @@
     width: 100%;
     margin-bottom: 0.3rem;
 }
+.ziranAll .zirBot .zwsj {
+    height: 1.44rem;
+    line-height: 1.44rem;
+    font-size: 0.36rem;
+    color: #999999;
+    border-bottom: 0.01rem solid #cccccc;
+}
 .ziranAll {
     width: 100%;
     margin-top: 0.24rem;
@@ -211,6 +218,14 @@
     height: 0.68rem;
     top: 0;
     right: 0.18rem;
+}
+.ziranAll .zirTit .zirJt a {
+    width: 100%;
+    height: 0.68rem;
+    display: block;
+    background: url(http://i0.jrjimg.cn/appjrjv2016/zjlx_07.png) no-repeat right center;
+    background-size: 0.18rem 0.3rem;
+    float: right;
 }
 .ziranAll .zirTit .zirRed {
     border-bottom: 0.04rem solid #c0163a;
@@ -349,7 +364,7 @@ table {
 				<div class="ziranAll">
 						<div class="zirTit">
 								<div class="title zirRed">
-										自然涨停(<i id="zr_zt_total">6</i>)
+										自然涨停(<i id="yzb_zt_total">{{zrztNum}}</i>)
 								</div>
 								<div class="zirJt">
 										<a href="http://mapp.jrj.com.cn/stock/getWdjList?param=zr_zt">&nbsp;</a>
@@ -357,57 +372,65 @@ table {
 						</div>
 						<div class="zirBot">
 								<table cellpadding="0" cellspacing="0" border="0" width="100%" class="zirTab">
-										<tbody id="zr_zt"><tr><td class="bor" >
-											<div class="wzT wzTRed">*ST 中绒</div>
-											<div class="wzN wzTRed">000982</div>
-											<div class="wzN"><span>14:47:51</span>
-												<span class="wzTRed">涨停</span>
-											</div>
-										</td>
-										<td class="bor"><div class="wzT wzTRed">*ST一重</div>
-											<div class="wzN wzTRed">601106</div>
-											<div class="wzN"><span>13:56:46</span>
-												<span class="wzTRed">涨停</span>
-											</div>
-										</td>
-										<td class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600722&amp;name=金牛化工&quot;">
-											<div class="wzT wzTRed">金牛化工</div>
-											<div class="wzN wzTRed">600722</div>
-											<div class="wzN">
-												<span>13:42:50</span>
-												 <span class="wzTRed">涨停</span>
-											 </div>
-										 </td>
-									 </tr>
-									 <tr>
-										 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002323&amp;name=雅百特&quot;">
-											 <div class="wzT wzTRed">雅百特</div>
-											 <div class="wzN wzTRed">002323</div>
-											 <div class="wzN"><span>13:18:51</span>
-												 <span class="wzTRed">涨停</span>
-											 </div>
-										 </td>
-										 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600311&amp;name=荣华实业&quot;">
-											 <div class="wzT wzTRed">荣华实业</div>
-											 <div class="wzN wzTRed">600311</div>
-											 <div class="wzN"><span>10:02:59</span>
-												 <span class="wzTRed">涨停</span>
-											 </div></td><td class="" >
-												 <div class="wzT wzTRed">云南能投</div>
-												 <div class="wzN wzTRed">002053</div>
-												 <div class="wzN"><span>09:35:06</span>
+									 <tbody id="yzb_zt">
+										 <div v-if="zrztList.length===0" class="zirBot"><div class="zwsj">暂无数据</div></div>
+										 <tr v-if="zrztList.length>0">
+											 <td  v-if="zrztList.length>=1" class="bor" onclick="location.href='jrjapp://com.jrj.stock/stocks?code=000503&name=海虹控股'">
+												 <div class="wzT wzTRed">{{zrztList[0][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[0][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrztList[0][2]}}</span>
+													 <span class="wzTRed">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrztList.length>=2" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002913&amp;name=奥士康&quot;">
+												 <div class="wzT wzTRed">{{zrztList[1][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[1][0]}}</div>
+												 <div class="wzN"><span>{{zrztList[1][2]}}</span>
+													 <span class="wzTRed">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrztList.length>=3" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300727&amp;name=润禾材料&quot;">
+												 <div class="wzT wzTRed">{{zrztList[2][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[2][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrztList[2][2]}}</span>
 													 <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
 										 </tr>
-									 </tbody>
+										 <tr v-if="zrztList.length>=4">
+											 <td v-if="zrztList.length>=4" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
+												 <div class="wzT wzTRed">{{zrztList[3][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[3][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrztList[3][2]}}</span>
+													 <span class="wzTRed">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrztList.length>=5" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600725&amp;name=ST云维&quot;">
+												 <div class="wzT wzTRed">{{zrztList[4][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[4][0]}}</div>
+												 <div class="wzN"><span>{{zrztList[4][2]}}</span> <span class="wzTRed">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrztList.length>=6" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=603711&amp;name=香飘飘&quot;">
+												 <div class="wzT wzTRed">{{zrztList[5][1]}}</div>
+												 <div class="wzN wzTRed">{{zrztList[5][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrztList[5][2]}}</span>
+													 <span class="wzTRed">涨停</span>
+												 </div>
+											 </td>
+											 </tr>
+										 </tbody>
 								</table>
 						</div>
 				</div>
 
 				<div class="ziranAll">
 						<div class="zirTit">
-								<div class="title zirGreen">
+								<div class="title zirRed">
 										一字涨停(<i id="yzb_zt_total">{{yzztNum}}</i>)
 								</div>
 								<div class="zirJt">
@@ -419,48 +442,48 @@ table {
 									 <tbody id="yzb_zt">
 										 <div v-if="yzztList.length===0" class="zirBot"><div class="zwsj">暂无数据</div></div>
 										 <tr v-if="yzztList.length>0">
-											 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=000503&amp;name=海虹控股&quot;">
-												 <div class="wzT wzTGreen">海虹控股</div>
-												 <div class="wzN wzTRed">000503</div>
+											 <td  v-if="yzztList.length>=1" class="bor" onclick="location.href='jrjapp://com.jrj.stock/stocks?code=000503&name=海虹控股'">
+												 <div class="wzT wzTRed">{{yzztList[0][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[0][0]}}</div>
 												 <div class="wzN">
 													 <span>09:30:00</span>
 													 <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
-									 	 	 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002913&amp;name=奥士康&quot;">
-												 <div class="wzT wzTRed">奥士康</div>
-												 <div class="wzN wzTRed">002913</div>
+									 	 	 <td v-if="yzztList.length>=2" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002913&amp;name=奥士康&quot;">
+												 <div class="wzT wzTRed">{{yzztList[1][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[1][0]}}</div>
 												 <div class="wzN"><span>09:30:00</span>
 													 <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
-											 <td class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300727&amp;name=润禾材料&quot;">
-												 <div class="wzT wzTRed">润禾材料</div>
-												 <div class="wzN wzTRed">300727</div>
+											 <td v-if="yzztList.length>=3" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300727&amp;name=润禾材料&quot;">
+												 <div class="wzT wzTRed">{{yzztList[2][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[2][0]}}</div>
 												 <div class="wzN">
 													 <span>09:30:00</span>
 													 <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
 										 </tr>
-										 <tr v-if="yzztList.length>0">
-											 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
-												 <div class="wzT wzTRed">乐歌股份</div>
-												 <div class="wzN wzTRed">300729</div>
+										 <tr v-if="yzztList.length>=4">
+											 <td v-if="yzztList.length>=4" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
+												 <div class="wzT wzTRed">{{yzztList[3][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[3][0]}}</div>
 												 <div class="wzN">
 													 <span>09:30:00</span>
 													 <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
-											 <td class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600725&amp;name=ST云维&quot;">
-												 <div class="wzT wzTRed">ST云维</div>
-												 <div class="wzN wzTRed">600725</div>
+											 <td v-if="yzztList.length>=5" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600725&amp;name=ST云维&quot;">
+												 <div class="wzT wzTRed">{{yzztList[4][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[4][0]}}</div>
 												 <div class="wzN"><span>09:30:00</span> <span class="wzTRed">涨停</span>
 												 </div>
 											 </td>
-											 <td class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=603711&amp;name=香飘飘&quot;">
-												 <div class="wzT wzTRed">香飘飘</div>
-												 <div class="wzN wzTRed">603711</div>
+											 <td v-if="yzztList.length>=6" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=603711&amp;name=香飘飘&quot;">
+												 <div class="wzT wzTRed">{{yzztList[5][1]}}</div>
+												 <div class="wzN wzTRed">{{yzztList[5][0]}}</div>
 												 <div class="wzN">
 													 <span>09:30:00</span>
 													 <span class="wzTRed">涨停</span>
@@ -471,6 +494,141 @@ table {
 								</table>
 						</div>
 				</div>
+
+				<div class="ziranAll">
+						<div class="zirTit">
+								<div class="title zirGreen">
+										自然跌停(<i id="yzb_zt_total">{{zrdtNum}}</i>)
+								</div>
+								<div class="zirJt">
+										<a href="http://mapp.jrj.com.cn/stock/getWdjList?param=zr_dt">&nbsp;</a>
+								</div>
+						</div>
+						<div class="zirBot">
+								<table cellpadding="0" cellspacing="0" border="0" width="100%" class="zirTab">
+									 <tbody id="yzb_zt">
+										 <div v-if="zrdtList.length===0" class="zirBot"><div class="zwsj">暂无数据</div></div>
+										 <tr v-if="zrdtList.length>0">
+											 <td  v-if="zrdtList.length>=1" class="bor" onclick="location.href='jrjapp://com.jrj.stock/stocks?code=000503&name=海虹控股'">
+												 <div class="wzT wzTGreen">{{zrdtList[0][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[0][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrdtList[0][2]}}</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrdtList.length>=2" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002913&amp;name=奥士康&quot;">
+												 <div class="wzT wzTGreen">{{zrdtList[1][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[1][0]}}</div>
+												 <div class="wzN"><span>{{zrdtList[1][2]}}</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrdtList.length>=3" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300727&amp;name=润禾材料&quot;">
+												 <div class="wzT wzTGreen">{{zrdtList[2][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[2][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrdtList[2][2]}}</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+										 </tr>
+										 <tr v-if="zrdtList.length>=4">
+											 <td v-if="zrdtList.length>=4" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
+												 <div class="wzT wzTGreen">{{zrdtList[3][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[3][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrdtList[3][2]}}</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrdtList.length>=5" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600725&amp;name=ST云维&quot;">
+												 <div class="wzT wzTGreen">{{zrdtList[4][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[4][0]}}</div>
+												 <div class="wzN"><span>{{zrdtList[4][2]}}</span> <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="zrdtList.length>=6" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=603711&amp;name=香飘飘&quot;">
+												 <div class="wzT wzTGreen">{{zrdtList[5][1]}}</div>
+												 <div class="wzN wzTGreen">{{zrdtList[5][0]}}</div>
+												 <div class="wzN">
+													 <span>{{zrdtList[5][2]}}</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 </tr>
+										 </tbody>
+								</table>
+						</div>
+				</div>
+
+				<div class="ziranAll">
+						<div class="zirTit">
+								<div class="title zirGreen">
+										一字跌停(<i id="yzb_zt_total">{{yzdtNum}}</i>)
+								</div>
+								<div class="zirJt">
+										<a href="http://mapp.jrj.com.cn/stock/getWdjList?param=yzb_dt">&nbsp;</a>
+								</div>
+						</div>
+						<div class="zirBot">
+								<table cellpadding="0" cellspacing="0" border="0" width="100%" class="zirTab">
+									 <tbody id="yzb_zt">
+										 <div v-if="yzdtList.length===0" class="zirBot"><div class="zwsj">暂无数据</div></div>
+										 <tr v-if="yzdtList.length>0">
+											 <td  v-if="yzdtList.length>=1" class="bor" onclick="location.href='jrjapp://com.jrj.stock/stocks?code=000503&name=海虹控股'">
+												 <div class="wzT wzTGreen">{{yzdtList[0][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[0][0]}}</div>
+												 <div class="wzN">
+													 <span>09:30:00</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+									 	 	 <td v-if="yzdtList.length>=2" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=002913&amp;name=奥士康&quot;">
+												 <div class="wzT wzTGreen">{{yzdtList[1][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[1][0]}}</div>
+												 <div class="wzN"><span>09:30:00</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="yzdtList.length>=3" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300727&amp;name=润禾材料&quot;">
+												 <div class="wzT wzTGreen">{{yzdtList[2][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[2][0]}}</div>
+												 <div class="wzN">
+													 <span>09:30:00</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+										 </tr>
+										 <tr v-if="yzdtList.length>=4">
+											 <td v-if="yzdtList.length>=4" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=300729&amp;name=乐歌股份&quot;">
+												 <div class="wzT wzTGreen">{{yzdtList[3][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[3][0]}}</div>
+												 <div class="wzN">
+													 <span>09:30:00</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="yzdtList.length>=5" class="bor" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=600725&amp;name=ST云维&quot;">
+												 <div class="wzT wzTGreen">{{yzdtList[4][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[4][0]}}</div>
+												 <div class="wzN"><span>09:30:00</span> <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 <td v-if="yzdtList.length>=6" class="" onclick="location.href=&quot;jrjapp://com.jrj.stock/stocks?code=603711&amp;name=香飘飘&quot;">
+												 <div class="wzT wzTGreen">{{yzdtList[5][1]}}</div>
+												 <div class="wzN wzTGreen">{{yzdtList[5][0]}}</div>
+												 <div class="wzN">
+													 <span>09:30:00</span>
+													 <span class="wzTGreen">涨停</span>
+												 </div>
+											 </td>
+											 </tr>
+										 </tbody>
+								</table>
+						</div>
+				</div>
+
 		</div>
 
 
@@ -502,19 +660,44 @@ export default {
     document.title = '涨停追击'
   },
   mounted () {
-		this.getUpAndDown()
+		this.getZrztData()
+		this.getYzztData()
+		this.getZrdtData()
+		this.getYzdtData()
   },
   filters: {
 
   },
   methods: {
 		/*
-		 * 一字板涨跌停数据获取
+		* 自然涨停数据获取
+		*/
+		getZrztData (){
+			var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/zt_all.js';
+			$.ajax({
+				 url:url,
+				 type:'post',
+				 cache:false,
+				 dataType:'script',
+				scriptCharset: 'gbk',
+				 success:() => {
+					this.zrztNum=window.zr_zt.size
+					if (window.zr_zt.Data.length===0) {
+						this.zrztList=[];
+					}else{
+						this.zrztList=window.zr_zt.Data
+					}
+				 },
+				 error:function(){
+					 console.log('error');
+				 }
+			 })
+		},
+		/*
+		 * 一字板涨停数据获取
 		 */
-		 getUpAndDown (){
+		 getYzztData (){
 			 var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/yzbzt.js';
-			 // var col = 'wzTRed';
-			 // var param = '涨停';
 			 $.ajax({
          url:url,
          type:'post',
@@ -522,73 +705,75 @@ export default {
          dataType:'script',
 				 scriptCharset: 'gbk',
          success:() => {
-					 // console.log(window.yzb_zt)
-					 // console.log(window.yzb_zt.Data)
+					 console.log(window.yzb_zt.Data)
 					 this.yzztNum=window.yzb_zt.size
-					 // if (window.yzb_zt.Data.length===0) {
-						//  this.yzztList=[];
-					 // }else{
-						//  this.yzztList=window.yzb_zt.Data
-					 // }
-					 this.yzztList=[
-										    // [
-										    //     "002915",
-										    //     "中欣氟材",
-										    //     10.190,
-										    //     10.040
-										    // ],
-										    // [
-										    //     "300727",
-										    //     "润禾材料",
-										    //     23.400,
-										    //     10.010
-										    // ],
-										    // [
-										    //     "300729",
-										    //     "乐歌股份",
-										    //     30.780,
-										    //     10.010
-										    // ],
-										    // [
-										    //     "300730",
-										    //     "科创信息",
-										    //     13.240,
-										    //     9.970
-										    // ],
-										    // [
-										    //     "603711",
-										    //     "香飘飘",
-										    //     29.900,
-										    //     10.010
-										    // ],
-										    // [
-										    //     "603848",
-										    //     "好太太",
-										    //     15.130,
-										    //     10.040
-										    // ],
-										    // [
-										    //     "603917",
-										    //     "合力科技",
-										    //     24.780,
-										    //     9.990
-										    // ]
-										]
-
-										console.log(this.yzztList)
-					 // console.log(window.yzb_zt.size)
-					 // console.log(window.yzb_zt.Data)
-           // if ( window.yzb_dtForce ) {
-           //   this.limitList = window.yzb_dtForce.Data
-           //   console.log(this.limitList)
-           // }
+					 if (window.yzb_zt.Data.length===0) {
+						 this.yzztList=[];
+					 }else{
+						 this.yzztList=window.yzb_zt.Data
+					 }
          },
          error:function(){
            console.log('error');
          }
        })
 
-		 }
+		 },
+
+		 /*
+ 		 * 自然涨停数据获取
+ 		 */
+ 		 getZrdtData (){
+ 			 var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/dt_all.js';
+ 			 $.ajax({
+          url:url,
+          type:'post',
+          cache:false,
+          dataType:'script',
+ 				 scriptCharset: 'gbk',
+          success:() => {
+						console.log(window.zr_dt.Data)
+ 					 this.zrdtNum=window.zr_dt.size
+ 					 if (window.zr_dt.Data.length===0) {
+ 						 this.zrdtList=[];
+ 					 }else{
+ 						 this.zrdtList=window.zr_dt.Data
+ 					 }
+          },
+          error:function(){
+            console.log('error');
+          }
+        })
+
+ 		 },
+		 /*
+ 		 * 一字板跌停数据获取
+ 		 */
+ 		 getYzdtData (){
+ 			 var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/yzbdt.js';
+ 			 $.ajax({
+          url:url,
+          type:'post',
+          cache:false,
+          dataType:'script',
+ 				 scriptCharset: 'gbk',
+          success:() => {
+ 					 this.yzdtNum=window.yzb_dt.size
+ 					 if (window.yzb_dt.Data.length===0) {
+ 						 this.yzdtList=[];
+ 					 }else{
+ 						 this.yzdtList=window.yzb_dt.Data
+ 					 }
+          },
+          error:function(){
+            console.log('error');
+          }
+        })
+
+ 		 }
+
+
+
   }
 }
 </script>
