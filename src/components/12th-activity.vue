@@ -290,7 +290,6 @@ export default {
             if (window.app.name !== '{{appid}}') {
                 if (this.loginStatus === 'yes') {
                     $.ajax({
-                        type: 'get',
                         url: '/actm/listByUidAndProductId',
                         data: {
                             uid: this.ssoId,
