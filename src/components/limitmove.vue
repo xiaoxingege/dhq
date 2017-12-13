@@ -207,15 +207,15 @@
 <template>
 	<div class="limitmove">
     <div class="title-tab">
-      <div class="title-item active">
+      <div class="title-item" onclick="window.location.href='http://itougu.jrj.com.cn/h5/limitmove'">
         涨跌停强度
         <span></span>
       </div>
-      <div class="title-item">
+      <div class="title-item" onclick="window.location.href='http://itougu.jrj.com.cn/h5/yestoday'">
         昨板今均
         <span></span>
       </div>
-      <div class="title-item">
+      <div class="title-item active" onclick="window.location.href='http://itougu.jrj.com.cn/h5/marketheat?wendjFour=1'">
         市场热度
         <span></span>
       </div>
