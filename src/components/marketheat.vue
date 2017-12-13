@@ -347,7 +347,7 @@ table {
 							<img id="therm-top" src="http://i0.jrjimg.cn/stock/therm/glassTop.png">
 							<img id="therm-body-bg" src="http://i0.jrjimg.cn/stock/therm/glassBody.gif">
 							<img id="therm-body-mercury" :src="bgMercury" style="height:0.38rem; top: 5.06rem; overflow: hidden;">
-							<div id="therm-body-fore" style="background-size: 0.7rem 4.86rem"></div>
+							<div id="therm-body-fore" style="background-size: 0.7rem 4.92rem"></div>
 							<img id="therm-bottom" :src="bgBottom">
 							<div id="therm-tooltip" :class="tooltip" style="top: 4.64rem;">
 								<div class="tip-middle">涨停个股<br> <span :class="colorType">{{limitchange}}</span>家</div>
@@ -690,16 +690,11 @@ export default {
     document.title = '涨停追击'
   },
   mounted () {
-
 		// zt dt z5 d5
-
-		// this.animateThermometer('dt')
-		// this.animateThermometer('z5')
-		// this.animateThermometer('d5')
+		this.animateThermometer('zt');
 		this.getmarketData()
 		this.load()
 		//	setInterval(this.load(),30*1000);
-		this.animateThermometer('zt');
 
 		// var a=this.wendjFour? this.wendjFour :1
 		// if(a === 1){
@@ -852,7 +847,7 @@ export default {
              }
 						 switch (goalAmount){
                  case 300:
-                     $('#therm-body-fore').css('background-size','0.7rem 4.86rem');
+                     $('#therm-body-fore').css('background-size','0.7rem 4.92rem');
                      $('.pos0').text(300);
                      $('.pos1').css('top', '1.76rem').text(250);
                      $('.pos2').css('top', '2.56rem').text(200);
@@ -862,7 +857,7 @@ export default {
                      $('.pos6').show();
                      break;
                  case  500:
-                     $('#therm-body-fore').css('background-size','0.7rem 5.72rem');
+                     $('#therm-body-fore').css('background-size','0.7rem 5.78rem');
                      $('.pos0').text(500);
                      $('.pos1').css('top', '1.92rem').text(400);
                      $('.pos2').css('top', '2.88rem').text(300);
