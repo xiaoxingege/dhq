@@ -24,8 +24,8 @@
       <td>涨跌幅</td>
     </tr>
     <tr v-for="item of positionList">
-      <td style="color:#666;cursor: pointer;" @click='linkStock(item.id)'>{{formatData(item.innerCode)?'--':item.innerCode}}</td>
-      <td style="color:#1984ea;cursor: pointer;" @click='linkStock(item.id)'>{{formatData(item.name)?'--':item.name}}</td>
+      <td style="color:#666;cursor: pointer;" @click='linkStock(item.innerCode)'>{{formatData(item.innerCode)?'--':item.innerCode}}</td>
+      <td style="color:#1984ea;cursor: pointer;" @click='linkStock(item.innerCode)'>{{formatData(item.name)?'--':item.name}}</td>
       <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.curChngPct">
         {{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}
