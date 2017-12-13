@@ -150,6 +150,9 @@
     background: url(http://i0.jrjimg.cn/stock/therm/therm-tooltip3.png)no-repeat;
     background-size: 1.5rem 0.8rem;
 }
+#therm-tooltip .tip-middle{
+	padding-left: 0.05rem;
+}
 #therm-type {
     position: absolute;
     right: 25%;
@@ -350,7 +353,8 @@ table {
 							<div id="therm-body-fore" style="background-size: 0.7rem 4.92rem"></div>
 							<img id="therm-bottom" :src="bgBottom">
 							<div id="therm-tooltip" :class="tooltip" style="top: 4.64rem;">
-								<div class="tip-middle">涨停个股<br> <span :class="colorType">{{limitchange}}</span>家</div>
+								<div class="tip-middle" v-html="tooltipText">
+								</div>
 							</div>
 						</div>
 						<div id="therm-type">
@@ -670,7 +674,7 @@ export default {
 			stopNum:0,
 			limitchange:0,
 			tooltip:'therm-tooltip',
-			colorType:'red',
+			tooltipText:'',
 			bgMercury:'http://i0.jrjimg.cn/stock/therm/redVertical.png',
 			bgBottom:'http://i0.jrjimg.cn/stock/therm/glassBottom.gif',
 			zrztNum:0,
@@ -756,8 +760,8 @@ export default {
 									 	this.limitchange=window.market.limitUp
 										// 更改提示框颜色
 										this.tooltip='therm-tooltip'
-										// 更改提示框文字颜色
-										this.colorType='red'
+										// 更改提示框文字
+										this.tooltipText='涨停个股<br><span class="red">'+window.market.limitUp+'</span>家'
 
 										// 更改温度计中部背景图片
 			 						 	this.bgMercury='http://i0.jrjimg.cn/stock/therm/redVertical.png'
@@ -777,8 +781,8 @@ export default {
 										this.limitchange=window.market.limitDown
 										// 更改提示框颜色
 										this.tooltip='therm-tooltip1'
-										// 更改提示框文字颜色
-										this.colorType='green'
+										// 更改提示框文字
+										this.tooltipText='跌停个股<br><span class="green">'+window.market.limitDown+'</span>家'
 
 										// 更改温度计中部背景图片
 										this.bgMercury='http://i0.jrjimg.cn/stock/therm/redVertical1.png'
@@ -798,8 +802,8 @@ export default {
 										this.limitchange=window.market.up5
 										// 更改提示框颜色
 										this.tooltip='therm-tooltip2'
-										// 更改提示框文字颜色
-										this.colorType='red'
+										// 更改提示框文字
+										this.tooltipText='上涨≥5%<br>个股<span class="red">'+window.market.up5+'</span>家'
 
 										// 更改温度计中部背景图片
 										this.bgMercury='http://i0.jrjimg.cn/stock/therm/redVertical2.png'
@@ -817,8 +821,8 @@ export default {
 										this.limitchange=window.market.down5
 										// 更改提示框颜色
 										this.tooltip='therm-tooltip3'
-										// 更改提示框文字颜色
-										this.colorType='green'
+										// 更改提示框文字
+										this.tooltipText='下跌≤5%<br>个股<span class="green">'+window.market.up5+'</span>家'
 
 										// 更改温度计中部背景图片
 										this.bgMercury='http://i0.jrjimg.cn/stock/therm/redVertical3.png'
