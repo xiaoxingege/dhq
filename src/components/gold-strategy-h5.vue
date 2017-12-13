@@ -76,7 +76,6 @@
         height: 0.5rem;
         line-height: 0.5rem;
         width: 25%;
-        font-size: 0.3rem;
         border-bottom: 0.01rem solid #EDEDED;
     }
 
@@ -144,6 +143,44 @@
         color: #888;
         padding: 0.4rem 0.3rem;
         text-align: justify;
+    }
+
+    .dqcc {
+        padding-top: 10px;
+    }
+
+    .dqcc table {
+        width: 100%;
+    }
+
+    .dqcc table tbody ul,
+    .dqcc table thead ul {
+        width: 100%;
+    }
+
+    .dqcc table tbody ul li,
+    .dqcc table thead ul li {
+        float: left;
+        width: 20%;
+        text-align: center;
+        height: 1rem;
+        line-height: 1rem;
+        border-bottom: 1px solid #EDEDED;
+    }
+
+    .dqcc table thead ul li {
+        height: 0.8rem;
+        line-height: 0.4rem;
+        color: #888;
+        border-bottom: none;
+        background: #F5F5F5;
+    }
+    .dqcc table tbody ul li:first-child p {
+        line-height: 0.5rem;
+        text-align: center;
+    }
+    .dqcc table tbody ul li:first-child p:last-child {
+        color: rgb(136, 136, 136);
     }
 }
 </style>
@@ -237,7 +274,8 @@
     <div style="width:100% " class="goldH5">
       <div class="mrmcSignal-header clearfix">
         <div class="fl">
-          <span ref="mrxh" class="active" @click="changeMrxhType($event)" style="margin-right: 0.5rem;">今日调入信号</span>
+          <span ref="dqcc" class="active" @click="changeDqccType($event)" style="margin-right: 0.5rem;">当前持仓</span>
+          <span ref="mrxh" @click="changeMrxhType($event)" style="margin-right: 0.5rem;">今日调入信号</span>
           <span ref="mcxh" @click="changeMcxhType($event)">今日调出信号</span>
         </div>
         <div class="fr" style="color:#888;" v-if="mrxhData !== null && mrxhData.content !== null && mrxhData.content.length !== 0 && type==='mrxh'">
@@ -245,6 +283,36 @@
         <div class="fr" style="color:#888;" v-if="mcxhData !== null && mcxhData.content !== null && mcxhData.content.length !== 0 && type==='mcxh'">
           信号日期：<span>{{String(mcxhData.content[0].tradeDate).substring(0,4)+'.'+String(mcxhData.content[0].tradeDate).substring(4,6)+'.'+String(mcxhData.content[0].tradeDate).substring(6)}}</span>
         </div>
+      </div>
+      <div v-if="type === 'dqcc'" class="dqcc">
+        <span v-if="dqccData === null || dqccData === '' || dqccData.length === 0" style="width: 100%; text-align:center; display: inline-block; line-height: 50px; font-size:0.16rem;">当前无持仓股票</span>
+        <table v-if="dqccData !== null &&  dqccData.length !== 0" cellpadding="0" cellspacing="0">
+          <thead>
+            <!--<div>-->
+            <ul class="clearfix">
+              <li>股票代码</li>
+              <li>参考成本(元)</li>
+              <li>参考市价(元)</li>
+              <li>参考盈亏(元)</li>
+              <li>盈亏比例</li>
+            </ul>
+            <!--</div>-->
+          </thead>
+          <tbody>
+            <!-- <div style="height:467px; width:100%; overflow-y: scroll">-->
+            <ul v-if="dqccData!== null" v-for="(item,index) of dqccData">
+              <li>
+                <p>{{item.name}}</p>
+                <p>{{item.innerCode}}</p>
+              </li>
+              <li>{{item.costPrice | decimal(2)}}</li>
+              <li>{{item.marketPrice | decimal(2)}}</li>
+              <li v-z3-updowncolor="item.profitLossAmout">{{item.profitLossAmout | decimal(2)}}</li>
+              <li v-z3-updowncolor="item.profitLossRatio">{{(item.profitLossRatio*100) | decimal(2)}}%</li>
+            </ul>
+            <!-- </div>-->
+          </tbody>
+        </table>
       </div>
       <div v-if="type === 'mrxh'" class="mrxh">
         <span v-if="mrxhData === null || mrxhData === '' || mrxhData.content.length === 0" style="width: 100%; text-align:center; display: inline-block; line-height: 50px; font-size:0.16rem;">今日无交易信号</span>
@@ -262,7 +330,7 @@
               <td>
                 <p style="text-align: left; height:0.5rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem;">
                   {{item.name}}</p>
-                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;">
+                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.3rem;">
                   {{item.innerCode}}</p>
               </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
@@ -292,7 +360,7 @@
               <td>
                 <p style="text-align: left; height:0.5rem; line-height: 0.35rem; padding-top: 0.1rem; padding-left: 0.4rem; box-sizing: border-box">
                   {{item.name}}</p>
-                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.4rem;" box-sizing: border-box>{{item.innerCode}}</p>
+                <p style="font-size:0.24rem; color:#888; text-align: left; height:0.35rem; line-height: 0.35rem; padding-bottom: 0.1rem; padding-left: 0.3rem;" box-sizing: border-box>{{item.innerCode}}</p>
               </td>
               <td v-z3-updowncolor="item.px">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
@@ -363,7 +431,7 @@ export default {
         ['仓控策略', 'controlStrategy'],
         ['交易参数', 'tradeParams']
       ],
-      type: 'mrxh'
+      type: 'dqcc'
     }
   },
   components: {
@@ -664,6 +732,17 @@ export default {
     mcxhData: function() {
       return this.$store.state.goldStrategy.mcxhData
     },
+    dqccData: function() {
+      let data = this.$store.state.goldStrategy.dqccData
+      if (data && data.length > 10) {
+        const dataArr = []
+        for (let i = 0; i < 10; i++) {
+          dataArr.push(data[i])
+        }
+        return dataArr
+      }
+      return this.$store.state.goldStrategy.dqccData
+    },
     error: state => state.error,
     capitalCapacity: function() {
       let cValue = (Number(this.goldResult.evaluationIndexs.capitalCapacity) / 10000).toFixed(0)
@@ -710,12 +789,20 @@ export default {
     changeMrxhType(e) {
       e.target.setAttribute('class', 'active')
       this.$refs.mcxh.removeAttribute('class', 'active')
+      this.$refs.dqcc.removeAttribute('class', 'active')
       this.type = 'mrxh'
     },
     changeMcxhType(e) {
       e.target.setAttribute('class', 'active')
       this.$refs.mrxh.removeAttribute('class', 'active')
+      this.$refs.dqcc.removeAttribute('class', 'active')
       this.type = 'mcxh'
+    },
+    changeDqccType(e) {
+      e.target.setAttribute('class', 'active')
+      this.$refs.mrxh.removeAttribute('class', 'active')
+      this.$refs.mcxh.removeAttribute('class', 'active')
+      this.type = 'dqcc'
     }
   },
   mounted() {
@@ -736,6 +823,9 @@ export default {
     this.$store.dispatch('goldStrategy/getMrxhData', {
       strategyId: this.strategyId,
       type: 'sell'
+    })
+    this.$store.dispatch('goldStrategy/getDqccData', {
+      strategyId: this.strategyId
     })
   }
 }

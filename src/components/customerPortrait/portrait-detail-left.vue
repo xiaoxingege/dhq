@@ -236,26 +236,26 @@
         <div class="fr" style="position: relative">
           <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
           <span class="monthTag fr" @click="showTime"></span>
-          <div class="timeBox">
+          <div v-show="isShowCalendar" class="timeBox">
             <div class="ymdDate">
-              <span @click="changeYear('minus')" :style="{display:currentY === currentC ? 'block':'none'}"><img
+              <span @click="changeYear('minus')" :style="{display:currentY === defaultY ? 'block':'none'}"><img
                       src="../../assets/images/z3img/leftArrow.png"></span>
-              <span>{{currentY}}</span>
-              <span @click="changeYear('add')" :style="{display:currentY === currentC ? 'none':'block'}"><img
+              <span ref="showYear" :value="currentY">{{currentY}}</span>
+              <span @click="changeYear('add')" :style="{display:currentY === defaultY ? 'none':'block'}"><img
                       src="../../assets/images/z3img/rightArrow.png"></span>
             </div>
             <div class="monthBox">
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC) ? 'gray':'')]" v-for="item in 4">
+                <div @click="selectMonth($event)" :class="[((currentM === item && currentY === selectY) ? 'active':''),(((item < defaultM && currentY !== defaultY) || (item > defaultM && currentY === defaultY)) ? 'gray':'')]" v-for="item in 4" :value="item">
                   {{item}}月
                 </div>
               </div>
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC )? 'gray':'')]" v-for="item in [5,6,7,8]">{{item}}月
+                <div @click="selectMonth($event)" :class="[((currentM === item && currentY === selectY) ? 'active':''),(((item < defaultM && currentY !== defaultY ) || (item > defaultM && currentY === defaultY)) ? 'gray':'')]" v-for="item in [5,6,7,8]" :value="item">{{item}}月
                 </div>
               </div>
               <div class="month clearfix">
-                <div :class="[(currentM === item ? 'active':''),((item < currentM && currentY !== currentC)? 'gray':'')]" v-for="item in [9,10,11,12]">{{item}}月
+                <div @click="selectMonth($event)" :class="[((currentM === item && currentY === selectY) ? 'active':''),(((item < defaultM && currentY !== defaultY) || (item > defaultM && currentY === defaultY)) ? 'gray':'')]" v-for="item in [9,10,11,12]" :value="item">{{item}}月
                 </div>
               </div>
             </div>
@@ -314,11 +314,14 @@ import Z3Star from 'components/z3star'
 export default {
   data() {
     return {
-      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
-      message: 'hello',
       currentY: '',
-      currentC: '',
-      currentM: ''
+      defaultY: '',
+      currentM: '',
+      defaultM: '',
+      isThisYear: true,
+      selectY: '',
+      dateTime: '',
+      isShowCalendar: false
     }
   },
   computed: {
@@ -334,6 +337,9 @@ export default {
     },
     customerPosition: function() {
       return this.$store.state.customerList.customerPosition
+    },
+    customerAttention: function() {
+      return this.$store.state.customerAttention
     }
 
   },
@@ -343,32 +349,60 @@ export default {
   },
   methods: {
     setAttention: function(val) {
-      this.customerInfo && (this.customerInfo.attention = val);
+      this.$store.dispatch('customerList/setAttention', {
+        star: val
+      }).then(() => {
+        if (this.customerAttention.errCode === 0) {
+          this.customerInfo.attention = val
+        }
+      })
+      // this.customerInfo && (this.customerInfo.attention = val);
+    },
+    showTime: function() {
+      this.isShowCalendar = !this.isShowCalendar
+
     },
     getCurrentTime: function() {
       const date = new Date();
       this.currentY = date.getFullYear()
-      this.currentC = date.getFullYear()
+      this.defaultY = date.getFullYear()
+      this.selectY = date.getFullYear()
       this.currentM = date.getMonth() + 1
-      console.log(this.currentY)
-      console.log(this.currentM)
-
+      this.defaultM = date.getMonth() + 1
+      this.dateTime = '' + this.currentY + this.currentM
+      console.log(this.dateTime)
     },
     changeYear: function(type) {
       if (type === 'add') {
         this.currentY = this.currentY + 1
+        this.isThisYear = true
       } else if (type === 'minus') {
+        this.isThisYear = false
         this.currentY = this.currentY - 1
       }
-
+    },
+    selectMonth(e) {
+      if (e.target.getAttribute('class') === 'gray') {
+        return
+      }
+      if (this.currentY !== this.defaultY) {
+        this.isThisYear = false
+      }
+      this.currentM = Number(e.target.getAttribute('value'))
+      this.selectY = Number(this.$refs.showYear.innerText)
+      this.$store.dispatch('customerList/getCustomerTag', {
+        dateTime: '' + this.selectY + (String(this.currentM).length > 1 ? this.currentM : '0' + this.currentM)
+      })
     }
   },
   mounted() {
+    this.getCurrentTime()
     this.$store.dispatch('customerList/getCustomerInfo')
-    this.$store.dispatch('customerList/getCustomerTag')
+    this.$store.dispatch('customerList/getCustomerTag', {
+      dateTime: this.dateTime
+    })
     this.$store.dispatch('customerList/getAnalyAbility')
     this.$store.dispatch('customerList/getPositonCommand')
-    this.getCurrentTime()
   }
 }
 </script>
