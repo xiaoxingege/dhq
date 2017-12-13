@@ -320,7 +320,7 @@ table {
         昨板今均
         <span></span>
       </div>
-      <div class="title-item active" onclick="window.location.href='http://itougu.jrj.com.cn/h5/marketheat?wendjFour=1'">
+      <div class="title-item active" onclick="window.location.href='http://itougu.jrj.com.cn/h5/marketheat'">
         市场热度
         <span></span>
       </div>
@@ -700,6 +700,7 @@ export default {
 		this.load()
 		//	setInterval(this.load(),30*1000);
 		this.animateThermometer('zt');
+
 		// var a=this.wendjFour? this.wendjFour :1
 		// if(a === 1){
     //     this.animateThermometer('zt');
