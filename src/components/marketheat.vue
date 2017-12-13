@@ -660,10 +660,10 @@ export default {
   data () {
     return {
 			wendjFour:this.getQueryString('wendjFour'),
-			activeColor:'#d7281e',
-			activeColor1:'#2fab32',
-			activeColor2:'#ff6969',
-			activeColor3:'#ccf264',
+			activeColor:'#f7f7f7',
+			activeColor1:'#f7f7f7',
+			activeColor2:'#f7f7f7',
+			activeColor3:'#f7f7f7',
 			topHint:'目前涨停',
 			time:'',
 			totalNum:0,
@@ -740,13 +740,15 @@ export default {
 						 this.totalNum=window.market.total
 						 // 设置停牌家数
 						 this.stopNum=window.market.stop
+						 // 清除tab边框颜色
+						 this.activeColor='#f7f7f7'
+						 this.activeColor1='#f7f7f7'
+						 this.activeColor2='#f7f7f7'
+						 this.activeColor3='#f7f7f7'
 						 switch (type){
 							 // 设置涨停数据
 							 case 'zt':
 										// 设置tab边框颜色
-										this.activeColor1='#f7f7f7'
-										this.activeColor2='#f7f7f7'
-										this.activeColor3='#f7f7f7'
 							 			this.activeColor='#d7281e'
 										// 设置顶部提示文字
 										this.topHint='目前涨停'
@@ -768,9 +770,6 @@ export default {
 								// 设置跌停数据
 								case 'dt':
 										// 设置tab边框颜色
-										this.activeColor='#f7f7f7'
-										this.activeColor2='#f7f7f7'
-										this.activeColor3='#f7f7f7'
 							 			this.activeColor1='#2fab32'
 										// 设置顶部提示文字
 										this.topHint='目前跌停'
@@ -792,9 +791,6 @@ export default {
 								// 设置上涨>=5%的数据
 								case 'z5':
 										// 设置tab边框颜色
-										this.activeColor='#f7f7f7'
-										this.activeColor1='#f7f7f7'
-										this.activeColor3='#f7f7f7'
 							 			this.activeColor2='#ff6969'
 										// 设置顶部提示文字
 										this.topHint='涨幅5%以上的'
@@ -814,9 +810,6 @@ export default {
 								// 设置上涨<=5%的数据
 								case 'd5':
 										// 设置tab边框颜色
-										this.activeColor='#f7f7f7'
-										this.activeColor1='#f7f7f7'
-										this.activeColor2='#f7f7f7'
 							 			this.activeColor3='#ccf264'
 										// 设置顶部提示文字
 										this.topHint='跌幅5%以上的'
