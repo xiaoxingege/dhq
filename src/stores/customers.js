@@ -10,16 +10,27 @@ import {
   domain
 } from '../z3tougu/config'
 
-
+const PAGE_SIZE = 10
 export default {
   namespaced: true,
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
-    customersList: [],
-    customersFuzzy: [], // 模糊
+    customersList: {
+      total: 0,
+      code: 0,
+      datas: []
+    }, // paixu
+    customersFuzzy: {
+      total: 0,
+      code: 0,
+      datas: []
+    }, // 模糊
     customerInfo: {},
     customerTag: {},
     customerAnaly: {},
+    pagesize: PAGE_SIZE,
+    page: 1,
+    total: 0,
     customerPosition: {},
     customerAttention: {}
   },
@@ -43,6 +54,15 @@ export default {
     updatePositonCommand(state, data) {
       state.customerPosition = data
     },
+    updatePage(state, options) {
+      console.log(options.totalPages)
+      state.pagesize = options.pageSize || PAGE_SIZE
+      state.page = options.page || 1
+      /* var total = Math.ceil(options.totalPages/state.pagesize) */
+      console.log(state.page)
+      console.log(state.pagesize)
+      state.total = options.totalPages
+    },
     updateAttention(state, data) {
       state.customerAttention = data
     }
@@ -52,11 +72,17 @@ export default {
     queryCustomers({
       commit
     }, {
-      sortField
-
+      sortField,
+      phone,
+      name,
+      acct,
+      page,
+      pagesize
     }) {
-
-      return fetch(`${domain}/openapi/personas/JRJ2001803730/customers?sort=${sortField}`, {
+      page = page || 0
+      pagesize = pagesize || PAGE_SIZE
+      // pagesize 是第几页， pageNum 是每页显示的个数
+      return fetch(`${domain}/openapi/personas/JRJ2001803730/customers?sort=${sortField}&phone=${phone}&name=${name}&acct=${acct}&pageSize=${page}&pageNum=${pagesize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -64,6 +90,9 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
           commit('updateCustomersList', result.data)
+          commit('updatePage', {
+            totalPages: result.data.total
+          })
           // console.log(result.data)
         } else {
           commit('ERROR', result, {
@@ -75,10 +104,10 @@ export default {
     queryCustomersFuzzy({
       commit
     }, {
-      type,
+      field,
       paramValue
     }) {
-      return fetch(`${domain}/openapi/personas/JRJ2001803730/customers?type=${type}&param=${paramValue}`, {
+      return fetch(`${domain}/openapi/personas/JRJ2001803730/tips?field=${field}&value=${paramValue}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
