@@ -435,13 +435,12 @@ export default {
           strategyId: this.strategyId
         })
         .then(() => {
+          this.chart.showLoading(config.loadingConfig)
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, pointData, seriesData) {
-      const self = this
-      self.chart.showLoading(config.loadingConfig)
-      self.chart.setOption({
+      this.chart.setOption({
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -560,7 +559,7 @@ export default {
           }
         ]
       })
-      self.chart.hideLoading()
+      this.chart.hideLoading()
     },
     autoUpdate: function() {
       const _this = this
