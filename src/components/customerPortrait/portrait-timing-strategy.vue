@@ -203,6 +203,7 @@
 </template>
 <script type="text/javascript">
 import echarts from 'echarts'
+import config from '../../z3tougu/config'
 export default {
   data() {
     return {
@@ -439,6 +440,7 @@ export default {
     },
     drawCharts(name, kLineXdata, kLineYdata, pointData, seriesData) {
       const self = this
+      self.chart.showLoading(config.loadingConfig)
       self.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -558,6 +560,7 @@ export default {
           }
         ]
       })
+      self.chart.hideLoading()
     },
     autoUpdate: function() {
       const _this = this
