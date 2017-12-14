@@ -169,6 +169,7 @@
     height: 80%;
 }
 
+.customInfo .help,
 .posAdvice .help {
     width: 13px;
     position: relative;
@@ -177,9 +178,11 @@
     cursor: pointer;
 }
 
+.customInfo .help i,
 .posAdvice .help i {
     display: none;
 }
+.customInfo .help:hover i,
 .posAdvice .help:hover i {
     display: inline-block;
     position: absolute;
@@ -202,7 +205,8 @@
         <td>资金账号</td>
         <td v-if="customerInfo!==null">{{customerInfo.userid | isNull}}</td>
         <td>本户持仓比</td>
-        <td v-if="customerInfo!==null">{{customerInfo.position_radio_ofall | isNull}}</td>
+        <td v-if="customerInfo!==null">{{customerInfo.position_radio_ofall | isNull}}<span class="help"><img
+                  src="../../assets/images/help.png"><i>依据新股申购额估算的客户在本账户资金与全部股票账户资金的比值。</i></span></td>
         <td>交易次数</td>
         <td v-if="customerInfo!==null">{{customerInfo.trade_nums | isNull}} (近3月)</td>
       </tr>
