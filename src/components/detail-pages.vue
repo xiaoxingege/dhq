@@ -174,7 +174,7 @@ html {
       <span>发布时间：{{reportDate}}</span>
     </div>
     <div class="newMain" v-html="reformatReportContent"></div>
-    <p class="reportDownload">
+    <p v-show="false" class="reportDownload">
       阅读附件全文请下载：
       <a ref="downReport" :id=result.resId href="">{{result.title}}</a>
       <span class="notice" v-if="!this.$store.state.zhikuanDetailPages.isReportCanDown">该研报暂不提供下载</span>

@@ -83,15 +83,18 @@ i {
 </style>
 <template>
 <div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
-  <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" class="k-line-box" target="_blank">
+  <a class="k-line-box" @click='linkDetail(strategyId)'>
     <div class="kcharts" ref="kcharts"></div>
-  </router-link>
+  </a>
 </div>
 </template>
 <script>
 import {
   mapState
 } from 'vuex'
+import {
+  ctx
+} from '../z3tougu/config'
 import echarts from 'echarts'
 export default {
   data() {
@@ -293,7 +296,7 @@ export default {
         const timestampResize = new Date().getTime()
         _this.$emit('isResize', timestampResize)
         _this.chart.resize({
-          width: (window.innerWidth - 5) * 0.3334,
+          width: (window.innerWidth - 1) * 0.3334,
           height: (window.innerHeight - 5) * 0.83
         })
       }
@@ -496,6 +499,9 @@ export default {
 
         ]
       })
+    },
+    linkDetail: function(id) {
+      window.open(ctx + '/backtesttime/' + id)
     }
   },
   mounted() {

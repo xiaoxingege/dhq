@@ -28,10 +28,11 @@ export default {
     customerInfo: {},
     customerTag: {},
     customerAnaly: {},
-    customerPosition: {},
     pagesize: PAGE_SIZE,
     page: 1,
-    total: 0
+    total: 0,
+    customerPosition: {},
+    customerAttention: {}
   },
   mutations: {
     updateCustomersList(state, customers) {
@@ -61,6 +62,9 @@ export default {
       console.log(state.page)
       console.log(state.pagesize)
       state.total = options.totalPages
+    },
+    updateAttention(state, data) {
+      state.customerAttention = data
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -134,8 +138,10 @@ export default {
     },
     getCustomerTag({
       commit
+    }, {
+      dateTime
     }) {
-      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/win_100036?dateTime=201711`, {
+      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/win_100036?dateTime=${dateTime}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -169,6 +175,21 @@ export default {
         if (result.errCode === 0) {
           commit('updatePositonCommand', result.data)
         }
+      })
+    },
+    setAttention({
+      commit
+    }, {
+      star
+    }) {
+      const timestamp = Date.parse(new Date())
+      return fetch(`${domain}/openapi/personas/stars/JRJ2001803730/win_100036?star=${star}&time=${timestamp}`, {
+        method: 'PUT',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        commit('updateAttention', result.data)
       })
     }
   }

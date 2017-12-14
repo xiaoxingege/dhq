@@ -617,6 +617,12 @@ export default {
       var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
       var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
       var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+      if (day1 < 0) {
+        day1 = '00';
+        hour = '00';
+        minute = '00';
+        second = '00';
+      }
       document.getElementById('text-day').innerHTML = pad(day1, 2)
       document.getElementById('text-hour').innerHTML = pad(hour, 2)
       document.getElementById('text-min').innerHTML = pad(minute, 2)
@@ -635,12 +641,12 @@ export default {
     }
 
 
-    if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 20:00:00')) {
+    if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-11 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-19 20:00:00')) {
       window.setInterval(function() {
         ShowCountDown(2017, 11, 17, 20, 0, 0, 'divdown1')
 
       }, 1000)
-    } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 20:00:00')) {
+    } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-17 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-26 20:00:00')) {
       window.setInterval(function() {
         ShowCountDown(2017, 11, 24, 20, 0, 0, 'divdown1')
 

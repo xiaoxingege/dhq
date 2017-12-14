@@ -26,7 +26,7 @@ export default {
     hotTopic: [],
     preferredIndustryData: [],
     preferredTopicData: [],
-    preferredStategyData: [],
+    preferredStrategyData: [],
     preferredSignalData: [],
     preferredGoldData: [],
     preferredFilterData: [],
@@ -251,9 +251,17 @@ export default {
     getIncomeList({
       commit
     }, {
-      strategyId
+      strategyId,
+      startDate,
+      endDate
     }) {
-      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`
+      if (!startDate) {
+        startDate = ''
+      }
+      if (!endDate) {
+        endDate = ''
+      }
+      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {

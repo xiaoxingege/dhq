@@ -18,25 +18,25 @@ export default {
     beanNum: 0
   },
   mutations: {
-    fetch (state, data) {
+    fetch(state, data) {
       state.ssoId = data.ssoId
       state.spToken = data.spToken
     },
-    setLoginStatus (state, loginStatus) {
+    setLoginStatus(state, loginStatus) {
       state.loginStatus = loginStatus
     },
-    setBindingInfo (state, bindingInfo) {
+    setBindingInfo(state, bindingInfo) {
       state.riskAssessed = !!bindingInfo.riskAssessed
       state.bindingMobile = !!bindingInfo.bindingMobile
       state.bindingIdentity = !!bindingInfo.bindingIdentity
     },
-    setBeanNum (state, num) {
+    setBeanNum(state, num) {
       state.beanNum = num
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    fetch ({
+    fetch({
       commit
     }, options) {
       options = options || {}
@@ -45,7 +45,7 @@ export default {
         spToken: window.spToken
       })
     },
-    checkLogin ({
+    checkLogin({
       commit
     }) {
       const promise = new Promise((resolve, reject) => {
@@ -63,7 +63,7 @@ export default {
           resolve()
         } else {
           const script = document.createElement('script')
-          script.addEventListener('load', function () {
+          script.addEventListener('load', function() {
             if (window.basicUserInfo) {
               commit('fetch', {
                 ssoId: window.basicUserInfo.userId
@@ -77,7 +77,7 @@ export default {
             document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
           })
-          script.addEventListener('error', function () {
+          script.addEventListener('error', function() {
             document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
           })
@@ -87,20 +87,20 @@ export default {
       })
       return promise
     },
-    checkBindingInfo ({
+    checkBindingInfo({
       commit,
       state
     }) {
       return $.ajax({
         url: 'http://itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
         headers: {
-          passportId: state.ssoId || '170907010029048531'
+          passportId: state.ssoId
         }
       }).then(data => {
         commit('setBindingInfo', data.data)
       })
     },
-    getBeanNum ({
+    getBeanNum({
       commit,
       state
     }) {

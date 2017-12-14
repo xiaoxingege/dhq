@@ -66,6 +66,10 @@ select {
     cursor: pointer;
 }
 
+.nextPage > a,
+.previousPage > a {
+    color: #fff;
+}
 .active {
     background: #0088E1;
     color: #fff;
@@ -129,7 +133,7 @@ select {
 </style>
 <template>
 <div class="page clearfix">
-  <span class="previousPage" @click="previousPage($event)">上一页</span>
+  <span class="previousPage" @click="previousPage($event)"><a href="#">上一页</a></span>
   <div v-if="false">
     <ul class="pages clearfix" v-if="totalPage<=5">
       <li @click="getCurrentPage($event)" v-for="page in totalPage" :class="currentPage === page ? 'active' : ''">{{page}}
@@ -189,7 +193,7 @@ select {
       </li>
     </ul>
   </div>
-  <span class="nextPage" @click="nextPage($event)">下一页</span>
+  <span class="nextPage" @click="nextPage($event)"><a href="#">下一页</a></span>
   <span v-if="false" class="totals">共{{totalPage}}页</span>
   <select @change="getCurrentSelectPage($event)" v-model="currentPage">
             <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>

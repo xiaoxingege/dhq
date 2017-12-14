@@ -75,7 +75,7 @@ a {
 
 .dqcc table tbody {
     display: block;
-    height: 467px;
+    height: 430px;
     overflow: auto;
 }
 .export {
@@ -159,7 +159,7 @@ a {
             <li>{{item.costPrice | decimal(2)}}</li>
             <li>{{item.marketPrice | decimal(2)}}</li>
             <li>{{item.holdVolume}}</li>
-            <li>{{item.marketValue | decimal(2)}}</li>
+            <li>{{item.marketValue/10000 | decimal(2)}}</li>
             <li v-z3-updowncolor="item.profitLossAmout">{{item.profitLossAmout | decimal(2)}}</li>
             <li v-z3-updowncolor="item.profitLossRatio">{{(item.profitLossRatio*100) | decimal(2)}}%</li>
           </ul>

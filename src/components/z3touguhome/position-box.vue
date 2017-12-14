@@ -8,8 +8,8 @@
       <td>涨跌幅</td>
     </tr>
     <tr v-for="item of positionList">
-      <td style="color:#666;">{{formatData(item.id)?'--':item.id}}</td>
-      <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
+      <td style="color:#666;cursor: pointer;" @click='linkStock(item.id)'>{{formatData(item.id)?'--':item.id}}</td>
+      <td style="color:#1984ea;cursor: pointer;" @click='linkStock(item.id)'>{{formatData(item.name)?'--':item.name}}</td>
       <td v-z3-updowncolor="item.percent">{{formatData(item.num)?'--':parseFloat(item.num).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.percent">
         {{formatData(item.percent)?'--':parseFloat(item.percent).toFixed(2)+'%'}}
@@ -24,8 +24,8 @@
       <td>涨跌幅</td>
     </tr>
     <tr v-for="item of positionList">
-      <td style="color:#666;">{{formatData(item.innerCode)?'--':item.innerCode}}</td>
-      <td style="color:#1984ea;">{{formatData(item.name)?'--':item.name}}</td>
+      <td style="color:#666;cursor: pointer;" @click='linkStock(item.innerCode)'>{{formatData(item.innerCode)?'--':item.innerCode}}</td>
+      <td style="color:#1984ea;cursor: pointer;" @click='linkStock(item.innerCode)'>{{formatData(item.name)?'--':item.name}}</td>
       <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.curChngPct">
         {{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}
@@ -94,6 +94,11 @@ export default {
         })
       }
     },
+    linkStock: function(innerCode) {
+      if (innerCode) {
+        window.open('/stock/' + innerCode)
+      }
+    },
     autoUpdate: function() {
       const _this = this
       if (this.updateDataPid) {
@@ -135,7 +140,7 @@ export default {
   width: 350px;
   max-height: 290px;
   overflow: auto;
-  left: 60px;
+  left: 55px;
   bottom: 10px;
   display: none;
 }

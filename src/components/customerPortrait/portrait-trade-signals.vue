@@ -75,7 +75,7 @@
 <template>
 <div class="portrait-trade-signal">
   <div class="portrait-signal-title">
-    <p class="portrait-signal-more" @click="">
+    <p class="portrait-signal-more" @click="toStrategyList">
       <a>更多>></a>
     </p>
   </div>
@@ -180,6 +180,9 @@ export default {
           _this.initTradeSignal()
         }, 1000 * _this.intervalTime)
       }
+    },
+    toStrategyList: function() {
+      window.open('goldTop')
     },
     formatData: function(val) {
       let getVal
