@@ -328,8 +328,8 @@ export default {
 				var option = {
 					grid:{
 						top:'5%',
-						left:'5%',
-						right:'15%',
+						left:'15%',
+						right:'5%',
 						bottom:'20%'
 					},
 				    tooltip: {
@@ -367,7 +367,7 @@ export default {
 				    },
 				    yAxis: {
 				        type: 'value',
-				        position:'right',
+				        position:'left',
 				        boundaryGap: ['10%', '10%'],
 				        scale:true,
 				        splitNumber:2,
