@@ -1146,7 +1146,7 @@ export default {
       var inContent = document.getElementsByClassName('in-content')[0]
       var inDivHight = inContent.clientHeight
       e.currentTarget.children[0].style.display = 'block'
-      if (e.currentTarget.offsetTop > inDivHight) {
+      if (e.currentTarget.offsetTop > inDivHight - 80) {
         e.currentTarget.children[0].style.top = e.currentTarget.offsetTop - 20 + 'px'
         e.currentTarget.children[0].style.left = e.currentTarget.offsetLeft + 200 + 'px'
       }
