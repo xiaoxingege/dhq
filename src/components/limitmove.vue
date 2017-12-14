@@ -405,7 +405,7 @@ export default {
         var index=dataXItem.length-2
         dataXItem=dataXItem.substring(0, index) + ':' + dataXItem.substring(index)
         dataX.push(dataXItem)
-        
+
         dataYup.push(data[i][1])
         dataYdown.push(data[i][2])
       }
@@ -417,12 +417,12 @@ export default {
     				bottom:'14%'
     			},
           tooltip: {
-              trigger: 'axis'
+              show:false
           },
           xAxis: {
               type: 'category',
               data: dataX,
-              interval: 3,
+              interval: 2,
               axisLine:{
   		        	lineStyle:{
   		        		color:'rgba(219,219,219,1)'

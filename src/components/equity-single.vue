@@ -273,18 +273,15 @@ export default {
 		}
 		var interval=dataY.length-2
 		var option = {
-			grid:{
-				top:'18%',
-				left:'10%',
-				right:'20%',
-				bottom:'20%'
-			},
-		    tooltip: {
-		        trigger: 'axis',
-		        position: function (pt) {
-		            return [pt[0], '10%'];
-		        }
-		    },
+				grid:{
+					top:'18%',
+					left:'10%',
+					right:'20%',
+					bottom:'20%'
+				},
+				tooltip: {
+						show:false
+				},
 		    xAxis: {
 		        type: 'category',
 		        data: dataX,

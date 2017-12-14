@@ -348,10 +348,7 @@ export default {
 						bottom:'20%'
 					},
 				    tooltip: {
-				        trigger: 'axis',
-				        position: function (pt) {
-				            return [pt[0], '10%'];
-				        }
+				        show:false
 				    },
 				    xAxis: {
 				        type: 'category',
