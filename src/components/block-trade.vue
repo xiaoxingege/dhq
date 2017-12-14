@@ -313,7 +313,7 @@
 		<div class="block detail">
 			<div class="title">
 				<span class="red-block"></span>
-				<h2>融资融券交易明细</h2>
+				<h2>大宗交易明细</h2>
 				<div class="title-right">
 					<input id="datepicker" type="text" :value="date" ref="inputDate" readonly/>
 				</div>
