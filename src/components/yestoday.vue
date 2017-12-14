@@ -182,6 +182,13 @@
 .lists-right .lists-con li span.green{
   color:#00B267;
 }
+.dataEmpty{
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.28rem;
+	color:#ccc;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -262,6 +269,10 @@
 
       </div>
     </div>
+
+		<div v-if="lists.length === 0" class="dataEmpty">
+			暂无数据
+		</div>
 
 
 	</div>
