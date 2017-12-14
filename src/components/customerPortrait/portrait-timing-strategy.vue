@@ -88,10 +88,11 @@
 
 .timing-data-table li span {
   display: inline-block;
-  width: 32.5%;
+  width: 33.3%;
   line-height: 22px;
   height: 100%;
   text-align: center;
+  float: left;
 }
 
 .timing-data-table li span:first-child {
@@ -184,7 +185,7 @@
         <div style="height: 100%;">
           <p class="position-title">当前持仓</p>
           <ul class="timing-data-table">
-            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li" :class="{'tr-focus':index === trIndex}">
+            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li clearfix" :class="{'tr-focus':index === trIndex}">
               <span :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{item.price === null?'--':item.price.toFixed(2)}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)}}</span>
