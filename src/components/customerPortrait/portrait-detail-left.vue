@@ -102,7 +102,7 @@
     float: left;
 }
 .monthBox .month > div.active,
-.monthBox .month > div.active:hover {
+.monthBox .month > div:hover {
     background: #457CB6;
 }
 
@@ -110,6 +110,10 @@
     color: gray;
     cursor: default;
 }
+.monthBox .month .gray:hover {
+    background: none;
+}
+
 .customTag {
     padding-bottom: 20px;
 }
@@ -288,21 +292,6 @@
         <td>{{item.op_advise}}</td>
         <td>{{item.op_value}}</td>
       </tr>
-      <!--<tr>
-        <td>沪深300(中盘)</td>
-        <td>建议参与</td>
-        <td>20%-70%</td>
-      </tr>
-      <tr>
-        <td>中证500(小盘)</td>
-        <td>建议参与</td>
-        <td>0%-30%</td>
-      </tr>
-      <tr>
-        <td>创业板</td>
-        <td>不建议参与</td>
-        <td>0%</td>
-      </tr>-->
     </table>
   </div>
   <!--<div v-select="message" style="margin-bottom: 100px;"></div>-->

@@ -26,7 +26,7 @@ export default {
     hotTopic: [],
     preferredIndustryData: [],
     preferredTopicData: [],
-    preferredStategyData: [],
+    preferredStrategyData: [],
     preferredSignalData: [],
     preferredGoldData: [],
     preferredFilterData: [],
