@@ -391,7 +391,12 @@ export default {
       var dataYup=[];
       var dataYdown=[];
       for (var i = 0; i < data.length; i++) {
-        dataX.push(data[i][0])
+        // X轴数据格式处理
+        var dataXItem=data[i][0].toString();
+        var index=dataXItem.length-2
+        dataXItem=dataXItem.substring(0, index) + ':' + dataXItem.substring(index)
+        dataX.push(dataXItem)
+        
         dataYup.push(data[i][1])
         dataYdown.push(data[i][2])
       }

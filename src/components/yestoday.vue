@@ -321,7 +321,11 @@ export default {
 				var dataX=[];
 				var dataY=[];
 				for (var i = 0; i < data.length; i++) {
-					dataX.push(data[i][0])
+					// X轴数据格式处理
+					var dataXItem=data[i][0].toString();
+					var index=dataXItem.length-2
+					dataXItem=dataXItem.substring(0, index) + ':' + dataXItem.substring(index)
+					dataX.push(dataXItem)
 					dataY.push(data[i][1])
 				}
 				var interval=dataY.length-2
