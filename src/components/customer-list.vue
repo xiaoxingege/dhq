@@ -270,7 +270,7 @@ body {
 }
 </style>
 <template>
-<div class="customer-list-wrap">
+<div class="customer-list-wrap" @click="hideCode($event)">
   <div class="header clearfix">
     <div class="cur-head">
       <span class="lightcolor">客户列表</span>
@@ -520,6 +520,7 @@ export default {
       const keyName = this.$refs.keyName.value
       const keyPhone = this.$refs.keyPhone.value
       console.log(keyAcct + '' + keyName + '' + keyPhone) /**/
+
       this.acctParam = keyAcct
       this.nameParam = keyName
       this.phoneParam = keyPhone
@@ -573,6 +574,16 @@ export default {
       })
       this.sortNum = this.stockSort
       console.log(this.sortNum)
+    },
+    hideCode(e) {
+      var _searchUl = document.getElementsByClassName('search-ul')[0]
+      var _searchUl2 = document.getElementsByClassName('search-ul2')[0]
+      var _searchUl3 = document.getElementsByClassName('search-ul3')[0]
+      if (_searchUl || _searchUl2 || _searchUl3 !== event.target) {
+        this.nameVal = false
+        this.acctVal = false
+        this.phoneVal = false
+      }
     },
     checkNull(str) {
       if (str === null) {
