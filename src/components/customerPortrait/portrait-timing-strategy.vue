@@ -213,7 +213,7 @@ export default {
       isNoData: false,
       strategyId: '',
       timeStrategyList: [],
-      clientPassport: 3454565,
+      clientPassport: this.$route.params.clientPassport || 3454565,
       innerCode: '',
       stockName: '',
       trIndex: 0

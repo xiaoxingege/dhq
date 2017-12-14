@@ -285,7 +285,7 @@ export default [{
     component: CustomerList
   },
   {
-    path: ctx + '/portraitDetail',
+    path: ctx + '/portraitDetail/:clientPassport',
     name: 'portraitDetail',
     component: PortraitDetail
   },
