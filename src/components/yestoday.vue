@@ -69,6 +69,8 @@
 }
 .hint3  .tongbi span{
 	float: right;
+  height: 0.4rem;
+  line-height: 0.4rem;
 }
 .hint3  p span.red{
 	color:#F54949;
@@ -80,19 +82,18 @@
 .hint3  .tongbi em{
 	display: none;
 	float: right;
-	width:0.1rem;
-	height: 0.2rem;
-	margin:0.1rem 0.02rem 0.1rem 0.04rem;
+	width:0.16rem;
+	height: 0.4rem;
 }
 .hint3  .tongbi em.red{
 	display: block;
-	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') center no-repeat;
-	background-size: contain;
+	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') left center no-repeat;
+	background-size: 0.1rem 0.2rem;
 }
 .hint3  .tongbi em.green{
 	display: block;
-	background:url('http://i0.jrjimg.cn/optional/yestoday/down.png') center no-repeat;
-	background-size: contain;
+	background:url('http://i0.jrjimg.cn/optional/yestoday/down.png') left center no-repeat;
+	background-size: 0.1rem 0.2rem;
 }
 .hint3  .tongbi span.red{
 	color:#F54949;
