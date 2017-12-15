@@ -380,9 +380,17 @@ export default {
     document.title = '大宗交易明细'
   },
   mounted () {
+		var _this=this
 		$('.equity-trading').css('min-height',this.clientH)
     this.getDetailList()
 		this.addcalendar()
+
+
+		this.$watch('date',date => {
+			if(date){
+				_this.picker.setDate(date)
+			}
+		})
 
   },
 	filters: {
@@ -410,9 +418,6 @@ export default {
 					weekdaysShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 	        yearRange: [2000,2030],
 					disableWeekends:true,
-					onSelect:function(){
-						console.log('select')
-					},
 					onOpen:function() {
 						_this.openMask=true
 						event.preventDefault();
