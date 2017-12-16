@@ -278,7 +278,7 @@
           股票名称
         </div>
         <ul class="lists-con">
-          <li v-for="item in limitList">
+          <li v-for="item in limitList" @click="toStock(item)">
             <h6>{{item.stockname}}</h6>
             <p>{{item.stockcode}}</p>
           </li>
@@ -301,7 +301,7 @@
             <p style="width:1.52rem; padding-right:0.5rem;">连续涨停次数</p>
           </div>
           <ul class="lists-con">
-            <li v-for="item in limitList">
+            <li v-for="item in limitList" @click="toStock(item)">
                 <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
                 <span :class="addcolor(item.priceLimit)" style="width:1.74rem">{{item.priceLimit.toFixed(2)}}%</span>
                 <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
@@ -383,6 +383,21 @@ export default {
       	return 'red'
       }
     },
+    toStock(item){
+				var stockCode=item.stockcode
+				let market = '';
+				if((stockCode.slice(0,3) === '000') || (stockCode.slice(0,3) === '002') || (stockCode.slice(0,3) === '300')){
+						market = 'sz'
+				}else {
+						market = 'sh'
+				}
+				if (window.jrj && window.jrj.jsCallNative) {
+						window.jrj.jsCallNative(100, JSON.stringify({
+							stockCode:stockCode,
+							stockMarket:market
+						}))
+				}
+		},
     limitUpClick(){
       this.clickActive=true
       this.limitType=1
