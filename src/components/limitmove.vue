@@ -180,7 +180,7 @@
   padding-top:0.1rem;
 }
 .lists-right-container{
-  width:18.2rem;
+  width:18.7rem;
 }
 .lists-right .lists-title{
   overflow: hidden;
@@ -294,8 +294,8 @@
             <p style="width:1.44rem">封单手数</p>
             <p style="width:1.77rem">封单金额</p>
             <p style="width:1.77rem">涨停类型</p>
-            <p style="width:1.77rem">第一次涨停时间</p>
-            <p style="width:1.87rem">最后一次涨停时间</p>
+            <p style="width:1.97rem">第一次涨停时间</p>
+            <p style="width:2.17rem">最后一次涨停时间</p>
             <p style="width:1.52rem">打开次数</p>
             <p style="width:1.52rem">是否连续涨停</p>
             <p style="width:1.52rem; padding-right:0.5rem;">连续涨停次数</p>
@@ -308,8 +308,8 @@
                 <span style="width:1.44rem">{{item.fdHands | convert}} </span>
                 <span style="width:1.77rem">{{item.fdMoney | convert}}</span>
                 <span style="width:1.77rem">{{item.type}}</span>
-                <span style="width:1.77rem">{{item.firstZtTime}}</span>
-                <span style="width:1.87rem">{{item.lastZtTime}}</span>
+                <span style="width:1.97rem">{{item.firstZtTime}}</span>
+                <span style="width:2.17rem">{{item.lastZtTime}}</span>
                 <span style="width:1.52rem">{{item.opentime}}</span>
                 <span style="width:1.52rem">{{item.continueUpDown}}</span>
                 <span style="width:1.52rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
