@@ -211,6 +211,13 @@
 	color: #aaa;
 	text-align: center;
 }
+.dataEmpty{
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.28rem;
+	color:#aaa;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -275,9 +282,12 @@
 						<span style="width:1.73rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
-				<div class="detail-more">
+				<div class="detail-more" v-if="detailList.length > 0">
 					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
 					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
+				</div>
+				<div class="dataEmpty" v-if="detailList.length === 0">
+					暂无数据
 				</div>
 			</div>
 		</div>
@@ -461,7 +471,6 @@ export default {
     	this.getDetailList()
     },
     clickSort (e) {
-    	// if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
     	if (this.sortcol === e.currentTarget.getAttribute('data-index')) {
     		if (this.sortt === '0') {
     			this.sortt='1'
@@ -545,10 +554,11 @@ export default {
 	        return res.json()
 	    }).then(v => {
 	    	if (v.data.items.length===0) {
+					this.detailList=[]
 		    	this.detailDataFlag=false
 		    }else{
+					this.detailList=v.data.items
 		    	this.detailDataFlag=true
-		    	this.detailList=v.data.items
 		    }
     	}).catch(v2 => {
     		console.log(v2)
