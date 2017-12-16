@@ -28,7 +28,7 @@
 }
 
 .detail-lists .date{
-	height:0.40rem; 
+	height:0.40rem;
 	font-size:0.28rem;
 	color:rgba(51,51,51,1);
 	line-height:0.40rem;
@@ -105,6 +105,13 @@
 	border-radius: 0.04rem;
 	border:1px solid #FF4040;
 }
+.dataEmpty{
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.28rem;
+	color:#ccc;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -144,9 +151,12 @@
 						</div>
 					</li>
 				</ul>
-				<div class="detail-more">
+				<div v-if="detailList.length > 0" class="detail-more">
 					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
 					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
+				</div>
+				<div v-if="detailList.length === 0" class="dataEmpty">
+					暂无数据
 				</div>
 			</div>
 		</div>
@@ -176,14 +186,14 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = this.stockname+'_大宗交易历史数据'
   },
   mounted () {
     this.getDetailList()
-    
+
   },
   filters: {
   	covert (d) {
@@ -246,6 +256,7 @@ export default {
 		    jsonp: 'callback',
 		    success:() => {
 		    	if (window.dzStockList.data.length===0) {
+						this.detailList=[]
 		    		this.detailDataFlag=false
 		    	}else{
 		    		this.detailList=window.dzStockList.data
