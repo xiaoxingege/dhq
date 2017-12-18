@@ -192,6 +192,7 @@ export default {
         this.resultData = this.$store.state.zhikuanSearchList.dataList
         this.total = this.$store.state.zhikuanSearchList.totalRecordNum
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
+        document.documentElement.scrollTop = document.body.scrollTop = 0
       })
     },
     goToPage(data) {
