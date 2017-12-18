@@ -359,11 +359,9 @@ export default {
     var _this=this
     this.loading()
     setInterval(function(){
-      _this.myChart.dispose(_this.option);
       _this.loading()
-      console.log('刷新')
+      _this.myChart.setOption(_this.option);
     },5000)
-
   },
   filters: {
     convert (d) {
@@ -637,7 +635,6 @@ export default {
           if ( window.min ) {
             this.graphData = window.min.Data
             this.insertEchart()
-            // console.log(this.graphData)
           }
         },
         error:function(){
@@ -663,7 +660,6 @@ export default {
           }else{
             console.log(d.msg)
           }
-          // console.log(this.limitList)
         },
         error:function(){
           console.log('error');
