@@ -297,7 +297,6 @@
 <script>
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
-import 'whatwg-fetch'
 var echarts = require('echarts')
 
 export default {
@@ -329,6 +328,14 @@ export default {
     this.getCurveList()
     this.getGatherList()
     this.getDetailList()
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop()
+			var scrollHeight = $(document).height()
+			var windowHeight = $(this).height()
+			if(scrollTop + windowHeight === scrollHeight){
+				this.myChart.setOption(this.option);
+			}
+		})
   },
   filters: {
     convert (d) {
