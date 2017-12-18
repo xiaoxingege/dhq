@@ -49,7 +49,9 @@
 }
 
 .monthTag {
+    padding-left: 10px;
     height: 25px;
+    line-height: 25px;
     width: 147px;
     border: 1px solid #23272c;
     border-radius: 5px;
@@ -243,7 +245,7 @@
         <p class="fl" style="line-height: 25px;">客户标签</p>
         <div class="fr" style="position: relative">
           <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
-          <span class="monthTag fr" @click="showTime"></span>
+          <span class="monthTag fr" @click="showTime">{{selectY}}年{{currentM}}月</span>
           <div v-show="isShowCalendar" class="timeBox">
             <div class="ymdDate">
               <span @click="changeYear('minus')" :style="{display:currentY === defaultY ? 'block':'none'}"><img
@@ -314,7 +316,8 @@ export default {
       isThisYear: true,
       selectY: '',
       dateTime: '',
-      isShowCalendar: false
+      isShowCalendar: false,
+      clientPassport: this.$route.params.clientPassport || 3454565
     }
   },
   computed: {
@@ -342,8 +345,10 @@ export default {
   },
   methods: {
     setAttention: function(val) {
+
       this.$store.dispatch('customerList/setAttention', {
-        star: val
+        star: val,
+        clientPassport: this.clientPassport
       }).then(() => {
         if (this.customerAttention.errCode === 0) {
           this.customerInfo.attention = val
@@ -363,7 +368,6 @@ export default {
       this.currentM = date.getMonth() + 1
       this.defaultM = date.getMonth() + 1
       this.dateTime = '' + this.currentY + this.currentM
-      console.log(this.dateTime)
     },
     changeYear: function(type) {
       if (type === 'add') {
@@ -384,17 +388,24 @@ export default {
       this.currentM = Number(e.target.getAttribute('value'))
       this.selectY = Number(this.$refs.showYear.innerText)
       this.$store.dispatch('customerList/getCustomerTag', {
-        dateTime: '' + this.selectY + (String(this.currentM).length > 1 ? this.currentM : '0' + this.currentM)
+        dateTime: '' + this.selectY + (String(this.currentM).length > 1 ? this.currentM : '0' + this.currentM),
+        clientPassport: this.clientPassport
       })
+      this.isShowCalendar = false
     }
   },
   mounted() {
     this.getCurrentTime()
-    this.$store.dispatch('customerList/getCustomerInfo')
-    this.$store.dispatch('customerList/getCustomerTag', {
-      dateTime: this.dateTime
+    this.$store.dispatch('customerList/getCustomerInfo', {
+      clientPassport: this.clientPassport
     })
-    this.$store.dispatch('customerList/getAnalyAbility')
+    this.$store.dispatch('customerList/getCustomerTag', {
+      dateTime: this.dateTime,
+      clientPassport: this.clientPassport
+    })
+    this.$store.dispatch('customerList/getAnalyAbility', {
+      clientPassport: this.clientPassport
+    })
     this.$store.dispatch('customerList/getPositonCommand')
   }
 }
