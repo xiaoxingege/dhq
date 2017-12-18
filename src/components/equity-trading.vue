@@ -314,7 +314,9 @@ export default {
     	sortt:'0', // 0=降序，1=升序
     	pn:'1', // 页码
     	ps:'20', // 每页条数
-    	detailDataFlag:true// 1 有数据 0无数据
+    	detailDataFlag:true,// 1 有数据 0无数据
+			option:null,
+      myChart:null
     }
   },
   beforecreated () {
@@ -349,7 +351,7 @@ export default {
   methods: {
   	insertEchart(){
   		// 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('curve'));
+        this.myChart = echarts.init(document.getElementById('curve'));
 
 		var data=this.curveList;
 		var dataX=[];
@@ -359,7 +361,7 @@ export default {
 			dataY.push(data[i].marginBalance)
 		}
 		var interval=dataY.length-2
-		var option = {
+		this.option = {
 				grid:{
 						top:'18%',
 						left:'10%',
@@ -455,7 +457,7 @@ export default {
 		};
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        this.myChart.setOption(this.option);
   	},
   	addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
@@ -488,6 +490,7 @@ export default {
     	this.getDetailList()
     },
     inquireMore(){
+			this.myChart.setOption(this.option);
     	this.pn++
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
     	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
