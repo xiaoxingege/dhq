@@ -186,7 +186,7 @@ export default {
       strategyId: '',
       filterStrategyList: [],
       currentStockSelectionList: [],
-      clientPassport: 3454565,
+      clientPassport: this.$route.params.clientPassport || 3454565,
       pageNum: 0,
       pageSize: 4,
       liIndex: 0

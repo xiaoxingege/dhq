@@ -379,6 +379,7 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
+          confine: true,
           textStyle: {
             align: 'left',
             fontFamily: '微软雅黑',
