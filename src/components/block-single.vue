@@ -109,7 +109,7 @@
 	height: 1rem;
 	line-height: 1rem;
 	font-size: 0.28rem;
-	color:#ccc;
+	color:#aaa;
 	text-align: center;
 }
 </style>
@@ -193,7 +193,6 @@ export default {
   },
   mounted () {
     this.getDetailList()
-
   },
   filters: {
   	covert (d) {
@@ -201,6 +200,7 @@ export default {
   	}
   },
   methods: {
+
   	getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
@@ -220,9 +220,11 @@ export default {
       	return 'red num'
       }
     },
-    inquireMore(){
-    	this.pn++
-
+		inquireMore(){
+			this.pn++
+			this.getDetailList()
+		},
+    getDetailList(){
     	var url='http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate='+this.startdate+'&enddate='+this.enddate+'&stockCode='+this.stockcode+'&page='+this.pn+'&psize='+this.ps+'&order=desc&sort=tradeDate'
     	console.log(url)
     	$.ajax({
@@ -236,31 +238,11 @@ export default {
 		    		this.detailDataFlag=false
 		    	}else{
 		    		this.detailList=this.detailList.concat(window.dzStockList.data)
-		    		this.detailDataFlag=true
-		    	}
-		    },
-		    error : function() {
-		    	console.log('error');
-		    }
-	  	});
-    },
-    getDetailList(){
-    	// http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate=2017-04-14&enddate=2017-10-27&stockCode=000001&page=1&psize=20&order=desc&sort=tradeDate&_dc=1509344145648
-    	var url='http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate='+this.startdate+'&enddate='+this.enddate+'&stockCode='+this.stockcode+'&page='+this.pn+'&psize='+this.ps+'&order=desc&sort=tradeDate'
-    	console.log(url)
-    	$.ajax({
-		   	url:url,
-		    type:'get',
-		    cache : false,
-		    dataType: 'script',
-		    jsonp: 'callback',
-		    success:() => {
-		    	if (window.dzStockList.data.length===0) {
-						this.detailList=[]
-		    		this.detailDataFlag=false
-		    	}else{
-		    		this.detailList=window.dzStockList.data
-		    		this.detailDataFlag=true
+						if (window.dzStockList.data.length < this.ps) {
+							this.detailDataFlag=false
+						}else{
+							this.detailDataFlag=true
+						}
 		    	}
 		    },
 		    error : function() {
