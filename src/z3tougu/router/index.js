@@ -43,7 +43,7 @@ import IndustryDetail from 'components/industry-detail'
 import TimeIndex from 'components/time-index'
 import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
-
+import AutoinpBox from 'components/autoinp-box'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -303,10 +303,16 @@ export default [{
     path: ctx + '/timeIndex',
     name: 'timeindex',
     component: TimeIndex
-  }, {
+  },
+  {
     path: ctx + '/bullStockList',
     name: 'bullstocklist',
     component: BullStockList
+  },
+  {
+    path: ctx + '/autoinpBox',
+    name: 'autoinpbox',
+    component: AutoinpBox
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',

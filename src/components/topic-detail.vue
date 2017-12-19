@@ -630,11 +630,36 @@ bottom: 0; */
     display: inline-block;
     background: url("../assets/images/z3img/no-data.png") no-repeat;
 }
+
+.detail-keepdays {
+    text-align: center;
+    margin-top: -11px;
+
+}
+.detail-keep-num {
+    width: 43px;
+    height: 21px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+    display: inline-block;
+
+    background: url("../assets/images/z3img/detail-red.png") no-repeat;
+
+}
+.detail-keep-num1 {
+    background: url("../assets/images/z3img/detail-green.png") no-repeat;
+}
 </style>
 <template>
 <div class="topic-detail">
   <div class="topic-head clearfix">
-    <strong class="fl">{{detail.topicName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
+    <strong class="fl">{{detail.topicName}}</strong>
+    <div class="detail-keepdays fl" v-if="detail.topicMarket!==null && detail.topicMarket.chngPct!==null">
+      <span class="detail-keep-num" v-if="detail.topicMarket.keepDaysToday>=2">{{detail.topicMarket.keepDaysToday}}连涨</span>
+      <span class="detail-keep-num detail-keep-num1" v-if="detail.topicMarket.keepDaysToday<=-2">{{Math.abs(detail.topicMarket.keepDaysToday)}}连跌</span>
+    </div>
+    <span class="time-num3 fl" v-z3-updowncolor="detail.topicMarket===null || detail.topicMarket.chngPct===null?'--':detail.topicMarket.chngPct">{{detail.topicMarket===null || detail.topicMarket.chngPct==null?'--':changeTofixed(detail.topicMarket.chngPct)}}</span>
     <div class="topic-time fl">
       <span class="time-num4">成份股数</span><span class="time-num2">{{detail.equityNum}}只
       </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.topicMarket===null || detail.topicMarket.stkUpNum==null?'--':detail.topicMarket.stkUpNum}}
