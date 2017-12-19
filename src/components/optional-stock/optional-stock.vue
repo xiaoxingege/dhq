@@ -148,6 +148,7 @@ export default {
     timeStrategyData: function() {
       const timeStrategyList = this.$store.state.optionalStock.timeStrategyList
       return timeStrategyList
+
     }
   },
   methods: {
@@ -180,6 +181,7 @@ export default {
         })
         .then(() => {
           this.timeStrategyList = this.timeStrategyData
+
         })
     },
     passGoldStrategyId: function(id) {

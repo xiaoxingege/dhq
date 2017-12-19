@@ -17,7 +17,12 @@ Vue.use(z3)
  */
 
 Vue.config.devtools = true;
-
+Vue.config.keyCodes = {
+  'up': 38,
+  'down': 40,
+  'left': 37,
+  'right': 39
+}
 initVue({
   el: 'app',
   store,
