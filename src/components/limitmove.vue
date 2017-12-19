@@ -311,7 +311,7 @@
                 <span style="width:1.97rem">{{item.firstZtTime}}</span>
                 <span style="width:2.17rem">{{item.lastZtTime}}</span>
                 <span style="width:1.32rem">{{item.opentime}}</span>
-                <span style="width:1.67rem">{{item.continueUpDown}}</span>
+                <span style="width:1.67rem">{{item.continueUpDown | convert2}}</span>
                 <span style="width:1.67rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
             </li>
           </ul>
@@ -372,6 +372,13 @@ export default {
     	}else{
     		return d
     	}
+    },
+    convert2(d){
+      if (d === 1) {
+        return '是'
+      }else{
+        return '否'
+      }
     }
   },
   methods: {
