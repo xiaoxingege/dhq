@@ -5,6 +5,7 @@ body {
     height: 100%;
     background: #191A1D;
 }
+
 .searchResult {
     width: 50%;
     background: #191A1D;
@@ -12,40 +13,50 @@ body {
     color: #c9d0d7;
     padding-left: 10px;
 }
+
 .searchResult > p {
     padding-left: 7px;
 }
+
 .searchResult ul > p {
     font-size: 14px;
     margin-top: 15px;
 }
+
 .searchResult ul li {
     text-align: left;
 
     border-bottom: 1px solid #24262C;
 }
+
 .searchResult ul li p {
     margin-bottom: 9px;
 }
+
 .searchResult ul li a {
     display: block;
     padding-top: 15px;
     font-size: 14px;
 }
+
 .searchInfo {
     line-height: 24px;
 }
+
 .searchTime {
     color: #505A66;
 }
+
 .newsSource {
     margin-left: 20px;
 }
+
 .searchSort {
     position: absolute;
     right: 0;
     top: 3px;
 }
+
 .searchSort span {
     display: inline-block;
     background: #808BA1;
@@ -60,9 +71,11 @@ body {
 .searchSort span:last-child {
     padding: 4px 12px;
 }
+
 .searchSort span.active {
     background: #1984ea;
 }
+
 .searchSort span img {
     position: relative;
     margin-left: 3px;
@@ -99,11 +112,13 @@ body {
   <ul v-if="searchType == 'infor'" style="position: relative;">
     <p>搜索资讯数：<span>{{total}}</span></p>
     <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img
-            src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
-            src="../assets/images/search-arrows.png"></span></div>
+                    src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
+                    src="../assets/images/search-arrows.png"></span></div>
     <!--<span>关联度排序</span><span>时间排序</span>-->
     <li v-for="item of resultData">
-      <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}" target="_blank">{{item.newsTitle}}</router-link>
+      <router-link :to="{name:'detailPages' , params:{ id : item.id, detailType:'news'}}" target="_blank">
+        {{item.newsTitle}}
+      </router-link>
       <p class="searchInfo">{{item.newsSummary}}</p>
       <p class="searchTime">{{item.newsTime}}<span class="newsSource">{{item.newsSource}}</span></p>
     </li>
@@ -111,10 +126,12 @@ body {
   <ul v-if="searchType == 'report'" style="position: relative;">
     <p>搜索研报数：<span>{{total}}</span></p>
     <div class="searchSort"><span class="active" ref="relativeBtn" @click="relativeSort($event)">关联度排序<img
-            src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
-            src="../assets/images/search-arrows.png"></span></div>
+                    src="../assets/images/search-arrows.png"></span><span ref="timeBtn" @click="timeSort($event)">时间排序<img
+                    src="../assets/images/search-arrows.png"></span></div>
     <li v-for="item of resultData">
-      <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}" target="_blank">{{item.reportTitle}}</router-link>
+      <router-link :to="{ name:'detailPages' , params:{ id : item.id, detailType:'report'}}" target="_blank">
+        {{item.reportTitle}}
+      </router-link>
       <p class="searchInfo">{{item.reportSummary}}</p>
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
@@ -122,9 +139,11 @@ body {
   <ul v-if="searchType == 'strategy'" class="searchStrategy">
     <p>搜索策略数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
-      <router-link v-if="item.strategyTypeCode === 3" :to="{name:'goldStrategy' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
+      <router-link v-if="item.strategyTypeCode === 3" :to="{name:'goldStrategy' , params:{ strategyId : item.id }}" target="_blank">
+        {{item.strategyName}}
       </router-link>
-      <router-link v-if="item.strategyTypeCode === 2" :to="{name:'backtesttime' , params:{ strategyId : item.id }}" target="_blank">{{item.strategyName}}
+      <router-link v-if="item.strategyTypeCode === 2" :to="{name:'backtesttime' , params:{ strategyId : item.id }}" target="_blank">
+        {{item.strategyName}}
       </router-link>
       <router-link v-if="item.strategyTypeCode === 1" :to="{name:'backtestfilter' , params:{ strategyId : item.id, detailType:'news'}}" target="_blank">
         {{item.strategyName}}
@@ -157,6 +176,7 @@ body {
     <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
   </div>
 
+
 </div>
 </template>
 <script>
@@ -176,9 +196,7 @@ export default {
   components: {
     Pagination
   },
-  cumputed: {
-
-  },
+  cumputed: {},
   methods: {
     showSearchList(currentPage) {
       const keyword = this.$store.state.zhikuanSearch.keyword === '' ? this.$route.params.keyword : this.$store.state.zhikuanSearch.keyword
@@ -192,6 +210,7 @@ export default {
         this.resultData = this.$store.state.zhikuanSearchList.dataList
         this.total = this.$store.state.zhikuanSearchList.totalRecordNum
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
+        document.documentElement.scrollTop = document.body.scrollTop = 0
       })
     },
     goToPage(data) {
@@ -261,6 +280,7 @@ export default {
         this.resultData = this.$store.state.zhikuanSearchList.dataList
         this.total = this.$store.state.zhikuanSearchList.totalRecordNum
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
+        this.pageTo = this.$store.state.zhikuanSearchList.currentPage
       })
     }
   },

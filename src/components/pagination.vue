@@ -196,7 +196,7 @@ select {
   <span class="nextPage" @click="nextPage($event)"><a href="#">下一页</a></span>
   <span v-if="false" class="totals">共{{totalPage}}页</span>
   <select @change="getCurrentSelectPage($event)" v-model="currentPage">
-            <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
+      <option v-for="page in totalPage" :value=page>{{page}}/{{totalPage}}</option>
   </select>
 
 </div>

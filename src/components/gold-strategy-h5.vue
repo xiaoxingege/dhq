@@ -145,10 +145,6 @@
         text-align: justify;
     }
 
-    .dqcc {
-        padding-top: 10px;
-    }
-
     .dqcc table {
         width: 100%;
     }
@@ -286,7 +282,7 @@
       </div>
       <div v-if="type === 'dqcc'" class="dqcc">
         <span v-if="dqccData === null || dqccData === '' || dqccData.length === 0" style="width: 100%; text-align:center; display: inline-block; line-height: 50px; font-size:0.16rem;">当前无持仓股票</span>
-        <table v-if="dqccData !== null &&  dqccData.length !== 0" cellpadding="0" cellspacing="0">
+        <table v-if="dqccData !== null &&  dqccData.length !== 0" cellpadding="0" cellspacing="0" style="padding-top: 10px;">
           <thead>
             <!--<div>-->
             <ul class="clearfix">
