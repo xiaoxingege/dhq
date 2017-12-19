@@ -104,6 +104,15 @@ button {
     background-size: 100% 100%;
     z-index: 10;
 }
+.footer-xinlande {
+    width: 100%;
+    height: 3.28rem;
+    position: fixed;
+    bottom: 0;
+    background: url("../assets/images/endYear-activity/endYear-h5-footer2-1.png") center bottom no-repeat;
+    background-size: 100% 100%;
+    z-index: 10;
+}
 .fixBg {
     width: 100%;
     height: 100%;
@@ -364,9 +373,9 @@ button {
         <div @click="popClick(1)"></div>
         <div></div>
     </div>
-    <div class="footer">
+    <div class="footer" :class="xinlande ? 'footer' : 'footer-xinlande'">
         <div class="box-con">
-            <div class="popClick3" @click="popClick(4)" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>
+            <div class="popClick3" :style="xinlande ? '' : 'bottom:0.36rem;'" @click="popClick(4)" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></div>
             <div class="f-lottery">
                 <div class="f-lottery-plate rotate_origin" id="i_bg1"></div>
                 <div class="f-lottery-pointer rotate_origin1" id="i_cont1"></div>
@@ -520,7 +529,8 @@ export default {
             lotteryText1: '',
             lotteryText2: '',
             wxid: '',
-            type: true
+            type: true,
+            xinlande: true
         }
     },
     computed: mapState({}),
@@ -738,6 +748,9 @@ export default {
         })
         if (getQueryString('type')) {
             _this.type = false
+        }
+        if (getQueryString('bizsource') && getQueryString('bizsource') === 'xinlande') {
+            _this.xinlande = false
         }
     }
 }

@@ -246,7 +246,6 @@ export default {
             if (window.app.name !== '{{appid}}') {
                 if (this.loginStatus === 'yes') {
                     $.ajax({
-                        type: 'get',
                         url: '/actm/listByUidAndProductId',
                         data: {
                             uid: this.ssoId,
@@ -255,7 +254,7 @@ export default {
                         },
                         success: function(result) {
                             if (result.type) {
-                                var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&pType=' + type + '&from=activity&type=isReopen');
+                                var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=' + productSubId + '&type=' + type);
                                 window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url + '&' + Math.round(new Date().getTime() / 1000)
                                 // skipRiskAssessed=1
                             } else {
