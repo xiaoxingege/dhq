@@ -478,6 +478,7 @@ export default {
     	$('.title-tab li').removeClass('active')
     	e.currentTarget.setAttribute('class','active')
     	this.day = e.currentTarget.getAttribute('data-index')
+			this.pn=1
     	this.getDetailList()
     },
     clickSort (e) {
@@ -495,31 +496,10 @@ export default {
     		$('.detail-title-lists li').removeClass('desc').removeClass('asce')
     		e.currentTarget.setAttribute('class','desc')
     	}
+			this.pn=1
     	this.getDetailList()
     },
-    inquireMore(){
-			this.myChart.setOption(this.option);
-    	this.pn++
-    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
-    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
-    	console.log(url)
-    	fetch(url,{
-    		method:'GET',
-    		mode:'cors',
-    		cache:'default'
-    	}).then(res => {
-	        return res.json()
-	    }).then(v => {
-	    	if (v.data.items.length===0) {
-	    		this.detailDataFlag=false
-	    	}else{
-	    		this.detailList=this.detailList.concat(v.data.items)
-	    		this.detailDataFlag=true
-	    	}
-    	}).catch(v2 => {
-    		console.log(v2)
-    	})
-    },
+
     getCurveList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/mkt'
     	fetch(url,{
@@ -552,6 +532,33 @@ export default {
     		console.log(v2)
     	})
     },
+		inquireMore(){
+			this.myChart.setOption(this.option);
+    	this.pn++
+    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
+    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+    	console.log(url)
+    	fetch(url,{
+    		method:'GET',
+    		mode:'cors',
+    		cache:'default'
+    	}).then(res => {
+	        return res.json()
+	    }).then(v => {
+	    	if (v.data.items.length===0) {
+	    		this.detailDataFlag=false
+	    	}else{
+	    		this.detailList=this.detailList.concat(v.data.items)
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
+	    	}
+    	}).catch(v2 => {
+    		console.log(v2)
+    	})
+    },
     getDetailList(){
     	// https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt?day=1&sort_col=0&sort=0&pn=1&ps=20
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
@@ -569,14 +576,19 @@ export default {
 		    	this.detailDataFlag=false
 		    }else{
 					this.detailList=v.data.items
-		    	this.detailDataFlag=true
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 		    }
     	}).catch(v2 => {
     		console.log(v2)
     	})
     },
     clickLi(li){
-  		window.location.href='http://itougu.jrj.com.cn/h5/equity-single?stockcode='+li.stockCode+'&stockname='+li.stockName
+  		// window.location.href='http://itougu.jrj.com.cn/h5/equity-single?stockcode='+li.stockCode+'&stockname='+li.stockName
+  		window.location.href='http://localhost:8081/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName
   	}
   }
 }

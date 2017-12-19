@@ -403,6 +403,7 @@ export default {
     		$('.detail-title-lists li').removeClass('desc').removeClass('asce')
     		e.currentTarget.setAttribute('class','desc')
     	}
+			this.pn=1
     	this.getDetailList()
     },
     inquireMore(){
@@ -421,7 +422,11 @@ export default {
 	    		this.detailDataFlag=false
 	    	}else{
 	    		this.detailList=this.detailList.concat(v.data.items)
-	    		this.detailDataFlag=true
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 	    	}
     	}).catch(v2 => {
     		console.log(v2)
@@ -429,7 +434,6 @@ export default {
     },
     getCurveList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/balance/stock?stockcode='+this.stockcode
-    	console.log(url)
     	fetch(url,{
     		method:'GET',
     		mode:'cors',
@@ -447,6 +451,7 @@ export default {
     getDetailList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/stock'
     	url=url+'?stockcode='+this.stockcode+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+			console.log(url)
     	fetch(url,{
     		method:'GET',
     		mode:'cors',
@@ -457,8 +462,12 @@ export default {
 	    	if (v.data.items.length===0) {
 		    	this.detailDataFlag=false
 		    }else{
-		    	this.detailDataFlag=true
 		    	this.detailList=v.data.items
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 		    }
     	}).catch(v2 => {
     		console.log(v2)
