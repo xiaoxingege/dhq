@@ -53,13 +53,14 @@
 }
 
 .info-text .hint{
+	height: 0.33rem;
+	line-height: 0.33rem;
 	float: left;
-	width:1.44rem;
-	margin-right: 0.1rem;
+	width:1.50rem;
 }
 .info-text .text{
 	float: left;
-	width:5.34rem;
+	width:5.29rem;
 }
 
 
@@ -142,11 +143,11 @@
 							</p>
 						</div>
 						<div class="info-text mt40">
-							<span class="hint">买方营业部：</span>
+							<p class="hint">买方营业部：</p>
 							<p class="text">{{item[9]}}</p>
 						</div>
 						<div class="info-text">
-							<span class="hint">卖方营业部：</span>
+							<p class="hint">卖方营业部：</p>
 							<p class="text">{{item[11]}}</p>
 						</div>
 					</li>
