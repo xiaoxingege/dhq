@@ -325,6 +325,7 @@ export default {
     document.title = '融资融券'
   },
   mounted () {
+		var _this=this
     this.getCurveList()
     this.getGatherList()
     this.getDetailList()
@@ -333,7 +334,7 @@ export default {
 			var scrollHeight = $(document).height()
 			var windowHeight = $(this).height()
 			if(scrollTop + windowHeight === scrollHeight){
-				this.myChart.setOption(this.option);
+				_this.myChart.setOption(_this.option);
 			}
 		})
   },
