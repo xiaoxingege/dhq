@@ -362,6 +362,14 @@ export default {
       _this.loading()
       _this.myChart.setOption(_this.option);
     },5000)
+    $(window).scroll(function(){
+			var scrollTop = $(this).scrollTop()
+			var scrollHeight = $(document).height()
+			var windowHeight = $(this).height()
+			if(scrollTop + windowHeight === scrollHeight){
+				_this.myChart.setOption(_this.option);
+			}
+		})
   },
   filters: {
     convert (d) {
