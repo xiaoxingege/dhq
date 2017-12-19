@@ -85,7 +85,7 @@ i {
 <template>
 <div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
   <a class="k-line-box" @click='linkDetail(strategyId)'>
-    <div class="kcharts" ref="kcharts" @keyup="zoomData($event)" @mouseover="zoomOver($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
+    <div class="kcharts" ref="kcharts" @keydown.prevent="zoomData($event)" @mouseover="zoomOver($event)" @mouseout="zoomOut($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
   </a>
 </div>
 </template>
@@ -574,17 +574,14 @@ export default {
                 }
            }, false); */
     },
-
     zoomData(e) {
       var key = e.keyCode
-      console.info(key + '&&&&&&&&&&&&&&&&&&&&')
       if (key === 38) {
         if (this.zoomRange <= 120) {
           return;
         }
         this.zoomStart += 10
         this.zoomRange -= 10
-
       } else if (key === 40) {
         if (this.zoomRange >= this.dataSize) {
           this.zoomStart = 0;
@@ -615,8 +612,6 @@ export default {
           this.zoomEnd += 1
         }
       }
-      //  console.log(this.zoomStart)
-      //  console.log(this.zoomEnd)
       this.chart.dispatchAction({
         type: 'dataZoom',
         startValue: this.zoomStart,
@@ -626,16 +621,16 @@ export default {
     },
     zoomOver(e) {
       this.$refs.kcharts.focus()
-      console.info('focus')
-
+    },
+    zoomOut(e) {
+      this.$refs.kcharts.blur();
     },
     linkDetail: function(id) {
       window.open(ctx + '/backtesttime/' + id)
     }
   },
   mounted() {
-    this.init()
+    this.init();
   }
-
 }
 </script>
