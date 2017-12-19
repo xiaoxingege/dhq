@@ -192,6 +192,7 @@ export default {
     document.title = this.stockname+'_大宗交易历史数据'
   },
   mounted () {
+		this.pn=1
     this.getDetailList()
   },
   filters: {
