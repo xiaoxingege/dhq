@@ -159,7 +159,8 @@ export default {
       } else {
         console.log(query.innerCode)
         // return
-        this.innerCode = '000007.SZ'
+        // this.innerCode = '000007.SZ'
+        this.innerCode = '600030.SH'
       }
       this.$store.dispatch('optionalStock/getGoldStrategyList', {
           innerCode: this.innerCode,

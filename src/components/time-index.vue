@@ -54,8 +54,8 @@ import Autocomplete from 'components/autocomplete'
 export default {
   data() {
     return {
-      strategyId: '15__2__macd_24_102_8',
-      innerCode: '000002.SZ',
+      strategyId: '41__55__boll_8_8_2',
+      innerCode: '601668.SH',
       url: 'openapi/personas/JRJ2001803730/tips?field=phone&value=1',
       msgVal: ''
     }

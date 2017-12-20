@@ -134,6 +134,9 @@ export default {
       }
       this.init()
     }
+    /* strategyId() {
+      this.init()
+    } */
   },
   computed: mapState({
     kLineDataAll: state => {
@@ -149,8 +152,8 @@ export default {
       const ma30 = []
       let name = ''
       let code = ''
-      const pointData = []
-      const seriesData = []
+      let pointData = []
+      let seriesData = []
       kLine && kLine.forEach(item => {
         const openPx = item.openPx // 开盘价
         const closePx = item.closePx // 收盘价
@@ -275,7 +278,6 @@ export default {
           }
         }
       })
-
       return {
         kLineXdata: kLineXdata,
         kLineYdata: kLineYdata,
@@ -295,7 +297,12 @@ export default {
   },
   methods: {
     init() {
-      this.chart = echarts.init(this.$refs.kcharts) || echarts.getInstanceByDom(this.$refs.kcharts)
+      this.chart = echarts.getInstanceByDom(this.$refs.kcharts)
+      if (this.chart) {
+        this.chart.clear();
+        this.chart.dispose();
+      }
+      this.chart = echarts.init(this.$refs.kcharts);
       const _this = this
       window.onresize = function() {
         const timestampResize = new Date().getTime()
@@ -320,10 +327,11 @@ export default {
           console.log(this.dataSize)
           console.log(this.zoomStart)
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
+
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
-      // console.log(seriesData)
+      //  console.log(seriesData)
       const self = this
       self.chart.setOption({
         grid: {

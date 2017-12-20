@@ -296,7 +296,7 @@ body {
       </div>
       <div class="inp-box1 fl inp-box2">
         <label>投顾ID：</label>
-        <input type="text" class="inp-text1" v-model="fcId">
+        <input type="text" class="inp-text1" v-model="fcId" style="width: 120px;">
 
       </div>
       <div class="search-btn fl" @click="lookUp($event)">查找</div>
@@ -321,7 +321,6 @@ body {
         <td>手机号</td>
         <td class="td-txt" @click="isAttention===true?sortStock($event,'-5','attention'):sortStock($event,'5','attention')" :class="this.name==='attention'?'active':''">关注度<i :class="isAttention===true?'sort-up':'sort-down'"></i></td>
       </tr>
-      <!--  <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td> -->
       <tr v-for="list of listDetail.datas" v-if="listDetail.datas.length>0">
         <td>{{checkNull(list.userid)}}</td>
         <td>
