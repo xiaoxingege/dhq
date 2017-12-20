@@ -87,7 +87,7 @@ export default {
       page = page || 0
       pagesize = pagesize || PAGE_SIZE
       // pagesize 是第几页， pageNum 是每页显示的个数
-      return fetch(`${domain}/openapi/personas/${fcId}/customers?sort=${sortField}&phone=${phone}&name=${name}&acct=${acct}&pageSize=${page}&pageNum=${pagesize}`, {
+      return fetch(`${domain}/openapi/personas/${fcId}/customers?sort=${sortField}&phone=${phone}&name=${name}&acct=${acct}&pageNum=${page}&pageSize=${pagesize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -114,13 +114,14 @@ export default {
       paramValue,
       fcId
     }) {
-      return fetch(`${domain}/openapi/personas/${fcId}/tips?field=${field}&value=${paramValue}`, {
+      return fetch(`${domain}/openapi/personas/${fcId}/tips?field=${field}&value=${paramValue}&count=20`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
+          commit('setFcId', fcId)
           commit('updateCustomersFuzzy', result.data)
           // console.log(result.data)
         } else {
@@ -131,13 +132,11 @@ export default {
       })
     },
     getCustomerInfo({
-      state,
       commit
     }, {
-      clientPassport,
-      fcId
+      clientPassport
     }) {
-      return fetch(`${domain}/openapi/personas/userBaseInfo/${state.fcId}/${clientPassport}`, {
+      return fetch(`${domain}/openapi/personas/userBaseInfo/JRJ2001803730/${clientPassport}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -148,14 +147,12 @@ export default {
       })
     },
     getCustomerTag({
-      state,
       commit
     }, {
       dateTime,
-      clientPassport,
-      fcId
+      clientPassport
     }) {
-      return fetch(`${domain}/openapi/personas/userTag/${state.fcId}/${clientPassport}?dateTime=${dateTime}`, {
+      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/${clientPassport}?dateTime=${dateTime}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -166,13 +163,11 @@ export default {
       })
     },
     getAnalyAbility({
-      state,
       commit
     }, {
-      clientPassport,
-      fcId
+      clientPassport
     }) {
-      return fetch(`${domain}/openapi/personas/userPower/${state.fcId}/${clientPassport}`, {
+      return fetch(`${domain}/openapi/personas/userPower/JRJ2001803730/${clientPassport}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -196,15 +191,13 @@ export default {
       })
     },
     setAttention({
-      state,
       commit
     }, {
       star,
-      clientPassport,
-      fcId
+      clientPassport
     }) {
       const timestamp = Date.parse(new Date())
-      return fetch(`${domain}/openapi/personas/stars/${state.fcId}/${clientPassport}?star=${star}&time=${timestamp}`, {
+      return fetch(`${domain}/openapi/personas/stars/JRJ2001803730/${clientPassport}?star=${star}&time=${timestamp}`, {
         method: 'PUT',
         mode: 'cors'
       }).then((res) => {
