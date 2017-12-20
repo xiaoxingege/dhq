@@ -32,7 +32,7 @@
                 <div class="quick-report-list-item">
                     <div class="quick-report-list-item-content">
                         <div><span class="time">{{item.time}}</span><span class="action" :class="item.lookRise == 1 ? 'rise': 'down'">{{item.signalName}}</span></div>
-                        <div><span class="stock-name">{{item.stockName}}</span><span class="info">{{item.signalInfo}}</span></div>
+                        <div><span class="stock-name" @click="stockJsBridge(item.stockCode, item.stockName)">{{item.stockName}}</span><span class="info">{{item.signalInfo}}</span></div>
                     </div>
                     <div class="mark-list">
                         <div></div>
@@ -91,6 +91,16 @@
                         vm.isShowTitle = true
                     }
                 })
+            },
+            stockJsBridge(stkcode, stkname){
+                let market = '';
+                if((stkcode.slice(0,3) == '000') || (stkcode.slice(0,3) == '002') || (stkcode.slice(0,3) == '300')){
+                    market = 'sz'
+                }else {
+                    market = 'sh'
+                }
+
+                jrj.jsCallNative(100, JSON.stringify({stockCode:stkcode, stockMarket: market, stockName: stkname}))
             }
         },
         mounted(){
