@@ -143,8 +143,8 @@
         <tbody>
           <tr v-for="(item,index) of filterStrategyList" @click='changeStrategy(item.strategyId,index)' class="filter-li" :class="{'li-focus':index === liIndex}">
             <td>{{item.strategyName === null?'--':item.strategyName}}</td>
-            <td>{{item.evaluationIndexs.winRatio === null?'--':item.evaluationIndexs.winRatio.toFixed(2)}}</td>
-            <td>{{item.evaluationIndexs.winLossRatio === null?'--':item.evaluationIndexs.winLossRatio.toFixed(2)}}</td>
+            <td>{{item.winRatio === null?'--':item.winRatio.toFixed(2)}}</td>
+            <td>{{item.winLossRatio === null?'--':item.winLossRatio.toFixed(2)}}</td>
             <td>{{item.holdDay === null?'--':item.holdDay}}</td>
           </tr>
         </tbody>

@@ -5,6 +5,7 @@ import fetch from '../z3tougu/util/z3fetch'
 export default {
   namespaced: true,
   state: {
+    fcId: 'JRJ2001803730',
     timeStrategyList: [],
     customerPositionList: [],
     customerFilterStrategy: [],
@@ -38,11 +39,12 @@ export default {
   },
   actions: {
     getTimeStrategyList({
+      state,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/timeStrategy.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/timeStrategy.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -52,11 +54,12 @@ export default {
       })
     },
     getCustomerPosition({
+      state,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/positionStocks.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/positionStocks.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -66,11 +69,12 @@ export default {
       })
     },
     getCustomerFilterStrategy({
+      state,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/filterStrategy.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/filterStrategy.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
