@@ -874,10 +874,11 @@ export default {
              var time =Math.round(2000/this.limitchange);
              $('#therm-body-mercury').css( { 'height':'0rem','top':'5.28rem' } ).animate({ height:mercuryHeight+'rem',top:newMercuryTop+'rem' },animateTime);
              $('#therm-tooltip').css('top','4.88rem').animate({ top:newMercuryTop-0.36+'rem' },animateTime);
+             var s= 0;
              var int = setInterval(function(){
                  if( $('#therm-body-mercury').is(':animated')){
-                     var s= Number($('#therm-tooltip').find('span').text());
-                     $('#therm-tooltip').find('span').text(s + 1)
+                     s++
+                     $('#therm-tooltip').find('span').text(s)
                  }else{
                      clearInterval(int);
                      $('#therm-tooltip').find('span').text( $('.thermText').find('span').text());
