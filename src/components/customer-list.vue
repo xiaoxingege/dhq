@@ -294,6 +294,11 @@ body {
           <li v-for="fuzzy of this.customersFuzzy.searchList" @click="focusUser($event,'phone')"><span>{{fuzzy}}</span></li>
         </ul>
       </div>
+      <div class="inp-box1 fl inp-box2">
+        <label>投顾ID：</label>
+        <input type="text" class="inp-text1" v-model="fcId">
+
+      </div>
       <div class="search-btn fl" @click="lookUp($event)">查找</div>
 
     </div>
@@ -384,7 +389,8 @@ export default {
       tabledata: {
         th: ['序号', '股票代码', '股票简称', '买卖方向', '买入日期', '卖出日期', '买入价格(前复权)', '卖出价格', '盈亏', '收益率'],
         td: {}
-      }
+      },
+      fcId: 'JRJ2001803730'
 
     }
   },
@@ -419,7 +425,8 @@ export default {
         name: this.nameParam,
         acct: this.acctParam,
         page: this.page,
-        pagesize: this.fullHeight2
+        pagesize: this.fullHeight2,
+        fcId: this.fcId
 
       })
     },
@@ -452,7 +459,8 @@ export default {
         } else {
           this.$store.dispatch('customerList/queryCustomersFuzzy', {
             field: type,
-            paramValue: keyAcct
+            paramValue: keyAcct,
+            fcId: this.fcId
           })
           return true
         }
@@ -481,7 +489,8 @@ export default {
         } else {
           this.$store.dispatch('customerList/queryCustomersFuzzy', {
             field: type,
-            paramValue: keyName
+            paramValue: keyName,
+            fcId: this.fcId
           })
           return true
         }
@@ -504,7 +513,8 @@ export default {
         } else {
           this.$store.dispatch('customerList/queryCustomersFuzzy', {
             field: type,
-            paramValue: keyPhone
+            paramValue: keyPhone,
+            fcId: this.fcId
           })
           return true
         }
@@ -530,7 +540,8 @@ export default {
         name: this.nameParam,
         acct: this.acctParam,
         page: this.page,
-        pagesize: this.fullHeight2
+        pagesize: this.fullHeight2,
+        fcId: this.fcId
       })
     },
     focusUser(e, type) {
@@ -570,7 +581,8 @@ export default {
         name: this.nameParam,
         acct: this.acctParam,
         page: this.page,
-        pagesize: this.fullHeight2
+        pagesize: this.fullHeight2,
+        fcId: this.fcId
       })
       this.sortNum = this.stockSort
       console.log(this.sortNum)

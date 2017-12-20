@@ -300,7 +300,7 @@ export default [{
     component: BullStock
   },
   {
-    path: ctx + '/timeIndex',
+    path: ctx + '/test/timeIndex',
     name: 'timeindex',
     component: TimeIndex
   },
@@ -310,7 +310,7 @@ export default [{
     component: BullStockList
   },
   {
-    path: ctx + '/autoinpBox',
+    path: ctx + '/test/autoinpBox',
     name: 'autoinpbox',
     component: AutoinpBox
   }

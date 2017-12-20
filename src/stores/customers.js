@@ -66,6 +66,9 @@ export default {
     },
     updateAttention(state, data) {
       state.customerAttention = data
+    },
+    setFcId(state, data) {
+      state.fcId = data
     }
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
@@ -78,18 +81,20 @@ export default {
       name,
       acct,
       page,
-      pagesize
+      pagesize,
+      fcId
     }) {
       page = page || 0
       pagesize = pagesize || PAGE_SIZE
       // pagesize 是第几页， pageNum 是每页显示的个数
-      return fetch(`${domain}/openapi/personas/JRJ2001803730/customers?sort=${sortField}&phone=${phone}&name=${name}&acct=${acct}&pageSize=${page}&pageNum=${pagesize}`, {
+      return fetch(`${domain}/openapi/personas/${fcId}/customers?sort=${sortField}&phone=${phone}&name=${name}&acct=${acct}&pageSize=${page}&pageNum=${pagesize}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
           // console.log(result.data.kLine)
+          commit('setFcId', fcId)
           commit('updateCustomersList', result.data)
           commit('updatePage', {
             totalPages: result.data.total
@@ -106,9 +111,10 @@ export default {
       commit
     }, {
       field,
-      paramValue
+      paramValue,
+      fcId
     }) {
-      return fetch(`${domain}/openapi/personas/JRJ2001803730/tips?field=${field}&value=${paramValue}`, {
+      return fetch(`${domain}/openapi/personas/${fcId}/tips?field=${field}&value=${paramValue}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

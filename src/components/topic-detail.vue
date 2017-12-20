@@ -643,7 +643,6 @@ bottom: 0; */
     font-size: 12px;
     line-height: 15px;
     display: inline-block;
-
     background: url("../assets/images/z3img/detail-red.png") no-repeat;
 
 }
