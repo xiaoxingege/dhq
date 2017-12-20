@@ -131,11 +131,13 @@ export default {
       })
     },
     getCustomerInfo({
+      state,
       commit
     }, {
-      clientPassport
+      clientPassport,
+      fcId
     }) {
-      return fetch(`${domain}/openapi/personas/userBaseInfo/JRJ2001803730/${clientPassport}`, {
+      return fetch(`${domain}/openapi/personas/userBaseInfo/${state.fcId}/${clientPassport}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -146,12 +148,14 @@ export default {
       })
     },
     getCustomerTag({
+      state,
       commit
     }, {
       dateTime,
-      clientPassport
+      clientPassport,
+      fcId
     }) {
-      return fetch(`${domain}/openapi/personas/userTag/JRJ2001803730/${clientPassport}?dateTime=${dateTime}`, {
+      return fetch(`${domain}/openapi/personas/userTag/${state.fcId}/${clientPassport}?dateTime=${dateTime}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -162,11 +166,13 @@ export default {
       })
     },
     getAnalyAbility({
+      state,
       commit
     }, {
-      clientPassport
+      clientPassport,
+      fcId
     }) {
-      return fetch(`${domain}/openapi/personas/userPower/JRJ2001803730/${clientPassport}`, {
+      return fetch(`${domain}/openapi/personas/userPower/${state.fcId}/${clientPassport}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -190,13 +196,15 @@ export default {
       })
     },
     setAttention({
+      state,
       commit
     }, {
       star,
-      clientPassport
+      clientPassport,
+      fcId
     }) {
       const timestamp = Date.parse(new Date())
-      return fetch(`${domain}/openapi/personas/stars/JRJ2001803730/${clientPassport}?star=${star}&time=${timestamp}`, {
+      return fetch(`${domain}/openapi/personas/stars/${state.fcId}/${clientPassport}?star=${star}&time=${timestamp}`, {
         method: 'PUT',
         mode: 'cors'
       }).then((res) => {

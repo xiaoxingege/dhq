@@ -115,7 +115,7 @@ export default [{
   },
   {
     path: ctx + '/siwei/:isFilter',
-    name: 'bubbles',
+    name: 'bubble',
     component: Siwei
   },
   {

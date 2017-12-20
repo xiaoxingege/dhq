@@ -143,7 +143,8 @@ export default {
       winRatio: '',
       maxDrawdown: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      clientPassport: this.$route.params.clientPassport
     }
   },
   watch: {
@@ -169,7 +170,7 @@ export default {
       }
     },
     strategyNameData: function() {
-      const strategyNames = this.$store.state.z3touguIndex.strategyNames
+      const strategyNames = this.$store.state.portraitDetail.strategyNames
       return strategyNames
     },
     strategyIndexsData: function() {
@@ -180,10 +181,8 @@ export default {
   methods: {
     initStrategy: function() {
       this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
-      this.$store.dispatch('z3touguIndex/getStrategyName', {
-          sort: this.sort,
-          direction: this.direction,
-          size: this.size
+      this.$store.dispatch('portraitDetail/goldStrategy', {
+          clientPassport: this.clientPassport
         })
         .then(() => {
           if (this.strategyNameData.length > 0) {

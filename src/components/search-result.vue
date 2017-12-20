@@ -92,6 +92,9 @@ body {
       <a :href="item.stockUrl" target="_blank">{{item.stockName}}[{{item.stockCode}}]</a>
       <p class="searchInfo">{{item.stockIntro}}</p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
   <ul v-if="searchType == 'theme'">
     <p>搜索题材数：<span>{{total}}</span></p>
@@ -101,6 +104,9 @@ body {
       <p class="searchInfo">{{item.themeExplain}}</p>
       <p class="searchTime">{{item.themeTime}}</p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
   <ul v-if="searchType == 'signal'">
     <p>搜索信号数：<span>{{total}}</span></p>
@@ -108,6 +114,9 @@ body {
       <a :href="item.signalUrl" target="_blank">{{item.signalName}}</a>
       <p class="searchInfo">{{item.signalExplain}}</p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
   <ul v-if="searchType == 'infor'" style="position: relative;">
     <p>搜索资讯数：<span>{{total}}</span></p>
@@ -122,6 +131,9 @@ body {
       <p class="searchInfo">{{item.newsSummary}}</p>
       <p class="searchTime">{{item.newsTime}}<span class="newsSource">{{item.newsSource}}</span></p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
   <ul v-if="searchType == 'report'" style="position: relative;">
     <p>搜索研报数：<span>{{total}}</span></p>
@@ -135,6 +147,9 @@ body {
       <p class="searchInfo">{{item.reportSummary}}</p>
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
   <ul v-if="searchType == 'strategy'" class="searchStrategy">
     <p>搜索策略数：<span>{{total}}</span></p>
@@ -171,10 +186,10 @@ body {
         <span>平均持有{{item.holdDay | decimal(0)}}天</span>
       </p>
     </li>
+    <div style="width:100%; text-align: center;">
+      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+    </div>
   </ul>
-  <div style="width:100%; text-align: center;">
-    <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
-  </div>
 
 
 </div>
