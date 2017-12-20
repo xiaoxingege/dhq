@@ -161,7 +161,7 @@
 		<div class="block curve">
 			<div class="title">
 				<span class="red-block"></span>
-				<h2>两市融资融券余额历史走势</h2>
+				<h2>{{stockname}}融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
 			<div id="curve" style="width:100%;height:3.53rem;"></div>
@@ -273,18 +273,15 @@ export default {
 		}
 		var interval=dataY.length-2
 		var option = {
-			grid:{
-				top:'18%',
-				left:'10%',
-				right:'20%',
-				bottom:'20%'
-			},
-		    tooltip: {
-		        trigger: 'axis',
-		        position: function (pt) {
-		            return [pt[0], '10%'];
-		        }
-		    },
+				grid:{
+					top:'18%',
+					left:'10%',
+					right:'20%',
+					bottom:'20%'
+				},
+				tooltip: {
+						show:false
+				},
 		    xAxis: {
 		        type: 'category',
 		        data: dataX,
@@ -406,6 +403,7 @@ export default {
     		$('.detail-title-lists li').removeClass('desc').removeClass('asce')
     		e.currentTarget.setAttribute('class','desc')
     	}
+			this.pn=1
     	this.getDetailList()
     },
     inquireMore(){
@@ -424,7 +422,11 @@ export default {
 	    		this.detailDataFlag=false
 	    	}else{
 	    		this.detailList=this.detailList.concat(v.data.items)
-	    		this.detailDataFlag=true
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 	    	}
     	}).catch(v2 => {
     		console.log(v2)
@@ -432,7 +434,6 @@ export default {
     },
     getCurveList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/balance/stock?stockcode='+this.stockcode
-    	console.log(url)
     	fetch(url,{
     		method:'GET',
     		mode:'cors',
@@ -450,6 +451,7 @@ export default {
     getDetailList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/stock'
     	url=url+'?stockcode='+this.stockcode+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+			console.log(url)
     	fetch(url,{
     		method:'GET',
     		mode:'cors',
@@ -460,8 +462,12 @@ export default {
 	    	if (v.data.items.length===0) {
 		    	this.detailDataFlag=false
 		    }else{
-		    	this.detailDataFlag=true
 		    	this.detailList=v.data.items
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 		    }
     	}).catch(v2 => {
     		console.log(v2)

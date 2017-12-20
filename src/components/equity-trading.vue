@@ -211,6 +211,13 @@
 	color: #aaa;
 	text-align: center;
 }
+.dataEmpty{
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.28rem;
+	color:#aaa;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -275,9 +282,12 @@
 						<span style="width:1.73rem;">{{item.sellVal | convert2}}</span>
 					</li>
 				</ul>
-				<div class="detail-more">
+				<div class="detail-more" v-if="detailList.length > 0">
 					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
 					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
+				</div>
+				<div class="dataEmpty" v-if="detailList.length === 0">
+					暂无数据
 				</div>
 			</div>
 		</div>
@@ -287,7 +297,6 @@
 <script>
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
-import 'whatwg-fetch'
 var echarts = require('echarts')
 
 export default {
@@ -304,7 +313,9 @@ export default {
     	sortt:'0', // 0=降序，1=升序
     	pn:'1', // 页码
     	ps:'20', // 每页条数
-    	detailDataFlag:true// 1 有数据 0无数据
+    	detailDataFlag:true,// 1 有数据 0无数据
+			option:null,
+      myChart:null
     }
   },
   beforecreated () {
@@ -314,9 +325,18 @@ export default {
     document.title = '融资融券'
   },
   mounted () {
+		var _this=this
     this.getCurveList()
     this.getGatherList()
     this.getDetailList()
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop()
+			var scrollHeight = $(document).height()
+			var windowHeight = $(this).height()
+			if(scrollTop + windowHeight === scrollHeight){
+				_this.myChart.setOption(_this.option);
+			}
+		})
   },
   filters: {
     convert (d) {
@@ -339,7 +359,7 @@ export default {
   methods: {
   	insertEchart(){
   		// 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('curve'));
+        this.myChart = echarts.init(document.getElementById('curve'));
 
 		var data=this.curveList;
 		var dataX=[];
@@ -349,19 +369,16 @@ export default {
 			dataY.push(data[i].marginBalance)
 		}
 		var interval=dataY.length-2
-		var option = {
-			grid:{
-				top:'18%',
-				left:'10%',
-				right:'20%',
-				bottom:'20%'
-			},
-		    tooltip: {
-		        trigger: 'axis',
-		        position: function (pt) {
-		            return [pt[0], '10%'];
-		        }
-		    },
+		this.option = {
+				grid:{
+						top:'18%',
+						left:'10%',
+						right:'20%',
+						bottom:'20%'
+				},
+				tooltip: {
+						show:false
+				},
 		    xAxis: {
 		        type: 'category',
 		        data: dataX,
@@ -448,7 +465,7 @@ export default {
 		};
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        this.myChart.setOption(this.option);
   	},
   	addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
@@ -461,10 +478,10 @@ export default {
     	$('.title-tab li').removeClass('active')
     	e.currentTarget.setAttribute('class','active')
     	this.day = e.currentTarget.getAttribute('data-index')
+			this.pn=1
     	this.getDetailList()
     },
     clickSort (e) {
-    	// if (this.sortcolumn === v.currentTarget.getAttribute('data-index')) {
     	if (this.sortcol === e.currentTarget.getAttribute('data-index')) {
     		if (this.sortt === '0') {
     			this.sortt='1'
@@ -479,30 +496,10 @@ export default {
     		$('.detail-title-lists li').removeClass('desc').removeClass('asce')
     		e.currentTarget.setAttribute('class','desc')
     	}
+			this.pn=1
     	this.getDetailList()
     },
-    inquireMore(){
-    	this.pn++
-    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
-    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
-    	console.log(url)
-    	fetch(url,{
-    		method:'GET',
-    		mode:'cors',
-    		cache:'default'
-    	}).then(res => {
-	        return res.json()
-	    }).then(v => {
-	    	if (v.data.items.length===0) {
-	    		this.detailDataFlag=false
-	    	}else{
-	    		this.detailList=this.detailList.concat(v.data.items)
-	    		this.detailDataFlag=true
-	    	}
-    	}).catch(v2 => {
-    		console.log(v2)
-    	})
-    },
+
     getCurveList(){
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/mkt'
     	fetch(url,{
@@ -535,6 +532,33 @@ export default {
     		console.log(v2)
     	})
     },
+		inquireMore(){
+			this.myChart.setOption(this.option);
+    	this.pn++
+    	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
+    	url=url+'?day='+this.day+'&sort_col='+this.sortcol+'&sort='+this.sortt+'&pn='+this.pn+'&ps='+this.ps
+    	console.log(url)
+    	fetch(url,{
+    		method:'GET',
+    		mode:'cors',
+    		cache:'default'
+    	}).then(res => {
+	        return res.json()
+	    }).then(v => {
+	    	if (v.data.items.length===0) {
+	    		this.detailDataFlag=false
+	    	}else{
+	    		this.detailList=this.detailList.concat(v.data.items)
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
+	    	}
+    	}).catch(v2 => {
+    		console.log(v2)
+    	})
+    },
     getDetailList(){
     	// https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt?day=1&sort_col=0&sort=0&pn=1&ps=20
     	var url='https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
@@ -548,10 +572,15 @@ export default {
 	        return res.json()
 	    }).then(v => {
 	    	if (v.data.items.length===0) {
+					this.detailList=[]
 		    	this.detailDataFlag=false
 		    }else{
-		    	this.detailDataFlag=true
-		    	this.detailList=v.data.items
+					this.detailList=v.data.items
+					if (v.data.items.length < this.ps) {
+						this.detailDataFlag=false
+					}else{
+						this.detailDataFlag=true
+					}
 		    }
     	}).catch(v2 => {
     		console.log(v2)
@@ -559,6 +588,7 @@ export default {
     },
     clickLi(li){
   		window.location.href='http://itougu.jrj.com.cn/h5/equity-single?stockcode='+li.stockCode+'&stockname='+li.stockName
+  		// window.location.href='http://localhost:8081/dist/h5/equity-single.html?stockcode='+li.stockCode+'&stockname='+li.stockName
   	}
   }
 }

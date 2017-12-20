@@ -3,6 +3,16 @@
  */
 
 window.jrjs = {
+  ready(callback) {
+    setTimeout(() => {
+      if (window.jrj) {
+        callback()
+      } else {
+        alert('retry')
+        this.ready(callback)
+      }
+    }, 100)
+  },
   isInJRJApp() {
     return !!window.jrj
   },
@@ -19,10 +29,10 @@ window.jrjs = {
       let fnName = 'cb' + Date.now()
       window[fnName] = function(data) {
         delete window[fnName]
-        if(typeof data === 'string') {
+        if (typeof data === 'string') {
           data = JSON.parse(data)
         }
-        callback(data)
+        callback(data.data)
       }
       window.jrj.jsCallNative('130', JSON.stringify({
         method: 'get',

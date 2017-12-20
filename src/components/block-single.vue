@@ -28,7 +28,7 @@
 }
 
 .detail-lists .date{
-	height:0.40rem; 
+	height:0.40rem;
 	font-size:0.28rem;
 	color:rgba(51,51,51,1);
 	line-height:0.40rem;
@@ -53,13 +53,14 @@
 }
 
 .info-text .hint{
+	height: 0.33rem;
+	line-height: 0.33rem;
 	float: left;
-	width:1.44rem;
-	margin-right: 0.1rem;
+	width:1.50rem;
 }
 .info-text .text{
 	float: left;
-	width:5.34rem;
+	width:5.29rem;
 }
 
 
@@ -105,6 +106,13 @@
 	border-radius: 0.04rem;
 	border:1px solid #FF4040;
 }
+.dataEmpty{
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.28rem;
+	color:#aaa;
+	text-align: center;
+}
 </style>
 
 <template>
@@ -135,18 +143,21 @@
 							</p>
 						</div>
 						<div class="info-text mt40">
-							<span class="hint">买方营业部：</span>
+							<p class="hint">买方营业部：</p>
 							<p class="text">{{item[9]}}</p>
 						</div>
 						<div class="info-text">
-							<span class="hint">卖方营业部：</span>
+							<p class="hint">卖方营业部：</p>
 							<p class="text">{{item[11]}}</p>
 						</div>
 					</li>
 				</ul>
-				<div class="detail-more">
+				<div v-if="detailList.length > 0" class="detail-more">
 					<h3 v-if="detailDataFlag===true" @click="inquireMore()">查看更多数据项 ></h3>
 					<h4 v-if="detailDataFlag===false">没有更多数据了</h4>
+				</div>
+				<div v-if="detailList.length === 0" class="dataEmpty">
+					暂无数据
 				</div>
 			</div>
 		</div>
@@ -160,7 +171,6 @@
 <script>
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
-import 'whatwg-fetch'
 
 export default {
   data () {
@@ -176,14 +186,14 @@ export default {
     }
   },
   beforecreated () {
-    
+
   },
   created () {
     document.title = this.stockname+'_大宗交易历史数据'
   },
   mounted () {
+		this.pn=1
     this.getDetailList()
-    
   },
   filters: {
   	covert (d) {
@@ -191,6 +201,7 @@ export default {
   	}
   },
   methods: {
+
   	getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
@@ -210,9 +221,11 @@ export default {
       	return 'red num'
       }
     },
-    inquireMore(){
-    	this.pn++
-
+		inquireMore(){
+			this.pn++
+			this.getDetailList()
+		},
+    getDetailList(){
     	var url='http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate='+this.startdate+'&enddate='+this.enddate+'&stockCode='+this.stockcode+'&page='+this.pn+'&psize='+this.ps+'&order=desc&sort=tradeDate'
     	console.log(url)
     	$.ajax({
@@ -226,30 +239,11 @@ export default {
 		    		this.detailDataFlag=false
 		    	}else{
 		    		this.detailList=this.detailList.concat(window.dzStockList.data)
-		    		this.detailDataFlag=true
-		    	}
-		    },
-		    error : function() {
-		    	console.log('error');
-		    }
-	  	});
-    },
-    getDetailList(){
-    	// http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate=2017-04-14&enddate=2017-10-27&stockCode=000001&page=1&psize=20&order=desc&sort=tradeDate&_dc=1509344145648
-    	var url='http://stock.jrj.com.cn/action/dazong/getDazongStockBuySellInfoList.jspa?startdate='+this.startdate+'&enddate='+this.enddate+'&stockCode='+this.stockcode+'&page='+this.pn+'&psize='+this.ps+'&order=desc&sort=tradeDate'
-    	console.log(url)
-    	$.ajax({
-		   	url:url,
-		    type:'get',
-		    cache : false,
-		    dataType: 'script',
-		    jsonp: 'callback',
-		    success:() => {
-		    	if (window.dzStockList.data.length===0) {
-		    		this.detailDataFlag=false
-		    	}else{
-		    		this.detailList=window.dzStockList.data
-		    		this.detailDataFlag=true
+						if (window.dzStockList.data.length < this.ps) {
+							this.detailDataFlag=false
+						}else{
+							this.detailDataFlag=true
+						}
 		    	}
 		    },
 		    error : function() {
