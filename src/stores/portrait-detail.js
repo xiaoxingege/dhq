@@ -39,12 +39,12 @@ export default {
   },
   actions: {
     getTimeStrategyList({
-      state,
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/timeStrategy.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
+      const url = `${domain}/openapi/personas/timeStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -54,12 +54,12 @@ export default {
       })
     },
     getCustomerPosition({
-      state,
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/positionStocks.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
+      const url = `${domain}/openapi/personas/positionStocks.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -69,12 +69,12 @@ export default {
       })
     },
     getCustomerFilterStrategy({
-      state,
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/filterStrategy.shtml?fcId=${state.fcId}&&userId=${clientPassport}`
+      const url = `${domain}/openapi/personas/filterStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
