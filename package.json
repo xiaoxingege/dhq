@@ -96,6 +96,7 @@
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
     "hsy-vue-tooltip": "^0.0.7",
+    "iscroll": "^5.2.0",
     "koa": "^2.3.0",
     "koa-body": "^2.5.0",
     "koa-router": "^7.2.1",
