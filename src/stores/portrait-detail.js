@@ -5,11 +5,11 @@ import fetch from '../z3tougu/util/z3fetch'
 export default {
   namespaced: true,
   state: {
-    fcId: 'JRJ2001803730',
     timeStrategyList: [],
     customerPositionList: [],
     customerFilterStrategy: [],
-    dayStockSelection: []
+    dayStockSelection: [],
+    strategyNames: []
   },
   mutations: {
     setTimeStrategyList(state, options) {
@@ -28,6 +28,12 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.customerFilterStrategy = result.data
+      }
+    },
+    setCustomerGoldStrategy(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyNames = result.data
       }
     },
     setDayStockSelection(state, options) {
@@ -79,6 +85,21 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setCustomerFilterStrategy', {
+          result: body
+        })
+      })
+    },
+    goldStrategy({
+      rootState,
+      commit
+    }, {
+      clientPassport
+    }) {
+      const url = `${domain}/openapi/personas/goldStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setCustomerGoldStrategy', {
           result: body
         })
       })
