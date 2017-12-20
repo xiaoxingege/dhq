@@ -15,8 +15,11 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
+import user from 'stores/user'
 const store = new Vuex.Store({
-  modules: {}
+  modules: {
+    user
+  }
 })
 
 /*
