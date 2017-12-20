@@ -59,7 +59,7 @@
 		<ul class="coupon-list">
 			<li v-if="coupon1 === '1'" @click="bannerskip(1)">
 				<div class="coupon-hint">
-					<h3>智能投顾工作室{{stata}}</h3>
+					<h3>智能投顾工作室</h3>
 					<p>
 						专家投顾+量化算法驱动
 						<span></span>
@@ -101,7 +101,6 @@ import {
 export default {
   data () {
     return {
-			stata:'',
 			minheight:0,
 			coupon1:this.getQueryString('coupon1') ? this.getQueryString('coupon1'):0,
 			coupon2:this.getQueryString('coupon2') ? this.getQueryString('coupon2'):0,
@@ -135,6 +134,7 @@ export default {
     },
 		bannerskip(show){
 			this.$store.dispatch('user/checkLogin').then(() => {
+				// 未登录状态执行
 	      if (this.loginStatus === 'no') {
 					// 跳转登录贯通
 					if (window.jrj && window.jrj.jsCallNative) {
@@ -142,10 +142,9 @@ export default {
 							returnUrl: encodeURI(window.location.href)
 						}))
 					}
-					this.stata='未登录'
 					return false
 	      }
-				this.stata='已登录'
+				// 登录状态执行
 				if (show===1) {
 					window.location.href='http://itougu.jrj.com.cn/activity/app/vipapp.jspa'
 				}
