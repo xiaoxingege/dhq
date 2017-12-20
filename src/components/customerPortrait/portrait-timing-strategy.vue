@@ -172,9 +172,9 @@
     <p class="portrait-timing-lable2">
       <span class="">策略详情</span>
     </p>
-    <p class="portrait-timing-more" @click="toStrategyList">
+    <!--p class="portrait-timing-more" @click="toStrategyList">
       <a>更多>></a>
-    </p>
+    </p-->
   </div>
   <div class="portrait-timing-con clearfix">
     <div v-if="isNoData" class="timing-no-data">
@@ -407,7 +407,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.timeStrategyList = this.timeStrategyListData
             this.strategyId = this.timeStrategyListData[0].id
-            this.stockName = this.timeStrategyListData[0].name
+
           }
           resolve();
         })
@@ -419,6 +419,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.dataList = this.customerPositionList
             this.innerCode = this.customerPositionList[0].innerCode
+            this.stockName = this.customerPositionList[0].name
           }
           resolve();
         })

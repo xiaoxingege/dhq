@@ -41,6 +41,7 @@
 
 .filter-strategy-table {
   width: 100%;
+  height: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -61,6 +62,7 @@
   color: #c9d0d7;
   font-weight: normal;
   border: 1px solid #23272c;
+  padding: 4px 10px;
 }
 
 .filter-strategy-table td {
@@ -103,6 +105,13 @@
   background: #23272c;
 }
 
+.filter-stock-table th {
+  background-color: #23272c;
+  color: #c9d0d7;
+  padding: 4px 10px;
+  text-align: left;
+}
+
 .filter-stock-table td {
   box-sizing: border-box;
   text-align: center;
@@ -125,9 +134,9 @@
 <div style="height:100%;">
   <div class="portrait-filer-title">
     <span class="portrait-filter-lable">筛股策略</span>
-    <p class="portrait-fiter-more" @click="toStrategyList">
+    <!--p class="portrait-fiter-more" @click="toStrategyList">
       <a>更多>></a>
-    </p>
+    </p-->
   </div>
   <div class="portrait-filter-con clearfix">
     <div class="filter-strategy-wrap">
@@ -143,7 +152,7 @@
         <tbody>
           <tr v-for="(item,index) of filterStrategyList" @click='changeStrategy(item.strategyId,index)' class="filter-li" :class="{'li-focus':index === liIndex}">
             <td>{{item.strategyName === null?'--':item.strategyName}}</td>
-            <td>{{item.winRatio === null?'--':item.winRatio.toFixed(2)}}</td>
+            <td>{{item.winRatio === null?'--':(item.winRatio*100).toFixed(2)+'%'}}</td>
             <td>{{item.winLossRatio === null?'--':item.winLossRatio.toFixed(2)}}</td>
             <td>{{item.holdDay === null?'--':item.holdDay}}</td>
           </tr>
@@ -156,13 +165,15 @@
           <span>暂无信号</span>
         </div>
         <table class="filter-stock-table">
-          <tbody>
+          <thead>
             <tr>
-              <td>当前选股</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <th>当前选股</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
+          </thead>
+          <tbody>
             <tr v-for="item of currentStockSelectionList">
               <td>{{item.name === null?'--':item.name}}</td>
               <td v-z3-updowncolor="item.chgPct">{{item.price === null?'--':item.price.toFixed(2)}}</td>
