@@ -54,12 +54,12 @@
     height: 78.8%;
 }
 .strategy-chart {
-    height: 100%;
+    height: 80%;
     cursor: pointer;
 }
 .rate-labels {
     padding-top: 5px;
-    height: 21.2%;
+    height: 20%;
     color: #c9d0d7;
 }
 .rate-labels li {
@@ -101,9 +101,7 @@
     </p>
   </div>
   <div class="portrait-strategy-chart">
-    <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
-      <div class="strategy-chart" ref="chart"></div>
-    </router-link>
+    <div class="strategy-chart" ref="chart"></div>
     <ul class="rate-labels clearfix">
       <li>
         <span>年化收益率</span>
@@ -216,6 +214,7 @@ export default {
                       textStyle: {
                         color: '#808ba1'
                       },
+                      inactiveColor: '#565656',
                       data: [{
                           name: '策略累计收益率',
                           icon: 'circle'
