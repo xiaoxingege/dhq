@@ -32,7 +32,8 @@ export default {
     page: 1,
     total: 0,
     customerPosition: {},
-    customerAttention: {}
+    customerAttention: {},
+    fcId: 'JRJ2001803730'
   },
   mutations: {
     updateCustomersList(state, customers) {
