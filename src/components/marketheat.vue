@@ -694,27 +694,24 @@ export default {
     document.title = '涨停追击'
   },
   mounted () {
+    var _this=this
 		// zt dt z5 d5
 		this.animateThermometer('zt');
-		this.getmarketData()
-		this.load()
-		//	setInterval(this.load(),30*1000);
-
-		// var a=this.wendjFour? this.wendjFour :1
-		// if(a === 1){
-    //     this.animateThermometer('zt');
-    // }else if(a === 2){
-    //     this.animateThermometer('dt');
-    // }else if(a === 3){
-    //     this.animateThermometer('z5');
-    // }else if(a === 4){
-    //     this.animateThermometer('d5');
-    // }
+    this.loading()
+    setInterval(function(){
+      _this.loading()
+    },5000)
   },
   filters: {
 
   },
   methods: {
+    loading(){
+      this.getZrztData()
+      this.getYzztData()
+      this.getZrdtData()
+      this.getYzdtData()
+    },
 		getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
@@ -895,31 +892,6 @@ export default {
 				 }
 			 })
 		},
-		getmarketData (){
-			 var url = 'http://home.flashdata2.jrj.com.cn/limitStatistic/market.js';
-			 $.ajax({
-					url:url,
-					type:'get',
-					cache:false,
-					dataType:'script',
-					success:() => {
-						if ( window.market ) {
-							this.time=window.market.time
-							this.totalNum=window.market.total
-							this.stopNum=window.market.stop
-
-
-							this.limitUp=window.market.limitUp
-							this.limitDown=window.market.limitDown
-							this.up5=window.market.up5
-							this.down5=window.market.down5
-						}
-					},
-					error:function(){
-						console.log('error');
-					}
-				})
-		 },
 		toStock (stockcode){
 			var stockCode=stockcode
 			let market = '';
@@ -934,12 +906,6 @@ export default {
 						stockMarket:market
 					}))
 			}
-		},
-		load(){
-			this.getZrztData()
-			this.getYzztData()
-			this.getZrdtData()
-			this.getYzdtData()
 		},
 		/*
 		* 自然涨停数据获取
