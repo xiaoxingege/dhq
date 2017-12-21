@@ -169,9 +169,9 @@
     <select v-model="strategyId">
                 <option v-for="item of timeStrategyList" :value='item.id'>{{item.name}}</option>
             </select>
-    <!--p class="portrait-timing-lable2">
+    <p class="portrait-timing-lable2">
       <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
-    </p-->
+    </p>
     <!--p class="portrait-timing-more" @click="toStrategyList">
       <a>更多>></a>
     </p-->
@@ -195,7 +195,7 @@
       </div>
     </div>
     <div class="portrait-timing-chart" v-if="!isNoData">
-      <p class="time-chart-title">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
+      <p class="time-chart-title" v-if="innerCode">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
       <div class="kcharts" ref="kcharts"></div>
     </div>
   </div>
@@ -419,7 +419,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.dataList = this.customerPositionList
             this.innerCode = this.customerPositionList[0].innerCode
-            this.stockName = this.customerPositionList[0].name
+            this.stockName = this.customerPositionList[0].name || '';
           }
           resolve();
         })
@@ -431,6 +431,9 @@ export default {
       })
     },
     initTimeChart: function() {
+      if (!this.innderCode) {
+        return;
+      }
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
           strategyId: this.strategyId

@@ -161,9 +161,6 @@
     </div>
     <div class="filter-stock-wrap">
       <div style="height:100%;">
-        <div v-if="isNoData" class="timing-no-data">
-          <span>暂无信号</span>
-        </div>
         <table class="filter-stock-table">
           <thead>
             <tr>
@@ -182,6 +179,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-if="isNoData" class="timing-no-data">
+          <span>暂无选股</span>
+        </div>
       </div>
     </div>
   </div>
@@ -237,7 +237,11 @@ export default {
         pageSize: this.pageSize
       }).then(() => {
         if (this.dayStockSelection.length > 0) {
+          this.isNoData = false;
           this.currentStockSelectionList = this.dayStockSelection
+        } else {
+          this.isNoData = true;
+          this.currentStockSelectionList = [];
         }
       })
     },

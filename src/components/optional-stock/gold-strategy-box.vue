@@ -12,13 +12,14 @@
 </style>
 <template>
 <div :style={height:boxHeight}>
-  <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
-    <div class="gold-strategy-chart" ref="chart"></div>
-  </router-link>
+  <div class="gold-strategy-chart" ref="chart" @dblclick="forwardDetail"></div>
 </div>
 </template>
 <script type="text/javascript">
 import echarts from 'echarts'
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: ['strategyId', 'boxHeight', 'isResizeStrategyChart'],
   data() {
@@ -197,6 +198,9 @@ export default {
       dateTypeDate += '-' + date.substring(4, 6) // 月
       dateTypeDate += '-' + date.substring(6, 8) // 日
       return dateTypeDate
+    },
+    forwardDetail: function() {
+      window.open(ctx + '/gold-strategy/' + this.strategyId);
     }
   },
   mounted() {
