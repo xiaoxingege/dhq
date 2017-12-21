@@ -295,7 +295,7 @@ export default {
         this.resultData = this.$store.state.zhikuanSearchList.dataList
         this.total = this.$store.state.zhikuanSearchList.totalRecordNum
         this.totalPage = this.$store.state.zhikuanSearchList.totalPage[linkText]
-        this.pageTo = this.$store.state.zhikuanSearchList.currentPage
+        this.pageTo = 1
       })
     }
   },
