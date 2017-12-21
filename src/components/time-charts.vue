@@ -85,7 +85,7 @@ i {
 <template>
 <div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
   <a class="k-line-box" @click='linkDetail(strategyId)'>
-    <div class="kcharts" ref="kcharts" @mouseover="zoomOver($event)" @mouseout="zoomOut($event)" tabindex="0"></div>
+    <div class="kcharts" ref="kcharts" @keydown.prevent="zoomData($event)" @mouseover="zoomOver($event)" @mouseout="zoomOut($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
   </a>
 </div>
 </template>
@@ -107,9 +107,7 @@ export default {
       zoomStart: 120,
       zoomEnd: 120,
       zoomRange: 60,
-      dataSize: 0,
-      mouseX: '',
-      mouseY: ''
+      dataSize: 0
     }
   },
   props: {
@@ -585,71 +583,52 @@ export default {
            }, false); */
     },
     zoomData(e) {
-      e.preventDefault()
       var key = e.keyCode
-
-      // var str= ' ';
-
-      var obj = document.getElementsByClassName('k-line-box')[0]
-      console.log(this.mouseX)
-      console.log(this.mouseY)
-      console.log(obj.offsetLeft)
-      if ((this.mouseX < obj.offsetLeft || this.mouseX > obj.offsetRight) && (this.mouseY < obj.offsetTop || this.mouseY < obj.offsetBottom)) {
-        console.log('范围之wai');
-      } else {
-        console.log('范围之nei');
-
-
-        if (key === 38) {
-          if (this.zoomRange <= 120) {
-            return;
-          }
-          this.zoomStart += 10
-          this.zoomRange -= 10
-        } else if (key === 40) {
-          if (this.zoomRange >= this.dataSize) {
-            this.zoomStart = 0;
-            this.zoomRange = this.dataSize;
-            return;
-          } else {
-            this.zoomStart -= 10
-            this.zoomRange += 10
-          }
-
-        } else if (key === 37) {
-          if (this.zoomStart === 0 || this.zoomEnd === this.zoomRange) {
-            /* this.zoomStart = 0;
-             this.zoomRange = this.dataSize; */
-            return;
-          } else {
-            this.zoomStart -= 1
-            // this.zoomRange += 1
-            this.zoomEnd -= 1
-          }
-        } else if (key === 39) {
-          console.log(this.zoomEnd)
-          console.log(this.zoomRange)
-          if (this.zoomStart === 0 || this.zoomEnd >= this.dataSize) {
-            return;
-          } else {
-            this.zoomStart += 1
-            this.zoomEnd += 1
-          }
+      if (key === 38) {
+        if (this.zoomRange <= 120) {
+          return;
         }
-        this.chart.dispatchAction({
-          type: 'dataZoom',
-          startValue: this.zoomStart,
-          endValue: this.zoomEnd
-        })
+        this.zoomStart += 10
+        this.zoomRange -= 10
+      } else if (key === 40) {
+        if (this.zoomRange >= this.dataSize) {
+          this.zoomStart = 0;
+          this.zoomRange = this.dataSize;
+          return;
+        } else {
+          this.zoomStart -= 10
+          this.zoomRange += 10
+        }
+
+      } else if (key === 37) {
+        if (this.zoomStart === 0 || this.zoomEnd === this.zoomRange) {
+          /* this.zoomStart = 0;
+           this.zoomRange = this.dataSize; */
+          return;
+        } else {
+          this.zoomStart -= 1
+          // this.zoomRange += 1
+          this.zoomEnd -= 1
+        }
+      } else if (key === 39) {
+        console.log(this.zoomEnd)
+        console.log(this.zoomRange)
+        if (this.zoomStart === 0 || this.zoomEnd >= this.dataSize) {
+          return;
+        } else {
+          this.zoomStart += 1
+          this.zoomEnd += 1
+        }
       }
+      this.chart.dispatchAction({
+        type: 'dataZoom',
+        startValue: this.zoomStart,
+        endValue: this.zoomEnd
+      })
+
     },
     zoomOver(e) {
-      // console.log(e)
-      this.mouseX = e.clientX
-      this.mouseY = e.clientY
-      // var myDiv = document.getElementsByClassName('kcharts')[0]
-      // console.log(myDiv)
-
+      this.$refs.kcharts.focus()
     },
     zoomOut(e) {
       this.$refs.kcharts.blur();
@@ -660,14 +639,6 @@ export default {
   },
   mounted() {
     this.init();
-    document.addEventListener('keydown', this.zoomData, false);
-    document.addEventListener('click', function(e) {
-      alert(1)
-    }, false);
   }
-  /* ,
-    destroyed() {
-      document.removeEventListener('keyup',this.zoomData, false); 
-    } */
 }
 </script>
