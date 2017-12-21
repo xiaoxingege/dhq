@@ -152,7 +152,7 @@
         </thead>
         <tbody>
           <tr v-for="(item,index) of filterStrategyList" @click='changeStrategy(item.strategyId,index)' class="filter-li" :class="{'li-focus':index === liIndex}">
-            <td>{{item.strategyName === null?'--':item.strategyName}}</td>
+            <td @dblclick="toFilterDetail(item.strategyId)">{{item.strategyName === null?'--':item.strategyName}}</td>
             <td>{{item.winRatio === null?'--':(item.winRatio*100).toFixed(2)+'%'}}</td>
             <td>{{item.winLossRatio === null?'--':item.winLossRatio.toFixed(2)}}</td>
             <td>{{item.holdDay === null?'--':item.holdDay}}</td>
@@ -195,6 +195,9 @@
 </div>
 </template>
 <script type="text/javascript">
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   data() {
     return {
@@ -277,6 +280,9 @@ export default {
         getVal = '--'
       }
       return getVal
+    },
+    toFilterDetail(id) {
+      window.open(ctx + '/backtestFilter/' + id)
     }
   },
   mounted() {

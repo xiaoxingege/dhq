@@ -198,7 +198,8 @@ export default {
         ],
         color: ['#0063C7', '#D65838']
       })
-      window.onresize = this.chart.resize;
+      window.addEventListener('resize', () => this.chart.resize(), false)
+
     }
   },
   mounted() {
