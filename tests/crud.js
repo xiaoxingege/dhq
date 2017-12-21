@@ -18,15 +18,15 @@ describe('crud', function() {
 
     it('delete all', async function() {
       await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         method: 'delete'
       })
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
       });
@@ -40,8 +40,8 @@ describe('crud', function() {
 
     it('create a new doc', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         method: 'post',
@@ -55,8 +55,8 @@ describe('crud', function() {
 
     it('create some doc', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         method: 'post',
@@ -67,8 +67,8 @@ describe('crud', function() {
       result = JSON.parse(result)
       assert.equal('a3', result.name)
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         method: 'post',
@@ -79,8 +79,8 @@ describe('crud', function() {
       result = JSON.parse(result)
       assert.equal('a5', result.name)
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         method: 'post',
@@ -91,8 +91,8 @@ describe('crud', function() {
       result = JSON.parse(result)
       assert.equal('a2', result.name)
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         method: 'post',
@@ -110,8 +110,8 @@ describe('crud', function() {
 
     it('get all docs', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
       });
@@ -121,8 +121,8 @@ describe('crud', function() {
 
     it('limit', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         qs: {
@@ -135,8 +135,8 @@ describe('crud', function() {
 
     it('skip', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         qs: {
@@ -151,8 +151,8 @@ describe('crud', function() {
 
     it('order asc', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         qs: {
@@ -165,8 +165,8 @@ describe('crud', function() {
 
     it('order desc', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         qs: {
@@ -179,8 +179,8 @@ describe('crud', function() {
 
     it('where', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         qs: {
@@ -196,8 +196,8 @@ describe('crud', function() {
 
     it('objectId', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         qs: {
@@ -208,8 +208,8 @@ describe('crud', function() {
       });
       result = JSON.parse(result)
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test/${result[0]._id}`,
       });
@@ -223,8 +223,8 @@ describe('crud', function() {
 
     it('update a3 to a6', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         qs: {
@@ -236,8 +236,8 @@ describe('crud', function() {
       result = JSON.parse(result)
       let objectId = result[0]._id
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test/${objectId}`,
         method: 'put',
@@ -246,8 +246,8 @@ describe('crud', function() {
         })
       });
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test/${objectId}`,
       });
@@ -262,8 +262,8 @@ describe('crud', function() {
 
     it('delete a5', async function() {
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         qs: {
@@ -275,15 +275,15 @@ describe('crud', function() {
       result = JSON.parse(result)
       let objectId = result[0]._id
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test/${objectId}`,
         method: 'delete'
       });
       result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test`,
         qs: {
@@ -298,15 +298,15 @@ describe('crud', function() {
 
     it('delete others', async function() {
       await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
         method: 'delete'
       })
       let result = await request({
-        headers:{
-          'content-type':'application/json',
+        headers: {
+          'content-type': 'application/json',
         },
         url: `${urlBase}/test?where=${JSON.stringify({__test: true})}`,
       });

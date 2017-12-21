@@ -41,34 +41,54 @@ body {
 </style>
 <template>
 <div class="backtest-time">
-  <TimeCharts :chartWidth="800" :chartHeight="600" :strategyId="strategyId" :innerCode="innerCode"></TimeCharts>
+  <TimeCharts :chartWidth="800+'px'" :chartHeight="600+'px'" :strategyId="strategyId" :innerCode="innerCode"></TimeCharts>
+  <Autocomplete :chartWidth="800+'px'" :chartHeight="600+'px'" :strategyId="strategyId" :innerCode="innerCode" :url="url" :data="customersFuzzy.searchList" @changeSelectValue="setSelectValue"></Autocomplete>
 </div>
 </template>
-
 <script>
 import {
   mapState
 } from 'vuex'
 import TimeCharts from 'components/time-charts'
+import Autocomplete from 'components/autocomplete'
 export default {
   data() {
     return {
-      strategyId: '15__2__macd_24_102_8',
-      innerCode: '000002.SZ'
+      strategyId: '41__55__boll_8_8_2',
+      innerCode: '601668.SH',
+      url: 'openapi/personas/JRJ2001803730/tips?field=phone&value=1',
+      msgVal: ''
     }
   },
   computed: mapState({
-
+    customersFuzzy: state => {
+      const listData = state.customerList.customersFuzzy
+      return {
+        searchList: listData.datas,
+        searchTotal: listData.total
+      }
+    }
   }),
   components: {
-    TimeCharts
+    TimeCharts,
+    Autocomplete
   },
   methods: {
-
+    init() {
+      this.$store.dispatch('customerList/queryCustomersFuzzy', {
+        field: 'phone',
+        paramValue: this.msgVal
+      })
+    },
+    setSelectValue: function(v) {
+      this.msgVal = v
+      console.log(this.msgVal)
+      this.init()
+    }
   },
   mounted() {
 
-
+    // this.init()
   }
 }
 </script>

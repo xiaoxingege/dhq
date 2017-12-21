@@ -49,7 +49,9 @@
 }
 
 .monthTag {
+    padding-left: 10px;
     height: 25px;
+    line-height: 25px;
     width: 147px;
     border: 1px solid #23272c;
     border-radius: 5px;
@@ -169,6 +171,7 @@
     height: 80%;
 }
 
+.customInfo .help,
 .posAdvice .help {
     width: 13px;
     position: relative;
@@ -177,9 +180,11 @@
     cursor: pointer;
 }
 
+.customInfo .help i,
 .posAdvice .help i {
     display: none;
 }
+.customInfo .help:hover i,
 .posAdvice .help:hover i {
     display: inline-block;
     position: absolute;
@@ -202,7 +207,8 @@
         <td>资金账号</td>
         <td v-if="customerInfo!==null">{{customerInfo.userid | isNull}}</td>
         <td>本户持仓比</td>
-        <td v-if="customerInfo!==null">{{customerInfo.position_radio_ofall | isNull}}</td>
+        <td v-if="customerInfo!==null">{{customerInfo.position_radio_ofall | isNull}}<span class="help"><img
+                  src="../../assets/images/help.png"><i>依据新股申购额估算的客户在本账户资金与全部股票账户资金的比值。</i></span></td>
         <td>交易次数</td>
         <td v-if="customerInfo!==null">{{customerInfo.trade_nums | isNull}} (近3月)</td>
       </tr>
@@ -229,8 +235,7 @@
         <td v-if="customerInfo!==null">{{customerInfo.ctime | isNull}}</td>
         <td>关注度</td>
         <td v-if="customerInfo!==null && customerInfo.attention !== null">
-          <img @click="changeStar" v-for="item in customerInfo.attention" value="item" src="../../assets/images/z3img/star.png">
-          <img @click="changeStar" v-for="item in (5-customerInfo.attention)" value="item" src="../../assets/images/z3img/star-gray.png">
+          <Z3Star :value="customerInfo.attention" @valueChange="setAttention"></Z3Star>
         </td>
       </tr>
 
@@ -240,7 +245,7 @@
         <p class="fl" style="line-height: 25px;">客户标签</p>
         <div class="fr" style="position: relative">
           <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
-          <span class="monthTag fr" @click="showTime"></span>
+          <span class="monthTag fr" @click="showTime">{{selectY}}年{{currentM}}月</span>
           <div v-show="isShowCalendar" class="timeBox">
             <div class="ymdDate">
               <span @click="changeYear('minus')" :style="{display:currentY === defaultY ? 'block':'none'}"><img
@@ -300,12 +305,10 @@
 </template>
 <script>
 import Portraitradar from 'components/customerPortrait/portrait-radar'
-
+import Z3Star from 'components/z3star'
 export default {
   data() {
     return {
-      tagArr: ['行业集中高度', '个人集中高度', '偏好beta值高的个股', '偏好好市值的个股', '偏好高盈利的个股', '喜欢交易化工行业', '特别关注化学制品', '客户资金周转率偏高', '偏好低市净率的个股', '个股的市盈率偏好适中'],
-      message: 'hello',
       currentY: '',
       defaultY: '',
       currentM: '',
@@ -313,7 +316,8 @@ export default {
       isThisYear: true,
       selectY: '',
       dateTime: '',
-      isShowCalendar: false
+      isShowCalendar: false,
+      clientPassport: this.$route.params.clientPassport || 3454565
     }
   },
   computed: {
@@ -329,13 +333,29 @@ export default {
     },
     customerPosition: function() {
       return this.$store.state.customerList.customerPosition
+    },
+    customerAttention: function() {
+      return this.$store.state.customerAttention
     }
 
   },
   components: {
-    Portraitradar
+    Portraitradar,
+    Z3Star
   },
   methods: {
+    setAttention: function(val) {
+
+      this.$store.dispatch('customerList/setAttention', {
+        star: val,
+        clientPassport: this.clientPassport
+      }).then(() => {
+        if (this.customerAttention.errCode === 0) {
+          this.customerInfo.attention = val
+        }
+      })
+      // this.customerInfo && (this.customerInfo.attention = val);
+    },
     showTime: function() {
       this.isShowCalendar = !this.isShowCalendar
 
@@ -348,7 +368,6 @@ export default {
       this.currentM = date.getMonth() + 1
       this.defaultM = date.getMonth() + 1
       this.dateTime = '' + this.currentY + this.currentM
-      console.log(this.dateTime)
     },
     changeYear: function(type) {
       if (type === 'add') {
@@ -369,19 +388,25 @@ export default {
       this.currentM = Number(e.target.getAttribute('value'))
       this.selectY = Number(this.$refs.showYear.innerText)
       this.$store.dispatch('customerList/getCustomerTag', {
-        dateTime: '' + this.selectY + (String(this.currentM).length > 1 ? this.currentM : '0' + this.currentM)
+        dateTime: '' + this.selectY + (String(this.currentM).length > 1 ? this.currentM : '0' + this.currentM),
+        clientPassport: this.clientPassport
       })
+      this.isShowCalendar = false
     }
   },
   mounted() {
     this.getCurrentTime()
-    this.$store.dispatch('customerList/getCustomerInfo')
-    this.$store.dispatch('customerList/getCustomerTag', {
-      dateTime: this.dateTime
+    this.$store.dispatch('customerList/getCustomerInfo', {
+      clientPassport: this.clientPassport
     })
-    this.$store.dispatch('customerList/getAnalyAbility')
+    this.$store.dispatch('customerList/getCustomerTag', {
+      dateTime: this.dateTime,
+      clientPassport: this.clientPassport
+    })
+    this.$store.dispatch('customerList/getAnalyAbility', {
+      clientPassport: this.clientPassport
+    })
     this.$store.dispatch('customerList/getPositonCommand')
-
   }
 }
 </script>
