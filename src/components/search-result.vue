@@ -132,7 +132,7 @@ body {
       <p class="searchTime">{{item.newsTime}}<span class="newsSource">{{item.newsSource}}</span></p>
     </li>
     <div style="width:100%; text-align: center;">
-      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+      <Pagination :totalPage="totalPage" :page="pageTo" :type="searchType" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
     </div>
   </ul>
   <ul v-if="searchType == 'report'" style="position: relative;">
@@ -148,7 +148,7 @@ body {
       <p class="searchTime">{{item.reportTime}}<span class="newsSource">{{item.reportSource}}</span></p>
     </li>
     <div style="width:100%; text-align: center;">
-      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+      <Pagination :totalPage="totalPage" :page="pageTo" :type="searchType" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
     </div>
   </ul>
   <ul v-if="searchType == 'strategy'" class="searchStrategy">
@@ -187,7 +187,7 @@ body {
       </p>
     </li>
     <div style="width:100%; text-align: center;">
-      <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
+      <Pagination :totalPage="totalPage" :page="pageTo" :type="searchType" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
     </div>
   </ul>
 
@@ -280,7 +280,6 @@ export default {
         this.pageTo = this.$store.state.zhikuanSearchList.currentPage
       })
     }
-
   },
   watch: {
     '$route': function() {
