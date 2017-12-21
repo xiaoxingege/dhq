@@ -639,6 +639,7 @@ export default {
   },
   mounted() {
     this.init();
+    this.$refs.kcharts.focus()
   }
 }
 </script>

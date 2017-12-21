@@ -96,6 +96,7 @@ body {
   color: #c9d0d7;
   padding-left: 10px;
   margin-left: 8px;
+  font-size: 12px;
 }
 
 .customer-list-wrap .search-btn {
@@ -389,7 +390,7 @@ export default {
         th: ['序号', '股票代码', '股票简称', '买卖方向', '买入日期', '卖出日期', '买入价格(前复权)', '卖出价格', '盈亏', '收益率'],
         td: {}
       },
-      fcId: 'JRJ2001803730'
+      fcId: 'JRJ2001803658'
 
     }
   },
