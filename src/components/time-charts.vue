@@ -84,7 +84,7 @@ i {
 </style>
 <template>
 <div class="time-kline-wrap" :style="{width:chartWidth, height:chartHeight}">
-  <a class="k-line-box" @click='linkDetail(strategyId)'>
+  <a class="k-line-box" @dblclick='linkDetail(strategyId)'>
     <div class="kcharts" ref="kcharts" @keydown.prevent="zoomData($event)" @mouseover="zoomOver($event)" @mouseout="zoomOut($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
   </a>
 </div>

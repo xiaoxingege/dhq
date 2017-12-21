@@ -204,7 +204,7 @@ select {
 
 <script>
 export default {
-  props: ['totalPage', 'page'],
+  props: ['totalPage', 'page', 'type'],
   data() {
     return {
       currentPage: this.page === undefined ? 1 : this.page
@@ -225,6 +225,9 @@ export default {
   watch: {
     'page': function() {
       this.currentPage = this.page
+    },
+    'type': function() {
+      this.currentPage = 1
     }
   },
   methods: {

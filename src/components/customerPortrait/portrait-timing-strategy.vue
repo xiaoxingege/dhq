@@ -48,7 +48,7 @@
   height: 100%;
 }
 
-.portrait-timing-lable2 span {
+.portrait-timing-lable2 a {
   position: absolute;
   left: 5px;
   top: 50%;
@@ -62,7 +62,7 @@
 
 .position-title {
   color: #c9d0d7;
-  padding-left: 20px;
+  padding-left: 6px;
   height: 10%;
   line-height: 22px;
 }
@@ -170,11 +170,12 @@
                 <option v-for="item of timeStrategyList" :value='item.id'>{{item.name}}</option>
             </select>
     <p class="portrait-timing-lable2">
-      <span class="">策略详情</span>
+      <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
     </p>
-    <!--p class="portrait-timing-more" @click="toStrategyList">
+    <!--p class="portrait-timing-more" @click="toStrategyList"-->
+    <p class="portrait-timing-more">
       <a>更多>></a>
-    </p-->
+    </p>
   </div>
   <div class="portrait-timing-con clearfix">
     <div v-if="isNoData" class="timing-no-data">
@@ -195,7 +196,7 @@
       </div>
     </div>
     <div class="portrait-timing-chart" v-if="!isNoData">
-      <p class="time-chart-title">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
+      <p class="time-chart-title" v-if="innerCode">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
       <div class="kcharts" ref="kcharts"></div>
     </div>
   </div>
@@ -229,7 +230,7 @@ export default {
       this.initTimeChart()
     },
     dataList() {
-      if (this.dataList.length > 0) {
+      if (this.dataList && this.dataList.length > 0) {
         this.isNoData = false
       } else {
         this.isNoData = true
@@ -419,7 +420,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.dataList = this.customerPositionList
             this.innerCode = this.customerPositionList[0].innerCode
-            this.stockName = this.customerPositionList[0].name
+            this.stockName = this.customerPositionList[0].name || '';
           }
           resolve();
         })

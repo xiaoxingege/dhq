@@ -134,9 +134,10 @@
 <div style="height:100%;">
   <div class="portrait-filer-title">
     <span class="portrait-filter-lable">筛股策略</span>
-    <!--p class="portrait-fiter-more" @click="toStrategyList">
+    <!--p class="portrait-fiter-more" @click="toStrategyList"-->
+    <p class="portrait-fiter-more">
       <a>更多>></a>
-    </p-->
+    </p>
   </div>
   <div class="portrait-filter-con clearfix">
     <div class="filter-strategy-wrap">
@@ -161,9 +162,6 @@
     </div>
     <div class="filter-stock-wrap">
       <div style="height:100%;">
-        <div v-if="isNoData" class="timing-no-data">
-          <span>暂无信号</span>
-        </div>
         <table class="filter-stock-table">
           <thead>
             <tr>
@@ -176,12 +174,21 @@
           <tbody>
             <tr v-for="item of currentStockSelectionList">
               <td>{{item.name === null?'--':item.name}}</td>
-              <td v-z3-updowncolor="item.chgPct">{{item.price === null?'--':item.price.toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chg">{{item.price === null?'--':item.price.toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null?'--':item.chg.toFixed(2)}}</td>
-              <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)}}</td>
+              <td v-z3-updowncolor="item.chg">{{formatData(item.curChngPct)}}</td>
+            </tr>
+            <tr v-if="!isNoData" v-for="item of (4-currentStockSelectionList.length)">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
+        <div v-if="isNoData" class="timing-no-data">
+          <span>暂无选股</span>
+        </div>
       </div>
     </div>
   </div>
@@ -237,7 +244,11 @@ export default {
         pageSize: this.pageSize
       }).then(() => {
         if (this.dayStockSelection.length > 0) {
+          this.isNoData = false;
           this.currentStockSelectionList = this.dayStockSelection
+        } else {
+          this.isNoData = true;
+          this.currentStockSelectionList = [];
         }
       })
     },
