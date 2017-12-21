@@ -177,6 +177,12 @@
               <td v-z3-updowncolor="item.chg">{{item.chg === null?'--':item.chg.toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{formatData(item.curChngPct)}}</td>
             </tr>
+            <tr v-if="!isNoData" v-for="item of (4-currentStockSelectionList.length)">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
         <div v-if="isNoData" class="timing-no-data">
