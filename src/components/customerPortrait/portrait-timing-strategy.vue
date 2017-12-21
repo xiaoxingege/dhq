@@ -48,7 +48,7 @@
   height: 100%;
 }
 
-.portrait-timing-lable2 span {
+.portrait-timing-lable2 a {
   position: absolute;
   left: 5px;
   top: 50%;
@@ -169,9 +169,9 @@
     <select v-model="strategyId">
                 <option v-for="item of timeStrategyList" :value='item.id'>{{item.name}}</option>
             </select>
-    <p class="portrait-timing-lable2">
-      <span class="">策略详情</span>
-    </p>
+    <!--p class="portrait-timing-lable2">
+      <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
+    </p-->
     <!--p class="portrait-timing-more" @click="toStrategyList">
       <a>更多>></a>
     </p-->

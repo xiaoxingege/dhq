@@ -176,9 +176,9 @@
           <tbody>
             <tr v-for="item of currentStockSelectionList">
               <td>{{item.name === null?'--':item.name}}</td>
-              <td v-z3-updowncolor="item.chgPct">{{item.price === null?'--':item.price.toFixed(2)}}</td>
+              <td v-z3-updowncolor="item.chg">{{item.price === null?'--':item.price.toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null?'--':item.chg.toFixed(2)}}</td>
-              <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)}}</td>
+              <td v-z3-updowncolor="item.chg">{{formatData(item.curChngPct)}}</td>
             </tr>
           </tbody>
         </table>

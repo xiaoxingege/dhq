@@ -96,9 +96,9 @@
     <select v-model="strategyId">
         <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
     </select>
-    <p class="portarit-strategy-lable2">
+    <!--p class="portarit-strategy-lable2">
       <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
-    </p>
+    </p-->
   </div>
   <div class="portrait-strategy-chart">
     <div class="strategy-chart" ref="chart"></div>
