@@ -62,7 +62,7 @@
 
 .position-title {
   color: #c9d0d7;
-  padding-left: 20px;
+  padding-left: 6px;
   height: 10%;
   line-height: 22px;
 }
@@ -172,9 +172,10 @@
     <p class="portrait-timing-lable2">
       <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
     </p>
-    <!--p class="portrait-timing-more" @click="toStrategyList">
+    <!--p class="portrait-timing-more" @click="toStrategyList"-->
+    <p class="portrait-timing-more">
       <a>更多>></a>
-    </p-->
+    </p>
   </div>
   <div class="portrait-timing-con clearfix">
     <div v-if="isNoData" class="timing-no-data">
@@ -229,7 +230,7 @@ export default {
       this.initTimeChart()
     },
     dataList() {
-      if (this.dataList.length > 0) {
+      if (this.dataList && this.dataList.length > 0) {
         this.isNoData = false
       } else {
         this.isNoData = true
@@ -431,9 +432,6 @@ export default {
       })
     },
     initTimeChart: function() {
-      if (!this.innderCode) {
-        return;
-      }
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
           strategyId: this.strategyId
