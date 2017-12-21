@@ -96,6 +96,7 @@ body {
   color: #c9d0d7;
   padding-left: 10px;
   margin-left: 8px;
+  font-size: 12px;
 }
 
 .customer-list-wrap .search-btn {
