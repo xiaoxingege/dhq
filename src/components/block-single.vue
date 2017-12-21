@@ -4,6 +4,7 @@
 .equity-trading{
 	background:rgba(242,242,242,1);
 	box-sizing: border-box;
+	font-family:Microsoft Yahei, Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
 .equity-trading .block{
 	background:#fff;
