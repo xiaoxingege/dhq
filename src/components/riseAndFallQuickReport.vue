@@ -47,7 +47,7 @@
 <script>
     import 'whatwg-fetch'
     import $ from 'jquery'
-    
+
     export default {
         data(){
             return {
@@ -63,7 +63,7 @@
         methods:{
             getPageData(){
                 let vm = this;
-                fetch(`https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit_news`).then(res => {
+                fetch('https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit_news').then(res => {
                     return res.json()
                 }).then(data => {
                     vm.pageData = data.data
@@ -71,7 +71,7 @@
             },
             loadMoreData(){
                 let vm = this;
-                fetch(`https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit_news?min=` + vm.pageData.min + `&max=` + vm.pageData.max + `&direction=pre`).then(res => {
+                fetch('https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit_news?min=' + vm.pageData.min + '&max=' + vm.pageData.max + '&direction=pre').then(res => {
                     return res.json()
                 }).then(data => {
                     vm.pageData.items = vm.pageData.items.concat(data.data.items)
@@ -83,7 +83,7 @@
                 let vm = this;
                 let today = new Date().getFullYear() + '-' +  (new Date().getMonth()+1<10? '0'+ (new Date().getMonth()+1):(new Date().getMonth()+1)) + '-' +  (new Date().getDate()<10? '0'+ (new Date().getDate()):(new Date().getDate()))
 
-                fetch(`http://glink.genius.com.cn//base/PUB_EXCHANGE_CALENDAR/full=2&filter-MKT_TYPE-int=2&limit=1&filter-ENDDATE-dt=` + today).then(res => {
+                fetch('http://glink.genius.com.cn//base/PUB_EXCHANGE_CALENDAR/full=2&filter-MKT_TYPE-int=2&limit=1&filter-ENDDATE-dt=' + today).then(res => {
                     return res.json()
                 }).then(data => {
                     console.log(data)
@@ -94,17 +94,18 @@
             },
             stockJsBridge(stkcode, stkname){
                 let market = '';
-                if((stkcode.slice(0,3) == '000') || (stkcode.slice(0,3) == '002') || (stkcode.slice(0,3) == '300')){
+                if((stkcode.slice(0,3) === '000') || (stkcode.slice(0,3) === '002') || (stkcode.slice(0,3) === '300')){
                     market = 'sz'
                 }else {
                     market = 'sh'
                 }
-
-                jrj.jsCallNative(100, JSON.stringify({stockCode:stkcode, stockMarket: market, stockName: stkname}))
+                if (window.jrj && window.jrj.jsCallNative) {
+                  window.jrj.jsCallNative(100, JSON.stringify( { stockCode:stkcode, stockMarket: market, stockName: stkname } ))
+                }
             }
         },
         mounted(){
-            let vm = this; 
+            let vm = this;
             document.title = '涨跌停快报'
 
             vm.showTitle()
