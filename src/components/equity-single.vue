@@ -161,7 +161,7 @@
 		<div class="block curve">
 			<div class="title">
 				<span class="red-block"></span>
-				<h2>两市融资融券余额历史走势</h2>
+				<h2>{{stockname}}融资融券余额历史走势</h2>
 				<p class="title-time" v-if="curveTime">({{curveTime}})</p>
 			</div>
 			<div id="curve" style="width:100%;height:3.53rem;"></div>
