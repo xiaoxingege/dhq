@@ -3,6 +3,7 @@
 .equity-trading{
 	box-sizing: border-box;
 	position: relative;
+	font-family:Microsoft Yahei, Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
 .equity-trading .block{
 	background:#fff;
