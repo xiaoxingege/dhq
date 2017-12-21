@@ -134,9 +134,10 @@
 <div style="height:100%;">
   <div class="portrait-filer-title">
     <span class="portrait-filter-lable">筛股策略</span>
-    <!--p class="portrait-fiter-more" @click="toStrategyList">
+    <!--p class="portrait-fiter-more" @click="toStrategyList"-->
+    <p class="portrait-fiter-more">
       <a>更多>></a>
-    </p-->
+    </p>
   </div>
   <div class="portrait-filter-con clearfix">
     <div class="filter-strategy-wrap">

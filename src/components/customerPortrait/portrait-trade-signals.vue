@@ -76,9 +76,10 @@
 <template>
 <div class="portrait-trade-signal">
   <div class="portrait-signal-title">
-    <!-- p class="portrait-signal-more" @click="toStrategyList">
+    <!-- p class="portrait-signal-more" @click="toStrategyList"-->
+    <p class="portrait-signal-more">
       <a>更多>></a>
-    </p-->
+    </p>
   </div>
   <div class="portrait-signal-con">
     <div class="portrait-trade-signal-top">
