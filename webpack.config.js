@@ -165,7 +165,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new BomPlugin(true),
-    new ExtractTextPlugin(featureName + "/[name].[chunkhash:12].css")
+    new ExtractTextPlugin(featureName + "/[name].[contenthash:12].css")
   ]);
 } else {
   module.exports.devtool = 'cheap-source-map'
