@@ -658,7 +658,6 @@ export default {
     getLimitList(){
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitType
-      console.log(url)
       $.ajax({
         url:url,
         type:'get',
