@@ -106,7 +106,7 @@ export default {
       ma30: '--',
       zoomStart: 120,
       zoomEnd: 120,
-      zoomRange: 60,
+      zoomRange: 120,
       dataSize: 0
     }
   },
@@ -523,7 +523,7 @@ export default {
         ],
         dataZoom: [{
             type: 'slider',
-            show: false,
+            show: true,
             xAxisIndex: [0],
             zoomOnMouseWheel: false,
             handleSize: 20, // 滑动条的 左右2个滑动条的大小
@@ -588,16 +588,26 @@ export default {
         if (this.zoomRange <= 120) {
           return;
         }
+        /* if(this.zoomRange-this.zoomStart<=120){
+          return false
+         // alert(this.zoomRange-this.zoomStart)
+        } */
+
+        /* if(this.zoomStart>this.zoomRange){
+            return
+        } */
         this.zoomStart += 10
         this.zoomRange -= 10
+
       } else if (key === 40) {
         if (this.zoomRange >= this.dataSize) {
           this.zoomStart = 0;
           this.zoomRange = this.dataSize;
           return;
         } else {
-          this.zoomStart -= 10
+          this.zoomStart < 0 ? 'return false' : this.zoomStart -= 10
           this.zoomRange += 10
+
         }
 
       } else if (key === 37) {

@@ -295,11 +295,11 @@ body {
           <li v-for="fuzzy of this.customersFuzzy.searchList" @click="focusUser($event,'phone')"><span>{{fuzzy}}</span></li>
         </ul>
       </div>
-      <!--div class="inp-box1 fl inp-box2">
+      <!-- <div class="inp-box1 fl inp-box2">
         <label>投顾ID：</label>
         <input type="text" class="inp-text1" v-model="fcId" style="width: 120px;">
 
-      </div-->
+      </div> -->
       <div class="search-btn fl" @click="lookUp($event)">查找</div>
 
     </div>
