@@ -3,46 +3,42 @@
  */
 
 window.jrjs = {
+  ready(callback) {
+    setTimeout(() => {
+      if (window.jrj) {
+        callback()
+      } else {
+        alert('retry')
+        this.ready(callback)
+      }
+    }, 100)
+  },
+  isInJRJApp() {
+    return !!window.jrj
+  },
+  openUrlInJRJApp(url) {
+    window.location.href = "jrjnews://tougu?t=web&url=" + url;
+    setTimeout(function() {
+      if (!document.webkitHidden) {
+        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer1&tgqdcode=transfer'
+      }
+    }, 1500);
+  },
   checkLogin(callback) {
-    let user = {}
     if (callback) {
-      let cookies = document.cookie.split(';')
-      let passportId = cookies.filter((item) => {
-        return item.trim().match(/^passportId=.*/)
-      })
-      if (passportId.length === 0) {
-        return callback(user)
-      }
-      passportId = passportId[0].trim().replace(/^passportId=/, '')
-      let accessToken = cookies.filter((item) => {
-        return item.trim().match(/^accessToken=.*/)
-      })
-      if (accessToken.length === 0) {
-        return callback(user)
-      }
-      accessToken = accessToken[0].trim().replace(/^accessToken=/, '')
-
-      var xhr = new XMLHttpRequest();
-      xhr.timeout = 3000;
-      xhr.responseType = 'text';
-      xhr.open('GET', `http://sso.jrj.com.cn/sso/passport/checkAccessToken.jsp?passportId=${passportId}&accessToken=${accessToken}`, true);
-      xhr.onload = function(e) {
-        if (this.status === 200) {
-          let result = JSON.parse(this.responseText);
-          if (result.resultCode === '0') {
-            user.passportId = passportId
-            user.accessToken = accessToken
-          }
-          callback(user)
+      let fnName = 'cb' + Date.now()
+      window[fnName] = function(data) {
+        delete window[fnName]
+        if (typeof data === 'string') {
+          data = JSON.parse(data)
         }
-      };
-      xhr.ontimeout = function(e) {
-        callback(user)
-      };
-      xhr.onerror = function(e) {
-        callback(user)
-      };
-      xhr.send(null);
+        callback(data.data)
+      }
+      window.jrj.jsCallNative('130', JSON.stringify({
+        method: 'get',
+        url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+        callback: fnName
+      }))
     }
   },
   login(redirectUrl) {

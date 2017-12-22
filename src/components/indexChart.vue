@@ -39,6 +39,10 @@
   height: 100%;
 }
 
+.indexChart>div:hover {
+  cursor: pointer !important;
+}
+
 .indexNum {
   position: absolute;
   top: 5px;
@@ -101,7 +105,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <div class="line-chart">
+    <a class="line-chart" href="stock/000001.SH" target="_blank">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -110,8 +114,8 @@
         <span v-z3-updowncolor="szzsChartData.upDown">{{szzsChartData.upDownExtent === null ? '(--)':szzsChartData.upDownExtent === undefined?'(--)':'('+(szzsChartData.upDownExtent>0?'+':'')+Number(szzsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
-    </div>
-    <div class="line-chart">
+    </a>
+    <a class="line-chart" href="stock/000300.SH" target="_blank">
       <div v-if="lsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.stockVal === null ? '--':lsChartData.stockVal === undefined?'--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -120,8 +124,8 @@
         <span v-z3-updowncolor="lsChartData.upDown">{{lsChartData.upDownExtent === null ? '(--)':lsChartData.upDownExtent === undefined?'(--)':'('+(lsChartData.upDownExtent>0?'+':'')+Number(lsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
-    </div>
-    <div class="line-chart">
+    </a>
+    <a class="line-chart" href="stock/399001.SZ" target="_blank">
       <div v-if="szczChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szczChartData.upDown" class="mr-5">{{szczChartData.stockVal === null ? '--':szczChartData.stockVal === undefined?'--':Number(szczChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szczChartData && szczChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -130,8 +134,8 @@
         <span v-z3-updowncolor="szczChartData.upDown">{{szczChartData.upDownExtent === null ? '(--)':szczChartData.upDownExtent === undefined?'(--)':'('+(szczChartData.upDownExtent>0?'+':'')+Number(szczChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
-    </div>
-    <div class="line-chart">
+    </a>
+    <a class="line-chart" href="stock/399006.SZ" target="_blank">
       <div v-if="cybzChartData !== null" class="indexNum">
         <span v-z3-updowncolor="cybzChartData.upDown" class="mr-5">{{cybzChartData.stockVal === null ? '--':cybzChartData.stockVal === undefined?'--':Number(cybzChartData.stockVal).toFixed(2)}}</span>
         <img v-if="cybzChartData && cybzChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -140,7 +144,7 @@
         <span v-z3-updowncolor="cybzChartData.upDown">{{cybzChartData.upDownExtent === null ? '(--)':cybzChartData.upDownExtent === undefined?'(--)':'('+(cybzChartData.upDownExtent>0?'+':'')+Number(cybzChartData.upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
-    </div>
+    </a>
   </div>
   <div class="chart-info clearfix">
     <div class="chartInfo">

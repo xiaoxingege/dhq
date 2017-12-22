@@ -23,28 +23,38 @@ export default {
     zXBRank: null,
     cYBRank: null,
     topIndustry: [],
-    hotTopic: []
+    hotTopic: [],
+    preferredIndustryData: [],
+    preferredTopicData: [],
+    preferredStrategyData: [],
+    preferredSignalData: [],
+    preferredGoldData: [],
+    preferredFilterData: [],
+    preferredTimeData: [],
+    bullStockList: [],
+    positionList: [],
+    positionListFilter: []
   },
   mutations: {
-    setStrategyList (state, options) {
+    setStrategyList(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyList = result.data
       }
     },
-    setStrategyName (state, options) {
+    setStrategyName(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyNames = result.data
       }
     },
-    setStrategyIndexs (state, options) {
+    setStrategyIndexs(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyIndexs = result.data
       }
     },
-    setTradeSignal (state, options) {
+    setTradeSignal(state, options) {
       const result = options.result
       if (result.errCode === 0 && result.data) {
         state.tradeSignal = result.data.content
@@ -52,31 +62,31 @@ export default {
         state.tradeSignal = []
       }
     },
-    setStrategyBlock (state, options) {
+    setStrategyBlock(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.strategyBlock = result.data
       }
     },
-    setIncomeList (state, options) {
+    setIncomeList(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.incomeListData = result.data
       }
     },
-    setFinanceNews (state, options) {
+    setFinanceNews(state, options) {
       const result = options.result
       state.financeNewsList = result.data
     },
-    setListedCompanyNews (state, options) {
+    setListedCompanyNews(state, options) {
       const result = options.result
       state.listedCompanyNewsList = result.data
     },
-    setNewsDetails (state, options) {
+    setNewsDetails(state, options) {
       const result = options.result
       state.newsDetails = result.data
     },
-    setSectorsData (state, options) {
+    setSectorsData(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.zXBRank = result.data['2'] // 中小板
@@ -85,21 +95,81 @@ export default {
         state.shenZRank = result.data['SZ'] // 深证A股
       }
     },
-    setTopIndustry (state, options) {
+    setTopIndustry(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.topIndustry = result.data
       }
     },
-    setHotTopic (state, options) {
+    setHotTopic(state, options) {
       const result = options.result
       if (result.errCode === 0) {
         state.hotTopic = result.data
       }
+    },
+    setPreferredIndustryData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredIndustryData = result.data
+      }
+    },
+    setPreferredTopicData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredTopicData = result.data
+      }
+    },
+    setPreferredStrategyData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredStrategyData = result.data
+      }
+    },
+    setPreferredSignalData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredSignalData = result.data
+      }
+    },
+    setPreferredGoldData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredGoldData = result.data
+      }
+    },
+    setPreferredFilterData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredFilterData = result.data
+      }
+    },
+    setPreferredTimeData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.preferredTimeData = result.data
+      }
+    },
+    setBullStock(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.bullStockList = result.data
+      }
+    },
+    setPositionList(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.positionList = result.data
+      }
+    },
+    setPositionListFilter(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.positionListFilter = result.data
+      }
     }
   },
   actions: {
-    getStrategyList ({
+    getStrategyList({
       commit
     }, {
       sort,
@@ -115,7 +185,7 @@ export default {
         })
       })
     },
-    getStrategyName ({
+    getStrategyName({
       commit
     }, {
       sort,
@@ -131,7 +201,7 @@ export default {
         })
       })
     },
-    getStrategyIndexs ({
+    getStrategyIndexs({
       commit
     }, {
       strategyId
@@ -145,7 +215,7 @@ export default {
         })
       })
     },
-    getTradeSignal ({
+    getTradeSignal({
       commit
     }, {
       strategyId,
@@ -162,7 +232,7 @@ export default {
         })
       })
     },
-    getStrategyBlock ({
+    getStrategyBlock({
       commit
     }, {
       query,
@@ -178,12 +248,20 @@ export default {
         })
       })
     },
-    getIncomeList ({
+    getIncomeList({
       commit
     }, {
-      strategyId
+      strategyId,
+      startDate,
+      endDate
     }) {
-      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}`
+      if (!startDate) {
+        startDate = ''
+      }
+      if (!endDate) {
+        endDate = ''
+      }
+      const url = `${domain}/openapi/backtest/goldStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -192,7 +270,7 @@ export default {
         })
       })
     },
-    getFinanceNews ({
+    getFinanceNews({
       commit
     }, {
       size
@@ -210,7 +288,7 @@ export default {
         })
       })
     },
-    getListedCompanyNews ({
+    getListedCompanyNews({
       commit
     }, {
       size
@@ -227,7 +305,7 @@ export default {
         })
       })
     },
-    getNewsDetails ({
+    getNewsDetails({
       commit
     }, {
       newsId
@@ -244,7 +322,7 @@ export default {
         })
       })
     },
-    getSectorsData ({
+    getSectorsData({
       commit
     }, {
       size
@@ -258,7 +336,7 @@ export default {
         })
       })
     },
-    getTopIndustry ({
+    getTopIndustry({
       commit
     }, {
       size
@@ -272,7 +350,7 @@ export default {
         })
       })
     },
-    getHotTopic ({
+    getHotTopic({
       commit
     }, {
       limit,
@@ -283,6 +361,136 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setHotTopic', {
+          result: body
+        })
+      })
+    }, // 行业优选
+    getPreferredIndustryData({
+      commit
+    }) {
+      const url = domain + '/openapi/industry/indexEquity.shtml'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredIndustryData', {
+          result: body
+        })
+      })
+    }, // 题材优选
+    getPreferredTopicData({
+      commit
+    }) {
+      const url = domain + '/openapi/topic/indexEquity.shtml'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredTopicData', {
+          result: body
+        })
+      })
+    }, // 策略优选
+    getPreferredStrategyData({
+      commit
+    }, {
+      type,
+      id,
+      limit
+    }) {
+      const url = `${domain}/openapi/backtest/equityStrategy/listEquities.shtml?type=${type}&id=${id}&limit=${limit}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredStrategyData', {
+          result: body
+        })
+      })
+    }, // 信号优选
+    getPreferredSignalData({
+      commit
+    }) {
+      const url = domain + '/openapi/backtest/equityStrategy/signal/listEquities.shtml'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredSignalData', {
+          result: body
+        })
+      })
+    }, // 金牌优选
+    getPreferredGoldData({
+      commit
+    }) {
+      const url = domain + '/openapi/backtest/prior/gold'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredGoldData', {
+          result: body
+        })
+      })
+    }, // 筛股优选
+    getPreferredFilterData({
+      commit
+    }) {
+      const url = domain + '/openapi/backtest/prior/filter?pageSize=7'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredFilterData', {
+          result: body
+        })
+      })
+    }, // 择时优选
+    getPreferredTimeData({
+      commit
+    }) {
+      const url = domain + '/openapi/backtest/prior/time?pageSize=7'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPreferredTimeData', {
+          result: body
+        })
+      })
+    }, // 牛股风格
+    getBullStock({
+      commit
+    }) {
+      const url = domain + '/openapi/stockStyle.shtml'
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setBullStock', {
+          result: body
+        })
+      })
+    }, // 获取金牌当前持仓列表
+    getPositionList({
+      commit
+    }, {
+      strategyId,
+      pageSize
+    }) {
+      const url = domain + '/openapi/backtest/prior/gold/' + strategyId + '?pageSize=' + pageSize
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPositionList', {
+          result: body
+        })
+      })
+    }, // 获取筛股当前持仓列表
+    getPositionListFilter({
+      commit
+    }, {
+      strategyId,
+      pageSize
+    }) {
+      const url = domain + '/openapi/backtest/prior/filter/' + strategyId + '?pageSize=' + pageSize
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setPositionListFilter', {
           result: body
         })
       })

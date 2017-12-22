@@ -7,6 +7,7 @@ html {
 * {
     box-sizing: border-box;
     font-size: 12px;
+    font-family: 'Microsoft YaHei';
 }
 .map {
     background-color: #141518;
@@ -26,7 +27,7 @@ html {
 }
 .condition select {
     -webkit-appearance: none;
-    color: #fff;
+    color: #c9d0d7;
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
@@ -60,8 +61,6 @@ html {
 
 .condition select option {
     -webkit-appearance: none;
-    background-color: #cccfd9;
-    color: #666;
     display: inline-block;
     /* height: 30px;
     padding: 50px;*/
@@ -76,7 +75,7 @@ html {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 2;
 }
 </style>
 <template>
@@ -111,6 +110,7 @@ html {
                 <option value="mkt_idx.fir_fcst_pe">预测市盈率</option>
                 <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
                 <option value="act_date">业绩公布日</option>
+                <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
             </select>
     </div>
     <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
@@ -122,7 +122,7 @@ html {
 import StockSearch from 'components/search-map'
 import StockMap from 'components/stock-map'
 export default {
-  data () {
+  data() {
     return {
       rangeCode: this.$route.query.rCode || '',
       condition: this.$route.query.condition || 'mkt_idx.cur_chng_pct',
@@ -141,24 +141,24 @@ export default {
     StockSearch
   },
   methods: {
-    isShow: function (msg) {
+    isShow: function(msg) {
       if (msg) {
         this.showCondition = false // 全屏
       } else {
         this.showCondition = true // 非全屏
       }
     },
-    isShowMaskFn: function (mag) {
+    isShowMaskFn: function(mag) {
       this.isShowMask = mag
     },
-    getFocusStockName: function (msg) {
+    getFocusStockName: function(msg) {
       this.focusStockName = msg
     },
-    toZdf: function (msg) {
+    toZdf: function(msg) {
       this.condition = msg
     }
   },
-  mounted () {
+  mounted() {
 
   }
 

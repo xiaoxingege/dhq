@@ -16,16 +16,15 @@
     border-collapse: collapse;
     border-spacing: 0;
 }
-.top-industry-table tr td:nth-child(3) {
-    cursor: pointer;
-}
-.top-industry-table tr td:nth-child(3):hover {
+.top-industry-table tr:hover {
     background-color: #2e4465;
+}
+.top-industry-table td span {
+    cursor: pointer;
 }
 .top-industry-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
     height: 10%;
 }
 .top-industry-table tr:nth-child(1) td {
@@ -39,57 +38,57 @@
 }
 .top-industry-table tr td:first-child {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
     text-align: left;
-    padding-left: 48px;
+    padding-left: 23px;
     color: #c9d0d7;
     padding-right: 0;
 }
 .more-industry {
     cursor: pointer;
+    display: inline-block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     right: 10px;
+    width: 40px;
+    height: 100%;
 }
 .more-industry a {
     color: #808ba1;
-}
-.topic-first {
-    cursor: pointer;
-}
-.topic-first:hover {
-    background-color: #2e4465;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
 }
 </style>
 <template>
 <div class="top-industry-con">
   <div class="top-industry-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
-    <!--<p class="more-industry">
+    <p class="more-industry" @click="toStockList(type)">
       <a>更多></a>
-    </p>-->
+    </p>
   </div>
   <div class="top-industry-table-wrap clearfix">
     <table class="top-industry-table" v-if="type === 'industry'">
       <tr v-for="item of industryList">
-        <td>{{item.industryName === null?'--':item.industryName}}</td>
+        <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
         <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
     </table>
     <table class="top-industry-table" v-if="type === 'topic'">
       <tr v-for="item of hotTopicList">
-        <td @click="toTopicDetail(item.topicCode)" class="topic-first">{{formateData(item.topicName)?'--':item.topicName}}</td>
+        <td @click="toTopicDetail(item.topicCode)"><span>{{formateData(item.topicName)?'--':item.topicName}}</span></td>
         <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
-        <td @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</td>
+        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockChngPct)?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
@@ -185,6 +184,18 @@ export default {
     toTopicDetail: function(topicCode) {
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
+      }
+    },
+    toIndustryDetail: function(code) {
+      if (code) {
+        window.open(ctx + '/industry/' + code.split('.')[0])
+      }
+    },
+    toStockList: function(type) {
+      if (type === 'topic') {
+        window.open(ctx + '/themeIndex')
+      } else if (type === 'industry') {
+        window.open(ctx + '/industryIndex')
       }
     },
     formateData: function(value) {

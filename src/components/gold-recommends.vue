@@ -69,7 +69,7 @@ import Tablelist from 'components/table-list'
 
 export default {
   props: ['data'],
-  data () {
+  data() {
     return {
       navText: [
         ['选股条件', 'choseStock'],
@@ -86,7 +86,7 @@ export default {
     Tablelist
   },
   computed: {
-    choseStockData: function () {
+    choseStockData: function() {
       if (this.data.choseStockData === null) {
         return []
       } else {
@@ -121,7 +121,7 @@ export default {
         return [arr1, arr2]
       }
     },
-    sellConditionData: function () {
+    sellConditionData: function() {
       const buyData = [
         ['序号', '指标', '参数', '运算符', '数值']
       ]
@@ -130,7 +130,7 @@ export default {
       ]
       const buyConditionTable = this.data.sellConditiondata.buy.buyStrategyIndexList
       const sellConditionTable = this.data.sellConditiondata.sell.sellStrategyIndexList
-      if (buyConditionTable.length > 0) {
+      if (buyConditionTable !== null && buyConditionTable.length > 0) {
         for (var i = 0; i < buyConditionTable.length; i++) {
           const parms = JSON.parse(buyConditionTable[i].indexParams.replace(/'/g, '"'))
           const parmsPeriod = []
@@ -149,7 +149,7 @@ export default {
           buyData.push([buyConditionTable[i].pageOrder, buyConditionTable[i].indexName, '(' + parmsPeriod.join('，') + ')', buyConditionTable[i].operator, buyConditionTable[i].operator === null ? buyConditionTable[i].operator : buyConditionTable[i].comparisonValue])
         }
       }
-      if (sellConditionTable.length > 0) {
+      if (sellConditionTable !== null && sellConditionTable.length > 0) {
         for (var j = 0; j < sellConditionTable.length; j++) {
           const parms = JSON.parse(sellConditionTable[j].indexParams.replace(/'/g, '"'))
           const parmsPeriod = []
@@ -172,7 +172,7 @@ export default {
         sellData: sellData
       }
     },
-    tradeParamData: function () {
+    tradeParamData: function() {
       const tableData = this.data.tradeParamsData
       return [
         ['初始金额', '资金分配', '买入价格', '卖出价格', '回测时间'],
@@ -186,11 +186,11 @@ export default {
 
   },
   methods: {
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

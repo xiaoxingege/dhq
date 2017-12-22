@@ -13,7 +13,7 @@
     border-radius: 3px;
     border: 1px solid #141518;
     position: absolute;
-    left: 8px;
+    left: 58px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -25,18 +25,41 @@
 .portarit-strategy-title select:focus {
     outline: none;
 }
+.portarit-strategy-title .portarit-strategy-lable1 {
+    color: #c9d0d7;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.portarit-strategy-title .portarit-strategy-lable2 {
+    color: #1984ea;
+    position: absolute;
+    left: 312px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 60px;
+    height: 100%;
+}
+.portarit-strategy-lable2 a {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
 .strategy-chart-link {
     display: inline-block;
     width: 100%;
     height: 78.8%;
 }
 .strategy-chart {
-    height: 100%;
+    height: 80%;
     cursor: pointer;
 }
 .rate-labels {
     padding-top: 5px;
-    height: 21.2%;
+    height: 20%;
     color: #c9d0d7;
 }
 .rate-labels li {
@@ -69,15 +92,16 @@
 <template>
 <div style="width: 60%">
   <div class="portarit-strategy-title">
-    <span></span>
+    <span class="portarit-strategy-lable1">金牌策略</span>
     <select v-model="strategyId">
-                <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
-            </select>
+        <option v-for="item of strategyNames" :value='item.id'>{{item.name}}</option>
+    </select>
+    <p class="portarit-strategy-lable2">
+      <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
+    </p>
   </div>
   <div class="portrait-strategy-chart">
-    <router-link :to="{name:'goldStrategy',params:{strategyId:strategyId}}" class="strategy-chart-link" target="_blank">
-      <div class="strategy-chart" ref="chart"></div>
-    </router-link>
+    <div class="strategy-chart" ref="chart"></div>
     <ul class="rate-labels clearfix">
       <li>
         <span>年化收益率</span>
@@ -115,7 +139,10 @@ export default {
       annualReturn: '',
       sharpe: '',
       winRatio: '',
-      maxDrawdown: ''
+      maxDrawdown: '',
+      startDate: '',
+      endDate: '',
+      clientPassport: this.$route.params.clientPassport
     }
   },
   watch: {
@@ -141,7 +168,7 @@ export default {
       }
     },
     strategyNameData: function() {
-      const strategyNames = this.$store.state.z3touguIndex.strategyNames
+      const strategyNames = this.$store.state.portraitDetail.strategyNames
       return strategyNames
     },
     strategyIndexsData: function() {
@@ -152,15 +179,12 @@ export default {
   methods: {
     initStrategy: function() {
       this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
-      this.$store.dispatch('z3touguIndex/getStrategyName', {
-          sort: this.sort,
-          direction: this.direction,
-          size: this.size
+      this.$store.dispatch('portraitDetail/goldStrategy', {
+          clientPassport: this.clientPassport
         })
         .then(() => {
           if (this.strategyNameData.length > 0) {
             this.strategyNames = this.strategyNameData
-            debugger
             this.strategyId = this.strategyNames[0].id
             this.$store.dispatch('z3touguIndex/getStrategyIndexs', {
                 strategyId: this.strategyId
@@ -175,7 +199,9 @@ export default {
                 }
               })
             this.$store.dispatch('z3touguIndex/getIncomeList', {
-                strategyId: this.strategyId
+                strategyId: this.strategyId,
+                startDate: this.startDate,
+                endDate: this.endDate
               })
               .then(() => {
                 if (this.incomeListData.length > 0) {
@@ -188,6 +214,7 @@ export default {
                       textStyle: {
                         color: '#808ba1'
                       },
+                      inactiveColor: '#565656',
                       data: [{
                           name: '策略累计收益率',
                           icon: 'circle'
@@ -256,6 +283,7 @@ export default {
                       }
                     ]
                   })
+                  window.addEventListener('resize', () => this.chart.resize(), false)
                 }
               })
           }
@@ -277,7 +305,9 @@ export default {
     },
     drawChart: function() {
       this.$store.dispatch('z3touguIndex/getIncomeList', {
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          startDate: this.startDate,
+          endDate: this.endDate
         })
         .then(() => {
           if (this.incomeListData.length > 0) {

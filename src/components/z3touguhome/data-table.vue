@@ -14,8 +14,6 @@
 }
 .data-table td {
     border: 1px solid #23272c;
-    text-align: right;
-    padding-right: 20px;
     box-sizing: border-box;
     height: 12.5%;
     text-align: center;
@@ -25,7 +23,7 @@
     text-align: left;
     color: #c9d0d7;
     padding-right: 0;
-    padding-left: 48px;
+    padding-left: 23px;
     width: 40%;
 }
 .no-data {

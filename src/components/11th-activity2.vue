@@ -1,24 +1,24 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 .bg2 .lottery-box .inner_01>ul {
-    width: 5.77rem;
-    margin-top: 0;
+  width: 5.77rem;
+  margin-top: 0;
 }
 
 .bg2 .lottery-box .inner_01>ul li {
-    width: 1.86rem;
-    height: 1.55rem;
-    margin: 0 0.03rem 0.03rem 0.03rem;
-    border-radius: 10px;
-    background: none;
+  width: 1.86rem;
+  height: 1.55rem;
+  margin: 0 0.03rem 0.03rem 0.03rem;
+  border-radius: 10px;
+  background: none;
 }
 </style>
 <style lang="scss" scoped>
@@ -238,52 +238,52 @@ input {
 
 <template>
 <div class="box">
-    <div class="bg1">
-        <div id="divdown1">
-            <span id="text-day" class="text-day"></span>
-            <span id="text-hour" class="text-hour"></span>
-            <span id="text-min" class="text-min"></span>
-            <span id="text-sec" class="text-sec"></span>
+  <div class="bg1">
+    <div id="divdown1">
+      <span id="text-day" class="text-day"></span>
+      <span id="text-hour" class="text-hour"></span>
+      <span id="text-min" class="text-min"></span>
+      <span id="text-sec" class="text-sec"></span>
+    </div>
+  </div>
+  <div class="bg2">
+    <div class="box-con">
+      <div class="lottery-box" ref="lotteryBox">
+        <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" :box-width="lotteryBoxWidth" />
+      </div>
+      <p>您当前有<span v-text='remainCnt'></span>次抽奖机会</p>
+    </div>
+  </div>
+  <div class="bg3">
+    <div class="box-con">
+      <strong v-text="loginMsg"></strong>
+      <p :class="userId ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
+      <div class="text-box">
+        <div class="text-scroll">
+          <ul>
+            <li v-for="item in whereList">{{item.userName}}抽中{{item.prizeName}}奖品</li>
+          </ul>
         </div>
+      </div>
     </div>
-    <div class="bg2">
-        <div class="box-con">
-            <div class="lottery-box" ref="lotteryBox">
-                <lottery @start="playLottery" @stop="showLotteryResult" :prize="prize" :box-width="lotteryBoxWidth" />
-            </div>
-            <p>您当前有<span v-text='remainCnt'></span>次抽奖机会</p>
-        </div>
-    </div>
-    <div class="bg3">
-        <div class="box-con">
-            <strong v-text="loginMsg"></strong>
-            <p :class="userId ? '':'vihi'">（您可以从中奖记录中任选1个进行兑奖）</p>
-            <div class="text-box">
-                <div class="text-scroll">
-                    <ul>
-                        <li v-for="item in whereList">{{item.userName}}抽中{{item.prizeName}}奖品</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg4">
-    </div>
+  </div>
+  <div class="bg4">
+  </div>
 
 
-    <div class='fixBg' v-if="popShow"></div>
-    <div class="pop" v-if="popShow">
-        <div class="lottery-msg1">
-            <strong v-text="lotteryTitle"></strong>
-            <p v-html="lotteryMsg"></p>
-            <a href="javascript:;" class="btn-close" @click="close">知道了</a>
-        </div>
+  <div class='fixBg' v-if="popShow"></div>
+  <div class="pop" v-if="popShow">
+    <div class="lottery-msg1">
+      <strong v-text="lotteryTitle"></strong>
+      <p v-html="lotteryMsg"></p>
+      <a href="javascript:;" class="btn-close" @click="close">知道了</a>
     </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
@@ -292,275 +292,275 @@ import getCookie from 'utils/getCookie'
 
 
 export default {
-    data() {
-        $(function() {
-            // 微信分享
-            window.InitWeChatShare({
-                shareTitle: window.document.title,
-                shareLink: window.location.href,
-                shareDesc: '双11疯狂送，11月6日-11月30日极智选股、Z量化等产品，免费来抢iPhoneX~',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th2-share-img.jpg',
-                callback: function(wx) {}
-            })
-        })
-        return {
-            popShow: false,
-            lotteryTitle: '',
-            lotteryMsg: '',
-            lotteryType: false,
-            lotteryNum: '0',
-            lotteryBoxWidth: 0,
-            prize: 0,
-            loginMsg: '',
-            userId: '',
-            paltid: ''
-        }
-    },
-    computed: mapState({
-        whereList: state => {
-            return state.activity11Th.dataList
-        },
-        err: state => {
-            return state.activity11Th.err
-        },
-        loginStatus: state => state.user.loginStatus,
-        remainCnt: state => state.activity11Th.remainCnt,
-        lotteryResult: state => state.activity11Th.lotteryResult,
-        ssoId: state => state.user.ssoId
-    }),
-    components: {
-        lottery
-    },
-    methods: {
-        playLottery() {
-            var ua = navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
-                alert('请在浏览器中打开')
-            }
-            if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
-                if (this.paltid === 'android') {
-                    if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
-                        window.jrj.jsCallNative('108', JSON.stringify({
-                            returnUrl: encodeURI(window.location.href)
-                        }))
-                    } else {
-                        this.$store.dispatch('activity11Th/lotteryDraw', {
-                            userId: this.ssoId
-                        }).then(() => {
-                            this.$watch('err', err => {
-                                if (err.retCode === -2) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '抽奖还未开始'
-                                    this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
-                                } else if (err.retCode === -3) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '很遗憾'
-                                    this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
-                                } else if (err.retCode === -4) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '很遗憾'
-                                    this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
-                                } else if (err.retCode === -1 || err.retCode === -5) {
-                                    alert(err.msg)
-                                }
-                            })
-                            this.$watch('lotteryResult', lotteryResult => {
-                                if (lotteryResult.prizeId === 1) {
-                                    this.prize = 2
-                                } else if (lotteryResult.prizeId === 2) {
-                                    this.prize = 3
-                                } else if (lotteryResult.prizeId === 3) {
-                                    this.prize = 4
-                                } else if (lotteryResult.prizeId === 4) {
-                                    this.prize = 5
-                                } else if (lotteryResult.prizeId === 5) {
-                                    this.prize = 6
-                                } else if (lotteryResult.prizeId === 6) {
-                                    this.prize = 7
-                                } else if (lotteryResult.prizeId === 7) {
-                                    this.prize = 8
-                                } else if (lotteryResult.prizeId === 8) {
-                                    this.prize = 1
-                                }
-                                this.lotteryTitle = '恭喜您！'
-                                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
-                                this.remainCnt = this.remainCnt - 1
-                            })
-                        })
-                    }
-                } else {
-                    if (!this.userId) {
-                        window.jrj.jsCallNative('108', JSON.stringify({
-                            returnUrl: encodeURI(window.location.href)
-                        }))
-                    } else {
-                        this.$store.dispatch('activity11Th/lotteryDraw', {
-                            userId: this.userId
-                        }).then(() => {
-                            this.$watch('err', err => {
-                                if (err.retCode === -2) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '抽奖还未开始'
-                                    this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
-                                } else if (err.retCode === -3) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '很遗憾'
-                                    this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
-                                } else if (err.retCode === -4) {
-                                    this.popShow = true
-                                    this.lotteryTitle = '很遗憾'
-                                    this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
-                                } else if (err.retCode === -1 || err.retCode === -5) {
-                                    alert(err.msg)
-                                }
-                            })
-                            this.$watch('lotteryResult', lotteryResult => {
-                                if (lotteryResult.prizeId === 1) {
-                                    this.prize = 2
-                                } else if (lotteryResult.prizeId === 2) {
-                                    this.prize = 3
-                                } else if (lotteryResult.prizeId === 3) {
-                                    this.prize = 4
-                                } else if (lotteryResult.prizeId === 4) {
-                                    this.prize = 5
-                                } else if (lotteryResult.prizeId === 5) {
-                                    this.prize = 6
-                                } else if (lotteryResult.prizeId === 6) {
-                                    this.prize = 7
-                                } else if (lotteryResult.prizeId === 7) {
-                                    this.prize = 8
-                                } else if (lotteryResult.prizeId === 8) {
-                                    this.prize = 1
-                                }
-                                this.lotteryTitle = '恭喜您！'
-                                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
-                                this.remainCnt = this.remainCnt - 1
-                            })
-                        })
-                    }
-                }
-
-            } else {
-                window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/11th-activity2'
-            }
-        },
-        showLotteryResult() {
-            this.popShow = true
-            this.prize = -1
-        },
-        close() {
-            window.location.reload(true)
-            // window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
-            this.popShow = false
-        }
-    },
-    mounted() {
-        this.userId = getCookie('passportId')
-        this.paltid = getCookie('paltid')
-
-        function pad(str, len) {
-            str = str + ''
-            if (str.length < len) {
-                for (let i = 0; i < len - str.length; i++) {
-                    str = '0' + str
-                }
-            }
-            return str
-        }
-
-        function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
-            var now = new Date()
-            var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
-            var leftTime = endDate.getTime() - now.getTime()
-            var leftsecond = parseInt(leftTime / 1000)
-            var day1 = Math.floor(leftsecond / (60 * 60 * 24))
-            var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
-            var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
-            var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
-            if (day1 < 0) {
-                day1 = '00';
-                hour = '00';
-                minute = '00';
-                second = '00';
-            }
-            document.getElementById('text-day').innerHTML = pad(day1, 2)
-            document.getElementById('text-hour').innerHTML = pad(hour, 2)
-            document.getElementById('text-min').innerHTML = pad(minute, 2)
-            document.getElementById('text-sec').innerHTML = pad(second, 2)
-        }
-
-        function transdate(endTime) {
-            var date = new Date();
-            date.setFullYear(endTime.substring(0, 4));
-            date.setMonth(endTime.substring(5, 7) - 1);
-            date.setDate(endTime.substring(8, 10));
-            date.setHours(endTime.substring(11, 13));
-            date.setMinutes(endTime.substring(14, 16));
-            date.setSeconds(endTime.substring(17, 19));
-            return Date.parse(date) / 1000;
-        }
-        if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-13 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-19 20:00:00')) {
-            $('.bg1').addClass('bg1-1')
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 17, 20, 0, 0)
-
-            }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-19 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-26 20:00:00')) {
-            $('.bg1').addClass('bg1-2')
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 24, 20, 0, 0)
-
-            }, 1000)
-        } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-26 20:00:00')) {
-            $('.bg1').addClass('bg1-3')
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 30, 20, 0, 0)
-
-            }, 1000)
-        } else {
-            window.setInterval(function() {
-                ShowCountDown(2017, 11, 11, 20, 0, 0)
-
-            }, 1000)
-        }
-        if (this.paltid === 'android') {
-            this.$store.dispatch('user/checkLogin').then(() => {
-                this.$store.dispatch('activity11Th/whereList', {
-                    userId: this.ssoId || ''
-                })
-            })
-            if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
-                this.loginMsg = '用户中奖纪录'
-            } else {
-                this.loginMsg = '我的可选奖品'
-            }
-        } else {
-            this.$store.dispatch('user/checkLogin').then(() => {
-                this.$store.dispatch('activity11Th/whereList', {
-                    userId: this.userId || ''
-                })
-            })
-            if (!this.userId) {
-                this.loginMsg = '用户中奖纪录'
-            } else {
-                this.loginMsg = '我的可选奖品'
-            }
-        }
-        this.$watch('whereList', whereList => {
-            if (whereList.length > 5) {
-                var liHeight = $('.text-scroll ul li').height()
-                setInterval(function() {
-                    $('.text-scroll ul').animate({
-                        'margin-top': '-' + liHeight
-                    }, 500, function() {
-                        $('.text-scroll ul').append($('.text-scroll ul li:first'))
-                        $('.text-scroll ul').css({
-                            'margin-top': '0'
-                        })
-                    })
-                }, 1000)
-            }
-        })
+  data() {
+    $(function() {
+      // 微信分享
+      window.InitWeChatShare({
+        shareTitle: window.document.title,
+        shareLink: window.location.href,
+        shareDesc: '双11疯狂送，11月6日-11月30日极智选股、Z量化等产品，免费来抢iPhoneX~',
+        shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/11th2-share-img.jpg',
+        callback: function(wx) {}
+      })
+    })
+    return {
+      popShow: false,
+      lotteryTitle: '',
+      lotteryMsg: '',
+      lotteryType: false,
+      lotteryNum: '0',
+      lotteryBoxWidth: 0,
+      prize: 0,
+      loginMsg: '',
+      userId: '',
+      paltid: ''
     }
+  },
+  computed: mapState({
+    whereList: state => {
+      return state.activity11Th.dataList
+    },
+    err: state => {
+      return state.activity11Th.err
+    },
+    loginStatus: state => state.user.loginStatus,
+    remainCnt: state => state.activity11Th.remainCnt,
+    lotteryResult: state => state.activity11Th.lotteryResult,
+    ssoId: state => state.user.ssoId
+  }),
+  components: {
+    lottery
+  },
+  methods: {
+    playLottery() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
+        alert('请在浏览器中打开')
+      }
+      if (typeof jrj !== 'undefined' && window.jrj.jsCallNative) {
+        if (this.paltid === 'android') {
+          if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+            window.jrj.jsCallNative('108', JSON.stringify({
+              returnUrl: encodeURI(window.location.href)
+            }))
+          } else {
+            this.$store.dispatch('activity11Th/lotteryDraw', {
+              userId: this.ssoId
+            }).then(() => {
+              this.$watch('err', err => {
+                if (err.retCode === -2) {
+                  this.popShow = true
+                  this.lotteryTitle = '抽奖还未开始'
+                  this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
+                } else if (err.retCode === -3) {
+                  this.popShow = true
+                  this.lotteryTitle = '很遗憾'
+                  this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
+                } else if (err.retCode === -4) {
+                  this.popShow = true
+                  this.lotteryTitle = '很遗憾'
+                  this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
+                } else if (err.retCode === -1 || err.retCode === -5) {
+                  alert(err.msg)
+                }
+              })
+              this.$watch('lotteryResult', lotteryResult => {
+                if (lotteryResult.prizeId === 1) {
+                  this.prize = 2
+                } else if (lotteryResult.prizeId === 2) {
+                  this.prize = 3
+                } else if (lotteryResult.prizeId === 3) {
+                  this.prize = 4
+                } else if (lotteryResult.prizeId === 4) {
+                  this.prize = 5
+                } else if (lotteryResult.prizeId === 5) {
+                  this.prize = 6
+                } else if (lotteryResult.prizeId === 6) {
+                  this.prize = 7
+                } else if (lotteryResult.prizeId === 7) {
+                  this.prize = 8
+                } else if (lotteryResult.prizeId === 8) {
+                  this.prize = 1
+                }
+                this.lotteryTitle = '恭喜您！'
+                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
+                this.remainCnt = this.remainCnt - 1
+              })
+            })
+          }
+        } else {
+          if (!this.userId) {
+            window.jrj.jsCallNative('108', JSON.stringify({
+              returnUrl: encodeURI(window.location.href)
+            }))
+          } else {
+            this.$store.dispatch('activity11Th/lotteryDraw', {
+              userId: this.userId
+            }).then(() => {
+              this.$watch('err', err => {
+                if (err.retCode === -2) {
+                  this.popShow = true
+                  this.lotteryTitle = '抽奖还未开始'
+                  this.lotteryMsg = '抽奖通道将于2017年11月11日、<br />17日、24日、30日晚8:00准时开启。'
+                } else if (err.retCode === -3) {
+                  this.popShow = true
+                  this.lotteryTitle = '很遗憾'
+                  this.lotteryMsg = '您不满足本次活动抽奖条件，<br />您可以查看活动规则了解抽奖攻略。'
+                } else if (err.retCode === -4) {
+                  this.popShow = true
+                  this.lotteryTitle = '很遗憾'
+                  this.lotteryMsg = '您的抽奖次数已经用完了，<br />请在“我的可选奖品”中<br />选择兑换喜欢的奖品。'
+                } else if (err.retCode === -1 || err.retCode === -5) {
+                  alert(err.msg)
+                }
+              })
+              this.$watch('lotteryResult', lotteryResult => {
+                if (lotteryResult.prizeId === 1) {
+                  this.prize = 2
+                } else if (lotteryResult.prizeId === 2) {
+                  this.prize = 3
+                } else if (lotteryResult.prizeId === 3) {
+                  this.prize = 4
+                } else if (lotteryResult.prizeId === 4) {
+                  this.prize = 5
+                } else if (lotteryResult.prizeId === 5) {
+                  this.prize = 6
+                } else if (lotteryResult.prizeId === 6) {
+                  this.prize = 7
+                } else if (lotteryResult.prizeId === 7) {
+                  this.prize = 8
+                } else if (lotteryResult.prizeId === 8) {
+                  this.prize = 1
+                }
+                this.lotteryTitle = '恭喜您！'
+                this.lotteryMsg = '本次抽中了' + lotteryResult.prizeName + '<br />您可以在“我的可选奖品”中查看。'
+                this.remainCnt = this.remainCnt - 1
+              })
+            })
+          }
+        }
+
+      } else {
+        window.location = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/11th-activity2'
+      }
+    },
+    showLotteryResult() {
+      this.popShow = true
+      this.prize = -1
+    },
+    close() {
+      window.location.reload(true)
+      // window.location = 'http://itougu.jrj.com.cn/actm/11th-activity2?v' + Math.random()
+      this.popShow = false
+    }
+  },
+  mounted() {
+    this.userId = getCookie('passportId')
+    this.paltid = getCookie('paltid')
+
+    function pad(str, len) {
+      str = str + ''
+      if (str.length < len) {
+        for (let i = 0; i < len - str.length; i++) {
+          str = '0' + str
+        }
+      }
+      return str
+    }
+
+    function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
+      var now = new Date()
+      var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
+      var leftTime = endDate.getTime() - now.getTime()
+      var leftsecond = parseInt(leftTime / 1000)
+      var day1 = Math.floor(leftsecond / (60 * 60 * 24))
+      var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
+      var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
+      var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+      if (day1 < 0) {
+        day1 = '00';
+        hour = '00';
+        minute = '00';
+        second = '00';
+      }
+      document.getElementById('text-day').innerHTML = pad(day1, 2)
+      document.getElementById('text-hour').innerHTML = pad(hour, 2)
+      document.getElementById('text-min').innerHTML = pad(minute, 2)
+      document.getElementById('text-sec').innerHTML = pad(second, 2)
+    }
+
+    function transdate(endTime) {
+      var date = new Date();
+      date.setFullYear(endTime.substring(0, 4));
+      date.setMonth(endTime.substring(5, 7) - 1);
+      date.setDate(endTime.substring(8, 10));
+      date.setHours(endTime.substring(11, 13));
+      date.setMinutes(endTime.substring(14, 16));
+      date.setSeconds(endTime.substring(17, 19));
+      return Date.parse(date) / 1000;
+    }
+    if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-13 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-19 20:00:00')) {
+      $('.bg1').addClass('bg1-1')
+      window.setInterval(function() {
+        ShowCountDown(2017, 11, 17, 20, 0, 0)
+
+      }, 1000)
+    } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-19 20:00:00') && Math.round(new Date().getTime() / 1000) < transdate('2017-11-26 20:00:00')) {
+      $('.bg1').addClass('bg1-2')
+      window.setInterval(function() {
+        ShowCountDown(2017, 11, 24, 20, 0, 0)
+
+      }, 1000)
+    } else if (Math.round(new Date().getTime() / 1000) > transdate('2017-11-26 20:00:00')) {
+      $('.bg1').addClass('bg1-3')
+      window.setInterval(function() {
+        ShowCountDown(2017, 11, 30, 20, 0, 0)
+
+      }, 1000)
+    } else {
+      window.setInterval(function() {
+        ShowCountDown(2017, 11, 11, 20, 0, 0)
+
+      }, 1000)
+    }
+    if (this.paltid === 'android') {
+      this.$store.dispatch('user/checkLogin').then(() => {
+        this.$store.dispatch('activity11Th/whereList', {
+          userId: this.ssoId || ''
+        })
+      })
+      if (this.loginStatus === 'no' || this.loginStatus === 'unknown') {
+        this.loginMsg = '用户中奖纪录'
+      } else {
+        this.loginMsg = '我的可选奖品'
+      }
+    } else {
+      this.$store.dispatch('user/checkLogin').then(() => {
+        this.$store.dispatch('activity11Th/whereList', {
+          userId: this.userId || ''
+        })
+      })
+      if (!this.userId) {
+        this.loginMsg = '用户中奖纪录'
+      } else {
+        this.loginMsg = '我的可选奖品'
+      }
+    }
+    this.$watch('whereList', whereList => {
+      if (whereList.length > 5) {
+        var liHeight = $('.text-scroll ul li').height()
+        setInterval(function() {
+          $('.text-scroll ul').animate({
+            'margin-top': '-' + liHeight
+          }, 500, function() {
+            $('.text-scroll ul').append($('.text-scroll ul li:first'))
+            $('.text-scroll ul').css({
+              'margin-top': '0'
+            })
+          })
+        }, 1000)
+      }
+    })
+  }
 }
 </script>

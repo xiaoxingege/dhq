@@ -58,7 +58,10 @@ body {
 .bfilter-ul li {
     /* padding: 7px 15px 5px 14px; */
     padding: 4px 17px 5px 18px;
-    /* border: 1px solid #0d0e0f; */
+    border-right: 1px solid #1A1B20;
+
+}
+.bfilter-ul li:not(:last-child) {
     cursor: pointer;
 }
 .bfilter-ul li.active {
@@ -96,16 +99,19 @@ li.export-box {
     /* right: 1.5%; */
     right: 0.3%;
     top: 0;
+    cursor: pointer;
 }
 
 .export-span-click {
-    background: url("../assets/images/z3img/backexport-click2.png") no-repeat;
+    /*background: url("../assets/images/z3img/backexport-click2.png") no-repeat;*/
+    background: url("../assets/images/z3img/backexport-gray.png") no-repeat;
     width: 57px;
     height: 25px;
     display: inline-block;
     position: absolute;
     right: 1.5%;
     top: 0;
+    cursor: default;
 }
 
 /* .export i {
@@ -313,15 +319,23 @@ span.copy {
 <template>
 <div class="backtest-filter" @click="hideCode($event)">
   <div class="bfilter-main">
-    <div class="fr icon"><span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span><span class="copy" :class="showToast===true?'active':''"></span>
+    <div class="fr icon">
+      <div style="display: inline-block; position: relative; top: -4px;" class="mr-10">
+        <img v-if="showAttention" @click="changeAttention" src="../assets/images/z3img/attention.png">
+        <img v-if="!showAttention" @click="changeAttention" src="../assets/images/z3img/noattention.png">
+      </div>
+      <span class="weixin" @click="showQrcode" :class="showQrcodeBox===true?'active':''"></span>
+      <span class="copy" :class="showToast===true?'active':''"></span>
     </div>
     <BackFilterDescr @basicFilterName="listenToBasic" />
     <div class="bfilter-bottom">
       <ul class="bfilter-ul clearfix">
+        <li class="fl" @click="returns" :class="showReturns===true?'active':''">收益率曲线</li>
         <li class="fl" @click="nowStock" :class="showNowStock===true?'active':''">当前选股</li>
+        <li class="fl" @click="sellProfit" :class="showSellProfit===true?'active':''">收益率分布</li>
         <li class="fl" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
         <!-- <li class="export-box"><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li> -->
-        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
+        <li class="export-box"><span :class="showReturns===true || showSellProfit===true?'export-span-click':'export-span'" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
         </li>
       </ul>
       <div class="bfilter-table" v-show="showNowStock">
@@ -396,6 +410,12 @@ span.copy {
         </div>
         <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
       </div>
+      <div v-if="showReturns" :style="{  minHeight: (fullHeight+58) + 'px' }">
+        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+58)"></LineChartFilter>
+      </div>
+      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+38) + 'px' }">
+        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+38)"></OneBarFilter>
+      </div>
     </div>
   </div>
   <div class="foots-tishi">
@@ -429,6 +449,8 @@ import {
   domain
 } from '../z3tougu/config'
 import store from '../z3tougu/store'
+import LineChartFilter from 'components/line-chart-filter'
+import OneBarFilter from 'components/one-bar-filter'
 export default {
   data() {
     return {
@@ -436,8 +458,10 @@ export default {
       stockPagesize: '',
       tradePage: 0,
       tradePagesize: '',
-      showNowStock: true,
+      showNowStock: false,
       showTradeDay: false,
+      showReturns: true,
+      showSellProfit: false,
       showIcon: true,
       strategyId: this.$route.params.strategyId,
       showQrcodeBox: false,
@@ -447,7 +471,8 @@ export default {
       fullHeight2: parseInt((document.documentElement.clientHeight - 390) / 30),
       pageSize: parseInt((document.documentElement.clientHeight - 390) / 30),
       fullHeight3: parseInt((document.documentElement.clientHeight - 390) / 30),
-      basicName: ''
+      basicName: '',
+      showAttention: false
     }
   },
   computed: {
@@ -456,13 +481,18 @@ export default {
       nowChooseStock: state => state.backtestDetail.nowStock,
       totalPage: state => state.backtestDetail.stockTotal,
       tradeTotalPage: state => state.backtestDetail.tradeTotalPage,
-      authInfo: state => state.auth
+      authInfo: state => state.auth,
+      attentionData: state => state.backtestDetail.attentionData,
+      addAttention: state => state.backtestDetail.addAttention,
+      delAttention: state => state.backtestDetail.delAttention
     })
   },
   components: {
     BackFilterDescr,
     Pagination,
-    toast
+    toast,
+    LineChartFilter,
+    OneBarFilter
   },
   methods: {
     initData(stockPage, tradePage) {
@@ -478,12 +508,50 @@ export default {
       })
     },
     nowStock() {
-      this.showNowStock = true
+      this.showReturns = false
       this.showTradeDay = false
+      this.showNowStock = true
+      this.showSellProfit = false
     },
     tradeDay() {
+      this.showReturns = false
       this.showTradeDay = true
       this.showNowStock = false
+      this.showSellProfit = false
+    },
+    returns() {
+      this.showReturns = true
+      this.showTradeDay = false
+      this.showNowStock = false
+      this.showSellProfit = false
+    },
+    sellProfit() {
+      this.showReturns = false
+      this.showTradeDay = false
+      this.showNowStock = false
+      this.showSellProfit = true
+    },
+    changeAttention() {
+      if (this.showAttention) {
+        this.$store.dispatch('backtestDetail/cancleAttention', {
+          strategyId: this.strategyId,
+          strategyType: 1
+        }).then(() => {
+          if (this.delAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      } else {
+        this.$store.dispatch('backtestDetail/createAttention', {
+          strategyId: this.strategyId,
+          strategyType: 1
+        }).then(() => {
+          if (this.addAttention) {
+            this.showAttention = !this.showAttention
+          }
+        })
+      }
+
     },
     /* buysNums (e) {
 
@@ -507,10 +575,8 @@ export default {
       const token = this.authInfo.authorization.split(' ')[1]
       this.showIcon = false
       if (expires !== -1 && now - updateTime < expires * 1000) {
-        console.log(0)
         this.createForm(id, type, token, clientid, deviceid)
       } else {
-        console.log(111111)
         return store.dispatch('authSetting').then(() => {
           this.createForm(id, type, token, clientid, deviceid)
         })
@@ -535,7 +601,6 @@ export default {
     },
     listenToBasic(name) {
       this.basicName = name
-      console.log(this.basicName)
     },
     /* goToPage (page) {
       this.page = Number(page) - 1
@@ -591,7 +656,6 @@ export default {
     tradePage() {
       this.initData(this.tradePage)
     }
-
   },
   mounted() {
     this.initData()
@@ -621,6 +685,15 @@ export default {
       setTimeout(() => {
         this.showToast = false
       }, 2500)
+    })
+    this.$store.dispatch('backtestDetail/getAttention', {
+      strategyId: this.strategyId,
+      strategyType: 1
+    }).then(() => {
+      this.showAttention = this.attentionData
+    })
+    this.$store.dispatch('backtestDetail/getFilterProfit', {
+      strategyId: this.strategyId
     })
   }
 

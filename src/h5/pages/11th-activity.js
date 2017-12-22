@@ -15,7 +15,7 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
- import reservation from 'stores/reservation'
+import reservation from 'stores/reservation'
 import activity11Th from 'stores/11th-activity'
 const store = new Vuex.Store({
   modules: {
