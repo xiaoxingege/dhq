@@ -12,13 +12,16 @@
 </style>
 <template>
 <div :style={height:boxHeight}>
-  <router-link :to="{name:'backtestfilter',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">
-    <div class="gold-strategy-chart" ref="chart"></div>
-  </router-link>
+  <!--<router-link :to="{name:'backtestfilter',params:{strategyId:strategyId}}" class="gold-strategy-chart-link" target="_blank">-->
+  <div class="gold-strategy-chart" ref="chart" @dblclick="forwardFilter"></div>
+  <!-- </router-link>-->
 </div>
 </template>
 <script type="text/javascript">
 import echarts from 'echarts'
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: ['benchmarkObj', 'isResizeStrategyChart', 'strategyId', 'boxHeight'],
   data() {
@@ -201,6 +204,9 @@ export default {
       dateTypeDate += '-' + date.substring(4, 6) // 月
       dateTypeDate += '-' + date.substring(6, 8) // 日
       return dateTypeDate
+    },
+    forwardFilter: function() {
+      window.open(ctx + '/backtestFilter/' + this.strategyId);
     }
   },
   mounted() {

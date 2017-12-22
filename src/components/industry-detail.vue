@@ -630,11 +630,35 @@ bottom: 0; */
     display: inline-block;
     background: url("../assets/images/z3img/no-data.png") no-repeat;
 }
+.detail-keepdays {
+    text-align: center;
+    margin-top: -11px;
+
+}
+.detail-keep-num {
+    width: 43px;
+    height: 21px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+    display: inline-block;
+
+    background: url("../assets/images/z3img/detail-red.png") no-repeat;
+
+}
+.detail-keep-num1 {
+    background: url("../assets/images/z3img/detail-green.png") no-repeat;
+}
 </style>
 <template>
 <div class="topic-detail">
   <div class="topic-head clearfix">
-    <strong class="fl">{{detail.induName}}</strong><span class="time-num3 fl" v-z3-updowncolor="detail.induMarket===null || detail.induMarket.chngPct===null?'--':detail.induMarket.chngPct">{{detail.induMarket===null || detail.induMarket.chngPct==null?'--':changeTofixed(detail.induMarket.chngPct)}}</span>
+    <strong class="fl">{{detail.induName}}</strong>
+    <div class="detail-keepdays fl" v-if="detail.induMarket!==null && detail.induMarket.chngPct!==null">
+      <span class="detail-keep-num" v-if="detail.induMarket.keepDaysToday>=2">{{detail.induMarket.keepDaysToday}}连涨</span>
+      <span class="detail-keep-num detail-keep-num1" v-if="detail.induMarket.keepDaysToday<=-2">{{Math.abs(detail.induMarket.keepDaysToday)}}连跌</span>
+    </div>
+    <span class="time-num3 fl" v-z3-updowncolor="detail.induMarket===null || detail.induMarket.chngPct===null?'--':detail.induMarket.chngPct">{{detail.induMarket===null || detail.induMarket.chngPct==null?'--':changeTofixed(detail.induMarket.chngPct)}}</span>
     <div class="topic-time fl">
       <span class="time-num4">成份股数</span><span class="time-num2">{{detail.samNum}}只
       </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.induMarket===null || detail.induMarket.stkUpNum==null?'--':detail.induMarket.stkUpNum}}
@@ -1115,7 +1139,7 @@ export default {
       var inContent = document.getElementsByClassName('in-content')[0]
       var inDivHight = inContent.clientHeight
       e.currentTarget.children[0].style.display = 'block'
-      if (e.currentTarget.offsetTop > inDivHight) {
+      if (e.currentTarget.offsetTop > inDivHight - 80) {
         e.currentTarget.children[0].style.top = e.currentTarget.offsetTop - 20 + 'px'
         e.currentTarget.children[0].style.left = e.currentTarget.offsetLeft + 200 + 'px'
       }

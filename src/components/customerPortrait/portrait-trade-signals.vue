@@ -40,6 +40,7 @@
 }
 .portrait-data-table {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
     border-spacing: 0;
 }
@@ -75,7 +76,8 @@
 <template>
 <div class="portrait-trade-signal">
   <div class="portrait-signal-title">
-    <p class="portrait-signal-more" @click="">
+    <!-- p class="portrait-signal-more" @click="toStrategyList"-->
+    <p class="portrait-signal-more">
       <a>更多>></a>
     </p>
   </div>
@@ -88,13 +90,20 @@
         <div v-if="isNoData" class="portrait-no-data">
           <span>暂无信号</span>
         </div>
-        <table v-if="!isNoData" class="portrait-data-table" :style='{height:dataList.length/6+"px"}'>
+        <!--:style='{height:dataList.length/6+"px"}'-->
+        <table v-if="!isNoData" class="portrait-data-table">
           <tbody>
             <tr v-for="item of dataList">
               <td :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</td>
               <td v-z3-updowncolor="item.chgPct">{{item.px === null?'--':item.px.toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chg">{{item.chg === null?'--':item.chg.toFixed(2)}}</td>
               <td v-z3-updowncolor="item.chgPct">{{formatData(item.chgPct)}}</td>
+            </tr>
+            <tr v-for="item of (6-dataList.length)">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -180,6 +189,9 @@ export default {
           _this.initTradeSignal()
         }, 1000 * _this.intervalTime)
       }
+    },
+    toStrategyList: function() {
+      window.open('goldTop')
     },
     formatData: function(val) {
       let getVal

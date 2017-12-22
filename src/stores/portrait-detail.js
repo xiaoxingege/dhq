@@ -8,7 +8,8 @@ export default {
     timeStrategyList: [],
     customerPositionList: [],
     customerFilterStrategy: [],
-    dayStockSelection: []
+    dayStockSelection: [],
+    strategyNames: []
   },
   mutations: {
     setTimeStrategyList(state, options) {
@@ -29,6 +30,12 @@ export default {
         state.customerFilterStrategy = result.data
       }
     },
+    setCustomerGoldStrategy(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.strategyNames = result.data
+      }
+    },
     setDayStockSelection(state, options) {
       const result = options.result
       if (result.errCode === 0) {
@@ -38,11 +45,12 @@ export default {
   },
   actions: {
     getTimeStrategyList({
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/timeStrategy.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/timeStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -52,11 +60,12 @@ export default {
       })
     },
     getCustomerPosition({
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/positionStocks.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/positionStocks.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -66,15 +75,31 @@ export default {
       })
     },
     getCustomerFilterStrategy({
+      rootState,
       commit
     }, {
       clientPassport
     }) {
-      const url = `${domain}/openapi/personas/filterStrategy.shtml?clientPassport=${clientPassport}`
+      const url = `${domain}/openapi/personas/filterStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setCustomerFilterStrategy', {
+          result: body
+        })
+      })
+    },
+    goldStrategy({
+      rootState,
+      commit
+    }, {
+      clientPassport
+    }) {
+      const url = `${domain}/openapi/personas/goldStrategy.shtml?fcId=${rootState.customerList.fcId}&&userId=${clientPassport}`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setCustomerGoldStrategy', {
           result: body
         })
       })

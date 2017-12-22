@@ -50,6 +50,7 @@
     right: 10px;
     top: 0;
 }
+
 .help-img-wrap img {
     cursor: pointer;
     position: absolute;
@@ -57,6 +58,7 @@
     top: 50%;
     transform: translateY(-50%);
 }
+
 .help-window {
     position: absolute;
     bottom: 30px;
@@ -76,7 +78,9 @@
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
     <div class="help-img-wrap">
       <img src='../../assets/images/z3img/help.png' @mouseover="showWindow" @mouseout="hideWindow" />
-      <div class="help-window" v-if="isShowWindow">根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。</div>
+      <div class="help-window" v-if="isShowWindow">
+        根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。
+      </div>
     </div>
   </div>
   <div class="bull-stock-table-wrap">

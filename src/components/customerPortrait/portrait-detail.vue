@@ -62,22 +62,9 @@ body {
 import PortraitDetailRight from 'components/customerPortrait/portrait-detail-right'
 import PortraitDetailLeft from 'components/customerPortrait/portrait-detail-left'
 export default {
-  data() {
-
-  },
-  props: [''],
   components: {
     PortraitDetailRight,
     PortraitDetailLeft
-  },
-  computed: {
-
-  },
-  methods: {
-
-  },
-  mounted() {
-
   }
 }
 </script>

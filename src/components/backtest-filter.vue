@@ -59,6 +59,9 @@ body {
     /* padding: 7px 15px 5px 14px; */
     padding: 4px 17px 5px 18px;
     border-right: 1px solid #1A1B20;
+
+}
+.bfilter-ul li:not(:last-child) {
     cursor: pointer;
 }
 .bfilter-ul li.active {
@@ -96,16 +99,19 @@ li.export-box {
     /* right: 1.5%; */
     right: 0.3%;
     top: 0;
+    cursor: pointer;
 }
 
 .export-span-click {
-    background: url("../assets/images/z3img/backexport-click2.png") no-repeat;
+    /*background: url("../assets/images/z3img/backexport-click2.png") no-repeat;*/
+    background: url("../assets/images/z3img/backexport-gray.png") no-repeat;
     width: 57px;
     height: 25px;
     display: inline-block;
     position: absolute;
     right: 1.5%;
     top: 0;
+    cursor: default;
 }
 
 /* .export i {
@@ -329,7 +335,7 @@ span.copy {
         <li class="fl" @click="sellProfit" :class="showSellProfit===true?'active':''">收益率分布</li>
         <li class="fl" @click="tradeDay" :class="showTradeDay===true?'active':''">每日交易</li>
         <!-- <li class="export-box"><span class="export blue" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDaily'):''"><i></i>导出</span></li> -->
-        <li class="export-box"><span class="export-span" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
+        <li class="export-box"><span :class="showReturns===true || showSellProfit===true?'export-span-click':'export-span'" @click="showNowStock===true?excelExport('filterStock'):showTradeDay===true?excelExport('filterDetail'):''"></span>
         </li>
       </ul>
       <div class="bfilter-table" v-show="showNowStock">
@@ -404,11 +410,11 @@ span.copy {
         </div>
         <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
       </div>
-      <div v-if="showReturns" :style="{  minHeight: (fullHeight+78) + 'px' }">
-        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+78)"></LineChartFilter>
+      <div v-if="showReturns" :style="{  minHeight: (fullHeight+58) + 'px' }">
+        <LineChartFilter :strategyId="strategyId" :height="(fullHeight+58)"></LineChartFilter>
       </div>
-      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+78) + 'px' }">
-        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+78)"></OneBarFilter>
+      <div v-if="showSellProfit" :style="{  minHeight: (fullHeight+38) + 'px' }">
+        <OneBarFilter :strategyId="strategyId" :height="(fullHeight+38)"></OneBarFilter>
       </div>
     </div>
   </div>
