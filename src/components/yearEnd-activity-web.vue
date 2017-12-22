@@ -16,8 +16,8 @@ button {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/yearEnd-activity/yearEnd-web-bg1.jpg") center 0 no-repeat;
-    height: 950px;
+    background: url("../assets/images/yearEnd-activity/yearEnd-web-bg1.jpg") center -128px no-repeat;
+    height: 822px;
 }
 .bg2 {
     background: url("../assets/images/yearEnd-activity/yearEnd-web-bg2.jpg") center 0 no-repeat;
