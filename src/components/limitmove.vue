@@ -6,7 +6,7 @@
 .title-tab{
   height: 0.8rem;
   line-height: 0.8rem;
-  border-bottom:0.01rem solid #DBDBDB;
+  border-bottom:1px solid #DBDBDB;
 }
 .title-tab{
   overflow: hidden;
