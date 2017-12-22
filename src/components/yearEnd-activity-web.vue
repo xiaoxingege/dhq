@@ -106,6 +106,12 @@ button {
     position: relative;
     height: 100%;
 }
+.bg2 video {
+    width: 972px;
+    height: 542px;
+    float: left;
+    margin: 14px 0 0 14px;
+}
 .nav-fixed {
     width: 150px;
     height: 195px;
@@ -279,6 +285,9 @@ button {
     </div>
     <div class="bg2">
         <div class="box-con">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/20171222ng.mp4" controls="controls" id="myvideo" autoplay="autoplay" loop="loop">
+            您的浏览器不支持 video 标签。
+            </video>
         </div>
     </div>
     <div class="bg3">
