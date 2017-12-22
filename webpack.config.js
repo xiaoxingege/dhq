@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var path = require('path'),
   webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
@@ -344,4 +343,3 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   module.exports.devtool = 'cheap-source-map'
 }
->>>>>>> staging
