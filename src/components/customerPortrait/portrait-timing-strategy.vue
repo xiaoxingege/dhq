@@ -562,6 +562,7 @@ export default {
         ]
       })
       this.chart.hideLoading()
+      window.addEventListener('resize', () => this.chart.resize(), false)
     },
     autoUpdate: function() {
       const _this = this

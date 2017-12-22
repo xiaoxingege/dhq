@@ -245,8 +245,8 @@
         <p class="fl" style="line-height: 25px;">客户标签</p>
         <div class="fr" style="position: relative">
           <p class="fl mr-15" style="line-height: 25px;">标签月份</p>
-          <span class="monthTag fr" @click="showTime">{{selectY}}年{{currentM}}月</span>
-          <div v-show="isShowCalendar" class="timeBox">
+          <span class="monthTag fr" @click="showTime($event)">{{selectY}}年{{currentM}}月</span>
+          <div v-show="isShowCalendar" class="timeBox" @click="clickCalendar($event)">
             <div class="ymdDate">
               <span @click="changeYear('minus')" :style="{display:currentY === defaultY ? 'block':'none'}"><img
                       src="../../assets/images/z3img/leftArrow.png"></span>
@@ -307,6 +307,12 @@
 import Portraitradar from 'components/customerPortrait/portrait-radar'
 import Z3Star from 'components/z3star'
 export default {
+  props: {
+    isShowCalendar: {
+      default: false,
+      type: Boolean
+    }
+  },
   data() {
     return {
       currentY: '',
@@ -316,7 +322,7 @@ export default {
       isThisYear: true,
       selectY: '',
       dateTime: '',
-      isShowCalendar: false,
+      // isShowCalendar: false,
       clientPassport: this.$route.params.clientPassport || 3454565
     }
   },
@@ -356,9 +362,14 @@ export default {
       })
       // this.customerInfo && (this.customerInfo.attention = val);
     },
-    showTime: function() {
+    showTime: function(e) {
+      e.stopPropagation()
       this.isShowCalendar = !this.isShowCalendar
+      this.$emit('calendarStatus', this.isShowCalendar)
 
+    },
+    clickCalendar: function(e) {
+      e.stopPropagation()
     },
     getCurrentTime: function() {
       const date = new Date();

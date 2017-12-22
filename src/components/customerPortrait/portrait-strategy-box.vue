@@ -283,6 +283,7 @@ export default {
                       }
                     ]
                   })
+                  window.addEventListener('resize', () => this.chart.resize(), false)
                 }
               })
           }
