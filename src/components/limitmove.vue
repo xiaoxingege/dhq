@@ -6,9 +6,7 @@
 .title-tab{
   height: 0.8rem;
   line-height: 0.8rem;
-  border-bottom:1px solid #DBDBDB;
-}
-.title-tab{
+  border-bottom:0.01rem solid #DBDBDB;
   overflow: hidden;
 }
 .title-item{
@@ -660,6 +658,7 @@ export default {
     getLimitList(){
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitType
+      console.log(url)
       $.ajax({
         url:url,
         type:'get',
