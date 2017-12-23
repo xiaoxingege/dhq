@@ -110,6 +110,18 @@ module.exports = function(router) {
             };
         }
     })
+    router.get('/yearEnd-activity', async(ctx, next) => {
+      ctx.title = '领航2018 布局“复兴牛”-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
     router.get('/12th-activity', async(ctx, next) => {
       ctx.title = '双12 就要爱-金融界';
       ctx.metaDescription = '';
