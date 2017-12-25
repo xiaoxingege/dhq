@@ -468,7 +468,7 @@ export default {
                 aid: '810495534830305280',
                 userName: '',
                 phone: this.phone,
-                bizsource: getQueryString('bizsource') || 'Msite',
+                bizsource: getQueryString('bizsource') || 'mSite',
                 source: '1',
                 tgqdcode: 'MRD9MC9J'
             })
