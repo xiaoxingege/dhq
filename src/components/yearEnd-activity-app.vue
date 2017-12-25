@@ -470,7 +470,7 @@ export default {
                 phone: this.phone,
                 bizsource: getQueryString('bizsource') || 'mSite',
                 source: '1',
-                tgqdcode: 'MRD9MC9J'
+                tgqdcode: getQueryString('tgqdcode') || 'ZBXUALA7'
             })
         }
     },
