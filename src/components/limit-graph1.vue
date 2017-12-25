@@ -1,8 +1,40 @@
 <style>
 .limit-graph1{
-    height: 0.6rem;
-    background: #fff;
-    font-size: 0.28rem;
+}
+
+.summary{
+  box-sizing:border-box;
+  overflow: hidden;
+  padding:0.44rem 0 0.29rem;
+}
+.summary-item{
+  box-sizing: border-box;
+  width:50%;
+  float:left;
+  padding-left:0.3rem;
+}
+.summary-top{
+  height: 0.4rem;
+  line-height: 0.4rem;
+  overflow: hidden;
+}
+.summary-top span{
+  width:0.12rem;
+  height: 0.12rem;
+  float: left;
+  margin:0.14rem 0.2rem 0.14rem 0;
+}
+.up .summary-top span{
+  background:#F54949;
+}
+.down .summary-top span{
+  background:#00B267;
+}
+.summary-top p{
+  float: left;
+  font-size: 0.28rem;
+  color:#333;
+  line-height: 0.4rem;
 }
 </style>
 
@@ -10,22 +42,67 @@
 <!-- Swiper -->
 <div class="limit-graph1">
   <div id="graph" style="width:100%;height:3.9rem;"></div>
+
+  <div class="summary">
+    <div class="summary-item up">
+      <div class="summary-top">
+        <span></span>
+        <p>涨停家数：{{limitUp}}</p>
+      </div>
+      <!-- <div class="summary-bottom">
+        <p>
+            <span>自然涨停</span><span class="num">{{naturelimitUp}}</span>
+        </p>
+        <p>
+            <span>一字涨停</span><span class="num">{{yzlimitUp}}</span>
+        </p>
+      </div> -->
+    </div>
+
+    <div class="summary-item down">
+      <div class="summary-top">
+        <span></span>
+        <p>跌停家数：{{limitDown}}</p>
+      </div>
+      <!-- <div class="summary-bottom">
+        <p>
+            <span>自然跌停</span><span class="num">{{naturelimitDown}}</span>
+        </p>
+        <p>
+            <span>一字跌停</span><span class="num">{{yzlimitDown}}</span>
+        </p>
+      </div> -->
+    </div>
+
+  </div>
+
+
 </div>
 </template>
 <script>
+import jQuery from 'jquery'
+window.jQuery =  window.$ = jQuery
 import echarts from 'echarts'
 
 export default {
   data () {
     return {
+      limitUp:0,
+      limitDown:0,
       graphData:[],
       option:null,
       myChart:null
     }
   },
   mounted () {
-  },
-  filters: {
+    var _this=this
+    this.getGraphData()
+    this.getlimitAddNum()
+    setInterval(function(){
+      _this.getGraphData()
+      _this.getlimitAddNum()
+      _this.myChart.setOption(_this.option)
+    },5000)
   },
   methods: {
     insertEchart(){
@@ -165,7 +242,27 @@ export default {
           console.log('error');
         }
       })
+    },
+    getlimitAddNum(){
+      $.ajax({
+        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/market.js',
+        type:'get',
+        cache:false,
+        dataType:'script',
+        jsonp:'callback',
+        success:() => {
+          if ( window.market ) {
+            this.limitUp = window.market.limitUp
+            this.limitDown = window.market.limitDown
+          }
+        },
+        error:function(){
+          console.log('error');
+        }
+      })
     }
+
+
   }
 }
 </script>

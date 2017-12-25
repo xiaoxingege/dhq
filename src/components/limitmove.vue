@@ -1,14 +1,12 @@
 <style>
 @import '../assets/css/reset.css';
 .limitmove{
-
+ font-family:Microsoft Yahei, Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
 .title-tab{
   height: 0.8rem;
   line-height: 0.8rem;
   border-bottom:0.01rem solid #DBDBDB;
-}
-.title-tab{
   overflow: hidden;
 }
 .title-item{
