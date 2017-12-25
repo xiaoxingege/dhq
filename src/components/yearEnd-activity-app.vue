@@ -469,7 +469,7 @@ export default {
                 userName: '',
                 phone: this.phone,
                 bizsource: getQueryString('bizsource') || 'mSite',
-                source: '1',
+                source: '4',
                 tgqdcode: getQueryString('tgqdcode') || 'ZBXUALA7'
             })
         }
