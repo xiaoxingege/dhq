@@ -176,7 +176,7 @@ export default {
   data () {
     return {
     	startdate:'2017-01-01',
-    	enddate:'2017-11-09',
+    	enddate:'',
     	stockcode:this.getQueryString('stockcode'),
     	stockname:this.getQueryString('stockname','chinese'),
     	pn:'1', // 页码
@@ -193,6 +193,7 @@ export default {
   },
   mounted () {
 		this.pn=1
+		this.FormatTime()
     this.getDetailList()
   },
   filters: {
@@ -201,7 +202,19 @@ export default {
   	}
   },
   methods: {
-
+		FormatTime() {
+			var nowDate = new Date();
+			var year = nowDate.getFullYear();
+			var mouth = nowDate.getMonth()+1;
+			var date = nowDate.getDate();
+			if(mouth.toString().length===1){
+				mouth='0'+mouth
+			}
+			if(date.toString().length===1){
+				date='0'+date
+			}
+			this.enddate=year+'-'+mouth+'-'+date
+		},
   	getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)

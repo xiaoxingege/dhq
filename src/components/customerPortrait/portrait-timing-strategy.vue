@@ -48,7 +48,7 @@
   height: 100%;
 }
 
-.portrait-timing-lable2 span {
+.portrait-timing-lable2 a {
   position: absolute;
   left: 5px;
   top: 50%;
@@ -62,7 +62,7 @@
 
 .position-title {
   color: #c9d0d7;
-  padding-left: 20px;
+  padding-left: 6px;
   height: 10%;
   line-height: 22px;
 }
@@ -88,10 +88,11 @@
 
 .timing-data-table li span {
   display: inline-block;
-  width: 32.5%;
+  width: 33.3%;
   line-height: 22px;
   height: 100%;
   text-align: center;
+  float: left;
 }
 
 .timing-data-table li span:first-child {
@@ -169,22 +170,23 @@
                 <option v-for="item of timeStrategyList" :value='item.id'>{{item.name}}</option>
             </select>
     <p class="portrait-timing-lable2">
-      <span class="">策略详情</span>
+      <router-link :to="{name:'backtesttime',params:{strategyId:strategyId}}" target="_blank">策略详情</router-link>
     </p>
-    <p class="portrait-timing-more" @click="">
+    <!--p class="portrait-timing-more" @click="toStrategyList"-->
+    <p class="portrait-timing-more">
       <a>更多>></a>
     </p>
   </div>
   <div class="portrait-timing-con clearfix">
     <div v-if="isNoData" class="timing-no-data">
-      <span>暂无持仓</span>
+      <span>客户无持仓，点击更多，查看择时策略</span>
     </div>
     <div class="portrait-timing-table" v-if="!isNoData">
       <div class="timing-table-wrap">
         <div style="height: 100%;">
           <p class="position-title">当前持仓</p>
           <ul class="timing-data-table">
-            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li" :class="{'tr-focus':index === trIndex}">
+            <li v-for="(item,index) of dataList" @click='changeKline(item.name,item.innerCode,index)' class="stock-li clearfix" :class="{'tr-focus':index === trIndex}">
               <span :value="item.innerCode" class="stock-hover">{{item.name === null?'--':item.name}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{item.price === null?'--':item.price.toFixed(2)}}</span>
               <span v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)}}</span>
@@ -194,7 +196,7 @@
       </div>
     </div>
     <div class="portrait-timing-chart" v-if="!isNoData">
-      <p class="time-chart-title">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
+      <p class="time-chart-title" v-if="innerCode">{{stockName}}[{{innerCode.split('.')[0]}}]</p>
       <div class="kcharts" ref="kcharts"></div>
     </div>
   </div>
@@ -202,6 +204,7 @@
 </template>
 <script type="text/javascript">
 import echarts from 'echarts'
+import config from '../../z3tougu/config'
 export default {
   data() {
     return {
@@ -213,7 +216,7 @@ export default {
       isNoData: false,
       strategyId: '',
       timeStrategyList: [],
-      clientPassport: 3454565,
+      clientPassport: this.$route.params.clientPassport || 3454565,
       innerCode: '',
       stockName: '',
       trIndex: 0
@@ -227,7 +230,7 @@ export default {
       this.initTimeChart()
     },
     dataList() {
-      if (this.dataList.length > 0) {
+      if (this.dataList && this.dataList.length > 0) {
         this.isNoData = false
       } else {
         this.isNoData = true
@@ -405,7 +408,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.timeStrategyList = this.timeStrategyListData
             this.strategyId = this.timeStrategyListData[0].id
-            this.stockName = this.timeStrategyListData[0].name
+
           }
           resolve();
         })
@@ -417,6 +420,7 @@ export default {
           if (this.timeStrategyListData.length > 0) {
             this.dataList = this.customerPositionList
             this.innerCode = this.customerPositionList[0].innerCode
+            this.stockName = this.customerPositionList[0].name || '';
           }
           resolve();
         })
@@ -433,12 +437,12 @@ export default {
           strategyId: this.strategyId
         })
         .then(() => {
+          this.chart.showLoading(config.loadingConfig)
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, pointData, seriesData) {
-      const self = this
-      self.chart.setOption({
+      this.chart.setOption({
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -557,6 +561,8 @@ export default {
           }
         ]
       })
+      this.chart.hideLoading()
+      window.addEventListener('resize', () => this.chart.resize(), false)
     },
     autoUpdate: function() {
       const _this = this
@@ -578,6 +584,9 @@ export default {
       this.stockName = name
       this.innerCode = code
       this.trIndex = index
+    },
+    toStrategyList: function() {
+      window.open('timeTop')
     },
     formatData: function(val) {
       let getVal
