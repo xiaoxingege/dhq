@@ -1,6 +1,6 @@
 <style>
 .limit-graph2{
-    height: 0.6rem;
+    height: 6rem;
     background: pink;
     font-size: 0.28rem;
 }

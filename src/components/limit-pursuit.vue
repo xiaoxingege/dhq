@@ -17,7 +17,7 @@
   font-size: 0.30rem;
   color:#333;
   float: left;
-  padding:0 0.4rem;
+  padding:0 0.2rem;
   position: relative;
 }
 .title-tab li.active{
