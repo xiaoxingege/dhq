@@ -214,7 +214,6 @@ export default {
 				date='0'+date
 			}
 			this.enddate=year+'-'+mouth+'-'+date
-			console.log(this.enddate)
 		},
   	getQueryString (name,chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')

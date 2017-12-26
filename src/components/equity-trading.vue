@@ -716,35 +716,47 @@ export default {
     },
 
     getCurveList() {
-      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/mkt'
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default'
-      }).then(res => {
-        return res.json()
-      }).then(v => {
-        this.curveList = v.data.list
-        this.curveTime = v.data.date
-        this.insertEchart()
-      }).catch(v2 => {
-        console.log(v2)
+			$.ajax({
+        url:'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/mkt',
+        type:'get',
+        cache:false,
+        dataType:'json',
+        success:(d) => {
+          if (d.retcode === 0) {
+            if (d.data) {
+							this.curveList = d.data.list
+			        this.curveTime = d.data.date
+			        this.insertEchart()
+            }
+          }else{
+            console.log(d.msg)
+          }
+        },
+        error:function(){
+          console.log('error');
+        }
       })
     },
     getGatherList() {
-      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/sts'
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default'
-      }).then(res => {
-        return res.json()
-      }).then(v => {
-        this.balance = v.data.banlanceChg
-        this.percent = v.data.percentChg
-        this.gatherList = v.data.marginTradingStsList
-      }).catch(v2 => {
-        console.log(v2)
+			$.ajax({
+        url:'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading//balance/sts',
+        type:'get',
+        cache:false,
+        dataType:'json',
+        success:(d) => {
+          if (d.retcode === 0) {
+            if (d.data) {
+							this.balance = d.data.banlanceChg
+			        this.percent = d.data.percentChg
+			        this.gatherList = d.data.marginTradingStsList
+            }
+          }else{
+            console.log(d.msg)
+          }
+        },
+        error:function(){
+          console.log('error');
+        }
       })
     },
     inquireMore() {
@@ -753,25 +765,26 @@ export default {
         var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
       url = url + '?day=' + this.day + '&sort_col=' + this.sortcol + '&sort=' + this.sortt + '&pn=' + this.pn + '&ps=' + this.ps
       console.log(url)
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default'
-      }).then(res => {
-        return res.json()
-      }).then(v => {
-        if (v.data.items.length === 0) {
-          this.detailDataFlag = false
-        } else {
-          this.detailList = this.detailList.concat(v.data.items)
-          if (v.data.items.length < this.ps) {
-            this.detailDataFlag = false
-          } else {
-            this.detailDataFlag = true
-          }
+			$.ajax({
+        url:url,
+        type:'get',
+        cache:false,
+        dataType:'json',
+        success:(d) => {
+					if (d.data.items.length === 0) {
+	          this.detailDataFlag = false
+	        } else {
+	          this.detailList = this.detailList.concat(d.data.items)
+	          if (d.data.items.length < this.ps) {
+	            this.detailDataFlag = false
+	          } else {
+	            this.detailDataFlag = true
+	          }
+	        }
+        },
+        error:function(){
+          console.log('error');
         }
-      }).catch(v2 => {
-        console.log(v2)
       })
     },
     getDetailList() {
@@ -779,26 +792,27 @@ export default {
       var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/margin_trading/detail/mkt'
       url = url + '?day=' + this.day + '&sort_col=' + this.sortcol + '&sort=' + this.sortt + '&pn=' + this.pn + '&ps=' + this.ps
       console.log(url)
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default'
-      }).then(res => {
-        return res.json()
-      }).then(v => {
-        if (v.data.items.length === 0) {
-          this.detailList = []
-          this.detailDataFlag = false
-        } else {
-          this.detailList = v.data.items
-          if (v.data.items.length < this.ps) {
-            this.detailDataFlag = false
-          } else {
-            this.detailDataFlag = true
-          }
+			$.ajax({
+        url:url,
+        type:'get',
+        cache:false,
+        dataType:'json',
+        success:(v) => {
+					if (v.data.items.length === 0) {
+	          this.detailList = []
+	          this.detailDataFlag = false
+	        } else {
+	          this.detailList = v.data.items
+	          if (v.data.items.length < this.ps) {
+	            this.detailDataFlag = false
+	          } else {
+	            this.detailDataFlag = true
+	          }
+	        }
+        },
+        error:function(){
+          console.log('error');
         }
-      }).catch(v2 => {
-        console.log(v2)
       })
     },
     clickLi(li) {
