@@ -13,6 +13,7 @@
 </div>
 </template>
 <script>
+import 'whatwg-fetch'
 export default {
   data () {
     return {

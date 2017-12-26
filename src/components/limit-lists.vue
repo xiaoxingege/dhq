@@ -24,11 +24,12 @@
 }
 
 .lists-title{
-  height: 0.6rem;
-  line-height: 0.6rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
   color:rgba(136,136,136,1);
   font-size:0.26rem;
   border-bottom:0.01rem solid rgba(230,230,230,1);
+  box-sizing: border-box;
 }
 .lists-left .lists-title{
   padding-left: 0.3rem;
@@ -39,7 +40,7 @@
 
 }
 .lists-con li{
-  height: 1rem;
+  height: 1.4rem;
   font-size: 0.28rem;
   color:rgba(51,51,51,1);
   border-bottom: 0.01rem solid rgba(230,230,230,1);
@@ -47,17 +48,14 @@
 .lists-left .lists-con li{
   padding-left:0.3rem;
   text-align:left;
-  height: 1rem;
+  height: 1.4rem;
 }
-.lists-right .lists-con li{
-  overflow: hidden;
-  line-height: 1rem;
-}
+
 .lists-left .lists-con li h6{
   height: 0.32rem;
+  line-height: 0.32rem;
   overflow: hidden;
-
-  padding-top:0.2rem;
+  padding-top:0.28rem;
 }
 .lists-left .lists-con li h6 .name{
   float: left;
@@ -66,8 +64,16 @@
 }
 .lists-left .lists-con li h6 .sign{
   float: left;
-  font-size: 0.32rem;
-  color:#333333;
+  width:0.5rem;
+  height: 0.3rem;
+  box-sizing: border-box;
+  line-height: 0.26rem;
+  margin-left: 0.06rem;
+  margin-top: 0.01rem;
+  border: 0.01rem solid #F54949;
+  font-size: 0.2rem;
+  color:#F54949;
+  text-align: center;
 }
 .lists-left .lists-con li p{
   height: 0.22rem;
@@ -75,15 +81,56 @@
   color:#AAAAAA;
   padding-top:0.1rem;
 }
+
+.lists-right .lists-con li{
+  height: 1.41rem;
+  padding-top:0.38rem;
+  box-sizing: border-box;
+}
+.lists-right .lists-con li .main{
+  height: 0.4rem;
+  line-height: 0.4rem;
+}
+.lists-right .lists-con li .hint{
+  padding-left: 0.16rem;
+  margin-top:0.14rem;
+  font-size: 0.2rem;
+  color:#888;
+}
 .lists-right-container{
-  width:18.8rem;
+  min-width:22rem;
 }
 .lists-right .lists-title{
   overflow: hidden;
 }
-.lists-right .lists-title P{
+.lists-right .lists-title p{
   float: left;
   text-align: right;
+}
+.lists-right .lists-title h4{
+  float: left;
+  text-align: right;
+  padding-right: 0.2rem;
+  box-sizing: border-box;
+  position: relative;
+}
+.lists-right .lists-title h4 span{
+  width: 0.13rem;
+    height: 0.17rem;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -0.06rem;
+    background: url(http://i0.jrjimg.cn/optional/default.png) center no-repeat;
+    background-size: contain;
+}
+.lists-right .lists-title h4.desc span{
+  background: url(http://i0.jrjimg.cn/optional/desc.png) center no-repeat;
+  background-size: contain;
+}
+.lists-right .lists-title h4.asce span{
+  background: url(http://i0.jrjimg.cn/optional/asce.png) center no-repeat;
+  background-size: contain;
 }
 .lists-right .lists-con{
 
@@ -133,13 +180,13 @@
     <div class="limitmove-lists" v-if="limitList">
       <div class="lists-left">
         <div class="lists-title">
-          股票名称
+          全部
         </div>
         <ul class="lists-con">
           <li v-for="item in limitList" @click="toStock(item)">
             <h6>
               <span class="name">{{item.stockname}}</span>
-              <span class="sign">连续</span>
+              <span class="sign" v-if="item.continueUpDown===1">连续</span>
             </h6>
             <p>{{item.stockcode}}</p>
           </li>
@@ -149,31 +196,40 @@
         <div class="lists-right-container">
 
           <div class="lists-title">
-            <p style="width:1.3rem">最新价</p>
-            <p style="width:1.74rem">涨跌幅</p>
-            <p style="width:1.48rem">涨停强度</p>
+            <h4 data-index='1' @click="clickSort($event)" class="desc" style="width:1.2rem">最新价<span></span></h4>
+            <h4 data-index='4' @click="clickSort($event)" style="width:1.3rem">涨跌幅<span></span></h4>
+            <h4 data-index='5' @click="clickSort($event)" style="width:1.48rem">涨停强度<span></span></h4>
+            <h4 data-index='10' @click="clickSort($event)" style="width:1.3rem">换手率<span></span></h4>
             <p style="width:1.44rem">封单手数</p>
             <p style="width:1.77rem">封单金额</p>
-            <p style="width:1.77rem">涨停类型</p>
+            <!-- <p style="width:1.77rem">涨停类型</p> -->
+            <p style="width:1.97rem">今日主力净买入</p>
+            <p style="width:1.97rem">五日主力净买入</p>
             <p style="width:1.97rem">第一次涨停时间</p>
             <p style="width:2.17rem">最后一次涨停时间</p>
             <p style="width:1.32rem">打开次数</p>
-            <p style="width:1.77rem">是否连续涨停</p>
             <p style="width:1.77rem; padding-right:0.3rem;">连续涨停次数</p>
           </div>
           <ul class="lists-con">
             <li v-for="item in limitList" @click="toStock(item)">
-                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
-                <span :class="addcolor(item.priceLimit)" style="width:1.74rem">{{item.priceLimit.toFixed(2)}}%</span>
+              <div class="main">
+                <span :class="addcolor(item.nowPrice)" style="width:1.2rem">{{item.nowPrice.toFixed(2)}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.3rem">{{item.priceLimit.toFixed(2)}}%</span>
                 <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
+                <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
                 <span style="width:1.44rem">{{item.fdHands | convert}} </span>
                 <span style="width:1.77rem">{{item.fdMoney | convert}}</span>
-                <span style="width:1.77rem">{{item.type}}</span>
+                <!-- <span style="width:1.77rem">{{item.type}}</span> -->
+                <span style="width:1.97rem">{{item.mainForceNetInflow |convert}}</span>
+                <span style="width:1.97rem">{{item.mainForceNetInflow5 |convert}}</span>
                 <span style="width:1.97rem">{{item.firstZtTime}}</span>
                 <span style="width:2.17rem">{{item.lastZtTime}}</span>
                 <span style="width:1.32rem">{{item.opentime}}</span>
-                <span style="width:1.67rem">{{item.continueUpDown | convert2}}</span>
                 <span style="width:1.67rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
+              </div>
+              <div class="hint">
+                涨停揭秘: 360借壳成功，一人得道鸡犬升天
+              </div>
             </li>
           </ul>
         </div>
@@ -192,12 +248,15 @@
 </div>
 </template>
 <script>
+import 'whatwg-fetch'
 export default {
   data () {
     return {
       limitTab:'1',
       limitUpNum:0,
       limitDownNum:0,
+      sort1:1,
+      order1:'desc',
       limitList:[],
       limitOpenTab:'0',
       limitUpOpenNum:0,
@@ -223,13 +282,6 @@ export default {
     	}else{
     		return d
     	}
-    },
-    convert2(d){
-      if (d === 1) {
-        return '是'
-      }else{
-        return '否'
-      }
     }
   },
   methods: {
@@ -246,6 +298,8 @@ export default {
       this.show=1
       this.limitOpenTab=0
       this.limitTab= v.currentTarget.getAttribute('data-index')
+      this.sort1=1
+      this.order1='desc'
       this.getLimitList()
     },
     toLimitOpenTab(v){
@@ -269,6 +323,23 @@ export default {
 						}))
 				}
 		},
+    clickSort(e) {
+      if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
+        if (this.order1 === 'desc') {
+          this.order1 = 'asce'
+          e.currentTarget.setAttribute('class', 'asce')
+        } else {
+          this.order1 = 'desc'
+          e.currentTarget.setAttribute('class', 'desc')
+        }
+      } else {
+        this.sort1 = e.currentTarget.getAttribute('data-index')
+        this.order1 = 'desc'
+        $('.lists-right h4').removeClass('desc').removeClass('asce')
+        e.currentTarget.setAttribute('class', 'desc')
+      }
+      this.getLimitList()
+    },
     getLimitLen(type){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
@@ -294,8 +365,8 @@ export default {
     },
     getLimitList(){
 
-      // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab
+      // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
+      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
       console.log(url)
       fetch(url, {
         method:'get',
@@ -305,7 +376,6 @@ export default {
         return res.json()
       }).then(v => {
         this.limitList=v.data.items
-        console.log(this.limitList)
       }).catch(v2 => {
         console.log(v2)
       })

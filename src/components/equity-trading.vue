@@ -515,6 +515,7 @@
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 var echarts = require('echarts')
+import 'whatwg-fetch'
 
 export default {
   data() {
