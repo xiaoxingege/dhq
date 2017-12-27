@@ -113,7 +113,7 @@
 
 }
 .limit .lists-right-container{
-  min-width:22rem;
+  min-width:20.2rem;
 }
 .limit-open .lists-right-container{
   width:5.8rem;
@@ -197,11 +197,11 @@
   <div class="limit" v-if="show === 1">
     <div class="limitmove-lists" v-if="limitList">
       <div class="lists-left">
-        <div class="lists-title">
-          全部
+        <div class="lists-title" @click="filtrate()">
+          {{filtrateName}}
         </div>
         <ul class="lists-con">
-          <li v-for="item in limitList" @click="toStock(item)">
+          <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item)">
             <h6>
               <span class="name">{{item.stockname}}</span>
               <span class="sign" v-if="item.continueUpDown===1">连续</span>
@@ -226,10 +226,10 @@
             <p style="width:1.97rem">第一次涨停时间</p>
             <p style="width:2.17rem">最后一次涨停时间</p>
             <p style="width:1.32rem">打开次数</p>
-            <p style="width:1.77rem; padding-right:0.3rem;">连续涨停次数</p>
+            <p style="width:1.77rem;">连续涨停次数</p>
           </div>
           <ul class="lists-con">
-            <li v-for="item in limitList" @click="toStock(item)">
+            <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item)">
               <div class="main">
                 <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
                 <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
@@ -243,11 +243,11 @@
                 <span style="width:1.97rem">{{item.firstZtTime}}</span>
                 <span style="width:2.17rem">{{item.lastZtTime}}</span>
                 <span style="width:1.32rem">{{item.opentime}}</span>
-                <span style="width:1.67rem; padding-right:0.5rem;">{{item.continueUpDownTimes}}</span>
+                <span style="width:1.67rem;">{{item.continueUpDownTimes}}</span>
               </div>
-              <div class="hint">
+              <!-- <div class="hint">
                 涨停揭秘: 360借壳成功，一人得道鸡犬升天
-              </div>
+              </div> -->
             </li>
           </ul>
         </div>
@@ -263,7 +263,7 @@
     <div class="limitmove-lists" v-if="limitOpenList">
       <div class="lists-left">
         <div class="lists-title">
-          全部
+          股票名称
         </div>
         <ul class="lists-con">
           <li v-for="item in limitOpenList" @click="toStock(item)">
@@ -309,6 +309,8 @@ import 'whatwg-fetch'
 export default {
   data () {
     return {
+      filtrateType:1,
+      filtrateName:'全部涨停',
       limitTab:'1',
       limitUpNum:0,
       limitDownNum:0,
@@ -351,26 +353,51 @@ export default {
       	return 'red'
       }
     },
+    /*
+    * 切换【涨跌停】tab方法
+    */
     toLimitTab(v){
+      // 展示列表模块1-limit
       this.show=1
+      // 关闭涨跌停打开的tab
       this.limitOpenTab=0
       this.limitTab= v.currentTarget.getAttribute('data-index')
+      // 排序功能初始化
       this.sort1=1
       this.order1='desc'
       $('.limit .lists-right h4').removeClass('desc').removeClass('asce')
       $('.limit .lists-right h4:first').addClass('desc')
+      // 筛选功能初始化
+      this.filtrateType = 1
+      if (this.limitTab==='1') {
+        this.filtrateName='全部涨停'
+      }
+      if (this.limitTab==='2') {
+        this.filtrateName='全部跌停'
+      }
+      // 获取涨跌停数据
       this.getLimitList()
     },
+    /*
+    * 切换【涨跌停打开】tab方法
+    */
     toLimitOpenTab(v){
+      // 展示列表模块2-limit-open
       this.show=2
+      // 关闭涨跌停的tab
       this.limitTab=0
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
+      // 排序功能初始化
       this.sort1=1
       this.order1='desc'
       $('.limit-open .lists-right h4').removeClass('desc').removeClass('asce')
       $('.limit-open .lists-right h4:first').addClass('desc')
+      // 获取涨跌停打开数据
       this.getLimitOpenList()
     },
+    /*
+    * 跳转【个股】贯通
+    */
     toStock(item){
 				var stockCode=item.stockcode
 				let market = '';
@@ -386,6 +413,54 @@ export default {
 						}))
 				}
 		},
+    /*
+    * 【涨跌停】数据筛选
+    */
+    filt(item){
+      if (this.filtrateType === 1) {
+        return true
+      }
+      if (item.type===this.filtrateName) {
+        return item.type===this.filtrateName
+      }
+    },
+    /*
+    * 点击筛选的 数据处理
+    */
+    filtrate(){
+      this.filtrateType++
+      if (this.filtrateType>3) {
+        this.filtrateType=1
+      }
+      if (this.filtrateType === 1) {
+        if (this.limitTab==='1') {
+          this.filtrateName='全部涨停'
+        }
+        if (this.limitTab==='2') {
+          this.filtrateName='全部跌停'
+        }
+
+      }
+      if (this.filtrateType === 2) {
+        if (this.limitTab==='1') {
+          this.filtrateName='一字涨停'
+        }
+        if (this.limitTab==='2') {
+          this.filtrateName='一字跌停'
+        }
+      }
+      if (this.filtrateType === 3) {
+        if (this.limitTab==='1') {
+          this.filtrateName='自然涨停'
+        }
+        if (this.limitTab==='2') {
+          this.filtrateName='自然跌停'
+        }
+      }
+    },
+    /*
+    * 【涨跌停】排序
+    */
     clickSort(e) {
       if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
         if (this.order1 === 'desc') {
@@ -403,6 +478,9 @@ export default {
       }
       this.getLimitList()
     },
+    /*
+    * 【涨跌停打开】排序
+    */
     clickSort2(e) {
       if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
         if (this.order1 === 'desc') {
@@ -420,6 +498,9 @@ export default {
       }
       this.getLimitOpenList()
     },
+    /*
+    * 获取【涨跌停】列表数据数量
+    */
     getLimitLen(type){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
@@ -442,6 +523,9 @@ export default {
       })
 
     },
+    /*
+    * 获取【涨跌停】列表数据
+    */
     getLimitList(){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
@@ -464,6 +548,9 @@ export default {
       })
 
     },
+    /*
+    * 获取【涨跌停打开】列表数据数量
+    */
     getLimitOpenLen(type){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1
@@ -486,6 +573,9 @@ export default {
       })
 
     },
+    /*
+    * 获取【涨跌停打开】列表数据
+    */
     getLimitOpenList(){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1&sort_column=1&order_type=desc
