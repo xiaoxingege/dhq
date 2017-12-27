@@ -49,14 +49,6 @@
         <span></span>
         <p>涨停家数：{{limitUp}}</p>
       </div>
-      <!-- <div class="summary-bottom">
-        <p>
-            <span>自然涨停</span><span class="num">{{naturelimitUp}}</span>
-        </p>
-        <p>
-            <span>一字涨停</span><span class="num">{{yzlimitUp}}</span>
-        </p>
-      </div> -->
     </div>
 
     <div class="summary-item down">
@@ -64,14 +56,6 @@
         <span></span>
         <p>跌停家数：{{limitDown}}</p>
       </div>
-      <!-- <div class="summary-bottom">
-        <p>
-            <span>自然跌停</span><span class="num">{{naturelimitDown}}</span>
-        </p>
-        <p>
-            <span>一字跌停</span><span class="num">{{yzlimitDown}}</span>
-        </p>
-      </div> -->
     </div>
 
   </div>
