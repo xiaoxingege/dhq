@@ -14,13 +14,18 @@
 .limit .lists-left{
   width:2.15rem
 }
+.limit-open .lists-left{
+  width:1.7rem
+}
 .lists-right{
   float: left;
-  width:5.8rem;
   overflow-x: auto;
 }
 .limit .lists-right{
   width:5.35rem;
+}
+.limit-open .lists-right{
+  width:5.8rem;
 }
 
 .lists-title{
@@ -40,23 +45,32 @@
 
 }
 .lists-con li{
-  height: 1.4rem;
-  font-size: 0.28rem;
-  color:rgba(51,51,51,1);
+  box-sizing: border-box;
   border-bottom: 0.01rem solid rgba(230,230,230,1);
+}
+.limit .lists-con li{
+  height: 1.4rem;
+}
+.limit-open .lists-con li{
+  height: 1.08rem;
 }
 .lists-left .lists-con li{
   padding-left:0.3rem;
   text-align:left;
-  height: 1.4rem;
 }
 
 .lists-left .lists-con li h6{
   height: 0.32rem;
   line-height: 0.32rem;
   overflow: hidden;
+}
+.limit .lists-left .lists-con li h6{
   padding-top:0.28rem;
 }
+.limit-open .lists-left .lists-con li h6{
+  padding-top:0.24rem;
+}
+
 .lists-left .lists-con li h6 .name{
   float: left;
   font-size: 0.32rem;
@@ -83,9 +97,7 @@
 }
 
 .lists-right .lists-con li{
-  height: 1.41rem;
   padding-top:0.38rem;
-  box-sizing: border-box;
 }
 .lists-right .lists-con li .main{
   height: 0.4rem;
@@ -93,12 +105,18 @@
 }
 .lists-right .lists-con li .hint{
   padding-left: 0.16rem;
-  margin-top:0.14rem;
+  margin-top:0.12rem;
   font-size: 0.2rem;
   color:#888;
 }
 .lists-right-container{
+
+}
+.limit .lists-right-container{
   min-width:22rem;
+}
+.limit-open .lists-right-container{
+  width:5.8rem;
 }
 .lists-right .lists-title{
   overflow: hidden;
@@ -196,8 +214,8 @@
         <div class="lists-right-container">
 
           <div class="lists-title">
-            <h4 data-index='1' @click="clickSort($event)" class="desc" style="width:1.2rem">最新价<span></span></h4>
-            <h4 data-index='4' @click="clickSort($event)" style="width:1.3rem">涨跌幅<span></span></h4>
+            <h4 data-index='1' @click="clickSort($event)" class="desc" style="width:1.3rem">最新价<span></span></h4>
+            <h4 data-index='4' @click="clickSort($event)" style="width:1.4rem">涨跌幅<span></span></h4>
             <h4 data-index='5' @click="clickSort($event)" style="width:1.48rem">涨停强度<span></span></h4>
             <h4 data-index='10' @click="clickSort($event)" style="width:1.3rem">换手率<span></span></h4>
             <p style="width:1.44rem">封单手数</p>
@@ -213,8 +231,8 @@
           <ul class="lists-con">
             <li v-for="item in limitList" @click="toStock(item)">
               <div class="main">
-                <span :class="addcolor(item.nowPrice)" style="width:1.2rem">{{item.nowPrice.toFixed(2)}}</span>
-                <span :class="addcolor(item.priceLimit)" style="width:1.3rem">{{item.priceLimit.toFixed(2)}}%</span>
+                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
                 <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
                 <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
                 <span style="width:1.44rem">{{item.fdHands | convert}} </span>
@@ -242,7 +260,46 @@
   </div>
 
   <div class="limit-open" v-if="show === 2">
-    列表2222
+    <div class="limitmove-lists" v-if="limitOpenList">
+      <div class="lists-left">
+        <div class="lists-title">
+          全部
+        </div>
+        <ul class="lists-con">
+          <li v-for="item in limitOpenList" @click="toStock(item)">
+            <h6>
+              <span class="name">{{item.stockName}}</span>
+            </h6>
+            <p>{{item.stockCode}}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="lists-right">
+        <div class="lists-right-container">
+
+          <div class="lists-title">
+            <h4 data-index='1' @click="clickSort2($event)" class="desc" style="width:1.3rem">最新价<span></span></h4>
+            <h4 data-index='2' @click="clickSort2($event)" style="width:1.4rem">涨跌幅<span></span></h4>
+            <h4 data-index='3' @click="clickSort2($event)" style="width:1.48rem">开板时间<span></span></h4>
+            <h4 data-index='4' @click="clickSort2($event)" style="width:1.3rem">换手率<span></span></h4>
+          </div>
+          <ul class="lists-con">
+            <li v-for="item in limitOpenList" @click="toStock(item)">
+              <div class="main">
+                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
+                <span style="width:1.48rem">{{item.openTime}}</span>
+                <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    <div v-if="limitOpenList.length === 0" class="dataEmpty">
+      暂无数据
+    </div>
   </div>
 
 </div>
@@ -300,13 +357,19 @@ export default {
       this.limitTab= v.currentTarget.getAttribute('data-index')
       this.sort1=1
       this.order1='desc'
+      $('.limit .lists-right h4').removeClass('desc').removeClass('asce')
+      $('.limit .lists-right h4:first').addClass('desc')
       this.getLimitList()
     },
     toLimitOpenTab(v){
       this.show=2
       this.limitTab=0
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
-      // this.getLimitList()
+      this.sort1=1
+      this.order1='desc'
+      $('.limit-open .lists-right h4').removeClass('desc').removeClass('asce')
+      $('.limit-open .lists-right h4:first').addClass('desc')
+      this.getLimitOpenList()
     },
     toStock(item){
 				var stockCode=item.stockcode
@@ -340,11 +403,27 @@ export default {
       }
       this.getLimitList()
     },
+    clickSort2(e) {
+      if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
+        if (this.order1 === 'desc') {
+          this.order1 = 'asce'
+          e.currentTarget.setAttribute('class', 'asce')
+        } else {
+          this.order1 = 'desc'
+          e.currentTarget.setAttribute('class', 'desc')
+        }
+      } else {
+        this.sort1 = e.currentTarget.getAttribute('data-index')
+        this.order1 = 'desc'
+        $('.lists-right h4').removeClass('desc').removeClass('asce')
+        e.currentTarget.setAttribute('class', 'desc')
+      }
+      this.getLimitOpenList()
+    },
     getLimitLen(type){
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+type
-      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -375,7 +454,11 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(v => {
-        this.limitList=v.data.items
+        if (v.data.items.length===0) {
+          this.limitList=[]
+        }else{
+          this.limitList=v.data.items
+        }
       }).catch(v2 => {
         console.log(v2)
       })
@@ -385,7 +468,6 @@ export default {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+type
-      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -406,8 +488,8 @@ export default {
     },
     getLimitOpenList(){
 
-      // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitOpenTab
+      // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1&sort_column=1&order_type=desc
+      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+this.limitOpenTab+'&sort_column='+this.sort1+'&order_type='+this.order1
       console.log(url)
       fetch(url, {
         method:'get',
@@ -416,8 +498,12 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(v => {
-        this.limitList=v.data.items
-        console.log(this.limitList)
+        if (v.data.items.length===0) {
+          this.limitOpenList=[]
+        }else{
+          this.limitOpenList=v.data.items
+        }
+        console.log(this.limitOpenList)
       }).catch(v2 => {
         console.log(v2)
       })

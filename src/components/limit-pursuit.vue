@@ -233,6 +233,8 @@
 </template>
 
 <script>
+import 'whatwg-fetch'
+
 import limitGraph1 from 'components/limit-graph1'
 import limitGraph2 from 'components/limit-graph2'
 import limitGraph3 from 'components/limit-graph3'
