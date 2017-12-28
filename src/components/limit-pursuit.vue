@@ -185,7 +185,7 @@
       <span class="arrows"></span>
       <div class="newsflash">
         <ul  v-if="newsData">
-          <li v-for="item in newsData">
+          <li v-for="item in newsData" @click="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
             <span class="icon"></span>
             <span class="title">涨跌停快报</span>
             <span class="time">{{item.time | convertTime}}</span>
@@ -245,7 +245,7 @@ import limitLists from 'components/limit-lists'
 export default {
   data () {
     return {
-      graphTab:'1',
+      graphTab:this.getQueryString('tab')? this.getQueryString('tab') : '1',
       newsData:[],
       blockTab:'1',
       blockData:[]
@@ -286,6 +286,18 @@ export default {
     this.slide()
   },
   methods: {
+    getQueryString (name,chinese) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+			if (chinese) {
+				// 中文解码
+				if (r != null) return decodeURI(r[2])
+			}else{
+				// 英文解码
+				if (r != null) return unescape(r[2])
+			}
+      return null
+    },
     slide(){
       setInterval(function() {
         $('.newsflash ul').animate({
