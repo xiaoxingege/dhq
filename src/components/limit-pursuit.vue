@@ -153,6 +153,20 @@
   background: #fff;
   margin-top:0.2rem;
 }
+.newsempty{
+  height: 1rem;
+  line-height: 1rem;
+  text-align: center;
+  font-size:0.28rem;
+  color:#ccc;
+}
+.block-empty{
+  height: 2.55rem;
+  line-height: 2.55rem;
+  text-align: center;
+  font-size:0.28rem;
+  color:#ccc;
+}
 </style>
 
 <template>
@@ -184,15 +198,18 @@
     <div class="newsflash-container">
       <span class="arrows"></span>
       <div class="newsflash">
-        <ul  v-if="newsData">
-          <li v-for="item in newsData" @click="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
+        <ul  v-if="newsData.length>0">
+          <li v-for="item in newsData" onclick="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
             <span class="icon"></span>
             <span class="title">涨跌停快报</span>
             <span class="time">{{item.time | convertTime}}</span>
             <span class="signal">{{item.signalName}}</span>
-            <span class="name">{{item.stockName}}股票名称</span>
+            <span class="name">{{item.stockName}}</span>
           </li>
         </ul>
+        <div class="newsempty" v-if="newsData.length===0">
+          暂无数据
+        </div>
       </div>
     </div>
     <!-- 涨跌停快报-end -->
@@ -210,13 +227,16 @@
         </li>
       </ul>
 
-      <ul class="block-content"  v-if="blockData">
-        <li v-for="item in blockData">
+      <ul class="block-content"  v-if="blockData.length>0">
+        <li v-for="item in blockData" @click="toBlock(item)">
           <h3>{{item.platName}}</h3>
           <h4 :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio | }}%</h4>
           <h5>{{item.stockNum}}只{{blockTab | converLimitType}}停</h5>
         </li>
       </ul>
+      <div class="block-empty" v-if="blockData.length===0">
+        暂无数据
+      </div>
 
     </div>
     <!-- 集中板块-end -->
@@ -319,6 +339,19 @@ export default {
       	return 'red'
       }
     },
+    toBlock(item){
+				var platCode=item.platCode
+				var platName=item.platName
+				var platType=item.platType
+
+				if (window.jrj && window.jrj.jsCallNative) {
+						window.jrj.jsCallNative(161, JSON.stringify({
+							platcode:platCode,
+							platname:platName,
+							plattype:platType
+						}))
+				}
+		},
     toGraphTab(v){
       this.graphTab = v.currentTarget.getAttribute('data-index')
     },
@@ -335,7 +368,11 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(v => {
-        this.newsData=v.data.items
+        if (v.data.items.length === 0) {
+          this.newsData=[]
+        }else{
+          this.newsData=v.data.items
+        }
         // console.log(this.newsData[0].stockName)
       }).catch(v2 => {
         console.log(v2)
@@ -351,7 +388,11 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(v => {
-        this.blockData=v.data.items
+        if (v.data.items.length === 0) {
+          this.blockData=[]
+        }else{
+          this.blockData=v.data.items
+        }
       }).catch(v2 => {
         console.log(v2)
       })

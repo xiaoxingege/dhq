@@ -199,7 +199,7 @@
       涨停打开({{limitUpOpenNum}})
       <span></span>
     </li>
-    <li data-index='2' :class="limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)">
+    <li data-index='2' :class="limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)" style="padding-right:0">
       跌停打开({{limitDownOpenNum}})
       <span></span>
     </li>
@@ -213,7 +213,7 @@
           <span></span>
         </div>
         <ul class="lists-con">
-          <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item)">
+          <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item.stockcode)">
             <h6>
               <span class="name">{{item.stockname}}</span>
               <span class="sign" v-if="item.continueUpDown===1">连续</span>
@@ -241,7 +241,7 @@
             <p style="width:1.77rem;">连续涨停次数</p>
           </div>
           <ul class="lists-con">
-            <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item)">
+            <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item.stockcode)">
               <div class="main">
                 <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
                 <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
@@ -278,7 +278,7 @@
           股票名称
         </div>
         <ul class="lists-con">
-          <li v-for="item in limitOpenList" @click="toStock(item)">
+          <li v-for="item in limitOpenList" @click="toStock(item.stockCode)">
             <h6>
               <span class="name">{{item.stockName}}</span>
             </h6>
@@ -296,7 +296,7 @@
             <h4 data-index='4' @click="clickSort2($event)" style="width:1.3rem">换手率<span></span></h4>
           </div>
           <ul class="lists-con">
-            <li v-for="item in limitOpenList" @click="toStock(item)">
+            <li v-for="item in limitOpenList" @click="toStock(item.stockCode)">
               <div class="main">
                 <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
                 <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
@@ -417,8 +417,8 @@ export default {
     /*
     * 跳转【个股】贯通
     */
-    toStock(item){
-				var stockCode=item.stockcode
+    toStock(stockcode){
+				var stockCode=stockcode
 				let market = '';
 				if((stockCode.slice(0,3) === '000') || (stockCode.slice(0,3) === '002') || (stockCode.slice(0,3) === '300')){
 						market = 'sz'
