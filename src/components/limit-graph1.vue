@@ -2,16 +2,16 @@
 .limit-graph1{
 }
 
-.summary{
+.summary1{
   box-sizing:border-box;
   overflow: hidden;
-  padding:0.44rem 0 0.29rem;
+  padding:0.37rem 0.13rem 0.29rem;
 }
 .summary-item{
   box-sizing: border-box;
   width:50%;
   float:left;
-  padding-left:0.3rem;
+  padding-left:0.67rem;
 }
 .summary-top{
   height: 0.4rem;
@@ -43,7 +43,7 @@
 <div class="limit-graph1">
   <div id="graph" style="width:100%;height:3.9rem;"></div>
 
-  <div class="summary">
+  <div class="summary1">
     <div class="summary-item up">
       <div class="summary-top">
         <span></span>
@@ -86,6 +86,7 @@ export default {
       _this.getGraphData()
       _this.getlimitAddNum()
       _this.myChart.setOption(_this.option)
+      console.log('刷新11')
     },5000)
   },
   methods: {
@@ -105,8 +106,8 @@ export default {
           grid:{
     				top:'14%',
     				left:'10%',
-    				right:'4%',
-    				bottom:'14%'
+    				right:'8%',
+    				bottom:'12%'
     			},
           tooltip: {
               show:false

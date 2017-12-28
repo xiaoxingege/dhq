@@ -2,18 +2,19 @@
 .limit-graph2{
     background: #fff;
     font-size: 0.28rem;
+    padding-top: 0.4rem;
 }
-.summary{
+.summary2{
   padding:0.5rem 0.23rem 0.23rem;
   overflow: hidden;
 }
-.summary li{
+.summary2 li{
   float: left;
-  width:3.52rem;
+  width:50%;
   padding-left: 0.57rem;
   box-sizing: border-box;
 }
-.summary li p{
+.summary2 li p{
   margin-bottom: 0.12rem;
   height: 0.4rem;
   line-height: 0.4rem;
@@ -21,7 +22,7 @@
   font-size: 0.28rem;
   text-align: left;
 }
-.summary li p span{
+.summary2 li p span{
   color:#333;
 }
 </style>
@@ -29,8 +30,8 @@
 <template>
 <!-- Swiper -->
 <div class="limit-graph2">
-  <div id="graph" style="width:100%;height:2.97rem;"></div>
-  <ul class="summary">
+  <div id="graph2" style="width:100%;height:2.97rem;"></div>
+  <ul class="summary2">
     <li>
       <p>涨停家数：<span>{{up}}</span></p>
       <p>涨幅大于5%：<span>{{up5}}</span></p>
@@ -51,8 +52,8 @@ export default {
   data () {
     return {
       graphData:[],
-      option:null,
-      myChart:null,
+      option2:null,
+      myChart2:null,
       up:0,
       down:0,
       up5:0,
@@ -60,27 +61,28 @@ export default {
     }
   },
   mounted () {
+    var _this=this
     this.fetchNewsData()
     this.getlimitChange()
+    setInterval(function(){
+      _this.fetchNewsData()
+      _this.getlimitChange()
+      _this.myChart2.setOption(_this.option2)
+    },5000)
   },
   filters: {
   },
   methods: {
     insertEchart(){
-      this.myChart = echarts.init(document.getElementById('graph'));
+      this.myChart2 = echarts.init(document.getElementById('graph2'));
       var data = this.graphData;
       var dataX = [];
       var dataY = [];
-      var lookRise=[]
       for (var i = 0; i < data.length; i++) {
         dataX.push(data[i].name)
         dataY.push(data[i].stockNum)
-        lookRise.push(data[i].lookRise)
       }
-      console.log(dataX)
-      console.log(dataY)
-      console.log(lookRise)
-      this.option = {
+      this.option2 = {
           color: ['#00B267','#00B267', '#00B267', '#00B267', '#00B267','#999999', '#F54949', '#F54949','#F54949', '#F54949', '#F54949'],
           grid: {
               top: '12%',
@@ -141,7 +143,7 @@ export default {
           ]
       };
       // 使用刚指定的配置项和数据显示图表。
-      this.myChart.setOption(this.option);
+      this.myChart2.setOption(this.option2);
 
     },
     fetchNewsData () {

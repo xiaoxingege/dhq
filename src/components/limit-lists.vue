@@ -40,7 +40,18 @@
   padding-left: 0.3rem;
   text-align: left;
 }
-
+.limit .lists-left .lists-title{
+  position: relative;
+}
+.limit .lists-left .lists-title span{
+  position: absolute;
+  top:0.41rem;
+  left:1.37rem;
+  width:0;
+  height: 0;
+  border-bottom: 0.1rem solid #ccc;
+  border-left: 0.1rem solid transparent;
+}
 .lists-con{
 
 }
@@ -199,6 +210,7 @@
       <div class="lists-left">
         <div class="lists-title" @click="filtrate()">
           {{filtrateName}}
+          <span></span>
         </div>
         <ul class="lists-con">
           <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item)">
@@ -325,12 +337,12 @@ export default {
     }
   },
   mounted () {
-    this.getLimitLen('1')
-    this.getLimitLen('2')
-    this.getLimitList()
-    this.getLimitOpenLen('1')
-    this.getLimitOpenLen('2')
-    // this.getLimitOpenLen('2')
+    var _this=this
+    this.loading()
+    setInterval(function(){
+      _this.loading()
+      console.log('刷新列表')
+    },5000)
   },
   filters: {
     convert (d) {
@@ -344,6 +356,13 @@ export default {
     }
   },
   methods: {
+    loading(){
+      this.getLimitLen('1')
+      this.getLimitLen('2')
+      this.getLimitList()
+      this.getLimitOpenLen('1')
+      this.getLimitOpenLen('2')
+    },
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
@@ -530,7 +549,6 @@ export default {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
-      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -577,10 +595,8 @@ export default {
     * 获取【涨跌停打开】列表数据
     */
     getLimitOpenList(){
-
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+this.limitOpenTab+'&sort_column='+this.sort1+'&order_type='+this.order1
-      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',

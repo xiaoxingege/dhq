@@ -53,7 +53,7 @@
   margin-top:0.2rem;
   height: 1rem;
   background: #fff;
-  overflow-y: auto;
+  overflow:hidden;
 }
 .newsflash ul{
   height:3rem;
@@ -234,6 +234,8 @@
 
 <script>
 import 'whatwg-fetch'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 
 import limitGraph1 from 'components/limit-graph1'
 import limitGraph2 from 'components/limit-graph2'
@@ -272,10 +274,30 @@ export default {
     }
   },
   mounted () {
+    var _this=this
     this.fetchNewsData()
     this.fetchBlockData()
+    setInterval(function(){
+      _this.fetchNewsData()
+      _this.fetchBlockData()
+      console.log('刷新主模板')
+    },5000)
+
+    this.slide()
   },
   methods: {
+    slide(){
+      setInterval(function() {
+        $('.newsflash ul').animate({
+          'margin-top': '-1rem'
+        }, 900, function() {
+          $('.newsflash ul').append($('.newsflash ul li:first'))
+          $('.newsflash ul').css({
+            'margin-top': '0'
+          })
+        })
+      }, 1200)
+    },
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
@@ -302,6 +324,7 @@ export default {
         return res.json()
       }).then(v => {
         this.newsData=v.data.items
+        // console.log(this.newsData[0].stockName)
       }).catch(v2 => {
         console.log(v2)
       })
