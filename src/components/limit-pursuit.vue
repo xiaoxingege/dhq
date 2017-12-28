@@ -89,9 +89,14 @@
   color:#888;
   margin-right: 0.1rem;
 }
-.newsflash .signal{
+.newsflash .green{
   font-size: 0.28rem;
   color:#00B267;
+  margin-right: 0.3rem;
+}
+.newsflash .red{
+  font-size: 0.28rem;
+  color:#FF4040;
   margin-right: 0.3rem;
 }
 .newsflash .name{
@@ -203,7 +208,7 @@
             <span class="icon"></span>
             <span class="title">涨跌停快报</span>
             <span class="time">{{item.time | convertTime}}</span>
-            <span class="signal">{{item.signalName}}</span>
+            <span :class="item.lookRise===1 ? 'red':'green'">{{item.signalName}}</span>
             <span class="name">{{item.stockName}}</span>
           </li>
         </ul>
