@@ -83,11 +83,10 @@ export default {
         dataY.push(data[i].stockNum)
       }
       this.option2 = {
-          color: ['#00B267','#00B267', '#00B267', '#00B267', '#00B267','#999999', '#F54949', '#F54949','#F54949', '#F54949', '#F54949'],
           grid: {
               top: '12%',
-              left: '3%',
-              right: '4%',
+              left: '0%',
+              right: '2%',
               bottom: '20%',
               containLabel: true
           },
@@ -132,10 +131,21 @@ export default {
                   name:'个股数量',
                   type:'bar',
                   barWidth: '60%',
+                  itemStyle:{
+                      normal: {
+                          show: true,
+                          position: 'top',
+                          color:function(params) {
+                              var colorList = ['#00B267','#00B267', '#00B267', '#00B267', '#00B267','#999999', '#F54949', '#F54949','#F54949', '#F54949', '#F54949']
+                              return colorList[params.dataIndex]
+                          }
+                      }
+                  },
                   label: {
                       normal: {
                           show: true,
-                          position: 'top'
+                          position: 'top',
+                          color:'rgba(51,51,51,1)'
                       }
                   },
                   data:dataY
