@@ -18,7 +18,7 @@
     .quick-report-list-item-content > div:last-child { line-height:0.4rem}
     .time { font-size:0.32rem; color:#888; }
     .action { font-size:0.32rem; margin-left:0.3rem}
-    .stock-name { color:#2565CD; font-size:0.28rem;}
+    .stock-name { color:#2565CD; font-size:0.28rem;position: relative;}
     .info { color:#333; font-size:0.28rem}
     .rise { color:#F54949}
     .down { color: #00B267}
@@ -86,7 +86,6 @@
                 fetch('http://glink.genius.com.cn//base/PUB_EXCHANGE_CALENDAR/full=2&filter-MKT_TYPE-int=2&limit=1&filter-ENDDATE-dt=' + today).then(res => {
                     return res.json()
                 }).then(data => {
-                    console.log(data)
                     if(data.rows[0].OPEN_CLOSE === 1){
                         vm.isShowTitle = true
                     }
