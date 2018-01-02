@@ -124,7 +124,7 @@
 
 }
 .limit .lists-right-container{
-  min-width:20.2rem;
+  min-width:22.2rem;
 }
 .limit-open .lists-right-container{
   width:5.8rem;
@@ -136,14 +136,14 @@
   float: left;
   text-align: right;
 }
-.lists-right .lists-title h4{
+.lists-right .lists-title p{
   float: left;
   text-align: right;
   padding-right: 0.2rem;
   box-sizing: border-box;
   position: relative;
 }
-.lists-right .lists-title h4 span{
+.lists-right .lists-title p span{
   width: 0.13rem;
     height: 0.17rem;
     position: absolute;
@@ -153,11 +153,11 @@
     background: url(http://i0.jrjimg.cn/optional/default.png) center no-repeat;
     background-size: contain;
 }
-.lists-right .lists-title h4.desc span{
+.lists-right .lists-title p.desc span{
   background: url(http://i0.jrjimg.cn/optional/desc.png) center no-repeat;
   background-size: contain;
 }
-.lists-right .lists-title h4.asce span{
+.lists-right .lists-title p.asce span{
   background: url(http://i0.jrjimg.cn/optional/asce.png) center no-repeat;
   background-size: contain;
 }
@@ -226,19 +226,18 @@
         <div class="lists-right-container">
 
           <div class="lists-title">
-            <h4 data-index='1' @click="clickSort($event)" class="desc" style="width:1.3rem">最新价<span></span></h4>
-            <h4 data-index='4' @click="clickSort($event)" style="width:1.4rem">涨跌幅<span></span></h4>
-            <h4 data-index='5' @click="clickSort($event)" style="width:1.48rem">涨停强度<span></span></h4>
-            <h4 data-index='10' @click="clickSort($event)" style="width:1.3rem">换手率<span></span></h4>
-            <p style="width:1.44rem">封单手数</p>
-            <p style="width:1.77rem">封单金额</p>
-            <!-- <p style="width:1.77rem">涨停类型</p> -->
-            <p style="width:1.97rem">今日主力净买入</p>
-            <p style="width:1.97rem">五日主力净买入</p>
-            <p style="width:1.97rem">第一次涨停时间</p>
-            <p style="width:2.17rem">最后一次涨停时间</p>
-            <p style="width:1.32rem">打开次数</p>
-            <p style="width:1.77rem;">连续涨停次数</p>
+            <p data-index='1' @click="clickSort($event)" class="desc" style="width:1.3rem">最新价<span></span></p>
+            <p data-index='4' @click="clickSort($event)" style="width:1.4rem">涨跌幅<span></span></p>
+            <p data-index='5' @click="clickSort($event)" style="width:1.48rem">涨停强度<span></span></p>
+            <p data-index='10' @click="clickSort($event)" style="width:1.3rem">换手率<span></span></p>
+            <p data-index='3' @click="clickSort($event)" style="width:1.64rem">封单手数<span></span></p>
+            <p data-index='2' @click="clickSort($event)" style="width:1.97rem">封单金额<span></span></p>
+            <p data-index='11' @click="clickSort($event)" style="width:2.27rem">今日主力净买入<span></span></p>
+            <p data-index='12' @click="clickSort($event)" style="width:2.27rem">五日主力净买入<span></span></p>
+            <p data-index='6' @click="clickSort($event)" style="width:2.27rem">第一次涨停时间<span></span></p>
+            <p data-index='7' @click="clickSort($event)" style="width:2.47rem">最后一次涨停时间<span></span></p>
+            <p data-index='8' @click="clickSort($event)" style="width:1.52rem">打开次数<span></span></p>
+            <p data-index='9' @click="clickSort($event)" style="width:1.97rem;">连续涨停次数<span></span></p>
           </div>
           <ul class="lists-con">
             <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item.stockcode)">
@@ -247,15 +246,15 @@
                 <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
                 <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
                 <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
-                <span style="width:1.44rem">{{item.fdHands | convert}} </span>
-                <span style="width:1.77rem">{{item.fdMoney | convert}}</span>
+                <span style="width:1.64rem">{{item.fdHands | convert}} </span>
+                <span style="width:1.97rem">{{item.fdMoney | convert}}</span>
                 <!-- <span style="width:1.77rem">{{item.type}}</span> -->
-                <span style="width:1.97rem">{{item.mainForceNetInflow |convert}}</span>
-                <span style="width:1.97rem">{{item.mainForceNetInflow5 |convert}}</span>
-                <span style="width:1.97rem">{{item.firstZtTime}}</span>
-                <span style="width:2.17rem">{{item.lastZtTime}}</span>
-                <span style="width:1.32rem">{{item.opentime}}</span>
-                <span style="width:1.67rem;">{{item.continueUpDownTimes}}</span>
+                <span style="width:2.27rem">{{item.mainForceNetInflow |convert}}</span>
+                <span style="width:2.27rem">{{item.mainForceNetInflow5 |convert}}</span>
+                <span style="width:2.27rem">{{item.firstZtTime}}</span>
+                <span style="width:2.47rem">{{item.lastZtTime}}</span>
+                <span style="width:1.52rem">{{item.opentime}}</span>
+                <span style="width:1.97rem;">{{item.continueUpDownTimes}}</span>
               </div>
               <!-- <div class="hint">
                 涨停揭秘: 360借壳成功，一人得道鸡犬升天
@@ -290,10 +289,10 @@
         <div class="lists-right-container">
 
           <div class="lists-title">
-            <h4 data-index='1' @click="clickSort2($event)" class="desc" style="width:1.3rem">最新价<span></span></h4>
-            <h4 data-index='2' @click="clickSort2($event)" style="width:1.4rem">涨跌幅<span></span></h4>
-            <h4 data-index='3' @click="clickSort2($event)" style="width:1.48rem">开板时间<span></span></h4>
-            <h4 data-index='4' @click="clickSort2($event)" style="width:1.3rem">换手率<span></span></h4>
+            <p data-index='1' @click="clickSort2($event)" class="desc" style="width:1.3rem">最新价<span></span></p>
+            <p data-index='2' @click="clickSort2($event)" style="width:1.4rem">涨跌幅<span></span></p>
+            <p data-index='3' @click="clickSort2($event)" style="width:1.48rem">开板时间<span></span></p>
+            <p data-index='4' @click="clickSort2($event)" style="width:1.3rem">换手率<span></span></p>
           </div>
           <ul class="lists-con">
             <li v-for="item in limitOpenList" @click="toStock(item.stockCode)">
@@ -337,12 +336,13 @@ export default {
     }
   },
   mounted () {
-    var _this=this
     this.loading()
-    setInterval(function(){
-      _this.loading()
-      console.log('刷新列表')
-    },5000)
+    // var _this=this
+    // this.loading()
+    // setInterval(function(){
+    //   _this.loading()
+    //   console.log('刷新列表')
+    // },5000)
   },
   filters: {
     convert (d) {
@@ -351,7 +351,7 @@ export default {
     	}else if(d/100000>=1 || d/100000<=-1){
     		return (d / 10000).toFixed(2) + '万'
     	}else{
-    		return d
+    		return d.toFixed(2)
     	}
     }
   },
@@ -380,12 +380,13 @@ export default {
       this.show=1
       // 关闭涨跌停打开的tab
       this.limitOpenTab=0
+      // 打开涨跌停的tab
       this.limitTab= v.currentTarget.getAttribute('data-index')
       // 排序功能初始化
       this.sort1=1
       this.order1='desc'
-      $('.limit .lists-right h4').removeClass('desc').removeClass('asce')
-      $('.limit .lists-right h4:first').addClass('desc')
+      $('.limit .lists-right p').removeClass('desc').removeClass('asce')
+      $('.limit .lists-right p:first').addClass('desc')
       // 筛选功能初始化
       this.filtrateType = 1
       if (this.limitTab==='1') {
@@ -405,12 +406,14 @@ export default {
       this.show=2
       // 关闭涨跌停的tab
       this.limitTab=0
+      // 打开涨跌停打开的tab
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
+      console.log(this.limitOpenTab)
       // 排序功能初始化
       this.sort1=1
       this.order1='desc'
-      $('.limit-open .lists-right h4').removeClass('desc').removeClass('asce')
-      $('.limit-open .lists-right h4:first').addClass('desc')
+      $('.limit-open .lists-right p').removeClass('desc').removeClass('asce')
+      $('.limit-open .lists-right p:first').addClass('desc')
       // 获取涨跌停打开数据
       this.getLimitOpenList()
     },
@@ -492,7 +495,7 @@ export default {
       } else {
         this.sort1 = e.currentTarget.getAttribute('data-index')
         this.order1 = 'desc'
-        $('.lists-right h4').removeClass('desc').removeClass('asce')
+        $('.lists-right p').removeClass('desc').removeClass('asce')
         e.currentTarget.setAttribute('class', 'desc')
       }
       this.getLimitList()
@@ -512,7 +515,7 @@ export default {
       } else {
         this.sort1 = e.currentTarget.getAttribute('data-index')
         this.order1 = 'desc'
-        $('.lists-right h4').removeClass('desc').removeClass('asce')
+        $('.lists-right p').removeClass('desc').removeClass('asce')
         e.currentTarget.setAttribute('class', 'desc')
       }
       this.getLimitOpenList()
@@ -549,6 +552,7 @@ export default {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
+      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -609,7 +613,6 @@ export default {
         }else{
           this.limitOpenList=v.data.items
         }
-        console.log(this.limitOpenList)
       }).catch(v2 => {
         console.log(v2)
       })
