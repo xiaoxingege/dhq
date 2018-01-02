@@ -523,7 +523,7 @@ export default {
         ],
         dataZoom: [{
             type: 'slider',
-            show: true,
+            show: false,
             xAxisIndex: [0],
             zoomOnMouseWheel: false,
             handleSize: 20, // 滑动条的 左右2个滑动条的大小
