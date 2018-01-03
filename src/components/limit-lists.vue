@@ -336,13 +336,12 @@ export default {
     }
   },
   mounted () {
+    var _this=this
     this.loading()
-    // var _this=this
-    // this.loading()
-    // setInterval(function(){
-    //   _this.loading()
-    //   console.log('刷新列表')
-    // },5000)
+    setInterval(function(){
+      _this.loading()
+      console.log('刷新列表')
+    },5000)
   },
   filters: {
     convert (d) {
@@ -385,8 +384,8 @@ export default {
       // 排序功能初始化
       this.sort1=1
       this.order1='desc'
-      $('.limit .lists-right p').removeClass('desc').removeClass('asce')
-      $('.limit .lists-right p:first').addClass('desc')
+      $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
+      $('.lists-right .lists-title p:first').addClass('desc')
       // 筛选功能初始化
       this.filtrateType = 1
       if (this.limitTab==='1') {
@@ -412,8 +411,8 @@ export default {
       // 排序功能初始化
       this.sort1=1
       this.order1='desc'
-      $('.limit-open .lists-right p').removeClass('desc').removeClass('asce')
-      $('.limit-open .lists-right p:first').addClass('desc')
+      $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
+      $('.lists-right .lists-title p:first').addClass('desc')
       // 获取涨跌停打开数据
       this.getLimitOpenList()
     },
@@ -495,7 +494,7 @@ export default {
       } else {
         this.sort1 = e.currentTarget.getAttribute('data-index')
         this.order1 = 'desc'
-        $('.lists-right p').removeClass('desc').removeClass('asce')
+        $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
         e.currentTarget.setAttribute('class', 'desc')
       }
       this.getLimitList()
@@ -515,7 +514,7 @@ export default {
       } else {
         this.sort1 = e.currentTarget.getAttribute('data-index')
         this.order1 = 'desc'
-        $('.lists-right p').removeClass('desc').removeClass('asce')
+        $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
         e.currentTarget.setAttribute('class', 'desc')
       }
       this.getLimitOpenList()
@@ -552,7 +551,6 @@ export default {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
-      console.log(url)
       fetch(url, {
         method:'get',
         mode:'cors',
