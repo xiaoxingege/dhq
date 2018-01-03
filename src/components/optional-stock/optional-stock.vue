@@ -157,7 +157,6 @@ export default {
       if (query && query.innerCode) {
         this.innerCode = query.innerCode
       } else {
-        console.log(query.innerCode)
         // return
         // this.innerCode = '000007.SZ'
         this.innerCode = '600030.SH'
