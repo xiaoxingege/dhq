@@ -1,5 +1,6 @@
 /*模拟select样式*/
 .vSelect {
+    z-index: 9999999999;
     width: 200px;
     position: relative;
 }
@@ -14,12 +15,16 @@
     background-color: #1E2329;
     color: #c9d0d7;
     padding-left: 10px;
+    box-sizing: border-box;
 }
 
 .vUl {
     position: absolute;
     top: 28px;
     width: 100%;
+    max-height: 367px;
+    overflow: scroll;
+    box-sizing: border-box;
 }
 
 .vUl li {
@@ -27,4 +32,10 @@
     height: 20px;
     line-height: 20px;
     background-color: #1E2329;
+}
+
+.vUl li:hover {
+    background: #1E90FF;
+    color: #fff;
+    cursor: default;
 }

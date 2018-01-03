@@ -378,7 +378,7 @@ export default {
       this.selectY = date.getFullYear()
       this.currentM = date.getMonth() + 1
       this.defaultM = date.getMonth() + 1
-      this.dateTime = '' + this.currentY + this.currentM
+      this.dateTime = '' + this.currentY + (String(this.currentM).length === 1 ? '0' + this.currentM : this.currentM)
     },
     changeYear: function(type) {
       if (type === 'add') {

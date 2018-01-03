@@ -182,22 +182,33 @@ export default {
           };
         };
       }
-    }); //自定义指令JS
+    }); // 自定义指令JS
     Vue.directive('select', {
       inserted: function(el, binding, vnode, oldVnode) {
-        el.innerHTML = '<div class="vSelect"><input class="vInput" type="text"  value="1" readonly/><ul class="vUl" style="display: none;"><li value="one">1</li><li value="two">2</li></ul></div>'
-        el.addEventListener('click', (event) => {
-          const ul = document.getElementsByClassName('vUl')[0]
-          const lis = document.getElementsByTagName('li')
-          for (var i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', (event) => {
-              event.target.getAttribute('value')
-            })
-          }
-
-          ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
-
+        let uls = ''
+        const selectObj = binding.value.data // 获取select需要显示的下拉框值
+        console.log(binding.value.default)
+        for (const item in selectObj) {
+          uls += '<li value="' + item + '">' + selectObj[item] + '</li>'
+        }
+        el.innerHTML = '<div class="vSelect"><input class="vInput" type="text" name="' + binding.value.default+'"  value="' + binding.value.data[binding.value.default] + '" readonly/><ul class="vUl" style="display: none;">' + uls + '</ul></div>'
+        const ul = el.getElementsByClassName('vUl')[0]
+        const lis = el.getElementsByClassName('vUl')[0].getElementsByTagName('li')
+        const vInput = el.getElementsByClassName('vInput')[0]
+        document.getElementsByTagName('body')[0].addEventListener('click', (event) => {
+          ul.style.display = 'none'
         })
+        el.addEventListener('click', (event) => {
+          event.stopPropagation()
+          document.getElementsByClassName('vUl')[0].style.display = 'none'
+          ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
+        })
+        for (const item of lis) {
+          item.addEventListener('click', (event) => {
+            vInput.value = event.target.innerHTML
+            vInput.name = event.target.getAttribute('value')
+          })
+        }
       }
 
     })
