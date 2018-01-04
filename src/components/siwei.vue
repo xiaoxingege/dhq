@@ -264,7 +264,7 @@ input {
       <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
         <option value="">请选择</option>
         <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-            </select>
+      </select>
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <div class="fr">

@@ -48,6 +48,7 @@
 
 .filter-strategy-table tbody tr {
   cursor: pointer;
+  height: 20%;
 }
 
 .filter-strategy-table tbody tr:hover {
@@ -69,7 +70,8 @@
   box-sizing: border-box;
   border: 1px solid #23272c;
   text-align: center;
-  width: 20%;
+  width: 15%;
+  height: 20%;
   color: #c9d0d7;
 }
 
@@ -77,7 +79,7 @@
   text-align: left;
   color: #1984ea;
   padding-left: 10px;
-  width: 40%;
+  width: 55%;
 }
 
 .filter-strategy-wrap {
@@ -156,6 +158,12 @@
             <td>{{item.winRatio === null?'--':(item.winRatio*100).toFixed(2)+'%'}}</td>
             <td>{{item.winLossRatio === null?'--':item.winLossRatio.toFixed(2)}}</td>
             <td>{{item.holdDay === null?'--':item.holdDay}}</td>
+          </tr>
+          <tr v-for="item of 4-filterStrategyList.length">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </tbody>
       </table>

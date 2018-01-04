@@ -51,9 +51,9 @@ body {
 }
 </style>
 <template>
-<div class="portrait-wrap clearfix">
+<div @click="showCalendar" class="portrait-wrap clearfix">
   <div class="con-left">
-    <PortraitDetailLeft></PortraitDetailLeft>
+    <PortraitDetailLeft :isShowCalendar="isShowCalendar" @calendarStatus="getCalendarStatus"></PortraitDetailLeft>
   </div>
   <PortraitDetailRight></PortraitDetailRight>
 </div>
@@ -62,9 +62,22 @@ body {
 import PortraitDetailRight from 'components/customerPortrait/portrait-detail-right'
 import PortraitDetailLeft from 'components/customerPortrait/portrait-detail-left'
 export default {
+  data() {
+    return {
+      isShowCalendar: false
+    }
+  },
   components: {
     PortraitDetailRight,
     PortraitDetailLeft
+  },
+  methods: {
+    showCalendar: function() {
+      this.isShowCalendar = false
+    },
+    getCalendarStatus: function(v) {
+      this.isShowCalendar = v
+    }
   }
 }
 </script>

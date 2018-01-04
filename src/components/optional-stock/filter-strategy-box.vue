@@ -68,9 +68,10 @@ export default {
       const day = new Date();
       day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
       const y = day.getFullYear()
+      const m = day.getMonth() + 1 < 10 ? '0' + (day.getMonth() + 1) : day.getMonth() + 1
       const d = day.getDate() < 10 ? '0' + day.getDate() : day.getDate()
-      const endDate = y + '' + (day.getMonth() + 1) + '' + d;
-      const startDate = y - 1 + '' + (day.getMonth() + 1) + '' + d;
+      const endDate = y + '' + m + '' + d;
+      const startDate = y - 1 + '' + m + '' + d;
       this.$store.dispatch('optionalStock/getFilterIncome', {
           strategyId: this.strategyId,
           startDate: startDate,

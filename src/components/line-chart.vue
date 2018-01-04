@@ -255,6 +255,7 @@ export default {
     },
     changeSyTab(e, dateNum) {
 
+
       /* 切换标签选中样式*/
 
       const tabs = document.getElementsByClassName('syqxTab')[0].getElementsByTagName('li')
@@ -264,7 +265,6 @@ export default {
       e.target.setAttribute('class', 'active')
 
       /* 切换标签切换数据*/
-
       if (dateNum === 'all') {
         this.initChart()
         return
@@ -278,9 +278,9 @@ export default {
       } else {
         if (mValue <= 0) {
           syqxYear = Number(syqxYear) - 1
-          syqxMonth = 12 + mValue < 10 ? '0' + (12 + mValue) : 12 + mValue
+          syqxMonth = 12 + mValue < 10 ? '0' + (12 + mValue) : String(12 + mValue)
         } else {
-          syqxMonth = mValue < 10 ? '0' + String(mValue) : mValue
+          syqxMonth = mValue < 10 ? '0' + String(mValue) : String(mValue)
         }
       }
       let lastDate = Number(syqxYear + syqxMonth + syqxDay) < Number(this.syqxFirstDate) ? this.syqxFirstDate : syqxYear + syqxMonth + syqxDay
