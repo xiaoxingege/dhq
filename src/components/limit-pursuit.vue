@@ -55,51 +55,53 @@
   background: #fff;
   overflow:hidden;
 }
-.newsflash ul{
-  height:3rem;
-}
-.newsflash ul li{
-  background: #fff;
-  height:1rem;
-  box-sizing: border-box;
-  padding:0.3rem 0.3rem 0.3rem 0.27rem;
-}
-.newsflash span{
-  float: left;
-  height: 0.4rem;
-  line-height: 0.4rem;
-  font-size: 0.28rem;
-}
 .newsflash .icon{
-  margin-top:0.02rem;
-  margin-right: 0.1rem;
+  float: left;
+  line-height: 1rem;
+  margin:0.32rem 0.1rem 0.32rem 0.27rem;
   width:0.36rem;
   height: 0.36rem;
   background: url('../assets/images/limit-pursuit/kuaibao.png') center no-repeat;
   background-size: contain;
 }
 .newsflash .title{
+  line-height: 1rem;
+  float: left;
   font-size: 0.3rem;
   color:#333;
-  margin-top: -0.02rem;
   margin-right: 0.4rem;
 }
-.newsflash .time{
+.newsflash ul{
+  float: left;
+  height:3rem;
+}
+.newsflash ul li{
+  background: #fff;
+  height:1rem;
+  box-sizing: border-box;
+}
+.newsflash li span{
+  float: left;
+  line-height: 1.05rem;
+  font-size: 0.28rem;
+}
+
+.newsflash li .time{
   font-size: 0.28rem;
   color:#888;
   margin-right: 0.1rem;
 }
-.newsflash .green{
+.newsflash li .green{
   font-size: 0.28rem;
   color:#00B267;
   margin-right: 0.3rem;
 }
-.newsflash .red{
+.newsflash li .red{
   font-size: 0.28rem;
   color:#FF4040;
   margin-right: 0.3rem;
 }
-.newsflash .name{
+.newsflash li .name{
   font-size: 0.28rem;
   color:#333;
   max-width: 2.2rem;
@@ -127,6 +129,7 @@
   background-size: contain;
 }
 .block-content h3{
+  font-weight:normal;
   height: 0.32rem;
   line-height: 0.32rem;
   font-size: 0.32rem;
@@ -134,6 +137,7 @@
   margin-top:0.35rem;
 }
 .block-content h4{
+  font-weight:normal;
   height: 0.36rem;
   line-height: 0.36rem;
   font-size: 0.36rem;
@@ -147,6 +151,7 @@
   color:#00B267;
 }
 .block-content h5{
+  font-weight:normal;
   height: 0.36rem;
   line-height: 0.36rem;
   font-size: 0.26rem;
@@ -203,10 +208,10 @@
     <div class="newsflash-container">
       <span class="arrows"></span>
       <div class="newsflash">
+        <span class="icon"></span>
+        <span class="title">涨跌停快报</span>
         <ul  v-if="newsData.length>0">
           <li v-for="item in newsData" onclick="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
-            <span class="icon"></span>
-            <span class="title">涨跌停快报</span>
             <span class="time">{{item.time | convertTime}}</span>
             <span :class="item.lookRise===1 ? 'red':'green'">{{item.signalName}}</span>
             <span class="name">{{item.stockName}}</span>
@@ -235,7 +240,7 @@
       <ul class="block-content"  v-if="blockData.length>0">
         <li v-for="item in blockData" @click="toBlock(item)">
           <h3>{{item.platName}}</h3>
-          <h4 :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio | }}%</h4>
+          <h4 :class="addcolor(item.advanceDeclineRatio)">{{item.advanceDeclineRatio | convertUpDown}}%</h4>
           <h5>{{item.stockNum}}只{{blockTab | converLimitType}}停</h5>
         </li>
       </ul>
@@ -289,12 +294,19 @@ export default {
     convertTime (d) {
       return d.slice(0,-3)
     },
-    converLimitType(d){
+    converLimitType (d){
       if (d==='1') {
         return '涨'
       }
       if (d==='2') {
         return '跌'
+      }
+    },
+    convertUpDown (d){
+      if (d>0) {
+        return '+'+d
+      }else{
+        return d
       }
     }
   },
@@ -327,13 +339,13 @@ export default {
       setInterval(function() {
         $('.newsflash ul').animate({
           'margin-top': '-1rem'
-        }, 900, function() {
+        }, 1100, function() {
           $('.newsflash ul').append($('.newsflash ul li:first'))
           $('.newsflash ul').css({
             'margin-top': '0'
           })
         })
-      }, 1200)
+      }, 1300)
     },
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {

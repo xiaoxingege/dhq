@@ -9,7 +9,7 @@
 	font-size:0.28rem;
 	color:#333;
 	height:0.5rem;
-	line-height: 0.5rem;
+	line-height: 0.54rem;
   margin-top:0.12rem;
   padding-left:1.69rem;
   background: url('../assets/images/limit-pursuit/zhuanqian.png') left top no-repeat;
@@ -26,7 +26,7 @@
 	float: left;
 	text-align: center;
 	font-size:0.28rem;
-	color:#333;
+	color:#888;
 }
 .hint3  .tongbi{
   width:36%;
