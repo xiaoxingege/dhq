@@ -97,13 +97,12 @@
   color:#333333;
 }
 .lists-left .lists-con li h6 .sign{
-  float: left;
+  float: right;
   width:0.5rem;
   height: 0.3rem;
   box-sizing: border-box;
-  line-height: 0.26rem;
-  margin-left: 0.06rem;
-  margin-top: 0.01rem;
+  line-height: 0.30rem;
+  /*margin-top: 0.01rem;*/
   border: 0.01rem solid #F54949;
   font-size: 0.2rem;
   color:#F54949;
