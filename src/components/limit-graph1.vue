@@ -86,7 +86,6 @@ export default {
       _this.getGraphData()
       _this.getlimitAddNum()
       _this.myChart.setOption(_this.option)
-      console.log('刷新11')
     },5000)
   },
   methods: {

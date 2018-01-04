@@ -124,7 +124,6 @@ export default {
       _this.getbenefit()
       _this.getsummaryData()
       _this.myChart3.setOption(_this.option3);
-      console.log('刷新33')
     },5000)
   },
   filters: {

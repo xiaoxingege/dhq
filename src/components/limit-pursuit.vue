@@ -305,7 +305,7 @@ export default {
     setInterval(function(){
       _this.fetchNewsData()
       _this.fetchBlockData()
-      console.log('刷新主模板')
+      // console.log('刷新主模板')
     },5000)
 
     this.slide()

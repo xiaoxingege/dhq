@@ -236,16 +236,16 @@
           <div class="lists-title">
             <p data-index='1' @click="clickSort($event)" class="desc" style="width:1.3rem">最新价<span></span></p>
             <p data-index='4' @click="clickSort($event)" style="width:1.4rem">涨跌幅<span></span></p>
-            <p data-index='5' @click="clickSort($event)" style="width:1.48rem">涨停强度<span></span></p>
+            <p data-index='5' @click="clickSort($event)" style="width:1.48rem">{{UpOrDown}}停强度<span></span></p>
             <p data-index='10' @click="clickSort($event)" style="width:1.3rem">换手率<span></span></p>
             <p data-index='3' @click="clickSort($event)" style="width:1.64rem">封单手数<span></span></p>
             <p data-index='2' @click="clickSort($event)" style="width:1.97rem">封单金额<span></span></p>
             <p data-index='11' @click="clickSort($event)" style="width:2.27rem">今日主力净买入<span></span></p>
             <p data-index='12' @click="clickSort($event)" style="width:2.27rem">五日主力净买入<span></span></p>
-            <p data-index='6' @click="clickSort($event)" style="width:2.27rem">第一次涨停时间<span></span></p>
-            <p data-index='7' @click="clickSort($event)" style="width:2.47rem">最后一次涨停时间<span></span></p>
+            <p data-index='6' @click="clickSort($event)" style="width:2.27rem">第一次{{UpOrDown}}停时间<span></span></p>
+            <p data-index='7' @click="clickSort($event)" style="width:2.47rem">最后一次{{UpOrDown}}停时间<span></span></p>
             <p data-index='8' @click="clickSort($event)" style="width:1.52rem">打开次数<span></span></p>
-            <p data-index='9' @click="clickSort($event)" style="width:1.97rem;">连续涨停次数<span></span></p>
+            <p data-index='9' @click="clickSort($event)" style="width:1.97rem;">连续{{UpOrDown}}停次数<span></span></p>
           </div>
           <ul class="lists-con">
             <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item.stockcode)">
@@ -340,7 +340,18 @@ export default {
       limitUpOpenNum:0,
       limitDownOpenNum:0,
       limitOpenList:[],
-      show:1
+      show:1,
+      UpOrDown:'涨'
+    }
+  },
+  watch: {
+    limitTab: function (val) {
+      if (val === '1') {
+        this.UpOrDown='涨'
+      }
+      if (val === '2') {
+        this.UpOrDown='跌'
+      }
     }
   },
   mounted () {
@@ -415,7 +426,6 @@ export default {
       this.show=2
       // 打开涨跌停打开的tab
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
-      console.log(this.limitOpenTab)
       // 排序功能初始化
       this.sort1=1
       this.order1='desc'
