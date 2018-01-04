@@ -54,6 +54,7 @@
     color: #c9d0d7;
     padding-right: 0;
     padding-left: 10px;
+    color: #1984ea;
 }
 .portrait-no-data {
     width: 100%;
