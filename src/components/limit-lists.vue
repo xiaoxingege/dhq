@@ -59,9 +59,13 @@
   box-sizing: border-box;
   border-bottom: 0.01rem solid rgba(230,230,230,1);
 }
-.limit .lists-con li{
+/*.limit .lists-con li{
   height: 1.4rem;
+}*/
+.limit .lists-con li{
+  height: 1.08rem;
 }
+
 .limit-open .lists-con li{
   height: 1.08rem;
 }
@@ -75,9 +79,14 @@
   line-height: 0.32rem;
   overflow: hidden;
 }
-.limit .lists-left .lists-con li h6{
+
+/*.limit .lists-left .lists-con li h6{
   padding-top:0.28rem;
+}*/
+.limit .lists-left .lists-con li h6{
+  padding-top:0.24rem;
 }
+
 .limit-open .lists-left .lists-con li h6{
   padding-top:0.24rem;
 }
