@@ -40,8 +40,9 @@ button {
     height: 794px;
 }
 .bg7 {
-    background: url("../assets/images/yearEnd-activity/yearEnd-web-bg7.jpg") center 0 no-repeat;
-    height: 943px;
+    background: url("../assets/images/yearEnd-activity/yearEnd-web-bg7-1.jpg") center 0 no-repeat;
+    height: 150px;
+    margin-top: -5px;
 }
 .bg4 a {
     width: 278px;
@@ -114,16 +115,16 @@ button {
 }
 .nav-fixed {
     width: 150px;
-    height: 195px;
+    height: 130px;
     position: fixed;
-    top: 30%;
+    top: 40%;
     right: 3%;
     background: url("../assets/images/yearEnd-activity/yearEnd-web-nav.png") center 0 no-repeat;
     z-index: 10;
 }
 .nav-fixed a {
     width: 100%;
-    height: 33.33%;
+    height: 50%;
     float: left;
 }
 .footer {
@@ -316,7 +317,7 @@ button {
         </div>
     </div>
     <div class="bg7">
-        <div class="box-con">
+        <!-- <div class="box-con">
             <div class="left">
                 <div>
                     <p>※ 2017.12.25-2017.12.31期间订阅极智选股、Z量化、工作室的用户，可以在2018年1月2日抢开年红包，最大红包为2018元；</p>
@@ -329,14 +330,14 @@ button {
                     <p>※ 赠送权限将于订阅成功后，联系投服助理为您开通，一般1-2个工作日内赠送开通。</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="nav-fixed">
         <a href="javascript:;"></a>
         <a href="javascript:;"></a>
-        <a href="javascript:;"></a>
+        <!-- <a href="javascript:;"></a> -->
     </div>
-    <div class="footer">
+    <!-- <div class="footer">
         <div class="box-con">
             <div>
                 <span id="text-day" class="text-day">00</span>
@@ -345,7 +346,7 @@ button {
                 <span id="text-sec" class="text-sec">00</span>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class='fixBg' v-if="popShow || pop1Show"></div>
     <div class="pop" v-if="popShow">
         <div class="close" @click="close"></div>
@@ -497,40 +498,40 @@ export default {
                 }, 500)
             })
 
-            function pad(str, len) {
-                str = str + ''
-                if (str.length < len) {
-                    for (let i = 0; i < len - str.length; i++) {
-                        str = '0' + str
-                    }
-                }
-                return str
-            }
-
-            function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
-                var now = new Date()
-                var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
-                var leftTime = endDate.getTime() - now.getTime()
-                var leftsecond = parseInt(leftTime / 1000)
-                var day1 = Math.floor(leftsecond / (60 * 60 * 24))
-                var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
-                var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
-                var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
-                if (day1 < 0) {
-                    day1 = '00';
-                    hour = '00';
-                    minute = '00';
-                    second = '00';
-                }
-                document.getElementById('text-day').innerHTML = pad(day1, 2)
-                document.getElementById('text-hour').innerHTML = pad(hour, 2)
-                document.getElementById('text-min').innerHTML = pad(minute, 2)
-                document.getElementById('text-sec').innerHTML = pad(second, 2)
-            }
-
-            window.setInterval(function() {
-                ShowCountDown(2018, 1, 1, 0, 0, 0, 'divdown1')
-            }, 1000)
+            // function pad(str, len) {
+            //     str = str + ''
+            //     if (str.length < len) {
+            //         for (let i = 0; i < len - str.length; i++) {
+            //             str = '0' + str
+            //         }
+            //     }
+            //     return str
+            // }
+            //
+            // function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
+            //     var now = new Date()
+            //     var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
+            //     var leftTime = endDate.getTime() - now.getTime()
+            //     var leftsecond = parseInt(leftTime / 1000)
+            //     var day1 = Math.floor(leftsecond / (60 * 60 * 24))
+            //     var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
+            //     var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
+            //     var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+            //     if (day1 < 0) {
+            //         day1 = '00';
+            //         hour = '00';
+            //         minute = '00';
+            //         second = '00';
+            //     }
+            //     document.getElementById('text-day').innerHTML = pad(day1, 2)
+            //     document.getElementById('text-hour').innerHTML = pad(hour, 2)
+            //     document.getElementById('text-min').innerHTML = pad(minute, 2)
+            //     document.getElementById('text-sec').innerHTML = pad(second, 2)
+            // }
+            //
+            // window.setInterval(function() {
+            //     ShowCountDown(2018, 1, 1, 0, 0, 0, 'divdown1')
+            // }, 1000)
         })
     }
 }

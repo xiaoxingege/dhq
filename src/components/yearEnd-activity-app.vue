@@ -46,9 +46,10 @@ button {
     height: 8.73rem;
 }
 .bg7 {
-    background: url("../assets/images/yearEnd-activity/yearEnd-h5-bg7.jpg") center 0 no-repeat;
+    background: url("../assets/images/yearEnd-activity/yearEnd-h5-bg7-1.jpg") center 0 no-repeat;
     background-size: 100%;
-    height: 14.96rem;
+    height: 1.52rem;
+    margin-top: -0.05rem;
 }
 .bg4 a {
     width: 3.38rem;
@@ -124,17 +125,17 @@ button {
 }
 .nav-fixed {
     width: 1.93rem;
-    height: 2.51rem;
+    height: 1.67rem;
     position: fixed;
     top: 40%;
     right: 0;
-    background: url("../assets/images/yearEnd-activity/yearEnd-h5-nav.png") center 0 no-repeat;
+    background: url("../assets/images/yearEnd-activity/yearEnd-h5-nav-1.png") center 0 no-repeat;
     background-size: 100%;
     z-index: 10;
 }
 .nav-fixed a {
     width: 100%;
-    height: 33.33%;
+    height: 50%;
     float: left;
 }
 .footer {
@@ -365,9 +366,9 @@ button {
     <div class="nav-fixed">
         <a href="javascript:;"></a>
         <a href="javascript:;"></a>
-        <a href="javascript:;"></a>
+        <!-- <a href="javascript:;"></a> -->
     </div>
-    <div class="footer">
+    <!-- <div class="footer">
         <div class="box-con">
             <div>
                 <span id="text-day" class="text-day">00</span>
@@ -376,7 +377,7 @@ button {
                 <span id="text-sec" class="text-sec">00</span>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class='fixBg' v-if="popShow || pop1Show"></div>
     <div class="pop" v-if="popShow">
         <div class="close" @click="close"></div>
@@ -537,40 +538,40 @@ export default {
                 }, 500)
             })
 
-            function pad(str, len) {
-                str = str + ''
-                if (str.length < len) {
-                    for (let i = 0; i < len - str.length; i++) {
-                        str = '0' + str
-                    }
-                }
-                return str
-            }
-
-            function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
-                var now = new Date()
-                var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
-                var leftTime = endDate.getTime() - now.getTime()
-                var leftsecond = parseInt(leftTime / 1000)
-                var day1 = Math.floor(leftsecond / (60 * 60 * 24))
-                var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
-                var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
-                var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
-                if (day1 < 0) {
-                    day1 = '00';
-                    hour = '00';
-                    minute = '00';
-                    second = '00';
-                }
-                document.getElementById('text-day').innerHTML = pad(day1, 2)
-                document.getElementById('text-hour').innerHTML = pad(hour, 2)
-                document.getElementById('text-min').innerHTML = pad(minute, 2)
-                document.getElementById('text-sec').innerHTML = pad(second, 2)
-            }
-
-            window.setInterval(function() {
-                ShowCountDown(2018, 1, 1, 0, 0, 0, 'divdown1')
-            }, 1000)
+            // function pad(str, len) {
+            //     str = str + ''
+            //     if (str.length < len) {
+            //         for (let i = 0; i < len - str.length; i++) {
+            //             str = '0' + str
+            //         }
+            //     }
+            //     return str
+            // }
+            //
+            // function ShowCountDown(year, month, day, hours, minutes, seconds, divname) {
+            //     var now = new Date()
+            //     var endDate = new Date(year, month - 1, day, hours, minutes, seconds)
+            //     var leftTime = endDate.getTime() - now.getTime()
+            //     var leftsecond = parseInt(leftTime / 1000)
+            //     var day1 = Math.floor(leftsecond / (60 * 60 * 24))
+            //     var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600)
+            //     var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60)
+            //     var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60)
+            //     if (day1 < 0) {
+            //         day1 = '00';
+            //         hour = '00';
+            //         minute = '00';
+            //         second = '00';
+            //     }
+            //     document.getElementById('text-day').innerHTML = pad(day1, 2)
+            //     document.getElementById('text-hour').innerHTML = pad(hour, 2)
+            //     document.getElementById('text-min').innerHTML = pad(minute, 2)
+            //     document.getElementById('text-sec').innerHTML = pad(second, 2)
+            // }
+            //
+            // window.setInterval(function() {
+            //     ShowCountDown(2018, 1, 1, 0, 0, 0, 'divdown1')
+            // }, 1000)
         })
     }
 }
