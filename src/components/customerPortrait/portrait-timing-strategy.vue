@@ -98,7 +98,7 @@
 .timing-data-table li span:first-child {
   color: #1984ea;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 6px;
 }
 
 .timing-no-data {

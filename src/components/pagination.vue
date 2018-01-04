@@ -224,7 +224,7 @@ export default {
   //      },
   watch: {
     'page': function() {
-      this.currentPage = this.page
+      this.currentPage = this.page === undefined ? 1 : this.page
     },
     'type': function() {
       this.currentPage = 1
@@ -238,6 +238,7 @@ export default {
     getCurrentSelectPage(e) {
       this.$emit('getPageFromChild', e.target.value)
       this.currentPage = parseInt(e.target.value)
+      this.page = parseInt(e.target.value)
     },
     nextPage(e) {
       if (this.currentPage + 1 <= this.totalPage) {
