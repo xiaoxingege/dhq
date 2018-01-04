@@ -207,7 +207,7 @@ a {
         </tbody>
       </table>
       <div style="text-align: center;">
-        <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage"></Pagination>
+        <Pagination v-if="mrjyData.totalPages > 1" :totalPage="mrjyData.totalPages" v-on:getPageFromChild="goMrjyPage" :page="mrjrPageTo"></Pagination>
       </div>
     </div>
     <div v-if="type === 'mrxh'" class="mrxh">
@@ -241,7 +241,7 @@ a {
         </tbody>
       </table>
       <div style="text-align: center;">
-        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage"></Pagination>
+        <Pagination v-if="mrxhData !== null && mrxhData !== '' && mrxhData.totalPages > 1" :totalPage="mrxhData.totalPages" v-on:getPageFromChild="goMrxhPage" :page="mrxhPageTo"></Pagination>
       </div>
     </div>
     <div v-if="type === 'mcxh'" class="mcxh">
@@ -276,7 +276,7 @@ a {
         </tbody>
       </table>
       <div style="text-align: center;">
-        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage"></Pagination>
+        <Pagination v-if="mcxhData !== null && mcxhData !== '' && mcxhData.totalPages > 1" :totalPage="mcxhData.totalPages" v-on:getPageFromChild="goMcxhPage" :page="mcxhPageTo"></Pagination>
       </div>
     </div>
   </div>
@@ -321,7 +321,10 @@ export default {
       ],
       mrxhPage: 0,
       mcxhPage: 0,
-      dqccPage: 0
+      dqccPage: 0,
+      mrjrPageTo: undefined,
+      mrxhPageTo: undefined,
+      mcxhPageTo: undefined
       // type: this.showType === undefined ? 'syqxt' : this.showType
     }
   },
@@ -365,6 +368,7 @@ export default {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
+      this.mrjrPageTo = data
     },
     goMrxhPage(data) {
       this.mrxhPage = data - 1
@@ -373,6 +377,7 @@ export default {
         type: 'buy',
         page: data - 1
       }).then(() => {})
+      this.mrxhPageTo = data
     },
     goMcxhPage(data) {
       this.mcxhPage = data - 1
@@ -381,6 +386,7 @@ export default {
         type: 'sell',
         page: data - 1
       }).then(() => {})
+      this.mcxhPageTo = data
     },
     exportData(type) {
       var type2 = ''
