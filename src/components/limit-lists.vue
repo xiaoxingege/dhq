@@ -195,19 +195,19 @@
 <!-- Swiper -->
 <div class="limit-lists">
   <ul class="title-tab">
-    <li data-index='1' :class="limitTab==='1'? 'active':''" @click="toLimitTab($event)">
+    <li data-index='1' :class="show === 1 && limitTab==='1'? 'active':''" @click="toLimitTab($event)">
       涨停({{limitUpNum}})
       <span></span>
     </li>
-    <li data-index='2' :class="limitTab==='2'? 'active':''" @click="toLimitTab($event)">
+    <li data-index='2' :class="show === 1 && limitTab==='2'? 'active':''" @click="toLimitTab($event)">
       跌停({{limitDownNum}})
       <span></span>
     </li>
-    <li data-index='1' :class="limitOpenTab==='1'? 'active':''" @click="toLimitOpenTab($event)">
+    <li data-index='1' :class="show === 2 && limitOpenTab==='1'? 'active':''" @click="toLimitOpenTab($event)">
       涨停打开({{limitUpOpenNum}})
       <span></span>
     </li>
-    <li data-index='2' :class="limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)" style="padding-right:0">
+    <li data-index='2' :class="show === 2 && limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)" style="padding-right:0">
       跌停打开({{limitDownOpenNum}})
       <span></span>
     </li>
@@ -336,7 +336,7 @@ export default {
       sort1:1,
       order1:'desc',
       limitList:[],
-      limitOpenTab:'0',
+      limitOpenTab:'1',
       limitUpOpenNum:0,
       limitDownOpenNum:0,
       limitOpenList:[],
@@ -344,21 +344,20 @@ export default {
     }
   },
   mounted () {
-    var _this=this
     this.loading()
+    var _this=this
     setInterval(function(){
       _this.loading()
-      console.log('刷新列表')
     },5000)
   },
   filters: {
     convert (d) {
     	if (d/100000000>=1 || d/100000000<=-1) {
     		return (d / 100000000).toFixed(2) + '亿'
-    	}else if(d/100000>=1 || d/100000<=-1){
+    	}else if(d/10000>=1 || d/10000<=-1){
     		return (d / 10000).toFixed(2) + '万'
     	}else{
-    		return d.toFixed(2)
+    		return d
     	}
     }
   },
@@ -366,9 +365,14 @@ export default {
     loading(){
       this.getLimitLen('1')
       this.getLimitLen('2')
-      this.getLimitList()
       this.getLimitOpenLen('1')
       this.getLimitOpenLen('2')
+      if (this.show===1) {
+        this.getLimitList()
+      }
+      if (this.show===2) {
+        this.getLimitOpenList()
+      }
     },
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {
@@ -385,8 +389,6 @@ export default {
     toLimitTab(v){
       // 展示列表模块1-limit
       this.show=1
-      // 关闭涨跌停打开的tab
-      this.limitOpenTab=0
       // 打开涨跌停的tab
       this.limitTab= v.currentTarget.getAttribute('data-index')
       // 排序功能初始化
@@ -411,8 +413,6 @@ export default {
     toLimitOpenTab(v){
       // 展示列表模块2-limit-open
       this.show=2
-      // 关闭涨跌停的tab
-      this.limitTab=0
       // 打开涨跌停打开的tab
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
       console.log(this.limitOpenTab)
@@ -559,6 +559,7 @@ export default {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
+      // console.log('涨跌停：'+url)
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -607,6 +608,7 @@ export default {
     getLimitOpenList(){
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1&sort_column=1&order_type=desc
       var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+this.limitOpenTab+'&sort_column='+this.sort1+'&order_type='+this.order1
+      // console.log('涨跌停打开：'+url)
       fetch(url, {
         method:'get',
         mode:'cors',
