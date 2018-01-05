@@ -4,15 +4,26 @@
   background:rgba(242,242,242,1);
  font-family:Microsoft Yahei, Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
-.title-tab{
+.title-tab-container{
   height: 0.8rem;
-  line-height: 0.8rem;
-  border-bottom:0.01rem solid #DBDBDB;
-  overflow: hidden;
-  padding-left:0.2rem;
+  border-bottom:1px solid #DBDBDB;
   background: #fff;
 }
+.title-tab{
+  height: 0.8rem;
+  margin:0 auto;
+  line-height: 0.8rem;
+  overflow: hidden;
+}
+.tab1 .title-tab{
+  width:5.7rem;
+}
+.tab2 .title-tab{
+  width:4.4rem;
+}
 .title-tab li{
+  height: 0.8rem;
+  box-sizing: border-box;
   text-align: center;
   font-size: 0.30rem;
   color:#333;
@@ -181,20 +192,23 @@
 
 <template>
 	<div class="limit-pursuit">
-    <ul class="title-tab">
-      <li data-index='1' :class="graphTab==='1'? 'active':''" @click="toGraphTab($event)">
-        涨跌停
-        <span></span>
-      </li>
-      <li data-index='2' :class="graphTab==='2'? 'active':''" @click="toGraphTab($event)">
-        市场热度
-        <span></span>
-      </li>
-      <li data-index='3' :class="graphTab==='3'? 'active':''" @click="toGraphTab($event)">
-        昨日涨停今日表现
-        <span></span>
-      </li>
-    </ul>
+    <div class="title-tab-container tab1">
+      <ul class="title-tab">
+        <li data-index='1' :class="graphTab==='1'? 'active':''" @click="toGraphTab($event)">
+          涨跌停
+          <span></span>
+        </li>
+        <li data-index='2' :class="graphTab==='2'? 'active':''" @click="toGraphTab($event)">
+          市场热度
+          <span></span>
+        </li>
+        <li data-index='3' :class="graphTab==='3'? 'active':''" @click="toGraphTab($event)">
+          昨日涨停今日表现
+          <span></span>
+        </li>
+      </ul>
+    </div>
+
 
     <!-- 图表部分-start -->
     <div class="graph">
@@ -207,11 +221,11 @@
     <!-- 涨跌停快报-start -->
     <div class="newsflash-container">
       <span class="arrows"></span>
-      <div class="newsflash">
+      <div class="newsflash"  onclick="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
         <span class="icon"></span>
         <span class="title">涨跌停快报</span>
         <ul  v-if="newsData.length>0">
-          <li v-for="item in newsData" onclick="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
+          <li v-for="item in newsData">
             <span class="time">{{item.time | convertTime}}</span>
             <span :class="item.lookRise===1 ? 'red':'green'">{{item.signalName}}</span>
             <span class="name">{{item.stockName}}</span>
@@ -226,17 +240,18 @@
 
     <!-- 集中板块-start -->
     <div class="block">
-      <ul class="title-tab">
-        <li data-index='1' :class="blockTab==='1'? 'active':''" @click="toBlockTab($event)">
-          涨停集中板块
-          <span></span>
-        </li>
-        <li data-index='2' :class="blockTab==='2'? 'active':''" @click="toBlockTab($event)">
-          跌停集中板块
-          <span></span>
-        </li>
-      </ul>
-
+      <div class="title-tab-container tab2">
+        <ul class="title-tab">
+          <li data-index='1' :class="blockTab==='1'? 'active':''" @click="toBlockTab($event)">
+            涨停集中板块
+            <span></span>
+          </li>
+          <li data-index='2' :class="blockTab==='2'? 'active':''" @click="toBlockTab($event)">
+            跌停集中板块
+            <span></span>
+          </li>
+        </ul>
+      </div>
       <ul class="block-content"  v-if="blockData.length>0">
         <li v-for="item in blockData" @click="toBlock(item)">
           <h3>{{item.platName}}</h3>
@@ -339,13 +354,13 @@ export default {
       setInterval(function() {
         $('.newsflash ul').animate({
           'margin-top': '-1rem'
-        }, 1100, function() {
+        }, 900, function() {
           $('.newsflash ul').append($('.newsflash ul li:first'))
           $('.newsflash ul').css({
             'margin-top': '0'
           })
         })
-      }, 1300)
+      }, 1600)
     },
     addcolor (v) {
       if ((v + '').indexOf('-') !== -1) {

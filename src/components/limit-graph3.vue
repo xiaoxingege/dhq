@@ -3,6 +3,7 @@
   padding-top: 0.2rem;
 }
 .summary3{
+  box-sizing:border-box;
 	padding:0.1rem 0.3rem 0.32rem;
 }
 .hint2{

@@ -33,7 +33,7 @@
   line-height: 0.7rem;
   color:rgba(136,136,136,1);
   font-size:0.26rem;
-  border-bottom:0.01rem solid rgba(230,230,230,1);
+  border-bottom:1px solid rgba(230,230,230,1);
   box-sizing: border-box;
 }
 .lists-left .lists-title{
@@ -57,7 +57,7 @@
 }
 .lists-con li{
   box-sizing: border-box;
-  border-bottom: 0.01rem solid rgba(230,230,230,1);
+  border-bottom: 1px solid rgba(230,230,230,1);
 }
 /*.limit .lists-con li{
   height: 1.4rem;
@@ -192,25 +192,26 @@
 <template>
 <!-- Swiper -->
 <div class="limit-lists">
-  <ul class="title-tab">
-    <li data-index='1' :class="show === 1 && limitTab==='1'? 'active':''" @click="toLimitTab($event)">
-      涨停({{limitUpNum}})
-      <span></span>
-    </li>
-    <li data-index='2' :class="show === 1 && limitTab==='2'? 'active':''" @click="toLimitTab($event)">
-      跌停({{limitDownNum}})
-      <span></span>
-    </li>
-    <li data-index='1' :class="show === 2 && limitOpenTab==='1'? 'active':''" @click="toLimitOpenTab($event)">
-      涨停打开({{limitUpOpenNum}})
-      <span></span>
-    </li>
-    <li data-index='2' :class="show === 2 && limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)" style="padding-right:0">
-      跌停打开({{limitDownOpenNum}})
-      <span></span>
-    </li>
-  </ul>
-
+  <div class="title-tab-container">
+    <ul class="title-tab">
+      <li data-index='1' :class="show === 1 && limitTab==='1'? 'active':''" @click="toLimitTab($event)">
+        涨停({{limitUpNum}})
+        <span></span>
+      </li>
+      <li data-index='2' :class="show === 1 && limitTab==='2'? 'active':''" @click="toLimitTab($event)">
+        跌停({{limitDownNum}})
+        <span></span>
+      </li>
+      <li data-index='1' :class="show === 2 && limitOpenTab==='1'? 'active':''" @click="toLimitOpenTab($event)">
+        涨停打开({{limitUpOpenNum}})
+        <span></span>
+      </li>
+      <li data-index='2' :class="show === 2 && limitOpenTab==='2'? 'active':''" @click="toLimitOpenTab($event)" style="padding-right:0">
+        跌停打开({{limitDownOpenNum}})
+        <span></span>
+      </li>
+    </ul>
+  </div>
   <div class="limit" v-if="show === 1">
     <div class="limitmove-lists" v-if="limitList">
       <div class="lists-left">
