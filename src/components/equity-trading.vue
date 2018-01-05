@@ -83,8 +83,8 @@
 }
 
 .title-tab .active {
-  border: 0.01rem solid #3996F2;
-  color: #3996F2;
+  border: 0.01rem solid #F54949;
+  color: #F54949;
 }
 
 .curve-content {
@@ -108,8 +108,7 @@
   width: 6.97rem;
   margin-left: -0.03rem;
   text-align: center;
-  border-top: 0.01rem solid #E6E6E6;
-  border-bottom: 0.01rem solid #E6E6E6;
+  border-bottom: 1px solid #E6E6E6;
 }
 
 .change-table tr {
@@ -124,7 +123,8 @@
   color: rgba(170, 170, 170, 1);
   line-height: 0.33rem;
   font-size: 0.24rem;
-  border: 0.01rem solid #E6E6E6;
+  border-left: 1px solid #E6E6E6;
+  border-top: 1px solid #E6E6E6;
 }
 
 .change-table td {
@@ -134,7 +134,8 @@
   font-family: PingFangSC-Regular;
   color: rgba(51, 51, 51, 1);
   line-height: 0.40rem;
-  border: 0.01rem solid #E6E6E6;
+  border-left: 1px solid #E6E6E6;
+  border-top: 1px solid #E6E6E6;
 }
 
 .change-table tr .green {
@@ -149,11 +150,6 @@
   font-weight: 800;
 }
 
-.detail-title {
-  height: 0.6rem;
-  line-height: 0.6rem;
-  background: #FAFAFA;
-}
 
 .detail-title .detail-title-lists {
   padding: 0 0.3rem;
@@ -267,10 +263,6 @@
   cursor: pointer;
 }
 
-.title-tab .active {
-  border: 0.01rem solid #3996F2;
-  color: #3996F2;
-}
 
 .curve-content {
   height: 3.53rem;
@@ -282,62 +274,16 @@
   font-size: 0.20rem;
 }
 
-.change-content {
-  width: 6.9rem;
-  margin: 0 auto;
-  padding: 0.46rem 0 0.5rem;
-  overflow: hidden;
-}
 
-.change-table {
-  width: 6.97rem;
-  margin-left: -0.03rem;
-  text-align: center;
-  border-top: 0.01rem solid #E6E6E6;
-  border-bottom: 0.01rem solid #E6E6E6;
-}
-
-.change-table tr {
-  background: #fff;
-}
-
-.change-table th {
-  height: 0.33rem;
-  padding: 0.17rem 0;
-  font-size: 0.24rem;
-  font-family: PingFangSC-Medium;
-  color: rgba(170, 170, 170, 1);
-  line-height: 0.33rem;
-  font-size: 0.24rem;
-  border: 0.01rem solid #E6E6E6;
-}
-
-.change-table td {
-  height: 0.80rem;
-  padding: 0.16rem 0;
-  font-size: 0.28rem;
-  font-family: PingFangSC-Regular;
-  color: rgba(51, 51, 51, 1);
-  line-height: 0.40rem;
-  border: 0.01rem solid #E6E6E6;
-}
-
-.change-table tr .green {
-  color: #26BE6A;
-}
-
-.change-table tr .red {
-  color: #FF4040;
-}
 
 .change-table .market {
   font-weight: 800;
 }
 
 .detail-title {
-  height: 0.6rem;
-  line-height: 0.6rem;
-  background: #FAFAFA;
+  height: 0.7rem;
+  line-height: 0.7em;
+  border-bottom: 1px solid #E6E6E6;
 }
 
 .detail-title .detail-title-lists {
@@ -350,8 +296,8 @@
   text-align: right;
   padding-right: 0.2rem;
   box-sizing: border-box;
-  font-size: 0.22rem;
-  color: #aaa;
+  font-size: 0.26rem;
+  color: #888;
   position: relative;
 }
 
