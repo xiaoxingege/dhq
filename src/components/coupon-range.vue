@@ -135,15 +135,14 @@ export default {
 		bannerskip(show){
 			this.$store.dispatch('user/checkLogin').then(() => {
 				// 未登录状态执行
-	      if (this.loginStatus === 'no') {
-					// 跳转登录贯通
-					if (window.jrj && window.jrj.jsCallNative) {
-						window.jrj.jsCallNative('108', JSON.stringify({
-							returnUrl: encodeURI(window.location.href)
-						}))
-					}
-					return false
-	      }
+	      // if (this.loginStatus === 'no') {
+				// 	if (window.jrj && window.jrj.jsCallNative) {
+				// 		window.jrj.jsCallNative('108', JSON.stringify({
+				// 			returnUrl: encodeURI(window.location.href)
+				// 		}))
+				// 	}
+				// 	return false
+	      // }
 				// 登录状态执行
 				if (show===1) {
 					window.location.href='http://itougu.jrj.com.cn/activity/app/vipapp.jspa'
