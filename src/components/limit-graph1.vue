@@ -16,13 +16,16 @@
 .summary-top{
   height: 0.4rem;
   line-height: 0.4rem;
-  overflow: hidden;
+  position:relative;
 }
 .summary-top span{
-  width:0.12rem;
-  height: 0.12rem;
-  float: left;
-  margin:0.14rem 0.2rem 0.14rem 0;
+  display: block;
+  position: absolute;
+  top:50%;
+  left:0;
+  margin-top:-0.08rem;
+  width:0.14rem;
+  height: 0.14rem;
 }
 .up .summary-top span{
   background:#F54949;
@@ -31,9 +34,9 @@
   background:#00B267;
 }
 .summary-top p{
-  float: left;
+  padding-left: 0.25rem;
   font-size: 0.28rem;
-  color:#333;
+  color:#888;
   line-height: 0.4rem;
 }
 </style>

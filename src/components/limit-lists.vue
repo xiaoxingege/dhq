@@ -141,10 +141,8 @@
   overflow: hidden;
 }
 .lists-right .lists-title p{
-  float: left;
-  text-align: right;
-}
-.lists-right .lists-title p{
+  height: 0.7rem;
+  line-height: 0.75rem;
   float: left;
   text-align: right;
   padding-right: 0.2rem;
@@ -250,8 +248,8 @@
           <ul class="lists-con">
             <li v-if="filt(item)" v-for="item in limitList" @click="toStock(item.stockcode)">
               <div class="main">
-                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
-                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
+                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice | convert2}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit | convert2}}%</span>
                 <span style="width:1.48rem">{{item.force.toFixed(0)}}</span>
                 <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
                 <span style="width:1.64rem">{{item.fdHands | convert}} </span>
@@ -305,8 +303,8 @@
           <ul class="lists-con">
             <li v-for="item in limitOpenList" @click="toStock(item.stockCode)">
               <div class="main">
-                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice.toFixed(2)}}</span>
-                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit.toFixed(2)}}%</span>
+                <span :class="addcolor(item.nowPrice)" style="width:1.3rem">{{item.nowPrice | convert2}}</span>
+                <span :class="addcolor(item.priceLimit)" style="width:1.4rem">{{item.priceLimit | convert2}}%</span>
                 <span style="width:1.48rem">{{item.openTime}}</span>
                 <span style="width:1.3rem">{{item.tr.toFixed(2)}}%</span>
               </div>
@@ -370,6 +368,15 @@ export default {
     	}else{
     		return d
     	}
+    },
+    convert2 (v) {
+      if ((v + '').indexOf('-') !== -1) {
+        return v.toFixed(2)
+      } else if(v===0){
+        return v.toFixed(2)
+      }else{
+      	return '+'+v.toFixed(2)
+      }
     }
   },
   methods: {
