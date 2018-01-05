@@ -994,7 +994,7 @@ bluebird@^3.0.5, bluebird@^3.1.1, bluebird@^3.4.7:
 
 bluebird@^3.5.0:
   version "3.5.1"
-  resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
+  resolved "http://registry.npm.taobao.org/bluebird/download/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
 blueimp-md5@^2.7.0:
   version "2.7.0"
@@ -3437,6 +3437,10 @@ isarray@^2.0.1:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/isarray/download/isarray-2.0.2.tgz#5aa99638daf2248b10b9598b763a045688ece3ee"
 
+iscroll@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/iscroll/-/iscroll-5.2.0.tgz#d513307088b5b25a4f893af474804468481829c8"
+
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -5331,13 +5335,13 @@ replace-ext@0.0.1:
 
 request-promise-core@1.1.1:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/request-promise-core/-/request-promise-core-1.1.1.tgz#3eee00b2c5aa83239cfb04c5700da36f81cd08b6"
+  resolved "http://registry.npm.taobao.org/request-promise-core/download/request-promise-core-1.1.1.tgz#3eee00b2c5aa83239cfb04c5700da36f81cd08b6"
   dependencies:
     lodash "^4.13.1"
 
 request-promise@^4.2.2:
   version "4.2.2"
-  resolved "https://registry.npmjs.org/request-promise/-/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
+  resolved "http://registry.npm.taobao.org/request-promise/download/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
   dependencies:
     bluebird "^3.5.0"
     request-promise-core "1.1.1"
@@ -5874,7 +5878,7 @@ stdout-stream@^1.4.0:
 
 stealthy-require@^1.1.0:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
+  resolved "http://registry.npm.taobao.org/stealthy-require/download/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
 
 stream-browserify@^2.0.1:
   version "2.0.1"
@@ -6143,7 +6147,7 @@ toposort@^1.0.0:
 
 tough-cookie@>=2.3.3:
   version "2.3.3"
-  resolved "https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
+  resolved "http://registry.npm.taobao.org/tough-cookie/download/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
   dependencies:
     punycode "^1.4.1"
 
