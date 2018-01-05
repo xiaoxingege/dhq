@@ -39,6 +39,10 @@
   color:#888;
   line-height: 0.4rem;
 }
+.summary-top p .num{
+  font-weight: normal;
+  color:#333;
+}
 </style>
 
 <template>
@@ -50,14 +54,14 @@
     <div class="summary-item up">
       <div class="summary-top">
         <span></span>
-        <p>涨停家数：{{limitUp}}</p>
+        <p>涨停家数：<em class="num">{{limitUp}}</em></p>
       </div>
     </div>
 
     <div class="summary-item down">
       <div class="summary-top">
         <span></span>
-        <p>跌停家数：{{limitDown}}</p>
+        <p>跌停家数：<em class="num">{{limitDown}}</em></p>
       </div>
     </div>
 

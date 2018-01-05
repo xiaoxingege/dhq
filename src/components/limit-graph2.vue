@@ -5,6 +5,7 @@
     padding-top: 0.4rem;
 }
 .summary2{
+  box-sizing:border-box;
   padding:0.5rem 0.23rem 0.23rem;
   overflow: hidden;
 }
