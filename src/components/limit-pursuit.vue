@@ -22,6 +22,7 @@
   width:4.4rem;
 }
 .title-tab li{
+  overflow: hidden;
   height: 0.8rem;
   box-sizing: border-box;
   text-align: center;
@@ -30,6 +31,12 @@
   float: left;
   padding:0 0.2rem;
   position: relative;
+}
+.tab1 .title-tab li{
+  padding:0;
+}
+.tab2 .title-tab li{
+  padding:0;
 }
 .title-tab li.active{
   color:#F54949;
@@ -193,16 +200,16 @@
 <template>
 	<div class="limit-pursuit">
     <div class="title-tab-container tab1">
-      <ul class="title-tab">
-        <li data-index='1' :class="graphTab==='1'? 'active':''" @click="toGraphTab($event)">
+      <ul class="title-tab tab-center">
+        <li data-index='1' :class="graphTab==='1'? 'active':''" @click="toGraphTab($event)" style="width:1.3rem;">
           涨跌停
           <span></span>
         </li>
-        <li data-index='2' :class="graphTab==='2'? 'active':''" @click="toGraphTab($event)">
+        <li data-index='2' :class="graphTab==='2'? 'active':''" @click="toGraphTab($event)" style="width:1.6rem;">
           市场热度
           <span></span>
         </li>
-        <li data-index='3' :class="graphTab==='3'? 'active':''" @click="toGraphTab($event)">
+        <li data-index='3' :class="graphTab==='3'? 'active':''" @click="toGraphTab($event)" style="width:2.8rem;">
           昨日涨停今日表现
           <span></span>
         </li>
@@ -242,11 +249,11 @@
     <div class="block">
       <div class="title-tab-container tab2">
         <ul class="title-tab">
-          <li data-index='1' :class="blockTab==='1'? 'active':''" @click="toBlockTab($event)">
+          <li data-index='1' :class="blockTab==='1'? 'active':''" @click="toBlockTab($event)" style="width:2.2rem;">
             涨停集中板块
             <span></span>
           </li>
-          <li data-index='2' :class="blockTab==='2'? 'active':''" @click="toBlockTab($event)">
+          <li data-index='2' :class="blockTab==='2'? 'active':''" @click="toBlockTab($event)" style="width:2.2rem;">
             跌停集中板块
             <span></span>
           </li>

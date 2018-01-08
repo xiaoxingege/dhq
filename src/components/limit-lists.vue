@@ -101,9 +101,8 @@
   width:0.5rem;
   height: 0.3rem;
   box-sizing: border-box;
-  line-height: 0.30rem;
-  /*margin-top: 0.01rem;*/
-  border: 0.01rem solid #F54949;
+  line-height: 0.28rem;
+  border: 1px solid #F54949;
   font-size: 0.2rem;
   color:#F54949;
   text-align: center;
