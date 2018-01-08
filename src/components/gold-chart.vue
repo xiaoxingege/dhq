@@ -368,7 +368,7 @@ export default {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
-      this.mrjrPageTo = data
+      this.mrjrPageTo = Number(data)
     },
     goMrxhPage(data) {
       this.mrxhPage = data - 1
@@ -377,7 +377,7 @@ export default {
         type: 'buy',
         page: data - 1
       }).then(() => {})
-      this.mrxhPageTo = data
+      this.mrxhPageTo = Number(data)
     },
     goMcxhPage(data) {
       this.mcxhPage = data - 1
@@ -386,7 +386,7 @@ export default {
         type: 'sell',
         page: data - 1
       }).then(() => {})
-      this.mcxhPageTo = data
+      this.mcxhPageTo = Number(data)
     },
     exportData(type) {
       var type2 = ''
