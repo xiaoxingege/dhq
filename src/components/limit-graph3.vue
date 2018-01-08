@@ -59,7 +59,7 @@
 }
 .hint3  .tongbi em.red{
 	display: block;
-	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') left center no-repeat;
+	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') left 0.09rem no-repeat;
 	background-size: 0.1rem 0.2rem;
 }
 .hint3  .tongbi em.green{
