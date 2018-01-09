@@ -31,7 +31,7 @@
     <p>2.带有“可叠加使用”的优惠券不可与不带有此标识的优惠券叠加使用；</p>
     <p>3.在支付时每次最多只能使用<span class="strong-two">2</span>张可叠加优惠券，优惠券使用问题请咨询金融界客服：</p>
     <p>客服电话<a class="telphone" @click="tel"> 400-166-1188</a>
-    <span class="work-time">(工作时间：8：00-22：00)</span>
+    <span class="work-time">(工作时间 8：00-22：00)</span>
     </p>
   </div>
 </template>
