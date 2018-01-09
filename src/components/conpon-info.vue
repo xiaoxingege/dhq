@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     tel(){
-      jrj.jsCallNative(1112, JSON.stringify({
+      window.jrj.jsCallNative(1112, JSON.stringify({
      tel:'400-166-1188'
     }))
       }
