@@ -1,9 +1,11 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
 .app {
     width: 100%;
     height: 100%;
 }
+
 .siwei {
     background: #000;
     width: 100%;
@@ -13,6 +15,7 @@
     padding-left: 10px;
     padding-right: 5px;
 }
+
 .bubbles-bar {
     font-size: 12px;
     color: #c9d0d7;
@@ -37,10 +40,12 @@
 .bubbles-bar select:focus {
     outline: none;
 }
+
 .template select {
     color: #1984ea;
     background-color: #23272C;
 }
+
 .template select option {
     background: #1E2329;
     color: #c9d0d7;
@@ -52,10 +57,12 @@
 .template select option:focus {
     outline: none;
 }
+
 .legend {
     color: #fff;
     min-height: 50px;
 }
+
 .legend ul li {
     float: left;
     width: 60px;
@@ -64,6 +71,7 @@
     text-align: center;
     font-size: 12px;
 }
+
 .masks {
     width: 100%;
     height: 100%;
@@ -75,6 +83,7 @@
     right: 0;
     z-index: 999;
 }
+
 .themeList {
     width: 90%;
     background: #d6d6d6;
@@ -101,6 +110,7 @@
     cursor: pointer;
     font-size: 27px;
 }
+
 .themeTitle {
     height: 35px;
     line-height: 35px;
@@ -109,6 +119,7 @@
     background: #23272C;
     padding-left: 20px;
 }
+
 button {
     height: 20px;
     line-height: 20px;
@@ -119,6 +130,7 @@ button {
     border-radius: 3px;
     cursor: pointer;
 }
+
 .tempDesc {
     font-size: 12px;
     line-height: 24px;
@@ -200,6 +212,7 @@ input {
 .bubbles-select select:focus {
     outline: none;
 }
+
 .changeXY {
     position: absolute;
     top: 48px;
@@ -248,23 +261,23 @@ input {
     <div class="template fl mr-30">
       常用推荐：
       <select @change="changeTmp($event)" v-model="tmpId">
-                <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
-                </option>
-            </select>
+          <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
+          </option>
+        </select>
     </div>
     <div class="fl mr-30">
       筛股策略：
       <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
-        <option value="">请选择</option>
-        <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
-            </select>
+          <option value="">请选择</option>
+          <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
+        </select>
     </div>
     <div class="fl mr-30">
       股票池：
       <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
-        <option value="">请选择</option>
-        <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-      </select>
+          <option value="">请选择</option>
+          <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
+        </select>
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <div class="fr">
@@ -278,38 +291,38 @@ input {
           <p>X轴</p>
           <div>
             <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData">
-                            <option v-for="(val,key) in xDataList" :value="key"
-                                    :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
-                                {{val}}
-                            </option>
-                        </select>
+                <option v-for="(val,key) in xDataList" :value="key"
+                        :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                  {{val}}
+                </option>
+              </select>
           </div>
         </div>
         <div class="scatterY">
           <p>Y轴</p>
           <div>
             <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData">
-                            <option v-for="(val,key) in xDataList" :value="key"
-                                    :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
-                                {{val}}
-                            </option>
-                        </select>
+                <option v-for="(val,key) in xDataList" :value="key"
+                        :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                  {{val}}
+                </option>
+              </select>
           </div>
         </div>
         <div class="scatterSize">
           <p>气泡大小</p>
           <div>
             <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <div class="scatterColor">
           <p>气泡颜色</p>
           <div>
             <select ref="bubbleColor" v-model="dimensionOptions.colorDefault" @change="showSelectData">
-                            <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <img class="changeXY" @click="changeXY" src="../assets/images/scatterChangeXY.png">
@@ -320,8 +333,8 @@ input {
           <p>指数</p>
           <div>
             <select v-model="stockRangeOptions.indexRangeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <!--行业-->
@@ -329,8 +342,8 @@ input {
           <p>行业</p>
           <div>
             <select v-model="stockRangeOptions.industryRangeDefault" @change="showSelectData">
-                            <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
-                        </select>
+                <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
+              </select>
           </div>
         </div>
         <!--主题-->
@@ -347,8 +360,8 @@ input {
           <p>流通市值</p>
           <div>
             <select v-model="stockRangeOptions.marketValueDefault" @change="showSelectData">
-                            <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <!--历史成交量-->
@@ -356,8 +369,8 @@ input {
           <p>历史成交量</p>
           <div>
             <select v-model="stockRangeOptions.historyValueRangeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
       </div>
@@ -628,7 +641,8 @@ export default {
       },
       currentTime: '',
       isShowTheme: false,
-      topicName: '全部'
+      topicName: '全部',
+      themeVal: ''
     }
   },
   components: {
@@ -662,7 +676,8 @@ export default {
     },
     showSelectData() {
       this.stockRangeOptions.topicNameDefalut = this.topicName
-      this.options = { ...this.dimensionOptions,
+      this.options = {
+        ...this.dimensionOptions,
         ...this.stockRangeOptions
       }
       this.tmpId = 'demoTmp0'
@@ -722,7 +737,8 @@ export default {
       this.isShowTheme = false
     },
     getThemeVal(data) {
-      this.stockRangeOptions.topic = data[0]
+      this.themeVal = data[0]
+      // this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
@@ -792,7 +808,8 @@ export default {
         this.showStockRangeDialog = false
       }
     },
-    'stockRangeOptions.topic': function() {
+    'themeVal': function() {
+      this.stockRangeOptions.topic = this.themeVal
       this.showSelectData()
     }
   },
