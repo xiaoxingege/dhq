@@ -385,8 +385,9 @@ export default {
                         url: 'http://itougu.jrj.com.cn/smartstock/mk/isActive/zsVersionUp.jspa',
                         success: function(result) {
                             if (result.retCode === 0) {
-                                var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=6&type=4');
-                                window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url + '&' + Math.round(new Date().getTime() / 1000)
+                                // var url = encodeURIComponent('http://itougu.jrj.com.cn/activity/app/strategyInfoNew.jspa#/riskResult?productId=6&type=4');
+                                // window.location.href = 'http://itougu.jrj.com.cn/actm/pre-pay?payUrl=' + url + '&' + Math.round(new Date().getTime() / 1000)
+                                window.location.href = 'http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/strategyPayIntro'
                                 // skipRiskAssessed=1
                             } else {
                                 alert(result.msg)

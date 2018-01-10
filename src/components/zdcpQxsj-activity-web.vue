@@ -497,9 +497,9 @@ export default {
             } else if (!this.bindingIdentity) {
                 location.href = 'http://i.jrj.com.cn/home/userSetting/nameIdentity?ReturnURL=' + encodeURIComponent(location.href)
             } else if (!this.riskAssessed) {
-                location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=4')
+                location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=2')
             } else {
-                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=4'
+                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=2'
             }
         },
         subClick() {
@@ -519,7 +519,7 @@ export default {
                         url: 'http://itougu.jrj.com.cn/smartstock/mk/isActive/zsVersionUp.jspa',
                         success: function(result) {
                             if (result.retCode === 0) {
-                                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=4'
+                                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=6&type=2'
                             } else {
                                 alert(result.msg)
                             }
