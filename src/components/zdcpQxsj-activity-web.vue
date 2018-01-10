@@ -437,34 +437,34 @@ export default {
                 conHeight: '320px',
                 conPadding: '0',
                 pagShow: true,
-                arrowShow: true,
+                arrowShow: false,
                 loop: true,
                 // slidesPerView: 3,
                 autoplay: 4000,
                 textType: true,
                 paginationClickable: true,
-                prev: {
-                    imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-prev.png'),
-                    width: '31px',
-                    height: '53px',
-                    marginTop: '0'
-                },
-                next: {
-                    imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-next.png'),
-                    width: '31px',
-                    height: '53px',
-                    marginTop: '0'
-                },
+                // prev: {
+                //     imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-prev.png'),
+                //     width: '31px',
+                //     height: '53px',
+                //     marginTop: '0'
+                // },
+                // next: {
+                //     imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-next.png'),
+                //     width: '31px',
+                //     height: '53px',
+                //     marginTop: '0'
+                // },
                 list: [{
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img4.png'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img6.png'),
                         text: '算法深度优化，获胜概率更高'
                     },
                     {
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img5.jpg'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img4.png'),
                         text: '买卖信号一对一，操作更简单'
                     },
                     {
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img6.png'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img5.jpg'),
                         text: '盘中提醒买卖信号，操盘更及时'
                     }
                 ]
@@ -597,7 +597,7 @@ export default {
             }
 
             window.setInterval(function() {
-                ShowCountDown(2018, 1, 15, 0, 0, 0, 'divdown1')
+                ShowCountDown(2018, 1, 22, 0, 0, 0, 'divdown1')
             }, 1000)
             $('.links a').click(function() {
                 var index = $(this).index()

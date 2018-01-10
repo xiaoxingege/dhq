@@ -277,6 +277,21 @@ button {
     z-index: 9;
     cursor: pointer;
 }
+.nav-fixed {
+    width: 1.47rem;
+    height: 1.35rem;
+    position: fixed;
+    top: 45%;
+    right: 0;
+    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-web-nav.png") center 0 no-repeat;
+    background-size: 100%;
+    z-index: 10;
+}
+.nav-fixed a {
+    width: 100%;
+    height: 33.33%;
+    float: left;
+}
 </style>
 
 <template>
@@ -315,6 +330,11 @@ button {
         <div class="box-con">
         </div>
     </div>
+    <div class="nav-fixed">
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+    </div>
     <div class="footer">
         <div class="box-con">
             <div>
@@ -352,15 +372,15 @@ export default {
                 textType: true,
                 paginationClickable: true,
                 list: [{
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img4.png'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img6.png'),
                         text: '算法深度优化，获胜概率更高'
                     },
                     {
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img5.jpg'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img4.png'),
                         text: '买卖信号一对一，操作更简单'
                     },
                     {
-                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img6.png'),
+                        imgUrl: require('assets/images/zdcpQxsj-activity/zdcpQxsj-web-img5.jpg'),
                         text: '盘中提醒买卖信号，操盘更及时'
                     }
                 ]
@@ -432,6 +452,15 @@ export default {
         })
 
         $(function() {
+            $('.nav-fixed a').click(function() {
+                var index = $(this).index() + 2
+                // index = index === 5 ? 7 : index
+                var pos = $('.bg' + index).offset().top
+                // 实现平滑移动 1000代表时间ms
+                $('html,body').stop().animate({
+                    scrollTop: pos
+                }, 500)
+            })
             window.InitWeChatShare({
                 shareTitle: window.document.title,
                 shareLink: window.location.href,
@@ -474,7 +503,7 @@ export default {
             }
 
             window.setInterval(function() {
-                ShowCountDown(2018, 1, 15, 0, 0, 0, 'divdown1')
+                ShowCountDown(2018, 1, 22, 0, 0, 0, 'divdown1')
             }, 1000)
         })
         $('.links a').click(function() {
