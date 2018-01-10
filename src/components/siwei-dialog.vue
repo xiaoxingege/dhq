@@ -46,11 +46,11 @@
   </div>
   <div class="bottom clearfix">
     <div class="bottomLeft fl">
-      <div v-show="xData !== 'sw_indu_name' && xData !== 'chi_spel' && xData !== 'order'">
+      <div v-show="xData !== 'chi_spel' && xData !== 'order'">
         <p>{{xSelectData[xData]}}</p>
         <p>{{dialogOptions.leftList.xData.value}}</p>
       </div>
-      <div v-show="yData !== 'sw_indu_name' && yData !== 'chi_spel' && yData !== 'order'">
+      <div v-show="yData !== 'chi_spel' && yData !== 'order'">
         <p>{{xSelectData[yData]}}</p>
         <p>{{dialogOptions.leftList.yData.value}}</p>
       </div>
@@ -58,7 +58,7 @@
         <p>{{bubbleSizeSelect[bubbleSize]}}</p>
         <p>{{dialogOptions.leftList.bubbleSize.value}}</p>
       </div>
-      <div v-show="bubbleColor !== '' && bubbleColor !== 'sw_indu_name'">
+      <div v-show="bubbleColor !== ''">
         <p>{{bubbleColorSelect[bubbleColor]}}</p>
         <p>{{dialogOptions.leftList.bubbleColor.value}}</p>
       </div>

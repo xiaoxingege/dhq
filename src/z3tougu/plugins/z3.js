@@ -186,21 +186,28 @@ export default {
     Vue.directive('select', {
       inserted: function(el, binding, vnode, oldVnode) {
         let uls = ''
-        const selectObj = binding.value.data // 获取select需要显示的下拉框值
-        console.log(binding.value.default)
+        const selectObj = binding.value.data // 获取select需要显示的下拉框值s
         for (const item in selectObj) {
           uls += '<li value="' + item + '">' + selectObj[item] + '</li>'
         }
         el.innerHTML = '<div class="vSelect"><input class="vInput" type="text" name="' + binding.value.default+'"  value="' + binding.value.data[binding.value.default] + '" readonly/><ul class="vUl" style="display: none;">' + uls + '</ul></div>'
+
         const ul = el.getElementsByClassName('vUl')[0]
-        const lis = el.getElementsByClassName('vUl')[0].getElementsByTagName('li')
+        const lis = ul.getElementsByTagName('li')
         const vInput = el.getElementsByClassName('vInput')[0]
         document.getElementsByTagName('body')[0].addEventListener('click', (event) => {
           ul.style.display = 'none'
         })
         el.addEventListener('click', (event) => {
           event.stopPropagation()
-          document.getElementsByClassName('vUl')[0].style.display = 'none'
+          // el.getElementsByClassName('vUl')[0].style.display = 'none'
+
+          const uls = document.getElementsByClassName('vUl')
+          for (const item of uls) {
+            if (item !== ul) {
+              item.style.display = 'none'
+            }
+          }
           ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
         })
         for (const item of lis) {

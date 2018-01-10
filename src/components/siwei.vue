@@ -280,9 +280,9 @@ input {
         </select>
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
-    <div class="fr">
-      <span class="times">{{currentTime}}</span>
-    </div>
+    <!--<div class="fr">-->
+    <!--<span class="times">{{currentTime}}</span>-->
+    <!--</div>-->
   </div>
   <div class="bubbles display-box">
     <div class="bubbles-select ">
@@ -510,7 +510,7 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '通过估值和业绩指标，寻找低估值绩优股，气泡在第一象限越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
+          explain: '通过估值和业绩指标，寻找低估值绩优股，气泡越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
         },
         'demoTmp6': {
           name: '成长性 VS 估值选股',
@@ -528,7 +528,7 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡在第一象限越靠右下，气泡越小，未来成长性可能越强。'
+          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。'
         },
         'demoTmp7': {
           name: '股价表现 VS 成交量选股',
