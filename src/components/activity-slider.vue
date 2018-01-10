@@ -81,7 +81,7 @@ export default {
             //   }
         }
     },
-    props: ['listData'],
+    props: ['listData', 'clickIndex'],
     methods: {
         closeChapterDialog() {
             this.addChapterShow = false
@@ -126,6 +126,11 @@ export default {
         $('.swiper-button-next').on('click', function(e) {
             e.preventDefault()
             mySwiper.swipeNext()
+        })
+        this.$watch('clickIndex', clickIndex => {
+            if (clickIndex !== null) {
+                mySwiper.swipeTo(clickIndex);
+            }
         })
     }
 }
