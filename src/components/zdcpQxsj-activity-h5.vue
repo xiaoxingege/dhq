@@ -74,22 +74,22 @@ button {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-H5-bg1.jpg") center 0 no-repeat;
+    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-h5-bg1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 5.27rem;
 }
 .bg2 {
-    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-H5-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-h5-bg2.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 9.73rem;
 }
 .bg3 {
-    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-H5-bg3.jpg") center 0 no-repeat;
+    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-h5-bg3.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 12.79rem;
 }
 .bg4 {
-    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-H5-bg4.jpg") center 0 no-repeat;
+    background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-h5-bg4.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 13.70rem;
 }
