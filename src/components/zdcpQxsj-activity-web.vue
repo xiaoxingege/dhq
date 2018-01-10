@@ -101,7 +101,7 @@ button {
 }
 .bg4 {
     background: url("../assets/images/zdcpQxsj-activity/zdcpQxsj-web-bg4.jpg") center 0 no-repeat;
-    height: 907px;
+    height: 860px;
 }
 .box-con {
     width: 1000px;
