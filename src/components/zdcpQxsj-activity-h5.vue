@@ -420,7 +420,7 @@ export default {
                     }))
                 }
             } else {
-                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
+                window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
                 setTimeout(function() {
                     if (!document.webkitHidden) {
                         window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
