@@ -11,7 +11,6 @@ button {
 </style>
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
-@import '../assets/css/animate.min.css';
 .box {
     width: 100%;
 }
@@ -181,6 +180,51 @@ button {
     border: none;
     background: none;
 }
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+@keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+}
+.pulse {
+    -webkit-animation-name: pulse;
+    animation-name: pulse;
+}
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.animated.infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
 </style>
 
 <template>
@@ -246,12 +290,11 @@ export default {
         popClick(type) {
             this.popShow = true
             this.popText = type
-        },
-        close() {
-            this.popShow = false
+            window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-clickPop', 'WT.ti', 'pqng-activity-clickPop')
         },
         copOpenwx() {
             new Clipboard('.btn')
+            window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-openWx', 'WT.ti', 'pqng-activity-openWx')
             location.href = 'weixin://'
             this.popShow = false
         }
