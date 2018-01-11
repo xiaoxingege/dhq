@@ -88,10 +88,10 @@
     </p>
   </div>
   <div class="preferred-stock-table-wrap clearfix">
-    <div v-if="isNoData" class="no-data-stock">
+    <div v-show="isNoData" class="no-data-stock">
       <span>暂无数据</span>
     </div>
-    <table class="preferred-stock-table" v-if="!isNoData">
+    <table class="preferred-stock-table" v-show="!isNoData">
       <tr v-for="item of stockList">
         <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
         <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
