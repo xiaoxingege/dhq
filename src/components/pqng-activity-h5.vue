@@ -303,7 +303,7 @@ export default {
         document.title = '加微信 送盘前牛股'
         var _this = this
         $.ajax({
-            url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
+            url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage&actId=1',
             dataType: 'jsonp',
             jsonpCallback: 'callback'
         }).then(data => {
