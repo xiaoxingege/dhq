@@ -255,14 +255,14 @@ button {
                 <em></em>
                 <span v-text="wxid"></span>
             </div>
-            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx"></button>
+            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
         <div class="pop-con">
             <span v-text="wxid"></span>
-            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx"></button>
+            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
 </div>
