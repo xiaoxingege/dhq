@@ -25,14 +25,14 @@ input::-webkit-input-placeholder {
     height: 8.66rem;
 }
 .bg2 {
-    background: url("../assets/images/sdjg-activity/sdjg-h5-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg2-1.jpg") center 0 no-repeat;
     background-size: 100%;
     height: 29.05rem;
 }
 .bg3 {
-    background: url("../assets/images/sdjg-activity/sdjg-h5-bg3.jpg") center 0 no-repeat;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg3-1.jpg") center 0 no-repeat;
     background-size: 100%;
-    height: 15.78rem;
+    height: 16.08rem;
 }
 .bg4 {
     background: url("../assets/images/sdjg-activity/sdjg-h5-bg4.jpg") center 0 no-repeat;
@@ -206,15 +206,15 @@ input::-webkit-input-placeholder {
     height: 4.05rem;
 }
 .bg3 .links {
-    width: 3.43rem;
+    width: 7.1rem;
     height: 3.1rem;
     position: absolute;
-    top: 5.61rem;
-    right: 0.47rem;
+    top: 5.5rem;
+    left: 0.31rem;
 }
 .bg3 .links a {
     float: left;
-    width: 100%;
+    width: 50%;
     height: 16.66%;
 }
 .big-circle {
