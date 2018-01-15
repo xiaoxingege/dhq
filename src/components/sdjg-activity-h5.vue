@@ -107,7 +107,7 @@ input::-webkit-input-placeholder {
     margin: 0 auto;
     width: 7rem;
     height: 2.78rem;
-    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/h5/popup-join.png") no-repeat center bottom;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-pop.png") no-repeat center bottom;
     background-size: auto 100%;
 }
 .layer.popup-join .box .btn-join,
