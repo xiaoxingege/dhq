@@ -110,6 +110,18 @@ module.exports = function(router) {
             };
         }
     })
+    router.get('/sdjg-activity', async(ctx, next) => {
+      ctx.title = '金融界实地调研 直击2018A股价值王';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
     router.get('/pqng-activity', async(ctx, next) => {
       ctx.title = '加微信 送盘前牛股';
       ctx.metaDescription = '';

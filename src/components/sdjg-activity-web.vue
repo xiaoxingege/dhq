@@ -636,9 +636,8 @@ input::-webkit-input-placeholder {
     </div>
     <div class="bg4">
         <div class="box-con">
-            <!-- <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170911mls.mp4" controls="controls" id="myvideo" autoplay="autoplay"> -->
             <div class="video-box">
-                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170911mls.mp4" controls="controls" id="myvideo">
+                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" id="myvideo" autoplay="autoplay">
                 您的浏览器不支持 video 标签。
                 </video>
             </div>

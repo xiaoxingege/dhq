@@ -76,17 +76,16 @@ input::-webkit-input-placeholder {
     filter: alpha(opacity=60);
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 11;
 }
 .layer {
     position: fixed;
     left: 0;
     right: 0;
-    top: 15%;
-    bottom: 15%;
+    bottom: 40%;
     text-align: center;
     opacity: 0.9;
-    z-index: 3;
+    z-index: 12;
     animation: pop 0.6s cubic-bezier(1,-0.49, 0, 1.5);
 }
 
@@ -95,9 +94,10 @@ input::-webkit-input-placeholder {
     position: relative;
     display: block;
     margin: 0 auto;
-    width: 704px;
-    height: 307px;
-    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/popup-success.png") no-repeat center bottom;
+    width: 7rem;
+    height: 2.78rem;
+    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/h5/popup-success.png") no-repeat center bottom;
+    background-size: 100%;
 }
 
 .layer.popup-join {}
@@ -105,72 +105,73 @@ input::-webkit-input-placeholder {
     position: relative;
     display: block;
     margin: 0 auto;
-    width: 704px;
-    height: 355px;
-    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/popup-join.png") no-repeat center bottom;
+    width: 7rem;
+    height: 2.78rem;
+    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/h5/popup-join.png") no-repeat center bottom;
+    background-size: auto 100%;
 }
 .layer.popup-join .box .btn-join,
 .layer.popup-join .box span {
     position: absolute;
-    top: 196px;
+    top: 1.29rem;
+    height: 0.4rem;
 }
 .layer.popup-join .box span input {
-    width: 211px;
-    height: 40px;
-    line-height: 40px;
+    width: 2.2rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 0.14rem;
     color: #452609;
+    float: left;
 }
 .layer.popup-join .box span input::-webkit-input-placeholder {
     color: #A78B67;
 }
 .layer.popup-join .box .userNamebox {
-    left: 101px;
+    left: 1.15rem;
 }
 .layer.popup-join .box .phonebox {
-    right: 32px;
+    right: 0.3rem;
 }
 .layer.popup-join .box .phonebox input {
-    width: 248px;
+    width: 2.6rem;
 }
 .layer.popup-join .box .btn-join {
-    top: 260px;
-    right: 227px;
+    top: 1.85rem;
+    left: 2.6rem;
+    margin: 0;
+    padding: 0;
+    border-radius: 0.04rem;
+    width: 2.14rem;
+    height: 0.62rem;
+    line-height: 0.62rem;
     opacity: 0;
-    width: 214px;
-    height: 62px;
 }
-.layer.popup-join .box .tooltip {
-    top: -32px;
-    right: 0;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    opacity: 0.8;
-}
-
 .layer .box .close {
     position: absolute;
     right: 0;
-    top: 0;
+    top: -30px;
     display: inline-block;
-    width: 45px;
-    height: 45px;
-    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/icon-close.png") no-repeat center center;
+    width: 22px;
+    height: 22px;
+    background: url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170814zlhweb/h5/icon-close.png") no-repeat center center;
+    background-size: contain;
     cursor: pointer;
     z-index: 1;
+    opacity: inherit;
 }
-.player img {
-    display: none;
-}
+
 .join em {
     position: absolute;
-    top: -36px;
+    top: -0.5rem;
     left: 0;
     background: #fff;
-    border: 1px red solid;
-    border-radius: 5px;
-    padding: 5px;
+    border: 0.01rem red solid;
+    border-radius: 0.1rem;
+    padding: 0.05rem;
+    font-size: 0.12rem;
 }
 .footer {
     width: 100%;
@@ -189,129 +190,6 @@ input::-webkit-input-placeholder {
     position: absolute;
     bottom: 0.3rem;
     left: 2.47rem;
-}
-// .footer em {
-//     margin-left: 40px;
-//     float: left;
-//     font-size: 12px;
-//     background: #fff;
-//     border: 1px red solid;
-//     border-radius: 3px;
-//     padding: 0 5px;
-//     position: absolute;
-//     right: 0;
-//     top: -1px;
-// }
-
-// .bg3 .box-con div {
-//     width: 881px;
-//     height: 208px;
-//     float: left;
-//     position: absolute;
-//     bottom: 21px;
-//     left: 51px;
-// }
-// .bg3 div p:first-child {
-//     margin-left: 0;
-// }
-// .bg3 div p {
-//     width: 320px;
-//     height: 40px;
-//     line-height: 40px;
-//     float: left;
-//     margin: 168px 0 0 44px;
-//     position: relative;
-// }
-// .bg3 div p span {
-//     font-size: 16px;
-//     color: #ebab55;
-//     float: left;
-//     width: 50px;
-//     text-align: left;
-// }
-// .bg3 div p input {
-//     width: 210px;
-//     height: 30px;
-//     padding: 5px 10px;
-//     float: left;
-//     background-color: #76562b;
-//     border: none;
-//     color: #ebab55;
-// }
-// .bg3 a {
-//     width: 214px;
-//     height: 59px;
-//     background: url("../assets/images/sdjg-activity/sdjg-web-btn2.png") center 0 no-repeat;
-//     position: absolute;
-//     bottom: 45px;
-//     right: 42px;
-// }
-// .bg3 em {
-//     margin-left: 40px;
-//     float: left;
-//     font-size: 12px;
-//     background: #fff;
-//     border: 1px red solid;
-//     border-radius: 3px;
-//     padding: 0 5px;
-//     position: absolute;
-//     right: 0;
-//     top: -1px;
-// }
-.bg6 .box-con .signInput {
-    width: 881px;
-    height: 208px;
-    float: left;
-    position: absolute;
-    bottom: 64px;
-    left: 51px;
-}
-.bg6 .signInput p:first-child {
-    margin-left: 0;
-}
-.bg6 .signInput p {
-    width: 320px;
-    height: 40px;
-    line-height: 40px;
-    float: left;
-    margin: 168px 0 0 44px;
-    position: relative;
-}
-.bg6 .signInput p span {
-    font-size: 16px;
-    color: #ebab55;
-    float: left;
-    width: 50px;
-    text-align: left;
-}
-.bg6 .signInput p input {
-    width: 210px;
-    height: 30px;
-    padding: 5px 10px;
-    float: left;
-    background-color: #76562b;
-    border: none;
-    color: #ebab55;
-}
-.bg6 a {
-    width: 214px;
-    height: 59px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-btn2.png") center 0 no-repeat;
-    position: absolute;
-    bottom: 88px;
-    right: 42px;
-}
-.bg6 em {
-    margin-left: 40px;
-    float: left;
-    font-size: 12px;
-    background: #fff;
-    border: 1px red solid;
-    border-radius: 3px;
-    padding: 0 5px;
-    position: absolute;
-    right: 0;
-    top: -1px;
 }
 .bg3 .video-box {
     width: 6.82rem;
@@ -575,7 +453,7 @@ input::-webkit-input-placeholder {
     <div class="bg3">
         <div class="box-con">
             <div class="video-box">
-                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170911mls.mp4" controls="controls" id="myvideo">
+                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" id="myvideo">
                 您的浏览器不支持 video 标签。
                 </video>
             </div>
@@ -661,11 +539,11 @@ input::-webkit-input-placeholder {
             <i class="close" @click="close"></i>
             <div class="join">
                 <span class="userNamebox">
-                  <input type="text" class="userName" placeholder="请输入您的中文名" v-model="userName" />
+                  <input type="text" class="userName" placeholder="请输入中文名" v-model="userName" />
                   <em v-html="txtUHtml" v-if="txtUShow"></em>
               </span>
                 <span class="phonebox">
-                  <input type="text" class="phone" placeholder="请输入您的11位手机号码" v-model="phone" />
+                  <input type="text" class="phone" placeholder="请输入手机号码" v-model="phone" />
                   <em v-html="txtPHtml" v-if="txtPShow"></em>
               </span>
                 <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
@@ -691,20 +569,7 @@ export default {
             txtUHtml: '',
             txtUShow: false,
             txtPHtml: '',
-            txtPShow: false,
-            fTxtUHtml: '',
-            fTxtUShow: false,
-            fTxtPHtml: '',
-            fTxtPShow: false,
-            bg3TxtUHtml: '',
-            bg3TxtUShow: false,
-            bg3TxtPHtml: '',
-            bg3TxtPShow: false,
-            bg6TxtUHtml: '',
-            bg6TxtUShow: false,
-            bg6TxtPHtml: '',
-            bg6TxtPShow: false
-
+            txtPShow: false
         }
     },
     computed: mapState({
@@ -720,6 +585,7 @@ export default {
         popShow() {
             this.maskShow = true
             this.joinShow = true
+            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-h5Pop', 'WT.ti', 'sdjg-activity-h5Pop')
         },
         close() {
             this.maskShow = false
@@ -756,112 +622,11 @@ export default {
                 aid: '818141666863591424',
                 userName: this.userName,
                 phone: this.phone,
-                bizsource: 'JRJ',
-                source: '1',
+                bizsource: 'mSite',
+                source: '4',
                 tgqdcode: 'KAN4M5AT'
             })
-        },
-        fJoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.fUserName || this.fUserName.length === 0) {
-                this.fTxtUShow = true
-                this.fTxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.fUserName)) {
-                this.fTxtUShow = true
-                this.fTxtUHtml = '请输入中文名'
-                return
-            } else if (!this.fPhone || this.fPhone.length === 0) {
-                this.fTxtPShow = true
-                this.fTxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.fPhone)) {
-                this.fTxtPShow = true
-                this.fTxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.fUserName,
-                phone: this.fPhone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
-        },
-        bg3JoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.bg3UserName || this.bg3UserName.length === 0) {
-                this.bg3TxtUShow = true
-                this.bg3TxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.bg3UserName)) {
-                this.bg3TxtUShow = true
-                this.bg3TxtUHtml = '请输入中文名'
-                return
-            } else if (!this.bg3Phone || this.bg3Phone.length === 0) {
-                this.bg3TxtPShow = true
-                this.bg3TxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.bg3Phone)) {
-                this.bg3TxtPShow = true
-                this.bg3TxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.bg3UserName,
-                phone: this.bg3Phone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
-        },
-        bg6JoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.bg6UserName || this.bg6UserName.length === 0) {
-                this.bg6TxtUShow = true
-                this.bg6TxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.bg6UserName)) {
-                this.bg6TxtUShow = true
-                this.bg6TxtUHtml = '请输入中文名'
-                return
-            } else if (!this.bg6Phone || this.bg6Phone.length === 0) {
-                this.bg6TxtPShow = true
-                this.bg6TxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.bg6Phone)) {
-                this.bg6TxtPShow = true
-                this.bg6TxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.bg6UserName,
-                phone: this.bg6Phone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
+            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-h5Sub', 'WT.ti', 'sdjg-activity-h5Sub')
         }
     },
     mounted() {
@@ -887,42 +652,6 @@ export default {
             setTimeout(function() {
                 _this.txtPShow = false
                 _this.txtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('fTxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.fTxtUShow = false
-                _this.fTxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('fTxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.fTxtPShow = false
-                _this.fTxtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg3TxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.bg3TxtUShow = false
-                _this.bg3TxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg3TxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.bg3TxtPShow = false
-                _this.bg3TxtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg6TxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.bg6TxtUShow = false
-                _this.bg6TxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg6TxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.bg6TxtPShow = false
-                _this.bg6TxtPHtml = ''
             }, 1000)
         })
         this.$watch('type', type => {
