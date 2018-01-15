@@ -181,8 +181,8 @@ input::-webkit-input-placeholder {
 }
 .footer {
     width: 100%;
-    height: 206px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-footer-1.png") center 0 no-repeat;
+    height: 178px;
+    background: url("../assets/images/sdjg-activity/sdjg-web-footer-2.png") center 0 no-repeat;
     position: fixed;
     bottom: 0;
     z-index: 10;
@@ -200,12 +200,12 @@ input::-webkit-input-placeholder {
     height: 40px;
     line-height: 40px;
     float: left;
-    margin: 150px 0 0 100px;
+    margin: 115px 0 0 100px;
     position: relative;
 }
 .footer div p span {
     font-size: 16px;
-    color: #ebab55;
+    color: #3d2601;
     float: left;
     width: 50px;
     text-align: left;
@@ -220,12 +220,12 @@ input::-webkit-input-placeholder {
     color: #ebab55;
 }
 .footer a {
-    width: 210px;
-    height: 58px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-btn1.png") center 0 no-repeat;
+    width: 215px;
+    height: 62px;
+    background: url("../assets/images/sdjg-activity/sdjg-web-btn3.png") center 0 no-repeat;
     position: absolute;
-    top: 109px;
-    right: -29px;
+    top: 47px;
+    right: 0;
 }
 .footer em {
     margin-left: 40px;
