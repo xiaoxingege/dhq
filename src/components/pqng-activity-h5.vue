@@ -231,29 +231,29 @@ button {
 <div class="box">
     <div class="bg1">
         <div class="box-con">
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
+            <button type="button" name="button" class="pulse animated infinite" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
     <div class="bg2">
         <div class="box-con">
-            <span v-text="wxid"></span>
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
+            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
+            <button type="button" name="button" class="pulse animated infinite" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
     <div class="bg3">
     </div>
     <div class="bg4">
         <div class="box-con">
-            <span v-text="wxid"></span>
+            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
         </div>
     </div>
-    <div class="nav-fixed" @click="popClick">
+    <div class="nav-fixed" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat">
     </div>
     <div class="footer">
         <div class="box-con">
             <div>
                 <em></em>
-                <span v-text="wxid"></span>
+                <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
             </div>
             <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
@@ -261,7 +261,7 @@ button {
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
         <div class="pop-con">
-            <span v-text="wxid"></span>
+            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
             <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
