@@ -20,8 +20,8 @@ input::-webkit-input-placeholder {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg1.jpg") center 0 no-repeat;
-    height: 698px;
+    background: url("../assets/images/sdjg-activity/sdjg-web-bg1.jpg") center -100px no-repeat;
+    height: 598px;
 }
 .bg2 {
     background: url("../assets/images/sdjg-activity/sdjg-web-bg2.jpg") center 0 no-repeat;
@@ -181,8 +181,8 @@ input::-webkit-input-placeholder {
 }
 .footer {
     width: 100%;
-    height: 236px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-footer.png") center 0 no-repeat;
+    height: 206px;
+    background: url("../assets/images/sdjg-activity/sdjg-web-footer-1.png") center 0 no-repeat;
     position: fixed;
     bottom: 0;
     z-index: 10;
@@ -200,7 +200,7 @@ input::-webkit-input-placeholder {
     height: 40px;
     line-height: 40px;
     float: left;
-    margin: 168px 0 0 100px;
+    margin: 150px 0 0 100px;
     position: relative;
 }
 .footer div p span {
@@ -642,12 +642,12 @@ input::-webkit-input-placeholder {
                 </video>
             </div>
             <div class="links">
-                <a href="http://finance.jrj.com.cn/focus/csx/"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjkedaxunfei/"></a>
-                <a href="http://finance.jrj.com.cn/focus/jjj/"></a>
-                <a href="http://finance.jrj.com.cn/focus/csx/"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjaierphone/"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjbaofengjituan/"></a>
+                <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
+                <a href="http://finance.jrj.com.cn/ztcfjkedaxunfei/" target="_blank"></a>
+                <a href="http://finance.jrj.com.cn/focus/jjj/" target="_blank"></a>
+                <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
+                <a href="http://finance.jrj.com.cn/ztcfjaierphone/" target="_blank"></a>
+                <a href="http://finance.jrj.com.cn/ztcfjbaofengjituan/" target="_blank"></a>
             </div>
         </div>
     </div>
