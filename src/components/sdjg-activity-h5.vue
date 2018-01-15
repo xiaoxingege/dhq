@@ -20,53 +20,46 @@ input::-webkit-input-placeholder {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg1.jpg") center 0 no-repeat;
-    height: 698px;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg1.jpg") center 0 no-repeat;
+    background-size: 100%;
+    height: 8.66rem;
 }
 .bg2 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg2.jpg") center 0 no-repeat;
-    height: 1402px;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg2.jpg") center 0 no-repeat;
+    background-size: 100%;
+    height: 29.05rem;
 }
 .bg3 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg3.jpg") center 0 no-repeat;
-    height: 1102px;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg3.jpg") center 0 no-repeat;
+    background-size: 100%;
+    height: 15.78rem;
 }
 .bg4 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg4.jpg") center 0 no-repeat;
-    height: 1377px;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg4.jpg") center 0 no-repeat;
+    background-size: 100%;
+    height: 20.76rem;
 }
 .bg5 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg5.jpg") center 0 no-repeat;
-    height: 978px;
-}
-.bg6 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg6.jpg") center 0 no-repeat;
-    height: 646px;
-}
-.bg7 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg7.jpg") center 0 no-repeat;
-    height: 750px;
-}
-.bg8 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg8.jpg") center 0 no-repeat;
-    height: 1327px;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-bg5.jpg") center 0 no-repeat;
+    background-size: 100%;
+    height: 29.85rem;
 }
 .box-con {
-    width: 1000px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     height: 100%;
 }
 
 .swiper-container {
-    width: 471px;
-    height: 311px;
+    width: 6.82rem;
+    height: 3.8rem;
     z-index: 3;
     position: absolute;
-    top: 102px;
-    right: 4px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    bottom: 1.93rem;
+    left: 0.43rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 }
 #pagination {
     position: absolute;
@@ -181,120 +174,90 @@ input::-webkit-input-placeholder {
 }
 .footer {
     width: 100%;
-    height: 236px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-footer.png") center 0 no-repeat;
+    height: 2.59rem;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-footer.png") center 0 no-repeat;
+    background-size: 100%;
     position: fixed;
     bottom: 0;
     z-index: 10;
 }
-.footer .box-con div {
-    width: 881px;
-    height: 208px;
-    float: left;
-}
-.footer div p:first-child {
-    margin-left: -25px;
-}
-.footer div p {
-    width: 320px;
-    height: 40px;
-    line-height: 40px;
-    float: left;
-    margin: 168px 0 0 100px;
-    position: relative;
-}
-.footer div p span {
-    font-size: 16px;
-    color: #ebab55;
-    float: left;
-    width: 50px;
-    text-align: left;
-}
-.footer div p input {
-    width: 240px;
-    height: 30px;
-    padding: 5px 10px;
-    float: left;
-    background-color: #76562b;
-    border: none;
-    color: #ebab55;
-}
 .footer a {
-    width: 210px;
-    height: 58px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-btn1.png") center 0 no-repeat;
+    width: 2.57rem;
+    height: 0.71rem;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-btn1.png") center 0 no-repeat;
+    background-size: 100%;
     position: absolute;
-    top: 109px;
-    right: -29px;
+    bottom: 0.3rem;
+    left: 2.47rem;
 }
-.footer em {
-    margin-left: 40px;
-    float: left;
-    font-size: 12px;
-    background: #fff;
-    border: 1px red solid;
-    border-radius: 3px;
-    padding: 0 5px;
-    position: absolute;
-    right: 0;
-    top: -1px;
-}
+// .footer em {
+//     margin-left: 40px;
+//     float: left;
+//     font-size: 12px;
+//     background: #fff;
+//     border: 1px red solid;
+//     border-radius: 3px;
+//     padding: 0 5px;
+//     position: absolute;
+//     right: 0;
+//     top: -1px;
+// }
 
-.bg3 .box-con div {
-    width: 881px;
-    height: 208px;
-    float: left;
-    position: absolute;
-    bottom: 21px;
-    left: 51px;
-}
-.bg3 div p:first-child {
-    margin-left: 0;
-}
-.bg3 div p {
-    width: 320px;
-    height: 40px;
-    line-height: 40px;
-    float: left;
-    margin: 168px 0 0 44px;
-    position: relative;
-}
-.bg3 div p span {
-    font-size: 16px;
-    color: #ebab55;
-    float: left;
-    width: 50px;
-    text-align: left;
-}
-.bg3 div p input {
-    width: 210px;
-    height: 30px;
-    padding: 5px 10px;
-    float: left;
-    background-color: #76562b;
-    border: none;
-    color: #ebab55;
-}
-.bg3 a {
-    width: 214px;
-    height: 59px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-btn2.png") center 0 no-repeat;
-    position: absolute;
-    bottom: 45px;
-    right: 42px;
-}
-.bg3 em {
-    margin-left: 40px;
-    float: left;
-    font-size: 12px;
-    background: #fff;
-    border: 1px red solid;
-    border-radius: 3px;
-    padding: 0 5px;
-    position: absolute;
-    right: 0;
-    top: -1px;
-}
+// .bg3 .box-con div {
+//     width: 881px;
+//     height: 208px;
+//     float: left;
+//     position: absolute;
+//     bottom: 21px;
+//     left: 51px;
+// }
+// .bg3 div p:first-child {
+//     margin-left: 0;
+// }
+// .bg3 div p {
+//     width: 320px;
+//     height: 40px;
+//     line-height: 40px;
+//     float: left;
+//     margin: 168px 0 0 44px;
+//     position: relative;
+// }
+// .bg3 div p span {
+//     font-size: 16px;
+//     color: #ebab55;
+//     float: left;
+//     width: 50px;
+//     text-align: left;
+// }
+// .bg3 div p input {
+//     width: 210px;
+//     height: 30px;
+//     padding: 5px 10px;
+//     float: left;
+//     background-color: #76562b;
+//     border: none;
+//     color: #ebab55;
+// }
+// .bg3 a {
+//     width: 214px;
+//     height: 59px;
+//     background: url("../assets/images/sdjg-activity/sdjg-web-btn2.png") center 0 no-repeat;
+//     position: absolute;
+//     bottom: 45px;
+//     right: 42px;
+// }
+// .bg3 em {
+//     margin-left: 40px;
+//     float: left;
+//     font-size: 12px;
+//     background: #fff;
+//     border: 1px red solid;
+//     border-radius: 3px;
+//     padding: 0 5px;
+//     position: absolute;
+//     right: 0;
+//     top: -1px;
+// }
 .bg6 .box-con .signInput {
     width: 881px;
     height: 208px;
@@ -350,41 +313,42 @@ input::-webkit-input-placeholder {
     right: 0;
     top: -1px;
 }
-.bg4 .video-box {
-    width: 645px;
-    height: 405px;
+.bg3 .video-box {
+    width: 6.82rem;
+    height: 4.05rem;
     position: absolute;
-    top: 71px;
-    left: 5px;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
+    top: 0.57rem;
+    left: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
     overflow: hidden;
 }
-.bg4 video {
-    width: 645px;
-    height: 405px;
+.bg3 video {
+    width: 6.82rem;
+    height: 4.05rem;
 }
-.bg4 .links {
-    width: 258px;
-    height: 333px;
+.bg3 .links {
+    width: 3.43rem;
+    height: 3.1rem;
     position: absolute;
-    top: 128px;
-    right: 22px;
+    top: 5.61rem;
+    right: 0.47rem;
 }
-.bg4 .links a {
+.bg3 .links a {
     float: left;
     width: 100%;
     height: 16.66%;
 }
 .big-circle {
-    width: 162px;
-    height: 160px;
+    width: 1.8rem;
+    height: 1.8rem;
     position: relative;
     float: left;
-    margin: 0 85px 35px;
+    font-size: 0.24rem;
+    margin: 0 0.28rem 0.35rem;
 }
 .big-circle ul {
-    padding-top: 50px;
+    padding-top: 0.5rem;
 }
 .big-circle P,
 .small-circle p {
@@ -406,46 +370,16 @@ input::-webkit-input-placeholder {
 }
 .big-circle .before,
 .big-circle:before {
-    background: transparent url("../assets/images/sdjg-activity/big-circle-fine.png") no-repeat;
+    background: transparent url("../assets/images/sdjg-activity/small-circle-fine.png") no-repeat;
+    background-size: 100%;
     animation: clockwise 1s linear infinite;
     -webkit-animation: clockwise 1s linear infinite;
     /*Safari and Chrome*/
 }
 .big-circle .after,
 .big-circle:after {
-    background: transparent url("../assets/images/sdjg-activity/big-circle-thick.png") no-repeat;
-    animation: anticlockwise 1s linear infinite;
-    -webkit-animation: anticlockwise 1s linear infinite;
-    /*Safari and Chrome*/
-}
-
-.small-circle {
-    width: 154px;
-    height: 154px;
-    position: relative;
-}
-.small-circle .after,
-.small-circle .before,
-.small-circle:after,
-.small-circle:before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.small-circle .before,
-.small-circle:before {
-    background: transparent url("../assets/images/sdjg-activity/small-circle-fine.png") no-repeat;
-    animation: clockwise 1s linear infinite;
-    -webkit-animation: clockwise 1s linear infinite;
-    /*Safari and Chrome*/
-}
-.small-circle .after,
-.small-circle:after {
-    background: transparent url("../assets/images/sdjg-activity/small-circle-thick.png") no-repeat;
+    background: transparent url("../assets/images/sdjg-activity/small-circle-thick.png") 0.1rem 0.07rem no-repeat;
+    background-size: 81%;
     animation: anticlockwise 1s linear infinite;
     -webkit-animation: anticlockwise 1s linear infinite;
     /*Safari and Chrome*/
@@ -578,12 +512,12 @@ input::-webkit-input-placeholder {
         /* Firefox */
     }
 }
-.bg5 .box-con .circle-box {
-    width: 1000px;
-    height: 410px;
+.bg4 .box-con .circle-box {
+    width: 7.1rem;
+    height: 4.26rem;
     position: absolute;
-    bottom: 41px;
-    left: 0;
+    top: 6.61rem;
+    left: 0.2rem;
 }
 .swiper-wrapper .slide-img1 {
     width: 100%;
@@ -609,6 +543,24 @@ input::-webkit-input-placeholder {
     background: url("../assets/images/sdjg-activity/sdjg-web-img4.jpg") center 0 no-repeat;
     background-size: 100%;
 }
+.bg2 .box-con a {
+    width: 1.91rem;
+    height: 0.59rem;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-btn2.png") center 0 no-repeat;
+    background-size: 100%;
+    position: absolute;
+    bottom: 0.23rem;
+    right: 0.49rem;
+}
+.bg4 .box-con a {
+    width: 1.91rem;
+    height: 0.59rem;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-btn2.png") center 0 no-repeat;
+    background-size: 100%;
+    position: absolute;
+    bottom: 0.63rem;
+    right: 0.49rem;
+}
 </style>
 
 <template>
@@ -616,27 +568,12 @@ input::-webkit-input-placeholder {
     <div class="bg1">
     </div>
     <div class="bg2">
+        <div class="box-con">
+            <a href="javascript:;" @click="popShow" class="pulse animated infinite">&nbsp;</a>
+        </div>
     </div>
     <div class="bg3">
         <div class="box-con">
-            <div>
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg3UserName" />
-                    <em v-html="bg3TxtUHtml" v-if="bg3TxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg3Phone" />
-                    <em v-html="bg3TxtPHtml" v-if="bg3TxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="bg3JoinSubmit" class="pulse animated infinite">&nbsp;</a>
-        </div>
-    </div>
-    <div class="bg4">
-        <div class="box-con">
-            <!-- <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170911mls.mp4" controls="controls" id="myvideo" autoplay="autoplay"> -->
             <div class="video-box">
                 <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20170911mls.mp4" controls="controls" id="myvideo">
                 您的浏览器不支持 video 标签。
@@ -652,7 +589,7 @@ input::-webkit-input-placeholder {
             </div>
         </div>
     </div>
-    <div class="bg5">
+    <div class="bg4">
         <div class="box-con">
             <div class="circle-box">
                 <div class="big-circle circle1">
@@ -669,7 +606,7 @@ input::-webkit-input-placeholder {
                 </div>
                 <div class="big-circle circle1">
                     <ul>
-                        <p style="padding-top:20px;">量能持续</p>
+                        <p style="padding-top:0.2rem;">量能持续</p>
                     </ul>
                 </div>
                 <div class="big-circle circle1">
@@ -691,10 +628,6 @@ input::-webkit-input-placeholder {
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="bg6">
-        <div class="box-con">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide slide-img1"></div>
@@ -704,40 +637,17 @@ input::-webkit-input-placeholder {
                 </div>
                 <div class="swiper-pagination" id="pagination"></div>
             </div>
-            <div class="signInput">
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg6UserName" />
-                    <em v-html="bg6TxtUHtml" v-if="bg6TxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg6Phone" />
-                    <em v-html="bg6TxtPHtml" v-if="bg6TxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="bg6JoinSubmit" class="pulse animated infinite">&nbsp;</a>
+            <a href="javascript:;" @click="popShow" class="pulse animated infinite">&nbsp;</a>
         </div>
     </div>
-    <div class="bg7">
-    </div>
-    <div class="bg8">
+    <div class="bg5">
+        <div class="box-con">
+
+        </div>
     </div>
     <div class="footer">
         <div class="box-con">
-            <div>
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="fUserName" />
-                    <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="fPhone" />
-                    <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="fJoinSubmit" class="pulse animated infinite">&nbsp;</a>
+            <a href="javascript:;" @click="popShow" class="pulse animated infinite">&nbsp;</a>
         </div>
     </div>
     <div class="mask" v-if="maskShow"></div>
