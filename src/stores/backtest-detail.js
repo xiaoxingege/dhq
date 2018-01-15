@@ -350,9 +350,10 @@ export default {
       commit
     }, {
       innerCode,
-      strategyId
+      strategyId,
+      month
     }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}`, {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&month=${month}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
