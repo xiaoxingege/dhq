@@ -225,6 +225,19 @@ button {
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
 }
+.close {
+    position: absolute;
+    width: 0.4rem;
+    height: 0.38rem;
+    top: 0.3rem;
+    right: 0.3rem;
+    border: 0.02rem solid #ccc;
+    color: #ccc;
+    text-align: center;
+    line-height: 0.4rem;
+    font-size: 0.18rem;
+    border-radius: 50%;
+}
 </style>
 
 <template>
@@ -260,6 +273,7 @@ button {
     </div>
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
+        <div class="close" @click="close">X</div>
         <div class="pop-con">
             <span v-text="wxid"></span>
             <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
@@ -287,6 +301,9 @@ export default {
     computed: mapState({}),
     components: {},
     methods: {
+        close() {
+            this.popShow = false
+        },
         popClick(type) {
             this.popShow = true
             this.popText = type
