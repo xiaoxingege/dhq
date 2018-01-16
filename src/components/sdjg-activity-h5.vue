@@ -191,7 +191,7 @@ input::-webkit-input-placeholder {
     bottom: 0.3rem;
     left: 2.47rem;
 }
-.bg3 .video-box {
+.bg3 video {
     width: 6.82rem;
     height: 4.05rem;
     position: absolute;
@@ -201,10 +201,10 @@ input::-webkit-input-placeholder {
     border-bottom-left-radius: 0.25rem;
     overflow: hidden;
 }
-.bg3 video {
-    width: 6.82rem;
-    height: 4.05rem;
-}
+// .bg3 video {
+//     width: 6.82rem;
+//     height: 4.05rem;
+// }
 .bg3 .links {
     width: 7.1rem;
     height: 3.1rem;
@@ -452,11 +452,14 @@ input::-webkit-input-placeholder {
     </div>
     <div class="bg3">
         <div class="box-con">
-            <div class="video-box">
-                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" id="myvideo">
+            <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" preload="load">
+            您的浏览器不支持 video 标签。
+            </video>
+            <!-- <div class="video-box">
+                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" preload="load">
                 您的浏览器不支持 video 标签。
                 </video>
-            </div>
+            </div> -->
             <div class="links">
                 <a href="http://finance.jrj.com.cn/focus/csx/"></a>
                 <a href="http://finance.jrj.com.cn/ztcfjkedaxunfei/"></a>

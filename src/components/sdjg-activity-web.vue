@@ -20,8 +20,8 @@ input::-webkit-input-placeholder {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/sdjg-activity/sdjg-web-bg1.jpg") center -100px no-repeat;
-    height: 598px;
+    background: url("../assets/images/sdjg-activity/sdjg-web-bg1.jpg") center -173px no-repeat;
+    height: 525px;
 }
 .bg2 {
     background: url("../assets/images/sdjg-activity/sdjg-web-bg2.jpg") center 0 no-repeat;
@@ -181,7 +181,7 @@ input::-webkit-input-placeholder {
 }
 .footer {
     width: 100%;
-    height: 178px;
+    height: 159px;
     background: url("../assets/images/sdjg-activity/sdjg-web-footer-2.png") center 0 no-repeat;
     position: fixed;
     bottom: 0;
@@ -200,7 +200,7 @@ input::-webkit-input-placeholder {
     height: 40px;
     line-height: 40px;
     float: left;
-    margin: 115px 0 0 100px;
+    margin: 108px 0 0 100px;
     position: relative;
 }
 .footer div p span {
