@@ -236,7 +236,7 @@ button {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
+            <span v-text="wxid"></span>
             <button type="button" name="button" class="pulse animated infinite" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
@@ -244,7 +244,7 @@ button {
     </div>
     <div class="bg4">
         <div class="box-con">
-            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
+            <span v-text="wxid"></span>
         </div>
     </div>
     <div class="nav-fixed" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat">
@@ -253,7 +253,7 @@ button {
         <div class="box-con">
             <div>
                 <em></em>
-                <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
+                <span v-text="wxid"></span>
             </div>
             <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
@@ -261,7 +261,7 @@ button {
     <div class='fixBg' v-if="popShow"></div>
     <div class="pop" v-if="popShow">
         <div class="pop-con">
-            <span v-text="wxid" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></span>
+            <span v-text="wxid"></span>
             <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
         </div>
     </div>
