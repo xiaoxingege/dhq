@@ -1,7 +1,9 @@
 <template>
-<div class="stock-box" :style="position" v-show="isShow">
-  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
-    <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
+<div class="stock-box" :style="position" v-show="isShow || delayHide">
+  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click="removeStock" v-if="isSelfSelection">- 自选</span>
+    <span
+      class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
+      <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
   </div>
   <div>
     <StockKline :stockCode="stockCode" chartWidth="360" chartHeight="250"></StockKline>
@@ -19,6 +21,8 @@ export default {
   props: ['stockCode', 'top', 'left'],
   data() {
     return {
+      delayHide: false,
+      isMouseover: false,
       isShow: false
     }
   },
@@ -27,7 +31,8 @@ export default {
   },
   computed: {
     ...mapState({
-      stock: state => state.stock.stock
+      stock: state => state.stock.stock,
+      isSelfSelection: state => state.stock.isSelfSelection
     }),
     position() {
       return 'top:' + this.top + 'px;left:' + this.left + 'px'
@@ -44,7 +49,53 @@ export default {
       return mark
     }
   },
-  methods: {}
+  watch: {
+    isShow() {
+      // 当设置隐藏时，延迟200ms隐藏
+      if (this.isShow === false) {
+        this.delayHide = true;
+        setTimeout(() => {
+          if (!this.isMouseover) {
+            this.delayHide = false;
+          }
+        }, 200)
+      }
+    },
+    stockCode() {
+      if (this.stockCode) {
+        this.$store.dispatch('stock/querySelection', {
+          stockCode: this.stockCode
+        })
+      }
+    }
+  },
+  methods: {
+    addStock() {
+      if (this.stockCode) {
+        this.$store.dispatch("stock/addSelection", {
+          stockCode: this.stockCode
+        })
+      }
+
+    },
+    removeStock() {
+      if (this.stockCode) {
+        this.$store.dispatch("stock/removeSelection", {
+          stockCode: this.stockCode
+        })
+      }
+    }
+  },
+  mounted() {
+    this.$el.addEventListener('mouseover', () => {
+      this.delayHide = true;
+      this.isMouseover = true;
+    });
+    this.$el.addEventListener('mouseout', () => {
+      this.delayHide = false;
+      this.isMouseover = false;
+    });
+  }
 }
 </script>
 
@@ -82,5 +133,32 @@ export default {
 .stock-box .stock-box-header .right {
   float: right;
   margin-right: 10px;
+}
+
+.stock-box .stock-box-header .btn_remove {
+  border: 1px solid #FF2921;
+  color: #FF2921;
+  border-radius: 4px;
+  height: 22px;
+  line-height: 22px;
+  display: inline-block;
+  padding: 0 4px;
+  font-size: 12px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.stock-box .stock-box-header .btn_add {
+  border: 1px solid #FF2921;
+  color: #fff;
+  background: #FF2921;
+  border-radius: 4px;
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 4px;
+  font-size: 12px;
+  margin-top: 3px;
+  cursor: pointer;
 }
 </style>

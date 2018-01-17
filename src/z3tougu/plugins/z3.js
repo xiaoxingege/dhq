@@ -8,6 +8,7 @@ export default {
     // 2. 添加全局资源
     Vue.directive('z3-stock', {
       bind(el, binding, vnode, oldVnode) {
+        console.info('bind');
         let popup = binding.value.ref;
         // let code = binding.value.code;
         let vm = vnode.context;
@@ -38,10 +39,10 @@ export default {
           popupVm.$props.top = top
           popupVm.isShow = true;
           popupVm.$props.stockCode = code;
+          console.info(code);
         });
         el.addEventListener('mouseout', (event) => {
           popupVm.isShow = false;
-          console.info('mouseout');
         })
       }
     });
