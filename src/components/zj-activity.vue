@@ -223,10 +223,7 @@ export default {
             }
         }
     },
-    computed: mapState({
-        // loginStatus: state => state.user.loginStatus,
-        // ssoId: state => state.user.ssoId
-    }),
+    computed: mapState({}),
     components: {
         activitySlider
     },
@@ -238,6 +235,7 @@ export default {
             $('.links a').click(function() {
                 var url = $(this).attr('shref');
                 var index = $(this).index();
+                window.dcsMultiTrack('DCS.dcsuri', 'zj-activity-h5-links' + index, 'WT.ti', 'zj-activity-h5-links' + index)
                 if (ua.match(/MicroMessenger/i) === 'micromessenger') {
                     alert('请用浏览器打开')
                 } else if (typeof window.jrj === 'undefined') {
@@ -252,6 +250,7 @@ export default {
                 $('html,body').stop().animate({
                     scrollTop: pos
                 }, 500)
+                window.dcsMultiTrack('DCS.dcsuri', 'zj-activity-h5', 'WT.ti', 'zj-activity-h5')
             })
         })
 
@@ -289,24 +288,6 @@ export default {
         window.setInterval(function() {
             ShowCountDown(2018, 2, 4, 0, 0, 0, 'divdown1')
         }, 1000)
-        // this.$store.dispatch('user/checkLogin')
-        // if (this.loginStatus === 'yes') {
-        //     $.ajax({
-        //         type: 'get',
-        //         url: '/actm/checkUserIsYG',
-        //         data: {
-        //             userId: _this.ssoId
-        //         },
-        //         success: function(result) {
-        //             if (result.type) {
-        //                 _this.ygType = true
-        //             }
-        //         }
-        //     });
-        // }
-        // if (window.app.name !== '{{appid}}') {
-        //     _this.appType = true
-        // }
     }
 }
 </script>
