@@ -176,7 +176,7 @@ input::-webkit-input-placeholder {
 .footer {
     width: 100%;
     height: 2.59rem;
-    background: url("../assets/images/sdjg-activity/sdjg-h5-footer.png") center 0 no-repeat;
+    background: url("../assets/images/sdjg-activity/sdjg-h5-footer-1.png") center 0 no-repeat;
     background-size: 100%;
     position: fixed;
     bottom: 0;

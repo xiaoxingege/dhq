@@ -182,7 +182,7 @@ input::-webkit-input-placeholder {
 .footer {
     width: 100%;
     height: 159px;
-    background: url("../assets/images/sdjg-activity/sdjg-web-footer-2.png") center 0 no-repeat;
+    background: url("../assets/images/sdjg-activity/sdjg-web-footer-3.png") center 0 no-repeat;
     position: fixed;
     bottom: 0;
     z-index: 10;

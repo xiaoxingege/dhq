@@ -244,13 +244,13 @@ button {
 <div class="box">
     <div class="bg1">
         <div class="box-con">
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
+            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
         </div>
     </div>
     <div class="bg2">
         <div class="box-con">
             <span v-text="wxid"></span>
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
+            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
         </div>
     </div>
     <div class="bg3">
@@ -260,7 +260,7 @@ button {
             <span v-text="wxid"></span>
         </div>
     </div>
-    <div class="nav-fixed" @click="popClick" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat">
+    <div class="nav-fixed" @click="popClick">
     </div>
     <div class="footer">
         <div class="box-con">
