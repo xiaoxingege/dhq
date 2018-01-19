@@ -44,6 +44,7 @@ import TimeIndex from 'components/time-index'
 import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
 import AutoinpBox from 'components/autoinp-box'
+import ThemeMap from 'components/plate-map/theme-map'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
@@ -314,6 +315,11 @@ export default [{
     path: ctx + '/test/autoinpBox',
     name: 'autoinpbox',
     component: AutoinpBox
+  },
+  {
+    path: ctx + '/themeMap',
+    name: 'themeMap',
+    component: ThemeMap
   },
   {
     path: ctx + '/filterStrategyList',
