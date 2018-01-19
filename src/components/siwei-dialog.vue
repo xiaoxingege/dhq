@@ -62,8 +62,8 @@
                 <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
     <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
-    <span class="addSelfChoice" @click="addSelfChoice">+自选</span>
-    <span class="deleteSelfChoice" @click="deleteSelfChoice">-自选</span>
+    <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
+    <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
     </span>
   </div>
   <div class="bottom clearfix">
@@ -104,14 +104,21 @@ export default {
     return {
       xSelectData: Data.xSelectData,
       bubbleSizeSelect: Data.bubbleSizeSelect,
-      bubbleColorSelect: Data.bubbleColorSelect
+      bubbleColorSelect: Data.bubbleColorSelect,
+      isShowSelection: false
     }
   },
   components: {
     Stockkline
   },
   watch: {
-
+    'dialogOptions.stockCode': function() {
+      this.$store.dispatch('stock/querySelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    }
   },
   computed: mapState({
     xData: state => state.bubbles.parameterData.xData,
@@ -131,10 +138,18 @@ export default {
   }),
   methods: {
     addSelfChoice() {
-      // alert('addSelfChoice')
+      this.$store.dispatch('stock/addSelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
     },
     deleteSelfChoice() {
-      // alert('deleteSelfChoice')
+      this.$store.dispatch('stock/removeSelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
     },
     showDialog() {
       this.$emit('toShowDialog', true)
