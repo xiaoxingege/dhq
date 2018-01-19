@@ -78,8 +78,8 @@ const actions = {
   }, {
     stockCode
   }) {
-    // const userId = rootState.user.userId||'';
-    const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
+    const userId = rootState.user.userId || '';
+    // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     if (!userId) {
       return;
     }
@@ -108,8 +108,8 @@ const actions = {
   }, {
     stockCode
   }) {
-    // const userId = rootState.user.userId||'';
-    const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
+    const userId = rootState.user.userId || '';
+    // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     stockCode = stockCode && stockCode.substring(0, 6);
     if (!userId) {
       return;
@@ -141,8 +141,8 @@ const actions = {
   }, {
     stockCode
   }) {
-    // const userId = rootState.user.userId||'';
-    const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
+    const userId = rootState.user.userId || '';
+    // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     stockCode = stockCode && stockCode.substring(0, 6);
     if (!userId) {
       return;
