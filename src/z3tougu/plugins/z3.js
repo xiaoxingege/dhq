@@ -9,19 +9,10 @@ export default {
     Vue.directive('z3-stock', {
       bind(el, binding, vnode, oldVnode) {
         let popup = binding.value.ref;
-        // let code = binding.value.code;
+        el.stockCode = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
-        el.addEventListener('mouseover', (event) => {
-          const str = event.currentTarget.outerHTML
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(str, "text/xml");
-          let code
-          if (doc.getElementsByTagName('td').length > 0) {
-            code = doc.getElementsByTagName('td')[0].getAttribute('value')
-          } else if (doc.getElementsByTagName('span').length > 0) {
-            code = doc.getElementsByTagName('span')[0].getAttribute('value')
-          }
+        el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
@@ -37,12 +28,40 @@ export default {
           popupVm.$props.left = left
           popupVm.$props.top = top
           popupVm.isShow = true;
-          popupVm.$props.stockCode = code;
-        });
+          popupVm.$props.stockCode = el.stockCode;
+        };
+        el.addEventListener('mouseover', el._popupStock);
         el.addEventListener('mouseout', (event) => {
           popupVm.isShow = false;
-          console.info('mouseout');
         })
+      },
+      update(el, binding, vnode, oldVnode) {
+        el.stockCode = binding.value.code;
+        // console.info('stockbox update');
+        // let popup = binding.value.ref;
+        // let code = binding.value.code;
+        // let vm = vnode.context;
+        // let popupVm = vm.$refs[popup];
+        // el.removeEventListener('mouseover', el._popupStock);
+        // el._popupStock = function(event){
+        //   let scrollTop = window.pageYOffset || window.scrollY;
+        //   let scrollleft = window.pageXOffset || window.scrollX;
+        //   const winH = window.document.body.scrollHeight;
+        //   const winW = window.document.body.scrollWidth;
+        //   let left = event.x + parseInt(scrollleft) + 50;
+        //   let top = event.y + parseInt(scrollTop) - 20;
+        //   if (winH - top < 300) {
+        //     top = winH - 300;
+        //   }
+        //   if (winW - left < 400) {
+        //     left = event.x + parseInt(scrollleft) - 430;
+        //   }
+        //   popupVm.$props.left = left
+        //   popupVm.$props.top = top
+        //   popupVm.isShow = true;
+        //   popupVm.$props.stockCode = code;
+        // };
+        // el.addEventListener('mouseover', el._popupStock);
       }
     });
     Vue.directive('z3-updowncolor', (el, binding, vnode, oldVnode) => {
@@ -182,22 +201,40 @@ export default {
           };
         };
       }
-    }); //自定义指令JS
+    }); // 自定义指令JS
     Vue.directive('select', {
       inserted: function(el, binding, vnode, oldVnode) {
-        el.innerHTML = '<div class="vSelect"><input class="vInput" type="text"  value="1" readonly/><ul class="vUl" style="display: none;"><li value="one">1</li><li value="two">2</li></ul></div>'
-        el.addEventListener('click', (event) => {
-          const ul = document.getElementsByClassName('vUl')[0]
-          const lis = document.getElementsByTagName('li')
-          for (var i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', (event) => {
-              event.target.getAttribute('value')
-            })
-          }
+        let uls = ''
+        const selectObj = binding.value.data // 获取select需要显示的下拉框值s
+        for (const item in selectObj) {
+          uls += '<li value="' + item + '">' + selectObj[item] + '</li>'
+        }
+        el.innerHTML = '<div class="vSelect"><input class="vInput" type="text" name="' + binding.value.default+'"  value="' + binding.value.data[binding.value.default] + '" readonly/><ul class="vUl" style="display: none;">' + uls + '</ul></div>'
 
-          ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
-
+        const ul = el.getElementsByClassName('vUl')[0]
+        const lis = ul.getElementsByTagName('li')
+        const vInput = el.getElementsByClassName('vInput')[0]
+        document.getElementsByTagName('body')[0].addEventListener('click', (event) => {
+          ul.style.display = 'none'
         })
+        el.addEventListener('click', (event) => {
+          event.stopPropagation()
+          // el.getElementsByClassName('vUl')[0].style.display = 'none'
+
+          const uls = document.getElementsByClassName('vUl')
+          for (const item of uls) {
+            if (item !== ul) {
+              item.style.display = 'none'
+            }
+          }
+          ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
+        })
+        for (const item of lis) {
+          item.addEventListener('click', (event) => {
+            vInput.value = event.target.innerHTML
+            vInput.name = event.target.getAttribute('value')
+          })
+        }
       }
 
     })

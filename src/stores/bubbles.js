@@ -31,7 +31,9 @@ export default {
     },
     userId: '',
     stockPool: null,
-    userStrategy: null
+    userStrategy: null,
+    minmaxX: '',
+    minmaxY: ''
   },
   mutations: {
     setBubblesOptions(state, options) {
@@ -117,6 +119,11 @@ export default {
       if (result.errCode === 0) {
         state.userStrategy = result.data
       }
+    },
+    setZoomRange(state, options) {
+      console.log(options)
+      state.minmaxX = options.mmX
+      state.minmaxY = options.mmY
     }
   },
   actions: {
@@ -176,6 +183,17 @@ export default {
         return res.json()
       }).then(body => {
         commit('setStockPool', body)
+      })
+    },
+    setBubbleZoomRange({
+      commit
+    }, {
+      mmX,
+      mmY
+    }) {
+      commit('setZoomRange', {
+        mmX,
+        mmY
       })
     }
 

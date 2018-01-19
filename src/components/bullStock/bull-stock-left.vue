@@ -96,7 +96,7 @@
       <option value="chngPct">涨跌幅</option>
       <option value="keepDaysToday">连续涨跌天数</option>
     </select>
-    <span class="fr currentTime">{{currentTime}}</span>
+    <!--<span class="fr currentTime">{{currentTime}}</span>-->
   </div>
   <div class="bullChart clearfix">
     <div class="chart_con">

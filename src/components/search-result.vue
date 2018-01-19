@@ -230,6 +230,7 @@ export default {
     },
     goToPage(data) {
       this.showSearchList(data)
+      this.pageTo = Number(data)
     },
     relativeSort(e) {
       const relativeBtn = this.$refs.relativeBtn

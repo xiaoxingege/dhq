@@ -16,26 +16,148 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {}
 })
+const request = require('request-promise');
 
 // 实例化vue对象
 const app = new Vue({
   render: h => h(ComponentsList),
   store
 })
-
+function transdate(endTime) {
+    var date = new Date();
+    date.setFullYear(endTime.substring(0, 4));
+    date.setMonth(endTime.substring(4, 6) - 1);
+    date.setDate(endTime.substring(6, 8));
+    date.setHours(endTime.substring(8, 10));
+    date.setMinutes(endTime.substring(10, 12));
+    date.setSeconds(endTime.substring(12, 14));
+    return Date.parse(date) / 1000;
+}
 module.exports = function(router) {
-  router.get('/endYear-activity', async(ctx, next) => {
-    ctx.title = '每日3只强势股-金融界';
-    ctx.metaDescription = '';
-    ctx.metaKeywords = '';
-    ctx.template = ctx.path.substring(1);
-    // 渲染vue对象为html字符串
-    let html = '';
-    // 向浏览器输出完整的html
-    ctx.body = html;
-    // 继续执行后面的中间件
-    await next();
-  });
+    router.get('/checkUserIsYG', async(ctx, next) => {
+        let result = await request({
+          headers:{
+            'content-type':'application/json',
+          },
+          url: `http://crm.jrj.com/jrjcrm/callCenter/interface/checkUserIsYG.do?userId=${ctx.query.userId}`,
+          method: 'get'
+        });
+        result = JSON.parse(result)
+        if(result.retCode === 0){
+            if(result.data.belongYG !== 0){
+                let ssoResult = await request({
+                  headers:{
+                    'content-type':'application/json',
+                  },
+                  url: `http://sso.jrjc.local/sso/passport/userPassportById.jsp?passportIds=${ctx.query.userId}`,
+                  method: 'get'
+                });
+                ssoResult = JSON.parse(ssoResult)
+                if(ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0,2) === 'YG'){
+                    ctx.body = {type:true}
+                }else{
+                    ctx.body = {type:false}
+                }
+            }else{
+                ctx.body = {type:true}
+            }
+        }else {
+            let ssoResult = await request({
+              headers:{
+                'content-type':'application/json',
+              },
+              url: `http://sso.jrjc.local/sso/passport/userPassportById.jsp?passportIds=${ctx.query.userId}`,
+              method: 'get'
+            });
+            ssoResult = JSON.parse(ssoResult)
+            if(ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0,2) === 'YG'){
+                ctx.body = {type:true}
+            }else{
+                ctx.body = {type:false}
+            }
+        }
+    })
+    router.get('/listByUidAndProductId', async(ctx, next) => {
+        let result = await request({
+          headers:{
+            'content-type':'application/json',
+          },
+          url: `http://cashier.jrjc.local/order/listByUidAndProductId?uid=${ctx.query.uid}&productSubId=${ctx.query.productSubId}`,
+          method: 'get'
+        });
+        result = JSON.parse(result)
+        if(result.retCode === 0 && result.orderList.length !== 0 && Math.round(new Date().getTime() / 1000) < transdate('20171218000000')){
+            for(var i=0;i<result.orderList.length;i++){
+                if(result.orderList[i].productType === parseInt(ctx.query.type)){
+                    ctx.body = {
+                        type: false
+                    };
+                }else{
+                    if(transdate(result.orderList[i].completeTime) > transdate('20171211000000') && transdate(result.orderList[i].completeTime) < transdate('20171218000000')){
+                        ctx.body = {
+                            type: true
+                        };
+                    }else{
+                        ctx.body = {
+                            type: false
+                        };
+                    }
+                }
+            }
+        }else{
+            ctx.body = {
+                type: false
+            };
+        }
+    })
+    router.get('/yearEnd-activity', async(ctx, next) => {
+      ctx.title = '领航2018 布局“复兴牛”-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
+    router.get('/12th-activity', async(ctx, next) => {
+      ctx.title = '双12 就要爱-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
+    router.get('/12th-activity2', async(ctx, next) => {
+      ctx.title = '双12 就要爱-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
+    router.get('/endYear-activity', async(ctx, next) => {
+      ctx.title = '每日3只强势股-金融界';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
   router.get('/wangLun-activity', async(ctx, next) => {
     ctx.title = '央视嘉宾王伦全网限时回馈';
     ctx.metaDescription = '';

@@ -121,13 +121,13 @@
 }
 .customTag .tags li {
     color: #7D8BA1;
-    padding: 0 10px;
-    line-height: 20px;
+    padding: 0 4px;
+    line-height: 18px;
     border: 1px solid #7D8BA1;
     border-radius: 3px;
     float: left;
-    margin-right: 15px;
-    margin-top: 10px;
+    margin-right: 5px;
+    margin-top: 4px;
 }
 
 .abilityAnaly {
@@ -142,7 +142,7 @@
 }
 
 .abilityAnaly > p {
-    line-height: 20px;
+    line-height: 13px;
 }
 
 .posAdvice {
@@ -272,9 +272,12 @@
           </div>
         </div>
       </div>
-      <ul class="tags clearfix">
-        <li v-for="item in customerTag">{{item}}</li>
+      <ul v-if="Number(customerTag.month) !== 0" class="tags clearfix">
+        <li v-for="item in customerTag.data">{{item}}</li>
       </ul>
+      <div v-if="Number(customerTag.month) === 0" style="line-height: 80px; text-align: center;">
+        {{currentY}}年{{currentM}}月客户无标签或未开户
+      </div>
     </div>
   </div>
   <div class="abilityAnaly">
@@ -378,7 +381,7 @@ export default {
       this.selectY = date.getFullYear()
       this.currentM = date.getMonth() + 1
       this.defaultM = date.getMonth() + 1
-      this.dateTime = '' + this.currentY + this.currentM
+      this.dateTime = '' + this.currentY + (String(this.currentM).length === 1 ? '0' + this.currentM : this.currentM)
     },
     changeYear: function(type) {
       if (type === 'add') {

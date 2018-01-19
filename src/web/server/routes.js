@@ -41,23 +41,26 @@ const connectDb = async(dbName) => {
 }
 
 module.exports = function(router) {
-
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
-      passportId: ctx.headers.passportid,
-      devId: ctx.headers.devid,
-      mobile: ctx.headers.mobile,
-      accessToken: ctx.headers.accesstoken,
-      verifyCode: ctx.headers.verifycode,
-      productId: ctx.headers.productid,
-      network: ctx.headers.network,
-      systemVersion: ctx.headers.systemversion,
-      appver: ctx.headers.appver,
-      pixel: ctx.headers.pixel,
-      appId: ctx.headers.appid,
-      mac: ctx.headers.mac,
-      paltId: ctx.headers.paltid,
-      userAgent: ctx.headers['user-agent']
+      retCode: 0,
+      data: {
+        passportId: ctx.headers.passportid,
+        devId: ctx.headers.devid,
+        mobile: ctx.headers.mobile,
+        accessToken: ctx.headers.accesstoken,
+        verifyCode: ctx.headers.verifycode,
+        productId: ctx.headers.productid,
+        network: ctx.headers.network,
+        systemVersion: ctx.headers.systemversion,
+        appver: ctx.headers.appver,
+        pixel: ctx.headers.pixel,
+        appId: ctx.headers.appid,
+        mac: ctx.headers.mac,
+        paltId: ctx.headers.paltid,
+        userAgent: ctx.headers['user-agent']
+      },
+      msg: 'success'
     }
   })
 
@@ -220,6 +223,18 @@ module.exports = function(router) {
     ctx.body = result
   });
 
+  router.get('/yearEnd-activity', async(ctx, next) => {
+    ctx.title = '领航2018 布局“复兴牛”-金融界';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
   router.get('/endYear-activity', async(ctx, next) => {
     ctx.title = '每日3只强势股-金融界';
     ctx.metaDescription = '';

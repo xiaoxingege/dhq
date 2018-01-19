@@ -344,7 +344,7 @@ body {
     <div v-if="listDetail.datas.length<=0" class="tr-no2">
       <div class="no-data"></div>
     </div>
-    <Pagination @getPageFromChild="goToPage" :totalPage="totalP.totalPage" />
+    <Pagination @getPageFromChild="goToPage" :totalPage="totalP.totalPage" :page="currentPage" />
   </div>
   <!--  <p class="foot-tishi">风险提示：本策略过往业绩并不预示未来表现，也不构成本策略的业绩保证。策略提示的买入时机、买入信号或者卖出时机、风险预警信号，买卖区间等仅供投资者决策之参考，不作为买卖建议，风险自控。</p> -->
 </div>
@@ -390,7 +390,8 @@ export default {
         th: ['序号', '股票代码', '股票简称', '买卖方向', '买入日期', '卖出日期', '买入价格(前复权)', '卖出价格', '盈亏', '收益率'],
         td: {}
       },
-      fcId: 'JRJ2001803658'
+      fcId: 'JRJ2001803658',
+      currentPage: undefined
 
     }
   },
@@ -432,6 +433,7 @@ export default {
     },
     goToPage(page) {
       this.page = Number(page) - 1
+      this.currentPage = Number(page)
     },
     search(e, type) {
       e.preventDefault()
@@ -542,6 +544,8 @@ export default {
         page: 0,
         pagesize: this.fullHeight2,
         fcId: this.fcId
+      }).then(() => {
+        this.currentPage = undefined
       })
     },
     focusUser(e, type) {

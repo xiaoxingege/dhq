@@ -162,6 +162,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   line-height: 56px;
+  text-align: center;
 }
 
 .narrow-link {

@@ -28,6 +28,7 @@ export default {
       cookie('__branch', this.$refs.branch.value, {
         maxage: 1000 * 3600 * 24 * 30
       })
+      alert('切换成功')
       location.reload();
     }
   }

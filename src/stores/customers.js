@@ -47,7 +47,7 @@ export default {
       state.customerInfo = data
     },
     updateCustomerTag(state, data) {
-      state.customerTag = data.data
+      state.customerTag = data
     },
     updateCustomerAnaly(state, data) {
       state.customerAnaly = data
