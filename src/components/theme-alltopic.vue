@@ -409,10 +409,12 @@ a.kuai_icon {
     padding-left: 2%;
 }
 .topic-date-box {
-    padding: 18px 0 34px;
+    /* padding: 18px 0 34px;*/
+    padding: 18px 0 8px;
 }
 .topic-stk-box {
-    padding: 20px 0;
+    /*padding: 20px 0;*/
+    padding: 8px 0;
 }
 .topic-time {
     float: left;
@@ -642,6 +644,46 @@ a.kuai_icon {
 .alltopic a:hover {
     text-decoration: none;
 }
+.progress-box {
+    width: 100%;
+    display: inline-block;
+}
+.progress-wrap {
+    width: 100%;
+    display: inline-block;
+}
+.progress {
+    background: #ca4941;
+    width: 10%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    height: 14px;
+    line-height: 13px;
+}
+
+.redbg {
+    background: #ca4941;
+}
+
+.greenbg {
+    background: #56a870;
+}
+.progress-wrpa1 {
+    padding: 5px 0 7px;
+}
+.progress-wrap2 {
+    padding: 0 0 20px;
+
+}
+.tech-info {
+    /*width: 20%;*/
+    display: inline-block;
+}
+.tech-num {
+    width: 36%;
+    display: inline-block;
+}
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -655,6 +697,7 @@ a.kuai_icon {
       <strong :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='keepDay'?'active':''" @click="query('keepDay')" :style="{display:isStyle}">连涨排序<i class="time_icon"></i></strong>
       <strong @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></strong>
+      <strong :class="sortField==='infoIndex'?'active':''" @click="query('infoIndex')" :style="{display:isStyle}">舆情排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='time'?'active':''" @click="query('time')" :style="{display:isStyle}">时间排序<i class="time_icon"></i></strong>
       <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部题材</em>
       <em class="all-ti all-ti2 lightcolor" :class="this.showAz==true?'active':''" @click="listClick($event)" v-show="showAz" id="ss">返回列表</em>
@@ -681,7 +724,23 @@ a.kuai_icon {
           <div class="con-bar-2 box-flex-1">
             <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div>
             <div><span>成份股数：</span><span class="time-num2">{{allTopic.equityNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
-            <div class="topic-stk-box"><span>上涨家数：</span><span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌家数：</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span></div>
+            <div class="topic-stk-box"><span>上涨股票：</span><span class="red time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkUpNum ===null?'--':allTopic.topicMarket.stkUpNum}}</span><span>下跌股票：</span><span class="green time-num4">{{allTopic.topicMarket===null || allTopic.topicMarket.stkDownNum ===null?'--':allTopic.topicMarket.stkDownNum}}</span></div>
+            <div class="progress-wrap progress-wrap1 display-box" v-if="allTopic.topicMarket!==null || allTopic.topicMarket.techIndex!==null">
+              <span class="box-flex-1 tech-info">热度指数：</span>
+              <div class="box-flex-1 tech-num">
+                <div class="progress-box">
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.techIndex))+'%;min-width:10%'">{{Math.ceil(allTopic.topicMarket.techIndex)}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-wrap progress-wrap2 display-box" v-if="allTopic.topicMarket!==null || allTopic.topicMarket.infoIndex!==null">
+              <span class="box-flex-1 tech-info">舆情指数：</span>
+              <div class="box-flex-1 tech-num">
+                <div class="progress-box">
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:10%'">{{Math.ceil(allTopic.topicMarket.infoIndex)}}</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="con-cen box-flex-1">
             <div v-for="equity of allTopic.relatedEquity">
@@ -758,10 +817,11 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'topicMarket.heatIndex',
+        hot: 'topicMarket.techIndex',
         keepDay: 'topicMarket.keepDaysToday',
         time: 'declareDate',
-        updown: 'topicMarket.chngPct'
+        updown: 'topicMarket.chngPct',
+        infoIndex: 'topicMarket.infoIndex'
       },
       sortField: '',
       fullHeight: document.documentElement.clientHeight - 133,
