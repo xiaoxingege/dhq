@@ -237,9 +237,8 @@ input {
     background-color: #16181B;
     border-radius: 3px;
     border-color: #16181B;
+    font-size: 12px;
 }
-
-.yAxisRange {}
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
         line-height: 45px;
