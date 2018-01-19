@@ -239,8 +239,7 @@ input {
     border-color: #16181B;
 }
 
-.yAxisRange {
-    }
+.yAxisRange {}
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
         line-height: 45px;
@@ -715,6 +714,10 @@ export default {
         ...this.stockRangeOptions
       }
       this.tmpId = 'demoTmp0'
+      this.xZoomRange[0] = null
+      this.xZoomRange[1] = null
+      this.yZoomRange[0] = null
+      this.yZoomRange[1] = null
     },
     changeTmp(e) {
       let tmpValue = ''
@@ -818,6 +821,8 @@ export default {
         if (Number(e.target.value) < Number(this.minmaxX[0])) {
           this.$set(this.xZoomRange, 0, Number(this.minmaxX[0]))
           this.$set(this.xZoomDefault, 0, Number(this.minmaxX[0]))
+        } else if (Number(e.target.value) === Number(this.minmaxX[0])) {
+          return
         } else {
           this.$set(this.xZoomRange, 0, Number(e.target.value))
           this.$set(this.xZoomDefault, 0, Number(e.target.value))
@@ -826,6 +831,8 @@ export default {
         if (Number(e.target.value) > Number(this.minmaxX[1])) {
           this.$set(this.xZoomRange, 1, Number(this.minmaxX[1]))
           this.$set(this.xZoomDefault, 1, Number(this.minmaxX[1]))
+        } else if (Number(e.target.value) === Number(this.minmaxX[1])) {
+          return
         } else {
           this.$set(this.xZoomRange, 1, Number(e.target.value))
           this.$set(this.xZoomDefault, 1, Number(e.target.value))
@@ -834,6 +841,8 @@ export default {
         if (Number(e.target.value) < Number(this.minmaxY[0])) {
           this.$set(this.yZoomRange, 0, Number(this.minmaxY[0]))
           this.$set(this.yZoomDefault, 0, Number(this.minmaxY[0]))
+        } else if (Number(e.target.value) === Number(this.minmaxY[0])) {
+          return
         } else {
           this.$set(this.yZoomRange, 0, Number(e.target.value))
           this.$set(this.yZoomDefault, 0, Number(e.target.value))
@@ -842,6 +851,8 @@ export default {
         if (Number(e.target.value) > Number(this.minmaxY[1])) {
           this.$set(this.yZoomRange, 1, Number(this.minmaxY[1]))
           this.$set(this.yZoomDefault, 1, Number(this.minmaxY[1]))
+        } else if (Number(e.target.value) === Number(this.minmaxY[1])) {
+          return
         } else {
           this.$set(this.yZoomRange, 1, Number(e.target.value))
           this.$set(this.yZoomDefault, 1, Number(e.target.value))
