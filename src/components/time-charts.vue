@@ -124,11 +124,22 @@ export default {
     chartHeight: {
       type: Number,
       default: 200
+    },
+    month: {
+      type: Number,
+      default: 12
     }
   },
   watch: {
     strategyId() {
       if (!this.strategyId) {
+        console.info('[component:stock-kline]:stockCode is necessary!')
+        return
+      }
+      this.init()
+    },
+    innerCode() {
+      if (!this.innerCode) {
         console.info('[component:stock-kline]:stockCode is necessary!')
         return
       }
@@ -314,24 +325,19 @@ export default {
       }
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          month: this.month
         })
         .then(() => {
-          console.log(this.kLineDataAll.kLineYdata.length)
-          console.log(this.kLineDataAll.kLineXdata.length)
           this.dataSize = this.kLineDataAll.kLineXdata.length;
           this.zoomEnd = this.dataSize
           this.zoomRange = 120
           this.zoomStart = this.dataSize - 120 + 1
-          console.log(this.kLineDataAll.kLineXdata.length)
-          console.log(this.dataSize)
-          console.log(this.zoomStart)
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
 
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
-      //  console.log(seriesData)
       const self = this
       self.chart.setOption({
         grid: {
@@ -402,6 +408,9 @@ export default {
         tooltip: {
           trigger: 'axis',
           confine: true,
+          axisPointer: {
+            type: 'cross'
+          },
           textStyle: {
             align: 'left',
             fontFamily: '微软雅黑',
@@ -548,39 +557,6 @@ export default {
           }
         ]
       })
-
-      /*    document.addEventListener('keyup', function (event) {
-                // console.log(String.fromCharCode(event.keyCode));
-                if(event.keyCode === 38){
-                   console.log(event.keyCode)
-                    self.chart.on('dataZoom', (params) => {
-                     console.log(params)
-                     console.log(params.batch[0].start)
-                     console.log(params.batch[0].end)
-                     var zoomStart = params.batch[0].start-10
-                     var zoomEnd = params.batch[0].end
-                     self.chart.setOption({ 
-                          dataZoom: [  
-                                     { width:'15',  
-                                     start:zoomEnd,  
-                                     end:zoomStart,  
-                                         type: 'slider',  
-                                         yAxisIndex: 0,  
-                                           
-                                         textStyle:{  
-                                        color:'#fff',  
-                                        fontSize:'16'  
-                                         }  
-                                     }  
-                                 ]
-
-                     })
-                    
-                                    
-
-                 })
-                }
-           }, false); */
     },
     zoomData(e) {
       var key = e.keyCode
@@ -588,14 +564,6 @@ export default {
         if (this.zoomRange <= 120) {
           return;
         }
-        /* if(this.zoomRange-this.zoomStart<=120){
-          return false
-         // alert(this.zoomRange-this.zoomStart)
-        } */
-
-        /* if(this.zoomStart>this.zoomRange){
-            return
-        } */
         this.zoomStart += 10
         this.zoomRange -= 10
 
