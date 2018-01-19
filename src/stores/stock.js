@@ -92,11 +92,9 @@ const actions = {
       }
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-        let isSelfSelection = false;
-        if (result.data) {
-          isSelfSelection = true;
-        }
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, isSelfSelection);
+        commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
+      } else if (result.errCode === -1) {
+        commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
       } else {
         commit('ERROR', result, {
           root: true
@@ -149,12 +147,15 @@ const actions = {
     if (!userId) {
       return;
     }
-    const url = `${domain}/openapi/filter/stock/subtractStock.shtml?symbol=${stockCode}&userId=${userId}`
+    const url = `${domain}/openapi/filter/stock/subtractStock.shtml`
     return fetch(url, {
       mode: 'cors',
       headers: {
-        'Cache-Control': 'no-cache'
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      method: 'post',
+      body: `symbol=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
