@@ -331,9 +331,6 @@ export default {
     topicStockValue: function() {
       const topicStock = this.topicStock
       const topicStockValue = this.$store.state.plateMap.topicStockValue
-      if (!topicStockValue) {
-        return null
-      }
       const _this = this
       topicStock.forEach(function(stock) {
         if (topicStockValue) {
@@ -377,9 +374,6 @@ export default {
     topicValue: function() {
       const map = this.mapData
       const topicValue = this.$store.state.plateMap.topicValue
-      if (!topicValue) {
-        return null
-      }
       const _this = this
       map.forEach(function(stock) {
         if (topicValue) {
@@ -456,7 +450,7 @@ export default {
           width: _this.mapWidth
         })
       }
-      //  this.autoUpdateData()
+      this.autoUpdateData()
     },
     updateMap: function() {
       this.isContinue = 1;
@@ -555,7 +549,11 @@ export default {
         this.updateDataPid = setInterval(function() {
           if (_this.autoUpdate) {
             _this.isContinue = 0;
-            _this.updateData()
+            if (_this.mapType === 'plate') {
+              _this.updateData()
+            } else if (_this.mapType === 'stock') {
+              _this.updateStockData()
+            }
           }
         }, 1000 * _this.intervalTime)
       }
@@ -948,8 +946,12 @@ export default {
         this.$emit('isStopPlayback', this.isStopPlayback)
       }
       this.autoUpdate = true;
-      this.updateData();
-      //  this.autoUpdateData();
+      if (this.mapType === 'plate') {
+        this.updateData()
+      } else if (this.mapType === 'stock') {
+        this.updateStockData()
+      }
+      this.autoUpdateData();
     },
     getNode: function(params) {
       const chartView = this.chart._chartsViews[0]
