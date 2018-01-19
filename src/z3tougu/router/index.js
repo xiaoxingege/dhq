@@ -44,7 +44,7 @@ import TimeIndex from 'components/time-index'
 import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
 import AutoinpBox from 'components/autoinp-box'
-import ThemeMap from 'components/plate-map/theme-map'
+import PlateMap from 'components/plate-map/plate-map-index'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -315,11 +315,11 @@ export default [{
     name: 'autoinpbox',
     component: AutoinpBox
   },
-    {
-        path: ctx + '/themeMap',
-        name: 'themeMap',
-        component: ThemeMap
-    }
+  {
+    path: ctx + '/plateMap',
+    name: 'plateMap',
+    component: PlateMap
+  }
   /* {
     path: ctx + '/stockMapOld/fullScreen',
     name: 'stockMapOldBig',

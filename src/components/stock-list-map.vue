@@ -85,7 +85,7 @@ td {
 </style>
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
-  <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
+  <h3 class="clearfix" v-if="titleName">{{titleName}}--{{titleNameLel2}}
     <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
     <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
     <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
@@ -93,6 +93,7 @@ td {
     <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
+  <h3 class="clearfix" v-if="!titleName">{{titleNameLel2}}</h3>
   <table>
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
@@ -118,7 +119,7 @@ td {
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
+  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType'],
   data() {
     return {
       stockList: [],
@@ -193,7 +194,14 @@ export default {
       return this.node.chartData
     },
     stockChartData: function() {
-      const stockChartData = this.$store.state.stockMap.stockChartData
+      let stockChartData
+      if (this.kLineType && this.kLineType === 'topic') {
+        stockChartData = this.$store.state.plateMap.topicStockLine
+      } else if (this.kLineType && this.kLineType === 'industry') {
+        stockChartData = this.$store.state.plateMap.topicStockLine
+      } else {
+        stockChartData = this.$store.state.stockMap.stockChartData
+      }
       return stockChartData
     },
     industryChngPct: function() {
@@ -216,10 +224,21 @@ export default {
   },
   methods: {
     updateChart: function() {
+      if (!this.parent) {
+        return
+      }
       if (this.parent.children) {
         this.stockList = this.parent.children
       }
-      this.$store.dispatch('stockMap/stockChartData', {
+      let kLineInterface;
+      if (this.kLineType && this.kLineType === 'topic') {
+        kLineInterface = 'plateMap/queryTopicStockLine'
+      } else if (this.kLineType && this.kLineType === 'industry') {
+        kLineInterface = 'plateMap/queryIndustryStockLine'
+      } else {
+        kLineInterface = 'stockMap/stockChartData'
+      }
+      this.$store.dispatch(kLineInterface, {
           stockId: this.stockId,
           code: this.indexCode,
           condition: this.condition
@@ -233,6 +252,9 @@ export default {
           }
           const _this = this
           // 悬浮框的表头
+          if (!this.stockChartData || !this.stockChartData[this.node.name]) {
+            return
+          }
           this.titleChngPct = this.industryChngPct
           this.node.chartData = this.stockChartData[this.node.name]
           if (this.node.chartData) {
@@ -315,6 +337,9 @@ export default {
     },
     updateHoverTitle: function() {
       // 悬浮框的表头
+      if (!this.stockChartData || !this.stockChartData[this.node.name]) {
+        return
+      }
       this.node.chartData = this.stockChartData[this.node.name]
       if (this.node.chartData) {
         const nodeLength = this.node.chartData.length
@@ -367,10 +392,10 @@ export default {
       if (catId !== this.stockId || el.clientHeight === 0) {
         return;
       }
-      const lineData = this.stockChartData[stockName];
-      if (!this.stockChartData[stockName]) {
+      if (!this.stockChartData || !this.stockChartData[stockName]) {
         return
       }
+      const lineData = this.stockChartData[stockName];
       let chart = echarts.getInstanceByDom(el) || echarts.init(el);
       // chart.clear();
       chart.setOption({
@@ -415,8 +440,8 @@ export default {
     }
   },
   mounted() {
-    this.updateChart()
     this.chart = echarts.init(this.$refs.chartTitle);
+    this.updateChart()
   }
 }
 </script>
