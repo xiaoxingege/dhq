@@ -539,7 +539,7 @@ export default {
         phone: this.phoneParam,
         name: this.nameParam,
         acct: this.acctParam,
-        page: this.page,
+        page: 0,
         pagesize: this.fullHeight2,
         fcId: this.fcId
       })
@@ -641,6 +641,7 @@ export default {
   },
   mounted() {
     this.init()
+
   }
 }
 </script>
