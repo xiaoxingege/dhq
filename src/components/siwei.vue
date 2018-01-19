@@ -24,7 +24,8 @@
 }
 
 .bubbles-bar select {
-    width: 185px;
+    /*width: 185px;*/
+    width: 155px;
     border: 0;
     height: 22px;
     font-size: 12px;
@@ -227,6 +228,19 @@ input {
 .defaultSet {
     cursor: pointer;
 }
+
+.xAxisRange input,
+.yAxisRange input {
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    background-color: #16181B;
+    border-radius: 3px;
+    border-color: #16181B;
+}
+
+.yAxisRange {
+    }
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
         line-height: 45px;
@@ -254,30 +268,46 @@ input {
         width: 87%;
     }
 }
+
+/*@media only screen and (min-height: 800px) and (max-height: 1000px) {
+  .bubbles-bar select {
+    width:100px;
+  }
+}*/
 </style>
 <template>
 <div class="siwei">
   <div class="bubbles-bar clearfix">
-    <div class="template fl mr-30">
+    <div class="template fl mr-15">
       常用推荐：
       <select @change="changeTmp($event)" v-model="tmpId">
           <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
           </option>
         </select>
     </div>
-    <div class="fl mr-30">
+    <div class="fl mr-15">
       筛股策略：
       <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
           <option value="">请选择</option>
           <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
         </select>
     </div>
-    <div class="fl mr-30">
+    <div class="fl mr-15">
       股票池：
       <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
           <option value="">请选择</option>
           <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
         </select>
+    </div>
+    <div class="fl mr-15 xAxisRange" v-if="dimensionOptions.xDefault !== 'sw_indu_name' && dimensionOptions.xDefault !== 'chi_spel' && dimensionOptions.xDefault !== 'order' && dimensionOptions.xDefault !== 'fcst_idx.rating_syn'">
+      X轴范围：
+      <input type="text" @blur="setZoomRange($event,1)" :value="xZoomDefault[0] | decimal(2)" /> —
+      <input type="text" @blur="setZoomRange($event,2)" :value="xZoomDefault[1] | decimal(2)" />
+    </div>
+    <div class="fl mr-20 yAxisRange" v-if="dimensionOptions.yDefault !== 'sw_indu_name' && dimensionOptions.yDefault !== 'chi_spel' && dimensionOptions.yDefault !== 'order' && dimensionOptions.yDefault !== 'fcst_idx.rating_syn'">
+      Y轴范围：
+      <input type="text" @blur="setZoomRange($event,3)" :value="yZoomDefault[0] | decimal(2)" /> —
+      <input type="text" @blur="setZoomRange($event,4)" :value="yZoomDefault[1] | decimal(2)" />
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <!--<div class="fr">-->
@@ -376,7 +406,7 @@ input {
       </div>
     </div>
     <div class="bubbles-chart box-flex-1">
-      <bubbles :options="options" v-on:changeOptions="changeOptionsInerCode"></bubbles>
+      <bubbles :options="options" v-on:changeOptions="changeOptionsInerCode" :xZoomRange="xZoomRange" :yZoomRange="yZoomRange" @getXYRange="showXYRange"></bubbles>
     </div>
   </div>
   <!--图例-->
@@ -642,7 +672,11 @@ export default {
       currentTime: '',
       isShowTheme: false,
       topicName: '全部',
-      themeVal: ''
+      themeVal: '',
+      xZoomRange: [],
+      yZoomRange: [],
+      xZoomDefault: '',
+      yZoomDefault: ''
     }
   },
   components: {
@@ -774,6 +808,46 @@ export default {
     changePool() {
       this.stockRangeOptions.strategyDefault = ''
       this.showSelectData()
+    },
+    showXYRange(data) {
+      this.xZoomDefault = [].concat(data[0])
+      this.yZoomDefault = [].concat(data[1])
+    },
+    setZoomRange(e, index) {
+      if (index === 1) {
+        if (Number(e.target.value) < Number(this.minmaxX[0])) {
+          this.$set(this.xZoomRange, 0, Number(this.minmaxX[0]))
+          this.$set(this.xZoomDefault, 0, Number(this.minmaxX[0]))
+        } else {
+          this.$set(this.xZoomRange, 0, Number(e.target.value))
+          this.$set(this.xZoomDefault, 0, Number(e.target.value))
+        }
+      } else if (index === 2) {
+        if (Number(e.target.value) > Number(this.minmaxX[1])) {
+          this.$set(this.xZoomRange, 1, Number(this.minmaxX[1]))
+          this.$set(this.xZoomDefault, 1, Number(this.minmaxX[1]))
+        } else {
+          this.$set(this.xZoomRange, 1, Number(e.target.value))
+          this.$set(this.xZoomDefault, 1, Number(e.target.value))
+        }
+      } else if (index === 3) {
+        if (Number(e.target.value) < Number(this.minmaxY[0])) {
+          this.$set(this.yZoomRange, 0, Number(this.minmaxY[0]))
+          this.$set(this.yZoomDefault, 0, Number(this.minmaxY[0]))
+        } else {
+          this.$set(this.yZoomRange, 0, Number(e.target.value))
+          this.$set(this.yZoomDefault, 0, Number(e.target.value))
+        }
+      } else if (index === 4) {
+        if (Number(e.target.value) > Number(this.minmaxY[1])) {
+          this.$set(this.yZoomRange, 1, Number(this.minmaxY[1]))
+          this.$set(this.yZoomDefault, 1, Number(this.minmaxY[1]))
+        } else {
+          this.$set(this.yZoomRange, 1, Number(e.target.value))
+          this.$set(this.yZoomDefault, 1, Number(e.target.value))
+        }
+
+      }
     }
   },
   computed: {
@@ -782,6 +856,12 @@ export default {
     },
     userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
+    },
+    minmaxX: function() {
+      return this.$store.state.bubbles.minmaxX
+    },
+    minmaxY: function() {
+      return this.$store.state.bubbles.minmaxY
     }
   },
   watch: {
@@ -814,6 +894,7 @@ export default {
     }
   },
   mounted() {
+
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 

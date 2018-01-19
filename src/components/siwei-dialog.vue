@@ -33,15 +33,37 @@
     width: 320px;
     height: 200px;
 }
+
+.addSelfChoice,
+.deleteSelfChoice {
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #DA3D45;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.addSelfChoice {
+    background: #DA3D45;
+}
+
+.deleteSelfChoice {
+    color: #DA3D45;
+}
 </style>
 <template>
-<div class="dialog">
+<div class="dialog" @mouseover="showDialog" @mouseout="hideDialog">
   <div class="top clearfix">
     <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
     <span class="fr">
                 <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
     <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
+    <span class="addSelfChoice" @click="addSelfChoice">+自选</span>
+    <span class="deleteSelfChoice" @click="deleteSelfChoice">-自选</span>
     </span>
   </div>
   <div class="bottom clearfix">
@@ -108,6 +130,18 @@ export default {
     }
   }),
   methods: {
+    addSelfChoice() {
+      // alert('addSelfChoice')
+    },
+    deleteSelfChoice() {
+      // alert('deleteSelfChoice')
+    },
+    showDialog() {
+      this.$emit('toShowDialog', true)
+    },
+    hideDialog() {
+      this.$emit('toHideDialog', false)
+    }
 
   },
   mounted() {

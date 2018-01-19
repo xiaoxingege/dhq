@@ -60,7 +60,7 @@ a {
     text-decoration: none;
 }
 
-select:focus {
+select:focus, input:focus {
     outline: none;
 }
 .fl {

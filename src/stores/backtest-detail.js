@@ -78,7 +78,9 @@ export default {
     },
     startDate: '',
     endDate: '',
-    strategyId: ''
+    strategyId: '',
+    filterBlockData: null,
+    filterBlockChartData: []
     /* evaluationIndexs: {
      winRatio:'',
      avgReturnExcess:'',
@@ -208,6 +210,21 @@ export default {
         state.sylfbData.xData = []
         state.sylfbData.data1 = []
         state.sylfbData.data2 = []
+      }
+    },
+    setFilterBlockData(state, result) {
+      if (result.errCode === 0) {
+        state.filterBlockData = result.data
+      } else {
+        state.filterBlockData = null
+      }
+
+    },
+    setFilterBlockChartData(state, result) {
+      if (result.errCode === 0) {
+        state.filterBlockChartData = result.data
+      } else {
+        state.filterBlockChartData = null
       }
     }
 
@@ -480,6 +497,32 @@ export default {
         return res.json()
       }).then(body => {
         commit('setSylfbData', body)
+      })
+    },
+    getFilterStrategyList({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/backtest/filterStrategy/indexAndReturns.shtml?query=&followFlag=0&userId=7477ce5e-ce51-4581-a60a-f6d9a7152068&sort=winRatio&direction=desc&size=12&page=0`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setFilterBlockData', body)
+      })
+    },
+    getFilterStrategyChart({
+      commit
+    }, {
+      strategyId,
+      startDate,
+      endDate
+    }) {
+      return fetch(`${domain}/openapi/backtest/filterStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setFilterBlockChartData', body)
       })
     }
   }
