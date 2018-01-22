@@ -121,7 +121,6 @@ export default {
       }
     },
     setZoomRange(state, options) {
-      console.log(options)
       state.minmaxX = options.mmX
       state.minmaxY = options.mmY
     }

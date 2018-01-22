@@ -83,7 +83,6 @@ export default {
     'xZoomRange': {
       deep: true,
       handler: function() {
-        debugger
         this.chart.dispatchAction({
           type: 'dataZoom',
           dataZoomIndex: 1,
@@ -95,7 +94,6 @@ export default {
     'yZoomRange': {
       deep: true,
       handler: function() {
-        debugger
         this.chart.dispatchAction({
           type: 'dataZoom',
           dataZoomIndex: 0,
@@ -172,8 +170,8 @@ export default {
       }
     },
     dataZoom: function() {
-      const that = this
-      return [{
+      const that = this;
+      let dataZoomConfig = [{
           type: 'slider',
           show: true,
           yAxisIndex: [0],
@@ -253,7 +251,20 @@ export default {
             return that.convertNumBySelect('xData', value)
           }
         }
-      ]
+      ];
+      if (this.xZoomRange[0] === null) {
+        dataZoomConfig[0].start = 0;
+        dataZoomConfig[0].end = 100;
+        dataZoomConfig[1].start = 0;
+        dataZoomConfig[1].end = 100;
+      } else {
+        delete dataZoomConfig[0].start;
+        delete dataZoomConfig[0].end;
+        delete dataZoomConfig[1].start;
+        delete dataZoomConfig[1].end;
+      }
+
+      return dataZoomConfig;
     }
   }),
   methods: {
@@ -303,6 +314,54 @@ export default {
             return (Number(showData) / 100000000).toFixed(2) + '亿'
           } else if (selectVal === 'mkt_idx.volume' || selectVal === 'perf_idx.avg_vol_3month') {
             return (Number(showData) / 10000).toFixed(0) + '万'
+          } else if (selectVal === 'order' || selectVal === 'staff_num') {
+            return Number(showData).toFixed(0)
+          } else {
+            if (showData === null) {
+              return '--'
+            }
+            return Number(showData).toFixed(2)
+          }
+        }
+      }
+    },
+    convertNumForZoom(select, showData) {
+      if (isNaN(Number(showData))) {
+        return showData
+      } else {
+        var tmpSelect = ''
+        if (select === 'bubblesSize') {
+          tmpSelect = this.bubbleSizeSelect[this.parameterData[select]]
+        } else if (select === 'bubbleColor') {
+          tmpSelect = this.bubbleColorSelect[this.parameterData[select]]
+        } else {
+          tmpSelect = this.xSelectData[this.parameterData[select]]
+        }
+        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0 && tmpSelect.indexOf('销率') < 0 && tmpSelect.indexOf('现率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('比率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0 || tmpSelect.indexOf('MA') >= 0 || tmpSelect.indexOf('股东权益') >= 0) {
+          if (tmpSelect.indexOf('MA') >= 0) {
+            return showData === null ? '--' : Number(showData * 100).toFixed(2)
+          }
+          return showData === null ? '--' : Number(showData).toFixed(2)
+        } else {
+          var selectVal = this.parameterData[select]
+          if (selectVal === 'fcst_idx.rating_syn') {
+            if (Number(showData) === 5) {
+              return '卖出'
+            } else if (Number(showData) === 4) {
+              return '减持'
+            } else if (Number(showData) === 3) {
+              return '中性'
+            } else if (Number(showData) === 2) {
+              return '增持'
+            } else if (Number(showData) === 1) {
+              return '买入'
+            } else {
+              return '暂无观点'
+            }
+          } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
+            return (Number(showData) / 100000000).toFixed(2)
+          } else if (selectVal === 'mkt_idx.volume' || selectVal === 'perf_idx.avg_vol_3month') {
+            return (Number(showData) / 10000).toFixed(0)
           } else if (selectVal === 'order' || selectVal === 'staff_num') {
             return Number(showData).toFixed(0)
           } else {
@@ -608,12 +667,12 @@ export default {
           }]
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
-          mmX: [that.chart.getOption().dataZoom[1].startValue, that.chart.getOption().dataZoom[1].endValue],
-          mmY: [that.chart.getOption().dataZoom[0].startValue, that.chart.getOption().dataZoom[0].endValue]
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         })
         that.$emit('getXYRange', [
-          [that.chart.getOption().dataZoom[1].startValue, that.chart.getOption().dataZoom[1].endValue],
-          [that.chart.getOption().dataZoom[0].startValue, that.chart.getOption().dataZoom[0].endValue]
+          [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         ])
 
         that.chart.on('dblclick', function(params) {
@@ -663,8 +722,8 @@ export default {
         })
         that.chart.on('dataZoom', function(params) {
           that.$emit('getXYRange', [
-            [that.chart.getOption().dataZoom[1].startValue, that.chart.getOption().dataZoom[1].endValue],
-            [that.chart.getOption().dataZoom[0].startValue, that.chart.getOption().dataZoom[0].endValue]
+            [that.convertNumForZoom('xData', that.chart.getOption().dataZoom[1].startValue), that.convertNumForZoom('xData', that.chart.getOption().dataZoom[1].endValue)],
+            [that.convertNumForZoom('yData', that.chart.getOption().dataZoom[0].startValue), that.convertNumForZoom('yData', that.chart.getOption().dataZoom[0].endValue)]
           ])
         })
         window.onresize = function() {
@@ -681,22 +740,6 @@ export default {
       this.$store.dispatch('bubbles/getBubblesData', {
         options: this.options
       }).then(() => {
-        if (this.xZoomRange && this.yZoomRange) {
-          let x = this.xAxis.data
-          let y = this.yAxis.data
-          let copyX = [].concat(x)
-          let copyY = [].concat(y)
-          this.xZoomRange = [Number(copyX.sort(function(a, b) {
-            return a - b
-          })[0]), Number(copyX.sort(function(a, b) {
-            return a - b
-          })[copyX.length - 1])]
-          this.yZoomRange = [Number(copyY.sort(function(a, b) {
-            return a - b
-          })[0]), Number(copyY.sort(function(a, b) {
-            return a - b
-          })[copyY.length - 1])]
-        }
         this.chart && this.chart.setOption({
           xAxis: this.xAxis,
           yAxis: this.yAxis,
@@ -706,12 +749,12 @@ export default {
           dataZoom: this.dataZoom
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
-          mmX: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
-          mmY: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         })
         this.$emit('getXYRange', [
-          [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
-          [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+          [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         ])
         this.chart.hideLoading()
       })
