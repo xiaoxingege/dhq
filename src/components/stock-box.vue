@@ -71,7 +71,7 @@ export default {
   methods: {
     addStock() {
       if (this.stockCode) {
-        this.$store.dispatch("stock/addSelection", {
+        this.$store.dispatch('stock/addSelection', {
           stockCode: this.stockCode
         })
       }
@@ -79,7 +79,7 @@ export default {
     },
     removeStock() {
       if (this.stockCode) {
-        this.$store.dispatch("stock/removeSelection", {
+        this.$store.dispatch('stock/removeSelection', {
           stockCode: this.stockCode
         })
       }

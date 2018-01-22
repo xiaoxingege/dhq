@@ -669,7 +669,7 @@ a.kuai_icon {
 .greenbg {
     background: #56a870;
 }
-.progress-wrpa1 {
+.progress-wrap1 {
     padding: 5px 0 7px;
 }
 .progress-wrap2 {
