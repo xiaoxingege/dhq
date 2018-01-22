@@ -286,7 +286,7 @@ export default {
         }
 
         window.setInterval(function() {
-            ShowCountDown(2018, 2, 4, 0, 0, 0, 'divdown1')
+            ShowCountDown(2018, 2, 5, 0, 0, 0, 'divdown1')
         }, 1000)
     }
 }
