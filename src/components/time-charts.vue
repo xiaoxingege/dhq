@@ -104,9 +104,9 @@ export default {
       ma10: '--',
       ma20: '--',
       ma30: '--',
-      zoomStart: 120,
-      zoomEnd: 120,
-      zoomRange: 120,
+      zoomStart: 0,
+      zoomEnd: 0,
+      zoomRange: 0,
       dataSize: 0
     }
   },
@@ -125,9 +125,17 @@ export default {
       type: Number,
       default: 200
     },
-    month: {
+    showDataZoom: {
+      type: Boolean,
+      default: false
+    },
+    minRange: {
       type: Number,
-      default: 12
+      default: 120
+    },
+    day: {
+      type: Number,
+      default: 250
     }
   },
   watch: {
@@ -314,6 +322,15 @@ export default {
         this.chart.dispose();
       }
       this.chart = echarts.init(this.$refs.kcharts);
+      this.chart.on('datazoom', (params) => {
+        const dataZoom = this.chart.getOption().dataZoom[0];
+        const startValue = params.startValue || dataZoom.startValue;
+        const endValue = params.endValue || dataZoom.endValue;
+        this.zoomStart = startValue;
+        this.zoomEnd = endValue;
+        this.zoomRange = endValue - startValue;
+        console.info("start:" + startValue + ", end:" + endValue + ", range:" + this.zoomRange);
+      })
       const _this = this
       window.onresize = function() {
         const timestampResize = new Date().getTime()
@@ -326,13 +343,12 @@ export default {
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
           strategyId: this.strategyId,
-          month: this.month
+          day: this.day
         })
         .then(() => {
           this.dataSize = this.kLineDataAll.kLineXdata.length;
           this.zoomEnd = this.dataSize
-          this.zoomRange = 120
-          this.zoomStart = this.dataSize - 120 + 1
+          this.zoomStart = this.dataSize - this.zoomRange
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
 
         })
@@ -344,10 +360,8 @@ export default {
           containLabel: true,
           left: 10,
           top: 10,
-          bottom: 10,
           right: 10
         },
-
         xAxis: {
           type: 'category',
           data: kLineXdata,
@@ -531,37 +545,27 @@ export default {
 
         ],
         dataZoom: [{
-            type: 'slider',
-            show: false,
-            xAxisIndex: [0],
-            zoomOnMouseWheel: false,
-            handleSize: 20, // 滑动条的 左右2个滑动条的大小
-            height: 8, // 组件高度
-            left: 30, // 左边的距离
-            right: 40, // 右边的距离
-            bottom: 30, // 右边的距离
-            startValue: this.zoomStart,
-            endValue: this.zoomEnd,
-            showDataShadow: false, // 是否显示数据阴影 默认auto
-            showDetail: false, // 即拖拽时候是否显示详细数值信息 默认true       
-            filterMode: 'filter'
-          },
-          // 下面这个属性是里面拖到
-          {
-            type: 'inside',
-            show: true,
-            xAxisIndex: [0],
-            labelformatter: function(params, ticket, callback) {
-              console.log(params)
-            }
-          }
-        ]
+          type: 'slider',
+          show: this.showDataZoom,
+          backgroundColor: '#32383E',
+          xAxisIndex: [0],
+          handleSize: 20, // 滑动条的 左右2个滑动条的大小
+          height: 30, // 组件高度
+          left: 30, // 左边的距离
+          right: 0, // 右边的距离
+          bottom: 10,
+          startValue: this.zoomStart,
+          endValue: this.zoomEnd,
+          showDataShadow: false, // 是否显示数据阴影 默认auto
+          showDetail: false, // 即拖拽时候是否显示详细数值信息 默认true       
+          filterMode: 'filter'
+        }]
       })
     },
     zoomData(e) {
       var key = e.keyCode
       if (key === 38) {
-        if (this.zoomRange <= 120) {
+        if (this.zoomRange <= this.minRange) {
           return;
         }
         this.zoomStart += 10
@@ -589,8 +593,6 @@ export default {
           this.zoomEnd -= 1
         }
       } else if (key === 39) {
-        console.log(this.zoomEnd)
-        console.log(this.zoomRange)
         if (this.zoomStart === 0 || this.zoomEnd >= this.dataSize) {
           return;
         } else {
@@ -616,6 +618,7 @@ export default {
     }
   },
   mounted() {
+    this.zoomRange = this.minRange;
     this.init();
     this.$refs.kcharts.focus()
   }

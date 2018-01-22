@@ -222,7 +222,7 @@ textarea:-ms-input-placeholder {
     </ul>
   </div>
   <div class="k-line-box" id="ss" v-if="strategyId&&innerCode">
-    <timechart :strategyId="strategyId" :innerCode="innerCode" :chartWidth="chartWidth" :chartHeight="chartHeight" month=36 zoomRange=250 />
+    <timechart :strategyId="strategyId" :innerCode="innerCode" :chartWidth="chartWidth" :chartHeight="chartHeight" day=750 minRange=250 showDataZoom=true />
   </div>
 
 </div>
