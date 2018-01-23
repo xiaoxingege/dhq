@@ -96,13 +96,15 @@ body {
       <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
     </div>
   </ul>
-  <ul v-if="searchType == 'theme'">
+  <ul v-if="searchType == 'section'">
     <p>搜索题材数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
-      <router-link :to="{ name:'topicDetail' , params:{ topicId : item.themeUrl===null?'':item.themeUrl.substring((item.themeUrl.lastIndexOf('/') + 1), item.themeUrl.indexOf('.'))}}" target="_blank">{{item.themeName}}
+      <router-link v-if="item.type === 1" :to="{ name:'topicDetail' , params:{ topicId : item.sectionUrl===null?'':item.sectionUrl.substring((item.sectionUrl.lastIndexOf('/') + 1), item.sectionUrl.indexOf('.'))}}" target="_blank">{{item.name}}
       </router-link>
-      <p class="searchInfo">{{item.themeExplain}}</p>
-      <p class="searchTime">{{item.themeTime}}</p>
+      <router-link v-if="item.type === 2" :to="{ name:'industryDetail' , params:{ industryId : item.sectionUrl===null?'':item.sectionUrl.substring((item.sectionUrl.lastIndexOf('/') + 1), item.sectionUrl.indexOf('.'))}}" target="_blank">{{item.name}}
+      </router-link>
+      <p class="searchInfo">{{item.desc}}</p>
+      <!--<p class="searchTime">{{item.themeTime}}</p>-->
     </li>
     <div style="width:100%; text-align: center;">
       <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />

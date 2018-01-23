@@ -170,8 +170,8 @@ export default {
       }
     },
     dataZoom: function() {
-      const that = this
-      return [{
+      const that = this;
+      let dataZoomConfig = [{
           type: 'slider',
           show: true,
           yAxisIndex: [0],
@@ -251,7 +251,20 @@ export default {
             return that.convertNumBySelect('xData', value)
           }
         }
-      ]
+      ];
+      if (this.xZoomRange[0] === null) {
+        dataZoomConfig[0].start = 0;
+        dataZoomConfig[0].end = 100;
+        dataZoomConfig[1].start = 0;
+        dataZoomConfig[1].end = 100;
+      } else {
+        delete dataZoomConfig[0].start;
+        delete dataZoomConfig[0].end;
+        delete dataZoomConfig[1].start;
+        delete dataZoomConfig[1].end;
+      }
+
+      return dataZoomConfig;
     }
   }),
   methods: {
@@ -654,8 +667,8 @@ export default {
           }]
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
-          mmX: [that.chart.getOption().dataZoom[1].startValue, that.chart.getOption().dataZoom[1].endValue],
-          mmY: [that.chart.getOption().dataZoom[0].startValue, that.chart.getOption().dataZoom[0].endValue]
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         })
         that.$emit('getXYRange', [
           [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
@@ -736,8 +749,8 @@ export default {
           dataZoom: this.dataZoom
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
-          mmX: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
-          mmY: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
         })
         this.$emit('getXYRange', [
           [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],

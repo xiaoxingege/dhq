@@ -368,9 +368,9 @@ export default {
     }, {
       innerCode,
       strategyId,
-      month
+      day
     }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&month=${month}`, {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&day=${day}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

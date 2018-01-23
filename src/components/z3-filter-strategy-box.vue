@@ -139,7 +139,6 @@ export default {
         this.strategyData.sharpe = this.strategyData.strategy.evaluationIndexs.sharpe === null ? '--' : (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2) // 夏普比率
         this.strategyData.strategyName = this.strategyData.strategy.strategyName
         this.strategyData.strategyId = this.strategyData.strategy.strategyId
-        this.strategyData.benchmark = this.strategyData.strategy.benchmark
       } else {
         /* this.strategyData = {}
          this.strategyData.winRatio = '--'// 胜率
@@ -193,7 +192,7 @@ export default {
                     icon: 'circle'
                   },
                   {
-                    name: this.benchmarkObj[this.strategy.benchmark],
+                    name: '沪深300',
                     icon: 'circle'
                   }
                 ]
@@ -243,7 +242,7 @@ export default {
                   }
                 },
                 {
-                  name: this.benchmarkObj[this.strategy.benchmark],
+                  name: '沪深300',
                   type: 'line',
                   showSymbol: false,
                   hoverAnimation: false,
