@@ -5,7 +5,7 @@ import {
 
 // initial state
 const state = {
-  industries: null,
+  topicData: null,
   stockData: null,
   stockChartData: null,
   calendarsData: null,
@@ -16,7 +16,11 @@ const state = {
   topicStockValue: null,
   topicValue: null,
   topicStockLine: null,
-  industryStockLine: null
+  industryStockLine: null,
+  industryData: null,
+  industryStockData: null,
+  industryValue: null,
+  industryStockValue: null
 }
 
 // getters
@@ -36,6 +40,9 @@ const mutationsTypes = {
 }
 // actions
 const actions = {
+  /*
+   * 题材板块
+   */
   queryRangeByCode({
     commit,
     state
@@ -51,6 +58,9 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
+  /*
+   * 题材板块浏览指标值
+   */
   queryTopicValue({
     commit
   }, {
@@ -199,20 +209,103 @@ const actions = {
   }, {
     stockId
   }) {
-    const url = `${domain}/openapi/section/industry${stockId}`
+    const url = `${domain}/openapi/section/industry/${stockId}`
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {
       commit('setIndustryStockLine', {
         result: body
+      });
+      return {
+        result: body,
+        catId: stockId
+      };
+    })
+  },
+  /*
+   * 行业板块
+   */
+  queryIndustry({
+    commit,
+    state
+  }) {
+    const url = `${domain}/openapi/openjson/tx/industry.json`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      commit('setIndustry', {
+        result: body
       })
+    })
+  },
+  /*
+   * 行业板块下股票
+   */
+  queryIndustryStock({
+    commit,
+    state
+  }, {
+    industryCode
+  }) {
+    const url = domain + '/openapi/openjson/tx/industry_' + industryCode + '.json'
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      commit('setIndustryStock', {
+        result: body
+      })
+    })
+  },
+  /*
+   * 行业板块浏览指标值
+   */
+  queryIndustryValue({
+    commit
+  }, {
+    isContinue,
+    condition
+  }) {
+    const url = `${domain}/openapi/timedQueryMapLevel?isContinue=${isContinue}&condition=${condition}`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      commit('setIndustryValue', {
+        result: body
+      });
+      return {
+        result: body,
+        condition: condition
+      };
+    })
+  },
+  /*
+   * 行业板块下股票浏览指标值
+   */
+  queryIndustryStockValue({
+    commit
+  }, {
+    isContinue,
+    condition,
+    industryCode
+  }) {
+    const url = `${domain}/openapi/timedQueryMapLevel?isContinue=${isContinue}&condition=${condition}&innerCode=${industryCode}`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      commit('setIndustryStockValue', {
+        result: body
+      });
+      return {
+        result: body,
+        condition: condition
+      };
     })
   }
 }
 // mutations
 const mutations = {
-  [mutationsTypes.QUERY_RANGE_BY_CODE](state, industries) {
-    state.industries = industries
+  [mutationsTypes.QUERY_RANGE_BY_CODE](state, topicData) {
+    state.topicData = topicData
   },
   [mutationsTypes.UPDATE_DATA](state, stockData) {
     state.stockData = stockData
@@ -255,6 +348,30 @@ const mutations = {
     const result = options.result
     if (result.errCode === 0) {
       state.industryStockLine = result.data
+    }
+  },
+  setIndustry(state, options) {
+    const result = options.result
+    if (result) {
+      state.industryData = result.data
+    }
+  },
+  setIndustryStock(state, options) {
+    const result = options.result
+    if (result) {
+      state.industryStockData = result.data
+    }
+  },
+  setIndustryValue(state, options) {
+    const result = options.result
+    if (result.errCode === 0) {
+      state.industryValue = result.data
+    }
+  },
+  setIndustryStockValue(state, options) {
+    const result = options.result
+    if (result.errCode === 0) {
+      state.industryStockValue = result.data
     }
   }
 }

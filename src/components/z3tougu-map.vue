@@ -20,10 +20,9 @@ html {
 .condition {
     text-align: left;
     display: inline-block;
-}
-.condition {
     color: #fff;
     opacity: 0.8;
+    margin-right: 3px;
 }
 .condition select {
     -webkit-appearance: none;
@@ -62,13 +61,13 @@ html {
 .condition select option {
     -webkit-appearance: none;
     display: inline-block;
-    /* height: 30px;
-    padding: 50px;*/
 }
 .condition_wrap {
     height: 35px;
     line-height: 35px;
-    /*background-color: #23272c;*/
+}
+.condition_wrap > div {
+    float: left;
 }
 .mask {
     width: 100%;
@@ -77,11 +76,43 @@ html {
     left: 0;
     z-index: 2;
 }
+.tab-type {
+    display: inline-block;
+    color: #fff;
+    opacity: 0.8;
+    width: 122px;
+    height: 100%;
+    padding-top: 6px;
+    margin-right: 36px;
+}
+.tab-type span {
+    display: inline-block;
+    float: left;
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+.tab-type span:nth-child(1) {
+    margin-right: 2px;
+}
+.selected-color {
+    background-color: #1984ea;
+}
+.unselected-color {
+    background-color: #23272c;
+}
 </style>
 <template>
 <div class="map" v-bind:class="{'map_pad':showCondition}">
   <div class="mask" :style="{height:maskHeight+'px'}" v-if="isShowMask"></div>
-  <div class="condition_wrap" v-if="showCondition">
+  <div class="condition_wrap clearfix" v-if="showCondition">
+    <div class="tab-type clearfix">
+      <span class="selected-color">个股</span>
+      <router-link class="unselected-color" tag='span' :to="{name:'plateMap'}">板块</router-link>
+    </div>
     <div class="condition" @click="isClickSelect">
       股票范围：
       <select v-model="rangeCode" class="code-select">
