@@ -97,7 +97,7 @@ body {
     </div>
   </ul>
   <ul v-if="searchType == 'section'">
-    <p>搜索题材数：<span>{{total}}</span></p>
+    <p>搜索板块数：<span>{{total}}</span></p>
     <li v-for="item of resultData">
       <router-link v-if="item.type === 1" :to="{ name:'topicDetail' , params:{ topicId : item.sectionUrl===null?'':item.sectionUrl.substring((item.sectionUrl.lastIndexOf('/') + 1), item.sectionUrl.indexOf('.'))}}" target="_blank">{{item.name}}
       </router-link>
