@@ -55,7 +55,7 @@ button {
     position: fixed;
     bottom: -0.06rem;
     left: 0.38rem;
-    background: url("../assets/images/pqng-activity/pqng-h5-footer.png") center bottom no-repeat;
+    background: url("../assets/images/pqng-activity/pqng-h5-footer-1.png") center bottom no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -72,7 +72,7 @@ button {
 .pop {
     width: 100%;
     height: 10.18rem;
-    background: url("../assets/images/pqng-activity/pqng-h5-pop.png") 0 0 no-repeat;
+    background: url("../assets/images/pqng-activity/pqng-h5-pop-1.png") 0 0 no-repeat;
     background-size: 100%;
     position: fixed;
     top: 50%;
@@ -111,8 +111,8 @@ button {
     width: 1.71rem;
     height: 0.36rem;
     position: absolute;
-    bottom: 0.51rem;
-    left: 1.93rem;
+    bottom: 1rem;
+    left: 2.66rem;
     border: none;
     background: none;
 }
