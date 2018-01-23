@@ -752,7 +752,76 @@ bottom: 0; */
 .selectma option {
     opacity: 0;
 }
+.select {
+    width: 180px;
+    height: 30px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    position: relative;
 
+}
+.select:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #fff;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -4px;
+}
+/*两个连续写的就是一个上面，起两个class 名 */
+.select.down:after {
+    border-top-color: transparent;
+    border-bottom-color: #fff;
+    margin-top: -12px;
+}
+.select h5 {
+    width: 180px;
+    height: 30px;
+    background: pink;
+    /* text-indent: 1em; */
+    line-height: 30px;
+    color: #999;
+}
+ol {
+    border: 1px solid #ccc;
+    width: 178px;
+    position: absolute;
+    left: 0;
+    top: 30px;
+    display: none;
+
+}
+ol li {
+    line-height: 40px;
+    border-bottom: 1px dashed #ccc;
+    font-size: 15px;
+    text-indent: 1em;
+    height: 40px;
+}
+.select ol li:hover {
+    background: rgba(255,0,0,.3);
+}
+.icon-box {
+    width: 77px;
+    height: 10px;
+    position: relative;
+    left: 19%;
+    top: 17px;
+    float: left;
+}
+.icon-line {
+    width: 21px;
+    height: 2px;
+    border: 1px dashed #ebb344;
+    position: absolute;
+    left: -104px;
+    top: 31px;
+}
 .down {
     width: 11px;
     height: 6px;
@@ -791,7 +860,7 @@ bottom: 0; */
           <div class="help-img fl"><i :value='iconHelpMsgUdown' id="downtxt">{{this.riseOrHeat === 'techIndex'?iconHelpMsgHeat:(this.riseOrHeat === 'infoIndex'?iconHelpMsgPublic:iconHelpMsgUdown)}}</i></div>
           <div class="icon-box" v-show='!isUpDown'>
             <span class="icon-line"></span>
-            <select class="selectma" @change="changeSelectMa($event)">
+            <select class="selectma">
             <!-- <option v-for="(tmd,key) in maDatas" :value="tmd.value">{{tmd.name}}</option> -->
                 <option value="Ma5">MA5</option>
                 <option value="Ma10">MA10</option>
@@ -1856,7 +1925,7 @@ export default {
       var _this = this
       $(node).each(function(i, val) {
         var old = this;
-        var aNode = ['<h5 style="width: 52px;height:10px;text-indent: 1em; line-height: 10px;color: #c9d0d7;font-size:12px;font-weight:400;" id="select-h5"></h5>', '<ol style="width: 52px;position: absolute;left:0;top:12px;text-indent: 1em;display: none;color: #c9d0d7;font-size:12px;" id="select-ol">'];
+        var aNode = ['<h5 style="width: 70px;height:10px;text-indent: 1em; line-height: 10px;color: #c9d0d7;font-size:12px;font-weight:400;" id="select-h5"></h5>', '<ol style="width: 60px;position: absolute;left:0;top:12px;text-indent: 1em;display: none;color: #c9d0d7;font-size:12px;" id="select-ol">'];
         var opt = $(this).find('option');
         opt.each(function() {
           var val = $(this).val();
