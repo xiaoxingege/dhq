@@ -127,7 +127,7 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge ">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
@@ -329,6 +329,9 @@ export default {
       this.updateData()
     },
     conditionStock() {
+      if (this.mapType === 'plate') { // 鼠标移入的时候
+        return
+      }
       this.isContinue = 1
       this.autoUpdate = true
       this.updateStockData()
@@ -349,7 +352,7 @@ export default {
       })
       return topicStock
     },
-    topicStockValue: function() {
+    topicStockValue: function() { // 鼠标移入和点击进入个股的时候调用
       const topicStock = this.topicStock
       const topicStockValue = this.$store.state.plateMap.topicStockValue
       const _this = this
@@ -358,7 +361,7 @@ export default {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStock] === '%') {
-              if (_this.conditionStock !== 'div_rate') {
+              if (_this.conditionStock !== 'mkt_idx.div_rate') { // 切换板块的浏览指标的时候conditionTopic变了 但是conditionStock没变 所以不能用conditionStock衡量 鼠标移入的时候
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {
@@ -369,8 +372,10 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStock === 'keep_days') {
+              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
                 stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
               }
             }
           } else {
@@ -414,6 +419,8 @@ export default {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
               if (_this.conditionTopic === 'keep_days') {
                 stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
               }
             }
           } else {
@@ -674,6 +681,7 @@ export default {
           if (this.topicStockValue.length > 20) {
             this.topicStockValue.length = 20
           }
+          this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
           this.hoverNodeParent.children = this.topicStockValue // 浮窗股票列表
         });
         if (this.focusEl) {
