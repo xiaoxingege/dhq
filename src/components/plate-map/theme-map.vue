@@ -53,29 +53,6 @@
   height: 25px;
 }
 
-.chart_bottom_enlarge {
-  position: absolute;
-  bottom: 0px;
-  height: 41px;
-  width: 100%;
-}
-
-.chart_bottom_enlarge .playback {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
-}
-
-.chart_bottom_enlarge .map_legend {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
-}
-
 .perday {
   width: 35px;
   height: 20px;
@@ -116,10 +93,6 @@
   left: 786px;
 }
 
-.chart_bottom_enlarge .play_line {
-  top: 8px;
-}
-
 .enlarge {
   height: 25px;
   padding-top: 10px;
@@ -155,7 +128,7 @@
 <template>
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
-  <div class="enlarge">
+  <div class="enlarge ">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
   </div>
@@ -385,7 +358,7 @@ export default {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStock] === '%') {
-              if (_this.conditionStock !== 'mkt_idx.div_rate') {
+              if (_this.conditionStock !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {
@@ -396,7 +369,7 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
+              if (_this.conditionStock === 'keep_days') {
                 stock.perfText = stock.perf + '天';
               }
             }
