@@ -65,6 +65,7 @@ html {
     width: 78%;
     height: 100%;
     background: #fff;
+    padding-left: 10px;
 }
 
 .dragonListLeft ul li {
@@ -100,12 +101,64 @@ html {
 .dragonListRight .detail-title {
     border-bottom: 1px solid #E2E2E2;
 }
+
+.dragonListRight .detail-title p {
+    font-size: 16px;
+    line-height: 50px;
+}
+
+.dragonListRight .detail-title .detail-time {
+    display: inline-block;
+}
+
+.detail-con {
+    /*border-bottom: 1px solid #E5E5E5;*/
+}
+
+.detail-box {
+    height: calc(100% - 77px);
+    overflow-y: scroll;
+}
+
+.detail-con .detail-type {
+    line-height: 40px;
+}
+
+.detail-con table {
+    width: 100%;
+    border: 1px solid #DDDDDD;
+}
+
+.detail-con table tr td {
+    border-bottom: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    line-height: 28px;
+    text-align: right;
+}
+.detail-con table tbody tr:last-child td {
+    border-bottom: none;
+}
+.detail-con table tr td:last-child {
+    border-right: none;
+}
+.detail-con table tr td:not(:first-child) {
+    padding-right: 10px;
+    width: 15%;
+}
+.detail-con table tr td:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.detail-total {
+    line-height: 32px;
+}
 </style>
 <template>
 <div class="dragonList clearfix">
   <div class="dragonListLeft fl">
     <ul>
-      <li ref="dragonItem" v-for="item in dragonList" :date="item.date" :innerCode="item.innerCode" @click="showDragonDetail($event)">
+      <li ref="dragonItem" v-for="(item,index) in dragonList" :class="index === 0 ? 'active':''" :date="item.date" :innerCode="item.innerCode" @click="showDragonDetail($event)">
         <p class="list-time">
           {{String(item.date).substring(0,4)+'-'+String(item.date).substring(4,6)+'-'+String(item.date).substring(6)}}</p>
         <p class="list-title">{{item.infoCls}}</p>
@@ -114,63 +167,69 @@ html {
 
   </div>
   <div class="dragonListRight fl">
-    <div class="detail-title">
-      <p>{{dragonDetail.name}}[{{dragonDetail.symbol}}]</p>
-      <span>{{String(dragonDetail.date).substring(0,4)+'-'+String(dragonDetail.date).substring(4,6)+'-'+String(dragonDetail.date).substring(6)}}</span>
+    <div class="detail-title" v-if="dragonDetail[0]">
+      <p>{{dragonDetail[0].name}}[{{dragonDetail[0].symbol}}]</p>
+      <span class="mb-10 detail-time">{{String(dragonDetail[0].date).substring(0,4)+'-'+String(dragonDetail[0].date).substring(4,6)+'-'+String(dragonDetail[0].date).substring(6)}}</span>
     </div>
-    <div>
-      <p>上榜类型：{{dragonDetail.infoCls}}</p>
-      <p>
-        {{dragonDetail.statNum === 1 ? '今':dragonDetail.statNum}}日
-        <span :style="{color:Number(dragonDetail.bvalueTotal) >= Number(dragonDetail.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonDetail.bvalueTotal) >= Number(dragonDetail.svalueTotal) ? '净买入':'净卖出'}}</span> ：
-        <span v-if="dragonDetail.netValueTotal > 0">{{Number(dragonDetail.netValueTotal)/10e7 > 1 ? ((Number(dragonDetail.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonDetail.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
-        <span v-if="dragonDetail.netValueTotal < 0">{{Number(dragonDetail.netValueTotal)*-1 /10e7 > 1 ? ((Number(dragonDetail.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonDetail.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
-      </p>
-      <div>
-        <table>
-          <thead>
-            <th>
-              <td>买入前5营业部名称</td>
-              <td>买入(万元)</td>
-              <td>卖出(万元)</td>
-              <td>净额(万元)</td>
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="item in dragonDetail.buyList">
-              <td>{{item.branchName}}</td>
-              <td style="color:rgb(202, 73, 65)">{{item.bVlaue | isNull | decimal(2)}}</td>
-              <td style="color:rgb(86, 168, 112)">{{item.sValue | isNull | decimal(2)}}</td>
-              <td>{{item.netValue | isNull | decimal(2)}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p><span>买入金额合计：{{dragonDetail.bvalueTotal}}万元</span><span>买入金额占比合计：{{dragonDetail.bvalueRateTotal}}%</span>
+    <div class="detail-box">
+      <div class="detail-con" v-for="(dragonList,index) in dragonDetail">
+        <p class="detail-type">上榜类型：{{dragonList.infoCls}}</p>
+        <p class="mb-10">
+          {{dragonList.statNum === 1 ? '今':dragonList.statNum}}日{{Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? '净买入':'净卖出'}}：
+          <span v-if="dragonList.netValueTotal > 0" :style="{color:Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonList.netValueTotal)/10e7 > 1 ? ((Number(dragonList.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonList.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
+          <span v-if="dragonList.netValueTotal < 0" :style="{color:Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonList.netValueTotal)*-1 /10e7 > 1 ? ((Number(dragonList.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonList.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
         </p>
-        <table>
-          <thead>
-            <th>
-              <td>卖出前5营业部名称</td>
-              <td>买入(万元)</td>
-              <td>卖出(万元)</td>
-              <td>净额(万元)</td>
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="item in dragonDetail.sellList">
-              <td>{{item.branchName}}</td>
-              <td style="color:rgb(202, 73, 65)">{{item.bVlaue | isNull | decimal(2)}}</td>
-              <td style="color:rgb(86, 168, 112)">{{item.sValue | isNull | decimal(2)}}</td>
-              <td>{{item.netValue | isNull | decimal(2)}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p><span>卖出金额合计：{{dragonDetail.svalueTotal}}万元</span><span>卖出金额占比合计：{{dragonDetail.svalueRateTotal}}%</span>
-        </p>
+        <div class="pr-30">
+          <table cellspacing="0" cellpadding="0">
+            <thead>
+              <tr>
+                <td>买入前5营业部名称</td>
+                <td>买入(万元)</td>
+                <td>卖出(万元)</td>
+                <td>净额(万元)</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in dragonList.buyList">
+                <td>{{item.branchName}}</td>
+                <td style="color:rgb(202, 73, 65)">{{item.bValue/10e3 | isNull | decimal(2)}}</td>
+                <td style="color:rgb(86, 168, 112)">{{item.sValue/10e3 | isNull | decimal(2)}}</td>
+                <td :style="{color:item.bValue-item.sValue >= 0 ?'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">
+                  {{item.netValue/10e3 | isNull | decimal(2)}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="tr detail-total mb-10"><span class="mr-10">买入金额合计：<span style="color:rgb(202, 73, 65)">{{dragonList.bvalueTotal/10e3 | decimal(2)}}万元</span></span><span>买入金额占比合计：{{dragonList.bvalueRateTotal}}%</span>
+          </p>
+          <table cellspacing="0" cellpadding="0">
+            <thead>
+              <tr>
+                <td>卖出前5营业部名称</td>
+                <td>买入(万元)</td>
+                <td>卖出(万元)</td>
+                <td>净额(万元)</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in dragonList.sellList">
+                <td>{{item.branchName}}</td>
+                <td style="color:rgb(202, 73, 65)">{{item.bValue/10e3 | isNull | decimal(2)}}</td>
+                <td style="color:rgb(86, 168, 112)">{{item.sValue/10e3 | isNull | decimal(2)}}</td>
+                <td :style="{color:item.bValue-item.sValue >= 0 ?'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">
+                  {{item.netValue/10e3 | isNull | decimal(2)}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="tr detail-total mb-10 mt-5"><span class="mr-10">卖出金额合计：<span
+                          style="color:rgb(86, 168, 112)">{{dragonList.svalueTotal/10e3 | decimal(2)}}万元</span></span><span>卖出金额占比合计：{{dragonList.svalueRateTotal}}%</span>
+          </p>
+        </div>
+        <div v-if="dragonDetail.length !== 1 || index === dragonDetail.length" style="border-bottom:1px solid #E5E5E5; height:1px;"></div>
       </div>
-
-
     </div>
+
   </div>
 </div>
 </template>
@@ -202,11 +261,13 @@ export default {
   },
   mounted() {
     this.$store.dispatch('dragonList/getDragonList', {
-      innerCode: '000021.SZ'
+      // innerCode: '000021.SZ'
+      innerCode: this.$route.query.innerCode
     })
     this.$store.dispatch('dragonList/getDragonDetail', {
-      innerCode: '000021.SZ',
-      date: '20180117'
+      innerCode: this.$route.query.innerCode,
+      date: this.$route.query.date
+      // date: '20180117'
     })
   }
 }
