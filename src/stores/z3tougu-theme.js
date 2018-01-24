@@ -470,6 +470,10 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateTopicTechAndInfo', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },
