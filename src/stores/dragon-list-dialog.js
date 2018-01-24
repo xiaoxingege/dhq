@@ -27,7 +27,7 @@ export default {
     },
     setDragonDetail(state, result) {
       if (result.errCode === 0) {
-        state.dragonDetail = result.data[0]
+        state.dragonDetail = result.data
       } else {
         state.dragonDetail = []
       }

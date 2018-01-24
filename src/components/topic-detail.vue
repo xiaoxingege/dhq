@@ -225,7 +225,7 @@ html {
     position: relative;
     border-bottom: 1px solid #0d0e0f;
 }
-.chart2 {
+.topic-chart2 {
     height: 100%;
     width: 100%;
     display: block;
@@ -586,7 +586,7 @@ table {
     /* width: 22%; */
     width: 24%;
 }
-.chart {
+.topic-chart {
     height: 100%;
     width: 100%;
     display: inline-block;
@@ -810,7 +810,8 @@ ol li {
     width: 77px;
     height: 10px;
     position: relative;
-    left: 19%;
+    /*left: 19%;*/
+    left: 204px;
     top: 17px;
     float: left;
 }
@@ -819,7 +820,8 @@ ol li {
     height: 2px;
     border: 1px dashed #ebb344;
     position: absolute;
-    left: -104px;
+    /* left: -104px;*/
+    left: -100px;
     top: 31px;
 }
 .down {
@@ -861,11 +863,11 @@ ol li {
           <div class="icon-box" v-show='!isUpDown'>
             <span class="icon-line"></span>
             <select class="selectma">
-            <!-- <option v-for="(tmd,key) in maDatas" :value="tmd.value">{{tmd.name}}</option> -->
-                <option value="Ma5">MA5</option>
-                <option value="Ma10">MA10</option>
-                <option value="Ma20">MA20</option>
-              </select>
+                <!-- <option v-for="(tmd,key) in maDatas" :value="tmd.value">{{tmd.name}}</option> -->
+                    <option value="Ma5">MA5</option>
+                    <option value="Ma10">MA10</option>
+                    <option value="Ma20">MA20</option>
+                  </select>
             <i class="down"></i>
           </div>
 
@@ -883,8 +885,8 @@ ol li {
             <li @click="renderCharts('M36')" :class="this.period==='M36'?'active':''">近3年</li>
             <li @click="renderCharts('ALL')" :class="this.period==='ALL'?'active':''">全部</li>
           </ul>
-          <div class="chart" ref="chart" v-show='isShowCharts1'></div>
-          <div class="chart chart2" v-show='!isShowCharts1'></div>
+          <div class="topic-chart" ref="chart" v-show='isShowCharts1'></div>
+          <div class="topic-chart topic-chart2" v-show='!isShowCharts1'></div>
 
         </div>
         <div class="left-con1 display-box">
@@ -950,7 +952,7 @@ ol li {
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.topicMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.topicMark!==null'>{{stock.topicMark.length<=200?stock.topicMark:stock.topicMark.substring(0,201)+'…'}}</span></td>
-            <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:35%'">{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
+            <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:45%'">{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
             </td>
           </tr>
         </table>
@@ -1027,6 +1029,8 @@ export default {
       stockPageSize: '',
       showSee: false,
       stockList: [],
+      titleName: '',
+      maName: 'MA5',
       iconHelpMsg: '',
       iconHelpMsgUdown: '题材涨跌幅通过成份股的流通市值加权平均涨跌幅计算而来，再通过∏(1+r',
       iconHelpMsgHeat: '题材热度通过题材的涨跌幅、近1周涨跌幅、成份股上涨数量占比，并叠加一定的全局惩罚参数和单个题材惩罚参数加权平均计算而来，完全从技术层面评价题材热度。',
@@ -1280,7 +1284,7 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('chart')[0]) || echarts.init(document.getElementsByClassName('chart')[0])
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[0]) || echarts.init(document.getElementsByClassName('topic-chart')[0])
       // var _this = this
       this.period = 'day'
       /* this.$store.dispatch('topic/queryAllCharts', { period: this.period, topicCode: this.topicCode })
@@ -1299,12 +1303,13 @@ export default {
       this.isUpDown = false
       this.isShowCharts1 = false
       this.isShowCharts2 = true
-      document.getElementsByClassName('chart')[0].style.display = 'none';
-      document.getElementsByClassName('chart')[1].style.display = 'block';
-      this.chart2 = echarts.getInstanceByDom(document.getElementsByClassName('chart')[1]) || echarts.init(document.getElementsByClassName('chart')[1])
+      document.getElementsByClassName('topic-chart')[0].style.display = 'none';
+      document.getElementsByClassName('topic-chart')[1].style.display = 'block';
+      this.chart2 = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[1]) || echarts.init(document.getElementsByClassName('topic-chart')[1])
       this.initSelect('.selectma')
       document.getElementById('select-h5').innerHTML = 'MA5'
       this.selectMaValue = 'Ma5'
+      this.maName = 'MA5'
       this.renderMa5()
     },
     goToPage(page) {
@@ -1375,6 +1380,7 @@ export default {
         downtxt.appendChild(newSpan);
       } else if (type === 'techIndex') {
         this.loadHeatRiseCharts()
+        this.titleName = '热度指数'
         // $(".select-h5").text('asas')
         /* var expres=document.getElementById('expres')
         document.getElementById('downtxt').removeChild(expres); */
@@ -1382,6 +1388,7 @@ export default {
         $('#downtxt').find('span').remove();
       } else if (type === 'infoIndex') {
         this.loadHeatRiseCharts()
+        this.titleName = '舆情指数'
         $('#downtxt').find('span').remove();
 
       }
@@ -1738,6 +1745,7 @@ export default {
       window.onresize = this.chart.resize
     },
     drawHeatPublicCharts(topicName, tradeDate, indexValue, maValue, pointData) {
+      var _self = this
       this.chart2.setOption({
         tooltip: {
           trigger: 'axis',
@@ -1749,7 +1757,16 @@ export default {
               for (var i = 0; i < params.length; i++) {
                 var param = params[i]
                 if (param.value !== '') {
-                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + param.seriesName + ': ' + param.value + '<br/></span></div>'
+                  if (i === 0) {
+                    if (_self.riseOrHeat === 'techIndex') {
+                      params[i].seriesName = '热度'
+
+                    } else if (_self.riseOrHeat === 'infoIndex') {
+                      params[i].seriesName = '舆情'
+                    }
+
+                  }
+                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + params[i].seriesName + ': ' + param.value + '<br/></span></div>'
                 }
               }
               return boxHtml
@@ -1768,7 +1785,7 @@ export default {
           },
 
           data: [{
-              name: topicName,
+              name: this.titleName,
               icon: 'pin',
               textStyle: {
                 color: '#c9d0d7'
@@ -1863,7 +1880,7 @@ export default {
           }
         }],
         series: [{
-            name: topicName,
+            name: this.titleName,
             type: 'line',
             smooth: true,
             data: indexValue,
@@ -1896,7 +1913,7 @@ export default {
             }
           },
           {
-            name: this.selectMaValue,
+            name: this.maName,
             type: 'line',
             data: maValue,
             smooth: true,
@@ -1959,6 +1976,7 @@ export default {
         }).on('click', 'li', function() {
           tit.text($(this).text());
           _this.selectMaValue = $(this).attr('data-value')
+          _this.maName = $(this).html()
           console.log($(this).attr('data-value'))
           // 让原来的select 的selectedIndex 为当前里li的索引
           console.log(_this.selectMaValue)

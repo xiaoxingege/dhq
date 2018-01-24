@@ -729,7 +729,8 @@ a.kuai_icon {
               <span class="box-flex-1 tech-info">热度指数：</span>
               <div class="box-flex-1 tech-num">
                 <div class="progress-box">
-                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.techIndex))+'%;min-width:10%'">{{Math.ceil(allTopic.topicMarket.techIndex)}}</span>
+                  <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.techIndex))+'%;min-width:25%'" v-if="isNaN(Math.ceil(allTopic.topicMarket.techIndex))">--</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.techIndex))+'%;min-width:25%'" v-else>{{Math.ceil(allTopic.topicMarket.techIndex)}}</span>
                 </div>
               </div>
             </div>
@@ -737,7 +738,8 @@ a.kuai_icon {
               <span class="box-flex-1 tech-info">舆情指数：</span>
               <div class="box-flex-1 tech-num">
                 <div class="progress-box">
-                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:10%'">{{Math.ceil(allTopic.topicMarket.infoIndex)}}</span>
+                  <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-if="isNaN(Math.ceil(allTopic.topicMarket.infoIndex))">--</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-else>{{Math.ceil(allTopic.topicMarket.infoIndex)}}</span>
                 </div>
               </div>
             </div>
