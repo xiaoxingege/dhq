@@ -239,6 +239,16 @@ input {
     border-color: #16181B;
     font-size: 12px;
 }
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
         line-height: 45px;
@@ -299,13 +309,13 @@ input {
     </div>
     <div class="fl mr-15 xAxisRange" v-if="dimensionOptions.xDefault !== 'sw_indu_name' && dimensionOptions.xDefault !== 'chi_spel' && dimensionOptions.xDefault !== 'order' && dimensionOptions.xDefault !== 'fcst_idx.rating_syn'">
       X轴范围：
-      <input type="text" @blur="setZoomRange($event,1)" :value="xZoomDefault[0] | decimal(2)" /> —
-      <input type="text" @blur="setZoomRange($event,2)" :value="xZoomDefault[1] | decimal(2)" />
+      <input type="number" @blur="setZoomRange($event,1)" :value="xZoomDefault[0] | decimal(2)" /> —
+      <input type="number" @blur="setZoomRange($event,2)" :value="xZoomDefault[1] | decimal(2)" />
     </div>
     <div class="fl mr-20 yAxisRange" v-if="dimensionOptions.yDefault !== 'sw_indu_name' && dimensionOptions.yDefault !== 'chi_spel' && dimensionOptions.yDefault !== 'order' && dimensionOptions.yDefault !== 'fcst_idx.rating_syn'">
       Y轴范围：
-      <input type="text" @blur="setZoomRange($event,3)" :value="yZoomDefault[0] | decimal(2)" /> —
-      <input type="text" @blur="setZoomRange($event,4)" :value="yZoomDefault[1] | decimal(2)" />
+      <input type="number" @blur="setZoomRange($event,3)" :value="yZoomDefault[0] | decimal(2)" /> —
+      <input type="number" @blur="setZoomRange($event,4)" :value="yZoomDefault[1] | decimal(2)" />
     </div>
     <div class="fl defaultSet" @click="defaultSet">默认设置</div>
     <!--<div class="fr">-->
@@ -556,7 +566,7 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。'
+          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。'
         },
         'demoTmp7': {
           name: '股价表现 VS 成交量选股',
