@@ -220,10 +220,10 @@ export default {
       mapType: 'plate',
       conditionIndustry: 'indu_market.tech_index',
       conditionStockI: 'tech_index',
-      industryIndexs: ['indu_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', ''],
-      industryStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', ''],
-      topicIndexs: ['topic_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', ''],
-      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', '']
+      industryIndexs: ['indu_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
+      industryStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
+      topicIndexs: ['topic_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
+      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today']
     }
   },
   props: [''],
