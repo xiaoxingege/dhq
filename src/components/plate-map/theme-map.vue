@@ -53,29 +53,6 @@
   height: 25px;
 }
 
-.chart_bottom_enlarge {
-  position: absolute;
-  bottom: 0px;
-  height: 41px;
-  width: 100%;
-}
-
-.chart_bottom_enlarge .playback {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
-}
-
-.chart_bottom_enlarge .map_legend {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
-}
-
 .perday {
   width: 35px;
   height: 20px;
@@ -116,10 +93,6 @@
   left: 786px;
 }
 
-.chart_bottom_enlarge .play_line {
-  top: 8px;
-}
-
 .enlarge {
   height: 25px;
   padding-top: 10px;
@@ -155,7 +128,7 @@
 <template>
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
-  <div class="enlarge">
+  <div class="enlarge ">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
   </div>
@@ -192,7 +165,7 @@ const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 let pid
 let syncDateTimePid
 export default {
-  props: ['plateType', 'conditionTopic', 'conditionStock'], // 从父组件传下来
+  props: ['plateType', 'conditionTopic', 'conditionStock', 'topicIndexs', 'topicStockIndexs'], // 从父组件传下来
   components: {
     StockList
   },
@@ -203,11 +176,28 @@ export default {
       offsetX: 0,
       offsetY: 0,
       colors: {
-        'topic_market.heat_index': colorsListRD.slice().reverse(), // 热度指数 灰-红
-        'topic_market.chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
-        'topic_market.real_chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
-        'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 个股涨跌幅 绿-红
-        'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 个股近1周涨跌幅
+        /* 板块 */
+        'topic_market.tech_index': colorsListRD.slice().reverse(), // 热度指数 灰-红
+        'chg_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
+        'chg_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
+        'chg_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
+        'chg_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
+        'chg_pct_6month': colorsList1.slice().reverse(), // 近6月涨跌幅
+        'chg_pct_year': colorsList1.slice().reverse(), // 近1年涨跌幅
+        'chg_pct_year_sofar': colorsList1.slice().reverse(), // 今年以来涨跌幅
+        'rela_volume': colorsList2, // 相对成交量
+        'peg': colorsList1, // PEG
+        'ps': colorsList1, // 市销率
+        'pb': colorsList1, // 市净率
+        'div_rate': colorsList1.slice().reverse().slice(20), // 股息率
+        'pe_ttm': colorsList1, // 市盈率(TTM)
+        'fir_fcst_pe': colorsList1, // 预测市盈率
+        'eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
+        'keep_days': colorsList1.slice().reverse(), // 连涨天数
+        /* 个股 */
+        'tech_index': colorsListRD.slice().reverse(), // 热度指数 灰-红
+        'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
+        'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
         'perf_idx.chng_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
         'perf_idx.chng_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
         'perf_idx.chng_pct_6month': colorsList1.slice().reverse(), // 近6月涨跌幅
@@ -221,15 +211,13 @@ export default {
         'mkt_idx.pe_ttm': colorsList1, // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': colorsList1, // 预测市盈率
         'fin_idx.eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
-        'topic_market.keep_days_today': colorsList1.slice().reverse(), // 连涨天数
-        'mkt_idx.keep_days_today': colorsList1.slice().reverse() // 个股连涨天数
+        'mkt_idx.keep_days_today': colorsList1.slice().reverse() // 连涨天数
       },
       rangeValues: {
-        'topic_market.heat_index': valueRangeRD, // 热度指数
-        'topic_market.chng_pct': valueRange1d, // 涨跌幅
-        'topic_market.real_chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
-        'mkt_idx.cur_chng_pct': valueRange1d, // 个股涨跌幅
-        'mkt_idx.chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 个股近1周涨跌幅
+        /* 个股 */
+        'tech_index': valueRangeRD, // 热度指数
+        'mkt_idx.cur_chng_pct': valueRange1d, // 涨跌幅
+        'mkt_idx.chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
         'perf_idx.chng_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
         'perf_idx.chng_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
         'perf_idx.chng_pct_6month': this.fmtraneValue(valueRange1d, 8), // 近6月涨跌幅
@@ -243,14 +231,30 @@ export default {
         'mkt_idx.pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
         'fin_idx.eps_5year': this.fmtraneValue(valueRange1d, 9), // EPS增长率(过去5年)
-        'topic_market.keep_days_today': valueRangeUD, // 连续涨跌天数
-        'mkt_idx.keep_days_today': valueRangeUD // 个股连续涨跌天数
+        'mkt_idx.keep_days_today': valueRangeUD, // 个股连续涨跌天数
+        /* 板块 */
+        'topic_market.tech_index': valueRangeRD, // 热度指数
+        'chg_pct': valueRange1d, // 涨跌幅
+        'chg_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
+        'chg_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
+        'chg_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
+        'chg_pct_6month': this.fmtraneValue(valueRange1d, 8), // 近6月涨跌幅
+        'chg_pct_year': this.fmtraneValue(valueRange1d, 9), // 近1年涨跌幅
+        'chg_pct_year_sofar': this.fmtraneValue(valueRange1d, 8), // 今年以来涨跌幅
+        'rela_volume': valueRangeRelvol, // 相对成交量
+        'peg': this.fmtraneValue(valueRangeGX, 2.5), // PEG
+        'ps': this.fmtraneValue(valueRangeGX, 10), // 市销率
+        'pb': valueRangeSJ, // 市净率
+        'div_rate': valueRangeGX, // 股息率
+        'pe_ttm': this.fmtraneValue(valueRangeGX, 75), // 市盈率(TTM)
+        'fir_fcst_pe': this.fmtraneValue(valueRangeGX, 75), // 预测市盈率
+        'eps_5year': this.fmtraneValue(valueRange1d, 9), // EPS增长率(过去5年)
+        'keep_days': valueRangeUD // 个股连续涨跌天数
       },
       isUnit: {
-        'topic_market.heat_index': '', // 热度指数 绿-红
-        'topic_market.chng_pct': '%', // 涨跌幅 绿-红
+        /* 个股 */
+        'tech_index': '', // 热度指数 绿-红
         'mkt_idx.cur_chng_pct': '%', // 个股涨跌幅 绿-红
-        'topic_market.real_chng_pct_week': '%', // 近1周涨跌幅
         'mkt_idx.chng_pct_week': '%', // 个股近1周涨跌幅
         'perf_idx.chng_pct_month': '%', // 近1月涨跌幅
         'perf_idx.chng_pct_3month': '%', // 近3月涨跌幅
@@ -265,8 +269,25 @@ export default {
         'mkt_idx.pe_ttm': '', // 市盈率(TTM)
         'mkt_idx.fir_fcst_pe': '', // 预测市盈率
         'fin_idx.eps_5year': '%', // EPS增长率(过去5年)
-        'topic_market.keep_days_today': '天',
-        'mkt_idx.keep_days_today': '天'
+        'mkt_idx.keep_days_today': '天',
+        /* 板块 */
+        'topic_market.tech_index': '', // 热度指数 绿-红
+        'chg_pct': '%', // 个股涨跌幅 绿-红
+        'chg_pct_week': '%', // 个股近1周涨跌幅
+        'chg_pct_month': '%', // 近1月涨跌幅
+        'chg_pct_3month': '%', // 近3月涨跌幅
+        'chg_pct_6month': '%', // 近6月涨跌幅
+        'chg_pct_year': '%', // 近1年涨跌幅
+        'chg_pct_year_sofar': '%', // 今年以来涨跌幅
+        'rela_volume': '', // 相对成交量
+        'peg': '', // PEG
+        'ps': '', // 市销率
+        'pb': '', // 市净率
+        'div_rate': '%', // 股息率
+        'pe_ttm': '', // 市盈率(TTM)
+        'fir_fcst_pe': '', // 预测市盈率
+        'eps_5year': '%', // EPS增长率(过去5年)
+        'keep_days': '天'
       },
       legendList: [],
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
@@ -315,7 +336,7 @@ export default {
   },
   computed: {
     mapData: function() {
-      const map = [].concat(this.$store.state.plateMap.industries)
+      const map = [].concat(this.$store.state.plateMap.topicData)
       map.forEach(function(industry) {
         industry.value = industry.size
       })
@@ -337,7 +358,7 @@ export default {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStock] === '%') {
-              if (_this.conditionStock !== 'mkt_idx.div_rate') {
+              if (_this.conditionStock !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {
@@ -348,7 +369,7 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
+              if (_this.conditionStock === 'keep_days') {
                 stock.perfText = stock.perf + '天';
               }
             }
@@ -391,7 +412,7 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionTopic === 'topic_market.keep_days_today') {
+              if (_this.conditionTopic === 'keep_days') {
                 stock.perfText = stock.perf + '天';
               }
             }
@@ -548,7 +569,7 @@ export default {
       } else {
         this.updateDataPid = setInterval(function() {
           if (_this.autoUpdate) {
-            _this.isContinue = 0;
+            //  _this.isContinue = 0;
             if (_this.mapType === 'plate') {
               _this.updateData()
             } else if (_this.mapType === 'stock') {
@@ -639,19 +660,9 @@ export default {
           })
         });
         let p2 = new Promise((resolve, reject) => {
-          let condition;
-          if (this.conditionTopic === 'topic_market.chng_pct') {
-            condition = 'mkt_idx.cur_chng_pct'
-          } else if (this.conditionTopic === 'topic_market.real_chng_pct_week') {
-            condition = 'mkt_idx.chng_pct_week'
-          } else if (this.conditionTopic === 'topic_market.keep_days_today') {
-            condition = 'mkt_idx.keep_days_today'
-          } else {
-            condition = this.conditionTopic
-          }
           this.$store.dispatch('plateMap/queryTopicStockValue', {
             isContinue: this.isContinue,
-            condition: condition,
+            condition: this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)],
             topicCode: this.topicCode
           }).then(() => {
             resolve();
@@ -728,7 +739,7 @@ export default {
               borderColor: '#141518', // 第一层矩形间隔线颜色
               borderWidth: 0,
               color: '#141518',
-              gapWidth: 2 // 第一层块间隔距离
+              gapWidth: 0 // 第一层块间隔距离
             }
           },
           silent: true
@@ -738,8 +749,7 @@ export default {
             normal: {
               borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
               color: '#141518',
-              borderWidth: 1, // 第一层矩形间距
-              gapWidth: 1 // 第二层矩形间距
+              borderWidth: 1 // 第一层矩形间距
             },
             emphasis: {}
           },
@@ -789,8 +799,8 @@ export default {
         this.isStopPlayback = true
         this.$emit('isStopPlayback', this.isStopPlayback)
       } else { // 未播放点击开始播放
-        if (this.conditionTopic !== 'topic_market.heat_index') {
-          this.conditionTopic = 'topic_market.heat_index'
+        if (this.conditionTopic !== 'topic_market.tech_index') {
+          this.conditionTopic = 'topic_market.tech_index'
           this.$emit('toZdfCondition', this.conditionTopic)
         }
         // this.playBackIndex = 0;
@@ -946,11 +956,10 @@ export default {
         this.$emit('isStopPlayback', this.isStopPlayback)
       }
       this.autoUpdate = true;
-      if (this.mapType === 'plate') {
-        this.updateData()
-      } else if (this.mapType === 'stock') {
-        this.updateStockData()
+      if (this.mapType === 'stock') {
+        this.mapType = 'plate'
       }
+      this.updateData()
       this.autoUpdateData();
     },
     getNode: function(params) {
@@ -983,6 +992,7 @@ export default {
     plateBack: function() {
       this.mapType = 'plate'
       this.$emit('passMapType', this.mapType)
+      this.$emit('passConditionTopic', this.conditionStock)
       this.updateMap()
     }
   },

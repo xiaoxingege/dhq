@@ -368,9 +368,9 @@ export default {
     }, {
       innerCode,
       strategyId,
-      month
+      day
     }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&month=${month}`, {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&day=${day}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -502,8 +502,12 @@ export default {
     },
     getFilterStrategyList({
       commit
+    }, {
+      query,
+      size,
+      page
     }) {
-      return fetch(`${domain}/openapi/backtest/filterStrategy/indexAndReturns.shtml?query=&followFlag=0&userId=7477ce5e-ce51-4581-a60a-f6d9a7152068&sort=winRatio&direction=desc&size=12&page=0`, {
+      return fetch(`${domain}/openapi/backtest/filterStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
