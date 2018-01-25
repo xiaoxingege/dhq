@@ -55,7 +55,7 @@ button {
     position: fixed;
     bottom: -0.06rem;
     left: 0.38rem;
-    background: url("../assets/images/pqng-activity/pqng-h5-footer-1.png") center bottom no-repeat;
+    background: url("../assets/images/pqng-activity/pqng-h5-footer-2.png") center bottom no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
