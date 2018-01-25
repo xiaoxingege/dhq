@@ -225,7 +225,7 @@ html {
     position: relative;
     border-bottom: 1px solid #0d0e0f;
 }
-.chart2 {
+.topic-chart2 {
     height: 100%;
     width: 100%;
     display: block;
@@ -586,7 +586,7 @@ table {
     /* width: 22%; */
     width: 24%;
 }
-.chart {
+.topic-chart {
     height: 100%;
     width: 100%;
     display: inline-block;
@@ -885,8 +885,8 @@ ol li {
             <li @click="renderCharts('M36')" :class="this.period==='M36'?'active':''">近3年</li>
             <li @click="renderCharts('ALL')" :class="this.period==='ALL'?'active':''">全部</li>
           </ul>
-          <div class="chart" ref="chart" v-show='isShowCharts1'></div>
-          <div class="chart chart2" v-show='!isShowCharts1'></div>
+          <div class="topic-chart" ref="chart" v-show='isShowCharts1'></div>
+          <div class="topic-chart topic-chart2" v-show='!isShowCharts1'></div>
         </div>
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
@@ -1284,7 +1284,7 @@ export default {
   methods: {
     initChart() {
       // this.chart = echarts.init(this.$refs.chart)
-      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('chart')[0]) || echarts.init(document.getElementsByClassName('chart')[0])
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[0]) || echarts.init(document.getElementsByClassName('topic-chart')[0])
       this.period = 'day'
       this.renderCharts(this.period)
     },
@@ -1345,9 +1345,9 @@ export default {
       this.isUpDown = false
       this.isShowCharts1 = false
       this.isShowCharts2 = true
-      document.getElementsByClassName('chart')[0].style.display = 'none';
-      document.getElementsByClassName('chart')[1].style.display = 'block';
-      this.chart2 = echarts.getInstanceByDom(document.getElementsByClassName('chart')[1]) || echarts.init(document.getElementsByClassName('chart')[1])
+      document.getElementsByClassName('topic-chart')[0].style.display = 'none';
+      document.getElementsByClassName('topic-chart')[1].style.display = 'block';
+      this.chart2 = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[1]) || echarts.init(document.getElementsByClassName('topic-chart')[1])
       this.initSelect('.selectma')
       document.getElementById('select-h5').innerHTML = 'MA5'
       this.selectMaValue = 'Ma5'
@@ -1793,7 +1793,7 @@ export default {
         yAxis: [{
           type: 'value',
           axisLabel: {
-            formatter: '{value}%',
+            formatter: '{value}',
             textStyle: {
               color: '#c9d0d7'
             }

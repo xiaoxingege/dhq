@@ -127,7 +127,7 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionIndustry" :kLineType="kLineType" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionIndustry" :kLineType="kLineType" :industryIndexs="industryIndexs" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
@@ -195,7 +195,8 @@ export default {
         'eps_5year': colorsList1.slice().reverse(), // EPS增长率(过去5年)
         'keep_days': colorsList1.slice().reverse(), // 连涨天数
         /* 个股 */
-        'tech_index': colorsList1.slice().reverse(), // 涨跌幅 绿-红
+        'tech_index': colorsListRD.slice().reverse(), // 热度指数 灰-红
+        'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
         'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
         'perf_idx.chng_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
         'perf_idx.chng_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
@@ -323,11 +324,16 @@ export default {
   },
   watch: {
     conditionIndustry() {
+      this.$emit('changeCondition', this.industryIndexs.indexOf(this.conditionIndustry))
       this.isContinue = 1
       this.autoUpdate = true
       this.updateData()
     },
     conditionStockI() {
+      if (this.mapType === 'plate') { // 鼠标移入的时候
+        return
+      }
+      this.$emit('changeCondition', this.industryStockIndexs.indexOf(this.conditionStockI))
       this.isContinue = 1
       this.autoUpdate = true
       this.updateStockData()
@@ -359,7 +365,7 @@ export default {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStockI] === '%') {
-              if (_this.conditionStockI !== 'div_rate') {
+              if (_this.conditionStockI !== 'mkt_idx.div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {
@@ -370,8 +376,10 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStockI === 'keep_days') {
+              if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
                 stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
               }
             }
           } else {
@@ -415,6 +423,8 @@ export default {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
               if (_this.conditionIndustry === 'keep_days') {
                 stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
               }
             }
           } else {
@@ -570,7 +580,7 @@ export default {
       } else {
         this.updateDataPid = setInterval(function() {
           if (_this.autoUpdate) {
-            _this.isContinue = 0;
+            //  _this.isContinue = 0;
             if (_this.mapType === 'plate') {
               _this.updateData()
             } else if (_this.mapType === 'stock') {
@@ -675,6 +685,7 @@ export default {
           if (this.topicStockValue.length > 20) {
             this.topicStockValue.length = 20
           }
+          this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
           this.hoverNodeParent.children = this.topicStockValue // 浮窗股票列表
         });
         if (this.focusEl) {
