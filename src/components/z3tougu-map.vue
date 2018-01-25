@@ -123,6 +123,7 @@ html {
                 <option value="mainSZ">深交所主板</option>
                 <option value="399006.SZ">中小板</option>
                 <option value="399005.SZ">创业板</option>
+                <option value="margin">融资融券</option>
             </select> 浏览指标：
       <select v-model="condition" class="condition-select">
                 <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
@@ -142,6 +143,8 @@ html {
                 <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
                 <option value="act_date">业绩公布日</option>
                 <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
+                <option value="margin_buy_value" v-show="rangeCode === 'margin'">融资买入额</option>
+                <option value="margin_buy_net_value" v-show="rangeCode === 'margin'">融资净买入额</option>
             </select>
     </div>
     <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
