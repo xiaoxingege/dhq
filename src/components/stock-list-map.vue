@@ -87,13 +87,37 @@ td {
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
   <h3 class="clearfix" v-if="titleName">{{titleName}}--{{titleNameLel2}}
     <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
+    <!-- 涨跌幅 -->
     <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
+    <!-- 连续涨跌天数 -->
     <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
+    <!-- 股息率和EPS增长率 -->
     <span v-else>{{industryAvg}}</span>
     <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
     <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
-  <h3 class="clearfix" v-if="!titleName">{{titleNameLel2}}</h3>
+  <h3 class="clearfix" v-if="!titleName && kLineType === 'topic'">{{titleNameLel2}}
+    <span v-z3-updowncolor="parentValue" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
+    <!-- 涨跌幅 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
+    <!-- 连续涨跌天数 -->
+    <span v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 股息率和EPS增长率 -->
+    <span v-else>{{parentValue}}</span>
+    <span class="stock-down fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+  </h3>
+  <h3 class="clearfix" v-if="!titleName && kLineType === 'industry'">{{titleNameLel2}}
+    <span v-z3-updowncolor="parentValue" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
+    <!-- 涨跌幅 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
+    <!-- 连续涨跌天数 -->
+    <span v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 股息率和EPS增长率 -->
+    <span v-else>{{parentValue}}</span>
+    <span class="stock-down fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+  </h3>
   <table>
     <tbody>
       <tr class="hovered" :style="{background:bgColor}">
@@ -119,7 +143,7 @@ td {
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType'],
+  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType', 'topicIndexs', 'industryIndexs'],
   data() {
     return {
       stockList: [],
@@ -188,6 +212,11 @@ export default {
     titleNameLel2() {
       if (this.parent && this.parent.name) {
         return this.parent.name
+      }
+    },
+    parentValue() {
+      if (this.parent && this.parent.name) {
+        return this.parent.perf
       }
     },
     titleChartData() {
