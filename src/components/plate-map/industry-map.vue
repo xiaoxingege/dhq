@@ -324,6 +324,7 @@ export default {
   },
   watch: {
     conditionIndustry() {
+      this.$emit('changeCondition', this.industryIndexs.indexOf(this.conditionIndustry))
       this.isContinue = 1
       this.autoUpdate = true
       this.updateData()
@@ -332,6 +333,7 @@ export default {
       if (this.mapType === 'plate') { // 鼠标移入的时候
         return
       }
+      this.$emit('changeCondition', this.industryStockIndexs.indexOf(this.conditionStockI))
       this.isContinue = 1
       this.autoUpdate = true
       this.updateStockData()

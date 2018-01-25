@@ -198,9 +198,9 @@ html {
     </div>
   </div>
   <ThemeMap v-if="plateType === 'theme'" :plateType="plateType" :conditionTopic="conditionTopic" :conditionStock='conditionStock' :topicIndexs='topicIndexs' :topicStockIndexs='topicStockIndexs' @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf" @passMapType="getMapType"
-    @passConditionStock="getConditionStock" @passConditionTopic="getConditionTopic"></ThemeMap>
+    @passConditionStock="getConditionStock" @passConditionTopic="getConditionTopic" @changeCondition="getChangeCondition"></ThemeMap>
   <IndustryMap v-if="plateType === 'industry'" :plateType="plateType" :conditionIndustry="conditionIndustry" :conditionStockI='conditionStockI' :industryIndexs='industryIndexs' :industryStockIndexs='industryStockIndexs' @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"
-    @passMapType="getMapType" @passConditionStockI="getConditionStockI" @passConditionIndustry="getConditionIndustry"></IndustryMap>
+    @passMapType="getMapType" @passConditionStockI="getConditionStockI" @passConditionIndustry="getConditionIndustry" @changeCondition="getChangeCondition"></IndustryMap>
 </div>
 </template>
 <script type="text/javascript">
@@ -210,6 +210,7 @@ export default {
   data() {
     return {
       plateType: 'theme',
+      conditionIndex: 0,
       conditionTopic: 'topic_market.tech_index',
       conditionStock: 'tech_index',
       keyword: '',
@@ -227,6 +228,16 @@ export default {
     }
   },
   props: [''],
+  watch: {
+    plateType() {
+      this.mapType = 'plate'
+      if (this.plateType === 'theme') { // 题材板块
+        this.conditionTopic = this.topicIndexs[this.conditionIndex]
+      } else if (this.plateType === 'industry') {
+        this.conditionIndustry = this.industryIndexs[this.conditionIndex]
+      }
+    }
+  },
   components: {
     ThemeMap,
     IndustryMap
@@ -259,6 +270,9 @@ export default {
     // 行业板块浏览指标变化(msg是行业个股的指标)
     getConditionIndustry: function(msg) {
       this.conditionIndustry = this.industryIndexs[this.industryStockIndexs.indexOf(msg)]
+    },
+    getChangeCondition: function(msg) {
+      this.conditionIndex = msg
     }
   },
   mounted() {
