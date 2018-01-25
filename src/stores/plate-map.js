@@ -20,7 +20,9 @@ const state = {
   industryData: null,
   industryStockData: null,
   industryValue: null,
-  industryStockValue: null
+  industryStockValue: null,
+  bestTopicStock: null,
+  bestIndustryStock: null
 }
 
 // getters
@@ -31,7 +33,6 @@ const getters = {
 const mutationsTypes = {
   QUERY_RANGE_BY_CODE: 'QUERY_RANGE_BY_CODE',
   UPDATE_DATA: 'UPDATE_DATA',
-  STOCK_CHART_DATA: 'STOCK_CHART_DATA',
   INDUSTRY_AVG: '',
   CALENDARS_DATA: 'CALENDARS_DATA',
   CUR_TIME_ITEM: 'CUR_TIME_ITEM',
@@ -310,13 +311,6 @@ const mutations = {
   [mutationsTypes.UPDATE_DATA](state, stockData) {
     state.stockData = stockData
   },
-  [mutationsTypes.STOCK_CHART_DATA](state, result) {
-    if (result.errCode === 0) {
-      state.stockChartData = result.data
-      state.industryChngPct = parseFloat(result.msg.split(':')[1]).toFixed(2);
-      state.industryAvg = parseFloat(result.msg.split(':')[1]).toFixed(2);
-    }
-  },
   [mutationsTypes.CALENDARS_DATA](state, calendarsData) {
     state.calendarsData = calendarsData
   },
@@ -330,6 +324,7 @@ const mutations = {
     const result = options.result
     if (result.errCode === 0) {
       state.topicStockValue = result.data
+      state.bestTopicStock = JSON.parse(result.msg)
     }
   },
   setTopicValue(state, options) {
@@ -372,6 +367,7 @@ const mutations = {
     const result = options.result
     if (result.errCode === 0) {
       state.industryStockValue = result.data
+      state.bestIndustryStock = JSON.parse(result.msg)
     }
   }
 }

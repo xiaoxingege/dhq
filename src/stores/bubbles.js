@@ -33,7 +33,11 @@ export default {
     stockPool: null,
     userStrategy: null,
     minmaxX: '',
-    minmaxY: ''
+    minmaxY: '',
+    minmaxXDefault: '',
+    minmaxYDefault: '',
+    setDefaultX: '',
+    setDefaultY: ''
   },
   mutations: {
     setBubblesOptions(state, options) {
@@ -62,33 +66,35 @@ export default {
       // alert(result.errCode)
       if (result.errCode === 0) {
         for (var item of data) {
-          state.bubblesData.xData.push(item.xData)
-          state.bubblesData.yData.push(item.yData)
-          state.bubblesData.bubbleSize.push(item.bubbleSize)
-          state.bubblesData.bubbleColor.push(item.bubbleColor)
-          state.bubblesData.innerCode.push(item.innerCode)
-          state.bubblesData.name.push(item.name)
-          if (state.parameterData.xData === 'chi_spel' && state.parameterData.yData === 'chi_spel') {
-            if (item.xData === null || item.yData === null) {
-              continue
-            }
-            state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
-            continue
-          } else {
-            if (state.parameterData.xData === 'chi_spel') {
-              if (item.xData === null) {
+          if (item.xData !== null && item.yData !== null) {
+            state.bubblesData.xData.push(item.xData)
+            state.bubblesData.yData.push(item.yData)
+            state.bubblesData.bubbleSize.push(item.bubbleSize)
+            state.bubblesData.bubbleColor.push(item.bubbleColor)
+            state.bubblesData.innerCode.push(item.innerCode)
+            state.bubblesData.name.push(item.name)
+            if (state.parameterData.xData === 'chi_spel' && state.parameterData.yData === 'chi_spel') {
+              if (item.xData === null || item.yData === null) {
                 continue
               }
-              if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+              state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData.replace('*', '').substr(0, 1)])
               continue
-            } else if (state.parameterData.yData === 'chi_spel') {
-              if (item.yData === null) {
+            } else {
+              if (state.parameterData.xData === 'chi_spel') {
+                if (item.xData === null) {
+                  continue
+                }
+                if (item.xData) state.bubblesData.seriesData.push([item.xData.replace('*', '').substr(0, 1), item.yData])
+                continue
+              } else if (state.parameterData.yData === 'chi_spel') {
+                if (item.yData === null) {
+                  continue
+                }
+                if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
                 continue
               }
-              if (item.yData) state.bubblesData.seriesData.push([item.xData, item.yData.replace('*', '').substr(0, 1)])
-              continue
+              state.bubblesData.seriesData.push([item.xData, item.yData])
             }
-            state.bubblesData.seriesData.push([item.xData, item.yData])
           }
         }
       } else {
@@ -123,6 +129,13 @@ export default {
     setZoomRange(state, options) {
       state.minmaxX = options.mmX
       state.minmaxY = options.mmY
+      state.minmaxXDefault = options.mmXDefault
+      state.minmaxYDefault = options.mmYDefault
+
+    },
+    setZoomRangeDefault(state, options) {
+      state.setDefaultX = [options.X, options.XDefault]
+      state.setDefaultY = [options.Y, options.YDefault]
     }
   },
   actions: {
@@ -188,11 +201,30 @@ export default {
       commit
     }, {
       mmX,
-      mmY
+      mmY,
+      mmXDefault,
+      mmYDefault
     }) {
       commit('setZoomRange', {
         mmX,
-        mmY
+        mmY,
+        mmXDefault,
+        mmYDefault
+      })
+    },
+    setZoomRangeDefault({
+      commit
+    }, {
+      X,
+      Y,
+      XDefault,
+      YDefault
+    }) {
+      commit('setZoomRangeDefault', {
+        X,
+        Y,
+        XDefault,
+        YDefault
       })
     }
 
