@@ -208,7 +208,11 @@ export default {
           realtime: false,
           labelPrecision: 2,
           labelFormatter: function(value) {
-            return that.convertNumBySelect('yData', value)
+            if (isNaN(value)) {
+              return '--'
+            } else {
+              return that.convertNumBySelect('yData', value)
+            }
           }
         },
         {
@@ -248,7 +252,12 @@ export default {
           realtime: false,
           labelPrecision: 2,
           labelFormatter: function(value) {
-            return that.convertNumBySelect('xData', value)
+            if (isNaN(value)) {
+              return '--'
+            } else {
+              return that.convertNumBySelect('xData', value)
+            }
+
           }
         }
       ];
@@ -668,7 +677,15 @@ export default {
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
           mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
-          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          mmXDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          mmYDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+        })
+        this.$store.dispatch('bubbles/setZoomRangeDefault', {
+          X: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          Y: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          XDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          YDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
         })
         that.$emit('getXYRange', [
           [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
@@ -750,7 +767,9 @@ export default {
         })
         this.$store.dispatch('bubbles/setBubbleZoomRange', {
           mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
-          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          mmXDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          mmYDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
         })
         this.$emit('getXYRange', [
           [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
