@@ -110,6 +110,18 @@ module.exports = function(router) {
             };
         }
     })
+    router.get('/zcpz-activity', async(ctx, next) => {
+      ctx.title = '春节钜献 资产配置礼包';
+      ctx.metaDescription = '';
+      ctx.metaKeywords = '';
+      ctx.template = ctx.path.substring(1);
+      // 渲染vue对象为html字符串
+      let html = '';
+      // 向浏览器输出完整的html
+      ctx.body = html;
+      // 继续执行后面的中间件
+      await next();
+    });
     router.get('/sdjg-activity', async(ctx, next) => {
       ctx.title = '金融界实地调研 直击2018A股价值王';
       ctx.metaDescription = '';
