@@ -1793,7 +1793,7 @@ export default {
         yAxis: [{
           type: 'value',
           axisLabel: {
-            formatter: '{value}%',
+            formatter: '{value}',
             textStyle: {
               color: '#c9d0d7'
             }

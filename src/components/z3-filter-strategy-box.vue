@@ -86,20 +86,20 @@
     </router-link>
     <ul class="rate-labels clearfix">
       <li>
-        <span>年化收益率</span>
-        <span v-z3-updowncolor="strategy.annualReturn">{{formatData(strategy.annualReturn)}}</span>
-      </li>
-      <li>
-        <span>夏普比率</span>
-        <span>{{strategy.sharpe}}</span>
+        <span>平均收益率</span>
+        <span v-z3-updowncolor="strategy.avgReturn">{{formatData(strategy.avgReturn)}}</span>
       </li>
       <li>
         <span>胜率</span>
         <span>{{strategy.winRatio}}</span>
       </li>
       <li>
-        <span>最大回撤</span>
-        <span>{{strategy.maxDrawdown}}</span>
+        <span>盈亏比</span>
+        <span>{{strategy.winLossRatio}}</span>
+      </li>
+      <li>
+        <span>持有天数</span>
+        <span>{{strategy.holdDay}}</span>
       </li>
     </ul>
   </div>
@@ -115,10 +115,10 @@ export default {
       strategy: {
         strategyName: '',
         followCnt: '',
-        annualReturn: '',
-        sharpe: '',
+        avgReturn: '',
+        winLossRatio: '',
         winRatio: '',
-        maxDrawdown: '',
+        holdDay: '',
         strategyId: ''
       },
       startDate: '',
@@ -134,9 +134,9 @@ export default {
     strategyDetail: function() {
       if (this.strategyData) {
         this.strategyData.winRatio = this.formatData(this.strategyData.strategy.evaluationIndexs.winRatio) // 胜率
-        this.strategyData.maxDrawdown = this.formatData(this.strategyData.strategy.evaluationIndexs.maxDrawdown) // 最大回撤
-        this.strategyData.annualReturn = this.strategyData.strategy.evaluationIndexs.annualReturn // 年化收益率
-        this.strategyData.sharpe = this.strategyData.strategy.evaluationIndexs.sharpe === null ? '--' : (this.strategyData.strategy.evaluationIndexs.sharpe).toFixed(2) // 夏普比率
+        this.strategyData.holdDay = this.strategyData.strategy.holdDay // 持有天数
+        this.strategyData.avgReturn = this.strategyData.strategy.evaluationIndexs.avgReturn // 平均收益率
+        this.strategyData.winLossRatio = this.strategyData.strategy.evaluationIndexs.winLossRatio.toFixed(2) // 盈亏比
         this.strategyData.strategyName = this.strategyData.strategy.strategyName
         this.strategyData.strategyId = this.strategyData.strategy.strategyId
       } else {

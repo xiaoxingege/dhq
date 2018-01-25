@@ -802,6 +802,14 @@ export default {
     defaultSet() {
       this.tmpId = 'demoTmp1'
       this.changeTmp()
+      this.$set(this.xZoomRange, 0, Number(this.setDefaultX[1][0]))
+      this.$set(this.xZoomDefault, 0, Number(this.setDefaultX[0][0]))
+      this.$set(this.xZoomRange, 1, Number(this.setDefaultX[1][1]))
+      this.$set(this.xZoomDefault, 1, Number(this.setDefaultX[0][1]))
+      this.$set(this.yZoomRange, 0, Number(this.setDefaultY[1][0]))
+      this.$set(this.yZoomDefault, 0, Number(this.setDefaultY[0][0]))
+      this.$set(this.yZoomRange, 1, Number(this.setDefaultY[1][1]))
+      this.$set(this.yZoomDefault, 1, Number(this.setDefaultY[0][1]))
     },
     changeXY() {
       this.tmpId = 'demoTmp0'
@@ -827,44 +835,68 @@ export default {
     },
     setZoomRange(e, index) {
       if (index === 1) {
-        if (Number(e.target.value) < Number(this.minmaxX[0])) {
-          this.$set(this.xZoomRange, 0, Number(this.minmaxX[0]))
+        let minX = Number(e.target.value)
+        if (this.dimensionOptions.xDefault === 'mkt_idx.mktcap' || this.dimensionOptions.xDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.xDefault === 'fin_idx.sale') {
+          minX = minX * 10e7
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
+          minX = minX * 10000
+        }
+        if (minX < Number(this.minmaxXDefault[0])) {
+          this.$set(this.xZoomRange, 0, Number(this.minmaxXDefault[0]))
           this.$set(this.xZoomDefault, 0, Number(this.minmaxX[0]))
-        } else if (Number(e.target.value) === Number(this.minmaxX[0])) {
+        } else if (minX === Number(this.minmaxX[0])) {
           return
         } else {
-          this.$set(this.xZoomRange, 0, Number(e.target.value))
-          this.$set(this.xZoomDefault, 0, Number(e.target.value))
+          this.$set(this.xZoomRange, 0, minX)
+          this.$set(this.xZoomDefault, 0, minX)
         }
       } else if (index === 2) {
-        if (Number(e.target.value) > Number(this.minmaxX[1])) {
-          this.$set(this.xZoomRange, 1, Number(this.minmaxX[1]))
+        let maxX = Number(e.target.value)
+        if (this.dimensionOptions.xDefault === 'mkt_idx.mktcap' || this.dimensionOptions.xDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.xDefault === 'fin_idx.sale') {
+          maxX = maxX * 10e7
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
+          maxX = maxX * 10000
+        }
+        if (maxX > Number(this.minmaxXDefault[1])) {
+          this.$set(this.xZoomRange, 1, Number(this.minmaxXDefault[1]))
           this.$set(this.xZoomDefault, 1, Number(this.minmaxX[1]))
-        } else if (Number(e.target.value) === Number(this.minmaxX[1])) {
+        } else if (maxX === Number(this.minmaxX[1])) {
           return
         } else {
-          this.$set(this.xZoomRange, 1, Number(e.target.value))
-          this.$set(this.xZoomDefault, 1, Number(e.target.value))
+          this.$set(this.xZoomRange, 1, maxX)
+          this.$set(this.xZoomDefault, 1, maxX)
         }
       } else if (index === 3) {
-        if (Number(e.target.value) < Number(this.minmaxY[0])) {
-          this.$set(this.yZoomRange, 0, Number(this.minmaxY[0]))
+        let minY = Number(e.target.value)
+        if (this.dimensionOptions.yDefault === 'mkt_idx.mktcap' || this.dimensionOptions.yDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.yDefault === 'fin_idx.sale') {
+          minY = minY * 10e7
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
+          minY = minY * 10000
+        }
+        if (minY < Number(this.minmaxYDefault[0])) {
+          this.$set(this.yZoomRange, 0, Number(this.minmaxYDefault[0]))
           this.$set(this.yZoomDefault, 0, Number(this.minmaxY[0]))
-        } else if (Number(e.target.value) === Number(this.minmaxY[0])) {
+        } else if (minY === Number(this.minmaxY[0])) {
           return
         } else {
-          this.$set(this.yZoomRange, 0, Number(e.target.value))
-          this.$set(this.yZoomDefault, 0, Number(e.target.value))
+          this.$set(this.yZoomRange, 0, minY)
+          this.$set(this.yZoomDefault, 0, minY)
         }
       } else if (index === 4) {
-        if (Number(e.target.value) > Number(this.minmaxY[1])) {
-          this.$set(this.yZoomRange, 1, Number(this.minmaxY[1]))
+        let maxY = Number(e.target.value)
+        if (this.dimensionOptions.yDefault === 'mkt_idx.mktcap' || this.dimensionOptions.yDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.yDefault === 'fin_idx.sale') {
+          maxY = maxY * 10e7
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
+          maxY = maxY * 10000
+        }
+        if (maxY > Number(this.minmaxYDefault[1])) {
+          this.$set(this.yZoomRange, 1, Number(this.minmaxYDefault[1]))
           this.$set(this.yZoomDefault, 1, Number(this.minmaxY[1]))
-        } else if (Number(e.target.value) === Number(this.minmaxY[1])) {
+        } else if (maxY === Number(this.minmaxY[1])) {
           return
         } else {
-          this.$set(this.yZoomRange, 1, Number(e.target.value))
-          this.$set(this.yZoomDefault, 1, Number(e.target.value))
+          this.$set(this.yZoomRange, 1, maxY)
+          this.$set(this.yZoomDefault, 1, maxY)
         }
 
       }
@@ -882,6 +914,18 @@ export default {
     },
     minmaxY: function() {
       return this.$store.state.bubbles.minmaxY
+    },
+    minmaxXDefault: function() {
+      return this.$store.state.bubbles.minmaxXDefault
+    },
+    minmaxYDefault: function() {
+      return this.$store.state.bubbles.minmaxYDefault
+    },
+    setDefaultX: function() {
+      return this.$store.state.bubbles.setDefaultX
+    },
+    setDefaultY: function() {
+      return this.$store.state.bubbles.setDefaultY
     }
   },
   watch: {

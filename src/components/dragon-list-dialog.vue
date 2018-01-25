@@ -177,7 +177,7 @@ html {
         <p class="mb-10">
           {{dragonList.statNum === 1 ? '今':dragonList.statNum}}日{{Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? '净买入':'净卖出'}}：
           <span v-if="dragonList.netValueTotal > 0" :style="{color:Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonList.netValueTotal)/10e7 > 1 ? ((Number(dragonList.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonList.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
-          <span v-if="dragonList.netValueTotal < 0" :style="{color:Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonList.netValueTotal)*-1 /10e7 > 1 ? ((Number(dragonList.netValueTotal)/10e7).toFixed(2)+'亿') : ((Number(dragonList.netValueTotal)/10e6).toFixed(2)+'千万')}}</span>
+          <span v-if="dragonList.netValueTotal < 0" :style="{color:Number(dragonList.bvalueTotal) >= Number(dragonList.svalueTotal) ? 'rgb(202, 73, 65)':'rgb(86, 168, 112)'}">{{Number(dragonList.netValueTotal)*-1 /10e7 > 1 ? ((Number(dragonList.netValueTotal)*-1/10e7).toFixed(2)+'亿') : ((Number(dragonList.netValueTotal)*-1/10e6).toFixed(2)+'千万')}}</span>
         </p>
         <div class="pr-30">
           <table cellspacing="0" cellpadding="0">
