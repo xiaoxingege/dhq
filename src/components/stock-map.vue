@@ -201,7 +201,7 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" :stockDownNo="stockDownNo" :stockUpNo="stockUpNo" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
     <span class="">{{currentTime}}</span>
@@ -356,7 +356,9 @@ export default {
       clientY: 0,
       scale: 1,
       zoomDelta: 0,
-      autoUpdate: true
+      autoUpdate: true,
+      stockUpNo: 0,
+      stockDownNo: 0
     }
   },
   watch: {
@@ -524,9 +526,24 @@ export default {
           industry.children && industry.children.forEach(function(lvl2) {
             if (parentId === lvl2.id) {
               parentNode = lvl2
+              return
             }
           })
         })
+      }
+      this.stockUpNo = 0;
+      this.stockDownNo = 0;
+      parentNode.children.forEach((stock) => {
+        if (stock.perf && stock.perf >= 0) {
+          this.stockUpNo++
+        } else if (stock.perf && stock.perf < 0) {
+          this.stockDownNo++
+        }
+      })
+      const windowHeight = window.innerHeight
+      const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+      if (parentNode.children.length > stockNum) {
+        parentNode.children.length = stockNum
       }
       return parentNode
     },

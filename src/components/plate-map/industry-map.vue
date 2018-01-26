@@ -127,7 +127,8 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionIndustry" :kLineType="kLineType" :industryIndexs="industryIndexs" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionIndustry" :kLineType="kLineType" :industryIndexs="industryIndexs" :stockUpNo="industryStockUpNo" :stockDownNo="industryStockDownNo" @updateWrapHeight="changeWrapHeight"
+    v-if="showHover"></StockList>
   <div class="enlarge">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
@@ -319,7 +320,9 @@ export default {
       hoverNodeParent: null,
       IndustryCode: '',
       kLineType: 'industry',
-      mapType: 'plate' // 板块还是个股
+      mapType: 'plate', // 板块还是个股
+      industryStockUpNo: 0,
+      industryStockDownNo: 0
     }
   },
   watch: {
@@ -724,13 +727,22 @@ export default {
           this.hoverNodeParent = params.data
           this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
           this.hoverNodeParent.children = this.stockListInfo // 浮窗股票列表
+          this.industryStockUpNo = 0;
+          this.industryStockDownNo = 0;
           this.stockListInfo.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
               this.hoverNode = stock
             }
+            if (stock.perf && stock.perf >= 0) {
+              this.industryStockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              this.industryStockDownNo++
+            }
           })
-          if (this.stockListInfo.length > 20) {
-            this.stockListInfo.length = 20
+          const windowHeight = window.innerHeight
+          const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+          if (this.stockListInfo.length > stockNum) {
+            this.stockListInfo.length = stockNum
           }
         })
         if (this.focusEl) {
