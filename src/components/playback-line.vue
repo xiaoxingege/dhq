@@ -141,6 +141,8 @@ export default {
     status() {
       if (this.status === 1) {
         this.play();
+      } else if (this.status === 0) {
+        this.playbackIndex = -1;
       }
     }
   },
