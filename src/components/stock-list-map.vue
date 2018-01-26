@@ -143,16 +143,14 @@ td {
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType', 'topicIndexs', 'industryIndexs'],
+  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType', 'topicIndexs', 'industryIndexs', 'stockUpNo', 'stockDownNo'],
   data() {
     return {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
       titlePrice: 0,
-      titleChngPct: '',
-      stockUpNo: 0,
-      stockDownNo: 0
+      titleChngPct: ''
     }
   },
   directives: {
@@ -333,16 +331,7 @@ export default {
               data: this.node.chartData
             }]
           })
-          // 计算每只股票的最新价 上涨股票数和下跌股票数
-          _this.stockUpNo = 0;
-          _this.stockDownNo = 0;
-          // if (this.condition.indexOf('chng_pct') !== -1) {
           this.stockList.forEach(function(stock) {
-            if (stock.perf && stock.perf >= 0) {
-              _this.stockUpNo++
-            } else if (stock.perf && stock.perf < 0) {
-              _this.stockDownNo++
-            }
             stock.chartData = _this.stockChartData[stock.name]
             if (stock.chartData) {
               const stockDetailLength = stock.chartData.length
@@ -353,8 +342,6 @@ export default {
               }
             }
           })
-          // }
-
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {

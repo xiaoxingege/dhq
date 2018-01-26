@@ -37,7 +37,7 @@ const actions = {
     code
   }) {
     let url
-    if (code === '') {
+    if (code === '' || code === 'margin') {
       url = domain + '/openapi/openjson/tx/' + code + '.json'
     } else {
       url = domain + '/openapi/openjson/tx/auth/' + code + '.json'

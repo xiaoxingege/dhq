@@ -833,7 +833,7 @@ ol li {
     left: -43%;
     top: 29px;
     cursor: pointer;
-    z-index: 999;
+    /*z-index: 999;*/
 }
 </style>
 <template>
@@ -930,7 +930,7 @@ ol li {
       <div class="main-right box-flex-1">
         <div class="right-top"><span>成份股</span><span class="blue fr see-filter"><a
                 :href="'/filter.shtml?from=topic&topicCode='+detail.topicCode" target="_blank"
-                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="sortStock($event,'recommendIndex','DESC')">默认相关度排序</span></div>
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="defaultSort('recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
             <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">简称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
@@ -1517,6 +1517,24 @@ export default {
       e.preventDefault()
       e.currentTarget.nextElementSibling.style.display = 'none'
     },
+    defaultSort(type, dire) {
+      // e.preventDefault()
+      if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
+        this.isRecommendIndex = true
+        this.isDireRecommendIndex = false
+        this.direction = 'DESC'
+      }
+      this.$store.dispatch('topic/queryStockList', {
+        topicCode: this.topicCode,
+        sortField: this.stockSort,
+        direction: this.direction,
+        stockPage: this.stockPage,
+        stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
+      })
+    },
     sortStock(e, type, dire) {
       e.preventDefault()
       this.stockSort = type
@@ -2065,7 +2083,8 @@ export default {
   },
   mounted() {
     this.initChart()
-    this.initStockList('recommendIndex')
+    // this.initStockList('recommendIndex')
+    this.defaultSort('recommendIndex', 'DESC')
     this.initInformatList()
     this.heatOrPublicChange('rise')
     // console.log(this.fullHeight2)

@@ -127,7 +127,8 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" :stockUpNo="topicStockUpNo" :stockDownNo="topicStockDownNo" @updateWrapHeight="changeWrapHeight"
+    v-if="showHover"></StockList>
   <div class="enlarge ">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
@@ -319,7 +320,9 @@ export default {
       hoverNodeParent: null,
       topicCode: '',
       kLineType: 'topic',
-      mapType: 'plate' // 板块还是个股
+      mapType: 'plate', // 板块还是个股
+      topicStockUpNo: 0,
+      topicStockDownNo: 0
     }
   },
   watch: {
@@ -443,6 +446,58 @@ export default {
         }
       })
       return map
+    },
+    stockListInfo: function() {
+      let stockListInfo = []
+      const topicStockValue = this.$store.state.plateMap.topicStockValue
+      const _this = this
+      if (topicStockValue) {
+        for (let name in topicStockValue) {
+          stockListInfo.push({
+            name: name,
+            perf: topicStockValue[name]
+          })
+        }
+      }
+      stockListInfo.forEach(function(stock) {
+        if (topicStockValue) {
+          if (stock.perf !== null && typeof stock.perf !== 'undefined') {
+            if (_this.isUnit[_this.conditionStock] === '%') {
+              if (_this.conditionStock !== 'mkt_idx.div_rate') {
+                if (stock.perf >= 0) {
+                  stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                } else {
+                  stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                }
+              } else {
+                stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+              }
+            } else {
+              stock.perfText = parseFloat(stock.perf).toFixed(2);
+              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
+                stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
+              }
+            }
+          } else {
+            stock.perfText = '--'
+          }
+          stock.itemStyle = {
+            normal: {
+              color: _this.showColor(_this.colors[_this.conditionStock], _this.rangeValues[_this.conditionStock], stock.perf) || '#2f323d'
+            }
+          }
+        } else {
+          stock.perfText = '--'
+          stock.itemStyle = {
+            normal: {
+              color: '#2f323d'
+            }
+          }
+        }
+      })
+      return stockListInfo
     },
     playbackLineIndex: function() {
       return this.playBackIndex === -1 ? this.datetimeIndex : this.playBackIndex
@@ -661,31 +716,32 @@ export default {
         const y = params.event.offsetY;
         this.topicCode = params.data.id
         this.showHover = true
-        let p1 = new Promise((resolve, reject) => {
-          this.$store.dispatch('plateMap/queryTopicStock', {
-            topicCode: this.topicCode
-          }).then(() => {
-            resolve();
-          })
-        });
-        let p2 = new Promise((resolve, reject) => {
-          this.$store.dispatch('plateMap/queryTopicStockValue', {
-            isContinue: this.isContinue,
-            condition: this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)],
-            topicCode: this.topicCode
-          }).then(() => {
-            resolve();
-          })
-        });
-        Promise.all([p1, p2]).then(() => {
-          this.hoverNode = this.topicStock[0] // 浮窗股票列表第一支股票
+        this.$store.dispatch('plateMap/queryTopicStockValue', {
+          isContinue: this.isContinue,
+          condition: this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)],
+          topicCode: this.topicCode
+        }).then(() => {
           this.hoverNodeParent = params.data
-          if (this.topicStockValue.length > 20) {
-            this.topicStockValue.length = 20
-          }
           this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
-          this.hoverNodeParent.children = this.topicStockValue // 浮窗股票列表
-        });
+          this.hoverNodeParent.children = this.stockListInfo // 浮窗股票列表
+          this.topicStockUpNo = 0;
+          this.topicStockDownNo = 0;
+          this.stockListInfo.forEach((stock) => { // 龙一股
+            if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
+              this.hoverNode = stock
+            }
+            if (stock.perf && stock.perf >= 0) {
+              this.topicStockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              this.topicStockDownNo++
+            }
+          })
+          const windowHeight = window.innerHeight
+          const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+          if (this.stockListInfo.length > stockNum) {
+            this.stockListInfo.length = stockNum
+          }
+        })
         if (this.focusEl) {
           const preNodeStl = this.focusEl.style;
           preNodeStl.stroke = null;
