@@ -98,20 +98,13 @@ export default {
   },
   computed: {
     strategyDetail: function() {
-      console.log(this.$store.state.backtestDetail.filterBlockData)
       return this.$store.state.backtestDetail.filterBlockData
     }
   },
   methods: {
     initStrategy: function(pageNo) {
-      const query = this.$route.query
-      if (query && query.query) {
-        this.query = query.query
-      } else {
-        console.log(query.query)
-        // return
-        this.query = '&followFlag=0&userId=7477ce5e-ce51-4581-a60a-f6d9a7152068&sort=winRatio&direction=desc'
-      }
+      const queryV = this.$route.query
+      this.query = queryV.query + '&followFlag=' + queryV.followFlag + '&userId=' + queryV.userId + '&sort=' + queryV.sort + '&direction=' + queryV.direction
       this.$store.dispatch('backtestDetail/getFilterStrategyList', {
           query: this.query,
           size: this.pageSize,
