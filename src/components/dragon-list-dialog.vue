@@ -158,7 +158,7 @@ html {
 <div class="dragonList clearfix">
   <div class="dragonListLeft fl">
     <ul>
-      <li ref="dragonItem" v-for="(item,index) in dragonList" :class="index === 0 ? 'active':''" :date="item.date" :innerCode="item.innerCode" @click="showDragonDetail($event)">
+      <li ref="dragonItem" v-for="(item,index) in dragonList" :class="String($route.query.date) === String(item.date) ? 'active':''" :date="item.date" :innerCode="item.innerCode" @click="showDragonDetail($event)">
         <p class="list-time">
           {{String(item.date).substring(0,4)+'-'+String(item.date).substring(4,6)+'-'+String(item.date).substring(6)}}</p>
         <p class="list-title">{{item.infoCls}}</p>
