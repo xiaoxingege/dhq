@@ -53,46 +53,6 @@
   height: 25px;
 }
 
-.perday {
-  width: 35px;
-  height: 20px;
-  line-height: 20px;
-  cursor: default;
-  display: inline-block;
-  float: left;
-  font-size: 12px;
-  text-align: center;
-  border-right: 2px solid #141518;
-  background-color: #262626;
-}
-
-.disable_time {
-  background-color: #717171;
-  color: #999;
-  border-right: 2px solid #999;
-}
-
-.playback_btn {
-  margin-left: 0;
-  margin-right: 0px;
-  width: 20px;
-  cursor: pointer;
-  line-height: 25px;
-}
-
-.playback_btn img {
-  vertical-align: baseline;
-}
-
-.play_line {
-  width: 2px;
-  height: 20px;
-  background: #e34842;
-  position: absolute;
-  top: 0px;
-  left: 786px;
-}
-
 .enlarge {
   height: 25px;
   padding-top: 10px;
@@ -455,7 +415,7 @@ export default {
             }
           }
         }
-      })
+      });
       return map
     },
     stockListInfo: function() {
@@ -864,14 +824,14 @@ export default {
       }
     },
     queryPlaybackData: function(date, time) {
-      this.$store.dispatch('stockMap/updateDataByTime', {
+      this.$store.dispatch('plateMap/updateTopicDataByTime', {
         time: date + time
       }).then(() => {
         // 更新数据前，如果回放状态因为某种操作改变成结束或者暂停，则不再更新图数据
         if (this.playback.status === 0) {
           return
         }
-        this.updateMapData();
+        this.updateMapData(this.topicValue);
         this.playback.time = time;
       })
     },
@@ -954,13 +914,6 @@ export default {
         this.isLegendShow = false
       } else {
         this.isLegendShow = true
-      }
-    },
-    switchPlayback: function() {
-      if (this.isPlaybackShow) {
-        this.isPlaybackShow = false
-      } else {
-        this.isPlaybackShow = true
       }
     },
     // 恢复图表默认大小

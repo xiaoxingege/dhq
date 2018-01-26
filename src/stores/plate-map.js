@@ -72,9 +72,9 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {
-      commit('setTopicValue', {
-        result: body
-      });
+      if (body.errCode === 0) {
+        commit('setTopicValue', body.data);
+      }
       return {
         result: body,
         condition: condition
@@ -97,13 +97,28 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateDataByTime({
+  updateTopicDataByTime({
     commit,
     state
   }, {
     time
   }) {
-    const url = `${domain}/openapi/openjson/tx/map/${time}.json`
+    const url = `${domain}/openapi/openjson/tx/section/${time}.json`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((data) => {
+      commit('setTopicValue', data.data)
+    }).catch(() => {
+
+    })
+  },
+  updateIndustryDataByTime({
+    commit,
+    state
+  }, {
+    time
+  }) {
+    const url = `${domain}/openapi/openjson/tx/level/${time}.json`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
@@ -329,11 +344,8 @@ const mutations = {
       state.bestTopicStock = JSON.parse(result.msg)
     }
   },
-  setTopicValue(state, options) {
-    const result = options.result
-    if (result.errCode === 0) {
-      state.topicValue = result.data
-    }
+  setTopicValue(state, topicValue) {
+    state.topicValue = topicValue
   },
   setTopicStockLine(state, options) {
     const result = options.result
