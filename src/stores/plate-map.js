@@ -177,7 +177,8 @@ const actions = {
       });
       return {
         result: body,
-        condition: condition
+        condition: condition,
+        topicCode: topicCode
       };
     })
   },
@@ -298,7 +299,8 @@ const actions = {
       });
       return {
         result: body,
-        condition: condition
+        condition: condition,
+        industryCode: industryCode
       };
     })
   }

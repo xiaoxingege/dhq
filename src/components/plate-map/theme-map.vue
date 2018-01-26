@@ -321,8 +321,9 @@ export default {
       topicCode: '',
       kLineType: 'topic',
       mapType: 'plate', // 板块还是个股
-      topicStockUpNo: 0,
-      topicStockDownNo: 0
+      topicStockUpNo: '',
+      topicStockDownNo: '',
+      hoverNodeId: ''
     }
   },
   watch: {
@@ -352,6 +353,20 @@ export default {
     },
     topicStock: function() {
       const topicStock = [].concat(this.$store.state.plateMap.topicStock)
+      topicStock.sort((a, b) => (b.size - a.size))
+      topicStock.forEach(function(industry) {
+        industry.value = industry.size
+      })
+      return topicStock
+    },
+    topicHoverStock: function() {
+      const topicStock = [].concat(this.$store.state.plateMap.topicStock)
+      topicStock.sort((a, b) => (b.size - a.size))
+      const windowHeight = window.innerHeight
+      const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+      if (topicStock.length > stockNum) {
+        topicStock.length = stockNum
+      }
       topicStock.forEach(function(industry) {
         industry.value = industry.size
       })
@@ -361,7 +376,14 @@ export default {
       const topicStock = this.topicStock
       const topicStockValue = this.$store.state.plateMap.topicStockValue
       const _this = this
+      // this.topicStockUpNo = 0;
+      // this.topicStockDownNo = 0;
       topicStock.forEach(function(stock) {
+        /* if (stock.perf && stock.perf >= 0) {
+             _this.topicStockUpNo++
+         } else if (stock.perf && stock.perf < 0) {
+             _this.topicStockDownNo++
+         } */
         if (topicStockValue) {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
@@ -446,58 +468,6 @@ export default {
         }
       })
       return map
-    },
-    stockListInfo: function() {
-      let stockListInfo = []
-      const topicStockValue = this.$store.state.plateMap.topicStockValue
-      const _this = this
-      if (topicStockValue) {
-        for (let name in topicStockValue) {
-          stockListInfo.push({
-            name: name,
-            perf: topicStockValue[name]
-          })
-        }
-      }
-      stockListInfo.forEach(function(stock) {
-        if (topicStockValue) {
-          if (stock.perf !== null && typeof stock.perf !== 'undefined') {
-            if (_this.isUnit[_this.conditionStock] === '%') {
-              if (_this.conditionStock !== 'mkt_idx.div_rate') {
-                if (stock.perf >= 0) {
-                  stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
-                } else {
-                  stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
-                }
-              } else {
-                stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
-              }
-            } else {
-              stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
-                stock.perfText = stock.perf + '天';
-              } else {
-                stock.perf = stock.perf.toFixed(2)
-              }
-            }
-          } else {
-            stock.perfText = '--'
-          }
-          stock.itemStyle = {
-            normal: {
-              color: _this.showColor(_this.colors[_this.conditionStock], _this.rangeValues[_this.conditionStock], stock.perf) || '#2f323d'
-            }
-          }
-        } else {
-          stock.perfText = '--'
-          stock.itemStyle = {
-            normal: {
-              color: '#2f323d'
-            }
-          }
-        }
-      })
-      return stockListInfo
     },
     playbackLineIndex: function() {
       return this.playBackIndex === -1 ? this.datetimeIndex : this.playBackIndex
@@ -669,8 +639,7 @@ export default {
         series: [{
           name: '',
           type: 'treemap',
-          visibleMin: -1,
-          childrenVisibleMin: 20,
+          visibleMin: 300,
           width: '100%',
           height: '100%',
           label: {
@@ -712,36 +681,52 @@ export default {
         if (params.treePathInfo.length < 2 || this.mapType === 'stock') {
           return
         }
+        this.hoverNodeId = params.data.id
         const x = params.event.offsetX;
         const y = params.event.offsetY;
         this.topicCode = params.data.id
         this.showHover = true
-        this.$store.dispatch('plateMap/queryTopicStockValue', {
-          isContinue: this.isContinue,
-          condition: this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)],
-          topicCode: this.topicCode
-        }).then(() => {
-          this.hoverNodeParent = params.data
+        let p1 = new Promise((resolve, reject) => {
+          this.$store.dispatch('plateMap/queryTopicStock', {
+            topicCode: this.topicCode
+          }).then(() => {
+            resolve();
+          })
+        });
+        let p2 = new Promise((resolve, reject) => {
+          this.$store.dispatch('plateMap/queryTopicStockValue', {
+            isContinue: this.isContinue,
+            condition: this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)],
+            topicCode: this.topicCode
+          }).then(({
+            result,
+            condition,
+            topicCode
+          }) => {
+            resolve();
+          })
+        });
+        Promise.all([p1, p2]).then(() => {
+          /* if (topicCode !== this.hoverNodeId) {
+               console.info('invalide callback and do nothing');
+               return;
+           } */
           this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
-          this.hoverNodeParent.children = this.stockListInfo // 浮窗股票列表
-          this.topicStockUpNo = 0;
-          this.topicStockDownNo = 0;
-          this.stockListInfo.forEach((stock) => { // 龙一股
+          this.hoverNodeParent = params.data
+          const stockInfoList = this.topicStockValue
+          this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+          stockInfoList.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
               this.hoverNode = stock
-            }
-            if (stock.perf && stock.perf >= 0) {
-              this.topicStockUpNo++
-            } else if (stock.perf && stock.perf < 0) {
-              this.topicStockDownNo++
+              return
             }
           })
-          const windowHeight = window.innerHeight
+          /* const windowHeight = window.innerHeight
           const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
-          if (this.stockListInfo.length > stockNum) {
-            this.stockListInfo.length = stockNum
-          }
-        })
+          if (stockInfoList.length > stockNum) {
+              stockInfoList.length = stockNum
+          } */
+        });
         if (this.focusEl) {
           const preNodeStl = this.focusEl.style;
           preNodeStl.stroke = null;
@@ -804,7 +789,7 @@ export default {
             normal: {
               borderColor: '#141518', // 第一层矩形间隔线颜色
               borderWidth: 0,
-              color: '#141518',
+              color: '#2f323d',
               gapWidth: 0 // 第一层块间隔距离
             }
           },
@@ -814,7 +799,7 @@ export default {
           itemStyle: {
             normal: {
               borderColor: '#141518', // 第一层背景色也就是第二层矩形间隔颜色
-              color: '#141518',
+              color: '#2f323d',
               borderWidth: 1 // 第一层矩形间距
             },
             emphasis: {}
