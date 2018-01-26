@@ -700,7 +700,7 @@ export default {
           this.stockList = this.stockListData
           this.selectInnerCode = this.stockList[0].innerCode
           this.innerCode = this.selectInnerCode
-          this.init()
+          // this.init()
         })
     }
   },
