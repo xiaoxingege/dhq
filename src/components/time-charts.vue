@@ -136,6 +136,10 @@ export default {
     day: {
       type: Number,
       default: 250
+    },
+    gridBottom: {
+      type: Number,
+      default: 60
     }
   },
   watch: {
@@ -329,7 +333,7 @@ export default {
         this.zoomStart = startValue;
         this.zoomEnd = endValue;
         this.zoomRange = endValue - startValue;
-        console.info("start:" + startValue + ", end:" + endValue + ", range:" + this.zoomRange);
+        console.info('start:' + startValue + ', end:' + endValue + ', range:' + this.zoomRange);
       })
       const _this = this
       window.onresize = function() {
@@ -360,7 +364,8 @@ export default {
           containLabel: true,
           left: 10,
           top: 10,
-          right: 10
+          right: 10,
+          bottom: this.gridBottom
         },
         xAxis: {
           type: 'category',
