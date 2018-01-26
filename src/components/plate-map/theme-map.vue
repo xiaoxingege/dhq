@@ -127,7 +127,8 @@
 </style>
 <template>
 <div class="map_wrap">
-  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
+  <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" :stockUpNo="topicStockUpNo" :stockDownNo="topicStockDownNo" @updateWrapHeight="changeWrapHeight"
+    v-if="showHover"></StockList>
   <div class="enlarge ">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
@@ -319,7 +320,9 @@ export default {
       hoverNodeParent: null,
       topicCode: '',
       kLineType: 'topic',
-      mapType: 'plate' // 板块还是个股
+      mapType: 'plate', // 板块还是个股
+      topicStockUpNo: 0,
+      topicStockDownNo: 0
     }
   },
   watch: {
@@ -721,13 +724,22 @@ export default {
           this.hoverNodeParent = params.data
           this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
           this.hoverNodeParent.children = this.stockListInfo // 浮窗股票列表
+          this.topicStockUpNo = 0;
+          this.topicStockDownNo = 0;
           this.stockListInfo.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
               this.hoverNode = stock
             }
+            if (stock.perf && stock.perf >= 0) {
+              this.topicStockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              this.topicStockDownNo++
+            }
           })
-          if (this.stockListInfo.length > 20) {
-            this.stockListInfo.length = 20
+          const windowHeight = window.innerHeight
+          const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
+          if (this.stockListInfo.length > stockNum) {
+            this.stockListInfo.length = stockNum
           }
         })
         if (this.focusEl) {

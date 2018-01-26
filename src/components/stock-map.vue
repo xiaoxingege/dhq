@@ -217,12 +217,7 @@
   </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback">
-      <div class="playback_btn perday" v-if="!isEnlarge || isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
-      <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="!isEnlarge || isPlaybackShow"></div>
-      <!--div v-for="date of playBackDateShow" class="perday" v-if="!isEnlarge || isPlaybackShow">{{date}}</div-->
-      <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" v-if="!isEnlarge || isPlaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
-      <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && !isPlaybackShow" v-on:click="switchPlayback">
-      <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && isPlaybackShow" v-on:click="switchPlayback">
+      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData" v-if="showPlayback"></playbackline>
     </div>
     <div class="map_legend clearfix">
       <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && isLegendShow" v-on:click="switchLegend">
@@ -233,11 +228,10 @@
 </div>
 </template>
 <script>
-import playBackSrc from '../assets/images/stock-map/playback.png'
-import playStopSrc from '../assets/images/stock-map/playstop.png'
 import echarts from 'echarts'
 // import treemapHelper from 'echarts/lib/chart/treemap/helper'
 import StockList from 'components/stock-list-map'
+import playbackline from 'components/playback-line'
 import config from '../z3tougu/config'
 const colorsList1 = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
 const colorsListRZMR = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554']
@@ -251,12 +245,11 @@ const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
 const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 const valueRangeRZMR = [1, 2, 3, 4, 5, 6, 7, 8, 9] // 融资买入额
 const valueRangeRZJMR = [-1, -750, -500, -250, 0, 250, 500, 750, 1]
-let pid
-let syncDateTimePid
 export default {
   props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
   components: {
-    StockList
+    StockList,
+    playbackline
   },
   data() {
     return {
@@ -329,10 +322,9 @@ export default {
       },
       legendList: [],
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
-      playBackDate: [],
-      playBackDateShow: [],
-      playBackState: false, // 默认是停止不回放
-      playBackSrc: playStopSrc,
+      playbackDate: [],
+      playbackDateShow: [],
+      playbackState: false, // 默认是停止不回放
       mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
       mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
       showHover: false,
@@ -341,28 +333,31 @@ export default {
       legendWidth: 36,
       isEnlarge: false,
       isLegendShow: true,
-      isPlaybackShow: true,
       intervalTime: 10,
       updateDataPid: null,
       updateTimePid: null,
       currentTime: '',
-      playBackTradeDate: null,
-      playBackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
+      playbackTradeDate: null,
+      playbackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
       datetimeIndex: 0, // 当前时间index
       playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 25.5 : 17.5,
-      isStopPlayback: false,
+      isStopplayback: false,
       wrapHeight: 0,
       clientX: 0,
       clientY: 0,
       scale: 1,
       zoomDelta: 0,
-      autoUpdate: true
+      autoUpdate: true,
+      playback: {
+        status: 0,
+        time: ''
+      }
     }
   },
   watch: {
     rangeCode() {
       this.updateMap()
-      this.playBackIndex = -1;
+      this.playbackIndex = -1;
     },
     condition() {
       this.isContinue = 1
@@ -530,8 +525,9 @@ export default {
       }
       return parentNode
     },
-    playbackLineIndex: function() {
-      return this.playBackIndex === -1 ? this.datetimeIndex : this.playBackIndex
+    showPlayback: function() {
+      // 指标切换到涨跌幅显示回放
+      return this.condition === "mkt_idx.cur_chng_pct"
     }
   },
   methods: {
@@ -575,7 +571,7 @@ export default {
         })
       }
       this.autoUpdateData()
-      this.updateTime()
+      // this.updateTime()
     },
     updateMap: function() {
       this.isContinue = 1;
@@ -645,12 +641,10 @@ export default {
     },
     updateDatetime: function() {
       return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
-        // this.playBackDate = this.$store.state.stockMap.calendarsData
-        // this.playBackDateShow = this.timeFormat(this.playBackDate)
-        const playBackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playBackTime = playBackDatetime.timeTag;
-        this.playBackTradeDate = playBackDatetime.tradeDate;
-        this.datetimeIndex = this.timeList.indexOf(this.playBackTime);
+        const playbackDatetime = this.$store.state.stockMap.curTimeItem;
+        this.playbackTime = playbackDatetime.timeTag;
+        this.playbackTradeDate = playbackDatetime.tradeDate;
+        this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
       })
     },
     initOption: function(data) {
@@ -950,74 +944,17 @@ export default {
         }
       }
     },
-    startPlay: function() {
-      clearInterval(this.updateDataPid);
-      if (!this.autoUpdate) {
-        this.autoUpdate = true;
-        // 回放前将图表恢复到默认（延迟500ms执行回放）        
-        this.restoreMap();
-        setTimeout(() => {
-          this.startPlay();
-        }, 500);
-        return;
-      }
-      this.updateDataPid = null
-      if (this.playBackState) { // 播放中点击暂停
-        this.playBackState = false
-        clearInterval(pid)
-        this.playBackSrc = playStopSrc
-        this.isStopPlayback = true
-        this.$emit('isStopPlayback', this.isStopPlayback)
-      } else { // 未播放点击开始播放
-        if (this.condition !== 'mkt_idx.cur_chng_pct') {
-          this.condition = 'mkt_idx.cur_chng_pct'
-          this.$emit('toZdfCondition', this.condition)
+    queryPlaybackData: function(date, time) {
+      this.$store.dispatch('stockMap/updateDataByTime', {
+        time: date + time
+      }).then(() => {
+        // 更新数据前，如果回放状态因为某种操作改变成结束或者暂停，则不再更新图数据
+        if (this.playback.status === 0) {
+          return
         }
-        // this.playBackIndex = 0;
-        this.playBackState = true
-        this.playBackSrc = playBackSrc
-        this.isStopPlayback = true
-        this.$emit('isStopPlayback', this.isStopPlayback)
-        // this.playBackIndex延后（回调后）自增，保证数据和进度条同步。
-        this.queryPlaybackData(this.playBackIndex + 1)
-      }
-    },
-    queryPlaybackData: function(playBackIndex) {
-      const _this = this
-      if (!this.playBackState) {
-        return
-      }
-
-      // 回放完成
-      if (playBackIndex > this.datetimeIndex) {
-        this.playBackState = false
-        this.playBackIndex = -1;
-        this.playBackSrc = playStopSrc
-        this.isStopPlayback = false
-        this.$emit('isStopPlayback', this.isStopPlayback)
-        // 回放完成，获取最新数据
-        this.isContinue = 1
-        this.updateData()
-        this.autoUpdateData()
-      } else {
-        const playBackTime = this.timeList[playBackIndex]
-        setTimeout(function() {
-          if (!_this.playBackState) {
-            return
-          }
-          _this.$store.dispatch('stockMap/updateDataByTime', {
-            time: _this.playBackTradeDate + playBackTime
-          }).then(() => {
-            // 如果外部状态改变（跳出回放），则不再执行回调。
-            if (!_this.playBackState && this.this.playBackIndex === -1) {
-              return
-            }
-            _this.updateMapData()
-            _this.playBackIndex++
-              _this.queryPlaybackData(_this.playBackIndex + 1);
-          })
-        }, 250)
-      }
+        this.updateMapData();
+        this.playback.time = time;
+      })
     },
     fmtraneValue: function(arr, n) {
       var getArr = []
@@ -1100,13 +1037,6 @@ export default {
         this.isLegendShow = true
       }
     },
-    switchPlayback: function() {
-      if (this.isPlaybackShow) {
-        this.isPlaybackShow = false
-      } else {
-        this.isPlaybackShow = true
-      }
-    },
     // 恢复图表默认大小
     restoreMap: function() {
       this.chart.resize({
@@ -1118,12 +1048,12 @@ export default {
     // 恢复图表到最新状态
     restoreData: function() {
       // 如果处于回放过程中，停止回放
-      if (this.playBackIndex > -1) {
-        this.playBackState = false;
-        this.playBackIndex = -1;
-        this.isStopPlayback = false;
-        this.playBackSrc = playStopSrc;
-        this.$emit('isStopPlayback', this.isStopPlayback)
+      if (this.playbackIndex > -1) {
+        this.playbackState = false;
+        this.playbackIndex = -1;
+        this.isStopplayback = false;
+        // this.playbackSrc = playStopSrc;
+        this.$emit('isStopplayback', this.isStopplayback)
       }
       this.autoUpdate = true;
       this.updateData();
@@ -1167,34 +1097,33 @@ export default {
       const treeRoot = chartView.seriesModel._viewRoot
       return treeRoot.hostTree._nodes[params.dataIndex]
     },
-    loopDateTime() {
-      var _datetimeIndex = this.datetimeIndex;
-      // 后台数据10分钟更新一次，前端开始5秒轮询一次（避免最坏情况），当数据发生变化后再10分钟轮询一次。
-      syncDateTimePid = setInterval(() => {
-        if (_datetimeIndex !== this.datetimeIndex && this.datetimeIndex !== 0) {
-          clearInterval(syncDateTimePid);
-          this.updateDatetime();
-          syncDateTimePid = setInterval(() => {
-            this.updateDatetime();
-            if (this.datetimeIndex === 24) {
-              clearInterval(syncDateTimePid);
-            }
-          }, 1000 * 60 * 10)
-        } else {
-          this.updateDatetime();
-          if (this.datetimeIndex === 24) {
-            clearInterval(syncDateTimePid);
-          }
-        }
-      }, 1000 * 5)
+    startPlay: function() {
+      this.$emit('isStopplayback', true);
+      clearInterval(this.updateDataPid);
+      if (!this.autoUpdate) {
+        this.autoUpdate = true;
+        // 回放前将图表恢复到默认（延迟500ms执行回放）        
+        this.restoreMap();
+        setTimeout(() => {
+          this.playback.status = 1;
+        }, 500);
+        return;
+      }
+      this.playback.status = 1;
+    },
+    pausePlay: function() {
+      this.playback.status = 2;
+    },
+    stopPlay: function() {
+      this.$emit('isStopplayback', false);
+      this.playback.status = 0;
+      // 回放结束后
+      this.updateData();
     }
   },
   mounted() {
     this.isFullScreen()
     this.initMap();
-    this.updateDatetime().then(() => {
-      this.loopDateTime();
-    });
   },
   destroyed() {
     this.updateDataPid && clearInterval(this.updateDataPid);
