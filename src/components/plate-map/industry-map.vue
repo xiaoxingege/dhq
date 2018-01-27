@@ -413,6 +413,62 @@ export default {
       })
       return topicStock
     },
+    topicHoverStockValue: function() {
+      const topicStock = [].concat(this.$store.state.plateMap.industryStockData)
+      topicStock.sort((a, b) => (b.size - a.size))
+      topicStock.forEach(function(industry) {
+        industry.value = industry.size
+      })
+      const topicStockValue = this.$store.state.plateMap.industryStockValue
+      const _this = this
+      // this.industryStockUpNo = 0;
+      // this.industryStockDownNo = 0;
+      topicStock.forEach(function(stock) {
+        /* if (stock.perf && stock.perf >= 0) {
+             _this.industryStockUpNo++
+         } else if (stock.perf && stock.perf < 0) {
+             _this.industryStockDownNo++
+         } */
+        if (topicStockValue) {
+          stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
+          if (stock.perf !== null && typeof stock.perf !== 'undefined') {
+            if (_this.isUnit[_this.conditionStockI] === '%') {
+              if (_this.conditionStockI !== 'mkt_idx.div_rate') {
+                if (stock.perf >= 0) {
+                  stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                } else {
+                  stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                }
+              } else {
+                stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+              }
+            } else {
+              stock.perfText = parseFloat(stock.perf).toFixed(2);
+              if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
+                stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
+              }
+            }
+          } else {
+            stock.perfText = '--'
+          }
+          stock.itemStyle = {
+            normal: {
+              color: _this.showColor(_this.colors[_this.conditionStockI], _this.rangeValues[_this.conditionStockI], stock.perf) || '#2f323d'
+            }
+          }
+        } else {
+          stock.perfText = '--'
+          stock.itemStyle = {
+            normal: {
+              color: '#2f323d'
+            }
+          }
+        }
+      })
+      return topicStock
+    },
     topicValue: function() {
       const map = this.mapData
       const topicValue = this.$store.state.plateMap.industryValue
@@ -703,17 +759,18 @@ export default {
           }
           this.hoverNodeParent = params.data
           this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
-          this.hoverNodeParent.children = this.topicStockValue // 浮窗股票列表
+          const stockInfoList = this.topicHoverStockValue
           this.topicStockValue.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
               this.hoverNode = stock
             }
           })
-          /* const windowHeight = window.innerHeight
+          const windowHeight = window.innerHeight
           const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
-          if (this.topicStockValue.length > stockNum) {
-              this.topicStockValue.length = stockNum
-          } */
+          if (stockInfoList.length > stockNum) {
+            stockInfoList.length = stockNum
+          }
+          this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
         });
         if (this.focusEl) {
           const preNodeStl = this.focusEl.style;

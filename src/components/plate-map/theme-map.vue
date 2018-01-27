@@ -321,8 +321,57 @@ export default {
       })
       return topicStock
     },
-    topicStockValue: function() { // 鼠标移入和点击进入个股的时候调用
+    topicStockValue: function() { // 点击进入个股的时候调用
       const topicStock = this.topicStock
+      const topicStockValue = this.$store.state.plateMap.topicStockValue
+      const _this = this
+      topicStock.forEach(function(stock) {
+        if (topicStockValue) {
+          stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
+          if (stock.perf !== null && typeof stock.perf !== 'undefined') {
+            if (_this.isUnit[_this.conditionStock] === '%') {
+              if (_this.conditionStock !== 'mkt_idx.div_rate') { // 切换板块的浏览指标的时候conditionTopic变了 但是conditionStock没变 所以不能用conditionStock衡量 鼠标移入的时候
+                if (stock.perf >= 0) {
+                  stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
+                } else {
+                  stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+                }
+              } else {
+                stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
+              }
+            } else {
+              stock.perfText = parseFloat(stock.perf).toFixed(2);
+              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
+                stock.perfText = stock.perf + '天';
+              } else {
+                stock.perf = stock.perf.toFixed(2)
+              }
+            }
+          } else {
+            stock.perfText = '--'
+          }
+          stock.itemStyle = {
+            normal: {
+              color: _this.showColor(_this.colors[_this.conditionStock], _this.rangeValues[_this.conditionStock], stock.perf) || '#2f323d'
+            }
+          }
+        } else {
+          stock.perfText = '--'
+          stock.itemStyle = {
+            normal: {
+              color: '#2f323d'
+            }
+          }
+        }
+      })
+      return topicStock
+    },
+    topicHoverStockValue: function() { // 鼠标移入的时候调用
+      const topicStock = [].concat(this.$store.state.plateMap.topicStock)
+      topicStock.sort((a, b) => (b.size - a.size))
+      topicStock.forEach(function(industry) {
+        industry.value = industry.size
+      })
       const topicStockValue = this.$store.state.plateMap.topicStockValue
       const _this = this
       // this.topicStockUpNo = 0;
@@ -417,58 +466,6 @@ export default {
         }
       });
       return map
-    },
-    stockListInfo: function() {
-      let stockListInfo = []
-      const topicStockValue = this.$store.state.plateMap.topicStockValue
-      const _this = this
-      if (topicStockValue) {
-        for (let name in topicStockValue) {
-          stockListInfo.push({
-            name: name,
-            perf: topicStockValue[name]
-          })
-        }
-      }
-      stockListInfo.forEach(function(stock) {
-        if (topicStockValue) {
-          if (stock.perf !== null && typeof stock.perf !== 'undefined') {
-            if (_this.isUnit[_this.conditionStock] === '%') {
-              if (_this.conditionStock !== 'mkt_idx.div_rate') {
-                if (stock.perf >= 0) {
-                  stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
-                } else {
-                  stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
-                }
-              } else {
-                stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
-              }
-            } else {
-              stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStock === 'mkt_idx.keep_days_today') {
-                stock.perfText = stock.perf + '天';
-              } else {
-                stock.perf = stock.perf.toFixed(2)
-              }
-            }
-          } else {
-            stock.perfText = '--'
-          }
-          stock.itemStyle = {
-            normal: {
-              color: _this.showColor(_this.colors[_this.conditionStock], _this.rangeValues[_this.conditionStock], stock.perf) || '#2f323d'
-            }
-          }
-        } else {
-          stock.perfText = '--'
-          stock.itemStyle = {
-            normal: {
-              color: '#2f323d'
-            }
-          }
-        }
-      })
-      return stockListInfo
     },
     showPlayback: function() {
       // 指标切换到涨跌幅显示回放
@@ -705,19 +702,19 @@ export default {
           }
           this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
           this.hoverNodeParent = params.data
-          const stockInfoList = this.topicStockValue
-          this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
+          const stockInfoList = this.topicHoverStockValue
           stockInfoList.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
               this.hoverNode = stock
               return
             }
           })
-          /* const windowHeight = window.innerHeight
+          const windowHeight = window.innerHeight
           const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
           if (stockInfoList.length > stockNum) {
-              stockInfoList.length = stockNum
-          } */
+            stockInfoList.length = stockNum
+          }
+          this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
         });
         if (this.focusEl) {
           const preNodeStl = this.focusEl.style;
