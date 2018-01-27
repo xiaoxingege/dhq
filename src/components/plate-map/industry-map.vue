@@ -93,7 +93,7 @@
   left: 786px;
 }
 
-.enlarge {
+.btn-wrap {
   height: 25px;
   padding-top: 10px;
   box-sizing: border-box;
@@ -102,23 +102,23 @@
   right: 0px;
 }
 
-.enlarge span {
+.btn-wrap {
+  width: 125px;
+}
+
+.btn-wrap span {
   color: #bdbdbd;
   margin-right: 24px;
   position: relative;
   top: -3px;
 }
 
-.enlarge a {
+.btn-wrap a {
   cursor: pointer
 }
 
-.enlarge .restore {
+.btn-wrap .restore {
   z-index: 3;
-}
-
-.enlarge img {
-  opacity: 0.6;
 }
 
 .map_wrap {
@@ -129,7 +129,7 @@
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionIndustry" :kLineType="kLineType" :industryIndexs="industryIndexs" :stockUpNo="industryStockUpNo" :stockDownNo="industryStockDownNo" @updateWrapHeight="changeWrapHeight"
     v-if="showHover"></StockList>
-  <div class="enlarge">
+  <div class="btn-wrap">
     <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
     <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
   </div>
@@ -693,14 +693,14 @@ export default {
             condition,
             industryCode
           }) => {
-            resolve();
+            resolve(industryCode);
           })
         });
-        Promise.all([p1, p2]).then(() => {
-          /* if (industryCode !== this.hoverNodeId) {
-                console.info('invalide callback and do nothing');
-                return;
-            } */
+        Promise.all([p1, p2]).then((x) => {
+          if (x[1] !== this.hoverNodeId) {
+            console.info('invalide callback and do nothing');
+            return;
+          }
           this.hoverNodeParent = params.data
           this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
           this.hoverNodeParent.children = this.topicStockValue // 浮窗股票列表
@@ -728,10 +728,6 @@ export default {
           return
         } else {
           this.showHover = false
-          // 解决定时刷新数据,hover状态不消失的BUG。但是zoom时仍然会存在
-          const el = params.event.target
-          el.__normalStl.stroke = null
-          el.setStyle(el.__normalStl)
         }
       });
       this.chart._chartsViews[0]._controller.on('zoom', (delta, a, b, c, d, e) => {
@@ -998,6 +994,7 @@ export default {
       if (this.mapType === 'stock') {
         this.mapType = 'plate'
       }
+      this.$emit('passMapType', this.mapType)
       this.updateData()
       this.autoUpdateData();
     },

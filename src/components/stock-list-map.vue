@@ -149,10 +149,10 @@ export default {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
-      titlePrice: 0,
+      titlePrice: '',
       titleChngPct: '',
-      stockUpNoGG: 0,
-      stockDownNoGG: 0
+      stockUpNoGG: '',
+      stockDownNoGG: ''
     }
   },
   directives: {
@@ -227,7 +227,7 @@ export default {
       if (this.kLineType && this.kLineType === 'topic') {
         stockChartData = this.$store.state.plateMap.topicStockLine
       } else if (this.kLineType && this.kLineType === 'industry') {
-        stockChartData = this.$store.state.plateMap.topicStockLine
+        stockChartData = this.$store.state.plateMap.industryStockLine
       } else {
         stockChartData = this.$store.state.stockMap.stockChartData
       }

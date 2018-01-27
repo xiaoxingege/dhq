@@ -521,7 +521,7 @@ export default {
     },
     showPlayback: function() {
       // 指标切换到涨跌幅显示回放
-      return this.condition === "mkt_idx.cur_chng_pct"
+      return this.condition === 'mkt_idx.cur_chng_pct'
     }
   },
   methods: {
