@@ -72,9 +72,9 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {
-      commit('setTopicValue', {
-        result: body
-      });
+      if (body.errCode === 0) {
+        commit('setTopicValue', body.data);
+      }
       return {
         result: body,
         condition: condition
@@ -97,17 +97,32 @@ const actions = {
       commit(mutationsTypes.ERROR)
     })
   },
-  updateDataByTime({
+  updateTopicDataByTime({
     commit,
     state
   }, {
     time
   }) {
-    const url = `${domain}/openapi/openjson/tx/map/${time}.json`
+    const url = `${domain}/openapi/openjson/tx/section/${time}.json`
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
-      commit(mutationsTypes.UPDATE_DATA, data.data)
+      commit('setTopicValue', data.data)
+    }).catch(() => {
+
+    })
+  },
+  updateIndustryDataByTime({
+    commit,
+    state
+  }, {
+    time
+  }) {
+    const url = `${domain}/openapi/openjson/tx/level/${time}.json`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((data) => {
+      commit('setIndustryValue', data.data)
     }).catch(() => {
 
     })
@@ -177,7 +192,8 @@ const actions = {
       });
       return {
         result: body,
-        condition: condition
+        condition: condition,
+        topicCode: topicCode
       };
     })
   },
@@ -270,9 +286,9 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {
-      commit('setIndustryValue', {
-        result: body
-      });
+      if (body.errCode === 0) {
+        commit('setIndustryValue', body.data);
+      }
       return {
         result: body,
         condition: condition
@@ -298,7 +314,8 @@ const actions = {
       });
       return {
         result: body,
-        condition: condition
+        condition: condition,
+        industryCode: industryCode
       };
     })
   }
@@ -327,11 +344,8 @@ const mutations = {
       state.bestTopicStock = JSON.parse(result.msg)
     }
   },
-  setTopicValue(state, options) {
-    const result = options.result
-    if (result.errCode === 0) {
-      state.topicValue = result.data
-    }
+  setTopicValue(state, topicValue) {
+    state.topicValue = topicValue
   },
   setTopicStockLine(state, options) {
     const result = options.result
@@ -357,11 +371,8 @@ const mutations = {
       state.industryStockData = result.data
     }
   },
-  setIndustryValue(state, options) {
-    const result = options.result
-    if (result.errCode === 0) {
-      state.industryValue = result.data
-    }
+  setIndustryValue(state, industryValue) {
+    state.industryValue = industryValue
   },
   setIndustryStockValue(state, options) {
     const result = options.result

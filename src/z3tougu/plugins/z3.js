@@ -29,6 +29,7 @@ export default {
           popupVm.$props.top = top
           popupVm.isShow = true;
           popupVm.$props.stockCode = el.stockCode;
+          popupVm.curStockCode = el.stockCode;
         };
         el.addEventListener('mouseover', el._popupStock);
         el.addEventListener('mouseout', (event) => {
@@ -37,31 +38,6 @@ export default {
       },
       update(el, binding, vnode, oldVnode) {
         el.stockCode = binding.value.code;
-        // console.info('stockbox update');
-        // let popup = binding.value.ref;
-        // let code = binding.value.code;
-        // let vm = vnode.context;
-        // let popupVm = vm.$refs[popup];
-        // el.removeEventListener('mouseover', el._popupStock);
-        // el._popupStock = function(event){
-        //   let scrollTop = window.pageYOffset || window.scrollY;
-        //   let scrollleft = window.pageXOffset || window.scrollX;
-        //   const winH = window.document.body.scrollHeight;
-        //   const winW = window.document.body.scrollWidth;
-        //   let left = event.x + parseInt(scrollleft) + 50;
-        //   let top = event.y + parseInt(scrollTop) - 20;
-        //   if (winH - top < 300) {
-        //     top = winH - 300;
-        //   }
-        //   if (winW - left < 400) {
-        //     left = event.x + parseInt(scrollleft) - 430;
-        //   }
-        //   popupVm.$props.left = left
-        //   popupVm.$props.top = top
-        //   popupVm.isShow = true;
-        //   popupVm.$props.stockCode = code;
-        // };
-        // el.addEventListener('mouseover', el._popupStock);
       }
     });
     Vue.directive('z3-updowncolor', (el, binding, vnode, oldVnode) => {

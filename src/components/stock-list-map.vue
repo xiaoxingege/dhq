@@ -93,8 +93,8 @@ td {
     <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
     <!-- 股息率和EPS增长率 -->
     <span v-else>{{industryAvg}}</span>
-    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNoGG}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNoGG}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <h3 class="clearfix" v-if="!titleName && kLineType === 'topic'">{{titleNameLel2}}
     <span v-z3-updowncolor="parentValue" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
@@ -149,8 +149,10 @@ export default {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
-      titlePrice: 0,
-      titleChngPct: ''
+      titlePrice: '',
+      titleChngPct: '',
+      stockUpNoGG: '',
+      stockDownNoGG: ''
     }
   },
   directives: {
@@ -225,7 +227,7 @@ export default {
       if (this.kLineType && this.kLineType === 'topic') {
         stockChartData = this.$store.state.plateMap.topicStockLine
       } else if (this.kLineType && this.kLineType === 'industry') {
-        stockChartData = this.$store.state.plateMap.topicStockLine
+        stockChartData = this.$store.state.plateMap.industryStockLine
       } else {
         stockChartData = this.$store.state.stockMap.stockChartData
       }
@@ -331,7 +333,17 @@ export default {
               data: this.node.chartData
             }]
           })
+          // 计算每只股票的最新价 上涨股票数和下跌股票数
+          _this.stockUpNoGG = 0;
+          _this.stockDownNoGG = 0;
           this.stockList.forEach(function(stock) {
+            if (!_this.kLineType) {
+              if (stock.perf && stock.perf >= 0) {
+                _this.stockUpNoGG++
+              } else if (stock.perf && stock.perf < 0) {
+                _this.stockDownNoGG++
+              }
+            }
             stock.chartData = _this.stockChartData[stock.name]
             if (stock.chartData) {
               const stockDetailLength = stock.chartData.length

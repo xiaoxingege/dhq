@@ -322,8 +322,6 @@ export default {
       },
       legendList: [],
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
-      playbackDate: [],
-      playbackDateShow: [],
       playbackState: false, // 默认是停止不回放
       mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
       mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
@@ -337,11 +335,6 @@ export default {
       updateDataPid: null,
       updateTimePid: null,
       currentTime: '',
-      playbackTradeDate: null,
-      playbackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
-      datetimeIndex: 0, // 当前时间index
-      playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 25.5 : 17.5,
-      isStopplayback: false,
       wrapHeight: 0,
       clientX: 0,
       clientY: 0,
@@ -357,12 +350,13 @@ export default {
   watch: {
     rangeCode() {
       this.updateMap()
-      this.playbackIndex = -1;
+      this.resetPlay();
     },
     condition() {
       this.isContinue = 1
       this.autoUpdate = true
-      this.updateData()
+      this.updateData();
+      this.resetPlay();
     },
     focusStockName() {
       this.focusStock()
@@ -527,7 +521,7 @@ export default {
     },
     showPlayback: function() {
       // 指标切换到涨跌幅显示回放
-      return this.condition === "mkt_idx.cur_chng_pct"
+      return this.condition === 'mkt_idx.cur_chng_pct'
     }
   },
   methods: {
@@ -638,14 +632,6 @@ export default {
           }
         }, 1000 * _this.intervalTime)
       }
-    },
-    updateDatetime: function() {
-      return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
-        const playbackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playbackTime = playbackDatetime.timeTag;
-        this.playbackTradeDate = playbackDatetime.tradeDate;
-        this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
-      })
     },
     initOption: function(data) {
       this.autoUpdate = true
@@ -1048,12 +1034,9 @@ export default {
     // 恢复图表到最新状态
     restoreData: function() {
       // 如果处于回放过程中，停止回放
-      if (this.playbackIndex > -1) {
-        this.playbackState = false;
-        this.playbackIndex = -1;
-        this.isStopplayback = false;
-        // this.playbackSrc = playStopSrc;
-        this.$emit('isStopplayback', this.isStopplayback)
+      if (this.playback.status !== 0) {
+        this.$emit('isStopplayback', false);
+        this.stopPlay();
       }
       this.autoUpdate = true;
       this.updateData();
@@ -1119,7 +1102,12 @@ export default {
       this.playback.status = 0;
       // 回放结束后
       this.updateData();
+    },
+    resetPlay: function() {
+      this.playback.status = 0;
+      this.playback.time = '';
     }
+
   },
   mounted() {
     this.isFullScreen()

@@ -91,12 +91,17 @@ html {
     width: 60px;
     height: 22px;
     line-height: 22px;
-    border-radius: 3px;
     text-align: center;
     cursor: pointer;
 }
 .tab-type span:nth-child(1) {
     margin-right: 2px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.tab-type span:nth-child(2) {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .selected-color {
     background-color: #1984ea;

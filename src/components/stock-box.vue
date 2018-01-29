@@ -1,5 +1,5 @@
 <template>
-<div class="stock-box" :style="position" v-show="isShow || delayHide">
+<div class="stock-box" :style="position" v-show="isOpen">
   <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click="removeStock" v-if="isSelfSelection">- 自选</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
@@ -22,7 +22,9 @@ export default {
     return {
       delayHide: false,
       isMouseover: false,
-      isShow: false
+      isShow: false,
+      // 共用一个浮窗，数据更新等都会导致stockCode变化，所有我们需要记录当前浮窗的stockCode
+      curStockCode: null
     }
   },
   components: {
@@ -46,6 +48,9 @@ export default {
         mark = '+'
       }
       return mark
+    },
+    isOpen() {
+      return this.isShow || this.delayHide;
     }
   },
   watch: {
@@ -61,26 +66,29 @@ export default {
       }
     },
     stockCode() {
-      if (this.stockCode) {
+      if (this.curStockCode) {
         this.$store.dispatch('stock/querySelection', {
-          stockCode: this.stockCode
+          stockCode: this.curStockCode
         })
+      }
+      if (!this.stockCode) {
+        console.info(this.stockCode);
       }
     }
   },
   methods: {
     addStock() {
-      if (this.stockCode) {
+      if (this.curStockCode) {
         this.$store.dispatch('stock/addSelection', {
-          stockCode: this.stockCode
+          stockCode: this.curStockCode
         })
       }
 
     },
     removeStock() {
-      if (this.stockCode) {
+      if (this.curStockCode) {
         this.$store.dispatch('stock/removeSelection', {
-          stockCode: this.stockCode
+          stockCode: this.curStockCode
         })
       }
     }

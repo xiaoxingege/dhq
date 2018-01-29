@@ -861,9 +861,7 @@ export default {
     summary: state => {
       const startdata = state.topic.themeSummary
       // let summaryArr = []
-      console.log(startdata.topicNum)
       const topicNum = startdata.topicNum + ''.split('')
-      console.log(topicNum)
       return {
         topicNum: topicNum,
         topicUpNum: startdata.topicUpNum,
@@ -875,7 +873,6 @@ export default {
       const msg = state.z3sockjs.message
       if (msg && msg.data && msg.data.subject === 'snapshot') {
         const record = msg.data
-        console.log(record)
         return {
           innerCode: record.stockCode,
           //  name: record.stockName,
@@ -952,7 +949,6 @@ export default {
     enterTopictit(e) {
       e.preventDefault()
       this.showNewTit = true
-      /* console.log(e.currentTarget.children[0])*/
       e.currentTarget.children[0].style.display = 'block'
       e.currentTarget.setAttribute('class', 'news-cons news-cons2')
     },
@@ -1009,7 +1005,6 @@ export default {
       this.query(this.sortField, this.page)
     },
     relatedStocks() {
-      console.log(this.relatedStocks)
       if (z3websocket.ws) {
         //  z3websocket.ws && z3websocket.ws.close()
       } else {
@@ -1017,7 +1012,6 @@ export default {
       }
     },
     stockMessage() {
-      console.log(this.stockMessage)
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
