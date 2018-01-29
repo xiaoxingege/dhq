@@ -104,7 +104,7 @@ body {
       <router-link v-if="item.type === 2" :to="{ name:'industryDetail' , params:{ industryId : item.sectionUrl===null?'':item.sectionUrl.substring((item.sectionUrl.lastIndexOf('/') + 1), item.sectionUrl.indexOf('.'))}}" target="_blank">{{item.name}}
       </router-link>
       <p class="searchInfo">{{item.desc}}</p>
-      <p v-if="item.type === 1" class="searchTime">{{item.updateTime}}</p>
+      <p v-if="item.type === 1" class="searchTime">{{item.createTime}}</p>
     </li>
     <div style="width:100%; text-align: center;">
       <Pagination :totalPage="totalPage" :page="pageTo" v-on:getPageFromChild="goToPage" v-if="totalPage > 1" />
