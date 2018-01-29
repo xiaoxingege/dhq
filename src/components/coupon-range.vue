@@ -88,6 +88,13 @@
 				</div>
 				<img src="../assets/images/coupon-range/banner4.png" alt="">
 			</li>
+			<li v-if="coupon5 === '1'" @click="bannerskip(5)">
+				<div class="coupon-hint">
+					<h3>Z量化猎庄版</h3>
+					<p>让庄家无所遁形<span></span></p>
+				</div>
+				<img src="../assets/images/coupon-range/banner5.png" alt="">
+			</li>
 		</ul>
 	</div>
 </template>
@@ -105,7 +112,8 @@ export default {
 			coupon1:this.getQueryString('coupon1') ? this.getQueryString('coupon1'):0,
 			coupon2:this.getQueryString('coupon2') ? this.getQueryString('coupon2'):0,
 			coupon3:this.getQueryString('coupon3') ? this.getQueryString('coupon3'):0,
-			coupon4:this.getQueryString('coupon4') ? this.getQueryString('coupon4'):0
+			coupon4:this.getQueryString('coupon4') ? this.getQueryString('coupon4'):0,
+			coupon5:this.getQueryString('coupon5') ? this.getQueryString('coupon5'):0
     }
   },
 	computed: mapState({
@@ -155,6 +163,9 @@ export default {
 				}
 				if (show===4) {
 					window.location.href='http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/ZQuantizationPay'
+				}
+				if (show===5) {
+					window.location.href='http://itougu.jrj.com.cn/activity/app/ZQuantization.jspa#/strategyHunter'
 				}
 	    })
 		}
