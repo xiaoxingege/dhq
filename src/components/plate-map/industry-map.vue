@@ -417,7 +417,7 @@ export default {
           stock.perf = topicValue[stock.id + ''] !== undefined ? topicValue[stock.id + ''] : topicValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionIndustry] === '%') {
-              if (_this.conditionIndustry !== 'mkt_idx.div_rate') {
+              if (_this.conditionIndustry !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {

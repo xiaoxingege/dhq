@@ -77,7 +77,7 @@
 }
 
 .perday {
-  width: 35px;
+  width: 37px;
   height: 20px;
   line-height: 20px;
   cursor: default;
@@ -244,7 +244,7 @@ const valueRangeSJ = [0, 1.2, 2.4, 3.6, 4.8, 6, 7.2, 8.4, 9.6] // 股息率
 const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
 const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 const valueRangeRZMR = [1, 2, 3, 4, 5, 6, 7, 8, 9] // 融资买入额
-const valueRangeRZJMR = [-1, -750, -500, -250, 0, 250, 500, 750, 1]
+const valueRangeRZJMR = [-1000, -750, -500, -250, 0, 250, 500, 750, 1000]
 export default {
   props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
   components: {
@@ -318,7 +318,7 @@ export default {
         'act_date': '', // 业绩公布日
         'mkt_idx.keep_days_today': '天',
         'margin_buy_value': '千万',
-        'margin_buy_net_value': '千万'
+        'margin_buy_net_value': '万'
       },
       legendList: [],
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
@@ -426,9 +426,14 @@ export default {
                       stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                     }
                   } else {
-                    stock.perfText = parseFloat(stock.perf).toFixed(2);
                     if (_this.condition === 'mkt_idx.keep_days_today') {
                       stock.perfText = stock.perf + '天';
+                    } else if (_this.condition === 'margin_buy_value') {
+                      stock.perfText = (stock.perf / 10000000).toFixed(2) + '千万';
+                    } else if (_this.condition === 'margin_buy_net_value') {
+                      stock.perfText = (stock.perf / 10000).toFixed(2) + '万';
+                    } else {
+                      stock.perfText = parseFloat(stock.perf).toFixed(2);
                     }
                   }
                 } else {
@@ -923,10 +928,34 @@ export default {
       } else {
         this.legendWidth = 36
         for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
-          this.legendList.push({
-            value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
-            backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
-          })
+          if (this.condition === 'margin_buy_net_value') {
+            if (i === 0) {
+              this.legendList.push({
+                value: '-1千万',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else if (i === 8) {
+              this.legendList.push({
+                value: '1千万',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else if (i === 4) {
+              this.legendList.push({
+                value: '0千万',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else {
+              this.legendList.push({
+                value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            }
+          } else {
+            this.legendList.push({
+              value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+              backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+            })
+          }
         }
       }
     },
