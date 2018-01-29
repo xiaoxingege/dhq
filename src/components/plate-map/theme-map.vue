@@ -275,7 +275,8 @@ export default {
       playback: {
         status: 0,
         time: ''
-      }
+      },
+      timeoutID: null
     }
   },
   watch: {
@@ -306,19 +307,6 @@ export default {
     topicStock: function() {
       const topicStock = [].concat(this.$store.state.plateMap.topicStock)
       topicStock.sort((a, b) => (b.size - a.size))
-      topicStock.forEach(function(industry) {
-        industry.value = industry.size
-      })
-      return topicStock
-    },
-    topicHoverStock: function() {
-      const topicStock = [].concat(this.$store.state.plateMap.topicStock)
-      topicStock.sort((a, b) => (b.size - a.size))
-      const windowHeight = window.innerHeight
-      const stockNum = Math.ceil((windowHeight - 17 - 82) / 30)
-      if (topicStock.length > stockNum) {
-        topicStock.length = stockNum
-      }
       topicStock.forEach(function(industry) {
         industry.value = industry.size
       })
@@ -757,6 +745,7 @@ export default {
           if (this.mapType === 'stock') {
             window.open('stock/' + params.data.id)
           } else if (this.mapType === 'plate') {
+            clearTimeout(this.timeoutID)
             this.clickPlate('click', params.data.id)
           }
         }
@@ -765,9 +754,24 @@ export default {
         if (params.treePathInfo.length <= 1 || this.mapType === 'stock') {
           return
         } else {
+          clearTimeout(this.timeoutID)
           this.clickPlate('dblclick', params.data.id)
         }
       })
+    },
+    clickPlate: function(type, id) {
+      this.timeoutID = setTimeout(() => {
+        if (type === 'click') {
+          this.mapType = 'stock'
+          this.$emit('passMapType', this.mapType)
+          this.$emit('passConditionStock', this.conditionTopic)
+          this.showHover = false
+          this.topicCode = id
+          this.updateStockMap()
+        } else if (type === 'dblclick') {
+          window.open(ctx + '/topic/' + id)
+        }
+      }, 250);
     },
     getLevelOption: function() {
       return [{ // 第一层外
@@ -972,24 +976,6 @@ export default {
     resetPlay: function() {
       this.playback.status = 0;
       this.playback.time = '';
-    },
-    clickPlate: function(type, id) {
-      const i = type;
-      const val = setTimeout(() => {
-        if (type === 'click') {
-          this.mapType = 'stock'
-          this.$emit('passMapType', this.mapType)
-          this.$emit('passConditionStock', this.conditionTopic)
-          this.showHover = false
-          this.topicCode = id
-          this.updateStockMap()
-        } else if (type === 'dblclick') {
-          window.open(ctx + '/topic/' + id)
-        }
-      }, 250);
-      if (i === 'dblclick') {
-        clearTimeout(val);
-      }
     }
   },
   mounted() {
