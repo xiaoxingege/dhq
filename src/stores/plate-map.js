@@ -122,7 +122,7 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((data) => {
-      commit(mutationsTypes.UPDATE_DATA, data.data)
+      commit('setIndustryValue', data.data)
     }).catch(() => {
 
     })
@@ -286,9 +286,9 @@ const actions = {
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {
-      commit('setIndustryValue', {
-        result: body
-      });
+      if (body.errCode === 0) {
+        commit('setIndustryValue', body.data);
+      }
       return {
         result: body,
         condition: condition
@@ -371,11 +371,8 @@ const mutations = {
       state.industryStockData = result.data
     }
   },
-  setIndustryValue(state, options) {
-    const result = options.result
-    if (result.errCode === 0) {
-      state.industryValue = result.data
-    }
+  setIndustryValue(state, industryValue) {
+    state.industryValue = industryValue
   },
   setIndustryStockValue(state, options) {
     const result = options.result
