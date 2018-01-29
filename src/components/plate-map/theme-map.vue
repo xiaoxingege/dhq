@@ -793,6 +793,7 @@ export default {
               borderWidth: 1 // 第一层矩形间距
             },
             emphasis: {
+              borderWidth: 2,
               borderColor: '#ffd614'
             }
           },
