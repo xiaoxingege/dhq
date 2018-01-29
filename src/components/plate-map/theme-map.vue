@@ -792,7 +792,9 @@ export default {
               color: '#2f323d',
               borderWidth: 1 // 第一层矩形间距
             },
-            emphasis: {}
+            emphasis: {
+              borderColor: '#ffd614'
+            }
           },
           silent: true
         }
