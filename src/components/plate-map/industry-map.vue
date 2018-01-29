@@ -421,14 +421,7 @@ export default {
       })
       const topicStockValue = this.$store.state.plateMap.industryStockValue
       const _this = this
-      // this.industryStockUpNo = 0;
-      // this.industryStockDownNo = 0;
       topicStock.forEach(function(stock) {
-        /* if (stock.perf && stock.perf >= 0) {
-             _this.industryStockUpNo++
-         } else if (stock.perf && stock.perf < 0) {
-             _this.industryStockDownNo++
-         } */
         if (topicStockValue) {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
@@ -760,9 +753,16 @@ export default {
           this.hoverNodeParent = params.data
           this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
           const stockInfoList = this.topicHoverStockValue
+          this.industryStockUpNo = 0;
+          this.industryStockDownNo = 0;
           this.topicStockValue.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
               this.hoverNode = stock
+            }
+            if (stock.perf && stock.perf >= 0) {
+              this.industryStockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              this.industryStockDownNo++
             }
           })
           const windowHeight = window.innerHeight

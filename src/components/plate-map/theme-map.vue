@@ -374,14 +374,7 @@ export default {
       })
       const topicStockValue = this.$store.state.plateMap.topicStockValue
       const _this = this
-      // this.topicStockUpNo = 0;
-      // this.topicStockDownNo = 0;
       topicStock.forEach(function(stock) {
-        /* if (stock.perf && stock.perf >= 0) {
-             _this.topicStockUpNo++
-         } else if (stock.perf && stock.perf < 0) {
-             _this.topicStockDownNo++
-         } */
         if (topicStockValue) {
           stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
@@ -703,10 +696,16 @@ export default {
           this.conditionStock = this.topicStockIndexs[this.topicIndexs.indexOf(this.conditionTopic)]
           this.hoverNodeParent = params.data
           const stockInfoList = this.topicHoverStockValue
+          this.topicStockUpNo = 0;
+          this.topicStockDownNo = 0;
           stockInfoList.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestTopicStock.name) {
               this.hoverNode = stock
-              return
+            }
+            if (stock.perf && stock.perf >= 0) {
+              this.topicStockUpNo++
+            } else if (stock.perf && stock.perf < 0) {
+              this.topicStockDownNo++
             }
           })
           const windowHeight = window.innerHeight
