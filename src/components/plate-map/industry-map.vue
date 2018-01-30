@@ -306,21 +306,21 @@ export default {
       })
       return map
     },
-    topicStock: function() {
-      const topicStock = [].concat(this.$store.state.plateMap.industryStockData)
-      topicStock.sort((a, b) => (b.size - a.size))
-      topicStock.forEach(function(industry) {
+    industryStock: function() {
+      const industryStock = [].concat(this.$store.state.plateMap.industryStockData)
+      industryStock.sort((a, b) => (b.size - a.size))
+      industryStock.forEach(function(industry) {
         industry.value = industry.size
       })
-      return topicStock
+      return industryStock
     },
-    topicStockValue: function() {
-      const topicStock = this.topicStock
-      const topicStockValue = this.$store.state.plateMap.industryStockValue
+    industryStockValue: function() {
+      const industryStock = this.industryStock
+      const industryStockValue = this.$store.state.plateMap.industryStockValue
       const _this = this
-      topicStock.forEach(function(stock) {
-        if (topicStockValue) {
-          stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
+      industryStock.forEach(function(stock) {
+        if (industryStockValue) {
+          stock.perf = industryStockValue[stock.id] !== undefined ? industryStockValue[stock.id] : industryStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStockI] === '%') {
               if (_this.conditionStockI !== 'mkt_idx.div_rate') {
@@ -357,19 +357,19 @@ export default {
           }
         }
       })
-      return topicStock
+      return industryStock
     },
-    topicHoverStockValue: function() {
-      const topicStock = [].concat(this.$store.state.plateMap.industryStockData)
-      topicStock.sort((a, b) => (b.size - a.size))
-      topicStock.forEach(function(industry) {
+    industryHoverStockValue: function() {
+      const industryStock = [].concat(this.$store.state.plateMap.industryStockData)
+      industryStock.sort((a, b) => (b.size - a.size))
+      industryStock.forEach(function(industry) {
         industry.value = industry.size
       })
-      const topicStockValue = this.$store.state.plateMap.industryStockValue
+      const industryStockValue = this.$store.state.plateMap.industryStockValue
       const _this = this
-      topicStock.forEach(function(stock) {
-        if (topicStockValue) {
-          stock.perf = topicStockValue[stock.id] !== undefined ? topicStockValue[stock.id] : topicStockValue[stock.name];
+      industryStock.forEach(function(stock) {
+        if (industryStockValue) {
+          stock.perf = industryStockValue[stock.id] !== undefined ? industryStockValue[stock.id] : industryStockValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionStockI] === '%') {
               if (_this.conditionStockI !== 'mkt_idx.div_rate') {
@@ -406,15 +406,15 @@ export default {
           }
         }
       })
-      return topicStock
+      return industryStock
     },
-    topicValue: function() {
+    industryValue: function() {
       const map = this.mapData;
-      const topicValue = this.$store.state.plateMap.industryValue
+      const industryValue = this.$store.state.plateMap.industryValue
       const _this = this
       map.forEach(function(stock) {
-        if (topicValue) {
-          stock.perf = topicValue[stock.id + ''] !== undefined ? topicValue[stock.id + ''] : topicValue[stock.name];
+        if (industryValue) {
+          stock.perf = industryValue[stock.id + ''] !== undefined ? industryValue[stock.id + ''] : industryValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionIndustry] === '%') {
               if (_this.conditionIndustry !== 'div_rate') {
@@ -477,7 +477,7 @@ export default {
         })
       });
       Promise.all([p1, p2]).then(() => {
-        this.updateMapData(this.topicValue);
+        this.updateMapData(this.industryValue);
       });
       // 获取当日最新时点
       this.chart.showLoading(config.loadingConfig)
@@ -509,7 +509,7 @@ export default {
         })
       });
       Promise.all([p1, p2]).then(() => {
-        this.updateMapData(this.topicValue);
+        this.updateMapData(this.industryValue);
       })
     },
     updateStockMap: function() {
@@ -518,7 +518,7 @@ export default {
         this.$store.dispatch('plateMap/queryIndustryStock', {
           industryCode: this.industryCode
         }).then(() => {
-          this.initOption(this.topicStock);
+          this.initOption(this.industryStock);
           resolve();
         })
       });
@@ -532,7 +532,7 @@ export default {
         })
       });
       Promise.all([p1, p2]).then(() => {
-        this.updateMapData(this.topicStockValue);
+        this.updateMapData(this.industryStockValue);
       })
     },
     updateData: function() {
@@ -549,7 +549,7 @@ export default {
           console.info('invalide callback and do nothing');
           return;
         }
-        this.updateMapData(this.topicValue)
+        this.updateMapData(this.industryValue)
       })
     },
     updateStockData: function() {
@@ -567,11 +567,11 @@ export default {
           console.info('invalide callback and do nothing');
           return;
         }
-        this.updateMapData(this.topicStockValue)
+        this.updateMapData(this.industryStockValue)
       })
     },
     updateMapData: function(mapData) {
-      if (this.topicValue === null) {
+      if (this.industryValue === null) {
         this.restoreMap();
         return;
       }
@@ -689,10 +689,10 @@ export default {
           }
           this.hoverNodeParent = params.data
           this.conditionStockI = this.industryStockIndexs[this.industryIndexs.indexOf(this.conditionIndustry)]
-          const stockInfoList = this.topicHoverStockValue
+          const stockInfoList = this.industryHoverStockValue
           this.industryStockUpNo = 0;
           this.industryStockDownNo = 0;
-          this.topicStockValue.forEach((stock) => { // 龙一股
+          stockInfoList.forEach((stock) => { // 龙一股
             if (stock.name === this.$store.state.plateMap.bestIndustryStock.name) {
               this.hoverNode = stock
             }
@@ -835,7 +835,7 @@ export default {
         if (this.playback.status === 0) {
           return
         }
-        this.updateMapData(this.topicValue);
+        this.updateMapData(this.industryValue);
         this.playback.time = time;
       })
     },
