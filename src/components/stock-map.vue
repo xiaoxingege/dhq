@@ -328,7 +328,7 @@ export default {
       showHover: false,
       hoverNode: null,
       hoverNodeEl: null,
-      legendWidth: 36,
+      legendWidth: 37,
       isEnlarge: false,
       isLegendShow: true,
       intervalTime: 10,
@@ -926,7 +926,7 @@ export default {
           backgroundColor: '#BA5297'
         })
       } else {
-        this.legendWidth = 36
+        this.legendWidth = 37
         for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
           if (this.condition === 'margin_buy_net_value') {
             if (i === 0) {
@@ -941,7 +941,7 @@ export default {
               })
             } else if (i === 4) {
               this.legendList.push({
-                value: '0千万',
+                value: '0',
                 backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
               })
             } else {
