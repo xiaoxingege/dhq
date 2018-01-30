@@ -239,7 +239,7 @@ export default {
     },
     industryAvg: function() {
       let avg = this.$store.state.stockMap.industryAvg;
-      if (this.condition === 'mkt_idx.keep_days_today') {
+      if (this.condition === 'mkt_idx.keep_days_today' || this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value') {
         if (avg === 'NaN') {
           avg = '';
         } else {
