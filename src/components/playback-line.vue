@@ -167,7 +167,7 @@ export default {
     width: 35px;
     height: 20px;
     line-height: 20px;
-    cursor: default;
+    cursor: pointer;
     display: inline-block;
     float: left;
     font-size: 12px;
@@ -180,6 +180,7 @@ export default {
     background-color: #717171;
     color: #999;
     border-right: 2px solid #999;
+    cursor: default;
 }
 
 .playback_btn {
