@@ -8,7 +8,7 @@
 	.chip {
 		width: 100%;
 		height: 100%;
-		background: rgba(250, 250, 250, 1);
+		background-color: rgba(250, 250, 250, 1);
 		font-family: PingFangSC;
 	}
 	
@@ -18,20 +18,20 @@
 		margin-right: 0.5rem;
 	}
 	
-	.img img {
+	/*.img img {
 		width: 0.28rem;
 		height: 0.28rem;
 		float: right;
 		margin-top: 0.27rem;
 		margin-right: 0.30rem;
 	}
-	
+	*/
 	.chip-title {
 		height: 0.53rem;
 		line-height: 0.53rem;
 		color: rgba(51, 51, 51, 1);
 		font-size: 0.38rem;
-		margin-top: 0.25rem;
+		padding-top: 0.80rem;
 		text-align: center;
 		font-family: PingFangSC-Medium;
 	}
@@ -145,10 +145,8 @@
 
 <template>
 	<div class="chip">
-		<div class="img">
-			<img src="../assets/images/chip-info/x-icon.png" alt="关闭按钮" @click="closeButton"/>
-		</div>
-		<div style="clear: both;"></div>
+		 <div></div>
+		 <div style="clear: both;"></div>
 		<p class="chip-title">筹码分布说明</p>
 		<p class="chip-text">
 			筹码分布是指“流通股票持仓成本”的分布，展示的是不同价位上投资者的持股数量，投资者可以据此推断此股票的成本分布情况。下面我们来看看如何用筹码分布工具来透视庄家底牌，发现资金异动：
@@ -287,7 +285,7 @@
 </template>
 
 <script>
-	window.addEventListener("orientationchange", function() {
+	window.addEventListener('orientationchange', function() {
 		window.location.reload()
 	}, false);
 
@@ -308,9 +306,6 @@
 			document.title = '筹码分布说明'
 		},
 		methods: {
-             closeButton:function(){
-             	window.close();
-             }
-		}
+         }
 	}
 </script>
