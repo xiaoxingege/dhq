@@ -943,7 +943,7 @@ export default {
         this.mapType = 'plate'
       }
       this.$emit('passMapType', this.mapType)
-      this.updateData()
+      this.updateMap()
       this.autoUpdateData();
     },
     getNode: function(params) {

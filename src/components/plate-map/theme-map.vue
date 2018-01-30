@@ -938,7 +938,7 @@ export default {
       }
       /* condition的select标签也要切换 即传给父组件mapType值 */
       this.$emit('passMapType', this.mapType)
-      this.updateData()
+      this.updateMap()
       this.autoUpdateData();
     },
     getNode: function(params) {
