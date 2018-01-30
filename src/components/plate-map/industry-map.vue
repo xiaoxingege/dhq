@@ -630,7 +630,7 @@ export default {
                 if (nodeLayout.width > 0 && nodeLayout.height >= 0) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 0 && nodeLayout.height > 36) {
+                if (nodeLayout.width > 0 && nodeLayout.height > 36 && params.data.perf !== undefined) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText

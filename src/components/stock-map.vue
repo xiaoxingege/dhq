@@ -416,9 +416,9 @@ export default {
                 stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   if (_this.condition === 'margin_buy_value') {
-                    stock.perf = (stock.perf / 10000000).toFixed(2);
+                    stock.perf = stock.perf / 10000000;
                   } else if (_this.condition === 'margin_buy_net_value') {
-                    stock.perf = (stock.perf / 10000).toFixed(2);
+                    stock.perf = stock.perf / 10000;
                   }
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
@@ -434,9 +434,9 @@ export default {
                     if (_this.condition === 'mkt_idx.keep_days_today') {
                       stock.perfText = stock.perf + '天';
                     } else if (_this.condition === 'margin_buy_value') {
-                      stock.perfText = stock.perf + '千万';
+                      stock.perfText = stock.perf >= 10 ? (stock.perf / 10).toFixed(2) + '亿' : (stock.perf > 1 && stock.perf < 10 ? (stock.perf).toFixed(2) + '千万' : (1000 * stock.perf).toFixed(2) + '万')
                     } else if (_this.condition === 'margin_buy_net_value') {
-                      stock.perfText = stock.perf + '万';
+                      stock.perfText = Math.abs(stock.perf) >= 10000 ? (stock.perf / 10000).toFixed(2) + '亿' : (Math.abs(stock.perf) > 1000 && Math.abs(stock.perf) < 10000 ? (stock.perf / 1000).toFixed(2) + '千万' : stock.perf.toFixed(2) + '万')
                     } else {
                       stock.perfText = parseFloat(stock.perf).toFixed(2);
                     }
@@ -677,7 +677,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && params.data.perf !== undefined) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
