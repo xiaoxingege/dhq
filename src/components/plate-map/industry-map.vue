@@ -304,7 +304,7 @@ export default {
         industry.name = industry.industryName
         industry.id = industry.innerCode
         if (industry.name === '银行') {
-          industry.value = industry.value * 0.6
+          industry.value = industry.value * 0.5
         }
       })
       return map
