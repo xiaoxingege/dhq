@@ -328,7 +328,7 @@ export default {
       showHover: false,
       hoverNode: null,
       hoverNodeEl: null,
-      legendWidth: 37,
+      legendWidth: 39,
       isEnlarge: false,
       isLegendShow: true,
       intervalTime: 10,
@@ -414,6 +414,11 @@ export default {
                 }
               } else {
                 stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
+                if (_this.condition === 'margin_buy_value') {
+                  stock.perf = (stock.perf / 10000000).toFixed(2);
+                } else if (_this.condition === 'margin_buy_net_value') {
+                  stock.perf = (stock.perf / 10000).toFixed(2);
+                }
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
@@ -429,9 +434,9 @@ export default {
                     if (_this.condition === 'mkt_idx.keep_days_today') {
                       stock.perfText = stock.perf + '天';
                     } else if (_this.condition === 'margin_buy_value') {
-                      stock.perfText = (stock.perf / 10000000).toFixed(2) + '千万';
+                      stock.perfText = stock.perf + '千万';
                     } else if (_this.condition === 'margin_buy_net_value') {
-                      stock.perfText = (stock.perf / 10000).toFixed(2) + '万';
+                      stock.perfText = stock.perf + '万';
                     } else {
                       stock.perfText = parseFloat(stock.perf).toFixed(2);
                     }
@@ -926,7 +931,7 @@ export default {
           backgroundColor: '#BA5297'
         })
       } else {
-        this.legendWidth = 37
+        this.legendWidth = 39
         for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
           if (this.condition === 'margin_buy_net_value') {
             if (i === 0) {
