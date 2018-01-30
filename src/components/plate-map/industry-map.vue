@@ -303,6 +303,9 @@ export default {
         industry.value = industry.mktCap
         industry.name = industry.industryName
         industry.id = industry.innerCode
+        if (industry.name === '银行') {
+          industry.value = industry.value * 0.6
+        }
       })
       return map
     },
