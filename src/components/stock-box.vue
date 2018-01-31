@@ -154,7 +154,6 @@ export default {
   text-align: center;
   padding: 0 4px;
   font-size: 12px;
-  margin-top: 3px;
   cursor: pointer;
 }
 
