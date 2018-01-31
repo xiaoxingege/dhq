@@ -122,8 +122,9 @@ export default {
 }
 
 .stock-box .stock-box-header {
-  height: 30px;
-  line-height: 30px;
+  height: 24px;
+  line-height: 22px;
+  margin: 3px 0;
   position: absolute;
   top: 0;
   left: 10px;
@@ -147,8 +148,10 @@ export default {
   color: #FF2921;
   border-radius: 4px;
   height: 22px;
-  line-height: 22px;
+  line-height: 20px;
   display: inline-block;
+  width: 48px;
+  text-align: center;
   padding: 0 4px;
   font-size: 12px;
   margin-top: 3px;
@@ -161,11 +164,12 @@ export default {
   background: #FF2921;
   border-radius: 4px;
   display: inline-block;
+  width: 48px;
+  text-align: center;
   height: 22px;
-  line-height: 22px;
+  line-height: 20px;
   padding: 0 4px;
   font-size: 12px;
-  margin-top: 3px;
   cursor: pointer;
 }
 </style>

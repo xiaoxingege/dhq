@@ -415,7 +415,7 @@ export default {
           stock.perf = topicValue[stock.id] !== undefined ? topicValue[stock.id] : topicValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionTopic] === '%') {
-              if (_this.conditionTopic !== 'mkt_idx.div_rate') {
+              if (_this.conditionTopic !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
                 } else {
@@ -627,7 +627,7 @@ export default {
                 if (nodeLayout.width > 0 && nodeLayout.height >= 0) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 0 && nodeLayout.height > 36 && typeof params.data.perf !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 0 && nodeLayout.height > 36 && params.data.perf !== undefined) { // 高度小于36只显示一行即名字
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
@@ -793,6 +793,7 @@ export default {
               borderWidth: 1 // 第一层矩形间距
             },
             emphasis: {
+              borderWidth: 2,
               borderColor: '#ffd614'
             }
           },
@@ -937,7 +938,7 @@ export default {
       }
       /* condition的select标签也要切换 即传给父组件mapType值 */
       this.$emit('passMapType', this.mapType)
-      this.updateData()
+      this.updateMap()
       this.autoUpdateData();
     },
     getNode: function(params) {
