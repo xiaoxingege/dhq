@@ -105,7 +105,7 @@ export default {
         if (this.playbackIndex + 1 < this.datetimeIndex && this.status === 1) {
           setTimeout(() => {
             this.play();
-          }, 250);
+          }, 800);
         }
       }
     },

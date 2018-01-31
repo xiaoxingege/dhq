@@ -16,7 +16,8 @@
   padding: 0 15px;
   width: 100%;
   top: 0;
-  height: 24px;
+  height: 40px;
+  line-height: 40px;
 }
 
 .bullChartHeader select {
@@ -30,18 +31,19 @@
   background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
   background-position-x: 95%;
   color: #c9d0d7;
-  background-color: #1A1D23;
+  background-color: #23272C;
   cursor: pointer;
 }
 
 .currentTime {
-  line-height: 24px;
+  line-height: 40px;
+  color: #c9d0d7;
 }
 
 .bullChart {
   position: absolute;
   width: 100%;
-  top: 30px;
+  top: 40px;
   bottom: 30px;
   /*padding-top: 15px;*/
   box-sizing: border-box;
@@ -141,7 +143,7 @@ import {
 } from 'vuex'
 
 const colorsList = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
-const valueRangeHeat = [0, 12, 24, 36, 48, 60, 72, 84, 96]
+const valueRangeHeat = [50, 56, 62, 68, 74, 80, 86, 92, 98]
 const valueRangePct = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
 const valueRangeDay = [-12, -9, -6, -3, 0, 3, 6, 9, 12]
 
@@ -160,7 +162,7 @@ export default {
         'chngPct': valueRangePct,
         'keepDaysToday': valueRangeDay
       },
-      valueRangeHeat: [0, 12, 24, 36, 48, 60, 72, 84, 96],
+      valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
       valueRangePct: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
       valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12]
     }
@@ -171,6 +173,10 @@ export default {
       industryData: state => state.bullStock.industryData
     }),
     visualMin: function() {
+      if (this.bullSelected === 'heatIndex') {
+        const range = this.ranges[this.bullSelected];
+        return range[0]
+      }
       const range = this.ranges[this.bullSelected];
       return -range[range.length - 1]
     },
@@ -259,25 +265,37 @@ export default {
       }).then(() => {
         const that = this
 
-        let tData = this.topicData.sort(this.compare(key)).slice().reverse()
-        let iData = this.industryData.sort(this.compare(key)).slice().reverse()
+        let tData = this.topicData
+        let iData = this.industryData
 
         for (let i = 0; i < model.topicData.length; i++) {
-          model.topicData[i][2] = tData[i][key]
+          if (tData[i][key] === null) {
+            model.topicData[i][2] = 0
+            model.topicData[i][3] = null
+          } else {
+            model.topicData[i][2] = tData[i][key]
+            model.topicData[i][3] = 0
+          }
+
         }
         for (let j = 0; j < model.induData.length; j++) {
-          model.induData[j][2] = iData[j][key]
+          if (iData[j][key] === null) {
+            model.induData[j][2] = 0
+            model.induData[j][3] = null
+          } else {
+            model.induData[j][2] = iData[j][key]
+            model.induData[j][3] = 0
+          }
         }
 
         let dataT = model.topicData.map(function(item) {
-          return [item[1], item[0], item[2] || '-'];
+          return [item[1], item[0], item[2], item[3]];
         });
         let dataI = model.induData.map(function(item) {
-          return [item[1], item[0], item[2] || '-'];
+          return [item[1], item[0], item[2], item[3]];
         })
         this.chart = echarts.getInstanceByDom(document.getElementsByClassName('themeBox')[0]) || echarts.init(document.getElementsByClassName('themeBox')[0])
         this.industryChart = echarts.getInstanceByDom(document.getElementsByClassName('industryBox')[0]) || echarts.init(document.getElementsByClassName('industryBox')[0])
-
         this.chart.setOption({
           animation: true,
           grid: {
@@ -302,15 +320,15 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
-                    //                      if(params.data[2] < 0 && params.data[2] >=-5000){
-                    //                          return that.topicData[params.dataIndex].name + '\n\n' + '--'
-                    //                      }
+                    if (params.data[3] === null) {
+                      return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                    }
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },
@@ -318,11 +336,6 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                /* color: function(params) {
-                 if(params.data[2] < 0 && params.data[2] >=-5000){
-                 return '#2f323d'
-                 }
-                 }*/
               }
 
             }
@@ -335,11 +348,9 @@ export default {
             calculable: true,
             realtime: false,
             inRange: {
-              color: colorsList.slice().reverse()
+              color: this.colors[this.bullSelected] // colorsList.slice().reverse()
             },
-            outRange: {
-              color: ['#2f323d']
-            }
+            dimension: 2
           }]
         })
         this.industryChart.setOption({
@@ -352,8 +363,9 @@ export default {
             calculable: true,
             realtime: false,
             inRange: {
-              color: colorsList.slice().reverse()
-            }
+              color: this.colors[this.bullSelected]
+            },
+            dimension: 2
           }],
           grid: {
             height: '100%',
@@ -377,12 +389,15 @@ export default {
                 show: true,
                 formatter: (params) => {
                   if (that.bullSelected === 'chngPct') {
+                    if (params.data[3] === null) {
+                      return that.topicData[params.dataIndex].name + '\n\n' + '--'
+                    }
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
                   }
-                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2]
+                  return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
               }
             },
@@ -390,9 +405,6 @@ export default {
               normal: {
                 borderColor: 'black',
                 borderWidth: 10
-                // color: function(params) {
-                //   return that.showColor(that.colors[that.bullSelected], that.ranges[that.bullSelected], params.data[2])
-                // }
               }
             }
           }]
