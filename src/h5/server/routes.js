@@ -33,7 +33,76 @@ function transdate(endTime) {
     date.setSeconds(endTime.substring(12, 14));
     return Date.parse(date) / 1000;
 }
+function unique(arr){
+ var res = [];
+ var json = {};
+ for(var i = 0; i < arr.length; i++){
+  if(!json[arr[i]] && arr[i] !== ''){
+   res.push(arr[i]);
+   json[arr[i]] = 1;
+  }
+ }
+ return res;
+}
+function removeByValue(arr, val) {
+  for(var i=0; i<arr.length; i++) {
+      for(var j=0;j<val.length;j++){
+          if(arr[i] == val[j]) {
+            arr.splice(i, 1);
+            // break;
+          }
+      }
+  }
+}
 module.exports = function(router) {
+    router.get('/lottery', async(ctx, next) => {
+        let num = ctx.query.num || '20';
+        let max = ctx.query.max || '300';
+        let level = ctx.query.level || '1';
+        let dataArr = [];
+        let methodType = 'post';
+        let lotteryUrl='http://itougu.jrj.com.cn/act/crud/lotteryData';
+        let lotteryDataResult = await request({
+          headers:{
+            'content-type':'application/json;charset=UTF-8',
+          },
+          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData',
+          method: 'get'
+        });
+        lotteryDataResult = JSON.parse(lotteryDataResult)
+        if(lotteryDataResult.length > 0){
+            for(var i=0;i<lotteryDataResult.length;i++){
+                dataArr.concat(lotteryDataResult[i].lotteryData)
+                if(level === lotteryDataResult[i].level){
+                    lotteryUrl=`http://itougu.jrj.com.cn/act/crud/lotteryData/${lotteryDataResult[i]._id}`
+                    methodType='put'
+                }
+            }
+        }
+        let integersResult = await request({
+          headers:{
+            'content-type':'text/plain;charset=utf-8',
+          },
+          url: `https://www.random.org/integers/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
+          method: 'get'
+        });
+        integersResult = unique(integersResult.split('\n'))
+        removeByValue(integersResult,dataArr)
+        integersResult = integersResult.slice(0,num)
+        let parsedBody = await request({
+          headers:{
+            'content-type':'application/json;charset=UTF-8',
+          },
+          url: lotteryUrl,
+          method: methodType,
+          json: true,
+          body: {
+              level:level,
+              lotteryData:integersResult
+          }
+      })
+      ctx.body = integersResult;
+    })
     router.get('/checkUserIsYG', async(ctx, next) => {
         let result = await request({
           headers:{
