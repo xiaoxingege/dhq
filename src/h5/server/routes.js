@@ -33,17 +33,6 @@ function transdate(endTime) {
     date.setSeconds(endTime.substring(12, 14));
     return Date.parse(date) / 1000;
 }
-function unique(arr){
- var res = [];
- var json = {};
- for(var i = 0; i < arr.length; i++){
-  if(!json[arr[i]] && arr[i] !== ''){
-   res.push(arr[i]);
-   json[arr[i]] = 1;
-  }
- }
- return res;
-}
 function removeByValue(arr, val) {
   for(var i=0; i<arr.length; i++) {
       for(var j=0;j<val.length;j++){
@@ -83,10 +72,10 @@ module.exports = function(router) {
           headers:{
             'content-type':'text/plain;charset=utf-8',
           },
-          url: `https://www.random.org/integers/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
+          url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
           method: 'get'
         });
-        integersResult = unique(integersResult.split('\n'))
+        integersResult = integersResult.split('\n')
         removeByValue(integersResult,dataArr)
         integersResult = integersResult.slice(0,num)
         let parsedBody = await request({
