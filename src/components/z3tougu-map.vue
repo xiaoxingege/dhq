@@ -131,6 +131,8 @@ html {
                 <option value="margin">融资融券</option>
             </select> 浏览指标：
       <select v-model="condition" class="condition-select">
+                <option value="margin_buy_value" v-show="rangeCode === 'margin'">融资买入额</option>
+                <option value="margin_buy_net_value" v-show="rangeCode === 'margin'">融资净买入额</option>
                 <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
                 <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
                 <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>
@@ -148,8 +150,6 @@ html {
                 <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
                 <option value="act_date">业绩公布日</option>
                 <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
-                <option value="margin_buy_value" v-show="rangeCode === 'margin'">融资买入额</option>
-                <option value="margin_buy_net_value" v-show="rangeCode === 'margin'">融资净买入额</option>
             </select>
     </div>
     <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
@@ -172,6 +172,13 @@ export default {
       mapWidth: 0,
       maskHeight: window.innerHeight - 35,
       isShowMask: false
+    }
+  },
+  watch: {
+    rangeCode() {
+      if (this.rangeCode !== 'margin' && (this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value')) {
+        this.condition = 'mkt_idx.cur_chng_pct'
+      }
     }
   },
   props: [''],

@@ -101,7 +101,7 @@ td {
     <!-- 涨跌幅 -->
     <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
     <!-- 连续涨跌天数 -->
-    <span v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <span v-z3-updowncolor="parentValue" v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
     <!-- 股息率和EPS增长率 -->
     <span v-else>{{parentValue}}</span>
     <span class="stock-down fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
@@ -216,7 +216,21 @@ export default {
     },
     parentValue() {
       if (this.parent && this.parent.name) {
-        return this.parent.perf
+        let avg
+        if (this.condition === 'keep_days') {
+          if (this.parent.perf === undefined || this.parent.perf === null) {
+            avg = '';
+          } else {
+            avg = parseInt(this.parent.perf);
+          }
+        } else {
+          if (this.parent.perf === undefined || this.parent.perf === null) {
+            avg = '';
+          } else {
+            avg = parseFloat(this.parent.perf).toFixed(2)
+          }
+        }
+        return avg
       }
     },
     titleChartData() {

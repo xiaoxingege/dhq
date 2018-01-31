@@ -349,6 +349,9 @@ export default {
   },
   watch: {
     rangeCode() {
+      if (this.rangeCode !== 'margin' && (this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value')) {
+        this.condition = 'mkt_idx.cur_chng_pct'
+      }
       this.updateMap()
       this.resetPlay();
     },
@@ -360,9 +363,6 @@ export default {
     },
     focusStockName() {
       this.focusStock()
-    },
-    hoverStock() {
-      this.renderStockList();
     }
   },
   computed: {
