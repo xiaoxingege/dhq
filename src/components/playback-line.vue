@@ -1,11 +1,11 @@
 <template>
 <div class="playback_con">
-  <div class="playback_btn perday" v-if="!isFullscreen || isplaybackShow"><img :src="playbackSrc" alt="" v-on:click="togglePlay()" ref="playBtn"></div>
-  <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="!isFullscreen || isplaybackShow"></div>
+  <div class="playback_btn perday" v-if="!isFullScreen || isplaybackShow"><img :src="playbackSrc" alt="" v-on:click="togglePlay()" ref="playBtn"></div>
+  <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="!isFullScreen || isplaybackShow"></div>
   <!--div v-for="date of playbackDateShow" class="perday" v-if="!isEnlarge || isplaybackShow">{{date}}</div-->
-  <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" @click="jumpToPlay(index+1)" v-if="!isFullscreen || isplaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
-  <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isFullscreen && !isplaybackShow" v-on:click="switchplayback">
-  <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isFullscreen && isplaybackShow" v-on:click="switchplayback">
+  <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" @click="jumpToPlay(index+1)" v-if="!isFullScreen || isplaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
+  <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isFullScreen && !isplaybackShow" v-on:click="switchplayback">
+  <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isFullScreen && isplaybackShow" v-on:click="switchplayback">
 </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
       type: Number,
       default: 0 // 0:未开始或结束，1：开始，2：暂停
     },
-    isFullscreen: {
+    isFullScreen: {
       type: Boolean,
       default: false
     },
@@ -33,12 +33,12 @@ export default {
     return {
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
       playbackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
-      playLineLeft: this.isFullscreen ? 25.5 : 17.5,
+
       isStopplayback: false,
       playbackTradeDate: '',
       playbackTime: '',
       datetimeIndex: 0,
-      isplaybackShow: false
+      isplaybackShow: true
     }
   },
   computed: {
@@ -48,6 +48,9 @@ export default {
     },
     playbackSrc: function() {
       return this.status === 1 ? playbackSrc : playstopSrc
+    },
+    playLineLeft: function() {
+      return this.isFullScreen ? 25.5 : 17.5
     }
   },
   methods: {
@@ -194,7 +197,9 @@ export default {
 .playback_btn img {
     vertical-align: baseline;
 }
-
+.chart_bottom_enlarge .play_line {
+    top: 8px;
+}
 .play_line {
     width: 2px;
     height: 20px;

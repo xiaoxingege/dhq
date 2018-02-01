@@ -217,8 +217,8 @@
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
-    <div class="clearfix playback">
-      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData" v-if="showPlayback"></playbackline>
+    <div class="clearfix playback" v-if="showPlayback">
+      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
     </div>
     <div class="map_legend clearfix">
       <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && isLegendShow" v-on:click="switchLegend">
