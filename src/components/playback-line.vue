@@ -143,6 +143,10 @@ export default {
     },
     status() {
       if (this.status === 1) {
+        // 如果playbackIndex为最后一个，则重新开始回放
+        if (this.playbackIndex === this.datetimeIndex) {
+          this.playbackIndex = -1;
+        }
         this.play();
       } else if (this.status === 0) {
         this.playbackIndex = -1;

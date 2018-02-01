@@ -463,7 +463,7 @@ export default {
     },
     showPlayback: function() {
       // 指标切换到涨跌幅显示回放
-      return this.conditionTopic === 'chg_pct'
+      return this.conditionTopic === 'chg_pct' && this.mapType === 'plate'
     }
   },
   methods: {
@@ -967,7 +967,6 @@ export default {
       this.$emit('isStopplayback', true);
       clearInterval(this.updateDataPid);
       if (!this.autoUpdate) {
-        this.autoUpdate = true;
         // 回放前将图表恢复到默认（延迟500ms执行回放）        
         this.restoreMap();
         setTimeout(() => {
@@ -975,9 +974,11 @@ export default {
         }, 500);
         return;
       }
+      this.autoUpdate = false;
       this.playback.status = 1;
     },
     pausePlay: function() {
+      this.autoUpdate = false;
       this.playback.status = 2;
     },
     stopPlay: function() {
