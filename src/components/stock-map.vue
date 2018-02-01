@@ -121,7 +121,7 @@
 }
 
 .enlarge {
-  width: 250px;
+  width: 100px;
   height: 25px;
   padding-top: 10px;
   box-sizing: border-box;
@@ -146,6 +146,9 @@
 .enlarge .restore,
 .narrow .restore {
   z-index: 3;
+  position: absolute;
+  top: 10px;
+  left: 0px;
 }
 
 .enlarge img {
@@ -157,11 +160,11 @@
   top: 16px;
   right: 22px;
   z-index: 9999;
-  width: 288px;
-  height: 56px;
+  width: 160px;
+  height: 40px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  line-height: 56px;
+  line-height: 40px;
   text-align: center;
 }
 
@@ -170,7 +173,7 @@
   width: 20px;
   height: 20px;
   position: relative;
-  top: 15px;
+  top: 8px;
 }
 
 .narrow span {
@@ -203,13 +206,11 @@
 <div class="map_wrap">
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :indexCode="code" :condition="condition" @updateWrapHeight="changeWrapHeight" v-if="showHover"></StockList>
   <div class="enlarge" v-if="!isEnlarge">
-    <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
-    <span class="">{{currentTime}}</span>
+    <a v-on:click="restoreData" href="javascript:void(0);" class="restore"><span>恢复默认</span></a>
     <router-link class="enlarge-link" :to="{name:'bigMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/enlarge.png" alt="" /></router-link>
   </div>
   <div class="narrow" v-if="isEnlarge">
     <a v-on:click="restoreData"><span>恢复默认</span></a>
-    <span class="">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
