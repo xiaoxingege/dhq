@@ -99,8 +99,8 @@
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <div class="chart_bottom">
-    <div class="clearfix playback">
-      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData" v-if="showPlayback"></playbackline>
+    <div class="clearfix playback" v-if="showPlayback">
+      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
     </div>
     <div class="map_legend clearfix">
       <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="isLegendShow">{{legend.value}}</div>
