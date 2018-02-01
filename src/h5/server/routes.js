@@ -47,15 +47,15 @@ module.exports = function(router) {
     router.get('/lottery', async(ctx, next) => {
         let num = ctx.query.num || '20';
         let max = ctx.query.max || '300';
+        let lmax = ctx.query.lmax || '60';
         let level = ctx.query.level || '1';
+        let lBatch = 1;
         let dataArr = [];
-        let methodType = 'post';
-        let lotteryUrl='http://itougu.jrj.com.cn/act/crud/lotteryData';
         let lotteryDataResult = await request({
           headers:{
             'content-type':'application/json;charset=UTF-8',
           },
-          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData',
+          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData?limit=30',
           method: 'get'
         });
         lotteryDataResult = JSON.parse(lotteryDataResult)
@@ -63,10 +63,16 @@ module.exports = function(router) {
             for(var i=0;i<lotteryDataResult.length;i++){
                 dataArr.concat(lotteryDataResult[i].lotteryData)
                 if(level === lotteryDataResult[i].level){
-                    lotteryUrl=`http://itougu.jrj.com.cn/act/crud/lotteryData/${lotteryDataResult[i]._id}`
-                    methodType='put'
+                    lBatch++;
                 }
             }
+        }
+        if(lBatch*num > lmax){
+            ctx.body = {
+                retcode:-1,
+                msg:'此奖项已抽取完毕'
+            };
+            return;
         }
         let integersResult = await request({
           headers:{
@@ -82,12 +88,13 @@ module.exports = function(router) {
           headers:{
             'content-type':'application/json;charset=UTF-8',
           },
-          url: lotteryUrl,
-          method: methodType,
+          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData',
+          method: 'post',
           json: true,
           body: {
               level:level,
-              lotteryData:integersResult
+              lotteryData:integersResult,
+              batch:lBatch
           }
       })
       ctx.body = integersResult;
