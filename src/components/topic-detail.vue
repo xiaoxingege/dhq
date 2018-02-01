@@ -602,14 +602,24 @@ table {
 .time-ul li {
     float: left;
     color: #808ba1;
-    border: 1px solid #23272c;
+    /* border: 1px solid #23272c;*/
     /* padding: 5px 10px; */
-    padding: 7px 6px;
-    /*  margin-right: -1px;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px; */
+    /* padding: 7px 6px;*/
+    padding: 6px;
+    border-right: 1px solid #141518;
+    /* margin-right: -1px; 
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;*/
     cursor: pointer;
+}
+.time-ul li:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.time-ul li:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .chart-title {
     position: absolute;
@@ -619,7 +629,7 @@ table {
 .time-ul .active {
     color: #c9d0d7;
     background-color: #1984ea;
-    border-color: #1984ea;
+    /*border-color: #1984ea;*/
 }
 
 .time-ol {
@@ -632,14 +642,24 @@ table {
 .time-ol .li {
     float: left;
     color: #808ba1;
-    border: 1px solid #23272c;
-    padding: 8px 18px;
+    /*border: 1px solid #23272c;*/
+    border-right: 1px solid #141518;
+    /*padding: 8px 18px;*/
+    padding: 6px 18px;
     cursor: pointer;
+}
+.time-ol .li:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.time-ol .li:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .time-ol .active {
     color: #c9d0d7;
     background-color: #1984ea;
-    border-color: #1984ea;
+    /*border-color: #1984ea;*/
 }
 .mo {
     display: none;
@@ -733,11 +753,11 @@ bottom: 0; */
     line-height: 44px;
 }
 .redbg {
-    background: #ca4941;
+    background: #ff3232;
 }
 
 .greenbg {
-    background: #56a870;
+    background: #059509;
 }
 .blockbg {
     background: #525a65;
@@ -906,7 +926,7 @@ ol li {
           <div class="right-top right-top2"><strong>相关资讯</strong></div>
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
-              <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
+              <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom" target="_blank">
                 <span class="fl assess" :class="checkAssessBg(infor.postiveIndex)" v-if="infor.postiveIndex!==null">{{checkAssessTxt(infor.postiveIndex)}}</span>
                 <span class="fl assess" v-if="infor.postiveIndex===null"></span>
                 <span class="new-tit" @mouseenter="enterNewTit($event)" @mouseleave="leaveNewTit($event)">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>

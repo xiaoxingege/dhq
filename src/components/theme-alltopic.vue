@@ -762,7 +762,7 @@ a.kuai_icon {
           </div>
           <div class="con-right box-flex-1">
             <div v-for="news of allTopic.relatedNews" class="clearfix news-box">
-              <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}">
+              <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}" target="_blank">
                 <span @mouseenter="enterTopictit($event)" @mouseleave="leaveTopictit($event)" class="news-cons">
                         <i>{{news.title}}</i>
                         <span class="img fl"></span>
