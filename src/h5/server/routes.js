@@ -33,7 +33,72 @@ function transdate(endTime) {
     date.setSeconds(endTime.substring(12, 14));
     return Date.parse(date) / 1000;
 }
+function removeByValue(arr, val) {
+  for(var i=0; i<arr.length; i++) {
+      for(var j=0;j<val.length;j++){
+          if(arr[i] == val[j]) {
+            arr.splice(i, 1);
+            // break;
+          }
+      }
+  }
+}
 module.exports = function(router) {
+    router.get('/lottery', async(ctx, next) => {
+        let num = ctx.query.num || '20';
+        let max = ctx.query.max || '300';
+        let lmax = ctx.query.lmax || '60';
+        let level = ctx.query.level || '1';
+        let lBatch = 1;
+        let dataArr = [];
+        let lotteryDataResult = await request({
+          headers:{
+            'content-type':'application/json;charset=UTF-8',
+          },
+          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData?limit=30',
+          method: 'get'
+        });
+        lotteryDataResult = JSON.parse(lotteryDataResult)
+        if(lotteryDataResult.length > 0){
+            for(var i=0;i<lotteryDataResult.length;i++){
+                dataArr.concat(lotteryDataResult[i].lotteryData)
+                if(level === lotteryDataResult[i].level){
+                    lBatch++;
+                }
+            }
+        }
+        if(lBatch*num > lmax){
+            ctx.body = {
+                retcode:-1,
+                msg:'此奖项已抽取完毕'
+            };
+            return;
+        }
+        let integersResult = await request({
+          headers:{
+            'content-type':'text/plain;charset=utf-8',
+          },
+          url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
+          method: 'get'
+        });
+        integersResult = integersResult.split('\n')
+        removeByValue(integersResult,dataArr)
+        integersResult = integersResult.slice(0,num)
+        let parsedBody = await request({
+          headers:{
+            'content-type':'application/json;charset=UTF-8',
+          },
+          url: 'http://itougu.jrj.com.cn/act/crud/lotteryData',
+          method: 'post',
+          json: true,
+          body: {
+              level:level,
+              lotteryData:integersResult,
+              batch:lBatch
+          }
+      })
+      ctx.body = integersResult;
+    })
     router.get('/checkUserIsYG', async(ctx, next) => {
         let result = await request({
           headers:{
