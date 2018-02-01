@@ -425,6 +425,7 @@ export default {
           stock.perf = industryValue[stock.id + ''] !== undefined ? industryValue[stock.id + ''] : industryValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionIndustry] === '%') {
+              stock.perf = stock.perf.toFixed(2)
               if (_this.conditionIndustry !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
@@ -437,8 +438,10 @@ export default {
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
               if (_this.conditionIndustry === 'indu_market.tech_index') {
+                stock.perf = Math.ceil(stock.perf)
                 stock.perfText = Math.ceil(stock.perf)
               } else if (_this.conditionIndustry === 'keep_days') {
+                stock.perf = parseInt(stock.perf)
                 stock.perfText = stock.perf + '天';
               } else {
                 stock.perf = stock.perf.toFixed(2)

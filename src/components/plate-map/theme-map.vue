@@ -420,6 +420,7 @@ export default {
           stock.perf = topicValue[stock.id] !== undefined ? topicValue[stock.id] : topicValue[stock.name];
           if (stock.perf !== null && typeof stock.perf !== 'undefined') {
             if (_this.isUnit[_this.conditionTopic] === '%') {
+              stock.perf = stock.perf.toFixed(2)
               if (_this.conditionTopic !== 'div_rate') {
                 if (stock.perf >= 0) {
                   stock.perfText = '+' + parseFloat(stock.perf).toFixed(2) + '%'
@@ -432,8 +433,10 @@ export default {
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
               if (_this.conditionTopic === 'topic_market.tech_index') {
+                stock.perf = Math.ceil(stock.perf)
                 stock.perfText = Math.ceil(stock.perf)
               } else if (_this.conditionTopic === 'keep_days') {
+                stock.perf = parseInt(stock.perf)
                 stock.perfText = stock.perf + '天';
               } else {
                 stock.perf = stock.perf.toFixed(2)
