@@ -434,7 +434,8 @@ export default {
     initTimeChart: function() {
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          day: 250
         })
         .then(() => {
           this.chart.showLoading(config.loadingConfig)

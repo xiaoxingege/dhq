@@ -77,7 +77,7 @@
 }
 
 .perday {
-  width: 35px;
+  width: 37px;
   height: 20px;
   line-height: 20px;
   cursor: default;
@@ -244,7 +244,7 @@ const valueRangeSJ = [0, 1.2, 2.4, 3.6, 4.8, 6, 7.2, 8.4, 9.6] // 股息率
 const valueRangeEd = ['业绩公布前', '业绩公布后'] // 业绩公布日
 const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 const valueRangeRZMR = [1, 2, 3, 4, 5, 6, 7, 8, 9] // 融资买入额
-const valueRangeRZJMR = [-1, -750, -500, -250, 0, 250, 500, 750, 1]
+const valueRangeRZJMR = [-1000, -750, -500, -250, 0, 250, 500, 750, 1000]
 export default {
   props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
   components: {
@@ -318,30 +318,23 @@ export default {
         'act_date': '', // 业绩公布日
         'mkt_idx.keep_days_today': '天',
         'margin_buy_value': '千万',
-        'margin_buy_net_value': '千万'
+        'margin_buy_net_value': '万'
       },
       legendList: [],
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
-      playbackDate: [],
-      playbackDateShow: [],
       playbackState: false, // 默认是停止不回放
       mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
       mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
       showHover: false,
       hoverNode: null,
       hoverNodeEl: null,
-      legendWidth: 36,
+      legendWidth: 39,
       isEnlarge: false,
       isLegendShow: true,
       intervalTime: 10,
       updateDataPid: null,
       updateTimePid: null,
       currentTime: '',
-      playbackTradeDate: null,
-      playbackIndex: -1, // 回放index;当为-1时表示不在回放过程中。
-      datetimeIndex: 0, // 当前时间index
-      playLineLeft: this.$route.fullPath.indexOf('fullScreen') > 0 ? 25.5 : 17.5,
-      isStopplayback: false,
       wrapHeight: 0,
       clientX: 0,
       clientY: 0,
@@ -356,19 +349,20 @@ export default {
   },
   watch: {
     rangeCode() {
+      if (this.rangeCode !== 'margin' && (this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value')) {
+        this.condition = 'mkt_idx.cur_chng_pct'
+      }
       this.updateMap()
-      this.playbackIndex = -1;
+      this.resetPlay();
     },
     condition() {
       this.isContinue = 1
       this.autoUpdate = true
-      this.updateData()
+      this.updateData();
+      this.resetPlay();
     },
     focusStockName() {
       this.focusStock()
-    },
-    hoverStock() {
-      this.renderStockList();
     }
   },
   computed: {
@@ -421,6 +415,11 @@ export default {
               } else {
                 stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
+                  if (_this.condition === 'margin_buy_value') {
+                    stock.perf = stock.perf / 10000000;
+                  } else if (_this.condition === 'margin_buy_net_value') {
+                    stock.perf = stock.perf / 10000;
+                  }
                   if (_this.isUnit[_this.condition] === '%') {
                     if (_this.condition !== 'mkt_idx.div_rate') {
                       if (stock.perf >= 0) {
@@ -432,15 +431,19 @@ export default {
                       stock.perfText = parseFloat(stock.perf).toFixed(2) + '%'
                     }
                   } else {
-                    stock.perfText = parseFloat(stock.perf).toFixed(2);
                     if (_this.condition === 'mkt_idx.keep_days_today') {
                       stock.perfText = stock.perf + '天';
+                    } else if (_this.condition === 'margin_buy_value') {
+                      stock.perfText = stock.perf >= 10 ? (stock.perf / 10).toFixed(2) + '亿' : (stock.perf > 1 && stock.perf < 10 ? (stock.perf).toFixed(2) + '千万' : (1000 * stock.perf).toFixed(2) + '万')
+                    } else if (_this.condition === 'margin_buy_net_value') {
+                      stock.perfText = Math.abs(stock.perf) >= 10000 ? (stock.perf / 10000).toFixed(2) + '亿' : (Math.abs(stock.perf) > 1000 && Math.abs(stock.perf) < 10000 ? (stock.perf / 1000).toFixed(2) + '千万' : stock.perf.toFixed(2) + '万')
+                    } else {
+                      stock.perfText = parseFloat(stock.perf).toFixed(2);
                     }
                   }
                 } else {
                   stock.perfText = '--'
                 }
-
                 stock.itemStyle = {
                   normal: {
                     color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
@@ -527,7 +530,7 @@ export default {
     },
     showPlayback: function() {
       // 指标切换到涨跌幅显示回放
-      return this.condition === "mkt_idx.cur_chng_pct"
+      return this.condition === 'mkt_idx.cur_chng_pct'
     }
   },
   methods: {
@@ -639,14 +642,6 @@ export default {
         }, 1000 * _this.intervalTime)
       }
     },
-    updateDatetime: function() {
-      return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
-        const playbackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playbackTime = playbackDatetime.timeTag;
-        this.playbackTradeDate = playbackDatetime.tradeDate;
-        this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
-      })
-    },
     initOption: function(data) {
       this.autoUpdate = true
       if (this.chart) {
@@ -682,7 +677,7 @@ export default {
                 if (nodeLayout.width > 52 && nodeLayout.height >= 18) {
                   formatterText += params.name
                 }
-                if (nodeLayout.width > 52 && nodeLayout.height > 36 && typeof params.data.perf !== 'undefined' && params.data.perf !== null) {
+                if (nodeLayout.width > 52 && nodeLayout.height > 36 && params.data.perf !== undefined) {
                   formatterText += '\n' + params.data.perfText
                 }
                 return formatterText
@@ -935,12 +930,36 @@ export default {
           backgroundColor: '#BA5297'
         })
       } else {
-        this.legendWidth = 36
+        this.legendWidth = 39
         for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
-          this.legendList.push({
-            value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
-            backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
-          })
+          if (this.condition === 'margin_buy_net_value') {
+            if (i === 0) {
+              this.legendList.push({
+                value: '-1千万',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else if (i === 8) {
+              this.legendList.push({
+                value: '1千万',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else if (i === 4) {
+              this.legendList.push({
+                value: '0',
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            } else {
+              this.legendList.push({
+                value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+                backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+              })
+            }
+          } else {
+            this.legendList.push({
+              value: this.rangeValues[this.condition][i] + this.isUnit[this.condition],
+              backgroundColor: this.showColor(this.colors[this.condition], this.rangeValues[this.condition], this.rangeValues[this.condition][i])
+            })
+          }
         }
       }
     },
@@ -1048,12 +1067,9 @@ export default {
     // 恢复图表到最新状态
     restoreData: function() {
       // 如果处于回放过程中，停止回放
-      if (this.playbackIndex > -1) {
-        this.playbackState = false;
-        this.playbackIndex = -1;
-        this.isStopplayback = false;
-        // this.playbackSrc = playStopSrc;
-        this.$emit('isStopplayback', this.isStopplayback)
+      if (this.playback.status !== 0) {
+        this.$emit('isStopplayback', false);
+        this.stopPlay();
       }
       this.autoUpdate = true;
       this.updateData();
@@ -1119,7 +1135,12 @@ export default {
       this.playback.status = 0;
       // 回放结束后
       this.updateData();
+    },
+    resetPlay: function() {
+      this.playback.status = 0;
+      this.playback.time = '';
     }
+
   },
   mounted() {
     this.isFullScreen()

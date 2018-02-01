@@ -93,7 +93,7 @@ html {
 
 .dragonListLeft ul li .list-title {
     line-height: 20px;
-    font-size: 10px;
+    font-size: 12px;
     color: #1984ea;
     padding: 0 20px 12px;
 }
