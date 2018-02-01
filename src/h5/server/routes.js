@@ -293,6 +293,17 @@ module.exports = function(router) {
     // 继续执行后面的中间件
     await next();
   });
+  router.get('/vip-h5', async(ctx, next) => {
+    ctx.htmlHeader = '<link rel="stylesheet" type="text/css" href="https://i0.jrjimg.cn/zqt-red-1000/focus/focus20170220dalibao/slide.css" type="text/css">';
+    ctx.htmlFooter = '<script src="https://i0.jrjimg.cn/zqt-red-1000/focus/focus20170220dalibao/slide.js"></script>';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
   router.get('/endYear-activity', async(ctx, next) => {
     ctx.htmlHeader = '';
     ctx.htmlFooter = `<script type="text/javascript">
