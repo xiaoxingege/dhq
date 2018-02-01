@@ -153,7 +153,7 @@ export default {
       currentTime: '',
       bullSelected: 'heatIndex',
       colors: {
-        //'heatIndex': colorsList.slice().reverse().slice(20),
+        // 'heatIndex': colorsList.slice().reverse().slice(20),
         'heatIndex': colorsList.slice().reverse(),
         'chngPct': colorsList.slice().reverse(),
         'keepDaysToday': colorsList.slice().reverse()
@@ -163,7 +163,7 @@ export default {
         'chngPct': valueRangePct,
         'keepDaysToday': valueRangeDay
       },
-      //valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
+      // valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
       valueRangeHeat: [0, 12, 24, 36, 48, 60, 72, 84, 96],
       valueRangePct: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
       valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12]
