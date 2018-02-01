@@ -54,6 +54,7 @@
 }
 
 .btn-wrap {
+  width: 125px;
   height: 25px;
   padding-top: 10px;
   box-sizing: border-box;
@@ -62,23 +63,24 @@
   right: 0px;
 }
 
-.btn-wrap {
-  width: 125px;
-}
-
 .btn-wrap span {
   color: #bdbdbd;
-  margin-right: 24px;
-  position: relative;
-  top: -3px;
 }
 
 .btn-wrap a {
   cursor: pointer
 }
 
+.btn-wrap .back-plate {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
 .btn-wrap .restore {
-  z-index: 3;
+  position: absolute;
+  bottom: 0px;
+  right: 3px;
 }
 
 .map_wrap {
@@ -90,15 +92,15 @@
   <StockList :node="hoverNode" :parent="hoverNodeParent" :offsetX="offsetX" :offsetY="offsetY" :condition="conditionTopic" :kLineType="kLineType" :topicIndexs="topicIndexs" :stockUpNo="topicStockUpNo" :stockDownNo="topicStockDownNo" @updateWrapHeight="changeWrapHeight"
     v-if="showHover"></StockList>
   <div class="btn-wrap">
-    <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'"><span class="restore">返回板块</span></a>
-    <a v-on:click="restoreData" href="javascript:void(0);"><span class="restore">恢复默认</span></a>
+    <a v-on:click="plateBack" href="javascript:void(0);" v-show="mapType === 'stock'" class="back-plate"><span>返回板块</span></a>
+    <a v-on:click="restoreData" href="javascript:void(0);" class="restore"><span>恢复默认</span></a>
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <div class="chart_bottom">
-    <div class="clearfix playback">
-      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData" v-if="showPlayback"></playbackline>
+    <div class="clearfix playback" v-if="showPlayback">
+      <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
     </div>
     <div class="map_legend clearfix">
       <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="isLegendShow">{{legend.value}}</div>
