@@ -339,7 +339,9 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
+              if (_this.conditionStockI === 'tech_index') {
+                stock.perfText = Math.ceil(stock.perf)
+              } else if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
                 stock.perfText = stock.perf + '天';
               } else {
                 stock.perf = stock.perf.toFixed(2)
@@ -388,7 +390,9 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
+              if (_this.conditionStockI === 'tech_index') {
+                stock.perfText = Math.ceil(stock.perf)
+              } else if (_this.conditionStockI === 'mkt_idx.keep_days_today') {
                 stock.perfText = stock.perf + '天';
               } else {
                 stock.perf = stock.perf.toFixed(2)
@@ -433,7 +437,9 @@ export default {
               }
             } else {
               stock.perfText = parseFloat(stock.perf).toFixed(2);
-              if (_this.conditionIndustry === 'keep_days') {
+              if (_this.conditionIndustry === 'indu_market.tech_index') {
+                stock.perfText = Math.ceil(stock.perf)
+              } else if (_this.conditionIndustry === 'keep_days') {
                 stock.perfText = stock.perf + '天';
               } else {
                 stock.perf = stock.perf.toFixed(2)
