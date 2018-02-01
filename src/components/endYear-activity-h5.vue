@@ -42,19 +42,19 @@ button {
     width: 100%;
 }
 .bg1 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg1.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg1-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 7.23rem;
 }
 .bg2 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg2.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg2-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
-    height: 6.57rem;
+    height: 6.58rem;
 }
 .bg3 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg3.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg3-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
-    height: 6.01rem;
+    height: 6rem;
 }
 .bg4 {
     background: url("../assets/images/endYear-activity/endYear-H5-bg4.jpg") center 0 no-repeat;
@@ -87,7 +87,7 @@ button {
     position: fixed;
     top: 53%;
     right: 0;
-    background: url("../assets/images/endYear-activity/endYear-h5-nav1.png") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-h5-nav1-1.png") center 0 no-repeat;
     background-size: 100% 100%;
     z-index: 10;
 }
@@ -225,7 +225,7 @@ button {
 .lottery-plate {
     width: 100%;
     height: 100%;
-    background: url('../assets/images/endYear-activity/endYear-web-plate-bg1.png') center 0 no-repeat;
+    background: url('../assets/images/endYear-activity/endYear-web-plate-bg1-1.png') center 0 no-repeat;
     background-size: 100% 100%;
 }
 .lottery-pointer {
@@ -261,7 +261,7 @@ button {
 .f-lottery-plate {
     width: 100%;
     height: 100%;
-    background: url('../assets/images/endYear-activity/endYear-web-plate-bg2.png') center 0 no-repeat;
+    background: url('../assets/images/endYear-activity/endYear-web-plate-bg2-1.png') center 0 no-repeat;
     background-size: 100% 100%;
 }
 .f-lottery-pointer {
@@ -494,7 +494,7 @@ export default {
             resultAngle: [{
                     a: 0,
                     p: 0,
-                    t: '12月每周主题金股'
+                    t: '2018年1季度每周主题金股'
                 },
                 {
                     a: 60,
@@ -509,12 +509,12 @@ export default {
                 {
                     a: 180,
                     p: 0,
-                    t: '新科技蓝筹股投资策略'
+                    t: '新科技蓝筹股投资机会解读'
                 },
                 {
                     a: 240,
                     p: 0,
-                    t: '2017最具投资价值股'
+                    t: '2017最具投资价值个股'
                 },
                 {
                     a: 300,
@@ -541,12 +541,14 @@ export default {
         popClick(type) {
             this.popShow = true
             this.popText = type
+            window.dcsMultiTrack('DCS.dcsuri', 'endYear-activity-h5-new-click', 'WT.ti', 'endYear-activity-h5-new-click')
         },
         close() {
             this.popShow = false
         },
         copOpenwx() {
             new Clipboard('.btn')
+            window.dcsMultiTrack('DCS.dcsuri', 'endYear-activity-h5-new-wx', 'WT.ti', 'endYear-activity-h5-new-wx')
             location.href = 'weixin://'
         }
     },
@@ -661,22 +663,25 @@ export default {
             if (_this.lotteryNum > 0) {
                 if (_this.lotteryNum === 1) {
                     // _this.resultAngle[0].p = 0
-                    _this.resultAngle[1].p = 0
-                    _this.resultAngle[3].p = 0
-                    _this.resultAngle[4].p = 0
+                    // _this.resultAngle[1].p = 0
+                    // _this.resultAngle[3].p = 0
+                    // _this.resultAngle[4].p = 0
                     // _this.resultAngle[2].p = 0.5
+                    // _this.resultAngle[5].p = 1
+                    _this.resultAngle[1].p = 0
+                    _this.resultAngle[4].p = 0
                     _this.resultAngle[5].p = 1
                 } else if (_this.lotteryNum === 2) {
                     // _this.resultAngle[0].p = 0.25
-                    _this.resultAngle[1].p = 0.33
-                    _this.resultAngle[3].p = 0.33
-                    _this.resultAngle[4].p = 0.33
+                    _this.resultAngle[1].p = 0.8
+                    _this.resultAngle[4].p = 0.2
                 }
                 rotate.calculateResult(1, 1);
             } else {
                 _this.popShow = true
                 _this.popText = 3
             }
+            window.dcsMultiTrack('DCS.dcsuri', 'endYear-activity-h5-new-lottery', 'WT.ti', 'endYear-activity-h5-new-lottery')
         })
         $('#i_cont1').click(function() {
             _this.plate = '#i_bg1'
@@ -684,22 +689,28 @@ export default {
             if (_this.lotteryNum > 0) {
                 if (_this.lotteryNum === 1) {
                     // _this.resultAngle[0].p = 0
-                    _this.resultAngle[1].p = 0
-                    _this.resultAngle[3].p = 0
-                    _this.resultAngle[4].p = 0
+                    // _this.resultAngle[1].p = 0
+                    // _this.resultAngle[3].p = 0
+                    // _this.resultAngle[4].p = 0
                     // _this.resultAngle[2].p = 0.5
+                    // _this.resultAngle[5].p = 1
+                    _this.resultAngle[1].p = 0
+                    _this.resultAngle[4].p = 0
                     _this.resultAngle[5].p = 1
                 } else if (_this.lotteryNum === 2) {
                     // _this.resultAngle[0].p = 0.25
-                    _this.resultAngle[1].p = 0.33
-                    _this.resultAngle[3].p = 0.33
-                    _this.resultAngle[4].p = 0.33
+                    // _this.resultAngle[1].p = 0.33
+                    // _this.resultAngle[3].p = 0.33
+                    // _this.resultAngle[4].p = 0.33
+                    _this.resultAngle[1].p = 0.8
+                    _this.resultAngle[4].p = 0.2
                 }
                 rotate.calculateResult(1, 1);
             } else {
                 _this.popShow = true
                 _this.popText = 3
             }
+            window.dcsMultiTrack('DCS.dcsuri', 'endYear-activity-h5-new-lottery', 'WT.ti', 'endYear-activity-h5-new-lottery')
         })
         $.ajax({
             url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage',
