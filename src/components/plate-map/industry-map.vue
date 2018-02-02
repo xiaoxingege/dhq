@@ -667,12 +667,19 @@ export default {
       })
       this.chart.hideLoading()
       this.chart.on('mouseover', (params) => {
+        const x = params.event.offsetX;
+        const y = params.event.offsetY;
+        if (this.focusEl) {
+          const preNodeStl = this.focusEl.style;
+          preNodeStl.stroke = null;
+          this.focusEl.setStyle(preNodeStl);
+          this.focusEl = null;
+        }
+        this.focusEl = this.chart._zr.findHover(x, y).target;
         if (params.treePathInfo.length < 2 || this.mapType === 'stock') {
           return
         }
         this.hoverNodeId = params.data.id
-        const x = params.event.offsetX;
-        const y = params.event.offsetY;
         this.industryCode = params.data.id
         this.showHover = true
         let p1 = new Promise((resolve, reject) => {
@@ -722,13 +729,6 @@ export default {
           }
           this.hoverNodeParent.children = stockInfoList // 浮窗股票列表
         });
-        if (this.focusEl) {
-          const preNodeStl = this.focusEl.style;
-          preNodeStl.stroke = null;
-          this.focusEl.setStyle(preNodeStl);
-          this.focusEl = null;
-        }
-        this.focusEl = this.chart._zr.findHover(x, y).target;
       })
       this.chart.on('mouseout', (params) => {
         if (params.treePathInfo.length < 2 || this.mapType === 'stock') {
