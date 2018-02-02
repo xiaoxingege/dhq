@@ -40,6 +40,17 @@ const connectDb = async(dbName) => {
   }
 }
 
+const exceptClasses = ['11thActivity', 'koaLoggerParse']
+const privateKey = 'hello2018'
+
+const sign = function(params, t) {
+
+}
+
+const checkSign = function(params, t, sign) {
+
+}
+
 module.exports = function(router) {
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
@@ -67,6 +78,14 @@ module.exports = function(router) {
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
+    // let { sign, t } = ctx.request.query || {};
+    // if (exceptClasses.indexOf('className') === -1 && !checkSign(data, t, sign)) {
+    //   ctx.body = {
+    //     code: 1,
+    //     message: 'invalid sign'
+    //   }
+    //   return
+    // }
     if (!data) {
       ctx.body = {
         code: 1,
