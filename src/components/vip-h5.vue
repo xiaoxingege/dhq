@@ -91,11 +91,11 @@ to { transform: scale(1); opacity: 1; }
 .layer a{width: 6rem;height: 1.5rem;margin: .25rem auto;display: block;}
 .layer_success{background-image:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh52.png);height:7.675rem; margin-top: -3.837rem;}
 .btngo{width: 6rem;height: 1.5rem; display: block;}
-.swiper-container {width:16.425rem; height:8.3rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0;}
+.swiper-container {width:6.57rem; height:3.32rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.12rem auto 0;}
 
-.swiper-slide .main-img {width: 100%;height: 8.3rem;}
+.swiper-slide .main-img {width: 100%;height: 3.32rem;}
 
-.item7 .btn{ position: absolute; top:-5rem;left:1.1rem;}
+.item7 .btn{ position: absolute; top:-2rem;left:0.44rem;}
 .item7 .btn span{ display: block;cursor: pointer;margin-bottom: .5rem;width:5rem;float: left; height: 1.8rem; margin-right: .8rem;}
 
 #pagination {position: absolute; top:-5rem;left:1.1rem;}
