@@ -218,7 +218,7 @@ export default {
       if (this.parent && this.parent.name) {
         let avg
         if (this.parent.perf === undefined || this.parent.perf === null) {
-          avg = '';
+          avg = '--';
         } else {
           avg = this.parent.perf
         }
