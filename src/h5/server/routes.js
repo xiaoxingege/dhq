@@ -67,7 +67,7 @@ module.exports = function(router) {
         lotteryDataResult = JSON.parse(lotteryDataResult)
         if(lotteryDataResult.length > 0){
             for(var i=0;i<lotteryDataResult.length;i++){
-                dataArr.concat(lotteryDataResult[i].lotteryData)
+                dataArr = dataArr.concat(lotteryDataResult[i].lotteryData)
                 if(level === lotteryDataResult[i].level){
                     lBatch++;
                 }
