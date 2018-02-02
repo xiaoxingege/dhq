@@ -17,6 +17,7 @@ const store = new Vuex.Store({
   modules: {}
 })
 const request = require('request-promise');
+const crypto = require('crypto');
 
 // 实例化vue对象
 const app = new Vue({
@@ -43,12 +44,17 @@ function removeByValue(arr, val) {
       }
   }
 }
+function cryptPwd(password) {
+    var md5 = crypto.createHash('md5');
+    return md5.update(password).digest('hex');
+}
 module.exports = function(router) {
     router.get('/lottery', async(ctx, next) => {
         let num = ctx.query.num || '20';
         let max = ctx.query.max || '300';
         let lmax = ctx.query.lmax || '60';
         let level = ctx.query.level || '1';
+        let createTime = Math.round(new Date().getTime()/1000);
         let lBatch = 1;
         let dataArr = [];
         let lotteryDataResult = await request({
@@ -94,7 +100,9 @@ module.exports = function(router) {
           body: {
               level:level,
               lotteryData:integersResult,
-              batch:lBatch
+              batch:lBatch,
+              createTime:createTime,
+              key:cryptPwd(integersResult.toString()+level+lBatch+createTime)
           }
       })
       ctx.body = integersResult;
