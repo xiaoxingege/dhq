@@ -51,6 +51,13 @@ function cryptPwd(password) {
   var md5 = crypto.createHash('md5');
   return md5.update(password).digest('hex');
 }
+const signature = function(params, t) {
+  let keys = Object.keys(params)
+  keys.sort()
+  let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
+  str += t + privateKey
+  return cryptPwd(str)
+}
 module.exports = function(router) {
   router.get('/lottery', async(ctx, next) => {
     let num = ctx.query.num || '20'; // 每次抽取的数量
@@ -126,20 +133,21 @@ module.exports = function(router) {
     // 计算本次中奖数据的数字签名，防止奖项、批次、抽奖时间、中奖结果数据被篡改
     let key = cryptPwd(integersResult.toString() + level + lBatch + createTime)
     // 抽奖结果存入数据库
+    let opt = {
+      level: level,
+      lotteryData: integersResult,
+      batch: lBatch,
+      createTime: createTime,
+      key
+    };
     let parsedBody = await request({
       headers: {
         'content-type': 'application/json;charset=UTF-8',
       },
-      url: 'http://itougu.jrj.com.cn/act/crud/lotteryData',
+      url: `http://itougu.jrj.com.cn/act/crud/lotteryData?t=${createTime}&sign=${signature(opt,createTime)}`,
       method: 'post',
       json: true,
-      body: {
-        level: level,
-        lotteryData: integersResult,
-        batch: lBatch,
-        createTime: createTime,
-        key
-      }
+      body: opt
     })
     // 返回本次抽奖结果和对应的数字签名
     ctx.body = {
