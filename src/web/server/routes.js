@@ -7,6 +7,8 @@ import Vuex from 'vuex'
 import ComponentsList from 'components/components-list'
 import renderToString from 'utils/renderToString'
 
+const md5 = require('bem-md5')
+
 Vue.use(Vuex)
 
 /*
@@ -44,7 +46,8 @@ const exceptClasses = ['11thActivity', 'koaLoggerParse']
 const privateKey = 'hello2018'
 
 const sign = function(params, t) {
-
+  let keys = Object.keys(params)
+  keys.sort()
 }
 
 const checkSign = function(params, t, sign) {
@@ -78,14 +81,14 @@ module.exports = function(router) {
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
-    // let { sign, t } = ctx.request.query || {};
-    // if (exceptClasses.indexOf('className') === -1 && !checkSign(data, t, sign)) {
-    //   ctx.body = {
-    //     code: 1,
-    //     message: 'invalid sign'
-    //   }
-    //   return
-    // }
+    let { sign, t } = ctx.request.query || {};
+    if (exceptClasses.indexOf('className') === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
+      }
+      return
+    }
     if (!data) {
       ctx.body = {
         code: 1,

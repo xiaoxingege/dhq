@@ -102,6 +102,12 @@ module.exports = function(router) {
       if (quota > 0) {
         proxy = proxyArr[i]
         break;
+      } else {
+        ctx.body = {
+          retcode: -1,
+          msg: '随机数生成已达到限额'
+        };
+        return;
       }
     }
     // 调用random.org接口生成一组真随机数
