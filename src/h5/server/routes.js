@@ -55,6 +55,8 @@ module.exports = function(router) {
         let lmax = ctx.query.lmax || '60';
         let level = ctx.query.level || '1';
         let createTime = Math.round(new Date().getTime()/1000);
+        let proxy = '';
+        let proxyArr = ['','http://ss.seon.im:18778','http://47.104.145.202:8118'];
         let lBatch = 1;
         let dataArr = [];
         let lotteryDataResult = await request({
@@ -80,10 +82,25 @@ module.exports = function(router) {
             };
             return;
         }
+        for(var i=0;i<proxyArr.length;i++){
+            let quota = await request({
+              headers:{
+                'content-type':'text/plain;charset=utf-8',
+              },
+              url: 'https://www.random.org/quota/?format=plain',
+              proxy:proxyArr[i],
+              method: 'get'
+            });
+            if(quota>0){
+                proxy = proxyArr[i]
+                break;
+            }
+        }
         let integersResult = await request({
           headers:{
             'content-type':'text/plain;charset=utf-8',
           },
+          proxy: proxy,
           url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
           method: 'get'
         });
