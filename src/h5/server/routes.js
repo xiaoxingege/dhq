@@ -53,15 +53,16 @@ function cryptPwd(password) {
 }
 module.exports = function(router) {
   router.get('/lottery', async(ctx, next) => {
-    let num = ctx.query.num || '20';
-    let max = ctx.query.max || '300';
-    let lmax = ctx.query.lmax || '60';
-    let level = ctx.query.level || '1';
+    let num = ctx.query.num || '20'; // 每次抽取的数量
+    let max = ctx.query.max || '300'; // 最大中奖号码
+    let lmax = ctx.query.lmax || '60'; // 每个奖项的最大中奖人数
+    let level = ctx.query.level || '1'; // 奖项
     let createTime = Date.now();
     let proxy = '';
     let proxyArr = ['', 'http://47.104.145.202:8118', 'http://ss.seon.im:18778'];
-    let lBatch = 1;
+    let lBatch = 1; // 每个奖项的抽奖批次
     let dataArr = [];
+    // 获取所有已经抽过奖的记录，用于排除已经中奖的号码
     let lotteryDataResult = await request({
       headers: {
         'content-type': 'application/json;charset=UTF-8',
@@ -72,12 +73,14 @@ module.exports = function(router) {
     lotteryDataResult = JSON.parse(lotteryDataResult)
     if (lotteryDataResult.length > 0) {
       for (var i = 0; i < lotteryDataResult.length; i++) {
+        // dataArr存放之前已经中过奖的所有号码
         dataArr = dataArr.concat(lotteryDataResult[i].lotteryData)
         if (level === lotteryDataResult[i].level) {
           lBatch++;
         }
       }
     }
+    // 当前奖项全部中奖号码已经抽取完成
     if (lBatch * num > lmax) {
       ctx.body = {
         retcode: -1,
@@ -85,6 +88,8 @@ module.exports = function(router) {
       };
       return;
     }
+    // 因为random.org针对ip有调用限额，因此准备两组代理服务器
+    // 先判断剩余配额，如果配额不足，则改用代理服务器请求
     for (var i = 0; i < proxyArr.length; i++) {
       let quota = await request({
         headers: {
@@ -99,6 +104,7 @@ module.exports = function(router) {
         break;
       }
     }
+    // 调用random.org接口生成一组真随机数
     let integersResult = await request({
       headers: {
         'content-type': 'text/plain;charset=utf-8',
@@ -108,8 +114,12 @@ module.exports = function(router) {
       method: 'get'
     });
     integersResult = integersResult.split('\n')
+    // 从结果中排除已经中过奖的号码
     removeByValue(integersResult, dataArr)
     integersResult = integersResult.slice(0, num)
+    // 计算本次中奖数据的数字签名，防止奖项、批次、抽奖时间、中奖结果数据被篡改
+    let key = cryptPwd(integersResult.toString() + level + lBatch + createTime)
+    // 抽奖结果存入数据库
     let parsedBody = await request({
       headers: {
         'content-type': 'application/json;charset=UTF-8',
@@ -122,10 +132,14 @@ module.exports = function(router) {
         lotteryData: integersResult,
         batch: lBatch,
         createTime: createTime,
-        key: cryptPwd(integersResult.toString() + level + lBatch + createTime)
+        key
       }
     })
-    ctx.body = integersResult;
+    // 返回本次抽奖结果和对应的数字签名
+    ctx.body = {
+      key,
+      nums: integersResult
+    };
   })
   router.get('/checkUserIsYG', async(ctx, next) => {
     let result = await request({
