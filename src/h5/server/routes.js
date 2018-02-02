@@ -90,8 +90,9 @@ module.exports = function(router) {
     }
     // 因为random.org针对ip有调用限额，因此准备两组代理服务器
     // 先判断剩余配额，如果配额不足，则改用代理服务器请求
+    let quota = 0
     for (var i = 0; i < proxyArr.length; i++) {
-      let quota = await request({
+      quota = await request({
         headers: {
           'content-type': 'text/plain;charset=utf-8',
         },
@@ -102,13 +103,14 @@ module.exports = function(router) {
       if (quota > 0) {
         proxy = proxyArr[i]
         break;
-      } else {
-        ctx.body = {
-          retcode: -1,
-          msg: '随机数生成已达到限额'
-        };
-        return;
       }
+    }
+    if (quota <= 0) {
+      ctx.body = {
+        retcode: -1,
+        msg: '随机数生成已达到限额'
+      };
+      return;
     }
     // 调用random.org接口生成一组真随机数
     let integersResult = await request({
