@@ -29,20 +29,20 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 /*item1*/
 .item{ width:100%;height: 8rem;background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_01.jpg?c) no-repeat center; background-size: 100% 100%;}
 .item1{ position: relative;z-index: 2;}
-.item1 span{ position: absolute;width:0.48rem; height: 0.48rem;border-radius: 50%;cursor:pointer;}
-.item1 .span1{top:7.2rem; left:2px;}
-.item1 .span2{top:0.56rem; left:3rem;}
-.item1 .span3{top:5rem; left:8rem;}
-.item1 .span4{top:5.4rem; right:3rem;}
-.item1 .span5{top:7.2rem; right:2px;}
-.item1 span i{position: absolute;padding:.25rem .35rem;background:rgba(225,162,75,.38); color:#fdd8a4; font-size:.5rem; border-radius: 5px; line-height: .7rem;width:3.8rem; display: none;}
-.item1 .span1 i{top:0rem;left:3rem;}
-.item1 .span2 i{top:1rem;left:2rem;}
-.item1 .span3 i{top:2.5rem;left:-1rem;}
-.item1 .span4 i{top:2.5rem;left:-.7rem;}
-.item1 .span5 i{top:0rem;left:-4.5rem;}
+.item1 span{ position: absolute;width:1.2rem; height: 1.2rem;border-radius: 50%;cursor:pointer;}
+.item1 .span1{top:7.24rem; left:0.22rem;}
+.item1 .span2{top:5.6rem; left:1.1rem;}
+.item1 .span3{top:5rem; left:3.1rem;}
+.item1 .span4{top:5.4rem; right:1.2rem;}
+.item1 .span5{top:7.2rem; right:0.22rem;}
+.item1 span i{position: absolute;padding:.1rem .14rem;background:rgba(225,162,75,.38); color:#fdd8a4; font-size:.2rem; border-radius: 5px; line-height: .28rem;width:1.52rem; display: block;}
+.item1 .span1 i{top:0rem;left:1rem;}
+.item1 .span2 i{top:0.4rem;left:1rem;}
+.item1 .span3 i{top:1rem;left:-0.3rem;}
+.item1 .span4 i{top:1rem;left:-.28rem;}
+.item1 .span5 i{top:0rem;left:-1.65rem;}
 .item1 .cur i{ display: block;}
-.item2{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_02.jpg?b);position: relative;    height: 1.2rem;
+.item2{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_02.jpg?b);position: relative;    height: 1.1rem;
     background-size: 100% auto;
     background-position: 0 0;}
 .item3{background-image: url('../assets/images/vip-h5/item3bg.jpg');height: 12.4rem;position: relative;}
@@ -53,8 +53,8 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item8{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_08.jpg?b); }
 .item9{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_09.jpg?b); }
 .item10{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_10.jpg?b);}
-.item11{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_11.jpg?b); height: 15.425rem;position: relative;}
-.item12{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5c.png?b); height:3rem; position: fixed;bottom:0;width:100%;left:0;z-index: 3;}
+.item11{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_11.jpg?b); height: 6.17rem;position: relative;}
+.item12{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5c.png?b); height:1.2rem; position: fixed;bottom:0;width:100%;left:0;z-index: 3;}
 .item10 .in{ padding-top: 12.5rem;}
 .item10 a{ display: block;width:10rem; height: 3rem;margin: 0 auto;}
 .item12 a{ float:right;width:6rem; height: 1.6rem; margin-right: 2rem;}
@@ -62,14 +62,14 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 
 #img{width:16.425rem; height:8.3rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg) no-repeat center center; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0; }
 
-.item2 .btngo{ position: absolute;top:4rem;right:2rem;width:5rem;}
-.item7 .btngo{ position: absolute;bottom:9rem;right:2rem;width:5rem;}
+/* .item2 .btngo{ position: absolute;top:4rem;right:2rem;width:5rem;} */
+.item7 .btngo{ position: absolute;bottom:3.54rem;right:0.56rem;width:2rem;}
 .item11 .btngo{ position: absolute;top:2rem;right:2rem;width:5rem;}
-.msgbox{ margin-bottom: 4rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bt.jpg) no-repeat bottom ;background-size: 100% auto;padding-bottom: 1rem;}
-.textmsg{width:16.9rem; margin:0 auto; padding-top: .7rem;}
-.textmsg li{ margin-bottom: .6rem;}
-.textmsg .t{width:8rem; line-height: 1.1rem; border-radius: .45rem; color: #eecd8c; text-align: center;color: #eecd8c;font-size:.6rem; background: #92682f; margin-bottom: .5rem;}
-.textmsg .b{border:1px solid #92682f;border-radius: .45rem; padding:.7rem .8rem;color: #bc8334;font-size: .8rem; line-height: .75rem;line-height: 1rem;}
+.msgbox{ margin-bottom: 1.6rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bt.jpg) no-repeat bottom ;background-size: 100% auto;padding-bottom: 0.4rem;}
+.textmsg{width:6.76rem; margin:0 auto; padding-top: .28rem;}
+.textmsg li{ margin-bottom: .24rem;}
+.textmsg .t{width:3.2rem; line-height: 0.44rem; border-radius: .18rem; color: #eecd8c; text-align: center;color: #eecd8c;font-size:.24rem; background: #92682f; margin-bottom: .2rem;}
+.textmsg .b{border:1px solid #92682f;border-radius: .18rem; padding:.28rem .32rem;color: #bc8334;font-size: .32rem; line-height: 0.4rem;}
 
 
 /*弹层*/
@@ -90,24 +90,26 @@ to { transform: scale(1); opacity: 1; }
 .layer input{padding-left: .25rem; width:5.5rem;font-size:.6rem;color: #805e28; padding-right:.25rem; height: 1rem; float: left; border:1px solid #755e48; border-radius: 1px;  background:rgba(255,255,255,.26);}
 .layer a{width: 6rem;height: 1.5rem;margin: .25rem auto;display: block;}
 .layer_success{background-image:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh52.png);height:7.675rem; margin-top: -3.837rem;}
-.btngo{width: 6rem;height: 1.5rem; display: block;}
-.swiper-container {width:6.57rem; height:3.32rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.12rem auto 0;}
+.btngo{width: 2.4rem;height: 0.6rem; display: block;}
 
+
+.swiper-container {width:6.57rem; height:3.32rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.12rem auto 0;}
 .swiper-slide .main-img {width: 100%;height: 3.32rem;}
 
 .item7 .btn{ position: absolute; top:-2rem;left:0.44rem;}
 .item7 .btn span{ display: block;cursor: pointer;margin-bottom: .5rem;width:5rem;float: left; height: 1.8rem; margin-right: .8rem;}
 
-#pagination {position: absolute; top:-5rem;left:1.1rem;}
-#pagination .swiper-pagination-bullet {display: block;cursor: pointer;margin-bottom: .5rem;width:5rem;float: left; height: 1.8rem; margin-right: .8rem;border-radius: 0;background:none;}
-#pagination .swiper-pagination-bullet:nth-child(4){ margin-left:3rem;}
+#pagination {position: absolute; top:-2rem;left:0.44rem;}
+#pagination .swiper-pagination-bullet {display: block;cursor: pointer;margin-bottom: .2rem;width:2rem;float: left; height: 0.72rem; margin-right: .32rem;border-radius: 0;background:none;}
+#pagination .swiper-pagination-bullet:nth-child(4){ margin-left:1.2rem;}
+
 
 .item3 div{ padding-top: 2rem;}
 .item3a1{ display: block;width:14rem; height: 11rem; margin:0 auto;}
 .item3a2{ display: block;width:14rem; height: 11rem; margin:0 auto;  margin-top: 0rem}
 .h5b{width:12.5rem; height: 3.85rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5b.png) no-repeat;background-size: 100% 100%;margin:0 auto;}
 .h5b a{width:5rem; height: 3.85rem;}
-.msgbox img{width:16.9rem; display: block;margin:.5rem auto;}
+.msgbox img{width:6.76rem; display: block;margin:.2rem auto;}
 .links1,.links2 {
     display:none;
 }
@@ -123,7 +125,9 @@ to { transform: scale(1); opacity: 1; }
     <span class="span4" id="span4"><i>全程跟踪个股买卖策略，实时指导异动行情交易方法</i></span>
     <span class="span5" id="span5"><i>资产配置实现高能风报比，智能工具让投资更加便捷</i></span>
   </div>
-  <div class="item item2"><a href="javascript:;" class="btngo"></a></div>
+  <div class="item item2">
+    <!-- <a href="javascript:;" class="btngo"></a> -->
+  </div>
   <div class="item item3">
     <div class="links1">
       <a href="http://itougu.jrj.com.cn/live/160603010046392493" class="item3a1"></a>
