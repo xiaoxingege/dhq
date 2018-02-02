@@ -285,7 +285,8 @@ export default {
       this.$emit('changeCondition', this.industryIndexs.indexOf(this.conditionIndustry))
       this.isContinue = 1
       this.autoUpdate = true
-      this.updateData()
+      this.updateData();
+      this.resetPlay();
     },
     conditionStockI() {
       if (this.mapType === 'plate') { // 鼠标移入的时候
@@ -295,6 +296,7 @@ export default {
       this.isContinue = 1
       this.autoUpdate = true
       this.updateStockData()
+      this.resetPlay();
     }
   },
   computed: {
@@ -993,6 +995,7 @@ export default {
       this.$emit('isStopplayback', false);
       this.playback.status = 0;
       // 回放结束后
+      this.autoUpdate = true;
       this.updateData();
     },
     resetPlay: function() {
