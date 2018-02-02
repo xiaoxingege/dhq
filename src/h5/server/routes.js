@@ -51,6 +51,7 @@ function cryptPwd(password) {
   var md5 = crypto.createHash('md5');
   return md5.update(password).digest('hex');
 }
+const privateKey = 'hello2018'
 const signature = function(params, t) {
   let keys = Object.keys(params)
   keys.sort()
