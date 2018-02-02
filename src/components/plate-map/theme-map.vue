@@ -945,10 +945,12 @@ export default {
       this.autoUpdate = true;
       if (this.mapType === 'stock') {
         this.mapType = 'plate'
+        /* condition的select标签也要换 即传给父组件mapType值 */
+        this.$emit('passMapType', this.mapType)
+        this.updateMap()
+      } else {
+        this.updateData()
       }
-      /* condition的select标签也要切换 即传给父组件mapType值 */
-      this.$emit('passMapType', this.mapType)
-      this.updateMap()
       this.autoUpdateData();
     },
     getNode: function(params) {

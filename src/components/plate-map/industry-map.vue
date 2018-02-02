@@ -951,9 +951,11 @@ export default {
       this.autoUpdate = true;
       if (this.mapType === 'stock') {
         this.mapType = 'plate'
+        this.$emit('passMapType', this.mapType)
+        this.updateMap()
+      } else {
+        this.updateData()
       }
-      this.$emit('passMapType', this.mapType)
-      this.updateMap()
       this.autoUpdateData();
     },
     getNode: function(params) {
