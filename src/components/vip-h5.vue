@@ -25,7 +25,7 @@ html, body { font:20px/1rem 'Microsoft Yahei'; color: #333;}
 body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;}
 
 
-.tooltip{ position: absolute;right: 5px;top: 3px;line-height: .6rem;font-size: .5rem;border: 1px solid red; border-radius: 4px;padding: 1px 2px; background:#fff;color: #000; }
+.tooltip{ position: absolute;right: 0.05rem;top: 0.03rem;line-height: .24rem;font-size: .2rem;border: 1px solid red; border-radius:0.04rem;padding: 0.01rem 0.02rem; background:#fff;color: #000; }
 /*item1*/
 .item{ width:100%;height: 8rem;background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_01.jpg?c) no-repeat center; background-size: 100% 100%;}
 .item1{ position: relative;z-index: 2;}
@@ -74,23 +74,23 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 
 /*弹层*/
 .mask {display: none;  position: fixed; width: 100%; height: 100%; background: #000; opacity: .6; filter: alpha(opacity=60); top: 0; left: 0; z-index: 20; }
-.layer{display:none;width: 17.6rem;height: 8.875rem;position: fixed;top: 50%;left: 50%;margin-top: -4.437rem;margin-left: -8.7rem;z-index: 21;color: #000;animation: haha .6s cubic-bezier(1,-0.49, 0, 1.5); color: #97d2ee; background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh5.png?ab);background-size: 100% 100%;}
+.layer{display:none;width: 7.04rem;height: 3.55rem;position: fixed;top: 50%;left: 50%;margin-top: -1.7748rem;margin-left: -3.48rem;z-index: 21;color: #000;animation: haha .6s cubic-bezier(1,-0.49, 0, 1.5); color: #97d2ee; background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh5.png?ab);background-size: 100% 100%;}
 @keyframes haha {
 from { transform: scale(6); opacity: 0; }
 to { transform: scale(1); opacity: 1; }
 }
-.closebtn{ position:absolute;width:1.3rem; height:1.2rem; cursor:pointer;right: 0px;top: 0px;}
+.closebtn{ position:absolute;width:0.52rem; height:0.48rem; cursor:pointer;right: 0px;top: 0px;}
 
 
 
-.layer ul{ padding-top: 4.6rem;}
-.layer span{padding-left: .6rem; font-size: .75rem;color: #3d2601; padding-right: .25rem; line-height:1rem; float: left;}
-.layer .in{ padding-top: 180px;}
+.layer ul{ padding-top: 1.84rem;}
+.layer span{padding-left: .24rem; font-size: .3rem;color: #3d2601; padding-right: .1rem; line-height:0.4rem; float: left;}
+.layer .in{ padding-top: 1.8rem;}
 .layer li{ position: relative;}
-.layer input{padding-left: .25rem; width:5.5rem;font-size:.6rem;color: #805e28; padding-right:.25rem; height: 1rem; float: left; border:1px solid #755e48; border-radius: 1px;  background:rgba(255,255,255,.26);}
-.layer a{width: 6rem;height: 1.5rem;margin: .25rem auto;display: block;}
+.layer input{padding-left: .1rem; width:2.2rem;font-size:.24rem;color: #805e28; padding-right:.1rem; height: 0.4rem; float: left; border:1px solid #755e48; border-radius: 1px;  background:rgba(255,255,255,.26);}
+.layer a{width: 2.4rem;height: 0.6rem;margin: .1rem auto;display: block;}
 .layer_success{background-image:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh52.png);height:7.675rem; margin-top: -3.837rem;}
-.btngo{width: 2.4rem;height: 0.6rem; display: block; background: rgba(0,0,0,.4);}
+.btngo{width: 2.4rem;height: 0.6rem; display: block;}
 
 
 .swiper-container {width:6.57rem; height:3.32rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.12rem auto 0;}
@@ -107,10 +107,10 @@ to { transform: scale(1); opacity: 1; }
 .item3 div{ padding-top: 2rem;}
 .item3a1{ display: block;width:14rem; height: 11rem; margin:0 auto;}
 .item3a2{ display: block;width:14rem; height: 11rem; margin:0 auto;  margin-top: 0rem}
-.h5b{width:12.5rem; height: 3.85rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5b.png) no-repeat;background-size: 100% 100%;margin:0 auto;}
-.h5b a{width:5rem; height: 3.85rem;}
+.h5b{width:5rem; height: 1.54rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5b.png) no-repeat;background-size: 100% 100%;margin:0 auto;}
+.h5b a{width:2rem; height: 1.54rem;}
 .msgbox img{width:6.76rem; display: block;margin:.2rem auto;}
-.links1,.links2 {
+.links1 {
     display:none;
 }
 
