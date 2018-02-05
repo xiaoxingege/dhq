@@ -36,14 +36,16 @@
 
 .addSelfChoice,
 .deleteSelfChoice {
+    font-weight: normal;
     display: inline-block;
     width: 50px;
-    height: 20px;
-    line-height: 20px;
+    height: 22px;
+    line-height: 18px;
     border: 1px solid #DA3D45;
     border-radius: 3px;
     text-align: center;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .addSelfChoice {
@@ -58,8 +60,8 @@
 <div class="dialog" @mouseover="showDialog" @mouseout="hideDialog">
   <div class="top clearfix">
     <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
-    <span class="fr">
-                <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
+    <span class="fr" style="font-weight: bold">
+    <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
     <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
     <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
