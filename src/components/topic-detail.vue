@@ -440,12 +440,13 @@ html {
 
 .right-table tr {
     position: relative;
+    border-bottom: 1px solid #23272c;
 }
 
 .right-table tr td {
     text-align: center;
     height: 44px;
-    border-bottom: 1px solid #23272c;
+    /*border-bottom: 1px solid #23272c;*/
 }
 
 .stock-td1 {
@@ -918,7 +919,7 @@ ol li {
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件：</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
+            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}" target="_blank"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
