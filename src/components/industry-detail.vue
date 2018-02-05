@@ -440,12 +440,13 @@ html {
 
 .right-table tr {
     position: relative;
+    border-bottom: 1px solid #23272c;
 }
 
 .right-table tr td {
     text-align: center;
     height: 44px;
-    border-bottom: 1px solid #23272c;
+    /*border-bottom: 1px solid #23272c;*/
 }
 
 .stock-td1 {
