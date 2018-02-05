@@ -160,11 +160,11 @@
   top: 16px;
   right: 22px;
   z-index: 9999;
-  width: 160px;
-  height: 40px;
+  width: 288px;
+  height: 56px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  line-height: 40px;
+  line-height: 56px;
   text-align: center;
 }
 
@@ -173,7 +173,7 @@
   width: 20px;
   height: 20px;
   position: relative;
-  top: 8px;
+  top: 15px;
 }
 
 .narrow span {
@@ -211,6 +211,7 @@
   </div>
   <div class="narrow" v-if="isEnlarge">
     <a v-on:click="restoreData"><span>恢复默认</span></a>
+    <span class="">{{currentTime}}</span>
     <router-link class="narrow-link" :to="{name:'normalMap',query:{rCode:rangeCode,condition:condition}}" target="_blank"><img src="../assets/images/stock-map/narrow.png" /></router-link>
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
@@ -575,7 +576,7 @@ export default {
         })
       }
       this.autoUpdateData()
-      // this.updateTime()
+      this.updateTime()
     },
     updateMap: function() {
       this.isContinue = 1;
@@ -1151,6 +1152,7 @@ export default {
   },
   destroyed() {
     this.updateDataPid && clearInterval(this.updateDataPid);
+    this.updateTimePid && clearInterval(this.updateTimePid);
     this.chart.dispose();
   }
 }
