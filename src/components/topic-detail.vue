@@ -918,7 +918,7 @@ ol li {
           </div>
           <div class="con1-event box-flex-1">
             <strong>驱动事件：</strong>
-            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
+            <router-link :to="{name:'detailPages',params:{id : detail.eventId, detailType:'news'}}" target="_blank"><span class="tip-1 tip-event">{{checkNull(detail.drivenEvent)}}</span>
             </router-link>
           </div>
         </div>
