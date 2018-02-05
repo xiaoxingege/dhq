@@ -35,7 +35,7 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item1 .span3{top:5rem; left:3.1rem;}
 .item1 .span4{top:5.4rem; right:1.2rem;}
 .item1 .span5{top:7.2rem; right:0.22rem;}
-.item1 span i{position: absolute;padding:.1rem .14rem;background:rgba(225,162,75,.38); color:#fdd8a4; font-size:.2rem; border-radius: 5px; line-height: .28rem;width:1.52rem; display: block;}
+.item1 span i{position: absolute;padding:.1rem .14rem;background:rgba(225,162,75,.38); color:#fdd8a4; font-size:.2rem; border-radius: 5px; line-height: .28rem;width:1.52rem; display: none;}
 .item1 .span1 i{top:0rem;left:1rem;}
 .item1 .span2 i{top:0.4rem;left:1rem;}
 .item1 .span3 i{top:1rem;left:-0.3rem;}
@@ -56,15 +56,15 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item11{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_11.jpg?b); height: 6.17rem;position: relative;}
 .item12{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5c.png?b); height:1.2rem; position: fixed;bottom:0;width:100%;left:0;z-index: 3;}
 .item10 .in{ padding-top: 12.5rem;}
-.item10 a{ display: block;width:10rem; height: 3rem;margin: 0 auto;}
-.item12 a{ float:right;width:6rem; height: 1.6rem; margin-right: 2rem;}
+/* .item10 a{ display: block;width:10rem; height: 3rem;margin: 0 auto;} */
+.item12 a{ float:right;width:2.2rem; height: 0.64rem; margin-right: 0.55rem;margin-top:0.18rem;}
 
 
 #img{width:16.425rem; height:8.3rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg) no-repeat center center; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0; }
 
 /* .item2 .btngo{ position: absolute;top:4rem;right:2rem;width:5rem;} */
 .item7 .btngo{ position: absolute;bottom:3.54rem;right:0.56rem;width:2rem;}
-.item11 .btngo{ position: absolute;top:2rem;right:2rem;width:5rem;}
+.item11 .btngo{ position: absolute;top:0.89rem;right:0.84rem;width:2.2rem;}
 .msgbox{ margin-bottom: 1.6rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bt.jpg) no-repeat bottom ;background-size: 100% auto;padding-bottom: 0.4rem;}
 .textmsg{width:6.76rem; margin:0 auto; padding-top: .28rem;}
 .textmsg li{ margin-bottom: .24rem;}
@@ -90,7 +90,7 @@ to { transform: scale(1); opacity: 1; }
 .layer input{padding-left: .25rem; width:5.5rem;font-size:.6rem;color: #805e28; padding-right:.25rem; height: 1rem; float: left; border:1px solid #755e48; border-radius: 1px;  background:rgba(255,255,255,.26);}
 .layer a{width: 6rem;height: 1.5rem;margin: .25rem auto;display: block;}
 .layer_success{background-image:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/layh52.png);height:7.675rem; margin-top: -3.837rem;}
-.btngo{width: 2.4rem;height: 0.6rem; display: block;}
+.btngo{width: 2.4rem;height: 0.6rem; display: block; background: rgba(0,0,0,.4);}
 
 
 .swiper-container {width:6.57rem; height:3.32rem; z-index: 3; position: relative;background-size: 100% 100%;margin: -.12rem auto 0;}
@@ -230,13 +230,118 @@ export default {
     document.title = '金融界首推—智能投顾工作室'
   },
   mounted() {
+    this.swiperRun()
+    this.mouseover()
+    this.openMask()
+    this.closeMask()
 
   },
   filters: {
 
   },
   methods: {
+    swiperRun(){
+      var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        paginationClickable: true,autoplay: 2000,loop:true,
+        grabCursor:true,
+        spaceBetween: 0,
+        pagination: '.swiper-pagination',
+        autoplayDisableOnInteraction : false
+      });
+    },
+    mouseover(){
+      var spanl='span';
+       for(var i=1; i<6; i++){
+         var a=spanl+i;
+         (function(a){
+             document.getElementById(a).ontouchstart=function(){
+                this.className=a+' cur';
+                return false;
+             }
+             document.getElementById(a).ontouchend=function(){
+                this.className=a;
+             }
+         })(a);
+       }
+    },
+    openMask(){
+      // 小提示框
+      var tooltip;
+      var showTooltip = function(el, text){
+          tooltip = $('<i class="tooltip">'+text+'</i>');
+          $('.tooltip').removeClass('show');
+          if (el.find('i').length === 0) {
+              el.append(tooltip);
+          }else{
+              el.find('i').text(text);
+          }
+          setTimeout(function () {
+              el.find('i').remove();
+          }, 1000);
 
+      };
+      $('.btngo').unbind().bind('click',function(){
+          $('.mask,.layer_cz').show();
+          $('.layer_cz a').unbind().click(function(){
+              var userName = $('#userName').val();
+             var phone = $('#phone').val();
+
+             if(userName===''){
+                 showTooltip($('.userName'), '姓名不能为空！');
+                 return;
+             }else{
+                  var regname=/^[\u4e00-\u9fa5]+$/gi;
+                  if(!regname.test(userName)){
+                      showTooltip($('.userName'), '请输入中文名');
+                      return;
+                  }
+             }
+             if(phone===''){
+                  showTooltip($('.phone'), '手机号不能为空！');
+                  return;
+             }else{
+                  var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+                  if (!reg.test(phone)) {
+                        showTooltip($('.phone'), '手机号输入不正确！');
+                        return;
+                  }
+             }
+             $.ajax({
+                 url: 'http://activity.jrj.com.cn/activity/record/web',
+                 dataType: 'jsonp',
+                 data: {
+                   aid: '812732510585339904',
+                   activityUserName: userName,
+                   mobile: phone,
+                   bizsource: 'mSite',
+                   tgqdcode: 'BW5PKUPE',
+                   source: '4'
+                 },
+                 success: function (data) {
+                   if (data.retcode === 0) {
+                       $('.layer_cz').hide();
+                       $('#userName').val('');
+                       $('#phone').val('');
+                       $('.mask,.layer_success').show();
+                   } else {
+                     alert(data.msg);
+                   }
+                 },
+                 error: function (v) {
+                   alert('网络异常！')
+                 }
+               })
+          });
+      });
+    },
+    closeMask(){
+      $('.closebtn').each(function(){
+          $(this).click(function(){
+              $('.mask,.layer').hide();
+          });
+      });
+    }
   }
 }
 </script>
