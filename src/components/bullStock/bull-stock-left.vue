@@ -328,7 +328,7 @@ export default {
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
-                    return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
+                    return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                   }
                   return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
@@ -397,7 +397,7 @@ export default {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
-                    return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
+                    return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                   }
                   return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
