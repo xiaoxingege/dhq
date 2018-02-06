@@ -202,7 +202,7 @@
 			</div>
 		</div>
 		<div class="graphic-text">
-			<img src="../assets/images/chip-info/converge-part.png" style="width: 67px; height:58.5px;" alt="集中区间" />
+			<img src="../assets/images/chip-info/converge-part.png" style="width:67px; height:58.5px;" alt="集中区间" />
 			<div class="text">
 				<div class="text-two">
 					<img src="../assets/images/chip-info/meaning-icon3.png">
@@ -212,7 +212,7 @@
 			</div>
 		</div>
 		<div class="graphic-text">
-			<img src="../assets/images/chip-info/converge.png" style="width: 67px; height:34px;" alt="集中度" />
+			<img src="../assets/images/chip-info/converge.png" style="width: 67px; height:43px;" alt="集中度" />
 			<div class="text">
 				<div class="text-two">
 					<img src="../assets/images/chip-info/meaning-icon4.png">
