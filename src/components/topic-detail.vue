@@ -754,8 +754,15 @@ bottom: 0; */
     line-height: 44px;
 }
 .redbg {
-    background: #ff3232;
+    background: #ca4941;
 }
+
+/*.greenbg {
+  background: #56a870;
+}
+.redbg {
+    background: #ff3232;
+}*/
 
 .greenbg {
     background: #059509;
