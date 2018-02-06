@@ -27,9 +27,9 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 
 .tooltip{ position: absolute;right: 0.05rem;top: 0.03rem;line-height: .24rem;font-size: .2rem;border: 1px solid red; border-radius:0.04rem;padding: 0.01rem 0.02rem; background:#fff;color: #000; }
 /*item1*/
-.item{ width:100%;height: 8rem;background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_01.jpg?c) no-repeat center; background-size: 100% 100%;}
-.item1{ position: relative;z-index: 2;}
-.item1 span{ position: absolute;width:1.2rem; height: 1.2rem;border-radius: 50%;cursor:pointer;}
+.item {width:100%;height: 8rem;background: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_01.jpg?c) no-repeat center; background-size: 100% 100%;}
+.item1 {position: relative;z-index: 2;}
+.item1 span {position: absolute;width:1.2rem; height: 1.2rem;border-radius: 50%;cursor:pointer;}
 .item1 .span1{top:7.24rem; left:0.22rem;}
 .item1 .span2{top:5.6rem; left:1.1rem;}
 .item1 .span3{top:5rem; left:3.1rem;}
@@ -60,7 +60,7 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item12 a{ float:right;width:2.2rem; height: 0.64rem; margin-right: 0.55rem;margin-top:0.18rem;}
 
 
-#img{width:16.425rem; height:8.3rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg) no-repeat center center; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0; }
+#img{width:6.57rem; height:3.32rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg) no-repeat center center; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0; }
 
 /* .item2 .btngo{ position: absolute;top:4rem;right:2rem;width:5rem;} */
 .item7 .btngo{ position: absolute;bottom:3.54rem;right:0.56rem;width:2rem;}
@@ -105,8 +105,8 @@ to { transform: scale(1); opacity: 1; }
 
 
 .item3 div{ padding-top: 2rem;}
-.item3a1{ display: block;width:14rem; height: 11rem; margin:0 auto;}
-.item3a2{ display: block;width:14rem; height: 11rem; margin:0 auto;  margin-top: 0rem}
+.item3a1{ display: block;width:1.4rem; height: 1.1rem; margin:0 auto;}
+.item3a2{ display: block;width:1.4rem; height: 1.1rem; margin:0 auto;  margin-top: 0rem}
 .h5b{width:5rem; height: 1.54rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5b.png) no-repeat;background-size: 100% 100%;margin:0 auto;}
 .h5b a{width:2rem; height: 1.54rem;}
 .msgbox img{width:6.76rem; display: block;margin:.2rem auto;}
@@ -234,7 +234,6 @@ export default {
     this.mouseover()
     this.openMask()
     this.closeMask()
-
   },
   filters: {
 
