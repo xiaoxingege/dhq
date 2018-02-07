@@ -51,6 +51,10 @@ form {
 
 
 
+
+
+
+
 /* .setUp ul>li:first-child +li +li +li +li +li{width: 220px;height: 50px;border-radius: 5px;border:1px solid #e03b3a;background: #f9574d;color: #fff;line-height: 50px;text-align: center;font-size: 20px;font-weight: normal;margin-top: 20px;margin-left: 20px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);} */
 
 .setUp ul>li input {
@@ -59,6 +63,8 @@ form {
   border: 1px solid #aaaaaa;
   border-radius: 4px;
   margin-left: 20px;
+  outline: 0;
+  padding: 0 10px;
 }
 
 .submitList {
@@ -122,21 +128,10 @@ table tr {
   height: 53px;
 }
 
-table th:first-child,
-table td:first-child {
-  width: 270px;
-}
-
-table th:first-child+th,
-table td:first-child+td {
-  width: 746px;
+table th,
+table td {
   word-break: break-all;
   word-wrap: break-word;
-}
-
-table th:first-child+th+th,
-table td:first-child+td+td {
-  width: 260px;
 }
 
 table td {
@@ -147,19 +142,28 @@ table td span {
   word-break: break-all;
   word-wrap: break-word;
 }
+.clearfix {
+  margin-bottom: 20px;
+}
 </style>
 <template>
 <div id="set">
   <div class="setUp">
     <form>
-      <ul class="clearfix">
-        <li>奖项名：<input type="text" name="level" id="" placeholder="请输入将项名" ref='level'></li>
-        <li>参与抽奖人数：<input type="text" name="max" placeholder="请输入参与抽奖人数" ref='max'></li>
-        <li>每次抽取人数：<input type="text" name="num" placeholder="请输入每次抽取的人数" ref='num'></li>
-        <li>最大中奖数：<input type="text" name="lmax" placeholder="请输入最大中奖数" ref='lmax'></li>
-        <li>奖品名称：<input type="text" name="prizeName" placeholder="请输入奖品名称" ref='prizeName'></li>
-        <li>奖品图片url：<input type="text" name="prizePicUrl" placeholder="请输入奖品图片url" ref='prizePicUrl'></li>
-      </ul>
+      <div>
+        <ul class="clearfix">
+          <li>最大中奖号码：<input type="text" name="max" placeholder="请输入最大中奖号码" ref='max'></li>
+        </ul>
+        <ul class="clearfix">
+          <li>奖项名：<input type="text" name="level" id="" placeholder="请输入奖项名" ref='level'></li>
+          <li>奖品名称：<input type="text" name="prizeName" placeholder="请输入奖品名称" ref='prizeName'></li>
+          <li>奖品图片url：<input type="text" name="prizePicUrl" placeholder="请输入奖品图片url" ref='prizePicUrl'></li>
+        </ul>
+        <ul class="clearfix">
+          <li>奖项中奖人数：<input type="text" name="lmax" placeholder="请输入奖项中奖人数" ref='lmax'></li>
+          <li>每次抽取人数：<input type="text" name="num" placeholder="请输入每次抽取的人数" ref='num'></li>
+        </ul>
+      </div>
       <div class="submitList" @click="submitForm">新增奖项</div>
     </form>
   </div>
@@ -170,13 +174,25 @@ table td span {
       <table border="1 solids #aaa" cellpadding="0" cellspacing="0">
         <tr>
           <th>奖项</th>
-          <th>中奖号码</th>
+          <th>配置信息</th>
+          <th width="600">中奖号码</th>
           <th>操作</th>
         </tr>
         <tr v-for="item in priceName">
           <td>{{item.level}}</td>
           <td>
-            <span v-if="luckUser">{{(luckUser[item.level] || []).join(',')}}</span>
+            <p>最大中奖号码: {{item.max}}</p>
+            <p>奖项中奖人数: {{item.lmax}}</p>
+            <p>每次抽取人数: {{item.num}}</p>
+            <p>奖品名: {{item.prizeName}}</p>
+          </td>
+          <td width="600">
+            <ul v-if="luckUser">
+              <li v-for="batch of luckUser[item.level]">
+                第{{batch.batch}}批: {{(batch.lotteryData||[]).join(',')}}
+                <a href="javascript:;" @click="deleteBatch(batch)">删除</a>
+              </li>
+            </ul>
           </td>
           <td>
             <div class="submitList" @click="drawTrue(item)">抽奖</div>
@@ -237,7 +253,7 @@ export default {
         'num': num,
         'lmax': lmax,
         'prizeName': prizeName,
-        'prizePicUrl': prizePicUrl, 
+        'prizePicUrl': prizePicUrl,
         'drawLuck': false
       };
 
@@ -280,9 +296,40 @@ export default {
       })
     },
     deletePrize(item) {
+      let r = window.confirm('确定要删除奖项?')
+      if(!r) return;
       let params = {}
       var t = new Date().getTime();
       fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      }).then((res) => {
+        return fetch('http://itougu.jrj.com.cn/act/crud/lotteryData/' + item._id + '?where=' + JSON.stringify({
+          level: item.level
+        }) + '&t=' + t + '&sign=' + signature(params, t) + '', {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(params)
+        })
+      }).then(() => {
+        return this.getFormList()
+      }).then(() => {
+        this.getLuckUser();
+      })
+    },
+    deleteBatch(item) {
+      let r = window.confirm('确定要删除本批次抽奖结果?')
+      if(!r) return;
+      let params = {}
+      var t = new Date().getTime();
+      fetch('http://itougu.jrj.com.cn/act/crud/lotteryData/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
         method: 'DELETE',
         mode: 'cors',
         headers: {
@@ -315,7 +362,7 @@ export default {
           self.luckUser = {}
           for (let item of data) {
             self.luckUser[item.level] = self.luckUser[item.level] || []
-            self.luckUser[item.level] = self.luckUser[item.level].concat(item.lotteryData)
+            self.luckUser[item.level].push(item)
           }
         });
       })
