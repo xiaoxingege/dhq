@@ -225,6 +225,7 @@ export default {
             showDetail: false,
             xAxisIndex: [0],
             // bottom:-10,
+            // left: '2%',
             left: '2%',
             bottom: 20,
             start: 0,
@@ -233,7 +234,8 @@ export default {
               // color: '#aed2ff'
             },
             // borderColor: '#d5dbe4',
-            width: '95%',
+            // width: '95%',
+            width: '97.5%',
             height: '5%',
             handleSize: '100%',
             dataBackground: {
