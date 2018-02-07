@@ -753,6 +753,10 @@ export default {
       this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
+      this.xZoomRange[0] = null
+      this.xZoomRange[1] = null
+      this.yZoomRange[0] = null
+      this.yZoomRange[1] = null
     },
     getTime() {
       var date = new Date()
