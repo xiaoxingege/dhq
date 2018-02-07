@@ -202,6 +202,7 @@ export default {
             appItemId: _this.appItemId
         })
         this.$store.dispatch('user/checkLogin').then(() => {
+            alert(this.loginStatus)
             if (this.loginStatus === 'yes') {
                 window.jrj.jsCallNative('130', JSON.stringify({
                     method: 'get',
