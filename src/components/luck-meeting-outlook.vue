@@ -31,7 +31,12 @@
 
 
 
+
+
+
+
 /*一等奖*/
+
 
 /* .one {
   width: 1692px;
@@ -68,16 +73,6 @@
   position: relative;
   z-index: 35;
 } */
-
-
-
-
-
-
-
-
-
-
 
 
 /*三等奖*/
@@ -146,7 +141,12 @@
 
 
 
+
+
+
+
 /*四等奖*/
+
 
 /* .four {
   width: 1692px;
@@ -210,7 +210,8 @@
   margin: 0 auto;
   display: block;
 }
-.prize-text{
+
+.prize-text {
   display: block;
   width: 100%;
   height: 236px;
@@ -242,7 +243,6 @@
 </template>
 <script>
 import $ from 'jquery'
-import md5 from 'js-md5';
 import {
   mapState
 } from 'vuex'
@@ -293,89 +293,38 @@ export default {
       })
     },
     reTime() {
-      return fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?limit=40', {
+      return fetch('http://itougu.jrj.com.cn/act/crud/lotteryData?order=-createdAt&limit=1', {
         method: 'get'
       }).then((res) => {
         return res.json()
       }).then((data) => {
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].drawLuck === true) {
-            this.prizeName = data[i].level
-            return this.luckDraw(data[i]);
+        data = data[0]
+        if (data) {
+          let lotteryKey = localStorage.getItem('lotteryKey')
+          if (lotteryKey !== data.key) {
+            this.prizeName = data.level
+            localStorage.setItem('lotteryKey', data.key)
+            return this.luckDraw(data);
           }
         }
         return Promise.resolve()
       }).then(() => {
-        setTimeout(this.reTime.bind(this), 3000)
+        setTimeout(this.reTime.bind(this), 1000)
       }).catch(() => {
-        setTimeout(this.reTime.bind(this), 3000)
+        setTimeout(this.reTime.bind(this), 1000)
       })
-    },
-    draw(data) {
-      return fetch('http://itougu.jrj.com.cn/actm/lottery?num=' + data.num + '&max=' + data.max + '&level=' + data.level + '&lmax=' + data.lmax + '', {
-        method: 'GET'
-      }).then((res) => {
-        return res.json()
-      })
-
-      // return new Promise((resolve, reject) => {
-      //   let nums = this.testRun(data.num)
-      //   resolve({
-      //     nums
-      //   })
-      // })
     },
     luckDraw(data) {
       this.list = []
-      return this.draw(data).then((da) => {
-        if (!da.retcode) {
-          this.listData = da.nums
-          this.num = da.nums.length
-          return this.demo();
-        }
-      }).then(() => {
-        return this.drawTrue(data)
-      });
-    },
-    drawTrue(item) {
-      let params = {
-        'drawLuck': false
-      };
-      var t = new Date().getTime();
-      const privateKey = 'hello2018';
-      const signature = function(params, t) {
-        let keys = Object.keys(params)
-        keys.sort()
-        let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
-        str += t + privateKey
-        return md5(str)
-      };
-
-      fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
-        method: 'PUT',
-        mode: 'cors',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      }).catch(() => {
-        return this.drawTrue(item)
-      })
-    },
-    testRun(n) {
-      var rnd = [];
-      for (var i = 0; i < n; i++) {
-        rnd.push(Math.floor(Math.random() * 100));
-      }
-      return rnd;
+      this.listData = data.lotteryData
+      this.num = data.lotteryData.length
+      return this.demo()
     }
   },
   mounted() {
     document.title = '年会抽奖前台显示'
     document.getElementById('outlook').style.height = window.innerHeight + 'px';
-    // console.log(this.testRun(60))
     this.reTime();
-    // this.demo();
   }
 }
 </script>
