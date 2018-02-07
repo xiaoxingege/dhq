@@ -63,6 +63,8 @@ input {
     border: none;
     font-size: 0.24rem;
     color: #000;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 .send-box button {
     width: 20%;
@@ -163,7 +165,9 @@ export default {
                             receiverName: _this.receiverName,
                             replyRootId: _this.replyRootId,
                             replyToId: _this.replyRootId,
-                            accessToken: _this.accessToken
+                            accessToken: _this.accessToken,
+                            passportId: _this.passportId,
+                            devId: _this.devId
                         })
                     } else {
                         this.$store.dispatch('topicComment/addComment', {
@@ -173,7 +177,9 @@ export default {
                             appId: _this.data.appId,
                             content: sendContent,
                             frm: 'app',
-                            accessToken: _this.accessToken
+                            accessToken: _this.accessToken,
+                            passportId: _this.passportId,
+                            devId: _this.devId
                             // frm: 'web'
                         })
                     }
