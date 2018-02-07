@@ -99,11 +99,6 @@ export default {
 
                 self.list.push(self.listData[i-1]);
 
-                if(self.list.length>25){
-                    $('luckerList').html('')
-                    // self.list = self.list.splice(1,25)
-                }
-
                 console.log(self.list)
 
                 if(i>self.listData.length-1){
@@ -125,6 +120,7 @@ export default {
                         for(var i = 0; i <data.length; i++){
                             if(data[i].drawLuck===true){
                                 self.luckPrice=data[i];
+                                self.drawTrue(data);
                                 self.luckDraw(data[i]);
                             }else{
                                 
