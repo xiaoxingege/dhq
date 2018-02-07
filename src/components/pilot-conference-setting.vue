@@ -208,12 +208,12 @@ export default {
     clear() {
       var _this = this
       $.ajax({
-        url: `http://itougu.jrj.com.cn/smartstock/godmode/clearCache/onestep:smartstock:DIAGNOSE_STOCK_POOL.jspa?clearAll=1`,
+        url: 'http://itougu.jrj.com.cn/smartstock/godmode/clearCache/onestep:smartstock:DIAGNOSE_STOCK_POOL.jspa?clearAll=1',
         dataType: 'json',
         method: 'GET',
         success: function(data) {
           $.ajax({
-            url: `http://mapi.itougu.jrj.com.cn/wireless/smartStock/smartDiagnosis.jspa`,
+            url: 'http://mapi.itougu.jrj.com.cn/wireless/smartStock/smartDiagnosis.jspa',
             dataType: 'json',
             method: 'GET',
             success: function(data) {

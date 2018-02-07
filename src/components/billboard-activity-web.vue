@@ -341,12 +341,12 @@ export default {
               this.showLayer = true;
               this.layerType = '2';
               if(this.$refs.layerName){
-                this.$refs.layerName.value="";
-                this.$refs.layerPhone.value="";
+                this.$refs.layerName.value='';
+                this.$refs.layerPhone.value='';
               }
               if(this.$refs.bottomName){
-                this.$refs.bottomName.value="";
-                this.$refs.bottomPhone.value="";
+                this.$refs.bottomName.value='';
+                this.$refs.bottomPhone.value='';
               }
             }
           })

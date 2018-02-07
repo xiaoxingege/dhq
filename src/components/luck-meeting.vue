@@ -1,192 +1,355 @@
 <style scoped>
 @import '../assets/css/reset.css';
-body{background: #e4e4e4;width: 1920px;}
-#set{width: 100%;height: 1440px; background: #e4e4e4;}
-.setUp{width: 100%;background: #fff;}
-form{width: 1286px;margin:0 auto;box-sizing: border-box;background: #fff;padding: 40px}
-.setUp ul>li{font-size: 24px;font-weight: bolder;color: #333;float: left;}
-.setUp ul>li:first-child +li,.setUp ul>li:first-child +li +li,.setUp ul>li:first-child +li +li +li +li{margin-left: 50px;}
-.setUp ul>li:first-child +li +li +li,.setUp ul>li:first-child +li +li +li +li{margin-top: 24px;}
-.setUp ul>li:first-child +li +li +li +li +li{width: 220px;height: 50px;border-radius: 5px;border:1px solid #e03b3a;background: #f9574d;color: #fff;line-height: 50px;text-align: center;font-size: 20px;font-weight: normal;margin-top: 20px;margin-left: 20px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);}
-.setUp ul>li input{width: 190px;height: 40px;border:1px solid #aaaaaa;border-radius: 4px;margin-left: 20px;}
-.submitList{width: 210px;height: 40px;border:1px solid #e03b3a;border-radius: 5px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);font-size: 20px;line-height: 40px;color: #fff;text-align: center;cursor: pointer;}
-.listBox{width: 100%;background: #fff;padding-bottom: 40px;}
-.list{overflow: hidden;width: 1286px;margin:0 auto;box-sizing: border-box;background: #fff;padding-left: 40px;padding-right: 40px;margin-top: 30px;}
-.list>.submitList{margin-top: 30px;}
-.list>table .submitList{width: 160px;height: 36px;margin: 0 auto;font-size: 18px;line-height: 36px;}
-table{width: 100%;margin-top: 30px;}
-table th{height: 53px;text-align: center;color: #666;background: #f7f7f7;}
-table tr{height: 53px;}
-table th:first-child,table td:first-child{width: 270px;}
-table th:first-child +th,table td:first-child +td{width: 746px;word-break: break-all; word-wrap:break-word;}
-table th:first-child +th +th,table td:first-child +td +td{width: 260px;}
-table td{text-align: center;}
-table td span{word-break: break-all; word-wrap:break-word;}
+body {
+  background: #e4e4e4;
+  width: 1920px;
+}
+
+#set {
+  width: 100%;
+  height: 1440px;
+  background: #e4e4e4;
+}
+
+.setUp {
+  width: 100%;
+  background: #fff;
+}
+
+form {
+  width: 1286px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 40px
+}
+
+.setUp ul>li {
+  font-size: 24px;
+  font-weight: bolder;
+  color: #333;
+  float: left;
+}
+
+.setUp ul>li:first-child+li,
+.setUp ul>li:first-child+li+li,
+.setUp ul>li:first-child+li+li+li+li,
+.setUp ul>li:first-child+li+li+li+li+li {
+  margin-left: 50px;
+}
+
+.setUp ul>li:first-child+li+li+li,
+.setUp ul>li:first-child+li+li+li+li {
+  margin-top: 24px;
+}
+
+.setUp ul>li:first-child+li+li+li+li+li {
+  margin-top: 24px;
+}
+
+
+
+
+
+/* .setUp ul>li:first-child +li +li +li +li +li{width: 220px;height: 50px;border-radius: 5px;border:1px solid #e03b3a;background: #f9574d;color: #fff;line-height: 50px;text-align: center;font-size: 20px;font-weight: normal;margin-top: 20px;margin-left: 20px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);} */
+
+.setUp ul>li input {
+  width: 190px;
+  height: 40px;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+
+.submitList {
+  width: 210px;
+  height: 40px;
+  border: 1px solid #e03b3a;
+  border-radius: 5px;
+  background: -webkit-linear-gradient(#ff7d5f, #f65352);
+  background: -o-linear-gradient(#ff7d5f, #f65352);
+  background: -moz-linear-gradient(#ff7d5f, #f65352);
+  background: linear-gradient(#ff7d5f, #f65352);
+  font-size: 20px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+.listBox {
+  width: 100%;
+  background: #fff;
+  padding-bottom: 40px;
+}
+
+.list {
+  overflow: hidden;
+  width: 1286px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: #fff;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: 30px;
+}
+
+.list>.submitList {
+  margin-top: 30px;
+}
+
+.list>table .submitList {
+  width: 160px;
+  height: 36px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 36px;
+}
+
+table {
+  width: 100%;
+  margin-top: 30px;
+}
+
+table th {
+  height: 53px;
+  text-align: center;
+  color: #666;
+  background: #f7f7f7;
+}
+
+table tr {
+  height: 53px;
+}
+
+table th:first-child,
+table td:first-child {
+  width: 270px;
+}
+
+table th:first-child+th,
+table td:first-child+td {
+  width: 746px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+table th:first-child+th+th,
+table td:first-child+td+td {
+  width: 260px;
+}
+
+table td {
+  text-align: center;
+}
+
+table td span {
+  word-break: break-all;
+  word-wrap: break-word;
+}
 </style>
 <template>
-  <div id="set">
-    <div class="setUp">
-      <form>
-        <ul class="clearfix">
-          <li>奖项名：<input type="text" name="level" id="" placeholder="请输入将项名" ref='level'></li>
-          <li>参与抽奖人数：<input type="text" name="max" placeholder="请输入参与抽奖人数" ref='max'></li>
-          <li>每次抽取人数：<input type="text"  name="num" placeholder="请输入每次抽取的人数" ref='num'></li>
-          <li>最大中奖数：<input type="text" name="lmax" placeholder="请输入最大中奖数" ref='lmax'></li>
-          <li>奖品名称：<input type="text" name="prizeName" placeholder="请输入奖品名称" ref='prizeName'></li>
-          <li>上传奖品图片</li>
-        </ul>       
-        <div class="submitList" @click="submitForm">新增奖项</div>      
-      </form>
-    </div>
-
-    <div class="listBox">
-      <div class="list">
-        <button class="submitList">导出中奖列表</button>  
-        <table border="1 solids #aaa" cellpadding="0" cellspacing="0">
-          <tr>
-            <th>奖项</th>
-            <th>中奖号码</th>
-            <th>操作</th>
-          </tr>
-          <tr v-for="item in priceName">
-            <td>{{item.level}}</td>
-            <td>
-              <span v-if="luckUser">{{(luckUser[item.level] || []).join(',')}}</span>
-            </td>
-            <td><div  class="submitList"  @click="drawTrue(item)">抽奖</div></td>
-          </tr>
-        </table>
-      </div>      
-    </div>      
-
-    
+<div id="set">
+  <div class="setUp">
+    <form>
+      <ul class="clearfix">
+        <li>奖项名：<input type="text" name="level" id="" placeholder="请输入将项名" ref='level'></li>
+        <li>参与抽奖人数：<input type="text" name="max" placeholder="请输入参与抽奖人数" ref='max'></li>
+        <li>每次抽取人数：<input type="text" name="num" placeholder="请输入每次抽取的人数" ref='num'></li>
+        <li>最大中奖数：<input type="text" name="lmax" placeholder="请输入最大中奖数" ref='lmax'></li>
+        <li>奖品名称：<input type="text" name="prizeName" placeholder="请输入奖品名称" ref='prizeName'></li>
+        <li>奖品图片url：<input type="text" name="prizePicUrl" placeholder="请输入奖品图片url" ref='prizePicUrl'></li>
+      </ul>
+      <div class="submitList" @click="submitForm">新增奖项</div>
+    </form>
   </div>
+
+  <div class="listBox">
+    <div class="list">
+      <button class="submitList">导出中奖列表</button>
+      <table border="1 solids #aaa" cellpadding="0" cellspacing="0">
+        <tr>
+          <th>奖项</th>
+          <th>中奖号码</th>
+          <th>操作</th>
+        </tr>
+        <tr v-for="item in priceName">
+          <td>{{item.level}}</td>
+          <td>
+            <span v-if="luckUser">{{(luckUser[item.level] || []).join(',')}}</span>
+          </td>
+          <td>
+            <div class="submitList" @click="drawTrue(item)">抽奖</div>
+            <div class="submitList" @click="deletePrize(item)">删除奖项</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+</div>
 </template>
 <script>
 import md5 from 'js-md5'
 import 'whatwg-fetch'
 import {
-    mapState
+  mapState
 } from 'vuex'
+
+const privateKey = 'hello2018';
+
+const signature = function(params, t) {
+  let keys = Object.keys(params)
+  keys.sort()
+  let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
+  str += t + privateKey
+  return md5(str)
+};
+
 export default {
-    data() {
-        return {
-          priceName:[],
-          luckUser:null
+  data() {
+    return {
+      priceName: [],
+      luckUser: null
+    }
+  },
+  computed: mapState({
+
+  }),
+  components: {
+    // activitySlider
+  },
+  methods: {
+    submitForm() {
+      let level = this.$refs.level.value;
+      let max = this.$refs.max.value;
+      let num = this.$refs.num.value;
+      let lmax = this.$refs.lmax.value;
+      let prizeName = this.$refs.prizeName.value;
+      let prizePicUrl = this.$refs.prizePicUrl.value;
+
+      var t = new Date().getTime();
+
+      let params = {
+        'level': level,
+        'max': max,
+        'num': num,
+        'lmax': lmax,
+        'prizeName': prizeName,
+        'prizePicUrl': prizePicUrl,
+        'drawLuck': false
+      };
+
+      var self = this;
+
+      fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?where=' + JSON.stringify({
+        level: level
+      }) + '&t=' + t + '&sign=' + signature(params, t) + '', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'content-type': 'application/json'
         }
-    },
-    computed: mapState({
-
-    }),
-    components: {
-        // activitySlider
-    },
-    methods: {
-        submitForm(){
-          let level = this.$refs.level.value;     
-          let max = this.$refs.max.value;
-          let num = this.$refs.num.value;
-          let lmax = this.$refs.lmax.value;
-          let prizeName = this.$refs.prizeName.value;
-
-          var t = new Date().getTime();
-
-          const privateKey = 'hello2018';
-
-          let params = { 
-            'level':level,
-            'max': max,
-            'num': num,
-            'lmax': lmax,
-            'prizeName': prizeName,
-            'drawLuck': false
-          };
-
-          const signature = function(params, t){
-            let keys = Object.keys(params)
-            keys.sort()
-            let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
-            str += t + privateKey
-            console.log(str)
-            return md5(str)
-          };
-
-          var self = this;
-
-          fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?t='+t+'&sign='+signature(params,t)+'', {
+      }).then((res) => {
+        return res.json()
+      }).then(data => {
+        if (data.length === 0) {
+          return fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?t=' + t + '&sign=' + signature(params, t) + '', {
             method: 'POST',
-            mode:'cors',
-            headers:{
-              'content-type':'application/json'
+            mode: 'cors',
+            headers: {
+              'content-type': 'application/json'
             },
-            body:JSON.stringify(params)
+            body: JSON.stringify(params)
           }).then((res) => {
             self.getFormList();
           })
-        },
-        getFormList(){
-          var self = this;
-          return fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?limit=40', {
-            method: 'GET'
-          }).then((res) => {
-              return res.json().then(function(data){
-                self.priceName = data;
-              });
-          })
-        },
-        getLuckUser(){ 
-          var self= this;
-          fetch('http://itougu.jrj.com.cn/act/crud/lotteryData?limit=40', {
-            method: 'GET'
-          }).then((res) => {
-              res.json().then(function(data){
-                console.log(data)
-                self.luckUser = {}
-                for(let item of data){
-                  self.luckUser[item.level] = self.luckUser[item.level] || []
-                  self.luckUser[item.level] = self.luckUser[item.level].concat(item.lotteryData)
-                }
-              });
-          })
-        },
-        drawTrue(item){
-          let params = {
-            'drawLuck':true
-          };
-          var t = new Date().getTime();
-          const privateKey = 'hello2018';
-          const signature = function(params, t){
-            let keys = Object.keys(params)
-            keys.sort()
-            let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
-            str += t + privateKey
-            return md5(str)
-          };  
-
-          fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/'+item._id+'?t='+t+'&sign='+signature(params,t)+'', {
+        } else {
+          return fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + data[0]._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
             method: 'PUT',
-            mode:'cors',
-            headers:{
-              'content-type':'application/json'
+            mode: 'cors',
+            headers: {
+              'content-type': 'application/json'
             },
-            body:JSON.stringify(params)
+            body: JSON.stringify(params)
           }).then((res) => {
-              res.json().then(function(data){
-                console.log(data);
-              });
-                 
+            self.getFormList();
           })
         }
-
-
-      
-
+      })
     },
-    mounted() {
-        document.title='年会抽奖后台设置页'
-        this.getFormList().then(() => {  
+    deletePrize(item) {
+      let params = {}
+      var t = new Date().getTime();
+      fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      }).then((res) => {
+        this.getFormList().then(() => {
           this.getLuckUser();
         });
+      })
+    },
+    getFormList() {
+      var self = this;
+      return fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?limit=40', {
+        method: 'GET'
+      }).then((res) => {
+        return res.json().then(function(data) {
+          self.priceName = data;
+        });
+      })
+    },
+    getLuckUser() {
+      var self = this;
+      fetch('http://itougu.jrj.com.cn/act/crud/lotteryData?limit=40', {
+        method: 'GET'
+      }).then((res) => {
+        res.json().then(function(data) {
+          console.log(data)
+          self.luckUser = {}
+          for (let item of data) {
+            self.luckUser[item.level] = self.luckUser[item.level] || []
+            self.luckUser[item.level] = self.luckUser[item.level].concat(item.lotteryData)
+          }
+        });
+      })
+    },
+    drawTrue(item) {
+      let params = {
+        'drawLuck': true
+      };
+      var t = new Date().getTime();
+
+      fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      }).then((res) => {
+        res.json().then(function(data) {
+          console.log(data);
+        });
+
+      })
     }
+
+
+
+
+  },
+  mounted() {
+    document.title = '年会抽奖后台设置页'
+    this.getFormList().then(() => {
+      this.getLuckUser();
+    });
+  }
 }
 </script>

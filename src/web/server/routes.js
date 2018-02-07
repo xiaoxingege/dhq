@@ -178,6 +178,7 @@ module.exports = function(router) {
     let objectId = ctx.params.objectId;
     let query = ctx.request.query||{};
     let where = query.where;
+    let data = ctx.request.body;
     let { sign, t } = query;
     let now = Date.now()
     if(!t || now - t > 10 * 1000){

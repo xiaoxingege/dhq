@@ -113,7 +113,7 @@ export default {
                     method: 'get'
                 }).then((res) => {
                     res.json().then(function(data){
-                        for(var i = 0; i <data.length;i++){
+                        for(var i = 0; i <data.length; i++){
                             if(data[i].drawLuck===true){
                                 self.luckPrice=data[i];
                                 self.luckDraw(data[i]);
