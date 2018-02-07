@@ -208,6 +208,7 @@ export default {
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
+        alert(_this.loginStatus)
         this.$watch('loginStatus', loginStatus => {
             if (loginStatus === 'yes') {
                 alert(loginStatus)
