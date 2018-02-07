@@ -225,8 +225,9 @@
   height: 236px;
   line-height: 236px;
   text-align: center;
-  font-size: 72px;
+  font-size: 64px;
   color: white;
+  overflow: hidden;
 }
 </style>
 
