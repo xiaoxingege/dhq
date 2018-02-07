@@ -16,8 +16,7 @@ export default {
     dataType: false, // repeatType 1未重复、2重复
     err: null,
     appItemId:8,
-    userName:'',
-    accessToken:''
+    userName:''
   },
   mutations: {
     setData(state, res) {
@@ -60,26 +59,6 @@ export default {
             }
         })
     },
-    getClientInfo({
-      commit,
-      rootState,
-      state
-    }, options) {
-      fetch(`http://itougu.jrj.com.cn/act/getClientInfo`, {
-        credentials: 'include'
-      }).then(res => {
-        return res.json()
-      }).then(json => {
-          if(json.retCode === 0){
-              commit('setInfo', json)
-          }else{
-              commit('setError', {
-                  retCode: json.retCode,
-                  msg: json.msg
-              })
-          }
-      })
-    },
     addComment({
       commit,
       rootState,
@@ -97,7 +76,7 @@ export default {
       fetch(`http://mapi.itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
         method: 'POST',
         headers: {
-          'accessToken': state.accessToken
+          'accessToken': options.accessToken
         },
         body:`itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
         credentials: 'include'

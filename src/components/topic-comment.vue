@@ -122,7 +122,8 @@ export default {
             commentType: false,
             receiverId: '',
             receiverName: '',
-            replyRootId: ''
+            replyRootId: '',
+            accessToken: ''
         }
     },
     props: ['appItemId'],
@@ -159,7 +160,8 @@ export default {
                             receiverId: _this.receiverId,
                             receiverName: _this.receiverName,
                             replyRootId: _this.replyRootId,
-                            replyToId: _this.replyRootId
+                            replyToId: _this.replyRootId,
+                            accessToken: _this.accessToken
                         })
                     } else {
                         this.$store.dispatch('topicComment/addComment', {
@@ -168,7 +170,8 @@ export default {
                             senderId: _this.ssoId,
                             appId: _this.data.appId,
                             content: sendContent,
-                            frm: 'app'
+                            frm: 'app',
+                            accessToken: _this.accessToken
                             // frm: 'web'
                         })
                     }
@@ -207,7 +210,7 @@ export default {
             if (typeof data === 'string') {
                 data = JSON.parse(data)
             }
-            alert(data)
+            _this.accessToken = data.data.accessToken
         }
 
         function timedCount() {
@@ -222,27 +225,19 @@ export default {
             }
         }
         this.$store.dispatch('user/checkLogin').then(() => {
-            alert(this.loginStatus === 'yes')
             if (this.loginStatus === 'yes') {
                 timedCount()
             }
-        }).catch(err => {
-            alert(err)
         })
+        // .catch(err => {
+        //     alert(err)
+        // })
         this.$watch('err', err => {
             alert(err.msg)
         })
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
-
-        // if () {}
-        // this.$watch('loginStatus', loginStatus => {
-        //     alert('loginStatus:' + loginStatus)
-        //     if (loginStatus === 'yes') {
-        //
-        //     }
-        // })
     }
 }
 </script>
