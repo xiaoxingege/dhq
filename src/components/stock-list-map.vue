@@ -85,13 +85,38 @@ td {
 </style>
 <template>
 <div class="hover-wrapper" :style="{left:offsetX+'px',top:offsetY+'px'}">
-  <h3 class="clearfix">{{titleName}}--{{titleNameLel2}}
+  <h3 class="clearfix" v-if="titleName">{{titleName}}--{{titleNameLel2}}
     <span v-z3-updowncolor="industryAvg" v-if="condition.indexOf('chng_pct')!==-1 && industryAvg!==null">{{industryAvg}}%</span>
+    <!-- 涨跌幅 -->
     <span v-z3-updowncolor="industryAvg" v-else-if="condition === 'mkt_idx.keep_days_today'">{{industryAvg === ''?'--':industryAvg}}天</span>
-    <span v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
+    <!-- 连续涨跌天数 -->
+    <span v-z3-updowncolor="industryAvg" v-else-if="condition ==='mkt_idx.div_rate'||condition ==='fin_idx.eps_5year'">{{industryAvg}}%</span>
+    <!-- 股息率和EPS增长率 -->
     <span v-else>{{industryAvg}}</span>
-    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
-    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+    <span class="stock-down fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockDownNoGG}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="condition.indexOf('chng_pct')!==-1">{{stockUpNoGG}}<img src="../assets/images/i_jiantou_up.png"/></span>
+  </h3>
+  <h3 class="clearfix" v-if="!titleName && kLineType === 'topic'">{{titleNameLel2}}
+    <span v-z3-updowncolor="parentValue" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
+    <!-- 涨跌幅 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
+    <!-- 连续涨跌天数 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 股息率和EPS增长率 -->
+    <span v-else>{{parentValue}}</span>
+    <span class="stock-down fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="topicIndexs.indexOf(condition)>=1 && topicIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
+  </h3>
+  <h3 class="clearfix" v-if="!titleName && kLineType === 'industry'">{{titleNameLel2}}
+    <span v-z3-updowncolor="parentValue" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{parentValue}}%</span>
+    <!-- 涨跌幅 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition === 'keep_days'">{{parentValue === ''?'--':parentValue}}天</span>
+    <!-- 连续涨跌天数 -->
+    <span v-z3-updowncolor="parentValue" v-else-if="condition ==='div_rate'||condition ==='eps_5year'">{{parentValue}}%</span>
+    <!-- 股息率和EPS增长率 -->
+    <span v-else>{{parentValue}}</span>
+    <span class="stock-down fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockDownNo}}<img src="../assets/images/i_jiantou_down.png"/></span>
+    <span class="stock-up fr" v-if="industryIndexs.indexOf(condition)>=1 && industryIndexs.indexOf(condition)<=7">{{stockUpNo}}<img src="../assets/images/i_jiantou_up.png"/></span>
   </h3>
   <table>
     <tbody>
@@ -118,16 +143,16 @@ td {
 <script type="text/javascript">
 import echarts from 'echarts'
 export default {
-  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode'],
+  props: ['node', 'parent', 'offsetX', 'offsetY', 'condition', 'indexCode', 'kLineType', 'topicIndexs', 'industryIndexs', 'stockUpNo', 'stockDownNo'],
   data() {
     return {
       stockList: [],
       stockListLeft: 0,
       stockListTop: 0,
-      titlePrice: 0,
+      titlePrice: '',
       titleChngPct: '',
-      stockUpNo: 0,
-      stockDownNo: 0
+      stockUpNoGG: '',
+      stockDownNoGG: ''
     }
   },
   directives: {
@@ -189,11 +214,29 @@ export default {
         return this.parent.name
       }
     },
+    parentValue() {
+      if (this.parent && this.parent.name) {
+        let avg
+        if (this.parent.perf === undefined || this.parent.perf === null) {
+          avg = '--';
+        } else {
+          avg = this.parent.perf
+        }
+        return avg
+      }
+    },
     titleChartData() {
       return this.node.chartData
     },
     stockChartData: function() {
-      const stockChartData = this.$store.state.stockMap.stockChartData
+      let stockChartData
+      if (this.kLineType && this.kLineType === 'topic') {
+        stockChartData = this.$store.state.plateMap.topicStockLine
+      } else if (this.kLineType && this.kLineType === 'industry') {
+        stockChartData = this.$store.state.plateMap.industryStockLine
+      } else {
+        stockChartData = this.$store.state.stockMap.stockChartData
+      }
       return stockChartData
     },
     industryChngPct: function() {
@@ -202,7 +245,7 @@ export default {
     },
     industryAvg: function() {
       let avg = this.$store.state.stockMap.industryAvg;
-      if (this.condition === 'mkt_idx.keep_days_today') {
+      if (this.condition === 'mkt_idx.keep_days_today' || this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value') {
         if (avg === 'NaN') {
           avg = '';
         } else {
@@ -216,10 +259,21 @@ export default {
   },
   methods: {
     updateChart: function() {
+      if (!this.parent) {
+        return
+      }
       if (this.parent.children) {
         this.stockList = this.parent.children
       }
-      this.$store.dispatch('stockMap/stockChartData', {
+      let kLineInterface;
+      if (this.kLineType && this.kLineType === 'topic') {
+        kLineInterface = 'plateMap/queryTopicStockLine'
+      } else if (this.kLineType && this.kLineType === 'industry') {
+        kLineInterface = 'plateMap/queryIndustryStockLine'
+      } else {
+        kLineInterface = 'stockMap/stockChartData'
+      }
+      this.$store.dispatch(kLineInterface, {
           stockId: this.stockId,
           code: this.indexCode,
           condition: this.condition
@@ -233,6 +287,9 @@ export default {
           }
           const _this = this
           // 悬浮框的表头
+          if (!this.stockChartData || !this.stockChartData[this.node.name]) {
+            return
+          }
           this.titleChngPct = this.industryChngPct
           this.node.chartData = this.stockChartData[this.node.name]
           if (this.node.chartData) {
@@ -283,14 +340,15 @@ export default {
             }]
           })
           // 计算每只股票的最新价 上涨股票数和下跌股票数
-          _this.stockUpNo = 0;
-          _this.stockDownNo = 0;
-          // if (this.condition.indexOf('chng_pct') !== -1) {
+          _this.stockUpNoGG = 0;
+          _this.stockDownNoGG = 0;
           this.stockList.forEach(function(stock) {
-            if (stock.perf && stock.perf >= 0) {
-              _this.stockUpNo++
-            } else if (stock.perf && stock.perf < 0) {
-              _this.stockDownNo++
+            if (!_this.kLineType) {
+              if (stock.perf && stock.perf >= 0) {
+                _this.stockUpNoGG++
+              } else if (stock.perf && stock.perf < 0) {
+                _this.stockDownNoGG++
+              }
             }
             stock.chartData = _this.stockChartData[stock.name]
             if (stock.chartData) {
@@ -302,8 +360,6 @@ export default {
               }
             }
           })
-          // }
-
           this.$nextTick(() => {
             let wrapHeight
             if (document.getElementsByClassName('hover-wrapper').length > 0) {
@@ -315,6 +371,9 @@ export default {
     },
     updateHoverTitle: function() {
       // 悬浮框的表头
+      if (!this.stockChartData || !this.stockChartData[this.node.name]) {
+        return
+      }
       this.node.chartData = this.stockChartData[this.node.name]
       if (this.node.chartData) {
         const nodeLength = this.node.chartData.length
@@ -367,10 +426,10 @@ export default {
       if (catId !== this.stockId || el.clientHeight === 0) {
         return;
       }
-      const lineData = this.stockChartData[stockName];
-      if (!this.stockChartData[stockName]) {
+      if (!this.stockChartData || !this.stockChartData[stockName]) {
         return
       }
+      const lineData = this.stockChartData[stockName];
       let chart = echarts.getInstanceByDom(el) || echarts.init(el);
       // chart.clear();
       chart.setOption({
@@ -415,8 +474,8 @@ export default {
     }
   },
   mounted() {
-    this.updateChart()
     this.chart = echarts.init(this.$refs.chartTitle);
+    this.updateChart()
   }
 }
 </script>

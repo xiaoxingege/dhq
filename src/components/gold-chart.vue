@@ -155,7 +155,9 @@ a {
           <ul v-if="dqccData!== null" v-for="(item,index) of dqccData">
             <li>{{(dqccPage*10)+Number(index+1)}}</li>
             <li>{{item.innerCode}}</li>
-            <li><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></li>
+            <li><a :href="'/stock/'+ item.innerCode" target="_blank"><span
+                      v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{item.name}}</span></a>
+            </li>
             <li>{{item.costPrice | decimal(2)}}</li>
             <li>{{item.marketPrice | decimal(2)}}</li>
             <li>{{item.holdVolume}}</li>
@@ -232,7 +234,9 @@ a {
             <td>{{(mrxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
-            <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
+            <td><a :href="'/stock/'+ item.innerCode" target="_blank"><span
+                      v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{item.name}}</span></a>
+            </td>
             <td>{{item.quantity === null ? '--':Number(item.quantity).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
@@ -266,7 +270,9 @@ a {
             <td>{{(mcxhPage*10)+Number(index+1)}}</td>
             <td>{{String(item.tradeDate).substring(0, 4) + '-' + String(item.tradeDate).substring(4, 6) + '-' + String(item.tradeDate).substring(6)}}</td>
             <td>{{item.innerCode}}</td>
-            <td><a :href="'/stock/'+ item.innerCode" target="_blank">{{item.name}}</a></td>
+            <td><a :href="'/stock/'+ item.innerCode" target="_blank"><span
+                      v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{item.name}}</span></a>
+            </td>
             <td>{{item.amount === null ? '--':item.amount}}</td>
             <td v-z3-updowncolor="item.chgPct">{{item.px === null ? '--':Number(item.px).toFixed(2)}}</td>
             <td v-z3-updowncolor="item.chg">{{item.chg === null ? '--':Number(item.chg).toFixed(2)}}</td>
@@ -280,6 +286,7 @@ a {
       </div>
     </div>
   </div>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
@@ -295,6 +302,7 @@ import store from '../z3tougu/store'
 import {
   domain
 } from '../z3tougu/config'
+import StockBox from 'components/stock-box'
 
 export default {
   props: {
@@ -336,7 +344,8 @@ export default {
     Onelinechart,
     Onebarchart,
     Twobarchart,
-    Pagination
+    Pagination,
+    StockBox
   },
   computed: {
 
@@ -368,7 +377,7 @@ export default {
         strategyId: this.strategyId,
         page: data - 1
       }).then(() => {})
-      this.mrjrPageTo = data
+      this.mrjrPageTo = Number(data)
     },
     goMrxhPage(data) {
       this.mrxhPage = data - 1
@@ -377,7 +386,7 @@ export default {
         type: 'buy',
         page: data - 1
       }).then(() => {})
-      this.mrxhPageTo = data
+      this.mrxhPageTo = Number(data)
     },
     goMcxhPage(data) {
       this.mcxhPage = data - 1
@@ -386,7 +395,7 @@ export default {
         type: 'sell',
         page: data - 1
       }).then(() => {})
-      this.mcxhPageTo = data
+      this.mcxhPageTo = Number(data)
     },
     exportData(type) {
       var type2 = ''

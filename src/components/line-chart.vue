@@ -211,7 +211,7 @@ export default {
           grid: {
             width: '97%',
             height: '75%',
-            left: 0,
+            left: '0.7%',
             top: '15%',
             containLabel: true
           },

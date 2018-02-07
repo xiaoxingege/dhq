@@ -1,9 +1,11 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
+
 .app {
     width: 100%;
     height: 100%;
 }
+
 .siwei {
     background: #000;
     width: 100%;
@@ -13,6 +15,7 @@
     padding-left: 10px;
     padding-right: 5px;
 }
+
 .bubbles-bar {
     font-size: 12px;
     color: #c9d0d7;
@@ -21,7 +24,8 @@
 }
 
 .bubbles-bar select {
-    width: 185px;
+    /*width: 185px;*/
+    width: 155px;
     border: 0;
     height: 22px;
     font-size: 12px;
@@ -37,10 +41,12 @@
 .bubbles-bar select:focus {
     outline: none;
 }
+
 .template select {
     color: #1984ea;
     background-color: #23272C;
 }
+
 .template select option {
     background: #1E2329;
     color: #c9d0d7;
@@ -52,10 +58,12 @@
 .template select option:focus {
     outline: none;
 }
+
 .legend {
     color: #fff;
     min-height: 50px;
 }
+
 .legend ul li {
     float: left;
     width: 60px;
@@ -64,6 +72,7 @@
     text-align: center;
     font-size: 12px;
 }
+
 .masks {
     width: 100%;
     height: 100%;
@@ -75,6 +84,7 @@
     right: 0;
     z-index: 999;
 }
+
 .themeList {
     width: 90%;
     background: #d6d6d6;
@@ -101,6 +111,7 @@
     cursor: pointer;
     font-size: 27px;
 }
+
 .themeTitle {
     height: 35px;
     line-height: 35px;
@@ -109,6 +120,7 @@
     background: #23272C;
     padding-left: 20px;
 }
+
 button {
     height: 20px;
     line-height: 20px;
@@ -119,9 +131,11 @@ button {
     border-radius: 3px;
     cursor: pointer;
 }
+
 .tempDesc {
     font-size: 12px;
     line-height: 24px;
+    color: #c9d0d7;
 }
 
 .weiduRange {
@@ -200,6 +214,7 @@ input {
 .bubbles-select select:focus {
     outline: none;
 }
+
 .changeXY {
     position: absolute;
     top: 48px;
@@ -213,6 +228,27 @@ input {
 
 .defaultSet {
     cursor: pointer;
+}
+
+.xAxisRange input,
+.yAxisRange input {
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    background-color: #16181B;
+    border-radius: 3px;
+    border-color: #16181B;
+    font-size: 12px;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
@@ -241,35 +277,51 @@ input {
         width: 87%;
     }
 }
+
+/*@media only screen and (min-height: 800px) and (max-height: 1000px) {
+  .bubbles-bar select {
+    width:100px;
+  }
+}*/
 </style>
 <template>
 <div class="siwei">
   <div class="bubbles-bar clearfix">
-    <div class="template fl mr-30">
+    <div class="template fl mr-15">
       常用推荐：
       <select @change="changeTmp($event)" v-model="tmpId">
-                <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
-                </option>
-            </select>
+          <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
+          </option>
+        </select>
     </div>
-    <div class="fl mr-30">
+    <div class="fl mr-15">
       筛股策略：
       <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
-        <option value="">请选择</option>
-        <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
-            </select>
+          <option value="">请选择</option>
+          <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
+        </select>
     </div>
-    <div class="fl mr-30">
+    <div class="fl mr-15">
       股票池：
       <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
-        <option value="">请选择</option>
-        <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-      </select>
+          <option value="">请选择</option>
+          <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
+        </select>
     </div>
-    <div class="fl defaultSet" @click="defaultSet">默认设置</div>
-    <div class="fr">
-      <span class="times">{{currentTime}}</span>
+    <div class="fl mr-15 xAxisRange" v-if="dimensionOptions.xDefault !== 'sw_indu_name' && dimensionOptions.xDefault !== 'chi_spel' && dimensionOptions.xDefault !== 'order' && dimensionOptions.xDefault !== 'fcst_idx.rating_syn'">
+      X轴范围：
+      <input type="number" @blur="setZoomRange($event,1)" :value="xZoomDefault[0] | decimal(2)" /> —
+      <input type="number" @blur="setZoomRange($event,2)" :value="xZoomDefault[1] | decimal(2)" />
     </div>
+    <div class="fl mr-20 yAxisRange" v-if="dimensionOptions.yDefault !== 'sw_indu_name' && dimensionOptions.yDefault !== 'chi_spel' && dimensionOptions.yDefault !== 'order' && dimensionOptions.yDefault !== 'fcst_idx.rating_syn'">
+      Y轴范围：
+      <input type="number" @blur="setZoomRange($event,3)" :value="yZoomDefault[0] | decimal(2)" /> —
+      <input type="number" @blur="setZoomRange($event,4)" :value="yZoomDefault[1] | decimal(2)" />
+    </div>
+    <div class="fr mr-5 defaultSet" @click="defaultSet">恢复默认</div>
+    <!--<div class="fr">-->
+    <!--<span class="times">{{currentTime}}</span>-->
+    <!--</div>-->
   </div>
   <div class="bubbles display-box">
     <div class="bubbles-select ">
@@ -278,38 +330,38 @@ input {
           <p>X轴</p>
           <div>
             <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData">
-                            <option v-for="(val,key) in xDataList" :value="key"
-                                    :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
-                                {{val}}
-                            </option>
-                        </select>
+                <option v-for="(val,key) in xDataList" :value="key"
+                        :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                  {{val}}
+                </option>
+              </select>
           </div>
         </div>
         <div class="scatterY">
           <p>Y轴</p>
           <div>
             <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData">
-                            <option v-for="(val,key) in xDataList" :value="key"
-                                    :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
-                                {{val}}
-                            </option>
-                        </select>
+                <option v-for="(val,key) in xDataList" :value="key"
+                        :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                  {{val}}
+                </option>
+              </select>
           </div>
         </div>
         <div class="scatterSize">
           <p>气泡大小</p>
           <div>
             <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <div class="scatterColor">
           <p>气泡颜色</p>
           <div>
             <select ref="bubbleColor" v-model="dimensionOptions.colorDefault" @change="showSelectData">
-                            <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <img class="changeXY" @click="changeXY" src="../assets/images/scatterChangeXY.png">
@@ -320,8 +372,8 @@ input {
           <p>指数</p>
           <div>
             <select v-model="stockRangeOptions.indexRangeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in indexRangeList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <!--行业-->
@@ -329,8 +381,8 @@ input {
           <p>行业</p>
           <div>
             <select v-model="stockRangeOptions.industryRangeDefault" @change="showSelectData">
-                            <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
-                        </select>
+                <option v-for="item in industryRangeList" :value="item.code">{{item.name}}</option>
+              </select>
           </div>
         </div>
         <!--主题-->
@@ -347,8 +399,8 @@ input {
           <p>流通市值</p>
           <div>
             <select v-model="stockRangeOptions.marketValueDefault" @change="showSelectData">
-                            <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in marketValueList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
         <!--历史成交量-->
@@ -356,14 +408,14 @@ input {
           <p>历史成交量</p>
           <div>
             <select v-model="stockRangeOptions.historyValueRangeDefault" @change="showSelectData">
-                            <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
-                        </select>
+                <option v-for="(val,key) in historyValueList" :value="key">{{val}}</option>
+              </select>
           </div>
         </div>
       </div>
     </div>
     <div class="bubbles-chart box-flex-1">
-      <bubbles :options="options" v-on:changeOptions="changeOptionsInerCode"></bubbles>
+      <bubbles :options="options" v-on:changeOptions="changeOptionsInerCode" :xZoomRange="xZoomRange" :yZoomRange="yZoomRange" @getXYRange="showXYRange"></bubbles>
     </div>
   </div>
   <!--图例-->
@@ -497,7 +549,7 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '通过估值和业绩指标，寻找低估值绩优股，气泡在第一象限越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
+          explain: '通过估值和业绩指标，寻找低估值绩优股，气泡越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
         },
         'demoTmp6': {
           name: '成长性 VS 估值选股',
@@ -515,7 +567,7 @@ export default {
             innerCode: '',
             topic: ''
           },
-          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡在第一象限越靠右下，气泡越小，未来成长性可能越强。'
+          explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。'
         },
         'demoTmp7': {
           name: '股价表现 VS 成交量选股',
@@ -628,7 +680,12 @@ export default {
       },
       currentTime: '',
       isShowTheme: false,
-      topicName: '全部'
+      topicName: '全部',
+      themeVal: '',
+      xZoomRange: [],
+      yZoomRange: [],
+      xZoomDefault: '',
+      yZoomDefault: ''
     }
   },
   components: {
@@ -662,10 +719,15 @@ export default {
     },
     showSelectData() {
       this.stockRangeOptions.topicNameDefalut = this.topicName
-      this.options = { ...this.dimensionOptions,
+      this.options = {
+        ...this.dimensionOptions,
         ...this.stockRangeOptions
       }
       this.tmpId = 'demoTmp0'
+      this.xZoomRange[0] = null
+      this.xZoomRange[1] = null
+      this.yZoomRange[0] = null
+      this.yZoomRange[1] = null
     },
     changeTmp(e) {
       let tmpValue = ''
@@ -692,6 +754,10 @@ export default {
       this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
+      this.xZoomRange[0] = null
+      this.xZoomRange[1] = null
+      this.yZoomRange[0] = null
+      this.yZoomRange[1] = null
     },
     getTime() {
       var date = new Date()
@@ -722,7 +788,8 @@ export default {
       this.isShowTheme = false
     },
     getThemeVal(data) {
-      this.stockRangeOptions.topic = data[0]
+      this.themeVal = data[0]
+      // this.stockRangeOptions.topic = data[0]
       this.topicName = data[1]
       this.closeTheme()
     },
@@ -740,6 +807,14 @@ export default {
     defaultSet() {
       this.tmpId = 'demoTmp1'
       this.changeTmp()
+      this.$set(this.xZoomRange, 0, Number(this.setDefaultX[1][0]))
+      this.$set(this.xZoomDefault, 0, Number(this.setDefaultX[0][0]))
+      this.$set(this.xZoomRange, 1, Number(this.setDefaultX[1][1]))
+      this.$set(this.xZoomDefault, 1, Number(this.setDefaultX[0][1]))
+      this.$set(this.yZoomRange, 0, Number(this.setDefaultY[1][0]))
+      this.$set(this.yZoomDefault, 0, Number(this.setDefaultY[0][0]))
+      this.$set(this.yZoomRange, 1, Number(this.setDefaultY[1][1]))
+      this.$set(this.yZoomDefault, 1, Number(this.setDefaultY[0][1]))
     },
     changeXY() {
       this.tmpId = 'demoTmp0'
@@ -758,6 +833,86 @@ export default {
     changePool() {
       this.stockRangeOptions.strategyDefault = ''
       this.showSelectData()
+    },
+    showXYRange(data) {
+      this.xZoomDefault = [].concat(data[0])
+      this.yZoomDefault = [].concat(data[1])
+    },
+    setZoomRange(e, index) {
+      if (index === 1) {
+        let minX = Number(e.target.value)
+        if (this.dimensionOptions.xDefault === 'mkt_idx.mktcap' || this.dimensionOptions.xDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.xDefault === 'fin_idx.sale') {
+          minX = minX * 10e7
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
+          minX = minX * 10000
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma120') {
+          minX = minX / 100
+        }
+        if (minX < Number(this.minmaxXDefault[0])) {
+          this.$set(this.xZoomRange, 0, Number(this.minmaxXDefault[0]))
+          this.$set(this.xZoomDefault, 0, Number(this.minmaxX[0]))
+        } else if (minX === Number(this.minmaxX[0])) {
+          return
+        } else {
+          this.$set(this.xZoomRange, 0, minX)
+          this.$set(this.xZoomDefault, 0, minX)
+        }
+      } else if (index === 2) {
+        let maxX = Number(e.target.value)
+        if (this.dimensionOptions.xDefault === 'mkt_idx.mktcap' || this.dimensionOptions.xDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.xDefault === 'fin_idx.sale') {
+          maxX = maxX * 10e7
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
+          maxX = maxX * 10000
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma120') {
+          maxX = maxX / 100
+        }
+        if (maxX > Number(this.minmaxXDefault[1])) {
+          this.$set(this.xZoomRange, 1, Number(this.minmaxXDefault[1]))
+          this.$set(this.xZoomDefault, 1, Number(this.minmaxX[1]))
+        } else if (maxX === Number(this.minmaxX[1])) {
+          return
+        } else {
+          this.$set(this.xZoomRange, 1, maxX)
+          this.$set(this.xZoomDefault, 1, maxX)
+        }
+      } else if (index === 3) {
+        let minY = Number(e.target.value)
+        if (this.dimensionOptions.yDefault === 'mkt_idx.mktcap' || this.dimensionOptions.yDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.yDefault === 'fin_idx.sale') {
+          minY = minY * 10e7
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
+          minY = minY * 10000
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma120') {
+          minY = minY / 100
+        }
+        if (minY < Number(this.minmaxYDefault[0])) {
+          this.$set(this.yZoomRange, 0, Number(this.minmaxYDefault[0]))
+          this.$set(this.yZoomDefault, 0, Number(this.minmaxY[0]))
+        } else if (minY === Number(this.minmaxY[0])) {
+          return
+        } else {
+          this.$set(this.yZoomRange, 0, minY)
+          this.$set(this.yZoomDefault, 0, minY)
+        }
+      } else if (index === 4) {
+        let maxY = Number(e.target.value)
+        if (this.dimensionOptions.yDefault === 'mkt_idx.mktcap' || this.dimensionOptions.yDefault === 'fin_idx.tot_revenue' || this.dimensionOptions.yDefault === 'fin_idx.sale') {
+          maxY = maxY * 10e7
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
+          maxY = maxY * 10000
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma120') {
+          maxY = maxY / 100
+        }
+        if (maxY > Number(this.minmaxYDefault[1])) {
+          this.$set(this.yZoomRange, 1, Number(this.minmaxYDefault[1]))
+          this.$set(this.yZoomDefault, 1, Number(this.minmaxY[1]))
+        } else if (maxY === Number(this.minmaxY[1])) {
+          return
+        } else {
+          this.$set(this.yZoomRange, 1, maxY)
+          this.$set(this.yZoomDefault, 1, maxY)
+        }
+
+      }
     }
   },
   computed: {
@@ -766,6 +921,24 @@ export default {
     },
     userStrategy: function() {
       return this.$store.state.bubbles.userStrategy
+    },
+    minmaxX: function() {
+      return this.$store.state.bubbles.minmaxX
+    },
+    minmaxY: function() {
+      return this.$store.state.bubbles.minmaxY
+    },
+    minmaxXDefault: function() {
+      return this.$store.state.bubbles.minmaxXDefault
+    },
+    minmaxYDefault: function() {
+      return this.$store.state.bubbles.minmaxYDefault
+    },
+    setDefaultX: function() {
+      return this.$store.state.bubbles.setDefaultX
+    },
+    setDefaultY: function() {
+      return this.$store.state.bubbles.setDefaultY
     }
   },
   watch: {
@@ -792,11 +965,13 @@ export default {
         this.showStockRangeDialog = false
       }
     },
-    'stockRangeOptions.topic': function() {
+    'themeVal': function() {
+      this.stockRangeOptions.topic = this.themeVal
       this.showSelectData()
     }
   },
   mounted() {
+
     this.$store.dispatch('bubbles/getStrategy')
     this.$store.dispatch('bubbles/getStockPool')
 

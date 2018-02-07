@@ -37,7 +37,7 @@ const actions = {
     code
   }) {
     let url
-    if (code === '') {
+    if (code === '' || code === 'margin') {
       url = domain + '/openapi/openjson/tx/' + code + '.json'
     } else {
       url = domain + '/openapi/openjson/tx/auth/' + code + '.json'
@@ -114,6 +114,9 @@ const actions = {
     code,
     condition
   }) {
+    if (code === 'margin') {
+      code = ''
+    }
     const url = `${domain}/openapi/industries/${stockId}.shtml?t=sec&indexCode=${code}&condition=${condition}`;
     return fetch(url).then((res) => {
       return res.json()

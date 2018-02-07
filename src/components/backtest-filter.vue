@@ -143,8 +143,9 @@ li.export-box {
     padding: 7px 0;
     border-bottom: 1px solid #23272c;
 }
-.table-body span {
-    width: 9%;
+
+.table-body > span {
+    width: 8.8%;
     display: inline-block;
     text-align: center;
 }
@@ -164,10 +165,11 @@ li.export-box {
     width: 10.78%;
     text-align: center;
     /*  width: 11%;*/
+    display: inline-block;
 }
 .see {
     cursor: pointer;
-    padding-left: 12px;
+    /* padding-left: 12px;*/
 }
 span.order-num {
     /* width: 6%; */
@@ -358,18 +360,19 @@ span.copy {
         </div>
         <div :style="{  minHeight: fullHeight + 'px' }">
           <div class="clearfix table-body" v-for="(stock,index) of nowChooseStock" v-if="nowChooseStock.length>0">
-            <span class="order-num">{{pageSize*stockPage+index+1}}
-                     </span><span>{{stock.innerCode}}
-                     </span><span><a :href="'/stock/'+ stock.innerCode" target="_blank" class="blue">{{stock.name}}</a>
-                     </span><span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}
-                     </span><span v-z3-updowncolor="stock.curChngPct">{{stock.chg==null?'--':changePlus(stock.chg)}}
-                     </span><span v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}
-                     </span><span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}
-                     </span><span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}
-                     </span><span>{{stock.ps==null?'--':stock.ps.toFixed(2)}}
-                     </span><span>{{stock.tcap==null?'--':changeYi(stock.tcap)}}
-                     </span><span>{{stock.mktcap==null?'--':changeYi(stock.mktcap)}}
-                     </span>
+            <span class="order-num">{{pageSize*stockPage+index+1}}</span>
+            <span>{{stock.innerCode}}</span>
+            <span><a :href="'/stock/'+ stock.innerCode" target="_blank" class="blue"><span
+                      v-z3-stock="{ref:'stockbox',code:stock.innerCode}" :value="stock.innerCode">{{stock.name}}</span></a>
+            </span>
+            <span v-z3-updowncolor="stock.curChngPct">{{stock.price==null?'--':stock.price}}</span>
+            <span v-z3-updowncolor="stock.curChngPct">{{stock.chg==null?'--':changePlus(stock.chg)}}</span>
+            <span v-z3-updowncolor="stock.curChngPct">{{stock.curChngPct==null?'--':changeTofixed(stock.curChngPct)}}</span>
+            <span>{{stock.peTtm==null?'--':stock.peTtm.toFixed(2)}}</span>
+            <span>{{stock.pb==null?'--':stock.pb.toFixed(2)}}</span>
+            <span>{{stock.ps==null?'--':stock.ps.toFixed(2)}}</span>
+            <span>{{stock.tcap==null?'--':changeYi(stock.tcap)}}</span>
+            <span>{{stock.mktcap==null?'--':changeYi(stock.mktcap)}}</span>
           </div>
           <div v-if="nowChooseStock.length<=0" class="tr-no2" :style="{  lineHeight: fullHeight + 'px' }">
             <div class="no-data"></div>
@@ -429,6 +432,7 @@ span.copy {
     </div>
   </div>
   <toast :msg="toastmsg" v-if="showToast"></toast>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 
@@ -451,6 +455,8 @@ import {
 import store from '../z3tougu/store'
 import LineChartFilter from 'components/line-chart-filter'
 import OneBarFilter from 'components/one-bar-filter'
+import StockBox from 'components/stock-box'
+
 export default {
   data() {
     return {
@@ -492,7 +498,8 @@ export default {
     Pagination,
     toast,
     LineChartFilter,
-    OneBarFilter
+    OneBarFilter,
+    StockBox
   },
   methods: {
     initData(stockPage, tradePage) {

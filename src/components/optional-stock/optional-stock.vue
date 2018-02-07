@@ -75,7 +75,7 @@ body,
         <span>暂无匹配择时策略</span>
       </div>
       <SelectNavBar @strategyId='passTimeStrategyId' :dataList='timeStrategyList' :strategyLabel='timeLabel' v-if="!isNoDataTime"></SelectNavBar>
-      <TimeCharts :chartWidth="boxWidth" :chartHeight="boxHeight" :strategyId="timeStrategyId" :innerCode="innerCode" @isResize='isResizeStrategy' v-if="!isNoDataTime"></TimeCharts>
+      <TimeCharts :chartWidth="boxWidth" :chartHeight="boxHeight" :strategyId="timeStrategyId" :innerCode="innerCode" @isResize='isResizeStrategy' v-if="!isNoDataTime" :gridBottom=10></TimeCharts>
     </div>
   </div>
 </div>

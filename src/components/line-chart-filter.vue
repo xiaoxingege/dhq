@@ -6,7 +6,8 @@
 
 .syqxTab {
     position: absolute;
-    right: 53px;
+    /*right: 53px;*/
+    right: 0;
     top: 8px;
     z-index: 9999;
 }
@@ -208,10 +209,13 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: '97%',
+            // width: '97%',
+            width: '100%',
             height: '75%',
             left: 0,
             top: '10%',
+            show: true,
+            borderColor: '#2A2E36',
             containLabel: true
           },
           dataZoom: [{

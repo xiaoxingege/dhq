@@ -86,49 +86,7 @@ export default ({
           const lowPx = item.lowPx
           const volume = item.volume
           const prevClosePx = item.prevClosePx
-          //   const upColor = config.upColor
-          //   const downColor = config.downColor
-          //   let color = upColor// 红色
-          //   let color0 = downColor// 绿色
-          //   const volcolor = downColor
-          //   if (closePx === openPx && closePx < prevClosePx) { // 开盘价和收盘价相等且收盘价小于昨收价，但是echarts相等的情况是反的所以要反过来设置颜色
-          //     color = upColor
-          //     volcolor = downColor
-          //   } else if (closePx === openPx && closePx > prevClosePx) {
-          //     color = upColor
-          //     volcolor = downColor
-          //   }
-          //   if (closePx === openPx && closePx < prevClosePx) {
-          //     color0 = downColor
-          //     volcolor = downColor
-          //   } else if (closePx === openPx && closePx > prevClosePx) {
-          //     color0 = upColor
-          //     volcolor = upColor
-          //   }
-          //   if (closePx < openPx) { // 柱形图颜色
-          //     volcolor = downColor
-          //   } else if (closePx > openPx) {
-          //     volcolor = upColor
-          //   }
-          //   const newValue = {
-          //     value: [openPx, closePx, highPx, lowPx],
-          //     itemStyle: {
-          //       normal: {
-          //         color: color,
-          //         color0: color0,
-          //         borderColor: color,
-          //         borderColor0: color0
-          //       }
-          //     }
-          //   }
-          // echarts只比较openPx和closePx;3.7.2会修改次BUG,如果相等会与上一条数据的closePx比较。目前先暂时微改 openPx和closePx的数值大小
-          // if (openPx === closePx) {
-          //   if (prevClosePx <= closePx) {
-          //     closePx += 0.0001
-          //   } else {
-          //     openPx += 0.0001
-          //   }
-          // }
+
           data.kdata.push([openPx, closePx, highPx, lowPx])
 
           if (item.ma20 !== 0) {
