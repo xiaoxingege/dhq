@@ -215,7 +215,7 @@ button {
                 <p>本期主题：{{stockCamp.title}}</p>
                 <div class="stockCamp-links">
                     <a :href="stockCamp.courseware"></a>
-                    <a :href="stockCamp.roomId"></a>
+                    <a :href="'http://itougu.jrj.com.cn/account/adviser/'+stockCamp.roomId+'/'"></a>
                 </div>
             </div>
         </div>
@@ -281,9 +281,8 @@ export default {
     },
     methods: {},
     mounted() {
-        document.title = '股市学院'
+        document.title = '股市学院-金融界'
         var _this = this
-
         $.ajax({
             url: 'http://itougu.jrj.com.cn/marketing/stockRoom.jspa',
             dataType: 'jsonp',
@@ -299,15 +298,15 @@ export default {
             }
         })
         $(function() {
-            window.InitWeChatShare({
-                shareTitle: window.document.title,
-                shareLink: window.location.href,
-                shareDesc: '2017年底行情如何布局？2018A股市场将会怎样？金融界送您每天3只盘前热股，关注跨年行情',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/endYear-H5-bg1.jpg',
-                callback: function(wx) {
-
-                }
-            })
+            // window.InitWeChatShare({
+            //     shareTitle: window.document.title,
+            //     shareLink: window.location.href,
+            //     shareDesc: '2017年底行情如何布局？2018A股市场将会怎样？金融界送您每天3只盘前热股，关注跨年行情',
+            //     shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/endYear-H5-bg1.jpg',
+            //     callback: function(wx) {
+            //
+            //     }
+            // })
             $('.nav-a a').click(function() {
                 var index = $(this).index();
                 index = index === 0 ? 2 : index === 1 ? 4 : index === 2 ? 5 : ''

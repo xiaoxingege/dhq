@@ -67,16 +67,9 @@ export default {
     }, options) {
         // `http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
 
-
-
-
-
-
-
       fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
         method: 'POST',
         headers: {
-            // 'Content-Type': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
             'passportId':options.passportId,
             'devId':options.devId,
