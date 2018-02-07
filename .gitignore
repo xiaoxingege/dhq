@@ -5,3 +5,4 @@ version
 *.bzip2
 *.swp
 *.log
+.DS_Store
