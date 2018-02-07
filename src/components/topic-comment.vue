@@ -145,44 +145,44 @@ export default {
                 alert('不可为空')
                 return
             }
-            // if (window.app.name !== '{{appid}}') {
-            if (this.loginStatus === 'yes') {
-                if (this.commentType) {
-                    this.$store.dispatch('topicComment/addComment', {
-                        appItemId: _this.data.appItemId,
-                        bizType: '8',
-                        senderId: _this.ssoId,
-                        appId: _this.data.appId,
-                        content: sendContent,
-                        frm: 'web',
-                        receiverId: _this.receiverId,
-                        receiverName: _this.receiverName,
-                        replyRootId: _this.replyRootId,
-                        replyToId: _this.replyRootId
-                    })
+            if (window.app.name !== '{{appid}}') {
+                if (this.loginStatus === 'yes') {
+                    if (this.commentType) {
+                        this.$store.dispatch('topicComment/addComment', {
+                            appItemId: _this.data.appItemId,
+                            bizType: '8',
+                            senderId: _this.ssoId,
+                            appId: _this.data.appId,
+                            content: sendContent,
+                            frm: 'web',
+                            receiverId: _this.receiverId,
+                            receiverName: _this.receiverName,
+                            replyRootId: _this.replyRootId,
+                            replyToId: _this.replyRootId
+                        })
+                    } else {
+                        this.$store.dispatch('topicComment/addComment', {
+                            appItemId: _this.data.appItemId,
+                            bizType: '8',
+                            senderId: _this.ssoId,
+                            appId: _this.data.appId,
+                            content: sendContent,
+                            frm: 'web'
+                        })
+                    }
                 } else {
-                    this.$store.dispatch('topicComment/addComment', {
-                        appItemId: _this.data.appItemId,
-                        bizType: '8',
-                        senderId: _this.ssoId,
-                        appId: _this.data.appId,
-                        content: sendContent,
-                        frm: 'web'
-                    })
+                    window.jrj.jsCallNative('108', JSON.stringify({
+                        returnUrl: encodeURI(window.location.href)
+                    }))
                 }
             } else {
-                window.jrj.jsCallNative('108', JSON.stringify({
-                    returnUrl: encodeURI(window.location.href)
-                }))
+                window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/gsxy-activity'
+                setTimeout(function() {
+                    if (!document.webkitHidden) {
+                        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+                    }
+                }, 1500);
             }
-            // } else {
-            //     window.location.href = 'jrjnews://tougu?t=web&url=http://itougu.jrj.com.cn/actm/12th-activity'
-            //     setTimeout(function() {
-            //         if (!document.webkitHidden) {
-            //             window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
-            //         }
-            //     }, 1500);
-            // }
 
         },
         reply(event) {
