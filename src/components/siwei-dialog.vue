@@ -156,7 +156,10 @@ export default {
     showDialog() {
       this.$emit('toShowDialog', true)
     },
-    hideDialog() {
+    hideDialog(e) {
+      if (e.toElement === null) {
+        return
+      }
       this.$emit('toHideDialog', false)
     }
 
