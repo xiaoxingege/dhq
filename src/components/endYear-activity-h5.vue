@@ -62,7 +62,7 @@ button {
     height: 9.88rem;
 }
 .bg5 {
-    background: url("../assets/images/endYear-activity/endYear-H5-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/endYear-activity/endYear-H5-bg5-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 7.63rem;
 }
