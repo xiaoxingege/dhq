@@ -165,10 +165,11 @@ li.export-box {
     width: 10.78%;
     text-align: center;
     /*  width: 11%;*/
+    display: inline-block;
 }
 .see {
     cursor: pointer;
-    padding-left: 12px;
+    /* padding-left: 12px;*/
 }
 span.order-num {
     /* width: 6%; */

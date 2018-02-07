@@ -147,10 +147,13 @@ export default {
           ],
           color: ['#1EC96C', '#E73E3A'],
           grid: {
-            width: '97%',
+            //width: '97%',
+            width: '100%',
             height: '80%',
             left: 0,
             top: '10%',
+            show: true,
+            borderColor: '#2A2E36',
             containLabel: true
           }
         })
