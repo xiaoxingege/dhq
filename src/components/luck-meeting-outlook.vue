@@ -350,7 +350,6 @@ export default {
         str += t + privateKey
         return md5(str)
       };
-
       fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
         method: 'PUT',
         mode: 'cors',
