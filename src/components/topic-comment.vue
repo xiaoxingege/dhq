@@ -208,6 +208,7 @@ export default {
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
+        let fnName = 'cb' + Date.now()
         window[fnName] = function(data) {
             delete window[fnName]
             if (typeof data === 'string') {
