@@ -61,7 +61,7 @@ html {
 .newsDiv,
 .noticeDiv,
 .reportDiv {
-    width: 850px;
+    width: 845px;
     margin: 0 auto;
 }
 

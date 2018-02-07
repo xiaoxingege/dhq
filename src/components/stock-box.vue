@@ -1,6 +1,6 @@
 <template>
-<div class="stock-box" :style="position" v-show="isOpen">
-  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click="removeStock" v-if="isSelfSelection">- 自选</span>
+<div class="stock-box" :style="position" @mouseenter="enterbox" @mouseleave="leavebox" v-show="isOpen">
+  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click.prevent="removeStock" v-if="isSelfSelection">- 自选</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
   </div>
@@ -65,14 +65,11 @@ export default {
         }, 200)
       }
     },
-    stockCode() {
+    curStockCode() {
       if (this.curStockCode) {
         this.$store.dispatch('stock/querySelection', {
           stockCode: this.curStockCode
         })
-      }
-      if (!this.stockCode) {
-        console.info(this.stockCode);
       }
     }
   },
@@ -91,17 +88,19 @@ export default {
           stockCode: this.curStockCode
         })
       }
-    }
-  },
-  mounted() {
-    this.$el.addEventListener('mouseover', () => {
+    },
+    enterbox() {
       this.delayHide = true;
       this.isMouseover = true;
-    });
-    this.$el.addEventListener('mouseout', () => {
+    },
+    leavebox(e) {
+      // 避免多次click触发mouseleave（不知道是不是浏览器BUG）
+      if (e.toElement === null) {
+        return
+      }
       this.delayHide = false;
       this.isMouseover = false;
-    });
+    }
   }
 }
 </script>

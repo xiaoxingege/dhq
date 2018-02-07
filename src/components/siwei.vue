@@ -317,7 +317,7 @@ input[type=number]::-webkit-outer-spin-button {
       <input type="number" @blur="setZoomRange($event,3)" :value="yZoomDefault[0] | decimal(2)" /> —
       <input type="number" @blur="setZoomRange($event,4)" :value="yZoomDefault[1] | decimal(2)" />
     </div>
-    <div class="fl defaultSet" @click="defaultSet">默认设置</div>
+    <div class="fr mr-5 defaultSet" @click="defaultSet">恢复默认</div>
     <!--<div class="fr">-->
     <!--<span class="times">{{currentTime}}</span>-->
     <!--</div>-->
@@ -753,6 +753,10 @@ export default {
       this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
       this.topicName = '全部'
+      this.xZoomRange[0] = null
+      this.xZoomRange[1] = null
+      this.yZoomRange[0] = null
+      this.yZoomRange[1] = null
     },
     getTime() {
       var date = new Date()
