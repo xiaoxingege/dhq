@@ -866,6 +866,18 @@ ol li {
     cursor: pointer;
     /*z-index: 999;*/
 }
+.td-txt1 {
+    width: 13%;
+}
+.td-txt2 {
+    width: 11%;
+}
+.td-txt4 {
+    width: 14%;
+}
+.td-txt5 {
+    width: 12%;
+}
 </style>
 <template>
 <div class="topic-detail">
@@ -959,13 +971,13 @@ ol li {
                 class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="defaultSort('recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
-            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">简称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
-            <td>关联题材</td>
-            <td>主营业务</td>
-            <td @click="isDireRecommendIndex===true?sortStock($event,'recommendIndex','DESC'):sortStock($event,'recommendIndex','ASC')" :class="this.stockSort==='recommendIndex' && this.isRecommendIndex===true?'active':''" class="td-txt">相关度<i :class="isDireRecommendIndex===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt td-txt1">简称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt td-txt2">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt td-txt2">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt td-txt4">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
+            <td class="td-txt5">关联题材</td>
+            <td class="td-txt5">主营业务</td>
+            <td @click="isDireRecommendIndex===true?sortStock($event,'recommendIndex','DESC'):sortStock($event,'recommendIndex','ASC')" :class="this.stockSort==='recommendIndex' && this.isRecommendIndex===true?'active':''" class="td-txt td-txt6">相关度<i :class="isDireRecommendIndex===true?'sort-up':'sort-down'"></i></td>
           </tr>
           <tr v-for="stock of stockList">
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
@@ -978,7 +990,7 @@ ol li {
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.induMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.induMark!==null'>{{stock.induMark.length<=200?stock.induMark:stock.induMark.substring(0,201)+'…'}}</span></td>
-            <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:45%'">{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
+            <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'">{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
             </td>
           </tr>
         </table>
@@ -1044,7 +1056,8 @@ export default {
       isShowCharts1: true,
       isShowCharts2: false,
       induCode: this.$route.params.industryId,
-      fullHeight1: document.documentElement.clientHeight - 546,
+      // fullHeight1: document.documentElement.clientHeight - 546,
+      fullHeight1: document.documentElement.clientHeight - 505,
       fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
       fullHeight3: document.documentElement.clientHeight - 166,
       size: 12,
