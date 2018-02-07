@@ -59,21 +59,32 @@ export default {
       dispatch,
       state
     }, options) {
-      fetch(`http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
+        // `http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
+      fetch(`http://mapi.itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}?itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`, {
         credentials: 'include'
       }).then(res => {
         return res.json()
       }).then(json => {
-          if(json.success){
+          if(json.retCode === 0){
               dispatch('whereList',{
                   appItemId:state.appItemId
               })
           }else{
               commit('setError', {
-                  retCode: json.code,
-                  msg: json.message
+                  retCode: json.retCode,
+                  msg: json.msg
               })
           }
+          // if(json.success){
+          //     dispatch('whereList',{
+          //         appItemId:state.appItemId
+          //     })
+          // }else{
+          //     commit('setError', {
+          //         retCode: json.code,
+          //         msg: json.message
+          //     })
+          // }
       })
     }
   }
