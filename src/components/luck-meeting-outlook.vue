@@ -63,7 +63,8 @@ export default {
         return {
             listData:[],
             list:[],
-            luckPrice:{}
+            luckPrice:{},
+            num:0
         }
     },
     computed: mapState({
@@ -79,12 +80,12 @@ export default {
             var timer = setInterval(function() {
                 a++;
                 $('li').eq(i).css('background','url("http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/realApp/'+a+'.png") no-repeat center')
-            },70)
+            },90)
 
             setTimeout(function(){ 
                 $('li').eq(i).children('p').css('display','block')
                 clearTimeout(timer);
-            },980)
+            },1260)
 
         },
         demo(){
@@ -98,16 +99,24 @@ export default {
 
                 self.list.push(self.listData[i-1]);
 
+                if(self.list.length>25){
+                    $('luckerList').html('')
+                    // self.list = self.list.splice(1,25)
+                }
+
+                console.log(self.list)
+
                 if(i>self.listData.length-1){
 
                     clearTimeout(timeList)
                 }  
 
-            },900)
+            },1200)
         },
         reTime(){
             var self = this;
             clearTimeout(timeRe)
+            var a = 0;
             var timeRe = setInterval(function(){
                 fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType?limit=40', {
                     method: 'get'
@@ -131,28 +140,26 @@ export default {
                 method: 'GET'
             }).then((res) => {
                 res.json().then(function(da){
-
-                    if(da.retcode==='-1'){
-                        console.log(self.listData)
-                        self.demo();
-                        self.drawTrue(data)
+                    if(da.retcode===-1 || da.retcode==='-1'){
+                        self.num++;
+                        if(self.num===1){
+                            console.log(self.listData)
+                            self.demo();
+                        }                      
+                        self.drawTrue(data);
                         return;
-                    }
-                    console.log(da)
-                    if( self.listData && self.listData.length===0){
-                        self.listData = da.nums;
-                    }else if(self.listData && self.listData.length>25){
-                        self.listData = [];
-                        self.listData = da.nums;
                     }else{
-                        self.listData.concat(da.nums)
-                        // for(let value of da.nums){
-                        //     console.log(value)
-                        //     self.listData.push(value)
-                        // }
-                    }          
-                    // console.log(self.listData)
-                    self.demo();
+                        self.num = 0;
+                        if( self.listData && self.listData.length===0){
+                            self.listData = self.listData.concat(da.nums)
+                        }else if(self.listData && self.listData.length>0 && self.listData.length<25){
+                            self.listData = self.listData.concat(da.nums)
+                        }else if(self.listData && self.listData.length>25){
+                            self.listData = [];
+                            self.listData = da.nums;
+                        }                                 
+                    }
+
                 });
             })
         },
@@ -183,13 +190,23 @@ export default {
               });
                  
           })
+        },
+        testRun(n){
+            var rnd=[];
+            for(var i=0;i<n;i++){
+                rnd.push(Math.floor(Math.random()*100));
+            }
+            return rnd;           
         }
-
     },
     mounted() {
         document.title='年会抽奖前台显示'
         document.getElementById('outlook').style.height = window.innerHeight+'px';
-        this.reTime();
+        // console.log(this.testRun(60))
+        // this.reTime();
+        this.listData = this.listData.concat(this.testRun(60))
+        console.log(this.listData)
+        this.demo();
     }
 }
 </script>

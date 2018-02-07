@@ -341,9 +341,6 @@ export default {
       })
     }
 
-
-
-
   },
   mounted() {
     document.title = '年会抽奖后台设置页'
