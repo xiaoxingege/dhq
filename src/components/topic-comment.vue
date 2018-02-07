@@ -208,14 +208,25 @@ export default {
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
-        if (this.loginStatus === 'yes') {
-            this.$store.dispatch('topicComment/getClientInfo')
-        }
-        this.$watch('loginStatus', loginStatus => {
-            if (loginStatus === 'yes') {
-                _this.$store.dispatch('topicComment/getClientInfo')
+        window[fnName] = function(data) {
+            delete window[fnName]
+            if (typeof data === 'string') {
+                data = JSON.parse(data)
             }
-        })
+            alert(data)
+        }
+        if (this.loginStatus === 'yes') {
+            window.jrj.jsCallNative('130', JSON.stringify({
+                method: 'get',
+                url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+                callback: fnName
+            }))
+        }
+        // this.$watch('loginStatus', loginStatus => {
+        //     if (loginStatus === 'yes') {
+        //         _this.$store.dispatch('topicComment/getClientInfo')
+        //     }
+        // })
     }
 }
 </script>
