@@ -33,7 +33,7 @@
 
 /*一等奖*/
 
-.one {
+/* .one {
   width: 1692px;
   height: 872px;
   margin: 0 auto;
@@ -67,7 +67,7 @@
 .three .luckerList li p {
   position: relative;
   z-index: 35;
-}
+} */
 
 
 
@@ -93,6 +93,28 @@
 }
 
 .three .luckerList {
+  width: 1560px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.three .luckerList.batch5 {
+  padding-top: 480px;
+}
+
+.three .luckerList.batch10 {
+  width: 1560px;
+  margin: 0 auto;
+  padding-top: 320px;
+}
+
+.three .luckerList.batch20 {
+  width: 1560px;
+  margin: 0 auto;
+  padding-top: 220px;
+}
+
+.three .luckerList.batch25 {
   width: 1560px;
   margin: 0 auto;
   padding-top: 100px;
@@ -126,7 +148,7 @@
 
 /*四等奖*/
 
-.four {
+/* .four {
   width: 1692px;
   height: 872px;
   margin: 0 auto;
@@ -157,7 +179,7 @@
   position: relative;
   margin-left: -15px;
   margin-right: -15px;
-}
+} */
 
 .disnone {
   display: none
@@ -202,33 +224,18 @@
 <template>
 <div id="outlook">
 
-  <!-- 一等奖和二等奖 -->
-  <!--     <div class="one">
-        <div class="pricename"></div>
-        <ul class="luckerList clearfix">
-            <li v-for="(item,index) in list"><p class="disnone">{{item}}</p></li>
-        </ul>
-    </div> -->
 
-  <!-- 三等奖 -->
   <div class="three">
     <div class="pricename">
       <span class="prize-text">{{prizeName}}</span>
     </div>
-    <ul class="luckerList clearfix">
+    <ul :class="'luckerList clearfix batch' + num">
       <li v-for="(item,index) in list">
         <p class="disnone">{{item}}</p>
       </li>
     </ul>
   </div>
 
-  <!-- 四等奖 -->
-  <!--     <div class="four">
-        <div class="pricename"></div>
-        <ul class="luckerList clearfix">
-            <li v-for="item in list">{{item}}</li>
-        </ul>
-    </div> -->
   <p class="textLogo">2018年金融界年度颁奖盛典</p>
   <img src="../assets/images/luck-meeting/logo.png" alt="" class="logoImg">
 </div>
@@ -305,26 +312,26 @@ export default {
       })
     },
     draw(data) {
-      // return fetch('http://itougu.jrj.com.cn/actm/lottery?num=' + data.num + '&max=' + data.max + '&level=' + data.level + '&lmax=' + data.lmax + '', {
-      //   method: 'GET'
-      // }).then((res) => {
-      //   return res.json()
-      // })
-
-      return new Promise((resolve, reject) => {
-        let nums = this.testRun(data.num)
-        resolve({
-          nums
-        })
+      return fetch('http://itougu.jrj.com.cn/actm/lottery?num=' + data.num + '&max=' + data.max + '&level=' + data.level + '&lmax=' + data.lmax + '', {
+        method: 'GET'
+      }).then((res) => {
+        return res.json()
       })
+
+      // return new Promise((resolve, reject) => {
+      //   let nums = this.testRun(data.num)
+      //   resolve({
+      //     nums
+      //   })
+      // })
     },
     luckDraw(data) {
-      var self = this;
       this.list = []
-      return this.draw(data).then(function(da) {
+      return this.draw(data).then((da) => {
         if (!da.retcode) {
-          self.listData = da.nums
-          return self.demo();
+          this.listData = da.nums
+          this.num = da.nums.length
+          return this.demo();
         }
       }).then(() => {
         return this.drawTrue(data)

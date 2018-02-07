@@ -55,6 +55,7 @@ form {
 
 
 
+
 /* .setUp ul>li:first-child +li +li +li +li +li{width: 220px;height: 50px;border-radius: 5px;border:1px solid #e03b3a;background: #f9574d;color: #fff;line-height: 50px;text-align: center;font-size: 20px;font-weight: normal;margin-top: 20px;margin-left: 20px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);} */
 
 .setUp ul>li input {
@@ -142,6 +143,7 @@ table td span {
   word-break: break-all;
   word-wrap: break-word;
 }
+
 .clearfix {
   margin-bottom: 20px;
 }
@@ -223,6 +225,7 @@ const privateKey = 'hello2018';
 
 const signature = function(params, t) {
   let keys = Object.keys(params)
+  keys = keys.filter((key) => params[key] !== undefined)
   keys.sort()
   let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
   str += t + privateKey
@@ -257,12 +260,12 @@ export default {
       var t = new Date().getTime();
 
       let params = {
-        'level': level,
-        'max': max,
-        'num': num,
-        'lmax': lmax,
-        'prizeName': prizeName,
-        'prizePicUrl': prizePicUrl,
+        'level': level || undefined,
+        'max': max || undefined,
+        'num': num || undefined,
+        'lmax': lmax || undefined,
+        'prizeName': prizeName || undefined,
+        'prizePicUrl': prizePicUrl || undefined,
         'drawLuck': false
       };
 
@@ -306,7 +309,7 @@ export default {
     },
     deletePrize(item) {
       let r = window.confirm('确定要删除奖项?')
-      if(!r) return;
+      if (!r) return;
       let params = {}
       var t = new Date().getTime();
       fetch('http://itougu.jrj.com.cn/act/crud/luckMeetingType/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
@@ -335,7 +338,7 @@ export default {
     },
     deleteBatch(item) {
       let r = window.confirm('确定要删除本批次抽奖结果?')
-      if(!r) return;
+      if (!r) return;
       let params = {}
       var t = new Date().getTime();
       fetch('http://itougu.jrj.com.cn/act/crud/lotteryData/' + item._id + '?t=' + t + '&sign=' + signature(params, t) + '', {
