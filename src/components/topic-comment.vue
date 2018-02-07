@@ -210,14 +210,20 @@ export default {
             alert(data)
         }
         this.$store.dispatch('user/checkLogin').then(() => {
-            alert(this.loginStatus === 'yes', window.jrj)
+            alert(this.loginStatus === 'yes')
             if (this.loginStatus === 'yes') {
+                alert(window.jrj)
+                alert(window.jrj.jsCallNative)
                 window.jrj.jsCallNative('130', JSON.stringify({
                     method: 'get',
                     url: 'http://itougu.jrj.com.cn/act/getClientInfo',
                     callback: fnName
                 }))
+            } else {
+                alert(this.loginStatus)
             }
+        }).catch(err => {
+            alert(err)
         })
         this.$watch('err', err => {
             alert(err.msg)
