@@ -113,13 +113,13 @@ export default {
                     method: 'get'
                 }).then((res) => {
                     res.json().then(function(data){
-                        for(var i = 0; i <data.length;i++){
+                        for(var i = 0; i <data.length; i++){
                             if(data[i].drawLuck===true){
                                 self.luckPrice=data[i];
                                 self.luckDraw(data[i]);
                             }else{
-                                return;
-                            }                        
+                                
+                            }                      
                         }
                     });
                 })
@@ -133,23 +133,25 @@ export default {
                 res.json().then(function(da){
 
                     if(da.retcode==='-1'){
-                        console.log(da.msg)
+                        console.log(self.listData)
+                        self.demo();
                         self.drawTrue(data)
                         return;
                     }
                     console.log(da)
-                    if(self.listData.length===0){
+                    if( self.listData && self.listData.length===0){
                         self.listData = da.nums;
-                    }else if(self.listData.length>25){
+                    }else if(self.listData && self.listData.length>25){
                         self.listData = [];
                         self.listData = da.nums;
                     }else{
-                        for(let value of da.nums){
-                            console.log(value)
-                            self.listData.push(value)
-                        }
+                        self.listData.concat(da.nums)
+                        // for(let value of da.nums){
+                        //     console.log(value)
+                        //     self.listData.push(value)
+                        // }
                     }          
-                    console.log(self.listData)
+                    // console.log(self.listData)
                     self.demo();
                 });
             })
