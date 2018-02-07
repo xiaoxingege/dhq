@@ -77,6 +77,7 @@ export default {
         method: 'POST',
         headers: {
             // 'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
             'passportId':options.passportId,
             'devId':options.devId,
             'accessToken': options.accessToken

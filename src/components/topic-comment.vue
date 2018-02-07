@@ -146,6 +146,7 @@ export default {
         sendSubmit() {
             var _this = this
             var sendContent = this.$refs.sendContent.value
+            console.log(sendContent)
             if (sendContent === '') {
                 alert('不可为空')
                 return
