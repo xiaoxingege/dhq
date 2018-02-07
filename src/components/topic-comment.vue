@@ -154,7 +154,8 @@ export default {
                             senderId: _this.ssoId,
                             appId: _this.data.appId,
                             content: sendContent,
-                            frm: 'web',
+                            // frm: 'web',
+                            frm: 'app',
                             receiverId: _this.receiverId,
                             receiverName: _this.receiverName,
                             replyRootId: _this.replyRootId,
@@ -167,7 +168,8 @@ export default {
                             senderId: _this.ssoId,
                             appId: _this.data.appId,
                             content: sendContent,
-                            frm: 'web'
+                            frm: 'app'
+                            // frm: 'web'
                         })
                     }
                 } else {
