@@ -73,7 +73,7 @@ export default {
 
 
 
-      fetch(`http://mapi.itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
+      fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
         method: 'POST',
         headers: {
             // 'Content-Type': 'application/json',
