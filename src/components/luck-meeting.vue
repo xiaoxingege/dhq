@@ -237,7 +237,7 @@ export default {
         'num': num,
         'lmax': lmax,
         'prizeName': prizeName,
-        'prizePicUrl': prizePicUrl,
+        'prizePicUrl': prizePicUrl, 
         'drawLuck': false
       };
 
