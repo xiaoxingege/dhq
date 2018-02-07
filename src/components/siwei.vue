@@ -135,6 +135,7 @@ button {
 .tempDesc {
     font-size: 12px;
     line-height: 24px;
+    color: #c9d0d7;
 }
 
 .weiduRange {
