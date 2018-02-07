@@ -281,7 +281,7 @@ export default {
     },
     methods: {},
     mounted() {
-        document.title = '每日3只强势股-金融界'
+        document.title = '股市学院'
         var _this = this
 
         $.ajax({
