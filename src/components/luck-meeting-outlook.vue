@@ -35,6 +35,10 @@
 
 
 
+
+
+
+
 /*一等奖*/
 
 
@@ -100,7 +104,7 @@
 .three .luckerList.batch10 {
   width: 1560px;
   margin: 0 auto;
-  padding-top: 320px;
+  padding-top: 360px;
 }
 
 .three .luckerList.batch20 {
@@ -129,6 +133,10 @@
   z-index: 33;
   position: relative;
 }
+
+
+
+
 
 
 
@@ -300,10 +308,16 @@ export default {
       }).then((data) => {
         data = data[0]
         if (data) {
-          let lotteryKey = localStorage.getItem('lotteryKey')
-          if (lotteryKey !== data.key) {
+          let lotteryKeys = []
+          try {
+            lotteryKeys = JSON.parse(localStorage.getItem('lotteryKey') || '[]')
+          } catch (e) {
+            void e
+          }
+          if (lotteryKeys.indexOf(data.key) === -1) {
             this.prizeName = data.level
-            localStorage.setItem('lotteryKey', data.key)
+            lotteryKeys.push(data.key)
+            localStorage.setItem('lotteryKey', JSON.stringify(lotteryKeys))
             return this.luckDraw(data);
           }
         }

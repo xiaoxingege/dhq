@@ -248,7 +248,7 @@ export default {
       let max = this.$refs.max.value;
       let num = this.$refs.num.value;
       let lmax = this.$refs.lmax.value;
-
+      if(!level || !max || !num || !lmax) return alert('缺少参数')
       var t = new Date().getTime();
 
       let params = {
@@ -310,7 +310,7 @@ export default {
         },
         body: JSON.stringify(params)
       }).then((res) => {
-        return fetch('http://itougu.jrj.com.cn/act/crud/lotteryData/' + item._id + '?where=' + JSON.stringify({
+        return fetch('http://itougu.jrj.com.cn/act/crud/lotteryData/' + '?where=' + JSON.stringify({
           level: item.level
         }) + '&t=' + t + '&sign=' + signature(params, t) + '', {
           method: 'DELETE',
