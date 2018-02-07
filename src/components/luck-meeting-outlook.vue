@@ -19,66 +19,6 @@
   top: -145px;
   margin-left: -297px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*一等奖*/
-
-
-/* .one {
-  width: 1692px;
-  height: 872px;
-  margin: 0 auto;
-  background: url('../assets/images/luck-meeting/one.png') no-repeat;
-  background-size: 100% 100%;
-  margin-top: 289px;
-  position: relative;
-}
-
-.one .luckerList {
-  width: 1560px;
-  margin: 0 auto;
-  padding-top: 160px;
-}
-
-.one .luckerList li {
-  font-size: 110px;
-  color: #e72b37;
-  font-weight: bolder;
-  width: 380px;
-  height: 474px;
-  float: left;
-  background-size: 100% 100%;
-  text-align: center;
-  line-height: 474px;
-  margin-top: -220px;
-  z-index: 33;
-  position: relative;
-}
-
-.three .luckerList li p {
-  position: relative;
-  z-index: 35;
-} */
-
-
 /*三等奖*/
 
 .three {
@@ -134,61 +74,6 @@
   position: relative;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*四等奖*/
-
-
-/* .four {
-  width: 1692px;
-  height: 872px;
-  margin: 0 auto;
-  background: url('../assets/images/luck-meeting/four.png') no-repeat;
-  background-size: 100% 100%;
-  margin-top: 223px;
-  position: relative;
-}
-
-.four .luckerList {
-  width: 1560px;
-  margin: 0 auto;
-  padding-top: 100px;
-}
-
-.four .luckerList li {
-  font-size: 110px;
-  color: #e72b37;
-  font-weight: bolder;
-  width: 342px;
-  height: 320px;
-  float: left;
-  background-size: 100% 100%;
-  text-align: center;
-  line-height: 320px;
-  margin-top: -125px;
-  z-index: 33;
-  position: relative;
-  margin-left: -15px;
-  margin-right: -15px;
-} */
-
 .disnone {
   display: none
 }
@@ -198,10 +83,13 @@
   font-size: 42px;
   color: #ffc054;
   line-height: 60px;
-  margin: 0 auto;
   text-align: justify;
   text-align-last: justify;
   height: 60px;
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  margin-left: -545px;
 }
 
 .textLogo:after {
@@ -215,8 +103,11 @@
 .logoImg {
   width: 145px;
   height: 63px;
-  margin: 0 auto;
   display: block;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -74px;
 }
 
 .prize-text {
