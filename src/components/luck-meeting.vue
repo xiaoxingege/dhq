@@ -56,10 +56,11 @@ form {
 
 
 
+
 /* .setUp ul>li:first-child +li +li +li +li +li{width: 220px;height: 50px;border-radius: 5px;border:1px solid #e03b3a;background: #f9574d;color: #fff;line-height: 50px;text-align: center;font-size: 20px;font-weight: normal;margin-top: 20px;margin-left: 20px;background: -webkit-linear-gradient(#ff7d5f, #f65352);background: -o-linear-gradient(#ff7d5f, #f65352);background: -moz-linear-gradient(#ff7d5f, #f65352);background: linear-gradient(#ff7d5f, #f65352);} */
 
 .setUp ul>li input {
-  width: 190px;
+  width: 140px;
   height: 40px;
   border: 1px solid #aaaaaa;
   border-radius: 4px;
@@ -156,12 +157,12 @@ table td span {
         <ul class="clearfix">
           <li>最大中奖号码：<input type="text" name="max" placeholder="请输入最大中奖号码" ref='max'></li>
         </ul>
-        <ul class="clearfix">
-          <li>奖项名：<input type="text" name="level" id="" placeholder="请输入奖项名" ref='level'></li>
+        <!-- <ul class="clearfix">
           <li>奖品名称：<input type="text" name="prizeName" placeholder="请输入奖品名称" ref='prizeName'></li>
           <li>奖品图片url：<input type="text" name="prizePicUrl" placeholder="请输入奖品图片url" ref='prizePicUrl'></li>
-        </ul>
+        </ul> -->
         <ul class="clearfix">
+          <li>奖项名：<input type="text" name="level" id="" placeholder="请输入奖项名" ref='level'></li>
           <li>奖项中奖人数：<input type="text" name="lmax" placeholder="请输入奖项中奖人数" ref='lmax'></li>
           <li>每次抽取人数：<input type="text" name="num" placeholder="请输入每次抽取的人数" ref='num'></li>
         </ul>
@@ -186,7 +187,6 @@ table td span {
             <p>最大中奖号码: {{item.max}}</p>
             <p>奖项中奖人数: {{item.lmax}}</p>
             <p>每次抽取人数: {{item.num}}</p>
-            <p>奖品名: {{item.prizeName}}</p>
           </td>
           <td width="600">
             <ul v-if="luckUser">
@@ -245,8 +245,6 @@ export default {
       let max = this.$refs.max.value;
       let num = this.$refs.num.value;
       let lmax = this.$refs.lmax.value;
-      let prizeName = this.$refs.prizeName.value;
-      let prizePicUrl = this.$refs.prizePicUrl.value;
 
       var t = new Date().getTime();
 
@@ -255,8 +253,6 @@ export default {
         'max': max || undefined,
         'num': num || undefined,
         'lmax': lmax || undefined,
-        'prizeName': prizeName || undefined,
-        'prizePicUrl': prizePicUrl || undefined,
         'drawLuck': false
       };
 
@@ -384,11 +380,10 @@ export default {
         },
         body: JSON.stringify(params)
       }).then((res) => {
-        res.json().then(function(data) {
-          console.log(data);
-        });
-
-      })
+        return this.getFormList()
+      }).then(() => {
+        this.getLuckUser();
+      });
     }
 
   },
