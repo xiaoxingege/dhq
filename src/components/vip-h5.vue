@@ -45,7 +45,6 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item2{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_02.jpg?b);position: relative;    height: 1.1rem;
     background-size: 100% auto;
     background-position: 0 0;}
-.item3{background-image: url('../assets/images/vip-h5/item3bg.jpg');height: 12.4rem;position: relative;}
 .item4{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_04.jpg);margin-top: -1rem;}
 .item5{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_05.jpg);}
 .item6{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_06.jpg?b);}
@@ -60,12 +59,35 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item12 a{ float:right;width:2.2rem; height: 0.64rem; margin-right: 0.55rem;margin-top:0.18rem;}
 
 
+
+.item3{background-image: url('../assets/images/vip-h5/item3bg.jpg');height: 12.4rem;position: relative; box-sizing: border-box; padding-top: 2.7rem;}
+.item3-contanier div{
+  width:6.84rem;
+  margin:0.4rem auto;
+  overflow: hidden;
+}
+.item3 a{
+  float: left;
+  display: block;
+  width:2.1rem;
+  height: 2.5rem;
+  margin:0 0.09rem;
+}
+.item3-contanier div.ai{
+  margin-top:3.45rem;
+}
+.item3-contanier div.ai a{
+  margin-left:2.45rem;
+}
+
+
+
 #img{width:6.57rem; height:3.32rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/go0.jpg) no-repeat center center; z-index: 3; position: relative;background-size: 100% 100%;margin: -.3rem auto 0; }
 
 /* .item2 .btngo{ position: absolute;top:4rem;right:2rem;width:5rem;} */
 .item7 .btngo{ position: absolute;bottom:3.54rem;right:0.56rem;width:2rem;}
 .item11 .btngo{ position: absolute;top:0.89rem;right:0.84rem;width:2.2rem;}
-.msgbox{ margin-bottom: 1.6rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bt.jpg) no-repeat bottom ;background-size: 100% auto;padding-bottom: 0.4rem;}
+.msgbox{ margin-bottom: 1.2rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bt.jpg) no-repeat bottom ;background-size: 100% auto;padding-bottom: 0.4rem;}
 .textmsg{width:6.76rem; margin:0 auto; padding-top: .28rem;}
 .textmsg li{ margin-bottom: .24rem;}
 .textmsg .t{width:3.2rem; line-height: 0.44rem; border-radius: .18rem; color: #eecd8c; text-align: center;color: #eecd8c;font-size:.24rem; background: #92682f; margin-bottom: .2rem;}
@@ -104,15 +126,12 @@ to { transform: scale(1); opacity: 1; }
 #pagination .swiper-pagination-bullet:nth-child(4){ margin-left:1.2rem;}
 
 
-.item3 div{ padding-top: 2rem;}
-.item3a1{ display: block;width:1.4rem; height: 1.1rem; margin:0 auto;}
-.item3a2{ display: block;width:1.4rem; height: 1.1rem; margin:0 auto;  margin-top: 0rem}
+
+
 .h5b{width:5rem; height: 1.54rem;background:url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5b.png) no-repeat;background-size: 100% 100%;margin:0 auto;}
 .h5b a{width:2rem; height: 1.54rem;}
 .msgbox img{width:6.76rem; display: block;margin:.2rem auto;}
-.links1 {
-    display:none;
-}
+
 
 </style>
 
@@ -129,19 +148,26 @@ to { transform: scale(1); opacity: 1; }
     <!-- <a href="javascript:;" class="btngo"></a> -->
   </div>
   <div class="item item3">
-    <div class="links1">
-      <a href="http://itougu.jrj.com.cn/live/160603010046392493" class="item3a1"></a>
-      <a href="http://itougu.jrj.com.cn/live/100323010017140421" class="item3a2"></a>
-      <a href="http://itougu.jrj.com.cn/live/141126010097487282" class="item3a2"></a>
-      <a href="http://itougu.jrj.com.cn/live/141210010098595802" class="item3a2"></a>
+    <div v-if="type===0" class="item3-contanier">
+      <div class="hm">
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141126010097487282"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141210010098595802"></a>
+      </div>
+      <div class="ai">
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421"></a>
+      </div>
     </div>
-    <div class="links2">
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/160603010046392493" tgid="160603010046392493" class="item3a1"></a>
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/100323010017140421" tgid="100323010017140421" class="item3a2"></a>
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/141126010097487282" tgid="141126010097487282" class="item3a2"></a>
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/141210010098595802" tgid="141210010098595802" class="item3a2"></a>
+    <div v-if="type==='1'" class="item3-contanier">
+      <div class="hm">
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
+      </div>
+      <div class="ai">
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170607010061378568"></a>
+      </div>
     </div>
-
   </div>
   <div class="item item4"></div>
   <div class="item item5"></div>
@@ -179,14 +205,13 @@ to { transform: scale(1); opacity: 1; }
             <div class="b">金融界网站研究院，是中国金融在线集团旗下研究机构，致力于研究中国宏观经济和资本市场，擅长对资讯、大数据以及市场交易者行为进行挖掘。团队成员80%以上拥有研究生及以上学历，具备证券公司、公募基金、私募机构等行业从业经历。</div>
         </li>
     </ul>
-
-    <div class="h5b clearfix links1">
-      <a href="http://itougu.jrj.com.cn/live/141126010097487282" class="fl"></a>
-      <a href="http://itougu.jrj.com.cn/live/100323010017140421"  class="fr h5ba2"></a>
+    <div v-if="type===0" class="h5b clearfix links1">
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160603010046392493" class="fl"></a>
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421"  class="fr h5ba2"></a>
     </div>
-    <div class="h5b clearfix links2">
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/141126010097487282" tgid="141126010097487282" class="fl"></a>
-      <a href="javascript:;" shref="http://itougu.jrj.com.cn/live/100323010017140421" tgid="100323010017140421"  class="fr h5ba2"></a>
+    <div v-if="type==='1'" class="h5b clearfix links1">
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717" class="fl"></a>
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170607010061378568"  class="fr h5ba2"></a>
     </div>
   </div>
   <div class="item item12"><a href="javascript:;" class="btngo" ></a></div>
@@ -220,7 +245,7 @@ window.jQuery = window.$ = jQuery
 export default {
   data() {
     return {
-
+      type:this.getQueryString('type') ? this.getQueryString('type'):0,
     }
   },
   beforecreated() {
@@ -239,6 +264,16 @@ export default {
 
   },
   methods: {
+    getQueryString (name,chinese) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+			if (chinese) {
+				if (r != null) return decodeURI(r[2])
+			}else{
+				if (r != null) return unescape(r[2])
+			}
+      return null
+    },
     swiperRun(){
       var swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
