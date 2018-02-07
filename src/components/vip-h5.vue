@@ -1,4 +1,5 @@
 <style>
+@import '../assets/plugins/swiper/slide.css';
 .vip-h5 {
   box-sizing: border-box;
   position: relative;
@@ -241,11 +242,13 @@ to { transform: scale(1); opacity: 1; }
 <script>
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
+const Swiper = require('../assets/plugins/swiper/slide.js')
 
 export default {
   data() {
     return {
-      type:this.getQueryString('type') ? this.getQueryString('type'):0,
+      swiper:null,
+      type:this.getQueryString('type') ? this.getQueryString('type'):0
     }
   },
   beforecreated() {
@@ -275,7 +278,7 @@ export default {
       return null
     },
     swiperRun(){
-      var swiper = new Swiper('.swiper-container', {
+      this.swiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
         paginationClickable: true,autoplay: 2000,loop:true,
         grabCursor:true,
