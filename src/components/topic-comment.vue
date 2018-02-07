@@ -210,6 +210,7 @@ export default {
         })
         this.$watch('loginStatus', loginStatus => {
             if (loginStatus === 'yes') {
+                alert(loginStatus)
                 _this.$store.dispatch('topicComment/getClientInfo')
             }
         })
