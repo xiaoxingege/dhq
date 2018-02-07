@@ -210,7 +210,7 @@ export default {
             alert(data)
         }
         this.$store.dispatch('user/checkLogin').then(() => {
-            alert(this.loginStatus)
+            alert(this.loginStatus === 'yes', window.jrj)
             if (this.loginStatus === 'yes') {
                 window.jrj.jsCallNative('130', JSON.stringify({
                     method: 'get',
