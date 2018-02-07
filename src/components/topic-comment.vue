@@ -88,7 +88,7 @@ input {
         <div class="comment-list" v-for="item in dataList">
             <img :src="item.senderHeadImage" />
             <div class="comment-box">
-                <h5 :senderId="item.senderId" :replyRootId="item.id" :senderName="item.senderName" @click="reply($event)">
+                <h5 @click="reply(item.senderId,item.id,item.senderName)">
                     <span>{{item.senderName}}:</span>
                     <strong>{{moment(parseInt(item.ctime),'MM月DD日 HH:mm')}}</strong>
                 </h5>
@@ -185,13 +185,12 @@ export default {
             }
 
         },
-        reply(event) {
-            let target = event.target.parentNode
-            this.placeholder = '回复' + target.getAttribute('senderName') + '：'
+        reply(senderId, replyRootId, senderName) {
+            this.placeholder = '回复' + senderName + '：'
             this.commentType = true
-            this.receiverId = target.getAttribute('senderId')
-            this.receiverName = target.getAttribute('senderName')
-            this.replyRootId = target.getAttribute('replyRootId')
+            this.receiverId = senderId
+            this.receiverName = senderName
+            this.replyRootId = replyRootId
         }
     },
     mounted() {
