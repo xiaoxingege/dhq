@@ -112,6 +112,7 @@
     "sass": "^1.0.0-beta.2",
     "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.4.2",
-    "vuedraggable": "^2.14.1"
+    "vuedraggable": "^2.14.1",
+    "xlsx": "^0.11.19"
   }
 }
