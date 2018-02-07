@@ -216,18 +216,16 @@ export default {
             }
             alert(data)
         }
-        if (this.loginStatus === 'yes') {
-            window.jrj.jsCallNative('130', JSON.stringify({
-                method: 'get',
-                url: 'http://itougu.jrj.com.cn/act/getClientInfo',
-                callback: fnName
-            }))
-        }
-        // this.$watch('loginStatus', loginStatus => {
-        //     if (loginStatus === 'yes') {
-        //         _this.$store.dispatch('topicComment/getClientInfo')
-        //     }
-        // })
+        this.$watch('loginStatus', loginStatus => {
+            alert('loginStatus:' + loginStatus)
+            if (loginStatus === 'yes') {
+                window.jrj.jsCallNative('130', JSON.stringify({
+                    method: 'get',
+                    url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+                    callback: fnName
+                }))
+            }
+        })
     }
 }
 </script>
