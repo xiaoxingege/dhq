@@ -1137,6 +1137,7 @@ export default {
     stopPlay: function() {
       this.$emit('isStopplayback', false);
       this.playback.status = 0;
+      this.playback.time = '';
       // 回放结束后
       this.updateData();
     },
