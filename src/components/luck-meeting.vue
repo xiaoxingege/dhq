@@ -174,7 +174,7 @@ table td span {
       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
       <a id="downlink"></a>
       <!-- <button class="submitList">导出中奖列表</button> -->
-      <el-button class="submitList" @click="downloadFile(excelData)">导出中奖列表</el-button>
+      <el-button class="submitList" style="width:210px ;height:40px; display:block;" @click="downloadFile(excelData)">导出中奖列表</el-button>
 
       <table border="1 solids #aaa" cellpadding="0" cellspacing="0">
         <tr>
