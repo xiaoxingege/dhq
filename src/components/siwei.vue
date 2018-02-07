@@ -844,6 +844,8 @@ export default {
           minX = minX * 10e7
         } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
           minX = minX * 10000
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma120') {
+          minX = minX / 100
         }
         if (minX < Number(this.minmaxXDefault[0])) {
           this.$set(this.xZoomRange, 0, Number(this.minmaxXDefault[0]))
@@ -860,6 +862,8 @@ export default {
           maxX = maxX * 10e7
         } else if (this.dimensionOptions.xDefault === 'mkt_idx.volume' || this.dimensionOptions.xDefault === 'perf_idx.avg_vol_3month') {
           maxX = maxX * 10000
+        } else if (this.dimensionOptions.xDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.xDefault === 'mkt_idx.rela_ma120') {
+          maxX = maxX / 100
         }
         if (maxX > Number(this.minmaxXDefault[1])) {
           this.$set(this.xZoomRange, 1, Number(this.minmaxXDefault[1]))
@@ -876,6 +880,8 @@ export default {
           minY = minY * 10e7
         } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
           minY = minY * 10000
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma120') {
+          minY = minY / 100
         }
         if (minY < Number(this.minmaxYDefault[0])) {
           this.$set(this.yZoomRange, 0, Number(this.minmaxYDefault[0]))
@@ -892,6 +898,8 @@ export default {
           maxY = maxY * 10e7
         } else if (this.dimensionOptions.yDefault === 'mkt_idx.volume' || this.dimensionOptions.yDefault === 'perf_idx.avg_vol_3month') {
           maxY = maxY * 10000
+        } else if (this.dimensionOptions.yDefault === 'mkt_idx.rela_ma20' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma60' || this.dimensionOptions.yDefault === 'mkt_idx.rela_ma120') {
+          maxY = maxY / 100
         }
         if (maxY > Number(this.minmaxYDefault[1])) {
           this.$set(this.yZoomRange, 1, Number(this.minmaxYDefault[1]))
