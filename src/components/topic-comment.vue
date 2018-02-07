@@ -208,10 +208,11 @@ export default {
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
-        alert(_this.loginStatus)
+        if (this.loginStatus === 'yes') {
+            this.$store.dispatch('topicComment/getClientInfo')
+        }
         this.$watch('loginStatus', loginStatus => {
             if (loginStatus === 'yes') {
-                alert(loginStatus)
                 _this.$store.dispatch('topicComment/getClientInfo')
             }
         })
