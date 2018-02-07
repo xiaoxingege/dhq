@@ -201,7 +201,15 @@ export default {
             // appItemId: 8
             appItemId: _this.appItemId
         })
-        this.$store.dispatch('user/checkLogin')
+        this.$store.dispatch('user/checkLogin').then(() => {
+            if (this.loginStatus === 'yes') {
+                window.jrj.jsCallNative('130', JSON.stringify({
+                    method: 'get',
+                    url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+                    callback: fnName
+                }))
+            }
+        })
         this.$watch('err', err => {
             alert(err.msg)
         })
@@ -216,16 +224,13 @@ export default {
             }
             alert(data)
         }
-        this.$watch('loginStatus', loginStatus => {
-            alert('loginStatus:' + loginStatus)
-            if (loginStatus === 'yes') {
-                window.jrj.jsCallNative('130', JSON.stringify({
-                    method: 'get',
-                    url: 'http://itougu.jrj.com.cn/act/getClientInfo',
-                    callback: fnName
-                }))
-            }
-        })
+        // if () {}
+        // this.$watch('loginStatus', loginStatus => {
+        //     alert('loginStatus:' + loginStatus)
+        //     if (loginStatus === 'yes') {
+        //
+        //     }
+        // })
     }
 }
 </script>
