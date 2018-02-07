@@ -201,6 +201,14 @@ export default {
             // appItemId: 8
             appItemId: _this.appItemId
         })
+        let fnName = 'cb' + Date.now()
+        window[fnName] = function(data) {
+            delete window[fnName]
+            if (typeof data === 'string') {
+                data = JSON.parse(data)
+            }
+            alert(data)
+        }
         this.$store.dispatch('user/checkLogin').then(() => {
             alert(this.loginStatus)
             if (this.loginStatus === 'yes') {
@@ -217,14 +225,7 @@ export default {
         this.$watch('dataList', dataList => {
             _this.$refs.sendContent.value = ''
         })
-        let fnName = 'cb' + Date.now()
-        window[fnName] = function(data) {
-            delete window[fnName]
-            if (typeof data === 'string') {
-                data = JSON.parse(data)
-            }
-            alert(data)
-        }
+
         // if () {}
         // this.$watch('loginStatus', loginStatus => {
         //     alert('loginStatus:' + loginStatus)
