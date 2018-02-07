@@ -123,7 +123,9 @@ export default {
             receiverId: '',
             receiverName: '',
             replyRootId: '',
-            accessToken: ''
+            accessToken: '',
+            passportId: '',
+            devId: ''
         }
     },
     props: ['appItemId'],
@@ -211,6 +213,8 @@ export default {
                 data = JSON.parse(data)
             }
             _this.accessToken = data.data.accessToken
+            _this.passportId = data.data.passportId
+            _this.devId = data.data.devId
         }
 
         function timedCount() {

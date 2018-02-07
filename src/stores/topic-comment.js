@@ -76,7 +76,10 @@ export default {
       fetch(`http://mapi.itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
         method: 'POST',
         headers: {
-          'accessToken': options.accessToken
+            // 'Content-Type': 'application/json',
+            'passportId':options.passportId,
+            'devId':options.devId,
+            'accessToken': options.accessToken
         },
         body:`itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
         credentials: 'include'
