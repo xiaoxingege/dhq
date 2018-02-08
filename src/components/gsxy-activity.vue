@@ -244,13 +244,14 @@ button {
         <div class="box-con" v-if="dataType">
             <ul class="excellentCourse-box">
                 <li v-for="item in excellentCourse.list">
-                    <img :src="item.image" />
+                    <a :href="'http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa'"><img :src="item.image" />
                     <div>
                         <h5>{{item.courseName}}</h5>
                         <span>{{item.tgName}}</span>
                         <strong>{{item.studyNum}}人学习</strong>
                         <p>课程概要：{{item.courseDesc}}</p>
                     </div>
+                    </a>
                 </li>
             </ul>
         </div>
