@@ -126,7 +126,7 @@
 
   <div class="three">
     <div class="pricename">
-      <span class="prize-text">{{prizeName}}</span>
+      <span class="prize-text">{{prizeName || '即将开始'}}</span>
     </div>
     <ul :class="'luckerList clearfix batch' + num">
       <li v-for="(item,index) in list">
