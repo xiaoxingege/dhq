@@ -31,8 +31,8 @@ export default {
           popupVm.$props.stockCode = el.stockCode;
           popupVm.curStockCode = el.stockCode;
         };
-        el.addEventListener('mouseover', el._popupStock);
-        el.addEventListener('mouseout', (event) => {
+        el.addEventListener('mouseenter', el._popupStock);
+        el.addEventListener('mouseleave', (event) => {
           popupVm.isShow = false;
         })
       },
