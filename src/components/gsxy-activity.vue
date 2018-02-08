@@ -105,7 +105,7 @@ button {
 }
 .pubCourse-box {
     width: 6.9rem;
-    height: 7.1rem;
+    height: 7.2rem;
     overflow: hidden;
     float: left;
     margin: 0.7rem 0 0 0.3rem;
@@ -210,7 +210,7 @@ button {
         <div class="box-con" v-if="dataType">
             <h3>{{stockCamp.title}}</h3>
             <div class="stockCamp-box">
-                <img :src="stockCamp.image" />
+                <a :href="'http://itougu.jrj.com.cn/account/adviser/'+stockCamp.roomId+'/'"><img :src="stockCamp.image" /></a>
                 <p>主讲嘉宾：{{stockCamp.guest}}</p>
                 <p>本期主题：{{stockCamp.title}}</p>
                 <div class="stockCamp-links">
@@ -276,7 +276,9 @@ export default {
             appItemId: 8
         }
     },
-    computed: mapState({}),
+    computed: mapState({
+        commentSubmit: state => state.topicComment.commentSubmit
+    }),
     components: {
         topicComment
     },
@@ -317,7 +319,9 @@ export default {
                     scrollTop: pos
                 }, 500)
             })
-
+        })
+        this.$watch('commentSubmit', commentSubmit => {
+            $('html,body').scrollTop($('.bg3').offset().top)
         })
     }
 }

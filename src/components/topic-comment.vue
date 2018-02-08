@@ -53,6 +53,8 @@ input {
     height: 0.9rem;
     float: left;
     border-top: 0.01rem #0f2281 solid;
+    position: relative;
+    z-index: 9;
 }
 .send-box input {
     width: 78%;
@@ -137,7 +139,8 @@ export default {
         dataType: state => state.topicComment.dataType,
         loginStatus: state => state.user.loginStatus,
         ssoId: state => state.user.ssoId,
-        err: state => state.topicComment.err
+        err: state => state.topicComment.err,
+        commentSubmit: state => state.topicComment.commentSubmit
     }),
     methods: {
         moment(time, format) {
@@ -147,7 +150,7 @@ export default {
             var _this = this
             var sendContent = this.$refs.sendContent.value
             if (sendContent === '') {
-                alert('不可为空')
+                alert('评论不可为空')
                 return
             }
             if (window.app.name !== '{{appid}}') {
@@ -245,8 +248,9 @@ export default {
         this.$watch('err', err => {
             alert(err.msg)
         })
-        this.$watch('dataList', dataList => {
+        this.$watch('commentSubmit', commentSubmit => {
             _this.$refs.sendContent.value = ''
+            $('.list-box').scrollTop(0)
         })
     }
 }

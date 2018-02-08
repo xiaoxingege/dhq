@@ -16,7 +16,7 @@ export default {
     dataType: false, // repeatType 1未重复、2重复
     err: null,
     appItemId:8,
-    userName:''
+    commentSubmit:0
   },
   mutations: {
     setData(state, res) {
@@ -27,10 +27,8 @@ export default {
     setAppItemId(state, res){
         state.appItemId = res
     },
-    setInfo(state, res){
-        console.log(res)
-        // state.userName = res.userName
-        // state.accessToken = res.accessToken
+    setCommentSubmit(state, res){
+        state.commentSubmit = res
     },
     setError(state, err) {
       state.err = err
@@ -81,6 +79,7 @@ export default {
         return res.json()
       }).then(json => {
           if(json.retCode === 0){
+              commit('setCommentSubmit', state.commentSubmit+1)
               dispatch('whereList',{
                   appItemId:state.appItemId
               })
