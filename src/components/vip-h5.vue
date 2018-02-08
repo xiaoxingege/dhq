@@ -161,9 +161,9 @@ to { transform: scale(1); opacity: 1; }
     </div>
     <div v-if="type==='1'" class="item3-contanier">
       <div class="hm">
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160905010006399401"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141210010098595802"></a>
       </div>
       <div class="ai">
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170607010061378568"></a>
@@ -211,7 +211,7 @@ to { transform: scale(1); opacity: 1; }
       <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=100323010017140421"  class="fr h5ba2"></a>
     </div>
     <div v-if="type==='1'" class="h5b clearfix links1">
-      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170623010049961717" class="fl"></a>
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160905010006399401" class="fl"></a>
       <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=170607010061378568"  class="fr h5ba2"></a>
     </div>
   </div>
