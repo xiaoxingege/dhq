@@ -147,7 +147,7 @@ export default {
           ],
           color: ['#1EC96C', '#E73E3A'],
           grid: {
-            //width: '97%',
+            // width: '97%',
             width: '100%',
             height: '80%',
             left: 0,

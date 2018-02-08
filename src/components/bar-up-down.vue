@@ -25,7 +25,7 @@ export default {
   methods: {
     checkUnit(num) {
       num = parseFloat(num) // returns
-      if (typeof(num) === 'undefined' || typeof(num) === 'string') {
+      if (typeof num === 'undefined' || typeof num === 'string') {
         num = 0
       }
       var result = 0
