@@ -739,7 +739,7 @@ a.kuai_icon {
               <div class="box-flex-1 tech-num">
                 <div class="progress-box">
                   <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-if="isNaN(Math.ceil(allTopic.topicMarket.infoIndex))">--</span>
-                  <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-else-if="allTopic.topicMarket.infoIndex==0">1</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-else-if="allTopic.topicMarket.infoIndex==0">1</span>
                   <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.topicMarket.infoIndex))+'%;min-width:25%'" v-else>{{Math.ceil(allTopic.topicMarket.infoIndex)}}</span>
                 </div>
               </div>

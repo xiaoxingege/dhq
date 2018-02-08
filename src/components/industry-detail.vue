@@ -990,7 +990,9 @@ ol li {
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.induMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.induMark!==null'>{{stock.induMark.length<=200?stock.induMark:stock.induMark.substring(0,201)+'…'}}</span></td>
-            <td class="progress-box"><span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'">{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
+            <td class="progress-box">
+              <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'" v-if="stock.recommendIndex==0">1%</span>
+              <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'" v-else>{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
             </td>
           </tr>
         </table>
