@@ -227,7 +227,7 @@ export default {
   },
   mounted() {
     document.title = '年会抽奖前台显示'
-    document.getElementById('outlook').style.height = window.innerHeight + 'px';
+    // document.getElementById('outlook').style.height = window.innerHeight + 'px';
     this.reTime();
   }
 }
