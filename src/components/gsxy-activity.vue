@@ -273,7 +273,8 @@ export default {
             pubCourse: null,
             excellentCourse: null,
             dataType: false,
-            appItemId: 8
+            // appItemId: 8
+            appItemId: 25
         }
     },
     computed: mapState({
