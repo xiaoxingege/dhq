@@ -12,7 +12,7 @@
 <template>
 <div class="bubbles">
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
-    <Siweidialog :dialogOptions="dialogOptions" v-show="isShowDialog"></Siweidialog>
+    <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
   <div class="bubblesChart" ref="bubbles" v-bind:style="{height:height+'px'}"></div>
 </div>
@@ -27,7 +27,7 @@ import {
 import Siweidialog from 'components/siwei-dialog'
 import config from '../z3tougu/config'
 export default {
-  props: ['options'],
+  props: ['options', 'xZoomRange', 'yZoomRange'],
   data() {
     return {
       colorUnit: 10000,
@@ -62,7 +62,12 @@ export default {
       },
       offsetX: '',
       offsetY: '',
-      zIndex: ''
+      zIndex: '',
+      isOverBubbles: false,
+      isOverDialog: false,
+      timeout: null,
+      mmX: '',
+      mmY: ''
     }
   },
   components: {
@@ -73,6 +78,28 @@ export default {
       deep: false,
       handler: function() {
         this.updateBubbles()
+      }
+    },
+    'xZoomRange': {
+      deep: true,
+      handler: function() {
+        this.chart.dispatchAction({
+          type: 'dataZoom',
+          dataZoomIndex: 1,
+          startValue: this.xZoomRange[0],
+          endValue: this.xZoomRange[1]
+        });
+      }
+    },
+    'yZoomRange': {
+      deep: true,
+      handler: function() {
+        this.chart.dispatchAction({
+          type: 'dataZoom',
+          dataZoomIndex: 0,
+          startValue: this.yZoomRange[0],
+          endValue: this.yZoomRange[1]
+        });
       }
     }
   },
@@ -143,15 +170,16 @@ export default {
       }
     },
     dataZoom: function() {
-      return [{
+      const that = this;
+      let dataZoomConfig = [{
           type: 'slider',
           show: true,
           yAxisIndex: [0],
           top: '5%',
           right: 20,
           bottom: 0,
-          start: 0,
-          end: 100,
+          startValue: this.yZoomRange[0] === 0 ? 0 : this.yZoomRange[0],
+          endValue: this.yZoomRange[1] === 0 ? 0 : this.yZoomRange[1],
           textStyle: {
             color: '#aed2ff'
           },
@@ -176,8 +204,16 @@ export default {
             shadowOffsetX: 2,
             shadowOffsetY: 2
           },
-          showDetail: false,
-          realtime: false
+          showDetail: this.options.yDefault !== 'sw_indu_name' && this.options.yDefault !== 'chi_spel' && this.options.yDefault !== 'order' && this.options.yDefault !== 'fcst_idx.rating_syn',
+          realtime: false,
+          labelPrecision: 2,
+          labelFormatter: function(value) {
+            if (isNaN(value)) {
+              return '--'
+            } else {
+              return that.convertNumBySelect('yData', value)
+            }
+          }
         },
         {
           type: 'slider',
@@ -186,8 +222,8 @@ export default {
           top: 10,
           // right:80,
           left: '5%',
-          start: 0,
-          end: 100,
+          startValue: this.xZoomRange[0] === 0 ? 0 : this.xZoomRange[0],
+          endValue: this.xZoomRange[1] === 0 ? 0 : this.xZoomRange[1],
           textStyle: {
             color: '#aed2ff'
           },
@@ -212,10 +248,32 @@ export default {
             shadowOffsetX: 2,
             shadowOffsetY: 2
           },
-          showDetail: false,
-          realtime: false
+          showDetail: this.options.xDefault !== 'sw_indu_name' && this.options.xDefault !== 'chi_spel' && this.options.xDefault !== 'order' && this.options.xDefault !== 'fcst_idx.rating_syn',
+          realtime: false,
+          labelPrecision: 2,
+          labelFormatter: function(value) {
+            if (isNaN(value)) {
+              return '--'
+            } else {
+              return that.convertNumBySelect('xData', value)
+            }
+
+          }
         }
-      ]
+      ];
+      if (this.xZoomRange[0] === null) {
+        dataZoomConfig[0].start = 0;
+        dataZoomConfig[0].end = 100;
+        dataZoomConfig[1].start = 0;
+        dataZoomConfig[1].end = 100;
+      } else {
+        delete dataZoomConfig[0].start;
+        delete dataZoomConfig[0].end;
+        delete dataZoomConfig[1].start;
+        delete dataZoomConfig[1].end;
+      }
+
+      return dataZoomConfig;
     }
   }),
   methods: {
@@ -276,8 +334,55 @@ export default {
         }
       }
     },
+    convertNumForZoom(select, showData) {
+      if (isNaN(Number(showData))) {
+        return showData
+      } else {
+        var tmpSelect = ''
+        if (select === 'bubblesSize') {
+          tmpSelect = this.bubbleSizeSelect[this.parameterData[select]]
+        } else if (select === 'bubbleColor') {
+          tmpSelect = this.bubbleColorSelect[this.parameterData[select]]
+        } else {
+          tmpSelect = this.xSelectData[this.parameterData[select]]
+        }
+        if ((tmpSelect.indexOf('率') >= 0 && tmpSelect.indexOf('市盈率') < 0 && tmpSelect.indexOf('销率') < 0 && tmpSelect.indexOf('现率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('净率') < 0 && tmpSelect.indexOf('比率') < 0) || tmpSelect.indexOf('幅') >= 0 || tmpSelect.indexOf('最') >= 0 || tmpSelect.indexOf('目标价格') >= 0 || tmpSelect.indexOf('持股') >= 0 || tmpSelect.indexOf('MA') >= 0 || tmpSelect.indexOf('股东权益') >= 0) {
+          if (tmpSelect.indexOf('MA') >= 0) {
+            return showData === null ? '--' : Number(showData * 100).toFixed(2)
+          }
+          return showData === null ? '--' : Number(showData).toFixed(2)
+        } else {
+          var selectVal = this.parameterData[select]
+          if (selectVal === 'fcst_idx.rating_syn') {
+            if (Number(showData) === 5) {
+              return '卖出'
+            } else if (Number(showData) === 4) {
+              return '减持'
+            } else if (Number(showData) === 3) {
+              return '中性'
+            } else if (Number(showData) === 2) {
+              return '增持'
+            } else if (Number(showData) === 1) {
+              return '买入'
+            } else {
+              return '暂无观点'
+            }
+          } else if (selectVal === 'fin_idx.tot_revenue' || selectVal === 'fin_idx.sale' || selectVal === 'mkt_idx.tcap' || selectVal === 'mkt_idx.mktcap') {
+            return (Number(showData) / 100000000).toFixed(2)
+          } else if (selectVal === 'mkt_idx.volume' || selectVal === 'perf_idx.avg_vol_3month') {
+            return (Number(showData) / 10000).toFixed(0)
+          } else if (selectVal === 'order' || selectVal === 'staff_num') {
+            return Number(showData).toFixed(0)
+          } else {
+            if (showData === null) {
+              return '--'
+            }
+            return Number(showData).toFixed(2)
+          }
+        }
+      }
+    },
     initBubbles() {
-      // alert(this.options.innerCode+'init')
       this.chart = echarts.init(this.$refs.bubbles)
       this.chart.showLoading(config.loadingConfig);
       this.$store.dispatch('bubbles/getBubblesData', {
@@ -307,7 +412,6 @@ export default {
         } else {
           y = that.bubblesData.yData
         }
-
         this.chart.setOption({
           backgroundColor: '#23252D',
           animation: false,
@@ -401,9 +505,7 @@ export default {
               yAxisIndex: [0],
               top: '5%',
               right: 20,
-              bottom: 0,
-              start: 0,
-              end: 100,
+              bottom: '1%',
               textStyle: {
                 color: '#aed2ff'
               },
@@ -428,8 +530,12 @@ export default {
                 shadowOffsetX: 2,
                 shadowOffsetY: 2
               },
-              showDetail: false,
-              realtime: false
+              showDetail: this.options.yDefault !== 'sw_indu_name' && this.options.yDefault !== 'chi_spel' && this.options.yDefault !== 'order' && this.options.yDefault !== 'fcst_idx.rating_syn',
+              realtime: false,
+              labelPrecision: 2,
+              labelFormatter: function(value) {
+                return that.convertNumBySelect('yData', value)
+              }
             },
             {
               type: 'slider',
@@ -438,8 +544,6 @@ export default {
               top: 10,
               // right:80,
               left: '5%',
-              start: 0,
-              end: 100,
               textStyle: {
                 color: '#aed2ff'
               },
@@ -464,8 +568,12 @@ export default {
                 shadowOffsetX: 2,
                 shadowOffsetY: 2
               },
-              showDetail: false,
-              realtime: false
+              showDetail: this.options.xDefault !== 'sw_indu_name' && this.options.xDefault !== 'chi_spel' && this.options.xDefault !== 'order' && this.options.xDefault !== 'fcst_idx.rating_syn',
+              realtime: false,
+              labelPrecision: 2,
+              labelFormatter: function(value) {
+                return that.convertNumBySelect('xData', value)
+              }
             }
           ],
           series: [{
@@ -567,15 +675,32 @@ export default {
 
           }]
         })
+        this.$store.dispatch('bubbles/setBubbleZoomRange', {
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          mmXDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          mmYDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+        })
+        this.$store.dispatch('bubbles/setZoomRangeDefault', {
+          X: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          Y: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          XDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          YDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+        })
+        that.$emit('getXYRange', [
+          [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
+        ])
 
         that.chart.on('dblclick', function(params) {
           window.open('/stock/' + that.bubblesData.innerCode[params.dataIndex] + '.shtml')
         })
         that.chart.on('mouseover', function(params) {
+          clearTimeout(that.timeout)
           if ((params.event.offsetX + 500) >= that.$refs.bubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 280
+            that.offsetX = params.event.offsetX - 255
           } else {
-            that.offsetX = params.event.offsetX + 255
+            that.offsetX = params.event.offsetX + 225
           }
 
           if ((params.event.offsetY + 247) > that.$refs.bubbles.clientHeight) {
@@ -593,11 +718,30 @@ export default {
           that.dialogOptions.leftList.yData.value = that.convertNumBySelect('yData', that.$store.state.bubbles.bubblesData.yData[params.dataIndex])
           that.dialogOptions.leftList.bubbleSize.value = that.convertNumBySelect('bubblesSize', that.$store.state.bubbles.bubblesData.bubbleSize[params.dataIndex])
           that.dialogOptions.leftList.bubbleColor.value = that.convertNumBySelect('bubbleColor', that.$store.state.bubbles.bubblesData.bubbleColor[params.dataIndex])
-          that.isShowDialog = true
+          that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
-          that.zIndex = ''
-          that.isShowDialog = false
+          that.timeout = setTimeout(function() {
+            // alert('延时 is work')
+            if (that.isOverBubbles && that.isOverDialog) {
+              // that.zIndex = 999999
+              return
+            } else {
+              that.isOverBubbles = false
+              if (!that.isOverDialog) {
+                that.zIndex = ''
+              }
+            }
+
+          }, 500)
+          // that.zIndex = ''
+          // that.isShowDialog = false
+        })
+        that.chart.on('dataZoom', function(params) {
+          that.$emit('getXYRange', [
+            [that.convertNumForZoom('xData', that.chart.getOption().dataZoom[1].startValue), that.convertNumForZoom('xData', that.chart.getOption().dataZoom[1].endValue)],
+            [that.convertNumForZoom('yData', that.chart.getOption().dataZoom[0].startValue), that.convertNumForZoom('yData', that.chart.getOption().dataZoom[0].endValue)]
+          ])
         })
         window.onresize = function() {
           that.chart.resize({
@@ -621,6 +765,16 @@ export default {
           }],
           dataZoom: this.dataZoom
         })
+        this.$store.dispatch('bubbles/setBubbleZoomRange', {
+          mmX: [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          mmY: [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)],
+          mmXDefault: [this.chart.getOption().dataZoom[1].startValue, this.chart.getOption().dataZoom[1].endValue],
+          mmYDefault: [this.chart.getOption().dataZoom[0].startValue, this.chart.getOption().dataZoom[0].endValue]
+        })
+        this.$emit('getXYRange', [
+          [this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].startValue), this.convertNumForZoom('xData', this.chart.getOption().dataZoom[1].endValue)],
+          [this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].startValue), this.convertNumForZoom('yData', this.chart.getOption().dataZoom[0].endValue)]
+        ])
         this.chart.hideLoading()
       })
       this.chart.showLoading(config.loadingConfig)
@@ -628,8 +782,19 @@ export default {
         this.$emit('toHideDialog', false)
       }, 0)
       /* 弹窗消失，loading加载期间会选中气泡，显示弹窗，所以让出线程*/
-    }
+    },
+    setDialog(data) {
+      if (data) {
+        this.isOverDialog = data
+        this.zIndex = 999999
+      } else {
+        // alert('i dont konw')
+        this.isOverBubbles = data
+        this.isOverDialog = data
+        this.zIndex = ''
+      }
 
+    }
   },
 
   mounted() {

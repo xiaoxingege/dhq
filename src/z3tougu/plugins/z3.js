@@ -9,19 +9,10 @@ export default {
     Vue.directive('z3-stock', {
       bind(el, binding, vnode, oldVnode) {
         let popup = binding.value.ref;
-        // let code = binding.value.code;
+        el.stockCode = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
-        el.addEventListener('mouseover', (event) => {
-          const str = event.currentTarget.outerHTML
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(str, "text/xml");
-          let code
-          if (doc.getElementsByTagName('td').length > 0) {
-            code = doc.getElementsByTagName('td')[0].getAttribute('value')
-          } else if (doc.getElementsByTagName('span').length > 0) {
-            code = doc.getElementsByTagName('span')[0].getAttribute('value')
-          }
+        el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight;
@@ -37,12 +28,16 @@ export default {
           popupVm.$props.left = left
           popupVm.$props.top = top
           popupVm.isShow = true;
-          popupVm.$props.stockCode = code;
-        });
-        el.addEventListener('mouseout', (event) => {
+          popupVm.$props.stockCode = el.stockCode;
+          popupVm.curStockCode = el.stockCode;
+        };
+        el.addEventListener('mouseenter', el._popupStock);
+        el.addEventListener('mouseleave', (event) => {
           popupVm.isShow = false;
-          console.info('mouseout');
         })
+      },
+      update(el, binding, vnode, oldVnode) {
+        el.stockCode = binding.value.code;
       }
     });
     Vue.directive('z3-updowncolor', (el, binding, vnode, oldVnode) => {
@@ -186,21 +181,28 @@ export default {
     Vue.directive('select', {
       inserted: function(el, binding, vnode, oldVnode) {
         let uls = ''
-        const selectObj = binding.value.data // 获取select需要显示的下拉框值
-        console.log(binding.value.default)
+        const selectObj = binding.value.data // 获取select需要显示的下拉框值s
         for (const item in selectObj) {
           uls += '<li value="' + item + '">' + selectObj[item] + '</li>'
         }
         el.innerHTML = '<div class="vSelect"><input class="vInput" type="text" name="' + binding.value.default+'"  value="' + binding.value.data[binding.value.default] + '" readonly/><ul class="vUl" style="display: none;">' + uls + '</ul></div>'
+
         const ul = el.getElementsByClassName('vUl')[0]
-        const lis = el.getElementsByClassName('vUl')[0].getElementsByTagName('li')
+        const lis = ul.getElementsByTagName('li')
         const vInput = el.getElementsByClassName('vInput')[0]
         document.getElementsByTagName('body')[0].addEventListener('click', (event) => {
           ul.style.display = 'none'
         })
         el.addEventListener('click', (event) => {
           event.stopPropagation()
-          document.getElementsByClassName('vUl')[0].style.display = 'none'
+          // el.getElementsByClassName('vUl')[0].style.display = 'none'
+
+          const uls = document.getElementsByClassName('vUl')
+          for (const item of uls) {
+            if (item !== ul) {
+              item.style.display = 'none'
+            }
+          }
           ul.style.display = ul.style.display === 'block' ? 'none' : 'block'
         })
         for (const item of lis) {

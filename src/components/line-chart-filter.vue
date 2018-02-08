@@ -6,7 +6,8 @@
 
 .syqxTab {
     position: absolute;
-    right: 53px;
+    /*right: 53px;*/
+    right: 0;
     top: 8px;
     z-index: 9999;
 }
@@ -208,10 +209,13 @@ export default {
             'rgba(0,0,0,0)', 'rgba(0,0,0,0)'
           ],
           grid: {
-            width: '97%',
+            // width: '97%',
+            width: '100%',
             height: '75%',
             left: 0,
             top: '10%',
+            show: true,
+            borderColor: '#2A2E36',
             containLabel: true
           },
           dataZoom: [{
@@ -221,6 +225,7 @@ export default {
             showDetail: false,
             xAxisIndex: [0],
             // bottom:-10,
+            // left: '2%',
             left: '2%',
             bottom: 20,
             start: 0,
@@ -229,7 +234,8 @@ export default {
               // color: '#aed2ff'
             },
             // borderColor: '#d5dbe4',
-            width: '95%',
+            // width: '95%',
+            width: '97.5%',
             height: '5%',
             handleSize: '100%',
             dataBackground: {

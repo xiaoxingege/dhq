@@ -412,10 +412,12 @@ a.kuai_icon {
     padding: 18px 0 34px;
 }
 .topic-num-box {
-    padding-top: 33px;
+    /*padding-top: 33px;*/
+    padding-top: 25px;
 }
 .topic-stk-box {
-    padding: 38px 0;
+    /* padding: 38px 0;*/
+    padding: 8px 0;
 }
 .topic-time {
     float: left;
@@ -645,6 +647,47 @@ a.kuai_icon {
 .alltopic a:hover {
     text-decoration: none;
 }
+.progress-box {
+    width: 100%;
+    display: inline-block;
+}
+.progress-wrap {
+    width: 100%;
+    display: inline-block;
+}
+.progress {
+    /*background: #ca4941;*/
+    width: 10%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    height: 14px;
+    line-height: 13px;
+}
+
+.redbg {
+    background: #ca4941;
+}
+
+.greenbg {
+    background: #56a870;
+}
+.progress-wrap1 {
+    /*padding: 5px 0 7px;*/
+    padding: 15px 0 7px;
+}
+.progress-wrap2 {
+    padding: 0 0 20px;
+
+}
+.tech-info {
+    /*width: 20%;*/
+    display: inline-block;
+}
+.tech-num {
+    width: 36%;
+    display: inline-block;
+}
 </style>
 <template>
 <div class="alltopic clearfix">
@@ -659,6 +702,7 @@ a.kuai_icon {
       <strong :class="sortField==='updown'?'active':''" @click="query('updown')" :style="{display:isStyle}">涨跌幅排序<i class="hot_icon"></i></strong>
       <strong :class="sortField==='keepDay'?'active':''" @click="query('keepDay')" :style="{display:isStyle}">连涨排序<i class="time_icon"></i></strong>
       <strong @click="query('hot')" :class="sortField==='hot'?'active':''" :style="{display:isStyle}">热度排序<i class="hot_icon"></i></strong>
+      <strong :class="sortField==='infoIndex'?'active':''" @click="query('infoIndex')" :style="{display:isStyle}">舆情排序<i class="hot_icon"></i></strong>
       <em class="all-ti all-ti1 lightcolor" :class="this.showList==true?'active':''" @click="azClick($event)" v-show="showList">全部行业</em>
       <em class="all-ti all-ti2 lightcolor" :class="this.showAz==true?'active':''" @click="listClick($event)" v-show="showAz" id="ss">返回列表</em>
     </div>
@@ -684,7 +728,26 @@ a.kuai_icon {
           <div class="con-bar-2 box-flex-1">
             <!-- <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div> -->
             <div class="topic-num-box"><span>成份股数：</span><span class="time-num2">{{allTopic.samNum}}</span><span>近1年事件数：</span><span class="time-num2">{{allTopic.eventNum}}</span></div>
-            <div class="topic-stk-box"><span>上涨家数：</span><span class="red time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkUpNum ===null?'--':allTopic.induMarket.stkUpNum}}</span><span>下跌家数：</span><span class="green time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkDownNum ===null?'--':allTopic.induMarket.stkDownNum}}</span></div>
+            <div class="topic-stk-box"><span>上涨股票：</span><span class="red time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkUpNum ===null?'--':allTopic.induMarket.stkUpNum}}</span><span>下跌股票：</span><span class="green time-num4">{{allTopic.induMarket===null || allTopic.induMarket.stkDownNum ===null?'--':allTopic.induMarket.stkDownNum}}</span></div>
+            <div class="progress-wrap progress-wrap1 display-box" v-if="allTopic.induMarket!==null || allTopic.induMarket.techIndex!==null">
+              <span class="box-flex-1 tech-info">热度指数：</span>
+              <div class="box-flex-1 tech-num">
+                <div class="progress-box">
+                  <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.induMarket.techIndex))+'%;min-width:25%'" v-if="isNaN(Math.ceil(allTopic.induMarket.techIndex))">--</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.induMarket.techIndex))+'%;min-width:25%'" v-else>{{Math.ceil(allTopic.induMarket.techIndex)}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-wrap progress-wrap2 display-box" v-if="allTopic.induMarket!==null || allTopic.induMarket.infoIndex!==null">
+              <span class="box-flex-1 tech-info">舆情指数：</span>
+              <div class="box-flex-1 tech-num">
+                <div class="progress-box">
+                  <span class="progress" :style="'width:'+ Math.ceil(Math.abs(allTopic.induMarket.infoIndex))+'%;min-width:25%'" v-if="isNaN(Math.ceil(allTopic.induMarket.infoIndex))">--</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.induMarket.infoIndex))+'%;min-width:25%'" v-else-if="allTopic.induMarket.infoIndex==0">1</span>
+                  <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(allTopic.induMarket.infoIndex))+'%;min-width:25%'" v-else>{{Math.ceil(allTopic.induMarket.infoIndex)}}</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="con-cen box-flex-1">
             <div v-for="equity of allTopic.relatedEquity">
@@ -705,7 +768,7 @@ a.kuai_icon {
           <div class="con-right box-flex-1">
             <div v-if="allTopic.relatedNews.length<=0">暂无数据</div>
             <div v-for="news of allTopic.relatedNews" class="clearfix news-box" v-if="allTopic.relatedNews.length>0">
-              <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}">
+              <router-link :to="{name:'detailPages',params:{id : news.newsId, detailType:'news'}}" target="_blank">
                 <span @mouseenter="enterTopictit($event)" @mouseleave="leaveTopictit($event)" class="news-cons">
                         <i>{{news.title}}</i>
                         <span class="img fl"></span>
@@ -757,9 +820,10 @@ export default {
   data() {
     return {
       FIELDS: {
-        hot: 'induMarket.heatIndex',
+        hot: 'induMarket.techIndex',
         keepDay: 'induMarket.keepDaysToday',
-        updown: 'induMarket.chngPct'
+        updown: 'induMarket.chngPct',
+        infoIndex: 'induMarket.infoIndex'
       },
       sortField: '',
       fullHeight: document.documentElement.clientHeight - 133,
@@ -924,6 +988,13 @@ export default {
         return '--'
       } else {
         return str
+      }
+    },
+    checkNan(num) {
+      if (isNaN(num)) {
+        return '--'
+      } else {
+        return num
       }
     },
     updateStock(stock) {

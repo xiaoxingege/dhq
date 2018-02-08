@@ -23,9 +23,9 @@ import echarts from 'echarts'
 export default {
   props: ['strategyId'],
   methods: {
-    checkUnit (num) {
+    checkUnit(num) {
       num = parseFloat(num) // returns
-      if (typeof (num) === 'undefined' || typeof (num) === 'string') {
+      if (typeof num === 'undefined' || typeof num === 'string') {
         num = 0
       }
       var result = 0
@@ -45,7 +45,7 @@ export default {
       }
       return result
     },
-    initdrykChart () {
+    initdrykChart() {
       this.$store.dispatch('goldStrategy/getDrykData', {
         strategyId: this.strategyId
       }).then(() => {
@@ -61,13 +61,13 @@ export default {
               color: '#808ba1'
             },
             data: [{
-              name: '当日盈利',
-              icon: 'circle'
-            },
-            {
-              name: '当日亏损',
-              icon: 'circle'
-            }
+                name: '当日盈利',
+                icon: 'circle'
+              },
+              {
+                name: '当日亏损',
+                icon: 'circle'
+              }
             ]
           },
           tooltip: {
@@ -81,7 +81,7 @@ export default {
             axisPointer: {
               type: 'line'
             },
-            formatter: function (params) {
+            formatter: function(params) {
               var s = params[0].name
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
@@ -116,7 +116,7 @@ export default {
           },
           yAxis: {
             axisLabel: {
-              formatter: function (val) {
+              formatter: function(val) {
                 var result = ''
                 if (val >= 100000000 || val <= -100000000) {
                   result = val / 100000000
@@ -139,21 +139,21 @@ export default {
             }
           },
           series: [{
-            data: barData.data1,
-            name: '当日盈利',
-            type: 'bar'
-          },
-          {
-            data: barData.data2,
-            name: '当日亏损',
-            type: 'bar'
-          }
+              data: barData.data1,
+              name: '当日盈利',
+              type: 'bar'
+            },
+            {
+              data: barData.data2,
+              name: '当日亏损',
+              type: 'bar'
+            }
           ],
           color: ['#E73E3A', '#1EC96C'],
           grid: {
             width: '97%',
             height: '75%',
-            left: 0,
+            left: '0.7%',
             top: '15%',
             containLabel: true
           },
@@ -190,7 +190,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.initdrykChart()
   }
 }

@@ -1,6 +1,7 @@
 <template>
-<div class="stock-box" :style="position" v-show="isShow">
-  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
+<div class="stock-box" :style="position" @mouseenter="enterbox" @mouseleave="leavebox" v-show="isOpen">
+  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click.prevent="removeStock" v-if="isSelfSelection">- 自选</span>
+    <span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
   </div>
   <div>
@@ -19,7 +20,11 @@ export default {
   props: ['stockCode', 'top', 'left'],
   data() {
     return {
-      isShow: false
+      delayHide: false,
+      isMouseover: false,
+      isShow: false,
+      // 共用一个浮窗，数据更新等都会导致stockCode变化，所有我们需要记录当前浮窗的stockCode
+      curStockCode: null
     }
   },
   components: {
@@ -27,7 +32,8 @@ export default {
   },
   computed: {
     ...mapState({
-      stock: state => state.stock.stock
+      stock: state => state.stock.stock,
+      isSelfSelection: state => state.stock.isSelfSelection
     }),
     position() {
       return 'top:' + this.top + 'px;left:' + this.left + 'px'
@@ -42,9 +48,60 @@ export default {
         mark = '+'
       }
       return mark
+    },
+    isOpen() {
+      return this.isShow || this.delayHide;
     }
   },
-  methods: {}
+  watch: {
+    isShow() {
+      // 当设置隐藏时，延迟200ms隐藏
+      if (this.isShow === false) {
+        this.delayHide = true;
+        setTimeout(() => {
+          if (!this.isMouseover) {
+            this.delayHide = false;
+          }
+        }, 200)
+      }
+    },
+    curStockCode() {
+      if (this.curStockCode) {
+        this.$store.dispatch('stock/querySelection', {
+          stockCode: this.curStockCode
+        })
+      }
+    }
+  },
+  methods: {
+    addStock() {
+      if (this.curStockCode) {
+        this.$store.dispatch('stock/addSelection', {
+          stockCode: this.curStockCode
+        })
+      }
+
+    },
+    removeStock() {
+      if (this.curStockCode) {
+        this.$store.dispatch('stock/removeSelection', {
+          stockCode: this.curStockCode
+        })
+      }
+    },
+    enterbox() {
+      this.delayHide = true;
+      this.isMouseover = true;
+    },
+    leavebox(e) {
+      // 避免多次click触发mouseleave（不知道是不是浏览器BUG）
+      if (e.toElement === null) {
+        return
+      }
+      this.delayHide = false;
+      this.isMouseover = false;
+    }
+  }
 }
 </script>
 
@@ -64,8 +121,9 @@ export default {
 }
 
 .stock-box .stock-box-header {
-  height: 30px;
-  line-height: 30px;
+  height: 24px;
+  line-height: 22px;
+  margin: 3px 0;
   position: absolute;
   top: 0;
   left: 10px;
@@ -82,5 +140,34 @@ export default {
 .stock-box .stock-box-header .right {
   float: right;
   margin-right: 10px;
+}
+
+.stock-box .stock-box-header .btn_remove {
+  border: 1px solid #FF2921;
+  color: #FF2921;
+  border-radius: 4px;
+  height: 22px;
+  line-height: 20px;
+  display: inline-block;
+  width: 48px;
+  text-align: center;
+  padding: 0 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.stock-box .stock-box-header .btn_add {
+  border: 1px solid #FF2921;
+  color: #fff;
+  background: #FF2921;
+  border-radius: 4px;
+  display: inline-block;
+  width: 48px;
+  text-align: center;
+  height: 22px;
+  line-height: 20px;
+  padding: 0 4px;
+  font-size: 12px;
+  cursor: pointer;
 }
 </style>

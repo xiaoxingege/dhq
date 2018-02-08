@@ -104,9 +104,9 @@ export default {
       ma10: '--',
       ma20: '--',
       ma30: '--',
-      zoomStart: 120,
-      zoomEnd: 120,
-      zoomRange: 120,
+      zoomStart: 0,
+      zoomEnd: 0,
+      zoomRange: 0,
       dataSize: 0
     }
   },
@@ -124,11 +124,34 @@ export default {
     chartHeight: {
       type: Number,
       default: 200
+    },
+    showDataZoom: {
+      type: Boolean,
+      default: false
+    },
+    minRange: {
+      type: Number,
+      default: 120
+    },
+    day: {
+      type: Number,
+      default: 250
+    },
+    gridBottom: {
+      type: Number,
+      default: 60
     }
   },
   watch: {
     strategyId() {
       if (!this.strategyId) {
+        console.info('[component:stock-kline]:stockCode is necessary!')
+        return
+      }
+      this.init()
+    },
+    innerCode() {
+      if (!this.innerCode) {
         console.info('[component:stock-kline]:stockCode is necessary!')
         return
       }
@@ -303,6 +326,15 @@ export default {
         this.chart.dispose();
       }
       this.chart = echarts.init(this.$refs.kcharts);
+      this.chart.on('datazoom', (params) => {
+        const dataZoom = this.chart.getOption().dataZoom[0];
+        const startValue = params.startValue || dataZoom.startValue;
+        const endValue = params.endValue || dataZoom.endValue;
+        this.zoomStart = startValue;
+        this.zoomEnd = endValue;
+        this.zoomRange = endValue - startValue;
+        console.info('start:' + startValue + ', end:' + endValue + ', range:' + this.zoomRange);
+      })
       const _this = this
       window.onresize = function() {
         const timestampResize = new Date().getTime()
@@ -314,34 +346,27 @@ export default {
       }
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          day: this.day
         })
         .then(() => {
-          console.log(this.kLineDataAll.kLineYdata.length)
-          console.log(this.kLineDataAll.kLineXdata.length)
           this.dataSize = this.kLineDataAll.kLineXdata.length;
           this.zoomEnd = this.dataSize
-          this.zoomRange = 120
-          this.zoomStart = this.dataSize - 120 + 1
-          console.log(this.kLineDataAll.kLineXdata.length)
-          console.log(this.dataSize)
-          console.log(this.zoomStart)
+          this.zoomStart = this.dataSize - this.zoomRange
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)
 
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
-      //  console.log(seriesData)
       const self = this
       self.chart.setOption({
         grid: {
           containLabel: true,
           left: 10,
           top: 10,
-          bottom: 10,
-          right: 10
+          right: 10,
+          bottom: this.gridBottom
         },
-
         xAxis: {
           type: 'category',
           data: kLineXdata,
@@ -402,6 +427,9 @@ export default {
         tooltip: {
           trigger: 'axis',
           confine: true,
+          axisPointer: {
+            type: 'cross'
+          },
           textStyle: {
             align: 'left',
             fontFamily: '微软雅黑',
@@ -522,80 +550,29 @@ export default {
 
         ],
         dataZoom: [{
-            type: 'slider',
-            show: false,
-            xAxisIndex: [0],
-            zoomOnMouseWheel: false,
-            handleSize: 20, // 滑动条的 左右2个滑动条的大小
-            height: 8, // 组件高度
-            left: 30, // 左边的距离
-            right: 40, // 右边的距离
-            bottom: 30, // 右边的距离
-            startValue: this.zoomStart,
-            endValue: this.zoomEnd,
-            showDataShadow: false, // 是否显示数据阴影 默认auto
-            showDetail: false, // 即拖拽时候是否显示详细数值信息 默认true       
-            filterMode: 'filter'
-          },
-          // 下面这个属性是里面拖到
-          {
-            type: 'inside',
-            show: true,
-            xAxisIndex: [0],
-            labelformatter: function(params, ticket, callback) {
-              console.log(params)
-            }
-          }
-        ]
+          type: 'slider',
+          show: this.showDataZoom,
+          backgroundColor: '#32383E',
+          xAxisIndex: [0],
+          handleSize: 20, // 滑动条的 左右2个滑动条的大小
+          height: 30, // 组件高度
+          left: 30, // 左边的距离
+          right: 0, // 右边的距离
+          bottom: 10,
+          startValue: this.zoomStart,
+          endValue: this.zoomEnd,
+          showDataShadow: false, // 是否显示数据阴影 默认auto
+          showDetail: false, // 即拖拽时候是否显示详细数值信息 默认true       
+          filterMode: 'filter'
+        }]
       })
-
-      /*    document.addEventListener('keyup', function (event) {
-                // console.log(String.fromCharCode(event.keyCode));
-                if(event.keyCode === 38){
-                   console.log(event.keyCode)
-                    self.chart.on('dataZoom', (params) => {
-                     console.log(params)
-                     console.log(params.batch[0].start)
-                     console.log(params.batch[0].end)
-                     var zoomStart = params.batch[0].start-10
-                     var zoomEnd = params.batch[0].end
-                     self.chart.setOption({ 
-                          dataZoom: [  
-                                     { width:'15',  
-                                     start:zoomEnd,  
-                                     end:zoomStart,  
-                                         type: 'slider',  
-                                         yAxisIndex: 0,  
-                                           
-                                         textStyle:{  
-                                        color:'#fff',  
-                                        fontSize:'16'  
-                                         }  
-                                     }  
-                                 ]
-
-                     })
-                    
-                                    
-
-                 })
-                }
-           }, false); */
     },
     zoomData(e) {
       var key = e.keyCode
       if (key === 38) {
-        if (this.zoomRange <= 120) {
+        if (this.zoomRange <= this.minRange) {
           return;
         }
-        /* if(this.zoomRange-this.zoomStart<=120){
-          return false
-         // alert(this.zoomRange-this.zoomStart)
-        } */
-
-        /* if(this.zoomStart>this.zoomRange){
-            return
-        } */
         this.zoomStart += 10
         this.zoomRange -= 10
 
@@ -621,8 +598,6 @@ export default {
           this.zoomEnd -= 1
         }
       } else if (key === 39) {
-        console.log(this.zoomEnd)
-        console.log(this.zoomRange)
         if (this.zoomStart === 0 || this.zoomEnd >= this.dataSize) {
           return;
         } else {
@@ -648,6 +623,7 @@ export default {
     }
   },
   mounted() {
+    this.zoomRange = this.minRange;
     this.init();
     this.$refs.kcharts.focus()
   }

@@ -60,7 +60,8 @@ export default {
     numberTopic: [],
     stockPage: 0,
     stockPageSize: STOCK_PAGESIZE,
-    stockTotal: 0
+    stockTotal: 0,
+    industryTechAndInfo: [] // 行业涨跌和舆情
     /* topicReturnRate: [],
      hs300ReturnRate: [],
      tradeDate: []*/ // 全部charts
@@ -142,6 +143,9 @@ export default {
     },
     updateStockNumberTopic(state, numberTopic) {
       state.numberTopic = numberTopic
+    },
+    updateIndustryTechAndInfo(state, industry) {
+      state.industryTechAndInfo = industry
     },
     [mutationTypes.UPDATE_TOPIC_SUMMARY](state, detail) {
       /* state.topic || (state.topic = {})
@@ -444,6 +448,28 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateStockNumberTopic', result.data)
+        }
+      })
+    },
+    queryIndustryTechAndInfo({
+      commit
+    }, {
+      induCode,
+      riseOrHeat,
+      selectMaValue
+    }) {
+      return fetch(`${domain}/openapi/industry/techAndInfoIndex/${induCode}.shtml?index=${riseOrHeat}&indexField=${selectMaValue}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data)
+          commit('updateIndustryTechAndInfo', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },
