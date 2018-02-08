@@ -37,25 +37,23 @@
   padding-top: 100px;
 }
 
+.three .luckerList.batch1 {
+  padding: 480px 0 0 700px;
+}
+
 .three .luckerList.batch5 {
   padding-top: 480px;
 }
 
 .three .luckerList.batch10 {
-  width: 1560px;
-  margin: 0 auto;
   padding-top: 360px;
 }
 
 .three .luckerList.batch20 {
-  width: 1560px;
-  margin: 0 auto;
   padding-top: 220px;
 }
 
 .three .luckerList.batch25 {
-  width: 1560px;
-  margin: 0 auto;
   padding-top: 100px;
 }
 
