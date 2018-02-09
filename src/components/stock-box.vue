@@ -157,9 +157,9 @@ export default {
 }
 
 .stock-box .stock-box-header .btn_add {
-  border: 1px solid #FF2921;
+  border: 1px solid #e6363a;
   color: #fff;
-  background: #FF2921;
+  background: #e6363a;
   border-radius: 4px;
   display: inline-block;
   width: 48px;
