@@ -210,12 +210,12 @@ button {
         <div class="box-con" v-if="dataType">
             <h3>{{stockCamp.title}}</h3>
             <div class="stockCamp-box">
-                <a :href="'http://itougu.jrj.com.cn/account/adviser/'+stockCamp.roomId+'/'"><img :src="stockCamp.image" /></a>
+                <a :href="'http://itougu.jrj.com.cn/live/'+stockCamp.roomId"><img :src="stockCamp.image" /></a>
                 <p>主讲嘉宾：{{stockCamp.guest}}</p>
                 <p>本期主题：{{stockCamp.title}}</p>
                 <div class="stockCamp-links">
                     <a :href="stockCamp.courseware"></a>
-                    <a :href="'http://itougu.jrj.com.cn/account/adviser/'+stockCamp.roomId+'/'"></a>
+                    <a :href="'http://itougu.jrj.com.cn/live/'+stockCamp.roomId"></a>
                 </div>
             </div>
         </div>
