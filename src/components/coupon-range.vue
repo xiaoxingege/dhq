@@ -1,5 +1,8 @@
 <style>
 @import '../assets/css/reset.css';
+html,body{
+	background:rgba(242,242,242,1)!important;
+}
 .coupon-range{
 	background:rgba(242,242,242,1);
 	padding-bottom: 0.76rem;
@@ -7,14 +10,14 @@
 }
 
 .coupon-list{
-	margin-bottom: -0.2rem;
+	margin-top: -0.2rem;
 }
 .coupon-list li{
 	box-sizing: border-box;
 	padding:0 0.3rem 0.4rem;
 	height: 3.5rem;
 	background: #fff;
-	margin-bottom: 0.2rem;
+	margin-top: 0.2rem;
 }
 .coupon-list li img{
 	display: block;
