@@ -1,9 +1,6 @@
 <style scoped>
 @import '../assets/css/reset.css';
 
-body{
-  background: #cf2b2c;
-}
 #outlook {
   width: 1920px;
   height: 1440px;
@@ -122,6 +119,11 @@ body{
   font-size: 64px;
   color: white;
   overflow: hidden;
+}
+</style>
+<style>
+body{
+  background: #cf2b2c;
 }
 </style>
 
