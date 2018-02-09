@@ -83,24 +83,24 @@ const getQuota = async function() {
   }
 }
 const getRandomNum = async function({ max }) {
-  var rnd = [];
-  for (var i = 0; i < max; i++) {
-    rnd.push(Math.ceil(Math.random() * max));
-  }
-  return rnd;
+  // var rnd = [];
+  // for (var i = 0; i < max; i++) {
+  //   rnd.push(Math.ceil(Math.random() * max));
+  // }
+  // return rnd;
 
-  // let quotaInfo = await getQuota()
-  // let { proxy, quota } = quotaInfo
-  // let integersResult = await request({
-  //   headers: {
-  //     'content-type': 'text/plain;charset=utf-8',
-  //   },
-  //   proxy: proxy,
-  //   url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
-  //   method: 'get'
-  // });
-  // integersResult = integersResult.split('\n').filter(n => n)
-  // return integersResult
+  let quotaInfo = await getQuota()
+  let { proxy, quota } = quotaInfo
+  let integersResult = await request({
+    headers: {
+      'content-type': 'text/plain;charset=utf-8',
+    },
+    proxy: proxy,
+    url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
+    method: 'get'
+  });
+  integersResult = integersResult.split('\n').filter(n => n)
+  return integersResult
 }
 module.exports = function(router) {
   router.get('/lottery', async(ctx, next) => {
