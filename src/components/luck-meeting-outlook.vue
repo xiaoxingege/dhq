@@ -1,12 +1,17 @@
 <style scoped>
 @import '../assets/css/reset.css';
 
+body{
+  background: #cf2b2c;
+}
 #outlook {
   width: 1920px;
   height: 1440px;
   background: url('../assets/images/luck-meeting/bg.png') no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
+  margin: 0 auto;
+  position: relative;
 }
 
 .pricename {
