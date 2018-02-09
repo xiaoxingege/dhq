@@ -103,29 +103,16 @@
 		line-height: 24px;
 	}
 	
-	.check {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		margin: 4px 0.50rem auto 0.50rem;
-	}
-	
 	.check p {
 		font-size: 15px;
 		font-family: PingFangSC-Regular;
 		color: rgba(102, 102, 102, 1);
 		line-height: 21px;
-	}
-	
-	.check img {
-		width: 63px;
-		height: 34px;
+		margin: 10px 0.50rem auto 0.50rem;
 	}
 	
 	.check-img {
-		margin: 0.15rem 0.50rem 0.74rem 0.50rem;
+		margin: 0.29rem 0.50rem 0.74rem 0.50rem;
 		width: 6.50rem;
 		height: 5.67rem;
 	}
@@ -239,7 +226,6 @@
 
 		<div class="check">
 			<p>我们已经为您做好了筛选</p>
-			<img src="../assets/images/chip-info/check.png" />
 		</div>
 		<img src="../assets/images/chip-info/check-img.png" class="check-img" />
 	</div>
