@@ -48,18 +48,16 @@ input {
 .bg2 .iphoneImg {
     width: 330px;
     height: 582px;
-    // position: absolute;
-    // top: 90px;
-    // left: 22px;
     margin: 90px 0 0 22px;
     float: left;
+    overflow-y: scroll;
+}
+.bg2 .iphoneImg img {
+    width: 330px;
 }
 .bg2 .codeImg {
     width: 280px;
     height: 280px;
-    // position: absolute;
-    // right: 0;
-    // top: 422px;
     float: right;
     margin-top: 422px;
 
@@ -72,7 +70,9 @@ input {
     </div>
     <div class="bg2">
         <div class="box-con">
-            <img v-if="imgUrl" :src="imgUrl" class="iphoneImg" />
+            <div class="iphoneImg">
+                <img v-if="imgUrl" :src="imgUrl" />
+            </div>
             <img src="../assets/images/gsxy-activity/gsxy-web-img2.png" class="codeImg" />
         </div>
     </div>
