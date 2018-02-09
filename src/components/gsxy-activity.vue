@@ -244,7 +244,7 @@ button {
         <div class="box-con" v-if="dataType">
             <ul class="excellentCourse-box">
                 <li v-for="item in excellentCourse.list">
-                    <a :href="'http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa'"><img :src="item.image" />
+                    <a href="javascript:;" @click="linksClick('http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa')"><img :src="item.image" />
                     <div>
                         <h5>{{item.courseName}}</h5>
                         <span>{{item.tgName}}</span>
@@ -283,7 +283,20 @@ export default {
     components: {
         topicComment
     },
-    methods: {},
+    methods: {
+        linksClick(linkUrl) {
+            if (window.app.name !== '{{appid}}') {
+                window.location.href = linkUrl
+            } else {
+                window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
+                setTimeout(function() {
+                    if (!document.webkitHidden) {
+                        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+                    }
+                }, 1500);
+            }
+        }
+    },
     mounted() {
         document.title = '股市学院-金融界'
         var _this = this
