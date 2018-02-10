@@ -39,10 +39,11 @@ function transdate(endTime) {
 function removeByValue(arr, val) {
   let newArr = []
   for (var i = 0; i < arr.length; i++) {
-    for (var j = 0; j < val.length; j++) {
-      if (arr[i] != val[j]) {
-        newArr.push(arr[i])
-      }
+    let exists = val.some(data => {
+      return data == arr[i]
+    })
+    if (!exists) {
+      newArr.push(arr[i])
     }
   }
   return newArr
