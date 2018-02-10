@@ -37,14 +37,15 @@ function transdate(endTime) {
 }
 
 function removeByValue(arr, val) {
+  let newArr = []
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < val.length; j++) {
-      if (arr[i] == val[j]) {
-        arr.splice(i, 1);
-        // break;
+      if (arr[i] != val[j]) {
+        newArr.push(arr[i])
       }
     }
   }
+  return newArr
 }
 
 function cryptPwd(password) {
@@ -143,7 +144,7 @@ module.exports = function(router) {
     // 调用random.org接口生成一组真随机数
     let integersResult = await getRandomNum({ max })
     // 从结果中排除已经中过奖的号码
-    removeByValue(integersResult, dataArr)
+    integersResult = removeByValue(integersResult, dataArr)
     integersResult = integersResult.slice(0, num)
     // 计算本次中奖数据的数字签名，防止奖项、批次、抽奖时间、中奖结果数据被篡改
     let key = cryptPwd(integersResult.toString() + level + lBatch + createTime)
