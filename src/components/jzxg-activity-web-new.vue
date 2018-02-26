@@ -208,9 +208,9 @@ export default {
             } else if (!this.bindingIdentity) {
                 location.href = 'http://i.jrj.com.cn/home/userSetting/nameIdentity?ReturnURL=' + encodeURIComponent(location.href)
             } else if (!this.riskAssessed) {
-                location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4')
+                location.href = 'http://i.jrj.com.cn/home/userSetting/fxcp?ReturnURL=' + encodeURIComponent('http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=2')
             } else {
-                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
+                location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=2'
             }
         },
         submit() {
@@ -226,7 +226,7 @@ export default {
                     this.popHtml = '<h3>温馨提示</h3><p class="fz22 mt20">响应证监会监管要求，投资者购买产品需填写风险承受<br />能力评测。<strong>请您根据下方提示完成风险承受能力测评，</strong></p><p class="fz22">如需帮助，请咨询400-166-1188</p>'
                     this.popShow = true
                 } else {
-                    location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=4'
+                    location.href = 'http://itougu.jrj.com.cn/activity/web/groupOrderWeb.jspa#/?productSubId=100050008&type=2'
                 }
             }
         }
