@@ -214,8 +214,8 @@ button {
                 <p>主讲嘉宾：{{stockCamp.guest}}</p>
                 <p>本期主题：{{stockCamp.title}}</p>
                 <div class="stockCamp-links">
-                    <a :href="stockCamp.courseware"></a>
-                    <a :href="'http://itougu.jrj.com.cn/live/'+stockCamp.roomId"></a>
+                    <a href="javascript:;" @click="dcsMultiTrack('kjyx',stockCamp.courseware)"></a>
+                    <a href="javascript:;" @click="dcsMultiTrack(stockCamp.roomId,'http://itougu.jrj.com.cn/live/'+stockCamp.roomId)"></a>
                 </div>
             </div>
         </div>
@@ -231,10 +231,10 @@ button {
     <div class="bg4">
         <div class="box-con" v-if="dataType">
             <div class="pubCourse-box">
-                <a :href="pubCourse.list[0].url"><img :src="pubCourse.list[0].image" /></a>
+                <a href="javascript:;" @click="dcsMultiTrack('pubCourse1',pubCourse.list[0].url)"><img :src="pubCourse.list[0].image" /></a>
                 <ul>
                     <li v-for="item,index in pubCourse.list" v-if="index !== 0">
-                        <a :href="item.url">{{item.title}}</a>
+                        <a href="javascript:;" @click="dcsMultiTrack('pubCourse'+item.sort,item.url)">{{item.title}}</a>
                     </li>
                 </ul>
             </div>
@@ -243,8 +243,8 @@ button {
     <div class="bg5">
         <div class="box-con" v-if="dataType">
             <ul class="excellentCourse-box">
-                <li v-for="item in excellentCourse.list">
-                    <a href="javascript:;" @click="linksClick('http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa')"><img :src="item.image" />
+                <li v-for="item,index in excellentCourse.list">
+                    <a href="javascript:;" @click="linksClick('http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa',index+1)"><img :src="item.image" />
                     <div>
                         <h5>{{item.courseName}}</h5>
                         <span>{{item.tgName}}</span>
@@ -284,7 +284,7 @@ export default {
         topicComment
     },
     methods: {
-        linksClick(linkUrl) {
+        linksClick(linkUrl, index) {
             if (window.app.name !== '{{appid}}') {
                 window.location.href = linkUrl
             } else {
@@ -295,6 +295,11 @@ export default {
                     }
                 }, 1500);
             }
+            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-excellentCourse-' + index, 'WT.ti', 'gsxy-activity-excellentCourse-' + index)
+        },
+        dcsMultiTrack(par, url) {
+            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-' + par, 'WT.ti', 'gsxy-activity-' + par)
+            window.location.href = url
         }
     },
     mounted() {
@@ -336,6 +341,7 @@ export default {
         })
         this.$watch('commentSubmit', commentSubmit => {
             $('html,body').scrollTop($('.bg3').offset().top)
+            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-commentSubmit', 'WT.ti', 'gsxy-activity-commentSubmit')
         })
     }
 }
