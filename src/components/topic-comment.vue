@@ -1,7 +1,8 @@
 <style lang="scss">
 @import '../assets/css/reset.css';
 button,
-input {
+input,
+textarea {
     outline: none;
 }
 .box {
@@ -56,7 +57,7 @@ input {
     position: relative;
     z-index: 9;
 }
-.send-box input {
+.send-box textarea {
     width: 78%;
     height: 0.7rem;
     background-color: #fff;
@@ -108,7 +109,8 @@ input {
         </div>
     </div>
     <div class="send-box">
-        <input type="text" name="" value="" ref="sendContent" :placeholder="placeholder" />
+        <!-- <input type="text" name="" value="" ref="sendContent" :placeholder="placeholder" /> -->
+        <textarea v-model="sendContent" :placeholder="placeholder"></textarea >
         <button type="button" name="button" @click="sendSubmit">发表评论</button>
     </div>
 </div>
@@ -129,7 +131,8 @@ export default {
             replyRootId: '',
             accessToken: '',
             passportId: '',
-            devId: ''
+            devId: '',
+            sendContent: ''
         }
     },
     props: ['appItemId'],
@@ -148,9 +151,12 @@ export default {
         },
         sendSubmit() {
             var _this = this
-            var sendContent = this.$refs.sendContent.value
+            var sendContent = this.sendContent
             if (sendContent === '') {
                 alert('评论不可为空')
+                return
+            } else if (sendContent.length > 100) {
+                alert('超出字数限制')
                 return
             }
             if (window.app.name !== '{{appid}}') {
@@ -249,7 +255,7 @@ export default {
             alert(err.msg)
         })
         this.$watch('commentSubmit', commentSubmit => {
-            _this.$refs.sendContent.value = ''
+            _this.sendContent.value = ''
             $('.list-box').scrollTop(0)
         })
     }
