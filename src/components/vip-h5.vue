@@ -151,22 +151,22 @@ to { transform: scale(1); opacity: 1; }
   <div class="item item3">
     <div v-if="type===0" class="item3-contanier">
       <div class="hm">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160405010038945906"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141124010055108034"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160405010038945906')"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141124010055108034')"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289')"></a>
       </div>
       <div class="ai">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172')"></a>
       </div>
     </div>
     <div v-if="type==='1'" class="item3-contanier">
       <div class="hm">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160128010055553011"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160927010014740301"></a>
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160128010055553011')"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160927010014740301')"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289')"></a>
       </div>
       <div class="ai">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160420010055922232"></a>
+        <a :href="'http://sso.jrj.com.cn/sso/mobileToLogin?ReturnUrl=' + encodeURIComponent('http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160420010055922232')"></a>
       </div>
     </div>
   </div>
