@@ -69,7 +69,7 @@ button {
     height: 18.34rem;
 }
 .bg5 {
-    background: url("../assets/images/jjlh-activity/jjlh-activity-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/jjlh-activity/jjlh-activity-bg5-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 13.23rem;
 }
