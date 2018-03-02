@@ -10,11 +10,10 @@ button {
 }
 
 .bg4 .box-con .swiper-box {
-    width: 7.16rem;
-    height: 3.28rem;
+    width: 7.28rem;
+    height: 3.4rem;
     top: 3.87rem;
     left: 0.12rem;
-    border: 0.05rem #f4dc67 solid;
 }
 
 .bg4 .swiper-pagination {
@@ -337,8 +336,8 @@ export default {
     data() {
         return {
             listData: {
-                conWidth: '7.16rem',
-                conHeight: '3.28rem',
+                conWidth: '7.28rem',
+                conHeight: '3.4rem',
                 conPadding: '0',
                 pagShow: true,
                 arrowShow: false,
@@ -346,19 +345,19 @@ export default {
                 slidesPerView: 1,
                 autoplay: 5000,
                 list: [{
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img4.jpg'),
+                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img1.png'),
                         link: ''
                     },
                     {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img1.jpg'),
+                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img2.png'),
                         link: ''
                     },
                     {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img2.jpg'),
+                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img3.png'),
                         link: ''
                     },
                     {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img3.jpg'),
+                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img4.png'),
                         link: ''
                     }
                 ]
