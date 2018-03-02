@@ -318,9 +318,9 @@ button {
                     </div>
                     <div class="pl" v-if="plType">
                         <div class="pl-1" v-for="items in dataList[item.viewId]">
-                            <p>{{items.senderName}}：<span>{{items.content}}</span></p>
+                            <p>{{items.senderName}}：<span v-html="items.content"></span></p>
                             <div class="pl-2" v-if="items.reply.length > 0">
-                                <p v-for="replyData in items.reply">{{replyData.senderName}}回复了{{replyData.receiverName}}：<span>{{replyData.content}}</span></p>
+                                <p v-for="replyData in items.reply">{{replyData.senderName}}回复了{{replyData.receiverName}}：<span v-html="replyData.content"></span></p>
                             </div>
                         </div>
                     </div>
