@@ -143,6 +143,7 @@ export default {
         success:(d) => {
           if (d.retcode === 0) {
             if (d.data) {
+              alert(d.data.status)
               console.log(d.data.status)
 							this.status=d.data.status
             }
