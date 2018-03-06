@@ -418,6 +418,15 @@ export default {
                 alert(data.msg)
             }
         })
+        window.InitWeChatShare({
+            shareTitle: window.document.title,
+            shareLink: window.location.href,
+            shareDesc: '深度解析这些“独角兽”概念龙头股！',
+            shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/tjwz-activity.jpg',
+            callback: function(wx) {
+
+            }
+        })
         this.$watch('dataType', dataType => {
             if (dataType) {
                 document.title = _this.data.addressTitle
