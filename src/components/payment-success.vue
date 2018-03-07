@@ -152,7 +152,7 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(d => {
-        if (d.retcode === 1) {
+        if (d.retCode === 1) {
           if (d.data.timeStamp) {
             console.log('getTimeStamp-d-timeStamp：'+d.data.timeStamp)
             console.log('getTimeStamp-timeStamp：'+this.timeStamp)
@@ -179,7 +179,7 @@ export default {
       //   cache:false,
       //   dataType:'jsonp',
       //   success:function(d){
-      //     if (d.retcode === 0) {
+      //     if (d.retCode === 0) {
       //       if (d.data) {
       //         alert(d.data.status)
       //         console.log(d.data.status)
@@ -201,7 +201,7 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(d => {
-        if (d.retcode === 0) {
+        if (d.retCode === 0) {
           if (d.data) {
             console.log(d.data.status)
             console.log( typeof (d.data.status) )
