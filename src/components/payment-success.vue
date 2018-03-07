@@ -76,7 +76,7 @@
   <div class="top">
     <div class="top-content">
       <img v-if="status === 1" class="hint-img" src="../assets/images/payment/order-success.png" alt="">
-      <img v-else-if="status === 0 || status === 2 || status === 3 || status === 4" class="hint-img" src="../assets/images/payment/order-others.png" alt="">
+      <img v-else-if="status === 0 || status === 2 || status === 3 || status === 4 || status === 5" class="hint-img" src="../assets/images/payment/order-others.png" alt="">
       <img v-else class="hint-img" src="../assets/images/payment/order-fail.png" alt="">
 
       <div v-if="status === 1" class="hint-text">订单支付成功</div>
@@ -84,6 +84,7 @@
       <div v-else-if="status === 2" class="hint-text">订单退款中</div>
       <div v-else-if="status === 3" class="hint-text">订单退款成功</div>
       <div v-else-if="status === 4" class="hint-text">订单已关闭</div>
+      <div v-else-if="status === 5" class="hint-text">订单分单支付中</div>
       <div v-else class="hint-text">未获取到订单</div>
     </div>
   </div>
@@ -114,7 +115,7 @@ export default {
       bizCode:this.getQueryString('bizCode') ? this.getQueryString('bizCode'):'5',
       // sellerOrderId:13072576524616656076862400000581,
       sellerOrderId:this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId'):'0',
-      status:5
+      status:10
     }
   },
   beforecreated() {
@@ -173,27 +174,6 @@ export default {
       var url='https://cashier.jrj.com.cn/order/resultquery'
       url=url+'?version=1.0&signType=2&timeStamp='+this.timeStamp+'&sign=abc&bizCode='+this.bizCode+'&sellerOrderId='+this.sellerOrderId
       console.log(url)
-      // $.ajax({
-      //   url:url,
-      //   type:'get',
-      //   cache:false,
-      //   dataType:'jsonp',
-      //   success:function(d){
-      //     if (d.retCode === 0) {
-      //       if (d.data) {
-      //         alert(d.data.status)
-      //         console.log(d.data.status)
-			// 				this.status=d.data.status
-      //       }
-      //     }else{
-      //       console.log(d.msg)
-      //     }
-      //   },
-      //   error:function(){
-      //     console.log('error')
-      //   }
-      // })
-
       fetch(url, {
         method: 'GET',
         mode: 'cors',
