@@ -111,9 +111,9 @@ export default {
     return {
       containerHeight:600,
       timeStamp:'',
-      bizCode:'5',
-      // sellerOrderId:13072357130764862668861200000552,
-      sellerOrderId:'13072576524616656076862400000581',
+      bizCode:this.getQueryString('bizCode') ? this.getQueryString('bizCode'):'5',
+      // sellerOrderId:13072576524616656076862400000581,
+      sellerOrderId:this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId'):'0',
       status:5
     }
   },
@@ -124,16 +124,27 @@ export default {
     document.title = '订单状态'
   },
   mounted() {
+    console.log(this.bizCode)
     console.log(this.sellerOrderId)
     this.containerHeight = window.screen.height
-    //
+    this.getTimeStamp()
   },
   methods: {
     toDownload(){
       window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=transfer1&tgqdcode=transfer'
     },
+    getQueryString (name,chinese) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+			if (chinese) {
+				if (r != null) return decodeURI(r[2])
+			}else{
+				if (r != null) return unescape(r[2])
+			}
+      return null
+    },
     getTimeStamp(){
-      var url="https://cashier.jrj.com.cn/order/resultquery"
+      var url='https://cashier.jrj.com.cn/order/resultquery'
       fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -142,10 +153,10 @@ export default {
         return res.json()
       }).then(d => {
         if (d.retcode === 1) {
-          if (d.data) {
-            console.log(d.data.timeStamp)
-            console.log( typeof (d.data.timeStamp) )
-						this.timeStamp=d.data.timeStamp
+          if (d.data.timeStamp) {
+            console.log('getTimeStamp-d-timeStamp：'+d.data.timeStamp)
+            console.log('getTimeStamp-timeStamp：'+this.timeStamp)
+            this.timeStamp = d.data.timeStamp
             this.getPaymentResult()
           }
         }else{
@@ -158,6 +169,7 @@ export default {
     getPaymentResult(){
       // https://cashier.jrj.com.cn/order/resultquery?version=1.0&signType=2&timeStamp=20180306144934&sign=abc&bizCode=5&sellerOrderId=13072576524616656076862400000581
       // https://cashier.jrj.com.cn/order/resultquery?version=1.0&signType=2&timeStamp=20180306164934&sign=abc&bizCode=5&sellerOrderId=1.3072576524616655e+31&callback=jQuery321011057758869628476_1520331495885&_=1520331495886
+      console.log('getPaymentResult-timeStamp：'+this.timeStamp)
       var url='https://cashier.jrj.com.cn/order/resultquery'
       url=url+'?version=1.0&signType=2&timeStamp='+this.timeStamp+'&sign=abc&bizCode='+this.bizCode+'&sellerOrderId='+this.sellerOrderId
       console.log(url)
