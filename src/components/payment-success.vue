@@ -34,6 +34,12 @@
   color:#333;
   font-weight: 600;
 }
+.hint-lading{
+  display: block;
+  height: 0.5rem;
+  width:0.5rem;
+  margin:0.35rem 0 0 2.15rem;
+}
 /* .order-num{
   font-size: 0.28rem;
   color:#888;
@@ -62,7 +68,7 @@
 }
 .phone{
   font-size:0.26rem;
-  color:rgba(170,170,170,1);
+  color:rgba(170,170,170,1)!important;
   line-height:0.3rem;
   text-align: center;
   width:100%;
@@ -75,11 +81,13 @@
 <div class="payment-success" :style="{height:containerHeight+'px'}">
   <div class="top">
     <div class="top-content">
-      <img v-if="status === 1" class="hint-img" src="../assets/images/payment/order-success.png" alt="">
+      <p v-if="status === -1" style="display=none"></p>
+      <img v-else-if="status === 1" class="hint-img" src="../assets/images/payment/order-success.png" alt="">
       <img v-else-if="status === 0 || status === 2 || status === 3 || status === 4 || status === 5" class="hint-img" src="../assets/images/payment/order-others.png" alt="">
       <img v-else class="hint-img" src="../assets/images/payment/order-fail.png" alt="">
 
-      <div v-if="status === 1" class="hint-text">订单支付成功</div>
+      <img v-if="status === -1" class="hint-lading" src="../assets/images/payment/loading.gif" alt="">
+      <div v-else-if="status === 1" class="hint-text">订单支付成功</div>
       <div v-else-if="status === 0" class="hint-text">订单待支付</div>
       <div v-else-if="status === 2" class="hint-text">订单退款中</div>
       <div v-else-if="status === 3" class="hint-text">订单退款成功</div>
@@ -114,7 +122,7 @@ export default {
       timeStamp:'',
       bizCode:this.getQueryString('bizCode') ? this.getQueryString('bizCode'):'5',
       sellerOrderId:this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId'):'0',
-      status:10
+      status:-1 // loading
     }
   },
   beforecreated() {
@@ -187,6 +195,7 @@ export default {
 						this.status=d.data.status
           }
         }else{
+          this.status=10 // else
           console.log(d.msg)
         }
       }).catch(v2 => {
