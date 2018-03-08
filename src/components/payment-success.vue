@@ -113,7 +113,6 @@ export default {
       containerHeight:600,
       timeStamp:'',
       bizCode:this.getQueryString('bizCode') ? this.getQueryString('bizCode'):'5',
-      // sellerOrderId:13072576524616656076862400000581,
       sellerOrderId:this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId'):'0',
       status:10
     }
@@ -127,7 +126,7 @@ export default {
   mounted() {
     console.log(this.bizCode)
     console.log(this.sellerOrderId)
-    this.containerHeight = window.screen.height
+    this.containerHeight = $(window).height()
     this.getTimeStamp()
   },
   methods: {
