@@ -125,7 +125,7 @@ export default {
         const data = result.data
         for (var i = 0; i < data.length; i++) {
           state.mrccData.xData.push(data[i].backtestDate)
-          state.mrccData.data1.push(Number(data[i].positionRatio).toFixed(2))
+          state.mrccData.data1.push(Number(data[i].positionRatio).toFixed(4))
         }
       } else {
         state.mrccData.xData = []
