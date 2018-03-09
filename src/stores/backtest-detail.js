@@ -78,7 +78,9 @@ export default {
     },
     startDate: '',
     endDate: '',
-    strategyId: ''
+    strategyId: '',
+    filterBlockData: null,
+    filterBlockChartData: []
     /* evaluationIndexs: {
      winRatio:'',
      avgReturnExcess:'',
@@ -208,6 +210,21 @@ export default {
         state.sylfbData.xData = []
         state.sylfbData.data1 = []
         state.sylfbData.data2 = []
+      }
+    },
+    setFilterBlockData(state, result) {
+      if (result.errCode === 0) {
+        state.filterBlockData = result.data
+      } else {
+        state.filterBlockData = null
+      }
+
+    },
+    setFilterBlockChartData(state, result) {
+      if (result.errCode === 0) {
+        state.filterBlockChartData = result.data
+      } else {
+        state.filterBlockChartData = null
       }
     }
 
@@ -350,9 +367,10 @@ export default {
       commit
     }, {
       innerCode,
-      strategyId
+      strategyId,
+      day
     }) {
-      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}`, {
+      return fetch(`${domain}/openapi/backtest/timeStrategy/klineDay.shtml?strategyId=${strategyId}&innerCode=${innerCode}&day=${day}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -480,6 +498,36 @@ export default {
         return res.json()
       }).then(body => {
         commit('setSylfbData', body)
+      })
+    },
+    getFilterStrategyList({
+      commit
+    }, {
+      query,
+      size,
+      page
+    }) {
+      return fetch(`${domain}/openapi/backtest/filterStrategy/indexAndReturns.shtml?query=${query}&size=${size}&page=${page}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setFilterBlockData', body)
+      })
+    },
+    getFilterStrategyChart({
+      commit
+    }, {
+      strategyId,
+      startDate,
+      endDate
+    }) {
+      return fetch(`${domain}/openapi/backtest/filterStrategy/returns.shtml?strategyId=${strategyId}&startDate=${startDate}&endDate=${endDate}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setFilterBlockChartData', body)
       })
     }
   }

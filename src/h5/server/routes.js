@@ -37,14 +37,16 @@ function transdate(endTime) {
 }
 
 function removeByValue(arr, val) {
+  let newArr = []
   for (var i = 0; i < arr.length; i++) {
-    for (var j = 0; j < val.length; j++) {
-      if (arr[i] == val[j]) {
-        arr.splice(i, 1);
-        // break;
-      }
+    let exists = val.some(data => {
+      return data == arr[i]
+    })
+    if (!exists) {
+      newArr.push(arr[i])
     }
   }
+  return newArr
 }
 
 function cryptPwd(password) {
@@ -59,6 +61,49 @@ const signature = function(params, t) {
   str += t + privateKey
   return cryptPwd(str)
 }
+const getQuota = async function() {
+  let proxy = '';
+  let proxyArr = ['', 'http://47.104.145.202:8118', 'http://ss.seon.im:18778'];
+  let quota = 0
+  for (var i = 0; i < proxyArr.length; i++) {
+    quota = await request({
+      headers: {
+        'content-type': 'text/plain;charset=utf-8',
+      },
+      url: 'https://www.random.org/quota/?format=plain',
+      proxy: proxyArr[i],
+      method: 'get'
+    });
+    if (quota > 0) {
+      proxy = proxyArr[i]
+      break;
+    }
+  }
+  return {
+    proxy,
+    quota
+  }
+}
+const getRandomNum = async function({ max }) {
+  // var rnd = [];
+  // for (var i = 0; i < max; i++) {
+  //   rnd.push(Math.ceil(Math.random() * max));
+  // }
+  // return rnd;
+
+  let quotaInfo = await getQuota()
+  let { proxy, quota } = quotaInfo
+  let integersResult = await request({
+    headers: {
+      'content-type': 'text/plain;charset=utf-8',
+    },
+    proxy: proxy,
+    url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
+    method: 'get'
+  });
+  integersResult = integersResult.split('\n').filter(n => n)
+  return integersResult
+}
 module.exports = function(router) {
   router.get('/lottery', async(ctx, next) => {
     let num = ctx.query.num || '20'; // 每次抽取的数量
@@ -66,8 +111,6 @@ module.exports = function(router) {
     let lmax = ctx.query.lmax || '60'; // 每个奖项的最大中奖人数
     let level = ctx.query.level || '1'; // 奖项
     let createTime = Date.now();
-    let proxy = '';
-    let proxyArr = ['', 'http://47.104.145.202:8118', 'http://ss.seon.im:18778'];
     let lBatch = 1; // 每个奖项的抽奖批次
     let dataArr = [];
     // 获取所有已经抽过奖的记录，用于排除已经中奖的号码
@@ -98,40 +141,11 @@ module.exports = function(router) {
     }
     // 因为random.org针对ip有调用限额，因此准备两组代理服务器
     // 先判断剩余配额，如果配额不足，则改用代理服务器请求
-    let quota = 0
-    for (var i = 0; i < proxyArr.length; i++) {
-      quota = await request({
-        headers: {
-          'content-type': 'text/plain;charset=utf-8',
-        },
-        url: 'https://www.random.org/quota/?format=plain',
-        proxy: proxyArr[i],
-        method: 'get'
-      });
-      if (quota > 0) {
-        proxy = proxyArr[i]
-        break;
-      }
-    }
-    if (quota <= 0) {
-      ctx.body = {
-        retcode: -1,
-        msg: '随机数生成已达到限额'
-      };
-      return;
-    }
+
     // 调用random.org接口生成一组真随机数
-    let integersResult = await request({
-      headers: {
-        'content-type': 'text/plain;charset=utf-8',
-      },
-      proxy: proxy,
-      url: `https://www.random.org/sequences/?num=${max}&min=1&max=${max}&col=1&base=10&format=plain&rnd=new`,
-      method: 'get'
-    });
-    integersResult = integersResult.split('\n')
+    let integersResult = await getRandomNum({ max })
     // 从结果中排除已经中过奖的号码
-    removeByValue(integersResult, dataArr)
+    integersResult = removeByValue(integersResult, dataArr)
     integersResult = integersResult.slice(0, num)
     // 计算本次中奖数据的数字签名，防止奖项、批次、抽奖时间、中奖结果数据被篡改
     let key = cryptPwd(integersResult.toString() + level + lBatch + createTime)
@@ -409,6 +423,17 @@ module.exports = function(router) {
   router.get('/ydzxDetail', async(ctx, next) => {
     ctx.htmlHeader = '<link rel="stylesheet" href="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.css" type="text/css">';
     ctx.htmlFooter = '<script src="http://static.yidianzixun.com/apps/ant_media_v1.0.0.5/main.js"></script>';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
+  router.get('/ydzxDetail', async(ctx, next) => {
+    ctx.htmlHeader = '<meta name="format-detection" content="telephone=no"/>';
+    ctx.htmlFooter = '';
     ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
     let html = '';

@@ -33,24 +33,48 @@
     width: 320px;
     height: 200px;
 }
+
+.addSelfChoice,
+.deleteSelfChoice {
+    font-weight: normal;
+    display: inline-block;
+    width: 50px;
+    height: 22px;
+    line-height: 18px;
+    border: 1px solid #DA3D45;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.addSelfChoice {
+    background: #DA3D45;
+}
+
+.deleteSelfChoice {
+    color: #DA3D45;
+}
 </style>
 <template>
-<div class="dialog">
+<div class="dialog" @mouseover="showDialog" @mouseout="hideDialog">
   <div class="top clearfix">
     <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
-    <span class="fr">
-                <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
+    <span class="fr" style="font-weight: bold">
+    <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
     <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
     <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
+    <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
+    <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
     </span>
   </div>
   <div class="bottom clearfix">
     <div class="bottomLeft fl">
-      <div v-show="xData !== 'sw_indu_name' && xData !== 'chi_spel' && xData !== 'order'">
+      <div v-show="xData !== 'chi_spel' && xData !== 'order'">
         <p>{{xSelectData[xData]}}</p>
         <p>{{dialogOptions.leftList.xData.value}}</p>
       </div>
-      <div v-show="yData !== 'sw_indu_name' && yData !== 'chi_spel' && yData !== 'order'">
+      <div v-show="yData !== 'chi_spel' && yData !== 'order'">
         <p>{{xSelectData[yData]}}</p>
         <p>{{dialogOptions.leftList.yData.value}}</p>
       </div>
@@ -58,7 +82,7 @@
         <p>{{bubbleSizeSelect[bubbleSize]}}</p>
         <p>{{dialogOptions.leftList.bubbleSize.value}}</p>
       </div>
-      <div v-show="bubbleColor !== '' && bubbleColor !== 'sw_indu_name'">
+      <div v-show="bubbleColor !== ''">
         <p>{{bubbleColorSelect[bubbleColor]}}</p>
         <p>{{dialogOptions.leftList.bubbleColor.value}}</p>
       </div>
@@ -82,14 +106,21 @@ export default {
     return {
       xSelectData: Data.xSelectData,
       bubbleSizeSelect: Data.bubbleSizeSelect,
-      bubbleColorSelect: Data.bubbleColorSelect
+      bubbleColorSelect: Data.bubbleColorSelect,
+      isShowSelection: false
     }
   },
   components: {
     Stockkline
   },
   watch: {
-
+    'dialogOptions.stockCode': function() {
+      this.$store.dispatch('stock/querySelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    }
   },
   computed: mapState({
     xData: state => state.bubbles.parameterData.xData,
@@ -108,6 +139,29 @@ export default {
     }
   }),
   methods: {
+    addSelfChoice() {
+      this.$store.dispatch('stock/addSelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    },
+    deleteSelfChoice() {
+      this.$store.dispatch('stock/removeSelection', {
+        stockCode: this.dialogOptions.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    },
+    showDialog() {
+      this.$emit('toShowDialog', true)
+    },
+    hideDialog(e) {
+      if (e.toElement === null) {
+        return
+      }
+      this.$emit('toHideDialog', false)
+    }
 
   },
   mounted() {

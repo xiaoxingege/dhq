@@ -225,6 +225,14 @@ html {
     position: relative;
     border-bottom: 1px solid #0d0e0f;
 }
+.topic-chart2 {
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: relative;
+    /*left: 0;
+    top: 0;*/
+}
 .left-con3 {
     /* padding: 20px 20px 14px; */
     /* padding: 20px 20px 17px; */
@@ -269,7 +277,8 @@ html {
     line-height: 18px;
 }
 .new-tit {
-    width: 70%;
+    /*width: 70%;*/
+    width: 65%;
     text-align: left;
     float: left;
     white-space: nowrap;
@@ -431,12 +440,13 @@ html {
 
 .right-table tr {
     position: relative;
+    border-bottom: 1px solid #23272c;
 }
 
 .right-table tr td {
     text-align: center;
     height: 44px;
-    border-bottom: 1px solid #23272c;
+    /*border-bottom: 1px solid #23272c;*/
 }
 
 .stock-td1 {
@@ -577,10 +587,12 @@ table {
     /* width: 22%; */
     width: 24%;
 }
-.chart {
+.topic-chart {
     height: 100%;
     width: 100%;
+    display: inline-block;
 }
+
 .time-ul {
     position: absolute;
     /* right: 2%; */
@@ -593,13 +605,24 @@ table {
     float: left;
     color: #808ba1;
     border: 1px solid #23272c;
+    padding: 6px;
+    border-right: 1px solid #141518;
     /* padding: 5px 10px; */
-    padding: 7px 6px;
+    /*padding: 7px 6px;*/
     /*  margin-right: -1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px; */
     cursor: pointer;
+
+}
+.time-ul li:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.time-ul li:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .chart-title {
     position: absolute;
@@ -609,7 +632,7 @@ table {
 .time-ul .active {
     color: #c9d0d7;
     background-color: #1984ea;
-    border-color: #1984ea;
+    /*border-color: #1984ea;*/
 }
 .mo {
     display: none;
@@ -623,6 +646,64 @@ bottom: 0; */
     color: #808ba1;
     line-height: 24px;
 
+}
+
+.time-ol {
+    position: absolute;
+    left: 3%;
+    top: 3%;
+    z-index: 9999;
+    background: #22272d;
+}
+.time-ol .li {
+    float: left;
+    color: #808ba1;
+    /*border: 1px solid #23272c;
+    padding: 8px 18px;*/
+    border-right: 1px solid #141518;
+    padding: 6px 18px;
+    cursor: pointer;
+
+}
+.time-ol .li:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.time-ol .li:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.time-ol .active {
+    color: #c9d0d7;
+    background-color: #1984ea;
+    /*border-color: #1984ea;*/
+}
+.help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../assets/images/z3img/help.png") no-repeat;
+    position: relative;
+    left: 215px;
+    top: 0;
+    cursor: pointer;
+    z-index: 999999;
+}
+.help-img i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 15px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 10px;
+    z-index: 999;
+    top: -8px;
+    left: 44px;
+    width: 300px;
+    z-index: 999999;
+}
+.help-img:hover i {
+    display: block;
 }
 .no-data {
     width: 176px;
@@ -649,6 +730,154 @@ bottom: 0; */
 .detail-keep-num1 {
     background: url("../assets/images/z3img/detail-green.png") no-repeat;
 }
+.assess {
+    width: 30px;
+    height: 17px;
+    text-align: center;
+    line-height: 17px;
+    font-size: 12px;
+    margin: 5px 9px 0 0;
+}
+.progress-box {
+    width: 100%;
+    display: inline-block;
+}
+
+.progress {
+    background: #ca4941;
+    width: 10%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    height: 14px;
+    line-height: 13px;
+}
+.right-table .progress-box {
+    text-align: left;
+    line-height: 44px;
+}
+.redbg {
+    background: #ca4941;
+}
+
+/*.greenbg {
+  background: #56a870;
+}
+.redbg {
+    background: #ff3232;
+}*/
+
+.greenbg {
+    background: #059509;
+}
+.blockbg {
+    background: #525a65;
+}
+.selectma {
+    position: absolute;
+    left: 15%;
+    top: 20%;
+    z-index: 999;
+    display: none;
+}
+.selectma option {
+    opacity: 0;
+}
+.select {
+    width: 180px;
+    height: 30px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    position: relative;
+
+}
+.select:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #fff;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -4px;
+}
+/*两个连续写的就是一个上面，起两个class 名 */
+.select.down:after {
+    border-top-color: transparent;
+    border-bottom-color: #fff;
+    margin-top: -12px;
+}
+.select h5 {
+    width: 180px;
+    height: 30px;
+    background: pink;
+    /* text-indent: 1em; */
+    line-height: 30px;
+    color: #999;
+}
+ol {
+    border: 1px solid #ccc;
+    width: 178px;
+    position: absolute;
+    left: 0;
+    top: 30px;
+    display: none;
+
+}
+ol li {
+    line-height: 40px;
+    border-bottom: 1px dashed #ccc;
+    font-size: 15px;
+    text-indent: 1em;
+    height: 40px;
+}
+.select ol li:hover {
+    background: rgba(255,0,0,.3);
+}
+.icon-box {
+    width: 77px;
+    height: 10px;
+    position: relative;
+    /*left: 19%;*/
+    left: 204px;
+    top: 17px;
+    float: left;
+}
+.icon-line {
+    width: 21px;
+    height: 2px;
+    border: 1px dashed #ebb344;
+    position: absolute;
+    /*left: -104px;*/
+    left: -100px;
+    top: 31px;
+}
+.down {
+    width: 11px;
+    height: 6px;
+    display: inline-block;
+    background: url("../assets/images/z3img/topic-sort-down.png") no-repeat;
+    position: absolute;
+    left: -43%;
+    top: 29px;
+    cursor: pointer;
+    /*z-index: 999;*/
+}
+.td-txt1 {
+    width: 13%;
+}
+.td-txt2 {
+    width: 11%;
+}
+.td-txt4 {
+    width: 14%;
+}
+.td-txt5 {
+    width: 12%;
+}
 </style>
 <template>
 <div class="topic-detail">
@@ -663,6 +892,7 @@ bottom: 0; */
       <span class="time-num4">成份股数</span><span class="time-num2">{{detail.samNum}}只
       </span><span class="time-num4">上涨股票</span><span class="red time-num2">{{detail.induMarket===null || detail.induMarket.stkUpNum==null?'--':detail.induMarket.stkUpNum}}
       </span><span class="time-num4">下跌股票</span><span class="green time-num2">{{detail.induMarket===null || detail.induMarket.stkDownNum==null?'--':detail.induMarket.stkDownNum}}
+      </span><span class="time-num4">持平股票</span><span class="time-num2">{{detail.induMarket===null || detail.induMarket.stkEqualNum==null?'--':detail.induMarket.stkEqualNum}}
       </span><span class="time-num4">相关新闻</span><span class="time-num2">{{detail.eventNum}}条
       </span>
     </div>
@@ -672,7 +902,23 @@ bottom: 0; */
       <div class="main-left box-flex-1">
         <div class="left-con2">
           <!-- <div class="chart-title">主题<span class="blue">[{{detail.induName}}]</span>累计收益率</div> -->
-          <ul class="time-ul">
+          <div class="help-img fl"><i :value='iconHelpMsgUdown' id="downtxt">{{this.riseOrHeat === 'techIndex'?iconHelpMsgHeat:(this.riseOrHeat === 'infoIndex'?iconHelpMsgPublic:iconHelpMsgUdown)}}</i></div>
+          <div class="icon-box" v-show='!isUpDown'>
+            <span class="icon-line"></span>
+            <select class="selectma">
+                    <!-- <option v-for="(tmd,key) in maDatas" :value="tmd.value">{{tmd.name}}</option> -->
+                        <option value="Ma5">MA5</option>
+                        <option value="Ma10">MA10</option>
+                        <option value="Ma20">MA20</option>
+                      </select>
+            <i class="down"></i>
+          </div>
+          <div class="time-ol">
+            <div class="li" @click="heatOrPublicChange('rise')" :class="this.riseOrHeat === 'rise'?'active':''">涨跌</div>
+            <div class="li" @click="heatOrPublicChange('techIndex')" :class="this.riseOrHeat === 'techIndex'?'active':''">热度</div>
+            <div class="li" @click="heatOrPublicChange('infoIndex')" :class="this.riseOrHeat === 'infoIndex'?'active':''">舆情</div>
+          </div>
+          <ul class="time-ul" v-show='isUpDown'>
             <li @click="renderCharts('day')" :class="this.period==='day'?'active':''">日内</li>
             <li @click="renderCharts('M01')" :class="this.period==='M01'?'active':''">近1月</li>
             <li @click="renderCharts('M03')" :class="this.period==='M03'?'active':''">近3月</li>
@@ -681,7 +927,8 @@ bottom: 0; */
             <li @click="renderCharts('M36')" :class="this.period==='M36'?'active':''">近3年</li>
             <li @click="renderCharts('ALL')" :class="this.period==='ALL'?'active':''">全部</li>
           </ul>
-          <div class="chart" ref="chart"></div>
+          <div class="topic-chart" ref="chart" v-show='isShowCharts1'></div>
+          <div class="topic-chart topic-chart2" v-show='!isShowCharts1'></div>
         </div>
         <div class="left-con1 display-box">
           <div class="con1-ti box-flex-1">
@@ -700,7 +947,9 @@ bottom: 0; */
           <div class="right-top right-top2"><strong>相关资讯</strong></div>
           <div class="in-content" :style="{  height: fullHeight1 + 'px' }" v-if="informatList.length>0">
             <a class="clearfix in-content-a" v-for="(infor,index) of informatList">
-              <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom">
+              <router-link :to="{name:'detailPages',params:{id : infor.newsId, detailType:'news'}}" class="list-bottom" target="_blank">
+                <span class="fl assess" :class="checkAssessBg(infor.postiveIndex)" v-if="infor.postiveIndex!==null">{{checkAssessTxt(infor.postiveIndex)}}</span>
+                <span class="fl assess" v-if="infor.postiveIndex===null"></span>
                 <span class="new-tit" @mouseenter="enterNewTit($event)" @mouseleave="leaveNewTit($event)">{{checkNull(infor.title)}}<i>{{checkNull(infor.title)}}</i></span>
                 <span class="new-date">{{infor.declareDate==null?'--':format(infor.declareDate)}}</span>
                 <span class="new-srcname">{{checkNull(infor.srcName)}}</span>
@@ -719,15 +968,16 @@ bottom: 0; */
       <div class="main-right box-flex-1">
         <div class="right-top"><span>成份股</span><span class="blue fr see-filter"><a
                 :href="'/filter.shtml?from=subIndustry&IndustryCode='+detail.induCode" target="_blank"
-                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="sortStock($event,'recommendIndex','DESC')">默认相关度排序</span></div>
+                class="blue">筛选器查看</a></span><span class="blue fr mo-sort" :class="this.stockSort==='recommendIndex'?'active':''" @click="defaultSort('recommendIndex','DESC')">默认相关度排序</span></div>
         <table class="right-table clearfix" :style="{  height: fullHeight3 + 'px' }">
           <tr>
-            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt">名称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
-            <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
-            <td>关联题材</td>
-            <td>主营业务</td>
+            <td @click="isDireSymbol===true?sortStock($event,'symbol','DESC'):sortStock($event,'symbol','ASC')" :class="this.stockSort==='symbol'?'active':''" class="td-txt td-txt1">简称/代码<i :class="isDireSymbol===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDirePrice===true?sortStock($event,'marketData.price','DESC'):sortStock($event,'marketData.price','ASC')" :class="this.stockSort==='marketData.price'?'active':''" class="td-txt td-txt2">最新价<i :class="isDirePrice===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireCurChng===true?sortStock($event,'marketData.curChngPct','DESC'):sortStock($event,'marketData.curChngPct','ASC')" :class="this.stockSort==='marketData.curChngPct'?'active':''" class="td-txt td-txt2">涨跌幅<i :class="isDireCurChng===true?'sort-up':'sort-down'"></i></td>
+            <td @click="isDireIndustry===true?sortStock($event,'industryName','DESC'):sortStock($event,'industryName','ASC')" :class="this.stockSort==='industryName'?'active':''" class="td-txt td-txt4">申万行业<i :class="isDireIndustry===true?'sort-up':'sort-down'"></i></td>
+            <td class="td-txt5">关联题材</td>
+            <td class="td-txt5">主营业务</td>
+            <td @click="isDireRecommendIndex===true?sortStock($event,'recommendIndex','DESC'):sortStock($event,'recommendIndex','ASC')" :class="this.stockSort==='recommendIndex' && this.isRecommendIndex===true?'active':''" class="td-txt td-txt6">相关度<i :class="isDireRecommendIndex===true?'sort-up':'sort-down'"></i></td>
           </tr>
           <tr v-for="stock of stockList">
             <td v-z3-stock="{ref:'stockbox',code:stock.innerCode}" class="stock-td1" :value="stock.innerCode"><a :href="'/stock/'+stock.innerCode" target="_blank"><span class="blue">{{stock.name==null?'--':stock.name}}</span></br>
@@ -740,6 +990,10 @@ bottom: 0; */
               <span v-for="number of numberTopic"><router-link
                       :to="{name:'topicDetail',params:{topicId:number.topicCode}}" target="_blank">{{number.topicName}}</router-link></span></a></td>
             <td class="blue stock-td3">查看<span class="see-topicmark" v-if='stock.induMark===null'>暂无数据</span><span class="see-topicmark" v-if='stock.induMark!==null'>{{stock.induMark.length<=200?stock.induMark:stock.induMark.substring(0,201)+'…'}}</span></td>
+            <td class="progress-box">
+              <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'" v-if="stock.recommendIndex==0">1%</span>
+              <span class="progress redbg" :style="'width:'+ Math.ceil(Math.abs(stock.recommendIndex*100))+'%;min-width:20%'" v-else>{{checkNull(checkRecommend(stock.recommendIndex))}}</span>
+            </td>
           </tr>
         </table>
         <Pagination @getPageFromChild="goToPage" :totalPage="stockTotal" />
@@ -766,6 +1020,8 @@ import {
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
 import Pagination from './pagination'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   data() {
     return {
@@ -785,14 +1041,25 @@ export default {
         curChngPct: 'marketData.curChngPct',
         industryName: 'industryName'
       },
+      riseOrHeat: {
+        rise: 'rise',
+        techIndex: 'techIndex',
+        infoIndex: 'infoIndex'
+      },
+      selectMaValue: 'Ma5',
+      isUpDown: true,
       direction: '',
       isDireSymbol: true,
       isDirePrice: true,
       isDireCurChng: true,
       isDireIndustry: true,
-      isRecommendIndex: true,
+      isDireRecommendIndex: true,
+      isRecommendIndex: false,
+      isShowCharts1: true,
+      isShowCharts2: false,
       induCode: this.$route.params.industryId,
-      fullHeight1: document.documentElement.clientHeight - 546,
+      // fullHeight1: document.documentElement.clientHeight - 546,
+      fullHeight1: document.documentElement.clientHeight - 505,
       fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
       fullHeight3: document.documentElement.clientHeight - 166,
       size: 12,
@@ -802,7 +1069,14 @@ export default {
       stockPage: 0,
       stockPageSize: '',
       showSee: false,
-      stockList: []
+      stockList: [],
+      titleName: '',
+      maName: 'MA5',
+      iconHelpMsg: '',
+      iconHelpMsgUdown: '行业涨跌幅通过成份股的流通市值加权平均涨跌幅计算而来，再通过∏(1+r',
+      iconHelpMsgHeat: '行业热度通过行业的涨跌幅、近1周涨跌幅、成份股上涨数量占比，并叠加一定的全局惩罚参数和单个行业惩罚参数加权平均计算而来，完全从技术层面评价行业热度。',
+      iconHelpMsgPublic: '行业舆情通过监听全网财经新闻、董秘问答、社区讨论数据等，采用文本挖掘算法、图算法等相关理论计算行业关注度，并通过成份股的舆情做进一步修正，完全从舆情层面评价行业。'
+
 
     }
   },
@@ -961,6 +1235,57 @@ export default {
           interval = 'auto'
         }
         return interval
+      },
+      topicTechAndInfoData: state => {
+        const topicData = state.industry.industryTechAndInfo
+        const indexValue = []
+        const maValue = []
+        const tradeDate = []
+        const pointData = []
+        let topicName = ''
+        let time = ''
+        topicData && topicData.forEach(item => {
+          time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+          indexValue.push(Number(item.indexValue).toFixed(2))
+          maValue.push(Number(item.maValue).toFixed(2))
+          tradeDate.push(time)
+          topicName = item.induName
+          // console.log(chartData.length)
+          // console.log(chartDataEnd)
+
+          pointData.push({
+            name: 'XX标点',
+            coord: [time + '', item.indexValue],
+            symbol: 'circle',
+            symbolSize: 8,
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                formatter: function(params, ticket, callback) {
+                  return ''
+                },
+                textStyle: {
+                  fontSize: 0
+                }
+              }
+            }
+          })
+
+        })
+
+        return {
+          indexValue: indexValue,
+          maValue: maValue,
+          tradeDate: tradeDate,
+          topicName: topicName,
+          pointData: pointData
+        }
       }
 
     })
@@ -1003,8 +1328,9 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$refs.chart)
-      this.period = 'ALL'
+      // this.chart = echarts.init(this.$refs.chart)
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[0]) || echarts.init(document.getElementsByClassName('topic-chart')[0])
+      this.period = 'day'
       this.renderCharts(this.period)
     },
     goToPage(page) {
@@ -1049,6 +1375,58 @@ export default {
             }, 50000)
           })
       }
+    },
+    renderMa5() {
+      this.$store.dispatch('industry/queryIndustryTechAndInfo', {
+          induCode: this.induCode,
+          riseOrHeat: this.riseOrHeat,
+          selectMaValue: this.selectMaValue
+        })
+        .then(() => {
+          this.drawHeatPublicCharts(this.topicTechAndInfoData.topicName, this.topicTechAndInfoData.tradeDate, this.topicTechAndInfoData.indexValue, this.topicTechAndInfoData.maValue, this.topicTechAndInfoData.pointData)
+        })
+    },
+    loadHeatRiseCharts() {
+      this.isUpDown = false
+      this.isShowCharts1 = false
+      this.isShowCharts2 = true
+      document.getElementsByClassName('topic-chart')[0].style.display = 'none';
+      document.getElementsByClassName('topic-chart')[1].style.display = 'block';
+      this.chart2 = echarts.getInstanceByDom(document.getElementsByClassName('topic-chart')[1]) || echarts.init(document.getElementsByClassName('topic-chart')[1])
+      this.initSelect('.selectma')
+      document.getElementById('select-h5').innerHTML = 'MA5'
+      this.selectMaValue = 'Ma5'
+      this.maName = 'MA5'
+      this.renderMa5()
+    },
+    heatOrPublicChange(type) {
+      console.log(type)
+      this.riseOrHeat = type
+      if (type === 'rise') {
+        this.renderCharts('day')
+        this.isUpDown = true
+        this.isShowCharts1 = true
+        // $('#downtxt').append('<span><sub>t</sub>)-1计算累计收益率曲线，其中r<sub>t</sub>代表第t日题材涨跌幅。</span>');
+        var downtxt = document.getElementById('downtxt');
+        var newSpan = document.createElement('span');
+        newSpan.id = 'expres';
+        newSpan.innerHTML = '<sub>t</sub>)-1计算累计收益率曲线，其中r<sub>t</sub>代表第t日行业涨跌幅。';
+        downtxt.appendChild(newSpan);
+      } else if (type === 'techIndex') {
+        this.loadHeatRiseCharts()
+        this.titleName = '热度指数'
+        // $(".select-h5").text('asas')
+        /* var expres=document.getElementById('expres')
+        document.getElementById('downtxt').removeChild(expres); */
+        // $('#downtxt').find('span').remove();
+        $('#downtxt').find('span').remove();
+      } else if (type === 'infoIndex') {
+        this.loadHeatRiseCharts()
+        this.titleName = '舆情指数'
+        $('#downtxt').find('span').remove();
+
+      }
+
     },
     updateChartAll() {
       this.$store.dispatch('industry/queryAllChartsLimit', {
@@ -1157,6 +1535,24 @@ export default {
       e.preventDefault()
       e.currentTarget.nextElementSibling.style.display = 'none'
     },
+    defaultSort(type, dire) {
+      // e.preventDefault()
+      if (type === 'recommendIndex') {
+        this.stockSort = 'recommendIndex'
+        this.isRecommendIndex = true
+        this.isDireRecommendIndex = false
+        this.direction = 'DESC'
+      }
+      this.$store.dispatch('industry/queryStockList', {
+        induCode: this.induCode,
+        sortField: this.stockSort,
+        direction: this.direction,
+        stockPage: this.stockPage,
+        stockPageSize: this.fullHeight2
+      }).then(() => {
+        this.stockList = this.stockData
+      })
+    },
     sortStock(e, type, dire) {
       e.preventDefault()
       this.stockSort = type
@@ -1174,6 +1570,8 @@ export default {
         this.isDireIndustry = !this.isDireIndustry
       } else if (type === 'recommendIndex') {
         this.stockSort = 'recommendIndex'
+        this.isDireRecommendIndex = !this.isDireRecommendIndex
+        this.isRecommendIndex = true
       }
       console.log(dire)
       this.$store.dispatch('industry/queryStockList', {
@@ -1208,7 +1606,8 @@ export default {
         },
         legend: {
           left: '3%',
-          top: 5,
+          // top: 5,
+          top: 23,
           itemWidth: 15,
           itemHeight: 8,
           data: [{
@@ -1380,8 +1779,263 @@ export default {
       })
       window.onresize = this.chart.resize
     },
+    drawHeatPublicCharts(topicName, tradeDate, indexValue, maValue, pointData) {
+      var _self = this
+      this.chart2.setOption({
+        tooltip: {
+          trigger: 'axis',
+          formatter: function(params) {
+            if (params.length) {
+              if (params[0].value !== '') {
+                var boxHtml = '<div style="color:#c9d0d7;">' + params[0].name + '<br/>'
+              }
+              for (var i = 0; i < params.length; i++) {
+                var param = params[i]
+                if (param.value !== '') {
+                  if (i === 0) {
+                    if (_self.riseOrHeat === 'techIndex') {
+                      params[i].seriesName = '热度'
+
+                    } else if (_self.riseOrHeat === 'infoIndex') {
+                      params[i].seriesName = '舆情'
+                    }
+
+                  }
+                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + params[i].seriesName + ': ' + param.value + '<br/></span></div>'
+                }
+              }
+              return boxHtml
+            }
+          }
+        },
+        legend: {
+          // left: '3%',
+          left: '3%',
+          // top: 5,
+          top: 23,
+          itemWidth: 15,
+          itemHeight: 8,
+          selected: {
+            'MA5': true
+          },
+
+          data: [{
+              name: this.titleName,
+              icon: 'pin',
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            }
+            /*,
+                        {
+                          name: 'MA5',
+                          icon: 'circle',
+                          textStyle: {
+                            color: '#c9d0d7'
+                          }
+                        }*/
+          ]
+
+        },
+        toolbox: {
+          show: false
+        },
+        calculable: true,
+        xAxis: [{
+          type: 'category',
+          boundaryGap: false,
+          data: tradeDate,
+          axisLabel: {
+            // X轴刻度配置
+            interval: this.xLabelInterval, // 0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+            textStyle: {
+              color: '#c9d0d7'
+            }
+          }
+        }],
+        yAxis: [{
+          type: 'value',
+          axisLabel: {
+            formatter: '{value}',
+            textStyle: {
+              color: '#c9d0d7'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#23272c'
+            }
+          }
+        }],
+        grid: {
+          /* width: '97%',*/
+          left: '10px',
+          /* right: '3%',*/
+          /* right: '4%',*/
+          /* right: '4.7%',*/
+          right: '40px',
+          /* bottom: '50',*/
+          containLabel: true
+        },
+
+        dataZoom: [{
+          backgroundColor: '#32383E',
+          type: 'slider',
+          show: true,
+          showDetail: false,
+          xAxisIndex: [0],
+          // bottom:-10,
+          left: '2%',
+          bottom: 0,
+          start: 0,
+          end: 100,
+          textStyle: {
+            // color: '#aed2ff'
+          },
+          // borderColor: '#d5dbe4',
+          width: '95%',
+          height: '8%',
+          handleSize: '100%',
+          dataBackground: {
+            areaStyle: {
+              // color: '#cad2db'
+            },
+            lineStyle: {
+              /* opacity: 0.9,
+               color: '#a7b7cc'*/
+            }
+          },
+          handleStyle: {
+            // color: '#a7b7cc'
+          }
+        }],
+        series: [{
+            name: this.titleName,
+            type: 'line',
+            smooth: true,
+            data: indexValue,
+            lineStyle: { // 网格线
+              normal: {
+                color: '#1984ea'
+              }
+            },
+            itemStyle: { // 折线拐点标志的样式
+              normal: {
+                opacity: 0,
+                color: '#1984ea'
+              }
+            },
+            markPoint: {
+
+              label: {
+                normal: {
+                  formatter: function(param) {
+                    return param != null ? Math.round(param.value) : ''
+                  }
+                }
+              },
+              data: pointData,
+              tooltip: {
+                formatter: function(param) {
+                  return param.name + '<br>' + (param.data.coord || '')
+                }
+              }
+            }
+          },
+          {
+            name: this.maName,
+            type: 'line',
+            data: maValue,
+            smooth: true,
+            lineStyle: {
+              normal: {
+                color: '#edb443',
+                type: 'dashed'
+              }
+            },
+            itemStyle: { // 折线拐点标志的样式
+              normal: {
+                opacity: 0,
+                color: '#edb443'
+              }
+            }
+          }
+        ]
+
+      })
+      window.onresize = this.chart2.resize
+    },
     format(date) {
       return formatDate(date)
+    },
+    initSelect(node) {
+      var _this = this
+      $(node).each(function(i, val) {
+        var old = this;
+        var aNode = ['<h5 style="width: 70px;height:10px;text-indent: 1em; line-height: 10px;color: #c9d0d7;font-size:12px;font-weight:400;" id="select-h5"></h5>', '<ol style="width: 60px;position: absolute;left:0;top:12px;text-indent: 1em;display: none;color: #c9d0d7;font-size:12px;" id="select-ol">'];
+        var opt = $(this).find('option');
+        opt.each(function() {
+          var val = $(this).val();
+          var txt = $(this).text();
+          aNode.push('<li style="color: #c9d0d7;font-size:12px;" data-value=' + val + '>' + txt + '</li>');
+        })
+        aNode.push('</ol>');
+        console.log(aNode);
+        var wrap = $('<div class="select" style="position: absolute;left: -108%;;top: 26px;;z-index: 999;cursor: pointer;"><div>');
+
+        wrap.html(aNode.join(''));
+        $(this).before(wrap);
+        // 显示默认菜单文字
+        var tit = wrap.find('h5');
+
+        var txt = this.options[0].text;
+        console.log(this.options[0].text)
+        tit.text(txt);
+
+        wrap.on('click', function(e) {
+          e.stopPropagation(); // 阻止冒泡
+          var sub = $(this).find('ol');
+
+          if (sub.is(':hidden')) {
+            sub.show();
+            $(this).addClass('down');
+          } else {
+            sub.hide();
+            $(this).removeClass('down"');
+          }
+        }).on('click', 'li', function() {
+          tit.text($(this).text());
+          _this.selectMaValue = $(this).attr('data-value')
+          _this.maName = $(this).html()
+          console.log(_this.maName)
+          // 让原来的select 的selectedIndex 为当前里li的索引
+          console.log(_this.selectMaValue)
+
+          _this.renderMa5()
+          old.selectedIndex = $(this).index();
+          $(old).triggerHandler('change');
+        }).on('mouseover', 'li', function() {
+          $(this).css('background', '#1984ea')
+        }).on('mouseout', 'li', function() {
+          $(this).css('background', 'none')
+        })
+        $('body').click(function(e) {
+          var target = $(e.target);
+          var sub = $(this).find('ol');
+          if (!target.is('.select')) {
+            if (sub.is(':visible')) {
+              sub.hide();
+            }
+          }
+        });
+
+      })
+      $(node).remove();
     },
     checkNull(str) {
       if (str === null) {
@@ -1411,6 +2065,33 @@ export default {
     },
     changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
+    },
+    checkRecommend(num) {
+      return Math.ceil(num * 100) + '%'
+    },
+    checkAssessBg(str) {
+      if (str === 0) {
+        str = 'blockbg'
+      } else if (str === 2) {
+        str = 'redbg'
+      } else if (str === 1) {
+        str = 'greenbg'
+      } else {
+        str = 'blockbg'
+      }
+      return str
+    },
+    checkAssessTxt(str) {
+      if (str === 0) {
+        str = '中性'
+      } else if (str === 2) {
+        str = '正面'
+      } else if (str === 1) {
+        str = '负面'
+      } else {
+        str = '中性'
+      }
+      return str
     }
 
   },
@@ -1419,9 +2100,11 @@ export default {
   },
   mounted() {
     this.initChart()
-    this.initStockList('recommendIndex')
+    // this.initStockList('recommendIndex')
+    this.defaultSort('recommendIndex', 'DESC')
     this.initInformatList()
-    this.chart = echarts.init(this.$refs.chart)
+    this.heatOrPublicChange('rise')
+    // this.chart = echarts.init(this.$refs.chart)
     this.$store.dispatch('industry/queryDetailHead', {
       induCode: this.induCode
     })

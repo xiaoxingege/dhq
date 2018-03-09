@@ -60,7 +60,8 @@ export default {
     numberTopic: [],
     stockPage: 0,
     stockPageSize: STOCK_PAGESIZE,
-    stockTotal: 0
+    stockTotal: 0,
+    topicTechAndInfo: [] // 题材涨跌和舆情
     /* topicReturnRate: [],
      hs300ReturnRate: [],
      tradeDate: []*/ // 全部charts
@@ -141,6 +142,12 @@ export default {
     },
     updateStockNumberTopic(state, numberTopic) {
       state.numberTopic = numberTopic
+    },
+    updateTopicTechAndInfo(state, topic) {
+
+      state.topicTechAndInfo = topic
+      // console.log(topic)
+      // console.log(state.topicTechAndInfo)
     },
     [mutationTypes.UPDATE_TOPIC_SUMMARY](state, detail) {
       /* state.topic || (state.topic = {})
@@ -445,6 +452,28 @@ export default {
         if (result.errCode === 0) {
           console.log(result.data)
           commit('updateStockNumberTopic', result.data)
+        }
+      })
+    },
+    queryTopicTechAndInfo({
+      commit
+    }, {
+      topicCode,
+      riseOrHeat,
+      selectMaValue
+    }) {
+      return fetch(`${domain}/openapi/topic/techAndInfoIndex/${topicCode}.shtml?index=${riseOrHeat}&indexField=${selectMaValue}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data)
+          commit('updateTopicTechAndInfo', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },

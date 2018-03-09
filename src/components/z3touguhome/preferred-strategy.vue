@@ -222,7 +222,7 @@ export default {
     },
     formatDataPercent: function(val) {
       let getVal
-      if (val) {
+      if (val || val === 0) {
         getVal = (100 * val).toFixed(2) + '%'
       } else {
         getVal = '--'

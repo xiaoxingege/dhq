@@ -61,7 +61,7 @@ html {
 .newsDiv,
 .noticeDiv,
 .reportDiv {
-    width: 850px;
+    width: 845px;
     margin: 0 auto;
 }
 
@@ -152,15 +152,25 @@ html {
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews">更多相关资讯</span>
     <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null &&  result.equityList.length !== 0">
-      <li value="item.newsId">
+      <li value="item.newsId" v-if="item.newsType === '新闻'">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'news'}}">
+          {{item.title}}
+        </router-link>
+      </li>
+      <li value="item.newsId" v-if="item.newsType === '公告'">
+        <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'notice'}}">
           {{item.title}}
         </router-link>
       </li>
     </ul>
     <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null && result.equityList.length === 0">
-      <li value="item.id">
+      <li value="item.id" v-if="item.newsType === '新闻'">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsUrl.substring(6,item.newsUrl.indexOf('.')), detailType:'news'}}">
+          {{item.newsTitle}}
+        </router-link>
+      </li>
+      <li value="item.id" v-if="item.newsType === '公告'">
+        <router-link :to="{name:'detailPages' , params:{ id : item.newsUrl.substring(6,item.newsUrl.indexOf('.')), detailType:'notice'}}">
           {{item.newsTitle}}
         </router-link>
       </li>
@@ -211,7 +221,7 @@ export default {
   },
   computed: {
     result: function() {
-      return this.$store.state.zhikuanDetailPages.dataList[this.type]
+      return this.$store.state.zhikuanDetailPages.dataList[this.$route.params.detailType]
     },
     reformatNewsContent: function() {
       if (this.result === null || this.result.news.content === null) {
@@ -253,6 +263,7 @@ export default {
   },
   watch: {
     urlId: function() {
+      this.type = this.$route.params.detailType
       this.getDetailPages()
     }
   },

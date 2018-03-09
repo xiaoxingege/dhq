@@ -24,6 +24,8 @@ import customerList from 'stores/customers'
 import portraitDetail from 'stores/portrait-detail'
 import optionalStock from 'stores/optional-stock'
 import bullStock from 'stores/bullStock'
+import plateMap from 'stores/plate-map'
+import dragonList from 'stores/dragon-list-dialog'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -136,6 +138,8 @@ export default new Vuex.Store({
     customerList,
     portraitDetail,
     optionalStock,
-    bullStock
+    bullStock,
+    plateMap,
+    dragonList
   }
 })

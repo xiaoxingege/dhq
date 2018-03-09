@@ -20,10 +20,9 @@ html {
 .condition {
     text-align: left;
     display: inline-block;
-}
-.condition {
     color: #fff;
     opacity: 0.8;
+    margin-right: 3px;
 }
 .condition select {
     -webkit-appearance: none;
@@ -62,13 +61,13 @@ html {
 .condition select option {
     -webkit-appearance: none;
     display: inline-block;
-    /* height: 30px;
-    padding: 50px;*/
 }
 .condition_wrap {
     height: 35px;
     line-height: 35px;
-    /*background-color: #23272c;*/
+}
+.condition_wrap > div {
+    float: left;
 }
 .mask {
     width: 100%;
@@ -77,11 +76,48 @@ html {
     left: 0;
     z-index: 2;
 }
+.tab-type {
+    display: inline-block;
+    color: #fff;
+    opacity: 0.8;
+    width: 122px;
+    height: 100%;
+    padding-top: 6px;
+    margin-right: 36px;
+}
+.tab-type span {
+    display: inline-block;
+    float: left;
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+}
+.tab-type span:nth-child(1) {
+    margin-right: 2px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.tab-type span:nth-child(2) {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.selected-color {
+    background-color: #1984ea;
+}
+.unselected-color {
+    background-color: #23272c;
+}
 </style>
 <template>
 <div class="map" v-bind:class="{'map_pad':showCondition}">
   <div class="mask" :style="{height:maskHeight+'px'}" v-if="isShowMask"></div>
-  <div class="condition_wrap" v-if="showCondition">
+  <div class="condition_wrap clearfix" v-if="showCondition">
+    <div class="tab-type clearfix">
+      <span class="selected-color">个股</span>
+      <router-link class="unselected-color" tag='span' :to="{name:'plateMap'}">板块</router-link>
+    </div>
     <div class="condition" @click="isClickSelect">
       股票范围：
       <select v-model="rangeCode" class="code-select">
@@ -92,8 +128,11 @@ html {
                 <option value="mainSZ">深交所主板</option>
                 <option value="399006.SZ">中小板</option>
                 <option value="399005.SZ">创业板</option>
+                <option value="margin">融资融券</option>
             </select> 浏览指标：
       <select v-model="condition" class="condition-select">
+                <option value="margin_buy_value" v-show="rangeCode === 'margin'">融资买入额</option>
+                <option value="margin_buy_net_value" v-show="rangeCode === 'margin'">融资净买入额</option>
                 <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
                 <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
                 <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>
@@ -133,6 +172,13 @@ export default {
       mapWidth: 0,
       maskHeight: window.innerHeight - 35,
       isShowMask: false
+    }
+  },
+  watch: {
+    rangeCode() {
+      if (this.rangeCode !== 'margin' && (this.condition === 'margin_buy_value' || this.condition === 'margin_buy_net_value')) {
+        this.condition = 'mkt_idx.cur_chng_pct'
+      }
     }
   },
   props: [''],

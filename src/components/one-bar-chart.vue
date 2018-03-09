@@ -22,7 +22,7 @@ import echarts from 'echarts'
 export default {
   props: ['strategyId'],
   methods: {
-    initSylfbChart () {
+    initSylfbChart() {
       this.$store.dispatch('goldStrategy/getSylfbData', {
         strategyId: this.strategyId
       }).then(() => {
@@ -37,13 +37,13 @@ export default {
               color: '#808ba1'
             },
             data: [{
-              name: '负收益次数',
-              icon: 'circle'
-            },
-            {
-              name: '正收益次数',
-              icon: 'circle'
-            }
+                name: '负收益次数',
+                icon: 'circle'
+              },
+              {
+                name: '正收益次数',
+                icon: 'circle'
+              }
             ]
           },
           tooltip: {
@@ -57,13 +57,13 @@ export default {
               type: 'cross',
               label: {
                 show: true,
-                formatter: function (params) {
+                formatter: function(params) {
                   let yLabelData = ''
                   if (params.seriesData.length > 0) {
                     yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
                     return params.seriesData[0].name
                   } else {
-                    if (typeof (yLabelData) !== 'undefined') {
+                    if (typeof yLabelData !== 'undefined') {
                       return yLabelData
                     } else {
                       return ''
@@ -81,7 +81,7 @@ export default {
                 color: '#666'
               }
             },
-            formatter: function (params) {
+            formatter: function(params) {
               var s = ''
               for (var i = 0; i < params.length; i++) {
                 if (i === 0) {
@@ -125,30 +125,30 @@ export default {
               }
             },
             axisLabel: {
-              formatter: function (val) {
+              formatter: function(val) {
                 return val
               },
               color: '#808ba1'
             }
           },
           series: [{
-            data: sylfbData.data1,
-            name: '负收益次数',
-            type: 'bar',
-            stack: '收益率分布'
-          },
-          {
-            data: sylfbData.data2,
-            name: '正收益次数',
-            type: 'bar',
-            stack: '收益率分布'
-          }
+              data: sylfbData.data1,
+              name: '负收益次数',
+              type: 'bar',
+              stack: '收益率分布'
+            },
+            {
+              data: sylfbData.data2,
+              name: '正收益次数',
+              type: 'bar',
+              stack: '收益率分布'
+            }
           ],
           color: ['#1EC96C', '#E73E3A'],
           grid: {
             width: '97%',
             height: '80%',
-            left: 0,
+            left: '0.7%',
             top: '15%',
             containLabel: true
           }
@@ -156,7 +156,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.initSylfbChart()
   }
 }

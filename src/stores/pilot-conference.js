@@ -127,7 +127,7 @@ export default {
       commit,
       rootState
     }, options) {
-      fetch(`http://itougu.jrj.com.cn/smartstock/dlottery/openLettery.jspa`, {
+      fetch('http://itougu.jrj.com.cn/smartstock/dlottery/openLettery.jspa', {
         credentials: 'include'
       }).then(res => {
         return res.json()
@@ -146,7 +146,7 @@ export default {
       commit,
       rootState
     }, options) {
-      fetch(`http://itougu.jrj.com.cn/smartstock/dlottery/closeDiagnose.jspa`, {
+      fetch('http://itougu.jrj.com.cn/smartstock/dlottery/closeDiagnose.jspa', {
         credentials: 'include'
       }).then(res => {
         return res.json()

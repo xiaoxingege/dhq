@@ -98,7 +98,7 @@
       <option value="chngPct">涨跌幅</option>
       <option value="keepDaysToday">连续涨跌天数</option>
     </select>
-    <span class="fr currentTime">{{currentTime}}</span>
+    <!--<span class="fr currentTime">{{currentTime}}</span>-->
   </div>
   <div class="bullChart clearfix">
     <div class="chart_con">
@@ -143,7 +143,7 @@ import {
 } from 'vuex'
 
 const colorsList = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
-const valueRangeHeat = [50, 56, 62, 68, 74, 80, 86, 92, 98]
+const valueRangeHeat = [0, 12, 24, 36, 48, 60, 72, 84, 96]
 const valueRangePct = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
 const valueRangeDay = [-12, -9, -6, -3, 0, 3, 6, 9, 12]
 
@@ -153,7 +153,8 @@ export default {
       currentTime: '',
       bullSelected: 'heatIndex',
       colors: {
-        'heatIndex': colorsList.slice().reverse().slice(20),
+        // 'heatIndex': colorsList.slice().reverse().slice(20),
+        'heatIndex': colorsList.slice().reverse(),
         'chngPct': colorsList.slice().reverse(),
         'keepDaysToday': colorsList.slice().reverse()
       },
@@ -162,7 +163,8 @@ export default {
         'chngPct': valueRangePct,
         'keepDaysToday': valueRangeDay
       },
-      valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
+      // valueRangeHeat: [50, 56, 62, 68, 74, 80, 86, 92, 98],
+      valueRangeHeat: [0, 12, 24, 36, 48, 60, 72, 84, 96],
       valueRangePct: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
       valueRangeDay: [-12, -9, -6, -3, 0, 3, 6, 9, 12]
     }
@@ -326,7 +328,7 @@ export default {
                     return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
-                    return that.topicData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
+                    return that.topicData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                   }
                   return that.topicData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }
@@ -395,7 +397,7 @@ export default {
                     return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(2) + '%'
                   }
                   if (that.bullSelected === 'heatIndex') {
-                    return that.industryData[params.dataIndex].name + '\n\n' + Number(params.data[2]).toFixed(0)
+                    return that.industryData[params.dataIndex].name + '\n\n' + Math.ceil(params.data[2])
                   }
                   return that.industryData[params.dataIndex].name + '\n\n' + params.data[2] + '天'
                 }

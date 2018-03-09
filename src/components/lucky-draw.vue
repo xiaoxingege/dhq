@@ -251,11 +251,11 @@
 .ensure-icon-false{
   background: url(../assets/images/lucky-draw/ensure-icon-false.png) center no-repeat;
   background-size: 100%;
-} 
+}
 .ensure-icon-true{
   background: url(../assets/images/lucky-draw/ensure-icon-true.png) center no-repeat;
   background-size: 100%;
-} 
+}
 #pop-ensure .ensure-text{
   top:0;
   left:0.52rem;
@@ -450,7 +450,7 @@ export default {
     draw: state => state.luckDrawData.draw
   }),
   beforecreated () {
-    
+
   },
   created () {
     document.title = '金豆大转盘'
@@ -465,7 +465,7 @@ export default {
     this.$store.dispatch('user/checkLogin').then(() => {
       if (this.loginStatus === 'no') {
         return false
-      } 
+      }
       this.$store.dispatch('user/getBeanNum')
     })
 
