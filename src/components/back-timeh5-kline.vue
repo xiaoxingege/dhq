@@ -407,7 +407,8 @@ export default {
       this.innerCode = this.message
       this.$store.dispatch('backtestDetail/queryKline', {
           innerCode: this.innerCode,
-          strategyId: this.strategyId
+          strategyId: this.strategyId,
+          day: 750
         })
         .then(() => {
           this.drawCharts(this.kLineDataAll.name, this.kLineDataAll.kLineXdata, this.kLineDataAll.kLineYdata, this.kLineDataAll.ma5, this.kLineDataAll.ma10, this.kLineDataAll.ma20, this.kLineDataAll.ma30, this.kLineDataAll.pointData, this.kLineDataAll.seriesData)

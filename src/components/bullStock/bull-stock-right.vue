@@ -295,7 +295,7 @@ th {
               {{topic.topicName===null?'--':topic.topicName}}
             </router-link>
           </td>
-          <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':Math.round(topic.topicMarket.heatIndex)}}</td>
+          <td>{{topic.topicMarket===null || topic.topicMarket.heatIndex===null?'--':Math.ceil(topic.topicMarket.heatIndex)}}</td>
           <td v-z3-updowncolor="topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':topic.topicMarket.chngPct">
             {{topic.topicMarket===null || topic.topicMarket.chngPct===null?'--':changeTofixed(topic.topicMarket.chngPct)}}
           </td>
@@ -324,7 +324,7 @@ th {
               {{industry.induName===null?'--':industry.induName}}
             </router-link>
           </td>
-          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':Math.round(industry.induMarket.heatIndex)}}
+          <td>{{industry.induMarket===null || industry.induMarket.heatIndex===null?'--':Math.ceil(industry.induMarket.heatIndex)}}
           </td>
           <td v-z3-updowncolor="industry.induMarket===null || industry.induMarket.chngPct===null?'--':industry.induMarket.chngPct">
             {{industry.induMarket===null || industry.induMarket.chngPct===null?'--':changeTofixed(industry.induMarket.chngPct)}}
