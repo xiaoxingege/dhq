@@ -1,222 +1,219 @@
-<style scoped="">
+<style lang="scss" scoped="">
 @import '../assets/css/base.css';
+@import "../assets/scss/style.scss";
 .jumpto-subnav.fixed.bottom {
-  top: auto;
-  bottom: 0;
-  position: absolute !important;
+    top: auto;
+    bottom: 0;
+    position: absolute !important;
 }
-
-.jumpto-subnav ul li a:hover,
-.jumpto-subnav ul li a.active {
-  background-color: #1984ea;
-  color: white;
+.jumpto-subnav ul li a.active,
+.jumpto-subnav ul li a:hover {
+    background-color: $blueWordsColor;
+    color: white;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .help-wrap {
-  width: 100%;
-  background-color: #141518;
-  padding-top: 30px;
+    width: 100%;
+    background-color: $bgConColor;
+    padding-top: 30px;
 }
 
 .help-con {
-  width: 1000px;
-  margin: 0 auto;
-  color: #c9d0d7;
-  font-size: 12px;
+    width: 1000px;
+    margin: 0 auto;
+    color: $wordsColorBase;
+    font-size: $fontSizeBase;
 }
 
 .help_title {
-  font-size: 24px;
-  padding-bottom: 10px;
-  text-align: center;
+    font-size: 24px;
+    padding-bottom: 10px;
+    text-align: center;
 }
 
 .title_line {
-  width: 80px;
-  margin: 0 auto 40px;
-  border-bottom: 1px solid #333;
+    width: 80px;
+    margin: 0 auto 40px;
+    border-bottom: 1px solid #333;
 }
 
 .paper-lt {
-  width: 800px;
+    width: 800px;
 }
 
 .paper-rt {
-  width: 180px;
-  position: relative;
+    width: 180px;
+    position: relative;
 }
 
 .paper-lt-content {
-  width: 800px;
-  padding: 30px 40px 40px 0;
-  border-right: 1px solid #23272c;
+    width: 800px;
+    padding: 30px 40px 40px 0;
+    border-right: 1px solid $lineAndTitleColor;
 }
 
 .paper-rt-main {
-  position: fixed;
-  top: 210px;
-  width: 180px;
+    position: fixed;
+    top: 210px;
+    width: 180px;
 }
 
 .sections {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .sections li {
-  border-bottom: 1px solid #23272c;
+    border-bottom: 1px solid $lineAndTitleColor;
 }
 
 .sections li a {
-  color: #d9d0d7;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  padding: 17px 0 17px 10px;
+    color: #d9d0d7;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 17px 0 17px 10px;
 }
 
 .sections li a img {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .paper-lt p {
-  line-height: 26px;
-  margin: 15px auto 0;
+    line-height: 26px;
+    margin: 15px auto 0;
 }
 
 .first_title {
-  font-size: 14px;
-  background-color: #23272c;
-  padding-left: 10px;
-  height: 36px;
-  line-height: 36px !important;
-  font-weight: bold;
-  margin-top: 25px;
+    font-size: 14px;
+    background-color: $lineAndTitleColor;
+    padding-left: 10px;
+    height: 36px;
+    line-height: 36px !important;
+    font-weight: bold;
+    margin-top: 25px;
 }
 
 .second_title {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .definitions {
-  color: #1984ea;
+    color: $blueWordsColor;
 }
 
 .definitions_wrap span {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .formula {
-  height: 60px;
-  position: relative;
-  line-height: 60px;
-  margin: 10px auto;
+    height: 60px;
+    position: relative;
+    line-height: 60px;
+    margin: 10px auto;
 }
 
 .formula span {
-  display: inline-block;
+    display: inline-block;
 }
 
 .no_line {
-  width: 269px;
-  height: 0;
-  border-bottom: 1px solid #c9d0d7;
-  position: absolute;
-  top: 29px;
-  left: 0px;
+    width: 269px;
+    height: 0;
+    border-bottom: 1px solid $wordsColorBase;
+    position: absolute;
+    top: 29px;
+    left: 0;
 }
 
 .fraction_top {
-  position: absolute;
-  top: -20px;
-  left: 0px;
-  width: 269px;
-  text-align: center;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 269px;
+    text-align: center;
 }
 
 .fraction_bottom {
-  position: absolute;
-  top: 12px;
-  left: 0px;
-  width: 269px;
-  text-align: center;
+    position: absolute;
+    top: $fontSizeBase;
+    left: 0;
+    width: 269px;
+    text-align: center;
 }
 
 .jumpto-block img {
-  margin: 15px auto;
+    margin: 15px auto;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0px;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .form-table {
-  width: 100%;
-  vertical-align: middle;
+    width: 100%;
+    vertical-align: middle;
 }
 
 .form-table * {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .form-table td,
 .form-table th {
-  text-align: center;
-  border: 1px solid #23272c;
+    text-align: center;
+    border: 1px solid $lineAndTitleColor;
 }
 
 .form-table th {
-  height: 32px;
+    height: 32px;
 }
 
 .form-table tr td {
-  height: 40px;
+    height: 40px;
 }
-
 .form-table th:first-child {
-  width: 70px;
+    width: 70px;
 }
-
 .form-table th:nth-child(2) {
-  width: 169px;
+    width: 169px;
 }
-
 .form-table tr td:last-child {
-  text-align: left;
-  padding-left: 50px;
+    text-align: left;
+    padding-left: 50px;
 }
 
 .form-table td {
-  text-align: center;
+    text-align: center;
 }
 
 .form-table thead {
-  background-color: #21282d;
+    background-color: #21282d;
 }
 
 .table-title {
-  color: #1984ea;
-  margin-top: 15px;
-  margin-bottom: 5px;
+    color: $blueWordsColor;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .table-wrap p.line {
-  border-bottom: 1px solid #23272c;
+    border-bottom: 1px solid $lineAndTitleColor;
 }
 
 .table-switch {
-  vertical-align: middle;
-  margin: 0 !important;
-  cursor: pointer;
+    vertical-align: middle;
+    margin: 0 !important;
+    cursor: pointer;
 }
 
 .file-open-img {
-  display: none;
+    display: none;
 }
 </style>
 <template>

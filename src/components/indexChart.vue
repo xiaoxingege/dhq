@@ -15,7 +15,7 @@
 }
 
 .line-chart {
-    background: #141518;
+    background: $bgConColor;
     margin-right: 0.3%;
     width: 24.75%;
     height: 100%;
@@ -62,8 +62,8 @@
 }
 
 .chart-info {
-    background: #141518;
-    font-size: 12px;
+    background: $bgConColor;
+    font-size: $fontSizeBase;
     height: 26%;
 }
 
@@ -77,11 +77,11 @@
     /*width: 50%;*/
 }
 .chartInfo_bar div:first-child {
-    background: #ca4941;
+    background: $upColor;
     float: left;
 }
 .chartInfo_bar div:last-child {
-    background: #56a870;
+    background: $downColor;
     float: right;
 }
 
