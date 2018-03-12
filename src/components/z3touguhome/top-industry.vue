@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .top-industry-con {
     width: 100%;
 }
@@ -39,7 +40,7 @@
 .top-industry-table tr td:first-child {
     text-align: left;
     padding-left: 23px;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
     border-left-width: 0;
 }

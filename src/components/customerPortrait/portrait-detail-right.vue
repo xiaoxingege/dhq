@@ -1,29 +1,30 @@
-<style scoped="">
+<style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .con-right {
-  float: right;
-  background-color: #141518;
-  padding: 10px 10px 10px 0px;
+    float: right;
+    background-color: #141518;
+    padding: 10px 10px 10px 0;
 }
 
 .portrait-filter-strategy {
-  height: 24%;
+    height: 24%;
 }
 
 .portrait-timing-strategy {
-  height: 39%;
+    height: 39%;
 }
 
 .portrait-gold-strategy {
-  height: 37%;
+    height: 37%;
 }
 
-.portrait-gold-strategy>div {
-  height: 100%;
-  float: left;
+.portrait-gold-strategy > div {
+    height: 100%;
+    float: left;
 }
 
 .portrait-gold-strategy .follow-no {
-  display: none;
+    display: none;
 }
 </style>
 <template>

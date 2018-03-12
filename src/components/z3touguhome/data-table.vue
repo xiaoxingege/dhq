@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .table-wrap {
     width: 100%;
     height: 100%;

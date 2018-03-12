@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .finance-news {
     background-color: #141518;
     height: 100%;
@@ -66,7 +67,7 @@
 import NavBar from 'components/z3touguhome/nav-bar'
 export default {
   props: [],
-  data () {
+  data() {
     return {
       navText: [
         ['财经要闻', 'ywnews'],
@@ -80,7 +81,7 @@ export default {
     }
   },
   watch: {
-    type () {
+    type() {
       this.getNews()
     }
   },
@@ -88,48 +89,48 @@ export default {
     NavBar
   },
   computed: {
-    financeNewsData: function () {
+    financeNewsData: function() {
       const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
       return financeNewsData
     },
-    listedCompanyNewsData: function () {
+    listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
       return listedCompanyNewsData
     }
   },
   methods: {
-    getNews: function () {
+    getNews: function() {
       if (this.type === 'ywnews') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.financeNewsData
           })
       } else if (this.type === 'companynews') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-          size: this.newsSize
-        })
+            size: this.newsSize
+          })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
           })
       }
     },
-    changeNavType (data) {
+    changeNavType(data) {
       this.type = data
     },
-    updateNews: function () {
+    updateNews: function() {
       const _this = this
       if (this.updateNewsPid) {
         clearInterval(this.updateNewsPid)
       } else {
-        this.updateNewsPid = setInterval(function () {
+        this.updateNewsPid = setInterval(function() {
           _this.getNews()
         }, 60 * 1000 * _this.intervalTime)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.getNews()
     this.updateNews()
   }

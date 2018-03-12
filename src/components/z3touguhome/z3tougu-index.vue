@@ -1,103 +1,104 @@
-<style>
+<style lang="scss">
 @import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
 * {
-  box-sizing: border-box;
-  font-family: '微软雅黑';
-  font-size: 12px;
+    box-sizing: border-box;
+    font-family: '微软雅黑';
+    font-size: 12px;
 }
 
 p {
-  margin: 0px;
+    margin: 0;
 }
 
-html,
+.app,
 body,
-.app {
-  height: 100%;
-  background-color: #141518;
+html {
+    height: 100%;
+    background-color: $bgConColor;
 }
 
 .wrap {
-  padding: 3px 1px;
-  min-width: 1217px;
-  height: 100%;
-  background-color: #0d0e0f;
-  min-height: 100%;
+    padding: 3px 1px;
+    min-width: 1217px;
+    height: 100%;
+    background-color: $bgDeepColor;
+    min-height: 100%;
 }
 
 .index-wrap {
-  min-height: 710px;
+    min-height: 710px;
 }
 
 body {
-  background-color: #0d0e0f;
+    background-color: $bgDeepColor;
 }
 
 .news-wrap {
-  height: 37%;
+    height: 37%;
 }
 
 .con-bottom {
-  height: 28.5%;
-  padding-top: 3px;
+    height: 28.5%;
+    padding-top: 3px;
 }
 
-.con-bottom>div {
-  width: 33.33%;
-  height: 100%;
-  float: left;
+.con-bottom > div {
+    width: 33.33%;
+    height: 100%;
+    float: left;
 }
 
-.con-bottom-left,
-.con-bottom-center {
-  padding-right: 1px;
+.con-bottom-center,
+.con-bottom-left {
+    padding-right: 1px;
 }
 
-.con-bottom-left>div,
-.con-bottom-center>div {
-  width: 100%;
-  height: 100%;
-  background-color: #141518;
+.con-bottom-center > div,
+.con-bottom-left > div {
+    width: 100%;
+    height: 100%;
+    background-color: $bgConColor;
 }
 
 .c_up {
-  color: #ca4941;
+    color: #ca4941;
 }
 
 .c_down {
-  color: #56a870;
+    color: #56a870;
 }
 
 .c_txt {
-  color: #c9d0d7;
+    color: $wordsColorBase;
 }
 
 .sector-wrap {
-  padding-top: 3px;
-  height: 34.5%;
+    padding-top: 3px;
+    height: 34.5%;
 }
 
-.sector-wrap>div {
-  width: 33.33%;
-  display: inline-block;
-  float: left;
-  height: 100%;
+.sector-wrap > div {
+    width: 33.33%;
+    display: inline-block;
+    float: left;
+    height: 100%;
 }
 
-.sectors,
-.preferred-stock {
-  padding-right: 1px;
+.preferred-stock,
+.sectors {
+    padding-right: 1px;
 }
 
-.sectors>div,
-.preferred-stock>div,
-.top-industry>div {
-  background-color: #141518;
-  height: 100%;
+.preferred-stock > div,
+.sectors > div,
+.top-industry > div {
+    background-color: $bgConColor;
+    height: 100%;
 }
 
-.news-wrap>div {
-  height: 100%;
+.news-wrap > div {
+    height: 100%;
 }
 </style>
 <template>

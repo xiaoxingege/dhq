@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 @import '../../assets/css/base.css';
 @import '../../assets/css/z3.css';
+@import "../../assets/scss/style.scss";
 .portrait-custom {
     width: 100%;
     height: 100%;

@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .bull-stock-con {
     width: 100%;
 }

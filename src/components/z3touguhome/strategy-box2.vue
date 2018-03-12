@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .strategy-title {
     height: 15%;
     background-color: #23272c;

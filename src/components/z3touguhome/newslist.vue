@@ -1,5 +1,6 @@
 <style lang="scss" scoped="">
 @import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
 * {
     box-sizing: border-box;
     font-size: 12px;
@@ -12,7 +13,7 @@ p {
     padding: 1px;
     min-width: 1217px;
     min-height: 100%;
-    background-color: #0d0e0f;
+    background-color: $bgDeepColor;
 }
 .news-list-wrap > div {
     width: 50%;

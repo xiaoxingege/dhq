@@ -1,4 +1,5 @@
 <style lang="scss" scoped>
+@import "../../assets/scss/style.scss";
 .radarChart {
     width: 100%;
     height: 100%;

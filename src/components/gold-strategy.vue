@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 @import '../assets/css/base.css';
-
+@import "../assets/scss/style.scss";
 html {
     height: 100%;
     font-family: 微软雅黑 !important;
@@ -8,7 +8,7 @@ html {
 .goldRecommend {
     min-height: 100%;
     font-size: 12px;
-    background: #0d0e0f;
+    background: $bgDeepColor;
     padding: 0 1px;
     box-sizing: border-box;
 }
@@ -34,7 +34,7 @@ html {
     margin-right: 3px;
     /*height:345px;*/
     text-align: left;
-    background: #0d0e0f;
+    background: $bgDeepColor;
 }
 .strategyDescTop {
     /*height:214px;*/

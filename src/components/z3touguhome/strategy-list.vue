@@ -1,59 +1,60 @@
-<style>
+<style lang="scss">
 @import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
 .app {
-  height: 100%;
+    height: 100%;
 }
 
 * {
-  box-sizing: border-box;
-  font-family: '微软雅黑';
-  font-size: 12px;
+    box-sizing: border-box;
+    font-family: '微软雅黑';
+    font-size: 12px;
 }
 
 body {
-  background-color: #ebecee;
+    background-color: #ebecee;
 }
 
 p {
-  margin: 0px;
+    margin: 0;
 }
 
-html,
-body {
-  height: 100%;
+body,
+html {
+    height: 100%;
 }
 
 .strategy-wrap1 {
-  height: 100%;
-  min-width: 1217px;
-  background-color: #0d0e0f;
-  color: #c9d0d7;
+    height: 100%;
+    min-width: 1217px;
+    background-color: $bgDeepColor;
+    color: #c9d0d7;
 }
 
-.strategy-wrap1>ul {
-  height: 100%;
-  padding: 3px 1px;
+.strategy-wrap1 > ul {
+    height: 100%;
+    padding: 3px 1px;
 }
 
-.strategy-wrap1>ul>li {
-  background-color: #0d0e0f;
-  padding: 0px 1px 3px 1px;
-  width: 25%;
-  float: left;
-  display: inline-block;
-  height: 33.33%;
+.strategy-wrap1 > ul > li {
+    background-color: $bgDeepColor;
+    padding: 0 1px 3px;
+    width: 25%;
+    float: left;
+    display: inline-block;
+    height: 33.33%;
 }
 
 .strategy-wrap1 .page {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .page-wrap {
-  background-color: #0d0e0f;
+    background-color: $bgDeepColor;
 }
 
-.page-wrap>div {
-  text-align: center;
+.page-wrap > div {
+    text-align: center;
 }
 </style>
 <template>
@@ -79,7 +80,7 @@ body {
 import StrategyListHome from 'components/z3touguhome/strategy-box'
 import Pagination from 'components/pagination.vue'
 export default {
-  data () {
+  data() {
     return {
       benchmarkObj: {
         '000300': '沪深300',
@@ -106,13 +107,13 @@ export default {
     Pagination
   },
   computed: {
-    strategyDetail: function () {
+    strategyDetail: function() {
       const strategyDetail = this.$store.state.z3touguIndex.strategyBlock
       return strategyDetail
     }
   },
   methods: {
-    initStrategy: function (pageNo) {
+    initStrategy: function(pageNo) {
       const query = this.$route.query
       if (query && query.query) {
         this.query = query.query
@@ -122,21 +123,21 @@ export default {
         this.query = 'winRatio_gte_0.55;sharpe_gte_1.5;annualReturn_gte_0.05;maxDrawdown_ite_0.06;&followFlag=0&userId=58c0ef34-4741-413a-832a-295b016ad3dd&sort=createDate&direction=asc&'
       }
       this.$store.dispatch('z3touguIndex/getStrategyBlock', {
-        query: this.query,
-        size: this.pageSize,
-        page: pageNo
-      })
+          query: this.query,
+          size: this.pageSize,
+          page: pageNo
+        })
         .then(() => {
           this.strategyList = this.strategyDetail.content
           this.totalPage = this.strategyDetail.totalPages
         })
     },
-    goToPage (data) {
+    goToPage(data) {
       this.strategyList = []
       this.initStrategy(data - 1)
     }
   },
-  mounted () {
+  mounted() {
     this.initStrategy(0)
   }
 }
