@@ -3,8 +3,8 @@
 @import "../../assets/scss/style.scss";
 .top-nav {
     height: 100%;
-    background-color: #23272c;
-    color: #808ba1;
+    background-color: $lineAndTitleColor;
+    color: $grayWordsColor;
     padding-left: 20px;
 }
 .top-nav ul {
@@ -17,7 +17,7 @@
     position: relative;
 }
 .top-nav ul li > span {
-    font-size: 12px;
+    font-size: $fontSizeBase;
     display: inline-block;
     height: 25px;
     line-height: 25px;
@@ -31,8 +31,8 @@
     transform: translateY(-50%);
 }
 .nav-active {
-    background: #525a65;
-    color: #c9d0d7 !important;
+    background: $menuSelColor;
+    color: $wordsColorBase !important;
 }
 </style>
 <template>

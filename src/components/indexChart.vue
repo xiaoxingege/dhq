@@ -69,7 +69,7 @@
 
 .chartInfo_bar {
     margin-top: 10px;
-    background: #404852;
+    background: $bgNavColor;
 }
 
 .chartInfo_bar div {

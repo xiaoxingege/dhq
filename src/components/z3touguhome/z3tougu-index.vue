@@ -4,7 +4,7 @@
 * {
     box-sizing: border-box;
     font-family: '微软雅黑';
-    font-size: 12px;
+    font-size: $fontSizeBase;
 }
 
 p {
@@ -62,11 +62,11 @@ body {
 }
 
 .c_up {
-    color: #ca4941;
+    color: $upColor;
 }
 
 .c_down {
-    color: #56a870;
+    color: $downColor;
 }
 
 .c_txt {

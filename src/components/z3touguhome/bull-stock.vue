@@ -18,14 +18,14 @@
 }
 .bull-stock-table td span {
     display: inline-block;
-    height: 12px;
-    line-height: 12px;
+    height: $fontSizeBase;
+    line-height: $fontSizeBase;
     text-align: center;
     font-size: 10px;
 }
 .bull-stock-table td {
     height: 8.4%;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .bull-stock-table tr td:first-child {
     text-align: left;
@@ -41,7 +41,7 @@
     width: 47%;
 }
 .bull-stock-table tr:first-child td {
-    border-bottom: 1px solid #23272c;
+    border-bottom: 1px solid $lineAndTitleColor;
     height: 16%;
 }
 .help-img-wrap {

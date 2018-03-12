@@ -4,13 +4,13 @@
 * {
     box-sizing: border-box;
     font-family: '微软雅黑';
-    font-size: 12px;
+    font-size: $fontSizeBase;
 }
 .news-detail-wrap {
-    background-color: #141518;
+    background-color: $bgConColor;
     overflow: auto;
     min-height: 100%;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .news-detail-title {
     text-align: center;
@@ -21,7 +21,7 @@
 .new-detail-txt {
     padding-bottom: 20px;
     text-align: center;
-    color: #808ba1;
+    color: $grayWordsColor;
 }
 .source-warn {
     text-align: center;
@@ -54,7 +54,7 @@ iframe {
 }
 .news-detail-top {
     height: 25px;
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
 }
 .news-detail-con {
     overflow: auto;

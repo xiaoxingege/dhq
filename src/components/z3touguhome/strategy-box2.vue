@@ -2,16 +2,16 @@
 @import "../../assets/scss/style.scss";
 .strategy-title {
     height: 15%;
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
     position: relative;
 }
 .strategy-title select {
     width: 247px;
-    color: #1984ea;
+    color: $blueWordsColor;
     -webkit-appearance: none;
     padding-left: 4px;
     background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
-    background-color: #141518;
+    background-color: $bgConColor;
     border-radius: 3px;
     border: 1px solid #141518;
     position: absolute;
@@ -28,7 +28,7 @@
     outline: none;
 }
 .follow-no {
-    color: #808ba1;
+    color: $grayWordsColor;
     display: inline-block;
     position: absolute;
     right: 9px;
@@ -47,7 +47,7 @@
 .rate-labels {
     padding-top: 5px;
     height: 18%;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .rate-labels li {
     display: inline-block;

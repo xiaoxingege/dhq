@@ -21,7 +21,7 @@
     border-spacing: 0;
 }
 .preferred-stock-table tr:hover {
-    background-color: #2e4465;
+    background-color: $hoverBgColor;
 }
 
 .preferred-stock-table td span {
@@ -29,7 +29,7 @@
 }
 
 .preferred-stock-table td {
-    border: 1px solid #23272c;
+    border: 1px solid $lineAndTitleColor;
     text-align: center;
     height: 10%;
 }
@@ -45,7 +45,7 @@
 .preferred-stock-table tr td:first-child {
     text-align: left;
     padding-left: 23px;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
     border-left-width: 0;
 }
@@ -61,7 +61,7 @@
 }
 
 .more-preferred-stock a {
-    color: #808ba1;
+    color: $grayWordsColor;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -77,7 +77,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    color: #808ba1;
+    color: $grayWordsColor;
 }
 </style>
 <template>

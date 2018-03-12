@@ -3,7 +3,7 @@
 @import "../../assets/scss/style.scss";
 * {
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: $fontSizeBase;
 }
 /*html,body,.app{height:100%;}*/
 p {
@@ -20,11 +20,11 @@ p {
     min-height: 100%;
 }
 .news-list {
-    background-color: #141518;
+    background-color: $bgConColor;
     overflow: auto;
 }
 .news-list-con {
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding: 5px 0;
     overflow: auto;
 }
@@ -38,10 +38,10 @@ p {
 }
 .news-list-title {
     cursor: pointer;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .news-list-title:hover {
-    color: #1984ea;
+    color: $blueWordsColor;
 }
 .news-list-con > li:before {
     float: left;
@@ -55,7 +55,7 @@ p {
     border-radius: 50%;
 }
 .news-active {
-    background-color: #2e4465;
+    background-color: $hoverBgColor;
 }
 .news-list-top {
     height: 25px;

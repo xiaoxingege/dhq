@@ -8,7 +8,7 @@
 * {
     box-sizing: border-box;
     font-family: '微软雅黑';
-    font-size: 12px;
+    font-size: $fontSizeBase;
 }
 
 body {
@@ -28,7 +28,7 @@ html {
     height: 100%;
     min-width: 1217px;
     background-color: $bgDeepColor;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 
 .strategy-wrap1 > ul {

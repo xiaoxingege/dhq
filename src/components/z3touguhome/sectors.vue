@@ -21,10 +21,10 @@
     width: 40%;
 }
 .sectors-table tr:hover {
-    background-color: #2e4465;
+    background-color: $hoverBgColor;
 }
 .sectors-table td {
-    border: 1px solid #23272c;
+    border: 1px solid $lineAndTitleColor;
     text-align: center;
     height: 10%;
     width: 30%;
@@ -33,10 +33,10 @@
     cursor: pointer;
 }
 .sectors-table:nth-child(1) td {
-    color: #ca4941;
+    color: $upColor;
 }
 .sectors-table:nth-child(2) td {
-    color: #56a870;
+    color: $downColor;
 }
 .sectors-table tr:nth-child(1) td {
     border-top-width: 0;
@@ -52,7 +52,7 @@
 }
 .sectors-table tr td:first-child {
     text-align: left;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
 }
 .sectors-table:first-child tr td:first-child {
@@ -71,7 +71,7 @@
     height: 100%;
 }
 .more-sectors a {
-    color: #808ba1;
+    color: $grayWordsColor;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

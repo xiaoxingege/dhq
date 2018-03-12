@@ -1,12 +1,12 @@
 <style lang="scss" scoped="">
 @import "../../assets/scss/style.scss";
 .finance-news {
-    background-color: #141518;
+    background-color: $bgConColor;
     height: 100%;
 }
 .finance-news-list {
     height: 85%;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding: 11px 11px 11px 14px;
 }
 .finance-news-list li {
@@ -15,10 +15,10 @@
 }
 .newtitle {
     cursor: pointer;
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .newtitle:hover {
-    color: #1984ea;
+    color: $blueWordsColor;
 }
 .finance-news-list > li:before {
     float: left;
@@ -44,7 +44,7 @@
     right: 10px;
 }
 .more-news a {
-    color: #808ba1;
+    color: $grayWordsColor;
 }
 </style>
 <template>
