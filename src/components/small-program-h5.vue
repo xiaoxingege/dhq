@@ -3,12 +3,12 @@
 </style>
 <style type="text/css">
 body{background: #f6f6f6;}
-a{color: #444444;display: block;width: 100%;height: 100%;}
+a{color: #444444;display: block;width: 100%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;width: 100%;}
 .banner{width: 100%;height: 3.2rem;background: url('../assets/images/small-program/banner.jpg') no-repeat center 0;background-size: 100% 100%;position: relative;}
 .banner div{width: 100%;height: 0.76rem;position: absolute;bottom: 0;left: 0;font-size: 0.3rem;line-height: 0.76rem;text-indent: 0.3rem;color: #fff;background: rgba(0,0,0,0.6)}
 .part01{width: 6.9rem;height: 3rem;padding:0.2rem 0.3rem 0.25rem 0.3rem;background: #fff;}
-.title{width: 100%;height: 0.75rem;font-size: 0.32rem;line-height: 0.75rem;color: #333;text-indent: 0.3rem;font-weight: bolder;}
-.title span{width: 0.06rem;height: 0.28rem;background: #f54949;display: block;margin-top: 0.2rem;float: left;}
+.title{width: 100%;height: 0.75rem;font-size: 0.32rem;line-height: 0.75rem;color: #333;text-indent: 0.24rem;font-weight: bolder;}
+.title span{width: 0.06rem;height: 0.28rem;background: #f54949;display: block;margin-top: 0.23rem;float: left;}
 .part01>ul>li img{width: 0.26rem;height: 0.26rem;display: block;float: left;margin-top: 0.14rem;}
 .part01>ul>li p{width: 5rem;float: left;font-size: 0.28rem;line-height: 0.56rem;color: #444444;margin-left: 0.14rem;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;}
 .part01>ul>li span{float: right;font-size: 0.22rem;line-height: 0.56rem;color: #aaaaaa;}
@@ -19,8 +19,8 @@ a{color: #444444;display: block;width: 100%;height: 100%;}
 .part03{width: 6.9rem;height:3.3rem;padding: 0.2rem 0.3rem 0.3rem 0.3rem;background: #fff;margin-top: 0.2rem;}
 .part03 ul li{width: 50%;float: left;}
 .part03 ul p{font-size: 0.28rem;line-height: 0.46rem;color: #444444;text-align: center;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;width: 100%;float: left;}
-.part03 ul li:first-child div{width: 3.3rem;height: 1.8rem;background: blue;border-radius: 0.05rem;margin-top: 0.16rem;margin-bottom: 0.14rem;}
-.part03 ul li:first-child +li div{width: 3.3rem;height: 1.8rem;background: pink;float: right;border-radius: 0.05rem;margin-top: 0.16rem;margin-bottom: 0.14rem;}
+.part03 ul li:first-child div{width: 3.3rem;height: 1.8rem;background: url('../assets/images/small-program/01.png') no-repeat center 0;background-size: 100% 100%;border-radius: 0.05rem;margin-top: 0.16rem;margin-bottom: 0.14rem;}
+.part03 ul li:first-child +li div{width: 3.3rem;height: 1.8rem;background: url("../assets/images/small-program/02.png") no-repeat center 0;background-size: 100% 100%;float: right;border-radius: 0.05rem;margin-top: 0.16rem;margin-bottom: 0.14rem;}
 </style>
 
 
@@ -34,22 +34,22 @@ a{color: #444444;display: block;width: 100%;height: 100%;}
             <ul>
                 <li class="clearfix">
                     <img src="../assets/images/small-program/icon01.png" alt="">
-                    <p><a href="http://itougu.jrj.com.cn/activity/app/page1.jspa">怎样炒股——新股民必备初级知识</a></p>
+                    <p><a href="//itougu.jrj.com.cn/activity/app/page1.jspa">怎样炒股——新股民必备初级知识</a></p>
                     <span>2017-06-14</span>
                 </li>
                 <li class="clearfix">
                     <img src="../assets/images/small-program/icon01.png" alt="">
-                    <p><a href="http://itougu.jrj.com.cn/activity/app/page2.jspa">中小投资者必知的几大股东权利</a></p>
+                    <p><a href="//itougu.jrj.com.cn/activity/app/page2.jspa">中小投资者必知的几大股东权利</a></p>
                     <span>2017-06-14</span>
                 </li>
                 <li class="clearfix">
                     <img src="../assets/images/small-program/icon01.png" alt="">
-                    <p><a href="http://itougu.jrj.com.cn/activity/app/page3.jspa">长期投资会为投资者带来什么</a></p>
+                    <p><a href="//itougu.jrj.com.cn/activity/app/page3.jspa">长期投资会为投资者带来什么</a></p>
                     <span>2017-06-14</span>
                 </li>
                 <li class="clearfix">
                     <img src="../assets/images/small-program/icon01.png" alt="">
-                    <p><a href="http://itougu.jrj.com.cn/activity/app/page4.jspa">胡滨：投资者教育是权益保护基石 要上升到国家层面</a></p>
+                    <p><a href="//itougu.jrj.com.cn/activity/app/page4.jspa">胡滨：投资者教育是权益保护基石 要上升到国家层面</a></p>
                     <span>2017-05-12</span>
                 </li>
             </ul>
@@ -57,25 +57,25 @@ a{color: #444444;display: block;width: 100%;height: 100%;}
         <div class="part02">
             <p class="title clearfix"><span></span>投资课堂</p>
             <ul class="clearfix">
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list">投资三大法宝</a></li>
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list">兴趣教学</a></li>
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list">三大法宝</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">投资100问</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">兴趣教学</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">投资维权方式</a></li>
             </ul>
             <ul class="clearfix mat">
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list">投资三大法宝</a></li>
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list">兴趣教学</a></li>
-                <li><a href="http://itougu.jrj.com.cn/h5/small-program-list"></a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">小白学堂</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">操作市场方式</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">如何理财</a></li>
             </ul>
         </div>
         <div class="part03">
             <p class="title clearfix"><span></span>在线课堂</p>
             <ul class="clearfix">
                 <li>
-                    <div><video id="#bgMusic" src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/czsc.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill" loop="loop" ></video></div>
+                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/czsc.mp4" poster="../assets/images/small-program/01.png" controls="controls" style="width:100%; height:100%; object-fit: fill" ></video></div>
                     <p>市场主体违规案例解析富市场主体违规案例解析富</p>
                 </li>
                 <li>
-                    <div><video id="#bgMusic" src="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/rhjxwq.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill" loop="loop" ></video></div>
+                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/rhjxwq.mp4" poster="../assets/images/small-program/02.png"  controls="controls" style="width:100%; height:100%; object-fit: fill"  ></video></video></div>
                     <p>市场主体违规案例解析服</p>
                 </li>
             </ul>
