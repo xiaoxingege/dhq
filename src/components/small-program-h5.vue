@@ -71,11 +71,11 @@ a{color: #444444;display: block;width: 100%;overflow: hidden;white-space: nowrap
             <p class="title clearfix"><span></span>在线课堂</p>
             <ul class="clearfix">
                 <li>
-                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/czsc.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill" loop="loop" ></video></div>
+                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/czsc.mp4" poster="../assets/images/small-program/01.png" controls="controls" style="width:100%; height:100%; object-fit: fill" ></video></div>
                     <p>市场主体违规案例解析富市场主体违规案例解析富</p>
                 </li>
                 <li>
-                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/rhjxwq.mp4" autoplay="autoplay"   style="width:100%; height:100%; object-fit: fill" loop="loop" ></video></div>
+                    <div><video id="#bgMusic" src="//i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/Game/rhjxwq.mp4" poster="../assets/images/small-program/02.png"  controls="controls" style="width:100%; height:100%; object-fit: fill"  ></video></video></div>
                     <p>市场主体违规案例解析服</p>
                 </li>
             </ul>
