@@ -60,8 +60,9 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item12 a{ float:right;width:2.2rem; height: 0.64rem; margin-right: 0.55rem;margin-top:0.18rem;}
 
 
-
-.item3{background-image: url('../assets/images/vip-h5/item3bg.jpg');height: 12.4rem;position: relative; box-sizing: border-box; padding-top: 2.7rem;}
+.item3{height: 12.4rem;position: relative; box-sizing: border-box; padding-top: 2.7rem;}
+.item3.item3_type0{background-image: url('../assets/images/vip-h5/item3bg_type0.jpg');}
+.item3.item3_type1{background-image: url('../assets/images/vip-h5/item3bg.jpg');}
 .item3-contanier div{
   width:6.84rem;
   margin:0.4rem auto;
@@ -76,9 +77,6 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 }
 .item3-contanier div.ai{
   margin-top:3.45rem;
-}
-.item3-contanier div.ai a{
-  margin-left:2.45rem;
 }
 
 
@@ -148,25 +146,29 @@ to { transform: scale(1); opacity: 1; }
   <div class="item item2">
     <!-- <a href="javascript:;" class="btngo"></a> -->
   </div>
-  <div class="item item3">
-    <div v-if="type===0" class="item3-contanier">
+  <div v-if="type===0" class="item item3 item3_type0">
+    <div class="item3-contanier">
       <div class="hm">
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160405010038945906"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141124010055108034"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289"></a>
       </div>
       <div class="ai">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172" style="margin-left:1.18rem;"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141222010003061213" style="margin-left:0.35rem;"></a>
       </div>
     </div>
-    <div v-if="type==='1'" class="item3-contanier">
+  </div>
+
+  <div v-if="type==='1'" class="item item3 item3_type1">
+    <div  class="item3-contanier">
       <div class="hm">
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160128010055553011"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160927010014740301"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289"></a>
       </div>
       <div class="ai">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160420010055922232"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160420010055922232" style="margin-left:2.4rem;"></a>
       </div>
     </div>
   </div>
