@@ -18,6 +18,7 @@ const store = new Vuex.Store({
 })
 const request = require('request-promise');
 const crypto = require('crypto');
+const iconv = require('iconv-lite')
 
 // 实例化vue对象
 const app = new Vue({
@@ -468,6 +469,81 @@ module.exports = function(router) {
     // 继续执行后面的中间件
     await next();
   });
+
+  // 东方证券小程序新闻转换api
+  router.get('/convertNewsForDongfang', async(ctx, next) => {
+    let query = ctx.query
+    let source = query.source
+    if (!source) {
+      ctx.status = 404
+      ctx.body = 'Not Found'
+      return
+    }
+    let result = await request({
+      url: source,
+      encoding: null
+    })
+    ctx.type = 'text/html'
+    result = iconv.decode(result, 'gbk')
+    result = result
+      //删除从头到content的内容
+      .replace(/^[\s\S]*<div class="content"/, '<div class="content"')
+      //删除底部的按钮
+      .replace(/<div[^>]*id="hideBtn">[\s\S]*?<\/div>/,'')
+      //删除结尾的内容
+      .replace(/<div class="footer"[\s\S]*/,'')
+      //删除日期
+      .replace(/<div[^>]*class="botborder1">[\s\S]*?<\/div>/,'')
+      //删除td10的padding
+      .replace(/<div class="td10".*?>/,'<div class="td10">')
+    ctx.body = `
+    <html>
+    <head>
+    	<meta charset="UTF-8">
+    	<title></title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,initial-scale=1.0" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="format-detection" content="telephone=no" />
+      <style type="text/css">
+        @charset "utf-8";
+        /* CSS Document */
+        body, div, p, h1, h2, h3, h4, h5, h6, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, table, th, td { margin: 0; padding: 0; }
+        body, button, input, select, textarea { font:12px/24px "Microsoft YaHei","微软雅黑",simsun,"宋体",tahoma,arial; }
+        h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+        address, cite, em, i { font-style: normal; }
+        li { list-style: none; }
+        a { text-decoration: none; }
+        a:link { text-decoration: none; }
+        a:active{  background:none !important;  }
+        legend { color: #000; }
+        fieldset, img { border: 0; }
+        button, input, select, textarea { font-size: 100%; line-height: normal; }
+        table { border-collapse: collapse; border-spacing: 0; }
+        input[type="button"], input[type="submit"], input[type="reset"] { cursor: pointer; }
+        .clearfix:after, .wrapper:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+        * html .clearfix { height: 1%; }
+        .clearfix { display: block; }
+        #setBgColor{width: 100%}
+        .auto_height{width: 6.9rem !important;padding: 0.4rem 0.3rem !important;}
+        .yellow_bt15{font-size: 0.44rem;line-height: 0.7rem;color: #444444;}
+        p,span{font-size: 0.32rem !important;line-height: 0.5rem !important;color: #444444 !important;margin-top: 0.4rem !important;}
+        .td10{padding-top: 0 !important;width: 100% !important}
+      </style>
+    </head>
+    <script type="text/javascript">
+      document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
+    </script>
+    <body>
+      ${result}
+    </body>
+    </html>
+    `
+  });
+
   router.get('*', async(ctx, next) => {
     ctx.template = ctx.path.substring(1);
     // 渲染vue对象为html字符串
