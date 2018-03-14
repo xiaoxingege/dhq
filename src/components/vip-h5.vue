@@ -46,7 +46,7 @@ body{ color:#333;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:
 .item2{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_02.jpg?b);position: relative;    height: 1.1rem;
     background-size: 100% auto;
     background-position: 0 0;}
-.item4{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_04.jpg);margin-top: -1rem;}
+.item4{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_04.jpg?1);margin-top: -1rem;}
 .item5{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_05.jpg);}
 .item6{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_06.jpg?b);}
 .item7{background-image: url(http://i0.jrjimg.cn/zqt-red-1000/focus/focus20170711vip/h5bg_07.jpg?b); position: relative;}
@@ -154,8 +154,8 @@ to { transform: scale(1); opacity: 1; }
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=161226010027925289"></a>
       </div>
       <div class="ai">
-        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172" style="margin-left:1.18rem;"></a>
         <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141222010003061213" style="margin-left:0.35rem;"></a>
+        <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172" style="margin-left:1.18rem;"></a>
       </div>
     </div>
   </div>
@@ -210,7 +210,7 @@ to { transform: scale(1); opacity: 1; }
     </ul>
     <div v-if="type===0" class="h5b clearfix links1">
       <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160405010038945906" class="fl"></a>
-      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160127010097561172"  class="fr h5ba2"></a>
+      <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=141222010003061213"  class="fr h5ba2"></a>
     </div>
     <div v-if="type==='1'" class="h5b clearfix links1">
       <a href="http://itougu.jrj.com.cn/xlive/web/vipDetailApp.jspa?tgid=160128010055553011" class="fl"></a>
