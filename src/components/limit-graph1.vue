@@ -218,7 +218,7 @@ export default {
     },
     getGraphData(){
       $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/min_and_concept.js',
+        url:'https://sslapi.jrj.com.cn/flashdata2/home/limitStatistic/min_and_concept.js',
         type:'get',
         cache:false,
         dataType:'script',
@@ -236,7 +236,7 @@ export default {
     },
     getlimitAddNum(){
       $.ajax({
-        url:'http://home.flashdata2.jrj.com.cn/limitStatistic/market.js',
+        url:'https://sslapi.jrj.com.cn/flashdata2/home/limitStatistic/market.js',
         type:'get',
         cache:false,
         dataType:'script',

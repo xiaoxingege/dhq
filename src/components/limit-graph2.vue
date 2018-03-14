@@ -158,7 +158,7 @@ export default {
 
     },
     fetchNewsData () {
-      var url='http://172.16.20.86:8031/mockjsdata/17/zxhq/sapi/hqindex/query_market_analysis'
+      var url='https://sslapi.jrj.com.cn/zxhq/sapi/hqindex/query_market_analysis'
       fetch(url, {
         method:'get',
         mode:'cors',
@@ -174,7 +174,7 @@ export default {
     },
     getlimitChange(){
       $.ajax({
-				 url:'http://home.flashdata2.jrj.com.cn/limitStatistic/market.js',
+				 url:'https://sslapi.jrj.com.cn/flashdata2/home/limitStatistic/market.js',
 				 type:'get',
 				 cache:false,
 				 dataType:'script',
