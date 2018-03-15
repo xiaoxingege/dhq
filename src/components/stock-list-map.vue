@@ -1,5 +1,5 @@
 <style lang="scss" scoped="">
-@import "../assets/scss/style.scss";
+@import "../assets/scss/style";
 .hover-wrapper {
     border: 4px solid #25262b;
     background: #fff;

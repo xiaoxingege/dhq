@@ -1,6 +1,6 @@
 <style lang="scss">
 @import '../assets/css/base.css';
-@import "../assets/scss/style.scss";
+@import "../assets/scss/style";
 .index-top {
     width: 100%;
     /*height: 37%;*/

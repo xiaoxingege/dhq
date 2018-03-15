@@ -1,6 +1,6 @@
 <style lang="scss">
 @import '../assets/css/base.css';
-@import "../assets/scss/style.scss";
+@import "../assets/scss/style";
 * {
     box-sizing: border-box;
 }

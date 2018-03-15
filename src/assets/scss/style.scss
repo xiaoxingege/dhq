@@ -13,3 +13,14 @@ $upColor:#ca4941;/* 所有红色 上涨 */
 $downColor:#56a870;/* 所有绿色 上涨 */
 $backupYellow:#f0b540;/* 备用黄色 */
 $fontSizeBase:12px;
+
+@mixin noteBoxBig{
+  color: #666666;
+  background: #cccfd9;
+  border-radius: 10px;
+}
+@mixin noteBoxSmall{
+  color: #666666;
+  background: #cccfd9;
+  border-radius: 3px;
+}

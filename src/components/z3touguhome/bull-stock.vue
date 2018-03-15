@@ -61,14 +61,12 @@
 }
 
 .help-window {
+    @include noteBoxBig;
     position: absolute;
     bottom: 30px;
     left: 27px;
     padding: 15px;
     width: 300px;
-    color: #666666;
-    background: #cccfd9;
-    border-radius: 10px;
     line-height: 18px;
     z-index: 9999;
 }

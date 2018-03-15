@@ -1,6 +1,6 @@
 <style lang="scss">
 @import '../assets/css/base.css';
-@import '../assets/scss/style.scss';
+@import '../assets/scss/style';
 body .app,
 html {
     height: 100%;
