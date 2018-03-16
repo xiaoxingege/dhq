@@ -135,7 +135,7 @@ export default {
             sendContent: ''
         }
     },
-    props: ['appItemId'],
+    props: ['appItemId', 'frm'],
     computed: mapState({
         data: state => state.topicComment.data,
         dataList: state => state.topicComment.dataList,
@@ -159,7 +159,7 @@ export default {
                 alert('超出字数限制')
                 return
             }
-            if (window.app.name !== '{{appid}}') {
+            if (window.app && window.app.name && window.app.name !== '{{appid}}') {
                 if (this.loginStatus === 'yes') {
                     if (this.commentType) {
                         this.$store.dispatch('topicComment/addComment', {
@@ -198,12 +198,52 @@ export default {
                     }))
                 }
             } else {
-                window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
-                setTimeout(function() {
-                    if (!document.webkitHidden) {
-                        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+
+
+                if (this.frm === 'web') {
+                    if (this.loginStatus === 'yes') {
+                        if (this.commentType) {
+                            this.$store.dispatch('topicComment/addComment', {
+                                appItemId: _this.data.appItemId,
+                                bizType: '8',
+                                senderId: _this.ssoId,
+                                appId: _this.data.appId,
+                                content: sendContent,
+                                frm: 'web',
+                                // frm: 'app',
+                                receiverId: _this.receiverId,
+                                receiverName: _this.receiverName,
+                                replyRootId: _this.replyRootId,
+                                replyToId: _this.replyRootId,
+                                accessToken: _this.accessToken,
+                                passportId: _this.passportId,
+                                devId: _this.devId
+                            })
+                        } else {
+                            this.$store.dispatch('topicComment/addComment', {
+                                appItemId: _this.data.appItemId,
+                                bizType: '8',
+                                senderId: _this.ssoId,
+                                appId: _this.data.appId,
+                                content: sendContent,
+                                // frm: 'app',
+                                frm: 'web',
+                                accessToken: _this.accessToken,
+                                passportId: _this.passportId,
+                                devId: _this.devId
+                            })
+                        }
+                    } else {
+                        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
                     }
-                }, 1500);
+                } else {
+                    window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
+                    setTimeout(function() {
+                        if (!document.webkitHidden) {
+                            window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+                        }
+                    }, 1500);
+                }
             }
 
         },
@@ -255,7 +295,7 @@ export default {
             alert(err.msg)
         })
         this.$watch('commentSubmit', commentSubmit => {
-            _this.sendContent.value = ''
+            _this.sendContent = ''
             $('.list-box').scrollTop(0)
         })
     }
