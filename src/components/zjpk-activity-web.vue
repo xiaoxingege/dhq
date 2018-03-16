@@ -521,6 +521,7 @@ export default {
                     loop: true,
                     centeredSlides: true,
                     initialSlide: 2,
+                    onlyExternal: true,
                     onClick: function(swiper) {
                         var index = 0
                         if (swiper.realIndex === 0) {

@@ -584,6 +584,7 @@ export default {
                         slideToClickedSlide: true,
                         loop: true,
                         initialSlide: 0,
+                        onlyExternal: true,
                         onClick: function(swiper) {
                             _this.clickIndex = swiper.realIndex
                         }
