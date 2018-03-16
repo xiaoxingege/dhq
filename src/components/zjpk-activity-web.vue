@@ -437,7 +437,7 @@ export default {
     data() {
         return {
             // appItemId: 25
-            appItemId: 8,
+            appItemId: null,
             frm: 'web',
             data: null,
             dataType: false,
