@@ -65,41 +65,62 @@ export default {
     }, options) {
         // `http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
 
-      fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'passportId':options.passportId,
-            'devId':options.devId,
-            'accessToken': options.accessToken
-        },
-        body:`itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
-        credentials: 'include'
-      }).then(res => {
-        return res.json()
-      }).then(json => {
-          if(json.retCode === 0){
-              commit('setCommentSubmit', state.commentSubmit+1)
-              dispatch('whereList',{
-                  appItemId:state.appItemId
-              })
-          }else{
-              commit('setError', {
-                  retCode: json.retCode,
-                  msg: json.msg
-              })
-          }
-          // if(json.success){
-          //     dispatch('whereList',{
-          //         appItemId:state.appItemId
-          //     })
-          // }else{
-          //     commit('setError', {
-          //         retCode: json.code,
-          //         msg: json.message
-          //     })
-          // }
-      })
+        if(options.frm === 'app'){
+            fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'passportId':options.passportId,
+                  'devId':options.devId,
+                  'accessToken': options.accessToken
+              },
+              body:`itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
+              credentials: 'include'
+            }).then(res => {
+              return res.json()
+            }).then(json => {
+                if(json.retCode === 0){
+                    commit('setCommentSubmit', state.commentSubmit+1)
+                    dispatch('whereList',{
+                        appItemId:state.appItemId
+                    })
+                }else{
+                    commit('setError', {
+                        retCode: json.retCode,
+                        msg: json.msg
+                    })
+                }
+                // if(json.success){
+                //     dispatch('whereList',{
+                //         appItemId:state.appItemId
+                //     })
+                // }else{
+                //     commit('setError', {
+                //         retCode: json.code,
+                //         msg: json.message
+                //     })
+                // }
+            })
+        }else if(options.frm === 'web'){
+            fetch(`http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
+              method: 'get',
+              credentials: 'include'
+            }).then(res => {
+              return res.json()
+            }).then(json => {
+                if(json.success){
+                    commit('setCommentSubmit', state.commentSubmit+1)
+                    dispatch('whereList',{
+                        appItemId:state.appItemId
+                    })
+                }else{
+                    commit('setError', {
+                        retCode: json.code,
+                        msg: json.message
+                    })
+                }
+            })
+        }
     }
   }
 }
