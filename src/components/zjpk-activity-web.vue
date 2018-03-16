@@ -378,13 +378,13 @@ input {
         </div>
     </div>
     <div class="bg3">
-        <div class="box-con">
-            <div class="tginfo" v-if="plType && dataType">
+        <div class="box-con" v-if="plType && dataType">
+            <div class="tginfo">
                 <strong>NO.{{data.tgInfo[clickIndex].sort}}  <span>{{dataList[clickIndex].userName}}</span><span>{{dataList[clickIndex].typeDesc}}</span></strong>
                 <p>{{data.tgInfo[clickIndex].desc}}</p>
                 <a :href="'http://itougu.jrj.com.cn/live/'+data.tgInfo[clickIndex].roomId"></a>
             </div>
-            <table class="ggzj" v-if="plType && dataType">
+            <table class="ggzj">
                 <tr>
                     <th>内参盈亏</th>
                     <th>建议个股数</th>
@@ -396,7 +396,7 @@ input {
                     <td>{{item.suggestRatio}}</td>
                 </tr>
             </table>
-            <div class="slcz" v-if="plType && dataType">
+            <div class="slcz">
                 <div class="slcz-img" v-if="plType" :style="data.tgInfo[clickIndex].pic.length === 1 ? 'text-align:center;' : ''">
                     <img :src="item" v-for="item in data.tgInfo[clickIndex].pic" :style="data.tgInfo[clickIndex].pic.length === 1 ? 'float:none;' : ''" />
                 </div>
