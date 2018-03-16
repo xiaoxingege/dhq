@@ -439,7 +439,7 @@ button {
             <div class="tginfo" v-if="plType">
                 <strong>NO.{{data.tgInfo[clickIndex].sort}}  <span>{{dataList[clickIndex].userName}}</span><span>{{dataList[clickIndex].typeDesc}}</span></strong>
                 <p>{{data.tgInfo[clickIndex].desc}}</p>
-                <a :href="'http://itougu.jrj.com.cn/live/15'+data.tgInfo[clickIndex].roomId"></a>
+                <a :href="'http://itougu.jrj.com.cn/live/'+data.tgInfo[clickIndex].roomId"></a>
             </div>
             <div class="ggzj">
                 <div></div>
@@ -465,7 +465,7 @@ button {
                     <div class="slcz-title"></div>
                     <div class="slcz-img">
                         <img :src="item" v-for="item in data.tgInfo[clickIndex].pic" />
-                        <a :href="'http://itougu.jrj.com.cn/account/adviser/141120010079383950/'+data.tgInfo[clickIndex].userId">点击了解ＴA的服务</a>
+                        <a :href="'http://itougu.jrj.com.cn/account/adviser/'+data.tgInfo[clickIndex].userId+'/'">点击了解ＴA的服务</a>
                         <div v-for="item in data.tgInfo[clickIndex].summary">
                             <h5>{{item.title}}</h5>
                             <p>{{item.content}}</p>
@@ -483,7 +483,7 @@ button {
                         </div>
                         <div v-for="items in item.summary">
                             <h5>{{items.title}}</h5>
-                            <p>{{item.content}}</p>
+                            <p>{{items.content}}</p>
                         </div>
                     </div>
                     <p class="tips">*风险提示：历史战绩不代表未来！</p>
@@ -521,7 +521,7 @@ export default {
         return {
             data: null,
             dataType: false,
-            appItemId: null,
+            appItemId: 29,
             plType: false,
             tgInfo: null,
             clickIndex: 0

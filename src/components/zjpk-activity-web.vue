@@ -382,7 +382,7 @@ input {
             <div class="tginfo" v-if="plType && dataType">
                 <strong>NO.{{data.tgInfo[clickIndex].sort}}  <span>{{dataList[clickIndex].userName}}</span><span>{{dataList[clickIndex].typeDesc}}</span></strong>
                 <p>{{data.tgInfo[clickIndex].desc}}</p>
-                <a :href="'http://itougu.jrj.com.cn/live/15'+data.tgInfo[clickIndex].roomId"></a>
+                <a :href="'http://itougu.jrj.com.cn/live/'+data.tgInfo[clickIndex].roomId"></a>
             </div>
             <table class="ggzj" v-if="plType && dataType">
                 <tr>
@@ -405,7 +405,7 @@ input {
                     <p>{{item.content}}</p>
                 </div>
             </div>
-            <a href="javascript:;" class="tgzy"></a>
+            <a :href="'http://itougu.jrj.com.cn/account/adviser/'+data.tgInfo[clickIndex].userId+'/'" class="tgzy"></a>
         </div>
     </div>
     <div class="bg4">
@@ -437,7 +437,7 @@ export default {
     data() {
         return {
             // appItemId: 25
-            appItemId: null,
+            appItemId: 29,
             frm: 'web',
             data: null,
             dataType: false,
@@ -540,19 +540,9 @@ export default {
                 });
             }
         })
-
-
-        // document.title = '爱投顾战绩PK榜'
-        // this.$store.dispatch('user/checkLogin')
-        // new Swiper('.swiper-container', {
-        //     slidesPerView: 5,
-        //     paginationClickable: true,
-        //     spaceBetween: 30,
-        //     slideToClickedSlide: true,
-        //     loop: true,
-        //     centeredSlides: true,
-        //     initialSlide: 2
-        // });
+        this.$watch('commentSubmit', commentSubmit => {
+            $('html,body').scrollTop($('.bg4').offset().top)
+        })
     }
 }
 </script>
