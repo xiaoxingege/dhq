@@ -7,6 +7,8 @@ import Vuex from 'vuex'
 import ComponentsList from 'components/components-list'
 import renderToString from 'utils/renderToString'
 
+const md5 = require('js-md5')
+
 Vue.use(Vuex)
 
 /*
@@ -40,6 +42,21 @@ const connectDb = async(dbName) => {
   }
 }
 
+const exceptClasses = ['11thActivity', 'koaLoggerParse']
+const privateKey = 'hello2018'
+
+const signature = function(params, t) {
+  let keys = Object.keys(params)
+  keys.sort()
+  let str = keys.map(key => `${key}=${encodeURIComponent(params[key])}`).join('&')
+  str += t + privateKey
+  return md5(str)
+}
+
+const checkSign = function(params, t, sign) {
+  return signature(params, t) === sign
+}
+
 module.exports = function(router) {
   router.get('/getClientInfo', async(ctx, next) => {
     ctx.body = {
@@ -67,6 +84,25 @@ module.exports = function(router) {
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
+    let {
+      sign,
+      t
+    } = ctx.request.query || {};
+    let now = Date.now()
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
+      }
+      return
+    }
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
+      }
+      return
+    }
     if (!data) {
       ctx.body = {
         code: 1,
@@ -95,6 +131,25 @@ module.exports = function(router) {
     let className = ctx.params.className;
     let objectId = ctx.params.objectId;
     let data = ctx.request.body;
+    let {
+      sign,
+      t
+    } = ctx.request.query || {};
+    let now = Date.now()
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
+      }
+      return
+    }
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
+      }
+      return
+    }
     if (!data) {
       ctx.body = {
         code: 1,
@@ -127,8 +182,28 @@ module.exports = function(router) {
   router.delete('/crud/:className/:objectId?', async(ctx, next) => {
     let className = ctx.params.className;
     let objectId = ctx.params.objectId;
-    let query = ctx.request.query;
+    let query = ctx.request.query || {};
     let where = query.where;
+    let data = ctx.request.body;
+    let {
+      sign,
+      t
+    } = query;
+    let now = Date.now()
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
+      }
+      return
+    }
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
+      }
+      return
+    }
     if (!objectId && !where) {
       ctx.body = {
         code: 1,
@@ -222,7 +297,30 @@ module.exports = function(router) {
     }
     ctx.body = result
   });
-
+  router.get('/sdjg-activity', async(ctx, next) => {
+    ctx.title = '金融界实地调研 直击2018A股价值王';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
+  router.get('/zdcpQxsj-activity', async(ctx, next) => {
+    ctx.title = 'Z点操盘全心升级，好礼矩献';
+    ctx.metaDescription = '';
+    ctx.metaKeywords = '';
+    ctx.template = ctx.path.substring(1);
+    // 渲染vue对象为html字符串
+    let html = '';
+    // 向浏览器输出完整的html
+    ctx.body = html;
+    // 继续执行后面的中间件
+    await next();
+  });
   router.get('/yearEnd-activity', async(ctx, next) => {
     ctx.title = '领航2018 布局“复兴牛”-金融界';
     ctx.metaDescription = '';

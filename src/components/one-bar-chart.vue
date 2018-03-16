@@ -63,7 +63,7 @@ export default {
                     yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
                     return params.seriesData[0].name
                   } else {
-                    if (typeof(yLabelData) !== 'undefined') {
+                    if (typeof yLabelData !== 'undefined') {
                       return yLabelData
                     } else {
                       return ''

@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.796",
+  "version": "0.0.928",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -97,6 +97,8 @@
     "fetch": "^1.1.0",
     "fetch-jsonp": "^1.1.1",
     "hsy-vue-tooltip": "^0.0.7",
+    "iscroll": "^5.2.0",
+    "js-md5": "^0.7.3",
     "koa": "^2.3.0",
     "koa-body": "^2.5.0",
     "koa-router": "^7.2.1",
@@ -110,6 +112,7 @@
     "sass": "^1.0.0-beta.2",
     "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.4.2",
-    "vuedraggable": "^2.14.1"
+    "vuedraggable": "^2.14.1",
+    "xlsx": "^0.11.19"
   }
 }
