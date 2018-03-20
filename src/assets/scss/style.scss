@@ -12,13 +12,15 @@ $hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
 $upColor:#ca4941;/* 所有红色 上涨 */
 $downColor:#56a870;/* 所有绿色 上涨 */
 $backupYellow:#f0b540;/* 备用黄色 */
-$fontSizeBase:12px;
+$fontSizeBase:12px; /* 基本字体 */
 
+/* 大注释浮框 */
 @mixin noteBoxBig{
   color: #666666;
   background: #cccfd9;
   border-radius: 10px;
 }
+/* 小注释浮框 */
 @mixin noteBoxSmall{
   color: #666666;
   background: #cccfd9;
