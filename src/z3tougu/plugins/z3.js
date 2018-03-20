@@ -52,56 +52,66 @@ export default {
       }
     })
 
-    /**时间戳毫秒级 1521279696000
-    * 使用方式<div v-z3-time='1521279696000'></div>
+    /**
+    * 使用方式:1、时间戳毫秒级 <div v-z3-time='"1521279696000"'></div>
+              2、日期格式 <div v-z3-time='"2014-07-10 10:21:12"'></div>
     */
     Vue.directive('z3-time',(el,binding,vnode,oldVnode) => {
       var dateTimeStamp = binding.value; // 传入时间戳
-      var now = new Date().getTime();
-      var day_conver=1000*60*60*24;
-      var hour_conver=1000*60*60;
-      var min_conver=1000*60;
-      var time_conver=now-dateTimeStamp;
-      var temp_conver;
-      if((time_conver/day_conver)<1){
-        temp_conver=(time_conver/hour_conver);
-        if(temp_conver>=1){
-          el.innerHTML=parseInt(temp_conver)+"小时前";
-        }else {
-          temp_conver=(time_conver/min_conver);
+      if(dateTimeStamp != undefined && dateTimeStamp != null){
+        if(dateTimeStamp.length == 13){
+          dateTimeStamp = parseInt(binding.value);
+        }else{
+          var timestamp = Date.parse(new Date(dateTimeStamp))
+          dateTimeStamp = timestamp;
+        }
+        var now = new Date().getTime();
+        var day_conver=1000*60*60*24;
+        var hour_conver=1000*60*60;
+        var min_conver=1000*60;
+        var time_conver=now-dateTimeStamp;
+        var temp_conver;
+        if((time_conver/day_conver)<1){
+          temp_conver=(time_conver/hour_conver);
           if(temp_conver>=1){
-            el.innerHTML=parseInt(temp_conver)+"分钟前";
+            el.innerHTML=parseInt(temp_conver)+"小时前";
+          }else {
+            temp_conver=(time_conver/min_conver);
+            if(temp_conver>=1){
+              el.innerHTML=parseInt(temp_conver)+"分钟前";
+            }else{
+              el.innerHTML="刚刚";
+            }
+          }
+        }else{
+          var curTimeMillis = new Date().getTime();// 系统当前时间戳
+          var curDate = new Date(curTimeMillis);
+          var todayHoursSeconds = curDate.getHours() * 60 * 60;
+          var todayMinutesSeconds = curDate.getMinutes() * 60;
+          var todaySeconds = curDate.getSeconds();
+          var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000;
+          var todayStartMillis = curTimeMillis - todayMillis;
+          var oneDayMillis = 24 * 60 * 60 * 1000;
+          var yesterdayStartMilis = todayStartMillis - oneDayMillis;
+          //昨天显示“昨天 小时:分钟” ，如“昨天 16:00”
+          if(dateTimeStamp >= yesterdayStartMilis) {
+            //时间戳转为yyyy-MM-DD
+            var date = new Date(dateTimeStamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var h = date.getHours() + ':';
+            var m = date.getMinutes();
+            el.innerHTML="昨天 "+h+m
           }else{
-            el.innerHTML="刚刚";
+            //	昨天之前的时间显示“日期 小时:分钟”，如“3-1 14:00”
+            var date = new Date(dateTimeStamp);
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = date.getDate() + ' ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes();
+            el.innerHTML=M+D+h+m
           }
         }
       }else{
-        var curTimeMillis = new Date().getTime();// 系统当前时间戳
-        var curDate = new Date(curTimeMillis);
-        var todayHoursSeconds = curDate.getHours() * 60 * 60;
-        var todayMinutesSeconds = curDate.getMinutes() * 60;
-        var todaySeconds = curDate.getSeconds();
-        var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000;
-        var todayStartMillis = curTimeMillis - todayMillis;
-        var oneDayMillis = 24 * 60 * 60 * 1000;
-        var yesterdayStartMilis = todayStartMillis - oneDayMillis;
-        console.log(dateTimeStamp >= yesterdayStartMilis)
-        //昨天显示“昨天 小时:分钟” ，如“昨天 16:00”
-        if(dateTimeStamp >= yesterdayStartMilis) {
-          //时间戳转为yyyy-MM-DD
-          var date = new Date(dateTimeStamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-          var h = date.getHours() + ':';
-          var m = date.getMinutes();
-          el.innerHTML="昨天 "+h+m
-        }else{
-          //	昨天之前的时间显示“日期 小时:分钟”，如“3-1 14:00”
-          var date = new Date(dateTimeStamp);
-          var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-          var D = date.getDate() + ' ';
-          var h = date.getHours() + ':';
-          var m = date.getMinutes();
-          el.innerHTML=M+D+h+m
-        }
+        el.innerHTML="--"
       }
      })
 
