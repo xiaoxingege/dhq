@@ -98,7 +98,7 @@ export default {
               }
             }
           }else{
-              el.innerHTML=h + m
+              el.innerHTML= h + m
           }
         }else{
           var curTimeMillis = new Date().getTime()// 系统当前时间戳
@@ -113,7 +113,7 @@ export default {
           if(dateTimeStamp >= yesterdayStartMilis) {
               el.innerHTML="昨天 "+h+m
           }else{
-              el.innerHTML=M+D+h+m
+              el.innerHTML= M+D+h+m
           }
         }
       }else{
