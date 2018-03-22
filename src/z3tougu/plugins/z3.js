@@ -60,70 +60,60 @@ export default {
                      （2）当天内显示“小时:分钟”， 如“1:00”
     */
     Vue.directive('z3-time',(el,binding,vnode,oldVnode) => {
-      var dateTimeStamp =binding.value.time; // 传入时间戳
-      var dateType = parseInt(binding.value.type);
-      console.log(dateTimeStamp.indexOf('-'))
+      var dateTimeStamp =binding.value.time // 传入时间戳
+      var dateType = parseInt(binding.value.type)
       if(dateTimeStamp.indexOf('-')==-1){
-        dateTimeStamp = parseInt(binding.value.time);
+        dateTimeStamp = parseInt(binding.value.time)
       }
 
       if(dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp !=''){
         if(dateTimeStamp.length == 13){
-          dateTimeStamp = parseInt(binding.value);
+          dateTimeStamp = parseInt(binding.value)
         }else{
           var timestamp = Date.parse(new Date(dateTimeStamp))
-          dateTimeStamp = timestamp;
+          dateTimeStamp = timestamp
         }
-        var now = new Date().getTime();
-        var day_conver=1000*60*60*24;
-        var hour_conver=1000*60*60;
-        var min_conver=1000*60;
-        var time_conver=now-dateTimeStamp;
-        var temp_conver;
+        var now = new Date().getTime()
+        var day_conver=1000*60*60*24
+        var hour_conver=1000*60*60
+        var min_conver=1000*60
+        var time_conver=now-dateTimeStamp
+        var temp_conver
+        var date = new Date(dateTimeStamp)
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
+        var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' '
+        var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':'
+        var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes())
         if((time_conver/day_conver)<1){
           if(dateType === 1){
-            temp_conver=(time_conver/hour_conver);
+            temp_conver=(time_conver/hour_conver)
             if(temp_conver>=1){
-              el.innerHTML=parseInt(temp_conver)+"小时前";
+              el.innerHTML=parseInt(temp_conver)+"小时前"
             }else {
-              temp_conver=(time_conver/min_conver);
+              temp_conver=(time_conver/min_conver)
               if(temp_conver>=1){
-                el.innerHTML=parseInt(temp_conver)+"分钟前";
+                el.innerHTML=parseInt(temp_conver)+"分钟前"
               }else{
-                el.innerHTML="刚刚";
+                el.innerHTML="刚刚"
               }
             }
           }else{
-            var date = new Date(dateTimeStamp);
-            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
-            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
-            el.innerHTML=h + m;
+              el.innerHTML=h + m
           }
         }else{
-          var curTimeMillis = new Date().getTime();// 系统当前时间戳
-          var curDate = new Date(curTimeMillis);
-          var todayHoursSeconds = curDate.getHours() * 60 * 60;
-          var todayMinutesSeconds = curDate.getMinutes() * 60;
-          var todaySeconds = curDate.getSeconds();
-          var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000;
-          var todayStartMillis = curTimeMillis - todayMillis;
-          var oneDayMillis = 24 * 60 * 60 * 1000;
-          var yesterdayStartMilis = todayStartMillis - oneDayMillis;
-          //昨天显示“昨天 小时:分钟” ，如“昨天 16:00”
+          var curTimeMillis = new Date().getTime()// 系统当前时间戳
+          var curDate = new Date(curTimeMillis)
+          var todayHoursSeconds = curDate.getHours() * 60 * 60
+          var todayMinutesSeconds = curDate.getMinutes() * 60
+          var todaySeconds = curDate.getSeconds()
+          var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000
+          var todayStartMillis = curTimeMillis - todayMillis
+          var oneDayMillis = 24 * 60 * 60 * 1000
+          var yesterdayStartMilis = todayStartMillis - oneDayMillis
           if(dateTimeStamp >= yesterdayStartMilis) {
-            //时间戳转为yyyy-MM-DD
-            var date = new Date(dateTimeStamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
-            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
-            el.innerHTML="昨天 "+h+m
+              el.innerHTML="昨天 "+h+m
           }else{
-            //	昨天之前的时间显示“日期 小时:分钟”，如“3-1 14:00”
-            var date = new Date(dateTimeStamp);
-            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-            var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
-            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
-            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
-            el.innerHTML=M+D+h+m
+              el.innerHTML=M+D+h+m
           }
         }
       }else{
