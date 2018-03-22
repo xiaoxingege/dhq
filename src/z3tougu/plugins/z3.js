@@ -53,12 +53,21 @@ export default {
     })
 
     /**
-    * 使用方式:1、时间戳毫秒级 <div v-z3-time='"1521279696000"'></div>
-              2、日期格式 <div v-z3-time='"2014-07-10 10:21:12"'></div>
+    * 使用方式:1、时间戳毫秒级 <div  v-z3-time="{ time: '1521279696000', type: '1' }"></div>
+              2、日期格式<div  v-z3-time="{ time: '2018-03-22 10:21:12', type: '2' }"></div>
+              3、type=1 & type=2
+                     （1）新闻的资讯按照时间1小时以内的是“多少分钟前”，1分钟内的资讯显示“刚刚”表示
+                     （2）当天内显示“小时:分钟”， 如“1:00”
     */
     Vue.directive('z3-time',(el,binding,vnode,oldVnode) => {
-      var dateTimeStamp = binding.value; // 传入时间戳
-      if(dateTimeStamp != undefined && dateTimeStamp != null){
+      var dateTimeStamp =binding.value.time; // 传入时间戳
+      var dateType = parseInt(binding.value.type);
+      console.log(dateTimeStamp.indexOf('-'))
+      if(dateTimeStamp.indexOf('-')==-1){
+        dateTimeStamp = parseInt(binding.value.time);
+      }
+
+      if(dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp !=''){
         if(dateTimeStamp.length == 13){
           dateTimeStamp = parseInt(binding.value);
         }else{
@@ -72,16 +81,23 @@ export default {
         var time_conver=now-dateTimeStamp;
         var temp_conver;
         if((time_conver/day_conver)<1){
-          temp_conver=(time_conver/hour_conver);
-          if(temp_conver>=1){
-            el.innerHTML=parseInt(temp_conver)+"小时前";
-          }else {
-            temp_conver=(time_conver/min_conver);
+          if(dateType === 1){
+            temp_conver=(time_conver/hour_conver);
             if(temp_conver>=1){
-              el.innerHTML=parseInt(temp_conver)+"分钟前";
-            }else{
-              el.innerHTML="刚刚";
+              el.innerHTML=parseInt(temp_conver)+"小时前";
+            }else {
+              temp_conver=(time_conver/min_conver);
+              if(temp_conver>=1){
+                el.innerHTML=parseInt(temp_conver)+"分钟前";
+              }else{
+                el.innerHTML="刚刚";
+              }
             }
+          }else{
+            var date = new Date(dateTimeStamp);
+            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
+            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+            el.innerHTML=h + m;
           }
         }else{
           var curTimeMillis = new Date().getTime();// 系统当前时间戳
@@ -97,16 +113,16 @@ export default {
           if(dateTimeStamp >= yesterdayStartMilis) {
             //时间戳转为yyyy-MM-DD
             var date = new Date(dateTimeStamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-            var h = date.getHours() + ':';
-            var m = date.getMinutes();
+            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
+            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
             el.innerHTML="昨天 "+h+m
           }else{
             //	昨天之前的时间显示“日期 小时:分钟”，如“3-1 14:00”
             var date = new Date(dateTimeStamp);
             var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-            var D = date.getDate() + ' ';
-            var h = date.getHours() + ':';
-            var m = date.getMinutes();
+            var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
+            var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
+            var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
             el.innerHTML=M+D+h+m
           }
         }
