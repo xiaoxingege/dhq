@@ -64,7 +64,7 @@
   right:0.3rem;
   width:0.11rem;
   height: 0.22rem;
-  background: url('http://i0.jrjimg.cn/appjrjv2016/zjlx_07.png') center no-repeat;
+  background: url('https://i0.jrjimg.cn/appjrjv2016/zjlx_07.png') center no-repeat;
   background-size: contain;
 }
 .newsflash{
@@ -228,7 +228,7 @@
     <!-- 涨跌停快报-start -->
     <div class="newsflash-container">
       <span class="arrows"></span>
-      <div class="newsflash"  onclick="window.location.href='http://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
+      <div class="newsflash"  onclick="window.location.href='https://itougu.jrj.com.cn/h5/riseAndFallQuickReport'">
         <span class="icon"></span>
         <span class="title">涨跌停快报</span>
         <ul  v-if="newsData.length>0">

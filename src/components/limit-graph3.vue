@@ -59,12 +59,12 @@
 }
 .hint3  .tongbi em.red{
 	display: block;
-	background:url('http://i0.jrjimg.cn/optional/yestoday/up.png') left 0.09rem no-repeat;
+	background:url('https://i0.jrjimg.cn/optional/yestoday/up.png') left 0.09rem no-repeat;
 	background-size: 0.1rem 0.2rem;
 }
 .hint3  .tongbi em.green{
 	display: block;
-	background:url('http://i0.jrjimg.cn/optional/yestoday/down.png') left center no-repeat;
+	background:url('https://i0.jrjimg.cn/optional/yestoday/down.png') left center no-repeat;
 	background-size: 0.1rem 0.2rem;
 }
 .hint3  .tongbi span.red{
@@ -240,7 +240,7 @@ export default {
     // 获取赚钱效益 结果
 		getbenefit(){
 			$.ajax({
-        url:'http://hqdata.jrj.com.cn/zrztjrbx/min_performance.js',
+        url:'https://hqdata.jrj.com.cn/zrztjrbx/min_performance.js',
         type:'get',
         cache:false,
         dataType:'script',

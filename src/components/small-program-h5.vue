@@ -8,7 +8,7 @@ a{color: #444444;display: block;width: 100%;overflow: hidden;white-space: nowrap
 .banner div{width: 100%;height: 0.76rem;position: absolute;bottom: 0;left: 0;font-size: 0.3rem;line-height: 0.76rem;text-indent: 0.3rem;color: #fff;background: rgba(0,0,0,0.6)}
 .part01{width: 6.9rem;height: 3rem;padding:0.2rem 0.3rem 0.25rem 0.3rem;background: #fff;}
 .title{width: 100%;height: 0.75rem;font-size: 0.32rem;line-height: 0.75rem;color: #333;text-indent: 0.24rem;font-weight: bolder;}
-.title span{width: 0.06rem;height: 0.28rem;background: #f54949;display: block;margin-top: 0.23rem;float: left;}
+.title span{width: 0.06rem;height: 0.28rem;background: #f54949;display: block;margin-top: 0.23rem;float: left;font-family: Helvetica,"PingFang SC";}
 .part01>ul>li img{width: 0.26rem;height: 0.26rem;display: block;float: left;margin-top: 0.14rem;}
 .part01>ul>li p{width: 5rem;float: left;font-size: 0.28rem;line-height: 0.56rem;color: #444444;margin-left: 0.14rem;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;}
 .part01>ul>li span{float: right;font-size: 0.22rem;line-height: 0.56rem;color: #aaaaaa;}
@@ -27,7 +27,7 @@ a{color: #444444;display: block;width: 100%;overflow: hidden;white-space: nowrap
 <template>
     <div id="smallPro">
         <div class="banner">
-            <div>港股通投资新规知多少</div>
+            <a href="//itougu.jrj.com.cn/actm/convertNewsForDongfang?source=http://www.szse.cn/main/investor/fxjy/39774363.shtml"><div>了解停复牌初衷 不必谈“停”色变</div></a>
         </div>
         <div class="part01">
             <p class="title clearfix"><span></span>业界投教动态</p>
@@ -57,14 +57,14 @@ a{color: #444444;display: block;width: 100%;overflow: hidden;white-space: nowrap
         <div class="part02">
             <p class="title clearfix"><span></span>投资课堂</p>
             <ul class="clearfix">
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">投资100问</a></li>
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">兴趣教学</a></li>
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">投资维权方式</a></li>
+                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">理财“百事通”</a></li>
+                <li><a href="//itougu.jrj.com.cn/activity/app/pageList1.jspa">入市辅导</a></li>
+                <li><a href="//itougu.jrj.com.cn/activity/app/pageList2.jspa">了解上市公司</a></li>
             </ul>
             <ul class="clearfix mat">
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">小白学堂</a></li>
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">操作市场方式</a></li>
-                <li><a href="//itougu.jrj.com.cn/actm/small-program-list">如何理财</a></li>
+                <li><a href="//itougu.jrj.com.cn/activity/app/pageList3.jspa">小白学堂</a></li>
+                <li><a href="//itougu.jrj.com.cn/activity/app/pageList4.jspa">“退市”知多少</a></li>
+                <li><a href="//itougu.jrj.com.cn/activity/app/pageList5.jspa">投资风险课堂</a></li>
             </ul>
         </div>
         <div class="part03">
