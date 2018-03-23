@@ -106,6 +106,16 @@ const getRandomNum = async function({ max }) {
   return integersResult
 }
 module.exports = function(router) {
+
+  router.post("/proxy", async(ctx, next) => {
+    let body = ctx.request.body;
+    let result;
+    body = Object.assign(body, {
+      resolveWithFullResponse: true
+    })
+    ctx.body = request(body);
+  });
+
   router.get('/lottery', async(ctx, next) => {
     let num = ctx.query.num || '20'; // 每次抽取的数量
     let max = ctx.query.max || '300'; // 最大中奖号码
@@ -489,13 +499,13 @@ module.exports = function(router) {
       //删除从头到content的内容
       .replace(/^[\s\S]*<div class="content"/, '<div class="content"')
       //删除底部的按钮
-      .replace(/<div[^>]*id="hideBtn">[\s\S]*?<\/div>/,'')
+      .replace(/<div[^>]*id="hideBtn">[\s\S]*?<\/div>/, '')
       //删除结尾的内容
-      .replace(/<div class="footer"[\s\S]*/,'')
+      .replace(/<div class="footer"[\s\S]*/, '')
       //删除日期
-      .replace(/<div[^>]*class="botborder1">[\s\S]*?<\/div>/,'')
+      .replace(/<div[^>]*class="botborder1">[\s\S]*?<\/div>/, '')
       //删除td10的padding
-      .replace(/<div class="td10".*?>/,'<div class="td10">')
+      .replace(/<div class="td10".*?>/, '<div class="td10">')
     ctx.body = `
     <html>
     <head>
