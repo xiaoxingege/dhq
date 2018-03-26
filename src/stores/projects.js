@@ -13,9 +13,17 @@ const actions = {
   fetch({ commit }, params) {
     const $ = require('jquery')
     $.ajax({
-      url:'http://jira2.jrj.com.cn/rest/api/latest/search?jql=parent=JRJZBXM-7819'
+      url: 'http://itougu.jrj.com.cn/actm/proxy',
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        url: 'http://jira2.jrj.com.cn/rest/api/latest/search?jql=parent=JRJZBXM-7819',
+        headers: {
+          Authorization: 'Basic c2hpaHVhbmcucGlhbzpTZW9ubXl5dDc3'
+        }
+      }
     }).then(data => {
-      alert(data)
+      console.log(data)
     })
   }
 }
