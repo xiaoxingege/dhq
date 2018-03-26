@@ -47,6 +47,7 @@ import AutoinpBox from 'components/autoinp-box'
 import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
+import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -331,6 +332,11 @@ export default [{
     path: ctx + '/dragonList',
     name: 'dragonListDialog',
     component: DragonListDialog
+  },
+  {
+    path: ctx + '/wisdomHeadlines',
+    name: 'wisdomHeadlines',
+    component: wisdomHeadlines
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',
