@@ -2,11 +2,29 @@
 @import '../assets/css/reset.css';
 .projects-dashboard {
     padding: 20px;
+    font-size: 14px;
+}
+.btn {
+  padding: 0 6px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 3px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.btn.btn-default {
+  color: #666;
+  border: 1px solid #ccc;
+}
+
+.btn.btn-default:hover {
+  background: #efefef;
 }
 </style>
 <template>
 <div class="projects-dashboard">
-  <ProjectsList :nickname="nickname" :finish="finish" />
+  <ProjectsList :nickname="nickname" />
 </div>
 </template>
 
@@ -24,9 +42,6 @@ export default {
   computed: {
     nickname () {
       return this.$route.params.nickname
-    },
-    finish () {
-      return location.search.indexOf('finish=1') !== -1
     },
     ...mapState({
 
