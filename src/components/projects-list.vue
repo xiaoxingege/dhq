@@ -2,6 +2,7 @@
 @import '../assets/css/reset.css';
 .projects-list {
     width: 100%;
+    font-size: 14px;
 }
 .btn {
   padding: 0 6px;
@@ -224,7 +225,6 @@ export default {
             let prj = projects.filter(prj => {
               return params.value[1] === prj.fields.summary
             })[0]
-            debugger
             location.href = `http://jira2.jrj.com.cn/browse/${prj.key}`
           }
         })
