@@ -5,14 +5,14 @@ import {
 import fetch from '../z3tougu/util/z3fetch'
 
 const state = {
-  bubbleData: null,
+  bubbleData: [],
   abnormalStockList: [], // 异动个股
   abnormalPlateList: [], // 异动板块
   indexData: [], // 指数数据
   marketCount: [] // 涨跌股票统计数据
 }
 
-const mutations_types = {
+const mutationsTypes = {
   UPDATE_BUBBLE: 'UPDATE_BUBBLE',
   UPDATE_ABNORMAL_STOCKS: 'UPDATE_ABNORMAL_STOCKS',
   UPDATE_PLATE_LIST: 'UPDATE_PLATE_LIST',
@@ -28,7 +28,8 @@ const actions = {
     x,
     y,
     size,
-    color
+    color,
+    type
   }) {
     const url = `${domain}/openapi/dimension/bubbles`
     fetch(url, {
@@ -38,10 +39,10 @@ const actions = {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'post',
-      body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}`
+      body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}&type=${type}`
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === -1) {
-        commit(mutations_types.UPDATE_BUBBLE, result);
+        commit(mutationsTypes.UPDATE_BUBBLE, result);
       } else {
         commit('ERROR', result, {
           root: true
@@ -59,8 +60,8 @@ const actions = {
     fetch(url, {
       mode: 'cors'
     }).then((res) => res.json()).then((result) => {
-      if (result.errCode === -1) {
-        commit(mutations_types.UPDATE_ABNORMAL_STOCKS, result)
+      if (result.errCode === 0) {
+        commit(mutationsTypes.UPDATE_ABNORMAL_STOCKS, result)
       } else {
         commit('ERROR', result, {
           root: true
@@ -71,11 +72,11 @@ const actions = {
 }
 
 const mutations = {
-  [mutations_types.UPDATE_BUBBLE](commit, bubbleData) {
-    this.state.bubbleData = bubbleData.data || []
+  [mutationsTypes.UPDATE_BUBBLE](state, bubbleData) {
+    state.bubbleData = bubbleData.data || []
   },
-  [mutations_types.UPDATE_ABNORMAL_STOCKS](commit, stocks) {
-    this.state.abnormalStockList = stocks.data || []
+  [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
+    state.abnormalStockList = stocks.data || []
   }
 }
 

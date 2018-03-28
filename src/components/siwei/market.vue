@@ -14,16 +14,16 @@
   <div class='right'>
     <div class='stocks'>
       <div class='tit'>异动个股</div>
-      <div class='stock' v-for='stock of abnormalStockList'>
+      <div class='stock' v-for='stock of stockList'>
         <div class='time'>{{stock.time}}</div>
         <div class='item'>
           <span class=''>{{stock.stockName}}</span>
-          <span class=''>{{stock.code}}</span>
+          <span class=''>{{stock.symbol}}</span>
           <span class=''>{{stock.chg}}</span>
           <span class='type'>{{stock.type}}</span>
         </div>
-        <div class="news">
-          <span class="mark">{{}}</span><span>{{stock.news}}</span>
+        <div>
+          <span class="mark">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
         </div>
         <ul class='topics'>
           <li class="topic" v-for="topic of stock.topics.slice(0,4)">
@@ -41,7 +41,7 @@
           <span class="name">{{block.name}}</span>
           <span class="chg">{{block.chgper}}</span>
         </div>
-        <div><span class="mark">{{mark}}</span><span class="news"></span></div>
+        <div><span class="mark">{{block.msgType > 0?'利好':(block.msgType < 0?'利空':'中性')}}</span><span class="news">{{block.msg}}</span></div>
         <ul class="stockList">
           <li v-for="stock of stockList">
             <span>{{stock.name}}</span>
@@ -154,7 +154,7 @@ export default {
   },
   computed: mapState({
     bubbles: state => {
-      const data = state.bubbleData;
+      const data = state.marketBubble.bubbleData;
       let bubbles = [];
       data.forEach((stock, index) => {
         let item = {
@@ -171,8 +171,8 @@ export default {
       });
       return bubbles;
     },
-    stockList: state => state.abnormalStockList,
-    plateList: state => state.abnormalPlateList
+    stockList: state => state.marketBubble.abnormalStockList,
+    plateList: state => state.marketBubble.abnormalPlateList
   }),
   methods: {
     initStocks() {
@@ -501,11 +501,14 @@ export default {
       x: 'mkt_index.volumn_ratio', // 量比
       y: 'mkt_idx.cur_chng_pct', // 涨跌幅
       size: 'mkt_idx.rising_rate', // 涨速
-      color: 'mkt_idx.cur_chng_pct' // 涨跌幅
+      color: 'mkt_idx.cur_chng_pct', // 涨跌幅
+      type: 0
     }).then(() => {
       this.initStocks();
     });
-    this.$store.dispatch('marketBubble/')
+    this.$store.dispatch('marketBubble/updateAbnormalStocks', {
+      type: 0
+    });
     this.initPlates();
   }
 }
@@ -513,9 +516,7 @@ export default {
 
 <style lang='scss' scoped>
 .market {
-    // height:100%;
-    height: 800px;
-
+    height: 100%;
     font-size: 12px;
     color: #ccc;
 }
