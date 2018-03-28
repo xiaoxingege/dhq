@@ -52,6 +52,7 @@ import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 import SiweiIndex from 'components/siwei/siwei-index'
 import StockZtg from 'components/siwei/stock-ztg'
 // import StockZbg from 'components/siwei/stock-zbg'
+import marketBubble from 'components/siwei/market'
 import {
   ctx
 } from '../config'
@@ -344,12 +345,20 @@ export default [{
   {
     path: ctx + '/siweiIndex',
     name: 'siweiIndex',
-    component: SiweiIndex
-    /* children:[
-     { path:'ztg',component:StockZtg,name:'Ztg' },
-     { path:'zbg',component:StockZbg,name:'Zbg' }
-     ] */
-
+    component: SiweiIndex,
+    children: [{
+        path: '',
+        component: marketBubble,
+        name: 'dingpan'
+      },
+      {
+        path: 'dingpan',
+        component: marketBubble,
+        name: 'dingpan'
+      }
+      // { path:'ztg',component:StockZtg,name:'Ztg' },
+      // { path:'zbg',component:StockZbg,name:'Zbg' }
+    ]
   },
   {
     path: ctx + '/StockZtg',

@@ -154,7 +154,8 @@ export default {
   },
   computed: mapState({
     bubbles: state => {
-      const data = state.bubbleData;
+      debugger;
+      const data = state.marketBubble.bubbleData;
       let bubbles = [];
       data.forEach((stock, index) => {
         let item = {
@@ -171,8 +172,8 @@ export default {
       });
       return bubbles;
     },
-    stockList: state => state.abnormalStockList,
-    plateList: state => state.abnormalPlateList
+    stockList: state => state.marketBubble.abnormalStockList,
+    plateList: state => state.marketBubble.abnormalPlateList
   }),
   methods: {
     initStocks() {
@@ -505,7 +506,7 @@ export default {
     }).then(() => {
       this.initStocks();
     });
-    this.$store.dispatch('marketBubble/')
+    // this.$store.dispatch('marketBubble/')
     this.initPlates();
   }
 }
@@ -513,8 +514,7 @@ export default {
 
 <style lang='scss' scoped>
 .market {
-    // height:100%;
-    height: 800px;
+    height: 100%;
 
     font-size: 12px;
     color: #ccc;

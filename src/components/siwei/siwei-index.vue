@@ -15,13 +15,20 @@
     color: #c9d0d7;
     background: #0C0D0E;
     box-sizing: border-box;
-    padding-top: 3px;
-    padding-left: 10px;
+    margin: 3px 0;
+    position: relative;
+    .con {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 26px;
+        bottom: 0;
+    }
 }
 
 .indexNav {
     list-style: none;
-
+    overflow: hidden;
     li {
         float: left;
         background: #23282E;
@@ -58,25 +65,30 @@
       <router-link :to="item.path">{{item.text}}</router-link>
     </li>
   </ul>
-  <router-view name="siweiIndex"></router-view>
+  <div class="con">
+    <router-view></router-view>
+  </div>
 </div>
 </template>
 <script>
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   data() {
     return {
       ulsText: [{
           text: '盯盘',
-          path: '/zstgweb/siweiIndex'
+          path: ctx + '/siweiIndex/dingpan'
         },
         {
           text: '涨停股',
-          path: '/zstgweb/siweiIndex/ztg'
+          path: ctx + '/siweiIndex/ztg'
 
         },
         {
           text: '炸板股',
-          path: '/zstgweb/siweiIndex/zbg'
+          path: ctx + '/siweiIndex/zbg'
         },
         {
           text: '强势股',

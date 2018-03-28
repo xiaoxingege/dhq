@@ -12,7 +12,7 @@ const state = {
   marketCount: [] // 涨跌股票统计数据
 }
 
-const mutations_types = {
+const mutationsTypes = {
   UPDATE_BUBBLE: 'UPDATE_BUBBLE',
   UPDATE_ABNORMAL_STOCKS: 'UPDATE_ABNORMAL_STOCKS',
   UPDATE_PLATE_LIST: 'UPDATE_PLATE_LIST',
@@ -41,7 +41,7 @@ const actions = {
       body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}`
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === -1) {
-        commit(mutations_types.UPDATE_BUBBLE, result);
+        commit(mutationsTypes.UPDATE_BUBBLE, result);
       } else {
         commit('ERROR', result, {
           root: true
@@ -60,7 +60,7 @@ const actions = {
       mode: 'cors'
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === -1) {
-        commit(mutations_types.UPDATE_ABNORMAL_STOCKS, result)
+        commit(mutationsTypes.UPDATE_ABNORMAL_STOCKS, result)
       } else {
         commit('ERROR', result, {
           root: true
@@ -71,10 +71,10 @@ const actions = {
 }
 
 const mutations = {
-  [mutations_types.UPDATE_BUBBLE](commit, bubbleData) {
+  [mutationsTypes.UPDATE_BUBBLE](state, bubbleData) {
     this.state.bubbleData = bubbleData.data || []
   },
-  [mutations_types.UPDATE_ABNORMAL_STOCKS](commit, stocks) {
+  [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
     this.state.abnormalStockList = stocks.data || []
   }
 }
