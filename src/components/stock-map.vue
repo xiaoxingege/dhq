@@ -221,7 +221,7 @@
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" v-if="isShowLeadStock"></LeadStock>
-  <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="hideHalfBall" @mouseout="hideWholeBall" />
+  <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" />
   <!-- <img src="../assets/images/stock-map/glowing-ball.png" alt="" class="focus-ball" @mouseover="showLeadStockBox" v-if="isShowWholeBall"/> -->
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback" v-if="showPlayback">
@@ -236,6 +236,8 @@
 </div>
 </template>
 <script>
+/* import ballImg from '../assets/images/stock-map/ball.png'
+import shinningBallImg from '../assets/images/stock-map/glowing-ball.png' */
 import echarts from 'echarts'
 // import treemapHelper from 'echarts/lib/chart/treemap/helper'
 import StockList from 'components/stock-list-map'
@@ -1156,15 +1158,16 @@ export default {
       this.playback.status = 0;
       this.playback.time = '';
     },
-    /* 鼠标移入半球 */
-    hideHalfBall: function() {
+    /* 鼠标移入小球 */
+    inBall: function() {
       this.isShowLeadStock = true
+      this.ballImg = this.shinningBallImg
       $('.ball').animate({
         right: '10px'
       })
     },
-    /* 鼠标移出整球 */
-    hideWholeBall: function() {
+    /* 鼠标移出小球 */
+    outBall: function() {
       this.isShowLeadStock = false
       setTimeout(() => {
         if (!this.isShowLeadStock) {
