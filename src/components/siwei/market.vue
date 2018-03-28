@@ -15,20 +15,20 @@
     <div class='stocks'>
       <div class='tit'>异动个股</div>
       <div class='stock' v-for='stock of stockList'>
-        <div class='time'>{{stock.time}}</div>
+        <div class='time'>{{stock.dateTime}}</div>
         <div class='item'>
           <span class=''>{{stock.stockName}}</span>
           <span class=''>{{stock.symbol}}</span>
           <span class=''>{{stock.chg}}</span>
           <span class='type'>{{stock.type}}</span>
         </div>
-        <div>
-          <span class="mark">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
+        <div class="news">
+          <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
         </div>
         <ul class='topics'>
           <li class="topic" v-for="topic of stock.topics.slice(0,4)">
             <div>{{topic.topicName}}</div>
-            <div>{{topic.chg}}</div>
+            <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct+'%'}}</div>
           </li>
         </ul>
       </div>
@@ -556,6 +556,19 @@ export default {
     height: 55%;
     border-bottom: 1px solid #32343E;
 }
+.market .news .mark {
+    padding: 2px;
+    color: #fff;
+}
+.market .news .good {
+    background: #DB3C39;
+}
+.market .news .bad {
+    background: #BAC3CB;
+}
+.market .news .normal {
+    background: #BAC3CB;
+}
 .market .blocks {
     height: 45%;
 }
@@ -577,13 +590,13 @@ export default {
     padding: 1px 2px;
 }
 .market .stock .item {
-    padding: 1px 2px;
+    padding: 2px;
 }
 .market .stock .item .type {
     float: right;
 }
 .market .stock .news {
-    padding: 1px 2px;
+    padding: 2px;
 }
 .market .stock .topics {
     padding: 0;
