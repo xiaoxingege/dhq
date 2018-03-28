@@ -5,7 +5,7 @@ import {
 import fetch from '../z3tougu/util/z3fetch'
 
 const state = {
-  bubbleData: null,
+  bubbleData: [],
   abnormalStockList: [], // 异动个股
   abnormalPlateList: [], // 异动板块
   indexData: [], // 指数数据
@@ -28,7 +28,8 @@ const actions = {
     x,
     y,
     size,
-    color
+    color,
+    type
   }) {
     const url = `${domain}/openapi/dimension/bubbles`
     fetch(url, {
@@ -38,7 +39,7 @@ const actions = {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'post',
-      body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}`
+      body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}&type=${type}`
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === -1) {
         commit(mutationsTypes.UPDATE_BUBBLE, result);
@@ -59,7 +60,7 @@ const actions = {
     fetch(url, {
       mode: 'cors'
     }).then((res) => res.json()).then((result) => {
-      if (result.errCode === -1) {
+      if (result.errCode === 0) {
         commit(mutationsTypes.UPDATE_ABNORMAL_STOCKS, result)
       } else {
         commit('ERROR', result, {
@@ -72,10 +73,10 @@ const actions = {
 
 const mutations = {
   [mutationsTypes.UPDATE_BUBBLE](state, bubbleData) {
-    this.state.bubbleData = bubbleData.data || []
+    state.bubbleData = bubbleData.data || []
   },
   [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
-    this.state.abnormalStockList = stocks.data || []
+    state.abnormalStockList = stocks.data || []
   }
 }
 
