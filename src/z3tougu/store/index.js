@@ -27,6 +27,7 @@ import bullStock from 'stores/bullStock'
 import plateMap from 'stores/plate-map'
 import dragonList from 'stores/dragon-list-dialog'
 import intelligenceInfo from 'stores/intelligence-info'
+import marketBubble from 'stores/market-bubbles'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -142,6 +143,7 @@ export default new Vuex.Store({
     bullStock,
     plateMap,
     dragonList,
-    intelligenceInfo
+    intelligenceInfo,
+    marketBubble
   }
 })
