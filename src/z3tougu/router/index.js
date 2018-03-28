@@ -48,6 +48,9 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
+import SiweiIndex from 'components/siwei/siwei-index'
+import StockZtg from 'components/siwei/stock-ztg'
+// import StockZbg from 'components/siwei/stock-zbg'
 import {
   ctx
 } from '../config'
@@ -331,7 +334,23 @@ export default [{
     path: ctx + '/dragonList',
     name: 'dragonListDialog',
     component: DragonListDialog
+  },
+  {
+    path: ctx + '/siweiIndex',
+    name: 'siweiIndex',
+    component: SiweiIndex
+    /* children:[
+     { path:'ztg',component:StockZtg,name:'Ztg' },
+     { path:'zbg',component:StockZbg,name:'Zbg' }
+     ] */
+
+  },
+  {
+    path: ctx + '/StockZtg',
+    name: 'StockZtg',
+    component: StockZtg
   }
+
   /* {
     path: ctx + '/stockMapOld/fullScreen',
     name: 'stockMapOldBig',
