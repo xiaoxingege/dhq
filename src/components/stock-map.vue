@@ -1,205 +1,200 @@
-<style>
+<style lang="scss">
 @import '../assets/css/base.css';
+@import "../assets/scss/style";
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .map_con {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .chart {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .map_legend {
-  color: #fff;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 400;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
-  position: absolute;
-  top: 0px;
-  right: 0px;
+    color: #fff;
+    display: inline-block;
+    font-size: $fontSizeBase;
+    font-weight: 400;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .map_legend .step {
-  /*  width: 50px;*/
-  height: 20px;
-  line-height: 20px;
-  cursor: default;
-  display: inline-block;
-  float: left;
-  text-align: center;
-  margin-left: 4px;
+    /*  width: 50px;*/
+    height: 20px;
+    line-height: 20px;
+    cursor: default;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    margin-left: 4px;
 }
 
 .playback {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  color: #fff;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
 }
 
 .chart_bottom {
-  margin-top: 10px;
-  position: relative;
-  height: 25px;
+    margin-top: 10px;
+    position: relative;
+    height: 25px;
 }
 
 .chart_bottom_enlarge {
-  position: absolute;
-  bottom: 0px;
-  height: 41px;
-  width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 41px;
+    width: 100%;
 }
 
 .chart_bottom_enlarge .playback {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 10px 8px 8px;
 }
 
 .chart_bottom_enlarge .map_legend {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-right: 10px;
-  padding-bottom: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 10px 8px 8px;
 }
 
 .perday {
-  width: 37px;
-  height: 20px;
-  line-height: 20px;
-  cursor: default;
-  display: inline-block;
-  float: left;
-  font-size: 12px;
-  text-align: center;
-  border-right: 2px solid #141518;
-  background-color: #262626;
+    width: 37px;
+    height: 20px;
+    line-height: 20px;
+    cursor: default;
+    display: inline-block;
+    float: left;
+    font-size: $fontSizeBase;
+    text-align: center;
+    border-right: 2px solid #141518;
+    background-color: #262626;
 }
 
 .disable_time {
-  background-color: #717171;
-  color: #999;
-  border-right: 2px solid #999;
+    background-color: #717171;
+    color: #999;
+    border-right: 2px solid #999;
 }
 
 .playback_btn {
-  margin-left: 0;
-  margin-right: 0px;
-  width: 20px;
-  cursor: pointer;
-  line-height: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 20px;
+    cursor: pointer;
+    line-height: 25px;
 }
 
 .playback_btn img {
-  vertical-align: baseline;
+    vertical-align: baseline;
 }
 
 .play_line {
-  width: 2px;
-  height: 20px;
-  background: #e34842;
-  position: absolute;
-  top: 0px;
-  left: 786px;
+    width: 2px;
+    height: 20px;
+    background: #e34842;
+    position: absolute;
+    top: 0;
+    left: 786px;
 }
 
 .chart_bottom_enlarge .play_line {
-  top: 8px;
+    top: 8px;
 }
 
 .enlarge {
-  width: 100px;
-  height: 25px;
-  padding-top: 10px;
-  box-sizing: border-box;
-  position: absolute;
-  top: -32px;
-  right: 0px;
+    width: 100px;
+    height: 25px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: -32px;
+    right: 0;
 }
 
 .enlarge span,
 .narrow span {
-  color: #bdbdbd;
-  margin-right: 24px;
-  position: relative;
-  top: -3px;
+    color: #bdbdbd;
+    margin-right: 24px;
+    position: relative;
+    top: -3px;
 }
 
 .enlarge a,
 .narrow a {
-  cursor: pointer
+    cursor: pointer;
 }
 
 .enlarge .restore,
 .narrow .restore {
-  z-index: 3;
-  position: absolute;
-  top: 10px;
-  left: 0px;
+    z-index: 3;
+    position: absolute;
+    top: 10px;
+    left: 0;
 }
 
 .enlarge img {
-  opacity: 0.6;
+    opacity: 0.6;
 }
 
 .narrow {
-  position: fixed;
-  top: 16px;
-  right: 22px;
-  z-index: 9999;
-  width: 288px;
-  height: 56px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  line-height: 56px;
-  text-align: center;
+    position: fixed;
+    top: 16px;
+    right: 22px;
+    z-index: 9999;
+    width: 288px;
+    height: 56px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    line-height: 56px;
+    text-align: center;
 }
 
 .narrow-link {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  position: relative;
-  top: 15px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 15px;
 }
 
 .narrow span {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 .narrow img {
-  width: 20px;
+    width: 20px;
 }
 
 .map_wrap {
-  position: relative;
+    position: relative;
 }
 
 .legend-switch {
-  margin-right: 5px;
-  float: left;
-  width: 16px;
-  margin-top: 4px;
-  cursor: pointer;
+    margin-right: 5px;
+    float: left;
+    width: 16px;
+    margin-top: 4px;
+    cursor: pointer;
 }
 
 .enlarge-link {
-  position: absolute;
-  top: 10px;
-  right: 0px;
+    position: absolute;
+    top: 10px;
+    right: 0;
 }
 </style>
 <template>

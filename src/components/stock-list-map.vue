@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../assets/scss/style";
 .hover-wrapper {
     border: 4px solid #25262b;
     background: #fff;
@@ -67,11 +68,11 @@ td {
     min-width: 46px;
 }
 .stock-down {
-    color: #56a870;
+    color: $downColor;
     margin-left: 10px;
 }
 .stock-up {
-    color: #ca4941;
+    color: $upColor;
 }
 .hover-wrapper h3 img {
     margin-left: 5px;

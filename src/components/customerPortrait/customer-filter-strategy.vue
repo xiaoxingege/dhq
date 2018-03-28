@@ -1,135 +1,133 @@
-<style scoped>
+<style lang="scss" scoped>
+@import "../../assets/scss/style.scss";
 .portrait-filer-title {
-  height: 15%;
-  position: relative;
+    height: 15%;
+    position: relative;
 }
 
 .timing-table-wrap {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .timing-no-data {
-  width: 100%;
-  height: 100%;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 .timing-no-data span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #808ba1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #808ba1;
 }
 
 .portrait-filter-con {
-  height: 85%;
+    height: 85%;
 }
 
 .portrait-fiter-more {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
 }
 
 .portrait-fiter-more a {
-  color: #1984ea;
+    color: #1984ea;
 }
 
 .filter-strategy-table {
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .filter-strategy-table tbody tr {
-  cursor: pointer;
-  height: 20%;
+    cursor: pointer;
+    height: 20%;
 }
-
 .filter-strategy-table tbody tr:hover {
-  background-color: #2e4465;
+    background-color: #2e4465;
 }
 
 .filter-strategy-table thead {
-  background-color: #23272c;
+    background-color: #23272c;
 }
 
 .filter-strategy-table th {
-  color: #c9d0d7;
-  font-weight: normal;
-  border: 1px solid #23272c;
-  padding: 4px 10px;
+    color: #c9d0d7;
+    font-weight: normal;
+    border: 1px solid #23272c;
+    padding: 4px 10px;
 }
 
 .filter-strategy-table td {
-  box-sizing: border-box;
-  border: 1px solid #23272c;
-  text-align: center;
-  width: 15%;
-  height: 20%;
-  color: #c9d0d7;
+    box-sizing: border-box;
+    border: 1px solid #23272c;
+    text-align: center;
+    width: 15%;
+    height: 20%;
+    color: #c9d0d7;
 }
-
 .filter-strategy-table tr td:first-child {
-  text-align: left;
-  color: #1984ea;
-  padding-left: 10px;
-  width: 55%;
+    text-align: left;
+    color: #1984ea;
+    padding-left: 10px;
+    width: 55%;
 }
 
 .filter-strategy-wrap {
-  width: 60%;
-  height: 100%;
-  float: left;
+    width: 60%;
+    height: 100%;
+    float: left;
 }
 
 .portrait-filter-lable {
-  color: #c9d0d7;
+    color: #c9d0d7;
 }
 
 .filter-stock-wrap {
-  width: 40%;
-  height: 100%;
-  float: right;
-  padding-left: 1px;
+    width: 40%;
+    height: 100%;
+    float: right;
+    padding-left: 1px;
 }
 
 .filter-stock-table {
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  background: #23272c;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: #23272c;
 }
 
 .filter-stock-table th {
-  background-color: #23272c;
-  color: #c9d0d7;
-  padding: 4px 10px;
-  text-align: left;
+    background-color: #23272c;
+    color: #c9d0d7;
+    padding: 4px 10px;
+    text-align: left;
 }
 
 .filter-stock-table td {
-  box-sizing: border-box;
-  text-align: center;
-  width: 20%;
-  color: #c9d0d7;
+    box-sizing: border-box;
+    text-align: center;
+    width: 20%;
+    color: #c9d0d7;
 }
-
 .filter-stock-table tr td:first-child {
-  text-align: left;
-  color: #1984ea;
-  padding-left: 10px;
-  width: 40%;
+    text-align: left;
+    color: #1984ea;
+    padding-left: 10px;
+    width: 40%;
 }
 
 .li-focus {
-  background-color: #2e4465
+    background-color: #2e4465;
 }
 </style>
 <template>

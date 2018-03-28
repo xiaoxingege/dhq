@@ -18,8 +18,6 @@ const websocketDomain = '//test.z3quant.com' // websocket
 // const websocketDomain = '//www.z3quant.com' // websocket
 const ctx = '/zstgweb'
 // const ctx = '';
-// const domain = '//www.z3quant.com'
-// const domain = '//10.77.4.84:8899'
 export {
   domain,
   websocketDomain,

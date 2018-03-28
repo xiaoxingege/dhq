@@ -1,165 +1,163 @@
-<style scoped>
+<style lang="scss" scoped>
+@import "../../assets/scss/style.scss";
 .portrait-timing-title {
-  height: 15%;
-  position: relative;
+    height: 15%;
+    position: relative;
 }
 
 .portrait-timing-title select {
-  width: 247px;
-  color: #1984ea;
-  -webkit-appearance: none;
-  padding-left: 4px;
-  background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
-  background-color: #141518;
-  border-radius: 3px;
-  border: 1px solid #141518;
-  position: absolute;
-  left: 58px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
+    width: 247px;
+    color: #1984ea;
+    -webkit-appearance: none;
+    padding-left: 4px;
+    background: url("../../assets/images/selectindex.png") no-repeat scroll 228px center transparent;
+    background-color: #141518;
+    border-radius: 3px;
+    border: 1px solid #141518;
+    position: absolute;
+    left: 58px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 
 .portrait-timing-title select option {
-  color: #666;
-  background-color: #d6d6d6;
+    color: #666;
+    background-color: #d6d6d6;
 }
-
 .portrait-timing-title select:focus {
-  outline: none;
+    outline: none;
 }
 
 .portrait-timing-title .portrait-timing-lable1 {
-  color: #c9d0d7;
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+    color: #c9d0d7;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .portrait-timing-title .portrait-timing-lable2 {
-  color: #1984ea;
-  position: absolute;
-  left: 312px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 60px;
-  height: 100%;
+    color: #1984ea;
+    position: absolute;
+    left: 312px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 60px;
+    height: 100%;
 }
 
 .portrait-timing-lable2 a {
-  position: absolute;
-  left: 5px;
-  top: 50%;
-  transform: translateY(-50%);
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .timing-table-wrap {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .position-title {
-  color: #c9d0d7;
-  padding-left: 6px;
-  height: 10%;
-  line-height: 22px;
+    color: #c9d0d7;
+    padding-left: 6px;
+    height: 10%;
+    line-height: 22px;
 }
 
 .timing-data-table {
-  width: 100%;
-  height: 90%;
-  overflow: auto;
+    width: 100%;
+    height: 90%;
+    overflow: auto;
 }
 
 .timing-data-table li {
-  width: 100%;
-  height: 22px;
+    width: 100%;
+    height: 22px;
 }
 
 .timing-data-table li {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 .timing-data-table li:hover {
-  background-color: #2e4465;
+    background-color: #2e4465;
 }
 
 .timing-data-table li span {
-  display: inline-block;
-  width: 33.3%;
-  line-height: 22px;
-  height: 100%;
-  text-align: center;
-  float: left;
+    display: inline-block;
+    width: 33.3%;
+    line-height: 22px;
+    height: 100%;
+    text-align: center;
+    float: left;
 }
-
 .timing-data-table li span:first-child {
-  color: #1984ea;
-  text-align: left;
-  padding-left: 6px;
+    color: #1984ea;
+    text-align: left;
+    padding-left: 6px;
 }
 
 .timing-no-data {
-  width: 100%;
-  height: 100%;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 .timing-no-data span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #808ba1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #808ba1;
 }
 
 .portrait-timing-con {
-  height: 85%;
-  border: 1px solid #23272c;
+    height: 85%;
+    border: 1px solid #23272c;
 }
 
 .portrait-timing-table {
-  height: 100%;
-  width: 33.3%;
-  float: left;
-  border-right: 1px solid #23272c;
-  padding: 5px 0px 5px 5px;
+    height: 100%;
+    width: 33.3%;
+    float: left;
+    border-right: 1px solid #23272c;
+    padding: 5px 0 5px 5px;
 }
 
 .portrait-timing-chart {
-  height: 100%;
-  width: 66.7%;
-  float: right;
-  padding: 5px 0px;
+    height: 100%;
+    width: 66.7%;
+    float: right;
+    padding: 5px 0;
 }
 
 .portrait-timing-more {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
 }
 
 .portrait-timing-more a {
-  color: #1984ea;
+    color: #1984ea;
 }
 
 .kcharts {
-  height: 90%;
+    height: 90%;
 }
 
 .time-chart-title {
-  height: 10%;
-  line-height: 22px;
-  color: #c9d0d7;
-  padding-left: 20px;
+    height: 10%;
+    line-height: 22px;
+    color: #c9d0d7;
+    padding-left: 20px;
 }
 
 .tr-focus {
-  background-color: #2e4465
+    background-color: #2e4465;
 }
 </style>
 <template>

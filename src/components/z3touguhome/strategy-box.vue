@@ -1,12 +1,13 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .li-con > div {
     width: 100%;
     height: 100%;
-    background-color: #141518;
+    background-color: $bgConColor;
 }
 .strategy-title {
     height: 15%;
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
     position: relative;
 }
 .strategy-name {
@@ -16,10 +17,10 @@
     transform: translateY(-50%);
 }
 .strategy-name a {
-    color: #c9d0d7;
+    color: $wordsColorBase;
 }
 .strategy-create-time {
-    color: #808ba1;
+    color: $grayWordsColor;
     display: inline-block;
     position: absolute;
     right: 16px;

@@ -1,53 +1,54 @@
-<style>
+<style lang="scss">
 @import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
 * {
-  box-sizing: border-box;
-  font-family: '微软雅黑';
-  font-size: 12px;
+    box-sizing: border-box;
+    font-family: '微软雅黑';
+    font-size: 12px;
 }
 
 p {
-  margin: 0px;
+    margin: 0;
 }
 
-html,
+.app,
 body,
-.app {
-  height: 100%;
+html {
+    height: 100%;
 }
 
 body {
-  background-color: #0d0e0f;
+    background-color: #0d0e0f;
 }
 
 .c_up {
-  color: #ca4941;
+    color: #ca4941;
 }
 
 .c_down {
-  color: #56a870;
+    color: #56a870;
 }
 
 .c_txt {
-  color: #c9d0d7;
+    color: #c9d0d7;
 }
 
 .portrait-wrap {
-  min-height: 710px;
-  padding: 3px 1px;
-  min-width: 1217px;
-  height: 100%;
-  background-color: #0d0e0f;
+    min-height: 710px;
+    padding: 3px 1px;
+    min-width: 1217px;
+    height: 100%;
+    background-color: #0d0e0f;
 }
 
-.portrait-wrap>div {
-  width: 50%;
-  height: 100%;
-  display: inline-block;
+.portrait-wrap > div {
+    width: 50%;
+    height: 100%;
+    display: inline-block;
 }
 
 .con-left {
-  float: left;
+    float: left;
 }
 </style>
 <template>

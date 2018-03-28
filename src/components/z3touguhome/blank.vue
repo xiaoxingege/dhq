@@ -4,15 +4,16 @@
 <script>
 </script>
 
-<style>
+<style lang="scss">
 @import '../../assets/css/base.css';
-html,
+@import "../../assets/scss/style.scss";
+.app,
 body,
-.app {
-  height: 100%;
+html {
+    height: 100%;
 }
 
 body {
-  background-color: #0d0e0f;
+    background-color: $bgDeepColor;
 }
 </style>

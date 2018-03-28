@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .portarit-strategy-title {
     height: 15%;
     position: relative;

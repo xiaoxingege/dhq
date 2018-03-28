@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+$bgDeepColor:#0d0e0f;/* 最深背景 */
+$bgConColor:#141518;/* 内容背景 */
+$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
+$bgNavColor:#404852;/* 导航外框背景 */
+$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
+$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
+$menuSelColor:#525a65;/* 二级菜单选中颜色 */
+$blueWordsColor:#1984ea;/* 蓝色文字色 */
+$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
+$upColor:#ca4941;/* 所有红色 上涨 */
+$downColor:#56a870;/* 所有绿色 上涨 */
+$backupYellow:#f0b540;/* 备用黄色 */
+$fontSizeBase:12px; /* 基本字体 */
+
+/* 大注释浮框 */
+@mixin noteBoxBig{
+  color: #666666;
+  background: #cccfd9;
+  border-radius: 10px;
+}
+/* 小注释浮框 */
+@mixin noteBoxSmall{
+  color: #666666;
+  background: #cccfd9;
+  border-radius: 3px;
+}

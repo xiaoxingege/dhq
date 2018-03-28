@@ -1,16 +1,17 @@
 <style lang="scss">
 @import '../assets/css/base.css';
+@import '../assets/scss/style';
 body .app,
 html {
     height: 100%;
 }
 * {
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: $fontSizeBase;
     font-family: 'Microsoft YaHei';
 }
 .map {
-    background-color: #141518;
+    background-color: $bgConColor;
     height: 100%;
     min-width: 1217px;
 }
@@ -26,11 +27,11 @@ html {
 }
 .condition select {
     -webkit-appearance: none;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
     height: 22px;
     background-position-x: 95%;
     border-radius: 3px;
@@ -104,10 +105,10 @@ html {
     border-bottom-right-radius: 3px;
 }
 .selected-color {
-    background-color: #1984ea;
+    background-color: $blueWordsColor;
 }
 .unselected-color {
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
 }
 </style>
 <template>
