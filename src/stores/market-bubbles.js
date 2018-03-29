@@ -68,6 +68,25 @@ const actions = {
         })
       }
     });
+  },
+  updateAbnormalPlates({
+    commit,
+    state
+  }, {
+    startTime
+  }) {
+    const url = `${domain}/openapi/dimension/abnormal/section?startTime=${startTime}`;
+    fetch(url, {
+      mode: 'cors'
+    }).then((res) => res.json()).then((result) => {
+      if (result.errCode === 0) {
+        commit(mutationsTypes.UPDATE_PLATE_LIST, result)
+      } else {
+        commit('ERROR', result, {
+          root: true
+        })
+      }
+    });
   }
 }
 
@@ -77,6 +96,9 @@ const mutations = {
   },
   [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
     state.abnormalStockList = stocks.data || []
+  },
+  [mutationsTypes.UPDATE_PLATE_LIST](state, plates) {
+    state.abnormalPlateList = plates.data || []
   }
 }
 
