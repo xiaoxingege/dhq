@@ -15,7 +15,7 @@ const mutationsTypes = {
   SET_HOT_STOCKS: 'SET_HOT_STOCKS',
   SET_HOT_WORDS: 'SET_HOT_WORDS',
   SET_AMBUSHED_STOCKS: 'SET_AMBUSHED_STOCKS',
-  SET_AMBUSHED_PLATES: 'SET_AMBUSHED_PLATES',
+  SET_AMBUSHED_PLATES: 'SET_AMBUSHED_PLATES'
 }
 
 const actions = {
@@ -28,8 +28,8 @@ const actions = {
     const url = `${domain}/openapi/stock/equityHotIndex.shtml?size=${size}`
     fetch(url, {
       mode: 'cors'
-    }).then(res => res.json()).then(data => {
-      if (data.errCode === 0) {
+    }).then(res => res.json()).then(result => {
+      if (result.errCode === 0) {
         commit(mutationsTypes.SET_HOT_STOCKS, result.data)
       } else {
         commit('ERROR', result, {
@@ -47,8 +47,8 @@ const actions = {
     const url = `${domain}/openapi/hotWord/hotWordList.shtml?size=${size}`;
     fetch(url, {
       mode: 'cors'
-    }).then(res => res.json()).then(data => {
-      if (data.errCode === 0) {
+    }).then(res => res.json()).then(result => {
+      if (result.errCode === 0) {
         commit(mutationsTypes.SET_HOT_WORDS, result.data)
       } else {
         commit('ERROR', result, {
