@@ -8,7 +8,7 @@
       <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
     </div>
     <div class='bottom'>
-      <div class='chart' ref='chart2'></div>
+      <abnormalPlatesChart></abnormalPlatesChart>
     </div>
   </div>
   <div class='right'>
@@ -62,6 +62,7 @@ import config from '../../z3tougu/config'
 import {
   mapState
 } from 'vuex'
+import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
 export default {
   data() {
     return {
@@ -72,6 +73,9 @@ export default {
       stdt: 1,
       openIndex: 3000.00
     }
+  },
+  components: {
+    abnormalPlatesChart
   },
   computed: mapState({
     bubbles: state => {
@@ -271,149 +275,6 @@ export default {
         }]
       });
     },
-    initPlates() {
-      this.chart2 = echarts.init(this.$refs.chart2);
-      this.chart2.setOption({
-        grid: {
-          containLabel: false,
-          width: 'auto%',
-          top: 10,
-          left: 60,
-          right: 10,
-          bottom: 40
-        },
-        xAxis: {
-          type: 'category',
-          axisTick: {
-            length: 0
-          },
-          axisLabel: {
-            interval: 0,
-            color: '#ccc'
-          },
-          boundaryGap: false,
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#32343E'
-            }
-          },
-          data: [
-            '9:30', '10:00', '10:30', '11:00', '11:30/13:00', '13:30', '14:00', '14:30', '15:00'
-          ]
-        },
-        yAxis: {
-          type: 'value',
-          min: 2900,
-          max: 3100,
-          axisLine: {
-            onZero: false
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#32343E'
-            }
-          }
-        },
-        series: [{
-          type: 'line',
-          lineStyle: {
-            normal: {
-              color: '#BAC3CB',
-              width: 1
-            }
-          },
-          data: [3010.50, 3030.00, 3000, 2990, 3005, 2998, 3010, 2980, 3020],
-          markLine: {
-            silent: true,
-            data: [
-              [{
-                  coord: ['10:00', 3030],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.downColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:00', 2980],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ],
-              [{
-                  coord: ['10:30', 3000],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.upColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:30', 3050],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ]
-            ]
-          },
-          markPoint: {
-            silent: true,
-            symbol: 'roundRect',
-            symbolSize: [60, 30],
-            data: [{
-                name: '金融',
-                coord: ['10:00', 2980],
-                value: '金融',
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.downColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.downColor,
-                    formatter: () => '金融'
-                  }
-                }
-              },
-              {
-                name: '地产',
-                value: '地产',
-                coord: ['10:30', 3050],
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.upColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.upColor,
-                    formatter: () => '地产'
-                  }
-                }
-              }
-            ]
-          },
-          smooth: true
-        }]
-      });
-    },
     initBubbleChart() {
 
     },
@@ -426,7 +287,7 @@ export default {
 
     },
     matchColor(chg) {
-      return "#666";
+      return '#666';
     }
   },
   mounted() {
@@ -445,7 +306,6 @@ export default {
     this.$store.dispatch('marketBubble/updateAbnormalPlates', {
       startTime: ''
     })
-    this.initPlates();
   }
 }
 </script>
