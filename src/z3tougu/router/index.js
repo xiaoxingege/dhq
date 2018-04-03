@@ -366,9 +366,9 @@ export default [{
     name: 'StockZtg',
     component: StockZtg
   },
-  {
-    path: ctx + '/dhq',
-    name: 'dhq',
-    component: dhq
-  }
+    {
+        path: ctx + '/dhq',
+        name: 'dhq',
+        component: dhq
+    }
 ]
