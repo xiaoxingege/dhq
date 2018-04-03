@@ -53,6 +53,7 @@ import SiweiIndex from 'components/siwei/siwei-index'
 import StockZtg from 'components/siwei/stock-ztg'
 // import StockZbg from 'components/siwei/stock-zbg'
 import marketBubble from 'components/siwei/market'
+import dhq from 'components/dhqHome/dhqIndex'
 import {
   ctx
 } from '../config'
@@ -364,16 +365,10 @@ export default [{
     path: ctx + '/StockZtg',
     name: 'StockZtg',
     component: StockZtg
-  }
-  /* {
-    path: ctx + '/stockMapOld/fullScreen',
-    name: 'stockMapOldBig',
-    component: StockMapOld
   },
   {
-    path: ctx + '/stockMapOld/normal',
-    name: 'stockMapOldNormal',
-    component: StockMapOld
-  } */
-
+    path: ctx + '/dhq',
+    name: 'dhq',
+    component: dhq
+  }
 ]
