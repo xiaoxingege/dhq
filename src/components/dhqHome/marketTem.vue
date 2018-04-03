@@ -154,7 +154,7 @@ export default {
                   position: 'top'
                 },
                 formatter: function(params) {
-                  debugger
+
                 }
               },
               showSymbol: false,
@@ -171,7 +171,7 @@ export default {
                   position: 'top'
                 },
                 formatter: function(params) {
-                  debugger
+
                 }
               },
               data: this.chartLineData

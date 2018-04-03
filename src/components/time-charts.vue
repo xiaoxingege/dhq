@@ -358,7 +358,6 @@ export default {
         })
     },
     drawCharts(name, kLineXdata, kLineYdata, ma5, ma10, ma20, ma30, pointData, seriesData) {
-      debugger
       const self = this
       self.chart.setOption({
         grid: {
