@@ -12,6 +12,7 @@ import App from 'components/free-niuGu-app'
  */
 Vue.use(Vuex)
 
+
 /*
  * 实例化store
  */

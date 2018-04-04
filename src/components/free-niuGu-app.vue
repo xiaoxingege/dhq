@@ -163,7 +163,6 @@ export default {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
 
     document.title = '领盘前牛股';
-    
     (function(root) {
         root._tt_config = true;
         var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
