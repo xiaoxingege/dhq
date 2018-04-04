@@ -28,7 +28,7 @@
 .pulse {-webkit-animation-name: pulse;animation-name: pulse;}
 .animated {-webkit-animation-duration: 1s;animation-duration: 1s;-webkit-animation-fill-mode: both;animation-fill-mode: both;}
 .animated.infinite {-webkit-animation-iteration-count: infinite;animation-iteration-count: infinite;}
-.warn_over{width: 5rem; position: fixed;left: 50%;top: 20%; z-index: 15;font-size: 0.3rem;line-height: 0.3rem; height: 0.4rem ;margin-left: -2.5rem;background-color: #282001;text-align: center;border-radius: 0.1rem;color: #fff;opacity: 0.8;padding: 0.2rem 0;display: none;}  
+.warn_over{width: 5rem; position: fixed;left: 50%;top: 20%; z-index: 15;font-size: 0.3rem;line-height: 0.3rem; height: 0.4rem ;margin-left: -2.5rem;background-color: #282001;text-align: center;border-radius: 0.1rem;color: #fff;opacity: 0.8;padding: 0.2rem 0;display: none;}
 @keyframes pulse {
     0% {
         -webkit-transform: scale(1);
@@ -49,9 +49,9 @@
 </style>
 <template>
 <div id="niuGu">
-  <a href="#phone" class="fix-btn"></a> 
+  <a href="#phone" class="fix-btn"></a>
   <div class="item1">
-    <a href="#phone" class="pulse animated infinite"></a> 
+    <a href="#phone" class="pulse animated infinite"></a>
 <!--     <div></div> -->
   </div>
   <div class="item2"></div>
@@ -124,7 +124,7 @@ export default {
         $('.warn_over').show();
         setTimeout(function(){
             $('.warn_over').fadeOut();
-        },2000); 
+        },2000);
         return;
       }
       var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
@@ -133,7 +133,7 @@ export default {
         $('.warn_over').show();
         setTimeout(function(){
             $('.warn_over').fadeOut();
-        },2000); 
+        },2000);
         return;
       }
       this.submitSuccess(bottomName, bottomPhone);
@@ -157,7 +157,7 @@ export default {
           this.layerType = '1';
           $('.submit').siblings().find('.name').val('输入您的姓名');
           $('.submit').siblings().find('.phone').val('输入您的手机号码');
-          window.taq.push(taParams);
+          window['_taq'].push(taParams);
         }
       })
     }
