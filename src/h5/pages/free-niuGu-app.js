@@ -6,6 +6,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import initVue from 'utils/initVue'
 import App from 'components/free-niuGu-app'
+
 /*
  * 引入vuex
  */

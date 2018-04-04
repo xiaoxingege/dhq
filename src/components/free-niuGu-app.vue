@@ -164,6 +164,7 @@ export default {
   },
   mounted() {
     document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%';
+    
     document.title = '领盘前牛股';
   }
 }
