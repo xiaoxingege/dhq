@@ -268,20 +268,20 @@ input {
     z-index: 11;
 }
 .pop {
-    width: 5rem;
-    height: 2.5rem;
+    width: 6rem;
+    height: 3.5rem;
     background: url("../assets/images/ssjj-activity/zczg-web-pop.jpg") 0 0 no-repeat;
     background-size: 100% 100%;
     position: fixed;
     top: 50%;
-    margin-top: -1.25rem;
+    margin-top: -1.75rem;
     left: 50%;
-    margin-left: -2.5rem;
+    margin-left: -3rem;
     z-index: 12;
 }
 .pop .close {
-    width: 0.36rem;
-    height: 0.36rem;
+    width: 0.6rem;
+    height: 0.6rem;
     position: absolute;
     top: 0.18rem;
     right: 0.21rem;
@@ -298,7 +298,7 @@ input {
     font-size: 0.4rem;
     color: #da2005;
     font-weight: bold;
-    padding-top: 0.25rem;
+    padding-top: 0.35rem;
 }
 .join span {
     position: absolute;
@@ -316,12 +316,12 @@ input {
     color: #898989;
 }
 .join .phonebox {
-    top: 0.95rem;
+    top: 1.1rem;
     left: 1rem;
 }
 .join .phonebox input {
-    width: 3.02rem;
-    height: 0.36rem;
+    width: 4.02rem;
+    height: 0.66rem;
     background-color: #fff;
     border-radius: 0.1rem;
     text-align: center;
@@ -329,15 +329,15 @@ input {
 }
 .join .btn-join {
     position: absolute;
-    bottom: 0.64rem;
-    left: 1.65rem;
-    width: 1.72rem;
-    height: 0.36rem;
+    bottom: 0.74rem;
+    left: 1.75rem;
+    width: 2.5rem;
+    height: 0.56rem;
     background-color: #dd2a03;
     color: #fff;
     font-size: 0.24rem;
     text-align: center;
-    line-height: 0.36rem;
+    line-height: 0.56rem;
     border-radius: 0.05rem;
 }
 .join em {
@@ -366,7 +366,7 @@ input {
     font-size: 0.18rem;
     color: #000;
     line-height: 0.3rem;
-    padding: 0.1rem 0;
+    padding: 0.4rem 0;
 }
 </style>
 
@@ -450,7 +450,7 @@ input {
         <div class="join" v-show="!editType">
             <h5>预约成功</h5>
             <p>金融界高级投服将会在3个工作日内<br />为您安排预约名额。</p>
-            <a href="javascript:;" class="btn btn-large btn-join" style="bottom:0.44rem;" @click="close">知道了</a>
+            <a href="javascript:;" class="btn btn-large btn-join" style="bottom:0.64rem;" @click="close">知道了</a>
         </div>
         <a href="javascript:;" class="close" @click="close"></a>
     </div>
