@@ -327,7 +327,7 @@ module.exports = function(router) {
                 request.send(null);
             }
             ta.onload = function(){
-              window.taq = window_taq
+              window.taq = window._taq
             }
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ta, s);
         })(window);

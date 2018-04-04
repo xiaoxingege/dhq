@@ -153,11 +153,11 @@ export default {
           let taParams = {}
           taParams['convert_id'] = '93691218934'
           taParams['event_type'] = 'form'
-          window.taq.push(taParams)
           this.showLayer = true;
           this.layerType = '1';
           $('.submit').siblings().find('.name').val('输入您的姓名');
           $('.submit').siblings().find('.phone').val('输入您的手机号码');
+          window.taq.push(taParams);
         }
       })
     }
