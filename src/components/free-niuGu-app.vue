@@ -150,7 +150,10 @@ export default {
         if (this.submitPhoneError) {
           alert(this.submitPhoneError.msg)
         } else {
-          _taq.push({ convert_id:"93691218934", event_type:"form" })
+          let taParams = {}
+          taParams['convert_id'] = '93691218934'
+          taParams['event_type'] = 'form'
+          window.taq.push(taParams)
           this.showLayer = true;
           this.layerType = '1';
           $('.submit').siblings().find('.name').val('输入您的姓名');

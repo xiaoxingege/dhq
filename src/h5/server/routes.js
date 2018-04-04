@@ -326,6 +326,9 @@ module.exports = function(router) {
                 request.open('GET', url, true);
                 request.send(null);
             }
+            ta.onload = function(){
+              window.taq = window_taq
+            }
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ta, s);
         })(window);
       </script>`;
