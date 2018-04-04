@@ -114,7 +114,7 @@ input {
 }
 .footer {
     width: 100%;
-    height: 160px;
+    height: 123px;
     position: fixed;
     bottom: 0;
     background: url("../assets/images/ssjj-activity/zczg-web-footer.jpg") center bottom no-repeat;
@@ -267,11 +267,11 @@ input {
     left: 310px;
 }
 .footer a {
-    width: 346px;
-    height: 78px;
+    width: 262px;
+    height: 60px;
     position: absolute;
-    top: 41px;
-    right: 81px;
+    top: 33px;
+    right: 245px;
 }
 .fixBg {
     width: 100%;
