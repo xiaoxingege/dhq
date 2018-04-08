@@ -1,42 +1,37 @@
 <template>
   <!-- 智头条 -->
   <div class="wisdomHeadlines">
-    <div class="grid-box clearfix display-box">
-      <div class="grid-left box-flex-1">
-        <div class="news-wrapper">
-          <ul class="news-list" ref="newsList">
-            <li class="news-list-item" v-for="item in wisdomHeadlinesList">
-              <div>
-                <span v-if="item.postiveIndex != '' && item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
-                <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-                <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
-                </router-link>
-              </div>
-              <div class="con-txt">
-                <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span>{{cutStr(item.summary,350)}}</span>
-                </router-link>
-                <span class="source">( {{item.srcName}} )</span>
-              </div>
-              <div class="con-bottom">
-                <ul class="stock">
-                  <li class="stock-item" :class="upAndDownColor(relatedStocks[stock.code].chngPct)" v-for="stock in item.equityList">
-                    <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
-                      <span>{{stock.name}}</span><span>{{relatedStocks[stock.code].price  | isNull }}</span><span>{{relatedStocks[stock.code].chngPct  | isNull }}%</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-          <p v-if="!noData" class="tc mt-10" v-show="wisdomHeadlinesList.length >= 8">
-            <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-          </p>
-          <p v-if="noData"class="tc mt-10 loadMore">数据已加载完</p>
-        </div>
-      </div>
-      <div class="grid-right"></div>
+    <div class="news-wrapper">
+      <ul class="news-list" ref="newsList">
+        <li class="news-list-item" v-for="item in wisdomHeadlinesList">
+          <div>
+            <span v-if="item.postiveIndex != '' && item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
+            <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
+            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+              <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
+            </router-link>
+          </div>
+          <div class="con-txt">
+            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+              <span>{{cutStr(item.summary,350)}}</span>
+            </router-link>
+            <span class="source">( {{item.srcName}} )</span>
+          </div>
+          <div class="con-bottom">
+            <!-- <ul class="stock">
+              <li class="stock-item" :class="upAndDownColor(relatedStocks[stock.code].chngPct)" v-for="stock in item.equityList">
+                <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
+                  <span>{{stock.name}}</span><span>{{relatedStocks[stock.code].price  | isNull }}</span><span>{{relatedStocks[stock.code].chngPct  | isNull }}%</span>
+                </a>
+              </li>
+            </ul> -->
+          </div>
+        </li>
+      </ul>
+      <p v-if="!noData" class="tc mt-10" v-show="wisdomHeadlinesList.length >= 8">
+        <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      </p>
+      <p v-if="noData"class="tc mt-10 loadMore">数据已加载完</p>
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>
@@ -221,17 +216,10 @@
   @import '../../assets/css/base.css';
   .wisdomHeadlines{
     color:$wordsColorBase;
-    min-width: 1200px;
-    overflow: auto;
     font-size: 12px;
   }
   .news-wrapper{
     padding-bottom: 20px;
-  }
-  .grid-box{
-    .grid-right{
-      width: 370px;
-    }
   }
   .name,.con-txt,.labels,.stock{
     font-size: 12px;
@@ -317,10 +305,4 @@
   .blockbg {
       background: #525a65;
   }
-  .display-box{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-o-box;display:box}
-  .box-flex-1{-webkit-box-flex:1;-moz-box-flex:1;-ms-flex:1;-o-box-flex:1;box-flex:1}
-  .box-flex-2{-webkit-box-flex:2;-moz-box-flex:2;-ms-flex:2;-o-box-flex:2;box-flex:2}
-  .box-flex-3{-webkit-box-flex:3;-moz-box-flex:3;-ms-flex:3;-o-box-flex:3;box-flex:3}
-  .box-flex-4{-webkit-box-flex:4;-moz-box-flex:4;-ms-flex:4;-o-box-flex:4;box-flex:4}
-
 </style>
