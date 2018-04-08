@@ -56,6 +56,40 @@ const actions = {
         })
       }
     })
+  },
+  retrieveAmbushedStocks({
+    commit,
+    state
+  }) {
+    const url = `${domain}/openapi/stock/stockAmbush.shtml?showType=stk`;
+    fetch(url, {
+      mode: 'cors'
+    }).then(res => res.json()).then(result => {
+      if (result.errCode === 0) {
+        commit(mutationsTypes.SET_AMBUSHED_STOCKS, result.data)
+      } else {
+        commit('ERROR', result, {
+          root: true
+        })
+      }
+    });
+  },
+  retrieveAmbushedPlates({
+    commit,
+    state
+  }) {
+    const url = `${domain}/openapi/stock/stockAmbush.shtml?showType=sec`;
+    fetch(url, {
+      mode: 'cors'
+    }).then(res => res.json()).then(result => {
+      if (result.errCode === 0) {
+        commit(mutationsTypes.SET_AMBUSHED_PLATES, result.data)
+      } else {
+        commit('ERROR', result, {
+          root: true
+        })
+      }
+    });
   }
 }
 

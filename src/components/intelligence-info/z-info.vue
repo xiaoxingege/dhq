@@ -36,8 +36,8 @@ export default {
 .public {
     position: fixed;
     width: 370px;
-    top: 0;
+    top: 1px;
     right: 0;
-    bottom: 0;
+    bottom: 2px;
 }
 </style>

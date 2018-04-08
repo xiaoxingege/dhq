@@ -3,11 +3,11 @@
   <div class="tit">{{title}}</div>
   <ul v-if="type ==='stock'">
     <li v-for="item in dataList">
-      <router-link>{{item.name}}</router-link>
+      <span class="col name">{{item.name}}</span>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct}}%</span>
       <div class="col hot-index">
         <div class="full">
-          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex}}</div>
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
       </div>
     </li>
@@ -20,7 +20,7 @@
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct === ''?'--':item.chngPct+'%'}}</span>
       <div class="col hot-index">
         <div class="full">
-          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex}}</div>
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
       </div>
     </li>
@@ -40,7 +40,7 @@ export default {
     dataList() {
       let list = [];
       if (this.type === 'stock') {
-        this.$store.state.zInfoPublic.hotStocks
+        list = this.$store.state.zInfoPublic.hotStocks;
       } else if (this.type === 'word') {
         list = this.$store.state.zInfoPublic.hotWords
       }
@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    progressWidth: progress => progress <= 20 ? '20%' : progress + '%',
+    progressWidth: progress => progress <= 30 ? '30%' : progress.toFixed(0) + '%',
     search: function(keyword) {
       this.$router.push({
         name: 'search',
@@ -61,7 +61,9 @@ export default {
   },
   mounted() {
     if (this.type === 'stock') {
-      //   this.$store.dispatch('zInfoPublic/retrieveHotStocks',{ size:20 });
+      this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
+        size: 20
+      });
     } else if (this.type === 'word') {
       this.$store.dispatch('zInfoPublic/retrieveHotWords', {
         size: 20
@@ -87,6 +89,8 @@ export default {
 }
 .hot ul {
     padding: 5px 0;
+    height: calc(100% - 36px);
+    overflow: auto;
     li {
         overflow: hidden;
         height: 18px;

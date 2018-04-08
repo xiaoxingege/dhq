@@ -9,14 +9,19 @@
     </div>
   </div>
   <div class="bottom">
-    <div class="block"></div>
-    <div class="block"></div>
+    <div class="block">
+      <ambush type="stock" title="个股埋伏"></ambush>
+    </div>
+    <div class="block">
+      <ambush type="plate" title="板块埋伏"></ambush>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
 import hot from 'components/intelligence-info/hot'
+import ambush from 'components/intelligence-info/ambush'
 export default {
   data() {
     return {
@@ -24,7 +29,8 @@ export default {
     }
   },
   components: {
-    hot
+    hot,
+    ambush
   }
 }
 </script>
