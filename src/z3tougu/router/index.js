@@ -48,6 +48,10 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
+import optionalInformation from 'components/intelligence-info/optional-information'
+import newsFlash from 'components/intelligence-info/news-flash'
+import newsOpportunities from 'components/intelligence-info/news-opportunities'
+import listedCompany from 'components/intelligence-info/listed-company'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -337,6 +341,27 @@ export default [{
     path: ctx + '/wisdomHeadlines',
     name: 'wisdomHeadlines',
     component: wisdomHeadlines
+  },
+  {
+    path: ctx + '/optionalInformation',
+    name: 'optionalInformation',
+    component: optionalInformation
+  },
+  {
+    path: ctx + '/newsFlash',
+    name: 'newsFlash',
+    component: newsFlash
+  },
+  {
+    path: ctx + '/newsOpportunities',
+    name: 'newsOpportunities',
+    component: newsOpportunities
+  },
+  {
+    path: ctx + '/listedCompany',
+    name: 'listedCompany',
+    component: listedCompany
+
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',
