@@ -1,6 +1,5 @@
 /*模拟select样式*/
 .vSelect {
-    z-index: 9999999999;
     width: 200px;
     position: relative;
 }
@@ -25,6 +24,7 @@
     max-height: 367px;
     overflow: scroll;
     box-sizing: border-box;
+    z-index: 999999999;
 }
 
 .vUl li {
@@ -32,6 +32,7 @@
     height: 20px;
     line-height: 20px;
     background-color: #1E2329;
+    z-index: 999999999;
 }
 
 .vUl li:hover {

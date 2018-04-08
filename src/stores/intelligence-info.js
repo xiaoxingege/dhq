@@ -1,5 +1,11 @@
 import 'whatwg-fetch'
+<<<<<<< HEAD
 import config,{ domain } from '../z3tougu/config'
+=======
+import {
+  domain
+} from '../z3tougu/config'
+>>>>>>> c5cb5d938ddc3e999f6c1a0061944850e15707f2
 import fetch from '../z3tougu/util/z3fetch'
 
 export const PAGE_SIZE = 8;
@@ -13,6 +19,7 @@ export const types = {
 }
 export default {
   state: {
+<<<<<<< HEAD
    temporary:[],
    wisdomHeadlinesList:[], // 智头条
    optionalInformationList:[],// 自选情报
@@ -28,6 +35,12 @@ export default {
    newTime:'',
    userId: '',
    stockPool: null
+=======
+    wisdomHeadlinesList: [], // 智头条
+    totalPage: 0, // 总页数
+    pageSize: 0, // 第几页
+    flag: 1 // 标识：1-表示智头条，2-表示7x24快讯
+>>>>>>> c5cb5d938ddc3e999f6c1a0061944850e15707f2
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -41,6 +54,7 @@ export default {
     stockPool: state => state.stockPool
   },
   mutations: {
+<<<<<<< HEAD
     [types.SET_WISDOMHEADLINES_LIST] (state,list){
       const stocks = {}
       state.temporary = list
@@ -139,6 +153,20 @@ export default {
     // 获取7*24快讯数据
     getNewsFlashList ({ commit }, { flag, page }) {
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?flag=${flag}&page=${page}`
+=======
+    [types.SET_WISDOMHEADLINES_LIST](state, list) {
+      state.wisdomHeadlinesList = list
+    }
+  },
+  actions: {
+    getWisdomHeadlinesList({
+      commit
+    }, {
+      flag,
+      pageSize
+    }) {
+      const url = `${domain}/openapi/news/wisdomHeadline.shtml?flag=${flag}&page=${pageSize}`
+>>>>>>> c5cb5d938ddc3e999f6c1a0061944850e15707f2
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
