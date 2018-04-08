@@ -1,30 +1,23 @@
 <template>
 <div class="wisdomHeadlines">
-  <div class="grid-box clearfix display-box">
-    <div class="grid-left box-flex-1">
-      <div class="news-wrapper">
-        <ul class="news-list">
-          <li class="news-list-item">
-            <div><span class="labels" :class='status("利好")'>利好</span><span class="fr time" v-z3-time="{ time: '2018-03-26 13:24', type: '1' }"></span><span class="name">[{{ "新闻" | convert}}]三夫户外：实控人和部分董事拟斥资逾2000万增持</span></div>
-            <div class="con-txt">
-              <span>{{cutStr("金融界讯，万达电影：控股股东北京万达投资以协议转让方式将其持有的公司（占公司股份总数5.11%）转让给文投控股出资设立的有限合伙或信托制基金；万达投资以协议转让方式将其持有的公司 90,000,000 股股份（占公司股份总数 7.66%）转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同",380)}}</span>
-              <span class="source">(上证证券报)</span>
-            </div>
-            <div class="con-bottom">
-              <ul class="stock">
-                <li class="stock-item" :class="upAndDownColor(1)"><a href="javascript:;" v-z3-stock="{ref:'stockbox',code:innerCode}" :value='innerCode'><span>海思科</span><span>{{1}}</span><span>+1.00%</span></a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-        <p class="tc mt-10">
-          <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        </p>
-      </div>
-    </div>
-    <div class="grid-right">
-      right<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    </div>
+  <div class="news-wrapper">
+    <ul class="news-list">
+      <li class="news-list-item">
+        <div><span class="labels" :class='status("利好")'>利好</span><span class="fr time" v-z3-time="{ time: '2018-03-26 13:24', type: '1' }"></span><span class="name">[{{ "新闻" | convert}}]三夫户外：实控人和部分董事拟斥资逾2000万增持</span></div>
+        <div class="con-txt">
+          <span>{{cutStr("金融界讯，万达电影：控股股东北京万达投资以协议转让方式将其持有的公司（占公司股份总数5.11%）转让给文投控股出资设立的有限合伙或信托制基金；万达投资以协议转让方式将其持有的公司 90,000,000 股股份（占公司股份总数 7.66%）转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同。转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同转让给杭州臻希投资. 臻希投资的关联方为阿里巴巴集团，阿里巴巴集团基于对万认同",380)}}</span>
+          <span class="source">(上证证券报)</span>
+        </div>
+        <div class="con-bottom">
+          <ul class="stock">
+            <li class="stock-item" :class="upAndDownColor(1)"><a href="javascript:;" v-z3-stock="{ref:'stockbox',code:innerCode}" :value='innerCode'><span>海思科</span><span>{{1}}</span><span>+1.00%</span></a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <p class="tc mt-10">
+      <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+    </p>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -44,6 +37,7 @@ import {
 } from 'vuex'
 // import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
+import zInfoPublic from 'components/intelligence-info/public-info'
 // import * as Data from '../../stores/intelligence-info.js'
 export default {
   data() {
@@ -101,7 +95,8 @@ export default {
     }
   },
   components: {
-    StockBox
+    StockBox,
+    zInfoPublic
   },
   filters: {
     isNull(value) {
@@ -122,7 +117,6 @@ export default {
 @import '../../assets/css/base.css';
 .wisdomHeadlines {
     color: $wordsColorBase;
-    min-width: 1200px;
     overflow: auto;
     font-size: 12px;
 }

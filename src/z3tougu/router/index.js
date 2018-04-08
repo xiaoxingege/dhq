@@ -47,6 +47,7 @@ import AutoinpBox from 'components/autoinp-box'
 import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
+import zInfo from 'components/intelligence-info/z-info'
 import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import SiweiIndex from 'components/siwei/siwei-index'
@@ -339,6 +340,15 @@ export default [{
     component: DragonListDialog
   },
   {
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'wisdomHeadlines',
+      name: 'wisdomHeadlines',
+      component: wisdomHeadlines
+    }]
+  },
+  {
     path: ctx + '/wisdomHeadlines',
     name: 'wisdomHeadlines',
     component: wisdomHeadlines
@@ -366,9 +376,9 @@ export default [{
     name: 'StockZtg',
     component: StockZtg
   },
-    {
-        path: ctx + '/dhq',
-        name: 'dhq',
-        component: dhq
-    }
+  {
+    path: ctx + '/dhq',
+    name: 'dhq',
+    component: dhq
+  }
 ]
