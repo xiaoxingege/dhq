@@ -52,6 +52,7 @@ import optionalInformation from 'components/intelligence-info/optional-informati
 import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
+import zInfo from 'components/intelligence-info/z-info'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -338,10 +339,19 @@ export default [{
     component: DragonListDialog
   },
   {
-    path: ctx + '/wisdomHeadlines',
-    name: 'wisdomHeadlines',
-    component: wisdomHeadlines
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'wisdomHeadlines',
+      name: 'wisdomHeadlines',
+      component: wisdomHeadlines
+    }]
   },
+  // {
+  //   path: ctx + '/wisdomHeadlines',
+  //   name: 'wisdomHeadlines',
+  //   component: wisdomHeadlines
+  // },
   {
     path: ctx + '/optionalInformation',
     name: 'optionalInformation',

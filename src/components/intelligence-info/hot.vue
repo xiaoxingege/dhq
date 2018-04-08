@@ -3,23 +3,28 @@
   <div class="tit">{{title}}</div>
   <ul v-if="type ==='stock'">
     <li v-for="item in dataList">
-      <span>{{item.name}}</span>
-      <span v-z3-updownColor="item.curChngPct">{{item.curChngPct}}%</span>
-      <span><div><span>{{item.infoIndex}}</span></div>
-</span>
-</li>
-</ul>
-<ul v-if="type === 'word'">
-  <li v-for="item in dataList">
-    <span class="col name">{{item.showName}}</span>
-    <span v-z3-updownColor="item.chngPct" class="col chg">{{item.chngPct === null?'--':item.chngPct+'%'}}</span>
-    <div class="col hot-index">
-      <div class="full">
-        <div :style="'width:'+progressWidth(item.infoIndex)" class="progress" v-z3-updownColor="item.infoIndex">{{item.infoIndex}}</div>
+      <router-link>{{item.name}}</router-link>
+      <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct}}%</span>
+      <div class="col hot-index">
+        <div class="full">
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex}}</div>
+        </div>
       </div>
-    </div>
-  </li>
-</ul>
+    </li>
+  </ul>
+  <ul v-if="type === 'word'">
+    <li v-for="item in dataList">
+      <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" class="col name" v-if="item.flag==='topic'">{{item.showName}}</router-link>
+      <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" class="col name" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
+      <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
+      <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct === ''?'--':item.chngPct+'%'}}</span>
+      <div class="col hot-index">
+        <div class="full">
+          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex}}</div>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
 </template>
 
@@ -43,7 +48,16 @@ export default {
     }
   },
   methods: {
-    progressWidth: progress => progress <= 20 ? '20%' : progress + '%'
+    progressWidth: progress => progress <= 20 ? '20%' : progress + '%',
+    search: function(keyword) {
+      this.$router.push({
+        name: 'search',
+        params: {
+          linkText: 'infor',
+          keyword: keyword
+        }
+      });
+    }
   },
   mounted() {
     if (this.type === 'stock') {
@@ -77,7 +91,10 @@ export default {
         overflow: hidden;
         height: 18px;
         line-height: 18px;
-        margin: 5px 4px;
+        margin: 5px 6px;
+        a {
+            color: $wordsColorBase;
+        }
         .col {
             float: left;
             width: 35%;
@@ -86,10 +103,23 @@ export default {
             width: 30%;
             text-align: center;
         }
-        .progress {
-            text-align: center;
-            background: #BB0102;
+        .name {
+            cursor: pointer;
         }
+        .name:hover {
+            color: #EDB441;
+        }
+        .hot-index {
+            .full {
+                width: 90%;
+                margin: 0 5%;
+            }
+            .progress {
+                text-align: center;
+                background: #BB0102;
+            }
+        }
+
     }
 }
 </style>

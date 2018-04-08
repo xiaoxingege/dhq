@@ -2,7 +2,10 @@
 <div class="ambush">
   <div class="tit">{{title}}</div>
   <ul>
-
+    <li v-for="item in dataList">
+      <div><span></span><span></span><span></span></div>
+      <div></div>
+    </li>
   </ul>
 </div>
 </template>
@@ -24,7 +27,7 @@ export default {
 
   },
   mounted() {
-
+    this.$store.dispatch('');
   }
 }
 </script>
