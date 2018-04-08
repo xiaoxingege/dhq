@@ -77,6 +77,11 @@ input {
     height: 5.6rem;
     background-size: 100% 100%;
 }
+.bg8.xld {
+    background: url("../assets/images/ssjj-activity/ssjj-h5-bg8-1.jpg") center 0 no-repeat;
+    height: 6.6rem;
+    background-size: 100% 100%;
+}
 .box-con {
     position: relative;
     height: 100%;
@@ -429,7 +434,7 @@ input {
             <a href="javascript:;" @click="popClick(4)"></a>
         </div>
     </div>
-    <div class="bg8">
+    <div :class="xldType ? 'bg8 xld':'bg8'">
     </div>
     <div class="footer">
         <div class="box-con">
@@ -471,7 +476,8 @@ export default {
             popShow: false,
             txtPHtml: '',
             txtPShow: false,
-            editType: false
+            editType: false,
+            xldType: false
         }
     },
     computed: mapState({
@@ -550,6 +556,9 @@ export default {
 
             }
         })
+        if (getQueryString('frm') === 'xld') {
+            this.xldType = true
+        }
         new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
             effect: 'fade',
