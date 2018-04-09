@@ -51,7 +51,6 @@
 </template>
 <script>
 import echarts from 'echarts'
-import z3websocket from '../../z3tougu/z3socket'
 import {
   mapState
 } from 'vuex'
@@ -65,18 +64,7 @@ export default {
   },
   components: {},
   computed: mapState({
-    chartData: state => state.dhqIndex.chartData,
-    lsChartData: state => state.dhqIndex.chartData.lsChartData,
-    socketState: state => state.z3sockjs.readystate,
-    stockMessage: state => {
-      const msg = state.z3sockjs.message
-      if (msg && msg.data && msg.data.subject === 'timeline') {
-        const record = msg.data
-        return record
-      } else {
-        return null
-      }
-    }
+    lsChartData: state => state.dhqIndex.chartData.lsChartData
   }),
   methods: {
     dealData(zeroArr) {
@@ -283,43 +271,9 @@ export default {
 
         }]
       })
-    },
-    indexStock() {
-      const msg = {
-        subject: 'timeline',
-        type: '1',
-        actionType: '1',
-        stockCodeList: this.stockCodeList,
-        token: ''
-      }
-      this.$store.dispatch('z3sockjs/send', msg)
-    },
-    updateStock(data) {
-      this.$store.commit('dhqIndex/chartSocket', data)
     }
   },
   watch: {
-    stockMessage() {
-      if (this.stockMessage) {
-        this.updateStock(this.stockMessage)
-      }
-    },
-    socketState() {
-      if (this.socketState === 1) {
-        // 建立连接
-        this.indexStock()
-      } else if (this.socketState === 3) {
-        // 断开连接，重新建立连接
-        this.$store.dispatch('z3sockjs/init')
-      }
-    },
-    chartData() {
-      if (z3websocket.ws) {
-        z3websocket.ws && z3websocket.ws.close()
-      } else {
-        this.$store.dispatch('z3sockjs/init')
-      }
-    },
     lsChartData: {
       deep: true,
       handler: function() {
@@ -345,9 +299,6 @@ export default {
     }).then(() => {
       this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
     })
-  },
-  destroyed() {
-    z3websocket.ws && z3websocket.ws.close()
   }
 }
 </script>

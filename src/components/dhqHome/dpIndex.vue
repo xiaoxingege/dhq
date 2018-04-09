@@ -86,8 +86,8 @@
       <table class="dpindex-table">
         <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item,index)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
           <td>{{item.name === null?'--':item.name}}</td>
-          <td v-z3-updowncolor="item.stockVal">{{formatData(item.stockVal)?'--':item.stockVal}}</td>
-          <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':item.upDown}}</td>
+          <td v-z3-updowncolor="item.stockVal">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+          <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':parseFloat(item.upDown).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDownExtent">{{formatData(item.upDownExtent)?'--':parseFloat(item.upDownExtent).toFixed(2)}}</td>
           <td>{{formatData(item.amount)?'--':item.amount}}</td>
         </tr>
@@ -111,7 +111,7 @@ export default {
       dpIndexList: [],
       updateDataPid: null,
       intervalTime: 6,
-      stockCodeList: ['000001.SH', '000016.SH', '000030.SH', '000852.SH', '000906.SH', '399001.SZ', '399005.SZ', '399006.SZ', '399905.SZ', '000985.SH'],
+      stockCodeList: ['000001.SH', '399001.SZ', '399006.SZ', '399005.SZ', '000300.SH', '000016.SH', '399905.SZ', '000985.SH'],
       stockCode: '000001.SH',
       stockName: '上证指数'
     }
@@ -150,7 +150,15 @@ export default {
     chartData: state => state.dhqIndex.chartData,
     dpIndexData: function() {
       const dpIndexData = this.$store.state.dhqIndex.dpIndexData
-      return dpIndexData
+      let arr = []
+      for (let i = 0; i < this.stockCodeList.length; i++) {
+        for (let j = 0; j < this.stockCodeList.length; j++) {
+          if (this.stockCodeList[i] === dpIndexData[j].stockCode) {
+            arr.push(dpIndexData[j])
+          }
+        }
+      }
+      return arr
     },
     socketState: state => state.z3sockjs.readystate,
     stockMessage: state => {
@@ -198,6 +206,16 @@ export default {
     toHqChart: function(item, index) {
       this.stockCode = item.stockCode
       this.stockName = item.name
+    },
+    unitFormat: function(value) {
+      if (value >= 100000000) {
+        value = (value / 100000000).toFixed(2) + '亿'
+      } else if (value >= 10000 && value < 100000000) {
+        value = (value / 10000).toFixed(2) + '万'
+      } else {
+        value = value.toFile(2)
+      }
+      return value
     }
   },
   mounted() {

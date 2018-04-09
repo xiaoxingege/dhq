@@ -92,7 +92,7 @@ export default {
                 icon: 'rect'
               }
             ],
-            itemWidth: 50,
+            itemWidth: 20,
             itemHeight: 1,
             right: '8%',
             top: 0,

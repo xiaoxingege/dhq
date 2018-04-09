@@ -114,7 +114,7 @@
         </tr>
       </table>
       <table class="sectors-table">
-        <tr v-for="(value,key) of rankUp">
+        <tr v-for="(value,key,index) of rankUp" v-if="index<8">
           <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
           <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
           <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>

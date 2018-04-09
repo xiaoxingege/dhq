@@ -37,7 +37,7 @@ export default {
         width: '85px'
       },
       styleLiObj: {
-        width: '41px'
+        width: '38px'
       },
       styleObj: {
         backgroundColor: '#2e4465'
@@ -142,6 +142,26 @@ export default {
               left: 50,
               top: 5
             },
+            legend: {
+              data: [{
+                  name: '沪股通',
+                  icon: 'rect'
+                },
+                {
+                  name: '深股通',
+                  icon: 'rect'
+                }
+              ],
+              itemWidth: 20,
+              itemHeight: 1,
+              right: '0%',
+              top: 0,
+              textStyle: {
+                color: '#707b8f',
+                fontFamily: 'Microsoft YaHei',
+                fontSize: 12
+              }
+            },
             tooltip: {
               trigger: 'axis',
               textStyle: {
@@ -171,7 +191,7 @@ export default {
             },
             grid: {
               left: 10,
-              top: 20,
+              top: 30,
               width: '92%',
               height: '80%',
               containLabel: true
@@ -208,18 +228,20 @@ export default {
                     return '#707b8f'
                   }
                 }
-              }
+              },
+              min: 'dataMin',
+              max: 'dataMax'
             }],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
-                name: '沪股通流入',
+                name: '沪股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toNorthHgtData
               },
               {
-                name: '深股通流入',
+                name: '深股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toNorthSgtData
@@ -243,12 +265,32 @@ export default {
               left: 50,
               top: 5
             },
+            legend: {
+              data: [{
+                  name: '沪股通',
+                  icon: 'rect'
+                },
+                {
+                  name: '深股通',
+                  icon: 'rect'
+                }
+              ],
+              itemWidth: 20,
+              itemHeight: 1,
+              right: '0%',
+              top: 0,
+              textStyle: {
+                color: '#707b8f',
+                fontFamily: 'Microsoft YaHei',
+                fontSize: 12
+              }
+            },
             tooltip: {
               trigger: 'axis'
             },
             grid: {
               left: 10,
-              top: 20,
+              top: 30,
               width: '92%',
               height: '80%',
               containLabel: true
@@ -285,18 +327,20 @@ export default {
                     return '#707b8f'
                   }
                 }
-              }
+              },
+              min: 'dataMin',
+              max: 'dataMax'
             }],
             color: ['#1984ea'],
             animation: false,
             series: [{
-                name: '沪股通流入',
+                name: '沪股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthHgtData
               },
               {
-                name: '深股通流入',
+                name: '深股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthSgtData
@@ -348,10 +392,9 @@ export default {
 .timeTab {
     position: absolute;
     top: 5px;
-    right: 10px;
-    width: 164px;
+    left: 112px;
     height: 24px;
-    z-index: 9999;
+    z-index: 1;
 }
 .timeTab > div {
     padding-left: 0;

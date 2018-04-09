@@ -231,7 +231,7 @@ export default {
             data.upDown = result.list[0].pxchg // 涨跌
             data.upDownExtent = result.list[0].pxchgRatio // 涨跌幅
             data.stockVal = result.list[0].lastpx // 最新价
-            data.amount = result.list[0].tradeValue // 金额
+            data.amount = result.list[0].tradeVolume // 金额（总成交量）
           }
         })
       }
