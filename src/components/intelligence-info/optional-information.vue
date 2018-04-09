@@ -242,7 +242,7 @@ export default {
 @import '../../assets/css/base.css';
 
 .optionalInformation {
-    color: $ wordsColorBase;
+    color: $wordsColorBase;
     min-width: 1200px;
     overflow: auto;
     font-size: 12px;
@@ -264,7 +264,7 @@ export default {
         height: 26px;
         background-color: #303539;
         border: 1px solid #525a65;
-        color: $ wordsColorBase;
+        color: $wordsColorBase;
     }
 
     .lookStock {
@@ -272,10 +272,10 @@ export default {
         height: 25px;
         line-height: 25px;
         background-color: #30353b;
-        color: $ wordsColorBase;
+        color: $wordsColorBase;
         padding: 0 5px;
         &:hover {
-            background-color: $ hoverBgColor;
+            background-color: $hoverBgColor;
         }
     }
 }
@@ -341,7 +341,7 @@ export default {
         padding: 6px 10px 6px 5px;
 
         a {
-            color: $ wordsColorBase;
+            color: $wordsColorBase;
             &:hover {
                 color: #2388da;
             }
@@ -375,27 +375,27 @@ export default {
         & .upColor {
 
             a {
-                color: $ upColor;
+                color: $upColor;
             }
 
-            border-color: $ upColor;
+            border-color: $upColor;
         }
         & .downColor {
 
             a {
-                color: $ downColor;
+                color: $downColor;
             }
 
-            border-color: $ downColor;
+            border-color: $downColor;
         }
     }
 }
 .upBgColor {
-    background-color: $ upColor;
+    background-color: $upColor;
 }
 
 .downBgColor {
-    background-color: $ downColor;
+    background-color: $downColor;
 }
 
 .loadMore,

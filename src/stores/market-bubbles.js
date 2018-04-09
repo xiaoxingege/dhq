@@ -95,7 +95,7 @@ const actions = {
     commit,
     state
   }) {
-    const url = "/mock/indexData.json";
+    const url = '/mock/indexData.json';
     return fetch(url).then((res) => res.json()).then((result) => {
       if (result.errCode === 0) {
         commit(mutationsTypes.UPDATE_INDEX_DATA, result)

@@ -266,7 +266,7 @@ export default {
         padding: 10px 10px 10px 5px;
 
         a {
-            color: $ wordsColorBase;
+            color: $wordsColorBase;
             &:hover {
                 color: #2388da;
             }
