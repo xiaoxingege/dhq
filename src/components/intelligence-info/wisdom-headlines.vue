@@ -39,15 +39,9 @@
 
 <script>
 import 'whatwg-fetch'
-import {
-  cutString
-} from 'utils/date'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { cutString } from 'utils/date'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
 
@@ -106,14 +100,14 @@ export default {
           page: this.page,
           isTop: false,
           newTime: ''
-        });
+        })
       })
     },
     loadMore() {
       this.page++
-        var count = Math.ceil(this.totalPage / this.pageSize);
+      var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
-        this.noData = false;
+        this.noData = true
       }
     },
     updateNews() {
@@ -140,7 +134,7 @@ export default {
       }
     },
     cutStr(str, len) {
-      if (str === '') str = '--'
+      if (str === '' || str === null) str = '--'
       return cutString(str, len)
     },
     upAndDownColor(flag) {

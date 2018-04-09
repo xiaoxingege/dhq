@@ -358,15 +358,14 @@ export default [{
       component: wisdomHeadlines
     }]
   },
-  // {
-  //   path: ctx + '/wisdomHeadlines',
-  //   name: 'wisdomHeadlines',
-  //   component: wisdomHeadlines
-  // },
   {
-    path: ctx + '/optionalInformation',
-    name: 'optionalInformation',
-    component: optionalInformation
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'optionalInformation',
+      name: 'optionalInformation',
+      component: optionalInformation
+    }]
   },
   {
     path: ctx + '/newsFlash',
