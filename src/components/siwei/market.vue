@@ -8,19 +8,19 @@
       <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
     </div>
     <div class='bottom'>
-      <div class='chart' ref='chart2'></div>
+      <abnormalPlatesChart></abnormalPlatesChart>
     </div>
   </div>
   <div class='right'>
     <div class='stocks'>
       <div class='tit'>异动个股</div>
-      <div class='stock' v-for='stock of stockList'>
+      <div class='block' v-for='stock of stockList'>
         <div class='time'>{{stock.dateTime}}</div>
         <div class='item'>
           <span class=''>{{stock.stockName}}</span>
           <span class=''>{{stock.symbol}}</span>
           <span class=''>{{stock.chg}}</span>
-          <span class='type'>{{stock.type}}</span>
+          <span class='type'>{{stock.status}}</span>
         </div>
         <div class="news">
           <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
@@ -35,21 +35,21 @@
     </div>
     <div class="blocks">
       <div class="tit">异动板块</div>
-      <div class="block" v-for="block of blocks">
-        <div>
-          <span class="time">{{block.time}}</span>
-          <span class="name">{{block.name}}</span>
-          <span class="chg">{{block.chgper}}</span>
+      <div class="block" v-for="plate of plateList">
+        <div class="time plate_top">
+          <span>{{plate.dateTime}}</span>
+          <span class="name">{{plate.industryName}}</span>
+          <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg}}%</span>
         </div>
-        <div><span class="mark">{{block.msgType > 0?'利好':(block.msgType < 0?'利空':'中性')}}</span><span class="news">{{block.msg}}</span></div>
-        <ul class="stockList">
-          <li v-for="stock of stockList">
-            <span>{{stock.name}}</span>
-            <span>{{stock.code}}</span>
-            <span>{{stock.chg}}</span>
-            <span>{{stock.chgper}}</span>
-          </li>
-        </ul>
+        <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
+        <table class="stockList">
+          <tr v-for="stock of plate.baseDetailList">
+            <td class="name">{{stock.stockName}}</td>
+            <td class="code">{{stock.symbol}}</td>
+            <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
+            <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg}}%</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -62,6 +62,7 @@ import config from '../../z3tougu/config'
 import {
   mapState
 } from 'vuex'
+import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
 export default {
   data() {
     return {
@@ -70,87 +71,11 @@ export default {
       dt: 2,
       stzt: 1,
       stdt: 1,
-      openIndex: 3000.00,
-      stocks: [{
-          time: '10:10:10',
-          stockName: '宝钢股份',
-          code: '600019',
-          chg: '9.88%',
-          type: '打开涨停板',
-          mark: 1,
-          news: 'xxxxxxxxxxxxxxxxxxxx',
-          topics: [{
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            }
-          ]
-        }, {
-          time: '10:10:10',
-          stockName: '宝钢股份',
-          code: '600019',
-          chg: '9.88%',
-          type: '打开涨停板',
-          mark: 1,
-          news: 'xxxxxxxxxxxxxxxxxxxx',
-          topics: [{
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            }
-          ]
-        },
-        {
-          time: '10:10:10',
-          stockName: '宝钢股份',
-          code: '600019',
-          chg: '9.88%',
-          type: '打开涨停板',
-          mark: 1,
-          news: 'xxxxxxxxxxxxxxxxxxxx',
-          topics: [{
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            },
-            {
-              topicName: '钢铁',
-              chg: '4.55%'
-            }
-          ]
-        }
-      ],
-      blocks: []
+      openIndex: 3000.00
     }
+  },
+  components: {
+    abnormalPlatesChart
   },
   computed: mapState({
     bubbles: state => {
@@ -179,19 +104,22 @@ export default {
       this.chart1 = echarts.init(this.$refs.chart1);
       this.chart1.setOption({
         grid: [{
-            width: '25%',
-            containLabel: true,
-            left: 0,
-            top: 20,
+            width: 'auto',
+            containLabel: false,
+            left: 60,
+            right: '75%',
+            top: 40,
             bottom: 40,
             borderColor: '#32343E'
           },
           {
-            width: '75%',
+            // width: '75%',
+            width: 'auto',
             left: '25%',
-            top: 20,
+            top: 40,
             bottom: 40,
-            containLabel: true,
+            right: 10,
+            containLabel: false,
             borderColor: '#32343E'
           }
         ],
@@ -347,140 +275,6 @@ export default {
         }]
       });
     },
-    initPlates() {
-      this.chart2 = echarts.init(this.$refs.chart2);
-      this.chart2.setOption({
-        xAxis: {
-          type: 'category',
-          axisTick: {
-            length: 0
-          },
-          axisLabel: {
-            interval: 0
-          },
-          boundaryGap: false,
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#32343E'
-            }
-          },
-          data: [
-            '9:30', '10:00', '10:30', '11:00', '11:30/13:00', '13:30', '14:00', '14:30', '15:00'
-          ]
-        },
-        yAxis: {
-          type: 'value',
-          min: 2900,
-          max: 3100,
-          axisLine: {
-            onZero: false
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#32343E'
-            }
-          }
-        },
-        series: [{
-          type: 'line',
-          lineStyle: {
-            normal: {
-              color: '#BAC3CB',
-              width: 1
-            }
-          },
-          data: [3010.50, 3030.00, 3000, 2990, 3005, 2998, 3010, 2980, 3020],
-          markLine: {
-            silent: true,
-            data: [
-              [{
-                  coord: ['10:00', 3030],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.downColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:00', 2980],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ],
-              [{
-                  coord: ['10:30', 3000],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.upColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:30', 3050],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ]
-            ]
-          },
-          markPoint: {
-            silent: true,
-            symbol: 'roundRect',
-            symbolSize: [60, 30],
-            data: [{
-                name: '金融',
-                coord: ['10:00', 2980],
-                value: '金融',
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.downColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.downColor,
-                    formatter: () => '金融'
-                  }
-                }
-              },
-              {
-                name: '地产',
-                value: '地产',
-                coord: ['10:30', 3050],
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.upColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.upColor,
-                    formatter: () => '地产'
-                  }
-                }
-              }
-            ]
-          },
-          smooth: true
-        }]
-      });
-    },
     initBubbleChart() {
 
     },
@@ -493,7 +287,7 @@ export default {
 
     },
     matchColor(chg) {
-      return "#666";
+      return '#666';
     }
   },
   mounted() {
@@ -509,7 +303,9 @@ export default {
     this.$store.dispatch('marketBubble/updateAbnormalStocks', {
       type: 0
     });
-    this.initPlates();
+    this.$store.dispatch('marketBubble/updateAbnormalPlates', {
+      startTime: ''
+    })
   }
 }
 </script>
@@ -578,32 +374,59 @@ export default {
     padding: 0 10px;
     border-bottom: 1px solid #32343E;
 }
-.market .stock {
+
+.market .block {
     padding: 2px 8px;
     overflow: hidden;
     margin: 0 0 4px;
 }
-.market .stock:hover {
+.market .block:hover {
     background: #32343E;
 }
-.market .stock .time {
+
+.market .time {
     padding: 1px 2px;
 }
-.market .stock .item {
+
+.market .plate_top {
+    height: 24px;
+    line-height: 24px;
+
+    .name {
+        border: 1px solid #32343E;
+        background: #23252E;
+        text-align: center;
+        width: 60px;
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    .chg {
+        float: right;
+        height: 24px;
+        line-height: 24px;
+    }
+
+}
+.market .block .item {
     padding: 2px;
 }
-.market .stock .item .type {
+
+.market .block .item .type {
     float: right;
 }
-.market .stock .news {
+
+.market .news {
     padding: 2px;
 }
-.market .stock .topics {
+
+.market .block .topics {
     padding: 0;
     margin: 2px 0;
     overflow: hidden;
 }
-.market .stock .topic {
+
+.market .block .topic {
     list-style: none;
     float: left;
     width: calc(25% - 4px);
@@ -613,5 +436,31 @@ export default {
     height: 40px;
     line-height: 20px;
     text-align: center;
+}
+
+.market .block table {
+    width: 100%;
+
+    td {
+        width: 25%;
+        height: 18px;
+    }
+
+    .name {
+        text-align: left;
+    }
+
+    .code {
+        text-align: center;
+    }
+
+    .price {
+        text-align: right;
+    }
+
+    .chg {
+        text-align: right;
+    }
+
 }
 </style>

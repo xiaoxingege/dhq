@@ -240,27 +240,31 @@ export default {
 @import '../../assets/scss/style.scss';
 @import '../../assets/css/reset.css';
 @import '../../assets/css/base.css';
+
 .optionalInformation {
-    color: $wordsColorBase;
+    color: $ wordsColorBase;
     min-width: 1200px;
     overflow: auto;
     font-size: 12px;
 }
+
 .news-wrapper {
     padding-bottom: 20px;
 }
+
 .top-bar {
     height: 32px;
     border: 1px solid #0f1012;
     line-height: 32px;
     background-color: #1a1b1f;
     padding-left: 5px;
+
     .select {
         width: 240px;
         height: 26px;
         background-color: #303539;
         border: 1px solid #525a65;
-        color: $wordsColorBase;
+        color: $ wordsColorBase;
     }
 
     .lookStock {
@@ -268,17 +272,19 @@ export default {
         height: 25px;
         line-height: 25px;
         background-color: #30353b;
-        color: $wordsColorBase;
+        color: $ wordsColorBase;
         padding: 0 5px;
         &:hover {
-            background-color: $hoverBgColor;
+            background-color: $ hoverBgColor;
         }
     }
 }
 .grid-box {
+
     .grid-right {
         width: 370px;
     }
+
 }
 .con-txt,
 .labels,
@@ -286,12 +292,15 @@ export default {
 .stock {
     font-size: 12px;
 }
+
 .name {
     font-weight: bold;
 }
+
 .source {
     color: #656766;
 }
+
 .labels {
     display: inline-block;
     padding: 0 6px;
@@ -299,39 +308,50 @@ export default {
     margin-right: 5px;
     background-color: #525a65;
 }
+
 .con-txt {
     margin-top: 7px;
     line-height: 18px;
 }
+
 .con-top {
     margin-bottom: 8px;
+
     span {
         margin-right: 12px;
     }
+
 }
 .con-bottom {
+
     .time {
         margin-left: 10px;
     }
+
     .price {
         margin-left: 110px;
     }
+
 }
 .news-list {
+
     .news-list-item {
         border: 1px solid #0d1112;
         background-color: #1a1b1f;
         padding: 6px 10px 6px 5px;
+
         a {
-            color: $wordsColorBase;
+            color: $ wordsColorBase;
             &:hover {
                 color: #2388da;
             }
+
         }
     }
 }
 .stock {
     font-size: 0;
+
     .stock-item {
         font-size: 12px;
         display: inline-block;
@@ -340,49 +360,62 @@ export default {
         padding: 0 8px;
         border-radius: 10px;
         margin-right: 20px;
+
         a {
             color: #fff;
         }
+
         span {
             margin-left: 8px;
             &:first-child {
                 margin-left: 0;
             }
+
         }
-        &.upColor {
+        & .upColor {
+
             a {
-                color: $upColor;
+                color: $ upColor;
             }
-            border-color: $upColor;
+
+            border-color: $ upColor;
         }
-        &.downColor {
+        & .downColor {
+
             a {
-                color: $downColor;
+                color: $ downColor;
             }
-            border-color: $downColor;
+
+            border-color: $ downColor;
         }
     }
 }
 .upBgColor {
-    background-color: $upColor;
+    background-color: $ upColor;
 }
+
 .downBgColor {
-    background-color: $downColor;
+    background-color: $ downColor;
 }
+
 .loadMore,
 .price,
 .time {
     color: #666;
 }
+
 .redbg {
     background: #ca4941;
 }
+
 .greenbg {
     background: #059509;
 }
+
 .blockbg {
     background: #525a65;
 }
+
 .display-box {
     display: -webkit-box;
     display: -moz-box;
@@ -390,6 +423,7 @@ export default {
     display: -o-box;
     display: box;
 }
+
 .box-flex-1 {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -397,6 +431,7 @@ export default {
     -o-box-flex: 1;
     box-flex: 1;
 }
+
 .box-flex-2 {
     -webkit-box-flex: 2;
     -moz-box-flex: 2;
@@ -404,6 +439,7 @@ export default {
     -o-box-flex: 2;
     box-flex: 2;
 }
+
 .box-flex-3 {
     -webkit-box-flex: 3;
     -moz-box-flex: 3;
@@ -411,6 +447,7 @@ export default {
     -o-box-flex: 3;
     box-flex: 3;
 }
+
 .box-flex-4 {
     -webkit-box-flex: 4;
     -moz-box-flex: 4;
