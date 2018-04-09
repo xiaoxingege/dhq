@@ -1,7 +1,8 @@
 <template>
 <div class="market-tem">
   <div class="market-tem-top">
-    <NavBar :data="navText" :type="type"></NavBar>
+    <NavBar :data="navText" :type="type" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
+    <div class="dptem-help-img fr" v-z3-help="iconHelpMsg"></div>
   </div>
   <div class="market-tem-chart" ref="chart"></div>
   <div class="suggestion">解读：{{suggestion}}</div>
@@ -20,15 +21,18 @@ export default {
       type: 'marketTem',
       suggestion: '',
       updateDataPid: null,
-      intervalTime: 60 * 5
+      intervalTime: 60 * 5,
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      },
+      iconHelpMsg: '大盘解读是基于趋势交易理论设计的预测算法：以上证指数为假想可操作标的，通过仓位调整，得出类似基金的净值曲线。该预测算法在历史上经过了极为严格的量化回测，可以给出0-100%等多种仓位建议，使这条净值曲线获得最佳收益。'
     }
   },
   watch: {
-    isResizeBottomChart() {
-      this.chart.resize({
-        height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
-      })
-    }
+
   },
   components: {
     NavBar
@@ -57,59 +61,71 @@ export default {
         dataArr.push(position.value)
       })
       return dataArr
+    },
+    dottedBarData: function() {
+      const suggestPosition = this.$store.state.dhqIndex.marketTemData.barData
+      const length = suggestPosition.dataList.length
+      let arr = []
+      for (let i = 0; i < length; i++) {
+        arr[i] = 1
+      }
+      return arr
     }
   },
   methods: {
     init: function() {
+      const _this = this
       this.$store.dispatch('dhqIndex/getMarketTemData').then(() => {
         this.suggestion = this.$store.state.dhqIndex.marketTemData.barData.suggestion
         this.chart.setOption({
           tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            textStyle: {
+              align: 'left',
+              fontFamily: '微软雅黑',
+              fontSize: 12,
+              color: '#c9d0d7'
+            },
+            formatter: function(params) {
+              let s = params[0].name;
+              let value;
+              for (let i = 0; i < params.length; i++) {
+                if (i === 0) {
+                  value = params[i].value * 100 + '%'
+                } else if (i === 2) {
+                  value = parseFloat(params[i].value).toFixed(2) + '亿'
+                }
+                if (i !== 1) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + value;
+                }
+              }
+              return s;
+            }
           },
           grid: {
             left: 0,
-            top: 20,
+            top: 30,
             width: '100%',
             height: '80%',
             containLabel: true
           },
           xAxis: [{
-              type: 'category',
-              splitLine: {
-                show: false
-              },
-              axisTick: {
-                show: false
-              },
-              axisLabel: {
-                textStyle: {
-                  color: function(params) {
-                    return '#707b8f'
-                  }
-                }
-              },
-              data: this.chartDateData
+            type: 'category',
+            splitLine: {
+              show: false
             },
-            {
-              show: false,
-              type: 'category',
-              splitLine: {
-                show: false
-              },
-              axisTick: {
-                show: false
-              },
-              axisLabel: {
-                textStyle: {
-                  color: function(params) {
-                    return '#707b8f'
-                  }
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              textStyle: {
+                color: function(params) {
+                  return '#707b8f'
                 }
-              },
-              data: this.chartDateData
-            }
-          ],
+              }
+            },
+            data: this.chartDateData
+          }],
           yAxis: [{
               type: 'value',
               boundaryGap: [0, '100%'],
@@ -148,30 +164,58 @@ export default {
           series: [{
               name: '仓位',
               type: 'bar',
+              showSymbol: false,
+              barWidth: '50%',
+              barGap: '-100%',
+              itemStyle: {
+                normal: {
+                  borderWidth: 2,
+                  borderColor: '#525a65'
+                }
+              },
+              data: this.chartBarData
+            },
+            {
+              name: '仓位',
+              type: 'bar',
               label: {
                 normal: {
                   show: true,
-                  position: 'top'
-                },
-                formatter: function(params) {
-
+                  position: 'top',
+                  color: '#707b8f',
+                  formatter: function(params) {
+                    return (_this.chartBarData[params.dataIndex]) * 100 + '%'
+                  }
                 }
               },
               showSymbol: false,
-              data: this.chartBarData
+              barWidth: '50%',
+              itemStyle: {
+                normal: {
+                  color: 'transparent',
+                  borderWidth: 1,
+                  borderColor: '#525a65',
+                  borderType: 'dashed'
+                }
+              },
+              data: this.dottedBarData
             },
             {
               name: '指数',
               type: 'line',
-              showSymbol: false,
+              symbolSize: 3,
               yAxisIndex: 1,
-              label: {
+              itemStyle: {
+                color: '#1984ea',
                 normal: {
-                  show: true,
-                  position: 'top'
-                },
-                formatter: function(params) {
-
+                  label: {
+                    show: true,
+                    position: 'top',
+                    color: '#c9d0d7',
+                    formatter: function(params) {
+                      return params.value
+                    }
+                  }
                 }
               },
               data: this.chartLineData
@@ -179,6 +223,13 @@ export default {
           ]
         })
       })
+      window.onresize = function() {
+        const timestampResize = new Date().getTime()
+        _this.$emit('isResize', timestampResize)
+        _this.chart.resize({
+          height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+        })
+      }
     },
     autoUpdate: function() {
       if (this.updateDataPid) {
@@ -232,5 +283,15 @@ export default {
     height: 10%;
     color: #707b8f;
     padding-left: 25px;
+}
+.dptem-help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 </style>

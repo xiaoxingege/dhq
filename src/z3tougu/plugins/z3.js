@@ -59,49 +59,49 @@ export default {
                      （1）新闻的资讯按照时间1小时以内的是“多少分钟前”，1分钟内的资讯显示“刚刚”表示
                      （2）当天内显示“小时:分钟”， 如“1:00”
     */
-    Vue.directive('z3-time',(el,binding,vnode,oldVnode) => {
-      var dateTimeStamp =binding.value.time // 传入时间戳
+    Vue.directive('z3-time', (el, binding, vnode, oldVnode) => {
+      var dateTimeStamp = binding.value.time // 传入时间戳
       var dateType = parseInt(binding.value.type)
-      if(dateTimeStamp.indexOf('-')==-1){
+      if (dateTimeStamp.indexOf('-') == -1) {
         dateTimeStamp = parseInt(binding.value.time)
       }
 
-      if(dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp !=''){
-        if(dateTimeStamp.length == 13){
+      if (dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp != '') {
+        if (dateTimeStamp.length == 13) {
           dateTimeStamp = parseInt(binding.value)
-        }else{
+        } else {
           var timestamp = Date.parse(new Date(dateTimeStamp))
           dateTimeStamp = timestamp
         }
         var now = new Date().getTime()
-        var day_conver=1000*60*60*24
-        var hour_conver=1000*60*60
-        var min_conver=1000*60
-        var time_conver=now-dateTimeStamp
+        var day_conver = 1000 * 60 * 60 * 24
+        var hour_conver = 1000 * 60 * 60
+        var min_conver = 1000 * 60
+        var time_conver = now - dateTimeStamp
         var temp_conver
         var date = new Date(dateTimeStamp)
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
-        var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' '
-        var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':'
-        var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes())
-        if((time_conver/day_conver)<1){
-          if(dateType === 1){
-            temp_conver=(time_conver/hour_conver)
-            if(temp_conver>=1){
-              el.innerHTML=parseInt(temp_conver)+"小时前"
-            }else {
-              temp_conver=(time_conver/min_conver)
-              if(temp_conver>=1){
-                el.innerHTML=parseInt(temp_conver)+"分钟前"
-              }else{
-                el.innerHTML="刚刚"
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+        var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' '
+        var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':'
+        var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes())
+        if ((time_conver / day_conver) < 1) {
+          if (dateType === 1) {
+            temp_conver = (time_conver / hour_conver)
+            if (temp_conver >= 1) {
+              el.innerHTML = parseInt(temp_conver) + "小时前"
+            } else {
+              temp_conver = (time_conver / min_conver)
+              if (temp_conver >= 1) {
+                el.innerHTML = parseInt(temp_conver) + "分钟前"
+              } else {
+                el.innerHTML = "刚刚"
               }
             }
-          }else{
-              el.innerHTML= h + m
+          } else {
+            el.innerHTML = h + m
           }
-        }else{
-          var curTimeMillis = new Date().getTime()// 系统当前时间戳
+        } else {
+          var curTimeMillis = new Date().getTime() // 系统当前时间戳
           var curDate = new Date(curTimeMillis)
           var todayHoursSeconds = curDate.getHours() * 60 * 60
           var todayMinutesSeconds = curDate.getMinutes() * 60
@@ -110,16 +110,16 @@ export default {
           var todayStartMillis = curTimeMillis - todayMillis
           var oneDayMillis = 24 * 60 * 60 * 1000
           var yesterdayStartMilis = todayStartMillis - oneDayMillis
-          if(dateTimeStamp >= yesterdayStartMilis) {
-              el.innerHTML="昨天 "+h+m
-          }else{
-              el.innerHTML= M+D+h+m
+          if (dateTimeStamp >= yesterdayStartMilis) {
+            el.innerHTML = "昨天 " + h + m
+          } else {
+            el.innerHTML = M + D + h + m
           }
         }
-      }else{
-        el.innerHTML="--"
+      } else {
+        el.innerHTML = "--"
       }
-     })
+    })
 
     Vue.directive('z3-updowncolor-bg', (el, binding, vnode, oldVnode) => {
       var flag = binding.value;
@@ -313,6 +313,28 @@ export default {
         return config.emptyValue
       } else {
         return value
+      }
+    })
+    Vue.filter('chngPct', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value + '%';
+        } else {
+          return value + '%';
+        }
+      }
+    });
+    Vue.filter('chng', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value;
+        } else {
+          return value;
+        }
       }
     })
     Vue.directive('z3-help', {

@@ -35,8 +35,10 @@
 }
 .preferred-stock-table tr:nth-child(1) td {
     border-top-width: 0;
+    text-align: center;
+    color: $wordsColorBase;
 }
-.preferred-stock-table tr:last-child td {
+.preferred-stock-table tbody tr:last-child td {
     border-bottom-width: 0;
 }
 .preferred-stock-table tr td:last-child {
@@ -83,7 +85,7 @@
 <template>
 <div class="preferred-stock-con">
   <div class="preferred-stock-top">
-    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
     <p class="more-preferred-stock" @click="toGoldStockPool">
       <a>更多></a>
     </p>
@@ -93,26 +95,35 @@
       <span>暂无数据</span>
     </div>
     <table class="preferred-stock-table" v-show="!isNoData">
-      <tr v-for="item of stockList">
-        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
-        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.tvolLot)?'--':formatDataRound(item.tvolLot)}}</td>
-      </tr>
-      <tr v-for="item of noDataList">
-        <td>{{item.name}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.curChngPct}}</td>
-        <td>{{item.totlNum}}</td>
-      </tr>
+      <thead>
+        <tr>
+          <td>名称</td>
+          <td>最新</td>
+          <td>涨跌幅</td>
+          <td style="text-align: right;padding-right: 20px;">成交量</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item of stockList">
+          <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
+          <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+          <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
+          <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.tvolLot)?'--':formatDataRound(item.tvolLot)}}</td>
+        </tr>
+        <tr v-for="item of noDataList">
+          <td>{{item.name}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.curChngPct}}</td>
+          <td>{{item.totlNum}}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
-import NavBar from 'components/z3touguhome/nav-bar'
-import DataTable from 'components/z3touguhome/data-table'
+import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
 export default {
   data() {
@@ -120,17 +131,23 @@ export default {
       navText: [
         /*  ['策略优选', 'strategyTop'],
          ['信号优选', 'signalTop'], */
-        ['题材优选', 'topicTop'],
-        ['行业优选', 'industryTop']
+        ['行业优选', 'industryTop'],
+        ['题材优选', 'topicTop']
       ],
-      type: 'strategyTop',
+      type: 'industryTop',
       stockList: [],
       updateDataPid: null,
       intervalTime: 6,
       preferredType: 'strategy',
       preferredId: 'nearWeekReturn',
       limit: 10,
-      noDataList: []
+      noDataList: [],
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      }
     }
   },
   watch: {
@@ -159,7 +176,6 @@ export default {
   },
   components: {
     NavBar,
-    DataTable,
     StockBox
   },
   computed: {

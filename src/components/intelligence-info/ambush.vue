@@ -3,8 +3,10 @@
   <div class="tit">{{title}}</div>
   <ul>
     <li v-for="item in dataList">
-      <div><span class="name">{{item.effName}}</span><span class="chg">{{item.chngPct}}</span><span class="time">{{occrDate}}</span></div>
-      <div class="news">{{item.newsTitle}}</div>
+      <div class="item"><span class="col name">{{item.effName}}</span><span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span><span class="col time">{{item.occrDate}}</span></div>
+      <div class="news">
+        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}">{{item.newsTitle}}</router-link>
+      </div>
     </li>
   </ul>
 </div>
@@ -29,9 +31,7 @@ export default {
       return list;
     }
   },
-  methods: {
-
-  },
+  methods: {},
   mounted() {
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveAmbushedStocks');
@@ -68,10 +68,15 @@ export default {
         margin: 5px 6px;
         a {
             color: $wordsColorBase;
+            text-decoration: none;
+        }
+        .item {
+            overflow: hidden;
         }
         .col {
             float: left;
             width: 35%;
+            overflow: hidden;
         }
         .chg {
             width: 30%;
@@ -80,14 +85,21 @@ export default {
         .name {
             cursor: pointer;
         }
-        .name:hover {
-            color: #EDB441;
+        .name:before {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            margin-right: 3px;
+            border-radius: 4px;
+            background: #FF0200;
+            content: '';
         }
         .news {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             color: $wordsColorBase;
+            padding-left: 11px;
         }
 
     }

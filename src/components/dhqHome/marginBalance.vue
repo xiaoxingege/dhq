@@ -1,7 +1,8 @@
 <template>
 <div class="margin-balance">
   <div class="margin-balance-top">
-    <NavBar :data="navText" :type="type"></NavBar>
+    <NavBar :data="navText" :type="type" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
+    <div class="mb-help-img fr" v-z3-help="iconHelpMsg"></div>
   </div>
   <div class="margin-balance-chart" ref="chart"></div>
 </div>
@@ -18,7 +19,14 @@ export default {
       ],
       type: 'marginBalance',
       updateDataPid: null,
-      intervalTime: 60 * 5
+      intervalTime: 60 * 5,
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      },
+      iconHelpMsg: '两融余额：代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标；'
     }
   },
   watch: {
@@ -74,8 +82,54 @@ export default {
             left: 50,
             top: 10
           },
+          legend: {
+            data: [{
+                name: '两融余额',
+                icon: 'rect'
+              },
+              {
+                name: '上证指数',
+                icon: 'rect'
+              }
+            ],
+            itemWidth: 50,
+            itemHeight: 1,
+            right: '8%',
+            top: 0,
+            textStyle: {
+              color: '#707b8f',
+              fontFamily: 'Microsoft YaHei',
+              fontSize: 12
+            }
+          },
           tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            textStyle: {
+              align: 'left',
+              fontFamily: '微软雅黑',
+              fontSize: 12,
+              color: '#c9d0d7'
+            },
+            formatter: function(params) {
+              let s = params[0].name;
+              let value;
+              for (let i = 0; i < params.length; i++) {
+                if (i === 0) {
+                  if (params[i].value > 0) {
+                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#fc2721'
+                  } else if (params[i].value < 0) {
+                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#0bc846'
+                  } else {
+                    value = parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#c9d0d7'
+                  }
+                  s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+                }
+              }
+              return s;
+            }
           },
           grid: {
             left: 0,
@@ -118,32 +172,21 @@ export default {
               }
             }
           }],
-          color: ['#fc2721', '#1984ea'],
+          color: ['#1984ea', '#fc2721'],
           animation: false,
           series: [{
-              name: '上证指数',
-              type: 'line',
-              showSymbol: false,
-              data: this.referenceData
-            },
-            {
-              name: '两融余额',
-              type: 'line',
-              showSymbol: false,
-              data: this.balanceData
-            }
-          ]
+            name: '两融余额',
+            type: 'line',
+            showSymbol: false,
+            data: this.balanceData
+          }, {
+            name: '上证指数',
+            type: 'line',
+            showSymbol: false,
+            data: this.referenceData
+          }]
         })
       })
-    },
-    autoUpdate: function() {
-      if (this.updateDataPid) {
-        clearInterval(this.updateDataPid)
-      } else {
-        this.updateDataPid = setInterval(() => {
-          this.init()
-        }, 1000 * this.intervalTime)
-      }
     },
     dateFormatUtil: function(date) {
       const y = date.substring(0, 4)
@@ -155,7 +198,6 @@ export default {
   mounted() {
     this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
     this.init()
-    //  this.autoUpdate()
   },
   destroyed() {
     this.updateDataPid && clearInterval(this.updateDataPid)
@@ -174,5 +216,15 @@ export default {
 .margin-balance-chart {
     width: 100%;
     height: 85%;
+}
+.mb-help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 </style>

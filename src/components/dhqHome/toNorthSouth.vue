@@ -1,9 +1,15 @@
 <template>
 <div class="margin-balance">
   <div class="margin-balance-top">
-    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObjOut" :styleLiObj="styleLiObjOut"></NavBar>
+    <div class="ns-help-img fr" v-z3-help="iconHelpMsg"></div>
   </div>
-  <div class="margin-balance-chart" ref="chart"></div>
+  <div class="chart-wrap">
+    <div class="timeTab">
+      <NavBar :data="navTimeText" :type="timeType" :styleLiObj="styleLiObj" :styleObject="styleObj" v-on:changeType="changeTimeNavType"></NavBar>
+    </div>
+    <div class="margin-balance-chart" ref="chart"></div>
+  </div>
 </div>
 </template>
 <script>
@@ -17,9 +23,29 @@ export default {
         ['北向资金走势', 'toNorth'],
         ['南向资金走势', 'toSouth']
       ],
+      navTimeText: [
+        ['近1月', '1mon'],
+        ['近6月', '6mon'],
+        ['近1年', '12mon'],
+        ['全部', 'all']
+      ],
       type: 'toNorth',
+      timeType: '1mon',
       updateDataPid: null,
-      intervalTime: 60 * 5
+      intervalTime: 60 * 5,
+      styleLiObjOut: {
+        width: '85px'
+      },
+      styleLiObj: {
+        width: '41px'
+      },
+      styleObj: {
+        backgroundColor: '#2e4465'
+      },
+      styleObjOut: {
+        backgroundColor: '#525a65'
+      },
+      iconHelpMsg: '南北向资金走势：代表海外资金动向，北向资金净流入越多，代表海外资金越看好a股。'
     }
   },
   watch: {
@@ -30,32 +56,67 @@ export default {
     },
     type() {
       this.init()
+    },
+    timeType() {
+      this.init()
     }
   },
   components: {
     NavBar
   },
   computed: {
-    chartDateData: function() {
-      const toNorthData = this.$store.state.dhqIndex.toNorthData
+    /* 北向资金走势时间轴 */
+    chartNorthDateData: function() {
+      const hgtData = this.$store.state.dhqIndex.toNorthData.sh.dataList
+      const sgtData = this.$store.state.dhqIndex.toNorthData.sz.dataList
+      const toNorthData = hgtData.length >= sgtData.length ? hgtData : sgtData
       const dateArr = []
       toNorthData.forEach((position) => {
         dateArr.push(this.dateFormatUtil(position.date))
       })
       return dateArr
     },
-    /*  北向资金走势 */
-    toNorthData: function() {
-      const toNorthData = this.$store.state.dhqIndex.toNorthData
+    /* 南向资金走势时间轴 */
+    chartSouthDateData: function() {
+      const hgtData = this.$store.state.dhqIndex.toSouthData.sh.dataList
+      const sgtData = this.$store.state.dhqIndex.toSouthData.sz.dataList
+      const toSouthData = hgtData.length >= sgtData.length ? hgtData : sgtData
+      const dateArr = []
+      toSouthData.forEach((position) => {
+        dateArr.push(this.dateFormatUtil(position.date))
+      })
+      return dateArr
+    },
+    /*  北向资金走势 沪股通 */
+    toNorthHgtData: function() {
+      const toNorthData = this.$store.state.dhqIndex.toNorthData.sh.dataList
       const dataArr = []
       toNorthData.forEach((position) => {
         dataArr.push(position.value)
       })
       return dataArr
     },
-    /* 南向资金走势 */
-    toSouthData: function() {
-      const toSouthData = this.$store.state.dhqIndex.toSouthData
+    /*  北向资金走势 深股通 */
+    toNorthSgtData: function() {
+      const toNorthData = this.$store.state.dhqIndex.toNorthData.sz.dataList
+      const dataArr = []
+      toNorthData.forEach((position) => {
+        dataArr.push(position.value)
+      })
+      return dataArr
+    },
+    /* 南向资金走势 沪股通 */
+    toSouthHgtData: function() {
+      const toSouthData = this.$store.state.dhqIndex.toSouthData.sh.dataList
+      const dataArr = []
+      toSouthData.forEach((position) => {
+        dataArr.push(position.value)
+      })
+      return dataArr
+    },
+    /* 南向资金走势 沪股通 */
+    toSouthSgtData: function() {
+      const toSouthData = this.$store.state.dhqIndex.toSouthData.sz.dataList
       const dataArr = []
       toSouthData.forEach((position) => {
         dataArr.push(position.value)
@@ -66,7 +127,9 @@ export default {
   methods: {
     init: function() {
       if (this.type === 'toNorth') {
-        this.$store.dispatch('dhqIndex/getToNorthData').then(() => {
+        this.$store.dispatch('dhqIndex/getToNorthData', {
+          type: this.timeType
+        }).then(() => {
           this.chart.setOption({
             title: {
               text: '单位：亿',
@@ -77,10 +140,34 @@ export default {
                 fontWeight: 400
               },
               left: 50,
-              top: 10
+              top: 5
             },
             tooltip: {
-              trigger: 'axis'
+              trigger: 'axis',
+              textStyle: {
+                align: 'left',
+                fontFamily: '微软雅黑',
+                fontSize: 12,
+                color: '#c9d0d7'
+              },
+              formatter: function(params) {
+                let s = params[0].name;
+                let value;
+                for (let i = 0; i < params.length; i++) {
+                  if (params[i].value > 0) {
+                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#fc2721'
+                  } else if (params[i].value < 0) {
+                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#0bc846'
+                  } else {
+                    value = parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#c9d0d7'
+                  }
+                  s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+                }
+                return s;
+              }
             },
             grid: {
               left: 10,
@@ -105,7 +192,7 @@ export default {
                   }
                 }
               },
-              data: this.chartDateData
+              data: this.chartNorthDateData
             }],
             yAxis: [{
               type: 'value',
@@ -123,18 +210,27 @@ export default {
                 }
               }
             }],
-            color: ['#1984ea'],
+            color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
-              name: '沪股通流入',
-              type: 'line',
-              showSymbol: false,
-              data: this.toNorthData
-            }]
+                name: '沪股通流入',
+                type: 'line',
+                showSymbol: false,
+                data: this.toNorthHgtData
+              },
+              {
+                name: '深股通流入',
+                type: 'line',
+                showSymbol: false,
+                data: this.toNorthSgtData
+              }
+            ]
           })
         })
       } else if (this.type === 'toSouth') {
-        this.$store.dispatch('dhqIndex/getToSouthData').then(() => {
+        this.$store.dispatch('dhqIndex/getToSouthData', {
+          type: this.timeType
+        }).then(() => {
           this.chart.setOption({
             title: {
               text: '单位：亿',
@@ -145,7 +241,7 @@ export default {
                 fontWeight: 400
               },
               left: 50,
-              top: 10
+              top: 5
             },
             tooltip: {
               trigger: 'axis'
@@ -173,7 +269,7 @@ export default {
                   }
                 }
               },
-              data: this.chartDateData
+              data: this.chartSouthDateData
             }],
             yAxis: [{
               type: 'value',
@@ -194,26 +290,27 @@ export default {
             color: ['#1984ea'],
             animation: false,
             series: [{
-              name: '沪股通流入',
-              type: 'line',
-              showSymbol: false,
-              data: this.toSouthData
-            }]
+                name: '沪股通流入',
+                type: 'line',
+                showSymbol: false,
+                data: this.toSouthHgtData
+              },
+              {
+                name: '深股通流入',
+                type: 'line',
+                showSymbol: false,
+                data: this.toSouthSgtData
+              }
+            ]
           })
         })
       }
     },
-    autoUpdate: function() {
-      if (this.updateDataPid) {
-        clearInterval(this.updateDataPid)
-      } else {
-        this.updateDataPid = setInterval(() => {
-          this.init()
-        }, 1000 * this.intervalTime)
-      }
+    changeNavType(msg) {
+      this.type = msg
     },
-    changeNavType(data) {
-      this.type = data
+    changeTimeNavType: function(msg) {
+      this.timeType = msg
     },
     dateFormatUtil: function(date) {
       const y = date.substring(0, 4)
@@ -225,7 +322,6 @@ export default {
   mounted() {
     this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
     this.init()
-    //  this.autoUpdate()
   },
   destroyed() {
     this.updateDataPid && clearInterval(this.updateDataPid)
@@ -241,8 +337,36 @@ export default {
     height: 15%;
     position: relative;
 }
-.margin-balance-chart {
+.chart-wrap {
     width: 100%;
     height: 85%;
+    position: relative;
+}
+.margin-balance-chart {
+    height: 100%;
+}
+.timeTab {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 164px;
+    height: 24px;
+    z-index: 9999;
+}
+.timeTab > div {
+    padding-left: 0;
+}
+.timeTab li {
+    width: 41px;
+}
+.ns-help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 </style>

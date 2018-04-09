@@ -11,7 +11,6 @@
     height: 100%;
 }
 .top-nav ul li {
-    width: 85px;
     height: 100%;
     float: left;
     position: relative;
@@ -21,7 +20,7 @@
     display: inline-block;
     height: 25px;
     line-height: 25px;
-    width: 85px;
+    width: 100%;
     text-align: center;
     cursor: pointer;
     border-radius: 3px;
@@ -31,27 +30,24 @@
     transform: translateY(-50%);
 }
 .nav-active {
-    background: $menuSelColor;
     color: $wordsColorBase !important;
 }
 </style>
 <template>
 <div class="top-nav">
   <ul class="clearfix">
-    <li v-for="item in data"><span :style="styleObj" @click="changeTab($event)" :class="type === item[1] ? 'nav-active':''" href="#" :value="item[1]">{{item[0]}}</span></li>
+    <li v-for="item in data" :style="styleLiObj"><span @click="changeTab($event)" :style="type === item[1] ?styleObj:{}" :class="type === item[1] ? 'nav-active':''" href="#" :value="item[1]">{{item[0]}}</span></li>
   </ul>
 </div>
 </template>
 <script>
-import {
-  ctx
-} from '../../z3tougu/config'
 export default {
-  props: ['data', 'type', 'styleObject'],
+  props: ['data', 'type', 'styleObject', 'styleLiObj'],
   data() {
     return {
       activeSearch: this.$route.params.linkText,
-      styleObj: this.styleObject || {}
+      styleObj: this.styleObject || {},
+      styleLiObj: this.styleLiObj || {}
     }
   },
   watch: {
@@ -66,9 +62,6 @@ export default {
     changeTab(e) {
       const type = e.target.getAttribute('value')
       this.$emit('changeType', type)
-      if (type === 'bullStockStyle') {
-        window.open(ctx + '/bullStock')
-      }
     }
   },
   mounted() {

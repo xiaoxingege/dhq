@@ -84,10 +84,17 @@ body {
     float: left;
     height: 100%;
 }
-.marketIndex,
-.preferred-stock .sectors,
+.preferred-stock,
 .top-industry {
     padding-right: 1px;
+    width: 33.33%;
+}
+.sectors {
+    width: 33.33%;
+}
+.marketIndex {
+    padding-right: 1px;
+    width: 66.66%;
 }
 .marketIndex > div,
 .preferred-stock > div,
@@ -99,7 +106,6 @@ body {
 
 .top-wrap > div {
     height: 100%;
-    width: 33.33%;
     display: inline-block;
     float: left;
 }
@@ -108,9 +114,8 @@ body {
 <div class="wrap index-wrap">
   <div class="top-wrap clearfix">
     <div class="marketIndex">
-
+      <dpIndex :isResizeBottomChart="isResizeBottomChart"></dpIndex>
     </div>
-    <DayMarketChart @isResize='isResizeChart'></DayMarketChart>
     <div class="sectors">
       <Sectors></Sectors>
     </div>
@@ -128,7 +133,7 @@ body {
   </div>
   <div class="con-bottom clearfix">
     <div class="con-bottom-left">
-      <marketTem :isResizeBottomChart="isResizeBottomChart"></marketTem>
+      <marketTem :isResizeBottomChart="isResizeBottomChart" @isResize='isResizeChart'></marketTem>
     </div>
     <div class="con-bottom-center">
       <marginBalance :isResizeBottomChart="isResizeBottomChart"></marginBalance>
@@ -142,12 +147,12 @@ body {
 <script type="text/javascript">
 import NewsListHome from 'components/dhqHome/hotnews-home'
 import Sectors from 'components/dhqHome/sectors'
-import TopIndustry from 'components/z3touguhome/top-industry'
+import TopIndustry from 'components/dhqHome/top-industry'
 import TopPreferredStock from 'components/dhqHome/preferred-stock'
-import DayMarketChart from 'components/dhqHome/daiyMarketChart'
 import marketTem from 'components/dhqHome/marketTem'
 import marginBalance from 'components/dhqHome/marginBalance'
 import toNorthSouth from 'components/dhqHome/toNorthSouth'
+import dpIndex from 'components/dhqHome/dpIndex'
 export default {
   data() {
     return {
@@ -172,10 +177,10 @@ export default {
     Sectors,
     TopIndustry,
     TopPreferredStock,
-    DayMarketChart,
     marketTem,
     marginBalance,
-    toNorthSouth
+    toNorthSouth,
+    dpIndex
   },
   computed: {
 
