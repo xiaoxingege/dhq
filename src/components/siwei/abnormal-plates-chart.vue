@@ -113,7 +113,6 @@ export default {
               color: '#32343E'
             }
           },
-
           data: xData
         },
         yAxis: [{
