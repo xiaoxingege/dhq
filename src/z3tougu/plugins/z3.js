@@ -315,6 +315,28 @@ export default {
         return value
       }
     })
+    Vue.filter('chngPct', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value + '%';
+        } else {
+          return value + '%';
+        }
+      }
+    });
+    Vue.filter('chng', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value;
+        } else {
+          return value;
+        }
+      }
+    })
     Vue.directive('z3-help', {
       bind(el, binding, vnode, oldVnode) {
         el.addEventListener('mouseover', (event) => {

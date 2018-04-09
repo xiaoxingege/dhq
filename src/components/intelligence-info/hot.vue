@@ -4,7 +4,7 @@
   <ul v-if="type ==='stock'">
     <li v-for="item in dataList">
       <span class="col name">{{item.name}}</span>
-      <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct}}%</span>
+      <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
           <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
@@ -17,7 +17,7 @@
       <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" class="col name" v-if="item.flag==='topic'">{{item.showName}}</router-link>
       <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" class="col name" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
       <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
-      <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct === ''?'--':item.chngPct+'%'}}</span>
+      <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
           <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
@@ -97,7 +97,7 @@ export default {
         line-height: 18px;
         margin: 5px 6px;
         a {
-            color: $wordsColorBase;
+            color: #EDB441;
         }
         .col {
             float: left;
@@ -109,9 +109,6 @@ export default {
         }
         .name {
             cursor: pointer;
-        }
-        .name:hover {
-            color: #EDB441;
         }
         .hot-index {
             .full {
