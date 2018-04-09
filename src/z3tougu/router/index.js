@@ -48,7 +48,18 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'
+import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
+import optionalInformation from 'components/intelligence-info/optional-information'
+import newsFlash from 'components/intelligence-info/news-flash'
+import newsOpportunities from 'components/intelligence-info/news-opportunities'
+import listedCompany from 'components/intelligence-info/listed-company'
+import zInfo from 'components/intelligence-info/z-info'
+import DhqIndex from 'components/dhqHome/dhqIndex'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
+import SiweiIndex from 'components/siwei/siwei-index'
+import stockZtg from 'components/siwei/stock-ztg'
+import stockZbg from 'components/siwei/stock-zbg'
+import marketBubble from 'components/siwei/market'
 import {
   ctx
 } from '../config'
@@ -337,6 +348,73 @@ export default [{
     path: ctx + '/clinicSharesIndex',
     name: 'clinicsharesindex',
     component: ClinicSharesIndex
+  },
+  {
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'wisdomHeadlines',
+      name: 'wisdomHeadlines',
+      component: wisdomHeadlines
+    }]
+  },
+  // {
+  //   path: ctx + '/wisdomHeadlines',
+  //   name: 'wisdomHeadlines',
+  //   component: wisdomHeadlines
+  // },
+  {
+    path: ctx + '/optionalInformation',
+    name: 'optionalInformation',
+    component: optionalInformation
+  },
+  {
+    path: ctx + '/newsFlash',
+    name: 'newsFlash',
+    component: newsFlash
+  },
+  {
+    path: ctx + '/newsOpportunities',
+    name: 'newsOpportunities',
+    component: newsOpportunities
+  },
+  {
+    path: ctx + '/listedCompany',
+    name: 'listedCompany',
+    component: listedCompany
+  },
+  {
+    path: ctx + '/dhq',
+    name: 'dhqIndex',
+    component: DhqIndex
+  },
+  {
+    path: ctx + '/siweiIndex',
+    name: 'siweiIndex',
+    component: SiweiIndex,
+    children: [{
+        path: '',
+        component: marketBubble,
+        name: 'dingpan'
+      },
+      {
+        path: 'dingpan',
+        component: marketBubble,
+        name: 'dingpan'
+      },
+      {
+        path: 'ztg',
+        component: stockZtg,
+        name: 'ztg'
+      },
+      {
+        path: 'zbg',
+        component: stockZbg,
+        name: 'zbg'
+      }
+      // { path:'ztg',component:StockZtg,name:'Ztg' },
+      // { path:'zbg',component:StockZbg,name:'Zbg' }
+    ]
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',

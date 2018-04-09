@@ -101,6 +101,24 @@ import {
 } from 'vuex'
 
 export default {
+  /* dialogOptions: {
+   stockName: '',
+   stockCode: '',
+   leftList: {
+   xData: {
+   value: ''
+   },
+   yData: {
+   value: ''
+   },
+   bubbleSize: {
+   value: ''
+   },
+   bubbleColor: {
+   value: ''
+   }
+   }
+   }*/
   props: ['dialogOptions'],
   data() {
     return {

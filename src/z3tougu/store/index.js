@@ -26,6 +26,10 @@ import optionalStock from 'stores/optional-stock'
 import bullStock from 'stores/bullStock'
 import plateMap from 'stores/plate-map'
 import dragonList from 'stores/dragon-list-dialog'
+import intelligenceInfo from 'stores/intelligence-info'
+import marketBubble from 'stores/market-bubbles'
+import zInfoPublic from 'stores/z-info-public'
+import dhqIndex from 'stores/dhqIndex'
 import clinicShares from 'stores/clinic-shares'
 Vue.use(Vuex)
 
@@ -142,6 +146,10 @@ export default new Vuex.Store({
     bullStock,
     plateMap,
     dragonList,
+    intelligenceInfo,
+    zInfoPublic,
+    dhqIndex,
+    marketBubble,
     clinicShares
   }
 })

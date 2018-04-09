@@ -1,0 +1,230 @@
+<template>
+<div class="margin-balance">
+  <div class="margin-balance-top">
+    <NavBar :data="navText" :type="type" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
+    <div class="mb-help-img fr" v-z3-help="iconHelpMsg"></div>
+  </div>
+  <div class="margin-balance-chart" ref="chart"></div>
+</div>
+</template>
+<script>
+import NavBar from 'components/dhqHome/nav-bar'
+import echarts from 'echarts'
+export default {
+  props: ['isResizeBottomChart'],
+  data() {
+    return {
+      navText: [
+        ['两融余额', 'marginBalance']
+      ],
+      type: 'marginBalance',
+      updateDataPid: null,
+      intervalTime: 60 * 5,
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      },
+      iconHelpMsg: '两融余额：代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标；'
+    }
+  },
+  watch: {
+    isResizeBottomChart() {
+      this.chart.resize({
+        height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+      })
+    }
+  },
+  components: {
+    NavBar
+  },
+  computed: {
+    chartDateData: function() {
+      const suggestPosition = this.$store.state.dhqIndex.marginBalanceData.marginBalance
+      const dateArr = []
+      suggestPosition.dataList.forEach((position) => {
+        dateArr.push(this.dateFormatUtil(position.date))
+      })
+      return dateArr
+    },
+    /*  上证指数 */
+    referenceData: function() {
+      const referenceData = this.$store.state.dhqIndex.marginBalanceData.reference
+      const dataArr = []
+      referenceData.dataList.forEach((position) => {
+        dataArr.push(position.value)
+      })
+      return dataArr
+    },
+    /* 两融余额 */
+    balanceData: function() {
+      const marginBalance = this.$store.state.dhqIndex.marginBalanceData.marginBalance
+      const dataArr = []
+      marginBalance.dataList.forEach((position) => {
+        dataArr.push(position.value)
+      })
+      return dataArr
+    }
+  },
+  methods: {
+    init: function() {
+      this.$store.dispatch('dhqIndex/getMarginBalance').then(() => {
+        this.chart.setOption({
+          title: {
+            text: '单位：亿',
+            textStyle: {
+              color: '#707b8f',
+              fontSize: 12,
+              fontFamily: 'Microsoft YaHei',
+              fontWeight: 400
+            },
+            left: 50,
+            top: 10
+          },
+          legend: {
+            data: [{
+                name: '两融余额',
+                icon: 'rect'
+              },
+              {
+                name: '上证指数',
+                icon: 'rect'
+              }
+            ],
+            itemWidth: 50,
+            itemHeight: 1,
+            right: '8%',
+            top: 0,
+            textStyle: {
+              color: '#707b8f',
+              fontFamily: 'Microsoft YaHei',
+              fontSize: 12
+            }
+          },
+          tooltip: {
+            trigger: 'axis',
+            textStyle: {
+              align: 'left',
+              fontFamily: '微软雅黑',
+              fontSize: 12,
+              color: '#c9d0d7'
+            },
+            formatter: function(params) {
+              let s = params[0].name;
+              let value;
+              for (let i = 0; i < params.length; i++) {
+                if (i === 0) {
+                  if (params[i].value > 0) {
+                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#fc2721'
+                  } else if (params[i].value < 0) {
+                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#0bc846'
+                  } else {
+                    value = parseFloat(params[i].value).toFixed(2) + '亿'
+                    params[i].textColor = '#c9d0d7'
+                  }
+                  s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+                }
+              }
+              return s;
+            }
+          },
+          grid: {
+            left: 0,
+            top: 20,
+            width: '92%',
+            height: '80%',
+            containLabel: true
+          },
+          xAxis: [{
+            type: 'category',
+            boundaryGap: false,
+            splitLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              textStyle: {
+                color: function(params) {
+                  return '#707b8f'
+                }
+              }
+            },
+            data: this.chartDateData
+          }],
+          yAxis: [{
+            type: 'value',
+            splitLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              textStyle: {
+                color: function(params) {
+                  return '#707b8f'
+                }
+              }
+            }
+          }],
+          color: ['#1984ea', '#fc2721'],
+          animation: false,
+          series: [{
+            name: '两融余额',
+            type: 'line',
+            showSymbol: false,
+            data: this.balanceData
+          }, {
+            name: '上证指数',
+            type: 'line',
+            showSymbol: false,
+            data: this.referenceData
+          }]
+        })
+      })
+    },
+    dateFormatUtil: function(date) {
+      const y = date.substring(0, 4)
+      const m = date.substring(4, 6)
+      const d = date.substring(6)
+      return y + '/' + m + '/' + d
+    }
+  },
+  mounted() {
+    this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
+    this.init()
+  },
+  destroyed() {
+    this.updateDataPid && clearInterval(this.updateDataPid)
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import "../../assets/scss/style.scss";
+.margin-balance {
+    width: 100%;
+}
+.margin-balance-top {
+    height: 15%;
+    position: relative;
+}
+.margin-balance-chart {
+    width: 100%;
+    height: 85%;
+}
+.mb-help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+</style>
