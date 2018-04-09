@@ -411,8 +411,6 @@ export default [{
         component: stockZbg,
         name: 'zbg'
       }
-      // { path:'ztg',component:StockZtg,name:'Ztg' },
-      // { path:'zbg',component:StockZbg,name:'Zbg' }
     ]
   }
   /* {
