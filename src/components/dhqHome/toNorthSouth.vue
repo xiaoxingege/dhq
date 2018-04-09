@@ -92,7 +92,7 @@ export default {
       const toNorthData = this.$store.state.dhqIndex.toNorthData.sh.dataList
       const dataArr = []
       toNorthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -101,7 +101,7 @@ export default {
       const toNorthData = this.$store.state.dhqIndex.toNorthData.sz.dataList
       const dataArr = []
       toNorthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -110,7 +110,7 @@ export default {
       const toSouthData = this.$store.state.dhqIndex.toSouthData.sh.dataList
       const dataArr = []
       toSouthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -119,7 +119,7 @@ export default {
       const toSouthData = this.$store.state.dhqIndex.toSouthData.sz.dataList
       const dataArr = []
       toSouthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     }
@@ -171,17 +171,17 @@ export default {
                 color: '#c9d0d7'
               },
               formatter: function(params) {
-                let s = params[0].name;
+                let s = params[0].axisValue;
                 let value;
                 for (let i = 0; i < params.length; i++) {
-                  if (params[i].value > 0) {
-                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
+                  if (params[i].value[1] > 0) {
+                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#fc2721'
-                  } else if (params[i].value < 0) {
-                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
+                  } else if (params[i].value[1] < 0) {
+                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#0bc846'
                   } else {
-                    value = parseFloat(params[i].value).toFixed(2) + '亿'
+                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#c9d0d7'
                   }
                   s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
@@ -196,7 +196,7 @@ export default {
               height: '80%',
               containLabel: true
             },
-            xAxis: [{
+            xAxis: {
               type: 'category',
               boundaryGap: false,
               splitLine: {
@@ -213,7 +213,7 @@ export default {
                 }
               },
               data: this.chartNorthDateData
-            }],
+            },
             yAxis: [{
               type: 'value',
               splitLine: {
@@ -286,7 +286,31 @@ export default {
               }
             },
             tooltip: {
-              trigger: 'axis'
+              trigger: 'axis',
+              textStyle: {
+                align: 'left',
+                fontFamily: '微软雅黑',
+                fontSize: 12,
+                color: '#c9d0d7'
+              },
+              formatter: function(params) {
+                let s = params[0].axisValue;
+                let value;
+                for (let i = 0; i < params.length; i++) {
+                  if (params[i].value[1] > 0) {
+                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#fc2721'
+                  } else if (params[i].value[1] < 0) {
+                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#0bc846'
+                  } else {
+                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#c9d0d7'
+                  }
+                  s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+                }
+                return s;
+              }
             },
             grid: {
               left: 10,
