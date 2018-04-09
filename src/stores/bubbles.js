@@ -37,17 +37,7 @@ export default {
     minmaxXDefault: '',
     minmaxYDefault: '',
     setDefaultX: '',
-    setDefaultY: '',
-    ztgBubblesData: {
-      xData: '',
-      yData: '',
-      bubblesSize: '',
-      bubbleColor: '',
-      innerCode: [],
-      name: [],
-      seriesData: []
-    }
-
+    setDefaultY: ''
   },
   mutations: {
     setBubblesOptions(state, options) {
@@ -146,42 +136,6 @@ export default {
     setZoomRangeDefault(state, options) {
       state.setDefaultX = [options.X, options.XDefault]
       state.setDefaultY = [options.Y, options.YDefault]
-    },
-    setStockBubblesData(state, result) {
-      const data = result.data
-      state.ztgBubblesData = {
-        xData: [],
-        yData: [],
-        bubbleSize: [],
-        bubbleColor: [],
-        innerCode: [],
-        name: [],
-        seriesData: []
-      }
-      if (result.errCode === 0) {
-        for (var item of data) {
-          // if (item.xData !== null && item.yData !== null) {
-          state.ztgBubblesData.xData.push(item.xData)
-          state.ztgBubblesData.yData.push(item.yData)
-          state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-          state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-          state.ztgBubblesData.innerCode.push(item.innerCode)
-          state.ztgBubblesData.name.push(item.name)
-          state.ztgBubblesData.seriesData.push([item.xData, item.yData])
-          // }
-        }
-      } else {
-        // alert(result.msg)
-        state.ztgBubblesData = {
-          xData: [],
-          yData: [],
-          bubbleSize: [],
-          bubbleColor: [],
-          innerCode: [],
-          name: [],
-          seriesData: []
-        }
-      }
     }
   },
   actions: {
@@ -271,25 +225,6 @@ export default {
         Y,
         XDefault,
         YDefault
-      })
-    },
-    getStockBubbles({
-      commit
-    }, {
-      options
-    }) {
-      return fetch(`${domain}/openapi/dimension/bubbles`, {
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        method: 'post',
-        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&type=${options.type}`
-      }).then((res) => {
-        return res.json()
-      }).then(body => {
-        commit('setStockBubblesData', body)
       })
     }
 

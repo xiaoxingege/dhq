@@ -44,13 +44,11 @@ export default {
       var flag = binding.value;
       if (flag > 0) {
         el.style.color = config.upColor
-      //  el.style.borderColor = config.upColor
       } else if (flag < 0) {
         el.style.color = config.downColor
-       // el.style.borderColor = config.downColor
       } else {
         el.style.color = config.flatColor
-       // el.style.borderColor = config.flatColor
+
       }
     })
 

@@ -123,37 +123,7 @@ module.exports = {
     },
     host: '0.0.0.0',
     port: port,
-    disableHostCheck: true,
-    proxy: {
-      "/openapi/market/queryPerformance.jspa": {
-        target: "http://172.16.20.86:8031",
-        pathRewrite: {
-          "^/openapi": "/mockjsdata/24/smartstock/api/"
-        },
-        secure: false
-      },
-      "/openapi/fund/queryMarginBalance.jspa": {
-        target: "http://172.16.20.86:8031",
-        pathRewrite: {
-          "^/openapi": "/mockjsdata/24/smartstock/api/"
-        },
-        secure: false
-      },
-      "/openapi/fund/queryToNorth.jspa": {
-        target: "http://172.16.20.86:8031",
-        pathRewrite: {
-          "^/openapi": "/mockjsdata/24/smartstock/api/"
-        },
-        secure: false
-      },
-      "/openapi/fund/queryToSouth.jspa": {
-        target: "http://172.16.20.86:8031",
-        pathRewrite: {
-          "^/openapi": "/mockjsdata/24/smartstock/api/"
-        },
-        secure: false
-      }
-    }
+    disableHostCheck: true
   }
 }
 

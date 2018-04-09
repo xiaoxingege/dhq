@@ -56,7 +56,7 @@ export default {
   methods: {
     initPlates() {
       this.chart = echarts.init(this.$refs.chart);
-      let xData = [];;
+      let xData = [];
       util.generateTimeline().forEach((value, index, arr) => {
         let align = '';
         if (index === 0) {

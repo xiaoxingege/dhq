@@ -1,6 +1,4 @@
-<style lang="scss" scoped>
-Error: Source sample is missing.
-</style>
+
 <template>
 <div class="ztgBox">
   <div class="ztgMain">

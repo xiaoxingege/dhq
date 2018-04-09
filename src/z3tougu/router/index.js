@@ -48,12 +48,12 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
+import optionalInformation from 'components/intelligence-info/optional-information'
+import newsFlash from 'components/intelligence-info/news-flash'
+import newsOpportunities from 'components/intelligence-info/news-opportunities'
+import listedCompany from 'components/intelligence-info/listed-company'
+import zInfo from 'components/intelligence-info/z-info'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
-import SiweiIndex from 'components/siwei/siwei-index'
-import StockZtg from 'components/siwei/stock-ztg'
-// import StockZbg from 'components/siwei/stock-zbg'
-import marketBubble from 'components/siwei/market'
-import dhq from 'components/dhqHome/dhqIndex'
 import {
   ctx
 } from '../config'
@@ -339,36 +339,49 @@ export default [{
     component: DragonListDialog
   },
   {
-    path: ctx + '/wisdomHeadlines',
-    name: 'wisdomHeadlines',
-    component: wisdomHeadlines
-  },
-  {
-    path: ctx + '/siweiIndex',
-    name: 'siweiIndex',
-    component: SiweiIndex,
+    path: ctx + '/zInfo',
+    component: zInfo,
     children: [{
-        path: '',
-        component: marketBubble,
-        name: 'dingpan'
-      },
-      {
-        path: 'dingpan',
-        component: marketBubble,
-        name: 'dingpan'
-      }
-      // { path:'ztg',component:StockZtg,name:'Ztg' },
-      // { path:'zbg',component:StockZbg,name:'Zbg' }
-    ]
+      path: 'wisdomHeadlines',
+      name: 'wisdomHeadlines',
+      component: wisdomHeadlines
+    }]
+  },
+  // {
+  //   path: ctx + '/wisdomHeadlines',
+  //   name: 'wisdomHeadlines',
+  //   component: wisdomHeadlines
+  // },
+  {
+    path: ctx + '/optionalInformation',
+    name: 'optionalInformation',
+    component: optionalInformation
   },
   {
-    path: ctx + '/StockZtg',
-    name: 'StockZtg',
-    component: StockZtg
+    path: ctx + '/newsFlash',
+    name: 'newsFlash',
+    component: newsFlash
   },
-    {
-        path: ctx + '/dhq',
-        name: 'dhq',
-        component: dhq
-    }
+  {
+    path: ctx + '/newsOpportunities',
+    name: 'newsOpportunities',
+    component: newsOpportunities
+  },
+  {
+    path: ctx + '/listedCompany',
+    name: 'listedCompany',
+    component: listedCompany
+
+  }
+  /* {
+    path: ctx + '/stockMapOld/fullScreen',
+    name: 'stockMapOldBig',
+    component: StockMapOld
+  },
+  {
+    path: ctx + '/stockMapOld/normal',
+    name: 'stockMapOldNormal',
+    component: StockMapOld
+  } */
+
 ]

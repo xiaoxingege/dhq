@@ -1,40 +1,47 @@
 <template>
-<!-- 智头条 -->
-<div class="wisdomHeadlines">
-  <div class="news-wrapper">
-    <ul class="news-list" ref="newsList">
-      <li class="news-list-item" v-for="item in wisdomHeadlinesList">
-        <div>
-          <span v-if="item.postiveIndex != '' && item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
-          <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
-          </router-link>
+<!-- 7*24小时快讯 -->
+<div class="news-flash">
+  <div class="grid-box clearfix display-box">
+    <div class="grid-left box-flex-1">
+      <div class="news-wrapper">
+        <ul class="news-list">
+          <li class="display-box" v-for="item in newsFlash">
+            <div class="leftTime"><span v-z3-time="{ time:item.declareDate, type: '2' }"></span></div>
+            <div class="news-list-item box-flex-1">
+              <div>
+                <span class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+                <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+                  <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
+                </router-link>
+                </div·>
+                <div class="con-txt">
+                  <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+                    <span>{{cutStr(item.summary,350)}}</span>
+                    <!-- item.summary -->
+                  </router-link>
+                  <span class="source">( {{item.srcName}} )</span>
+                </div>
+                <div class="con-bottom">
+                  <ul class="stock" v-for="stock in item.equityList">
+                    <li class="stock-item" :class="upAndDownColor(1)">
+                      <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
+                        <span>{{stock.name}}</span><span>{{1 | isNull}}</span><span>+1.00%</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+          </li>
+        </ul>
+        <p class="tc mt-10" v-show="newsFlash.length>8">
+          <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+        </p>
         </div>
-        <div class="con-txt">
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span>{{cutStr(item.summary,350)}}</span>
-          </router-link>
-          <span class="source">( {{item.srcName}} )</span>
-        </div>
-        <div class="con-bottom">
-          <!-- <ul class="stock">
-              <li class="stock-item" :class="upAndDownColor(relatedStocks[stock.code].chngPct)" v-for="stock in item.equityList">
-                <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
-                  <span>{{stock.name}}</span><span>{{relatedStocks[stock.code].price  | isNull }}</span><span>{{relatedStocks[stock.code].chngPct  | isNull }}%</span>
-                </a>
-              </li>
-            </ul> -->
-        </div>
-      </li>
-    </ul>
-    <p v-if="!noData" class="tc mt-10" v-show="wisdomHeadlinesList.length >= 8">
-      <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-    </p>
-    <p v-if="noData" class="tc mt-10 loadMore">数据已加载完</p>
+      </div>
+      <div class="grid-right"></div>
+    </div>
+    <StockBox ref="stockbox"></StockBox>
   </div>
-  <StockBox ref="stockbox"></StockBox>
-</div>
 </template>
 
 <script>
@@ -55,34 +62,24 @@ export default {
   data() {
     return {
       page: 0,
-      totalPage: 200,
-      noData: false,
-      updateNewsPid: '',
-      intervalTime: 60000,
-      scrollTop: 0,
-      innerHeight: window.innerHeight
+      flag: 2,
+      isShow: true
     }
   },
-  mounted() {
-    this.loadList()
-    this.updateNews()
-    window.addEventListener('scroll', this.getScrollTop)
+  created() {
+    this.loadList();
   },
   computed: {
     ...mapState([
-      'loadingShow',
       'pageSize',
-      'wisdomHeadlinesList',
-      'newTime'
+      'newsFlash'
     ]),
     ...mapGetters({
-      loadingShow: 'loadingShow',
       pageSize: 'pageSize',
-      wisdomHeadlinesList: 'wisdomHeadlinesList',
-      newTime: 'newTime'
+      newsFlash: 'newsFlash'
     }),
     ...mapState({
-      relatedStocks: state => state.intelligenceInfo.relatedStocks,
+      relatedStocks: state => state.topic.relatedStocks,
       socketState: state => state.z3sockjs.readystate,
       stockMessage: state => {
         const msg = state.z3sockjs.message
@@ -90,7 +87,9 @@ export default {
           const record = msg.data
           return {
             innerCode: record.stockCode,
+            //  name: record.stockName,
             price: record.lastpx,
+            chg: record.pxchg,
             curChngPct: record.pxchgratio
           }
         } else {
@@ -101,46 +100,16 @@ export default {
   },
   methods: {
     loadList() {
-      this.$nextTick(() => {
-        this.$store.dispatch('getWisdomHeadlinesList', {
-          page: this.page,
-          isTop: false,
-          newTime: ''
-        });
-      })
+      this.$store.dispatch('getNewsFlashList', {
+        flag: this.flag,
+        page: this.page
+      });
     },
     loadMore() {
       this.page++
-        var count = Math.ceil(this.totalPage / this.pageSize);
-      if (count === this.page + 1) {
-        this.noData = false;
-      }
-    },
-    updateNews() {
-      const _this = this
-      _this.updateNewsPid = setInterval(() => {
-        console.log('启动定时器')
-        _this.$store.dispatch('getWisdomHeadlinesList', {
-          page: this.page,
-          isTop: true,
-          newTime: this.newTime
-        })
-      }, _this.intervalTime)
-    },
-    getScrollTop() {
-      this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      if (this.scrollTop >= this.innerHeight) {
-        if (this.updateNewsPid) {
-          console.log('清除定时器')
-          clearInterval(this.updateNewsPid)
-        }
-      }
-      if (this.scrollTop === 0) {
-        this.updateNews()
-      }
+        this.loadList()
     },
     cutStr(str, len) {
-      if (str === '') str = '--'
       return cutString(str, len)
     },
     upAndDownColor(flag) {
@@ -153,16 +122,16 @@ export default {
       }
     },
     status(txt) {
-      if (txt === '利好' || txt === '增持' || txt === '买入') {
+      if (txt === '利好') {
         return 'upBgColor'
-      } else if (txt === '利空' || txt === '卖出') {
+      } else if (txt === '利空') {
         return 'downBgColor'
       } else {
         return ''
       }
     },
     updateStock(stock) {
-      this.$store.commit('UPDATE_WISDOMHEADLINES_RELSTOCK', stock)
+      this.$store.commit('intelligenceInfo/UPDATE_WISDOMHEADLINES_RELSTOCK', stock)
     },
     subscribeStock() {
       const msg = {
@@ -179,12 +148,6 @@ export default {
     StockBox
   },
   watch: {
-    'page': {
-      deep: true,
-      handler: function() {
-        this.loadList()
-      }
-    },
     relatedStocks() {
       if (z3websocket.ws) {
         //  z3websocket.ws && z3websocket.ws.close()
@@ -220,7 +183,6 @@ export default {
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()
-    clearInterval(this.updateNewsPid)
   }
 }
 </script>
@@ -228,12 +190,31 @@ export default {
 @import '../../assets/scss/style.scss';
 @import '../../assets/css/reset.css';
 @import '../../assets/css/base.css';
-.wisdomHeadlines {
+.news-flash {
     color: $wordsColorBase;
+    min-width: 1200px;
+    overflow: auto;
     font-size: 12px;
 }
-.news-wrapper {
-    padding-bottom: 20px;
+.leftTime {
+    position: relative;
+    width: 63px;
+    background-color: #26272d;
+    text-align: center;
+    border: 1px solid #0d1112;
+    span {
+        width: 100%;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+.grid-box {
+    .grid-right {
+        width: 370px;
+    }
 }
 .con-txt,
 .labels,
@@ -322,5 +303,40 @@ export default {
 }
 .blockbg {
     background: #525a65;
+}
+.display-box {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -o-box;
+    display: box;
+}
+.box-flex-1 {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    -o-box-flex: 1;
+    box-flex: 1;
+}
+.box-flex-2 {
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -ms-flex: 2;
+    -o-box-flex: 2;
+    box-flex: 2;
+}
+.box-flex-3 {
+    -webkit-box-flex: 3;
+    -moz-box-flex: 3;
+    -ms-flex: 3;
+    -o-box-flex: 3;
+    box-flex: 3;
+}
+.box-flex-4 {
+    -webkit-box-flex: 4;
+    -moz-box-flex: 4;
+    -ms-flex: 4;
+    -o-box-flex: 4;
+    box-flex: 4;
 }
 </style>
