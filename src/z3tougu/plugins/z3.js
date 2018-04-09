@@ -44,11 +44,13 @@ export default {
       var flag = binding.value;
       if (flag > 0) {
         el.style.color = config.upColor
+        el.style.borderColor = config.upColor
       } else if (flag < 0) {
         el.style.color = config.downColor
+        el.style.borderColor = config.downColor
       } else {
         el.style.color = config.flatColor
-
+        el.style.borderColor = config.flatColor
       }
     })
 
@@ -365,6 +367,18 @@ export default {
           hDiv.parentNode.removeChild(hDiv);
         })
       }
+
+    })
+    Vue.directive('z3-nav', (el, binding, vnode, oldVnode) => {
+      el.childNodes[0].className = binding.expression
+      el.childNodes.forEach((item) => {
+        item.addEventListener('click', (event) => {
+          el.childNodes.forEach((v) => {
+            v.className = ''
+          })
+          item.className = binding.expression
+        })
+      })
 
     })
 

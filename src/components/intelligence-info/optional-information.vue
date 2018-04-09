@@ -1,41 +1,41 @@
 <template>
 <!-- 自选情报 -->
-<div class="optionalInformation">
-  <div class="grid-box clearfix display-box">
-    <div class="grid-left box-flex-1">
-      <div class="top-bar">
-        <select class="select" name="" v-model="stockPoolDefault" @change="getInnerCode">
-            <option value="">请选择</option>
-            <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
-          </select>
-        <a href="#"><span class="lookStock">自选股查看</span></a>
-      </div>
-      <div class="news-wrapper">
-        <ul class="news-list">
-          <li class="news-list-item" v-for="item in optionalInformationList">
-            <div class="con-top" v-for="equityList in optionalInformationList.equityList">
-              <p v-z3-updowncolor="1"><span>{{equityList.name}}[{{equityList.code}}]</span><span>14.90</span><span>+2.30%</span></p>
-            </div>
-            <div><span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
-              <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span></div>
-            <div class="con-txt">
-              <span>{{cutStr('',350)}}</span>
-            </div>
-            <div class="con-bottom">
-              <span class="source">{{item.srcName}}</span>
-              <span class="time" v-z3-time="{ time: '2018-03-26 13:24', type: '1' }"></span>
-              <span class="price">目标价格：13.24</span>
-            </div>
-          </li>
-        </ul>
-        <p class="tc mt-10">
-          <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        </p>
-      </div>
-    </div>
-    <div class="grid-right">
-      {{newTime}}
-    </div>
+<div class="optionalInformation" @scroll="getScrollTop($event)">
+  <div class="top-bar">
+    <select class="select" name="" v-model="stockPoolDefault" @change="getInnerCode">
+        <option value=''>请选择</option>
+        <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
+      </select>
+    <a href="#"><span class="lookStock">自选股查看</span></a>
+  </div>
+  <div class="news-wrapper">
+    <ul class="news-list">
+      <li class="news-list-item" v-for="item in optionalInformationList">
+        <div class="con-top">
+          <p v-z3-updowncolor="item.equityList.chngPct">
+            <span>{{relatedStocks[item.equityList.code].name}}[{{relatedStocks[item.equityList.code].code}}]</span>
+            <span>{{relatedStocks[item.equityList.code].price}}</span>
+            <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
+          </p>
+        </div>
+        <div>
+          <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+          <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span>
+        </div>
+        <div class="con-txt">
+          <span>{{cutStr(item.summary,350)}}</span>
+        </div>
+        <div class="con-bottom">
+          <span class="source">{{item.srcName}}</span>
+          <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
+          <span class="price" v-if="item.newsType=== '研报'">目标价格：{{item.equityList.expectPrice | isNull}}</span>
+        </div>
+      </li>
+    </ul>
+    <p class="tc mt-10">
+      <a v-if="!noData && optionalInformationList.length >= 8" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      <p v-if="noData" class="tc mt-10 loadMore">数据已加载完</p>
+    </p>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -54,31 +54,37 @@ import {
 } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
-// import $ from 'jquery'
+
 export default {
   data() {
     return {
       page: 0,
-      isShow: true,
+      totalPage: 200,
+      noData: false,
+      updateNewsPid: '',
+      intervalTime: 60000,
+      scrollTop: 0,
+      innerHeight: window.innerHeight,
       stockPoolDefault: '',
       innerCode: '000001.SZ,000002.SZ'
     }
   },
-  created() {
+  mounted() {
     this.loadList()
-    // this.$store.dispatch('getStockPool')
+    this.updateNews()
+    this.$store.dispatch('getStockPool')
   },
   computed: {
     ...mapState([
-      'totalPage',
       'page',
       'optionalInformationList',
       'stockPool',
-      'newTime'
+      'newTime',
+      'pageSize'
     ]),
     ...mapGetters({
-      totalPage: 'totalPage',
       page: 'page',
+      pageSize: 'pageSize',
       optionalInformationList: 'optionalInformationList',
       stockPool: 'stockPool',
       newTime: 'newTime'
@@ -103,22 +109,48 @@ export default {
   },
   methods: {
     loadList() {
-      this.$store.dispatch('getOptionalInformation', {
-        innerCode: this.innerCode,
-        page: this.page,
-        isTop: false,
-        newTime: this.newTime
-      });
+      this.$nextTick(() => {
+        this.$store.dispatch('getOptionalInformation', {
+          innerCode: this.innerCode,
+          page: this.page,
+          isTop: false,
+          newTime: ''
+        })
+      })
+    },
+    updateNews() {
+      const _this = this
+      _this.updateNewsPid = setInterval(() => {
+        console.log('启动定时器')
+        _this.$store.dispatch('getOptionalInformation', {
+          innerCode: this.innerCode,
+          page: this.page,
+          isTop: true,
+          newTime: _this.newTime
+        })
+      }, _this.intervalTime)
+    },
+    getScrollTop(e) {
+      this.scrollTop = e.target.scrollTop
+      if (this.scrollTop >= this.innerHeight) {
+        if (this.updateNewsPid) {
+          console.log('清除定时器')
+          clearInterval(this.updateNewsPid)
+        }
+      }
+      if (this.scrollTop === 0) {
+        this.updateNews()
+      }
     },
     loadMore() {
       this.page++
-        var count = Math.ceil(this.totalPage / this.pageSize);
+        var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
-        this.noData = false;
+        this.noData = true
       }
     },
     cutStr(str, len) {
-      if (str === '' && str === undefined) str = '--'
+      if (str === '' || str === null) str = '--'
       return cutString(str, len)
     },
     upAndDownColor(flag) {
@@ -133,7 +165,7 @@ export default {
     status(txt) {
       if (txt === '利好' || txt === '增持' || txt === '买入') {
         return 'upBgColor'
-      } else if (txt === '利空') {
+      } else if (txt === '利空' || txt === '卖出') {
         return 'downBgColor'
       } else {
         return ''
@@ -142,20 +174,7 @@ export default {
     getInnerCode() {
       this.innerCode = ''
       this.page = 0
-      // var id = this.stockPoolDefault
-      // for (var intelligence of this.stockPool) {
-      //   var equityList = intelligence.equityPool
-      //   if( id === intelligence.poolId ){
-      //     for(var stock of equityList){
-      //       this.innerCode  += stock.innerCode + ','
-      //     }
-      //     var str = this.innerCode.substring(0,this.innerCode.length-1)
-      //     this.innerCode = str
-      //   }
-      // }
-
       let index = $('.select option:selected').attr('data-index')
-      console.log(index)
       let stocks = this.stockPool
       let thisStock = stocks[index]
       for (let list of thisStock.equityPool) {
@@ -163,11 +182,12 @@ export default {
       }
       var str = this.innerCode.substring(0, this.innerCode.length - 1)
       this.innerCode = str
-      console.log(this.innerCode)
+
       this.loadList()
+
     },
     updateStock(stock) {
-      this.$store.commit('UPDATE_WISDOMHEADLINES_RELSTOCK', stock)
+      this.$store.commit('UPDATE_OPTIONALINFORMATION_RELSTOCK', stock)
     },
     subscribeStock() {
       const msg = {
@@ -235,9 +255,9 @@ export default {
 @import '../../assets/css/base.css';
 .optionalInformation {
     color: $wordsColorBase;
-    min-width: 1200px;
-    overflow: auto;
     font-size: 12px;
+    height: 100%;
+    overflow: auto;
 }
 .news-wrapper {
     padding-bottom: 20px;
@@ -266,11 +286,6 @@ export default {
         &:hover {
             background-color: $hoverBgColor;
         }
-    }
-}
-.grid-box {
-    .grid-right {
-        width: 370px;
     }
 }
 .con-txt,
@@ -375,40 +390,5 @@ export default {
 }
 .blockbg {
     background: #525a65;
-}
-.display-box {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -o-box;
-    display: box;
-}
-.box-flex-1 {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -ms-flex: 1;
-    -o-box-flex: 1;
-    box-flex: 1;
-}
-.box-flex-2 {
-    -webkit-box-flex: 2;
-    -moz-box-flex: 2;
-    -ms-flex: 2;
-    -o-box-flex: 2;
-    box-flex: 2;
-}
-.box-flex-3 {
-    -webkit-box-flex: 3;
-    -moz-box-flex: 3;
-    -ms-flex: 3;
-    -o-box-flex: 3;
-    box-flex: 3;
-}
-.box-flex-4 {
-    -webkit-box-flex: 4;
-    -moz-box-flex: 4;
-    -ms-flex: 4;
-    -o-box-flex: 4;
-    box-flex: 4;
 }
 </style>

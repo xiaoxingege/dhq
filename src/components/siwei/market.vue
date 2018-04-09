@@ -374,6 +374,7 @@ export default {
     padding: 0 10px;
     border-bottom: 1px solid #32343E;
 }
+
 .market .block {
     padding: 2px 8px;
     overflow: hidden;
@@ -382,12 +383,15 @@ export default {
 .market .block:hover {
     background: #32343E;
 }
+
 .market .time {
     padding: 1px 2px;
 }
+
 .market .plate_top {
     height: 24px;
     line-height: 24px;
+
     .name {
         border: 1px solid #32343E;
         background: #23252E;
@@ -396,26 +400,32 @@ export default {
         display: inline-block;
         margin-left: 10px;
     }
+
     .chg {
         float: right;
         height: 24px;
         line-height: 24px;
     }
+
 }
 .market .block .item {
     padding: 2px;
 }
+
 .market .block .item .type {
     float: right;
 }
+
 .market .news {
     padding: 2px;
 }
+
 .market .block .topics {
     padding: 0;
     margin: 2px 0;
     overflow: hidden;
 }
+
 .market .block .topic {
     list-style: none;
     float: left;
@@ -427,23 +437,30 @@ export default {
     line-height: 20px;
     text-align: center;
 }
+
 .market .block table {
     width: 100%;
+
     td {
         width: 25%;
         height: 18px;
     }
+
     .name {
         text-align: left;
     }
+
     .code {
         text-align: center;
     }
+
     .price {
         text-align: right;
     }
+
     .chg {
         text-align: right;
     }
+
 }
 </style>

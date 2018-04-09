@@ -2113,9 +2113,9 @@ export default {
       if (str === 0) {
         str = '中性'
       } else if (str === 2) {
-        str = '正面'
+        str = '利好'
       } else if (str === 1) {
-        str = '负面'
+        str = '利空'
       } else {
         str = '中性'
       }

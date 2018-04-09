@@ -37,7 +37,25 @@ export default {
     minmaxXDefault: '',
     minmaxYDefault: '',
     setDefaultX: '',
-    setDefaultY: ''
+    setDefaultY: '',
+    ztgBubblesData: {
+      xData: '',
+      yData: '',
+      bubblesSize: '',
+      bubbleColor: '',
+      innerCode: [],
+      name: [],
+      seriesData: []
+    },
+    ztgBubblesLine: [],
+    ztgCompare: {
+      up: [],
+      openUp: [],
+      down: [],
+      openDown: []
+    },
+    zbgLine: null
+
   },
   mutations: {
     setBubblesOptions(state, options) {
@@ -136,6 +154,70 @@ export default {
     setZoomRangeDefault(state, options) {
       state.setDefaultX = [options.X, options.XDefault]
       state.setDefaultY = [options.Y, options.YDefault]
+    },
+    setStockBubblesData(state, result) {
+      const data = result.data
+      state.ztgBubblesData = {
+        xData: [],
+        yData: [],
+        bubbleSize: [],
+        bubbleColor: [],
+        innerCode: [],
+        name: [],
+        seriesData: []
+      }
+      if (result.errCode === 0) {
+        for (var item of data) {
+          if (item.xData !== null && item.yData !== null) {
+
+            state.ztgBubblesData.xData.push(item.xData)
+            state.ztgBubblesData.yData.push(item.yData)
+            state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+            state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+            state.ztgBubblesData.innerCode.push(item.innerCode)
+            state.ztgBubblesData.name.push(item.name)
+            state.ztgBubblesData.seriesData.push([item.xData, item.yData])
+          }
+        }
+      } else {
+        // alert(result.msg)
+        state.ztgBubblesData = {
+          xData: [],
+          yData: [],
+          bubbleSize: [],
+          bubbleColor: [],
+          innerCode: [],
+          name: [],
+          seriesData: []
+        }
+      }
+    },
+    setBubblesLine(state, result) {
+      if (result.errCode === 0) {
+        state.ztgBubblesLine = result.data
+      } else {
+        state.ztgBubblesLine = null
+      }
+    },
+    setZdCompare(state, result) {
+      if (result.errCode === 0) {
+        for (var item of result.data) {
+          state.ztgCompare.up.push(item[0])
+          state.ztgCompare.openUp.push(item[1])
+          state.ztgCompare.down.push(item[2])
+          state.ztgCompare.openDown.push(item[3])
+
+        }
+      } else {
+        state.ztgCompare = null
+      }
+    },
+    setZbgLine(state, result) {
+      if (result.errCode === 0) {
+        state.zbgLine = result.data
+      } else {
+        state.zbgLine = null
+      }
     }
   },
   actions: {
@@ -225,6 +307,64 @@ export default {
         Y,
         XDefault,
         YDefault
+      })
+    },
+    getStockBubbles({
+      commit
+    }, {
+      options
+    }) {
+      commit('setBubblesOptions', options)
+      return fetch(`${domain}/openapi/dimension/bubbles`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&type=${options.type}`
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setStockBubblesData', body)
+      })
+    },
+    getBubblesLine({
+      commit
+    }, {
+      type,
+      currentTime
+    }) {
+      return fetch(`${domain}/openapi/dimension/abnormal/stock/${type}?startTime=${currentTime}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setBubblesLine', body)
+      })
+    },
+    getZdCompare({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/dimension/upDownRatios`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZdCompare', body)
+      })
+    },
+    getZbgLine({
+      commit
+    }, {
+      type
+    }) {
+      return fetch(`${domain}/openapi/dimension/monoLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZbgLine', body)
       })
     }
 

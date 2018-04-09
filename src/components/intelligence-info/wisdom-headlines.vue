@@ -1,6 +1,6 @@
 <template>
 <!-- 智头条 -->
-<div class="wisdomHeadlines">
+<div class="wisdomHeadlines" @scroll="getScrollTop($event)">
   <div class="news-wrapper">
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
@@ -66,7 +66,6 @@ export default {
   mounted() {
     this.loadList()
     this.updateNews()
-    window.addEventListener('scroll', this.getScrollTop)
   },
   computed: {
     ...mapState([
@@ -106,14 +105,14 @@ export default {
           page: this.page,
           isTop: false,
           newTime: ''
-        });
+        })
       })
     },
     loadMore() {
       this.page++
-        var count = Math.ceil(this.totalPage / this.pageSize);
+        var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
-        this.noData = false;
+        this.noData = true
       }
     },
     updateNews() {
@@ -127,8 +126,8 @@ export default {
         })
       }, _this.intervalTime)
     },
-    getScrollTop() {
-      this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    getScrollTop(e) {
+      this.scrollTop = e.target.scrollTop
       if (this.scrollTop >= this.innerHeight) {
         if (this.updateNewsPid) {
           console.log('清除定时器')
@@ -140,7 +139,7 @@ export default {
       }
     },
     cutStr(str, len) {
-      if (str === '') str = '--'
+      if (str === '' || str === null) str = '--'
       return cutString(str, len)
     },
     upAndDownColor(flag) {
@@ -231,7 +230,10 @@ export default {
 .wisdomHeadlines {
     color: $wordsColorBase;
     font-size: 12px;
+    height: 100%;
+    overflow: auto;
 }
+
 .news-wrapper {
     padding-bottom: 20px;
 }
@@ -263,11 +265,13 @@ export default {
         border: 1px solid #0d1112;
         background-color: #1a1b1f;
         padding: 10px 10px 10px 5px;
+
         a {
             color: $wordsColorBase;
             &:hover {
                 color: #2388da;
             }
+
         }
     }
 }

@@ -97,7 +97,8 @@ export default {
     },
     setStockPool(state, result) {
       state.stockPool = result
-    }
+    },
+    setOptionalinformationInit(state, result) {}
   },
   actions: {
     // 获取智头条数据

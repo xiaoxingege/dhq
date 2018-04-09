@@ -1,34 +1,36 @@
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../../assets/css/base.css';
 
-.app {
+.app,
+body,
+html {
     width: 100%;
     height: 100%;
 }
-
 .siweiIndex {
     width: 100%;
     height: 100%;
-    min-height: 690px;
+    /*min-height: 690px;*/
     min-width: 1190px;
     font-size: 12px;
     color: #c9d0d7;
     background: #0C0D0E;
     box-sizing: border-box;
-    margin: 3px 0;
+    padding-left: 10px;
+    padding-bottom: 10px;
     position: relative;
     .con {
         position: absolute;
-        left: 0;
+        left: 10px;
         right: 0;
-        top: 26px;
-        bottom: 0;
+        top: 29px;
+        bottom: 10px;
     }
 }
 
 .indexNav {
     list-style: none;
-    overflow: hidden;
+    padding: 3px 0;
     li {
         float: left;
         background: #23282E;
@@ -38,11 +40,14 @@
         height: 23px;
         line-height: 23px;
         margin-right: 3px;
-        text-align: center;
         cursor: pointer;
 
         a {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
             color: #c9d0d7;
+            text-align: center;
             text-decoration: none;
         }
 
@@ -60,7 +65,7 @@
 </style>
 <template>
 <div class="siweiIndex">
-  <ul v-z3-nav="active" class="indexNav">
+  <ul v-z3-nav="active" class="indexNav clearfix">
     <li v-for="item in ulsText">
       <router-link :to="item.path">{{item.text}}</router-link>
     </li>
