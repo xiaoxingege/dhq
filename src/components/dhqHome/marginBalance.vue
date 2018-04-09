@@ -132,8 +132,8 @@ export default {
             }
           },
           grid: {
-            left: 0,
-            top: 20,
+            left: 10,
+            top: 30,
             width: '92%',
             height: '80%',
             containLabel: true
