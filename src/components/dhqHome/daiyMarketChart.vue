@@ -2,8 +2,6 @@
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
 .index-top {
-    width: 33.33%;
-    /*height: 37%;*/
     background: $bgDeepColor;
 }
 
@@ -38,7 +36,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" href="stock/000300.SH" target="_blank">
+    <a class="line-chart">
       <div v-if="lsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.stockVal === null ? '--':lsChartData.stockVal === undefined?'--':Number(lsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../../assets/images/i_jiantou_up.png" />
@@ -54,12 +52,12 @@
 <script>
 import echarts from 'echarts'
 import z3websocket from '../../z3tougu/z3socket'
-
 import {
   mapState
 } from 'vuex'
 
 export default {
+  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'stockCodeList'],
   data() {
     return {
 
@@ -67,20 +65,11 @@ export default {
   },
   components: {},
   computed: mapState({
-    chartData: state => state.indexChart.chartData,
-    lsChartData: state => state.indexChart.chartData.lsChartData,
-    barData: state => state.indexChart.barData,
-    total: function() {
-      if (this.barData.unchangeNum === null || this.barData.upNum === null || this.barData.downNum === null || this.barData.unchangeNum === 'null' || this.barData.upNum === 'null' || this.barData.downNum === 'null') {
-        return 0
-      } else {
-        return this.barData.unchangeNum + this.barData.upNum + this.barData.downNum
-      }
-    },
+    chartData: state => state.dhqIndex.chartData,
+    lsChartData: state => state.dhqIndex.chartData.lsChartData,
     socketState: state => state.z3sockjs.readystate,
     stockMessage: state => {
       const msg = state.z3sockjs.message
-
       if (msg && msg.data && msg.data.subject === 'timeline') {
         const record = msg.data
         return record
@@ -133,8 +122,7 @@ export default {
       }
       return timeline
     },
-    refreshEcharts(datas, index, chartName) {
-      const _this = this
+    refreshEcharts(datas, chartName) {
       if (datas !== null && datas.priceArr !== null) {
         var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
         var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
@@ -143,16 +131,13 @@ export default {
         var avgMax = Math.max.apply(Math, this.dealData(datas.avgArr))
         var avgMin = Math.min.apply(Math, this.dealData(datas.avgArr))
       }
-
       tmpMax = tmpMax > avgMax ? tmpMax : avgMax
       tmpMin = tmpMin < avgMin ? tmpMin : avgMin
 
       if (datas !== null) {
         var Dvalue = Math.abs(tmpMax - datas.line) > Math.abs(tmpMin - datas.line) ? Math.abs(tmpMax - datas.line) : Math.abs(tmpMin - datas.line)
       }
-
       this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]) || echarts.init(document.getElementsByClassName('indexChart')[0])
-
       // 生成横坐标时间轴
       var beforenoon = this.autoTimeline('9:30', '11:30')
       var afternoon = this.autoTimeline('13:00', '15:00')
@@ -160,14 +145,14 @@ export default {
       afternoon[0] = '11:30/13:00'
       var timeline = beforenoon.concat(afternoon)
       // 图表初始化
-
       this.chart.setOption({
         title: {
           text: chartName,
           textStyle: {
             fontSize: 14,
             fontWeight: 'normal',
-            color: '#fff'
+            color: '#c9d0d7',
+            fontFamily: 'Microsoft YaHei'
           },
           left: 2,
           top: 5
@@ -181,7 +166,6 @@ export default {
         calculable: true,
         xAxis: [{
           type: 'category',
-
           axisLine: {
             lineStyle: {
               color: '#535a64',
@@ -204,7 +188,6 @@ export default {
         }],
         yAxis: [{
           type: 'value',
-          // scale: true,
           min: datas === null ? '' : Number(datas.line) - Dvalue,
           max: datas === null ? '' : Number(datas.line) + Dvalue,
           axisLabel: {
@@ -242,7 +225,6 @@ export default {
           splitNumber: 4,
           interval: 2 * Dvalue / 4
         }],
-
         series: [{
           name: '当前价',
           showSymbol: false,
@@ -301,26 +283,13 @@ export default {
 
         }]
       })
-      window.onresize = function() {
-        const timestampResize = new Date().getTime()
-        _this.$emit('isResize', timestampResize)
-        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
-          height: window.innerHeight * 0.37 < 710 * 0.37 ? 710 * 0.37 : window.innerHeight * 0.37
-        })
-      }
-    },
-    toPercent(x, y, n) {
-      if (y === 0 || x === null || x === 'null') {
-        return '--'
-      }
-      return Number(x / y * 100).toFixed(n) + '%'
     },
     indexStock() {
       const msg = {
         subject: 'timeline',
         type: '1',
         actionType: '1',
-        stockCodeList: ['000001.SH', '000300.SH', '399001.SZ', '399006.SZ'],
+        stockCodeList: this.stockCodeList,
         token: ''
       }
       this.$store.dispatch('z3sockjs/send', msg)
@@ -344,30 +313,37 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    'chartData': {
-      deep: true,
-      handler: function() {
-        // alert('chartData')
-        if (z3websocket.ws) {
-          //          z3websocket.ws && z3websocket.ws.close()
-        } else {
-          this.$store.dispatch('z3sockjs/init')
-        }
+    chartData() {
+      if (z3websocket.ws) {
+        z3websocket.ws && z3websocket.ws.close()
+      } else {
+        this.$store.dispatch('z3sockjs/init')
       }
-
     },
     lsChartData: {
       deep: true,
       handler: function() {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+        this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
       }
+    },
+    isResizeBottomChart() {
+      echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
+        height: window.innerHeight * 0.37 < 710 * 0.37 ? 710 * 0.37 : window.innerHeight * 0.37
+      })
+    },
+    stockCode() {
+      this.$store.dispatch('dhqIndex/getIndexChartData', {
+        stockCode: this.stockCode
+      }).then(() => {
+        this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
+      })
     }
   },
   mounted() {
     this.$store.dispatch('dhqIndex/getIndexChartData', {
-      stockCode: '000300.SH'
+      stockCode: this.stockCode
     }).then(() => {
-      this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, 1, '沪深300')
+      this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
     })
   },
   destroyed() {

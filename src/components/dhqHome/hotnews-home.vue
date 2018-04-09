@@ -50,7 +50,7 @@
 <template>
 <div class="finance-news">
   <div class="news-top">
-    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObjOut" :styleLiObj="styleLiObj"></NavBar>
     <p class="more-news">
       <router-link :to="{name:'newslist',query:{type:type}}">更多></router-link>
     </p>
@@ -64,7 +64,7 @@
 </div>
 </template>
 <script type="text/javascript">
-import NavBar from 'components/z3touguhome/nav-bar'
+import NavBar from 'components/dhqHome/nav-bar'
 export default {
   props: [],
   data() {
@@ -77,7 +77,13 @@ export default {
       newsSize: 6,
       newsList: [],
       intervalTime: 10,
-      updateNewsPid: null
+      updateNewsPid: null,
+      styleObjOut: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      }
     }
   },
   watch: {

@@ -30,8 +30,10 @@
 }
 .top-industry-table tr:nth-child(1) td {
     border-top-width: 0;
+    text-align: center;
+    color: $wordsColorBase;
 }
-.top-industry-table tr:last-child td {
+.top-industry-table tbody tr:last-child td {
     border-bottom-width: 0;
 }
 .top-industry-table tr td:last-child {
@@ -70,22 +72,40 @@
 <template>
 <div class="top-industry-con">
   <div class="top-industry-top">
-    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
     <p class="more-industry" @click="toStockList(type)">
       <a>更多></a>
     </p>
   </div>
   <div class="top-industry-table-wrap clearfix">
     <table class="top-industry-table" v-if="type === 'industry'">
-      <tr v-for="item of industryList">
-        <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
-        <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
-        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
-        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
-      </tr>
+      <thead>
+        <tr>
+          <td>名称</td>
+          <td>涨幅</td>
+          <td>龙头股</td>
+          <td>最新价</td>
+          <td>涨幅</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item of industryList">
+          <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
+          <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
+          <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
+          <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+          <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
+        </tr>
+      </tbody>
     </table>
     <table class="top-industry-table" v-if="type === 'topic'">
+      <tr>
+        <td>名称</td>
+        <td>涨幅</td>
+        <td>龙头股</td>
+        <td>最新价</td>
+        <td>涨跌幅</td>
+      </tr>
       <tr v-for="item of hotTopicList">
         <td @click="toTopicDetail(item.topicCode)"><span>{{formateData(item.topicName)?'--':item.topicName}}</span></td>
         <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
@@ -99,8 +119,7 @@
 </div>
 </template>
 <script>
-import NavBar from 'components/z3touguhome/nav-bar'
-import DataTable from 'components/z3touguhome/data-table'
+import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
 import {
   ctx
@@ -120,7 +139,13 @@ export default {
       industryList: [],
       hotTopicList: [],
       updateDataPid: null,
-      intervalTime: 6
+      intervalTime: 6,
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      }
     }
   },
   watch: {
@@ -132,7 +157,6 @@ export default {
   },
   components: {
     NavBar,
-    DataTable,
     StockBox
   },
   computed: {

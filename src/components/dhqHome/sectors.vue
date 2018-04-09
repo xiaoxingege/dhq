@@ -7,13 +7,20 @@
     height: 11.5%;
     position: relative;
 }
+.sectors-con-top > div {
+    background-color: $bgConColor;
+}
 .sectors-table-wrap {
     height: 88.5%;
 }
-.sectors-table {
+.sectors-table-div {
     float: left;
     width: 50%;
     height: 100%;
+}
+.sectors-table {
+    width: 100%;
+    height: 86.7%;
     border-collapse: collapse;
     border-spacing: 0;
 }
@@ -24,7 +31,6 @@
     background-color: $hoverBgColor;
 }
 .sectors-table td {
-    border: 1px solid $lineAndTitleColor;
     text-align: center;
     height: 10%;
     width: 30%;
@@ -32,34 +38,46 @@
 .sectors-table td span {
     cursor: pointer;
 }
-.sectors-table:nth-child(1) td {
+.up-table .sectors-table {
+    border-right: 1px solid $lineAndTitleColor;
+}
+.up-table .sectors-table td {
     color: $upColor;
 }
-.sectors-table:nth-child(2) td {
+.down-table {
+    margin-left: -1px;
+}
+.down-table .sectors-table td {
     color: $downColor;
-}
-.sectors-table tr:nth-child(1) td {
-    border-top-width: 0;
-}
-.sectors-table tr:last-child td {
-    border-bottom-width: 0;
-}
-.sectors-table tr td:last-child {
-    border-right-width: 0;
-}
-.sectors-table:nth-child(1) tr td:first-child {
-    border-left-width: 0;
 }
 .sectors-table tr td:first-child {
     text-align: left;
     color: $wordsColorBase;
     padding-right: 0;
 }
-.sectors-table:first-child tr td:first-child {
+.up-table tr td:first-child {
     padding-left: 23px;
 }
-.sectors-table:nth-child(2) tr td:first-child {
+.down-table tr td:first-child {
     padding-left: 18px;
+}
+.title-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 13.3%;
+}
+.title-table tr {
+    color: $grayWordsColor;
+    background-color: $lineAndTitleColor;
+}
+.title-table td {
+    text-align: center;
+    width: 30%;
+}
+.title-table td:first-child {
+    text-align: left;
+    width: 40%;
 }
 .more-sectors {
     cursor: pointer;
@@ -81,33 +99,50 @@
 <template>
 <div class="sectors-con">
   <div class="sectors-con-top">
-    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
+    <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
     <p class="more-sectors" @click="toStockList(type)">
       <a>更多></a>
     </p>
   </div>
   <div class="sectors-table-wrap clearfix">
-    <table class="sectors-table">
-      <tr v-for="(value,key) of rankUp">
-        <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
-        <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
-        <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
-      </tr>
-    </table>
-    <table class="sectors-table">
-      <tr v-for="(value,key) of rankDown">
-        <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
-        <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
-        <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
-      </tr>
-    </table>
+    <div class="sectors-table-div up-table">
+      <table class="title-table">
+        <tr>
+          <td>名称</td>
+          <td>股价</td>
+          <td>涨跌幅</td>
+        </tr>
+      </table>
+      <table class="sectors-table">
+        <tr v-for="(value,key) of rankUp">
+          <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
+          <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+          <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="sectors-table-div down-table">
+      <table class="title-table">
+        <tr>
+          <td>名称</td>
+          <td>股价</td>
+          <td>涨跌幅</td>
+        </tr>
+      </table>
+      <table class="sectors-table">
+        <tr v-for="(value,key) of rankDown">
+          <td><span @click="linkStock(value.split(',')[0])" v-z3-stock="{ref:'stockbox',code:value.split(',')[0]}" :value="value.split(',')[0]">{{formateData(key)?'--':key}}</span></td>
+          <td>{{formateData(value)?'--':parseFloat(value.split(',')[1]).toFixed(2)}}</td>
+          <td>{{formateData(value)?'--':parseFloat(value.split(',')[2]).toFixed(2)+'%'}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 <script>
-import NavBar from 'components/z3touguhome/nav-bar'
-import DataTable from 'components/z3touguhome/data-table'
+import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
 export default {
   props: ['strategyId'],
@@ -126,7 +161,13 @@ export default {
       rankUp: {},
       rankDown: {},
       updateDataPid: null,
-      intervalTime: 6
+      intervalTime: 6,
+      styleObj: {
+        backgroundColor: '#525a65'
+      },
+      styleLiObj: {
+        width: '85px'
+      }
     }
   },
   watch: {
@@ -138,7 +179,6 @@ export default {
   },
   components: {
     NavBar,
-    DataTable,
     StockBox
   },
   computed: {

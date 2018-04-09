@@ -46,7 +46,8 @@ export default {
       reference: null
     },
     toNorthData: [],
-    toSouthData: []
+    toSouthData: [],
+    dpIndexData: []
   },
   mutations: {
     setStrategyList(state, options) {
@@ -180,22 +181,6 @@ export default {
         state.positionListFilter = result.data
       }
     },
-    setLsChartData(state, result) {
-      if (result.errCode === 0) {
-        state.chartData.lsChartData = result.data
-      } else {
-        state.chartData.lsChartData = null
-      }
-    },
-    chartSocket(state, result) {
-      if (result.stockCode === '000300.SH') {
-        state.chartData.lsChartData.avgArr[result.list[0].time] = result.list[0].avgpx
-        state.chartData.lsChartData.priceArr[result.list[0].time] = result.list[0].lastpx
-        state.chartData.lsChartData.upDown = result.list[0].pxchg
-        state.chartData.lsChartData.upDownExtent = result.list[0].pxchgRatio
-        state.chartData.lsChartData.stockVal = result.list[0].lastpx
-      }
-    },
     setMarketTemData(state, options) {
       const result = options.result
       if (result.retCode === 0) {
@@ -215,13 +200,40 @@ export default {
     setToNorthData(state, options) {
       const result = options.result
       if (result.retCode === 0) {
-        state.toNorthData = result.data.fund.dataList
+        state.toNorthData = result.data.fund
       }
     },
     setToSouthData(state, options) {
       const result = options.result
       if (result.retCode === 0) {
-        state.toSouthData = result.data.fund.dataList
+        state.toSouthData = result.data.fund
+      }
+    },
+    setDpIndexData(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.dpIndexData = result.data
+      }
+    },
+    setLsChartData(state, result) {
+      if (result.errCode === 0) {
+        state.chartData.lsChartData = result.data
+      } else {
+        state.chartData.lsChartData = []
+      }
+    },
+    chartSocket(state, result) {
+      state.chartData.lsChartData.avgArr[result.list[0].time] = result.list[0].avgpx // 均值
+      state.chartData.lsChartData.priceArr[result.list[0].time] = result.list[0].lastpx // 当前价
+      if (state.dpIndexData.length > 0) {
+        state.dpIndexData.forEach(function(data) {
+          if (data.stockCode === result.stockCode) {
+            data.upDown = result.list[0].pxchg // 涨跌
+            data.upDownExtent = result.list[0].pxchgRatio // 涨跌幅
+            data.stockVal = result.list[0].lastpx // 最新价
+            data.amount = result.list[0].tradeValue // 金额
+          }
+        })
       }
     }
   },
@@ -387,17 +399,14 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        if (stockCode === '000300.SH') {
-          commit('setLsChartData', body)
-        }
+        commit('setLsChartData', body)
       })
     },
     /* 大盘温度计 */
     getMarketTemData({
       commit
     }) {
-      // const url = 'http://172.16.20.86:8031/mockjsdata/24/smartstock/api/market/queryPerformance.jspa'
-      const url = '/openapi/market/queryPerformance.jspa'
+      const url = 'https://itougu.jrj.com.cn/smartstock/api/market/queryPerformance.jspa'
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {
@@ -412,8 +421,7 @@ export default {
     getMarginBalance({
       commit
     }) {
-      // const url = 'http://172.16.20.86:8031/mockjsdata/24/smartstock/api/fund/queryMarginBalance.jspa'
-      const url = '/openapi/fund/queryMarginBalance.jspa'
+      const url = 'http://itougu.jrj.com.cn/smartstock/api/fund/queryMarginBalance.jspa'
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {
@@ -427,12 +435,11 @@ export default {
     /* 北向资金走势 */
     getToNorthData({
       commit
+    }, {
+      type
     }) {
-      const url = 'https://itougu.jrj.com.cn/smartstock/api/fund/queryToNorth.jspa'
-      //  const url = '/openapi/fund/queryToNorth.jspa'
-      return fetch(url, {
-        mode: 'cors'
-      }).then((res) => {
+      const url = `http://itougu.jrj.com.cn/smartstock/api/fund/queryToNorth.jspa?type=${type}`
+      return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setToNorthData', {
@@ -443,15 +450,33 @@ export default {
     /* 南向资金走势 */
     getToSouthData({
       commit
+    }, {
+      type
     }) {
-      // const url = 'http://172.16.20.86:8031/mockjsdata/24/smartstock/api/fund/queryToSouth.jspa'
-      const url = '/openapi/fund/queryToSouth.jspa'
+      const url = `http://itougu.jrj.com.cn/smartstock/api/fund/queryToSouth.jspa?type=${type}`
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setToSouthData', {
+          result: body
+        })
+      })
+    },
+    /* 大盘指数 */
+    getDpIndexData({
+      commit
+    }, {
+      stockCode
+    }) {
+      const url = `${domain}/openapi/stockIndex/${stockCode}.shtml`
+      return fetch(url, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setDpIndexData', {
           result: body
         })
       })
