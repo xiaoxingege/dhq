@@ -13,17 +13,24 @@
         <div class="news-wrapper">
           <ul class="news-list">
             <li class="news-list-item" v-for="item in optionalInformationList">
-              <div class="con-top" v-for="equityList in optionalInformationList.equityList">
+              <!-- <div class="con-top" v-for="equityList in optionalInformationList.equityList">
                 <p v-z3-updowncolor="1"><span>{{equityList.name}}[{{equityList.code}}]</span><span>14.90</span><span>+2.30%</span></p>
+              </div> -->
+              <div class="con-top">
+                <p v-z3-updowncolor="item.equityList.chngPct">
+                  <span>{{item.equityList.name}}[{{item.equityList.code}}]</span>
+                  <span>{{item.equityList.price}}</span>
+                  <span>{{item.equityList.chngPct | chngPct}}</span>
+                </p>
               </div>
               <div><span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
                 <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span></div>
               <div class="con-txt">
-                <span>{{cutStr('',350)}}</span>
+                <span>{{cutStr(item.summary,350)}}</span>
               </div>
               <div class="con-bottom">
                 <span class="source">{{item.srcName}}</span>
-                <span class="time" v-z3-time="{ time: '2018-03-26 13:24', type: '1' }"></span>
+                <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
                 <span class="price">目标价格：13.24</span>
               </div>
             </li>
@@ -107,7 +114,7 @@
         }
       },
       cutStr(str, len) {
-        if(str === '' && str === undefined)str = '--'
+        if(str === null && str === '' && str === undefined)str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag){
