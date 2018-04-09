@@ -7,7 +7,7 @@
 .item1 a{width: 1.99rem;height: 2.03rem;background: url('../assets/images/free-niuGu-app/re-btn.png') center 0 no-repeat;background-size: 100% 100%;position: absolute;top: 4.39rem;right: 50%;margin-right: -0.98rem;display: block;}
 .item2{width: 100%;height: 3.36rem;background: url('../assets/images/free-niuGu-app/item_02.jpg') center 0 no-repeat;background-size: 100% 100%;}
 .item3{width: 100%;height: 4.24rem;background: url('../assets/images/free-niuGu-app/item_03.jpg') center 0 no-repeat;background-size: 100% 100%;overflow: hidden;}
-.item3 ul{width: 6.64rem;height: 3.75rem;background: url('../assets/images/free-niuGu-app/phone-bg.png') center 0 no-repeat;background-size: 100% 100%;margin: 0 auto;margin-top: 0.2rem;overflow: hidden;padding-top: 0.15rem;}
+.item3 ul{width: 6.64rem;height: 4rem;background: url('../assets/images/free-niuGu-app/phone-bg.png') center 0 no-repeat;background-size: 100% 100%;margin: 0 auto;margin-top: 0.2rem;overflow: hidden;padding-top: 0.15rem;}
 .tan li{position: relative;}
 .tan li:first-child i{width: 0.23rem;height: 0.28rem;background: url('../assets/images/free-niuGu-app/p-icon.png') center 0 no-repeat;background-size: 100% 100%;display: block;float: left;position: absolute;left: 0.75rem;top: 0.47rem}
 .tan li:first-child +li i{width: 0.22rem;height: 0.27rem;background: url('../assets/images/free-niuGu-app/t-icon.png') center 0 no-repeat;background-size: 100% 100%;display: block;float: left;position: absolute;left: 0.75rem;top: 0.47rem}
