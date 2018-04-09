@@ -26,6 +26,7 @@ import optionalStock from 'stores/optional-stock'
 import bullStock from 'stores/bullStock'
 import plateMap from 'stores/plate-map'
 import dragonList from 'stores/dragon-list-dialog'
+import clinicShares from 'stores/clinic-shares'
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -140,6 +141,7 @@ export default new Vuex.Store({
     optionalStock,
     bullStock,
     plateMap,
-    dragonList
+    dragonList,
+    clinicShares
   }
 })
