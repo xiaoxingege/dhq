@@ -46,7 +46,15 @@ export default {
       innerCode: [],
       name: [],
       seriesData: []
-    }
+    },
+    ztgBubblesLine: [],
+    ztgCompare: {
+      up: [],
+      openUp: [],
+      down: [],
+      openDown: []
+    },
+    zbgLine: null
 
   },
   mutations: {
@@ -160,15 +168,16 @@ export default {
       }
       if (result.errCode === 0) {
         for (var item of data) {
-          // if (item.xData !== null && item.yData !== null) {
-          state.ztgBubblesData.xData.push(item.xData)
-          state.ztgBubblesData.yData.push(item.yData)
-          state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-          state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-          state.ztgBubblesData.innerCode.push(item.innerCode)
-          state.ztgBubblesData.name.push(item.name)
-          state.ztgBubblesData.seriesData.push([item.xData, item.yData])
-          // }
+          if (item.xData !== null && item.yData !== null) {
+
+            state.ztgBubblesData.xData.push(item.xData)
+            state.ztgBubblesData.yData.push(item.yData)
+            state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+            state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+            state.ztgBubblesData.innerCode.push(item.innerCode)
+            state.ztgBubblesData.name.push(item.name)
+            state.ztgBubblesData.seriesData.push([item.xData, item.yData])
+          }
         }
       } else {
         // alert(result.msg)
@@ -181,6 +190,33 @@ export default {
           name: [],
           seriesData: []
         }
+      }
+    },
+    setBubblesLine(state, result) {
+      if (result.errCode === 0) {
+        state.ztgBubblesLine = result.data
+      } else {
+        state.ztgBubblesLine = null
+      }
+    },
+    setZdCompare(state, result) {
+      if (result.errCode === 0) {
+        for (var item of result.data) {
+          state.ztgCompare.up.push(item[0])
+          state.ztgCompare.openUp.push(item[1])
+          state.ztgCompare.down.push(item[2])
+          state.ztgCompare.openDown.push(item[3])
+
+        }
+      } else {
+        state.ztgCompare = null
+      }
+    },
+    setZbgLine(state, result) {
+      if (result.errCode === 0) {
+        state.zbgLine = result.data
+      } else {
+        state.zbgLine = null
       }
     }
   },
@@ -278,6 +314,7 @@ export default {
     }, {
       options
     }) {
+      commit('setBubblesOptions', options)
       return fetch(`${domain}/openapi/dimension/bubbles`, {
         mode: 'cors',
         headers: {
@@ -290,6 +327,44 @@ export default {
         return res.json()
       }).then(body => {
         commit('setStockBubblesData', body)
+      })
+    },
+    getBubblesLine({
+      commit
+    }, {
+      type,
+      currentTime
+    }) {
+      return fetch(`${domain}/openapi/dimension/abnormal/stock/${type}?startTime=${currentTime}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setBubblesLine', body)
+      })
+    },
+    getZdCompare({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/dimension/upDownRatios`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZdCompare', body)
+      })
+    },
+    getZbgLine({
+      commit
+    }, {
+      type
+    }) {
+      return fetch(`${domain}/openapi/dimension/monoLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZbgLine', body)
       })
     }
 

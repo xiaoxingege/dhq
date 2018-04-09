@@ -50,8 +50,8 @@ import DragonListDialog from 'components/dragon-list-dialog'
 import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import SiweiIndex from 'components/siwei/siwei-index'
-import StockZtg from 'components/siwei/stock-ztg'
-// import StockZbg from 'components/siwei/stock-zbg'
+import stockZtg from 'components/siwei/stock-ztg'
+import stockZbg from 'components/siwei/stock-zbg'
 import marketBubble from 'components/siwei/market'
 import {
   ctx
@@ -355,15 +355,20 @@ export default [{
         path: 'dingpan',
         component: marketBubble,
         name: 'dingpan'
+      },
+      {
+        path: 'ztg',
+        component: stockZtg,
+        name: 'ztg'
+      },
+      {
+        path: 'zbg',
+        component: stockZbg,
+        name: 'zbg'
       }
       // { path:'ztg',component:StockZtg,name:'Ztg' },
       // { path:'zbg',component:StockZbg,name:'Zbg' }
     ]
-  },
-  {
-    path: ctx + '/StockZtg',
-    name: 'StockZtg',
-    component: StockZtg
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',

@@ -66,7 +66,9 @@ const xSelectData = {
   'in_hld_pct': '内部持股比例',
   'org_hld_pct': '机构持股比例',
   'fcst_idx.rating_syn': '分析师观点',
-  'mkt_idx.expect_price_chng_pct': '目标价格涨幅'
+  'mkt_idx.expect_price_chng_pct': '目标价格涨幅',
+  'mkt_idx.volume_ratio': '量比',
+  'mkt_idx.exchr': '换手率'
 }
 
 // 气泡大小轴下拉框数据
@@ -372,8 +374,8 @@ const stockSort = {
   'divPct': '股息支付率',
   'inHldPct': '内部持股比例',
   'orgHldPct': '机构持股比例'
-
 }
+const refreshTime = 3000
 export {
   xSelectData,
   bubbleSizeSelect,
@@ -393,6 +395,7 @@ export {
   relaVolume,
   pointArr,
   groupArr,
-  stockSort
+  stockSort,
+  refreshTime
 
 }

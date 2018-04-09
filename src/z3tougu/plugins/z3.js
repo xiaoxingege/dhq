@@ -347,6 +347,18 @@ export default {
       }
 
     })
+    Vue.directive('z3-nav', (el, binding, vnode, oldVnode) => {
+      el.childNodes[0].className = binding.expression
+      el.childNodes.forEach((item) => {
+        item.addEventListener('click', (event) => {
+          el.childNodes.forEach((v) => {
+            v.className = ''
+          })
+          item.className = binding.expression
+        })
+      })
+
+    })
 
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
