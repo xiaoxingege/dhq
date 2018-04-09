@@ -53,6 +53,7 @@ import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
 import zInfo from 'components/intelligence-info/z-info'
+import DhqIndex from 'components/dhqHome/dhqIndex'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import {
   ctx
@@ -371,7 +372,11 @@ export default [{
     path: ctx + '/listedCompany',
     name: 'listedCompany',
     component: listedCompany
-
+  },
+  {
+    path: ctx + '/dhq',
+    name: 'dhqIndex',
+    component: DhqIndex
   }
   /* {
     path: ctx + '/stockMapOld/fullScreen',
