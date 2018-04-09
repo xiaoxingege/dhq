@@ -50,13 +50,15 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
         let equityList = intelligence.equityList
+<<<<<<< Updated upstream
         // console.log(equityList.code)
         if (equityList.code !== null && equityList.code !== undefined) {
           stocks[equityList.code] = equityList
+=======
+        if(equityList.code !== null && equityList.code !== undefined){
+          stocks[equityList.code] =equityList
+>>>>>>> Stashed changes
         }
-        // for (let stock of equityList) {
-        //   stocks[stock.code] = stock
-        // }
       }
       state.relatedStocks = stocks
     },
@@ -67,8 +69,12 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equityList = intelligence.equityList
+<<<<<<< Updated upstream
         // console.log(equityList)
         stocks[equityList.code] = equityList
+=======
+         stocks[equityList.code] =equityList
+>>>>>>> Stashed changes
         // for (let stock of equityList) {
         //   stocks[stock.code] = stock
         // }
