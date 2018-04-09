@@ -153,7 +153,14 @@ export default {
         }
       },
       cutStr(str, len) {
+<<<<<<< Updated upstream
         if(str === null && str === '' && str === undefined)str = '--'
+=======
+        // if(str === null && str === '' && str === undefined) { str = '--' }
+        if(str === null ){
+          console.log('------------')
+        }
+>>>>>>> Stashed changes
         return cutString(str, len)
       },
       upAndDownColor(flag){
