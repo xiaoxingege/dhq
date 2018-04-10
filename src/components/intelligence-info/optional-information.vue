@@ -13,17 +13,23 @@
         <li class="news-list-item" v-for="item in optionalInformationList">
           <div class="con-top">
             <p v-z3-updowncolor="item.equityList.chngPct">
-              <span>{{relatedStocks[item.equityList.code].name}}[{{relatedStocks[item.equityList.code].code}}]</span>
+              <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
+                <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{relatedStocks[item.equityList.code].code}}]</span>
+              </a>
               <span>{{relatedStocks[item.equityList.code].price}}</span>
               <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
             </p>
           </div>
           <div>
             <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
-            <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span>
+            <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
+              <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span>
+            </router-link>
           </div>
           <div class="con-txt">
-            <span>{{cutStr(item.summary,350)}}</span>
+            <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
+              <span>{{cutStr(item.summary,350)}}</span>
+            </router-link>
           </div>
           <div class="con-bottom">
             <span class="source">{{item.srcName}}</span>
@@ -35,7 +41,7 @@
       <p class="tc mt-10">
         <a v-if="!noData && optionalInformationList.length >= 8" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
         <p v-if="noData"  class="tc mt-10 loadMore">数据已加载完</p>
-        <p v-if="optionalInformationList.length===0"  class="tc mt-10 loadMore">暂无数据</p>
+        <p v-if="optionalInformationList.length===0"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
     <StockBox ref="stockbox"></StockBox>
