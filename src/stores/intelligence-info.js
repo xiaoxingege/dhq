@@ -57,16 +57,18 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
+      let newTime = list.newTime
       const stocks = {}
-      state.temporary = list
-      state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
+      state.temporary = list.rows
+      if(newTime === null){
+        state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
+      }else{
+        state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
+      }
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equityList = intelligence.equityList
         stocks[equityList.code] = equityList
-        // for (let stock of equityList) {
-        //   stocks[stock.code] = stock
-        // }
       }
       state.relatedStocks = stocks
     },
@@ -152,7 +154,7 @@ export default {
       }).then(result => {
         if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
           commit('getNewTime', result.data.newTime)
-          commit(types.SET_OPTIONALINFORMATION_LIST, result.data.rows)
+          commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
           commit('setMask', false)
         } else {
           commit('ERROR', result, {
