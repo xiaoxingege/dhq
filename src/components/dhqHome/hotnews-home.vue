@@ -7,11 +7,12 @@
 .finance-news-list {
     height: 88.5%;
     color: $wordsColorBase;
-    padding: 11px 11px 11px 14px;
+    padding: 2px 11px 2px 14px;
 }
 .finance-news-list li {
-    height: 16.66%;
-    padding-top: 8px;
+    height: 11.2%;
+    padding-top: 5px;
+    border-bottom: 1px solid $lineAndTitleColor;
 }
 .newtitle {
     cursor: pointer;
@@ -74,7 +75,7 @@ export default {
         ['上市公司', 'companynews']
       ],
       type: 'ywnews',
-      newsSize: 6,
+      newsSize: 50,
       newsList: [],
       intervalTime: 10,
       updateNewsPid: null,
@@ -97,10 +98,12 @@ export default {
   computed: {
     financeNewsData: function() {
       const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
+      financeNewsData.length = 9
       return financeNewsData
     },
     listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
+      listedCompanyNewsData.length = 9
       return listedCompanyNewsData
     }
   },

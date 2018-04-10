@@ -78,27 +78,23 @@
     </p>
   </div>
   <div class="top-industry-table-wrap clearfix">
-    <table class="top-industry-table" v-if="type === 'industry'">
-      <thead>
-        <tr>
-          <td>名称</td>
-          <td>涨幅</td>
-          <td>龙头股</td>
-          <td>最新价</td>
-          <td>涨幅</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item of industryList">
-          <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
-          <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-          <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
-          <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
-          <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
-        </tr>
-      </tbody>
+    <table class="top-industry-table" v-if="type === 'industry' && industryList.length>0">
+      <tr>
+        <td>名称</td>
+        <td>涨幅</td>
+        <td>龙头股</td>
+        <td>最新价</td>
+        <td>涨幅</td>
+      </tr>
+      <tr v-for="item of industryList">
+        <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
+        <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
+        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
+        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
+      </tr>
     </table>
-    <table class="top-industry-table" v-if="type === 'topic'">
+    <table class="top-industry-table" v-if="type === 'topic' && hotTopicList.length>0">
       <tr>
         <td>名称</td>
         <td>涨幅</td>
@@ -162,10 +158,12 @@ export default {
   computed: {
     topIndustryData: function() {
       const topIndustryData = this.$store.state.dhqIndex.topIndustry
+      topIndustryData.length = 8
       return topIndustryData
     },
     hotTopicData: function() {
       const hotTopicData = this.$store.state.dhqIndex.hotTopic
+      hotTopicData.length = 8
       return hotTopicData
     }
   },

@@ -97,6 +97,11 @@ export default {
     },
     setStockPool(state, result) {
       state.stockPool = result
+    },
+    setOptionalinformationInit(state, result) {}
+    setOptionalinformationInit(state,result){
+      state.optionalInformationList = result.list
+      state.page = result.page 
     }
   },
   actions: {

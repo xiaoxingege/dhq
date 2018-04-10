@@ -95,28 +95,24 @@
       <span>暂无数据</span>
     </div>
     <table class="preferred-stock-table" v-show="!isNoData">
-      <thead>
-        <tr>
-          <td>名称</td>
-          <td>最新</td>
-          <td>涨跌幅</td>
-          <td style="text-align: right;padding-right: 20px;">成交量</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item of stockList">
-          <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
-          <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-          <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
-          <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.tvolLot)?'--':formatDataRound(item.tvolLot)}}</td>
-        </tr>
-        <tr v-for="item of noDataList">
-          <td>{{item.name}}</td>
-          <td>{{item.price}}</td>
-          <td>{{item.curChngPct}}</td>
-          <td>{{item.totlNum}}</td>
-        </tr>
-      </tbody>
+      <tr>
+        <td>名称</td>
+        <td>最新</td>
+        <td>涨跌幅</td>
+        <td style="text-align: right;padding-right: 20px;">成交量</td>
+      </tr>
+      <tr v-for="item of stockList">
+        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formatData(item.name)?'--':item.name}}</span></td>
+        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+        <td v-z3-updowncolor="item.curChngPct">{{formatData(item.curChngPct)?'--':parseFloat(item.curChngPct).toFixed(2)+'%'}}</td>
+        <td style="color:#c9d0d7;text-align: right;padding-right: 20px;">{{formatData(item.tvolLot)?'--':formatDataRound(item.tvolLot)}}</td>
+      </tr>
+      <tr v-for="item of noDataList">
+        <td>{{item.name}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.curChngPct}}</td>
+        <td>{{item.totlNum}}</td>
+      </tr>
     </table>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -157,8 +153,8 @@ export default {
     stockList() {
       this.noDataList = []
       if (this.stockList.length > 0) {
-        if (this.stockList.length < 10) {
-          const noDataListLength = 10 - this.stockList.length
+        if (this.stockList.length < 8) {
+          const noDataListLength = 8 - this.stockList.length
           for (let i = 0; i < noDataListLength; i++) {
             this.noDataList.push({
               name: '',
@@ -181,19 +177,13 @@ export default {
   computed: {
     preferredIndustryData: function() {
       const preferredIndustryData = this.$store.state.dhqIndex.preferredIndustryData
+      preferredIndustryData.length = 8
       return preferredIndustryData
     },
     preferredTopicData: function() {
       const preferredTopicData = this.$store.state.dhqIndex.preferredTopicData
+      preferredTopicData.length = 8
       return preferredTopicData
-    },
-    preferredStrategyData: function() {
-      const preferredStrategyData = this.$store.state.dhqIndex.preferredStrategyData
-      return preferredStrategyData
-    },
-    preferredSignalData: function() {
-      const preferredSignalData = this.$store.state.dhqIndex.preferredSignalData
-      return preferredSignalData
     }
   },
   methods: {
@@ -201,21 +191,7 @@ export default {
       this.type = data
     },
     initPreferredStock() {
-      if (this.type === 'strategyTop') {
-        this.$store.dispatch('dhqIndex/getPreferredStrategyData', {
-            type: this.preferredType,
-            id: this.preferredId,
-            limit: this.limit
-          })
-          .then(() => {
-            this.stockList = this.preferredStrategyData
-          })
-      } else if (this.type === 'signalTop') {
-        this.$store.dispatch('dhqIndex/getPreferredSignalData')
-          .then(() => {
-            this.stockList = this.preferredSignalData
-          })
-      } else if (this.type === 'topicTop') {
+      if (this.type === 'topicTop') {
         this.$store.dispatch('dhqIndex/getPreferredTopicData')
           .then(() => {
             this.stockList = this.preferredTopicData

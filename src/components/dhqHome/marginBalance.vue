@@ -92,7 +92,7 @@ export default {
                 icon: 'rect'
               }
             ],
-            itemWidth: 50,
+            itemWidth: 20,
             itemHeight: 1,
             right: '8%',
             top: 0,
@@ -132,8 +132,8 @@ export default {
             }
           },
           grid: {
-            left: 0,
-            top: 20,
+            left: 10,
+            top: 30,
             width: '92%',
             height: '80%',
             containLabel: true

@@ -3,7 +3,7 @@
   <div class="tit">{{title}}</div>
   <ul v-if="type ==='stock'">
     <li v-for="item in dataList">
-      <span class="col name">{{item.name}}</span>
+      <span v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name">{{item.name}}</span>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
@@ -25,16 +25,22 @@
       </div>
     </li>
   </ul>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 
 <script>
+let pcId = "";
+import StockBox from 'components/stock-box'
 export default {
   props: ['title', 'type'],
   data() {
     return {
 
     }
+  },
+  components: {
+    StockBox
   },
   computed: {
     dataList() {
@@ -64,10 +70,20 @@ export default {
       this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
         size: 20
       });
+      pcId = setInterval(() => {
+        this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
+          size: 20
+        });
+      }, 60 * 1000);
     } else if (this.type === 'word') {
       this.$store.dispatch('zInfoPublic/retrieveHotWords', {
         size: 20
       });
+    }
+  },
+  destroyed() {
+    if (pcId) {
+      clearInterval(pcId);
     }
   }
 }
@@ -113,7 +129,9 @@ export default {
         .hot-index {
             .full {
                 width: 90%;
-                margin: 0 5%;
+                height: 16px;
+                line-height: 16px;
+                margin: 0 10%;
             }
             .progress {
                 text-align: center;

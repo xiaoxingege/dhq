@@ -47,6 +47,7 @@ import AutoinpBox from 'components/autoinp-box'
 import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
+import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'
 import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 import optionalInformation from 'components/intelligence-info/optional-information'
 import newsFlash from 'components/intelligence-info/news-flash'
@@ -344,6 +345,11 @@ export default [{
     component: DragonListDialog
   },
   {
+    path: ctx + '/clinicSharesIndex',
+    name: 'clinicsharesindex',
+    component: ClinicSharesIndex
+  },
+  {
     path: ctx + '/zInfo',
     component: zInfo,
     children: [{
@@ -352,15 +358,14 @@ export default [{
       component: wisdomHeadlines
     }]
   },
-  // {
-  //   path: ctx + '/wisdomHeadlines',
-  //   name: 'wisdomHeadlines',
-  //   component: wisdomHeadlines
-  // },
   {
-    path: ctx + '/optionalInformation',
-    name: 'optionalInformation',
-    component: optionalInformation
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'optionalInformation',
+      name: 'optionalInformation',
+      component: optionalInformation
+    }]
   },
   {
     path: ctx + '/newsFlash',
@@ -406,8 +411,6 @@ export default [{
         component: stockZbg,
         name: 'zbg'
       }
-      // { path:'ztg',component:StockZtg,name:'Ztg' },
-      // { path:'zbg',component:StockZbg,name:'Zbg' }
     ]
   }
   /* {

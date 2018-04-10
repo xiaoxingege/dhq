@@ -37,7 +37,7 @@ export default {
         width: '85px'
       },
       styleLiObj: {
-        width: '41px'
+        width: '38px'
       },
       styleObj: {
         backgroundColor: '#2e4465'
@@ -92,7 +92,7 @@ export default {
       const toNorthData = this.$store.state.dhqIndex.toNorthData.sh.dataList
       const dataArr = []
       toNorthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -101,7 +101,7 @@ export default {
       const toNorthData = this.$store.state.dhqIndex.toNorthData.sz.dataList
       const dataArr = []
       toNorthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -110,7 +110,7 @@ export default {
       const toSouthData = this.$store.state.dhqIndex.toSouthData.sh.dataList
       const dataArr = []
       toSouthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     },
@@ -119,7 +119,7 @@ export default {
       const toSouthData = this.$store.state.dhqIndex.toSouthData.sz.dataList
       const dataArr = []
       toSouthData.forEach((position) => {
-        dataArr.push(position.value)
+        dataArr.push([this.dateFormatUtil(position.date), position.value])
       })
       return dataArr
     }
@@ -142,6 +142,26 @@ export default {
               left: 50,
               top: 5
             },
+            legend: {
+              data: [{
+                  name: '沪股通',
+                  icon: 'rect'
+                },
+                {
+                  name: '深股通',
+                  icon: 'rect'
+                }
+              ],
+              itemWidth: 20,
+              itemHeight: 1,
+              right: '0%',
+              top: 0,
+              textStyle: {
+                color: '#707b8f',
+                fontFamily: 'Microsoft YaHei',
+                fontSize: 12
+              }
+            },
             tooltip: {
               trigger: 'axis',
               textStyle: {
@@ -151,17 +171,17 @@ export default {
                 color: '#c9d0d7'
               },
               formatter: function(params) {
-                let s = params[0].name;
+                let s = params[0].axisValue;
                 let value;
                 for (let i = 0; i < params.length; i++) {
-                  if (params[i].value > 0) {
-                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
+                  if (params[i].value[1] > 0) {
+                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#fc2721'
-                  } else if (params[i].value < 0) {
-                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
+                  } else if (params[i].value[1] < 0) {
+                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#0bc846'
                   } else {
-                    value = parseFloat(params[i].value).toFixed(2) + '亿'
+                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
                     params[i].textColor = '#c9d0d7'
                   }
                   s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
@@ -171,12 +191,12 @@ export default {
             },
             grid: {
               left: 10,
-              top: 20,
+              top: 30,
               width: '92%',
               height: '80%',
               containLabel: true
             },
-            xAxis: [{
+            xAxis: {
               type: 'category',
               boundaryGap: false,
               splitLine: {
@@ -193,7 +213,7 @@ export default {
                 }
               },
               data: this.chartNorthDateData
-            }],
+            },
             yAxis: [{
               type: 'value',
               splitLine: {
@@ -208,18 +228,20 @@ export default {
                     return '#707b8f'
                   }
                 }
-              }
+              },
+              min: 'dataMin',
+              max: 'dataMax'
             }],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
-                name: '沪股通流入',
+                name: '沪股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toNorthHgtData
               },
               {
-                name: '深股通流入',
+                name: '深股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toNorthSgtData
@@ -243,12 +265,56 @@ export default {
               left: 50,
               top: 5
             },
+            legend: {
+              data: [{
+                  name: '沪股通',
+                  icon: 'rect'
+                },
+                {
+                  name: '深股通',
+                  icon: 'rect'
+                }
+              ],
+              itemWidth: 20,
+              itemHeight: 1,
+              right: '0%',
+              top: 0,
+              textStyle: {
+                color: '#707b8f',
+                fontFamily: 'Microsoft YaHei',
+                fontSize: 12
+              }
+            },
             tooltip: {
-              trigger: 'axis'
+              trigger: 'axis',
+              textStyle: {
+                align: 'left',
+                fontFamily: '微软雅黑',
+                fontSize: 12,
+                color: '#c9d0d7'
+              },
+              formatter: function(params) {
+                let s = params[0].axisValue;
+                let value;
+                for (let i = 0; i < params.length; i++) {
+                  if (params[i].value[1] > 0) {
+                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#fc2721'
+                  } else if (params[i].value[1] < 0) {
+                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#0bc846'
+                  } else {
+                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
+                    params[i].textColor = '#c9d0d7'
+                  }
+                  s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+                }
+                return s;
+              }
             },
             grid: {
               left: 10,
-              top: 20,
+              top: 30,
               width: '92%',
               height: '80%',
               containLabel: true
@@ -285,18 +351,20 @@ export default {
                     return '#707b8f'
                   }
                 }
-              }
+              },
+              min: 'dataMin',
+              max: 'dataMax'
             }],
             color: ['#1984ea'],
             animation: false,
             series: [{
-                name: '沪股通流入',
+                name: '沪股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthHgtData
               },
               {
-                name: '深股通流入',
+                name: '深股通',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthSgtData
@@ -348,10 +416,9 @@ export default {
 .timeTab {
     position: absolute;
     top: 5px;
-    right: 10px;
-    width: 164px;
+    left: 112px;
     height: 24px;
-    z-index: 9999;
+    z-index: 1;
 }
 .timeTab > div {
     padding-left: 0;

@@ -5,16 +5,16 @@ export default {
       market = 'HS';
     }
     let timeline = [];
-    if (market === "HS") {
+    if (market === 'HS') {
       let hours = 9;
       let minutes = 30;
       while (hours < 15) {
         if (hours === 11 && minutes === 30) {
-          timeline.push("11:30/13:00");
+          timeline.push('11:30/13:00');
           hours = 13;
           minutes = 0;
         } else {
-          timeline.push(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
+          timeline.push(hours + ':' + (minutes < 10 ? '0' + minutes : minutes));
         }
         minutes++;
         if (minutes === 60) {
