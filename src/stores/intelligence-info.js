@@ -101,7 +101,7 @@ export default {
     setOptionalinformationInit(state, result) {}
     setOptionalinformationInit(state,result){
       state.optionalInformationList = result.list
-      state.page = result.page
+      state.page = result.page 
     }
   },
   actions: {

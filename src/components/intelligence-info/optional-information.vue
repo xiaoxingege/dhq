@@ -68,7 +68,7 @@ export default {
       stockPoolDefault: '',
       innerCode: '000001.SZ,000002.SZ'
     }
-  },
+  }, 
   mounted() {
     this.loadList()
     this.updateNews()
