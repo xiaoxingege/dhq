@@ -99,6 +99,10 @@ export default {
       state.stockPool = result
     },
     setOptionalinformationInit(state, result) {}
+    setOptionalinformationInit(state,result){
+      state.optionalInformationList = result.list
+      state.page = result.page
+    }
   },
   actions: {
     // 获取智头条数据
