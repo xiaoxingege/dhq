@@ -128,7 +128,7 @@
       },
       loadMore() {
         this.page++
-        this.loadList()
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           this.noData = true
