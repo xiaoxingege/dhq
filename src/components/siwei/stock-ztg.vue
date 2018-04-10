@@ -11,7 +11,9 @@
     <div class="ztgList">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10">{{item.dateTime}}</div>
+          <div class="mb-10">
+            {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
+          </div>
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
             </div>
@@ -21,7 +23,7 @@
           <ul class="topicStock clearfix">
             <li v-for="value in item.topics" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + value.topicChngPct}}%
+              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
               </div>
             </li>
           </ul>
@@ -48,7 +50,7 @@ export default {
         xDefault: 'mkt_idx.volume_ratio',
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
-        colorDefault: 'perf_idx.chng_pct_month',
+        colorDefault: 'mkt_idx.cur_chng_pct',
         type: 1
       },
       defaultColor: '#2F323D',
@@ -422,7 +424,7 @@ export default {
 
         window.addEventListener('resize', () => {
           let height = document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.66
-          that.chart.resize({
+          that.chart && that.chart.resize({
             height: height
           })
           that.bubbleHeight = height
@@ -619,7 +621,7 @@ export default {
 
         window.addEventListener('resize', () => {
           let height = document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33
-          that.lineChart.resize({
+          that.lineChart && that.lineChart.resize({
             height: height
           })
           that.lineChartHeight = height
@@ -959,20 +961,21 @@ export default {
     const that = this
     this.initBubbles()
     this.initZtgCompare()
-    let date = new Date()
-    let currentTime = date.getFullYear() + '' + (String(date.getMonth() + 1).length === 1 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '' + (String(date.getDate()).length === 1 ? '0' + date.getDate() : date.getDate())
+
     this.$store.dispatch('bubbles/getBubblesLine', {
       type: 1,
-      currentTime: currentTime
+      currentTime: ''
     }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
     this.interval = setInterval(function() {
+      let date = new Date()
+      let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
       that.updateBubbles()
       that.updateCompare()
       that.$store.dispatch('bubbles/getBubblesLine', {
         type: 1,
         currentTime: currentTime
       }).then(() => {
-        // that.$refs.ztgListUl.scrollTop = that.$refs.ztgListUl.scrollHeight
+        that.$refs.ztgListUl.scrollTop = 0
       })
     }, Data.refreshTime)
   },
@@ -1044,7 +1047,7 @@ export default {
                 text-align: center;
                 box-sizing: border-box;
                 padding-bottom: 2px;
-
+                padding-left: 5px;
                 .name {
                     line-height: 20px;
                 }
