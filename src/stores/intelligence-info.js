@@ -1,7 +1,6 @@
 import 'whatwg-fetch'
-import config, {
-  domain
-} from '../z3tougu/config'
+import config, { domain } from '../z3tougu/config'
+import { formatDate } from 'utils/date'
 import fetch from '../z3tougu/util/z3fetch'
 
 export const PAGE_SIZE = 8;
@@ -22,9 +21,7 @@ export default {
     newsFlash: [], // 自选情报
     listedCompany: [], // 上市公司
     relatedStocks: [],
-    //  totalPage:0, // 总页数
     pageSize: PAGE_SIZE,
-    //  flag:1, // 标识：1-表示智头条，2-表示7x24快讯
     innerCode: '',
     loadingShow: true,
     newTime: '',
@@ -50,7 +47,6 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
         let equityList = intelligence.equityList
-        // console.log(equityList.code)
         if (equityList.code !== null && equityList.code !== undefined) {
           stocks[equityList.code] = equityList
         }
@@ -67,7 +63,6 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equityList = intelligence.equityList
-        // console.log(equityList)
         stocks[equityList.code] = equityList
         // for (let stock of equityList) {
         //   stocks[stock.code] = stock
@@ -93,15 +88,18 @@ export default {
       state.loadingShow = visible
     },
     getNewTime(state, time) {
-      state.newTime = time
+      if(time === null){
+          state.newTime = time
+      }else{
+        state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+        console.log(time)
+      }
     },
     setStockPool(state, result) {
       state.stockPool = result
     },
-    setOptionalinformationInit(state, result) {}
     setOptionalinformationInit(state,result){
-      state.optionalInformationList = result.list
-      state.page = result.page 
+      state.optionalInformationList = result
     }
   },
   actions: {
@@ -152,10 +150,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        if (result.errCode === 0) {
-          commit('setMask', false)
+        if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
           commit('getNewTime', result.data.newTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data.rows)
+          commit('setMask', false)
         } else {
           commit('ERROR', result, {
             root: true
