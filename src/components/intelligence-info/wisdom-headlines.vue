@@ -229,7 +229,7 @@ export default {
 @import '../../assets/css/reset.css';
 @import '../../assets/css/base.css';
 .wisdomHeadlines {
-    color: $wordsColorBase;
+    color: $ wordsColorBase;
     font-size: 12px;
 }
 

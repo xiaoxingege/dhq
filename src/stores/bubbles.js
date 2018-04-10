@@ -201,6 +201,12 @@ export default {
     },
     setZdCompare(state, result) {
       if (result.errCode === 0) {
+        state.ztgCompare = {
+          up: [],
+          openUp: [],
+          down: [],
+          openDown: []
+        }
         for (var item of result.data) {
           state.ztgCompare.up.push(item[0])
           state.ztgCompare.openUp.push(item[1])
