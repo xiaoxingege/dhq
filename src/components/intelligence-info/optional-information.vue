@@ -2,8 +2,7 @@
   <!-- 自选情报 -->
   <div class="optionalInformation"  @scroll="getScrollTop($event)">
     <div class="top-bar">
-      <select class="select" name="" v-model="stockPoolDefault" @change="getInnerCode">
-        <option value=''>请选择</option>
+      <select class="select" name="" v-model="optionalStockId" @change="getInnerCode($event)">
         <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
       </select>
       <a href="#"><span class="lookStock">自选股查看</span></a>
@@ -41,15 +40,17 @@
       <p class="tc mt-10">
         <a v-if="!noData && optionalInformationList.length >= 8" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
         <p v-if="noData"  class="tc mt-10 loadMore">数据已加载完</p>
-        <p v-if="optionalInformationList.length===0"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+        <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
     <StockBox ref="stockbox"></StockBox>
+    <Loading :maskShow="loadingShow"></Loading>
   </div>
 </template>
 
 <script>
   import 'whatwg-fetch'
+  import Loading from 'components/intelligence-info/loading'
   import { cutString } from 'utils/date'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
@@ -66,27 +67,33 @@
         intervalTime:60000,
         scrollTop: 0,
         innerHeight: window.innerHeight,
-        stockPoolDefault:'',
-        innerCode:'000001.SZ,000002.SZ'
+        innerCodes:''
       }
     },
     mounted() {
-      this.loadList()
+      this.$store.dispatch('getStockPool').then(() => {
+        this.loadList()
+      })
       this.updateNews()
-      this.$store.dispatch('getStockPool')
     },
     computed: {
       ...mapState([
         'optionalInformationList',
         'stockPool',
         'newTime',
-        'pageSize'
+        'pageSize',
+        'optionalStockId',
+        'innerCode',
+        'loadingShow'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         optionalInformationList:'optionalInformationList',
         stockPool:'stockPool',
-        newTime:'newTime'
+        newTime:'newTime',
+        optionalStockId:'optionalStockId',
+        innerCode:'innerCode',
+        loadingShow:'loadingShow'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -111,7 +118,6 @@
         this.$nextTick(() => {
           this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
         })
-        console.log(this.newTime)
       },
       updateNews() {
         const _this =this
@@ -162,20 +168,25 @@
           return ''
         }
       },
-      getInnerCode() {
+      getInnerCode(e) {
+        this.innerCodes = ''
+        this.page = 0
         this.$store.commit('setOptionalinformationInit',[])
-        this.innerCode = ''
-        this.page =0
+        var id = $('.select option:selected').val()
         let index = $('.select option:selected').attr('data-index')
         let stocks =  this.stockPool
         let thisStock = stocks[index]
-        for(let list of thisStock.equityPool) {
-          this.innerCode  += list.innerCode + ','
+        let str
+        if(thisStock.equityPool===null){
+          str = ''
+        }else{
+          for(let list of thisStock.equityPool) {
+            this.innerCodes  += list.innerCode + ','
+          }
+          str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
-        var str = this.innerCode.substring(0,this.innerCode.length-1)
-        this.innerCode = str
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'' })
-
+        this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
       },
       updateStock(stock) {
         this.$store.commit('UPDATE_OPTIONALINFORMATION_RELSTOCK', stock)
@@ -192,7 +203,8 @@
       }
     },
     components: {
-      StockBox
+      StockBox,
+      Loading
     },
     watch: {
       // 'page': {
