@@ -93,7 +93,7 @@ export default {
                 if (i === 0) {
                   value = params[i].value * 100 + '%'
                 } else if (i === 2) {
-                  value = parseFloat(params[i].value).toFixed(2) + '亿'
+                  value = parseFloat(params[i].value).toFixed(2)
                 }
                 if (i !== 1) {
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + value;
