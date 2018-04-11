@@ -18,7 +18,7 @@ export default {
     wisdomHeadlinesList: [], // 智头条
     optionalInformationList: [], // 自选情报
     newsOpportunities: [], // 机会挖掘
-    newsFlash: [], // 自选情报
+    newsFlash: [], // 7*24小时快讯
     listedCompany: [], // 上市公司
     relatedStocks: [],
     pageSize: PAGE_SIZE,
@@ -31,8 +31,8 @@ export default {
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
     optionalInformationList: state => state.optionalInformationList,
-    newsFlash: state => state.newsFlash,
     newsOpportunities: state => state.newsOpportunities,
+    newsFlash: state => state.newsFlash,
     listedCompany: state => state.listedCompany,
     pageSize: state => state.pageSize,
     loadingShow: state => state.loadingShow,
@@ -106,14 +106,7 @@ export default {
   },
   actions: {
     // 获取智头条数据
-    getWisdomHeadlinesList({
-      commit
-    }, {
-      page,
-      istop,
-      isTop,
-      newTime
-    }) {
+    getWisdomHeadlinesList({ commit }, { page, isTop, newTime }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?&page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -136,14 +129,7 @@ export default {
       });
     },
     // 获取自选情报数据
-    getOptionalInformation({
-      commit
-    }, {
-      innerCode,
-      page,
-      isTop,
-      newTime
-    }) {
+    getOptionalInformation({ commit }, { innerCode, page, isTop, newTime }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -166,13 +152,8 @@ export default {
       });
     },
     // 获取7*24快讯数据
-    getNewsFlashList({
-      commit
-    }, {
-      flag,
-      page
-    }) {
-      const url = `${domain}/openapi/news/wisdomHeadline.shtml?flag=${flag}&page=${page}`
+    getNewsFlashList({ commit }, { page, isTop, newTime }) {
+      const url = `${domain}/openapi/news/flashNews.shtml?&page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
         method: 'GET',
         mode: 'cors'
@@ -192,12 +173,7 @@ export default {
     },
 
     // 获取机会挖掘数据
-    getNewsOpportunities({
-      commit
-    }, {
-      type,
-      page
-    }) {
+    getNewsOpportunities({ commit }, { type, page }) {
       const url = `${domain}/openapi/news/newsExcavate.shtml?chance=${type}&page=${page}`
       return fetch(url, {
         method: 'GET',
@@ -217,11 +193,7 @@ export default {
       });
     },
     // 获取上市公司数据
-    getListedCompany({
-      commit
-    }, {
-      page
-    }) {
+    getListedCompany({ commit }, { page }) {
       const url = `${domain}/openapi/news/listedCom.shtml?page=${page}`
       return fetch(url, {
         method: 'GET',
@@ -241,11 +213,7 @@ export default {
       });
     },
     // 获取股票池列表
-    getStockPool({
-      commit,
-      state,
-      rootState
-    }) {
+    getStockPool({ commit, state, rootState }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStockPool', [])

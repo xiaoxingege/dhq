@@ -94,7 +94,7 @@
     <div v-show="isNoData" class="no-data-stock">
       <span>暂无数据</span>
     </div>
-    <table class="preferred-stock-table" v-show="!isNoData">
+    <table class="preferred-stock-table" v-show="!isNoData && stockList.length>0">
       <tr>
         <td>名称</td>
         <td>最新</td>

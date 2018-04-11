@@ -28,7 +28,7 @@ export default {
       styleLiObj: {
         width: '85px'
       },
-      iconHelpMsg: '大盘解读是基于趋势交易理论设计的预测算法：以上证指数为假想可操作标的，通过仓位调整，得出类似基金的净值曲线。该预测算法在历史上经过了极为严格的量化回测，可以给出0-100%等多种仓位建议，使这条净值曲线获得最佳收益。'
+      iconHelpMsg: '大盘温度计是基于趋势交易理论设计的预测算法：以上证指数为假想可操作标的，通过仓位调整，得出类似基金的净值曲线。该预测算法在历史上经过了极为严格的量化回测，可以给出0-100%等多种仓位建议，使这条净值曲线获得最佳收益。'
     }
   },
   watch: {
@@ -93,7 +93,7 @@ export default {
                 if (i === 0) {
                   value = params[i].value * 100 + '%'
                 } else if (i === 2) {
-                  value = parseFloat(params[i].value).toFixed(2) + '亿'
+                  value = parseFloat(params[i].value).toFixed(2)
                 }
                 if (i !== 1) {
                   s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:4px;width:7px;height:7px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ': ' + value;

@@ -88,8 +88,8 @@
           <td>{{item.name === null?'--':item.name}}</td>
           <td v-z3-updowncolor="item.stockVal">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':parseFloat(item.upDown).toFixed(2)}}</td>
-          <td v-z3-updowncolor="item.upDownExtent">{{formatData(item.upDownExtent)?'--':parseFloat(item.upDownExtent).toFixed(2)}}</td>
-          <td>{{formatData(item.amount)?'--':item.amount}}</td>
+          <td v-z3-updowncolor="item.upDownExtent">{{formatData(item.upDownExtent)?'--':parseFloat(item.upDownExtent).toFixed(2)+'%'}}</td>
+          <td>{{formatData(item.amount)?'--':unitFormat(item.amount)}}</td>
         </tr>
       </table>
     </div>

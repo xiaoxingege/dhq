@@ -371,10 +371,19 @@ export default [{
     }]
   },
   {
-    path: ctx + '/newsFlash',
-    name: 'newsFlash',
-    component: newsFlash
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'newsFlash',
+      name: 'newsFlash',
+      component: newsFlash
+    }]
   },
+  // {
+  //   path: ctx + '/newsFlash',
+  //   name: 'newsFlash',
+  //   component: newsFlash
+  // },
   {
     path: ctx + '/newsOpportunities',
     name: 'newsOpportunities',
