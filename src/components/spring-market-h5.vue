@@ -40,7 +40,6 @@ body{background: #fb333b;}
 .butClose{width: 0.8rem;height: 0.8rem;margin: 0 auto;margin-top: 1rem;}
 </style>
 
-
 <template>
     <div id="spring-market">
         <div class="item1"></div>
