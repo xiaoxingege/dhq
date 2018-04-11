@@ -199,8 +199,19 @@ export default {
         state.ztgBubblesLine = null
       }
     },
+    updateBubblesLine(state, result) {
+      if (result.errCode === 0) {
+        state.ztgBubblesLine.push(result.data)
+      }
+    },
     setZdCompare(state, result) {
       if (result.errCode === 0) {
+        state.ztgCompare = {
+          up: [],
+          openUp: [],
+          down: [],
+          openDown: []
+        }
         for (var item of result.data) {
           state.ztgCompare.up.push(item[0])
           state.ztgCompare.openUp.push(item[1])
@@ -340,7 +351,12 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setBubblesLine', body)
+        if (currentTime === '') {
+          commit('setBubblesLine', body)
+        } else {
+          commit('updateBubblesLine', body)
+        }
+
       })
     },
     getZdCompare({
