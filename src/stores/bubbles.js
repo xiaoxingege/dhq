@@ -54,7 +54,8 @@ export default {
       down: [],
       openDown: []
     },
-    zbgLine: null
+    zbgLine: null,
+    newStockList: null
 
   },
   mutations: {
@@ -194,14 +195,17 @@ export default {
     },
     setBubblesLine(state, result) {
       if (result.errCode === 0) {
-        state.ztgBubblesLine = result.data
+        state.ztgBubblesLine = result.data.reverse()
       } else {
         state.ztgBubblesLine = null
       }
     },
     updateBubblesLine(state, result) {
       if (result.errCode === 0) {
-        state.ztgBubblesLine.push(result.data)
+        if (result.data.length !== 0) {
+          state.ztgBubblesLine.unshift(result.data)
+        }
+
       }
     },
     setZdCompare(state, result) {
@@ -214,8 +218,8 @@ export default {
         }
         for (var item of result.data) {
           state.ztgCompare.up.push(item[0])
-          state.ztgCompare.openUp.push(item[1])
-          state.ztgCompare.down.push(item[2])
+          state.ztgCompare.down.push(item[1])
+          state.ztgCompare.openUp.push(item[2])
           state.ztgCompare.openDown.push(item[3])
 
         }
@@ -228,6 +232,13 @@ export default {
         state.zbgLine = result.data
       } else {
         state.zbgLine = null
+      }
+    },
+    setNewStockList(state, result) {
+      if (result.errCode === 0) {
+        state.newStockList = result.data
+      } else {
+        state.newStockList = null
       }
     }
   },
@@ -381,6 +392,20 @@ export default {
         return res.json()
       }).then(body => {
         commit('setZbgLine', body)
+      })
+    },
+    getNewStockList({
+      commit
+    }, {
+      type,
+      size
+    }) {
+      return fetch(`${domain}/openapi/ipo/${type}/${size}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setNewStockList', body)
       })
     }
 

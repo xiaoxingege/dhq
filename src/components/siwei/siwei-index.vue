@@ -97,18 +97,15 @@ export default {
         },
         {
           text: '强势股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/qsg'
         },
         {
           text: '跌停股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/dtg'
         },
         {
           text: '新股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/new'
         },
         {
           text: '次新股',
