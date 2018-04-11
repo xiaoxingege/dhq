@@ -163,10 +163,12 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
+        if(result.errCode ===0) {
+        }
         if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
+          commit('setMask', false)
           commit('getNewTime', result.data.newTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
-          commit('setMask', false)
         } else {
           commit('ERROR', result, {
             root: true

@@ -42,9 +42,9 @@
         <p v-if="noData"  class="tc mt-10 loadMore">数据已加载完</p>
         <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
+      <Loading :maskShow="loadingShow"></Loading>
     </div>
     <StockBox ref="stockbox"></StockBox>
-    <Loading :maskShow="loadingShow"></Loading>
   </div>
 </template>
 
@@ -263,7 +263,9 @@
     overflow: auto;
   }
   .news-wrapper{
+    position:relative;
     padding-bottom: 20px;
+    height: 100%;
   }
   .top-bar{
     height: 32px;
