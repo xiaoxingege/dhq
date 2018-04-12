@@ -7,6 +7,7 @@ export const PAGE_SIZE = 8;
 export const types = {
   SET_WISDOMHEADLINES_LIST: 'SET_WISDOMHEADLINES_LIST',
   UPDATE_WISDOMHEADLINES_RELSTOCK: 'UPDATE_WISDOMHEADLINES_RELSTOCK',
+  UPDATE_OPTIONALINFORMATION_RELSTOCK:'UPDATE_OPTIONALINFORMATION_RELSTOCK',
   SET_OPTIONALINFORMATION_LIST: 'SET_OPTIONALINFORMATION_LIST',
   SET_NEWSFLASH_LIST: 'SET_NEWSFLASH_LIST',
   SET_NEWSOPPORTUNITIES_LIST: 'SET_NEWSOPPORTUNITIES_LIST',
@@ -22,11 +23,12 @@ export default {
     listedCompany: [], // 上市公司
     relatedStocks: [],
     pageSize: PAGE_SIZE,
-    innerCode: '',
     loadingShow: true,
     newTime: '',
     userId: '',
-    stockPool: null
+    stockPool: null,
+    optionalStockId:'',
+    innerCode:''
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -37,7 +39,9 @@ export default {
     pageSize: state => state.pageSize,
     loadingShow: state => state.loadingShow,
     newTime: state => state.newTime,
-    stockPool: state => state.stockPool
+    stockPool: state => state.stockPool,
+    optionalStockId: state => state.optionalStockId,
+    innerCode: state => state.innerCode
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
@@ -86,6 +90,11 @@ export default {
       stocks[stock.innerCode].price = stock.price !== null ? parseFloat(stock.price).toFixed(2) : config.emptyValue
       stocks[stock.innerCode].chngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
     },
+    [types.UPDATE_OPTIONALINFORMATION_RELSTOCK](state, stock) {
+      const stocks = state.relatedStocks
+      stocks[stock.innerCode].price = stock.price !== null ? parseFloat(stock.price).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].chngPct = stock.curChngPct !== null ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
+    },
     setMask(state, visible) {
       state.loadingShow = visible
     },
@@ -94,11 +103,27 @@ export default {
           state.newTime = time
       }else{
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
-        console.log(time)
       }
     },
     setStockPool(state, result) {
       state.stockPool = result
+      for(let i = 0; i< 1; i++) {
+        state.optionalStockId = result[0].poolId
+        var equityPool = result[0].equityPool
+        if(equityPool === null){
+          state.innerCode = ''
+        }else{
+          for(let j = 0; j < equityPool.length; j++) {
+            state.innerCode  += equityPool[j].innerCode + ','
+          }
+          var str = state.innerCode.substring(0,state.innerCode.length-1)
+          state.innerCode = str
+        }
+      }
+    },
+    setOptionalStockId(state,result){
+      state.optionalStockId = result.id
+      state.innerCode = result.innerCode
     },
     setOptionalinformationInit(state,result){
       state.optionalInformationList = result
@@ -138,10 +163,12 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
+        if(result.errCode ===0) {
+          commit('setMask', false)
+        }
         if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
           commit('getNewTime', result.data.newTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
-          commit('setMask', false)
         } else {
           commit('ERROR', result, {
             root: true
