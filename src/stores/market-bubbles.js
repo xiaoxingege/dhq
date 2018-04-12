@@ -9,7 +9,7 @@ const state = {
   abnormalStockList: [], // 异动个股
   abnormalPlateList: [], // 异动板块
   indexData: {
-    line: 0,
+    closePx: 0,
     data: []
   }, // 指数数据
   marketCount: [] // 涨跌股票统计数据
@@ -57,14 +57,15 @@ const actions = {
     commit,
     state
   }, {
-    type
+    type,
+    startTime
   }) {
-    const url = `${domain}/openapi/dimension/abnormal/stock/${type}`
+    const url = `${domain}/openapi/dimension/abnormal/stock/${type}?startTime=${startTime}`
     fetch(url, {
       mode: 'cors'
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_ABNORMAL_STOCKS, result)
+        commit(mutationsTypes.UPDATE_ABNORMAL_STOCKS, result.data)
       } else {
         commit('ERROR', result, {
           root: true
@@ -95,10 +96,11 @@ const actions = {
     commit,
     state
   }) {
-    const url = '/mock/indexData.json';
+    const url = `${domain}/openapi/dimension/replay`;
     return fetch(url).then((res) => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_INDEX_DATA, result)
+        commit(mutationsTypes.UPDATE_INDEX_DATA, result.data);
+        commit(mutationsTypes.UPDATE_MARKET_COUNT, result.msg);
       } else {
         commit('ERROR', result, {
           root: true
@@ -110,17 +112,20 @@ const actions = {
 
 const mutations = {
   [mutationsTypes.UPDATE_BUBBLE](state, bubbleData) {
-    state.bubbleData = bubbleData.data || []
+    state.bubbleData = bubbleData || []
   },
   [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
-    state.abnormalStockList = stocks.data || []
+    state.abnormalStockList = stocks || []
   },
   [mutationsTypes.UPDATE_PLATE_LIST](state, plates) {
     state.abnormalPlateList = plates.data || []
   },
   [mutationsTypes.UPDATE_INDEX_DATA](state, data) {
-    state.indexData.data = data.data.priceArr;
-    state.indexData.closePx = data.data.line;
+    state.indexData.data = data.priceArr;
+    state.indexData.closePx = data.line;
+  },
+  [mutationsTypes.UPDATE_MARKET_COUNT](state, countList) {
+    state.marketCount = JSON.parse(countList);
   }
 }
 

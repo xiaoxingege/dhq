@@ -3,7 +3,7 @@
   <div class='left'>
     <div class='top'>
       <div></div>
-      <div class='chart' ref='chart1'></div>
+      <div class='chart' ref='chart'></div>
       <span v-z3-updowncolor=1 class='zt'>涨停{{zt}}家 ST{{stzt}}家</span>
       <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
     </div>
@@ -14,42 +14,46 @@
   <div class='right'>
     <div class='stocks'>
       <div class='tit'>异动个股</div>
-      <div class='block' v-for='stock of stockList'>
-        <div class='time'>{{stock.dateTime}}</div>
-        <div class='item'>
-          <span class=''>{{stock.stockName}}</span>
-          <span class=''>{{stock.symbol}}</span>
-          <span class=''>{{stock.chg}}</span>
-          <span class='type'>{{stock.status}}</span>
+      <div class="list" ref="stocks_list">
+        <div class='block' v-for='stock in stockList'>
+          <div class='time'>{{stock.dateTime | datetime}}</div>
+          <div class='item'>
+            <span class=''>{{stock.stockName}}</span>
+            <span class=''>{{stock.symbol}}</span>
+            <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
+            <span class='type'>{{stock.status}}</span>
+          </div>
+          <div class="news">
+            <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
+          </div>
+          <ul class='topics'>
+            <li class="topic" v-for="topic in stock.topics" v-if="stock.topics && stock.topics.length > 0">
+              <div>{{topic.topicName}}</div>
+              <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+            </li>
+          </ul>
         </div>
-        <div class="news">
-          <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
-        </div>
-        <ul class='topics'>
-          <li class="topic" v-for="topic of stock.topics.slice(0,4)">
-            <div>{{topic.topicName}}</div>
-            <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct+'%'}}</div>
-          </li>
-        </ul>
       </div>
     </div>
     <div class="blocks">
       <div class="tit">异动板块</div>
-      <div class="block" v-for="plate of plateList">
-        <div class="time plate_top">
-          <span>{{plate.dateTime}}</span>
-          <span class="name">{{plate.industryName}}</span>
-          <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg}}%</span>
+      <div class="list">
+        <div class="block" v-for="plate of plateList">
+          <div class="time plate_top">
+            <span>{{plate.dateTime}}</span>
+            <span class="name">{{plate.industryName}}</span>
+            <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg}}%</span>
+          </div>
+          <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
+          <table class="stockList">
+            <tr v-for="stock of plate.baseDetailList">
+              <td class="name">{{stock.stockName}}</td>
+              <td class="code">{{stock.symbol}}</td>
+              <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
+              <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg}}%</td>
+            </tr>
+          </table>
         </div>
-        <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
-        <table class="stockList">
-          <tr v-for="stock of plate.baseDetailList">
-            <td class="name">{{stock.stockName}}</td>
-            <td class="code">{{stock.symbol}}</td>
-            <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
-            <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg}}%</td>
-          </tr>
-        </table>
       </div>
     </div>
   </div>
@@ -63,46 +67,65 @@ import {
   mapState
 } from 'vuex'
 import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
+
+let pcid1 = '';
+let pcid2 = '';
 export default {
   data() {
     return {
-      stockCount: [2, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 2],
-      zt: 2,
-      dt: 2,
-      stzt: 1,
-      stdt: 1,
-      openIndex: 3000.00
+      stockLastTime: '',
+      plateLastTime: '',
+      stockList: [],
+      plateList: []
     }
   },
   components: {
     abnormalPlatesChart
   },
-  computed: mapState({
-    bubbles: state => {
-      const data = state.marketBubble.bubbleData;
-      let bubbles = [];
-      data.forEach((stock, index) => {
-        let item = {
-          name: stock.name,
-          value: [stock.xData, stock.yData],
-          symbolSize: stock.bubbleSize,
-          itemStyle: {
-            normal: {
-              color: this.matchColor(stock.bubbleColor)
+  computed: {
+    ...mapState({
+      bubbles: state => {
+        const data = state.marketBubble.bubbleData;
+        let bubbles = [];
+        data.forEach((stock, index) => {
+          let item = {
+            name: stock.name,
+            value: [stock.xData, stock.yData],
+            symbolSize: stock.bubbleSize,
+            itemStyle: {
+              normal: {
+                color: this.matchColor(stock.bubbleColor)
+              }
             }
-          }
-        };
-        bubbles.push(item);
-      });
-      return bubbles;
-    },
-    stockList: state => state.marketBubble.abnormalStockList,
-    plateList: state => state.marketBubble.abnormalPlateList
-  }),
+          };
+          bubbles.push(item);
+        });
+        return bubbles;
+      },
+      deltaStockList: state => state.marketBubble.abnormalStockList,
+      deltaPlateList: state => state.marketBubble.abnormalPlateList,
+      marketCount: state => {
+        const data = state.marketBubble.marketCount;
+        return data.slice(2, data.length - 2);
+      },
+      stzt: state => state.marketBubble.marketCount[0],
+      zt: state => state.marketBubble.marketCount[1],
+      stdt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1],
+      dt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2],
+      countMax: state => Math.max(...state.marketBubble.marketCount, 0) * 1.3
+    })
+  },
+  filters: {
+    datetime(value) {
+      if (value.length === 5) {
+        value = "0" + value;
+      }
+      return value.substring(0, 2) + ":" + value.substring(2, 4) + ":" + value.substring(4);
+    }
+  },
   methods: {
     initStocks() {
-      this.chart1 = echarts.init(this.$refs.chart1);
-      this.chart1.setOption({
+      this.chart.setOption({
         grid: [{
             width: 'auto',
             containLabel: false,
@@ -130,7 +153,7 @@ export default {
           axisLine: {
             show: false
           },
-          max: 10,
+          max: this.countMax,
           splitLine: {
             show: false
           },
@@ -245,8 +268,7 @@ export default {
               color: (params) => Number(params.name) >= 0 ? config.upColor : config.downColor
             }
           },
-          data: this.stockCount
-
+          data: this.marketCount
         }, {
           type: 'scatter',
           xAxisIndex: 1,
@@ -288,24 +310,72 @@ export default {
     },
     matchColor(chg) {
       return '#666';
+    },
+    updateMarketCount() {
+      setTimeout(() => {
+        this.chart.setOption({
+          xAxis: [{
+            max: this.countMax
+          }],
+          series: [{
+            data: this.marketCount
+          }]
+        });
+      }, 0)
+    },
+    updateAbnormalStocks() {
+      this.$store.dispatch('marketBubble/updateAbnormalStocks', {
+        type: 0,
+        startTime: this.stockLastTime
+      });
+    }
+  },
+  watch: {
+    marketCount: function() {
+      this.updateMarketCount();
+    },
+    deltaStockList: function() {
+      if (this.deltaStockList.length === 0) {
+        return
+      }
+      const delta = [].concat(this.deltaStockList).reverse();
+      this.stockLastTime = delta[0].dateTime;
+      this.stockList.unshift(...delta);
+      this.$refs['stocks_list'].scrollTop = 0;
+    },
+    deltaPlateList: function() {
+      if (this.deltaPlateList.length === 0) {
+        return
+      }
+      const delta = [].concat(this.deltaPlateList).reverse();
+      this.plateList.unshift(...delta);
     }
   },
   mounted() {
-    this.$store.dispatch('marketBubble/updateBubble', {
-      x: 'mkt_index.volumn_ratio', // 量比
-      y: 'mkt_idx.cur_chng_pct', // 涨跌幅
-      size: 'mkt_idx.rising_rate', // 涨速
-      color: 'mkt_idx.cur_chng_pct', // 涨跌幅
-      type: 0
-    }).then(() => {
-      this.initStocks();
-    });
-    this.$store.dispatch('marketBubble/updateAbnormalStocks', {
-      type: 0
-    });
-    this.$store.dispatch('marketBubble/updateAbnormalPlates', {
-      startTime: ''
-    })
+    this.chart = echarts.init(this.$refs.chart);
+    this.initStocks();
+    // this.$store.dispatch('marketBubble/updateBubble', {
+    //   x: 'mkt_index.volumn_ratio', // 量比
+    //   y: 'mkt_idx.cur_chng_pct', // 涨跌幅
+    //   size: 'mkt_idx.rising_rate', // 涨速
+    //   color: 'mkt_idx.cur_chng_pct', // 涨跌幅
+    //   type: 0
+    // }).then(() => {
+    //   this.initStocks();
+    // });
+    this.updateAbnormalStocks();
+    pcid1 = setInterval(() => {
+      this.updateAbnormalStocks()
+    }, 3 * 1000);
+
+  },
+  destroyed() {
+    if (pcid1) {
+      clearInterval(pcid1);
+    }
+    if (pcid2) {
+      clearInterval(pcid2);
+    }
   }
 }
 </script>
@@ -351,6 +421,10 @@ export default {
 .market .stocks {
     height: 55%;
     border-bottom: 1px solid #32343E;
+    .list {
+        height: calc(100% - 24px);
+        overflow: auto;
+    }
 }
 .market .news .mark {
     padding: 2px;
@@ -363,10 +437,14 @@ export default {
     background: #BAC3CB;
 }
 .market .news .normal {
-    background: #BAC3CB;
+    background: #505A66;
 }
 .market .blocks {
     height: 45%;
+    .list {
+        height: calc(100% - 24px);
+        overflow: auto;
+    }
 }
 .market .right .tit {
     height: 24px;
@@ -410,6 +488,9 @@ export default {
 }
 .market .block .item {
     padding: 2px;
+    span {
+        margin-right: 4px;
+    }
 }
 
 .market .block .item .type {
