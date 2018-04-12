@@ -70,7 +70,7 @@ body{background: #fb333b;}
                             <img :src="item.tgImage" alt="">
                             <div class="username">
                                 <p>{{item.tipName}}</p>
-                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
+                                <span><i>{{item.price}}</i><i>{{item.cheap}}</i></span>
                             </div>
                             <div class="book" @click="gotoDetail(item.tipId)"></div>
                         </li>
@@ -84,7 +84,7 @@ body{background: #fb333b;}
                             <img :src="item.tgImage" alt="">
                             <div class="username">
                                 <p>{{item.tipName}}</p>
-                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
+                                <span><i>{{item.price}}</i><i>{{item.cheap}}</i></span>
                             </div>
                             <div class="book"  @click="gotoDetail(item.tipId)"></div>
                         </li>
@@ -98,7 +98,7 @@ body{background: #fb333b;}
                             <img :src="item.tgImage" alt="">
                             <div class="username">
                                 <p>{{item.tipName}}</p>
-                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
+                                <span><i>{{item.price}}</i><i>{{item.cheap}}</i></span>
                             </div>
                             <div class="book"  @click="gotoDetail(item.tipId)"></div>
                         </li>
@@ -122,6 +122,9 @@ body{background: #fb333b;}
 
 <script> 
 import $ from 'jquery'
+import {
+  mapState
+} from 'vuex'
     export default{
         data(){
             return {
@@ -136,9 +139,10 @@ import $ from 'jquery'
                 source:''
             }
         },
-        cumputed:{
-
-        },
+        cumputed:mapState({
+            loginStatus: state => state.user.loginStatus,
+            ssoId: state => state.user.ssoId
+        }),
         methods:{
             changeLi(type) {
                 this.layerType = type;
@@ -149,8 +153,10 @@ import $ from 'jquery'
             },
             bookQuan(typeId){
                 var self = this;
-                if(self.source==='itougu'){
-                    if(self.userId !== 'null'){
+                this.$store.dispatch('user/checkLogin').then(() => {
+                    if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
+                        alert('未登录')
+                    } else {
                         $.ajax({
                             url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
                             type: 'get',
@@ -158,7 +164,7 @@ import $ from 'jquery'
                                 'couponId':self.typeId,
                                 'userId':self.userId
                             },
-                            dataType: 'json',
+                            dataType: 'jsonp',
                             success:function(jsondata){
                                 if(jsondata.retCode === 0){
                                     self.show = true;
@@ -181,41 +187,28 @@ import $ from 'jquery'
                                 }
                             }
 
-                        })
-                      }else{
-                        window.jrj.jsCallNative('108', JSON.stringify({ returnUrl: encodeURI(window.location.href) }));
-                      }                    
-                  }else{
-                    window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=2XPNYD74S&tgqdcode=A9C62B7N';
-                  }
+                        })                    
+                    } 
+                })
+              
 
             },
             gotoDetail(tipId){
-                if(this.source==='itougu'){
-                    window.jrj.jsCallNative('102',JSON.stringify({ id:tipId }))
-                }else{
-                    window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=2XPNYD74S&tgqdcode=A9C62B7N';
-                }
-                
+                window.jrj.jsCallNative('102',JSON.stringify({ id:tipId }))             
             }
         },
         mounted(){
             document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
             document.title = '0元预约赢体验';
-            window.passportId = '$!{ssoId}'; 
-            window.accessToken = '$!{spToken}';  
-            window.source = '$!{source}';
-            this.source =  window.source;          
-            this.userId = window.passportId;
             var self = this;
             $.ajax({
                 url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
                 type: 'get',
-                dataType: 'json',
+                dataType: 'jsonp',
                 success:function(jsondata){
-                    if(jsondata.retCode === '1'){
+                    if(jsondata.retCode === 1){
                         self.listData = jsondata.data;
-                        for(let i = 0; i <= jsondata.data.couponList.length; i++){
+                        for(let i = 0; i < jsondata.data.couponList.length; i++){
                             if(jsondata.data.couponList[i].couponType==='1'){
                                 self.typeDay = jsondata.data.couponList[i].couponType.couponId
                             }else if(jsondata.data.couponList[i].couponType==='2'){
