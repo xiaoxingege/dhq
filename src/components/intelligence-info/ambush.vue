@@ -75,6 +75,7 @@ export default {
         a {
             color: $wordsColorBase;
             text-decoration: none;
+            background: transparent;
         }
         .item {
             overflow: hidden;
