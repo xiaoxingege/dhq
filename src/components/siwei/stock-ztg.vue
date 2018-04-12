@@ -17,7 +17,7 @@
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.price">{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
+            <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
             </div>
           </div>
           <ul class="topicStock clearfix">

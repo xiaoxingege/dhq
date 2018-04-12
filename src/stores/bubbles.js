@@ -236,7 +236,11 @@ export default {
     },
     setNewStockList(state, result) {
       if (result.errCode === 0) {
-        state.newStockList = result.data
+        state.newStockList = result.data.sort(function(a, b) {
+          return a.symbol - b.symbol
+        })
+
+        // state.newStockList = result.data
       } else {
         state.newStockList = null
       }
