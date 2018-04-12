@@ -47,13 +47,13 @@ body{background: #fb333b;}
         <div class="item3"></div>
         <div class="item4"></div>
         <div class="item5">
-            <div>立即预约</div>
+            <div@click="bookQuan(typeDay)">立即预约</div>
         </div>
         <div class="item6">
-            <div>立即预约</div>
+            <div  @click="bookQuan(typeMouth)">立即预约</div>
         </div>
         <div class="item7">
-            <div>立即预约</div>
+            <div  @click="bookQuan(typeLong)">立即预约</div>
         </div>
         <div class="item8">  
             <ul class="con">
@@ -66,13 +66,13 @@ body{background: #fb333b;}
                 <li v-if="layerType === '1'">
                     <p>(推荐体验的单股内参均是目前人气投顾的内参单品)</p>
                     <ul class="tabcon1">
-                        <li class="clearfix">
-                            <img src="../assets/images/spring-market/item_01.png" alt="">
+                        <li class="clearfix" v-for="item in listData.signalTips">
+                            <img :src="item.tgImage" alt="">
                             <div class="username">
-                                <p>涨停集结号253期</p>
-                                <span><i>原价￥288</i><i>领券抢购￥188</i></span>
+                                <p>{{item.tipName}}</p>
+                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
                             </div>
-                            <div class="book"></div>
+                            <div class="book" @click="gotoDetail(item.tipId)"></div>
                         </li>
                     </ul>
                 </li>
@@ -80,47 +80,39 @@ body{background: #fb333b;}
                 <li v-if="layerType === '2'">
                     <p>(推荐体验的单股内参均是目前人气投顾的内参单品)</p>
                     <ul class="tabcon1">
-                        <li class="clearfix">
-                            <img src="../assets/images/spring-market/item_01.png" alt="">
+                        <li class="clearfix"  v-for="item in listData.mouthTips">
+                            <img :src="item.tgImage" alt="">
                             <div class="username">
-                                <p>娃哈哈253期</p>
-                                <span><i>原价￥288</i><i>领券抢购￥188</i></span>
+                                <p>{{item.tipName}}</p>
+                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
                             </div>
-                            <div class="book"></div>
-                        </li>
-                        <li class="clearfix">
-                            <img src="../assets/images/spring-market/item_01.png" alt="">
-                            <div class="username">
-                                <p>娃哈哈253期</p>
-                                <span><i>原价￥288</i><i>领券抢购￥188</i></span>
-                            </div>
-                            <div class="book"></div>
+                            <div class="book"  @click="gotoDetail(item.tipId)"></div>
                         </li>
                     </ul>
                 </li>
                 <!-- 长周期内参 -->
                 <li  v-if="layerType === '3'">
-                    <p>(推荐体验的单股内参均是目前人气投顾的内参单品)</p>
+                    <p>(推荐体验的长内参均是目前实力投顾的长周期产品)</p>
                     <ul class="tabcon1">
-                        <li class="clearfix">
-                            <img src="../assets/images/spring-market/item_01.png" alt="">
+                        <li class="clearfix" v-for="item in listData.longTips">
+                            <img :src="item.tgImage" alt="">
                             <div class="username">
-                                <p>周黑塔253期</p>
-                                <span><i>原价￥288</i><i>领券抢购￥188</i></span>
+                                <p>{{item.tipName}}</p>
+                                <span><i>原价￥{{item.price}}</i><i>领券抢购￥{{item.cheap}}</i></span>
                             </div>
-                            <div class="book"></div>
+                            <div class="book"  @click="gotoDetail(item.tipId)"></div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="item9"></div>
-        <div class="mask" style="display:none">
-            <div class="ok">
+        <div class="mask" v-if='show'>
+            <div class="ok"   v-if=" show && tanType === '1'" >
                 <div class="butOk" @click='closeShow()'></div>
                 <div class="butClose" @click='closeShow()'></div>
             </div>
-            <div class="over">
+            <div class="over" v-if=" show && tanType === '2'" >
                 <div class="retOk" @click='closeShow()'></div>
                 <div class="butClose" @click='closeShow()'></div>
             </div>
@@ -129,11 +121,18 @@ body{background: #fb333b;}
 </template>
 
 <script> 
+import $ from 'jquery'
     export default{
         data(){
             return {
                 layerType: '1',
-                show:false
+                show:false,
+                listData:{},
+                userId:'',
+                typeDay:'',
+                typeMouth:'',
+                typeLong:'',
+                tanType:''
             }
         },
         cumputed:{
@@ -145,12 +144,77 @@ body{background: #fb333b;}
             },
             closeShow(type) {
                 this.show = false;
-                this.layerType = type;
+                this.tanType = '';
+            },
+            bookQuan(typeId){
+                var self = this;
+                if(this.userId != "null"){
+                    $.ajax({
+                        url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+                        type: 'get',
+                        data:{
+                            'couponId':self.typeId,
+                            'userId':self.userId
+                        },
+                        dataType: 'json',
+                        success:function(jsondata){
+                            if(jsondata.retCode === 0){
+                                this.show = true;
+                                this.tanType = '1';
+                            }else if(jsondata.retCode === 1){
+                                alert('领取失败')
+                            }else if(jsondata.retCode === -4){
+                                this.show = true;
+                                this.tanType = '2';
+                            }else if(jsondata.retCode === 3){
+                                alert('领取渠道异常')
+                            }else if(jsondata.retCode === -1){
+                                alert('优惠券不存在')
+                            }else if(jsondata.retCode === -2){
+                                alaert('参数异常')
+                            }else if(jsondata.retCode === -3){
+                                alert('非此活动优惠券ID')
+                            }else if(jsondata.retCode === -5){
+                                alert('未登录')
+                            }
+                        }
+
+                    })
+                  }else{
+                     jrj.jsCallNative('108', JSON.stringify({ returnUrl: encodeURI(window.location.href) }));
+                  }
+            },
+            gotoDetail(tipId){
+                jrj.jsCallNative("102",JSON.stringify({id:tipId}))
             }
         },
         mounted(){
             document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
             document.title = '0元预约赢体验';
+            window.passportId = '$!{ssoId}'; 
+            window.accessToken = '$!{spToken}';             
+            this.userId = window.passportId;
+            var self = this;
+            $.ajax({
+                url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+                type: 'get',
+                dataType: 'json',
+                success:function(jsondata){
+                    if(jsondata.retCode=='1'){
+                        self.listData = jsondata.data;
+                        for(let i = 0; i <= jsondata.data.couponList.length; i++){
+                            if(jsondata.data.couponList[i].couponType==='1'){
+                                self.typeDay = jsondata.data.couponList[i].couponType.couponId
+                            }else if(jsondata.data.couponList[i].couponType==='2'){
+                                self.typeMouth = jsondata.data.couponList[i].couponType.couponId
+                            }else if(jsondata.data.couponList[i].couponType==='3'){
+                                self.typeLong = jsondata.data.couponList[i].couponType.couponId
+                            }
+                        }
+                    }
+                }
+
+            })
         }
     }
 </script>

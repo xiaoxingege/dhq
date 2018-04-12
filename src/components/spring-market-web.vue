@@ -16,7 +16,7 @@
   .part4Box>ul{width: 504px;background: #f0f2ff;border-radius: 3px;overflow: hidden;padding-bottom: 40px;margin-top: 50px;}
   .part4Box>ul>li{height: 70px;margin-top: 35px;}
   .part4Box>ul>li>img{width: 70px;height: 70px;border-radius: 50%;overflow: hidden;display: block;float: left;margin-left: 40px;}
-  .part4Box>ul>li>p{font-size: 30px;line-height: 70px;color: #333;margin-left: 28px;float: left;}
+  .part4Box>ul>li>p{font-size: 30px;line-height: 70px;color: #333;margin-left: 28px;float: left;width: 320px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;height: 70px;cursor:pointer}
   .quan{width: 884px;height: 269px;display: block;margin: 63px auto;}
   .rec{width: 519px;height: 109px;background: url('../assets/images/spring-market/bookWeb.png') center 0 no-repeat;background-size: 100% 100%;margin: 0 auto;}
   .part7{width: 100%;height: 211px; background: url('../assets/images/spring-market/bottom_30.jpg') center 0 no-repeat;}
@@ -64,22 +64,16 @@
         <div></div>
         <img src="../assets/images/spring-market/part_09.png" alt="">
         <ul class="fl">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
-          </li>
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.signalTips" v-if='index%2===0'>
+            <img :src="item.tgImage" alt="" >
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
         </ul>
         <ul class="fr">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.signalTips" v-if='index%2===1'>
+            <img :src="item.tgImage" alt="">
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
-          <li class="clearfix"><img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p></li>
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan1.png" alt="">
@@ -91,22 +85,16 @@
         <div></div>
         <img src="../assets/images/spring-market/part_17.png" alt="">
         <ul class="fl">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
-          </li>
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.mouthTips" v-if='index%2===0'>
+            <img :src="item.tgImage" alt="">
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
         </ul>
         <ul class="fr">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.mouthTips" v-if='index%2===1'>
+            <img :src="item.tgImage" alt="">
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
-          <li class="clearfix"><img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p></li>
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan2.png" alt="">
@@ -118,22 +106,16 @@
         <div></div>
         <img src="../assets/images/spring-market/part_25.jpg" alt="">
         <ul class="fl">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
-          </li>
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.longTips" v-if='index%2===0'>
+            <img :src="item.tgImage" alt="">
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
         </ul>
         <ul class="fr">
-          <li class="clearfix">
-            <img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p>
+          <li class="clearfix" v-for="(item,index) in dataList.longTips" v-if='index%2===1'>
+            <img :src="item.tgImage" alt="">
+            <p @click="gotoDetail(item.tipId)">{{item.tipName}}</p>
           </li>
-          <li class="clearfix"><img src="../assets/images/spring-market/part_01.jpg" alt="">
-            <p>涨停玩这</p></li>
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan3.png" alt="">
@@ -158,14 +140,32 @@
 export default {
   data() {
     return {
-
+      dataList:{"couponList":[{"price":"10000","couponName":"单股内参","couponType":"1","cheap":"2000","couponId":"52"},{"price":"10000","couponName":"包月内参","couponType":"2","cheap":"2000","couponId":"52"},{"price":"10000","couponName":"长期内参","couponType":"3","cheap":"2000","couponId":"52"}],"mouthTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参1包月内参1包月内参1包月内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参8","cheap":"2000"}],"signalTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参6单股内参6单股内参6单股内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参8","cheap":"2000"}],"longTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参5长期内参5长期内参5长期内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参8","cheap":"2000"}]}
     }
   },
   methods: {
-
+    gotoDetail(id){
+      window.location.href='http://itougu.jrj.com.cn/tips/'+id+'.jspa'
+    }
   },
   mounted() {
     document.title = '0元预约赢体验';
+    // var self = this;
+    // $.ajax({
+    //     url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+    //     type: 'get',
+    //     dataType: 'json',
+    //     mode: 'cors',
+    //     headers: {
+    //       'Access-Control-Allow-Origin': '*'
+    //     },
+    //     success:function(jsondata){
+    //         if(jsondata.retCode === '1'){
+    //             self.listData = jsondata.data;
+    //         }
+    //     }
+
+    // })
   }
 }
 </script>
