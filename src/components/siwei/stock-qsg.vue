@@ -10,13 +10,13 @@
     <div class="qsgList fr">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10">
+          <div class="mb-10" v-show="false">
             {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.price">{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
+            <div class="fr"><span v-z3-updowncolor="item.price">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
             </div>
           </div>
           <ul class="topicStock clearfix">

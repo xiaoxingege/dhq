@@ -8,24 +8,18 @@
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
     <div class="qsgList fr">
-      <ul ref="ztgListUl">
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10">
-            {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
-          </div>
-          <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
-            </div>
-            <div class="fr"><span v-z3-updowncolor="item.price">{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
-            </div>
-          </div>
-          <ul class="topicStock clearfix">
-            <li v-for="value in item.topics" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
-              <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
-              </div>
-            </li>
-          </ul>
+      <ul ref="newListUl">
+        <li class="clearfix">
+          <span v-for="item in newListTitle">{{item}}</span>
+        </li>
+        <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
+          <span>{{index+1}}</span>
+          <span>{{item.name | isNull}}</span>
+          <span>{{item.symbol | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.price | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.chg | isNull | chng}}</span>
+          <span v-z3-updowncolor="1">{{item.limitNum | isNull}}</span>
+          <span v-z3-updowncolor="1">{{item.chgNum | isNull}}</span>
         </li>
       </ul>
     </div>
@@ -89,14 +83,15 @@ export default {
       timeout: null,
       quoteChange: Data.quoteChange,
       chgColor: Data.chgColor,
-      interval: null
+      interval: null,
+      newListTitle: ['序号', '简称', '代码', '最新价', '涨跌幅', '开板前连涨数', '累计涨幅']
     }
   },
   components: {
     Siweidialog
   },
   computed: mapState({
-    ztgList: state => state.bubbles.ztgBubblesLine
+    newStockList: state => state.bubbles.newStockList
   }),
   methods: {
     initBubbles() {
@@ -600,23 +595,26 @@ export default {
           }]
         })
       })
+    },
+    toStockDetail(innerCode) {
+      window.open('/stock/' + innerCode + '.shtml')
     }
   },
   mounted() {
     const that = this
+
     this.initBubbles()
+
     this.$store.dispatch('bubbles/getNewStockList', {
       type: 0
     }).then(() => {})
+
     this.interval = setInterval(function() {
-      let date = new Date()
-      let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
       that.updateBubbles()
-      that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 4,
-        currentTime: currentTime
-      }).then(() => {
-        // that.$refs.ztgListUl.scrollTop = 0
+
+      that.$store.dispatch('bubbles/getNewStockList', {
+        type: 0
+      }).then(() => { // that.$refs.ztgListUl.scrollTop = 0
       })
     }, Data.refreshTime)
   },
@@ -654,9 +652,24 @@ export default {
     ul {
         height: 100%;
         overflow: auto;
+        li:first-child {
 
+            span {
+                padding-top: 10px;
+                line-height: 17px;
+            }
+
+        }
         li {
-            padding: 10px 5px 10px 10px;
+
+            /*padding: 10px 5px 10px 10px;*/
+            span {
+                float: left;
+                width: 14%;
+                display: block;
+                line-height: 25px;
+                text-align: center;
+            }
         }
         li:hover {
             background: #525A65;
@@ -670,32 +683,6 @@ export default {
                 }
 
             }
-        }
-
-        .topicStock {
-            width: 100%;
-
-            li {
-                width: calc((100% - 12px) / 4);
-                float: left;
-                border: 1px solid #4A525C;
-                margin-right: 3px;
-                text-align: center;
-                box-sizing: border-box;
-                padding-bottom: 2px;
-                padding-left: 5px;
-
-                .name {
-                    line-height: 20px;
-                }
-
-                .price {
-                    line-height: 16px;
-                    font-size: 10px;
-                }
-
-            }
-
         }
     }
 
