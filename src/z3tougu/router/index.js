@@ -63,6 +63,8 @@ import marketBubble from 'components/siwei/market'
 import stockQsg from 'components/siwei/stock-qsg'
 import stockDtg from 'components/siwei/stock-dtg'
 import stockNew from 'components/siwei/stock-new'
+import stockCxg from 'components/siwei/stock-cxg'
+import stockZrzt from 'components/siwei/stock-ystzt'
 import {
   ctx
 } from '../config'
@@ -437,6 +439,16 @@ export default [{
         path: 'new',
         component: stockNew,
         name: 'new'
+      },
+      {
+        path: 'cxg',
+        component: stockCxg,
+        name: 'cxg'
+      },
+      {
+        path: 'zrzt',
+        component: stockZrzt,
+        name: 'zrzt'
       }
     ]
   }

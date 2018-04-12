@@ -370,7 +370,7 @@ export default {
 
     })
     Vue.directive('z3-nav', (el, binding, vnode, oldVnode) => {
-      el.childNodes[0].className = binding.expression
+      // el.childNodes[0].className = binding.expression
       el.childNodes.forEach((item) => {
         item.addEventListener('click', (event) => {
           el.childNodes.forEach((v) => {

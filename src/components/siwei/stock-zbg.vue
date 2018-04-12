@@ -553,7 +553,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -650,29 +650,6 @@ export default {
 
         this.chart && this.chart.setOption({
           xAxis: {
-            type: 'value',
-            // name: '日期',
-            nameGap: 16,
-            nameTextStyle: {
-              color: '#fff',
-              fontSize: 14
-            },
-            position: 'top',
-            // max: 31,
-            splitLine: {
-              lineStyle: {
-                type: 'solid',
-                color: '#343741'
-              }
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#343741'
-              }
-            },
-            axisTick: {
-              show: false
-            },
             max: Math.max.apply(null, xData),
             axisLabel: {
               formatter: function(v) {
@@ -692,28 +669,6 @@ export default {
 
           },
           yAxis: {
-            type: 'value',
-            nameGap: 20,
-            nameTextStyle: {
-              color: '#fff',
-              fontSize: 12,
-              backgroundColor: 'red',
-              padding: [100, 50, 10, 10]
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#343741'
-              }
-            },
-            axisTick: {
-              show: false
-            },
-            splitLine: {
-              lineStyle: {
-                type: 'solid',
-                color: '#343741'
-              }
-            },
             max: Math.max.apply(null, yData),
             axisLabel: {
               textStyle: {
@@ -835,6 +790,7 @@ export default {
       this.$store.dispatch('bubbles/getZbgLine', {
         type: '0'
       }).then(() => {
+        const that = this
 
         this.lineChart && this.lineChart.setOption({
           series: [{
@@ -842,7 +798,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -854,7 +810,19 @@ export default {
             smooth: true,
             type: 'line',
             data: this.$store.state.bubbles.zbgLine
-          }]
+          }],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr = '<p>炸板率 : ' + (that.$store.state.bubbles.zbgLine[params[0].dataIndex] * 100).toFixed(0) + '%</p>'
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
         })
       })
 

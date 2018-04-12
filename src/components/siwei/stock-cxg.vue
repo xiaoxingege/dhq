@@ -1,13 +1,14 @@
 <template>
-<div class="qsgBox">
+<div class="ztgBox">
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="qsgMian clearfix">
-    <div class="qsgChart fl">
-      <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
+  <div class="ztgMain clearfix">
+    <div class="ztgChart">
+      <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
+      <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
     </div>
-    <div class="qsgList fr">
+    <div class="ztgList">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
           <div class="mb-10">
@@ -20,7 +21,7 @@
             </div>
           </div>
           <ul class="topicStock clearfix">
-            <li v-for="value in item.topics" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
+            <li v-for="value in item.topics" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
               <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
               </div>
@@ -30,14 +31,7 @@
       </ul>
     </div>
   </div>
-  <div class="legend clearfix">
-    <div class="fr">
-      <ul class="clearfix">
-        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%
-        </li>
-      </ul>
-    </div>
-  </div>
+  <div class="legend"></div>
 </div>
 </template>
 <script>
@@ -48,6 +42,7 @@ import * as Data from '../../z3tougu/constant/siwei.js'
 import {
   mapState
 } from 'vuex'
+
 export default {
   data() {
     return {
@@ -56,7 +51,7 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 4
+        type: 6
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -78,8 +73,8 @@ export default {
           }
         }
       },
-      bubbleHeight: window.innerHeight - 29 - 54,
-      lineChartHeight: (window.innerHeight - 29) * 0.33 - 22,
+      bubbleHeight: (window.innerHeight - 29) * 0.66,
+      lineChartHeight: (window.innerHeight - 29) * 0.33,
       isShowDialog: false,
       offsetX: '',
       offsetY: '',
@@ -87,8 +82,6 @@ export default {
       isOverBubbles: false,
       isOverDialog: false,
       timeout: null,
-      quoteChange: Data.quoteChange,
-      chgColor: Data.chgColor,
       interval: null
     }
   },
@@ -99,8 +92,36 @@ export default {
     ztgList: state => state.bubbles.ztgBubblesLine
   }),
   methods: {
+    setDialog(data) {
+      if (data) {
+        this.isOverDialog = data
+        this.zIndex = 999999
+      } else {
+        // alert('i dont konw')
+        this.isOverBubbles = data
+        this.isOverDialog = data
+        this.zIndex = ''
+      }
+
+    },
+    autoTimeline(starts, ends) {
+      var timeline = []
+      var startHour = starts.split(':')[0] * 1
+      var startMin = starts.split(':')[1] * 1
+      var endHour = ends.split(':')[0] * 1
+      var endMin = ends.split(':')[1] * 1
+      for (var i = startHour; i <= endHour; i++) {
+        var start = (i === startHour) ? startMin : '0'
+        var end = (i === endHour) ? endMin : '59'
+        for (var j = start; j <= end; j++) {
+          j = (j < 10) ? '0' + j : j
+          timeline.push(i + ':' + j)
+        }
+      }
+      return timeline
+    },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.qsgBubbles)
+      this.chart = echarts.init(this.$refs.ztgBubbles)
       this.chart.showLoading(config.loadingConfig);
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
@@ -167,7 +188,7 @@ export default {
             top: 50,
             left: 65,
             right: 20,
-            bottom: 50
+            bottom: 30
           },
           tooltip: {
             triggerOn: 'none',
@@ -241,7 +262,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData).toFixed(2),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -353,24 +374,21 @@ export default {
             },
             hoverAnimation: true,
             legendHoverLink: true
-
           }]
         })
-
-        that.chart.on('dblclick', function(params) {
+        this.chart.on('dblclick', function(params) {
           window.open('/stock/' + that.$store.state.bubbles.ztgBubblesData.innerCode[params.dataIndex] + '.shtml')
         })
-
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.qsgBubbles.clientWidth) {
+          if ((params.event.offsetX + 500) >= that.$refs.ztgBubbles.clientWidth) {
             that.offsetX = params.event.offsetX - 490
           } else {
             that.offsetX = params.event.offsetX + 20
           }
 
-          if ((params.event.offsetY + 247) > that.$refs.qsgBubbles.clientHeight) {
-            that.offsetY = that.$refs.qsgBubbles.clientHeight - 247
+          if ((params.event.offsetY + 247) > that.$refs.ztgBubbles.clientHeight) {
+            that.offsetY = that.$refs.ztgBubbles.clientHeight - 247
           } else {
             that.offsetY = params.event.offsetY
           }
@@ -386,7 +404,6 @@ export default {
           that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
         })
-
         that.chart.on('mouseout', function(params) {
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
@@ -406,7 +423,7 @@ export default {
         })
 
         window.addEventListener('resize', () => {
-          let height = document.getElementsByClassName('qsgChart').length !== 0 ? document.getElementsByClassName('qsgChart')[0].offsetHeight : ''
+          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.66 : ''
           that.chart && that.chart.resize({
             height: height
           })
@@ -417,6 +434,213 @@ export default {
 
       })
 
+    },
+    initZtgCompare() {
+      this.lineChart = echarts.init(this.$refs.ztgLine)
+      this.lineChart.showLoading(config.loadingConfig);
+      this.$store.dispatch('bubbles/getZdCompare').then(() => {
+        const that = this
+        // 生成横坐标时间轴
+        let beforenoon = this.autoTimeline('9:30', '11:30')
+        let afternoon = this.autoTimeline('13:00', '15:00')
+        beforenoon.splice(beforenoon.length - 1, 1)
+        afternoon[0] = '11:30/13:00'
+        let timeline = beforenoon.concat(afternoon)
+        let zdCompareData = this.$store.state.bubbles.ztgCompare
+
+        this.lineChart.setOption({
+          title: {
+            text: '涨跌停对比',
+            textStyle: {
+              fontSize: 12,
+              fontWeight: 'normal',
+              color: '#c9d0d7'
+            },
+            left: 60,
+            top: 15
+          },
+          grid: {
+            left: 65,
+            top: 40,
+            bottom: 30,
+            right: 20
+          },
+          calculable: true,
+          xAxis: [{
+            type: 'category',
+            axisLine: {
+              lineStyle: {
+                color: '#343741',
+                type: 'solid'
+              }
+            },
+            boundaryGap: false,
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              interval: 29,
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            data: timeline
+          }],
+          yAxis: [{
+            type: 'value',
+            // scale: true,
+            // min: datas === null ? '' : Number(datas.line) - Dvalue,
+            // max: datas === null ? '' : Number(datas.line) + Dvalue,
+            axisLabel: {
+              formatter: function(val) {
+                return val.toFixed(0)
+              },
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#343741',
+                type: 'solid'
+              }
+            },
+            axisTick: {
+              show: false
+            }
+            // splitNumber: 4,
+            // interval: 2 * Dvalue / 4
+          }],
+          series: [{
+              name: '涨停',
+              showSymbol: false,
+              itemStyle: {
+                normal: {
+                  color: '#ca4941'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              data: zdCompareData.up
+            },
+            {
+              name: '非一字涨停',
+              itemStyle: {
+                normal: {
+                  color: '#fff'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.openUp
+
+            },
+            {
+              name: '跌停',
+              itemStyle: {
+                normal: {
+                  color: '#56a870'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.down
+
+            },
+            {
+              name: '非一字跌停',
+              itemStyle: {
+                normal: {
+                  color: '#fff'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.openDown
+
+            }
+          ],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
+                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
+                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
+        })
+
+        window.addEventListener('resize', () => {
+          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
+          that.lineChart && that.lineChart.resize({
+            height: height
+          })
+          that.lineChartHeight = height
+        }, false)
+        this.lineChart.hideLoading()
+      })
+
+    },
+    toStockDetail(innerCode) {
+      window.open('/stock/' + innerCode + '.shtml')
+    },
+    toThemeDetail(topicCode, target) {
+      target.stopPropagation();
+      this.$router.push({
+        name: 'topicDetail',
+        params: {
+          topicCode
+        }
+      })
     },
     updateBubbles() {
       this.$store.dispatch('bubbles/getStockBubbles', {
@@ -464,8 +688,30 @@ export default {
         })
 
         this.chart && this.chart.setOption({
-          animation: false,
           xAxis: {
+            type: 'value',
+            // name: '日期',
+            nameGap: 16,
+            nameTextStyle: {
+              color: '#fff',
+              fontSize: 14
+            },
+            position: 'top',
+            // max: 31,
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#343741'
+              }
+            },
+            axisTick: {
+              show: false
+            },
             max: Math.max.apply(null, xData),
             axisLabel: {
               formatter: function(v) {
@@ -485,7 +731,29 @@ export default {
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData),
+            type: 'value',
+            nameGap: 20,
+            nameTextStyle: {
+              color: '#fff',
+              fontSize: 12,
+              backgroundColor: 'red',
+              padding: [100, 50, 10, 10]
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#343741'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            max: Math.max.apply(null, yData).toFixed(2),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -596,8 +864,107 @@ export default {
             },
             hoverAnimation: true,
             legendHoverLink: true
-
           }]
+        })
+      })
+    },
+    updateCompare() {
+      this.$store.dispatch('bubbles/getZdCompare').then(() => {
+        let zdCompareData = this.$store.state.bubbles.ztgCompare
+
+        this.lineChart && this.lineChart.setOption({
+          series: [{
+              name: '涨停',
+              showSymbol: false,
+              itemStyle: {
+                normal: {
+                  color: '#ca4941'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              data: zdCompareData.up
+            },
+            {
+              name: '非一字涨停',
+              itemStyle: {
+                normal: {
+                  color: '#fff'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.openUp
+
+            },
+            {
+              name: '跌停',
+              itemStyle: {
+                normal: {
+                  color: '#56a870'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.down
+
+            },
+            {
+              name: '非一字跌停',
+              itemStyle: {
+                normal: {
+                  color: '#fff'
+                }
+              },
+              lineStyle: {
+                normal: {
+                  width: 1
+                }
+              },
+              animation: false,
+              smooth: true,
+              type: 'line',
+              showSymbol: false,
+              data: zdCompareData.openDown
+
+            }
+          ],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
+                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
+                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
         })
       })
     }
@@ -605,15 +972,19 @@ export default {
   mounted() {
     const that = this
     this.initBubbles()
-    this.$store.dispatch('bubbles/getNewStockList', {
-      type: 0
-    }).then(() => {})
+    this.initZtgCompare()
+
+    this.$store.dispatch('bubbles/getBubblesLine', {
+      type: 1,
+      currentTime: ''
+    }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
     this.interval = setInterval(function() {
       let date = new Date()
       let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
       that.updateBubbles()
+      that.updateCompare()
       that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 4,
+        type: 1,
         currentTime: currentTime
       }).then(() => {
         // that.$refs.ztgListUl.scrollTop = 0
@@ -624,32 +995,37 @@ export default {
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
+
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
 @import '../../assets/css/base.css';
 
-.qsgBox {
-    height: calc(100% - 44px);
+.ztgBox {
+    width: 100%;
+    height: 100%;
 
-    .qsgMian {
+    .ztgMain {
+        width: 100%;
         height: 100%;
 
-        .qsgChart {
-            height: 100%;
+        .ztgChart {
+            float: left;
             width: calc(75% - 6px);
+            height: 100%;
             background: #232630;
         }
 
-        .qsgList {
-            height: 100%;
+        .ztgList {
+            float: right;
             width: 25%;
+            height: 100%;
             background: #232630;
         }
 
     }
 }
-.qsgList {
+.ztgList {
 
     ul {
         height: 100%;
@@ -704,22 +1080,5 @@ export default {
     width: 470px;
     height: 247px;
     position: absolute;
-}
-
-.legend {
-    right: 10px;
-    position: absolute;
-    bottom: 0;
-    color: #fff;
-    margin: 12px 0;
-}
-
-.legend ul li {
-    float: left;
-    width: 60px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-size: 12px;
 }
 </style>

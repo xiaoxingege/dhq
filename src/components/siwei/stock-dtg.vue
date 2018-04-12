@@ -188,7 +188,7 @@ export default {
             top: 50,
             left: 65,
             right: 20,
-            bottom: 20
+            bottom: 30
           },
           tooltip: {
             triggerOn: 'none',
@@ -948,7 +948,23 @@ export default {
               data: zdCompareData.openDown
 
             }
-          ]
+          ],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
+                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
+                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
         })
       })
     }

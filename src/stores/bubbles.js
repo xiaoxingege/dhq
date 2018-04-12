@@ -397,10 +397,9 @@ export default {
     getNewStockList({
       commit
     }, {
-      type,
-      size
+      type
     }) {
-      return fetch(`${domain}/openapi/ipo/${type}/${size}`, {
+      return fetch(`${domain}/openapi/dimension/stocks/${type}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
