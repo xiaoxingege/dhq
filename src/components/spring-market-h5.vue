@@ -132,7 +132,8 @@ import $ from 'jquery'
                 typeDay:'',
                 typeMouth:'',
                 typeLong:'',
-                tanType:''
+                tanType:'',
+                source:''
             }
         },
         cumputed:{
@@ -148,51 +149,63 @@ import $ from 'jquery'
             },
             bookQuan(typeId){
                 var self = this;
-                if(this.userId != "null"){
-                    $.ajax({
-                        url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
-                        type: 'get',
-                        data:{
-                            'couponId':self.typeId,
-                            'userId':self.userId
-                        },
-                        dataType: 'json',
-                        success:function(jsondata){
-                            if(jsondata.retCode === 0){
-                                this.show = true;
-                                this.tanType = '1';
-                            }else if(jsondata.retCode === 1){
-                                alert('领取失败')
-                            }else if(jsondata.retCode === -4){
-                                this.show = true;
-                                this.tanType = '2';
-                            }else if(jsondata.retCode === 3){
-                                alert('领取渠道异常')
-                            }else if(jsondata.retCode === -1){
-                                alert('优惠券不存在')
-                            }else if(jsondata.retCode === -2){
-                                alaert('参数异常')
-                            }else if(jsondata.retCode === -3){
-                                alert('非此活动优惠券ID')
-                            }else if(jsondata.retCode === -5){
-                                alert('未登录')
+                if(self.source==='itougu'){
+                    if(self.userId !== 'null'){
+                        $.ajax({
+                            url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+                            type: 'get',
+                            data:{
+                                'couponId':self.typeId,
+                                'userId':self.userId
+                            },
+                            dataType: 'json',
+                            success:function(jsondata){
+                                if(jsondata.retCode === 0){
+                                    self.show = true;
+                                    self.tanType = '1';
+                                }else if(jsondata.retCode === 1){
+                                    alert('领取失败')
+                                }else if(jsondata.retCode === -4){
+                                    self.show = true;
+                                    self.tanType = '2';
+                                }else if(jsondata.retCode === 3){
+                                    alert('领取渠道异常')
+                                }else if(jsondata.retCode === -1){
+                                    alert('优惠券不存在')
+                                }else if(jsondata.retCode === -2){
+                                    alert('参数异常')
+                                }else if(jsondata.retCode === -3){
+                                    alert('非此活动优惠券ID')
+                                }else if(jsondata.retCode === -5){
+                                    alert('未登录')
+                                }
                             }
-                        }
 
-                    })
+                        })
+                      }else{
+                        window.jrj.jsCallNative('108', JSON.stringify({ returnUrl: encodeURI(window.location.href) }));
+                      }                    
                   }else{
-                     jrj.jsCallNative('108', JSON.stringify({ returnUrl: encodeURI(window.location.href) }));
+                    window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=2XPNYD74S&tgqdcode=A9C62B7N';
                   }
+
             },
             gotoDetail(tipId){
-                jrj.jsCallNative("102",JSON.stringify({id:tipId}))
+                if(this.source==='itougu'){
+                    window.jrj.jsCallNative('102',JSON.stringify({ id:tipId }))
+                }else{
+                    window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=2XPNYD74S&tgqdcode=A9C62B7N';
+                }
+                
             }
         },
         mounted(){
             document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
             document.title = '0元预约赢体验';
             window.passportId = '$!{ssoId}'; 
-            window.accessToken = '$!{spToken}';             
+            window.accessToken = '$!{spToken}';  
+            window.source = '$!{source}';
+            this.source =  window.source;          
             this.userId = window.passportId;
             var self = this;
             $.ajax({
@@ -200,7 +213,7 @@ import $ from 'jquery'
                 type: 'get',
                 dataType: 'json',
                 success:function(jsondata){
-                    if(jsondata.retCode=='1'){
+                    if(jsondata.retCode === '1'){
                         self.listData = jsondata.data;
                         for(let i = 0; i <= jsondata.data.couponList.length; i++){
                             if(jsondata.data.couponList[i].couponType==='1'){
