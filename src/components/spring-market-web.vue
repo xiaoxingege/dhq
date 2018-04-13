@@ -30,6 +30,8 @@
   /*弹窗*/
 .mask {width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);position: fixed;top: 0;left: 0;z-index: 5;overflow: hidden;}
 .ok{overflow: hidden;width: 294px;height: 488px;background: url('../assets/images/spring-market/ok.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -147px;}
+.ok2{background: url('../assets/images/spring-market/ok2.png') center 0 no-repeat;background-size: 100% 100%;}
+.ok3{background: url('../assets/images/spring-market/ok3.png') center 0 no-repeat;background-size: 100% 100%;}
 .over{overflow: hidden;width: 325px;height: 410px;background: url('../assets/images/spring-market/over.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -162px;}
 .butOk{width: 258px;height: 44px;margin: 0 auto;margin-top: 360px;}
 .retOk{width: 258px;height: 44px;margin: 0 auto;margin-top: 265px;}
@@ -77,7 +79,7 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan1.png" alt="">
-      <div class="rec pulse animated infinite"  @click="bookQuan(typeDay)"></div>
+      <div class="rec pulse animated infinite"  @click="bookQuan(typeDay,'1')"></div>
     </div>
     <!-- 包月内参 -->
     <div class="part5">
@@ -98,7 +100,7 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan2.png" alt="">
-      <div class="rec pulse animated infinite" @click="bookQuan(typeMouth)"></div>
+      <div class="rec pulse animated infinite" @click="bookQuan(typeMouth,'2')"></div>
     </div>
     <!-- 长周期内参 -->
     <div class="part6">
@@ -119,12 +121,20 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan3.png" alt="">
-      <div class="rec pulse animated infinite" @click="bookQuan(typeLong)"></div>
+      <div class="rec pulse animated infinite" @click="bookQuan(typeLong,'3')"></div>
     </div>
     <div class="part7"></div>
   <!-- 弹窗 -->
     <div class="mask" v-if='show' >
         <div class="ok"   v-if=" show && tanType === '1'" >
+            <div class="butOk" @click='closeShow()'></div>
+            <div class="butClose" @click='closeShow()'></div>
+        </div>
+        <div class="ok ok2"   v-if=" show && tanType === '3'" >
+            <div class="butOk" @click='closeShow()'></div>
+            <div class="butClose" @click='closeShow()'></div>
+        </div>
+        <div class="ok ok3"   v-if=" show && tanType === '4'" >
             <div class="butOk" @click='closeShow()'></div>
             <div class="butClose" @click='closeShow()'></div>
         </div>
@@ -163,7 +173,7 @@ export default {
       this.show = false;
       this.tanType = '';
     },
-    bookQuan(typeId){
+    bookQuan(typeId,typeNumber){
         var self = this;
         if (JSON.stringify(window.basicUserInfo) !== '{}') {
             $.ajax({
@@ -176,8 +186,18 @@ export default {
                 dataType: 'jsonp',
                 success:function(jsondata){
                     if(jsondata.retCode === 0){
-                        self.show = true;
-                        self.tanType = '1';
+
+                        if(typeNumber==='1'){
+                          self.show = true;
+                          self.tanType = '1';                            
+                        }else if(typeNumber==='2'){
+                          self.show = true;
+                          self.tanType = '3'; 
+                        }else if(typeNumber==='3'){
+                          self.show = true;
+                          self.tanType = '4'; 
+                        }                      
+
                     }else if(jsondata.retCode === 1){
                         alert('领取失败')
                     }else if(jsondata.retCode === -4){
@@ -216,7 +236,7 @@ export default {
                 var data = jsondata.data.couponList;
                 for(let i = 0; i < data.length; i++){
                     if(data[i].couponType==='1'){
-                        self.typeDay = data[i].couponId
+                        self.typeDay = data[i].couponId;
                     }else if(data[i].couponType==='2'){
                         self.typeMouth = data[i].couponId
                     }else if(data[i].couponType==='3'){

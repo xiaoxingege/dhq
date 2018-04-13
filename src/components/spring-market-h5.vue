@@ -35,6 +35,8 @@ body{background: #fb333b;}
 .mask {width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);position: fixed;top: 0;left: 0;z-index: 5;overflow: hidden;}
 .ok{overflow: hidden;width: 5.88rem;height: 9.77rem;background: url('../assets/images/spring-market/ok.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -2.94rem;}
 .over{overflow: hidden;width: 6.5rem;height: 8.2rem;background: url('../assets/images/spring-market/over.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -3.25rem;}
+.ok2{background: url('../assets/images/spring-market/ok2.png') center 0 no-repeat;background-size: 100% 100%;}
+.ok3{background: url('../assets/images/spring-market/ok3.png') center 0 no-repeat;background-size: 100% 100%;}
 .butOk{width: 5.17rem;height: 0.88rem;margin: 0 auto;margin-top: 7.2rem;}
 .retOk{width: 5.17rem;height: 0.88rem;margin: 0 auto;margin-top: 5.3rem;}
 .butClose{width: 0.8rem;height: 0.8rem;margin: 0 auto;margin-top: 1rem;}
@@ -47,13 +49,13 @@ body{background: #fb333b;}
         <div class="item3"></div>
         <div class="item4"></div>
         <div class="item5">
-            <div @click="bookQuan(typeDay)">立即预约</div>
+            <div @click="bookQuan(typeDay,'1')">立即预约</div>
         </div>
         <div class="item6">
-            <div  @click="bookQuan(typeMouth)">立即预约</div>
+            <div  @click="bookQuan(typeMouth,'2')">立即预约</div>
         </div>
         <div class="item7">
-            <div  @click="bookQuan(typeLong)">立即预约</div>
+            <div  @click="bookQuan(typeLong,'3')">立即预约</div>
         </div>
         <div class="item8">  
             <ul class="con">
@@ -112,6 +114,14 @@ body{background: #fb333b;}
                 <div class="butOk" @click='closeShow()'></div>
                 <div class="butClose" @click='closeShow()'></div>
             </div>
+            <div class="ok ok2"   v-if=" show && tanType === '3'" >
+                <div class="butOk" @click='closeShow()'></div>
+                <div class="butClose" @click='closeShow()'></div>
+            </div>
+            <div class="ok ok3"   v-if=" show && tanType === '4'" >
+                <div class="butOk" @click='closeShow()'></div>
+                <div class="butClose" @click='closeShow()'></div>
+            </div>
             <div class="over" v-if=" show && tanType === '2'" >
                 <div class="retOk" @click='closeShow()'></div>
                 <div class="butClose" @click='closeShow()'></div>
@@ -151,7 +161,7 @@ import getCookie from 'utils/getCookie'
                 this.show = false;
                 this.tanType = '';
             },
-            bookQuan(typeId){
+            bookQuan(typeId,typeNumber){
                 var self = this;
                 self.$store.dispatch('user/checkLogin').then(() => {
                     if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
@@ -179,8 +189,16 @@ import getCookie from 'utils/getCookie'
                                 dataType: 'jsonp',
                                 success:function(jsondata){
                                     if(jsondata.retCode === 0){
-                                        self.show = true;
-                                        self.tanType = '1';
+                                        if(typeNumber==='1'){
+                                          self.show = true;
+                                          self.tanType = '1';                            
+                                        }else if(typeNumber==='2'){
+                                          self.show = true;
+                                          self.tanType = '3'; 
+                                        }else if(typeNumber==='3'){
+                                          self.show = true;
+                                          self.tanType = '4'; 
+                                        }   
                                     }else if(jsondata.retCode === 1){
                                         alert('领取失败')
                                     }else if(jsondata.retCode === -4){
