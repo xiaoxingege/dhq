@@ -165,7 +165,6 @@ export default {
     },
     bookQuan(typeId){
         var self = this;
-        console.log(JSON.stringify(window.basicUserInfo) === '{}')
         if (JSON.stringify(window.basicUserInfo) !== '{}') {
             $.ajax({
                 url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
@@ -206,7 +205,6 @@ export default {
   mounted() {
     document.title = '0元预约赢体验';
     this.$store.dispatch('user/checkLogin')
-    console.log(this.loginStatus)
     var self = this;
     $.ajax({
         url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
