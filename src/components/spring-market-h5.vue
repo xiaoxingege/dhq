@@ -33,7 +33,7 @@ body{background: #fb333b;}
 .bigSize{font-size: 0.34rem !important;font-weight: bolder;color: #fff !important;}
 .item9{width: 100%;height: 2.02rem;background: url('../assets/images/spring-market/item_09.jpg') no-repeat center 0;background-size: 100% 100%;overflow: hidden;}
 .mask {width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);position: fixed;top: 0;left: 0;z-index: 5;overflow: hidden;}
-.ok{overflow: hidden;width: 5.88rem;height: 9.77rem;background: url('../assets/images/spring-market/ok.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -2.94rem;display: none}
+.ok{overflow: hidden;width: 5.88rem;height: 9.77rem;background: url('../assets/images/spring-market/ok.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -2.94rem;}
 .over{overflow: hidden;width: 6.5rem;height: 8.2rem;background: url('../assets/images/spring-market/over.png') center 0 no-repeat;background-size: 100% 100%;z-index: 7;position: fixed;top: 10%;left: 50%;margin-left: -3.25rem;}
 .butOk{width: 5.17rem;height: 0.88rem;margin: 0 auto;margin-top: 7.2rem;}
 .retOk{width: 5.17rem;height: 0.88rem;margin: 0 auto;margin-top: 5.3rem;}
@@ -78,7 +78,7 @@ body{background: #fb333b;}
                 </li>
                 <!-- 包月内参 -->
                 <li v-if="layerType === '2'">
-                    <p>(推荐体验的单股内参均是目前人气投顾的内参单品)</p>
+                    <p>(推荐体验的包月内参均是目前人气投顾的内参单品)</p>
                     <ul class="tabcon1">
                         <li class="clearfix"  v-for="item in listData.mouthTips">
                             <img :src="item.tgImage" alt="">
@@ -203,8 +203,6 @@ import getCookie from 'utils/getCookie'
                         }
                     } 
                 })
-              
-
             },
             gotoDetail(tipId){
                 window.jrj.jsCallNative('102',JSON.stringify({ id:tipId }))             

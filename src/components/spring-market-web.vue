@@ -144,6 +144,8 @@ export default {
   data() {
     return {
       dataList:{},
+      show:false,
+      tanType:'',
       typeDay:'',
       typeMouth:'',
       typeLong:''
@@ -163,50 +165,48 @@ export default {
     },
     bookQuan(typeId){
         var self = this;
-        self.$store.dispatch('user/checkLogin').then(() => {
-            if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
-                location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
-                
-            } else {
-                $.ajax({
-                    url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
-                    type: 'get',
-                    data:{
-                        couponId:typeId,
-                        userId:self.ssoId
-                    },
-                    dataType: 'jsonp',
-                    success:function(jsondata){
-                        if(jsondata.retCode === 0){
-                            self.show = true;
-                            self.tanType = '1';
-                        }else if(jsondata.retCode === 1){
-                            alert('领取失败')
-                        }else if(jsondata.retCode === -4){
-                            self.show = true;
-                            self.tanType = '2';
-                        }else if(jsondata.retCode === 3){
-                            alert('领取渠道异常')
-                        }else if(jsondata.retCode === -1){
-                            alert('优惠券不存在')
-                        }else if(jsondata.retCode === -2){
-                            alert('参数异常')
-                        }else if(jsondata.retCode === -3){
-                            alert('非此活动优惠券ID')
-                        }else if(jsondata.retCode === -5){
-                            alert('未登录')
-                        }
+        console.log(JSON.stringify(window.basicUserInfo) === '{}')
+        if (JSON.stringify(window.basicUserInfo) !== '{}') {
+            $.ajax({
+                url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
+                type: 'get',
+                data:{
+                    couponId:typeId,
+                    userId:window.basicUserInfo.userId
+                },
+                dataType: 'jsonp',
+                success:function(jsondata){
+                    if(jsondata.retCode === 0){
+                        self.show = true;
+                        self.tanType = '1';
+                    }else if(jsondata.retCode === 1){
+                        alert('领取失败')
+                    }else if(jsondata.retCode === -4){
+                        self.show = true;
+                        self.tanType = '2';
+                    }else if(jsondata.retCode === 3){
+                        alert('领取渠道异常')
+                    }else if(jsondata.retCode === -1){
+                        alert('优惠券不存在')
+                    }else if(jsondata.retCode === -2){
+                        alert('参数异常')
+                    }else if(jsondata.retCode === -3){
+                        alert('非此活动优惠券ID')
+                    }else if(jsondata.retCode === -5){
+                        alert('未登录')
                     }
+                }
 
-                })                    
-            } 
-        })
-      
-
+            }) 
+        } else {
+            window.location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + location.href
+        }
     }
   },
   mounted() {
     document.title = '0元预约赢体验';
+    this.$store.dispatch('user/checkLogin')
+    console.log(this.loginStatus)
     var self = this;
     $.ajax({
         url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
