@@ -381,20 +381,23 @@ export default [{
       component: newsFlash
     }]
   },
-  // {
-  //   path: ctx + '/newsFlash',
-  //   name: 'newsFlash',
-  //   component: newsFlash
-  // },
   {
-    path: ctx + '/newsOpportunities',
-    name: 'newsOpportunities',
-    component: newsOpportunities
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'newsOpportunities',
+      name: 'newsOpportunities',
+      component: newsOpportunities
+    }]
   },
   {
-    path: ctx + '/listedCompany',
-    name: 'listedCompany',
-    component: listedCompany
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'listedCompany',
+      name: 'listedCompany',
+      component: listedCompany
+    }]
   },
   {
     path: ctx + '/dhq',
