@@ -166,6 +166,7 @@ export default {
         self.$store.dispatch('user/checkLogin').then(() => {
             if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
                 location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+                
             } else {
                 $.ajax({
                     url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
