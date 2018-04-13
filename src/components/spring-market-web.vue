@@ -77,7 +77,7 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan1.png" alt="">
-      <div class="rec pulse animated infinite"></div>
+      <div class="rec pulse animated infinite"  @click="bookQuan(typeDay)"></div>
     </div>
     <!-- 包月内参 -->
     <div class="part5">
@@ -98,7 +98,7 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan2.png" alt="">
-      <div class="rec pulse animated infinite"></div>
+      <div class="rec pulse animated infinite" @click="bookQuan(typeMouth)"></div>
     </div>
     <!-- 长周期内参 -->
     <div class="part6">
@@ -119,53 +119,115 @@
         </ul>
       </div>
       <img class="quan" src="../assets/images/spring-market/quan3.png" alt="">
-      <div class="rec pulse animated infinite"></div>
+      <div class="rec pulse animated infinite" @click="bookQuan(typeLong)"></div>
     </div>
     <div class="part7"></div>
   <!-- 弹窗 -->
-    <div class="mask"  style="display:none">
-        <div class="ok">
-            <div class="butOk"></div>
-            <div class="butClose"></div>
+    <div class="mask" v-if='show' >
+        <div class="ok"   v-if=" show && tanType === '1'" >
+            <div class="butOk" @click='closeShow()'></div>
+            <div class="butClose" @click='closeShow()'></div>
         </div>
-        <div class="over">
-            <div class="retOk"></div>
-            <div class="butClose"></div>
+        <div class="over"  v-if=" show && tanType === '2'" >
+            <div class="retOk" @click='closeShow()'></div>
+            <div class="butClose" @click='closeShow()'></div>
         </div>
     </div>
   </div>
 </template>
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
+import {
+  mapState
+} from 'vuex'
 export default {
   data() {
     return {
-      dataList:{"couponList":[{"price":"10000","couponName":"单股内参","couponType":"1","cheap":"2000","couponId":"52"},{"price":"10000","couponName":"包月内参","couponType":"2","cheap":"2000","couponId":"52"},{"price":"10000","couponName":"长期内参","couponType":"3","cheap":"2000","couponId":"52"}],"mouthTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参1包月内参1包月内参1包月内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"包月内参8","cheap":"2000"}],"signalTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参6单股内参6单股内参6单股内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"单股内参8","cheap":"2000"}],"longTips":[{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参1","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参2","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参3","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参4","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参5长期内参5长期内参5长期内参5","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参6","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参7","cheap":"2000"},{"tipId":"435","price":"10000","tgImage":"http://itg1.jrjimg.cn/201710/30/itougu/itougu_15093600843661.jpg","roomId":"15","tipName":"长期内参8","cheap":"2000"}]}
+      dataList:{},
+      typeDay:'',
+      typeMouth:'',
+      typeLong:''
     }
   },
+  cumputed:mapState({
+      loginStatus: state => state.user.loginStatus,
+      ssoId: state => state.user.ssoId
+  }),
   methods: {
     gotoDetail(id){
       window.location.href='http://itougu.jrj.com.cn/tips/'+id+'.jspa'
+    },
+    closeShow(type) {
+      this.show = false;
+      this.tanType = '';
+    },
+    bookQuan(typeId){
+        var self = this;
+        self.$store.dispatch('user/checkLogin').then(() => {
+            if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
+                location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+            } else {
+                $.ajax({
+                    url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
+                    type: 'get',
+                    data:{
+                        couponId:typeId,
+                        userId:self.ssoId
+                    },
+                    dataType: 'jsonp',
+                    success:function(jsondata){
+                        if(jsondata.retCode === 0){
+                            self.show = true;
+                            self.tanType = '1';
+                        }else if(jsondata.retCode === 1){
+                            alert('领取失败')
+                        }else if(jsondata.retCode === -4){
+                            self.show = true;
+                            self.tanType = '2';
+                        }else if(jsondata.retCode === 3){
+                            alert('领取渠道异常')
+                        }else if(jsondata.retCode === -1){
+                            alert('优惠券不存在')
+                        }else if(jsondata.retCode === -2){
+                            alert('参数异常')
+                        }else if(jsondata.retCode === -3){
+                            alert('非此活动优惠券ID')
+                        }else if(jsondata.retCode === -5){
+                            alert('未登录')
+                        }
+                    }
+
+                })                    
+            } 
+        })
+      
+
     }
   },
   mounted() {
     document.title = '0元预约赢体验';
-    // var self = this;
-    // $.ajax({
-    //     url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
-    //     type: 'get',
-    //     dataType: 'json',
-    //     mode: 'cors',
-    //     headers: {
-    //       'Access-Control-Allow-Origin': '*'
-    //     },
-    //     success:function(jsondata){
-    //         if(jsondata.retCode === '1'){
-    //             self.listData = jsondata.data;
-    //         }
-    //     }
+    var self = this;
+    $.ajax({
+        url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+        type: 'get',
+        dataType: 'jsonp',
+        success:function(jsondata){
+            if(jsondata.retCode === 1){
+                self.dataList = jsondata.data;
+                var data = jsondata.data.couponList;
+                for(let i = 0; i < data.length; i++){
+                    if(data[i].couponType==='1'){
+                        self.typeDay = data[i].couponId
+                    }else if(data[i].couponType==='2'){
+                        self.typeMouth = data[i].couponId
+                    }else if(data[i].couponType==='3'){
+                        self.typeLong = data[i].couponId
+                    }
+                }
+            }
+        }
 
-    // })
+    })
   }
 }
 </script>

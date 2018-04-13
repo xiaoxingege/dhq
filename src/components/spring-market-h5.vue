@@ -47,7 +47,7 @@ body{background: #fb333b;}
         <div class="item3"></div>
         <div class="item4"></div>
         <div class="item5">
-            <div@click="bookQuan(typeDay)">立即预约</div>
+            <div @click="bookQuan(typeDay)">立即预约</div>
         </div>
         <div class="item6">
             <div  @click="bookQuan(typeMouth)">立即预约</div>
@@ -125,6 +125,7 @@ import $ from 'jquery'
 import {
   mapState
 } from 'vuex'
+import getCookie from 'utils/getCookie'
     export default{
         data(){
             return {
@@ -135,8 +136,7 @@ import {
                 typeDay:'',
                 typeMouth:'',
                 typeLong:'',
-                tanType:'',
-                source:''
+                tanType:''
             }
         },
         cumputed:mapState({
@@ -153,41 +153,54 @@ import {
             },
             bookQuan(typeId){
                 var self = this;
-                this.$store.dispatch('user/checkLogin').then(() => {
+                self.$store.dispatch('user/checkLogin').then(() => {
                     if (self.loginStatus === 'no' || self.loginStatus === 'unknown') {
-                        alert('未登录')
+                        if (window.jrj && window.jrj.jsCallNative) {
+                            window.jrj.jsCallNative('108', JSON.stringify({
+                              returnUrl: encodeURI(window.location.href)
+                            }))
+                        }
+                        return false
                     } else {
-                        $.ajax({
-                            url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
-                            type: 'get',
-                            data:{
-                                'couponId':self.typeId,
-                                'userId':self.userId
-                            },
-                            dataType: 'jsonp',
-                            success:function(jsondata){
-                                if(jsondata.retCode === 0){
-                                    self.show = true;
-                                    self.tanType = '1';
-                                }else if(jsondata.retCode === 1){
-                                    alert('领取失败')
-                                }else if(jsondata.retCode === -4){
-                                    self.show = true;
-                                    self.tanType = '2';
-                                }else if(jsondata.retCode === 3){
-                                    alert('领取渠道异常')
-                                }else if(jsondata.retCode === -1){
-                                    alert('优惠券不存在')
-                                }else if(jsondata.retCode === -2){
-                                    alert('参数异常')
-                                }else if(jsondata.retCode === -3){
-                                    alert('非此活动优惠券ID')
-                                }else if(jsondata.retCode === -5){
-                                    alert('未登录')
-                                }
+                        if(!self.userId){
+                            if (window.jrj && window.jrj.jsCallNative) {
+                                window.jrj.jsCallNative('108', JSON.stringify({
+                                  returnUrl: encodeURI(window.location.href)
+                                }))
                             }
+                        }else{
+                            $.ajax({
+                                url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getH5CouponById.jspa',
+                                type: 'get',
+                                data:{
+                                    couponId:typeId,
+                                    userId:self.userId || self.ssoId
+                                },
+                                dataType: 'jsonp',
+                                success:function(jsondata){
+                                    if(jsondata.retCode === 0){
+                                        self.show = true;
+                                        self.tanType = '1';
+                                    }else if(jsondata.retCode === 1){
+                                        alert('领取失败')
+                                    }else if(jsondata.retCode === -4){
+                                        self.show = true;
+                                        self.tanType = '2';
+                                    }else if(jsondata.retCode === 3){
+                                        alert('领取渠道异常')
+                                    }else if(jsondata.retCode === -1){
+                                        alert('优惠券不存在')
+                                    }else if(jsondata.retCode === -2){
+                                        alert('参数异常')
+                                    }else if(jsondata.retCode === -3){
+                                        alert('非此活动优惠券ID')
+                                    }else if(jsondata.retCode === -5){
+                                        alert('未登录')
+                                    }
+                                }
 
-                        })                    
+                            })                             
+                        }
                     } 
                 })
               
@@ -200,6 +213,7 @@ import {
         mounted(){
             document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625 + '%'
             document.title = '0元预约赢体验';
+            this.userId = getCookie('passportId')
             var self = this;
             $.ajax({
                 url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
@@ -208,13 +222,14 @@ import {
                 success:function(jsondata){
                     if(jsondata.retCode === 1){
                         self.listData = jsondata.data;
-                        for(let i = 0; i < jsondata.data.couponList.length; i++){
-                            if(jsondata.data.couponList[i].couponType==='1'){
-                                self.typeDay = jsondata.data.couponList[i].couponType.couponId
-                            }else if(jsondata.data.couponList[i].couponType==='2'){
-                                self.typeMouth = jsondata.data.couponList[i].couponType.couponId
-                            }else if(jsondata.data.couponList[i].couponType==='3'){
-                                self.typeLong = jsondata.data.couponList[i].couponType.couponId
+                        var data = jsondata.data.couponList;
+                        for(let i = 0; i < data.length; i++){
+                            if(data[i].couponType==='1'){
+                                self.typeDay = data[i].couponId
+                            }else if(data[i].couponType==='2'){
+                                self.typeMouth = data[i].couponId
+                            }else if(data[i].couponType==='3'){
+                                self.typeLong = data[i].couponId
                             }
                         }
                     }
