@@ -359,3 +359,15 @@ a{text-decoration: none;}
 100%{transform:rotate(360deg)}
 }
 .loading>span{width:100px;height:30px;position:absolute;left:50%;margin-left:-50px;top:50%;margin-top:30px;color:#fff;font-size:12px;text-align:center}
+.pullUptoRefresh{position:relative;width:140px;height:50px;line-height:50px;margin:0 auto;}
+.pullUptoRefresh>div.loadIcon{position:absolute;top:0;left:0;width:28px;height:28px;text-align:center}
+.pullUptoRefresh>div.loadIcon>span{position:absolute;color:#999;display:block;top:-10px;left:4px}
+.pullUptoRefresh>div.loadIcon>span.load_circle{top:14px;left:6px;width:24px;height:24px;border-radius:50%;border:1px solid #999;border-top-color:transparent;-webkit-transform-origin:50% 50%;transform-origin:50% 50%}
+.loadAnimateInfinite{-webkit-animation:load 1s infinite linear;animation:load 1s infinite linear}
+.pullUptoRefresh p{color: #666;}
+@-webkit-keyframes load{0%{-webkit-transform:rotate(0);transform:rotate(0)}
+to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+}
+@keyframes load{0%{-webkit-transform:rotate(0);transform:rotate(0)}
+to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+}

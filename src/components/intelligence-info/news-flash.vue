@@ -1,6 +1,6 @@
 <template>
 <!-- 7*24小时快讯 -->
-<div class="news-flash">
+<div class="news-flash" @scroll="getScrollTop($event)">
     <div class="news-wrapper">
       <ul class="news-list">
         <li class="display-box" v-for="item in newsFlash">
@@ -20,10 +20,10 @@
               <span class="source">( {{item.srcName}} )</span>
             </div>
             <div class="con-bottom">
-              <ul class="stock" v-for="stock in item.equityList">
-                <li class="stock-item" :class="upAndDownColor(1)">
+              <ul class="stock" >
+                <li class="stock-item" :class="upAndDownColor(stock.chngPct)" v-for="stock in item.equityList">
                   <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
-                    <span>{{stock.name}}</span><span>{{1 | isNull}}</span><span>+1.00%</span>
+                    <span>{{stock.name}}</span><span>{{stock.price | isNull}}</span><span>{{stock.chngPct}}%</span>
                   </a>
                 </li>
               </ul>
@@ -31,8 +31,11 @@
           </div>
         </li>
       </ul>
-      <p class="tc mt-10" v-show="newsFlash.length>8">
-        <a href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+      <p class="tc mt-10 mb-20">
+        <a v-if="!noData && newsFlash.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+        <p v-if="noData"  class="tc mt-10 loadMore  mb-20">数据已加载完</p>
+        <p v-if="newsFlash.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
     <StockBox ref="stockbox"></StockBox>
@@ -67,12 +70,16 @@
       ...mapState([
         'newsFlash',
         'newTime',
-        'pageSize'
+        'pageSize',
+        'isTops',
+        'loadingShow'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         newsFlash:'newsFlash',
-        newTime:'newTime'
+        newTime:'newTime',
+        isTops:'isTops',
+        loadingShow:'loadingShow'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -94,33 +101,31 @@
     },
     methods: {
       loadList() {
-        this.$nextTick(() => {
-          this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' })
-        })
-        console.log(this.newTime)
+        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:this.newTime })
       },
       updateNews() {
-        const _this =this
-        _this.updateNewsPid = setInterval(() => {
-          console.log('启动定时器')
-          _this.$store.dispatch('getNewsFlashList', { page:0, isTop:true, newTime: this.newTime })
-        },_this.intervalTime)
+        this.updateNewsPid = setInterval(() => {
+          console.log('启动定时器'+this.updateNewsPid)
+          this.$store.dispatch('getNewsFlashList', { page:0, isTop:true, newTime: this.newTime })
+        },this.intervalTime)
       },
       getScrollTop(e) {
-        this.scrollTop = e.target.scrollTop
+        this.scrollTop = e.target.scrollTop*2
         if (this.scrollTop >= this.innerHeight) {
+          this.$store.commit('setIsTop',false)
           if (this.updateNewsPid) {
-            console.log('清除定时器')
+            console.log('清除定时器'+this.updateNewsPid)
             clearInterval(this.updateNewsPid)
           }
         }
         if (this.scrollTop === 0) {
+          this.$store.commit('setIsTop',true)
           this.updateNews()
         }
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime: this.newTime })
+        this.loadList()
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           this.noData = true
@@ -166,12 +171,6 @@
       StockBox
     },
     watch: {
-      // 'page': {
-      //   deep: true,
-      //   handler: function () {
-      //     this.loadList()
-      //   }
-      // },
       relatedStocks() {
         if (z3websocket.ws) {
           //  z3websocket.ws && z3websocket.ws.close()
