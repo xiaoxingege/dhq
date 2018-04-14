@@ -145,7 +145,7 @@
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
-  <LeadStock :rangeCode="rangeCode" :condition="conditionIndustry" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && mapType === 'plate'"></LeadStock>
+  <LeadStock :condition="conditionIndustry" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && mapType === 'plate'"></LeadStock>
   <img src="../../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" />
   <div class="chart_bottom">
     <div class="clearfix playback">

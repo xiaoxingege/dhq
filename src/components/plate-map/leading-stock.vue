@@ -81,7 +81,7 @@ export default {
       pageSize: 50,
       sort: 1,
       condition: this.condition,
-      rangeCode: this.rangeCode,
+      rangeCode: this.rangeCode || '',
       kLineType: this.kLineType || '',
       isContinue: 1
     }
@@ -98,6 +98,9 @@ export default {
       console.info(this.isShow);
     },
     condition() {
+      this.init()
+    },
+    rangeCode() {
       this.init()
     }
   },
