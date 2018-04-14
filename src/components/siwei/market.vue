@@ -16,7 +16,7 @@
       <div class='tit'>异动个股</div>
       <div class="list" ref="stocks_list">
         <div class='block' v-for='stock in stockList'>
-          <div class='time'>{{stock.dateTime | datetime}}</div>
+          <div class='time'>{{stock.dateTime | hhmmss}}</div>
           <div class='item'>
             <span class=''>{{stock.stockName}}</span>
             <span class=''>{{stock.symbol}}</span>
@@ -40,9 +40,9 @@
       <div class="list">
         <div class="block" v-for="plate of plateList">
           <div class="time plate_top">
-            <span>{{plate.dateTime}}</span>
+            <span>{{plate.dateTime | hhmm}}</span>
             <span class="name">{{plate.industryName}}</span>
-            <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg}}%</span>
+            <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
           </div>
           <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
           <table class="stockList">
@@ -50,7 +50,7 @@
               <td class="name">{{stock.stockName}}</td>
               <td class="code">{{stock.symbol}}</td>
               <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
-              <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg}}%</td>
+              <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg | chngPct}}</td>
             </tr>
           </table>
         </div>
@@ -83,25 +83,53 @@ export default {
     abnormalPlatesChart
   },
   computed: {
-    ...mapState({
-      bubbles: state => {
-        const data = state.marketBubble.bubbleData;
-        let bubbles = [];
-        data.forEach((stock, index) => {
-          let item = {
-            name: stock.name,
-            value: [stock.xData, stock.yData],
-            symbolSize: stock.bubbleSize,
-            itemStyle: {
-              normal: {
-                color: this.matchColor(stock.bubbleColor)
-              }
+    bubbles: function() {
+      let data = this.$store.state.marketBubble.bubbleData;
+      let bubbles = [];
+      let minSize = 10;
+      let maxSize = 100;
+      let lbl = {};
+      data.forEach((stock, index) => {
+        // 涨速超过5% 则气泡一样大
+        const symbolSize = Math.max(Math.min(Math.abs(stock.bubbleSize) * 20, maxSize), minSize);
+        if (symbolSize < 30) {
+          lbl = {
+            position: 'bottom',
+            distance: 4,
+          }
+        } else if (symbolSize >= 60) {
+          lbl = {
+            position: 'inside'
+          }
+        } else {
+          lbl = {
+            position: 'inside',
+            formatter: stock.name.substring(0, 2) + '\n' + stock.name.substring(2)
+          }
+        }
+        let item = {
+          name: stock.name,
+          value: [Number(stock.xData), Number(stock.yData)],
+          symbolSize: symbolSize,
+          itemStyle: {
+            normal: {
+              color: this.matchColor(stock.bubbleColor)
             }
-          };
-          bubbles.push(item);
-        });
-        return bubbles;
-      },
+          },
+          label: {
+            normal: {
+              show: true,
+              color: '#fff',
+              formatter: stock.name,
+              ...lbl
+            }
+          }
+        };
+        bubbles.push(item);
+      });
+      return bubbles;
+    },
+    ...mapState({
       deltaStockList: state => state.marketBubble.abnormalStockList,
       deltaPlateList: state => state.marketBubble.abnormalPlateList,
       marketCount: state => {
@@ -116,11 +144,19 @@ export default {
     })
   },
   filters: {
-    datetime(value) {
+    hhmmss(value) {
+      value += "";
       if (value.length === 5) {
         value = "0" + value;
       }
       return value.substring(0, 2) + ":" + value.substring(2, 4) + ":" + value.substring(4);
+    },
+    hhmm(value) {
+      value += "";
+      if (value.length === 3) {
+        value = "0" + value;
+      }
+      return value.substring(0, 2) + ":" + value.substring(2, 4)
     }
   },
   methods: {
@@ -287,11 +323,9 @@ export default {
                 show: false
               }
             },
-            symbol: null,
-            symbolSize: 0,
-            data: [{
-              xAxis: 0
-            }]
+            symbolSize: (val) => {
+
+            }
           },
           data: this.bubbles
         }]
@@ -354,20 +388,19 @@ export default {
   mounted() {
     this.chart = echarts.init(this.$refs.chart);
     this.initStocks();
-    // this.$store.dispatch('marketBubble/updateBubble', {
-    //   x: 'mkt_index.volumn_ratio', // 量比
-    //   y: 'mkt_idx.cur_chng_pct', // 涨跌幅
-    //   size: 'mkt_idx.rising_rate', // 涨速
-    //   color: 'mkt_idx.cur_chng_pct', // 涨跌幅
-    //   type: 0
-    // }).then(() => {
-    //   this.initStocks();
-    // });
+    this.$store.dispatch('marketBubble/updateBubble', {
+      x: 'mkt_idx.volume_ratio', // 量比
+      y: 'mkt_idx.cur_chng_pct', // 涨跌幅
+      size: 'mkt_idx.rising_rate', // 涨速
+      color: 'mkt_idx.cur_chng_pct', // 涨跌幅
+      type: 0
+    }).then(() => {
+      this.initStocks();
+    });
     this.updateAbnormalStocks();
     pcid1 = setInterval(() => {
       this.updateAbnormalStocks()
     }, 3 * 1000);
-
   },
   destroyed() {
     if (pcid1) {

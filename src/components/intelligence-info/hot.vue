@@ -3,7 +3,7 @@
   <div class="tit">{{title}}</div>
   <ul v-if="type ==='stock'">
     <li v-for="item in dataList">
-      <span v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name">{{item.name}}</span>
+      <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
@@ -14,8 +14,8 @@
   </ul>
   <ul v-if="type === 'word'">
     <li v-for="item in dataList">
-      <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" class="col name" v-if="item.flag==='topic'">{{item.showName}}</router-link>
-      <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" class="col name" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
+      <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" class="col name active" v-if="item.flag==='topic'">{{item.showName}}</router-link>
+      <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" class="col name active" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
       <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
@@ -113,6 +113,9 @@ export default {
         line-height: 18px;
         margin: 5px 6px;
         a {
+            color: $wordsColorBase;
+        }
+        .active {
             color: #EDB441;
         }
         .col {

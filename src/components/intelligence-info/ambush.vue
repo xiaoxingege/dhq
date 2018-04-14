@@ -107,6 +107,7 @@ export default {
             white-space: nowrap;
             color: $wordsColorBase;
             padding-left: 11px;
+            background: transparent;
         }
 
     }

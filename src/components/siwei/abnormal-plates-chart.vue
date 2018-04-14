@@ -190,8 +190,8 @@ export default {
     },
     addMarkData() {
       const interval = this.indexRange.interval;
-      this.plates.forEach(plate => {
-        const time = plate.dateTime.substring(0, 5);
+      this.plates.forEach((plate) => {
+        const time = this.formatTime(plate.dateTime);
         const chg = plate.chg;
         const name = plate.industryName;
         const color = chg >= 0 ? config.upColor : config.downColor;
@@ -269,6 +269,13 @@ export default {
           }]
         });
       })
+    },
+    formatTime(value) {
+      value += "";
+      if (value.length === 3) {
+        value = "0" + value;
+      }
+      return value.substring(0, 2) + ":" + value.substring(2, 4)
     }
   },
   mounted() {
@@ -279,8 +286,6 @@ export default {
     })
     Promise.all([p1, p2]).then(() => {
       this.addMarkData();
-      console.log(this.markPointData);
-      console.log(this.markLineData);
       this.initIndex();
     })
     pcId = setInterval(() => {

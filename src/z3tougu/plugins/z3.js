@@ -27,6 +27,7 @@ export default {
           }
           popupVm.$props.left = left
           popupVm.$props.top = top
+          document.body.appendChild(popupVm.$el);
           popupVm.isShow = true;
           popupVm.$props.stockCode = el.stockCode;
           popupVm.curStockCode = el.stockCode;
