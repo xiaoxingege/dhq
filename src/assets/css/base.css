@@ -21,6 +21,12 @@ img{ vertical-align: top; border: 0;  }
     display: block;
     clear: both
 }
+html,body{
+    height:100%
+}
+.app{
+    min-height:100%
+}
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 ::-webkit-scrollbar {
     width: 5px;
