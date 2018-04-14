@@ -267,11 +267,11 @@ export default {
             },
             legend: {
               data: [{
-                  name: '沪股通',
+                  name: '港股通（沪）',
                   icon: 'rect'
                 },
                 {
-                  name: '深股通',
+                  name: '港股通（深）',
                   icon: 'rect'
                 }
               ],
@@ -355,16 +355,16 @@ export default {
               min: 'dataMin',
               max: 'dataMax'
             }],
-            color: ['#1984ea'],
+            color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
-                name: '沪股通',
+                name: '港股通（沪）',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthHgtData
               },
               {
-                name: '深股通',
+                name: '港股通（深）',
                 type: 'line',
                 showSymbol: false,
                 data: this.toSouthSgtData
