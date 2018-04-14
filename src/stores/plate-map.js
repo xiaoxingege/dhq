@@ -22,7 +22,9 @@ const state = {
   industryValue: null,
   industryStockValue: null,
   bestTopicStock: null,
-  bestIndustryStock: null
+  bestIndustryStock: null,
+  topicLeadStock: [],
+  industryLeadStock: []
 }
 
 // getters
@@ -318,6 +320,40 @@ const actions = {
         industryCode: industryCode
       };
     })
+  },
+  getTopicLeadStock({
+    commit
+  }, {
+    size,
+    sort,
+    condition,
+    isContinue
+  }) {
+    const url = `${domain}/openapi/cloud/sectionTop?size=${size}&sort=${sort}&condition=${condition}&isContinue=${isContinue}`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      if (body.errCode === 0) {
+        commit('setTopicLeadStock', body)
+      }
+    })
+  },
+  getIndustryLeadStock({
+    commit
+  }, {
+    size,
+    sort,
+    condition,
+    isContinue
+  }) {
+    const url = `${domain}/openapi/cloud/industryTop?size=${size}&sort=${sort}&condition=${condition}&isContinue=${isContinue}`
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      if (body.errCode === 0) {
+        commit('setIndustryLeadStock', body)
+      }
+    })
   }
 }
 // mutations
@@ -380,6 +416,12 @@ const mutations = {
       state.industryStockValue = result.data
       state.bestIndustryStock = JSON.parse(result.msg)
     }
+  },
+  setTopicLeadStock(state, result) {
+    state.topicLeadStock = result.data
+  },
+  setIndustryLeadStock(state, result) {
+    state.industryLeadStock = result.data
   }
 }
 

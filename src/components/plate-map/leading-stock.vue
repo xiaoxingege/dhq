@@ -1,24 +1,67 @@
 <template>
 <div class="lead-stock-box" :style="{maxHeight:boxHeight+'px'}">
   <h3 class="lead-stock-title">领先个股
-    <span class="close">×</span>
+    <!--  <span class="close">×</span> -->
   </h3>
-  <table class="lead-stock-table">
+  <table class="lead-stock-table" v-if="kLineType === 'stock'" style="width: 350px;">
     <tr style="color:#666;">
       <td>股票代码</td>
       <td>股票简称</td>
       <td>最新价</td>
       <td>涨跌幅</td>
-      <td>近一周涨跌幅</td>
+      <td v-if="condition!='mkt_idx.cur_chng_pct'">{{conditionList[condition]}}</td>
     </tr>
-    <tr v-for="item of positionList">
+    <tr v-for="item of leadStockList">
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td style="color:#1984ea;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td v-z3-updowncolor="item.price">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chg">
         {{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}
       </td>
-      <td>{{formatData(item.condition)?'--':item.condition}}</td>
+      <td v-if="condition!='mkt_idx.cur_chng_pct' && condition.indexOf('chng_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionStock(item.condition)}}</td>
+      <td v-else-if="condition!='mkt_idx.cur_chng_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionStock(item.condition)}}</td>
+    </tr>
+  </table>
+  <table class="lead-stock-table" v-if="kLineType === 'topic'" style="width: 500px;">
+    <tr style="color:#666;">
+      <td>板块名称</td>
+      <td v-if="condition!='chg_pct'">{{conditionList[condition]}}</td>
+      <td>板块涨跌幅</td>
+      <td>龙头股</td>
+      <td>股票代码</td>
+      <td>最新价</td>
+      <td>涨跌幅</td>
+    </tr>
+    <tr v-for="item of topicLeadStockList">
+      <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
+      <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.conditionValue">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
+      <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
+      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':parseFloat(item.condition).toFixed(2)}}%</td>
+      <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
+      <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}</td>
+    </tr>
+  </table>
+  <table class="lead-stock-table" v-if="kLineType === 'industry'" style="width: 500px;">
+    <tr style="color:#666;">
+      <td>板块名称</td>
+      <td v-if="condition!='chg_pct'">{{conditionList[condition]}}</td>
+      <td>板块涨跌幅</td>
+      <td>龙头股</td>
+      <td>股票代码</td>
+      <td>最新价</td>
+      <td>涨跌幅</td>
+    </tr>
+    <tr v-for="item of industryLeadStockList">
+      <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
+      <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.conditionValue">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
+      <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
+      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':parseFloat(item.condition).toFixed(2)}}%</td>
+      <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
+      <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}</td>
     </tr>
   </table>
 </div>
@@ -26,14 +69,21 @@
 
 <script>
 export default {
-  props: ['rangeCode', 'condition', 'isShow', 'boxHeight'],
+  props: ['rangeCode', 'condition', 'isShow', 'boxHeight', 'conditionList', 'kLineType', 'isUnit'],
   data() {
     return {
       isShow: false,
-      positionList: [],
+      leadStockList: [],
+      topicLeadStockList: [],
+      industryLeadStockList: [],
       updateDataPid: null,
       intervalTime: 6,
-      pageSize: -1
+      pageSize: 50,
+      sort: 1,
+      condition: this.condition,
+      rangeCode: this.rangeCode,
+      kLineType: this.kLineType || '',
+      isContinue: 1
     }
   },
   components: {},
@@ -47,8 +97,8 @@ export default {
     isShow() {
       console.info(this.isShow);
     },
-    positionList() {
-
+    condition() {
+      this.init()
     }
   },
   computed: {
@@ -56,12 +106,46 @@ export default {
   },
   methods: {
     init: function() {
-      this.$store.dispatch('stockMap/getLeadStock', {
-
-        })
-        .then(() => {
-          this.positionList = this.$store.state.stockMap.leadStockData
-        })
+      if (this.kLineType === 'stock') {
+        this.$store.dispatch('stockMap/getLeadStock', {
+            size: this.pageSize,
+            sort: this.sort,
+            condition: this.condition,
+            industryCode: this.rangeCode,
+            isContinue: 1
+          })
+          .then(() => {
+            this.leadStockList = this.$store.state.stockMap.leadStockData
+          })
+      } else if (this.kLineType === 'topic') {
+        this.$store.dispatch('plateMap/getTopicLeadStock', {
+            size: this.pageSize,
+            sort: this.sort,
+            condition: this.condition,
+            isContinue: 1
+          })
+          .then(() => {
+            this.topicLeadStockList = this.$store.state.plateMap.topicLeadStock
+            const topicValue = this.$store.state.plateMap.topicValue
+            this.topicLeadStockList.forEach(function(stock) {
+              stock.conditionValue = topicValue[stock.dataCode] // 浏览指标值
+            })
+          })
+      } else if (this.kLineType === 'industry') {
+        this.$store.dispatch('plateMap/getIndustryLeadStock', {
+            size: this.pageSize,
+            sort: this.sort,
+            condition: this.condition,
+            isContinue: 1
+          })
+          .then(() => {
+            this.industryLeadStockList = this.$store.state.plateMap.industryLeadStock
+            const industryValue = this.$store.state.plateMap.industryValue
+            this.industryLeadStockList.forEach(function(stock) {
+              stock.conditionValue = industryValue[stock.dataCode] // 浏览指标值
+            })
+          })
+      }
     },
     autoUpdate: function() {
 
@@ -72,6 +156,72 @@ export default {
       } else {
         return true
       }
+    },
+    formatConditionStock(value) {
+      if (value === 'act_date') {
+        const pbDate = new Date(value)
+        value = this.dateFormatUtil(pbDate)
+      } else if (this.condition === 'mkt_idx.keep_days_today') {
+        value = value + '天';
+      } else if (this.condition === 'margin_buy_value') {
+        value = value >= 10 ? (value / 10).toFixed(2) + '亿' : (value > 1 && value < 10 ? value.toFixed(2) + '千万' : (1000 * value).toFixed(2) + '万')
+      } else if (this.condition === 'margin_buy_net_value') {
+        value = Math.abs(value) >= 10000 ? (value / 10000).toFixed(2) + '亿' : (Math.abs(value) > 1000 && Math.abs(value) < 10000 ? (value / 1000).toFixed(2) + '千万' : value.toFixed(2) + '万')
+      } else if (this.isUnit[this.condition] === '%') {
+        if (this.condition !== 'mkt_idx.div_rate') {
+          if (value >= 0) {
+            value = '+' + parseFloat(value).toFixed(2) + '%'
+          } else {
+            value = parseFloat(value).toFixed(2) + '%'
+          }
+        } else {
+          value = parseFloat(value).toFixed(2) + '%'
+        }
+      } else {
+        value = parseFloat(value).toFixed(2);
+      }
+      return value
+    },
+    formatConditionPlate(value) {
+      if (this.condition === 'keep_days') {
+        value = value + '天';
+      } else if (this.isUnit[this.condition] === '%') {
+        if (this.conditionStock !== 'mkt_idx.div_rate') {
+          if (value >= 0) {
+            value = '+' + parseFloat(value).toFixed(2) + '%'
+          } else {
+            value = parseFloat(value).toFixed(2) + '%'
+          }
+        } else {
+          value = parseFloat(value).toFixed(2) + '%'
+        }
+      } else {
+        value = parseFloat(value).toFixed(2);
+      }
+      return value
+    },
+    dateFormatUtil: function(date) {
+      var dateTypeDate = ''
+      dateTypeDate += date.getFullYear() // 年
+      dateTypeDate += '-' + this.getMonth(date) // 月
+      dateTypeDate += '-' + this.getDay(date) // 日
+      return dateTypeDate
+    },
+    getMonth: function(date) {
+      let month = ''
+      month = date.getMonth() + 1 // getMonth()得到的月份是0-11
+      if (month < 10) {
+        month = '0' + month
+      }
+      return month
+    },
+    getDay: function(date) {
+      let day = ''
+      day = date.getDate()
+      if (day < 10) {
+        day = '0' + day
+      }
+      return day
     }
   },
   mounted() {
@@ -79,10 +229,9 @@ export default {
       return
     }
     this.init()
-    // this.autoUpdate()
   },
   destroyed() {
-    // this.updateDataPid && clearInterval(this.updateDataPid)
+
   }
 }
 </script>
@@ -93,7 +242,6 @@ export default {
     position: absolute;
     background: #fff;
     z-index: 999;
-    width: 350px;
     right: 100px;
     top: 0;
     overflow: hidden;

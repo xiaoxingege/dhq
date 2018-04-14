@@ -220,7 +220,7 @@
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
-  <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" v-if="isShowLeadStock"></LeadStock>
+  <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock"></LeadStock>
   <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" />
   <!-- <img src="../assets/images/stock-map/glowing-ball.png" alt="" class="focus-ball" @mouseover="showLeadStockBox" v-if="isShowWholeBall"/> -->
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
@@ -259,7 +259,7 @@ const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 const valueRangeRZMR = [1, 2, 3, 4, 5, 6, 7, 8, 9] // 融资买入额
 const valueRangeRZJMR = [-1000, -750, -500, -250, 0, 250, 500, 750, 1000]
 export default {
-  props: ['rangeCode', 'condition', 'focusStockName'], // 从父组件传下来
+  props: ['rangeCode', 'condition', 'focusStockName', 'conditionList'], // 从父组件传下来
   components: {
     StockList,
     playbackline,
@@ -269,6 +269,7 @@ export default {
     return {
       code: this.rangeCode || '',
       isContinue: 1,
+      kLineType: 'stock',
       offsetX: 0,
       offsetY: 0,
       colors: {
@@ -348,6 +349,7 @@ export default {
       intervalTime: 10,
       updateDataPid: null,
       updateTimePid: null,
+      ballTimeOut: null,
       currentTime: '',
       wrapHeight: 0,
       clientX: 0,
@@ -1161,7 +1163,9 @@ export default {
     /* 鼠标移入小球 */
     inBall: function() {
       this.isShowLeadStock = true
-      this.ballImg = this.shinningBallImg
+      if (this.ballTimeOut) {
+        clearTimeout(this.ballTimeOut)
+      }
       $('.ball').animate({
         right: '10px'
       })
@@ -1169,7 +1173,7 @@ export default {
     /* 鼠标移出小球 */
     outBall: function() {
       this.isShowLeadStock = false
-      setTimeout(() => {
+      this.ballTimeOut = setTimeout(() => {
         if (!this.isShowLeadStock) {
           $('.ball').animate({
             right: '-35px'

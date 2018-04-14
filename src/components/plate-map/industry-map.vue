@@ -124,6 +124,15 @@
 .map_wrap {
   position: relative;
 }
+
+.ball {
+  position: fixed;
+  top: 50%;
+  right: -35px;
+  transform: translate(0px, -50%);
+  cursor: pointer;
+  z-index: 99999;
+}
 </style>
 <template>
 <div class="map_wrap">
@@ -136,6 +145,8 @@
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
+  <LeadStock :rangeCode="rangeCode" :condition="conditionIndustry" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && mapType === 'plate'"></LeadStock>
+  <img src="../../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" />
   <div class="chart_bottom">
     <div class="clearfix playback">
       <div class="playback_btn perday" v-if="isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
@@ -153,6 +164,7 @@ import playBackSrc from '../../assets/images/stock-map/playback.png'
 import playStopSrc from '../../assets/images/stock-map/playstop.png'
 import echarts from 'echarts'
 import StockList from 'components/stock-list-map'
+import LeadStock from 'components/plate-map/leading-stock'
 import config from '../../z3tougu/config'
 const colorsList1 = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554', '#414554', '#3f4c53', '#3d5451', '#3b5a50', '#3a614f', '#38694f', '#366f4e', '#35764e', '#347d4e', '#32844e', '#31894e', '#31904e', '#30974f', '#2f9e4f', '#2fa450', '#2faa51', '#2fb152', '#2fb854', '#30be56', '#30c558', '#30cc5a']
 const colorsListRD = ['#f63538', '#ee373a', '#e6393b', '#df3a3d', '#d73c3f', '#ce3d41', '#c73e43', '#bf4045', '#b64146', '#ae4248', '#a5424a', '#9d434b', '#94444d', '#8b444e', '#824450', '#784551', '#6f4552', '#644553', '#5a4554', '#4f4554']
@@ -166,9 +178,10 @@ const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 let pid
 let syncDateTimePid
 export default {
-  props: ['plateType', 'conditionIndustry', 'conditionStockI', 'industryIndexs', 'industryStockIndexs'], // 从父组件传下来
+  props: ['plateType', 'conditionIndustry', 'conditionStockI', 'industryIndexs', 'industryStockIndexs', 'conditionList'], // 从父组件传下来
   components: {
-    StockList
+    StockList,
+    LeadStock
   },
   data() {
     return {
@@ -322,7 +335,9 @@ export default {
       kLineType: 'industry',
       mapType: 'plate', // 板块还是个股
       industryStockUpNo: 0,
-      industryStockDownNo: 0
+      industryStockDownNo: 0,
+      ballTimeOut: null,
+      isShowLeadStock: false
     }
   },
   watch: {
@@ -340,6 +355,16 @@ export default {
       this.isContinue = 1
       this.autoUpdate = true
       this.updateStockData()
+    },
+    mapType() {
+      if (this.mapType === 'stock') {
+        if (this.ballTimeOut) {
+          clearTimeout(this.ballTimeOut)
+        }
+        $('.ball').animate({
+          right: '-35px'
+        })
+      }
     }
   },
   computed: {
@@ -1063,6 +1088,27 @@ export default {
       this.$emit('passMapType', this.mapType)
       this.$emit('passConditionIndustry', this.conditionStockI)
       this.updateMap()
+    },
+    /* 鼠标移入小球 */
+    inBall: function() {
+      this.isShowLeadStock = true
+      if (this.ballTimeOut) {
+        clearTimeout(this.ballTimeOut)
+      }
+      $('.ball').animate({
+        right: '10px'
+      })
+    },
+    /* 鼠标移出小球 */
+    outBall: function() {
+      this.isShowLeadStock = false
+      this.ballTimeOut = setTimeout(() => {
+        if (!this.isShowLeadStock) {
+          $('.ball').animate({
+            right: '-35px'
+          })
+        }
+      }, 3000)
     }
   },
   mounted() {

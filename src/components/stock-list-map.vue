@@ -221,7 +221,7 @@ export default {
         if (this.parent.perf === undefined || this.parent.perf === null) {
           avg = '--';
         } else {
-          avg = this.parent.perf
+          avg = parseFloat(this.parent.perf).toFixed(2)
         }
         return avg
       }
