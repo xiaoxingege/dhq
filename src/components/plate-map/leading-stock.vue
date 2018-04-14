@@ -14,7 +14,7 @@
     <tr v-for="item of leadStockList">
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td style="color:#1984ea;">{{formatData(item.stockName)?'--':item.stockName}}</td>
-      <td v-z3-updowncolor="item.price">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chg">
         {{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}
       </td>
