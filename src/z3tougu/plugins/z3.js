@@ -15,8 +15,8 @@ export default {
         el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
-          const winH = window.document.body.scrollHeight;
-          const winW = window.document.body.scrollWidth;
+          const winH = window.document.body.scrollHeight || window.innerHeight;
+          const winW = window.document.body.scrollWidth || window.innerWidth;
           let left = event.x + parseInt(scrollleft) + 50;
           let top = event.y + parseInt(scrollTop) - 20;
           if (winH - top < 300) {
@@ -322,9 +322,9 @@ export default {
         return '--';
       } else {
         if (value > 0) {
-          return '+' + value + '%';
+          return '+' + value.toFixed(2) + '%';
         } else {
-          return value + '%';
+          return value.toFixed(2) + '%';
         }
       }
     });
@@ -370,7 +370,7 @@ export default {
 
     })
     Vue.directive('z3-nav', (el, binding, vnode, oldVnode) => {
-      el.childNodes[0].className = binding.expression
+      // el.childNodes[0].className = binding.expression
       el.childNodes.forEach((item) => {
         item.addEventListener('click', (event) => {
           el.childNodes.forEach((v) => {

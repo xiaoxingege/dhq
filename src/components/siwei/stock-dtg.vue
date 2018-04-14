@@ -51,7 +51,7 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 1
+        type: 4
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -620,7 +620,7 @@ export default {
         })
 
         window.addEventListener('resize', () => {
-          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
+          let height = document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33
           that.lineChart && that.lineChart.resize({
             height: height
           })
@@ -975,7 +975,7 @@ export default {
     this.initZtgCompare()
 
     this.$store.dispatch('bubbles/getBubblesLine', {
-      type: 1,
+      type: 4,
       currentTime: ''
     }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
     this.interval = setInterval(function() {
@@ -984,7 +984,7 @@ export default {
       that.updateBubbles()
       that.updateCompare()
       that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 1,
+        type: 4,
         currentTime: currentTime
       }).then(() => {
         // that.$refs.ztgListUl.scrollTop = 0
@@ -992,7 +992,7 @@ export default {
     }, Data.refreshTime)
   },
   destroyed() {
-    this.chart.dispose();
+    // this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
 
@@ -1060,6 +1060,7 @@ export default {
                 box-sizing: border-box;
                 padding-bottom: 2px;
                 padding-left: 5px;
+
                 .name {
                     line-height: 20px;
                 }

@@ -60,6 +60,11 @@ import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
 import stockZbg from 'components/siwei/stock-zbg'
 import marketBubble from 'components/siwei/market'
+import stockQsg from 'components/siwei/stock-qsg'
+import stockDtg from 'components/siwei/stock-dtg'
+import stockNew from 'components/siwei/stock-new'
+import stockCxg from 'components/siwei/stock-cxg'
+import stockZrzt from 'components/siwei/stock-ystzt'
 import {
   ctx
 } from '../config'
@@ -376,20 +381,23 @@ export default [{
       component: newsFlash
     }]
   },
-  // {
-  //   path: ctx + '/newsFlash',
-  //   name: 'newsFlash',
-  //   component: newsFlash
-  // },
   {
-    path: ctx + '/newsOpportunities',
-    name: 'newsOpportunities',
-    component: newsOpportunities
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'newsOpportunities',
+      name: 'newsOpportunities',
+      component: newsOpportunities
+    }]
   },
   {
-    path: ctx + '/listedCompany',
-    name: 'listedCompany',
-    component: listedCompany
+    path: ctx + '/zInfo',
+    component: zInfo,
+    children: [{
+      path: 'listedCompany',
+      name: 'listedCompany',
+      component: listedCompany
+    }]
   },
   {
     path: ctx + '/dhq',
@@ -419,6 +427,31 @@ export default [{
         path: 'zbg',
         component: stockZbg,
         name: 'zbg'
+      },
+      {
+        path: 'qsg',
+        component: stockQsg,
+        name: 'qsg'
+      },
+      {
+        path: 'dtg',
+        component: stockDtg,
+        name: 'dtg'
+      },
+      {
+        path: 'new',
+        component: stockNew,
+        name: 'new'
+      },
+      {
+        path: 'cxg',
+        component: stockCxg,
+        name: 'cxg'
+      },
+      {
+        path: 'zrzt',
+        component: stockZrzt,
+        name: 'zrzt'
       }
     ]
   }

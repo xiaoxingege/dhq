@@ -59,14 +59,13 @@ html {
         a {
             background: #0084F2;
         }
-
     }
 }
 </style>
 <template>
 <div class="siweiIndex">
   <ul v-z3-nav="active" class="indexNav clearfix">
-    <li v-for="item in ulsText">
+    <li v-for="(item,index) in ulsText" :class="routeName === item.name ? 'active':''">
       <router-link :to="item.path">{{item.text}}</router-link>
     </li>
   </ul>
@@ -84,48 +83,52 @@ export default {
     return {
       ulsText: [{
           text: '盯盘',
-          path: ctx + '/siweiIndex/dingpan'
+          path: ctx + '/siweiIndex/dingpan',
+          name: 'dingpan'
         },
         {
           text: '涨停股',
-          path: ctx + '/siweiIndex/ztg'
+          path: ctx + '/siweiIndex/ztg',
+          name: 'ztg'
 
         },
         {
           text: '炸板股',
-          path: ctx + '/siweiIndex/zbg'
+          path: ctx + '/siweiIndex/zbg',
+          name: 'zbg'
         },
         {
           text: '强势股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/qsg',
+          name: 'qsg'
         },
         {
           text: '跌停股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/dtg',
+          name: 'dtg'
         },
         {
           text: '新股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/new',
+          name: 'new'
         },
         {
           text: '次新股',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/cxg',
+          name: 'cxg'
         },
         {
           text: '昨日跌停',
-          path: '',
-          name: ''
+          path: ctx + '/siweiIndex/zrzt',
+          name: 'zrzt'
         },
         {
           text: '更多',
           path: '',
           name: ''
         }
-      ]
+      ],
+      routeName: this.$route.name
     }
   },
   methods: {}

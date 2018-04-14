@@ -11,18 +11,26 @@ import util from '../../z3tougu/util'
 import {
   mapState
 } from 'vuex'
+
+let pcId = "";
 export default {
   data() {
     return {
-
+      timeline: util.generateTimeline(),
+      markPointData: [],
+      markLineData: []
     }
   },
   computed: {
     ...mapState({
-      indexData: state => state.marketBubble.indexData
+      indexData: state => state.marketBubble.indexData,
+      // 处理为0的数据
+      indexArr: state => state.marketBubble.indexData.data.map(value => value === 0 ? null : value),
+      plates: state => state.marketBubble.abnormalPlateList
     }),
     indexRange: function() {
-      const data = this.indexData.data;
+      // 过滤0数据，算最大最小值。
+      const data = this.indexArr.filter(value => value !== null);
       const closePx = Number(this.indexData.closePx.toFixed(2));
       const maxData = Math.max(...data);
       const minData = Math.min(...data);
@@ -45,19 +53,21 @@ export default {
     },
     chgRange: function() {
       let range = this.indexRange;
-      let interval = range.interval / (range.max - range.min / 2);
+      let interval = (range.max - range.closePx) / range.closePx / 2;
       return {
         min: 2 * interval,
         max: -2 * interval,
-        interval
+        interval: interval
       }
+    },
+    mark: function() {
+
     }
   },
   methods: {
-    initPlates() {
-      this.chart = echarts.init(this.$refs.chart);
+    initIndex() {
       let xData = [];
-      util.generateTimeline().forEach((value, index, arr) => {
+      this.timeline.forEach((value, index, arr) => {
         let align = '';
         if (index === 0) {
           align = 'left';
@@ -88,23 +98,6 @@ export default {
           axisLabel: {
             interval: 29,
             color: '#ccc'
-            // formatter:(value, index) => {
-            //     if(index === 0){
-            //         return '{start|'+value +'}'
-            //     }else if(index === 240){
-            //         return '{end|'+value +'}'
-            //     }else{
-            //         return value;
-            //     }
-            // },
-            // rich:{
-            //     start:{
-            //         align:'left'
-            //     },
-            //     end:{
-            //         align:'right'
-            //     }
-            // },
           },
           boundaryGap: false,
           splitLine: {
@@ -112,6 +105,9 @@ export default {
             lineStyle: {
               color: '#32343E'
             }
+          },
+          axisPointer: {
+
           },
           data: xData
         },
@@ -162,12 +158,6 @@ export default {
             }
           }
         }],
-        // tooltip:{
-        //     trigger:'item',
-        //     axisPointer:{
-        //         type:'cross'
-        //     }
-        // },
         series: [{
           type: 'line',
           lineStyle: {
@@ -176,105 +166,131 @@ export default {
               width: 1
             }
           },
-          data: this.indexData.data,
+          data: this.indexArr,
           symbolSize: 0,
           markLine: {
             silent: true,
-            data: [
-              [{
-                  coord: ['10:00', 3030],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.downColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:00', 2980],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ],
-              [{
-                  coord: ['10:30', 3000],
-                  symbol: 'circle',
-                  symbolSize: 6,
-                  lineStyle: {
-                    normal: {
-                      width: 2,
-                      type: 'solid',
-                      color: config.upColor
-                    }
-                  }
-                },
-                {
-                  coord: ['10:30', 3050],
-                  symbol: 'circle',
-                  symbolSize: 0.1
-                }
-              ]
-            ]
+            data: this.markLineData
           },
           markPoint: {
             silent: true,
             symbol: 'roundRect',
             symbolSize: [60, 30],
-            data: [{
-                name: '金融',
-                coord: ['10:00', 2980],
-                value: '金融',
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.downColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.downColor,
-                    formatter: () => '金融'
-                  }
-                }
-              },
-              {
-                name: '地产',
-                value: '地产',
-                coord: ['10:30', 3050],
-                itemStyle: {
-                  normal: {
-                    color: '#fff',
-                    borderWidth: 1,
-                    borderColor: config.upColor
-                  }
-                },
-                label: {
-                  normal: {
-                    position: 'inside',
-                    color: config.upColor,
-                    formatter: () => '地产'
-                  }
-                }
+            itemStyle: {
+              normal: {
+                color: '#fff',
+                borderWidth: 1
               }
-            ]
+            },
+            data: this.markPointData
           },
           smooth: true
         }]
       });
     },
-    update() {
-      this.$store
+    addMarkData() {
+      const interval = this.indexRange.interval;
+      this.plates.forEach(plate => {
+        const time = plate.dateTime.substring(0, 5);
+        const chg = plate.chg;
+        const name = plate.industryName;
+        const color = chg >= 0 ? config.upColor : config.downColor;
+        const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        if (itemIndex !== 0) {
+          const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
+          let point = {
+            coord: [time, coordY],
+            itemStyle: {
+              normal: {
+                borderColor: color
+              }
+            },
+            label: {
+              normal: {
+                position: 'inside',
+                color: color,
+                formatter: () => name
+              }
+            }
+          };
+          let line = [{
+              coord: [time, itemIndex],
+              symbol: 'circle',
+              symbolSize: 6,
+              lineStyle: {
+                normal: {
+                  width: 2,
+                  type: 'solid',
+                  color: color
+                }
+              }
+            },
+            {
+              coord: [time, coordY],
+              symbol: 'circle',
+              symbolSize: 0.1
+            }
+          ];
+          this.markPointData.push(point);
+          this.markLineData.push(line);
+        }
+      });
+    },
+    updatePlates() {
+      this.addMarkData();
+      setTimeout(() => {
+        this.chart.setOption({
+          series: [{
+            markPoint: {
+              data: this.markPointData
+            },
+            markLine: {
+              data: this.markLineData
+            }
+          }]
+        })
+      }, 0)
+
+    },
+    updateIndex() {
+      this.$store.dispatch('marketBubble/updateIndexData').then(() => {
+        this.chart.setOption({
+          yAxis: [{
+            min: this.indexRange.min,
+            max: this.indexRange.max,
+            interval: this.indexRange.interval
+          }, {
+            min: this.chgRange.min,
+            max: this.chgRange.max,
+            interval: this.chgRange.interval
+          }],
+          series: [{
+            data: this.indexArr
+          }]
+        });
+      })
     }
   },
   mounted() {
-    this.$store.dispatch('marketBubble/updateIndexData').then(() => {
-      this.initPlates();
+    this.chart = echarts.init(this.$refs.chart);
+    const p1 = this.$store.dispatch('marketBubble/updateIndexData');
+    const p2 = this.$store.dispatch('marketBubble/updateAbnormalPlates', {
+      startTime: ''
     })
+    Promise.all([p1, p2]).then(() => {
+      this.addMarkData();
+      console.log(this.markPointData);
+      console.log(this.markLineData);
+      this.initIndex();
+    })
+    pcId = setInterval(() => {
+      this.updateIndex();
+    }, 60 * 1000);
+  },
+  destroyed() {
+    if (pcId) {
+      clearInterval(pcId);
+    }
   }
 }
 </script>

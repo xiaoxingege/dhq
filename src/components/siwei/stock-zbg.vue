@@ -17,7 +17,7 @@
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
             </div>
-            <div class="fr"><span>{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
+            <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
@@ -244,6 +244,7 @@ export default {
             },
             max: Math.max.apply(null, xData),
             axisLabel: {
+              showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return '量比'
@@ -285,6 +286,7 @@ export default {
             },
             max: Math.max.apply(null, yData),
             axisLabel: {
+              showMaxLabel: true,
               textStyle: {
                 color: '#c9d0d7'
               },
@@ -378,17 +380,15 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
+              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
+              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return (Math.sqrt(num / 1e11) * 40).toFixed(2)
-              } else if (tmpSize === 'mkt_idx.volume') {
-                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
-              } else if (tmpSize === 'perf_idx.avg_vol_3month') {
-                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
+                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)
@@ -445,7 +445,7 @@ export default {
           // that.isShowDialog = false
         })
         window.addEventListener('resize', () => {
-          let height = document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.66
+          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.66 : ''
           that.chart && that.chart.resize({
             height: height
           })
@@ -553,7 +553,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -581,7 +581,7 @@ export default {
         })
 
         window.addEventListener('resize', () => {
-          let height = document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33
+          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
           that.lineChart && that.lineChart.resize({
             height: height
           })
@@ -650,29 +650,6 @@ export default {
 
         this.chart && this.chart.setOption({
           xAxis: {
-            type: 'value',
-            // name: '日期',
-            nameGap: 16,
-            nameTextStyle: {
-              color: '#fff',
-              fontSize: 14
-            },
-            position: 'top',
-            // max: 31,
-            splitLine: {
-              lineStyle: {
-                type: 'solid',
-                color: '#343741'
-              }
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#343741'
-              }
-            },
-            axisTick: {
-              show: false
-            },
             max: Math.max.apply(null, xData),
             axisLabel: {
               formatter: function(v) {
@@ -692,28 +669,6 @@ export default {
 
           },
           yAxis: {
-            type: 'value',
-            nameGap: 20,
-            nameTextStyle: {
-              color: '#fff',
-              fontSize: 12,
-              backgroundColor: 'red',
-              padding: [100, 50, 10, 10]
-            },
-            axisLine: {
-              lineStyle: {
-                color: '#343741'
-              }
-            },
-            axisTick: {
-              show: false
-            },
-            splitLine: {
-              lineStyle: {
-                type: 'solid',
-                color: '#343741'
-              }
-            },
             max: Math.max.apply(null, yData),
             axisLabel: {
               textStyle: {
@@ -809,17 +764,15 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
+              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
+              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return (Math.sqrt(num / 1e11) * 40).toFixed(2)
-              } else if (tmpSize === 'mkt_idx.volume') {
-                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
-              } else if (tmpSize === 'perf_idx.avg_vol_3month') {
-                return (Math.sqrt(num / 1e7) * 20).toFixed(2)
+                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)
@@ -837,6 +790,7 @@ export default {
       this.$store.dispatch('bubbles/getZbgLine', {
         type: '0'
       }).then(() => {
+        const that = this
 
         this.lineChart && this.lineChart.setOption({
           series: [{
@@ -844,7 +798,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -856,7 +810,19 @@ export default {
             smooth: true,
             type: 'line',
             data: this.$store.state.bubbles.zbgLine
-          }]
+          }],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr = '<p>炸板率 : ' + (that.$store.state.bubbles.zbgLine[params[0].dataIndex] * 100).toFixed(0) + '%</p>'
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
         })
       })
 
@@ -879,7 +845,7 @@ export default {
         type: 2,
         currentTime: currentTime
       }).then(() => {
-        that.$refs.ztgListUl.scrollTop = 0
+        // that.$refs.ztgListUl.scrollTop = 0
       })
     }, Data.refreshTime)
 
@@ -891,7 +857,7 @@ export default {
 
 }
 </script>
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" scoped>
 @import '../../assets/css/base.css';
 
 .con {}

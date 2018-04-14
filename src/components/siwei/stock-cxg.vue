@@ -17,7 +17,7 @@
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
+            <div class="fr"><span v-z3-updowncolor="item.price">{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
@@ -51,7 +51,7 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 1
+        type: 6
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -1060,6 +1060,7 @@ export default {
                 box-sizing: border-box;
                 padding-bottom: 2px;
                 padding-left: 5px;
+
                 .name {
                     line-height: 20px;
                 }

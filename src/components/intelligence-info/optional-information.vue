@@ -2,8 +2,7 @@
   <!-- 自选情报 -->
   <div class="optionalInformation"  @scroll="getScrollTop($event)">
     <div class="top-bar">
-      <select class="select" name="" v-model="stockPoolDefault" @change="getInnerCode">
-        <option value=''>请选择</option>
+      <select class="select" name="" v-model="optionalStockId" @change="getInnerCode">
         <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
       </select>
       <a href="#"><span class="lookStock">自选股查看</span></a>
@@ -38,10 +37,11 @@
           </div>
         </li>
       </ul>
-      <p class="tc mt-10">
-        <a v-if="!noData && optionalInformationList.length >= 8" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        <p v-if="noData"  class="tc mt-10 loadMore">数据已加载完</p>
-        <p v-if="optionalInformationList.length===0"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+      <p class="tc mt-10 mb-20">
+        <a v-if="!noData && optionalInformationList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+        <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
+        <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
     <StockBox ref="stockbox"></StockBox>
@@ -55,7 +55,6 @@
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
   import z3websocket from '../../z3tougu/z3socket'
-
   export default {
     data() {
       return {
@@ -66,27 +65,36 @@
         intervalTime:60000,
         scrollTop: 0,
         innerHeight: window.innerHeight,
-        stockPoolDefault:'',
-        innerCode:'000001.SZ,000002.SZ'
+        innerCodes:'',
+        flag:true
       }
     },
     mounted() {
-      this.loadList()
+      this.$store.dispatch('getStockPool').then(() => {
+        this.loadList()
+      })
       this.updateNews()
-      this.$store.dispatch('getStockPool')
     },
     computed: {
       ...mapState([
         'optionalInformationList',
         'stockPool',
         'newTime',
-        'pageSize'
+        'pageSize',
+        'optionalStockId',
+        'innerCode',
+        'loadingShow',
+        'isTops'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         optionalInformationList:'optionalInformationList',
         stockPool:'stockPool',
-        newTime:'newTime'
+        newTime:'newTime',
+        optionalStockId:'optionalStockId',
+        innerCode:'innerCode',
+        loadingShow:'loadingShow',
+        isTops:'isTops'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -111,24 +119,26 @@
         this.$nextTick(() => {
           this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
         })
-        console.log(this.newTime)
       },
       updateNews() {
-        const _this =this
-        _this.updateNewsPid = setInterval(() => {
+        this.updateNewsPid = setInterval(() => {
           console.log('启动定时器')
-          _this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime })
-        },_this.intervalTime)
+          console.log(this.updateNewsPid)
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime })
+        },this.intervalTime)
       },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop
-        if (this.scrollTop >= this.innerHeight) {
+        if (this.scrollTop*2 >= this.innerHeight ) {
+          this.$store.commit('setIsTop',false)
           if (this.updateNewsPid) {
+            console.log(this.updateNewsPid)
             console.log('清除定时器')
             clearInterval(this.updateNewsPid)
           }
         }
         if (this.scrollTop === 0) {
+          this.$store.commit('setIsTop',true)
           this.updateNews()
         }
       },
@@ -163,22 +173,37 @@
         }
       },
       getInnerCode() {
+        if (this.updateNewsPid) {
+          console.log(this.updateNewsPid)
+          console.log('清除定时器2')
+          clearInterval(this.updateNewsPid)
+        }
+        this.innerCodes = ''
+        this.page = 0
         this.$store.commit('setOptionalinformationInit',[])
-        this.innerCode = ''
-        this.page =0
+        var id = $('.select option:selected').val()
         let index = $('.select option:selected').attr('data-index')
         let stocks =  this.stockPool
         let thisStock = stocks[index]
-        for(let list of thisStock.equityPool) {
-          this.innerCode  += list.innerCode + ','
+        let str
+        if(thisStock.equityPool===null){
+          str = ''
+        }else{
+          for(let list of thisStock.equityPool) {
+            this.innerCodes  += list.innerCode + ','
+          }
+          str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
-        var str = this.innerCode.substring(0,this.innerCode.length-1)
-        this.innerCode = str
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'' })
-
+        this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
+        if(this.scrollTop === 0){
+            this.$store.commit('setIsTop',true)
+            console.log(this.scrollTop)
+            this.updateNews()
+        }
       },
       updateStock(stock) {
-        this.$store.commit('UPDATE_OPTIONALINFORMATION_RELSTOCK', stock)
+        this.$store.commit('UPDATE_RELSTOCK', stock)
       },
       subscribeStock() {
         const msg = {
@@ -195,12 +220,6 @@
       StockBox
     },
     watch: {
-      // 'page': {
-      //   deep: true,
-      //   handler: function () {
-      //     this.loadList()
-      //   }
-      // },
       relatedStocks() {
         if (z3websocket.ws) {
           //  z3websocket.ws && z3websocket.ws.close()
@@ -235,8 +254,10 @@
       }
     },
     destroyed() {
+      if(this.updateNewsPid) {
+        clearInterval(this.updateNewsPid)
+      }
       z3websocket.ws && z3websocket.ws.close()
-      clearInterval(this.updateNewsPid)
     }
   }
 </script>
@@ -251,7 +272,9 @@
     overflow: auto;
   }
   .news-wrapper{
+    position:relative;
     padding-bottom: 20px;
+    height: 100%;
   }
   .top-bar{
     height: 32px;
@@ -377,5 +400,4 @@
   .blockbg {
       background: #525a65;
   }
-
 </style>
