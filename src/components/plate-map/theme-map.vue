@@ -128,10 +128,19 @@
 .ball {
   position: fixed;
   top: 50%;
-  right: -35px;
+  left: -20px;
   transform: translate(0px, -50%);
   cursor: pointer;
   z-index: 99999;
+}
+
+.drag-wrap {
+  width: 13px;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  transform: translate(0, 0)
 }
 </style>
 <template>
@@ -146,7 +155,9 @@
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
   <LeadStock :condition="conditionTopic" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && mapType === 'plate'"></LeadStock>
-  <img src="../../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" v-show="mapType === 'plate'" />
+  <div class="drag-wrap" ref="drag_wrap" v-show="mapType === 'plate'">
+    <img src="../../assets/images/stock-map/ball.png" ref="ball" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" v-z3-drag="{containment:'drag_wrap'}" v-z3-drop="ballBack" />
+  </div>
   <div class="chart_bottom">
     <div class="clearfix playback">
       <div class="playback_btn perday" v-if="isPlaybackShow"><img :src="playBackSrc" alt="" v-on:click="startPlay()" ref="playBtn"></div>
@@ -1093,7 +1104,7 @@ export default {
         clearTimeout(this.ballTimeOut)
       }
       $('.ball').animate({
-        right: '10px'
+        left: '-53px'
       })
     },
     /* 鼠标移出小球 */
@@ -1102,10 +1113,15 @@ export default {
       this.ballTimeOut = setTimeout(() => {
         if (!this.isShowLeadStock) {
           $('.ball').animate({
-            right: '-35px'
+            left: '-20px'
           })
         }
       }, 3000)
+    },
+    ballBack: function() {
+      /*  $('.ball').animate({
+            left:'-20px'
+        },1000) */
     }
   },
   mounted() {
