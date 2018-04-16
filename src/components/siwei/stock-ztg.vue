@@ -11,11 +11,14 @@
     <div class="ztgList">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10">
+          <div class="mb-10" v-if="item.dateTime.length === 6">
             {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
           </div>
+          <div class="mb-10" v-if="item.dateTime.length === 5">
+            {{String(item.dateTime).substring(0,1)+':'+String(item.dateTime).substring(1,3)+':'+String(item.dateTime).substring(3)}}
+          </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
+            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
             </div>
             <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
             </div>
@@ -85,7 +88,10 @@ export default {
       isOverBubbles: false,
       isOverDialog: false,
       timeout: null,
-      interval: null
+      interval: null,
+      tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
+
     }
   },
   components: {
@@ -142,14 +148,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -193,7 +199,7 @@ export default {
             top: 50,
             left: 65,
             right: 20,
-            bottom: 30
+            bottom: 55
           },
           tooltip: {
             triggerOn: 'none',
@@ -267,7 +273,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData).toFixed(2),
+            max: Math.max.apply(null, yData).toFixed(0),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -277,7 +283,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -363,15 +369,13 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
-              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
-              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
+                return 150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)
@@ -403,7 +407,7 @@ export default {
             stockCode: that.dialogOptions.stockCode
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
-          that.dialogOptions.leftList.xData.value = that.$store.state.bubbles.ztgBubblesData.xData[params.dataIndex]
+          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
           that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
           that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
@@ -656,14 +660,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -850,15 +854,13 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
-              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
-              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
+                return 150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)

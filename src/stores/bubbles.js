@@ -39,6 +39,7 @@ export default {
     setDefaultX: '',
     setDefaultY: '',
     ztgBubblesData: {
+      xDefault: '',
       xData: '',
       yData: '',
       bubblesSize: '',
@@ -58,7 +59,8 @@ export default {
     },
     zbgLine: null,
     newStockList: null,
-    newStockSortType: ''
+    newStockSortType: '',
+    newStockSort: ''
 
   },
   mutations: {
@@ -162,6 +164,7 @@ export default {
     setStockBubblesData(state, result) {
       const data = result.data
       state.ztgBubblesData = {
+        xDefault: [],
         xData: [],
         yData: [],
         bubbleSize: [],
@@ -173,19 +176,28 @@ export default {
       if (result.errCode === 0) {
         for (var item of data) {
           if (item.xData !== null && item.yData !== null) {
-
-            state.ztgBubblesData.xData.push(item.xData)
+            state.ztgBubblesData.xDefault.push(item.xData)
+            if (item.xData > 10) {
+              state.ztgBubblesData.xData.push(Math.log(11))
+            } else {
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
+            }
             state.ztgBubblesData.yData.push(item.yData)
             state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
             state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
             state.ztgBubblesData.innerCode.push(item.innerCode)
             state.ztgBubblesData.name.push(item.name)
-            state.ztgBubblesData.seriesData.push([item.xData, item.yData])
+            if (item.xData > 10) {
+              state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
+            } else {
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+            }
           }
         }
       } else {
         // alert(result.msg)
         state.ztgBubblesData = {
+          xDefault: [],
           xData: [],
           yData: [],
           bubbleSize: [],
@@ -199,7 +211,7 @@ export default {
     setBubblesLine(state, result) {
       if (result.errCode === 0) {
         state.ztgBubblesLine = result.data.reverse()
-        state.stockListTime = state.ztgBubblesLine[0].dateTime
+        state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
       } else {
         state.ztgBubblesLine = null
       }
@@ -253,34 +265,71 @@ export default {
         state.newStockList = null
       }
     },
-    sortNewList(state, type) {
+    sortNewList(state, result) {
 
-      state.newStockSortType = type
+      state.newStockSortType = result.type
+      state.newStockSort = result.sortType
 
-      if (type === 'name') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return (b.name).localeCompare(a.name)
-        })
-      } else if (type === 'innerCode') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return b.symbol - a.symbol
-        })
-      } else if (type === 'price') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return b.price - a.price
-        })
-      } else if (type === 'chg') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return b.chg - a.chg
-        })
-      } else if (type === 'lznum') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return b.limitNum - a.limitNum
-        })
-      } else if (type === 'zfnum') {
-        state.newStockList = state.newStockList.sort(function(a, b) {
-          return b.chgNum - a.chgNum
-        })
+      if (result.type === 'name') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return (a.chiSpel).localeCompare(b.chiSpel)
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return (b.chiSpel).localeCompare(a.chiSpel)
+          })
+        }
+      } else if (result.type === 'innerCode') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.symbol - b.symbol
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.symbol - a.symbol
+          })
+        }
+      } else if (result.type === 'price') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.price - b.price
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.price - a.price
+          })
+        }
+      } else if (result.type === 'chg') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.chg - b.chg
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.chg - a.chg
+          })
+        }
+      } else if (result.type === 'lznum') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.limitNum - b.limitNum
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.limitNum - a.limitNum
+          })
+        }
+      } else if (result.type === 'zfnum') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.chgNum - b.chgNum
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.chgNum - a.chgNum
+          })
+        }
       }
     }
   },
@@ -452,9 +501,13 @@ export default {
     sortNewStockList({
       commit
     }, {
-      type
+      type,
+      sortType
     }) {
-      commit('sortNewList', type)
+      commit('sortNewList', {
+        type,
+        sortType
+      })
     }
 
   }
