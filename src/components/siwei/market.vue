@@ -1,61 +1,67 @@
 <template>
 <div class='market'>
-  <div class='left'>
-    <div class='top'>
-      <div></div>
-      <div class='chart' ref='chart'></div>
-      <span v-z3-updowncolor=1 class='zt'>涨停{{zt}}家 ST{{stzt}}家</span>
-      <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
+  <div class="market_con">
+    <div class='left'>
+      <div class='top'>
+        <div></div>
+        <div class='chart' ref='chart'></div>
+        <span class="desc">气泡大小：涨速&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;气泡颜色：涨跌幅</span>
+        <span v-z3-updowncolor=1 class='zt'>涨停{{zt}}家 ST{{stzt}}家</span>
+        <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
+      </div>
+      <div class='bottom'>
+        <abnormalPlatesChart></abnormalPlatesChart>
+      </div>
     </div>
-    <div class='bottom'>
-      <abnormalPlatesChart></abnormalPlatesChart>
+    <div class='right'>
+      <div class='stocks'>
+        <div class='tit'>异动个股</div>
+        <div class="list" ref="stocks_list">
+          <div class='block' v-for='stock in stockList'>
+            <div class='time'>{{stock.dateTime | hhmmss}}</div>
+            <div class='item'>
+              <span class=''>{{stock.stockName}}</span>
+              <span class=''>{{stock.symbol}}</span>
+              <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
+              <span class='type'>{{stock.status}}</span>
+            </div>
+            <div class="news">
+              <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
+            </div>
+            <ul class='topics'>
+              <li class="topic" v-for="topic in stock.topics" v-if="stock.topics && stock.topics.length > 0">
+                <div>{{topic.topicName}}</div>
+                <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="blocks">
+        <div class="tit">异动板块</div>
+        <div class="list">
+          <div class="block" v-for="plate of plateList">
+            <div class="time plate_top">
+              <span>{{plate.dateTime | hhmm}}</span>
+              <span class="name">{{plate.industryName}}</span>
+              <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
+            </div>
+            <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
+            <table class="stockList">
+              <tr v-for="stock of plate.baseDetailList">
+                <td class="name">{{stock.stockName}}</td>
+                <td class="code">{{stock.symbol}}</td>
+                <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
+                <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg | chngPct}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class='right'>
-    <div class='stocks'>
-      <div class='tit'>异动个股</div>
-      <div class="list" ref="stocks_list">
-        <div class='block' v-for='stock in stockList'>
-          <div class='time'>{{stock.dateTime | hhmmss}}</div>
-          <div class='item'>
-            <span class=''>{{stock.stockName}}</span>
-            <span class=''>{{stock.symbol}}</span>
-            <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
-            <span class='type'>{{stock.status}}</span>
-          </div>
-          <div class="news">
-            <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
-          </div>
-          <ul class='topics'>
-            <li class="topic" v-for="topic in stock.topics" v-if="stock.topics && stock.topics.length > 0">
-              <div>{{topic.topicName}}</div>
-              <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="blocks">
-      <div class="tit">异动板块</div>
-      <div class="list">
-        <div class="block" v-for="plate of plateList">
-          <div class="time plate_top">
-            <span>{{plate.dateTime | hhmm}}</span>
-            <span class="name">{{plate.industryName}}</span>
-            <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
-          </div>
-          <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
-          <table class="stockList">
-            <tr v-for="stock of plate.baseDetailList">
-              <td class="name">{{stock.stockName}}</td>
-              <td class="code">{{stock.symbol}}</td>
-              <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
-              <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg | chngPct}}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="legend">
+    <chartLegend :legendData="legendData"></chartLegend>
   </div>
 </div>
 </template>
@@ -67,6 +73,7 @@ import {
   mapState
 } from 'vuex'
 import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
+import chartLegend from 'components/siwei/legend'
 
 let pcid1 = '';
 let pcid2 = '';
@@ -76,11 +83,49 @@ export default {
       stockLastTime: '',
       plateLastTime: '',
       stockList: [],
-      plateList: []
+      plateList: [],
+      legendData: [{
+          value: '-4%',
+          color: '#00d641'
+        },
+        {
+          value: '-3%',
+          color: '#1aa448'
+        },
+        {
+          value: '-2%',
+          color: '#0e6f2f'
+        },
+        {
+          value: '-1%',
+          color: '#085421'
+        },
+        {
+          value: '0%',
+          color: '#424453'
+        },
+        {
+          value: '1%',
+          color: '#6d1414'
+        },
+        {
+          value: '2%',
+          color: '#961010'
+        },
+        {
+          value: '3%',
+          color: '#be0808'
+        },
+        {
+          value: '4%',
+          color: '#e41414'
+        }
+      ]
     }
   },
   components: {
-    abnormalPlatesChart
+    abnormalPlatesChart,
+    chartLegend
   },
   computed: {
     bubbles: function() {
@@ -153,7 +198,7 @@ export default {
     },
     hhmm(value) {
       value += "";
-      if (value.length === 3) {
+      if (value.length === 5) {
         value = "0" + value;
       }
       return value.substring(0, 2) + ":" + value.substring(2, 4)
@@ -167,7 +212,7 @@ export default {
             containLabel: false,
             left: 60,
             right: '75%',
-            top: 40,
+            top: 48,
             bottom: 40,
             borderColor: '#32343E'
           },
@@ -175,7 +220,7 @@ export default {
             // width: '75%',
             width: 'auto',
             left: '25%',
-            top: 40,
+            top: 48,
             bottom: 40,
             right: 10,
             containLabel: false,
@@ -418,11 +463,18 @@ export default {
     height: 100%;
     font-size: 12px;
     color: #ccc;
+    .legend {
+        height: 36px;
+        line-height: 36px;
+    }
+}
+.market_con {
+    height: calc(100% - 36px);
 }
 .market .zt {
     position: absolute;
     left: 55px;
-    top: 10px;
+    top: 20px;
 }
 .market .dt {
     position: absolute;
@@ -438,6 +490,12 @@ export default {
 .market .top {
     position: relative;
     height: 60%;
+    .desc {
+        position: absolute;
+        right: 10px;
+        top: 4px;
+        text-align: right;
+    }
 }
 .market .chart {
     height: 100%;
@@ -450,12 +508,13 @@ export default {
     float: right;
     background: #23252E;
     height: 100%;
+    box-sizing: border-box;
 }
 .market .stocks {
     height: 55%;
     border-bottom: 1px solid #32343E;
     .list {
-        height: calc(100% - 24px);
+        height: calc(100% - 25px);
         overflow: auto;
     }
 }
@@ -475,9 +534,10 @@ export default {
 .market .blocks {
     height: 45%;
     .list {
-        height: calc(100% - 24px);
+        height: calc(100% - 25px);
         overflow: auto;
     }
+
 }
 .market .right .tit {
     height: 24px;
@@ -502,12 +562,12 @@ export default {
 .market .plate_top {
     height: 24px;
     line-height: 24px;
-
     .name {
         border: 1px solid #32343E;
         background: #23252E;
         text-align: center;
-        width: 60px;
+        min-width: 60px;
+        padding: 0 4px;
         display: inline-block;
         margin-left: 10px;
     }

@@ -361,39 +361,19 @@ export default [{
       path: 'wisdomHeadlines',
       name: 'wisdomHeadlines',
       component: wisdomHeadlines
-    }]
-  },
-  {
-    path: ctx + '/zInfo',
-    component: zInfo,
-    children: [{
+    }, {
       path: 'optionalInformation',
       name: 'optionalInformation',
       component: optionalInformation
-    }]
-  },
-  {
-    path: ctx + '/zInfo',
-    component: zInfo,
-    children: [{
+    }, {
       path: 'newsFlash',
       name: 'newsFlash',
       component: newsFlash
-    }]
-  },
-  {
-    path: ctx + '/zInfo',
-    component: zInfo,
-    children: [{
+    }, {
       path: 'newsOpportunities',
       name: 'newsOpportunities',
       component: newsOpportunities
-    }]
-  },
-  {
-    path: ctx + '/zInfo',
-    component: zInfo,
-    children: [{
+    }, {
       path: 'listedCompany',
       name: 'listedCompany',
       component: listedCompany
