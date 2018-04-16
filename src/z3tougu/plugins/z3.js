@@ -206,11 +206,11 @@ export default {
         };
       }
     })
-    Vue.directive('z3-drop', function(el, binding) {
-      let oDiv = el; // 当前元素
-      oDiv.onmouseup = function(e) {
-        binding.value()
-      }
+    Vue.directive('z3-drop',function (el,binding) {
+        let oDiv = el; // 当前元素
+        oDiv.onmouseup = function (e) {
+            binding.value()
+        }
     });
     Vue.directive('drag', {
       bind: function(el, binding) {
