@@ -125,7 +125,9 @@ export default {
           showImg: false,
           showBImg: false
         }
-      ]
+      ],
+      tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
     }
   },
   components: {
@@ -152,14 +154,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -373,15 +375,13 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
-              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
-              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
+                return 150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)
@@ -416,7 +416,7 @@ export default {
             stockCode: that.dialogOptions.stockCode
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
-          that.dialogOptions.leftList.xData.value = that.$store.state.bubbles.ztgBubblesData.xData[params.dataIndex]
+          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
           that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
           that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
@@ -466,14 +466,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -616,15 +616,13 @@ export default {
             },
             data: sd,
             symbolSize: function(params, value) {
-              const tcapMax = Math.sqrt(1.650026740738E12 / 1e11)
-              const tcapMin = Math.sqrt(9.722757458E9 / 1e11)
               const tmpSize = that.options.sizeDefault
               if (tmpSize === '') {
                 return 32
               }
               var num = Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[(value.dataIndex)])
               if (tmpSize.indexOf('tcap') >= 0) {
-                return 150 * (Math.sqrt(num / 1e11) - tcapMin) + 13 * (tcapMax - tcapMin)
+                return 150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)
               } else {
                 num = num > 40 ? 40 : num
                 return (num * 4).toFixed(2)
@@ -640,15 +638,20 @@ export default {
     toStockDetail(innerCode) {
       window.open('/stock/' + innerCode + '.shtml')
     },
-    sortList(type, indexNum, e) {
+    sortList(type, indexNum) {
       if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
         this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
         this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
-        /* if(this.newListTitle[indexNum].showBImg){
-
-         }else{
-
-         } */
+        if (this.newListTitle[indexNum].showBImg) {
+          this.$store.dispatch('bubbles/sortNewStockList', {
+            type: type,
+            sortType: 'desc'
+          })
+        } else {
+          this.$store.dispatch('bubbles/sortNewStockList', {
+            type: type
+          })
+        }
       } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
         this.newListTitle.forEach(function(item, index) {
           if (indexNum === index) {
@@ -681,13 +684,15 @@ export default {
         type: 0
       }).then(() => { // that.$refs.ztgListUl.scrollTop = 0
         that.$store.dispatch('bubbles/sortNewStockList', {
-          type: that.$store.state.bubbles.newStockSortType
+          type: that.$store.state.bubbles.newStockSortType,
+          sortType: that.$store.state.bubbles.newStockSort
         })
       })
     }, Data.refreshTime)
   },
   destroyed() {
     this.$store.state.bubbles.newStockSortType = ''
+    this.$store.state.bubbles.newStockSort = ''
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
