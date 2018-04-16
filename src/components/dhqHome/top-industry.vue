@@ -81,7 +81,7 @@
     <table class="top-industry-table" v-if="type === 'industry' && industryList.length>0">
       <tr>
         <td>名称</td>
-        <td>涨幅</td>
+        <td>涨跌幅</td>
         <td>龙头股</td>
         <td>最新价</td>
         <td>涨幅</td>
