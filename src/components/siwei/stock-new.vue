@@ -8,18 +8,23 @@
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
     <div class="qsgList fr">
+      <div class="qsgListTitle clearfix">
+        <a><span>序号</span></a>
+        <a v-for="(item,index) in newListTitle">
+                <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
+                <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
+                <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
+            </a>
+      </div>
       <ul ref="newListUl">
-        <li class="clearfix">
-          <span v-for="item in newListTitle">{{item}}</span>
-        </li>
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
           <span>{{item.symbol | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{item.price | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{item.chg | isNull | chng}}</span>
-          <span v-z3-updowncolor="1">{{item.limitNum | isNull}}</span>
-          <span v-z3-updowncolor="1">{{item.chgNum | isNull}}</span>
+          <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
+          <span v-z3-updowncolor="item.chgNum">{{item.chgNum | isNull}}</span>
         </li>
       </ul>
     </div>
@@ -84,7 +89,43 @@ export default {
       quoteChange: Data.quoteChange,
       chgColor: Data.chgColor,
       interval: null,
-      newListTitle: ['序号', '简称', '代码', '最新价', '涨跌幅', '开板前连涨数', '累计涨幅']
+      newListTitle: [{
+          name: '简称',
+          type: 'name',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '代码',
+          type: 'innerCode',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '最新价',
+          type: 'price',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '涨跌幅',
+          type: 'chg',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '开板前连涨数',
+          type: 'lznum',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '累计涨幅',
+          type: 'zfnum',
+          showImg: false,
+          showBImg: false
+        }
+      ]
     }
   },
   components: {
@@ -598,6 +639,30 @@ export default {
     },
     toStockDetail(innerCode) {
       window.open('/stock/' + innerCode + '.shtml')
+    },
+    sortList(type, indexNum, e) {
+      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
+        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
+        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
+        /* if(this.newListTitle[indexNum].showBImg){
+
+         }else{
+
+         } */
+      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
+        this.newListTitle.forEach(function(item, index) {
+          if (indexNum === index) {
+            item.showImg = true
+          } else {
+            item.showImg = false
+            item.showBImg = false
+          }
+        })
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+      }
+      //  this.newListTitle[index].showImg = true
     }
   },
   mounted() {
@@ -615,10 +680,14 @@ export default {
       that.$store.dispatch('bubbles/getNewStockList', {
         type: 0
       }).then(() => { // that.$refs.ztgListUl.scrollTop = 0
+        that.$store.dispatch('bubbles/sortNewStockList', {
+          type: that.$store.state.bubbles.newStockSortType
+        })
       })
     }, Data.refreshTime)
   },
   destroyed() {
+    this.$store.state.bubbles.newStockSortType = ''
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
@@ -649,17 +718,42 @@ export default {
 }
 .qsgList {
 
-    ul {
-        height: 100%;
-        overflow: auto;
-        li:first-child {
+    .qsgListTitle {
+        width: 100%;
+        border-bottom: 1px solid #131417;
+        padding-top: 10px;
+
+        a {
+            width: 14%;
+            height: 100%;
+            float: left;
+            display: block;
+            text-align: center;
 
             span {
-                padding-top: 10px;
+                height: 34px;
+                width: 100%;
+                display: block;
                 line-height: 17px;
+                box-sizing: border-box;
+                padding: 0 10px;
+                cursor: pointer;
+            }
+
+            img {
+                margin-top: 3px;
             }
 
         }
+        a:first-child span {
+            cursor: default;
+        }
+
+    }
+
+    ul {
+        height: calc(100% - 60px);
+        overflow: auto;
         li {
 
             /*padding: 10px 5px 10px 10px;*/

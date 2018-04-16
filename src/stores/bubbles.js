@@ -48,6 +48,8 @@ export default {
       seriesData: []
     },
     ztgBubblesLine: [],
+    stockListTime: '',
+    isTop: false,
     ztgCompare: {
       up: [],
       openUp: [],
@@ -55,7 +57,8 @@ export default {
       openDown: []
     },
     zbgLine: null,
-    newStockList: null
+    newStockList: null,
+    newStockSortType: ''
 
   },
   mutations: {
@@ -196,6 +199,7 @@ export default {
     setBubblesLine(state, result) {
       if (result.errCode === 0) {
         state.ztgBubblesLine = result.data.reverse()
+        state.stockListTime = state.ztgBubblesLine[0].dateTime
       } else {
         state.ztgBubblesLine = null
       }
@@ -203,7 +207,11 @@ export default {
     updateBubblesLine(state, result) {
       if (result.errCode === 0) {
         if (result.data.length !== 0) {
-          state.ztgBubblesLine.unshift(result.data)
+          state.ztgBubblesLine.unshift(result.data[0])
+          state.stockListTime = state.ztgBubblesLine[0].dateTime
+          state.isTop = true
+        } else {
+          state.isTop = false
         }
 
       }
@@ -237,12 +245,42 @@ export default {
     setNewStockList(state, result) {
       if (result.errCode === 0) {
         state.newStockList = result.data.sort(function(a, b) {
-          return a.symbol - b.symbol
+          return b.chg - a.chg
         })
 
         // state.newStockList = result.data
       } else {
         state.newStockList = null
+      }
+    },
+    sortNewList(state, type) {
+
+      state.newStockSortType = type
+
+      if (type === 'name') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return (b.name).localeCompare(a.name)
+        })
+      } else if (type === 'innerCode') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return b.symbol - a.symbol
+        })
+      } else if (type === 'price') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return b.price - a.price
+        })
+      } else if (type === 'chg') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return b.chg - a.chg
+        })
+      } else if (type === 'lznum') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return b.limitNum - a.limitNum
+        })
+      } else if (type === 'zfnum') {
+        state.newStockList = state.newStockList.sort(function(a, b) {
+          return b.chgNum - a.chgNum
+        })
       }
     }
   },
@@ -410,6 +448,13 @@ export default {
       }).then(body => {
         commit('setNewStockList', body)
       })
+    },
+    sortNewStockList({
+      commit
+    }, {
+      type
+    }) {
+      commit('sortNewList', type)
     }
 
   }

@@ -62,6 +62,9 @@ import * as Data from '../../z3tougu/constant/siwei.js'
 import {
   mapState
 } from 'vuex'
+import {
+  ctx
+} from '../../z3tougu/config'
 
 export default {
   data() {
@@ -111,7 +114,8 @@ export default {
     Siweidialog
   },
   computed: mapState({
-    ztgList: state => state.bubbles.ztgBubblesLine
+    ztgList: state => state.bubbles.ztgBubblesLine,
+    stockListTime: state => state.bubbles.stockListTime
   }),
   methods: {
     setDialog(data) {
@@ -596,12 +600,9 @@ export default {
     },
     toThemeDetail(topicCode, target) {
       target.stopPropagation();
-      this.$router.push({
-        name: 'topicDetail',
-        params: {
-          topicCode
-        }
-      })
+      if (topicCode) {
+        window.open(ctx + '/topic/' + topicCode)
+      }
     },
     updateBubbles() {
       this.$store.dispatch('bubbles/getStockBubbles', {
@@ -834,23 +835,25 @@ export default {
     this.initZtgCompare()
     this.$store.dispatch('bubbles/getBubblesLine', {
       type: 2,
-      currentTime: ''
+      currentTime: this.stockListTime
     }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
     this.interval = setInterval(function() {
-      let date = new Date()
-      let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
       that.updateBubbles()
       that.updateCompare()
       that.$store.dispatch('bubbles/getBubblesLine', {
         type: 2,
-        currentTime: currentTime
+        currentTime: that.stockListTime
       }).then(() => {
-        // that.$refs.ztgListUl.scrollTop = 0
+        if (that.isTop) {
+          that.$refs.ztgListUl.scrollTop = 0
+        }
       })
     }, Data.refreshTime)
 
   },
   destroyed() {
+    this.$store.state.bubbles.stockListTime = ''
+    this.$store.state.bubbles.ztgBubblesLine = []
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }

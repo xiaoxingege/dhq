@@ -48,6 +48,10 @@ import * as Data from '../../z3tougu/constant/siwei.js'
 import {
   mapState
 } from 'vuex'
+import {
+  ctx
+} from '../../z3tougu/config'
+
 export default {
   data() {
     return {
@@ -116,14 +120,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < 60) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < 30) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -430,14 +434,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < 60) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < 30) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -600,6 +604,15 @@ export default {
           }]
         })
       })
+    },
+    toStockDetail(innerCode) {
+      window.open('/stock/' + innerCode + '.shtml')
+    },
+    toThemeDetail(topicCode, target) {
+      target.stopPropagation();
+      if (topicCode) {
+        window.open(ctx + '/topic/' + topicCode)
+      }
     }
   },
   mounted() {
@@ -608,20 +621,22 @@ export default {
     this.$store.dispatch('bubbles/getBubblesLine', {
       type: 3,
       currentTime: ''
-    }).then(() => {})
+    }).then(() => {
+
+    })
     this.interval = setInterval(function() {
-      let date = new Date()
-      let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
       that.updateBubbles()
       that.$store.dispatch('bubbles/getBubblesLine', {
         type: 3,
-        currentTime: currentTime
+        currentTime: ''
       }).then(() => {
         // that.$refs.ztgListUl.scrollTop = 0
       })
     }, Data.refreshTime)
   },
   destroyed() {
+    this.$store.state.bubbles.stockListTime = ''
+    this.$store.state.bubbles.ztgBubblesLine = []
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
