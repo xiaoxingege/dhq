@@ -86,7 +86,7 @@
       <table class="dpindex-table">
         <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item,index)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
           <td>{{item.name === null?'--':item.name}}</td>
-          <td v-z3-updowncolor="item.stockVal">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
+          <td v-z3-updowncolor="item.upDown">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':parseFloat(item.upDown).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDownExtent">{{formatData(item.upDownExtent)?'--':parseFloat(item.upDownExtent).toFixed(2)+'%'}}</td>
           <td>{{formatData(item.amount)?'--':unitFormat(item.amount)}}</td>
@@ -94,7 +94,7 @@
       </table>
     </div>
   </div>
-  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :stockCodeList="stockCodeList"></DayMarketChart>
+  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp"></DayMarketChart>
 </div>
 </template>
 <script>
@@ -113,7 +113,8 @@ export default {
       intervalTime: 6,
       stockCodeList: ['000001.SH', '399001.SZ', '399006.SZ', '399005.SZ', '000300.SH', '000016.SH', '399905.SZ', '000985.SH'],
       stockCode: '000001.SH',
-      stockName: '上证指数'
+      stockName: '上证指数',
+      timestamp: ''
     }
   },
   watch: {
@@ -131,7 +132,7 @@ export default {
         this.$store.dispatch('z3sockjs/init')
       }
     },
-    'chartData': {
+    'dpData': {
       deep: true,
       handler: function() {
         if (z3websocket.ws) {
@@ -147,7 +148,7 @@ export default {
     DayMarketChart
   },
   computed: mapState({
-    chartData: state => state.dhqIndex.chartData,
+    dpData: state => state.dhqIndex.dpIndexData,
     dpIndexData: function() {
       const dpIndexData = this.$store.state.dhqIndex.dpIndexData
       let arr = []
@@ -184,6 +185,7 @@ export default {
     },
     updateStock(data) {
       this.$store.commit('dhqIndex/chartSocket', data)
+      this.timestamp = new Date().getTime()
     },
     changeNavType(data) {
       this.type = data
@@ -213,7 +215,7 @@ export default {
       } else if (value >= 10000 && value < 100000000) {
         value = (value / 10000).toFixed(2) + '万'
       } else {
-        value = value.toFile(2)
+        value = value.toFixed(2)
       }
       return value
     }

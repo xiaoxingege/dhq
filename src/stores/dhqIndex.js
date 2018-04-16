@@ -4,6 +4,14 @@ import {
   domain
 } from '../z3tougu/config'
 import fetch from '../z3tougu/util/z3fetch'
+const chartLineObj = {
+  priceArr: [],
+  upDownExtent: '',
+  stockVal: '',
+  avgArr: [],
+  upDown: '',
+  line: ''
+}
 export default {
   namespaced: true,
   state: {
@@ -35,7 +43,14 @@ export default {
     positionList: [],
     positionListFilter: [],
     chartData: {
-      lsChartData: null
+      '000001.SH': chartLineObj,
+      '399001.SZ': chartLineObj,
+      '399006.SZ': chartLineObj,
+      '399005.SZ': chartLineObj,
+      '000300.SH': chartLineObj,
+      '000016.SH': chartLineObj,
+      '399905.SZ': chartLineObj,
+      '000985.SH': chartLineObj
     },
     marketTemData: {
       barData: null,
@@ -216,22 +231,27 @@ export default {
       }
     },
     setLsChartData(state, result) {
-      if (result.errCode === 0) {
-        state.chartData.lsChartData = result.data
+      if (result.body.errCode === 0) {
+        state.chartData[result.stockCode] = result.body.data
       } else {
-        state.chartData.lsChartData = []
+        state.chartData[result.stockCode] = {}
       }
     },
     chartSocket(state, result) {
-      state.chartData.lsChartData.avgArr[result.list[0].time] = result.list[0].avgpx // 均值
-      state.chartData.lsChartData.priceArr[result.list[0].time] = result.list[0].lastpx // 当前价
+      if (state.chartData.hasOwnProperty(result.stockCode)) {
+        state.chartData[result.stockCode].avgArr[result.list[0].time] = result.list[0].avgpx // 均值
+        state.chartData[result.stockCode].priceArr[result.list[0].time] = result.list[0].lastpx // 当前价
+        state.chartData[result.stockCode].stockVal = result.list[0].lastpx // 最新价
+        state.chartData[result.stockCode].upDown = result.list[0].pxchg // 涨跌
+        state.chartData[result.stockCode].upDownExtent = result.list[0].pxchgRatio // 涨跌幅
+      }
       if (state.dpIndexData.length > 0) {
         state.dpIndexData.forEach(function(data) {
           if (data.stockCode === result.stockCode) {
             data.upDown = result.list[0].pxchg // 涨跌
             data.upDownExtent = result.list[0].pxchgRatio // 涨跌幅
             data.stockVal = result.list[0].lastpx // 最新价
-            data.amount = result.list[0].tradeVolume // 金额（总成交量）
+            data.amount = result.list[0].totalTradeValue // 金额（总成交量）
           }
         })
       }
@@ -399,7 +419,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setLsChartData', body)
+        commit('setLsChartData', {
+          body,
+          stockCode
+        })
       })
     },
     /* 大盘温度计 */

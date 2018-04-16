@@ -35,7 +35,7 @@ const actions = {
     type
   }) {
     const url = `${domain}/openapi/dimension/bubbles`
-    fetch(url, {
+    return fetch(url, {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
@@ -44,8 +44,8 @@ const actions = {
       method: 'post',
       body: `xData=${x}&yData=${y}&bubbleSize=${size}&bubbleColor=${color}&type=${type}`
     }).then((res) => res.json()).then((result) => {
-      if (result.errCode === -1) {
-        commit(mutationsTypes.UPDATE_BUBBLE, result);
+      if (result.errCode === 0) {
+        commit(mutationsTypes.UPDATE_BUBBLE, result.data);
       } else {
         commit('ERROR', result, {
           root: true
@@ -80,11 +80,11 @@ const actions = {
     startTime
   }) {
     const url = `${domain}/openapi/dimension/abnormal/section?startTime=${startTime}`;
-    fetch(url, {
+    return fetch(url, {
       mode: 'cors'
     }).then((res) => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_PLATE_LIST, result)
+        commit(mutationsTypes.UPDATE_PLATE_LIST, result.data)
       } else {
         commit('ERROR', result, {
           root: true
@@ -118,7 +118,7 @@ const mutations = {
     state.abnormalStockList = stocks || []
   },
   [mutationsTypes.UPDATE_PLATE_LIST](state, plates) {
-    state.abnormalPlateList = plates.data || []
+    state.abnormalPlateList = plates || []
   },
   [mutationsTypes.UPDATE_INDEX_DATA](state, data) {
     state.indexData.data = data.priceArr;

@@ -203,9 +203,9 @@ html {
     </div>
   </div>
   <ThemeMap v-if="plateType === 'theme'" :plateType="plateType" :conditionTopic="conditionTopic" :conditionStock='conditionStock' :topicIndexs='topicIndexs' :topicStockIndexs='topicStockIndexs' @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf" @passMapType="getMapType"
-    @passConditionStock="getConditionStock" @passConditionTopic="getConditionTopic" @changeCondition="getChangeCondition"></ThemeMap>
+    @passConditionStock="getConditionStock" @passConditionTopic="getConditionTopic" @changeCondition="getChangeCondition" :conditionList="topicConditionList"></ThemeMap>
   <IndustryMap v-if="plateType === 'industry'" :plateType="plateType" :conditionIndustry="conditionIndustry" :conditionStockI='conditionStockI' :industryIndexs='industryIndexs' :industryStockIndexs='industryStockIndexs' @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"
-    @passMapType="getMapType" @passConditionStockI="getConditionStockI" @passConditionIndustry="getConditionIndustry" @changeCondition="getChangeCondition"></IndustryMap>
+    @passMapType="getMapType" @passConditionStockI="getConditionStockI" @passConditionIndustry="getConditionIndustry" @changeCondition="getChangeCondition" :conditionList="industryConditionList"></IndustryMap>
 </div>
 </template>
 <script type="text/javascript">
@@ -229,7 +229,45 @@ export default {
       industryIndexs: ['indu_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
       industryStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
       topicIndexs: ['topic_market.tech_index', 'chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
-      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today']
+      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
+      topicConditionList: {
+        'topic_market.tech_index': '热度指数',
+        'chg_pct': '涨跌幅',
+        'chg_pct_week': '近1周涨跌幅',
+        'chg_pct_month': '近1月涨跌幅',
+        'chg_pct_3month': '近3月涨跌幅',
+        'chg_pct_6month': '近6月涨跌幅',
+        'chg_pct_year': '近1年涨跌幅',
+        'chg_pct_year_sofar': '今年以来涨跌幅',
+        'rela_volume': '相对成交量',
+        'peg': 'PEG',
+        'ps': '市销率',
+        'pb': '市净率',
+        'div_rate': '股息率',
+        'pe_ttm': '市盈率(TTM)',
+        'fir_fcst_pe': '预测市盈率',
+        'eps_5year': 'EPS增长率(过去5年)',
+        'keep_days': '连续涨跌天数'
+      },
+      industryConditionList: {
+        'indu_market.tech_index': '热度指数',
+        'chg_pct': '涨跌幅',
+        'chg_pct_week': '近1周涨跌幅',
+        'chg_pct_month': '近1月涨跌幅',
+        'chg_pct_3month': '近3月涨跌幅',
+        'chg_pct_6month': '近6月涨跌幅',
+        'chg_pct_year': '近1年涨跌幅',
+        'chg_pct_year_sofar': '今年以来涨跌幅',
+        'rela_volume': '相对成交量',
+        'peg': 'PEG',
+        'ps': '市销率',
+        'pb': '市净率',
+        'div_rate': '股息率',
+        'pe_ttm': '市盈率(TTM)',
+        'fir_fcst_pe': '预测市盈率',
+        'eps_5year': 'EPS增长率(过去5年)',
+        'keep_days': '连续涨跌天数'
+      }
     }
   },
   props: [''],

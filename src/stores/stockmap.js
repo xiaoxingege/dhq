@@ -163,11 +163,14 @@ const actions = {
   getLeadStock({
     commit
   }, {
-    strategyId,
-    pageSize
+    size,
+    sort,
+    condition,
+    industryCode,
+    isContinue
   }) {
-    // const url =  `${domain}/openapi/section/topStocks/`
-    const url = '../../mock/leadstock.json'
+    const url = `${domain}/openapi/cloud/stockTop?size=${size}&sort=${sort}&condition=${condition}&industryCode=${industryCode}&isContinue=${isContinue}`
+    // const url = '../../mock/leadstock.json'
     return fetch(url).then((res) => {
       return res.json()
     }).then((body) => {

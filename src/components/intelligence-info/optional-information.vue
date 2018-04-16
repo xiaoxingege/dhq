@@ -40,7 +40,7 @@
       <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
       <p class="tc mt-10 mb-20">
         <a v-if="!noData && optionalInformationList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        <p v-if="noData"  class="tc mt-10 loadMore">数据已加载完</p>
+        <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
         <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
@@ -55,7 +55,6 @@
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
   import z3websocket from '../../z3tougu/z3socket'
-
   export default {
     data() {
       return {
@@ -66,7 +65,8 @@
         intervalTime:60000,
         scrollTop: 0,
         innerHeight: window.innerHeight,
-        innerCodes:''
+        innerCodes:'',
+        flag:true
       }
     },
     mounted() {
@@ -83,7 +83,8 @@
         'pageSize',
         'optionalStockId',
         'innerCode',
-        'loadingShow'
+        'loadingShow',
+        'isTops'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
@@ -92,7 +93,8 @@
         newTime:'newTime',
         optionalStockId:'optionalStockId',
         innerCode:'innerCode',
-        loadingShow:'loadingShow'
+        loadingShow:'loadingShow',
+        isTops:'isTops'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -119,21 +121,24 @@
         })
       },
       updateNews() {
-        const _this =this
-        _this.updateNewsPid = setInterval(() => {
+        this.updateNewsPid = setInterval(() => {
           console.log('启动定时器')
-          _this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime })
-        },_this.intervalTime)
+          console.log(this.updateNewsPid)
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime })
+        },this.intervalTime)
       },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop
-        if (this.scrollTop >= this.innerHeight) {
+        if (this.scrollTop*2 >= this.innerHeight ) {
+          this.$store.commit('setIsTop',false)
           if (this.updateNewsPid) {
+            console.log(this.updateNewsPid)
             console.log('清除定时器')
             clearInterval(this.updateNewsPid)
           }
         }
         if (this.scrollTop === 0) {
+          this.$store.commit('setIsTop',true)
           this.updateNews()
         }
       },
@@ -169,7 +174,8 @@
       },
       getInnerCode() {
         if (this.updateNewsPid) {
-          console.log('清除定时器')
+          console.log(this.updateNewsPid)
+          console.log('清除定时器2')
           clearInterval(this.updateNewsPid)
         }
         this.innerCodes = ''
@@ -190,10 +196,14 @@
         }
         this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
         this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
-        this.updateNews()
+        if(this.scrollTop === 0){
+            this.$store.commit('setIsTop',true)
+            console.log(this.scrollTop)
+            this.updateNews()
+        }
       },
       updateStock(stock) {
-        this.$store.commit('UPDATE_OPTIONALINFORMATION_RELSTOCK', stock)
+        this.$store.commit('UPDATE_RELSTOCK', stock)
       },
       subscribeStock() {
         const msg = {
@@ -244,8 +254,10 @@
       }
     },
     destroyed() {
+      if(this.updateNewsPid) {
+        clearInterval(this.updateNewsPid)
+      }
       z3websocket.ws && z3websocket.ws.close()
-      clearInterval(this.updateNewsPid)
     }
   }
 </script>
@@ -387,17 +399,5 @@
   }
   .blockbg {
       background: #525a65;
-  }
-  .pullUptoRefresh{position:relative;width:140px;height:50px;line-height:50px;margin:0 auto;}
-  .pullUptoRefresh>div.loadIcon{position:absolute;top:0;left:0;width:28px;height:28px;text-align:center}
-  .pullUptoRefresh>div.loadIcon>span{position:absolute;color:#999;display:block;top:-10px;left:4px}
-  .pullUptoRefresh>div.loadIcon>span.load_circle{top:14px;left:6px;width:24px;height:24px;border-radius:50%;border:1px solid #999;border-top-color:transparent;-webkit-transform-origin:50% 50%;transform-origin:50% 50%}
-  .loadAnimateInfinite{-webkit-animation:load 1s infinite linear;animation:load 1s infinite linear}
-  .pullUptoRefresh p{color: #666;}
-  @-webkit-keyframes load{0%{-webkit-transform:rotate(0);transform:rotate(0)}
-  to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
-  }
-  @keyframes load{0%{-webkit-transform:rotate(0);transform:rotate(0)}
-  to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
   }
 </style>

@@ -37,12 +37,12 @@
 <div class="index-top">
   <div class="index-chart clearfix">
     <a class="line-chart">
-      <div v-if="lsChartData !== null" class="indexNum">
-        <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.stockVal === null ? '--':lsChartData.stockVal === undefined?'--':Number(lsChartData.stockVal).toFixed(2)}}</span>
-        <img v-if="lsChartData && lsChartData.upDownExtent>0" src="../../assets/images/i_jiantou_up.png" />
-        <img v-if="lsChartData && lsChartData.upDownExtent<0" src="../../assets/images/i_jiantou_down.png" />
-        <span v-z3-updowncolor="lsChartData.upDown" class="mr-5">{{lsChartData.upDown === null ? '--':lsChartData.upDown === undefined?'--':Number(lsChartData.upDown).toFixed(2)}}</span>
-        <span v-z3-updowncolor="lsChartData.upDown">{{lsChartData.upDownExtent === null ? '(--)':lsChartData.upDownExtent === undefined?'(--)':'('+(lsChartData.upDownExtent>0?'+':'')+Number(lsChartData.upDownExtent).toFixed(2)+'%)'}}</span>
+      <div v-if="lsChartData.priceArr.length>0" class="indexNum">
+        <span v-z3-updowncolor="upDown" class="mr-5">{{stockVal === null ? '--':stockVal === undefined?'--':parseFloat(stockVal).toFixed(2)}}</span>
+        <img v-if="upDownExtent && upDownExtent>0" src="../../assets/images/i_jiantou_up.png" />
+        <img v-if="upDownExtent && upDownExtent<0" src="../../assets/images/i_jiantou_down.png" />
+        <span v-z3-updowncolor="upDown" class="mr-5">{{upDown === null ? '--':upDown === undefined?'--':parseFloat(upDown).toFixed(2)}}</span>
+        <span v-z3-updowncolor="upDown">{{upDownExtent === null ? '(--)':upDownExtent === undefined?'(--)':'('+(upDownExtent>0?'+':'')+parseFloat(upDownExtent).toFixed(2)+'%)'}}</span>
       </div>
       <div class="indexChart"></div>
     </a>
@@ -51,21 +51,22 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {
-  mapState
-} from 'vuex'
-
 export default {
-  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'stockCodeList'],
+  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp'],
   data() {
     return {
-
+      stockVal: this.lsChartData && this.lsChartData.stockVal,
+      upDown: this.lsChartData && this.lsChartData.upDown,
+      upDownExtent: this.lsChartData && this.lsChartData.upDownExtent
     }
   },
   components: {},
-  computed: mapState({
-    lsChartData: state => state.dhqIndex.chartData.lsChartData
-  }),
+  computed: {
+    lsChartData: function() {
+      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+      return chartData
+    }
+  },
   methods: {
     dealData(zeroArr) {
       var r = []
@@ -274,11 +275,11 @@ export default {
     }
   },
   watch: {
-    lsChartData: {
-      deep: true,
-      handler: function() {
-        this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
-      }
+    timestamp() {
+      this.stockVal = this.lsChartData.stockVal
+      this.upDown = this.lsChartData.upDown
+      this.upDownExtent = this.lsChartData.upDownExtent
+      this.refreshEcharts(this.lsChartData, this.stockName)
     },
     isResizeBottomChart() {
       echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
@@ -289,7 +290,10 @@ export default {
       this.$store.dispatch('dhqIndex/getIndexChartData', {
         stockCode: this.stockCode
       }).then(() => {
-        this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
+        this.stockVal = this.lsChartData.stockVal
+        this.upDown = this.lsChartData.upDown
+        this.upDownExtent = this.lsChartData.upDownExtent
+        this.refreshEcharts(this.lsChartData, this.stockName)
       })
     }
   },
@@ -297,7 +301,7 @@ export default {
     this.$store.dispatch('dhqIndex/getIndexChartData', {
       stockCode: this.stockCode
     }).then(() => {
-      this.refreshEcharts(this.$store.state.dhqIndex.chartData.lsChartData, this.stockName)
+      this.refreshEcharts(this.lsChartData, this.stockName)
     })
   }
 }
