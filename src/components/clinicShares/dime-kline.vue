@@ -143,9 +143,11 @@ body {
 
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
+    font-size: 14px;
 }
 .kline-title2 {
-    padding: 10px 0;
+    /*padding: 10px 7px;*/
+    padding: 10px 7px 16px;
 }
 .kline {
     height: 264px;
@@ -157,6 +159,7 @@ body {
 }
 .assess1 {
     padding-left: 5px;
+    font-size: 14px;
 }
 </style>
 <template>
@@ -185,6 +188,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
+  props: ['innerCode'],
   data() {
     return {
       showX: true
@@ -235,9 +239,14 @@ export default ({
           if (index === 0) {
             // console.log(item.datas.data[0].prevClosePx)
             const klineData = [].concat(alls.datas.data).reverse()
-
+            console.log(alls.datas.currPirce)
+            const stressPrice = alls.datas.stressPrice
+            //     const stressPrice = '0'
+            const currPirce = alls.datas.currPirce
+            //  const currPirce = '0'
+            const supportPrice = alls.datas.supportPrice
+            //   const supportPrice = '0'
             klineData.forEach((item) => {
-
               let time = ''
               time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
               data.times.push(time)
@@ -260,35 +269,73 @@ export default ({
               const prevClosePx = item.prevClosePx
 
               data.kdata.push([openPx, closePx, highPx, lowPx])
-              var zhichiPX = '10.88'
-              var dangqianPX = '12'
-              var zhichengPx = '11'
+              // console.log(data.kdata)
+              /* var stressPrice = '10.88'
+              var currPirce = '12'
+              var supportPrice = '11'*/
               data.markLineData.push([{
-                  coord: [data.times[0], zhichiPX]
+                  coord: [data.times[0], stressPrice],
+                  lineStyle: {
+                    normal: {
+                      color: config.upColor,
+                      type: 'solid'
+                    }
+                  }
                 },
                 {
-                  coord: [data.times[data.times.length - 1], zhichiPX]
+                  coord: [data.times[data.times.length - 1], stressPrice],
+                  lineStyle: {
+                    normal: {
+                      color: config.upColor,
+                      type: 'solid'
+                    }
+                  }
                 }
               ], [{
-                  coord: [data.times[0], dangqianPX]
+                  coord: [data.times[0], currPirce],
+                  lineStyle: {
+                    normal: {
+                      color: '#c9d0d7',
+                      type: 'solid'
+                    }
+                  }
                 },
                 {
-                  coord: [data.times[data.times.length - 1], dangqianPX]
+                  coord: [data.times[data.times.length - 1], currPirce],
+                  lineStyle: {
+                    normal: {
+                      color: '#c9d0d7',
+                      type: 'solid'
+                    }
+                  }
                 }
               ], [{
-                  coord: [data.times[0], zhichengPx]
+                  coord: [data.times[0], supportPrice],
+                  lineStyle: {
+                    normal: {
+                      color: '#1984ea',
+                      type: 'solid'
+                    }
+                  }
                 },
                 {
-                  coord: [data.times[data.times.length - 1], zhichengPx]
+                  coord: [data.times[data.times.length - 1], supportPrice],
+                  lineStyle: {
+                    normal: {
+                      color: '#1984ea',
+                      type: 'solid'
+                    }
+                  }
                 }
               ])
               data.markPointData.push({
                 name: '压力线',
-                coord: [data.times[0], zhichiPX],
+                coord: [data.times[0], stressPrice],
                 symbol: 'rect',
                 symbolSize: [86, 22],
                 itemStyle: {
                   normal: {
+
                     // color: 各异，
                     // borderColor: 各异,     // 标注边线颜色，优先于color 
                     // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
@@ -297,17 +344,34 @@ export default ({
                     // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                     // }
+
+                    color: '#141518',
+                    borderColor: config.upColor,
+                    borderWidth: 1,
+                    opacity: 0.5,
+                    lineStyle: {
+                      color: config.upColor,
+                      type: 'solid',
+                      width: 1
+                    },
+                    label: {
+                      show: true,
+                      // fontWeight:'bold',
+                      color: config.upColor,
+                      fontSize: 12
+
+                    }
                   }
                 }
 
               }, {
                 name: '当前价',
-                coord: [data.times[0], dangqianPX],
+                coord: [data.times[0], currPirce],
                 symbol: 'rect',
-                symbolSize: [86, 22],
+                symbolSize: [88, 22],
                 itemStyle: {
                   normal: {
-                    color: '#c9d0d7'
+                    // color: '#c9d0d7'
                     // borderColor: 各异,     // 标注边线颜色，优先于color 
                     // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
                     // label: {
@@ -315,24 +379,50 @@ export default ({
                     // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
                     // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
                     // }
+                    color: '#141518',
+                    borderColor: '#c9d0d7',
+                    borderWidth: 1,
+                    opacity: 0.5,
+                    lineStyle: {
+                      color: '#c9d0d7',
+                      type: 'solid',
+                      width: 1
+                    },
+                    label: {
+                      show: true,
+                      // fontWeight:'bold',
+                      color: '#c9d0d7',
+                      fontSize: 12
+
+                    }
                   }
                 }
 
               }, {
                 name: '支撑位',
-                coord: [data.times[0], zhichengPx],
+                coord: [data.times[0], supportPrice],
                 symbol: 'rect',
-                symbolSize: [86, 22],
+                symbolSize: [88, 22],
                 itemStyle: {
                   normal: {
-                    color: '#1984ea',
+                    // color: '#1984ea',
                     // borderColor: 各异,     // 标注边线颜色，优先于color 
                     // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
+                    color: '#141518',
+                    borderColor: '#1984ea',
+                    borderWidth: 1,
+                    opacity: 0.5,
+                    lineStyle: {
+                      color: '#1984ea',
+                      type: 'solid',
+                      width: 1
+                    },
                     label: {
-                      show: true
-                      // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
-                      // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-                      // color: '#1984ea'
+                      show: true,
+                      // fontWeight:'bold',
+                      color: '#1984ea',
+                      fontSize: 12
+
                     }
                   }
                 }
@@ -405,7 +495,9 @@ export default ({
       this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
-      this.$store.dispatch('clinicShares/queryIndexFace').then(() => {
+      this.$store.dispatch('clinicShares/queryIndexFace', {
+        innerCode: this.innerCode
+      }).then(() => {
 
         this.drawCharts()
 
@@ -417,6 +509,22 @@ export default ({
       const opt = {
         toolbox: {
           show: false
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          },
+          formatter: function(t) {
+            // console.log(t)
+            var time = t[0].name
+            var openPx = t[0].value[1]
+            var closePx = t[0].value[2]
+            var highPx = t[0].value[3]
+            var lowPx = t[0].value[4]
+            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+              '<br/>最低价：' + (lowPx || '--') + '<br/>'
+          }
         },
         animation: false,
         axisPointer: {
@@ -437,7 +545,7 @@ export default ({
         height: 40,
         top: 260 */
         grid: [{
-            left: 35,
+            left: 45,
             right: 10,
             top: 10,
             height: '60%',
@@ -635,13 +743,13 @@ export default ({
             markLine: {
               name: '压力位',
               symbol: ['none', 'none'],
-              data: lineData.markLineData,
-              lineStyle: {
+              data: lineData.markLineData
+              /* lineStyle: {
                 normal: {
                   color: '#ca4941',
                   type: 'solid'
                 }
-              }
+              } */
             }
           },
           {

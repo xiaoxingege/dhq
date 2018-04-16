@@ -36,7 +36,8 @@ export default {
       midDescribe: '',
       wineRate: 0
     }, // 打分
-    radarData: [], // 雷达图
+    // radarData: [], // 雷达图
+    radarData: {}, // 雷达图
     indexFace: [], // 资金面
     baseFace: [], // 基本面
     desc: true, // 降序
@@ -89,7 +90,7 @@ export default {
 
     updateRadarData(state, radarData) {
       state.radarData = radarData
-      // console.log(state.radarData[0].baseValue)
+      console.log(state.radarData.fundValue)
     },
     updateIndexFace(state, indexFace) {
       state.indexFace = indexFace
@@ -159,9 +160,10 @@ export default {
 
     querySmartStock({
       commit
+    }, {
+      innerCode
     }) {
-
-      fetch(`${domain}/openapi/smartStock/000001.SZ.shtml`, {
+      return fetch(`${domain}/openapi/smartStock/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -179,16 +181,18 @@ export default {
     },
     queryRadarData({
       commit
+    }, {
+      innerCode
     }) {
-      return fetch(`${domain}/openapi/smartStock/radarData/000001.SZ.shtml`, {
+      return fetch(`${domain}/openapi/smartStock/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
           // console.log(result.data)
-          commit('updateRadarData', result.data)
-          // console.log(result.data)
+          commit('updateRadarData', result.data.radarData)
+          console.log(result.data.radarData)
         } else {
           commit('ERROR', result, {
             root: true
@@ -198,8 +202,10 @@ export default {
     },
     queryIndexFace({
       commit
+    }, {
+      innerCode
     }) {
-      return fetch(`${domain}/openapi/smartStock/fundFace/000001.SZ.shtml`, {
+      return fetch(`${domain}/openapi/smartStock/fundFace/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -217,8 +223,10 @@ export default {
     },
     queryBaseFace({
       commit
+    }, {
+      innerCode
     }) {
-      return fetch(`${domain}/openapi/smartStock/baseFace/000001.SZ.shtml`, {
+      return fetch(`${domain}/openapi/smartStock/baseFace/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

@@ -78,8 +78,8 @@ body {
 <template>
 <div class="wrap-all">
   <div class="clinic-shares-wrap">
-    <ClinicMarkTop/>
-    <ClinicDimension/>
+    <ClinicMarkTop :innerCode='innerCode' />
+    <ClinicDimension :innerCode='innerCode' />
 
   </div>
   <div class="foot-tishi clearfix">
@@ -96,7 +96,7 @@ import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
   data() {
     return {
-
+      innerCode: '600000.SH'
     }
   },
   computed: mapState({
@@ -113,7 +113,9 @@ export default {
   },
   watch: {},
   mounted() {
+    // alert(this.innerCode)
 
+    // console.log(this.$route.params)
   },
   destroyed() {
 

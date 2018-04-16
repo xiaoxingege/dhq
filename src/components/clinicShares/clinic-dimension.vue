@@ -140,58 +140,69 @@ body {
 
 }
 .chart-kline {
-    /*width: 50%;*/
+    width: 49%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
+    float: left;
 }
 .chart-grop {
-    /* width: 50%;*/
+    width: 49%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
-
+    float: left;
+}
+.chart2-kline {
+    width: 49%;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+    float: left;
+}
+.chart-grop2 {
+    /*width: 50%;*/
 }
 .charts-base {
     /* height: 264px;*/
+    background: $bgDeepColor;
     width: 100%;
+    display: inline-block;
 }
 </style>
 <template>
-<div class="clinic-dime-wrap">
+<div class="clinic-dime-wrap" id="wrap">
   <div class="dime-tab">
     <ul class="tab-ul fl">
-      <li class="fl active">资金面</li>
-      <li class="fl">基本面</li>
+      <li class="fl" @click="faceCheck('fund')" :class="showFund===true?'active':''">资金面</li>
+      <li class="fl" @click="faceCheck('smart')" :class="showSmart===true?'active':''">基本面</li>
       <li class="fl">技术面</li>
       <li class="fl">消息面</li>
       <li class="fl">行业面</li>
     </ul>
   </div>
-  <div class="dime-charts" v-show='false'>
-    <div class="chart-box1 display-box">
+  <div class="dime-charts" v-show='showFund'>
+    <div class="chart-box1 ">
       <div class="chart-kline box-flex-1">
-        <DimeKline/>
+        <DimeKline :innerCode='innerCode' />
       </div>
       <div class="chart-grop box-flex-1">
-
+        <Arealine :innerCode='innerCode' />
       </div>
     </div>
-    <div class="chart-box2 display-box">
-      <div class="chart-kline box-flex-1 chart2-kline">
-        <Barline/>
+    <div class="chart-box2">
+      <div class="chart-kline box-flex-1">
+        <Barline :innerCode='innerCode' />
       </div>
-      <div class="chart-grop box-flex-1 chart2-kline">
-        <Pieline/>
+      <div class="chart-grop box-flex-1">
+        <Pieline :innerCode='innerCode' />
       </div>
     </div>
   </div>
-  <div class="charts-base">
-    <div class="chart-kline box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
+  <div class="charts-base" v-if='showSmart'>
+    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
       <BasefaceCharts :baseFace='item' :dataIndex='index' />
     </div>
-    <div class="chart-grop box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
+    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
       <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' />
     </div>
-
   </div>
 </div>
 </template>
@@ -203,15 +214,21 @@ import {
 import DimeKline from 'components/clinicShares/dime-kline'
 import Barline from 'components/clinicShares/dime-barline'
 import Pieline from 'components/clinicShares/dime-pieline'
+import Arealine from 'components/clinicShares/dime-arealine'
 import BasefaceCharts from 'components/clinicShares/base-face-charts'
 import FloatfactorCharts from 'components/clinicShares/float-factor-charts'
+
 export default {
+  props: ['innerCode'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
       legendName1: '',
       legendName2: '',
-      legendShow: false
+      legendShow: false,
+      showFund: true,
+      showSmart: false
+
 
     }
   },
@@ -223,7 +240,8 @@ export default {
     Barline,
     Pieline,
     BasefaceCharts,
-    FloatfactorCharts
+    FloatfactorCharts,
+    Arealine
   },
   methods: {
 
@@ -232,14 +250,27 @@ export default {
         this.legends = item
         console.log(this.legends)
       })
+    },
+    faceCheck(type) {
+      if (type === 'fund') {
+        this.showFund = true
+        this.showSmart = false
+      } else if (type === 'smart') {
+        this.showFund = false
+        this.showSmart = true
+      }
     }
   },
   watch: {
 
   },
   mounted() {
-    this.$store.dispatch('clinicShares/queryBaseFace')
+    console.log(this.showSmart)
+    this.$store.dispatch('clinicShares/queryBaseFace', {
+      innerCode: this.innerCode
+    })
     // this.initLegendName()
+
   },
   destroyed() {
 

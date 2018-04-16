@@ -163,7 +163,7 @@ body {
 </style>
 <template>
 <div class="dime-kline">
-  <div v-for="(inFace,index) of indexFace" v-if="index===2">
+  <div v-for="(inFace,index) of indexFace" v-if="index===1">
     <div class="kline-title">
       {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag==null?'--':inFace.tag}}</span>
     </div>
@@ -171,7 +171,7 @@ body {
 
   </div>
 
-  <div class="kline-charts" ref="barChart">
+  <div class="kline-charts" ref="arealineChart">
 
   </div>
 
@@ -185,7 +185,7 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-// import config from '../../z3tougu/config'
+import config from '../../z3tougu/config'
 export default ({
   props: ['innerCode'],
   data() {
@@ -209,7 +209,7 @@ export default ({
         var fundFace = state.clinicShares.indexFace;
         // console.log(fundFace)
         // console.log(this.formatDate)
-        // var oldOption = this.$refs.barChart.getOption();
+        // var oldOption = this.$refs.arealineChart.getOption();
         // var data = oldOption.series[0].data;
         // var dataTime = oldOption.xAxis[0].data;
         fundFace.forEach((alls, index) => {
@@ -219,8 +219,8 @@ export default ({
 
             klineData.forEach((item) => {
               let time = ''
-              const day = Number(item.today / 100000000).toFixed(2)
-              const days5 = Number(item.fiveDay / 100000000).toFixed(2)
+              const day = Number(item.day)
+              const days5 = Number(item.fiveday)
 
               time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
               data.times.push(time)
@@ -241,7 +241,7 @@ export default ({
   },
   methods: {
     initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
+      this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
       this.$store.dispatch('clinicShares/queryIndexFace', {
@@ -252,216 +252,111 @@ export default ({
 
     },
     drawCharts() {
-      const lineData = this.lineData
+      // const lineData = this.lineData
       const opt = {
 
-        legend: {
-          left: 3,
-          top: 0,
-          itemWidth: 20,
-          itemHeight: 10,
-          textStyle: {
-            color: '#c9d0d7'
-          },
-          data: [{
-              name: '当日主力净流入',
-              icon: 'rect'
-            },
-            {
-              name: '近5日主力净流入',
-              icon: 'line',
-              backgroundColor: '#1984ea'
-            }
-          ]
-        },
         tooltip: {
           trigger: 'axis',
-          padding: [10, 55, 10, 20],
-          textStyle: {
-            align: 'left'
-          },
-          showContent: true,
           axisPointer: {
             type: 'cross',
             label: {
-              show: true,
-              formatter: function(params) {
-                let yLabelData = ''
-                if (params.seriesData.length > 0) {
-                  yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
-                  return params.seriesData[0].name
-                } else {
-                  if (typeof yLabelData !== 'undefined') {
-                    return yLabelData
-                  } else {
-                    return ''
-                  }
-                }
-              },
-              backgroundColor: '#777',
-              // padding:[20,0,10,10],
-              textStyle: {
-                /* color:'#000',
-                 fontWeight:'bold'*/
-              }
-            },
-            crossStyle: {
-              color: '#666'
+              backgroundColor: '#6a7985'
             }
-          },
-          formatter: function(params) {
-            var s = ''
-            for (var i = 0; i < params.length; i++) {
-              if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
-              }
-              if (i === 1) {
-                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value
-              }
-            }
-            return s
           }
         },
-        xAxis: {
-          // interval:0,
-          type: 'category',
-          splitLine: {
-            show: false,
-            lineStyle: {
-              type: 'solid',
-              color: '#23272c'
-            }
-          },
-          axisLabel: {
-            // show:false
-            color: '#c9d0d7'
-          },
-          axisTick: {
-            show: false,
-            inside: true,
-            alignWithLabel: false
-          },
 
-          data: lineData.times
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
         },
-        yAxis: {
+        xAxis: [{
           type: 'value',
-          name: '单位：亿',
-          nameTextStyle: {
-            color: '#c9d0d7',
-            padding: [0, 0, -10, 60]
-          },
           splitLine: {
             show: false,
             lineStyle: {
-              type: 'solid',
-              color: '#23272c'
+              color: '#c9d0d7'
             }
-          },
-          axisTick: {
-            show: false,
-            alignWithLabel: false
-          },
-          axisLabel: {
-            formatter: function(val) {
-              return val
-            },
-            color: '#c9d0d7'
           }
-        },
-        /* xAxis: [{
-                 type: 'category',
-                 boundaryGap: false,
-                 data: lineData.times,
-                 axisLine: {
-                   onZero: false,
-                   lineStyle: {
-                     color: '#23272c'
-                   }
-                 },
-                 axisLabel: {
-                   align: 'left',
-                   textStyle: {
-                     color: '#c9d0d7'
-                   }
-                 }
-             }],
-         
-         yAxis: 
-             [{
-                 type: 'value',
-                 scale: true,
-                 name: '价格',
-                  max: 20,
-                 min: 0,
-                 boundaryGap: [0.2, 0.2] 
-                 splitLine: {
-                   show: true,
-                   lineStyle: {
-                     // 使用深浅的间隔色
-                     color: '#23272c'
-                   }
-                 },
-                 axisLine: {
-                   show: false,
-                   lineStyle: {
-                     color: '#23272c'
-                   }
-                 },
-                 axisLabel: {
-                   formatter: '{value}',
-                   textStyle: {
-                     color: '#c9d0d7'
-                   }
-                 }
-             }], */
+        }],
+        yAxis: [
 
-        /* series: [
-             {
-                 name:'柱子',
-                 type:'bar',
-                 xAxisIndex: 1,
-                 yAxisIndex: 1,
-                 data:lineData.day
-             },
-             {
-                 name:'折线',
-                 type:'line',
-                 data:lineData.days5
-             }
-         ] */
-        series: [{
-            data: lineData.day,
-            name: '当日主力净流入',
-            type: 'bar',
-            barWidth: 28,
-            stack: '当日主力净流入'
-          },
           {
-            data: lineData.days5,
-            name: '近5日主力净流入',
-            type: 'line',
-            symbol: 'none',
-            stack: '近5日主力净流入'
+            type: 'category',
+            boundaryGap: false,
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            splitArea: {
+              show: false
+            },
+            axisLabel: {
+              show: true
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                type: 'solid',
+                color: '#c9d0d7'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#c9d0d7'
+              }
+            }
           }
         ],
-        color: ['#ca4941', '#1984ea'],
-        grid: {
-          // width: '97%',
-          /* width: '100%',
-          height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
-          borderColor: '#2A2E36',
-          containLabel: true */
-          left: 55,
-          right: 10,
-          top: '19%',
-          height: '70%',
-          show: false
-        }
+        series: [{
+            name: '邮件营销',
+            type: 'line',
+            stack: '总量',
+            symbol: 'none',
+            smooth: true,
+            areaStyle: {
+              normal: {
+                color: config.upColor
+              }
+
+            },
+            lineStyle: {
+              normal: {
+                color: '#fff',
+                opacity: 0
+              }
+            },
+            data: [null, null, 100, 134, 90, 230, 210],
+            markLine: {
+              name: '压力位',
+              symbol: ['none', 'none'],
+              data: [{
+                yAxis: '周四'
+              }],
+              lineStyle: {
+                normal: {
+                  color: '#c9d0d7',
+                  type: 'solid'
+                }
+              }
+            }
+          },
+          {
+            name: '联盟广告',
+            type: 'line',
+            stack: '总量',
+            symbol: 'none',
+            areaStyle: {
+              normal: {
+                color: config.downColor
+              }
+            },
+            data: [220, 182, 191, null, null, null, null]
+          }
+        ]
       };
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)
@@ -482,7 +377,6 @@ export default ({
   },
 
   mounted() {
-    console.log(this.indexFace.title)
     this.initKline()
 
   }

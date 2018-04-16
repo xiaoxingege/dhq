@@ -136,9 +136,9 @@ body {
 }
 .dime-kline {
     padding: 10px;
-    float: left;
+    /*float: left;*/
     margin: 0 5px 6px 0;
-    width: 49%;
+    /*width: 49%;*/
 }
 .kline-title {
     line-height: 41px;
@@ -219,7 +219,8 @@ export default ({
         day: [],
         days5: [],
         vols: [],
-        section: []
+        range: [],
+        rangeYdata: []
       }
     }
   },
@@ -235,7 +236,8 @@ export default ({
           growthRateLast: [],
           day: [],
           days5: [],
-          vols: []
+          vols: [],
+          rangeYdata: []
         }
         return data
 
@@ -245,7 +247,7 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data).reverse()
+      const klineData = [].concat(this.baseFace.datas.data)
       // console.log(this.dataIndex)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
@@ -256,14 +258,30 @@ export default ({
         this.legendNames = this.legendName3
       }
       klineData.forEach((item, index) => {
-        const value = item.value
+        const winRate20day = Number(item.winRate20day * 100).toFixed(2)
         // const growthRate = item.growthRate
-        const section = item.section
+        const range = item.range
         /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-        this.data.section.push(section)
+        this.data.range.push(range)
 
-        this.data.ydata.push(value)
-
+        // this.data.ydata.push(winRate20day)
+        console.log(this.baseFace.range)
+        if (this.baseFace.range === range) {
+          var newValue = {}
+          // this.data.rangeYdata.push(range)
+          newValue = {
+            value: winRate20day,
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+              }
+            }
+          }
+          this.data.ydata.push(newValue)
+        } else {
+          this.data.ydata.push(winRate20day)
+        }
+        // console.log(this.data.ydata)
       })
       /* var newVols = {
            value: volume, // 万手
@@ -291,7 +309,7 @@ export default ({
     drawCharts() {
       const lineData = this.data
       const legendNames = this.legendNames
-
+      console.log(lineData.rangeYdata)
       const opt = {
 
         legend: {
@@ -388,7 +406,7 @@ export default ({
             inside: true,
             alignWithLabel: false
           },
-          data: lineData.section
+          data: lineData.range
         },
         yAxis: {
 
