@@ -4,14 +4,14 @@
   <ul>
     <li v-for="item in dataList">
       <div class="item">
-        <router-link :to="{ name:'topicDetail', params: {topicId:item.effCode} }" class="col name" v-if="item.flag==='topic'">{{item.effName}}</router-link>
-        <router-link :to="{ name:'industryDetail', params: {industryId:item.effCode} }" class="col name" v-else-if="item.flag==='indu'">{{item.effName}}</router-link>
+        <router-link :to="{ name:'topicDetail', params: {topicId:item.effCode} }" target="_blank" class="col name" v-if="item.flag==='topic'">{{item.effName}}</router-link>
+        <router-link :to="{ name:'industryDetail', params: {industryId:item.effCode} }" target="_blank" class="col name" v-else-if="item.flag==='indu'">{{item.effName}}</router-link>
         <span class="col name" v-else>{{item.effName}}</span>
         <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
         <span class="col time">{{item.occrDate}}</span>
       </div>
       <div class="news">
-        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}">{{item.newsTitle}}</router-link>
+        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}" target="_blank">{{item.newsTitle}}</router-link>
       </div>
     </li>
   </ul>

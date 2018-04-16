@@ -237,6 +237,7 @@ export default {
       });
     },
     updatePlates() {
+      // this.this.$store.dispatch('marketBubble/updateAbnormalPlates').then();
       this.addMarkData();
       setTimeout(() => {
         this.chart.setOption({
@@ -272,7 +273,7 @@ export default {
     },
     formatTime(value) {
       value += "";
-      if (value.length === 3) {
+      if (value.length === 5) {
         value = "0" + value;
       }
       return value.substring(0, 2) + ":" + value.substring(2, 4)

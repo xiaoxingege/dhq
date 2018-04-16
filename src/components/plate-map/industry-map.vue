@@ -1,108 +1,108 @@
-<style>
+<style lang="scss" scoped>
 @import '../../assets/css/base.css';
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .map_con {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .chart {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .map_legend {
-  color: #fff;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 400;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
-  position: absolute;
-  top: 0px;
-  right: 0px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .map_legend .step {
-  /*  width: 50px;*/
-  height: 20px;
-  line-height: 20px;
-  cursor: default;
-  display: inline-block;
-  float: left;
-  text-align: center;
-  margin-left: 4px;
+    /*  width: 50px;*/
+    height: 20px;
+    line-height: 20px;
+    cursor: default;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    margin-left: 4px;
 }
 
 .playback {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  color: #fff;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
 }
 
 .chart_bottom {
-  margin-top: 10px;
-  position: relative;
-  height: 25px;
+    margin-top: 10px;
+    position: relative;
+    height: 25px;
 }
 
 .btn-wrap {
-  width: 125px;
-  height: 25px;
-  padding-top: 10px;
-  box-sizing: border-box;
-  position: absolute;
-  top: -32px;
-  right: 0px;
+    width: 125px;
+    height: 25px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: -32px;
+    right: 0;
 }
 
 .btn-wrap span {
-  color: #bdbdbd;
+    color: #bdbdbd;
 }
 
 .btn-wrap a {
-  cursor: pointer
+    cursor: pointer;
 }
 
 .btn-wrap .back-plate {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .btn-wrap .restore {
-  position: absolute;
-  bottom: 0px;
-  right: 3px;
+    position: absolute;
+    bottom: 0;
+    right: 3px;
 }
 
 .map_wrap {
-  position: relative;
+    position: relative;
 }
 
 .ball {
-  position: fixed;
-  top: 50%;
-  left: -20px;
-  transform: translate(0px, -50%);
-  cursor: pointer;
-  z-index: 99999;
+    position: fixed;
+    top: 50%;
+    left: -20px;
+    transform: translate(0px, -50%);
+    cursor: pointer;
+    z-index: 99999;
 }
 
 .drag-wrap {
-  width: 13px;
-  height: 100%;
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  transform: translate(0, 0)
+    width: 13px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translate(0, 0);
 }
 </style>
 <template>

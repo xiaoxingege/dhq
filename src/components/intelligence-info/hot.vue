@@ -14,8 +14,8 @@
   </ul>
   <ul v-if="type === 'word'">
     <li v-for="item in dataList">
-      <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" class="col name active" v-if="item.flag==='topic'">{{item.showName}}</router-link>
-      <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" class="col name active" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
+      <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" target="_blank" class="col name active" v-if="item.flag==='topic'">{{item.showName}}</router-link>
+      <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" target="_blank" class="col name active" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
       <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
@@ -32,6 +32,10 @@
 <script>
 let pcId = "";
 import StockBox from 'components/stock-box'
+import {
+  ctx,
+  domain
+} from '../../z3tougu/config'
 export default {
   props: ['title', 'type'],
   data() {
@@ -56,13 +60,14 @@ export default {
   methods: {
     progressWidth: progress => progress <= 30 ? '30%' : progress.toFixed(0) + '%',
     search: function(keyword) {
-      this.$router.push({
-        name: 'search',
-        params: {
-          linkText: 'infor',
-          keyword: keyword
-        }
-      });
+      window.open(`${domain}${ctx}/search/infor/${keyword}`);
+      // this.$router.push({
+      //   name: 'search',
+      //   params: {
+      //     linkText: 'infor',
+      //     keyword: keyword
+      //   }
+      // });
     }
   },
   mounted() {
