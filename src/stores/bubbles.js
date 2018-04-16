@@ -267,18 +267,27 @@ export default {
     },
     sortNewList(state, result) {
 
+      function compare(propertyName) {
+        return function(object1, object2) {
+          var value1 = object1[propertyName];
+          var value2 = object2[propertyName];
+          if (value2 < value1) {
+            return 1;
+          } else if (value2 > value1) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }
+      }
       state.newStockSortType = result.type
       state.newStockSort = result.sortType
 
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
-          state.newStockList = state.newStockList.sort(function(a, b) {
-            return (a.chiSpel).localeCompare(b.chiSpel)
-          })
+          state.newStockList.sort(compare("chiSpel")).reverse()
         } else {
-          state.newStockList = state.newStockList.sort(function(a, b) {
-            return (b.chiSpel).localeCompare(a.chiSpel)
-          })
+          state.newStockList.sort(compare("chiSpel"))
         }
       } else if (result.type === 'innerCode') {
         if (result.sortType === 'desc') {
