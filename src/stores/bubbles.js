@@ -273,11 +273,11 @@ export default {
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return (a.name).localeCompare(b.name)
+            return (a.chiSpel).localeCompare(b.chiSpel)
           })
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return (b.name).localeCompare(a.name)
+            return (b.chiSpel).localeCompare(a.chiSpel)
           })
         }
       } else if (result.type === 'innerCode') {

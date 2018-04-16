@@ -743,6 +743,7 @@ export default {
                 box-sizing: border-box;
                 padding: 0 10px;
                 cursor: pointer;
+                margin-bottom: 5px;
             }
 
             img {
