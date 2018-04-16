@@ -95,7 +95,7 @@ export default {
         if (symbolSize < 30) {
           lbl = {
             position: 'bottom',
-            distance: 4,
+            distance: 4
           }
         } else if (symbolSize >= 60) {
           lbl = {

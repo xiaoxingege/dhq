@@ -142,7 +142,7 @@ export default {
     })
     Vue.directive('z3-drag', {
       inserted: (el, binding, vnode, oldVnode) => {
-        let oDiv = el; //当前元素
+        let oDiv = el; // 当前元素
         var containmentRef = binding.value.containment;
         var vm = vnode.context;
         var l;
@@ -206,6 +206,12 @@ export default {
         };
       }
     })
+    Vue.directive('z3-drop', function(el, binding) {
+      let oDiv = el; // 当前元素
+      oDiv.onmouseup = function(e) {
+        binding.value()
+      }
+    });
     Vue.directive('drag', {
       bind: function(el, binding) {
         let oDiv = el; //当前元素
