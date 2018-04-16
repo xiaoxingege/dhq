@@ -199,10 +199,18 @@
 .ball {
     position: fixed;
     top: 50%;
-    right: -35px;
+    left: -20px;
     transform: translate(0px,-50%);
     cursor: pointer;
     z-index: 99999;
+}
+.drag-wrap {
+    width: 13px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translate(0,0);
 }
 </style>
 <template>
@@ -220,9 +228,11 @@
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
   </div>
-  <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock"></LeadStock>
-  <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" />
-  <!-- <img src="../assets/images/stock-map/glowing-ball.png" alt="" class="focus-ball" @mouseover="showLeadStockBox" v-if="isShowWholeBall"/> -->
+  <LeadStock :rangeCode="rangeCode" :condition="condition" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && !isEnlarge"></LeadStock>
+  <div class="drag-wrap" ref="drag_wrap" v-show="!isEnlarge">
+    <img src="../assets/images/stock-map/ball.png" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" v-z3-drag="{containment:'drag_wrap'}" />
+    <!-- <img src="../assets/images/stock-map/glowing-ball.png" alt="" class="focus-ball" @mouseover="showLeadStockBox" v-if="isShowWholeBall"/> -->
+  </div>
   <div v-bind:class="{'chart_bottom':!isEnlarge,'chart_bottom_enlarge':isEnlarge}">
     <div class="clearfix playback" v-if="showPlayback">
       <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
@@ -1167,7 +1177,7 @@ export default {
         clearTimeout(this.ballTimeOut)
       }
       $('.ball').animate({
-        right: '10px'
+        left: '-53px'
       })
     },
     /* 鼠标移出小球 */
@@ -1176,7 +1186,7 @@ export default {
       this.ballTimeOut = setTimeout(() => {
         if (!this.isShowLeadStock) {
           $('.ball').animate({
-            right: '-35px'
+            left: '-20px'
           })
         }
       }, 3000)

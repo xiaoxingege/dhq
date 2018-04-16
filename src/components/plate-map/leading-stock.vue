@@ -16,7 +16,7 @@
       <td style="color:#1984ea;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chg">
-        {{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}
+        {{formatData(item.chg)?'--':item.chg>0?'+'+parseFloat(item.chg).toFixed(2)+'%':parseFloat(item.chg).toFixed(2)+'%'}}
       </td>
       <td v-if="condition!='mkt_idx.cur_chng_pct' && condition.indexOf('chng_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionStock(item.condition)}}</td>
       <td v-else-if="condition!='mkt_idx.cur_chng_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionStock(item.condition)}}</td>
@@ -36,11 +36,11 @@
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.conditionValue">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
-      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':parseFloat(item.condition).toFixed(2)}}%</td>
+      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':item.condition>0?'+'+parseFloat(item.condition).toFixed(2):parseFloat(item.condition).toFixed(2)}}%</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':item.chg>0?'+'+parseFloat(item.chg).toFixed(2)+'%':parseFloat(item.chg).toFixed(2)+'%'}}</td>
     </tr>
   </table>
   <table class="lead-stock-table" v-if="kLineType === 'industry'" style="width: 500px;">
@@ -57,11 +57,11 @@
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.conditionValue">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.conditionValue)?'--':formatConditionPlate(item.conditionValue)}}</td>
-      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':parseFloat(item.condition).toFixed(2)}}%</td>
+      <td v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':item.condition>0?'+'+parseFloat(item.condition).toFixed(2):parseFloat(item.condition).toFixed(2)}}%</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
-      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':parseFloat(item.chg).toFixed(2)+'%'}}</td>
+      <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':item.chg>0?'+'+parseFloat(item.chg).toFixed(2)+'%':parseFloat(item.chg).toFixed(2)+'%'}}</td>
     </tr>
   </table>
 </div>
@@ -79,7 +79,7 @@ export default {
       updateDataPid: null,
       intervalTime: 6,
       pageSize: 50,
-      sort: 1,
+      sort: this.condition.indexOf('peg') !== -1 || this.condition.indexOf('ps') !== -1 || this.condition.indexOf('pb') !== -1 || this.condition.indexOf('pe_ttm') !== -1 || this.condition.indexOf('fir_fcst_pe') !== -1 || this.condition.indexOf('act_date') !== -1 ? 1 : -1,
       condition: this.condition,
       rangeCode: this.rangeCode || '',
       kLineType: this.kLineType || '',
@@ -161,7 +161,7 @@ export default {
       }
     },
     formatConditionStock(value) {
-      if (value === 'act_date') {
+      if (this.condition === 'act_date') {
         const pbDate = new Date(value)
         value = this.dateFormatUtil(pbDate)
       } else if (this.condition === 'mkt_idx.keep_days_today') {
