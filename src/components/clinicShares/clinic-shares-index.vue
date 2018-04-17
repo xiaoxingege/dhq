@@ -91,6 +91,7 @@ body {
 import {
   mapState
 } from 'vuex'
+import util from '../../z3tougu/util'
 import ClinicMarkTop from 'components/clinicShares/clinic-mark-top'
 import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
@@ -117,15 +118,17 @@ export default {
         this.innerCode = query.query
       } else {
         console.log(query.query)
-        this.concats()
+        this.concats(this.code)
         // this.innerCode = '600000.SH'
       }
 
     },
-    concats() {
+
+    concats(code) {
       // 
-      // return
-      console.log(this.code)
+      console.log(code)
+      this.innerCode = util.formatterInnercode(code)
+      /* console.log(this.code)
       var str = this.code
       var index6 = str.indexOf('6');
       var index9 = str.indexOf('9');
@@ -140,7 +143,7 @@ export default {
 
       } else {
         return false
-      }
+      } */
     }
   },
   watch: {

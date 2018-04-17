@@ -37,5 +37,24 @@ export default {
       count--;
     }
     return data;
+  },
+  formatterInnercode(code) {
+    var str = code + ''
+    var s = ''
+    var index6 = str.indexOf('6');
+    var index9 = str.indexOf('9');
+    var index0 = str.indexOf('0');
+    var index2 = str.indexOf('2');
+    var index3 = str.indexOf('3');
+    if (index6 === 0 || index9 === 0) {
+      s = str + '.SH'
+
+    } else if (index0 === 0 || index2 === 0 || index3 === 0) {
+      s = str + '.SZ'
+
+    } else {
+      return false
+    }
+    return s
   }
 }
