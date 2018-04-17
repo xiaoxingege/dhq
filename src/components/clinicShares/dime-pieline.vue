@@ -523,7 +523,9 @@ export default ({
     }
   },
   watch: {
-
+    innerCode: function() {
+      this.initKline()
+    }
   },
 
   mounted() {

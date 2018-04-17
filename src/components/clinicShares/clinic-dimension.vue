@@ -198,10 +198,10 @@ body {
   </div>
   <div class="charts-base" v-if='showSmart'>
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' />
+      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
     </div>
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' />
+      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
     </div>
   </div>
 </div>
@@ -262,7 +262,11 @@ export default {
     }
   },
   watch: {
-
+    innerCode: function() {
+      this.$store.dispatch('clinicShares/queryBaseFace', {
+        innerCode: this.innerCode
+      })
+    }
   },
   mounted() {
     console.log(this.showSmart)

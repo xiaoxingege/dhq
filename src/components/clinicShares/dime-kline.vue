@@ -854,6 +854,9 @@ export default ({
     /* lineData() {
       this.initKline()
     } */
+    innerCode: function() {
+      this.initKline()
+    }
   },
 
   mounted() {

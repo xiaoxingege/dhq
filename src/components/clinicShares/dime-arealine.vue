@@ -242,8 +242,8 @@ export default ({
                 data.proportion.push(null)
                 data.proportionLast.push(proportion)
               }
-              console.log(data.proportion)
-              console.log(data.proportionLast)
+              // console.log(data.proportion)
+              // console.log(data.proportionLast)
               //  console.log(data.price)
 
 
@@ -404,7 +404,9 @@ export default ({
 
   },
   watch: {
-
+    innerCode: function() {
+      this.initKline()
+    }
   },
 
   mounted() {

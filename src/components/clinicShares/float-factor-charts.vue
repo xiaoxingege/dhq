@@ -187,7 +187,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow'],
+  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
   data() {
     return {
       showX: true,
@@ -528,6 +528,9 @@ export default ({
     /* baseFace() {
         this.initLine()
       } */
+    innerCode: function() {
+      this.init()
+    }
   },
 
   mounted() {

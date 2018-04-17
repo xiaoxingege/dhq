@@ -350,7 +350,7 @@ export default [{
     component: DragonListDialog
   },
   {
-    path: ctx + '/clinicSharesIndex',
+    path: ctx + '/clinicSharesIndex/:innerCode',
     name: 'clinicsharesindex',
     component: ClinicSharesIndex
   },

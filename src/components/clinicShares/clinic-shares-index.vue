@@ -96,7 +96,8 @@ import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
   data() {
     return {
-      innerCode: '600000.SH'
+      code: this.$route.params.innerCode,
+      innerCode: ''
     }
   },
   computed: mapState({
@@ -109,11 +110,47 @@ export default {
     ClinicDimension
   },
   methods: {
+    init: function() {
+      const query = this.$route.query
+      if (query && query.query) {
+
+        this.innerCode = query.query
+      } else {
+        console.log(query.query)
+        this.concats()
+        // this.innerCode = '600000.SH'
+      }
+
+    },
+    concats() {
+      // 
+      // return
+      console.log(this.code)
+      var str = this.code
+      var index6 = str.indexOf('6');
+      var index9 = str.indexOf('9');
+      var index0 = str.indexOf('0');
+      var index2 = str.indexOf('2');
+      var index3 = str.indexOf('3');
+      if (index6 === 0 || index9 === 0) {
+        this.innerCode = str + '.SH'
+
+      } else if (index0 === 0 || index2 === 0 || index3 === 0) {
+        this.innerCode = str + '.SZ'
+
+      } else {
+        return false
+      }
+    }
+  },
+  watch: {
 
   },
-  watch: {},
   mounted() {
     // alert(this.innerCode)
+
+    this.init()
+    console.log(this.innerCode)
 
     // console.log(this.$route.params)
   },
