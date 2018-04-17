@@ -201,9 +201,11 @@ export default ({
           times: [],
           tradeTimeArr: [],
           kdata: [],
-          day: [],
-          days5: [],
-          vols: []
+          price: [],
+          proportion: [],
+          proportionLast: [],
+          vols: [],
+          currPirce: []
         }
         // console.log(state.clinicShares.indexFace[0].tag)
         var fundFace = state.clinicShares.indexFace;
@@ -213,20 +215,37 @@ export default ({
         // var data = oldOption.series[0].data;
         // var dataTime = oldOption.xAxis[0].data;
         fundFace.forEach((alls, index) => {
-          if (index === 2) {
+          if (index === 1) {
             // console.log(item.datas.data[0].prevClosePx)
-            const klineData = [].concat(alls.datas.data).reverse()
-
+            const klineData = [].concat(alls.datas.data)
+            const currPirce = alls.datas.currPirce
+            data.currPirce.push(currPirce)
             klineData.forEach((item) => {
-              let time = ''
-              const day = Number(item.day)
-              const days5 = Number(item.fiveday)
+              // let time = ''
+              const price = Number(item.price)
+              const proportion = Number(item.proportion * 100).toFixed(2)
 
-              time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-              data.times.push(time)
-              data.tradeTimeArr.push(time)
-              data.day.push(day)
-              data.days5.push(days5)
+              /* time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
+              //  data.times.push(time)
+              // data.tradeTimeArr.push(time)
+              data.price.push(price)
+              //  data.proportion.push(proportion)
+              if (price >= currPirce) {
+                // data.proportionLast.push(null)
+                // data.proportion.push(proportion)
+                data.proportion.push(proportion)
+                data.proportionLast.push(null)
+
+              } else {
+                // data.proportionLast.push(proportion)
+                // data.proportion.push(null)
+                data.proportion.push(null)
+                data.proportionLast.push(proportion)
+              }
+              console.log(data.proportion)
+              console.log(data.proportionLast)
+              //  console.log(data.price)
+
 
             })
 
@@ -252,7 +271,7 @@ export default ({
 
     },
     drawCharts() {
-      // const lineData = this.lineData
+      const lineData = this.lineData
       const opt = {
 
         tooltip: {
@@ -262,6 +281,16 @@ export default ({
             label: {
               backgroundColor: '#6a7985'
             }
+          },
+          formatter: function(params) {
+            var s = ''
+            for (var i = 0; i < params.length; i++) {
+              if (i === 0) {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+              }
+
+            }
+            return s
           }
         },
 
@@ -273,6 +302,7 @@ export default ({
         },
         xAxis: [{
           type: 'value',
+          scale: true,
           splitLine: {
             show: false,
             lineStyle: {
@@ -284,8 +314,9 @@ export default ({
 
           {
             type: 'category',
+            show: false,
             boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            data: lineData.price,
             scale: true,
             axisTick: {
               show: false
@@ -312,9 +343,9 @@ export default ({
           }
         ],
         series: [{
-            name: '邮件营销',
+            name: '筹码分布',
             type: 'line',
-            stack: '总量',
+            stack: '筹码分布',
             symbol: 'none',
             smooth: true,
             areaStyle: {
@@ -329,12 +360,12 @@ export default ({
                 opacity: 0
               }
             },
-            data: [null, null, 100, 134, 90, 230, 210],
+            data: lineData.proportion,
             markLine: {
-              name: '压力位',
+              name: '当前价',
               symbol: ['none', 'none'],
               data: [{
-                yAxis: '周四'
+                yAxis: lineData.currPirce
               }],
               lineStyle: {
                 normal: {
@@ -345,16 +376,16 @@ export default ({
             }
           },
           {
-            name: '联盟广告',
+            name: '筹码分布',
             type: 'line',
-            stack: '总量',
+            stack: '筹码分布',
             symbol: 'none',
             areaStyle: {
               normal: {
                 color: config.downColor
               }
             },
-            data: [220, 182, 191, null, null, null, null]
+            data: lineData.proportionLast
           }
         ]
       };
