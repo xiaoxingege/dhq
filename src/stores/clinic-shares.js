@@ -39,7 +39,14 @@ export default {
     // radarData: [], // 雷达图
     radarData: {}, // 雷达图
     indexFace: [], // 资金面
-    baseFace: [], // 基本面
+    baseFace: [], // 基本面,
+    techFace: {
+      technicalTitle: '',
+      moonDetailVoMap: {},
+      technicalSummary: '',
+      valueRange: '',
+      rangeDatas: []
+    },
     desc: true, // 降序
     pagesize: PAGE_SIZE,
     page: 1,
@@ -98,6 +105,9 @@ export default {
     },
     updateBaseFace(state, baseFace) {
       state.baseFace = baseFace
+    },
+    updateTechFace(state, techFace) {
+      state.techFace = techFace
     },
     updateStockList(state, stockList) {
       state.stockList = stockList
@@ -192,7 +202,7 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateRadarData', result.data.radarData)
-          console.log(result.data.radarData)
+          // console.log(result.data.radarData)
         } else {
           commit('ERROR', result, {
             root: true
@@ -205,7 +215,7 @@ export default {
     }, {
       innerCode
     }) {
-      return fetch(`${domain}/openapi/smartStock/fundFace/${innerCode}.shtml`, {
+      return fetch(`${domain}/openapi/smartStock/capitalFace/${innerCode}.shtml`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -235,6 +245,27 @@ export default {
           // console.log(result.data)
           commit('updateBaseFace', result.data)
           // console.log(result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    queryTechFace({
+      commit
+    }, {
+      innerCode
+    }) {
+      return fetch(`${domain}/openapi/diag/stock/technical.shtml?innerCode=${innerCode}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          // console.log(result.data)
+          commit('updateTechFace', result.data)
+          console.log(result.data)
         } else {
           commit('ERROR', result, {
             root: true
