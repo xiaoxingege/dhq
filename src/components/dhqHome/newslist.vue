@@ -83,8 +83,8 @@ p {
 </div>
 </template>
 <script type="text/javascript">
-import NavBar from 'components/z3touguhome/nav-bar'
-import newsDetail from 'components/z3touguhome/news-details'
+import NavBar from 'components/dhqHome/nav-bar'
+import newsDetail from 'components/dhqHome/news-details'
 export default {
   props: [],
   data() {

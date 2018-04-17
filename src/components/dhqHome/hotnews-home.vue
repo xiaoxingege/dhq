@@ -97,12 +97,12 @@ export default {
   },
   computed: {
     financeNewsData: function() {
-      const financeNewsData = this.$store.state.z3touguIndex.financeNewsList
+      const financeNewsData = this.$store.state.dhqIndex.financeNewsList
       financeNewsData.length = 9
       return financeNewsData
     },
     listedCompanyNewsData: function() {
-      const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
+      const listedCompanyNewsData = this.$store.state.dhqIndex.listedCompanyNewsList
       listedCompanyNewsData.length = 9
       return listedCompanyNewsData
     }
@@ -110,14 +110,14 @@ export default {
   methods: {
     getNews: function() {
       if (this.type === 'ywnews') {
-        this.$store.dispatch('z3touguIndex/getFinanceNews', {
+        this.$store.dispatch('dhqIndex/getFinanceNews', {
             size: this.newsSize
           })
           .then(() => {
             this.newsList = this.financeNewsData
           })
       } else if (this.type === 'companynews') {
-        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
+        this.$store.dispatch('dhqIndex/getListedCompanyNews', {
             size: this.newsSize
           })
           .then(() => {

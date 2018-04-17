@@ -174,16 +174,7 @@ export default {
                 let s = params[0].axisValue;
                 let value;
                 for (let i = 0; i < params.length; i++) {
-                  if (params[i].value[1] > 0) {
-                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#fc2721'
-                  } else if (params[i].value[1] < 0) {
-                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#0bc846'
-                  } else {
-                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#c9d0d7'
-                  }
+                  value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
                   s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
                 }
                 return s;
@@ -192,7 +183,7 @@ export default {
             grid: {
               left: 10,
               top: 30,
-              width: '92%',
+              width: '95%',
               height: '80%',
               containLabel: true
             },
@@ -215,23 +206,53 @@ export default {
               data: this.chartNorthDateData
             },
             yAxis: [{
-              type: 'value',
-              splitLine: {
-                show: false
-              },
-              axisTick: {
-                show: false
-              },
-              axisLabel: {
-                textStyle: {
-                  color: function(params) {
-                    return '#707b8f'
+                type: 'value',
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  textStyle: {
+                    color: function(params) {
+                      return '#707b8f'
+                    }
+                  },
+                  formatter: function(value) {
+                    return value.toFixed(2)
                   }
-                }
+                },
+                min: 'dataMin',
+                max: 'dataMax'
               },
-              min: 'dataMin',
-              max: 'dataMax'
-            }],
+              {
+                type: 'value',
+                position: 'right',
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  textStyle: {
+                    color: function(params) {
+                      return '#707b8f'
+                    }
+                  },
+                  formatter: function(value) {
+                    return value.toFixed(2)
+                  }
+                },
+                max: function(value) {
+                  return value.max + (value.max - value.min) / 8
+                },
+                min: function(value) {
+                  return value.min - (value.max - value.min) / 8
+                }
+              }
+            ],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
@@ -244,6 +265,7 @@ export default {
                 name: '深股通',
                 type: 'line',
                 showSymbol: false,
+                yAxisIndex: 1,
                 data: this.toNorthSgtData
               }
             ]
@@ -297,16 +319,7 @@ export default {
                 let s = params[0].axisValue;
                 let value;
                 for (let i = 0; i < params.length; i++) {
-                  if (params[i].value[1] > 0) {
-                    value = '+' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#fc2721'
-                  } else if (params[i].value[1] < 0) {
-                    value = '-' + parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#0bc846'
-                  } else {
-                    value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
-                    params[i].textColor = '#c9d0d7'
-                  }
+                  value = parseFloat(params[i].value[1]).toFixed(2) + '亿'
                   s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
                 }
                 return s;
@@ -315,7 +328,7 @@ export default {
             grid: {
               left: 10,
               top: 30,
-              width: '92%',
+              width: '95%',
               height: '80%',
               containLabel: true
             },
@@ -338,23 +351,53 @@ export default {
               data: this.chartSouthDateData
             }],
             yAxis: [{
-              type: 'value',
-              splitLine: {
-                show: false
-              },
-              axisTick: {
-                show: false
-              },
-              axisLabel: {
-                textStyle: {
-                  color: function(params) {
-                    return '#707b8f'
+                type: 'value',
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  textStyle: {
+                    color: function(params) {
+                      return '#707b8f'
+                    }
+                  },
+                  formatter: function(value) {
+                    return value.toFixed(2)
                   }
-                }
+                },
+                min: 'dataMin',
+                max: 'dataMax'
               },
-              min: 'dataMin',
-              max: 'dataMax'
-            }],
+              {
+                type: 'value',
+                position: 'right',
+                splitLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  textStyle: {
+                    color: function(params) {
+                      return '#707b8f'
+                    }
+                  },
+                  formatter: function(value) {
+                    return value.toFixed(2)
+                  }
+                },
+                max: function(value) {
+                  return value.max + (value.max - value.min) / 8
+                },
+                min: function(value) {
+                  return value.min - (value.max - value.min) / 8
+                }
+              }
+            ],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
@@ -367,6 +410,7 @@ export default {
                 name: '港股通（深）',
                 type: 'line',
                 showSymbol: false,
+                yAxisIndex: 1,
                 data: this.toSouthSgtData
               }
             ]

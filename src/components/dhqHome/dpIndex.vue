@@ -98,9 +98,9 @@
 </div>
 </template>
 <script>
-import NavBar from 'components/z3touguhome/nav-bar'
+import NavBar from 'components/dhqHome/nav-bar'
 import DayMarketChart from 'components/dhqHome/daiyMarketChart'
-import z3websocket from '../../z3tougu/z3socket'
+import z3websocket from '../../z3dhq/z3socket'
 import {
   mapState
 } from 'vuex'
