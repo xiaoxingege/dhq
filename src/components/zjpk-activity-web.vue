@@ -86,6 +86,14 @@ input {
 .bg4 .comment-box div {
     background-color: #543f2f
 }
+
+.bg2 .swiper-button-prev {
+    left: 0;
+}
+
+.bg2 .swiper-button-next {
+    right: 0;
+}
 </style>
 <style lang="scss" scoped>
 @import '../assets/css/reset.css';
@@ -372,6 +380,8 @@ input {
                             <p>{{dataList[4].sort+'.'+dataList[4].userName}}</p>
                         </div>
                     </div>
+                    <div class="swiper-button-prev swiper-button-white"></div>
+                    <div class="swiper-button-next swiper-button-white"></div>
                 </div>
             </div>
 
@@ -522,6 +532,8 @@ export default {
                     centeredSlides: true,
                     initialSlide: 2,
                     onlyExternal: true,
+                    prevButton: '.swiper-button-prev',
+                    nextButton: '.swiper-button-next',
                     onClick: function(swiper) {
                         var index = 0
                         if (swiper.realIndex === 0) {
