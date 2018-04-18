@@ -16,7 +16,7 @@ const domain = '//test.z3quant.com' // openapi
 const websocketDomain = '//test.z3quant.com' // websocket
 // const domain = '//www.z3quant.com' // openapi
 // const websocketDomain = '//www.z3quant.com' // websocket
-const ctx = '/zstgweb'
+const ctx = '/dhqweb'
 // const ctx = '';
 export {
   domain,

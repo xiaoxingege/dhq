@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import zhikuanSearch from 'stores/zhikuan-search'
+import dhqIndex from 'stores/dhqIndex'
+import z3sockjs from 'stores/z3sockjs'
+import stock from 'stores/dhqStock'
+/* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
 import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
 import topic from 'stores/z3tougu-theme'
 import industry from 'stores/z3tougu-industry'
 import bubbles from 'stores/bubbles'
-import stock from 'stores/stock'
-import z3sockjs from 'stores/z3sockjs'
 import fundIntell from 'stores/fund-intell'
 import goldStrategy from 'stores/gold-strategy'
 import z3touguIndex from 'stores/z3tougu-index'
@@ -29,8 +30,7 @@ import dragonList from 'stores/dragon-list-dialog'
 import intelligenceInfo from 'stores/intelligence-info'
 import marketBubble from 'stores/market-bubbles'
 import zInfoPublic from 'stores/z-info-public'
-import dhqIndex from 'stores/dhqIndex'
-import clinicShares from 'stores/clinic-shares'
+import clinicShares from 'stores/clinic-shares'*/
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -120,36 +120,36 @@ export default new Vuex.Store({
   actions,
   mutations,
   modules: {
-    zhikuanSearch,
-    zhikuanSearchList,
-    stockMap,
-    zhikuanDetailPages,
-    topic,
-    industry,
-    bubbles,
-    stock,
-    z3sockjs,
-    fundIntell,
-    goldStrategy,
-    z3touguIndex,
-    backtestDetail,
-    smartPool,
-    funcArchives,
-    fundRecord,
-    filter,
-    backtestDetailH5,
-    indexChart,
-    finance,
-    customerList,
-    portraitDetail,
-    optionalStock,
-    bullStock,
-    plateMap,
-    dragonList,
-    intelligenceInfo,
-    zInfoPublic,
     dhqIndex,
-    marketBubble,
-    clinicShares
+    z3sockjs,
+    stock
+    /* zhikuanSearch,
+     zhikuanSearchList,
+     stockMap,
+     zhikuanDetailPages,
+     topic,
+     industry,
+     bubbles,
+     fundIntell,
+     goldStrategy,
+     z3touguIndex,
+     backtestDetail,
+     smartPool,
+     funcArchives,
+     fundRecord,
+     filter,
+     backtestDetailH5,
+     indexChart,
+     finance,
+     customerList,
+     portraitDetail,
+     optionalStock,
+     bullStock,
+     plateMap,
+     dragonList,
+     intelligenceInfo,
+     zInfoPublic,
+     marketBubble,
+     clinicShares */
   }
 })

@@ -1,3 +1,5 @@
+import DhqIndex from 'components/dhqHome/dhqIndex'
+
 import Search from 'components/search'
 import Map from 'components/z3tougu-map'
 import SearchBox from 'components/search-box'
@@ -54,9 +56,8 @@ import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
 import zInfo from 'components/intelligence-info/z-info'
-import DhqIndex from 'components/dhqHome/dhqIndex'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
-import SiweiIndex from 'components/siwei/siwei-index'
+/* import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
 import stockZbg from 'components/siwei/stock-zbg'
 import marketBubble from 'components/siwei/market'
@@ -64,7 +65,7 @@ import stockQsg from 'components/siwei/stock-qsg'
 import stockDtg from 'components/siwei/stock-dtg'
 import stockNew from 'components/siwei/stock-new'
 import stockCxg from 'components/siwei/stock-cxg'
-import stockZrzt from 'components/siwei/stock-ystzt'
+import stockZrzt from 'components/siwei/stock-ystzt' */
 import {
   ctx
 } from '../config'
@@ -383,8 +384,8 @@ export default [{
     path: ctx + '/dhq',
     name: 'dhqIndex',
     component: DhqIndex
-  },
-  {
+  }
+  /* {
     path: ctx + '/siweiIndex',
     name: 'siweiIndex',
     component: SiweiIndex,
@@ -434,7 +435,7 @@ export default [{
         name: 'zrzt'
       }
     ]
-  }
+  } */
   /* {
     path: ctx + '/stockMapOld/fullScreen',
     name: 'stockMapOldBig',
