@@ -42,7 +42,8 @@ const actions = {
         }
       }).then(data => {
         data.issues.forEach((item) => {
-          item.fields['customfield_10900'] = item.fields['customfield_10900'] || '2018-01-01'
+          item.fields['customfield_10900'] = item.fields['customfield_10900'] || moment().format('YYYY-MM-DD')
+          item.fields.duedate = item.fields.duedate || item.fields['customfield_10613'] || moment().format('YYYY-MM-DD')
           item.fields.summary = `[${item.key}]${item.fields.summary}`
           if (item.fields.worklog) {
             item.fields.worklog.worklogs.sort((a, b) => {
