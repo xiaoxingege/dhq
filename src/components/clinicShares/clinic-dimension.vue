@@ -166,6 +166,12 @@ body {
     width: 100%;
     display: inline-block;
 }
+.tech-charts1 {
+    width: 49%;
+    display: inline-block;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+}
 </style>
 <template>
 <div class="clinic-dime-wrap" id="wrap">
@@ -173,12 +179,12 @@ body {
     <ul class="tab-ul fl">
       <li class="fl" @click="faceCheck('fund')" :class="showFund===true?'active':''">资金面</li>
       <li class="fl" @click="faceCheck('smart')" :class="showSmart===true?'active':''">基本面</li>
-      <li class="fl">技术面</li>
+      <li class="fl" @click="faceCheck('techs')" :class="showTechs===true?'active':''">技术面</li>
       <li class="fl">消息面</li>
       <li class="fl">行业面</li>
     </ul>
   </div>
-  <div class="dime-charts" v-show='showFund'>
+  <div class="dime-charts" v-if='showFund'>
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1">
         <DimeKline :innerCode='innerCode' />
@@ -204,6 +210,12 @@ body {
       <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
     </div>
   </div>
+  <div class="charts-base display-box" v-if='showTechs'>
+    <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
+      <TechnicalCharts :techFace='item' :dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
+    </div>
+
+  </div>
 </div>
 </template>
 <script type="text/javascript">
@@ -217,6 +229,7 @@ import Pieline from 'components/clinicShares/dime-pieline'
 import Arealine from 'components/clinicShares/dime-arealine'
 import BasefaceCharts from 'components/clinicShares/base-face-charts'
 import FloatfactorCharts from 'components/clinicShares/float-factor-charts'
+import TechnicalCharts from 'components/clinicShares/technical-charts'
 
 export default {
   props: ['innerCode'],
@@ -225,7 +238,7 @@ export default {
       floatYname: '未来20日上涨概率',
       legendName1: '',
       legendName2: '',
-      legendShow: false,
+      legendShow: true,
       showFund: true,
       showSmart: false
 
@@ -233,7 +246,8 @@ export default {
     }
   },
   computed: mapState({
-    baseFaceData: state => state.clinicShares.baseFace
+    baseFaceData: state => state.clinicShares.baseFace,
+    techFaceData: state => state.clinicShares.techFace
   }),
   components: {
     DimeKline,
@@ -241,10 +255,19 @@ export default {
     Pieline,
     BasefaceCharts,
     FloatfactorCharts,
-    Arealine
+    Arealine,
+    TechnicalCharts
   },
   methods: {
+    init() {
+      this.$store.dispatch('clinicShares/queryBaseFace', {
+        innerCode: this.innerCode
+      })
 
+      this.$store.dispatch('clinicShares/queryTechFace', {
+        innerCode: this.innerCode
+      })
+    },
     initLegendName() {
       this.legendName.forEach((item) => {
         this.legends = item
@@ -255,24 +278,27 @@ export default {
       if (type === 'fund') {
         this.showFund = true
         this.showSmart = false
+        this.showTechs = false
       } else if (type === 'smart') {
         this.showFund = false
         this.showSmart = true
+        this.showTechs = false
+      } else if (type === 'techs') {
+        this.showFund = false
+        this.showSmart = false
+        this.showTechs = true
       }
     }
   },
   watch: {
     innerCode: function() {
-      this.$store.dispatch('clinicShares/queryBaseFace', {
-        innerCode: this.innerCode
-      })
+      this.init()
     }
   },
   mounted() {
     console.log(this.showSmart)
-    this.$store.dispatch('clinicShares/queryBaseFace', {
-      innerCode: this.innerCode
-    })
+
+    console.log(this.techFaceData)
     // this.initLegendName()
 
   },
