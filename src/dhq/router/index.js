@@ -50,12 +50,12 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'
-import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
+/* import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
 import optionalInformation from 'components/intelligence-info/optional-information'
 import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
-import zInfo from 'components/intelligence-info/z-info'
+import zInfo from 'components/intelligence-info/z-info' */
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 /* import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
@@ -355,7 +355,7 @@ export default [{
     name: 'clinicsharesindex',
     component: ClinicSharesIndex
   },
-  {
+  /* {
     path: ctx + '/zInfo',
     component: zInfo,
     children: [{
@@ -379,7 +379,7 @@ export default [{
       name: 'listedCompany',
       component: listedCompany
     }]
-  },
+  }, */
   {
     path: ctx + '/dhq',
     name: 'dhqIndex',
