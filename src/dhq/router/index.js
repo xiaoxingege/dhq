@@ -72,17 +72,17 @@ import {
 
 export default [{
     path: ctx,
-    component: z3TouguIndex
+    component: DhqIndex
   },
   {
     path: ctx + '/',
     name: 'homeRoot',
-    component: z3TouguIndex
+    component: DhqIndex
   },
   {
     path: ctx + '/home',
     name: 'home',
-    component: z3TouguIndex
+    component: DhqIndex
   },
   {
     path: ctx + '/search-box',
@@ -380,11 +380,6 @@ export default [{
       component: listedCompany
     }]
   }, */
-  {
-    path: ctx + '/dhq',
-    name: 'dhqIndex',
-    component: DhqIndex
-  }
   /* {
     path: ctx + '/siweiIndex',
     name: 'siweiIndex',
