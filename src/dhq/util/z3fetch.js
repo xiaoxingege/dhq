@@ -41,6 +41,6 @@ function insertAuthHeader(options) {
   headers = { ...headers,
     ...authHeader
   }
-  options.headers = headers
+  options.headers = new Headers(headers)
   return options
 }

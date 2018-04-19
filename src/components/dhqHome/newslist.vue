@@ -68,7 +68,7 @@ p {
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
   <div class="news-list fl" :style="{height:wrapHeight-2+'px'}">
     <div class="news-list-top">
-      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
+      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject" :styleLiObj="styleLiObj"></NavBar>
     </div>
     <ul class="news-list-con" :style="{height:wrapHeight-2-25+'px'}">
       <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
@@ -102,9 +102,13 @@ export default {
       // newsId: ''
       intervalTime: 10,
       updateNewsPid: null,
+      styleLiObj: {
+        width: '85px'
+      },
       styleObject: {
         borderRight: '1px solid #141518',
-        borderRadius: '0px'
+        borderRadius: '0px',
+        backgroundColor: '#525a65'
       }
     }
   },

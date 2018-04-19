@@ -3,13 +3,13 @@ import Vuex from 'vuex'
 import dhqIndex from 'stores/dhqIndex'
 import z3sockjs from 'stores/z3sockjs'
 import stock from 'stores/dhqStock'
+import topic from 'stores/z3tougu-theme'
+import industry from 'stores/z3tougu-industry'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
 import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
-import topic from 'stores/z3tougu-theme'
-import industry from 'stores/z3tougu-industry'
 import bubbles from 'stores/bubbles'
 import fundIntell from 'stores/fund-intell'
 import goldStrategy from 'stores/gold-strategy'
@@ -138,13 +138,13 @@ export default new Vuex.Store({
   modules: {
     dhqIndex,
     z3sockjs,
-    stock
+    stock,
+    topic,
+    industry
     /* zhikuanSearch,
      zhikuanSearchList,
      stockMap,
      zhikuanDetailPages,
-     topic,
-     industry,
      bubbles,
      fundIntell,
      goldStrategy,
