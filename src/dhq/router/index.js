@@ -354,7 +354,7 @@ export default [{
     path: ctx + '/clinicSharesIndex',
     name: 'clinicsharesindex',
     component: ClinicSharesIndex
-  },
+  }
   /* {
     path: ctx + '/zInfo',
     component: zInfo,
