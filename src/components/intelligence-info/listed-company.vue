@@ -4,18 +4,18 @@
   <div class="news-wrapper">
     <ul class="news-list">
       <li class="news-list-item" v-for="item in listedCompany">
-        <div class="con-top">
+        <div v-if="item.equity !=null" class="con-top">
           <span class="time fr" v-z3-time="{ time: item.declareDate, type: '1' }"></span>
-          <p v-z3-updowncolor="item.equityList.chngPct">
-            <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
-              <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{relatedStocks[item.equityList.code].code}}]</span>
+          <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">
+            <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
+              <span>{{item.equity.name}}</span>
             </a>
-            <span>{{relatedStocks[item.equityList.code].price}}</span>
-            <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
+            <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
+            <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
           </p>
         </div>
         <div>
-          <span class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+          <span v-if="item.positiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">[{{ item.newsType  | convert}}] {{item.title}}</span>
           </router-link>
@@ -25,9 +25,6 @@
             <span>{{cutStr(item.summary,350)}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
-        </div>
-        <div class="con-bottom">
-          <span class="price">目标价格：13.24</span>
         </div>
       </li>
     </ul>
@@ -56,7 +53,6 @@
       return {
         page: 0,
         totalPage: 200,
-        noData: false,
         updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
@@ -73,14 +69,16 @@
         'pageSize',
         'listedCompany',
         'newTime',
-        'isTops'
+        'isTops',
+        'noData'
       ]),
       ...mapGetters({
         loadingShow: 'loadingShow',
         pageSize: 'pageSize',
         listedCompany: 'listedCompany',
         newTime: 'newTime',
-        isTops:'isTops'
+        isTops:'isTops',
+        noData:'noData'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -106,23 +104,22 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: true, newTime: this.newTime })
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
-          this.noData = true
+          this.$store.commit('setNoData',true)
         }
       },
       updateNews() {
         intervalId = setInterval(() => {
           console.log('启动定时器')
           console.log(intervalId)
-          this.$store.dispatch('getListedCompany', { page: this.page, isTop: true, newTime: this.newTime })
+          this.$store.dispatch('getListedCompany', { page:0, isTop: this.isTops, newTime: this.newTime })
         },this.intervalTime)
       },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop
         if (this.scrollTop*2 >= this.innerHeight) {
-          this.$store.commit('setIsTop',false)
           if (intervalId) {
             console.log(intervalId)
             console.log('清除定时器')
@@ -132,6 +129,8 @@
         if (this.scrollTop === 0) {
           this.$store.commit('setIsTop',true)
           this.updateNews()
+        }else{
+          this.$store.commit('setIsTop',false)
         }
       },
       cutStr(str, len) {

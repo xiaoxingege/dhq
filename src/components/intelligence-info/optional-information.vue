@@ -5,7 +5,7 @@
       <select class="select" name="" v-model="optionalStockId" @change="getInnerCode">
         <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
       </select>
-      <a href="#"><span class="lookStock">自选股查看</span></a>
+      <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank"  class="lookStock">自选股查看</a>
     </div>
     <div class="news-wrapper">
       <ul class="news-list">
@@ -55,12 +55,12 @@
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
   import z3websocket from '../../z3tougu/z3socket'
+
   export default {
     data() {
       return {
         page:0,
         totalPage:200,
-        noData: false,
         updateNewsPid: '',
         intervalTime:60000,
         scrollTop: 0,
@@ -84,7 +84,8 @@
         'optionalStockId',
         'innerCode',
         'loadingShow',
-        'isTops'
+        'isTops',
+        'noData'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
@@ -94,7 +95,8 @@
         optionalStockId:'optionalStockId',
         innerCode:'innerCode',
         loadingShow:'loadingShow',
-        isTops:'isTops'
+        isTops:'isTops',
+        noData:'noData'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -130,7 +132,6 @@
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop
         if (this.scrollTop*2 >= this.innerHeight ) {
-          this.$store.commit('setIsTop',false)
           if (this.updateNewsPid) {
             console.log(this.updateNewsPid)
             console.log('清除定时器')
@@ -140,6 +141,8 @@
         if (this.scrollTop === 0) {
           this.$store.commit('setIsTop',true)
           this.updateNews()
+        }else{
+          this.$store.commit('setIsTop',false)
         }
       },
       loadMore() {
@@ -147,7 +150,7 @@
         this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
-          this.noData = true
+          this.$store.commit('setNoData',true)
         }
       },
       cutStr(str, len) {
@@ -174,19 +177,18 @@
       },
       getInnerCode() {
         if (this.updateNewsPid) {
-          console.log(this.updateNewsPid)
-          console.log('清除定时器2')
           clearInterval(this.updateNewsPid)
         }
         this.innerCodes = ''
         this.page = 0
         this.$store.commit('setOptionalinformationInit',[])
+        this.$store.commit('setNoData',false)
         var id = $('.select option:selected').val()
         let index = $('.select option:selected').attr('data-index')
         let stocks =  this.stockPool
         let thisStock = stocks[index]
         let str
-        if(thisStock.equityPool===null){
+        if(thisStock.equityPool === null){
           str = ''
         }else{
           for(let list of thisStock.equityPool) {
@@ -195,10 +197,10 @@
           str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
         this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
+        // this.loadList()
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'' })
         if(this.scrollTop === 0){
             this.$store.commit('setIsTop',true)
-            console.log(this.scrollTop)
             this.updateNews()
         }
       },

@@ -119,7 +119,7 @@ import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
 import {
   ctx
-} from '../../z3tougu/config'
+} from '../../dhq/config'
 export default {
   props: ['strategyId'],
   data() {
