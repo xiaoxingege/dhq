@@ -21,16 +21,22 @@ export default function(url, options) {
 }
 
 function insertAuthHeader(options) {
-  const authHeader = store.getters.authHeader
+  const authHeader = store.getters.authHeader // authHeader是fetch传过来的header
   let headers = {}
   if (!options) {
     options = {
       headers: {}
     }
   }
-  if (options && options.headers) {
+  if (options && options.headers) { // options是调接口时传的header
     headers = { ...options.headers
     }
+  }
+  if (headers.clientid && authHeader.clientid !== headers.clientid) {
+    authHeader.clientid = headers.clientid
+  }
+  if (headers.accessToken && authHeader.authorization !== headers.accessToken) {
+    authHeader.authorization = headers.accessToken
   }
   headers = { ...headers,
     ...authHeader

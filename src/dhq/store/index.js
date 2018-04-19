@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import dhqIndex from 'stores/dhqIndex'
 import z3sockjs from 'stores/z3sockjs'
 import stock from 'stores/dhqStock'
+/* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
 import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
@@ -80,6 +81,19 @@ const actions = {
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
+        /* const loginInfo = {
+            loginID:'17600699368',
+            passwd:'43a8ab956449007a2b04f76d0493bb62',
+            passwd1:'43A8AB956449007A2B04F76D0493BB62',
+            bizSource:'ZNTF_ZS_PC'
+        }
+        const url = '/sso/appLoginReturnAccessToken.jsp?loginID='+loginInfo.loginID+'&passwd='+loginInfo.passwd+'&passwd1='+loginInfo.passwd1+'&bizSource'+loginInfo.bizSource
+        fetch(url).then(res => res.json()).then((result) => {
+            debugger
+            if (result.resultCode === 0) {
+               const accessTokenInfo = result
+            }
+        }) */
         const authInfo = {
           authorization: 'Bearer test_z3quant_accesss_token', // test access_token
           clientid: 'test_client_id',
@@ -87,6 +101,8 @@ const actions = {
           updateTime: null, // updateTime
           expires: -1, // second
           userid: 'userId' // test userid
+          //   accessToken:accessTokenInfo.accessToken,
+          //  passportId:accessTokenInfo.passportId
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

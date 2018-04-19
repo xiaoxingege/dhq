@@ -124,6 +124,15 @@ module.exports = {
     host: '0.0.0.0',
     port: port,
     disableHostCheck: true
+    /* proxy: {
+        "/sso/appLoginReturnAccessToken.jsp": {
+            target: "https://sso.jrj.com.cn",
+            pathRewrite: {
+                "^/sso/appLoginReturnAccessToken.jsp": "/sso/passport/appLoginReturnAccessToken.jsp"
+            },
+            secure: false
+        }
+    } */
   }
 }
 

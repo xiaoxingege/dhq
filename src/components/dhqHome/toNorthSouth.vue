@@ -40,7 +40,8 @@ export default {
         width: '38px'
       },
       styleObj: {
-        backgroundColor: '#2e4465'
+        backgroundColor: '#2e4465',
+        borderRadius: '0px'
       },
       styleObjOut: {
         backgroundColor: '#525a65'

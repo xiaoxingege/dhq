@@ -114,21 +114,21 @@ const actions = {
     if (!userId) {
       return;
     }
-    const url = `${domain}/openapi/selectStock/add.shtml?`
+    const url = `${domain}/openapi/selectStock/add.shtml`
     return fetch(
       url, {
         mode: 'cors',
-        headers: {
+        headers: new Headers({
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
           'clientid': 'z3client_dhq',
           'deviceid': 'test_device_id',
           'userId': '180418010039598000',
-          'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsDlzotDvCH5Y0Bz1Z+vGcPjG+K1KcatEqe',
+          'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsD6onkp1eCyuue5qKPVwcCs0WrzYtv2otu',
           'passportId': '180418010039598000'
-        },
+        }),
         method: 'post',
-        body: `symbol=${stockCode}&userId=${userId}`
+        body: `symbol=${stockCode}&userId=180418010039598000`
       }
     ).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
@@ -155,15 +155,15 @@ const actions = {
     const url = `${domain}/openapi/selectStock/del.shtml`
     return fetch(url, {
       mode: 'cors',
-      headers: {
+      headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
         'clientid': 'z3client_dhq',
         'deviceid': 'test_device_id',
         'userId': '180418010039598000',
-        'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsDlzotDvCH5Y0Bz1Z+vGcPjG+K1KcatEqe',
+        'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsDXErI5Df82R3uIRZ2fzHkWgR/7b7kJoIK',
         'passportId': '180418010039598000'
-      },
+      }),
       method: 'post',
       body: `symbol=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
