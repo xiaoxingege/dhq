@@ -25,9 +25,11 @@ export default {
     loadingShow: true, // 加载中状态
     newTime: '',
     userId: '',
+    optionalStockId:'',
     stockPool: null, // 股票池列表
     innerCode:'',
-    isTops:true // 是否在顶部
+    isTops:true, // 是否在顶部
+    noData:false
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -40,7 +42,9 @@ export default {
     newTime: state => state.newTime,
     stockPool: state => state.stockPool,
     innerCode: state => state.innerCode,
-    isTops: state => state.isTops
+    isTops: state => state.isTops,
+    optionalStockId: state => state.optionalStockId,
+    noData:state => state.noData
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
@@ -54,15 +58,9 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
         let equity = intelligence.equity
-        //  for (let stock of equityList) {
-        if (equity.code !== null && equity.code !== undefined) {
+        if (equity  !== null ) {
           stocks[equity.code] = equity
         }
-        // }
-        // console.log(equityList)
-        // if (equityList.code !== null && equityList.code !== undefined) {
-        //   // stocks[equityList.code] = equityList
-        // }
       }
       state.relatedStocks = stocks
     },
@@ -76,8 +74,10 @@ export default {
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
-        let equityList = intelligence.equityList
-        stocks[equityList.code] = equityList
+        let equity = intelligence.equityList
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
       }
       state.relatedStocks = stocks
     },
@@ -91,18 +91,29 @@ export default {
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
-        let equityList = intelligence.equityList
-        stocks[equityList.code] = equityList
+        let equity = intelligence.equity
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
       }
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
+      const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
         state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
       }else{
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
+      // 取出websocket 要更新的字段
+      for (let intelligence of state.newsOpportunities) {
+        let equity = intelligence.equity
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
+      }
+      state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
       const stocks = {}
@@ -114,9 +125,10 @@ export default {
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
-        let equityList = intelligence.equityList
-        console.log(equityList)
-        stocks[equityList.code] = equityList
+        let equity = intelligence.equity
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
       }
       state.relatedStocks = stocks
     },
@@ -129,7 +141,7 @@ export default {
       state.loadingShow = visible
     },
     getNewTime(state, time) {
-      if(time === null){
+      if(time === null || time === ''){
           state.newTime = time
       }else{
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
@@ -163,6 +175,9 @@ export default {
     },
     setIsTop(state,result) {
       state.isTops = result
+    },
+    setNoData(state,result) {
+      state.noData = result
     }
   },
   actions: {
@@ -199,10 +214,8 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        if(result.errCode ===0) {
+        if (result.errCode === 0) {
           commit('setMask', false)
-        }
-        if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
           commit('getNewTime', result.data.newTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
         } else {
@@ -226,6 +239,7 @@ export default {
       }).then(result => {
         if (result.errCode === 0) {
           commit('setMask', false)
+          commit('getNewTime', result.data.newTime)
           commit(types.SET_NEWSFLASH_LIST, result.data)
         } else {
           commit('ERROR', result, {

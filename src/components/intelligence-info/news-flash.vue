@@ -4,10 +4,10 @@
     <div class="news-wrapper">
       <ul class="news-list">
         <li class="display-box" v-for="item in newsFlash">
-          <div class="leftTime"><span v-z3-time="{ time:item.declareDate, type: '2' }"></span></div>
+          <div class="leftTime"><span v-z3-time="{ time:item.declareDate+ '' , type: '2' }"></span></div>
           <div class="news-list-item box-flex-1">
             <div>
-              <span class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+              <span  v-if="item.postiveIndex != '' "  class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
               </router-link>
@@ -15,18 +15,21 @@
             <div class="con-txt">
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span>{{cutStr(item.summary,350)}}</span>
-                <!-- item.summary -->
               </router-link>
               <span class="source">( {{item.srcName}} )</span>
             </div>
-            <div class="con-bottom">
-              <ul class="stock" >
-                <li class="stock-item" :class="upAndDownColor(stock.chngPct)" v-for="stock in item.equityList">
-                  <a :href="'/stock/'+stock.code" target="_blank" v-z3-stock="{ref:'stockbox',code:stock.code}" :value='stock.code'>
-                    <span>{{stock.name}}</span><span>{{stock.price | isNull}}</span><span>{{stock.chngPct}}%</span>
-                  </a>
-                </li>
-              </ul>
+            <div  class="con-bottom">
+              <ul class="stock">
+                  <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
+                    <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
+                      <span>{{item.equity.name}}</span>
+                      <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
+                      <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+                    </a>
+                  </li>
+                  <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct}}%</span></a></li>
+                  <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct}}%</span></a></li>
+                </ul>
             </div>
           </div>
         </li>
@@ -55,7 +58,6 @@
       return {
         page:0,
         totalPage:200,
-        noData: false,
         updateNewsPid: '',
         intervalTime:60000,
         scrollTop: 0,
@@ -72,14 +74,16 @@
         'newTime',
         'pageSize',
         'isTops',
-        'loadingShow'
+        'loadingShow',
+        'noData'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         newsFlash:'newsFlash',
         newTime:'newTime',
         isTops:'isTops',
-        loadingShow:'loadingShow'
+        loadingShow:'loadingShow',
+        noData:'noData'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -101,7 +105,7 @@
     },
     methods: {
       loadList() {
-        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:this.newTime })
+        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' })
       },
       updateNews() {
         this.updateNewsPid = setInterval(() => {
@@ -125,10 +129,10 @@
       },
       loadMore() {
         this.page++
-        this.loadList()
+        this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
-          this.noData = true
+          this.$store.commit('setNoData',true)
         }
       },
       cutStr(str, len) {
@@ -154,7 +158,7 @@
         }
       },
       updateStock(stock) {
-        this.$store.commit('UPDATE_OPTIONALINFORMATION_RELSTOCK', stock)
+        this.$store.commit('UPDATE_RELSTOCK', stock)
       },
       subscribeStock() {
         const msg = {
