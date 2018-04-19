@@ -13,6 +13,19 @@
     height: 11.2%;
     padding-top: 5px;
     border-bottom: 1px solid $lineAndTitleColor;
+    position: relative;
+}
+.finance-news-list li a,
+.finance-news-list li span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.finance-news-list li span {
+    right: 0;
+}
+.finance-news-list li a {
+    left: 12px;
 }
 .newtitle {
     cursor: pointer;
@@ -29,10 +42,12 @@
     height: 6px;
     overflow: hidden;
     display: inline-block;
-    margin: 6px 5px 0 0;
+    /*margin: 6px 5px 0 0;*/
     border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
-,
 .news-top {
     height: 11.5%;
     position: relative;
