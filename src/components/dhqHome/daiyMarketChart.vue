@@ -55,9 +55,7 @@ export default {
   props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp'],
   data() {
     return {
-      stockVal: this.lsChartData && this.lsChartData.stockVal,
-      upDown: this.lsChartData && this.lsChartData.upDown,
-      upDownExtent: this.lsChartData && this.lsChartData.upDownExtent
+
     }
   },
   components: {},
@@ -65,6 +63,18 @@ export default {
     lsChartData: function() {
       const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
       return chartData
+    },
+    stockVal: function() {
+      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+      return chartData.stockVal
+    },
+    upDown: function() {
+      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+      return chartData.upDown
+    },
+    upDownExtent: function() {
+      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+      return chartData.upDownExtent
     }
   },
   methods: {

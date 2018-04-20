@@ -108,9 +108,7 @@ body {
 }
 .desc-green {
     border: 1px solid $downColor;
-
 }
-
 .pl-5 {
     padding-left: 5px;
 }
@@ -118,22 +116,7 @@ body {
 .clinic-dime-wrap {
     background-color: $bgConColor;
 }
-.tab-ul {
-    width: 100%;
-    background: $bgNavColor;
-}
-.tab-ul li {
-    width: 70px;
-    height: 30px;
-    line-height: 30px;
-    background: $bgNavColor;
-    text-align: center;
-    border-right: 1px solid $bgDeepColor;
-    cursor: pointer;
-}
-.tab-ul li.active {
-    background: $menuSelColor;
-}
+
 .dime-kline {
     padding: 10px;
     /*float: left;*/
@@ -157,20 +140,32 @@ body {
     width: 100%;
 }
 .assess1 {
-    padding-left: 5px;
+    padding-left: 9px;
+    font-size: 14px;
+}
+.dime-tech {
+    padding: 10px;
+    margin: 0 5px 6px 0;
+}
+.techline-title2 {
+    height: 62px;
+    padding: 10px 5px;
+}
+.techline-title {
+    line-height: 41px;
+    border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
 }
 </style>
 <template>
-<div class="dime-kline">
+<div class="dime-tech">
   <div>
-    <div class="kline-title">
-      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'--':baseFace.tag}}</span>
+    <div class="techline-title">
+      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'--':techFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe}}</div>
+    <div class="techline-title2">{{techFace.describe==null?'':techFace.describe}}</div>
 
   </div>
-
   <div class="kline-charts" ref="lineCharts">
 
   </div>
@@ -185,9 +180,9 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-// import config from '../../z3tougu/config'
+import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
+  props: ['techFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
   data() {
     return {
       showX: true,
@@ -202,7 +197,8 @@ export default ({
         name2: '预测净利润增长率'
       },
       legendName3: {
-        name1: '未来20日上涨概率'
+        name1: '未来3日上涨概率',
+        name2: '未来20日上涨概率'
       },
       // themeColor:'transparent',
       borderType: 'dashed',
@@ -213,6 +209,8 @@ export default ({
         times: [],
         tradeTimeArr: [],
         ydata: [],
+        winRate3: [],
+        winRate20: [],
         growthR: [],
         growthRate: [],
         growthRateLast: [],
@@ -247,7 +245,7 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data)
+      const klineData = [].concat(this.techFace.datas.data.idxData)
       // console.log(this.dataIndex)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
@@ -258,28 +256,59 @@ export default ({
         this.legendNames = this.legendName3
       }
       klineData.forEach((item, index) => {
-        const winRate20day = Number(item.winRate20day * 100).toFixed(2)
+        const winRate3day = item.winRate3day
+        const winRate20day = item.winRate20day
         // const growthRate = item.growthRate
         const range = item.range
         /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         this.data.range.push(range)
 
         // this.data.ydata.push(winRate20day)
-        console.log(this.baseFace.range)
-        if (this.baseFace.range === range) {
-          var newValue = {}
+
+        if (this.techFace.range === range) {
+          var newValue3 = {}
+          var newValue20 = {}
           // this.data.rangeYdata.push(range)
-          newValue = {
-            value: winRate20day,
+          newValue3 = {
+            value: winRate3day,
             itemStyle: {
               normal: {
-                color: '#1984ea'
+                label: {
+                  show: true,
+                  position: 'top',
+                  color: config.upColor,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  formatter: function(p) {
+                    return p.value === 0 ? '' : (p.value + '%');
+                  }
+                }
               }
             }
           }
-          this.data.ydata.push(newValue)
+          newValue20 = {
+            value: winRate20day,
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: 'top',
+                  color: config.upColor,
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  formatter: function(p) {
+                    return p.value === 0 ? '' : (p.value + '%');
+                  }
+                }
+              }
+            }
+          }
+          this.data.winRate3.push(newValue3)
+          this.data.winRate20.push(newValue20)
         } else {
-          this.data.ydata.push(winRate20day)
+
+          this.data.winRate3.push(winRate3day)
+          this.data.winRate20.push(winRate20day)
         }
         // console.log(this.data.ydata)
       })
@@ -300,7 +329,7 @@ export default ({
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
-      if (this.baseFace) {
+      if (this.techFace) {
         this.drawCharts()
 
       }
@@ -309,15 +338,15 @@ export default ({
     drawCharts() {
       const lineData = this.data
       const legendNames = this.legendNames
-      console.log(lineData.rangeYdata)
+      console.log(legendNames.name1)
       const opt = {
 
         legend: {
           show: this.legendShow,
-          left: 5,
-          top: 0,
-          itemHeight: 2,
+          left: 3,
+          top: -5,
           itemWidth: 20,
+          itemHeight: 10,
           textStyle: {
             color: '#c9d0d7',
             fontSize: 12
@@ -328,7 +357,7 @@ export default ({
             },
             {
               name: legendNames.name2,
-              icon: 'image://../src/assets/images/z3img/icon-line1.png'
+              icon: 'rect'
 
             }
           ]
@@ -372,6 +401,9 @@ export default ({
             var s = ''
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%' + '</br>'
+              }
+              if (i === 1) {
                 s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%'
               }
 
@@ -412,7 +444,7 @@ export default ({
 
           // type: 'category', 
           type: 'value',
-          name: this.floatYname,
+          // name: this.floatYname,
           // data: ['0', '50%', '100%'],
           splitNumber: 2,
           min: 0,
@@ -454,10 +486,10 @@ export default ({
         },
 
         series: [{
-            data: lineData.ydata,
+            data: lineData.winRate3,
             name: legendNames.name1,
             type: 'bar',
-            barWidth: 50,
+            barWidth: 35,
             stack: legendNames.name1,
             label: {
               normal: {
@@ -488,6 +520,31 @@ export default ({
                 }
               }
 
+            }
+
+          },
+          {
+            data: lineData.winRate20,
+            name: legendNames.name2,
+            type: 'bar',
+            barWidth: 35,
+            stack: legendNames.name2,
+            label: {
+              normal: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                formatter: function(params) {
+                  return params.value + '%'
+                }
+              }
+            },
+
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+
+              }
             }
 
           }
@@ -525,7 +582,7 @@ export default ({
 
   },
   watch: {
-    /* baseFace() {
+    /* techFace() {
         this.initLine()
       } */
     innerCode: function() {
@@ -535,7 +592,7 @@ export default ({
 
   mounted() {
     this.init()
-    // console.log(this.baseFace)
+    // console.log(this.techFace)
     // this.initLine()
 
 

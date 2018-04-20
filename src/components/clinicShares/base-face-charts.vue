@@ -136,9 +136,9 @@ body {
 }
 .dime-kline {
     padding: 10px;
-    float: left;
+    /*float: left;*/
     margin: 0 5px 6px 0;
-    width: 49%;
+    /*width: 49%;*/
 }
 .kline-title {
     line-height: 41px;
@@ -187,24 +187,32 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex'],
+  props: ['baseFace', 'dataIndex', 'innerCode'],
   data() {
     return {
       showX: true,
       legendNames: {},
       legendName1: {
-        name1: '营业收入增长率',
-        name2: '预测营业收入增长率'
+        nameIncome: '营业收入',
+        nameForecast: '预测营业收入',
+        nameInc: '营业收入增长率',
+        nameRate: '预测营业收入增长率'
+
       },
 
       legendName2: {
-        name1: '净利润增长率',
-        name2: '预测净利润增长率'
+        nameIncome: '净收益',
+        nameForecast: '预测净收益',
+        nameInc: '净收益增长率',
+        nameRate: '预测净收益增长率'
       },
       legendName3: {
         name1: '未来20日上涨概率'
       },
       // themeColor:'transparent',
+      unitName: '',
+      unitTenBillion: '净利润：百亿',
+      uniBillion: '净利润：亿',
       borderType: 'dashed',
       borderWidth: 3,
       borderColor: '',
@@ -273,22 +281,36 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data).reverse()
+      const klineData = [].concat(this.baseFace.datas.data)
       // console.log(this.dataIndex)
-      if (this.dataIndex === 0) {
-        this.legendNames = this.legendName1
-        // console.log(this.legendNames)
-      } else if (this.dataIndex === 1) {
-        this.legendNames = this.legendName2
-      } else {
-        this.legendNames = this.legendName3
-      }
+      /* if(this.dataIndex === 0){
+          this.legendNames = this.legendName1
+         // console.log(this.legendNames)
+       }else if(this.dataIndex === 1){
+          this.legendNames = this.legendName2
+       }else{
+          this.legendNames = this.legendName3
+       } */
       klineData.forEach((item, index) => {
         let time = ''
-        const value = item.value
-        const growthRate = item.growthRate
+        let value = ''
+        const growthRate = Number(item.growthRate * 100)
+        // console.log(growthRate)
+        if (this.dataIndex === 0) {
+          value = Number(item.value / 10000000000).toFixed(2)
+          this.unitName = this.unitTenBillion
+          this.legendNames = this.legendName1
 
-        time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+        } else if (this.dataIndex === 1) {
+          value = Number(item.value / 100000000).toFixed(2)
+          this.unitName = this.uniBillion
+          this.legendNames = this.legendName2
+        } else {
+          this.legendNames = this.legendName3
+        }
+        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
+        time = (item.year + '').substring(0, 4)
+        console.log(this.dataIndex)
         this.data.times.push(time)
         this.data.tradeTimeArr.push(time)
         var newValue = {}
@@ -311,6 +333,8 @@ export default ({
           this.borderWidth = 3 */
           // console.log(index)
           // console.log(klineData.length-2)
+          console.log(growthRate[index])
+
           this.data.growthRate.push(null)
           this.data.growthRateLast.push(growthRate)
           newValue = {
@@ -353,7 +377,12 @@ export default ({
            } */
         } else {
           this.data.growthRate.push(growthRate)
-          this.data.growthRateLast.push(0)
+          if (klineData.length - 3 === index) {
+            this.data.growthRateLast.push(growthRate)
+          } else {
+            this.data.growthRateLast.push(null)
+          }
+
           newValue = {
             value: value,
             itemStyle: {
@@ -365,6 +394,7 @@ export default ({
               }
             }
           }
+
           /* newGrow = {
             value: growthRate, 
             itemStyle: {
@@ -423,7 +453,7 @@ export default ({
     drawCharts() {
       const lineData = this.data
       const legendNames = this.legendNames
-
+      const unitName = this.unitName
       /* const themeColor = this.themeColor
       const borderType = this.borderType
       const borderWidth = this.borderWidth
@@ -441,11 +471,11 @@ export default ({
             fontSize: 12
           },
           data: [{
-              name: legendNames.name1,
-              icon: 'rect'
+              name: legendNames.nameInc,
+              icon: 'image://../src/assets/images/z3img/icon-line2.png'
             },
             {
-              name: legendNames.name2,
+              name: legendNames.nameRate,
               icon: 'image://../src/assets/images/z3img/icon-line1.png'
 
             }
@@ -488,14 +518,34 @@ export default ({
           },
           formatter: function(params) {
             var s = ''
+            var colorValue = ''
             for (var i = 0; i < params.length; i++) {
+              // console.log(params[i].dataIndex)
+              // console.log(params)
               if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+                colorValue = params[i].value < 0 ? config.downColor : config.upColor
+                if (params[0].color === 'transparent') {
+                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+                } else {
+                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+                }
+
               }
-              if (i === 1) {
-                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value
+              if (lineData.growthRate[params[i].dataIndex] === null || 0) {
+                // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
+                if (i === 2) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                    legendNames.nameRate + ' : ' + params[i].value + '%'
+
+                }
+              } else {
+                if (i === 1) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                    legendNames.nameInc + ' : ' + params[i].value + '%'
+
+                }
               }
+
 
             }
             return s
@@ -531,14 +581,13 @@ export default ({
 
           data: lineData.times
         },
-        yAxis: {
+        yAxis: [{
           type: 'value',
-          name: '净利润：亿',
+          name: unitName,
           nameTextStyle: {
             color: '#c9d0d7',
             padding: [0, 0, 0, 70]
           },
-
           nameGap: 6,
           splitLine: {
             show: false,
@@ -563,14 +612,13 @@ export default ({
             },
             color: '#c9d0d7'
           }
-        },
-
+        }],
         series: [{
             data: lineData.ydata,
-            name: legendNames.name1,
+            name: legendNames.nameIncome,
             type: 'bar',
             barWidth: 50,
-            stack: legendNames.name1,
+            stack: legendNames.nameIncome,
             label: {
               normal: {
                 show: true,
@@ -602,11 +650,11 @@ export default ({
           },
           {
             data: lineData.growthRate,
-            name: legendNames.name2,
+            name: legendNames.nameInc,
             type: 'line',
             symbol: 'circle',
             symbolSize: 9,
-            stack: legendNames.name2,
+            stack: legendNames.nameInc,
             /* symbol: 'circle',
             symbolSize: 8,
             itemStyle: {
@@ -634,7 +682,7 @@ export default ({
                   color: '#c9d0d7',
                   fontSize: 12,
                   formatter: function(p) {
-                    return p.value
+                    return p.value === 0 ? '' : (p.value + '%');
                   }
                 }
               }
@@ -642,11 +690,11 @@ export default ({
           },
           {
             data: lineData.growthRateLast,
-            name: legendNames.name2,
+            name: legendNames.nameRate,
             type: 'line',
             symbol: 'circle',
             symbolSize: 9,
-            stack: legendNames.name2,
+            stack: legendNames.nameRate,
             itemStyle: {
               normal: {
                 // color: 'rgba(252,230,48,1)',
@@ -665,7 +713,7 @@ export default ({
                   color: '#c9d0d7',
                   fontSize: 12,
                   formatter: function(p) {
-                    return p.value > 0 ? (p.value) : '';
+                    return p.value === 0 ? '' : (p.value + '%');
                   }
                 }
               }
@@ -685,6 +733,7 @@ export default ({
           left: 45,
           right: 10,
           top: '19%',
+          width: '100%',
           height: '70%',
           show: false
         }
@@ -707,6 +756,9 @@ export default ({
     /* baseFace() {
         this.initLine()
       } */
+    innerCode: function() {
+      this.init()
+    }
   },
 
   mounted() {

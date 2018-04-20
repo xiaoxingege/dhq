@@ -143,9 +143,10 @@ body {
 
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
+    font-size: 14px;
 }
 .kline-title2 {
-    padding: 10px 0;
+    padding: 10px 7px;
 }
 .kline {
     height: 264px;
@@ -161,6 +162,7 @@ body {
 }
 .assess1 {
     padding-left: 5px;
+    font-size: 14px;
 }
 </style>
 <template>
@@ -194,6 +196,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
+  props: ['innerCode'],
   data() {
     return {
       showX: true
@@ -208,7 +211,7 @@ export default ({
           tradeTimeArr: [],
           kdata: [],
           yData: [],
-          xData: ['当日', '近3日累计', '近5日累计', '近10日累计'],
+          xData: ['当日', '近3日', '近5日', '近10日'],
           mainValue: [],
           otherValue: []
         }
@@ -225,23 +228,23 @@ export default ({
             const klineData = [].concat(alls.datas.data).reverse()
 
             klineData.forEach((item) => {
-              let today = Number(item.today / 100000000)
-              let threeday = Number(item.threeday / 100000000)
-              const fiveday = Number(item.fiveday / 100000000)
-              const tenday = Number(item.tenday / 100000000)
+              let today = Number(item.day1 / 100000000).toFixed(2)
+              let threeday = Number(item.day3 / 100000000).toFixed(2)
+              const fiveday = Number(item.day5 / 100000000).toFixed(2)
+              const tenday = Number(item.day10 / 100000000).toFixed(2)
               /* const volume = item.volume
               const prevClosePx = item.prevClosePx */
               data.yData.push(today)
               data.yData.push(threeday)
               data.yData.push(fiveday)
               data.yData.push(tenday)
-              const mainValue = Number(item.mainValue)
-              const otherValue = Number(100 - item.mainValue)
+              const mainValue = Number(alls.datas.mainChng)
+              const otherValue = Number(100 - mainValue)
               /* data.mainValue.push(mainValue)           
               data.otherValue.push(otherValue) */
               data.mainValue.push({
                   value: mainValue,
-                  name: '当前大单操作+大单影响资金',
+                  name: '当前主力资金影响力',
                   itemStyle: {
                     normal: {
                       color: '#ca4941'
@@ -281,7 +284,9 @@ export default ({
       this.chartPie = echarts.getInstanceByDom(this.$refs.pieChart) || echarts.init(this.$refs.pieChart)
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
-      this.$store.dispatch('clinicShares/queryIndexFace').then(() => {
+      this.$store.dispatch('clinicShares/queryIndexFace', {
+        innerCode: this.innerCode
+      }).then(() => {
         this.drawCharts()
         this.drawChartsPie()
       })
@@ -291,7 +296,7 @@ export default ({
       const lineData = this.lineData
       const opt = {
         title: {
-          left: -5,
+          left: 1,
           top: -2,
           text: '当日、近3、5、10日累计净流入',
           textStyle: {
@@ -302,7 +307,7 @@ export default ({
           }
         },
         legend: {
-          left: -4,
+          left: 2,
           top: 20,
           itemWidth: 20,
           itemHeight: 10,
@@ -310,7 +315,7 @@ export default ({
             color: '#c9d0d7'
           },
           data: [{
-            name: '当日主力净流入',
+            name: '净流入',
             icon: 'rect'
           }]
         },
@@ -408,10 +413,10 @@ export default ({
 
         series: [{
           data: lineData.yData,
-          name: '当日主力净流入',
+          name: '净流入',
           type: 'bar',
           barWidth: 28,
-          stack: '当日主力净流入'
+          stack: '净流入'
         }],
         color: ['#ca4941', '#1984ea'],
         grid: {
@@ -423,11 +428,11 @@ export default ({
           show: true,
           borderColor: '#2A2E36',
           containLabel: true */
-          left: 30,
+          left: 55,
           right: 0,
           top: '19%',
           height: '70%',
-          width: '97%',
+          width: '95%',
           show: false
         }
       };
@@ -458,8 +463,10 @@ export default ({
           orient: 'vertical',
           x: 'center',
           left: '37%',
+          itemWidth: 20,
+          itemHeight: 10,
           top: 18,
-          data: ['当前大单操作+大单影响资金', '其他资金'],
+          data: ['当前主力资金影响力', '其他资金'],
           textStyle: {
             color: '#c9d0d7',
             borderRadius: 0
@@ -516,7 +523,9 @@ export default ({
     }
   },
   watch: {
-
+    innerCode: function() {
+      this.initKline()
+    }
   },
 
   mounted() {

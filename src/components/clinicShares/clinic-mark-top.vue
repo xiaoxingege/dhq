@@ -12,6 +12,7 @@
     font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
+    font-family: "Microsoft YaHei";
 }
 /*$bgDeepColor:#0d0e0f;/* 最深背景 */
 /*$bgConColor:#141518;/* 内容背景 */
@@ -76,6 +77,7 @@ body {
 .clinic-top-left {
 
     border-right: 1px solid $lineAndTitleColor;
+    width: 27%;
 }
 .red {
     color: $upColor;
@@ -113,13 +115,77 @@ body {
     font-size: 14px;
     text-align: center;
 }
-.help-img {
+/*.help-img {
     width: 15px;
     height: 15px;
     background: url("../../assets/images/z3img/help.png") no-repeat;
     position: relative;
     cursor: pointer;
-    right: 25%;
+    right: 7%;
+    top: 2px;
+}
+.help-img2 {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: relative;
+    cursor: pointer;
+    right: 2%;
+    top: 2px;
+}*/
+.help-img {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: relative;
+    left: -11%;
+    top: 2px;
+    cursor: pointer;
+    z-index: 999999;
+}
+.help-img i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 15px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 10px;
+    z-index: 999;
+    top: -8px;
+    left: 34px;
+    width: 300px;
+    z-index: 999999;
+}
+.help-img:hover i {
+    display: block;
+}
+.help-img2 {
+    width: 15px;
+    height: 15px;
+    background: url("../../assets/images/z3img/help.png") no-repeat;
+    position: relative;
+    right: 2%;
+    top: -17px;
+    cursor: pointer;
+    z-index: 999999;
+}
+.help-img2 i {
+    color: #1984ea;
+    position: absolute;
+    display: none;
+    padding: 15px;
+    color: #666666;
+    background: #cccfd9;
+    border-radius: 10px;
+    z-index: 999;
+    top: -8px;
+    right: 34px;
+    width: 300px;
+    z-index: 999999;
+}
+.help-img2:hover i {
+    display: block;
 }
 .mark-num {
     font-size: 34px;
@@ -135,12 +201,12 @@ body {
 }
 .clinic-top-center {
     border-right: 1px solid $lineAndTitleColor;
-    /* width: 15%;*/
+    width: 33%;
 }
 .radar-box {
     height: 180px;
-    position: relative;
-    left: 15%;
+    /* position: relative;
+    left: 15%;*/
 }
 .radarChart {
     height: 100%;
@@ -150,12 +216,16 @@ body {
 }
 .clinic-top-right {
     padding-left: 70px;
+    width: 37%;
 }
 .short-title {
     padding-bottom: 12px;
     font-size: 14px;
 }
 .short-detail {}
+.short-tit {
+    font-size: 14px;
+}
 .center-title {
     font-size: 14px;
     padding: 47px 0 12px;
@@ -179,6 +249,10 @@ body {
 .desc i {
     display: none;
 }
+.desc:hover {
+    color: #ff2e29;
+    border: 1px solid #ff2e29;
+}
 .desc:hover i {
     display: block;
     position: absolute;
@@ -198,18 +272,25 @@ body {
 }
 .desc-red {
     border: 1px solid $upColor;
-
+}
+.desc-red:hover {
+    color: #ff2e29;
+    border: 1px solid #ff2e29;
 }
 .desc-green {
     border: 1px solid $downColor;
 
+}
+.desc-green:hover {
+    color: #06e607;
+    border: 1px solid #06e607;
 }
 .short-title {
     padding-bottom: 21px;
 }
 .short-fund {
     margin-bottom: 10px;
-    display: inline-block;
+    /* display: inline-block;*/
 }
 .pl-5 {
     padding-left: 5px;
@@ -229,58 +310,113 @@ body {
 .tab-ul li.active {
     background: $menuSelColor;
 }
+.short-line-value a {
+    /*  display: block; */
+}
+.no-value {
+    padding-left: 10px;
+}
 </style>
 <template>
 <div class="clinic-top-wrap">
   <div class="clinic-top display-box">
     <div class="clinic-top-left box-flex-1">
       <div class="mark-name">{{smartStock.name}}[{{smartStock.innerCode}}]综合评分
-        <div class="help-img fr" v-z3-help="iconHelpMsg"></div>
+        <div class="help-img fr"><i>{{this.iconHelpMsg}}</i></div>
       </div>
-      <div class="mark-num red">{{smartStock.score}}</div>
-      <div class="mark-detail">打败了{{smartStock.wineRate}}%的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
+      <div class="mark-num red">{{changeTofixed1(smartStock.score)}}</div>
+      <div class="mark-detail">打败了{{checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
     </div>
     <div class="clinic-top-center box-flex-1">
       <div class="radar-box">
-        <div class="radarChart"></div>
+        <div class="radarChart" ref="radarChart"></div>
       </div>
     </div>
     <div class="clinic-top-right box-flex-1">
-      <div class="short-title">短线评述</div>
+      <div class="short-title">
+        <div class="short-tit">短线评述</div>
+        <div class="help-img2 fr"><i>{{this.iconHelpMsg2}}</i></div>
+      </div>
       <div class="short-detail">{{smartStock.shortDescribe}}</div>
       <div class="center-title">中线评述</div>
       <div class="short-detail">{{smartStock.midDescribe}}</div>
     </div>
+
   </div>
   <div class="value-box">
     <div class="short-line-value">
       <div class="short-title">短线价值</div>
-      <div class="short-fund">资金面：
-        <span class="desc pl-5" v-for="short of smartStock.funds" v-if="smartStock.funds.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+      <!-- <a href="#wrap"> -->
+      <div class="short-fund" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">资金面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event)">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.shortCapital" v-if="short.status===0" class="no-value">无</span>
       </div>
-      <div class="short-fund">技术面：
-        <span class="desc pl-5" v-for="short of smartStock.techs" v-if="smartStock.techs.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+
+      <div class="short-fund" v-else>资金面：
+        <span class="no-value">无</span>
       </div>
-      <div class="short-fund">消息面：
-        <span class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="smartStock.shortMessages.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+      <!-- </a> -->
+      <div class="short-fund" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">技术面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.shortTechs" v-if="short.status===0" class="no-value">无</span>
+
       </div>
+      <div class="short-fund" v-else>技术面：
+        <span class="no-value">无</span>
+      </div>
+
+      <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">消息面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span>
+
+      </div>
+      <div class="short-fund" v-else>消息面：
+        <span class="no-value">无</span>
+      </div>
+
     </div>
     <div class="mid-line-value">
       <div class="short-title">中线价值</div>
-      <div class="short-fund">基本面：
-        <span class="desc pl-5" v-for="short of smartStock.bases" v-if="smartStock.bases.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+      <!-- <a href="#wrap"> -->
+      <div class="short-fund" v-if="smartStock.midCapital && smartStock.midCapital.length>0">资金面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.midCapital" v-if="short.status===0" class="no-value">无</span>
       </div>
-      <div class="short-fund">消息面：
-        <span class="desc pl-5" v-for="short of smartStock.midMessages" v-if="smartStock.midMessages.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+      <div class="short-fund" v-else>资金面：
+        <span class="no-value">无</span>
       </div>
-      <div class="short-fund">行业面：
-        <span class="desc pl-5" v-for="short of smartStock.indus" v-if="smartStock.indus.length>0" :class="short.status==='0'?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.content}}</i></span>
-        <span v-else>该维度无明显趋向标签</span>
+      <!--  </a> -->
+      <div class="short-fund" v-if="smartStock.bases && smartStock.bases.length>0">基本面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.bases" v-if="short.status===0" class="no-value">无</span>
+      </div>
+      <div class="short-fund" v-else>基本面：
+        <span class="no-value">无</span>
+      </div>
+      <div class="short-fund" v-if="smartStock.midTechs && smartStock.midTechs.length>0">技术面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.midTechs" v-if="short.status===0" class="no-value">无</span>
+
+      </div>
+      <div class="short-fund" v-else>技术面：
+        <span class="no-value">无</span>
+      </div>
+
+      <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">消息面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span>
+
+      </div>
+      <div class="short-fund" v-else>消息面：
+        <span class="no-value">无</span>
+      </div>
+      <div class="short-fund" v-if="smartStock.indus && smartStock.indus.length>0">行业面：
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <span v-for="short of smartStock.indus" v-if="short.status===0" class="no-value">无</span>
+
+      </div>
+      <div class="short-fund" v-else>行业面：
+        <span class="no-value">无</span>
       </div>
     </div>
   </div>
@@ -292,9 +428,11 @@ import {
 } from 'vuex'
 import echarts from 'echarts'
 export default {
+  props: ['innerCode'],
   data() {
     return {
-      iconHelpMsg: '基于资金面、基本面、技术面、消息面和行业面5各维度的综合评分，越高越看好未来表现，越低说明存在未来不确定风险。'
+      iconHelpMsg: '基于资金面、基本面、技术面、消息面和行业面5各维度的综合评分，越高越看好未来表现，越低说明存在未来不确定风险。',
+      iconHelpMsg2: '综合资金面、基本面、技术面、消息面和行业面5各维度表现，智能给出短线(3天)、中线(20天)行情解读和操盘建议。'
     }
   },
   computed: mapState({
@@ -303,11 +441,11 @@ export default {
       const radarDataChart = state.clinicShares.radarData
       // console.log(radarDataChart[0].fundValue)
       let radarAllData = [
-        Number(radarDataChart[0].fundValue).toFixed(0),
-        Number(radarDataChart[0].induValue).toFixed(0),
-        Number(radarDataChart[0].messageValue).toFixed(0),
-        Number(radarDataChart[0].techValue).toFixed(0),
-        Number(radarDataChart[0].baseValue).toFixed(0)
+        Number(radarDataChart.fundValue).toFixed(0),
+        Number(radarDataChart.induValue).toFixed(0),
+        Number(radarDataChart.informValue).toFixed(0),
+        Number(radarDataChart.techValue).toFixed(0),
+        Number(radarDataChart.capitalValue).toFixed(0)
       ]
       return {
         radarAllData: radarAllData
@@ -327,47 +465,50 @@ export default {
   },
   methods: {
     initSmartStock() {
-      this.$store.dispatch('clinicShares/querySmartStock')
+      this.$store.dispatch('clinicShares/querySmartStock', {
+        innerCode: this.innerCode
+      })
     },
     initradarChart() {
-      this.chart = echarts.init(document.getElementsByClassName('radarChart')[0])
+      this.chart = echarts.getInstanceByDom(this.$refs.radarChart) || echarts.init(this.$refs.radarChart)
       this.renderCharts()
     },
     renderCharts() {
 
-      this.$store.dispatch('clinicShares/queryRadarData')
-        .then(() => {
-          this.drawCharts(this.radars.radarAllData)
+      this.$store.dispatch('clinicShares/queryRadarData', {
+        innerCode: this.innerCode
+      }).then(() => {
+        this.drawCharts(this.radars.radarAllData)
 
-        })
+      })
+      // this.chart.on('mouseover', (params) => {
+      //  console.log(params)
+      /* const dataZoom = this.chart.getOption().dataZoom[0];
+       const startValue = params.startValue || dataZoom.startValue;
+       const endValue = params.endValue || dataZoom.endValue;
+       this.zoomStart = startValue;
+       this.zoomEnd = endValue;
+       this.zoomRange = endValue - startValue;
+       console.info('start:' + startValue + ', end:' + endValue + ', range:' + this.zoomRange);*/
+      //  }) 
+    },
+    goAnchor(selector) {
+
+      var anchor = document.getElementById(selector)
+      console.log(anchor.offsetTop)
+      document.documentElement.scrollTop = anchor.offsetTop
+    },
+    fundShow(e) {
+      // this.showTechs = true
+      this.$emit("changeShowValue", 'base')
+      //  this.$emit('changeSelectValue', this.bullSelected)
     },
     drawCharts(radarAllData) {
       this.chart.setOption({
+        // backgroundColor:'#fff',
 
-        // legend: {
-        // right: '2%',
-        /* data: [{
-          name: 'sd',
-          icon: 'rect'
-        }, {
-          name: '全部客户',
-          icon: 'rect'
-        }], */
-        /*  itemWidth: 12,
-          itemHeight: 12,
-          textStyle: {
-            color: '#d3d9dd',
-            padding: [0, 0, 3, 10]
-          },
-          orient: 'vertical',
-          itemGap: 20
-        }, */
-        grid: {
-          left: '5%',
-          right: 10,
-          bottom: '0%'
-          /* height: '80%',
-          width: '50%' */
+        tooltip: {
+          trigger: 'axis'
         },
         radar: {
           indicator: [{
@@ -386,7 +527,7 @@ export default {
           }, {
             text: '技术面',
             min: 0,
-            max: 100
+            max: 10
           }, {
             text: '基本面',
             min: 0,
@@ -400,12 +541,15 @@ export default {
           },
           axisLine: {
             lineStyle: {
-              color: '#444346'
+              color: '#444346',
+              type: 'solid'
             }
+
           },
           splitLine: {
             lineStyle: {
-              color: '#444346'
+              color: '#444346',
+              type: 'solid'
             }
           },
           name: {
@@ -413,63 +557,113 @@ export default {
               color: '#d3d9dd'
             }
           }
+          /* splitArea: {
+               areaStyle: {
+                   
+                   color: ['#C1C1C1', '#fff']
+               }
+           } */
         },
         series: [{
           type: 'radar',
-          // areaStyle: {normal: {}},
           symbol: 'none',
+          /* tooltip: {
+              trigger: 'item'
+          }, */
+          /* symbol: 'circle',
+          symbolSize: 5,
+          radius:'', */
           data: [{
             value: radarAllData
           }],
-          // this.radarData.data,
-          areaStyle: {
-            normal: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [{
-                  offset: 0,
-                  color: '#ca4941'
-                }, {
-                  offset: 1,
-                  color: '#ca4941'
-                }],
-                globalCoord: false
-              }
-            }
-          },
           lineStyle: {
             normal: {
               color: '#fff',
               opacity: 0
             }
           },
-          label: {
+          itemStyle: {
             normal: {
-              show: false,
-              formatter: function(params) {},
-              position: 'top'
+
+              areaStyle: {
+                normal: {
+                  color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                      offset: 0,
+                      color: '#ca4941'
+                    }, {
+                      offset: 1,
+                      color: '#ca4941'
+                    }],
+                    globalCoord: false
+                  }
+                }
+              },
+
+              label: {
+                normal: {
+                  show: false,
+                  formatter: function(params) {},
+                  position: 'top'
+                }
+              }
+
+            },
+            emphasis: {
+              areaStyle: {
+                color: '#ff2e29'
+              }
+              /* ,
+                                    lineStyle: {
+                                        color:'#ff2e29'
+                                       
+                                    },
+                                    itemStyle: {
+                                        color: '#ff0',
+                                        borderColor: '#000'
+                                      
+                                    }  */
             }
-          }
-        }],
-        color: ['#ca4941', '#D65838']
+          },
+          color: ['#ca4941', '#D65838']
+        }]
       })
+
       window.addEventListener('resize', () => this.chart.resize(), false)
 
     },
+    changeTofixed1(num) {
+      return parseFloat(num).toFixed(1)
+    },
+    checkRecommend(num) {
+      return Math.round(num * 100) + '%'
+    },
     changeDate(time) {
-      return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+      if (time === 0) {
+        return '--'
+      } else {
+        return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+
+      }
     }
   },
   watch: {
-    customerAnaly() {
+    innerCode: function() {
+
+      this.initSmartStock()
       this.initradarChart()
     }
+    /* customerAnaly() {
+      this.initradarChart()
+    } */
   },
   mounted() {
+
     this.initSmartStock()
     this.initradarChart()
   },

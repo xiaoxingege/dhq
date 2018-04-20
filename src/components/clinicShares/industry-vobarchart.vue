@@ -108,9 +108,7 @@ body {
 }
 .desc-green {
     border: 1px solid $downColor;
-
 }
-
 .pl-5 {
     padding-left: 5px;
 }
@@ -118,22 +116,7 @@ body {
 .clinic-dime-wrap {
     background-color: $bgConColor;
 }
-.tab-ul {
-    width: 100%;
-    background: $bgNavColor;
-}
-.tab-ul li {
-    width: 70px;
-    height: 30px;
-    line-height: 30px;
-    background: $bgNavColor;
-    text-align: center;
-    border-right: 1px solid $bgDeepColor;
-    cursor: pointer;
-}
-.tab-ul li.active {
-    background: $menuSelColor;
-}
+
 .dime-kline {
     padding: 10px;
     /*float: left;*/
@@ -157,19 +140,33 @@ body {
     width: 100%;
 }
 .assess1 {
-    padding-left: 5px;
+    padding-left: 9px;
+    font-size: 14px;
+}
+.dime-tech {
+    padding: 10px;
+    margin: 0 5px 6px 0;
+}
+.techline-title2 {
+    height: 22px;
+    padding: 10px 5px;
+}
+.techline-title {
+    line-height: 41px;
+    border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
 }
 </style>
 <template>
-<div class="dime-kline">
+<div class="dime-tech">
   <div>
-    <div class="kline-title">
-      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'--':baseFace.tag}}</span>
+    <div class="techline-title">
+      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)">{{industryFace.tag==null?'':industryFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe}}</div>
+    <div class="techline-title2">{{industryFace.describe==null?'':industryFace.describe}}</div>
 
   </div>
+
 
   <div class="kline-charts" ref="lineCharts">
 
@@ -187,7 +184,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
+  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode', 'floatYname'],
   data() {
     return {
       showX: true,
@@ -202,7 +199,8 @@ export default ({
         name2: '预测净利润增长率'
       },
       legendName3: {
-        name1: '未来20日上涨概率'
+        name1: '未来3日上涨概率',
+        name2: '未来20日上涨概率'
       },
       // themeColor:'transparent',
       borderType: 'dashed',
@@ -213,14 +211,17 @@ export default ({
         times: [],
         tradeTimeArr: [],
         ydata: [],
-        growthR: [],
-        growthRate: [],
-        growthRateLast: [],
+        winRate3: [],
+        winRate20: [],
         day: [],
         days5: [],
         vols: [],
         range: [],
-        rangeYdata: []
+        rangeYdata: [],
+        induAvg: [],
+        level: [],
+        score: [],
+        industryName: []
       }
     }
   },
@@ -247,7 +248,7 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data)
+      const klineData = [].concat(this.industryFace.datas.datas)
       // console.log(this.dataIndex)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
@@ -258,29 +259,46 @@ export default ({
         this.legendNames = this.legendName3
       }
       klineData.forEach((item, index) => {
-        const winRate20day = Number(item.winRate20day * 100).toFixed(2)
+        const level = item.level
+        const score = Number(item.eval).toFixed(2)
+        const industryName = item.industryName
+
         // const growthRate = item.growthRate
-        const range = item.range
+        //  const stkLevelDetail = item.stkLevelDetail
         /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-        this.data.range.push(range)
+        this.data.industryName.push(industryName)
 
         // this.data.ydata.push(winRate20day)
-        console.log(this.baseFace.range)
-        if (this.baseFace.range === range) {
-          var newValue = {}
-          // this.data.rangeYdata.push(range)
-          newValue = {
-            value: winRate20day,
-            itemStyle: {
-              normal: {
-                color: '#1984ea'
-              }
-            }
-          }
-          this.data.ydata.push(newValue)
-        } else {
-          this.data.ydata.push(winRate20day)
-        }
+        // if (this.industryFace.valueRange === range) {
+
+        //   var newValueStkLevel = {} 
+        // this.data.rangeYdata.push(range)
+        /*
+                 newValueStkLevel = {
+                   value: stkLevel,
+                   itemStyle: {
+                     normal: {
+                       label: {
+                         show: true,
+                         position: 'top',
+                         color: '#c9d0d7',
+                         fontSize: 12,
+                         fontWeight: 'bold',
+                         formatter: function(p) {
+                           return stkLevelDetail
+                         }
+                       }
+                     }
+                   }
+                 }  */
+        this.data.level.push(level)
+        this.data.score.push(score)
+        // this.data.stkLevel.push(newValueStkLevel) 
+        //  } else {
+
+        /*  this.data.induAvg.push(induAvg)
+          this.data.stkLevel.push(stkLevel) */
+        // }
         // console.log(this.data.ydata)
       })
       /* var newVols = {
@@ -300,7 +318,7 @@ export default ({
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
-      if (this.baseFace) {
+      if (this.industryFace) {
         this.drawCharts()
 
       }
@@ -308,27 +326,26 @@ export default ({
     },
     drawCharts() {
       const lineData = this.data
-      const legendNames = this.legendNames
-      console.log(lineData.rangeYdata)
+      //  const legendNames = this.legendNames
       const opt = {
 
         legend: {
           show: this.legendShow,
-          left: 5,
-          top: 0,
-          itemHeight: 2,
+          left: 3,
+          top: -6,
           itemWidth: 20,
+          itemHeight: 10,
           textStyle: {
             color: '#c9d0d7',
             fontSize: 12
           },
           data: [{
-              name: legendNames.name1,
+              name: this.legendName1,
               icon: 'rect'
             },
             {
-              name: legendNames.name2,
-              icon: 'image://../src/assets/images/z3img/icon-line1.png'
+              name: this.legendName2,
+              icon: 'rect'
 
             }
           ]
@@ -370,9 +387,13 @@ export default ({
           },
           formatter: function(params) {
             var s = ''
+            console.log(params)
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%'
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].name + '评分: ' + params[i].value + '</br>'
+              }
+              if (i === 1) {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
               }
 
             }
@@ -406,7 +427,7 @@ export default ({
             inside: true,
             alignWithLabel: false
           },
-          data: lineData.range
+          data: lineData.industryName
         },
         yAxis: {
 
@@ -414,9 +435,9 @@ export default ({
           type: 'value',
           name: this.floatYname,
           // data: ['0', '50%', '100%'],
-          splitNumber: 2,
-          min: 0,
-          max: 100,
+          /* splitNumber: 2,
+           min: 0,
+           max: 100,*/
           /* min:0,
           max:100,
           axisLabel: {
@@ -447,19 +468,19 @@ export default ({
           },
           axisLabel: {
             formatter: function(val) {
-              return val + '%'
+              return val
             },
             color: '#c9d0d7'
           }
         },
 
         series: [{
-            data: lineData.ydata,
-            name: legendNames.name1,
+            data: lineData.score,
+            name: this.legendName1,
             type: 'bar',
-            barWidth: 50,
-            stack: legendNames.name1,
-            label: {
+            barWidth: 35,
+            stack: this.legendName1,
+            /* label: {
               normal: {
                 show: true,
                 position: 'top',
@@ -469,7 +490,7 @@ export default ({
                 }
               }
             },
-
+*/
             itemStyle: {
               normal: {
                 color: '#525a65'
@@ -480,7 +501,7 @@ export default ({
               silent: true,
               symbol: ['none', 'none'],
               data: [{
-                yAxis: 50
+                yAxis: 5
               }],
               label: {
                 normal: {
@@ -491,6 +512,7 @@ export default ({
             }
 
           }
+
 
         ],
         // color: ['#ca4941', '#1984ea'],
@@ -525,7 +547,7 @@ export default ({
 
   },
   watch: {
-    /* baseFace() {
+    /* industryFace() {
         this.initLine()
       } */
     innerCode: function() {
@@ -534,8 +556,11 @@ export default ({
   },
 
   mounted() {
+    /* console.log(this.industryFace)
+    console.log(this.dataIndex) */
+    console.log(this.floatYname)
     this.init()
-    // console.log(this.baseFace)
+
     // this.initLine()
 
 

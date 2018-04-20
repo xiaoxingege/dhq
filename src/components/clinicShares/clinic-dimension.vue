@@ -12,6 +12,7 @@
     font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
+    font-family: "Microsoft YaHei";
 }
 /*$bgDeepColor:#0d0e0f;/* 最深背景 */
 /*$bgConColor:#141518;/* 内容背景 */
@@ -140,58 +141,102 @@ body {
 
 }
 .chart-kline {
-    /*width: 50%;*/
+    width: 49%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
+    float: left;
+}
+.chart-barline {
+    width: 100%;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+    float: left;
 }
 .chart-grop {
-    /* width: 50%;*/
+    width: 49%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
-
+    float: left;
+}
+.chart2-kline {
+    width: 49%;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+    float: left;
+}
+.chart-grop2 {
+    /*width: 50%;*/
 }
 .charts-base {
     /* height: 264px;*/
+    background: $bgDeepColor;
     width: 100%;
+    display: inline-block;
+}
+.tech-charts1 {
+    width: 49%;
+    display: inline-block;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
 }
 </style>
 <template>
-<div class="clinic-dime-wrap">
+<div class="clinic-dime-wrap" id="wrap">
   <div class="dime-tab">
     <ul class="tab-ul fl">
-      <li class="fl active">资金面</li>
-      <li class="fl">基本面</li>
-      <li class="fl">技术面</li>
+      <li class="fl" @click="faceCheck('fund')" :class="showFund===true?'active':''">资金面</li>
+      <li class="fl" @click="faceCheck('smart')" :class="showSmart===true?'active':''">基本面</li>
+      <li class="fl" @click="faceCheck('techs')" :class="showTechs===true?'active':''">技术面</li>
       <li class="fl">消息面</li>
-      <li class="fl">行业面</li>
+      <li class="fl" @click="faceCheck('industry')" :class="showIndustry===true?'active':''">行业面</li>
     </ul>
   </div>
-  <div class="dime-charts" v-show='false'>
-    <div class="chart-box1 display-box">
+  <div class="dime-charts" v-if='showFund'>
+    <div class="chart-box1 ">
       <div class="chart-kline box-flex-1">
-        <DimeKline/>
+        <DimeKline :innerCode='innerCode' />
       </div>
       <div class="chart-grop box-flex-1">
-
+        <Arealine :innerCode='innerCode' />
       </div>
     </div>
-    <div class="chart-box2 display-box">
-      <div class="chart-kline box-flex-1 chart2-kline">
-        <Barline/>
+    <div class="chart-box2">
+      <div class="chart-kline box-flex-1">
+        <Barline :innerCode='innerCode' />
       </div>
-      <div class="chart-grop box-flex-1 chart2-kline">
-        <Pieline/>
+      <div class="chart-grop box-flex-1">
+        <Pieline :innerCode='innerCode' />
       </div>
     </div>
   </div>
-  <div class="charts-base">
-    <div class="chart-kline box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' />
+  <div class="charts-base" v-if='showSmart'>
+    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
+      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
     </div>
-    <div class="chart-grop box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' />
+    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
+      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
     </div>
+  </div>
+  <div class="charts-base display-box" v-if='showTechs'>
+    <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
+      <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='innerCode' />
+    </div>
+  </div>
+  <div class="dime-charts" v-if='showIndustry'>
+    <div class="chart-box1 ">
+      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
+        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
+      </div>
+      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
+        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
+      </div>
+    </div>
+    <div class="chart-box2">
+      <div class="chart-barline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===2'>
+        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='floatYname' />
+      </div>
 
+    </div>
   </div>
 </div>
 </template>
@@ -203,43 +248,104 @@ import {
 import DimeKline from 'components/clinicShares/dime-kline'
 import Barline from 'components/clinicShares/dime-barline'
 import Pieline from 'components/clinicShares/dime-pieline'
+import Arealine from 'components/clinicShares/dime-arealine'
 import BasefaceCharts from 'components/clinicShares/base-face-charts'
 import FloatfactorCharts from 'components/clinicShares/float-factor-charts'
+import TechnicalCharts from 'components/clinicShares/technical-charts'
+import IndustryStklevelBarchart from 'components/clinicShares/industry-stklevel-barchart'
+import IndustryLinechart from 'components/clinicShares/industry-linechart'
+import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
+
 export default {
+  props: ['innerCode', 'isShow'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
-      legendName1: '',
-      legendName2: '',
-      legendShow: false
+      legendName1: '行业均值',
+      legendName2: '个股水平',
+      legendNameInfo: '行业舆情',
+      legendNameTech: '行业热度',
+      legendNameIndu: '评分',
+      legendShow: false,
+      showFund: true,
+      showSmart: false,
+      showTechs: false,
+      showIndustry: false
+
 
     }
   },
   computed: mapState({
-    baseFaceData: state => state.clinicShares.baseFace
+    baseFaceData: state => state.clinicShares.baseFace,
+    techFaceData: state => state.clinicShares.techFace,
+    industryFaceData: state => state.clinicShares.industryFace
   }),
   components: {
     DimeKline,
     Barline,
     Pieline,
     BasefaceCharts,
-    FloatfactorCharts
+    FloatfactorCharts,
+    Arealine,
+    TechnicalCharts,
+    IndustryStklevelBarchart,
+    IndustryLinechart,
+    IndustryvoBarchart
   },
   methods: {
+    init() {
+      this.$store.dispatch('clinicShares/queryBaseFace', {
+        innerCode: this.innerCode
+      })
 
+      this.$store.dispatch('clinicShares/queryTechFace', {
+        innerCode: this.innerCode
+      })
+      this.$store.dispatch('clinicShares/queryIndustryFace', {
+        innerCode: this.innerCode
+      })
+    },
     initLegendName() {
       this.legendName.forEach((item) => {
         this.legends = item
         console.log(this.legends)
       })
+    },
+    faceCheck(type) {
+      if (type === 'fund') {
+        this.showFund = true
+        this.showSmart = false
+        this.showTechs = false
+        this.showIndustry = false
+      } else if (type === 'smart') {
+        this.showFund = false
+        this.showSmart = true
+        this.showTechs = false
+        this.showIndustry = false
+      } else if (type === 'techs') {
+        this.showFund = false
+        this.showSmart = false
+        this.showTechs = true
+        this.showIndustry = false
+      } else if (type === 'industry') {
+        this.showFund = false
+        this.showSmart = false
+        this.showTechs = false
+        this.showIndustry = true
+      }
     }
   },
   watch: {
-
+    innerCode: function() {
+      this.init()
+    }
   },
   mounted() {
-    this.$store.dispatch('clinicShares/queryBaseFace')
+    console.log(this.showSmart)
+
+    console.log(this.industryFaceData)
     // this.initLegendName()
+
   },
   destroyed() {
 

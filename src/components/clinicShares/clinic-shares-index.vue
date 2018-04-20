@@ -78,8 +78,8 @@ body {
 <template>
 <div class="wrap-all">
   <div class="clinic-shares-wrap">
-    <ClinicMarkTop/>
-    <ClinicDimension/>
+    <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
+    <ClinicDimension :innerCode='innerCode' :isShow='bases' />
 
   </div>
   <div class="foot-tishi clearfix">
@@ -91,12 +91,15 @@ body {
 import {
   mapState
 } from 'vuex'
+import util from '../../z3tougu/util'
 import ClinicMarkTop from 'components/clinicShares/clinic-mark-top'
 import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
   data() {
     return {
-
+      code: this.$route.params.innerCode,
+      innerCode: '',
+      bases: ''
     }
   },
   computed: mapState({
@@ -109,11 +112,58 @@ export default {
     ClinicDimension
   },
   methods: {
+    init: function() {
+      const query = this.$route.query
+      if (query && query.query) {
+
+        this.innerCode = query.query
+      } else {
+        console.log(query.query)
+        this.concats(this.code)
+        // this.innerCode = '600000.SH'
+      }
+
+    },
+
+    concats(code) {
+      // 
+      console.log(code)
+      this.innerCode = util.formatterInnercode(code)
+      /* console.log(this.code)
+      var str = this.code
+      var index6 = str.indexOf('6');
+      var index9 = str.indexOf('9');
+      var index0 = str.indexOf('0');
+      var index2 = str.indexOf('2');
+      var index3 = str.indexOf('3');
+      if (index6 === 0 || index9 === 0) {
+        this.innerCode = str + '.SH'
+
+      } else if (index0 === 0 || index2 === 0 || index3 === 0) {
+        this.innerCode = str + '.SZ'
+
+      } else {
+        return false
+      } */
+    },
+    getShowValue(type) {
+
+      if (type === 'base') {
+        this.bases = true
+        // alert(this.bases)
+      }
+    }
+  },
+  watch: {
 
   },
-  watch: {},
   mounted() {
+    // alert(this.innerCode)
 
+    this.init()
+    console.log(this.innerCode)
+
+    // console.log(this.$route.params)
   },
   destroyed() {
 

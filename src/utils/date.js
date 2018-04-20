@@ -5,9 +5,9 @@
  * format yyyy-MM-dd hh:mm 得到2017-05-03 11:20
  * format yyyy-MM-dd 得到2017-05-03
  */
-function formatDate (date, format) {
+function formatDate(date, format) {
   date = new Date(date)
-  var paddNum = function (num) {
+  var paddNum = function(num) {
     num += ''
     return num.replace(/^(\d)$/, '0$1')
   }
@@ -26,14 +26,14 @@ function formatDate (date, format) {
     ss: date.getSeconds() // 秒
   }
   format || (format = 'yyyy-MM-dd')
-  return format.replace(/([a-z])(\1)*/ig, function (m) {
+  return format.replace(/([a-z])(\1)*/ig, function(m) {
     return cfg[m]
   })
 }
 /**
  * 传入一定格式的时间字符串，输出指定格式的时间格式字符串
  */
-function formatDateStr (datestr, fromFormatter, toFormatter) {
+function formatDateStr(datestr, fromFormatter, toFormatter) {
   if (!fromFormatter) {
     return datestr
   }
@@ -52,12 +52,12 @@ function formatDateStr (datestr, fromFormatter, toFormatter) {
     ss: sIndex !== -1 ? datestr.substring(sIndex, sIndex + 2) : ''
   }
   toFormatter || (toFormatter = 'yyyy-MM-dd')
-  return toFormatter.replace(/([a-z])(\1)*/ig, function (m) {
+  return toFormatter.replace(/([a-z])(\1)*/ig, function(m) {
     return cfg[m]
   })
 }
 
-function cutString (str, len) {
+function cutString(str, len) {
   // length属性读出来的汉字长度为1
   if (str.length * 2 <= len) {
     return str
@@ -84,4 +84,5 @@ export {
   formatDate,
   cutString,
   formatDateStr
+
 }

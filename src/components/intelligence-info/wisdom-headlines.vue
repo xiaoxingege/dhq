@@ -5,7 +5,7 @@
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
-          <span v-if="item.postiveIndex != '' && item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
+          <span v-if="item.postiveIndex != '' " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
@@ -19,7 +19,7 @@
         </div>
         <div class="con-bottom">
           <ul class="stock">
-              <li class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
+              <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                 <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                   <span>{{item.equity.name}}</span>
                   <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
@@ -74,14 +74,16 @@
         'pageSize',
         'wisdomHeadlinesList',
         'newTime',
-        'isTops'
+        'isTops',
+        'noData'
       ]),
       ...mapGetters({
         loadingShow: 'loadingShow',
         pageSize: 'pageSize',
         wisdomHeadlinesList: 'wisdomHeadlinesList',
         newTime: 'newTime',
-        isTops:'isTops'
+        isTops:'isTops',
+        noData:'noData'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -107,22 +109,22 @@
       },
       loadMore() {
         this.page++
+        this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
-          this.noData = true
+          this.$store.commit('setNoData',true)
         }
       },
       updateNews() {
         intervalId = setInterval(() => {
           console.log('启动定时器')
           console.log(intervalId)
-          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: true, newTime: this.newTime })
+          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop:  true, newTime: this.newTime })
         },this.intervalTime)
       },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop
-        if (this.scrollTop*2 >= this.innerHeight) {
-          this.$store.commit('setIsTop',false)
+        if (this.scrollTop >= this.innerHeight) {
           if (intervalId) {
             console.log(intervalId)
             console.log('清除定时器')
@@ -132,6 +134,8 @@
         if (this.scrollTop === 0) {
           this.$store.commit('setIsTop',true)
           this.updateNews()
+        }else{
+          this.$store.commit('setIsTop',false)
         }
       },
       cutStr(str, len) {
@@ -174,12 +178,6 @@
       StockBox
     },
     watch: {
-      'page': {
-        deep: true,
-        handler: function() {
-          this.loadList()
-        }
-      },
       relatedStocks() {
         if (z3websocket.ws) {
           //  z3websocket.ws && z3websocket.ws.close()
