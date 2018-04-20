@@ -1,4 +1,5 @@
 import cookie from 'component-cookie'
+import moment from 'moment'
 // initial state
 const state = {
   list: [],
@@ -28,20 +29,30 @@ const actions = {
   fetch({ commit, dispatch }, params) {
     const $ = require('jquery')
     return buildQL(params, { dispatch }).then(ql => {
-      ql = `(${ql}) AND issuetype = Sub-task AND (status = "In Progress" OR status = 开始)`
+      ql = `(${ql}) AND issuetype = Sub-task AND (status = "In Progress" OR status = 开始 OR status= "To Do") AND createdDate >= 2018-04-16`
       return $.ajax({
         url: 'http://itougu.jrj.com.cn/actm/proxy',
         method: 'POST',
         dataType: 'json',
         data: {
-          url: `http://jira2.jrj.com.cn/rest/api/latest/search?jql=${encodeURIComponent(ql)}`,
+          url: `http://jira2.jrj.com.cn/rest/api/latest/search?jql=${encodeURIComponent(ql)}&fields=worklog,customfield_10900,summary,assignee,aggregatetimeoriginalestimate,duedate,customfield_10613,displayName,status`,
           headers: {
             Authorization: 'Basic c2hpaHVhbmcucGlhbzpTZW9ubXl5dDc3'
           }
         }
       }).then(data => {
-        data.issues = data.issues.filter((item) => {
-          return item.fields.customfield_10900
+        data.issues.forEach((item) => {
+          item.fields['customfield_10900'] = item.fields['customfield_10900'] || moment().format('YYYY-MM-DD')
+          item.fields.duedate = item.fields.duedate || item.fields['customfield_10613'] || moment().format('YYYY-MM-DD')
+          item.fields.summary = `[${item.key}]${item.fields.summary}`
+          if (item.fields.worklog) {
+            item.fields.worklog.worklogs.sort((a, b) => {
+              return moment(b.started) - moment(a.started)
+            })
+            if (item.fields.worklog.worklogs.length > 0) {
+              item.fields.todayWorklog = moment().startOf('day') < moment(item.fields.worklog.worklogs[0].started) ? item.fields.worklog.worklogs[0] : null
+            }
+          }
         })
         commit('fetch', data.issues)
       })

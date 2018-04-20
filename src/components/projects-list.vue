@@ -5,21 +5,20 @@
     font-size: 14px;
 }
 .btn {
-  padding: 0 6px;
-  height: 30px;
-  line-height: 30px;
-  border-radius: 3px;
-  display: inline-block;
-  box-sizing: border-box;
+    padding: 0 6px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+    display: inline-block;
+    box-sizing: border-box;
 }
 
 .btn.btn-default {
-  color: #666;
-  border: 1px solid #ccc;
+    color: #666;
+    border: 1px solid #ccc;
 }
-
 .btn.btn-default:hover {
-  background: #efefef;
+    background: #efefef;
 }
 .user-manage-bg {
     position: fixed;
@@ -55,6 +54,8 @@
 }
 .list-panel {
     padding: 0 10px;
+    height: 400px;
+    overflow: auto;
     li {
         height: 30px;
         line-height: 30px;
@@ -235,9 +236,9 @@ export default {
           a = a.fields
           b = b.fields
           const startA = moment(a.customfield_10900).startOf('day')
-          const endA = moment(a.customfield_10613).endOf('day')
+          const endA = moment(a.duedate || a.customfield_10613).endOf('day')
           const startB = moment(b.customfield_10900).startOf('day')
-          const endB = moment(b.customfield_10613).endOf('day')
+          const endB = moment(b.duedate || b.customfield_10613).endOf('day')
           return -((endA - startA) - (endB - startB))
         }).forEach(prj => {
           prj = prj.fields
@@ -250,7 +251,7 @@ export default {
             }
           }
           const start = moment(prj.customfield_10900).startOf('day')
-          const end = moment(prj.customfield_10613).endOf('day')
+          const end = moment(prj.duedate || prj.customfield_10613).endOf('day')
           const username = prj.assignee ? prj.assignee.displayName : '未分配'
           if (start > min) {
             // 占位条都放在最前面，避免遮挡可见条
@@ -277,7 +278,8 @@ export default {
             stack: prj.summary,
             itemStyle: {
               normal: {
-                opacity: 0.8
+                opacity: 0.8,
+                color: prj.status.id === '3' ? (prj.todayWorklog ? 'green' : 'red') : 'orange'
               },
               emphasis: {
                 opacity: 0.8
@@ -321,7 +323,7 @@ export default {
                   prj = prj.fields
                   return prj.summary === params.seriesName
                 })[0].fields
-                return `${params.seriesName}: ${moment(prj.customfield_10900).format('YYYY/MM/DD')} - ${moment(prj.customfield_10613).format('YYYY/MM/DD')} (${prj.status.name})`
+                return `${params.seriesName}: ${moment(prj.customfield_10900).format('YYYY/MM/DD')} - ${moment(prj.duedate || prj.customfield_10613).format('YYYY/MM/DD')} (${prj.status.name})`
               }
             },
             axisPointer: {
