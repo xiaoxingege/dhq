@@ -14,17 +14,17 @@
                 <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
                 <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                 <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
-            </a>
+        </a>
       </div>
       <ul ref="newListUl">
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
           <span>{{item.symbol | isNull}}</span>
-          <span v-z3-updowncolor="item.chg">{{item.price | isNull}}</span>
-          <span v-z3-updowncolor="item.chg">{{item.chg | isNull | chng}}</span>
+          <span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
-          <span v-z3-updowncolor="item.chgNum">{{item.chgNum | isNull}}</span>
+          <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
         </li>
       </ul>
     </div>
@@ -51,11 +51,11 @@ export default {
   data() {
     return {
       options: {
-        xDefault: 'mkt_idx.volume_ratio',
-        yDefault: 'mkt_idx.exchr',
+        xDefault: 'accum_chg_pct',
+        yDefault: 'up_limit_num',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 4
+        type: 5
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -204,7 +204,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
+            right: 25,
             bottom: 50
           },
           tooltip: {
@@ -242,9 +242,9 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return '累计涨幅'
                 }
-                return Number(v).toFixed(2)
+                return Number(v).toFixed(2) + '%'
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -287,9 +287,9 @@ export default {
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '开板前' + '\n' + '连板数'
                 }
-                return v.toFixed(2) + '%'
+                return v
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -416,8 +416,8 @@ export default {
             stockCode: that.dialogOptions.stockCode
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
-          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
-          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
+          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex]
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
           that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
@@ -506,9 +506,9 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return '累计涨幅'
                 }
-                return Number(v).toFixed(2)
+                return Number(v).toFixed(2) + '%'
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -528,9 +528,9 @@ export default {
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '开板前' + '\n' + '连板数'
                 }
-                return v.toFixed(2) + '%'
+                return v
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -741,7 +741,7 @@ export default {
                 display: block;
                 line-height: 17px;
                 box-sizing: border-box;
-                padding: 0 10px;
+                /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
             }
