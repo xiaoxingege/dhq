@@ -57,8 +57,8 @@
   </div>
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
-      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsIndex:index,type:type}}">{{item.title}}</router-link>
-      <span class="fr">{{item.makedate.substring(11)}}</span>
+      <router-link class="fl newtitle" :to="{name:'detailPages',params:{id:item.newsId, detailType:'news'}}" target="_blank">{{item.title}}</router-link>
+      <span class="fr">{{timestampToTime(item.declareDate)}}</span>
     </li>
   </ul>
 </div>
@@ -70,10 +70,10 @@ export default {
   data() {
     return {
       navText: [
-        ['财经要闻', 'ywnews'],
-        ['上市公司', 'companynews']
+        ['智头条', 'ztt'],
+        ['上市公司', 'ssgs']
       ],
-      type: 'ywnews',
+      type: 'ztt',
       newsSize: 6,
       newsList: [],
       intervalTime: 10,
@@ -100,14 +100,14 @@ export default {
   },
   methods: {
     getNews: function() {
-      if (this.type === 'ywnews') {
+      if (this.type === 'ztt') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
             size: this.newsSize
           })
           .then(() => {
             this.newsList = this.financeNewsData
           })
-      } else if (this.type === 'companynews') {
+      } else if (this.type === 'ssgs') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
             size: this.newsSize
           })
@@ -128,6 +128,13 @@ export default {
           _this.getNews()
         }, 60 * 1000 * _this.intervalTime)
       }
+    },
+    timestampToTime: function(timestamp) {
+      const date = new Date(timestamp); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      const h = date.getHours() + ':';
+      const m = date.getMinutes() + ':';
+      const s = date.getSeconds();
+      return h + m + s;
     }
   },
   mounted() {
