@@ -116,8 +116,10 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
+      console.log(list)
       const stocks = {}
       state.temporary = list.rows
+      console.log(state.isTops)
       if(state.isTops === true){
         state.listedCompany = state.temporary.concat(state.listedCompany)
       }else{

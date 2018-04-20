@@ -12,6 +12,7 @@
     font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
+    font-family: "Microsoft YaHei";
 }
 /*$bgDeepColor:#0d0e0f;/* 最深背景 */
 /*$bgConColor:#141518;/* 内容背景 */
@@ -145,6 +146,12 @@ body {
     margin: 0 5px 6px 0;
     float: left;
 }
+.chart-barline {
+    width: 100%;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+    float: left;
+}
 .chart-grop {
     width: 49%;
     background: $bgConColor;
@@ -181,7 +188,7 @@ body {
       <li class="fl" @click="faceCheck('smart')" :class="showSmart===true?'active':''">基本面</li>
       <li class="fl" @click="faceCheck('techs')" :class="showTechs===true?'active':''">技术面</li>
       <li class="fl">消息面</li>
-      <li class="fl">行业面</li>
+      <li class="fl" @click="faceCheck('industry')" :class="showIndustry===true?'active':''">行业面</li>
     </ul>
   </div>
   <div class="dime-charts" v-if='showFund'>
@@ -212,9 +219,24 @@ body {
   </div>
   <div class="charts-base display-box" v-if='showTechs'>
     <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
-      <TechnicalCharts :techFace='item' :dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
+      <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='innerCode' />
     </div>
+  </div>
+  <div class="dime-charts" v-if='showIndustry'>
+    <div class="chart-box1 ">
+      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
+        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
+      </div>
+      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
+        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
+      </div>
+    </div>
+    <div class="chart-box2">
+      <div class="chart-barline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===2'>
+        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='floatYname' />
+      </div>
 
+    </div>
   </div>
 </div>
 </template>
@@ -230,24 +252,33 @@ import Arealine from 'components/clinicShares/dime-arealine'
 import BasefaceCharts from 'components/clinicShares/base-face-charts'
 import FloatfactorCharts from 'components/clinicShares/float-factor-charts'
 import TechnicalCharts from 'components/clinicShares/technical-charts'
+import IndustryStklevelBarchart from 'components/clinicShares/industry-stklevel-barchart'
+import IndustryLinechart from 'components/clinicShares/industry-linechart'
+import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
 
 export default {
-  props: ['innerCode'],
+  props: ['innerCode', 'isShow'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
-      legendName1: '',
-      legendName2: '',
-      legendShow: true,
+      legendName1: '行业均值',
+      legendName2: '个股水平',
+      legendNameInfo: '行业舆情',
+      legendNameTech: '行业热度',
+      legendNameIndu: '评分',
+      legendShow: false,
       showFund: true,
-      showSmart: false
+      showSmart: false,
+      showTechs: false,
+      showIndustry: false
 
 
     }
   },
   computed: mapState({
     baseFaceData: state => state.clinicShares.baseFace,
-    techFaceData: state => state.clinicShares.techFace
+    techFaceData: state => state.clinicShares.techFace,
+    industryFaceData: state => state.clinicShares.industryFace
   }),
   components: {
     DimeKline,
@@ -256,7 +287,10 @@ export default {
     BasefaceCharts,
     FloatfactorCharts,
     Arealine,
-    TechnicalCharts
+    TechnicalCharts,
+    IndustryStklevelBarchart,
+    IndustryLinechart,
+    IndustryvoBarchart
   },
   methods: {
     init() {
@@ -265,6 +299,9 @@ export default {
       })
 
       this.$store.dispatch('clinicShares/queryTechFace', {
+        innerCode: this.innerCode
+      })
+      this.$store.dispatch('clinicShares/queryIndustryFace', {
         innerCode: this.innerCode
       })
     },
@@ -279,14 +316,22 @@ export default {
         this.showFund = true
         this.showSmart = false
         this.showTechs = false
+        this.showIndustry = false
       } else if (type === 'smart') {
         this.showFund = false
         this.showSmart = true
         this.showTechs = false
+        this.showIndustry = false
       } else if (type === 'techs') {
         this.showFund = false
         this.showSmart = false
         this.showTechs = true
+        this.showIndustry = false
+      } else if (type === 'industry') {
+        this.showFund = false
+        this.showSmart = false
+        this.showTechs = false
+        this.showIndustry = true
       }
     }
   },
@@ -298,7 +343,7 @@ export default {
   mounted() {
     console.log(this.showSmart)
 
-    console.log(this.techFaceData)
+    console.log(this.industryFaceData)
     // this.initLegendName()
 
   },

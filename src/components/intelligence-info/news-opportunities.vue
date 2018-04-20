@@ -205,7 +205,6 @@
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop * 2
         if (this.scrollTop >= this.innerHeight) {
-          this.$store.commit('setIsTop',false)
           if (intervalId) {
             console.log(intervalId)
             console.log('清除定时器')
@@ -215,6 +214,8 @@
         if (this.scrollTop === 0) {
           this.$store.commit('setIsTop',true)
           this.updateNews()
+        }else{
+          this.$store.commit('setIsTop',false)
         }
       },
       cutStr(str, len) {

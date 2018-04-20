@@ -68,7 +68,12 @@ const xSelectData = {
   'fcst_idx.rating_syn': '分析师观点',
   'mkt_idx.expect_price_chng_pct': '目标价格涨幅',
   'mkt_idx.volume_ratio': '量比',
-  'mkt_idx.exchr': '换手率'
+  'mkt_idx.exchr': '换手率',
+  'accum_chg_pct': '累计涨幅',
+  'up_limit_num': '开板前连板数',
+  'accum_chg_pct_up_term': '开板后累计涨幅',
+  'up_limit_last_day_data.up_limit_term_num': '昨日开板次数',
+  'up_limit_last_day_data.cont_up_limit_days_num': '昨日连板数'
 }
 
 // 气泡大小轴下拉框数据

@@ -78,8 +78,8 @@ body {
 <template>
 <div class="wrap-all">
   <div class="clinic-shares-wrap">
-    <ClinicMarkTop :innerCode='innerCode' />
-    <ClinicDimension :innerCode='innerCode' />
+    <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
+    <ClinicDimension :innerCode='innerCode' :isShow='bases' />
 
   </div>
   <div class="foot-tishi clearfix">
@@ -98,7 +98,8 @@ export default {
   data() {
     return {
       code: this.$route.params.innerCode,
-      innerCode: ''
+      innerCode: '',
+      bases: ''
     }
   },
   computed: mapState({
@@ -144,6 +145,13 @@ export default {
       } else {
         return false
       } */
+    },
+    getShowValue(type) {
+
+      if (type === 'base') {
+        this.bases = true
+        // alert(this.bases)
+      }
     }
   },
   watch: {
