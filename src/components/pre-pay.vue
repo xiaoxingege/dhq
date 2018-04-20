@@ -25,7 +25,7 @@ export default {
     const debug = query.debug
     const skipRiskAssessed = query.skipRiskAssessed === '1'
     const payQuery = qs.parse(payUrl.replace(/.*?\?/, ''))
-    //mobile表示非app内的h5页面，app表示app内的h5页面
+    // mobile表示非app内的h5页面，app表示app内的h5页面
     const platform = window.app.name === '{{appid}}' ? 'mobile' : 'app'
     this.$store.dispatch('user/checkLogin').then(() => {
       return this.$store.dispatch('user/checkBindingInfo', {})

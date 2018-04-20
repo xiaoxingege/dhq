@@ -81,7 +81,7 @@ export default {
             document.getElementsByTagName('head')[0].removeChild(script)
             resolve()
           })
-          script.src = 'http://itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + (new Date()).getTime()
+          script.src = '//itougu.jrj.com.cn/account/getBasicUserInfo.jspa?' + (new Date()).getTime()
           document.getElementsByTagName('head')[0].appendChild(script)
         }
       })
@@ -92,7 +92,7 @@ export default {
       state
     }) {
       return $.ajax({
-        url: 'http://itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
+        url: '//itougu.jrj.com.cn/account/service/identityHasVerified.jspa',
         headers: {
           passportId: state.ssoId
         }
@@ -105,7 +105,7 @@ export default {
       state
     }) {
       return $.ajax({
-        url: `http://itougu.jrj.com.cn/marketing/getBeanNum.jspa?userId=${state.ssoId}`
+        url: `//itougu.jrj.com.cn/marketing/getBeanNum.jspa?userId=${state.ssoId}`
       }).then(data => {
         commit('setBeanNum', data.num)
       })

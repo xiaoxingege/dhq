@@ -180,7 +180,7 @@ import getCookie from 'utils/getCookie'
                             }
                         }else{
                             $.ajax({
-                                url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getH5CouponById.jspa',
+                                url: '//itougu.jrj.com.cn/coupon/zhuanti/getH5CouponById.jspa',
                                 type: 'get',
                                 data:{
                                     couponId:typeId,
@@ -232,7 +232,7 @@ import getCookie from 'utils/getCookie'
             this.userId = getCookie('passportId')
             var self = this;
             $.ajax({
-                url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+                url: '//itougu.jrj.com.cn/marketing/topics.jspa?id=5',
                 type: 'get',
                 dataType: 'jsonp',
                 success:function(jsondata){

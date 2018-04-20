@@ -167,7 +167,7 @@ export default {
   }),
   methods: {
     gotoDetail(id){
-      window.location.href='http://itougu.jrj.com.cn/tips/'+id+'.jspa'
+      window.location.href='//itougu.jrj.com.cn/tips/'+id+'.jspa'
     },
     closeShow(type) {
       this.show = false;
@@ -177,7 +177,7 @@ export default {
         var self = this;
         if (JSON.stringify(window.basicUserInfo) !== '{}') {
             $.ajax({
-                url: 'http://itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
+                url: '//itougu.jrj.com.cn/coupon/zhuanti/getCouponById.jspa',
                 type: 'get',
                 data:{
                     couponId:typeId,
@@ -227,7 +227,7 @@ export default {
     this.$store.dispatch('user/checkLogin')
     var self = this;
     $.ajax({
-        url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=5',
+        url: '//itougu.jrj.com.cn/marketing/topics.jspa?id=5',
         type: 'get',
         dataType: 'jsonp',
         success:function(jsondata){
