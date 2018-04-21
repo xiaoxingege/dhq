@@ -137,16 +137,18 @@ body {
 .dime-kline {
     padding: 10px;
     clear: both;
-    margin: 0 5px 6px 0;
+    /* margin: 0 5px 6px 0; */
 }
 .kline-title {
 
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    padding: 10px 5px;
+    height: 62px;
 }
 .kline {
     height: 264px;
@@ -163,11 +165,11 @@ body {
 </style>
 <template>
 <div class="dime-kline">
-  <div v-for="(inFace,index) of indexFace" v-if="index===1">
+  <div>
     <div class="kline-title">
-      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag==null?'--':inFace.tag}}</span>
+      {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe}}</div>
+    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
 
@@ -187,91 +189,81 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode'],
+  props: ['innerCode', 'indexFace'],
   data() {
     return {
-      showX: true
+      showX: true,
+      data: {
+        times: [],
+        tradeTimeArr: [],
+        kdata: [],
+        price: [],
+        proportion: [],
+        proportionLast: [],
+        vols: [],
+        currPirce: []
+      }
     }
   },
   computed: {
     ...mapState({
-      indexFace: state => state.clinicShares.indexFace,
-      lineData: state => {
-        var data = {
-          times: [],
-          tradeTimeArr: [],
-          kdata: [],
-          price: [],
-          proportion: [],
-          proportionLast: [],
-          vols: [],
-          currPirce: []
-        }
-        // console.log(state.clinicShares.indexFace[0].tag)
-        var fundFace = state.clinicShares.indexFace;
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.arealineChart.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
-        fundFace.forEach((alls, index) => {
-          if (index === 1) {
-            // console.log(item.datas.data[0].prevClosePx)
-            const klineData = [].concat(alls.datas.data)
-            const currPirce = alls.datas.currPirce
-            data.currPirce.push(currPirce)
-            klineData.forEach((item) => {
-              // let time = ''
-              const price = Number(item.price)
-              const proportion = Number(item.proportion * 100).toFixed(2)
 
-              /* time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-              //  data.times.push(time)
-              // data.tradeTimeArr.push(time)
-              data.price.push(price)
-              //  data.proportion.push(proportion)
-              if (price >= currPirce) {
-                // data.proportionLast.push(null)
-                // data.proportion.push(proportion)
-                data.proportion.push(proportion)
-                data.proportionLast.push(null)
-
-              } else {
-                // data.proportionLast.push(proportion)
-                // data.proportion.push(null)
-                data.proportion.push(null)
-                data.proportionLast.push(proportion)
-              }
-              // console.log(data.proportion)
-              // console.log(data.proportionLast)
-              //  console.log(data.price)
-
-
-            })
-
-          }
-        })
-
-        return data
-
-      }
 
     })
   },
   methods: {
+    init() {
+
+
+      var data = this.data
+      const klineData = [].concat(this.indexFace.datas.data)
+      const currPirce = this.indexFace.datas.currPirce
+      data.currPirce.push(currPirce)
+      klineData.forEach((item) => {
+        // let time = ''
+        const price = Number(item.price)
+        const proportion = Number(item.proportion * 100).toFixed(2)
+
+        /* time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
+        //  data.times.push(time)
+        // data.tradeTimeArr.push(time)
+        data.price.push(price)
+        //  data.proportion.push(proportion)
+        if (price >= currPirce) {
+          // data.proportionLast.push(null)
+          // data.proportion.push(proportion)
+          data.proportion.push(proportion)
+          data.proportionLast.push(null)
+
+        } else {
+          // data.proportionLast.push(proportion)
+          // data.proportion.push(null)
+          data.proportion.push(null)
+          data.proportionLast.push(proportion)
+        }
+        // console.log(data.proportion)
+        // console.log(data.proportionLast)
+        //  console.log(data.price)
+
+
+      })
+
+
+
+      this.initKline()
+    },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
-      this.$store.dispatch('clinicShares/queryIndexFace', {
-        innerCode: this.innerCode
-      }).then(() => {
+      if (this.indexFace) {
         this.drawCharts()
-      })
+
+      }
 
     },
     drawCharts() {
-      const lineData = this.lineData
+      const lineData = this.data
       const opt = {
 
         tooltip: {
@@ -405,12 +397,12 @@ export default ({
   },
   watch: {
     innerCode: function() {
-      this.initKline()
+      this.init()
     }
   },
 
   mounted() {
-    this.initKline()
+    this.init()
 
   }
 

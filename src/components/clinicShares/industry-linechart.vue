@@ -155,6 +155,7 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 </style>
 <template>
@@ -218,7 +219,8 @@ export default ({
         range: [],
         rangeYdata: [],
         infoIndex: [],
-        techIndex: []
+        techIndex: [],
+        induName: ''
       }
     }
   },
@@ -246,7 +248,7 @@ export default ({
   methods: {
     init() {
       const klineData = [].concat(this.industryFace.datas.datas).reverse()
-      console.log(this.industryFace)
+      // console.log(this.industryFace)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
         // console.log(this.legendNames)
@@ -255,6 +257,7 @@ export default ({
       } else {
         this.legendNames = this.legendName3
       }
+      this.data.induName = this.industryFace.datas.induName
       if (klineData.length <= 60) {
         klineData.forEach((item, index) => {
           const infoIndex = Number(item.infoIndex).toFixed(2)
@@ -339,11 +342,11 @@ export default ({
             fontSize: 12
           },
           data: [{
-              name: this.legendName1,
+              name: lineData.induName + this.legendName1,
               icon: 'line'
             },
             {
-              name: this.legendName2,
+              name: lineData.induName + this.legendName2,
               icon: 'line'
 
             }
@@ -475,11 +478,11 @@ export default ({
 
         series: [{
             data: lineData.infoIndex,
-            name: this.legendName1,
+            name: lineData.induName + this.legendName1,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: this.legendName1,
+            stack: lineData.induName + this.legendName1,
             /* label: {
               normal: {
                 show: true,
@@ -501,11 +504,11 @@ export default ({
           },
           {
             data: lineData.techIndex,
-            name: this.legendName2,
+            name: lineData.induName + this.legendName2,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: this.legendName2,
+            stack: lineData.induName + this.legendName2,
             /* label: {
               normal: {
                 show: true,
@@ -568,7 +571,7 @@ export default ({
   },
 
   mounted() {
-    console.log(this.legendName1)
+    // console.log(this.legendName1)
     /*  console.log(this.industryFace)
       console.log(this.dataIndex) */
     this.init()

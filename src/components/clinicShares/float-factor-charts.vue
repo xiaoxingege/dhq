@@ -144,9 +144,11 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    height: 62px;
+    padding: 10px 5px;
 }
 .kline {
     height: 264px;
@@ -165,9 +167,9 @@ body {
 <div class="dime-kline">
   <div>
     <div class="kline-title">
-      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'--':baseFace.tag}}</span>
+      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'':baseFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe}}</div>
+    <div class="kline-title2">{{baseFace.describe==null?'':baseFace.describe}}</div>
 
   </div>
 

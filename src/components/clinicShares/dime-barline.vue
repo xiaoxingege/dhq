@@ -144,9 +144,11 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    padding: 10px 5px;
+    height: 62px;
 }
 .kline {
     height: 264px;
@@ -163,11 +165,11 @@ body {
 </style>
 <template>
 <div class="dime-kline">
-  <div v-for="(inFace,index) of indexFace" v-if="index===2">
+  <div>
     <div class="kline-title">
-      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag==null?'--':inFace.tag}}</span>
+      {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe}}</div>
+    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
 
@@ -187,72 +189,60 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode'],
+  props: ['innerCode', 'indexFace'],
   data() {
     return {
-      showX: true
+      showX: true,
+      data: {
+        times: [],
+        tradeTimeArr: [],
+        kdata: [],
+        day: [],
+        days5: [],
+        vols: []
+      }
     }
   },
   computed: {
     ...mapState({
-      indexFace: state => state.clinicShares.indexFace,
-      lineData: state => {
-        var data = {
-          times: [],
-          tradeTimeArr: [],
-          kdata: [],
-          day: [],
-          days5: [],
-          vols: []
-        }
-        // console.log(state.clinicShares.indexFace[0].tag)
-        var fundFace = state.clinicShares.indexFace;
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.barChart.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
-        fundFace.forEach((alls, index) => {
-          if (index === 2) {
-            // console.log(item.datas.data[0].prevClosePx)
-            const klineData = [].concat(alls.datas.data).reverse()
 
-            klineData.forEach((item) => {
-              let time = ''
-              const day = Number(item.today / 100000000).toFixed(2)
-              const days5 = Number(item.fiveDay / 100000000).toFixed(2)
-
-              time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-              data.times.push(time)
-              data.tradeTimeArr.push(time)
-              data.day.push(day)
-              data.days5.push(days5)
-
-            })
-
-          }
-        })
-
-        return data
-
-      }
 
     })
   },
   methods: {
+    init() {
+
+      var data = this.data
+      const klineData = [].concat(this.indexFace.datas.data).reverse()
+
+      klineData.forEach((item) => {
+        let time = ''
+        const day = Number(item.today / 100000000).toFixed(2)
+        const days5 = Number(item.fiveDay / 100000000).toFixed(2)
+
+        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+        data.times.push(time)
+        data.tradeTimeArr.push(time)
+        data.day.push(day)
+        data.days5.push(days5)
+
+      })
+
+
+
+      this.initKline()
+    },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
       // console.log(document.getElementsByClassName('kline-charts'))
       // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
-      this.$store.dispatch('clinicShares/queryIndexFace', {
-        innerCode: this.innerCode
-      }).then(() => {
+      if (this.indexFace) {
         this.drawCharts()
-      })
 
+      }
     },
     drawCharts() {
-      const lineData = this.lineData
+      const lineData = this.data
       const opt = {
 
         legend: {
@@ -479,13 +469,13 @@ export default ({
   },
   watch: {
     innerCode: function() {
-      this.initKline()
+      this.init()
     }
   },
 
   mounted() {
-    console.log(this.indexFace.title)
-    this.initKline()
+
+    this.init()
 
   }
 

@@ -155,13 +155,14 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 </style>
 <template>
 <div class="dime-tech">
   <div>
     <div class="techline-title">
-      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'--':techFace.tag}}</span>
+      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'':techFace.tag}}</span><span class="assess1" :class="checkStatus(techFace.status2)">{{techFace.tag2==null?'':techFace.tag2}}</span>
     </div>
     <div class="techline-title2">{{techFace.describe==null?'':techFace.describe}}</div>
 
@@ -338,7 +339,7 @@ export default ({
     drawCharts() {
       const lineData = this.data
       const legendNames = this.legendNames
-      console.log(legendNames.name1)
+
       const opt = {
 
         legend: {

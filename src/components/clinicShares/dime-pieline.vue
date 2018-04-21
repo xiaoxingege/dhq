@@ -144,9 +144,11 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    height: 62px;
+    padding: 10px 5px;
 }
 .kline {
     height: 264px;
@@ -169,9 +171,9 @@ body {
 <div class="dime-kline">
   <div v-for="(inFace,index) of indexFace" v-if="index===3">
     <div class="kline-title">
-      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'--':inFace.tag}}</span>
+      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'':inFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe}}</div>
+    <div class="kline-title2">{{inFace.describe==null?'':inFace.describe}}</div>
 
   </div>
   <div class="charts-box display-box">
@@ -297,7 +299,7 @@ export default ({
       const opt = {
         title: {
           left: 1,
-          top: -2,
+          top: -6,
           text: '当日、近3、5、10日累计净流入',
           textStyle: {
             color: '#c9d0d7',

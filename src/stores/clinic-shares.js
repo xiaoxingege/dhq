@@ -42,7 +42,7 @@ export default {
 
     updateRadarData(state, radarData) {
       state.radarData = radarData
-      console.log(state.radarData.fundValue)
+      // console.log(state.radarData.fundValue)
     },
     updateIndexFace(state, indexFace) {
       state.indexFace = indexFace
@@ -180,7 +180,7 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateIndustryFace', result.data)
-          console.log(result.data)
+          // console.log(result.data)
         } else {
           commit('ERROR', result, {
             root: true

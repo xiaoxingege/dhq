@@ -184,37 +184,37 @@ body {
 <div class="clinic-dime-wrap" id="wrap">
   <div class="dime-tab">
     <ul class="tab-ul fl">
-      <li class="fl" @click="faceCheck('fund')" :class="showFund===true?'active':''">资金面</li>
-      <li class="fl" @click="faceCheck('smart')" :class="showSmart===true?'active':''">基本面</li>
+      <li class="fl" @click="faceCheck('capital')" :class="showCapital===true?'active':''">资金面</li>
+      <li class="fl" @click="faceCheck('base')" :class="showBase===true?'active':''">基本面</li>
       <li class="fl" @click="faceCheck('techs')" :class="showTechs===true?'active':''">技术面</li>
       <li class="fl">消息面</li>
       <li class="fl" @click="faceCheck('industry')" :class="showIndustry===true?'active':''">行业面</li>
     </ul>
   </div>
-  <div class="dime-charts" v-if='showFund'>
+  <div class="dime-charts" v-if="showCapital">
     <div class="chart-box1 ">
-      <div class="chart-kline box-flex-1">
-        <DimeKline :innerCode='innerCode' />
+      <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===0'>
+        <DimeKline :innerCode='code' :indexFace='item' :dataIndex='index' />
       </div>
-      <div class="chart-grop box-flex-1">
-        <Arealine :innerCode='innerCode' />
+      <div class="chart-grop box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===1'>
+        <Arealine :innerCode='code' :indexFace='item' :dataIndex='index' />
       </div>
     </div>
     <div class="chart-box2">
-      <div class="chart-kline box-flex-1">
-        <Barline :innerCode='innerCode' />
+      <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===2'>
+        <Barline :innerCode='code' :indexFace='item' :dataIndex='index' />
       </div>
       <div class="chart-grop box-flex-1">
-        <Pieline :innerCode='innerCode' />
+        <Pieline :innerCode='code' />
       </div>
     </div>
   </div>
-  <div class="charts-base" v-if='showSmart'>
+  <div class="charts-base" v-if='showBase'>
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
+      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='code' />
     </div>
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
+      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='code' />
     </div>
   </div>
   <div class="charts-base display-box" v-if='showTechs'>
@@ -233,7 +233,7 @@ body {
     </div>
     <div class="chart-box2">
       <div class="chart-barline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===2'>
-        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='floatYname' />
+        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
       </div>
 
     </div>
@@ -261,21 +261,23 @@ export default {
   data() {
     return {
       floatYname: '未来20日上涨概率',
+      industryYname: '分值（满分10分）',
       legendName1: '行业均值',
       legendName2: '个股水平',
-      legendNameInfo: '行业舆情',
-      legendNameTech: '行业热度',
+      legendNameInfo: '舆情指数',
+      legendNameTech: '热度指数',
       legendNameIndu: '评分',
       legendShow: false,
-      showFund: true,
-      showSmart: false,
+      curTag: '',
+      showCapital: true,
+      showBase: false,
       showTechs: false,
-      showIndustry: false
-
-
+      showIndustry: false,
+      code: ''
     }
   },
   computed: mapState({
+    indexFaceData: state => state.clinicShares.indexFace,
     baseFaceData: state => state.clinicShares.baseFace,
     techFaceData: state => state.clinicShares.techFace,
     industryFaceData: state => state.clinicShares.industryFace
@@ -293,43 +295,64 @@ export default {
     IndustryvoBarchart
   },
   methods: {
-    init() {
-      this.$store.dispatch('clinicShares/queryBaseFace', {
-        innerCode: this.innerCode
+    /* init() {
+      
+
+     
+      
+    }, */
+    initCapitalFace() {
+      this.$store.dispatch('clinicShares/queryIndexFace', {
+        innerCode: this.code
       })
 
-      this.$store.dispatch('clinicShares/queryTechFace', {
-        innerCode: this.innerCode
+    },
+    initBaseFace() {
+      this.$store.dispatch('clinicShares/queryBaseFace', {
+        innerCode: this.code
       })
+    },
+    initTechFace() {
+      this.$store.dispatch('clinicShares/queryTechFace', {
+        innerCode: this.code
+      })
+    },
+    initIndustryFace() {
       this.$store.dispatch('clinicShares/queryIndustryFace', {
-        innerCode: this.innerCode
+        innerCode: this.code
       })
     },
     initLegendName() {
       this.legendName.forEach((item) => {
         this.legends = item
-        console.log(this.legends)
+        // console.log(this.legends)
       })
     },
     faceCheck(type) {
-      if (type === 'fund') {
-        this.showFund = true
-        this.showSmart = false
+      this.isShow = type
+      this.typeOfJudgment(type)
+    },
+    typeOfJudgment(type) {
+
+      if (type === 'capital') {
+        this.showCapital = true
+        this.showBase = false
         this.showTechs = false
         this.showIndustry = false
-      } else if (type === 'smart') {
-        this.showFund = false
-        this.showSmart = true
+      } else if (type === 'base') {
+        this.initBaseFace()
+        this.showCapital = false
+        this.showBase = true
         this.showTechs = false
         this.showIndustry = false
       } else if (type === 'techs') {
-        this.showFund = false
-        this.showSmart = false
+        this.showCapital = false
+        this.showBase = false
         this.showTechs = true
         this.showIndustry = false
       } else if (type === 'industry') {
-        this.showFund = false
-        this.showSmart = false
+        this.showCapital = false
+        this.showBase = false
         this.showTechs = false
         this.showIndustry = true
       }
@@ -337,13 +360,25 @@ export default {
   },
   watch: {
     innerCode: function() {
-      this.init()
+      // this.init()
+      /* this.initBaseFace()
+      this.initIndustryFace() */
+      // this.initTechFace()
+      this.code = this.innerCode
+
+    },
+    isShow() {
+
+
+      this.typeOfJudgment(this.isShow)
+      /*      console.log(this.isShow) */
     }
   },
   mounted() {
-    console.log(this.showSmart)
 
-    console.log(this.industryFaceData)
+    this.initCapitalFace()
+    console.log(this.indexFaceData)
+    // console.log(this.industryFaceData)
     // this.initLegendName()
 
   },
