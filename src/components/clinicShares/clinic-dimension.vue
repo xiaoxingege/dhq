@@ -296,10 +296,7 @@ export default {
   },
   methods: {
     /* init() {
-      
 
-     
-      
     }, */
     initCapitalFace() {
       this.$store.dispatch('clinicShares/queryIndexFace', {
@@ -335,6 +332,7 @@ export default {
     typeOfJudgment(type) {
 
       if (type === 'capital') {
+        this.initCapitalFace()
         this.showCapital = true
         this.showBase = false
         this.showTechs = false
@@ -346,11 +344,13 @@ export default {
         this.showTechs = false
         this.showIndustry = false
       } else if (type === 'techs') {
+        this.initTechFace()
         this.showCapital = false
         this.showBase = false
         this.showTechs = true
         this.showIndustry = false
       } else if (type === 'industry') {
+        this.initIndustryFace()
         this.showCapital = false
         this.showBase = false
         this.showTechs = false
@@ -360,26 +360,16 @@ export default {
   },
   watch: {
     innerCode: function() {
-      // this.init()
-      /* this.initBaseFace()
-      this.initIndustryFace() */
-      // this.initTechFace()
       this.code = this.innerCode
 
     },
     isShow() {
-
-
       this.typeOfJudgment(this.isShow)
-      /*      console.log(this.isShow) */
     }
   },
   mounted() {
 
-    this.initCapitalFace()
-    console.log(this.indexFaceData)
-    // console.log(this.industryFaceData)
-    // this.initLegendName()
+    // console.log(this.indexFaceData)
 
   },
   destroyed() {

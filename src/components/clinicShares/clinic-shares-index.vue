@@ -126,49 +126,24 @@ export default {
     },
 
     concats(code) {
-      // 
-      //   console.log(code)
+
       this.innerCode = util.formatterInnercode(code)
-      /* console.log(this.code)
-      var str = this.code
-      var index6 = str.indexOf('6');
-      var index9 = str.indexOf('9');
-      var index0 = str.indexOf('0');
-      var index2 = str.indexOf('2');
-      var index3 = str.indexOf('3');
-      if (index6 === 0 || index9 === 0) {
-        this.innerCode = str + '.SH'
 
-      } else if (index0 === 0 || index2 === 0 || index3 === 0) {
-        this.innerCode = str + '.SZ'
-
-      } else {
-        return false
-      } */
     },
     getShowValue(type) {
-
-      /* if (type === 'base') {
-        this.bases = true
-        alert(this.bases)
-      } */
       this.isType = type
-      console.log(this.isType + '是index 的值')
+      // console.log(this.isType + '是index 的值')
     }
   },
   watch: {
     isShow() {
-
-      console.log(this.isType)
-
+      // console.log(this.isType)
     }
   },
   mounted() {
-    // alert(this.innerCode)
 
     this.init()
     // console.log(this.innerCode)
-
     // console.log(this.$route.params)
   },
   destroyed() {

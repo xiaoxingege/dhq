@@ -454,12 +454,6 @@ export default {
 
       }
     }
-    /* customerName: function() {
-      return this.$store.state.customerList.customerInfo.username
-    }
-    customerAnaly: function() {
-      return this.$store.state.customerList.customerAnaly
-    }, */
 
   }),
   components: {
@@ -483,16 +477,7 @@ export default {
         this.drawCharts(this.radars.radarAllData)
 
       })
-      // this.chart.on('mouseover', (params) => {
-      //  console.log(params)
-      /* const dataZoom = this.chart.getOption().dataZoom[0];
-       const startValue = params.startValue || dataZoom.startValue;
-       const endValue = params.endValue || dataZoom.endValue;
-       this.zoomStart = startValue;
-       this.zoomEnd = endValue;
-       this.zoomRange = endValue - startValue;
-       console.info('start:' + startValue + ', end:' + endValue + ', range:' + this.zoomRange);*/
-      //  }) 
+
     },
     goAnchor(selector) {
 
@@ -661,14 +646,6 @@ export default {
       this.initSmartStock()
       this.initradarChart()
     }
-    /* ,
-        leixing(){
-         // console.log(this.leixing)
-          this.$emit('changeShowValue', this.leixing)
-        } */
-    /* customerAnaly() {
-      this.initradarChart()
-    } */
   },
   mounted() {
 

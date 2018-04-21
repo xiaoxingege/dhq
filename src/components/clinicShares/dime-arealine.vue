@@ -213,20 +213,13 @@ export default ({
   },
   methods: {
     init() {
-
-
       var data = this.data
       const klineData = [].concat(this.indexFace.datas.data)
       const currPirce = this.indexFace.datas.currPirce
       data.currPirce.push(currPirce)
       klineData.forEach((item) => {
-        // let time = ''
         const price = Number(item.price)
         const proportion = Number(item.proportion * 100).toFixed(2)
-
-        /* time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-        //  data.times.push(time)
-        // data.tradeTimeArr.push(time)
         data.price.push(price)
         //  data.proportion.push(proportion)
         if (price >= currPirce) {
@@ -245,27 +238,19 @@ export default ({
         // console.log(data.proportionLast)
         //  console.log(data.price)
 
-
       })
-
-
-
       this.initKline()
     },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
+
       if (this.indexFace) {
         this.drawCharts()
-
       }
-
     },
     drawCharts() {
       const lineData = this.data
       const opt = {
-
         tooltip: {
           trigger: 'axis',
           axisPointer: {

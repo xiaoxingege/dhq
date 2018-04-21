@@ -247,7 +247,6 @@ export default ({
   methods: {
     init() {
       const klineData = [].concat(this.industryFace.datas.datas)
-      // console.log(this.dataIndex)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
         // console.log(this.legendNames)
@@ -260,16 +259,9 @@ export default ({
         const induAvg = item.induAvg
         const stkLevel = item.stkLevel
         console.log(induAvg)
-        // const growthRate = item.growthRate
         const stkLevelDetail = item.stkLevelDetail
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-        // this.data.range.push(range)
-
-        // this.data.ydata.push(winRate20day)
-        // if (this.industryFace.valueRange === range) {
 
         var newValueStkLevel = {}
-        // this.data.rangeYdata.push(range)
 
         newValueStkLevel = {
           value: stkLevel,
@@ -290,29 +282,13 @@ export default ({
         }
         this.data.induAvg.push(induAvg)
         this.data.stkLevel.push(newValueStkLevel)
-        //  } else {
 
-        /*  this.data.induAvg.push(induAvg)
-          this.data.stkLevel.push(stkLevel) */
-        // }
-        // console.log(this.data.ydata)
       })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
+
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.industryFace) {
         this.drawCharts()
@@ -430,14 +406,7 @@ export default ({
           type: 'value',
           // name: this.floatYname,
           // data: ['0', '50%', '100%'],
-          /* splitNumber: 2,
-           min: 0,
-           max: 100,*/
-          /* min:0,
-          max:100,
-          axisLabel: {
-              formatter: '{value} %'
-          }, */
+
           nameTextStyle: {
             color: '#c9d0d7',
             padding: [0, 0, 0, 110]
@@ -500,17 +469,7 @@ export default ({
             type: 'bar',
             barWidth: 35,
             stack: this.legendName2,
-            /* label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value + '%'
-                }
-              }
-            },
-*/
+
             itemStyle: {
               normal: {
                 color: '#1984ea'
@@ -525,10 +484,6 @@ export default ({
         grid: {
           // width: '97%',
           /* width: '100%',
-          height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
           borderColor: '#2A2E36',
           containLabel: true */
           left: 45,
@@ -553,21 +508,15 @@ export default ({
 
   },
   watch: {
-    /* industryFace() {
-        this.initLine()
-      } */
+
     innerCode: function() {
       this.init()
     }
   },
 
   mounted() {
-    /* console.log(this.industryFace)
-    console.log(this.dataIndex) */
+
     this.init()
-
-    // this.initLine()
-
 
   }
 

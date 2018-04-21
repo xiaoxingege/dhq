@@ -217,33 +217,23 @@ export default ({
           mainValue: [],
           otherValue: []
         }
-        // console.log(state.clinicShares.indexFace[0].tag)
+
         var fundFace = state.clinicShares.indexFace;
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.klineChart.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
         fundFace.forEach((alls, index) => {
           if (index === 3) {
-
             const klineData = [].concat(alls.datas.data).reverse()
-
             klineData.forEach((item) => {
               let today = Number(item.day1 / 100000000).toFixed(2)
               let threeday = Number(item.day3 / 100000000).toFixed(2)
               const fiveday = Number(item.day5 / 100000000).toFixed(2)
               const tenday = Number(item.day10 / 100000000).toFixed(2)
-              /* const volume = item.volume
-              const prevClosePx = item.prevClosePx */
+
               data.yData.push(today)
               data.yData.push(threeday)
               data.yData.push(fiveday)
               data.yData.push(tenday)
               const mainValue = Number(alls.datas.mainChng)
               const otherValue = Number(100 - mainValue)
-              /* data.mainValue.push(mainValue)           
-              data.otherValue.push(otherValue) */
               data.mainValue.push({
                   value: mainValue,
                   name: '当前主力资金影响力',
@@ -284,8 +274,7 @@ export default ({
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineChart) || echarts.init(this.$refs.lineChart)
       this.chartPie = echarts.getInstanceByDom(this.$refs.pieChart) || echarts.init(this.$refs.pieChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
+
       this.$store.dispatch('clinicShares/queryIndexFace', {
         innerCode: this.innerCode
       }).then(() => {

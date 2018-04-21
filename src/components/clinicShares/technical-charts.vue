@@ -259,17 +259,12 @@ export default ({
       klineData.forEach((item, index) => {
         const winRate3day = item.winRate3day
         const winRate20day = item.winRate20day
-        // const growthRate = item.growthRate
         const range = item.range
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         this.data.range.push(range)
-
-        // this.data.ydata.push(winRate20day)
 
         if (this.techFace.range === range) {
           var newValue3 = {}
           var newValue20 = {}
-          // this.data.rangeYdata.push(range)
           newValue3 = {
             value: winRate3day,
             itemStyle: {
@@ -311,24 +306,13 @@ export default ({
           this.data.winRate3.push(winRate3day)
           this.data.winRate20.push(winRate20day)
         }
-        // console.log(this.data.ydata)
+
       })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
+
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.techFace) {
         this.drawCharts()
@@ -450,8 +434,7 @@ export default ({
           splitNumber: 2,
           min: 0,
           max: 100,
-          /* min:0,
-          max:100,
+          /* 
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -556,9 +539,7 @@ export default ({
           // width: '97%',
           /* width: '100%',
           height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
+         
           borderColor: '#2A2E36',
           containLabel: true */
           left: 45,
@@ -583,9 +564,6 @@ export default ({
 
   },
   watch: {
-    /* techFace() {
-        this.initLine()
-      } */
     innerCode: function() {
       this.init()
     }
@@ -593,9 +571,6 @@ export default ({
 
   mounted() {
     this.init()
-    // console.log(this.techFace)
-    // this.initLine()
-
 
   }
 

@@ -228,14 +228,11 @@ export default ({
 
       })
 
-
-
       this.initKline()
     },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
+
       if (this.indexFace) {
         this.drawCharts()
 
@@ -360,67 +357,6 @@ export default ({
             color: '#c9d0d7'
           }
         },
-        /* xAxis: [{
-                 type: 'category',
-                 boundaryGap: false,
-                 data: lineData.times,
-                 axisLine: {
-                   onZero: false,
-                   lineStyle: {
-                     color: '#23272c'
-                   }
-                 },
-                 axisLabel: {
-                   align: 'left',
-                   textStyle: {
-                     color: '#c9d0d7'
-                   }
-                 }
-             }],
-         
-         yAxis: 
-             [{
-                 type: 'value',
-                 scale: true,
-                 name: '价格',
-                  max: 20,
-                 min: 0,
-                 boundaryGap: [0.2, 0.2] 
-                 splitLine: {
-                   show: true,
-                   lineStyle: {
-                     // 使用深浅的间隔色
-                     color: '#23272c'
-                   }
-                 },
-                 axisLine: {
-                   show: false,
-                   lineStyle: {
-                     color: '#23272c'
-                   }
-                 },
-                 axisLabel: {
-                   formatter: '{value}',
-                   textStyle: {
-                     color: '#c9d0d7'
-                   }
-                 }
-             }], */
-
-        /* series: [
-             {
-                 name:'柱子',
-                 type:'bar',
-                 xAxisIndex: 1,
-                 yAxisIndex: 1,
-                 data:lineData.day
-             },
-             {
-                 name:'折线',
-                 type:'line',
-                 data:lineData.days5
-             }
-         ] */
         series: [{
             data: lineData.day,
             name: '当日主力净流入',
@@ -439,13 +375,7 @@ export default ({
         color: ['#ca4941', '#1984ea'],
         grid: {
           // width: '97%',
-          /* width: '100%',
-          height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
-          borderColor: '#2A2E36',
-          containLabel: true */
+          // containLabel: true */
           left: 55,
           right: 10,
           top: '19%',
@@ -472,7 +402,6 @@ export default ({
       this.init()
     }
   },
-
   mounted() {
 
     this.init()

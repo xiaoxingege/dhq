@@ -201,9 +201,6 @@ export default ({
         kdata: [],
         markLineData: [],
         markPointData: [],
-        // ma20: [],
-        // ma60: [],
-        // ma120: [],
         vols: []
       }
 
@@ -219,33 +216,13 @@ export default ({
           kdata: [],
           markLineData: [],
           markPointData: [],
-          // ma20: [],
-          // ma60: [],
-          // ma120: [],
           vols: []
         }
-        // let ma20Error = 0
-        // let ma60Error = 0
-        // let ma120Error = 0
-        // console.log(state.clinicShares.indexFace[0].tag)
-
-
         return data
 
       },
       xLabelInterval() {
         let interval = 17
-        /* if (this.klineType === 'min5') {
-          interval = 48
-        } else if (this.klineType === 'min15') {
-          interval = 15
-        } else if (this.klineType === 'min30') {
-          interval = 8
-        } else if (this.klineType === 'min60') {
-          interval = 4
-        } else {
-          interval = 17
-        } */
         return interval
       }
     })
@@ -253,9 +230,7 @@ export default ({
   methods: {
     init() {
 
-      // console.log(item.datas.data[0].prevClosePx)
       const klineData = [].concat(this.indexFace.datas.data).reverse()
-      // console.log(alls.datas.currPirce)
       const stressPrice = this.indexFace.stressPrice
       //     const stressPrice = '0'
       const currPirce = this.indexFace.currPirce
@@ -268,28 +243,14 @@ export default ({
         time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
         data.times.push(time)
         data.tradeTimeArr.push(time)
-        /* if (this.klineType === 'day') { // 日
-          data.times.push(this.formatDate(item.endDate + ''))
-          data.tradeTimeArr.push(this.formatDate(item.endDate + ''))
-        } else if (this.klineType === 'week' || this.klineType === 'month') { // 周月
-          data.times.push(this.formatDate(item.lastTradeDate + ''))
-          data.tradeTimeArr.push(this.formatDate(item.lastTradeDate + ''))
-        } else { // 5，15，30，60分钟
-          data.times.push(item.tradeTime.substring(5, 10))
-          data.tradeTimeArr.push(item.tradeTime)
-        } */
+
         let openPx = item.openPx
         let closePx = item.closePx
         const highPx = item.highPx
         const lowPx = item.lowPx
         const volume = item.volume
         const prevClosePx = item.prevClosePx
-
         data.kdata.push([openPx, closePx, highPx, lowPx])
-        // console.log(data.kdata)
-        /* var stressPrice = '10.88'
-        var currPirce = '12'
-        var supportPrice = '11'*/
         data.markLineData.push([{
             coord: [data.times[0], stressPrice],
             lineStyle: {
@@ -388,14 +349,6 @@ export default ({
           symbolSize: [88, 22],
           itemStyle: {
             normal: {
-              // color: '#c9d0d7'
-              // borderColor: 各异,     // 标注边线颜色，优先于color 
-              // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
-              // label: {
-              // show: true,
-              // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
-              // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-              // }
               color: '#141518',
               borderColor: '#c9d0d7',
               borderWidth: 1,
@@ -422,9 +375,6 @@ export default ({
           symbolSize: [88, 22],
           itemStyle: {
             normal: {
-              // color: '#1984ea',
-              // borderColor: 各异,     // 标注边线颜色，优先于color 
-              // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               color: '#141518',
               borderColor: '#1984ea',
               borderWidth: 1,
@@ -462,9 +412,6 @@ export default ({
           data.tradeTimeArr.push('')
           const dt = []
           data.kdata.push(dt)
-          /* data.ma20.push('')
-          data.ma60.push('')
-          data.ma120.push('') */
           data.vols.push('')
         }
       }
@@ -474,13 +421,11 @@ export default ({
     },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
+
       if (this.indexFace) {
         this.drawCharts()
 
       }
-
     },
     drawCharts() {
       const lineData = this.data
@@ -513,15 +458,7 @@ export default ({
             backgroundColor: '#777'
           }
         },
-        /* left: 20,
-        right: 20,
-        top: 110,
-        height: 120
-    }, {
-        left: 20,
-        right: 20,
-        height: 40,
-        top: 260 */
+
         grid: [{
             left: 45,
             right: 10,
@@ -609,8 +546,6 @@ export default ({
               // interval: this.xLabelInterval,
               // showMinLabel: true
             },
-            /* min: 'dataMin',
-            max: 'dataMax', */
             axisPointer: {
               /* label: {
                 formatter: function(params) {
@@ -766,19 +701,7 @@ export default ({
               }
             }
           },
-          /* name: 'Volume',
-        type: 'bar',
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        itemStyle: {
-            normal: {
-                color: '#7fbe9e'
-            },
-            emphasis: {
-                color: '#140'
-            }
-        },
-        data: volumes */
+
           {
             name: '成交量',
             type: 'bar',
@@ -822,25 +745,13 @@ export default ({
     } */
   },
   watch: {
-    /* stockCode() {
-       if (!this.stockCode) {
-         console.info('[component:stock-kline]:stockCode is necessary!')
-         return
-       }
-       this.$store.dispatch('clinicShares/queryIndexFace')
-     },*/
-    /* lineData() {
-      this.initKline()
-    } */
     innerCode: function() {
       this.init()
     }
   },
 
   mounted() {
-
     this.init()
-
   }
 
 })

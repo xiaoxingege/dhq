@@ -260,16 +260,7 @@ export default ({
         const level = item.level
         const score = Number(item.eval).toFixed(2)
         const industryName = item.industryName
-
-        // const growthRate = item.growthRate
-        //  const stkLevelDetail = item.stkLevelDetail
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         this.data.industryName.push(industryName)
-
-        // this.data.ydata.push(winRate20day)
-        // if (this.industryFace.valueRange === range) {
-
-        //   var newValueStkLevel = {} 
         if (this.industryFace.range === industryName) {
           var newValue = {}
           // this.data.rangeYdata.push(range)
@@ -287,30 +278,12 @@ export default ({
         }
         this.data.level.push(level)
 
-        // this.data.stkLevel.push(newValueStkLevel) 
-        //  } else {
-
-        /*  this.data.induAvg.push(induAvg)
-          this.data.stkLevel.push(stkLevel) */
-        // }
-        // console.log(this.data.ydata)
       })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
+
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.industryFace) {
         this.drawCharts()
@@ -428,11 +401,7 @@ export default ({
           type: 'value',
           name: this.industryYname,
           // data: ['0', '50%', '100%'],
-          /* splitNumber: 2,
-           min: 0,
-           max: 100,*/
-          /* min:0,
-          max:100,
+          /* 
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -540,22 +509,15 @@ export default ({
 
   },
   watch: {
-    /* industryFace() {
-        this.initLine()
-      } */
+
     innerCode: function() {
       this.init()
     }
   },
 
   mounted() {
-    /* console.log(this.industryFace)
-    console.log(this.dataIndex) */
-    console.log(this.industryYname)
+    //  console.log(this.industryYname)
     this.init()
-
-    // this.initLine()
-
 
   }
 
