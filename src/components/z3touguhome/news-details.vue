@@ -30,13 +30,6 @@
 .new-main {
     padding-bottom: 40px;
 }
-.new-main p a {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: red;
-}
 .duty-name {
     padding-bottom: 80px;
 }
@@ -60,24 +53,21 @@ iframe {
     overflow: auto;
     padding-top: 20px;
 }
-.new-main p {
-    color: red;
-}
 </style>
 <template>
 <div class="news-detail-wrap" :style="{height:wrapHeight-2+'px'}">
   <p class="news-detail-top"></p>
   <div class="news-detail-con" :style="{height:wrapHeight-2-25+'px'}">
-    <p class="news-detail-title">{{newsTitle}}</p>
+    <p class="news-detail-title">{{formatData(newsTitle)?newsTitle:''}}</p>
     <div class="new-detail-txt">
-      <span>{{makeDate}}</span>
-      <span>来源：{{source}}</span>
+      <span>{{formatData(makeDate)?timestampToTime(makeDate):''}}</span>
+      <span>来源：{{formatData(source)?source:''}}</span>
     </div>
     <!--<div class="new-main pdlr" v-html="newsContxt"></div>-->
-    <div class="new-main pdlr"></div>
-    <p class="source-warn" v-if="source.indexOf('金融界网站')>-1">来源为金融界股票频道的作品，均为版权作品，未经书面授权禁止任何媒体转载，否则视为侵权！</p>
-    <p class="tl pdlr">关键词：{{keyword}}</p>
-    <p class="tr duty-name pdlr">责任编辑：{{dutyname}}</p>
+    <div class="new-main pdlr" v-html="formatContent(newsContxt)"></div>
+    <p class="source-warn" v-if="formatData(source) && source.indexOf('金融界网站')>-1">来源为金融界股票频道的作品，均为版权作品，未经书面授权禁止任何媒体转载，否则视为侵权！</p>
+    <!--  <p class="tl pdlr">关键词：{{keyword}}</p> -->
+    <p class="tr duty-name pdlr">责任编辑：{{formatData(dutyname)?dutyname:''}}</p>
   </div>
 </div>
 </template>
@@ -93,7 +83,7 @@ export default {
       makeDate: '',
       source: '',
       newsContxt: '',
-      keyword: '',
+      //  keyword: '',
       dutyname: '',
       wrapHeight: window.innerHeight
     }
@@ -105,8 +95,8 @@ export default {
   },
   computed: {
     newsDetailData: function() {
-      const newsDetailData = [].concat(this.$store.state.z3touguIndex.newsDetails)
-      return newsDetailData[0]
+      const newsDetailData = this.$store.state.z3touguIndex.newsDetails
+      return newsDetailData
     }
   },
   methods: {
@@ -119,31 +109,59 @@ export default {
           .then(() => {
             this.newsDetails = this.newsDetailData
             this.newsTitle = this.newsDetailData.title
-            this.makeDate = this.newsDetailData.makedate
-            this.source = this.newsDetailData.source
+            this.makeDate = this.newsDetailData.declareDate
+            this.source = this.newsDetailData.srcName
             /* this.newsContxt = this.newsDetailData.context.replace(/href/g, 'aa').replace(/<P/g, '<P style=\'text-indent:25px;line-height: 25px;\' ')*/
-            this.newsContxt = this.newsDetailData.context
-            this.keyword = this.newsDetailData.keyword.replace(',', ' ')
-            if (this.newsDetailData.dutyname && this.newsDetailData.dutyname !== '') {
-              this.dutyname = this.newsDetailData.dutyname
+            this.newsContxt = this.newsDetailData.content
+            //  this.keyword = this.newsDetailData.keyword.replace(',', ' ')
+            if (this.newsDetailData.author && this.newsDetailData.author !== '') {
+              this.dutyname = this.newsDetailData.author
             } else {
               this.dutyname = 'Robot'
             }
-            $('.new-main').html(this.newsContxt)
-            $('.new-main p').css({
-              'text-indent': '25px',
-              'line-height': '25px',
-              'color': '#c9d0d7 !important',
-              'margin-bottom': '24px'
-            })
-            $('.new-main font').attr('color', '#c9d0d7')
-            $('.new-main a').removeAttr('href')
-            $('.new-main img').css({
-              'max-width': '500px',
-              'margin': '10px auto',
-              'display': 'block'
-            })
+            /*   $('.new-main').html(this.newsContxt) */
+            /*  $('.new-main p').css({
+                'text-indent': '25px',
+                'line-height': '25px',
+                'color': '#c9d0d7 !important',
+                'margin-bottom': '24px'
+              })
+              $('.new-main font').attr('color', '#c9d0d7')
+              $('.new-main a').removeAttr('href')
+              $('.new-main img').css({
+                'max-width': '500px',
+                'margin': '10px auto',
+                'display': 'block'
+              }) */
           })
+      }
+    },
+    timestampToTime: function(timestamp) {
+      const date = new Date(timestamp); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      const Y = date.getFullYear() + '-';
+      const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      const D = date.getDate() + ' ';
+      const h = date.getHours() + ':';
+      const m = date.getMinutes() + ':';
+      const s = date.getSeconds();
+      return Y + M + D + h + m + s;
+    },
+    formatContent: function(content) {
+      if (content === null) {
+        return
+      }
+      content = content.split('\n')
+      let con = ''
+      content.forEach((p) => {
+        con += '<p style="text-indent: 25px;line-height: 25px;color: #c9d0d7 !important;margin-bottom: 24px;">' + p + '</p>'
+      })
+      return con
+    },
+    formatData: function(value) {
+      if (value) {
+        return true
+      } else {
+        return false
       }
     }
   },

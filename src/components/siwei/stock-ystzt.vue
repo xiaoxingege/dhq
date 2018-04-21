@@ -6,27 +6,29 @@
   <div class="ztgMain clearfix">
     <div class="ztgChart">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
-      <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
+      <div class="clearfix" :style="{height:lineChartHeight+'px'}">
+        <div class="fl" ref="zrLchart" style="height:100%;width:50%"></div>
+        <div class="fr" ref="zrRchart" style="height:100%;width:50%"></div>
+      </div>
     </div>
-    <div class="ztgList">
-      <ul ref="ztgListUl">
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10">
-            {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
-          </div>
-          <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol}}</span>
-            </div>
-            <div class="fr"><span v-z3-updowncolor="item.price">{{item.price | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + item.chg | isNull}}%</span>
-            </div>
-          </div>
-          <ul class="topicStock clearfix">
-            <li v-for="value in item.topics" @dblclick="toThemeDetail(value.topicCode,$event)">
-              <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
-              </div>
-            </li>
-          </ul>
+    <div class="qsgList fr">
+      <div class="qsgListTitle clearfix">
+        <a><span>序号</span></a>
+        <a v-for="(item,index) in newListTitle">
+          <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
+          <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
+          <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
+        </a>
+      </div>
+      <ul ref="newListUl">
+        <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
+          <span>{{index+1}}</span>
+          <span>{{item.name | isNull}}</span>
+          <span>{{item.symbol.substring(0,6) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
+          <span :style="{color:(item.open === true ? '#56a870':'#ca4941')}">{{item.open === true ? '是':'否'}}</span>
+          <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
         </li>
       </ul>
     </div>
@@ -47,8 +49,8 @@ export default {
   data() {
     return {
       options: {
-        xDefault: 'mkt_idx.volume_ratio',
-        yDefault: 'mkt_idx.exchr',
+        xDefault: 'up_limit_last_day_data.up_limit_term_num',
+        yDefault: 'up_limit_last_day_data.cont_up_limit_days_num',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
         type: 7
@@ -82,16 +84,56 @@ export default {
       isOverBubbles: false,
       isOverDialog: false,
       timeout: null,
-      interval: null
+      interval: null,
+      newListTitle: [{
+          name: '简称',
+          type: 'name',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '代码',
+          type: 'innerCode',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '最新价',
+          type: 'price',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '涨跌幅',
+          type: 'chg',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '昨日是否开板',
+          type: 'ysdisKb',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '昨日连板数',
+          type: 'ystlbNum',
+          showImg: false,
+          showBImg: false
+        }
+      ]
     }
   },
   components: {
     Siweidialog
   },
   computed: mapState({
-    ztgList: state => state.bubbles.ztgBubblesLine
+    newStockList: state => state.bubbles.newStockList
   }),
   methods: {
+    dealNumFormat(v) {
+      return v === null ? '--' : (Number(v) * 100).toFixed(2) + '%'
+    },
     setDialog(data) {
       if (data) {
         this.isOverDialog = data
@@ -225,9 +267,9 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return '昨日开板次数'
                 }
-                return Number(v).toFixed(2)
+                return v
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -270,9 +312,9 @@ export default {
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '昨日连' + '\n' + '板数'
                 }
-                return v.toFixed(2) + '%'
+                return v
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -399,7 +441,7 @@ export default {
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
           that.dialogOptions.leftList.xData.value = that.$store.state.bubbles.ztgBubblesData.xData[params.dataIndex]
-          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
+          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex]
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
           that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
@@ -436,21 +478,28 @@ export default {
 
     },
     initZtgCompare() {
-      this.lineChart = echarts.init(this.$refs.ztgLine)
+      const that = this
+      this.lineChart = echarts.init(this.$refs.zrLchart)
+      this.lxztChart = echarts.init(this.$refs.zrRchart)
+
       this.lineChart.showLoading(config.loadingConfig);
-      this.$store.dispatch('bubbles/getZdCompare').then(() => {
-        const that = this
-        // 生成横坐标时间轴
-        let beforenoon = this.autoTimeline('9:30', '11:30')
-        let afternoon = this.autoTimeline('13:00', '15:00')
-        beforenoon.splice(beforenoon.length - 1, 1)
-        afternoon[0] = '11:30/13:00'
-        let timeline = beforenoon.concat(afternoon)
-        let zdCompareData = this.$store.state.bubbles.ztgCompare
+      this.lxztChart.showLoading(config.loadingConfig);
+
+      // 生成横坐标时间轴
+      let beforenoon = this.autoTimeline('9:30', '11:30')
+      let afternoon = this.autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+      this.$store.dispatch('bubbles/getCxLine', {
+        type: 1
+      }).then(() => {
+        let cxLineData = this.$store.state.bubbles.cxLineData
 
         this.lineChart.setOption({
           title: {
-            text: '涨跌停对比',
+            text: '昨日涨停今日平均涨跌幅',
             textStyle: {
               fontSize: 12,
               fontWeight: 'normal',
@@ -479,7 +528,7 @@ export default {
               show: false
             },
             axisLabel: {
-              interval: 29,
+              interval: 59,
               textStyle: {
                 color: '#c9d0d7'
               }
@@ -500,7 +549,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return val.toFixed(0)
+                return that.dealNumFormat(val)
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -526,25 +575,8 @@ export default {
             // interval: 2 * Dvalue / 4
           }],
           series: [{
-              name: '涨停',
+              name: '昨日涨停',
               showSymbol: false,
-              itemStyle: {
-                normal: {
-                  color: '#ca4941'
-                }
-              },
-              lineStyle: {
-                normal: {
-                  width: 1
-                }
-              },
-              animation: false,
-              smooth: true,
-              type: 'line',
-              data: zdCompareData.up
-            },
-            {
-              name: '非一字涨停',
               itemStyle: {
                 normal: {
                   color: '#fff'
@@ -558,15 +590,13 @@ export default {
               animation: false,
               smooth: true,
               type: 'line',
-              showSymbol: false,
-              data: zdCompareData.openUp
-
+              data: cxLineData.condition
             },
             {
-              name: '跌停',
+              name: '上证指数',
               itemStyle: {
                 normal: {
-                  color: '#56a870'
+                  color: '#f0b540'
                 }
               },
               lineStyle: {
@@ -578,26 +608,7 @@ export default {
               smooth: true,
               type: 'line',
               showSymbol: false,
-              data: zdCompareData.down
-
-            },
-            {
-              name: '非一字跌停',
-              itemStyle: {
-                normal: {
-                  color: '#fff'
-                }
-              },
-              lineStyle: {
-                normal: {
-                  width: 1
-                }
-              },
-              animation: false,
-              smooth: true,
-              type: 'line',
-              showSymbol: false,
-              data: zdCompareData.openDown
+              data: cxLineData.szIndex
 
             }
           ],
@@ -606,10 +617,131 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
-                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
-                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+                '<p>昨日涨停 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex]) + '</p>';
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
+        })
+
+        window.addEventListener('resize', () => {
+          let height = document.getElementsByClassName('zrLchart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
+          that.lineChart && that.lineChart.resize({
+            height: height
+          })
+          that.lineChartHeight = height
+        }, false)
+        this.lineChart.hideLoading()
+      })
+      this.$store.dispatch('bubbles/getYstLine', {
+        type: 1
+      }).then(() => {
+        let lxztData = this.$store.state.bubbles.ystLineData
+
+        this.lxztChart.setOption({
+          title: {
+            text: '今日连续涨停占比',
+            textStyle: {
+              fontSize: 12,
+              fontWeight: 'normal',
+              color: '#c9d0d7'
+            },
+            left: 60,
+            top: 15
+          },
+          grid: {
+            left: 65,
+            top: 40,
+            bottom: 30,
+            right: 20
+          },
+          calculable: true,
+          xAxis: [{
+            type: 'category',
+            axisLine: {
+              lineStyle: {
+                color: '#343741',
+                type: 'solid'
+              }
+            },
+            boundaryGap: false,
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              interval: 59,
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            data: timeline
+          }],
+          yAxis: [{
+            type: 'value',
+            // scale: true,
+            // min: datas === null ? '' : Number(datas.line) - Dvalue,
+            // max: datas === null ? '' : Number(datas.line) + Dvalue,
+            axisLabel: {
+              formatter: function(val) {
+                return that.dealNumFormat(val)
+              },
+              textStyle: {
+                color: '#c9d0d7'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: 'solid',
+                color: '#343741'
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#343741',
+                type: 'solid'
+              }
+            },
+            axisTick: {
+              show: false
+            }
+            // splitNumber: 4,
+            // interval: 2 * Dvalue / 4
+          }],
+          series: [{
+            name: '今日连续涨停占比',
+            showSymbol: false,
+            itemStyle: {
+              normal: {
+                color: '#ca4941'
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 1
+              }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            data: lxztData
+          }],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex]) + '</p>'
 
               return tooltipStr;
             },
@@ -620,27 +752,19 @@ export default {
         })
 
         window.addEventListener('resize', () => {
-          let height = document.getElementsByClassName('ztgChart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
-          that.lineChart && that.lineChart.resize({
+          let height = document.getElementsByClassName('zrRchart').length !== 0 ? document.getElementsByClassName('ztgChart')[0].offsetHeight * 0.33 : ''
+          that.lxztChart && that.lxztChart.resize({
             height: height
           })
           that.lineChartHeight = height
         }, false)
-        this.lineChart.hideLoading()
+        this.lxztChart.hideLoading()
+
       })
 
     },
     toStockDetail(innerCode) {
       window.open('/stock/' + innerCode + '.shtml')
-    },
-    toThemeDetail(topicCode, target) {
-      target.stopPropagation();
-      this.$router.push({
-        name: 'topicDetail',
-        params: {
-          topicCode
-        }
-      })
     },
     updateBubbles() {
       this.$store.dispatch('bubbles/getStockBubbles', {
@@ -716,9 +840,9 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return '昨日开板次数'
                 }
-                return Number(v).toFixed(2)
+                return v
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -760,9 +884,9 @@ export default {
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '昨日连' + '\n' + '板数'
                 }
-                return v.toFixed(2) + '%'
+                return v
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -869,30 +993,16 @@ export default {
       })
     },
     updateCompare() {
-      this.$store.dispatch('bubbles/getZdCompare').then(() => {
-        let zdCompareData = this.$store.state.bubbles.ztgCompare
+      this.$store.dispatch('bubbles/getCxLine', {
+        type: 1
+      }).then(() => {
+        const that = this
+        let cxLineData = this.$store.state.bubbles.cxLineData
 
         this.lineChart && this.lineChart.setOption({
           series: [{
-              name: '涨停',
+              name: '昨日涨停',
               showSymbol: false,
-              itemStyle: {
-                normal: {
-                  color: '#ca4941'
-                }
-              },
-              lineStyle: {
-                normal: {
-                  width: 1
-                }
-              },
-              animation: false,
-              smooth: true,
-              type: 'line',
-              data: zdCompareData.up
-            },
-            {
-              name: '非一字涨停',
               itemStyle: {
                 normal: {
                   color: '#fff'
@@ -906,15 +1016,13 @@ export default {
               animation: false,
               smooth: true,
               type: 'line',
-              showSymbol: false,
-              data: zdCompareData.openUp
-
+              data: cxLineData.condition
             },
             {
-              name: '跌停',
+              name: '上证指数',
               itemStyle: {
                 normal: {
-                  color: '#56a870'
+                  color: '#f0b540'
                 }
               },
               lineStyle: {
@@ -926,57 +1034,124 @@ export default {
               smooth: true,
               type: 'line',
               showSymbol: false,
-              data: zdCompareData.down
-
-            },
-            {
-              name: '非一字跌停',
-              itemStyle: {
-                normal: {
-                  color: '#fff'
-                }
-              },
-              lineStyle: {
-                normal: {
-                  width: 1
-                }
-              },
-              animation: false,
-              smooth: true,
-              type: 'line',
-              showSymbol: false,
-              data: zdCompareData.openDown
+              data: cxLineData.szIndex
 
             }
-          ]
+          ],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p>昨日涨停 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex]) + '</p>';
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
         })
       })
+      this.$store.dispatch('bubbles/getYstLine', {
+        type: 1
+      }).then(() => {
+        const that = this
+        let lxztData = this.$store.state.bubbles.ystLineData
+
+        this.lxztChart && this.lxztChart.setOption({
+          series: [{
+            name: '今日连续涨停占比',
+            showSymbol: false,
+            itemStyle: {
+              normal: {
+                color: '#ca4941'
+              }
+            },
+            lineStyle: {
+              normal: {
+                width: 1
+              }
+            },
+            animation: false,
+            smooth: true,
+            type: 'line',
+            data: lxztData
+          }],
+          tooltip: {
+            show: true,
+            trigger: 'axis',
+            formatter: function(params) {
+              var tooltipStr =
+                '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex]) + '</p>'
+
+              return tooltipStr;
+            },
+            backgroundColor: 'rgba(67, 73, 84,0.9)',
+            padding: [10, 50, 8, 7]
+
+          }
+        })
+      })
+    },
+    sortList(type, indexNum) {
+      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
+        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
+        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
+        if (this.newListTitle[indexNum].showBImg) {
+          this.$store.dispatch('bubbles/sortNewStockList', {
+            type: type,
+            sortType: 'desc'
+          })
+        } else {
+          this.$store.dispatch('bubbles/sortNewStockList', {
+            type: type
+          })
+        }
+      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
+        this.newListTitle.forEach(function(item, index) {
+          if (indexNum === index) {
+            item.showImg = true
+          } else {
+            item.showImg = false
+            item.showBImg = false
+          }
+        })
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+      }
     }
   },
   mounted() {
     const that = this
+
     this.initBubbles()
     this.initZtgCompare()
 
-    this.$store.dispatch('bubbles/getBubblesLine', {
-      type: 1,
-      currentTime: ''
-    }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
+    this.$store.dispatch('bubbles/getNewStockList', {
+      type: 2
+    }).then(() => {})
+
     this.interval = setInterval(function() {
-      let date = new Date()
-      let currentTime = (String(date.getHours()).length === 1 ? '0' + date.getHours() : date.getHours()) + '' + (String(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + '' + (String(date.getSeconds()).length === 1 ? '0' + date.getSeconds() : date.getSeconds())
+
       that.updateBubbles()
       that.updateCompare()
-      that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 1,
-        currentTime: currentTime
+
+      that.$store.dispatch('bubbles/getNewStockList', {
+        type: 2
       }).then(() => {
-        // that.$refs.ztgListUl.scrollTop = 0
+        that.$store.dispatch('bubbles/sortNewStockList', {
+          type: that.$store.state.bubbles.newStockSortType,
+          sortType: that.$store.state.bubbles.newStockSort
+        })
       })
     }, Data.refreshTime)
   },
   destroyed() {
-    this.chart.dispose();
+    this.chart.dispose()
+    this.lxztChart.dispose()
     this.interval && clearInterval(this.interval)
   }
 
@@ -1000,63 +1175,71 @@ export default {
             background: #232630;
         }
 
-        .ztgList {
-            float: right;
-            width: 25%;
+        .qsgList {
             height: 100%;
+            width: 25%;
             background: #232630;
         }
 
     }
 }
-.ztgList {
+.qsgList {
+
+    .qsgListTitle {
+        width: 100%;
+        border-bottom: 1px solid #131417;
+        padding-top: 10px;
+
+        a {
+            width: 14%;
+            height: 100%;
+            float: left;
+            display: block;
+            text-align: center;
+
+            span {
+                height: 34px;
+                width: 100%;
+                display: block;
+                line-height: 17px;
+                box-sizing: border-box;
+                /*padding: 0 10px;*/
+                cursor: pointer;
+                margin-bottom: 5px;
+            }
+
+            img {
+                margin-top: 3px;
+            }
+
+        }
+        a:first-child span {
+            cursor: default;
+        }
+
+    }
 
     ul {
-        height: 100%;
+        height: calc(100% - 60px);
         overflow: auto;
 
         li {
-            padding: 10px 5px 10px 10px;
+
+            /*padding: 10px 5px 10px 10px;*/
+            span {
+                float: left;
+                width: 14%;
+                display: block;
+                line-height: 25px;
+                text-align: center;
+            }
+
         }
         li:hover {
             background: #525A65;
             cursor: pointer;
-
-            .topicStock {
-
-                li {
-                    background: #23272C;
-                    border: 1px solid #23272C;
-                }
-
-            }
         }
 
-        .topicStock {
-            width: 100%;
-
-            li {
-                width: calc((100% - 12px) / 4);
-                float: left;
-                border: 1px solid #4A525C;
-                margin-right: 3px;
-                text-align: center;
-                box-sizing: border-box;
-                padding-bottom: 2px;
-                padding-left: 5px;
-
-                .name {
-                    line-height: 20px;
-                }
-
-                .price {
-                    line-height: 16px;
-                    font-size: 10px;
-                }
-
-            }
-
-        }
     }
 
 }

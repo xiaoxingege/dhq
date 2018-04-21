@@ -57,7 +57,6 @@
       return {
         page: 0,
         totalPage: 200,
-        noData: false,
         updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,

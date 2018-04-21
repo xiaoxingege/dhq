@@ -71,9 +71,9 @@ p {
       <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
     </div>
     <ul class="news-list-con" :style="{height:wrapHeight-2-25+'px'}">
-      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
-        <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
-        <span class="fr">{{item.makedate.substring(11)}}</span>
+      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.newsId,index)" v-bind:class="item.newsId === newsId?'news-active':''">
+        <a class="fl news-list-title">【{{item.srcName}}】{{item.title}}</a>
+        <span class="fr">{{timestampToTime(item.declareDate)}}</span>
       </li>
     </ul>
   </div>
@@ -90,16 +90,14 @@ export default {
   data() {
     return {
       navText: [
-        ['财经要闻', 'ywnews'],
-        ['上市公司', 'companynews']
+        ['财经要闻', 'ztt'],
+        ['上市公司', 'ssgs']
       ],
-      type: this.$route.query.type || 'ywnews',
+      type: this.$route.query.type || 'ztt',
       newsSize: 50,
       newsList: [],
       wrapHeight: window.innerHeight,
       newsId: '',
-      newsIndex: this.$route.query.newsIndex,
-      // newsId: ''
       intervalTime: 10,
       updateNewsPid: null,
       styleObject: {
@@ -110,11 +108,7 @@ export default {
   },
   watch: {
     type() {
-      this.changeNews()
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[0].style.backgroundColor = '#2e4465'
+      this.getNews()
     }
   },
   components: {
@@ -133,65 +127,21 @@ export default {
   },
   methods: {
     getNews: function() {
-      if (this.type === 'ywnews') {
+      if (this.type === 'ztt') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
             size: this.newsSize
           })
           .then(() => {
             this.newsList = this.financeNewsData
-            if (this.newsIndex) {
-              this.newsId = this.financeNewsData[this.newsIndex].iiid
-            } else {
-              this.newsId = this.financeNewsData[0].iiid
-            }
+            this.newsId = this.financeNewsData[0].newsId
           })
-      } else if (this.type === 'companynews') {
+      } else if (this.type === 'ssgs') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
             size: this.newsSize
           })
           .then(() => {
             this.newsList = this.listedCompanyNewsData
-            if (this.newsIndex) {
-              this.newsId = this.listedCompanyNewsData[this.newsIndex].iiid
-            } else {
-              this.newsId = this.listedCompanyNewsData[0].iiid
-            }
-          })
-      }
-    },
-    changeNews: function() {
-      if (this.type === 'ywnews') {
-        this.$store.dispatch('z3touguIndex/getFinanceNews', {
-            size: this.newsSize
-          })
-          .then(() => {
-            this.newsList = this.financeNewsData
-            this.newsId = this.financeNewsData[0].iiid
-          })
-      } else if (this.type === 'companynews') {
-        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-            size: this.newsSize
-          })
-          .then(() => {
-            this.newsList = this.listedCompanyNewsData
-            this.newsId = this.listedCompanyNewsData[0].iiid
-          })
-      }
-    },
-    changeNewsUpdate: function() {
-      if (this.type === 'ywnews') {
-        this.$store.dispatch('z3touguIndex/getFinanceNews', {
-            size: this.newsSize
-          })
-          .then(() => {
-            this.newsList = this.financeNewsData
-          })
-      } else if (this.type === 'companynews') {
-        this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
-            size: this.newsSize
-          })
-          .then(() => {
-            this.newsList = this.listedCompanyNewsData
+            this.newsId = this.listedCompanyNewsData[0].newsId
           })
       }
     },
@@ -204,16 +154,19 @@ export default {
         clearInterval(this.updateNewsPid)
       } else {
         this.updateNewsPid = setInterval(function() {
-          _this.changeNewsUpdate()
+          _this.getNews()
         }, 60 * 1000 * _this.intervalTime)
       }
     },
     focusLi: function(id, index) {
       this.newsId = id
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
+    },
+    timestampToTime: function(timestamp) {
+      const date = new Date(timestamp); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      const h = date.getHours() + ':';
+      const m = date.getMinutes() + ':';
+      const s = date.getSeconds();
+      return h + m + s;
     }
   },
   mounted() {

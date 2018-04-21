@@ -60,7 +60,9 @@ export default {
     zbgLine: null,
     newStockList: null,
     newStockSortType: '',
-    newStockSort: ''
+    newStockSort: '',
+    cxLineData: null,
+    ystLineData: null
 
   },
   mutations: {
@@ -162,7 +164,7 @@ export default {
       state.setDefaultY = [options.Y, options.YDefault]
     },
     setStockBubblesData(state, result) {
-      const data = result.data
+      const data = result.body.data
       state.ztgBubblesData = {
         xDefault: [],
         xData: [],
@@ -173,27 +175,43 @@ export default {
         name: [],
         seriesData: []
       }
-      if (result.errCode === 0) {
-        for (var item of data) {
-          if (item.xData !== null && item.yData !== null) {
-            state.ztgBubblesData.xDefault.push(item.xData)
-            if (item.xData > 10) {
-              state.ztgBubblesData.xData.push(Math.log(11))
-            } else {
-              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
+      if (result.body.errCode === 0) {
+        if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4) {
+          for (let item of data) {
+            if (item.xData !== null && item.yData !== null) {
+              state.ztgBubblesData.xDefault.push(item.xData)
+              if (item.xData > 10) {
+                state.ztgBubblesData.xData.push(Math.log(11))
+              } else {
+                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
+              }
+              state.ztgBubblesData.yData.push(item.yData)
+              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+              state.ztgBubblesData.innerCode.push(item.innerCode)
+              state.ztgBubblesData.name.push(item.name)
+              if (item.xData > 10) {
+                state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
+              } else {
+                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+              }
             }
-            state.ztgBubblesData.yData.push(item.yData)
-            state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-            state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-            state.ztgBubblesData.innerCode.push(item.innerCode)
-            state.ztgBubblesData.name.push(item.name)
-            if (item.xData > 10) {
-              state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
-            } else {
-              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+          }
+        } else {
+          for (let item of data) {
+            if (item.xData !== null && item.yData !== null) {
+              state.ztgBubblesData.xDefault.push(item.xData)
+              state.ztgBubblesData.xData.push(item.xData)
+              state.ztgBubblesData.yData.push(item.yData)
+              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+              state.ztgBubblesData.innerCode.push(item.innerCode)
+              state.ztgBubblesData.name.push(item.name)
+              state.ztgBubblesData.seriesData.push([item.xData, item.yData])
             }
           }
         }
+
       } else {
         // alert(result.msg)
         state.ztgBubblesData = {
@@ -292,11 +310,11 @@ export default {
       } else if (result.type === 'innerCode') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return a.symbol - b.symbol
+            return a.symbol.substring(0, 6) - b.symbol.substring(0, 6)
           })
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return b.symbol - a.symbol
+            return b.symbol.substring(0, 6) - a.symbol.substring(0, 6)
           })
         }
       } else if (result.type === 'price') {
@@ -319,7 +337,7 @@ export default {
             return b.chg - a.chg
           })
         }
-      } else if (result.type === 'lznum') {
+      } else if (result.type === 'lznum' || result.type === 'ystlbNum' || result.type === 'beforeKb') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.limitNum - b.limitNum
@@ -329,7 +347,7 @@ export default {
             return b.limitNum - a.limitNum
           })
         }
-      } else if (result.type === 'zfnum') {
+      } else if (result.type === 'zfnum' || result.type === 'afterKb') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chgNum - b.chgNum
@@ -339,6 +357,26 @@ export default {
             return b.chgNum - a.chgNum
           })
         }
+      } else if (result.type === 'ysdisKb') {
+        if (result.sortType === 'desc') {
+          state.newStockList.sort(compare("open")).reverse()
+        } else {
+          state.newStockList.sort(compare("open"))
+        }
+      }
+    },
+    setCxLine(state, result) {
+      if (result.errCode === 0) {
+        state.cxLineData = result.data
+      } else {
+        state.cxLineData = null
+      }
+    },
+    setYstLine(state, result) {
+      if (result.errCode === 0) {
+        state.ystLineData = result.data
+      } else {
+        state.ystLineData = null
       }
     }
   },
@@ -448,7 +486,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setStockBubblesData', body)
+        commit('setStockBubblesData', {
+          body,
+          options
+        })
       })
     },
     getBubblesLine({
@@ -516,6 +557,32 @@ export default {
       commit('sortNewList', {
         type,
         sortType
+      })
+    },
+    getCxLine({
+      commit
+    }, {
+      type: type
+    }) {
+      return fetch(`${domain}/openapi/dimension/doubleLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setCxLine', body)
+      })
+    },
+    getYstLine({
+      commit
+    }, {
+      type: type
+    }) {
+      return fetch(`${domain}/openapi/dimension/monoLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setYstLine', body)
       })
     }
 

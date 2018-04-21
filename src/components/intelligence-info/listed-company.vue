@@ -8,7 +8,7 @@
           <span class="time fr" v-z3-time="{ time: item.declareDate, type: '1' }"></span>
           <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">
             <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <span>{{item.equity.name}}</span>
+              <span v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}</span>
             </a>
             <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
             <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
