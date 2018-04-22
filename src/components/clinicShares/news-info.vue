@@ -9,7 +9,7 @@
           <li class="news" v-for='news in newsInfo.latestNews'>
             <div>
               <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary(news.newsId)">摘要</span><span class="time">{{news.declareDate}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary(news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="news.newsId === newsId">
               <p>{{news.sumary||'--'}}</p>
@@ -25,7 +25,7 @@
           <li class="news" v-for='news in newsInfo.importNews'>
             <div>
               <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary(news.newsId)">摘要</span><span class="time">{{news.declareDate}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary(news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="news.newsId === newsId">
               <p>{{news.sumary||'--'}}</p>

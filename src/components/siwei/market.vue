@@ -466,6 +466,15 @@ export default {
     pcid1 = setInterval(() => {
       this.updateAbnormalStocks()
     }, 3 * 1000);
+    window.addEventListener('resize', () => {
+      const chartWrapper = this.$refs.chart;
+      let height = chartWrapper.clientHeight;
+      let width = chartWrapper.clientWidth;
+      this.chart && this.chart.resize({
+        height: height,
+        width: width
+      })
+    }, false)
   },
   destroyed() {
     if (pcid1) {

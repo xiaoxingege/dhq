@@ -294,6 +294,15 @@ export default {
     pcId = setInterval(() => {
       this.updateIndex();
     }, 60 * 1000);
+    window.addEventListener('resize', () => {
+      const chartWrapper = this.$refs.chart;
+      let height = chartWrapper.clientHeight;
+      let width = chartWrapper.clientWidth;
+      this.chart && this.chart.resize({
+        height: height,
+        width: width
+      })
+    }, false)
   },
   destroyed() {
     if (pcId) {
