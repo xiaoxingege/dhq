@@ -42,11 +42,10 @@
 import {
   mapState
 } from 'vuex'
-import util from '../../z3tougu/util'
 export default {
+  props: ['innerCode'],
   data() {
     return {
-      innerCode: this.$route.params.innerCode,
       newsId: ''
     }
   },
@@ -55,7 +54,6 @@ export default {
   }),
   methods: {
     toggleSumary(newsId) {
-      debugger;
       if (newsId === this.newsId) {
         this.newsId = '';
       } else {
@@ -65,7 +63,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('clinicShares/queryNewsInfo', {
-      innerCode: util.formatterInnercode(this.innerCode)
+      innerCode: this.innerCode
     })
   }
 }
