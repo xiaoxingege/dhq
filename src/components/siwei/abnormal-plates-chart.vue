@@ -173,7 +173,7 @@ export default {
             data: this.markLineData
           },
           markPoint: {
-            silent: true,
+            silent: false,
             symbol: 'roundRect',
             symbolSize: [60, 30],
             itemStyle: {
@@ -196,10 +196,12 @@ export default {
         const name = plate.industryName;
         const color = chg >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
           const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
           let point = {
             coord: [time, coordY],
+            symbolSize: [markPointSize, 30],
             itemStyle: {
               normal: {
                 borderColor: color

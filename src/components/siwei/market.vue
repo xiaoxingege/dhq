@@ -46,7 +46,7 @@
               <span class="name">{{plate.industryName}}</span>
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
             </div>
-            <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{plate.msg}}</span></div>
+            <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{newsObj(plate.msg)['title']||''}}</span></div>
             <table class="stockList">
               <tr v-for="stock of plate.baseDetailList">
                 <td class="name">{{stock.stockName}}</td>
@@ -389,6 +389,26 @@ export default {
     },
     matchColor(chg) {
       return '#666';
+    },
+    newsObj(str) {
+      if (!str) {
+        return {
+          newsId: null,
+          title: null
+        };
+      }
+      const index = str.indexOf(',');
+      const newsId = str.substring(0, index);
+      if (index === -1 || newsId === "null") {
+        return {
+          newsId: null,
+          title: null
+        };
+      }
+      return {
+        newsId: str.substring(0, index),
+        title: str.substring(index + 1)
+      }
     },
     updateMarketCount() {
       setTimeout(() => {
