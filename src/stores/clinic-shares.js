@@ -10,8 +10,8 @@ import {
   domain
 } from '../z3tougu/config'
 
-export const mutationTypes = {
-
+const mutationTypes = {
+  UPDATE_NEWSINFO: 'UPDATE_NEWSINFO'
 }
 
 export default {
@@ -30,8 +30,8 @@ export default {
     indexFace: [], // 资金面
     baseFace: [], // 基本面,
     techFace: [],
-    industryFace: []
-
+    industryFace: [],
+    newsInfo: []
   },
   mutations: {
 
@@ -56,8 +56,10 @@ export default {
     },
     updateIndustryFace(state, indusFace) {
       state.industryFace = indusFace
+    },
+    [mutationTypes.UPDATE_NEWSINFO](state, newsinfo) {
+      state.newsInfo = newsinfo;
     }
-
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
@@ -181,6 +183,24 @@ export default {
           // console.log(result.data)
           commit('updateIndustryFace', result.data)
           // console.log(result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    queryNewsInfo({
+      commit
+    }, {
+      innerCode
+    }) {
+      const url = `${domain}/openapi/smartStock/infoFace/${innerCode}.shtml`
+      fetch(url, {
+        mode: 'cors'
+      }).then((res) => res.json()).then((result) => {
+        if (result.errCode === 0) {
+          commit(mutationTypes.UPDATE_NEWSINFO, result.data);
         } else {
           commit('ERROR', result, {
             root: true

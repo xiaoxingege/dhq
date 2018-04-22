@@ -179,7 +179,7 @@ export default {
       deltaPlateList: state => state.marketBubble.abnormalPlateList,
       marketCount: state => {
         const data = state.marketBubble.marketCount;
-        return data.slice(2, data.length - 2);
+        return data.slice(2, data.length - 2).reverse();
       },
       stzt: state => state.marketBubble.marketCount[0],
       zt: state => state.marketBubble.marketCount[1],

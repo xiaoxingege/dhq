@@ -40,20 +40,14 @@ export default {
   },
   formatterInnercode(code) {
     var str = code + ''
-    var s = ''
-    var index6 = str.indexOf('6');
-    var index9 = str.indexOf('9');
-    var index0 = str.indexOf('0');
-    var index2 = str.indexOf('2');
-    var index3 = str.indexOf('3');
-    if (index6 === 0 || index9 === 0) {
+    var s = '';
+    var begin = str.charAt(0);
+    if (begin === '6' || begin === '9') {
       s = str + '.SH'
-
-    } else if (index0 === 0 || index2 === 0 || index3 === 0) {
+    } else if (begin === '0' || begin === '2' || begin === '3') {
       s = str + '.SZ'
-
     } else {
-      return false
+      return code
     }
     return s
   }
