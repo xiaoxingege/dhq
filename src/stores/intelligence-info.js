@@ -48,8 +48,11 @@ export default {
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
-      state.temporary = list
+      state.temporary = list.rows
       if(state.isTops === true){
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
       }else{
@@ -65,6 +68,9 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
@@ -82,6 +88,9 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
@@ -99,6 +108,9 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
@@ -116,7 +128,9 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
-      console.log(list)
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       console.log(state.isTops)
@@ -185,6 +199,7 @@ export default {
   actions: {
     // 获取智头条数据
     getWisdomHeadlinesList({ commit }, { page, isTop, newTime }) {
+      console.log(isTop)
       commit('setMask', true)
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -193,8 +208,8 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
-          commit(types.SET_WISDOMHEADLINES_LIST, result.data.rows)
+        if (result.errCode === 0) {
+          commit(types.SET_WISDOMHEADLINES_LIST, result.data)
           commit('getNewTime', result.data.newTime)
           commit('setMask', false)
         } else {
@@ -375,7 +390,7 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=304f525a-9af2-4a60-b15e-00fc552917bb`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

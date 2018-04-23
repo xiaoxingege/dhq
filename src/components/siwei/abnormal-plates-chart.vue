@@ -173,7 +173,7 @@ export default {
             data: this.markLineData
           },
           markPoint: {
-            silent: true,
+            silent: false,
             symbol: 'roundRect',
             symbolSize: [60, 30],
             itemStyle: {
@@ -196,10 +196,12 @@ export default {
         const name = plate.industryName;
         const color = chg >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
           const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
           let point = {
             coord: [time, coordY],
+            symbolSize: [markPointSize, 30],
             itemStyle: {
               normal: {
                 borderColor: color
@@ -292,6 +294,15 @@ export default {
     pcId = setInterval(() => {
       this.updateIndex();
     }, 60 * 1000);
+    window.addEventListener('resize', () => {
+      const chartWrapper = this.$refs.chart;
+      let height = chartWrapper.clientHeight;
+      let width = chartWrapper.clientWidth;
+      this.chart && this.chart.resize({
+        height: height,
+        width: width
+      })
+    }, false)
   },
   destroyed() {
     if (pcId) {

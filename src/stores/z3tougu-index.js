@@ -1,5 +1,3 @@
-// import 'whatwg-fetch'
-import fetchJsonp from 'fetch-jsonp'
 import {
   domain
 } from '../z3tougu/config'
@@ -84,7 +82,7 @@ export default {
     },
     setNewsDetails(state, options) {
       const result = options.result
-      state.newsDetails = result.data
+      state.newsDetails = result.data.news
     },
     setSectorsData(state, options) {
       const result = options.result
@@ -275,12 +273,8 @@ export default {
     }, {
       size
     }) {
-      const timestamp = new Date().getTime()
-      const url = window.location.protocol + '//finance.jrj.com.cn/zs/yw/top' + size + '.js?time=' + timestamp
-      return fetchJsonp(url, {
-        jsonpCallbackFunction: 'jsonp',
-        cache: 'reload'
-      }).then((res) => {
+      const url = `${domain}/openapi/news/newsIndexHeadline.shtml?size=${size}`
+      return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setFinanceNews', {
@@ -293,11 +287,8 @@ export default {
     }, {
       size
     }) {
-      const timestamp = new Date().getTime()
-      const url = window.location.protocol + '//finance.jrj.com.cn/zs/company/top' + size + '.js?time=' + timestamp
-      return fetchJsonp(url, {
-        jsonpCallbackFunction: 'jsonp'
-      }).then((res) => {
+      const url = `${domain}/openapi/news/newsIndexListedCom.shtml?size=${size}`
+      return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setListedCompanyNews', {
@@ -310,11 +301,8 @@ export default {
     }, {
       newsId
     }) {
-      const timestamp = new Date().getTime()
-      const url = window.location.protocol + '//finance.jrj.com.cn/zs/content/' + newsId + '.js?time=' + timestamp
-      return fetchJsonp(url, {
-        jsonpCallbackFunction: 'jsonp'
-      }).then((res) => {
+      const url = `${domain}/openapi/news/${newsId}.shtml`
+      return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
         commit('setNewsDetails', {

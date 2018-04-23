@@ -148,13 +148,14 @@ body {
     margin: 0 5px 6px 0;
 }
 .techline-title2 {
-    height: 22px;
+    height: 42px;
     padding: 10px 5px;
 }
 .techline-title {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 </style>
 <template>
@@ -166,8 +167,6 @@ body {
     <div class="techline-title2">{{industryFace.describe==null?'':industryFace.describe}}</div>
 
   </div>
-
-
   <div class="kline-charts" ref="lineCharts">
 
   </div>
@@ -184,7 +183,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode', 'floatYname'],
+  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode', 'industryYname'],
   data() {
     return {
       showX: true,
@@ -216,7 +215,6 @@ export default ({
         day: [],
         days5: [],
         vols: [],
-        range: [],
         rangeYdata: [],
         induAvg: [],
         level: [],
@@ -262,61 +260,30 @@ export default ({
         const level = item.level
         const score = Number(item.eval).toFixed(2)
         const industryName = item.industryName
-
-        // const growthRate = item.growthRate
-        //  const stkLevelDetail = item.stkLevelDetail
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         this.data.industryName.push(industryName)
-
-        // this.data.ydata.push(winRate20day)
-        // if (this.industryFace.valueRange === range) {
-
-        //   var newValueStkLevel = {} 
-        // this.data.rangeYdata.push(range)
-        /*
-                 newValueStkLevel = {
-                   value: stkLevel,
-                   itemStyle: {
-                     normal: {
-                       label: {
-                         show: true,
-                         position: 'top',
-                         color: '#c9d0d7',
-                         fontSize: 12,
-                         fontWeight: 'bold',
-                         formatter: function(p) {
-                           return stkLevelDetail
-                         }
-                       }
-                     }
-                   }
-                 }  */
+        if (this.industryFace.range === industryName) {
+          var newValue = {}
+          // this.data.rangeYdata.push(range)
+          newValue = {
+            value: score,
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+              }
+            }
+          }
+          this.data.score.push(newValue)
+        } else {
+          this.data.score.push(score)
+        }
         this.data.level.push(level)
-        this.data.score.push(score)
-        // this.data.stkLevel.push(newValueStkLevel) 
-        //  } else {
 
-        /*  this.data.induAvg.push(induAvg)
-          this.data.stkLevel.push(stkLevel) */
-        // }
-        // console.log(this.data.ydata)
       })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
+
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.industryFace) {
         this.drawCharts()
@@ -387,7 +354,6 @@ export default ({
           },
           formatter: function(params) {
             var s = ''
-            console.log(params)
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
                 s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].name + '评分: ' + params[i].value + '</br>'
@@ -433,13 +399,9 @@ export default ({
 
           // type: 'category', 
           type: 'value',
-          name: this.floatYname,
+          name: this.industryYname,
           // data: ['0', '50%', '100%'],
-          /* splitNumber: 2,
-           min: 0,
-           max: 100,*/
-          /* min:0,
-          max:100,
+          /* 
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -547,22 +509,15 @@ export default ({
 
   },
   watch: {
-    /* industryFace() {
-        this.initLine()
-      } */
+
     innerCode: function() {
       this.init()
     }
   },
 
   mounted() {
-    /* console.log(this.industryFace)
-    console.log(this.dataIndex) */
-    console.log(this.floatYname)
+    //  console.log(this.industryYname)
     this.init()
-
-    // this.initLine()
-
 
   }
 

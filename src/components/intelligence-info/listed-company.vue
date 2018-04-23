@@ -5,10 +5,10 @@
     <ul class="news-list">
       <li class="news-list-item" v-for="item in listedCompany">
         <div v-if="item.equity !=null" class="con-top">
-          <span class="time fr" v-z3-time="{ time: item.declareDate, type: '1' }"></span>
+          <span class="time fr" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">
             <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <span>{{item.equity.name}}</span>
+              <span v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}</span>
             </a>
             <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
             <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
@@ -30,7 +30,7 @@
     </ul>
     <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
     <p class="tc mt-10 mb-20">
-      <a v-if="!noData && listedCompany.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      <a ref="more" v-if="!noData && listedCompany.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
       <p v-if="listedCompany.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
@@ -103,8 +103,12 @@
           this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: '' })
       },
       loadMore() {
+        var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
+        if( moreOffsetTop < this.innerHeight){
+          this.$store.commit('setIsTop',false)
+        }
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: this.isTops, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           this.$store.commit('setNoData',true)

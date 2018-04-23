@@ -34,7 +34,7 @@
     </ul>
     <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
     <p class="tc mt-10 mb-20">
-      <a v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      <a ref="more" v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
       <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
@@ -57,7 +57,6 @@
       return {
         page: 0,
         totalPage: 200,
-        noData: false,
         updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
@@ -108,7 +107,11 @@
           this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' })
       },
       loadMore() {
+        var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
+        if( moreOffsetTop < this.innerHeight){
+          this.$store.commit('setIsTop',false)
+        }
         this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {

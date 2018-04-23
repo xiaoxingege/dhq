@@ -144,9 +144,11 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    height: 62px;
+    padding: 10px 5px;
 }
 .kline {
     height: 264px;
@@ -165,9 +167,9 @@ body {
 <div class="dime-kline">
   <div>
     <div class="kline-title">
-      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'--':baseFace.tag}}</span>
+      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'':baseFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe}}</div>
+    <div class="kline-title2">{{baseFace.describe==null?'':baseFace.describe}}</div>
 
   </div>
 
@@ -251,7 +253,6 @@ export default ({
       // console.log(this.dataIndex)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
-        // console.log(this.legendNames)
       } else if (this.dataIndex === 1) {
         this.legendNames = this.legendName2
       } else {
@@ -259,13 +260,9 @@ export default ({
       }
       klineData.forEach((item, index) => {
         const winRate20day = Number(item.winRate20day * 100).toFixed(2)
-        // const growthRate = item.growthRate
         const range = item.range
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         this.data.range.push(range)
-
-        // this.data.ydata.push(winRate20day)
-        console.log(this.baseFace.range)
+        //  console.log(this.baseFace.range)
         if (this.baseFace.range === range) {
           var newValue = {}
           // this.data.rangeYdata.push(range)
@@ -283,22 +280,11 @@ export default ({
         }
         // console.log(this.data.ydata)
       })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
+
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.baseFace) {
         this.drawCharts()
@@ -498,10 +484,6 @@ export default ({
           // width: '97%',
           /* width: '100%',
           height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
-          borderColor: '#2A2E36',
           containLabel: true */
           left: 45,
           right: 10,
@@ -525,9 +507,7 @@ export default ({
 
   },
   watch: {
-    /* baseFace() {
-        this.initLine()
-      } */
+
     innerCode: function() {
       this.init()
     }
@@ -535,9 +515,6 @@ export default ({
 
   mounted() {
     this.init()
-    // console.log(this.baseFace)
-    // this.initLine()
-
 
   }
 

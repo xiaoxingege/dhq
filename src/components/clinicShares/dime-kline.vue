@@ -144,10 +144,13 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
     /*padding: 10px 7px;*/
-    padding: 10px 7px 16px;
+    /*  padding: 10px 7px 16px; */
+    height: 62px;
+    padding: 10px 5px;
 }
 .kline {
     height: 264px;
@@ -164,11 +167,11 @@ body {
 </style>
 <template>
 <div class="dime-kline">
-  <div v-for="(inFace,index) of indexFace" v-if="index===0">
+  <div>
     <div class="kline-title">
-      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag==null?'--':inFace.tag}}</span>
+      {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe}}</div>
+    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
 
@@ -188,31 +191,24 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode'],
+  props: ['innerCode', 'indexFace'],
   data() {
     return {
-      showX: true
+      showX: true,
+      data: {
+        times: [],
+        tradeTimeArr: [],
+        kdata: [],
+        markLineData: [],
+        markPointData: [],
+        vols: []
+      }
+
     }
   },
   computed: {
     ...mapState({
-      indexFace: state => state.clinicShares.indexFace,
-      lastKData: state => {
-        // const record = state.clinicShares.indexFace[0]
-        /* if (record) {
-          return {
-            ma20: record.ma20 === null ? config.emptyValue : record.ma20,
-            ma60: record.ma60 === null ? config.emptyValue : record.ma60,
-            ma120: record.ma120 === null ? config.emptyValue : record.ma120
-          }
-        } else {
-          return {
-            ma20: config.emptyValue,
-            ma60: config.emptyValue,
-            ma120: config.emptyValue
-          }
-        } */
-      },
+
       lineData: state => {
         var data = {
           times: [],
@@ -220,292 +216,219 @@ export default ({
           kdata: [],
           markLineData: [],
           markPointData: [],
-          // ma20: [],
-          // ma60: [],
-          // ma120: [],
           vols: []
         }
-        // let ma20Error = 0
-        // let ma60Error = 0
-        // let ma120Error = 0
-        // console.log(state.clinicShares.indexFace[0].tag)
-        var fundFace = state.clinicShares.indexFace;
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.klineChart.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
-        fundFace.forEach((alls, index) => {
-          if (index === 0) {
-            // console.log(item.datas.data[0].prevClosePx)
-            const klineData = [].concat(alls.datas.data).reverse()
-            console.log(alls.datas.currPirce)
-            const stressPrice = alls.datas.stressPrice
-            //     const stressPrice = '0'
-            const currPirce = alls.datas.currPirce
-            //  const currPirce = '0'
-            const supportPrice = alls.datas.supportPrice
-            //   const supportPrice = '0'
-            klineData.forEach((item) => {
-              let time = ''
-              time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
-              data.times.push(time)
-              data.tradeTimeArr.push(time)
-              /* if (this.klineType === 'day') { // 日
-                data.times.push(this.formatDate(item.endDate + ''))
-                data.tradeTimeArr.push(this.formatDate(item.endDate + ''))
-              } else if (this.klineType === 'week' || this.klineType === 'month') { // 周月
-                data.times.push(this.formatDate(item.lastTradeDate + ''))
-                data.tradeTimeArr.push(this.formatDate(item.lastTradeDate + ''))
-              } else { // 5，15，30，60分钟
-                data.times.push(item.tradeTime.substring(5, 10))
-                data.tradeTimeArr.push(item.tradeTime)
-              } */
-              let openPx = item.openPx
-              let closePx = item.closePx
-              const highPx = item.highPx
-              const lowPx = item.lowPx
-              const volume = item.volume
-              const prevClosePx = item.prevClosePx
-
-              data.kdata.push([openPx, closePx, highPx, lowPx])
-              // console.log(data.kdata)
-              /* var stressPrice = '10.88'
-              var currPirce = '12'
-              var supportPrice = '11'*/
-              data.markLineData.push([{
-                  coord: [data.times[0], stressPrice],
-                  lineStyle: {
-                    normal: {
-                      color: config.upColor,
-                      type: 'solid'
-                    }
-                  }
-                },
-                {
-                  coord: [data.times[data.times.length - 1], stressPrice],
-                  lineStyle: {
-                    normal: {
-                      color: config.upColor,
-                      type: 'solid'
-                    }
-                  }
-                }
-              ], [{
-                  coord: [data.times[0], currPirce],
-                  lineStyle: {
-                    normal: {
-                      color: '#c9d0d7',
-                      type: 'solid'
-                    }
-                  }
-                },
-                {
-                  coord: [data.times[data.times.length - 1], currPirce],
-                  lineStyle: {
-                    normal: {
-                      color: '#c9d0d7',
-                      type: 'solid'
-                    }
-                  }
-                }
-              ], [{
-                  coord: [data.times[0], supportPrice],
-                  lineStyle: {
-                    normal: {
-                      color: '#1984ea',
-                      type: 'solid'
-                    }
-                  }
-                },
-                {
-                  coord: [data.times[data.times.length - 1], supportPrice],
-                  lineStyle: {
-                    normal: {
-                      color: '#1984ea',
-                      type: 'solid'
-                    }
-                  }
-                }
-              ])
-              data.markPointData.push({
-                name: '压力线',
-                coord: [data.times[0], stressPrice],
-                symbol: 'rect',
-                symbolSize: [86, 22],
-                itemStyle: {
-                  normal: {
-
-                    // color: 各异，
-                    // borderColor: 各异,     // 标注边线颜色，优先于color 
-                    // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
-                    // label: {
-                    // show: true,
-                    // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
-                    // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-                    // }
-
-                    color: '#141518',
-                    borderColor: config.upColor,
-                    borderWidth: 1,
-                    opacity: 0.5,
-                    lineStyle: {
-                      color: config.upColor,
-                      type: 'solid',
-                      width: 1
-                    },
-                    label: {
-                      show: true,
-                      // fontWeight:'bold',
-                      color: config.upColor,
-                      fontSize: 12
-
-                    }
-                  }
-                }
-
-              }, {
-                name: '当前价',
-                coord: [data.times[0], currPirce],
-                symbol: 'rect',
-                symbolSize: [88, 22],
-                itemStyle: {
-                  normal: {
-                    // color: '#c9d0d7'
-                    // borderColor: 各异,     // 标注边线颜色，优先于color 
-                    // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
-                    // label: {
-                    // show: true,
-                    // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
-                    // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-                    // }
-                    color: '#141518',
-                    borderColor: '#c9d0d7',
-                    borderWidth: 1,
-                    opacity: 0.5,
-                    lineStyle: {
-                      color: '#c9d0d7',
-                      type: 'solid',
-                      width: 1
-                    },
-                    label: {
-                      show: true,
-                      // fontWeight:'bold',
-                      color: '#c9d0d7',
-                      fontSize: 12
-
-                    }
-                  }
-                }
-
-              }, {
-                name: '支撑位',
-                coord: [data.times[0], supportPrice],
-                symbol: 'rect',
-                symbolSize: [88, 22],
-                itemStyle: {
-                  normal: {
-                    // color: '#1984ea',
-                    // borderColor: 各异,     // 标注边线颜色，优先于color 
-                    // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
-                    color: '#141518',
-                    borderColor: '#1984ea',
-                    borderWidth: 1,
-                    opacity: 0.5,
-                    lineStyle: {
-                      color: '#1984ea',
-                      type: 'solid',
-                      width: 1
-                    },
-                    label: {
-                      show: true,
-                      // fontWeight:'bold',
-                      color: '#1984ea',
-                      fontSize: 12
-
-                    }
-                  }
-                }
-              })
-              // console.log(data.markLineData)
-              /* if (item.ma20 !== 0) {
-            ma20Error = item.ma20
-          }
-          if (item.ma60 !== 0) {
-            ma60Error = item.ma60
-          }
-          if (item.ma120 !== 0) {
-            ma120Error = item.ma120
-          }
-*/
-              // 页面异常数据处理，会导致测试同事不能及时发现问题
-              /* data.ma20.push(item.ma20 === 0 ? ma20Error : item.ma20)
-              data.ma60.push(item.ma60 === 0 ? ma60Error : item.ma60)
-              data.ma120.push(item.ma120 === 0 ? ma120Error : item.ma120) */
-
-              var newVols = {
-                value: volume, // 万手
-                itemStyle: {
-                  normal: {
-                    color: closePx < prevClosePx ? config.downColor : config.upColor,
-                    borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-                  }
-                }
-              }
-              data.vols.push(newVols)
-            })
-            if (klineData.length < 60) {
-              for (var i = 0; i < 60 - klineData.length; i++) {
-                data.times.push('')
-                data.tradeTimeArr.push('')
-                const dt = []
-                data.kdata.push(dt)
-                /* data.ma20.push('')
-                data.ma60.push('')
-                data.ma120.push('') */
-                data.vols.push('')
-              }
-            }
-            // return data
-          }
-        })
-
         return data
 
       },
       xLabelInterval() {
         let interval = 17
-        /* if (this.klineType === 'min5') {
-          interval = 48
-        } else if (this.klineType === 'min15') {
-          interval = 15
-        } else if (this.klineType === 'min30') {
-          interval = 8
-        } else if (this.klineType === 'min60') {
-          interval = 4
-        } else {
-          interval = 17
-        } */
         return interval
       }
     })
   },
   methods: {
+    init() {
+
+      const klineData = [].concat(this.indexFace.datas.data).reverse()
+      const stressPrice = this.indexFace.stressPrice
+      //     const stressPrice = '0'
+      const currPirce = this.indexFace.currPirce
+      //  const currPirce = '0'
+      const supportPrice = this.indexFace.supportPrice
+      var data = this.data
+      //   const supportPrice = '0'
+      klineData.forEach((item) => {
+        let time = ''
+        time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
+        data.times.push(time)
+        data.tradeTimeArr.push(time)
+
+        let openPx = item.openPx
+        let closePx = item.closePx
+        const highPx = item.highPx
+        const lowPx = item.lowPx
+        const volume = item.volume
+        const prevClosePx = item.prevClosePx
+        data.kdata.push([openPx, closePx, highPx, lowPx])
+        data.markLineData.push([{
+            coord: [data.times[0], stressPrice],
+            lineStyle: {
+              normal: {
+                color: config.upColor,
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], stressPrice],
+            lineStyle: {
+              normal: {
+                color: config.upColor,
+                type: 'solid'
+              }
+            }
+          }
+        ], [{
+            coord: [data.times[0], currPirce],
+            lineStyle: {
+              normal: {
+                color: '#c9d0d7',
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], currPirce],
+            lineStyle: {
+              normal: {
+                color: '#c9d0d7',
+                type: 'solid'
+              }
+            }
+          }
+        ], [{
+            coord: [data.times[0], supportPrice],
+            lineStyle: {
+              normal: {
+                color: '#1984ea',
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], supportPrice],
+            lineStyle: {
+              normal: {
+                color: '#1984ea',
+                type: 'solid'
+              }
+            }
+          }
+        ])
+        data.markPointData.push({
+          name: '压力线',
+          coord: [data.times[0], stressPrice],
+          symbol: 'rect',
+          symbolSize: [86, 22],
+          itemStyle: {
+            normal: {
+
+              // color: 各异，
+              // borderColor: 各异,     // 标注边线颜色，优先于color 
+              // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
+              // label: {
+              // show: true,
+              // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
+              // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+              // }
+
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: config.upColor,
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: config.upColor,
+                fontSize: 12
+
+              }
+            }
+          }
+
+        }, {
+          name: '当前价',
+          coord: [data.times[0], currPirce],
+          symbol: 'rect',
+          symbolSize: [88, 22],
+          itemStyle: {
+            normal: {
+              color: '#141518',
+              borderColor: '#c9d0d7',
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: '#c9d0d7',
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: '#c9d0d7',
+                fontSize: 12
+
+              }
+            }
+          }
+
+        }, {
+          name: '支撑位',
+          coord: [data.times[0], supportPrice],
+          symbol: 'rect',
+          symbolSize: [88, 22],
+          itemStyle: {
+            normal: {
+              color: '#141518',
+              borderColor: '#1984ea',
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: '#1984ea',
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: '#1984ea',
+                fontSize: 12
+
+              }
+            }
+          }
+        })
+
+        var newVols = {
+          value: volume, // 万手
+          itemStyle: {
+            normal: {
+              color: closePx < prevClosePx ? config.downColor : config.upColor,
+              borderColor: closePx < prevClosePx ? config.downColor : config.upColor
+            }
+          }
+        }
+        data.vols.push(newVols)
+      })
+      if (klineData.length < 60) {
+        for (var i = 0; i < 60 - klineData.length; i++) {
+          data.times.push('')
+          data.tradeTimeArr.push('')
+          const dt = []
+          data.kdata.push(dt)
+          data.vols.push('')
+        }
+      }
+      // return data
+
+      this.initKline()
+    },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
-      this.$store.dispatch('clinicShares/queryIndexFace', {
-        innerCode: this.innerCode
-      }).then(() => {
 
+      if (this.indexFace) {
         this.drawCharts()
 
-      })
-
+      }
     },
     drawCharts() {
-      const lineData = this.lineData
+      const lineData = this.data
       const opt = {
         toolbox: {
           show: false
@@ -535,15 +458,7 @@ export default ({
             backgroundColor: '#777'
           }
         },
-        /* left: 20,
-        right: 20,
-        top: 110,
-        height: 120
-    }, {
-        left: 20,
-        right: 20,
-        height: 40,
-        top: 260 */
+
         grid: [{
             left: 45,
             right: 10,
@@ -631,8 +546,6 @@ export default ({
               // interval: this.xLabelInterval,
               // showMinLabel: true
             },
-            /* min: 'dataMin',
-            max: 'dataMax', */
             axisPointer: {
               /* label: {
                 formatter: function(params) {
@@ -788,19 +701,7 @@ export default ({
               }
             }
           },
-          /* name: 'Volume',
-        type: 'bar',
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        itemStyle: {
-            normal: {
-                color: '#7fbe9e'
-            },
-            emphasis: {
-                color: '#140'
-            }
-        },
-        data: volumes */
+
           {
             name: '成交量',
             type: 'bar',
@@ -844,34 +745,13 @@ export default ({
     } */
   },
   watch: {
-    /* stockCode() {
-       if (!this.stockCode) {
-         console.info('[component:stock-kline]:stockCode is necessary!')
-         return
-       }
-       this.$store.dispatch('clinicShares/queryIndexFace')
-     },*/
-    /* lineData() {
-      this.initKline()
-    } */
     innerCode: function() {
-      this.initKline()
+      this.init()
     }
   },
 
   mounted() {
-    /* if (!this.stockCode) {
-       return
-     } */
-    /* this.$store.dispatch('stock/queryKline', {
-      stockCode: this.stockCode
-    })
-    this.$store.dispatch('stock/queryMkt', {
-      stockCode: this.stockCode
-    }) */
-
-    this.initKline()
-
+    this.init()
   }
 
 })

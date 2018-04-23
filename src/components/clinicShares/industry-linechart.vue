@@ -155,6 +155,7 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 </style>
 <template>
@@ -218,7 +219,8 @@ export default ({
         range: [],
         rangeYdata: [],
         infoIndex: [],
-        techIndex: []
+        techIndex: [],
+        induName: ''
       }
     }
   },
@@ -246,76 +248,32 @@ export default ({
   methods: {
     init() {
       const klineData = [].concat(this.industryFace.datas.datas).reverse()
-      console.log(this.industryFace)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
-        // console.log(this.legendNames)
       } else if (this.dataIndex === 1) {
         this.legendNames = this.legendName2
       } else {
         this.legendNames = this.legendName3
       }
+      this.data.induName = this.industryFace.datas.induName
       if (klineData.length <= 60) {
         klineData.forEach((item, index) => {
           const infoIndex = Number(item.infoIndex).toFixed(2)
           const techIndex = Number(item.techIndex).toFixed(2)
           let time = ''
-          // const growthRate = item.growthRate
           time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
           this.data.times.push(time)
           this.data.tradeTimeArr.push(time)
-          // this.data.range.push(range)
-
-          // this.data.ydata.push(winRate20day)
-          // if (this.industryFace.valueRange === range) {
-
-          // var newValueStkLevel = {} 
-          // this.data.rangeYdata.push(range)
-
-          /*  newValueStkLevel = {
-              value: stkLevel,
-              itemStyle: {
-                normal: {
-                  label: {
-                    show: true,
-                    position: 'top',
-                    color: '#c9d0d7',
-                    fontSize: 12,
-                    fontWeight: 'bold',
-                    formatter: function(p) {
-                      return stkLevelDetail
-                    }
-                  }
-                }
-              }
-            } */
           this.data.infoIndex.push(infoIndex)
           this.data.techIndex.push(techIndex)
-          //  } else {
 
-          /*  this.data.induAvg.push(induAvg)
-            this.data.stkLevel.push(stkLevel) */
-          // }
-          // console.log(this.data.ydata)
         })
       }
 
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
-             }
-           }
-         }
-         data.vols.push(newVols) */
       this.initLine()
     },
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
 
       if (this.industryFace) {
         this.drawCharts()
@@ -339,11 +297,11 @@ export default ({
             fontSize: 12
           },
           data: [{
-              name: this.legendName1,
+              name: lineData.induName + this.legendName1,
               icon: 'line'
             },
             {
-              name: this.legendName2,
+              name: lineData.induName + this.legendName2,
               icon: 'line'
 
             }
@@ -433,15 +391,7 @@ export default ({
           // type: 'category', 
           type: 'value',
           // name: this.floatYname,
-          // data: ['0', '50%', '100%'],
-          /* splitNumber: 2,
-           min: 0,
-           max: 100,*/
-          /* min:0,
-          max:100,
-          axisLabel: {
-              formatter: '{value} %'
-          }, */
+
           nameTextStyle: {
             color: '#c9d0d7',
             padding: [0, 0, 0, 110]
@@ -475,22 +425,12 @@ export default ({
 
         series: [{
             data: lineData.infoIndex,
-            name: this.legendName1,
+            name: lineData.induName + this.legendName1,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: this.legendName1,
-            /* label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value + '%'
-                }
-              }
-            },
-*/
+            stack: lineData.induName + this.legendName1,
+
             itemStyle: {
               normal: {
                 color: config.upColor
@@ -501,11 +441,11 @@ export default ({
           },
           {
             data: lineData.techIndex,
-            name: this.legendName2,
+            name: lineData.induName + this.legendName2,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: this.legendName2,
+            stack: lineData.induName + this.legendName2,
             /* label: {
               normal: {
                 show: true,
@@ -559,23 +499,13 @@ export default ({
 
   },
   watch: {
-    /* industryFace() {
-        this.initLine()
-      } */
     innerCode: function() {
       this.init()
     }
   },
 
   mounted() {
-    console.log(this.legendName1)
-    /*  console.log(this.industryFace)
-      console.log(this.dataIndex) */
     this.init()
-
-    // this.initLine()
-
-
   }
 
 })
