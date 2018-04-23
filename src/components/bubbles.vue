@@ -67,7 +67,8 @@ export default {
       isOverDialog: false,
       timeout: null,
       mmX: '',
-      mmY: ''
+      mmY: '',
+      newIndustryArr: Data.newIndustryArr
     }
   },
   components: {
@@ -599,8 +600,15 @@ export default {
                   const conditionArr = that.groupArr[colorType].condition
 
                   if (colorType === 'sw_indu_name') { // 行业
-                    var len = (that.industryArr.indexOf(bubbleColorData)) % 7
-                    return colorArr[len]
+                    let bubbleColor = ''
+                    that.newIndustryArr.forEach(function(item) {
+                      item.industry.forEach(function(value) {
+                        if (String(bubbleColorData) === String(value)) {
+                          bubbleColor = item.color
+                        }
+                      })
+                    })
+                    return bubbleColor
                   } else if (colorType === 'fcst_idx.rating_syn') { // 1=买入，2=增持，3=中性，4=减持，5=卖出
                     if (Number(bubbleColorData) === 5) {
                       return colorArr[0]
