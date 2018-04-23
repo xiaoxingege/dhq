@@ -43,14 +43,14 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['innerCode'],
+  props: ['innerCode', 'newsInfo'],
   data() {
     return {
       newsId: ''
     }
   },
   computed: mapState({
-    newsInfo: state => state.clinicShares.newsInfo
+
   }),
   methods: {
     toggleSumary(newsId) {
@@ -62,9 +62,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('clinicShares/queryNewsInfo', {
-      innerCode: this.innerCode
-    })
+
   }
 }
 </script>

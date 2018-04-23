@@ -449,7 +449,7 @@ export default ({
             var lowPx;
             var volume;
             if (axisid === 1) {
-              console.log(t[0])
+              // console.log(t[0])
               objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
               if (objarr[0] >= 0) {
                 openPx = objarr[0];

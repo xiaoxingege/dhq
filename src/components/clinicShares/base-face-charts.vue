@@ -312,7 +312,7 @@ export default ({
         }
         /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         time = (item.year + '').substring(0, 4)
-        console.log(this.dataIndex)
+        // console.log(this.dataIndex)
         this.data.times.push(time)
         this.data.tradeTimeArr.push(time)
         var newValue = {}
@@ -730,8 +730,8 @@ export default ({
           left: 0,
           top: '10%',
           show: true,
-          borderColor: '#2A2E36',
-          containLabel: true */
+          borderColor: '#2A2E36', */
+          containLabel: true,
           left: 45,
           right: 10,
           top: '19%',

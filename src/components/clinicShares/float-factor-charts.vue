@@ -295,7 +295,7 @@ export default ({
     drawCharts() {
       const lineData = this.data
       const legendNames = this.legendNames
-      console.log(lineData.rangeYdata)
+      // console.log(lineData.rangeYdata)
       const opt = {
 
         legend: {

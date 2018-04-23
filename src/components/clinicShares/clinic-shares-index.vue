@@ -79,7 +79,7 @@ body {
 <div class="wrap-all">
   <div class="clinic-shares-wrap">
     <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
-    <ClinicDimension :innerCode='innerCode' />
+    <ClinicDimension :innerCode='innerCode' :isShow='isType' />
   </div>
   <div class="foot-tishi clearfix">
     风险提示：诊断结果基于自动模型加工客观数据而成，仅供参考，不构成绝对投资建议，风险自担！

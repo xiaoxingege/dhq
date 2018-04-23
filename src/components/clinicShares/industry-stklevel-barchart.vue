@@ -258,7 +258,7 @@ export default ({
       klineData.forEach((item, index) => {
         const induAvg = item.induAvg
         const stkLevel = item.stkLevel
-        console.log(induAvg)
+        // console.log(induAvg)
         const stkLevelDetail = item.stkLevelDetail
 
         var newValueStkLevel = {}
