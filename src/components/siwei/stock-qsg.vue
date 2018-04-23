@@ -217,12 +217,12 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln量比'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -259,7 +259,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -482,11 +482,11 @@ export default {
         this.chart && this.chart.setOption({
           animation: false,
           xAxis: {
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln量比'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -501,7 +501,7 @@ export default {
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
