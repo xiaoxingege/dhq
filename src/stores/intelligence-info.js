@@ -48,7 +48,7 @@ export default {
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -68,7 +68,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -88,7 +88,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -108,7 +108,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -128,7 +128,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -385,12 +385,12 @@ export default {
     },
     // 获取股票池列表
     getStockPool({ commit, state, rootState }) {
-      const userId = rootState.user.userId
+      const userId = rootState.user.userId || ''
       if (!userId) {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=304f525a-9af2-4a60-b15e-00fc552917bb`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
