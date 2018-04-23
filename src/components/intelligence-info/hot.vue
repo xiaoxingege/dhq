@@ -125,16 +125,17 @@ export default {
         }
         .col {
             float: left;
-            width: 35%;
+            width: 37%;
         }
         .chg {
-            width: 30%;
+            width: 28%;
             text-align: center;
         }
         .name {
             cursor: pointer;
         }
         .hot-index {
+            width: 35%;
             .full {
                 width: 90%;
                 height: 16px;

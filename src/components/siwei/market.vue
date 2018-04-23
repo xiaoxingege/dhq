@@ -23,14 +23,14 @@
               <span class=''>{{stock.stockName}}</span>
               <span class=''>{{stock.symbol}}</span>
               <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
-              <span class='type'>{{stock.status}}</span>
+              <span class='type'>{{stock.reason}}</span>
             </div>
-            <div class="news">
+            <div class="news" v-if="newsObj(stock.msg).newsId">
               <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
             </div>
             <ul class='topics'>
               <li class="topic" v-for="topic in stock.topics" v-if="stock.topics && stock.topics.length > 0">
-                <div>{{topic.topicName}}</div>
+                <div class="name">{{topic.topicName}}</div>
                 <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
               </li>
             </ul>
@@ -46,12 +46,12 @@
               <span class="name">{{plate.industryName}}</span>
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
             </div>
-            <div class="news"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{newsObj(plate.msg)['title']||''}}</span></div>
+            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{newsObj(plate.msg)['title']||''}}</span></div>
             <table class="stockList">
               <tr v-for="stock of plate.baseDetailList">
                 <td class="name">{{stock.stockName}}</td>
                 <td class="code">{{stock.symbol}}</td>
-                <td v-z3-updowncolor="stock.chg" class="price">{{stock.price}}</td>
+                <td v-z3-updowncolor="stock.chg" class="price">{{stock.price | price}}</td>
                 <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg | chngPct}}</td>
               </tr>
             </table>
@@ -492,10 +492,6 @@ export default {
     height: 100%;
     font-size: 12px;
     color: #ccc;
-    .legend {
-        height: 36px;
-        line-height: 36px;
-    }
 }
 .market_con {
     height: calc(100% - 36px);
@@ -627,6 +623,9 @@ export default {
     padding: 0;
     margin: 2px 0;
     overflow: hidden;
+    .name {
+        overflow: hidden;
+    }
 }
 
 .market .block .topic {
