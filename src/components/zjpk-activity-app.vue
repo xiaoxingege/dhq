@@ -87,7 +87,7 @@ button {
     margin-top: 0.39rem;
 }
 .bg5 {
-    background: url("../assets/images/zjpk-activity/zjpk-app-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/zjpk-activity/zjpk-app-bg5-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 4.29rem;
     float: left;

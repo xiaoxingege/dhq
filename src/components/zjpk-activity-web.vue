@@ -40,7 +40,7 @@ input {
 
 .bg4 .list-box {
     width: 100%;
-    height: 140px;
+    height: 145px;
     overflow-y: scroll;
     position: absolute;
     top: 170px;
@@ -118,7 +118,7 @@ input {
     height: 538px;
 }
 .bg5 {
-    background: url("../assets/images/zjpk-activity/zjpk-web-bg5.jpg") center 0 no-repeat;
+    background: url("../assets/images/zjpk-activity/zjpk-web-bg5-1.jpg") center 0 no-repeat;
     height: 360px;
 }
 .box-con {
