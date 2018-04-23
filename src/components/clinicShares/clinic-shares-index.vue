@@ -42,7 +42,7 @@ html {
 }
 
 .clinic-shares-wrap {
-    /*min-width: 1217px;*/
+    min-width: 1217px;
     height: 100%;
     background-color: $bgConColor;
     min-height: 100%;
