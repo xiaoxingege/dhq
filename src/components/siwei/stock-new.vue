@@ -20,7 +20,7 @@
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
-          <span>{{item.symbol | isNull}}</span>
+          <span>{{item.symbol.substring(0,6) | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
@@ -114,7 +114,7 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连涨数',
+          name: '开板前连板数',
           type: 'lznum',
           showImg: false,
           showBImg: false

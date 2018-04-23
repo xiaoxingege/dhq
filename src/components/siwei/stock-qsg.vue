@@ -233,7 +233,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
@@ -274,7 +276,9 @@ export default {
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 6,
+            interval: (Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1)) / 6
 
           },
           series: [{
@@ -497,7 +501,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
@@ -515,7 +521,9 @@ export default {
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 6,
+            interval: (Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1)) / 6
 
           },
           series: [{
