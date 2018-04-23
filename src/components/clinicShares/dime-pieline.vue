@@ -423,7 +423,7 @@ export default ({
           right: 0,
           top: '19%',
           height: '70%',
-          width: '95%',
+          // width: '95%',
           show: false
         }
       };
