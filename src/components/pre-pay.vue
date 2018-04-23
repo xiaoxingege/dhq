@@ -50,6 +50,11 @@ export default {
           const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
           const idUrl = `http://i.jrj.com.cn/home/${platform}/nameIdentity?ReturnURL=` + encodeURIComponent(cpUrl)
           location.replace(idUrl)
+        } else if (!this.bindingMobile && this.bindingIdentity) {
+          //有实名认证，但没绑定手机
+          const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
+          const phoneUrl = `http://i.jrj.com.cn/home/${platform}/phoneIdentity?ReturnURL=` + encodeURIComponent(cpUrl)
+          location.replace(phoneUrl)
         } else if (this.bindingMobile && this.bindingIdentity) {
           if (!this.riskAssessed) {
             if (skipRiskAssessed && window.jrj) {
