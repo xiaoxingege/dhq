@@ -730,12 +730,12 @@ export default ({
           left: 0,
           top: '10%',
           show: true,
-          borderColor: '#2A2E36', */
-          containLabel: true,
+          borderColor: '#2A2E36',
+          containLabel: true */
           left: 45,
           right: 10,
           top: '19%',
-          width: '100%',
+          //  width: '100%',
           height: '70%',
           show: false
         }
