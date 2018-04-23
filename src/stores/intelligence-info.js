@@ -385,7 +385,7 @@ export default {
     },
     // 获取股票池列表
     getStockPool({ commit, state, rootState }) {
-      const userId = rootState.user.userId || ''
+      const userId = rootState.user.userId
       if (!userId) {
         commit('setStockPool', [])
         return
