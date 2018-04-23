@@ -133,7 +133,6 @@ export default {
       }
       const stocks = {}
       state.temporary = list.rows
-      console.log(state.isTops)
       if(state.isTops === true){
         state.listedCompany = state.temporary.concat(state.listedCompany)
       }else{
@@ -150,8 +149,8 @@ export default {
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? parseFloat(stock.price).toFixed(2) : config.emptyValue
-      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
     },
     setMask(state, visible) {
       state.loadingShow = visible
@@ -199,7 +198,6 @@ export default {
   actions: {
     // 获取智头条数据
     getWisdomHeadlinesList({ commit }, { page, isTop, newTime }) {
-      console.log(isTop)
       commit('setMask', true)
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
