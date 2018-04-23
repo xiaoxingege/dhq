@@ -124,8 +124,8 @@ export default {
         },
         {
           text: '更多',
-          path: '',
-          name: ''
+          path: ctx + '/siwei',
+          name: 'bubbles'
         }
       ],
       routeName: this.$route.name

@@ -48,7 +48,7 @@ export default {
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -68,7 +68,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -88,7 +88,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -108,7 +108,7 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
@@ -128,12 +128,11 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
-      if(list.rows.length === 0){
+      if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       const stocks = {}
       state.temporary = list.rows
-      console.log(state.isTops)
       if(state.isTops === true){
         state.listedCompany = state.temporary.concat(state.listedCompany)
       }else{
@@ -150,8 +149,8 @@ export default {
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? parseFloat(stock.price).toFixed(2) : config.emptyValue
-      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
+      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
     },
     setMask(state, visible) {
       state.loadingShow = visible
@@ -199,7 +198,6 @@ export default {
   actions: {
     // 获取智头条数据
     getWisdomHeadlinesList({ commit }, { page, isTop, newTime }) {
-      console.log(isTop)
       commit('setMask', true)
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -390,7 +388,7 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=304f525a-9af2-4a60-b15e-00fc552917bb`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

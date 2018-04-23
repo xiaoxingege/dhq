@@ -43,8 +43,10 @@
 }
 
 .template select {
-    color: #1984ea;
-    background-color: #23272C;
+    width: 67% !important;
+    color: #1984ea !important;
+    padding-left: 2px !important;
+    font-size: 12px !important;
 }
 
 .template select option {
@@ -67,10 +69,13 @@
 .legend ul li {
     float: left;
     width: 60px;
-    height: 20px;
-    line-height: 20px;
+    height: 21px;
+    line-height: 21px;
     text-align: center;
     font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 
 .masks {
@@ -186,7 +191,7 @@ button {
 }
 
 .bubbles-select p {
-    line-height: 34px;
+    line-height: 30px;
 }
 
 .bubbles-select select,
@@ -217,7 +222,7 @@ input {
 
 .changeXY {
     position: absolute;
-    top: 48px;
+    top: 72px;
     right: -21px;
     cursor: pointer;
 }
@@ -250,19 +255,55 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.indexNav {
+    list-style: none;
+    padding: 3px 0;
+
+    li {
+        float: left;
+        background: #23282E;
+        border: 1px solid #525A66;
+        box-sizing: border-box;
+        width: 70px;
+        height: 23px;
+        line-height: 23px;
+        margin-right: 3px;
+        cursor: pointer;
+
+        a {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            color: #c9d0d7;
+            text-align: center;
+            text-decoration: none;
+        }
+
+    }
+    li.active {
+        background: #0084F2;
+        border: 1px solid #0084F2;
+
+        a {
+            background: #0084F2;
+        }
+
+    }
+}
 @media only screen and (min-height: 800px) and (max-height: 1024px) {
     .bubbles-select p {
-        line-height: 45px;
+        line-height: 30px;
     }
 
     .changeXY {
         position: absolute;
-        top: 65px;
+        top: 72px;
         right: -21px;
     }
 
     .bubbles-select {
-        padding-left: 15px;
+        padding-left: 10px;
     }
 
     .bubbles-select > div {
@@ -279,35 +320,43 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /*@media only screen and (min-height: 800px) and (max-height: 1000px) {
-  .bubbles-bar select {
-    width:100px;
-  }
-}*/
+    .bubbles-bar select {
+      width:100px;
+    }
+  }*/
 </style>
 <template>
 <div class="siwei">
   <div class="bubbles-bar clearfix">
-    <div class="template fl mr-15">
-      常用推荐：
-      <select @change="changeTmp($event)" v-model="tmpId">
-          <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
-          </option>
-        </select>
-    </div>
-    <div class="fl mr-15">
-      筛股策略：
-      <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
-          <option value="">请选择</option>
-          <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
-        </select>
-    </div>
-    <div class="fl mr-15">
-      股票池：
-      <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
-          <option value="">请选择</option>
-          <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
-        </select>
-    </div>
+    <ul class="fl indexNav clearfix mr-30">
+      <li>
+        <router-link :to="{name: 'dingpan'}">盯盘</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'ztg'}">涨停股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'zbg'}">炸板股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'qsg'}">强势股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'dtg'}">跌停股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'new'}">新股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'cxg'}">次新股</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'zrzt'}">昨日涨停</router-link>
+      </li>
+      <li class="active">
+        <router-link :to="{}">更多</router-link>
+      </li>
+    </ul>
     <div class="fl mr-15 xAxisRange" v-if="dimensionOptions.xDefault !== 'sw_indu_name' && dimensionOptions.xDefault !== 'chi_spel' && dimensionOptions.xDefault !== 'order' && dimensionOptions.xDefault !== 'fcst_idx.rating_syn'">
       X轴范围：
       <input type="number" @blur="setZoomRange($event,1)" :value="xZoomDefault[0] | decimal(2)" /> —
@@ -325,7 +374,14 @@ input[type=number]::-webkit-outer-spin-button {
   </div>
   <div class="bubbles display-box">
     <div class="bubbles-select ">
-      <div class="mb-15 pb-30" style="position: relative; border-bottom: 1px solid #2B2D34;">
+      <div class="pb-20 mb-5" style="position: relative; border-bottom: 1px solid #2B2D34;">
+        <div class="template mt-10">
+          <p style="display: inline-block">常用推荐:</p>
+          <select @change="changeTmp($event)" v-model="tmpId">
+            <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
+            </option>
+          </select>
+        </div>
         <div class="scatterX">
           <p>X轴</p>
           <div>
@@ -367,6 +423,26 @@ input[type=number]::-webkit-outer-spin-button {
         <img class="changeXY" @click="changeXY" src="../assets/images/scatterChangeXY.png">
       </div>
       <div class="range">
+        <!--筛股策略-->
+        <div>
+          <p>筛股策略</p>
+          <div>
+            <select v-model="stockRangeOptions.strategyDefault" @change="changeStrategy">
+              <option value="">请选择</option>
+              <option v-for="item in userStrategy" :value="item.id">{{item.strategyName}}</option>
+            </select>
+          </div>
+        </div>
+        <!--股票池-->
+        <div>
+          <p>股票池</p>
+          <div>
+            <select v-model="stockRangeOptions.stockPoolDefault" @change="changePool">
+              <option value="">请选择</option>
+              <option v-for="item in stockPool" :value="item.poolId">{{item.poolName}}</option>
+            </select>
+          </div>
+        </div>
         <!--指数-->
         <div>
           <p>指数</p>
@@ -426,7 +502,9 @@ input[type=number]::-webkit-outer-spin-button {
       温馨提示：{{templateList[tmpId].explain}}</p>
     <div class="fr" style="margin-top: 5px;">
       <ul v-if="options.colorDefault==='sw_indu_name'" class="clearfix" style="width:840px;">
-        <li v-for="(item,index) in industryArr" :style="{'background':industryColor[index % 7]}">{{item}}</li>
+        <div v-for="(item,index) in newIndustryArr">
+          <li v-for="v in item.industry" :style="{'background':item.color}">{{v}}</li>
+        </div>
       </ul>
       <ul v-if="options.colorDefault==='mkt_idx.tcap' || options.colorDefault==='mkt_idx.mktcap'" class="clearfix">
         <li v-for="(item,index) in marketArr" :style="{'background':volumeColor[index]}">{{item}}亿</li>
@@ -685,14 +763,14 @@ export default {
       xZoomRange: [],
       yZoomRange: [],
       xZoomDefault: '',
-      yZoomDefault: ''
+      yZoomDefault: '',
+      newIndustryArr: Data.newIndustryArr
     }
   },
   components: {
     ThemeSortAz,
     Bubbles,
     Dialog
-
   },
   methods: {
     showOptionValue() {
@@ -717,7 +795,11 @@ export default {
       this.stockRangeOptions.topic = this.options.topic
       this.topicName = this.stockRangeOptions.topicNameDefalut !== '全部' ? this.stockRangeOptions.topicNameDefalut : '全部'
     },
-    showSelectData() {
+    showSelectData(v) {
+      if (v !== 'yes') {
+        this.stockRangeOptions.stockPoolDefault = ''
+        this.stockRangeOptions.strategyDefault = ''
+      }
       this.stockRangeOptions.topicNameDefalut = this.topicName
       this.options = {
         ...this.dimensionOptions,
@@ -827,12 +909,22 @@ export default {
       }
     },
     changeStrategy() {
+      this.stockRangeOptions.indexRangeDefault = ''
+      this.stockRangeOptions.industryRangeDefault = ''
+      this.stockRangeOptions.marketValueDefault = 'gpltsz_all'
+      this.stockRangeOptions.historyValueRangeDefault = 'lscjl_all'
       this.stockRangeOptions.stockPoolDefault = ''
-      this.showSelectData()
+      this.clearTheme()
+      this.showSelectData('yes')
     },
     changePool() {
       this.stockRangeOptions.strategyDefault = ''
-      this.showSelectData()
+      this.stockRangeOptions.indexRangeDefault = ''
+      this.stockRangeOptions.industryRangeDefault = ''
+      this.stockRangeOptions.marketValueDefault = 'gpltsz_all'
+      this.stockRangeOptions.historyValueRangeDefault = 'lscjl_all'
+      this.clearTheme()
+      this.showSelectData('yes')
     },
     showXYRange(data) {
       this.xZoomDefault = [].concat(data[0])
@@ -985,3 +1077,4 @@ export default {
   }
 }
 </script>
+

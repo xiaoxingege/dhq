@@ -128,6 +128,12 @@ export default {
     newStockList: state => state.bubbles.newStockList
   }),
   methods: {
+    dealNumFormat(v) {
+      if (v === null || v === undefined) {
+        return '--'
+      }
+      return (Number(v) * 100).toFixed(2) + '%'
+    },
     setDialog(data) {
       if (data) {
         this.isOverDialog = data
@@ -606,8 +612,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + (Number(czgLineData.condition[params[0].dataIndex]) * 100).toFixed(2) + '%' + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + (Number(czgLineData.szIndex[params[0].dataIndex]) * 100).toFixed(2) + '%' + '</p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + that.sdealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</p>'
 
               return tooltipStr;
             },
@@ -861,6 +867,7 @@ export default {
       this.$store.dispatch('bubbles/getCxLine', {
         type: 0
       }).then(() => {
+        const that = this
         let czgLineData = this.$store.state.bubbles.cxLineData
         this.lineChart && this.lineChart.setOption({
           series: [{
@@ -906,8 +913,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + (Number(czgLineData.condition[params[0].dataIndex]) * 100).toFixed(2) + '%' + '</p>' +
-                '<p style="color:#f0b540">上证指数 : <span>' + (Number(czgLineData.szIndex[params[0].dataIndex]) * 100).toFixed(2) + '%' + '</span></p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</span></p>'
 
               return tooltipStr;
             },

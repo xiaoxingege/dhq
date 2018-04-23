@@ -105,6 +105,18 @@ export default {
     ztgList: state => state.bubbles.ztgBubblesLine
   }),
   methods: {
+    setDialog(data) {
+      if (data) {
+        this.isOverDialog = data
+        this.zIndex = 999999
+      } else {
+        // alert('i dont konw')
+        this.isOverBubbles = data
+        this.isOverDialog = data
+        this.zIndex = ''
+      }
+
+    },
     initBubbles() {
       this.chart = echarts.init(this.$refs.qsgBubbles)
       this.chart.showLoading(config.loadingConfig);

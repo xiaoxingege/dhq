@@ -132,7 +132,10 @@ export default {
   }),
   methods: {
     dealNumFormat(v) {
-      return v === null ? '--' : (Number(v) * 100).toFixed(2) + '%'
+      if (v === null || v === undefined) {
+        return '--'
+      }
+      return (Number(v) * 100).toFixed(2) + '%'
     },
     setDialog(data) {
       if (data) {
