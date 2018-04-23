@@ -2,7 +2,10 @@
 import fetchJsonp from 'fetch-jsonp'
 import {
   domain
-} from '../z3tougu/config'
+} from '../dhq/config'
+import {
+  protocol
+} from '../dhq/config'
 import fetch from '../z3tougu/util/z3fetch'
 const chartLineObj = {
   priceArr: [],
@@ -429,7 +432,7 @@ export default {
     getMarketTemData({
       commit
     }) {
-      const url = 'https://itougu.jrj.com.cn/smartstock/api/market/queryPerformance.jspa'
+      const url = `${protocol}://itougu.jrj.com.cn/smartstock/api/market/queryPerformance.jspa`
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {
@@ -444,7 +447,7 @@ export default {
     getMarginBalance({
       commit
     }) {
-      const url = 'http://itougu.jrj.com.cn/smartstock/api/fund/queryMarginBalance.jspa'
+      const url = `${protocol}://itougu.jrj.com.cn/smartstock/api/fund/queryMarginBalance.jspa`
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {
@@ -461,7 +464,7 @@ export default {
     }, {
       type
     }) {
-      const url = `http://itougu.jrj.com.cn/smartstock/api/fund/queryToNorth.jspa?type=${type}`
+      const url = `${protocol}://itougu.jrj.com.cn/smartstock/api/fund/queryToNorth.jspa?type=${type}`
       return fetch(url).then((res) => {
         return res.json()
       }).then((body) => {
@@ -476,7 +479,7 @@ export default {
     }, {
       type
     }) {
-      const url = `http://itougu.jrj.com.cn/smartstock/api/fund/queryToSouth.jspa?type=${type}`
+      const url = `${protocol}://itougu.jrj.com.cn/smartstock/api/fund/queryToSouth.jspa?type=${type}`
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {

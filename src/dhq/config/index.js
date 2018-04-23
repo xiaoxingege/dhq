@@ -17,9 +17,11 @@ const websocketDomain = '//test.z3quant.com' // websocket
 // const domain = '//www.z3quant.com' // openapi
 // const websocketDomain = '//www.z3quant.com' // websocket
 const ctx = '/dhqweb'
+const protocol = 'https'
 // const ctx = '';
 export {
   domain,
   websocketDomain,
-  ctx
+  ctx,
+  protocol
 }
