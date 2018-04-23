@@ -275,7 +275,7 @@ export default {
       legendNameTech: '热度指数',
       legendNameIndu: '评分',
       legendShow: false,
-      curPage: 'capital', //'capital'|'base'|'techs'|'newsinfo'|'industry'
+      curPage: 'capital', // 'capital'|'base'|'techs'|'newsinfo'|'industry'
       code: ''
     }
   },
