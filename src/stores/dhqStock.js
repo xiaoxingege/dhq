@@ -78,17 +78,22 @@ const actions = {
   }, {
     stockCode
   }) {
+    /*  for(var key in rootState.user){
+        alert(key+','+rootState.user[key])
+      } */
     const userId = rootState.user.userId || '';
     // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     if (!userId) {
       return;
     }
     stockCode = stockCode && stockCode.substring(0, 6);
-    const url = `${domain}/openapi/filter/stock/findStock.shtml?symbol=${stockCode}&userId=${userId}`
+    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${stockCode}&userId=${userId}`
     return fetch(url, {
       mode: 'cors',
       headers: {
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
@@ -109,6 +114,7 @@ const actions = {
     stockCode
   }) {
     const userId = rootState.user.userId || '';
+    // const userId = '171003010002481622'
     // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     stockCode = stockCode && stockCode.substring(0, 6);
     if (!userId) {
@@ -118,17 +124,17 @@ const actions = {
     return fetch(
       url, {
         mode: 'cors',
-        headers: new Headers({
+        headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'clientid': 'z3client_dhq',
-          'deviceid': 'test_device_id',
-          'userId': '180418010039598000',
-          'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsD6onkp1eCyuue5qKPVwcCs0WrzYtv2otu',
-          'passportId': '180418010039598000'
-        }),
+          'Content-Type': 'application/x-www-form-urlencoded'
+          /*  'clientid': 'z3client_dhq',
+           'deviceid': 'test_device_id',
+           'userId': '171003010002481622',
+           'accessToken': 'JyX/ixccgzj1D1iZCBpv+htvr+MMihHcnVOjvtAvbUL97NIHFgtJTKtzfwl44i32',
+           'passportId': '171003010002481622' */
+        },
         method: 'post',
-        body: `symbol=${stockCode}&userId=180418010039598000`
+        body: `stocks=${stockCode}&userId=${userId}`
       }
     ).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
@@ -155,17 +161,17 @@ const actions = {
     const url = `${domain}/openapi/selectStock/del.shtml`
     return fetch(url, {
       mode: 'cors',
-      headers: new Headers({
+      headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'clientid': 'z3client_dhq',
-        'deviceid': 'test_device_id',
-        'userId': '180418010039598000',
-        'accessToken': '/HSqGc0oYtIDUqcyXceDJrsf+EbOkvsDXErI5Df82R3uIRZ2fzHkWgR/7b7kJoIK',
-        'passportId': '180418010039598000'
-      }),
+        'Content-Type': 'application/x-www-form-urlencoded'
+        /*  'clientid': 'z3client_dhq',
+          'deviceid': 'test_device_id',
+          'userId': '171003010002481622',
+          'accessToken': 'JyX/ixccgzj1D1iZCBpv+htvr+MMihHcwT585kqpHCkgmTrULvQo4yf4DFL3eR4b',
+          'passportId': '171003010002481622' */
+      },
       method: 'post',
-      body: `symbol=${stockCode}&userId=${userId}`
+      body: `stocks=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);

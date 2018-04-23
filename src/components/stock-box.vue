@@ -1,7 +1,11 @@
 <template>
 <div class="stock-box" :style="position" @mouseenter="enterbox" @mouseleave="leavebox" v-show="isOpen">
-  <div class="stock-box-header"><span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span><span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span><span class="right btn_remove" @click.prevent="removeStock" v-if="isSelfSelection">- 自选</span>
-    <span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span><span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
+  <div class="stock-box-header">
+    <span class="left">{{stock.stockName}}[{{stock.stockCode.substring(0,6)}}]</span>
+    <span class="right btn_add" @click="addStock" v-if="!isSelfSelection">+ 自选</span>
+    <span class="right btn_remove" @click.prevent="removeStock" v-if="isSelfSelection">- 自选</span>
+    <span class="right" v-z3-updowncolor="stock.chgPx">({{updownMark + stock.chgPctPx}})</span>
+    <span class="right" v-z3-updowncolor="stock.chgPx">{{updownMark + stock.chgPx}}</span>
     <span class="right" v-z3-updowncolor="stock.chgPx">{{stock.lastPx}}</span>
   </div>
   <div>
@@ -80,7 +84,6 @@ export default {
           stockCode: this.curStockCode
         })
       }
-
     },
     removeStock() {
       if (this.curStockCode) {

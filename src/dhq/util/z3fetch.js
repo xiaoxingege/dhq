@@ -3,13 +3,12 @@ import store from '../store'
 const originFetch = fetch
 export default function(url, options) {
   const authInfo = store.state.auth
-  if (!authInfo.authorization) {
-    return originFetch(url, options)
-  }
-  const expires = authInfo.expires
+  /*  if (!authInfo.authorization) {
+      return originFetch(url, options)
+    } */
+  const expires = parseInt(authInfo.expires)
   const updateTime = authInfo.updateTime
   const now = new Date().getTime()
-
   if (expires !== -1 && now - updateTime < expires * 1000) {
     options = insertAuthHeader(options)
     return originFetch(url, options)
@@ -32,15 +31,9 @@ function insertAuthHeader(options) {
     headers = { ...options.headers
     }
   }
-  if (headers.clientid && authHeader.clientid !== headers.clientid) {
-    authHeader.clientid = headers.clientid
-  }
-  if (headers.accessToken && authHeader.authorization !== headers.accessToken) {
-    authHeader.authorization = headers.accessToken
-  }
   headers = { ...headers,
     ...authHeader
   }
-  options.headers = new Headers(headers)
+  options.headers = headers
   return options
 }

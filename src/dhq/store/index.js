@@ -56,12 +56,13 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.auth.authorization) {
+    if (state.auth.accessToken) {
       return {
-        authorization: state.auth.authorization,
         clientid: state.auth.clientid,
         deviceid: state.auth.deviceid,
-        userId: state.user.userId
+        userId: state.user.userId,
+        passportId: state.auth.passportId,
+        accessToken: state.auth.accessToken
       }
     }
     return {}
@@ -76,33 +77,22 @@ const actions = {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
+          /* for(var key in authInfo){
+               alert(key+','+authInfo[key])
+           } */
+          authInfo.passportId = authInfo.userId
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
           resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
-        /* const loginInfo = {
-            loginID:'17600699368',
-            passwd:'43a8ab956449007a2b04f76d0493bb62',
-            passwd1:'43A8AB956449007A2B04F76D0493BB62',
-            bizSource:'ZNTF_ZS_PC'
-        }
-        const url = '/sso/appLoginReturnAccessToken.jsp?loginID='+loginInfo.loginID+'&passwd='+loginInfo.passwd+'&passwd1='+loginInfo.passwd1+'&bizSource'+loginInfo.bizSource
-        fetch(url).then(res => res.json()).then((result) => {
-            debugger
-            if (result.resultCode === 0) {
-               const accessTokenInfo = result
-            }
-        }) */
         const authInfo = {
-          authorization: 'Bearer test_z3quant_accesss_token', // test access_token
-          clientid: 'test_client_id',
+          // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+          clientid: 'z3client_dhq',
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userid: 'userId' // test userid
-          //   accessToken:accessTokenInfo.accessToken,
-          //  passportId:accessTokenInfo.passportId
+          userId: '171003010002481622' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
@@ -123,10 +113,12 @@ const mutations = {
       clientid: authInfo.clientid,
       deviceid: authInfo.deviceid,
       expires: authInfo.expires,
+      passportId: authInfo.passportId,
+      accessToken: authInfo.accessToken,
       updateTime: new Date().getTime()
     }
     state.user = {
-      userId: authInfo.userid
+      userId: authInfo.userId
     }
   }
 }
