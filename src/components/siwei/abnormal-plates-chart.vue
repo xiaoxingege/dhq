@@ -59,9 +59,6 @@ export default {
         max: -2 * interval,
         interval: interval
       }
-    },
-    mark: function() {
-
     }
   },
   methods: {
@@ -239,21 +236,23 @@ export default {
       });
     },
     updatePlates() {
-      // this.this.$store.dispatch('marketBubble/updateAbnormalPlates').then();
-      this.addMarkData();
-      setTimeout(() => {
-        this.chart.setOption({
-          series: [{
-            markPoint: {
-              data: this.markPointData
-            },
-            markLine: {
-              data: this.markLineData
-            }
-          }]
-        })
-      }, 0)
-
+      this.$store.dispatch('marketBubble/updateAbnormalPlates', {
+        startTime: ''
+      }).then(() => {
+        this.addMarkData();
+        setTimeout(() => {
+          this.chart.setOption({
+            series: [{
+              markPoint: {
+                data: this.markPointData
+              },
+              markLine: {
+                data: this.markLineData
+              }
+            }]
+          })
+        }, 0)
+      });
     },
     updateIndex() {
       this.$store.dispatch('marketBubble/updateIndexData').then(() => {
@@ -293,6 +292,7 @@ export default {
     })
     pcId = setInterval(() => {
       this.updateIndex();
+      this.updatePlates();
     }, 60 * 1000);
     window.addEventListener('resize', () => {
       const chartWrapper = this.$refs.chart;

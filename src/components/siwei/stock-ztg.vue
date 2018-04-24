@@ -231,12 +231,12 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln量比'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -247,7 +247,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
@@ -273,7 +275,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData).toFixed(0),
+            max: Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -288,7 +290,9 @@ export default {
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1)) / 5
 
           },
           series: [{
@@ -556,7 +560,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -616,7 +620,7 @@ export default {
             formatter: function(params) {
               var tooltipStr =
                 '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
                 '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
                 '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
 
@@ -718,11 +722,11 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln量比'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -733,7 +737,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
@@ -759,7 +765,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData).toFixed(2),
+            max: Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData).toFixed(2) * 0.1),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -773,7 +779,9 @@ export default {
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1)) / 5
 
           },
           series: [{
@@ -899,7 +907,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -959,7 +967,7 @@ export default {
             formatter: function(params) {
               var tooltipStr =
                 '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
                 '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
                 '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
 

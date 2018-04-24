@@ -302,6 +302,9 @@ export default {
       }
     });
     Vue.filter('price', function(value) {
+      if (value === null || value === '') {
+        return config.emptyValue;
+      }
       let val = Number(value);
       if (isNaN(val)) {
         return config.emptyValue
