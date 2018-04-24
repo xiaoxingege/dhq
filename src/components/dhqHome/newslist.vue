@@ -71,7 +71,7 @@ p {
       <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject" :styleLiObj="styleLiObj"></NavBar>
     </div>
     <ul class="news-list-con" :style="{height:wrapHeight-2-25+'px'}">
-      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
+      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="item.iiid === newsId?'news-active':''">
         <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
         <span class="fr">{{item.makedate.substring(11)}}</span>
       </li>
@@ -115,10 +115,6 @@ export default {
   watch: {
     type() {
       this.changeNews()
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[0].style.backgroundColor = '#2e4465'
     }
   },
   components: {
@@ -214,10 +210,6 @@ export default {
     },
     focusLi: function(id, index) {
       this.newsId = id
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
     }
   },
   mounted() {
