@@ -227,9 +227,13 @@ export default {
       }
     },
     setBubblesLine(state, result) {
-      if (result.errCode === 0) {
-        state.ztgBubblesLine = result.data.reverse()
-        state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+      if (result.body.errCode === 0) {
+        if (result.type === 3) {
+          state.ztgBubblesLine = result.body.data
+        } else {
+          state.ztgBubblesLine = result.body.data.reverse()
+          state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+        }
       } else {
         state.ztgBubblesLine = null
       }
@@ -504,7 +508,10 @@ export default {
         return res.json()
       }).then(body => {
         if (currentTime === '') {
-          commit('setBubblesLine', body)
+          commit('setBubblesLine', {
+            body,
+            type
+          })
         } else {
           commit('updateBubblesLine', body)
         }

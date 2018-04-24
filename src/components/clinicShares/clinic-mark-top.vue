@@ -367,7 +367,7 @@ body {
       </div>
 
       <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">消息面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'techs')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
         <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span>
 
       </div>
@@ -404,7 +404,7 @@ body {
       </div>
 
       <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">消息面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
         <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span>
 
       </div>
@@ -486,8 +486,8 @@ export default {
       document.documentElement.scrollTop = anchor.offsetTop
     },
     fundShow(e, type) {
-      console.log(type)
-      this.$emit("changeShowValue", type)
+      // console.log(type)
+      this.$emit('changeShowValue', type)
     },
     drawCharts(radarAllData) {
       this.chart.setOption({

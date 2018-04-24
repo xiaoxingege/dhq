@@ -20,7 +20,7 @@
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
-          <span>{{item.symbol | isNull}}</span>
+          <span>{{item.symbol.substring(0,6) | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
@@ -114,7 +114,7 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连涨数',
+          name: '开板前连板数',
           type: 'lznum',
           showImg: false,
           showBImg: false
@@ -249,7 +249,7 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
@@ -291,7 +291,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -514,7 +514,7 @@ export default {
         this.chart && this.chart.setOption({
           animation: false,
           xAxis: {
-            max: Math.max.apply(null, xData),
+            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
@@ -533,7 +533,7 @@ export default {
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'

@@ -144,7 +144,7 @@ body {
 
 }
 .chart-kline {
-    width: 49%;
+    width: 49.5%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
     float: left;
@@ -156,13 +156,13 @@ body {
     float: left;
 }
 .chart-grop {
-    width: 49%;
+    width: 49.5%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
     float: left;
 }
 .chart2-kline {
-    width: 49%;
+    width: 49.5%;
     background: $bgConColor;
     margin: 0 5px 6px 0;
     float: left;
@@ -177,7 +177,7 @@ body {
     display: inline-block;
 }
 .tech-charts1 {
-    width: 49%;
+    width: 49.5%;
     display: inline-block;
     background: $bgConColor;
     margin: 0 5px 6px 0;
@@ -220,12 +220,12 @@ body {
       <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='code' />
     </div>
   </div>
-  <div class="charts-base display-box" v-if="curPage === 'tech'">
+  <div class="charts-base display-box" v-if="curPage === 'techs'">
     <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
       <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='innerCode' />
     </div>
   </div>
-  <div class="dime-charts" v-if="curPage === 'capital'">
+  <div class="dime-charts" v-if="curPage === 'industry'">
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
         <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
@@ -242,7 +242,7 @@ body {
 
   </div>
   <div class="" v-if="curPage === 'newsinfo'">
-    <newsInfo :innerCode='innerCode'></newsInfo>
+    <newsInfo :innerCode='code' :newsInfo='newsInfo'></newsInfo>
   </div>
 </div>
 </template>
@@ -264,7 +264,7 @@ import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
 import newsInfo from 'components/clinicShares/news-info'
 
 export default {
-  props: ['innerCode'],
+  props: ['innerCode', 'isShow'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
@@ -283,7 +283,8 @@ export default {
     indexFaceData: state => state.clinicShares.indexFace,
     baseFaceData: state => state.clinicShares.baseFace,
     techFaceData: state => state.clinicShares.techFace,
-    industryFaceData: state => state.clinicShares.industryFace
+    industryFaceData: state => state.clinicShares.industryFace,
+    newsInfo: state => state.clinicShares.newsInfo
   }),
   components: {
     DimeKline,
@@ -323,17 +324,24 @@ export default {
         innerCode: this.code
       })
     },
+    initNewsInfo() {
+      this.$store.dispatch('clinicShares/queryNewsInfo', {
+        innerCode: this.code
+      })
+    },
     initLegendName() {
       this.legendName.forEach((item) => {
         this.legends = item
         // console.log(this.legends)
       })
     },
+
     faceCheck(type) {
-      this.curPage = type
+
       this.typeOfJudgment(type)
     },
     typeOfJudgment(type) {
+      this.curPage = type
       if (type === 'capital') {
         this.initCapitalFace()
       } else if (type === 'base') {
@@ -342,12 +350,18 @@ export default {
         this.initTechFace()
       } else if (type === 'industry') {
         this.initIndustryFace()
+      } else if (type === 'newsinfo') {
+        this.initNewsInfo()
       }
     }
   },
   watch: {
     innerCode: function() {
       this.code = this.innerCode
+    },
+    isShow() {
+      console.log(this.isShow)
+      this.typeOfJudgment(this.isShow)
     }
   },
   mounted() {

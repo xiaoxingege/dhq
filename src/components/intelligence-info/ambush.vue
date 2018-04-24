@@ -11,7 +11,8 @@
         <span class="col time">{{item.occrDate}}</span>
       </div>
       <div class="news">
-        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}" target="_blank">{{item.newsTitle}}</router-link>
+        <!--router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}" target="_blank">{{item.newsTitle}}</router-link-->
+        <span>{{item.newsTitle}}</span>
       </div>
     </li>
   </ul>
@@ -82,15 +83,19 @@ export default {
         }
         .col {
             float: left;
-            width: 35%;
+            width: 38%;
             overflow: hidden;
         }
         .chg {
-            width: 30%;
+            width: 28%;
             text-align: center;
         }
         .name {
             cursor: pointer;
+        }
+        .time {
+            width: 34%;
+            text-align: right;
         }
         .name:before {
             width: 8px;

@@ -83,9 +83,11 @@
             </div>
         </li>
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
-          <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
-            <span class="name">{{item.indu.name | isNull}}</span>
-            <p>{{item.indu.chngPct | isNull}}%</p>
+          <div class="leftTime" >
+            <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
+              <span class="name">{{item.indu.name | isNull}}</span>
+              <p>{{item.indu.chngPct | isNull}}%</p>
+            </div>
           </div>
           <div class="news-list-item box-flex-1">
             <div>

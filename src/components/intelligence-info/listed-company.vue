@@ -52,7 +52,7 @@
     data() {
       return {
         page: 0,
-        totalPage: 200,
+        totalPage: 300,
         updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,

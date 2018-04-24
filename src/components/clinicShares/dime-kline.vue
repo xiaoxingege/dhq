@@ -439,14 +439,42 @@ export default ({
             type: 'cross'
           },
           formatter: function(t) {
-            // console.log(t)
-            var time = t[0].name
-            var openPx = t[0].value[1]
-            var closePx = t[0].value[2]
-            var highPx = t[0].value[3]
-            var lowPx = t[0].value[4]
-            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
-              '<br/>最低价：' + (lowPx || '--') + '<br/>'
+            var obj = t[0];
+            var time = obj.name; // 时间
+            var axisid = obj.axisIndex
+            var objarr;
+            var openPx;
+            var closePx;
+            var highPx;
+            var lowPx;
+            var volume;
+            if (axisid === 1) {
+              // console.log(t[0])
+              objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
+              if (objarr[0] >= 0) {
+                openPx = objarr[0];
+                closePx = objarr[1];
+                highPx = objarr[2];
+                lowPx = objarr[3];
+                volume = t[0].value;
+
+                return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+                  '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
+              }
+            } else if (axisid === 0) {
+              objarr = obj.value; // 开盘 收盘  最高 最低  成交量
+              if (objarr[0] >= 0) {
+                openPx = objarr[0];
+                closePx = objarr[1];
+                highPx = objarr[2];
+                lowPx = objarr[3];
+                volume = t[1].value;
+
+                return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+                  '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
+              }
+            }
+
           }
         },
         animation: false,
@@ -665,42 +693,6 @@ export default ({
               } */
             }
           },
-          {
-            name: 'MA20',
-            type: 'line',
-            data: lineData.ma20,
-            showSymbol: false,
-            lineStyle: {
-              normal: {
-                color: '#e75443',
-                opacity: 0.5
-              }
-            }
-          },
-          {
-            name: 'MA60',
-            type: 'line',
-            data: lineData.ma60,
-            showSymbol: false,
-            lineStyle: {
-              normal: {
-                color: '#6999d1',
-                opacity: 0.5
-              }
-            }
-          },
-          {
-            name: 'MA120',
-            type: 'line',
-            data: lineData.ma120,
-            showSymbol: false,
-            lineStyle: {
-              normal: {
-                color: '#f6bc4d',
-                opacity: 0.5
-              }
-            }
-          },
 
           {
             name: '成交量',
@@ -749,9 +741,10 @@ export default ({
       this.init()
     }
   },
-
   mounted() {
+
     this.init()
+
   }
 
 })
