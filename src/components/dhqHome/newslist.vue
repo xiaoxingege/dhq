@@ -4,6 +4,7 @@
 * {
     box-sizing: border-box;
     font-size: $fontSizeBase;
+    font-family: "Microsoft YaHei";
 }
 /*html,body,.app{height:100%;}*/
 p {
