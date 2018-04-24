@@ -31,7 +31,8 @@ export default {
     preferredTimeData: [],
     bullStockList: [],
     positionList: [],
-    positionListFilter: []
+    positionListFilter: [],
+    moveTopBlock: []
   },
   mutations: {
     setStrategyList(state, options) {
@@ -163,6 +164,12 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.positionListFilter = result.data
+      }
+    },
+    setMoveBlock(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.moveBlock = result.data
       }
     }
   },
@@ -479,6 +486,19 @@ export default {
         return res.json()
       }).then((body) => {
         commit('setPositionListFilter', {
+          result: body
+        })
+      })
+    },
+    // 盯盘异动板块
+    getMoveBlock({
+      commit
+    }) {
+      const url = `${domain}/openapi/dimension/abnormal/line/section`
+      return fetch(url).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setMoveBlock', {
           result: body
         })
       })
