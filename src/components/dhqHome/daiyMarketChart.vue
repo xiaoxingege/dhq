@@ -26,7 +26,9 @@
     width: 100%;
     height: 100%;
 }
-
+.indexChart > div:hover {
+    cursor: pointer !important;
+}
 .indexNum {
     position: absolute;
     top: 5px;
@@ -36,7 +38,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart">
+    <a class="line-chart" :href="'stock/'+ stockCode" target="_blank">
       <div v-if="lsChartData.priceArr.length>0" class="indexNum">
         <span v-z3-updowncolor="upDown" class="mr-5">{{stockVal === null ? '--':stockVal === undefined?'--':parseFloat(stockVal).toFixed(2)}}</span>
         <img v-if="upDownExtent && upDownExtent>0" src="../../assets/images/i_jiantou_up.png" />
