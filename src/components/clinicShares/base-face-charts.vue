@@ -257,7 +257,6 @@ export default ({
         // console.log(growthRate)
         if (this.dataIndex === 0) {
           value = Number(item.value / 10000000000).toFixed(2)
-          console.log(value)
           this.unitName = this.unitTenBillion
           this.legendNames = this.legendName1
 
