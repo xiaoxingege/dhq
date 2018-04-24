@@ -429,11 +429,13 @@ export default ({
           },
           data: [{
               name: legendNames.nameInc,
-              icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+              // icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+              icon: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line2.png'
             },
             {
               name: legendNames.nameRate,
-              icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+              //      icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+              icon: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line1.png'
 
             }
           ]
