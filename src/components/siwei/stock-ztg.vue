@@ -560,7 +560,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -620,7 +620,7 @@ export default {
             formatter: function(params) {
               var tooltipStr =
                 '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
                 '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
                 '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
 
@@ -907,7 +907,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -967,7 +967,7 @@ export default {
             formatter: function(params) {
               var tooltipStr =
                 '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
                 '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
                 '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
 
