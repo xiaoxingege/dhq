@@ -52,7 +52,7 @@ export default {
   watch: {
     isResizeBottomChart() {
       this.chart.resize({
-        height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+        height: (window.innerHeight * 0.33) * 0.85 < 710 * 0.33 * 0.85 ? 710 * 0.33 * 0.85 : (window.innerHeight * 0.33) * 0.85
       })
     },
     type() {

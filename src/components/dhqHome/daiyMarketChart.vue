@@ -293,7 +293,7 @@ export default {
     },
     isResizeBottomChart() {
       echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
-        height: window.innerHeight * 0.37 < 710 * 0.37 ? 710 * 0.37 : window.innerHeight * 0.37
+        height: window.innerHeight * 0.34 < 710 * 0.34 ? 710 * 0.34 : window.innerHeight * 0.34
       })
     },
     stockCode() {

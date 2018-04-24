@@ -227,7 +227,7 @@ export default {
         const timestampResize = new Date().getTime()
         _this.$emit('isResize', timestampResize)
         _this.chart.resize({
-          height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+          height: (window.innerHeight * 0.33) * 0.75 < 710 * 0.33 * 0.75 ? 710 * 0.33 * 0.75 : (window.innerHeight * 0.33) * 0.75
         })
       }
     },
