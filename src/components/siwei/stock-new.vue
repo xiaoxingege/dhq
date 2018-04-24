@@ -21,7 +21,7 @@
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
           <span>{{item.symbol.substring(0,6) | isNull}}</span>
-          <span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.price === null?'--':Number(item.price).toFixed(2)}}</span>
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
           <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
