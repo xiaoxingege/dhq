@@ -131,12 +131,13 @@ export default {
     },
     getShowValue(type) {
       this.isType = type
-      // console.log(this.isType + '是index 的值')
+      console.log(this.isType + '是index 的值')
     }
   },
   watch: {
     isShow() {
-      // console.log(this.isType)
+      console.log(this.isType)
+
     }
   },
   mounted() {

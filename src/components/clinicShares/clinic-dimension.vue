@@ -222,21 +222,21 @@ body {
   </div>
   <div class="charts-base display-box" v-if="curPage === 'techs'">
     <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
-      <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='innerCode' />
+      <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
     </div>
   </div>
   <div class="dime-charts" v-if="curPage === 'industry'">
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
-        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
+        <IndustryStklevelBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
       </div>
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
-        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
+        <IndustryLinechart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
       </div>
     </div>
     <div class="chart-box2">
       <div class="chart-barline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===2'>
-        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
+        <IndustryvoBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
       </div>
     </div>
 
@@ -337,8 +337,9 @@ export default {
     },
 
     faceCheck(type) {
-
-      this.typeOfJudgment(type)
+      this.curPage = type
+      this.isShow = this.curPage
+      this.typeOfJudgment(this.curPage)
     },
     typeOfJudgment(type) {
       this.curPage = type
@@ -353,6 +354,7 @@ export default {
       } else if (type === 'newsinfo') {
         this.initNewsInfo()
       }
+
     }
   },
   watch: {

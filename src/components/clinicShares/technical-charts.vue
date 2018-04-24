@@ -162,7 +162,7 @@ body {
 <div class="dime-tech">
   <div>
     <div class="techline-title">
-      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'':techFace.tag}}</span><span class="assess1" :class="checkStatus(techFace.status2)">{{techFace.tag2==null?'':techFace.tag2}}</span>
+      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null || techFace.status===0?'':techFace.tag}}</span><span class="assess1" :class="checkStatus(techFace.status2)">{{techFace.tag2==null || techFace.status2===0?'':techFace.tag2}}</span>
     </div>
     <div class="techline-title2">{{techFace.describe==null?'':techFace.describe}}</div>
 
