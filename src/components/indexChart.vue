@@ -892,7 +892,7 @@ export default {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function() {
-          this.$store.dispatch('z3touguIndex/getMoveBlock')
+          _this.$store.dispatch('z3touguIndex/getMoveBlock')
         }, 60 * _this.intervalTime)
       }
     }
