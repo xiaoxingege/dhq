@@ -101,7 +101,7 @@ export default {
       if (e.toElement === null) {
         return
       }
-      this.curStockCode = "";
+      this.curStockCode = '';
       this.delayHide = false;
       this.isMouseover = false;
 

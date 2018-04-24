@@ -285,9 +285,9 @@ export default {
 
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
-          state.newStockList.sort(compare("chiSpel")).reverse()
+          state.newStockList.sort(compare('chiSpel')).reverse()
         } else {
-          state.newStockList.sort(compare("chiSpel"))
+          state.newStockList.sort(compare('chiSpel'))
         }
       } else if (result.type === 'innerCode') {
         if (result.sortType === 'desc') {
