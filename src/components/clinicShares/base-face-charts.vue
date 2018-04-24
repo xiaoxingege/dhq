@@ -213,7 +213,7 @@ export default ({
       },
       // themeColor:'transparent',
       unitName: '',
-      unitTenBillion: '净利润：百亿',
+      unitTenBillion: '营业收入：百亿',
       uniBillion: '净利润：亿',
       borderType: 'dashed',
       borderWidth: 3,
