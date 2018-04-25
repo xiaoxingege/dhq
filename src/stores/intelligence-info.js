@@ -99,7 +99,7 @@ export default {
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
-      for (let intelligence of state.optionalInformationList) {
+      for (let intelligence of state.newsFlash) {
         let equity = intelligence.equity
         if (equity  !== null ) {
           stocks[equity.code] = equity
@@ -123,6 +123,7 @@ export default {
         let equity = intelligence.equity
         if (equity  !== null ) {
           stocks[equity.code] = equity
+          // console.log(stocks[equity.code])
         }
       }
       state.relatedStocks = stocks
@@ -149,8 +150,11 @@ export default {
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
-      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
+      if(stocks[stock.innerCode] !== undefined){
+        console.log(stocks[stock.innerCode].code,stocks[stock.innerCode].price)
+        stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+        stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
+      }
     },
     setMask(state, visible) {
       state.loadingShow = visible
