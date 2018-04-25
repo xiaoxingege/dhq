@@ -449,13 +449,13 @@ export default ({
             var lowPx;
             var volume;
             if (axisid === 1) {
-              // console.log(t[0])
+              //  console.log(t[1])
               objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
               if (objarr[0] >= 0) {
-                openPx = objarr[0];
-                closePx = objarr[1];
-                highPx = objarr[2];
-                lowPx = objarr[3];
+                openPx = objarr[1];
+                closePx = objarr[2];
+                highPx = objarr[3];
+                lowPx = objarr[4];
                 volume = t[0].value;
 
                 return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
@@ -464,10 +464,10 @@ export default ({
             } else if (axisid === 0) {
               objarr = obj.value; // 开盘 收盘  最高 最低  成交量
               if (objarr[0] >= 0) {
-                openPx = objarr[0];
-                closePx = objarr[1];
-                highPx = objarr[2];
-                lowPx = objarr[3];
+                openPx = objarr[1];
+                closePx = objarr[2];
+                highPx = objarr[3];
+                lowPx = objarr[4];
                 volume = t[1].value;
 
                 return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
