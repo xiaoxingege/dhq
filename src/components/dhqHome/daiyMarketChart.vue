@@ -299,7 +299,6 @@ export default {
           return
         }
       })
-      debugger
       this.refreshEcharts(this.lsChartData, this.stockName)
     },
     isResizeBottomChart() {
