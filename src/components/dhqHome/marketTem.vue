@@ -181,7 +181,6 @@ export default {
                 show: false
               },
               position: 'right',
-              position: 'right',
               min: 'dataMin',
               max: 'dataMax'
             }
