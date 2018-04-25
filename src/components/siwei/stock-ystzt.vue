@@ -3,15 +3,15 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="ztgMain clearfix">
-    <div class="ztgChart">
+  <div class="ztgMain display-box">
+    <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div class="clearfix" :style="{height:lineChartHeight+'px'}">
-        <div class="fl" ref="zrLchart" style="height:100%;width:50%"></div>
-        <div class="fr" ref="zrRchart" style="height:100%;width:50%"></div>
+        <div class="fl zrLchart" ref="zrLchart" style="height:100%;width:50%"></div>
+        <div class="fr zrRchart" ref="zrRchart" style="height:100%;width:50%"></div>
       </div>
     </div>
-    <div class="qsgList fr">
+    <div class="qsgList">
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
@@ -166,7 +166,7 @@ export default {
       return timeline
     },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.ztgBubbles)
+      this.chart = echarts.getInstanceByDom(this.$refs.ztgBubbles) || echarts.init(this.$refs.ztgBubbles)
       this.chart.showLoading(config.loadingConfig);
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
@@ -265,7 +265,7 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData) + 1,
+            max: Math.max.apply(null, xData) + 5,
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
@@ -482,8 +482,8 @@ export default {
     },
     initZtgCompare() {
       const that = this
-      this.lineChart = echarts.init(this.$refs.zrLchart)
-      this.lxztChart = echarts.init(this.$refs.zrRchart)
+      this.lineChart = echarts.getInstanceByDom(this.$refs.zrLchart) || echarts.init(this.$refs.zrLchart)
+      this.lxztChart = echarts.getInstanceByDom(this.$refs.zrRchart) || echarts.init(this.$refs.zrRchart)
 
       this.lineChart.showLoading(config.loadingConfig);
       this.lxztChart.showLoading(config.loadingConfig);
@@ -726,7 +726,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -839,7 +839,7 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData) + 1,
+            max: Math.max.apply(null, xData) + 5,
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
@@ -1069,7 +1069,7 @@ export default {
             showSymbol: false,
             itemStyle: {
               normal: {
-                color: '#ca4941'
+                color: '#1984ea'
               }
             },
             lineStyle: {
@@ -1172,15 +1172,14 @@ export default {
         height: 100%;
 
         .ztgChart {
-            float: left;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             height: 100%;
             background: #232630;
         }
 
         .qsgList {
             height: 100%;
-            width: 25%;
+            width: 410px;
             background: #232630;
         }
 

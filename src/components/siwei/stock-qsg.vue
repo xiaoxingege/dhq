@@ -3,11 +3,11 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="qsgMian clearfix">
-    <div class="qsgChart fl">
+  <div class="qsgMian display-box">
+    <div class="qsgChart box-flex-1">
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
-    <div class="qsgList fr">
+    <div class="qsgList">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
           <div class="mb-10" v-show="false">
@@ -184,7 +184,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
+            right: 25,
             bottom: 50
           },
           tooltip: {
@@ -222,7 +222,7 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -490,7 +490,7 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -671,13 +671,13 @@ export default {
 
         .qsgChart {
             height: 100%;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             background: #232630;
         }
 
         .qsgList {
             height: 100%;
-            width: 25%;
+            width: 461px;
             background: #232630;
         }
 
@@ -691,6 +691,7 @@ export default {
 
         li {
             padding: 10px 5px 10px 10px;
+            color: #fff;
         }
         li:hover {
             background: #525A65;
@@ -721,6 +722,7 @@ export default {
 
                 .name {
                     line-height: 20px;
+                    color: #999;
                 }
 
                 .price {

@@ -191,7 +191,8 @@ button {
 }
 
 .bubbles-select p {
-    line-height: 30px;
+    line-height: 22px;
+    margin-top: 5px;
 }
 
 .bubbles-select select,
@@ -385,7 +386,7 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="scatterX">
           <p>X轴</p>
           <div>
-            <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData">
+            <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in xDataList" :value="key"
                         :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
                   {{val}}
@@ -396,7 +397,7 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="scatterY">
           <p>Y轴</p>
           <div>
-            <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData">
+            <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in xDataList" :value="key"
                         :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
                   {{val}}
@@ -407,7 +408,7 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="scatterSize">
           <p>气泡大小</p>
           <div>
-            <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault" @change="showSelectData">
+            <select ref="bubbleSize" v-model="dimensionOptions.sizeDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in bubbleSizeList" :value="key">{{val}}</option>
               </select>
           </div>
@@ -415,7 +416,7 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="scatterColor">
           <p>气泡颜色</p>
           <div>
-            <select ref="bubbleColor" v-model="dimensionOptions.colorDefault" @change="showSelectData">
+            <select ref="bubbleColor" v-model="dimensionOptions.colorDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in bubbleColorList" :value="key">{{val}}</option>
               </select>
           </div>
@@ -618,14 +619,6 @@ export default {
             yDefault: 'fin_idx.sale',
             sizeDefault: '',
             colorDefault: 'mkt_idx.chng_pct_week',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过估值和业绩指标，寻找低估值绩优股，气泡越靠左上，越可能是低估值绩优股。颜色越红，估值修复越明显；越绿，越可能是价值洼地。'
         },
@@ -636,14 +629,6 @@ export default {
             yDefault: 'mkt_idx.pe_ttm',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过成长和估值指标，寻找正处于业绩增长期而股价未充分反应个股。气泡越靠右下，气泡越小，未来成长性可能越强。'
         },
@@ -654,14 +639,6 @@ export default {
             yDefault: 'mkt_idx.rela_ma20',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'mkt_idx.rela_volume',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过量价指标，寻找近期资金主攻个股。气泡整体呈右上倾斜，越靠右上，近期股价异动越大；颜色越亮则成交越活跃，越暗则成交尚未激活。'
         },
@@ -672,14 +649,6 @@ export default {
             yDefault: 'mkt_idx.rela_ma20',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'sw_indu_name',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过股价和行业指标，寻找近期资金主攻个股及行业。气泡整体右上倾斜，越靠右上，近期股价异动越大，股性越活跃。'
         },
@@ -690,14 +659,6 @@ export default {
             yDefault: 'fcst_idx.fcst_eps_chng_next3',
             sizeDefault: 'mkt_idx.mktcap',
             colorDefault: 'perf_idx.chng_pct_month',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '从未来成长性及盘面大小，判断近1月强势股和弱势股为哪一类。例如：高成长大盘股近期强势，低成长小盘股近期弱势。'
         },
@@ -708,14 +669,6 @@ export default {
             yDefault: 'mkt_idx.pe_ttm',
             sizeDefault: '',
             colorDefault: 'perf_idx.chng_pct_month',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '从估值的角度，判断近1月强势股和弱势股为哪一类。例如：低估值股票近期强势，高估值股票近期弱势。'
         },
@@ -726,14 +679,6 @@ export default {
             yDefault: 'mkt_idx.peg',
             sizeDefault: '',
             colorDefault: 'mkt_idx.chng_pct_week',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过估值和涨跌指标，寻找近期热点行业及热门股的估值属性。竖轴方向某行业红色气泡越多，则关注度越高；距离X轴越近的越红，则低估值股涨势越好。'
         },
@@ -744,14 +689,6 @@ export default {
             yDefault: 'mkt_idx.expect_price_chng_pct',
             sizeDefault: '',
             colorDefault: 'mkt_idx.rela_volume',
-            indexRangeDefault: '',
-            industryRangeDefault: '',
-            marketValueDefault: 'gpltsz_all',
-            historyValueRangeDefault: 'lscjl_all',
-            strategyDefault: '',
-            stockPoolDefault: '',
-            innerCode: '',
-            topic: ''
           },
           explain: '通过分析师预期，选择上涨空间较高的个股。距离X轴的距离越远，股价预期上涨空间越高；颜色越亮则成交越活跃，越暗则成交尚未激活。'
         }
@@ -805,7 +742,9 @@ export default {
         ...this.dimensionOptions,
         ...this.stockRangeOptions
       }
-      this.tmpId = 'demoTmp0'
+      if (v === 'dimension') {
+        this.tmpId = 'demoTmp0'
+      }
       this.xZoomRange[0] = null
       this.xZoomRange[1] = null
       this.yZoomRange[0] = null
@@ -822,12 +761,14 @@ export default {
       if (tmpValue === 'demoTmp0') {
         return
       }
-      this.options = this.templateList[tmpValue].options
+      this.options = { ...this.templateList[tmpValue].options,
+        ...this.options
+      }
       this.dimensionOptions.xDefault = this.templateList[tmpValue].options.xDefault
       this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
       this.dimensionOptions.sizeDefault = this.templateList[tmpValue].options.sizeDefault
       this.dimensionOptions.colorDefault = this.templateList[tmpValue].options.colorDefault
-      this.stockRangeOptions.indexRangeDefault = this.templateList[tmpValue].options.indexRangeDefault
+      /* this.stockRangeOptions.indexRangeDefault = this.templateList[tmpValue].options.indexRangeDefault
       this.stockRangeOptions.industryRangeDefault = this.templateList[tmpValue].options.industryRangeDefault
       this.stockRangeOptions.marketValueDefault = this.templateList[tmpValue].options.marketValueDefault
       this.stockRangeOptions.historyValueRangeDefault = this.templateList[tmpValue].options.historyValueRangeDefault
@@ -835,7 +776,7 @@ export default {
       this.stockRangeOptions.stockPoolDefault = this.templateList[tmpValue].options.stockPoolDefault
       this.stockRangeOptions.innerCode = this.templateList[tmpValue].options.innerCode
       this.stockRangeOptions.topic = this.templateList[tmpValue].options.topic
-      this.topicName = '全部'
+         this.topicName = '全部' */
       this.xZoomRange[0] = null
       this.xZoomRange[1] = null
       this.yZoomRange[0] = null

@@ -3,8 +3,8 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="ztgMain clearfix">
-    <div class="ztgChart">
+  <div class="ztgMain display-box">
+    <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
     </div>
@@ -198,7 +198,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
+            right: 25,
             bottom: 55
           },
           tooltip: {
@@ -236,7 +236,7 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -726,7 +726,7 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -1025,15 +1025,14 @@ export default {
         height: 100%;
 
         .ztgChart {
-            float: left;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             height: 100%;
             background: #232630;
         }
 
         .ztgList {
-            float: right;
-            width: 25%;
+
+            width: 461px;
             height: 100%;
             background: #232630;
         }
@@ -1048,6 +1047,7 @@ export default {
 
         li {
             padding: 10px 5px 10px 10px;
+            color: #fff;
         }
         li:hover {
             background: #525A65;
@@ -1077,6 +1077,7 @@ export default {
                 padding-left: 5px;
                 .name {
                     line-height: 20px;
+                    color: #999;
                 }
 
                 .price {
