@@ -36,7 +36,7 @@ export default {
         rootState,
         state
       }, options) {
-        return fetch(`http://itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${options.appItemId}&bizType=1&pageSize=5`, {
+        return fetch(`//itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${options.appItemId}&bizType=1&pageSize=5`, {
           credentials: 'include'
         }).then(res => {
           return res.json()
