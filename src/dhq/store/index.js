@@ -92,7 +92,7 @@ const actions = {
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userId: '171003010002481622' // test userid
+          userId: '' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

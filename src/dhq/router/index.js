@@ -2,13 +2,14 @@ import DhqIndex from 'components/dhqHome/dhqIndex'
 import NewsList from 'components/dhqHome/newslist'
 import TopicDetail from 'components/topic-detail'
 import IndustryDetail from 'components/industry-detail'
+import ThemeIndex from 'components/theme-index'
+import IndustryIndex from 'components/industry-index'
 
 // import Search from 'components/search'
 // import Map from 'components/z3tougu-map'
 // import SearchBox from 'components/search-box'
 // import DetailPages from 'components/detail-pages'
 // import ThemeList from 'components/theme-list'
-// import ThemeIndex from 'components/theme-index'
 // import Siwei from 'components/siwei'
 // import ThemeInformat from 'components/theme-informat-list'
 // import GoldStrategy from 'components/gold-strategy'
@@ -41,7 +42,6 @@ import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
  import CustomerList from 'components/customer-list'
  import PortraitDetail from 'components/customerPortrait/portrait-detail'
  import OptionalStock from 'components/optional-stock/optional-stock'
- import IndustryIndex from 'components/industry-index'
  import TimeIndex from 'components/time-index'
  import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
@@ -108,6 +108,16 @@ export default [{
     path: ctx + '/smartPoolListDetails/:id',
     name: 'smartPoolListDetails',
     component: SmartPoolListDetails
+  },
+  {
+    path: ctx + '/themeIndex',
+    name: 'themeindex',
+    component: ThemeIndex
+  },
+  {
+    path: ctx + '/industryIndex',
+    name: 'industryindex',
+    component: IndustryIndex
   }
   /* {
      path: ctx + '/search-box',
@@ -143,16 +153,6 @@ export default [{
      path: ctx + '/themeList',
      name: 'themelist',
      component: ThemeList
-   },*/
-  /* {
-     path: ctx + '/themeIndex',
-     name: 'themeindex',
-     component: ThemeIndex
-   },*/
-  /* {
-     path: ctx + '/industryIndex',
-     name: 'industryindex',
-     component: IndustryIndex
    },*/
   /*  {
       path: ctx + '/siwei',
