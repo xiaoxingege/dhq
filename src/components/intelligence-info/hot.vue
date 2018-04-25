@@ -1,7 +1,7 @@
 <template>
 <div class="hot">
   <div class="tit">{{title}}</div>
-  <ul v-if="type ==='stock'">
+  <ul v-if="type ==='stock'" ref="datalist">
     <li v-for="item in dataList">
       <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
@@ -12,7 +12,7 @@
       </div>
     </li>
   </ul>
-  <ul v-if="type === 'word'">
+  <ul v-if="type === 'word'" ref="datalist">
     <li v-for="item in dataList">
       <router-link :to="{ name:'topicDetail', params: {topicId:item.code} }" target="_blank" class="col name active" v-if="item.flag==='topic'">{{item.showName}}</router-link>
       <router-link :to="{ name:'industryDetail', params: {industryId:item.code} }" target="_blank" class="col name active" v-else-if="item.flag==='indu'">{{item.showName}}</router-link>
@@ -47,27 +47,26 @@ export default {
     StockBox
   },
   computed: {
-    dataList() {
+    dataList: function() {
       let list = [];
       if (this.type === 'stock') {
         list = this.$store.state.zInfoPublic.hotStocks;
       } else if (this.type === 'word') {
         list = this.$store.state.zInfoPublic.hotWords
       }
-      return list;
+      let size = 0;
+      if (list.length > 0) {
+        const height = this.$refs.datalist.clientHeight;
+        size = Math.floor(height / 28);
+      }
+
+      return list.slice(0, size);
     }
   },
   methods: {
     progressWidth: progress => progress <= 30 ? '30%' : progress.toFixed(0) + '%',
     search: function(keyword) {
       window.open(`${domain}${ctx}/search/infor/${keyword}`);
-      // this.$router.push({
-      //   name: 'search',
-      //   params: {
-      //     linkText: 'infor',
-      //     keyword: keyword
-      //   }
-      // });
     }
   },
   mounted() {
@@ -109,14 +108,13 @@ export default {
     background: #303539;
 }
 .hot ul {
-    padding: 5px 0;
-    height: calc(100% - 36px);
+    height: calc(100% - 26px);
     overflow: auto;
     li {
         overflow: hidden;
         height: 18px;
         line-height: 18px;
-        margin: 5px 6px;
+        margin: 10px 6px;
         a {
             color: $wordsColorBase;
         }

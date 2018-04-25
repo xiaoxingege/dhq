@@ -2,24 +2,31 @@
   <!-- 机会挖掘 -->
   <div class="news-opportunities" @scroll="getScrollTop($event)">
     <div class="news-wrapper">
+      <span class="num">{{refresh}}</span>
       <div class="news-nav-top">
         <a href="javascript:;" :class="{active: index === typeIndex}" class="nav-item" v-for="(item,index) in navData" @click="selectType(index)">{{item.name}}</a>
       </div>
       <ul class="news-list">
         <li v-if="typeIndex ===0" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-              <span class="name">{{item.equity.name | isNull}}</span>
-              <p>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</p>
-            </div>
-            <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
-              <span class="name">{{item.indu.name | isNull}}</span>
-              <p>{{item.indu.chngPct | isNull}}%</p>
-            </div>
-            <div v-if="item.topic != null" class="txt" v-z3-updowncolor="item.topic.chngPct">
-              <span class="name">{{item.topic.name | isNull}}</span>
-              <p>{{item.topic.chngPct | isNull}}%</p>
-            </div>
+            <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
+              <div class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
+                <span class="name">{{item.equity.name | isNull}}</span>
+                <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
+              </div>
+            </a>
+            <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
+              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+                <span class="name">{{item.indu.name | isNull}}</span>
+                <p>{{item.indu.chngPct | filterNum("%") }}</p>
+              </div>
+            </a>
+            <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
+              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+                <span class="name">{{item.topic.name | isNull}}</span>
+                <p>{{item.topic.chngPct | filterNum("%") }}</p>
+              </div>
+            </a>
           </div>
           <div class="news-list-item box-flex-1">
             <div>
@@ -30,7 +37,7 @@
               </div·>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span>{{cutStr(item.summary,350)}}</span>
+                  <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
@@ -41,7 +48,7 @@
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
                 <span class="name">{{item.equity.name | isNull}}</span>
-                <p>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</p>
+                <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
           </div>
@@ -62,10 +69,18 @@
         </li>
         <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if="item.topic != null" class="txt" v-z3-updowncolor="item.topic.chngPct">
-              <span class="name">{{item.topic.name | isNull}}</span>
-              <p>{{item.topic.chngPct | isNull}}%</p>
-            </div>
+            <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
+              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+                <span class="name">{{item.topic.name | isNull}}</span>
+                <p>{{item.topic.chngPct | filterNum("%") }}</p>
+              </div>
+            </a>
+            <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
+              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+                <span class="name">{{item.indu.name | isNull}}</span>
+                <p>{{item.indu.chngPct | filterNum("%") }}</p>
+              </div>
+            </a>
           </div>
           <div class="news-list-item box-flex-1">
             <div>
@@ -84,9 +99,8 @@
         </li>
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
-              <span class="name">{{item.indu.name | isNull}}</span>
-              <p>{{item.indu.chngPct | isNull}}%</p>
+            <div class="txt" v-z3-updowncolor="1">
+              <span class="name">{{item.equity.productName}}</span>
             </div>
           </div>
           <div class="news-list-item box-flex-1">
@@ -102,6 +116,17 @@
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
+              <ul class="stock">
+                <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
+                  <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
+                    <span>{{item.equity.name}}</span>
+                    <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
+                    <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+                  </a>
+                </li>
+                <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a></li>
+                <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | filterNum("%")}}</span></a></li>
+              </ul>
             </div>
         </li>
       </ul>
@@ -109,9 +134,8 @@
       <p class="tc mt-10 mb-20">
         <a ref="more" v-if="!noData && newsOpportunities.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
         <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-        <p v-if="newsOpportunities.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+        <p v-if="newsOpportunities.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
-
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>
@@ -140,12 +164,14 @@
         navData: [{ name: '全部机会',value: '0' },
                   { name: '个股机会',value: '0' },
                   { name: '板块机会', value: '0' },
-                  { name: '产品机会', value: '0' }]
+                  { name: '产品机会', value: '0' }],
+        refresh:0
       }
     },
     mounted() {
       this.loadListInit()
       this.updateNews()
+      // this.updateNum()
     },
     computed: {
       ...mapState([
@@ -198,6 +224,11 @@
           this.$store.commit('setNoData',true)
         }
       },
+      updateNum(){
+        setInterval(() => {
+          this.refresh +=1
+        },1000)
+      },
       updateNews() {
         intervalId = setInterval(() => {
           this.page = 0
@@ -224,7 +255,6 @@
         }
       },
       cutStr(str, len) {
-        if (str === '' || str === null) str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag) {
@@ -250,11 +280,10 @@
           clearInterval(this.updateNewsPid)
         }
         this.$store.commit('setNoData',false)
-        this.$store.commit('setNewsOpportunitiesInit',[])
         this.$store.commit('setIsTop',false)
-        this.$store.commit('getNewTime','')
         this.typeIndex = index
         this.page = 0
+        this.$store.commit('setNewsOpportunitiesInit',[])
         this.typeList(this.typeIndex)
       },
       typeList(type){
@@ -489,5 +518,18 @@
   .blockbg {
       background: #525a65;
   }
-
+  .stock{
+    margin-top: 10px;
+  }
+  .num{
+    font-size: 0;
+    position: absolute;
+    top: 0
+  }
+  .noDataList{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+  }
 </style>

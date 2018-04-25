@@ -3,12 +3,12 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="ztgMain clearfix">
-    <div class="ztgChart">
+  <div class="ztgMain display-box">
+    <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
     </div>
-    <div class="qsgList fr">
+    <div class="qsgList">
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
@@ -230,7 +230,7 @@ export default {
             top: 50,
             left: 65,
             right: 45,
-            bottom: 30
+            bottom: 50
           },
           tooltip: {
             triggerOn: 'none',
@@ -544,7 +544,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return Number(val * 100).toFixed(2) + '%'
+                return Number(val * 100) + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -998,15 +998,14 @@ export default {
         height: 100%;
 
         .ztgChart {
-            float: left;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             height: 100%;
             background: #232630;
         }
 
         .qsgList {
             height: 100%;
-            width: 25%;
+            width: 410px;
             background: #232630;
         }
 

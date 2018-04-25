@@ -313,11 +313,15 @@ export default {
       }
     })
     Vue.filter('decimal', function(value, num) {
-      let val = Number(value);
-      if (isNaN(val)) {
-        return config.emptyValue
+      if (value === null) {
+        return '--'
       } else {
-        return (Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num)
+        let val = Number(value);
+        if (isNaN(val)) {
+          return config.emptyValue
+        } else {
+          return (Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num)
+        }
       }
     })
     Vue.filter('isNull', function(value) {

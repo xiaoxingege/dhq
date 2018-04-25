@@ -5,7 +5,7 @@
       <div class='top'>
         <div></div>
         <div class='chart' ref='chart'></div>
-        <span class="desc">气泡大小：涨速&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;气泡颜色：涨跌幅</span>
+        <span class="desc">气泡大小：绝对涨速&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;气泡颜色：涨速</span>
         <span v-z3-updowncolor=1 class='zt'>涨停{{zt}}家 ST{{stzt}}家</span>
         <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
       </div>
@@ -21,17 +21,21 @@
             <div class='time'>{{stock.dateTime | hhmmss}}</div>
             <div class='item'>
               <span class=''>{{stock.stockName}}</span>
-              <span class=''>{{stock.symbol}}</span>
+              <span class=''>{{stock.symbol | simpleCode}}</span>
               <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
               <span class='type'>{{stock.reason}}</span>
             </div>
             <div class="news" v-if="newsObj(stock.msg).newsId">
-              <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span><span class="news">{{stock.msg}}</span>
+              <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msg).newsId}}"
+                target="_blank" class="news_tit">{{newsObj(stock.msg).title}}</router-link>
             </div>
-            <ul class='topics'>
-              <li class="topic" v-for="topic in stock.topics" v-if="stock.topics && stock.topics.length > 0">
-                <div class="name">{{topic.topicName}}</div>
-                <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+            <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
+              <li class="topic" v-for="topic in stock.topics">
+                <router-link :to="{ name:'topicDetail', params: {topicId:topic.topicCode} }" target="_blank">
+                  <div class="name">{{topic.topicName}}</div>
+                  <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+                </router-link>
               </li>
             </ul>
           </div>
@@ -46,9 +50,12 @@
               <span class="name">{{plate.industryName}}</span>
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
             </div>
-            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span><span class="news">{{newsObj(plate.msg)['title']||''}}</span></div>
+            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}"
+                target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
+            </div>
             <table class="stockList">
-              <tr v-for="stock of plate.baseDetailList">
+              <tr v-for="stock of plate.baseDetailList" @dblclick="openStock(stock.symbol)">
                 <td class="name">{{stock.stockName}}</td>
                 <td class="code">{{stock.symbol}}</td>
                 <td v-z3-updowncolor="stock.chg" class="price">{{stock.price | price}}</td>
@@ -77,6 +84,8 @@ import chartLegend from 'components/siwei/legend'
 
 let pcid1 = '';
 let pcid2 = '';
+const minSize = 10;
+const maxSize = 100;
 export default {
   data() {
     return {
@@ -85,19 +94,19 @@ export default {
       stockList: [],
       plateList: [],
       legendData: [{
-          value: '-4%',
+          value: '-0.5%',
           color: '#00d641'
         },
         {
-          value: '-3%',
+          value: '-0.375%',
           color: '#1aa448'
         },
         {
-          value: '-2%',
+          value: '-0.25%',
           color: '#0e6f2f'
         },
         {
-          value: '-1%',
+          value: '-0.125%',
           color: '#085421'
         },
         {
@@ -105,19 +114,19 @@ export default {
           color: '#424453'
         },
         {
-          value: '1%',
+          value: '0.125%',
           color: '#6d1414'
         },
         {
-          value: '2%',
+          value: '0.25%',
           color: '#961010'
         },
         {
-          value: '3%',
+          value: '0.375%',
           color: '#be0808'
         },
         {
-          value: '4%',
+          value: '0.5%',
           color: '#e41414'
         }
       ]
@@ -131,12 +140,9 @@ export default {
     bubbles: function() {
       let data = this.$store.state.marketBubble.bubbleData;
       let bubbles = [];
-      let minSize = 10;
-      let maxSize = 100;
       let lbl = {};
       data.forEach((stock, index) => {
-        // 涨速超过5% 则气泡一样大
-        const symbolSize = Math.max(Math.min(Math.abs(stock.bubbleSize) * 20, maxSize), minSize);
+        const symbolSize = this.matchSize(Math.abs(stock.bubbleSize));
         if (symbolSize < 30) {
           lbl = {
             position: 'bottom',
@@ -154,11 +160,11 @@ export default {
         }
         let item = {
           name: stock.name,
-          value: [Number(stock.xData), Number(stock.yData)],
+          value: [Math.log(Number(stock.xData)), Number(stock.yData)],
           symbolSize: symbolSize,
           itemStyle: {
             normal: {
-              color: this.matchColor(stock.bubbleColor)
+              color: this.matchColor(stock.bubbleSize)
             }
           },
           label: {
@@ -185,23 +191,26 @@ export default {
       zt: state => state.marketBubble.marketCount[1],
       stdt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1],
       dt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2],
-      countMax: state => Math.max(...state.marketBubble.marketCount, 0) * 1.3
+      countMax: state => Math.max(...state.marketBubble.marketCount, 0) * 1.4
     })
   },
   filters: {
     hhmmss(value) {
-      value += "";
+      value += '';
       if (value.length === 5) {
-        value = "0" + value;
+        value = '0' + value;
       }
-      return value.substring(0, 2) + ":" + value.substring(2, 4) + ":" + value.substring(4);
+      return value.substring(0, 2) + ':' + value.substring(2, 4) + ':' + value.substring(4);
     },
     hhmm(value) {
-      value += "";
+      value += '';
       if (value.length === 5) {
-        value = "0" + value;
+        value = '0' + value;
       }
-      return value.substring(0, 2) + ":" + value.substring(2, 4)
+      return value.substring(0, 2) + ':' + value.substring(2, 4)
+    },
+    simpleCode(code) {
+      return code.substring(0, 6);
     }
   },
   methods: {
@@ -211,17 +220,17 @@ export default {
             width: 'auto',
             containLabel: false,
             left: 60,
-            right: '75%',
-            top: 48,
-            bottom: 40,
+            right: '80%',
+            top: 50,
+            bottom: 50,
             borderColor: '#32343E'
           },
           {
             // width: '75%',
             width: 'auto',
-            left: '25%',
-            top: 48,
-            bottom: 40,
+            left: '20%',
+            top: 50,
+            bottom: 50,
             right: 10,
             containLabel: false,
             borderColor: '#32343E'
@@ -379,16 +388,42 @@ export default {
     initBubbleChart() {
 
     },
-    // 更新异动个股
-    updateStocks() {
-
+    openStock(code) {
+      window.open(`stock/${code}`);
     },
-    // 更新异动板块
-    updatePlates() {
-
+    matchColor(value) {
+      let range = this.legendData;
+      let color = '';
+      if (value > 0) {
+        if (value >= range[8].value) {
+          return range[8].color
+        }
+        range = range.slice(4, 9);
+      } else {
+        if (value <= range[0].value) {
+          return range[0].color
+        }
+        range = range.slice(1, 4);
+      }
+      range.some((item, index) => {
+        if (item.value - 0.0625 <= value && item.value + 0.0625 > value) {
+          color = item.color
+          return true
+        }
+        return false;
+      })
+      return color;
     },
-    matchColor(chg) {
-      return '#666';
+    matchSize(value) {
+      if (value === 0) {
+        return minSize
+      } else if (value <= 0.5) {
+        return 14 * Math.log(1 + 10 * value) + 11;
+      } else if (value <= 2) {
+        return 91 * Math.log(1 + value)
+      } else {
+        return maxSize;
+      }
     },
     newsObj(str) {
       if (!str) {
@@ -488,10 +523,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@import '../../assets/scss/style.scss';
 .market {
     height: 100%;
     font-size: 12px;
-    color: #ccc;
+    color: $wordsColorBase;
 }
 .market_con {
     height: calc(100% - 36px);
@@ -510,7 +546,7 @@ export default {
     height: 100%;
     background: #23252E;
     float: left;
-    width: calc(75% - 6px);
+    width: calc(100% - 6px - 461px);
 }
 .market .top {
     position: relative;
@@ -529,7 +565,7 @@ export default {
     height: 40%;
 }
 .market .right {
-    width: 25%;
+    width: 461px;
     float: right;
     background: #23252E;
     height: 100%;
@@ -546,6 +582,7 @@ export default {
 .market .news .mark {
     padding: 2px;
     color: #fff;
+    margin-right: 4px;
 }
 .market .news .good {
     background: #DB3C39;
@@ -555,6 +592,12 @@ export default {
 }
 .market .news .normal {
     background: #505A66;
+}
+.market .news .news_tit {
+    color: $wordsColorBase;
+}
+.market .news .news_tit:hover {
+    color: $blueWordsColor;
 }
 .market .blocks {
     height: 45%;
@@ -577,7 +620,7 @@ export default {
     margin: 0 0 4px;
 }
 .market .block:hover {
-    background: #32343E;
+    background: #525A65;
 }
 
 .market .time {
@@ -623,6 +666,10 @@ export default {
     padding: 0;
     margin: 2px 0;
     overflow: hidden;
+    a {
+        text-align: center;
+        color: $wordsColorBase;
+    }
     .name {
         overflow: hidden;
     }
