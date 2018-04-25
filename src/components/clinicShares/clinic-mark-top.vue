@@ -316,6 +316,7 @@ body {
 }
 .no-value {
     padding-left: 10px;
+
 }
 </style>
 <template>
@@ -350,7 +351,7 @@ body {
       <!-- <a href="#wrap"> -->
       <div class="short-fund" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">资金面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'capital')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.shortCapital" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="short of smartStock.shortCapital" v-if="short.status===0" class="no-value">无</span> -->
       </div>
 
       <div class="short-fund" v-else>资金面：
@@ -359,7 +360,7 @@ body {
       <!-- </a> -->
       <div class="short-fund" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">技术面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'techs')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.shortTechs" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="(short,index) of smartStock.shortTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
 
       </div>
       <div class="short-fund" v-else>技术面：
@@ -368,7 +369,7 @@ body {
 
       <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">消息面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
       <div class="short-fund" v-else>消息面：
@@ -381,7 +382,7 @@ body {
       <!-- <a href="#wrap"> -->
       <div class="short-fund" v-if="smartStock.midCapital && smartStock.midCapital.length>0">资金面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'capital')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.midCapital" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="short of smartStock.midCapital" v-if="short.status===0" class="no-value">无</span> -->
       </div>
       <div class="short-fund" v-else>资金面：
         <span class="no-value">无</span>
@@ -389,14 +390,14 @@ body {
       <!--  </a> -->
       <div class="short-fund" v-if="smartStock.bases && smartStock.bases.length>0">基本面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'base')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.bases" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="short of smartStock.bases" v-if="short.status===0" class="no-value">无</span> -->
       </div>
       <div class="short-fund" v-else>基本面：
         <span class="no-value">无</span>
       </div>
       <div class="short-fund" v-if="smartStock.midTechs && smartStock.midTechs.length>0">技术面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'techs')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.midTechs" v-if="short.status===0" class="no-value">无</span>
+        <!--  <span v-for="(short,index) of smartStock.midTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
 
       </div>
       <div class="short-fund" v-else>技术面：
@@ -405,7 +406,7 @@ body {
 
       <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">消息面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span>
+        <!--  <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
       <div class="short-fund" v-else>消息面：
@@ -413,7 +414,7 @@ body {
       </div>
       <div class="short-fund" v-if="smartStock.indus && smartStock.indus.length>0">行业面：
         <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'industry')">{{short.content}}<i>{{short.tag}}</i></a>
-        <span v-for="short of smartStock.indus" v-if="short.status===0" class="no-value">无</span>
+        <!-- <span v-for="short of smartStock.indus" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
       <div class="short-fund" v-else>行业面：
@@ -487,6 +488,7 @@ export default {
     },
     fundShow(e, type) {
       // console.log(type)
+      e.preventDefault()
       this.$emit('changeShowValue', type)
     },
     drawCharts(radarAllData) {

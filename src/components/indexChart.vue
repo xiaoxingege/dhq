@@ -941,9 +941,9 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData) {
-          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-        }
+        // if (this.moveBlockData) {
+        this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        // }
       }
     },
     lsChartData: {
@@ -963,28 +963,34 @@ export default {
       handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
       }
-    },
-    moveBlockData() {
-      this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
     }
+    /* ,
+        moveBlockData() {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        } */
   },
   mounted() {
-    let p1 = new Promise((resolve, reject) => {
-      this.$store.dispatch('z3touguIndex/getMoveBlock').then(() => {
-        resolve();
-      })
-    });
-    let p2 = new Promise((resolve, reject) => {
-      this.$store.dispatch('indexChart/getIndexChartData', {
-        stockCode: '000001.SH'
-      }).then(() => {
-        resolve();
-      })
-    });
-    Promise.all([p1, p2]).then(() => {
-      this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-    });
-    this.autoUpdate()
+    /* let p1 = new Promise((resolve, reject) => {
+       this.$store.dispatch('z3touguIndex/getMoveBlock').then(() => {
+         resolve();
+       })
+     });
+     let p2 = new Promise((resolve, reject) => {
+       this.$store.dispatch('indexChart/getIndexChartData', {
+         stockCode: '000001.SH'
+       }).then(() => {
+         resolve();
+       })
+     });
+     Promise.all([p1, p2]).then(() => {
+       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+     });*/
+    // this.autoUpdate()
+    this.$store.dispatch('indexChart/getIndexChartData', {
+      stockCode: '000001.SH'
+    }).then(() => {
+      this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+    })
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
     }).then(() => {

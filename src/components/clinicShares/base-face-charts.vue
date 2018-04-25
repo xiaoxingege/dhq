@@ -213,7 +213,7 @@ export default ({
       },
       // themeColor:'transparent',
       unitName: '',
-      unitTenBillion: '净利润：百亿',
+      unitTenBillion: '营业收入：百亿',
       uniBillion: '净利润：亿',
       borderType: 'dashed',
       borderWidth: 3,
@@ -234,50 +234,7 @@ export default ({
   },
   computed: {
     ...mapState({
-      lineData: state => {
-        var data = {
-          times: [],
-          tradeTimeArr: [],
-          ydata: [],
-          growthR: [],
-          growthRate: [],
-          growthRateLast: [],
-          day: [],
-          days5: [],
-          vols: []
-        }
 
-        // console.log(state.clinicShares.indexFace[0].tag)
-        /* var baseFace = this.baseFace;
-        console.log(baseFace) */
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.lineCharts.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
-
-        // console.log(item.datas.data[0].prevClosePx)
-        /*        const klineData = [].concat(baseFace.datas.data).reverse()
-
-                klineData.forEach((item) => {
-                    let time = ''
-                    const day = Number(item.day)
-                    const days5 = Number(item.fiveday)
-                    const value = item.value
-                    const growthRate = item.growthRate
-
-                    time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-                    data.times.push(time)
-                    data.tradeTimeArr.push(time)
-                    data.day.push(day)
-                    data.days5.push(days5)
-                    data.growthRate.push(growthRate)
-                    data.ydata.push(value)
-                })*/
-
-        return data
-
-      }
 
     })
   },
@@ -296,7 +253,7 @@ export default ({
       klineData.forEach((item, index) => {
         let time = ''
         let value = ''
-        const growthRate = Number(item.growthRate * 100)
+        const growthRate = Number(item.growthRate * 100).toFixed(2)
         // console.log(growthRate)
         if (this.dataIndex === 0) {
           value = Number(item.value / 10000000000).toFixed(2)
@@ -335,8 +292,6 @@ export default ({
           this.borderWidth = 3 */
           // console.log(index)
           // console.log(klineData.length-2)
-
-
           this.data.growthRate.push(null)
           this.data.growthRateLast.push(growthRate)
           newValue = {
@@ -474,11 +429,13 @@ export default ({
           },
           data: [{
               name: legendNames.nameInc,
-              icon: 'image://../src/assets/images/z3img/icon-line2.png'
+              // icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+              icon: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line2.png'
             },
             {
               name: legendNames.nameRate,
-              icon: 'image://../src/assets/images/z3img/icon-line1.png'
+              //      icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+              icon: 'image://http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line1.png'
 
             }
           ]

@@ -8,18 +8,22 @@
       <ul class="news-list">
         <li v-if="typeIndex ===0" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-              <span class="name">{{item.equity.name | isNull}}</span>
-              <p>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</p>
-            </div>
-            <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
-              <span class="name">{{item.indu.name | isNull}}</span>
-              <p>{{item.indu.chngPct | isNull}}%</p>
-            </div>
-            <div v-if="item.topic != null" class="txt" v-z3-updowncolor="item.topic.chngPct">
-              <span class="name">{{item.topic.name | isNull}}</span>
-              <p>{{item.topic.chngPct | isNull}}%</p>
-            </div>
+            <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
+              <div class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
+                <span class="name">{{item.equity.name | isNull}}</span>
+                <p>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</p>
+              </div>
+            </a>
+            <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span class="name">{{item.indu.name | isNull}}</span>
+              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+                <p>{{item.indu.chngPct | isNull}}%</p>
+              </div>
+            </a>
+            <a v-if="item.topic != null" :href="'/zstgweb/industry/'+item.topic.code" target="_blank"><span class="name">{{item.topic.name | isNull}}</span>
+              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+                <p>{{item.topic.chngPct | isNull}}%</p>
+              </div>
+            </a>
           </div>
           <div class="news-list-item box-flex-1">
             <div>
@@ -62,10 +66,11 @@
         </li>
         <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if="item.topic != null" class="txt" v-z3-updowncolor="item.topic.chngPct">
-              <span class="name">{{item.topic.name | isNull}}</span>
-              <p>{{item.topic.chngPct | isNull}}%</p>
-            </div>
+            <a v-if="item.topic != null" :href="'/zstgweb/industry/'+item.topic.code" target="_blank"><span class="name">{{item.topic.name | isNull}}</span>
+              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+                <p>{{item.topic.chngPct | isNull}}%</p>
+              </div>
+            </a>
           </div>
           <div class="news-list-item box-flex-1">
             <div>
@@ -84,10 +89,11 @@
         </li>
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div v-if="item.indu != null" class="txt" v-z3-updowncolor="item.indu.chngPct">
-              <span class="name">{{item.indu.name | isNull}}</span>
-              <p>{{item.indu.chngPct | isNull}}%</p>
-            </div>
+            <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span class="name">{{item.indu.name | isNull}}</span>
+              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+                <p>{{item.indu.chngPct | isNull}}%</p>
+              </div>
+            </a>
           </div>
           <div class="news-list-item box-flex-1">
             <div>
@@ -111,7 +117,6 @@
         <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
         <p v-if="newsOpportunities.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
-
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>

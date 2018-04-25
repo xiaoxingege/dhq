@@ -231,11 +231,11 @@ export default ({
     init() {
 
       const klineData = [].concat(this.indexFace.datas.data).reverse()
-      const stressPrice = this.indexFace.stressPrice
+      const stressPrice = this.indexFace.datas.stressPrice
       //     const stressPrice = '0'
-      const currPirce = this.indexFace.currPirce
+      const currPirce = this.indexFace.datas.currPirce
       //  const currPirce = '0'
-      const supportPrice = this.indexFace.supportPrice
+      const supportPrice = this.indexFace.datas.supportPrice
       var data = this.data
       //   const supportPrice = '0'
       klineData.forEach((item) => {
