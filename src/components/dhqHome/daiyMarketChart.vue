@@ -283,7 +283,6 @@ export default {
           type: 'line',
           showSymbol: false,
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
-
         }]
       })
     }

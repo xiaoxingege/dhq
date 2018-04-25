@@ -239,6 +239,9 @@ export default {
     },
     chartSocket(state, result) {
       if (state.chartData.hasOwnProperty(result.stockCode)) {
+        if (result.stockCode === '399005.SZ' || result.stockCode === '000016.SH' || result.stockCode === '399905.SZ' || result.stockCode === '000985.SH') {
+          result.list[0].avgpx = 0
+        }
         state.chartData[result.stockCode].avgArr[result.list[0].time] = result.list[0].avgpx // 均值
         state.chartData[result.stockCode].priceArr[result.list[0].time] = result.list[0].lastpx // 当前价
         state.chartData[result.stockCode].stockVal = result.list[0].lastpx // 最新价
