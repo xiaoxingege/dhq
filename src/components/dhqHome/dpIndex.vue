@@ -84,7 +84,7 @@
         </tr>
       </table>
       <table class="dpindex-table">
-        <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item,index)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
+        <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item)" @dblclick="toMarketDetail(item)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
           <td>{{item.name === null?'--':item.name}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':parseFloat(item.upDown).toFixed(2)}}</td>
@@ -102,6 +102,9 @@ import NavBar from 'components/dhqHome/nav-bar'
 import DayMarketChart from 'components/dhqHome/daiyMarketChart'
 import z3websocket from '../../dhq/z3socket'
 import {
+  ctx
+} from '../../dhq/config'
+import {
   mapState
 } from 'vuex'
 export default {
@@ -114,7 +117,8 @@ export default {
       stockCodeList: ['000001.SH', '399001.SZ', '399006.SZ', '399005.SZ', '000300.SH', '000016.SH', '399905.SZ', '000985.SH'],
       stockCode: '000001.SH',
       stockName: '上证指数',
-      timestamp: ''
+      timestamp: '',
+      timeoutID: null
     }
   },
   watch: {
@@ -205,9 +209,23 @@ export default {
         return true
       }
     },
-    toHqChart: function(item, index) {
-      this.stockCode = item.stockCode
-      this.stockName = item.name
+    toHqChart: function(item) {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('click', item)
+    },
+    toMarketDetail: function(item) {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('dblclick', item)
+    },
+    isDbClick: function(type, item) {
+      this.timeoutID = setTimeout(() => {
+        if (type === 'click') {
+          this.stockCode = item.stockCode
+          this.stockName = item.name
+        } else if (type === 'dblclick') {
+          window.open(ctx + '/stock/' + item.stockCode)
+        }
+      }, 250);
     },
     unitFormat: function(value) {
       if (value >= 100000000) {
