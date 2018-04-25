@@ -230,7 +230,7 @@ export default {
             top: 50,
             left: 65,
             right: 45,
-            bottom: 30
+            bottom: 50
           },
           tooltip: {
             triggerOn: 'none',
@@ -544,7 +544,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return Number(val * 100).toFixed(2) + '%'
+                return Number(val * 100) + '%'
               },
               textStyle: {
                 color: '#c9d0d7'

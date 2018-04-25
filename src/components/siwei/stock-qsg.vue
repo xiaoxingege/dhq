@@ -16,14 +16,13 @@
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
+            <div class="fr"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
             <li v-for="value in item.topics" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
-              </div>
+              <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
             </li>
           </ul>
         </li>
@@ -271,7 +270,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
@@ -516,7 +515,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 

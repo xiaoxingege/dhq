@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       options: {
-        xDefault: 'up_limit_last_day_data.up_limit_term_num',
+        xDefault: 'mkt_idx.volume_ratio',
         yDefault: 'up_limit_last_day_data.cont_up_limit_days_num',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
@@ -233,7 +233,7 @@ export default {
             top: 50,
             left: 65,
             right: 40,
-            bottom: 20
+            bottom: 50
           },
           tooltip: {
             triggerOn: 'none',
@@ -270,7 +270,7 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '昨日开板次数'
+                  return 'ln(量比)'
                 }
                 return v
                 // return that.convertNumBySelect('xData', v)
@@ -502,7 +502,7 @@ export default {
 
         this.lineChart.setOption({
           title: {
-            text: '昨日涨停今日平均涨跌幅',
+            text: '昨日涨停今日平均涨幅',
             textStyle: {
               fontSize: 12,
               fontWeight: 'normal',
@@ -547,12 +547,9 @@ export default {
           }],
           yAxis: [{
             type: 'value',
-            // scale: true,
-            // min: datas === null ? '' : Number(datas.line) - Dvalue,
-            // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return that.dealNumFormat(val)
+                return val * 100 + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -578,7 +575,7 @@ export default {
             // interval: 2 * Dvalue / 4
           }],
           series: [{
-              name: '昨日涨停',
+              name: '昨日涨停今日平均涨幅',
               showSymbol: false,
               itemStyle: {
                 normal: {
@@ -620,7 +617,7 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p>昨日涨停今日平均涨幅 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
                 '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex]) + '</p>';
               return tooltipStr;
             },
@@ -696,7 +693,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return that.dealNumFormat(val)
+                return val * 100 + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -843,7 +840,7 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '昨日开板次数'
+                  return 'ln(量比)'
                 }
                 return v
                 // return that.convertNumBySelect('xData', v)
@@ -1004,7 +1001,7 @@ export default {
 
         this.lineChart && this.lineChart.setOption({
           series: [{
-              name: '昨日涨停',
+              name: '昨日涨停今日平均涨幅',
               showSymbol: false,
               itemStyle: {
                 normal: {
@@ -1046,7 +1043,7 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
+                '<p>昨日涨停今日平均涨幅 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex]) + '</p>' +
                 '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex]) + '</p>';
 
               return tooltipStr;

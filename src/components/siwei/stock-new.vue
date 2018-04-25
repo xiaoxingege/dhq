@@ -265,7 +265,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
@@ -291,7 +293,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
+            max: Math.max.apply(null, yData) + 5,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -301,12 +303,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '开板前' + '\n' + '连板数'
                 }
-                return v
+                return Number(v).toFixed(0)
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
           series: [{
@@ -529,11 +533,13 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.1),
+            max: Math.max.apply(null, yData) + 5,
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -542,12 +548,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '开板前' + '\n' + '连板数'
                 }
-                return v
+                return Number(v).toFixed(0)
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
           series: [{
