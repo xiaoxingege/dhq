@@ -8,12 +8,12 @@
           <span v-if="item.postiveIndex != '' " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
+            <span class="name">{{item.title}}</span>
           </router-link>
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span>{{cutStr(item.summary,350)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -36,7 +36,7 @@
     <p class="tc mt-10 mb-20">
       <a ref="more" v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-      <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+      <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -142,7 +142,6 @@
         }
       },
       cutStr(str, len) {
-        if (str === '' || str === null) str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag) {
@@ -325,5 +324,11 @@
   }
   .blockbg {
       background: #525a65;
+  }
+  .noDataList{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
   }
 </style>

@@ -7,13 +7,13 @@
       </select>
       <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank"  class="lookStock">自选股查看</a>
     </div>
-    <div class="news-wrapper">
+    <div class="news-wrappe">
       <ul class="news-list">
         <li class="news-list-item" v-for="item in optionalInformationList">
           <div class="con-top">
             <p v-z3-updowncolor="item.equityList.chngPct">
               <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
-                <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{relatedStocks[item.equityList.code].code}}]</span>
+                <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
               </a>
               <span>{{relatedStocks[item.equityList.code].price}}</span>
               <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
@@ -27,7 +27,7 @@
           </div>
           <div class="con-txt">
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-              <span>{{cutStr(item.summary,350)}}</span>
+              <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
             </router-link>
           </div>
           <div class="con-bottom">
@@ -41,7 +41,7 @@
       <p class="tc mt-10 mb-20">
         <a ref="more" v-if="!noData && optionalInformationList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
         <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-        <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+        <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
       </p>
     </div>
     <StockBox ref="stockbox"></StockBox>
@@ -158,7 +158,6 @@
         }
       },
       cutStr(str, len) {
-        if (str === '' || str === null) str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag){
@@ -256,7 +255,10 @@
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
       convert(value) {
-        return value === '新闻' ? '资讯' : value;
+        return value === '新闻' ? '资讯' : value
+      },
+      code(value) {
+        return value.substring(0,6)
       }
     },
     destroyed() {
@@ -405,5 +407,11 @@
   }
   .blockbg {
       background: #525a65;
+  }
+  .noDataList{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
   }
 </style>
