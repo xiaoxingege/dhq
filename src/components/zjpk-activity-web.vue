@@ -491,7 +491,7 @@ export default {
         var _this = this
         var id = getQueryString('id') || '4'
         $.ajax({
-            url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=' + id,
+            url: '//itougu.jrj.com.cn/marketing/topics.jspa?id=' + id,
             dataType: 'jsonp',
             jsonpCallback: 'callback'
         }).then(data => {

@@ -35,7 +35,7 @@ export default {
         state
       }, options) {
         return $.ajax({
-            url: 'http://itougu.jrj.com.cn/account/m/getAdviserProfile.jspa?adviserId=' + options.userId,
+            url: '//itougu.jrj.com.cn/account/m/getAdviserProfile.jspa?adviserId=' + options.userId,
             dataType: 'jsonp'
             // jsonpCallback: 'callback'
         }).then(data => {
