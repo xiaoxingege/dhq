@@ -94,7 +94,7 @@
       </table>
     </div>
   </div>
-  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp"></DayMarketChart>
+  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp" :stockCodeList="stockCodeList"></DayMarketChart>
 </div>
 </template>
 <script>

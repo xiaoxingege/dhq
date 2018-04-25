@@ -54,10 +54,12 @@
 <script>
 import echarts from 'echarts'
 export default {
-  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp'],
+  props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp', 'stockCodeList'],
   data() {
     return {
-
+      stockVal: null,
+      upDown: null,
+      upDownExtent: null
     }
   },
   components: {},
@@ -65,19 +67,19 @@ export default {
     lsChartData: function() {
       const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
       return chartData
-    },
-    stockVal: function() {
-      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
-      return chartData.stockVal
-    },
-    upDown: function() {
-      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
-      return chartData.upDown
-    },
-    upDownExtent: function() {
-      const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
-      return chartData.upDownExtent
     }
+    /* stockVal: function() {
+         const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+         return chartData.stockVal
+     },
+     upDown: function() {
+       const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+       return chartData.upDown
+     },
+     upDownExtent: function() {
+       const chartData = this.$store.state.dhqIndex.chartData[this.stockCode]
+       return chartData.upDownExtent
+     }*/
   },
   methods: {
     dealData(zeroArr) {
@@ -288,9 +290,16 @@ export default {
   },
   watch: {
     timestamp() {
-      this.stockVal = this.lsChartData.stockVal
-      this.upDown = this.lsChartData.upDown
-      this.upDownExtent = this.lsChartData.upDownExtent
+      const dpIndexData = this.$store.state.dhqIndex.dpIndexData
+      dpIndexData.forEach((stock) => {
+        if (stock.stockCode === this.stockCode) {
+          this.stockVal = stock.stockVal
+          this.upDown = stock.upDown
+          this.upDownExtent = stock.upDownExtent
+          return
+        }
+      })
+      debugger
       this.refreshEcharts(this.lsChartData, this.stockName)
     },
     isResizeBottomChart() {
@@ -299,12 +308,18 @@ export default {
       })
     },
     stockCode() {
+      const dpIndexData = this.$store.state.dhqIndex.dpIndexData
+      dpIndexData.forEach((stock) => {
+        if (stock.stockCode === this.stockCode) {
+          this.stockVal = stock.stockVal
+          this.upDown = stock.upDown
+          this.upDownExtent = stock.upDownExtent
+          return
+        }
+      })
       this.$store.dispatch('dhqIndex/getIndexChartData', {
         stockCode: this.stockCode
       }).then(() => {
-        this.stockVal = this.lsChartData.stockVal
-        this.upDown = this.lsChartData.upDown
-        this.upDownExtent = this.lsChartData.upDownExtent
         this.refreshEcharts(this.lsChartData, this.stockName)
       })
     }
@@ -313,8 +328,25 @@ export default {
     this.$store.dispatch('dhqIndex/getIndexChartData', {
       stockCode: this.stockCode
     }).then(() => {
+      /*  this.stockVal = this.$store.state.dhqIndex.chartData[this.stockCode].stockVal
+        this.upDown = this.$store.state.dhqIndex.chartData[this.stockCode].upDown
+        this.upDownExtent = this.$store.state.dhqIndex.chartData[this.stockCode].upDownExtent */
       this.refreshEcharts(this.lsChartData, this.stockName)
     })
+    this.$store.dispatch('dhqIndex/getDpIndexData', {
+        stockCode: this.stockCodeList.join()
+      })
+      .then(() => {
+        const dpIndexData = this.$store.state.dhqIndex.dpIndexData
+        dpIndexData.forEach((stock) => {
+          if (stock.stockCode === this.stockCode) {
+            this.stockVal = stock.stockVal
+            this.upDown = stock.upDown
+            this.upDownExtent = stock.upDownExtent
+            return
+          }
+        })
+      })
   }
 }
 </script>
