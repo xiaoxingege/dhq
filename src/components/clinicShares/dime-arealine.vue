@@ -295,7 +295,7 @@ export default ({
 
           {
             type: 'category',
-            show: true,
+            show: false,
             boundaryGap: false,
             data: lineData.price,
             scale: true,
