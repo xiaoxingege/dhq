@@ -142,6 +142,9 @@ export default {
 
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
 
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
+
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
           let ps = ''
@@ -230,9 +233,11 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               showMaxLabel: true,
+              showMinLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return 'ln(量比)'
@@ -244,11 +249,12 @@ export default {
                 color: '#c9d0d7'
               },
               margin: 10,
-              interval: 0
+              interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
             },
             data: xData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5,
+            // scale:true
 
           },
           yAxis: {
@@ -274,7 +280,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1),
+            max: Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.05),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -291,7 +297,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1)) / 5
+            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.05)) / 5
 
           },
           series: [{
@@ -413,7 +419,7 @@ export default {
           that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
           that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
-          that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.bubbleColor.value = that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex] === null ? '--' : Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
@@ -658,6 +664,8 @@ export default {
         const that = this
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
           let ps = ''
@@ -721,7 +729,8 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
@@ -738,7 +747,7 @@ export default {
             },
             data: xData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, xData) + (Math.max.apply(null, xData) * 0.1)) / 5
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -764,7 +773,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData).toFixed(2) * 0.1),
+            max: Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData).toFixed(2) * 0.05),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -780,7 +789,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.1)) / 5
+            interval: (Number(Math.max.apply(null, yData).toFixed(0)) + (Math.max.apply(null, yData).toFixed(0) * 0.05)) / 5
 
           },
           series: [{
