@@ -4,11 +4,11 @@ import TopicDetail from 'components/topic-detail'
 import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
+import DetailPages from 'components/detail-pages'
 
 // import Search from 'components/search'
 // import Map from 'components/z3tougu-map'
 // import SearchBox from 'components/search-box'
-// import DetailPages from 'components/detail-pages'
 // import ThemeList from 'components/theme-list'
 // import Siwei from 'components/siwei'
 // import ThemeInformat from 'components/theme-informat-list'
@@ -118,6 +118,11 @@ export default [{
     path: ctx + '/industryIndex',
     name: 'industryindex',
     component: IndustryIndex
+  },
+  {
+    path: ctx + '/detail-pages/:detailType/:id',
+    name: 'detailPages',
+    component: DetailPages
   }
   /* {
      path: ctx + '/search-box',
@@ -129,11 +134,6 @@ export default [{
      name: 'search',
      component: Search
    },*/
-  /*  {
-      path: ctx + '/detail-pages/:detailType/:id',
-      name: 'detailPages',
-      component: DetailPages
-    },*/
   /* {
     path: ctx + '/map',
     name: 'map',
