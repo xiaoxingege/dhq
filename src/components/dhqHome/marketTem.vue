@@ -77,32 +77,6 @@ export default {
       const _this = this
       this.$store.dispatch('dhqIndex/getMarketTemData').then(() => {
         this.suggestion = this.$store.state.dhqIndex.marketTemData.barData.suggestion
-        const maxIndex = []
-        const minIndex = []
-        const restIndexs = []
-        for (let i = 0; i < _this.chartLineData.length; i++) {
-          if (_this.chartLineData[i] !== Math.max(_this.chartLineData)) {
-            maxIndex.push(null)
-          } else {
-            maxIndex.push(Math.max(_this.chartLineData))
-          }
-        }
-        for (let i = 0; i < _this.chartLineData.length; i++) {
-          if (_this.chartLineData[i] !== Math.min(_this.chartLineData)) {
-            minIndex.push(null)
-          } else {
-            minIndex.push(Math.min(_this.chartLineData))
-          }
-        }
-        for (let i = 0; i < _this.chartLineData.length; i++) {
-          if (_this.chartLineData[i] === Math.max(_this.chartLineData)) {
-            restIndexs.push(null)
-          } else if (_this.chartLineData[i] === Math.min(_this.chartLineData)) {
-            restIndexs.push(null)
-          } else {
-            restIndexs.push(_this.chartLineData[i])
-          }
-        }
         this.chart.setOption({
           tooltip: {
             trigger: 'axis',
@@ -181,8 +155,12 @@ export default {
                 show: false
               },
               position: 'right',
-              min: 'dataMin',
-              max: 'dataMax'
+              min: function(params) {
+                return params.min - (params.max - params.min) * 0.1
+              },
+              max: function(params) {
+                return params.max + (params.max - params.min) * 0.1
+              }
             }
           ],
           color: ['#525a65', '#1984ea'],
@@ -244,47 +222,7 @@ export default {
                   }
                 }
               },
-              data: maxIndex
-            },
-            {
-              name: '指数',
-              type: 'line',
-              symbolSize: 3,
-              yAxisIndex: 1,
-              itemStyle: {
-                color: '#1984ea',
-                normal: {
-                  label: {
-                    show: true,
-                    position: 'top',
-                    color: '#c9d0d7',
-                    formatter: function(params) {
-                      return params.value
-                    }
-                  }
-                }
-              },
-              data: minIndex
-            },
-            {
-              name: '指数',
-              type: 'line',
-              symbolSize: 3,
-              yAxisIndex: 1,
-              itemStyle: {
-                color: '#1984ea',
-                normal: {
-                  label: {
-                    show: true,
-                    position: 'top',
-                    color: '#c9d0d7',
-                    formatter: function(params) {
-                      return params.value
-                    }
-                  }
-                }
-              },
-              data: restIndexs
+              data: _this.chartLineData
             }
           ]
         })

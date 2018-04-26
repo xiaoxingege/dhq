@@ -143,8 +143,10 @@ export default {
                 color: function(params) {
                   return '#707b8f'
                 }
-              }
+              },
+              interval: 150
             },
+            // splitNumber:2,
             data: this.chartDateData
           }],
           yAxis: [{

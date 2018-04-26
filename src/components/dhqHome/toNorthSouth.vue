@@ -127,6 +127,7 @@ export default {
   },
   methods: {
     init: function() {
+      const interval = this.timeType === '1mon' ? 5 : this.timeType === '6mon' ? 30 : this.timeType === '12mon' ? 60 : this.timeType === 'all' ? 180 : '';
       if (this.type === 'toNorth') {
         this.$store.dispatch('dhqIndex/getToNorthData', {
           type: this.timeType
@@ -202,7 +203,8 @@ export default {
                   color: function(params) {
                     return '#707b8f'
                   }
-                }
+                },
+                interval: interval
               },
               data: this.chartNorthDateData
             },
@@ -347,7 +349,8 @@ export default {
                   color: function(params) {
                     return '#707b8f'
                   }
-                }
+                },
+                interval: interval
               },
               data: this.chartSouthDateData
             }],
