@@ -42,7 +42,7 @@ const connectDb = async(dbName) => {
   }
 }
 
-const exceptClasses = ['11thActivity', 'koaLoggerParse']
+const exceptClasses = ['11thActivity', 'koaLoggerParse', 'applog']
 const privateKey = 'hello2018'
 
 const signature = function(params, t) {
@@ -86,10 +86,10 @@ module.exports = function(router) {
     let data = ctx.request.body;
     let { sign, t } = ctx.request.query || {};
     let now = Date.now()
-    if(!t || now - t > 10 * 1000){
+    if (!t || now - t > 10 * 1000) {
       ctx.body = {
-        code:1,
-        message:'t has expired'
+        code: 1,
+        message: 't has expired'
       }
       return
     }
@@ -130,10 +130,10 @@ module.exports = function(router) {
     let data = ctx.request.body;
     let { sign, t } = ctx.request.query || {};
     let now = Date.now()
-    if(!t || now - t > 10 * 1000){
+    if (!t || now - t > 10 * 1000) {
       ctx.body = {
-        code:1,
-        message:'t has expired'
+        code: 1,
+        message: 't has expired'
       }
       return
     }
@@ -176,15 +176,15 @@ module.exports = function(router) {
   router.delete('/crud/:className/:objectId?', async(ctx, next) => {
     let className = ctx.params.className;
     let objectId = ctx.params.objectId;
-    let query = ctx.request.query||{};
+    let query = ctx.request.query || {};
     let where = query.where;
     let data = ctx.request.body;
     let { sign, t } = query;
     let now = Date.now()
-    if(!t || now - t > 10 * 1000){
+    if (!t || now - t > 10 * 1000) {
       ctx.body = {
-        code:1,
-        message:'t has expired'
+        code: 1,
+        message: 't has expired'
       }
       return
     }
