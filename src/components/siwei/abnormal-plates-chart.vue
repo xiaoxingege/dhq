@@ -18,7 +18,8 @@ export default {
     return {
       timeline: util.generateTimeline(),
       markPointData: [],
-      markLineData: []
+      markLineData: [],
+      lastPlateTime: ''
     }
   },
   computed: {
@@ -43,6 +44,9 @@ export default {
         max = closePx + Math.abs(closePx - minData);
         min = closePx - Math.abs(closePx - minData);
       }
+      let _interval = max - closePx;
+      max = max + 1 / 4 * _interval;
+      min = min - 1 / 4 * _interval;
       let interval = (max - closePx) / 2;
       return {
         min: min,
@@ -50,15 +54,6 @@ export default {
         interval: interval,
         closePx: closePx
       };
-    },
-    chgRange: function() {
-      let range = this.indexRange;
-      let interval = (range.max - range.closePx) / range.closePx / 2;
-      return {
-        min: 2 * interval,
-        max: -2 * interval,
-        interval: interval
-      }
     }
   },
   methods: {
@@ -136,13 +131,13 @@ export default {
           axisLine: {
             onZero: false
           },
-          min: this.chgRange.min,
-          max: this.chgRange.max,
-          interval: this.chgRange.interval,
+          min: this.indexRange.min,
+          max: this.indexRange.max,
+          interval: this.indexRange.interval,
           splitNumber: 4,
           axisLabel: {
             inside: true,
-            formatter: (value) => (value * 100).toFixed(2) + '%',
+            formatter: (value) => ((value - this.indexRange.closePx) / this.indexRange.closePx * 100).toFixed(2) + '%',
             color: (value, index) => index < 2 ? config.downColor : (index === 2 ? config.flatColor : config.upColor)
           },
           axisTick: {
@@ -198,7 +193,7 @@ export default {
           const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
           let point = {
             coord: [time, coordY],
-            symbolSize: [markPointSize, 30],
+            symbolSize: [markPointSize, 20],
             itemStyle: {
               normal: {
                 borderColor: color
@@ -237,7 +232,7 @@ export default {
     },
     updatePlates() {
       this.$store.dispatch('marketBubble/updateAbnormalPlates', {
-        startTime: ''
+        startTime: this.lastPlateTime
       }).then(() => {
         this.addMarkData();
         setTimeout(() => {
@@ -262,9 +257,9 @@ export default {
             max: this.indexRange.max,
             interval: this.indexRange.interval
           }, {
-            min: this.chgRange.min,
-            max: this.chgRange.max,
-            interval: this.chgRange.interval
+            min: this.indexRange.min,
+            max: this.indexRange.max,
+            interval: this.indexRange.interval
           }],
           series: [{
             data: this.indexArr
@@ -284,7 +279,7 @@ export default {
     this.chart = echarts.init(this.$refs.chart);
     const p1 = this.$store.dispatch('marketBubble/updateIndexData');
     const p2 = this.$store.dispatch('marketBubble/updateAbnormalPlates', {
-      startTime: ''
+      startTime: this.lastPlateTime
     })
     Promise.all([p1, p2]).then(() => {
       this.addMarkData();
@@ -292,7 +287,7 @@ export default {
     })
     pcId = setInterval(() => {
       this.updateIndex();
-      this.updatePlates();
+      // this.updatePlates();
     }, 60 * 1000);
     window.addEventListener('resize', () => {
       const chartWrapper = this.$refs.chart;

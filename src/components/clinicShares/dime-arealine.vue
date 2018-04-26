@@ -201,7 +201,8 @@ export default ({
         proportion: [],
         proportionLast: [],
         vols: [],
-        currPirce: []
+        currPirce: [],
+        cuur: ''
       }
     }
   },
@@ -216,7 +217,9 @@ export default ({
       var data = this.data
       const klineData = [].concat(this.indexFace.datas.data)
       const currPirce = this.indexFace.datas.currPirce
-      data.currPirce.push(currPirce)
+      // data.currPirce.push(currPirce)
+      data.cuur = currPirce + ''
+
       klineData.forEach((item) => {
         const price = Number(item.price)
         const proportion = Number(item.proportion * 100).toFixed(2)
@@ -250,6 +253,7 @@ export default ({
     },
     drawCharts() {
       const lineData = this.data
+      console.log(lineData.cuur)
       const opt = {
         tooltip: {
           trigger: 'axis',
@@ -296,7 +300,7 @@ export default ({
             data: lineData.price,
             scale: true,
             axisTick: {
-              show: false
+              show: true
             },
             splitArea: {
               show: false
@@ -342,7 +346,7 @@ export default ({
               name: '当前价',
               symbol: ['none', 'none'],
               data: [{
-                yAxis: lineData.currPirce
+                yAxis: lineData.cuur
               }],
               lineStyle: {
                 normal: {

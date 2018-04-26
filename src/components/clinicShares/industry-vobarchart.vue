@@ -258,7 +258,7 @@ export default ({
       }
       klineData.forEach((item, index) => {
         const level = item.level
-        const score = Number(item.eval).toFixed(2)
+        const score = Number(item.eval * 10).toFixed(2)
         const industryName = item.industryName
         this.data.industryName.push(industryName)
         if (this.industryFace.range === industryName) {

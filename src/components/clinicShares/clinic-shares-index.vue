@@ -44,12 +44,14 @@ html {
 .clinic-shares-wrap {
     min-width: 1217px;
     height: 100%;
-    background-color: $bgConColor;
+    background-color: $bgDeepColor;
     min-height: 100%;
     border-top: 1px solid $lineAndTitleColor;
     border-left: 1px solid $lineAndTitleColor;
     border-bottom: 1px solid $lineAndTitleColor;
     margin: 3px 0 0 1px;
+    /*   float: left; */
+
 }
 
 body {
@@ -76,8 +78,8 @@ body {
 }
 </style>
 <template>
-<div class="wrap-all">
-  <div class="clinic-shares-wrap">
+<div class="wrap-all clearfix">
+  <div class="clinic-shares-wrap clearfix">
     <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
     <ClinicDimension :innerCode='innerCode' :isShow='isType' />
   </div>
@@ -143,6 +145,15 @@ export default {
   mounted() {
 
     this.init()
+    /*  alert(111111)
+      if (window.Z3) {
+          window.Z3.SndTokenInfo((info) => {
+            const authInfo = JSON.parse(info)
+             for(var key in authInfo){
+                 alert(key+','+authInfo[key])
+             } 
+          })
+        } */
     // console.log(this.innerCode)
     // console.log(this.$route.params)
   },
