@@ -115,7 +115,7 @@ body {
 }
 
 .clinic-dime-wrap {
-    background-color: $bgConColor;
+    /*  background-color: $bgConColor; */
     margin-top: 4px;
 }
 .dime-tab {

@@ -237,8 +237,8 @@ export default ({
           data.proportion.push(null)
           data.proportionLast.push(proportion)
         }
-        // console.log(data.proportion)
-        // console.log(data.proportionLast)
+        /* console.log(data.proportion)
+        console.log(data.proportionLast) */
         //  console.log(data.price)
 
       })
@@ -253,32 +253,59 @@ export default ({
     },
     drawCharts() {
       const lineData = this.data
-      console.log(lineData.cuur)
+      //  console.log(lineData.cuur)
       const opt = {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
             type: 'cross',
             label: {
-              backgroundColor: '#6a7985'
+              show: true,
+              formatter: function(params) {
+                let yLabelData = ''
+                if (params.seriesData.length > 0) {
+                  yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
+                  return params.seriesData[0].name
+                } else {
+                  if (typeof yLabelData !== 'undefined') {
+                    return yLabelData
+                  } else {
+                    return ''
+                  }
+                }
+              },
+              backgroundColor: '#777',
+              // padding:[20,0,10,10],
+              textStyle: {
+                /* color:'#000',
+                 fontWeight:'bold'*/
+              }
+            },
+            crossStyle: {
+              color: '#666'
             }
           },
           formatter: function(params) {
             var s = ''
-            for (var i = 0; i < params.length; i++) {
-              if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%'
-              }
+            // console.log(params)
+            if (Number(params[0].name) >= Number(lineData.cuur)) {
 
+              s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>' + params[1].seriesName + ' : ' + params[1].value + '%'
+
+
+            } else {
+              s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[0].color + '"></span>' + params[0].seriesName + ' : ' + params[0].value + '%'
             }
+
             return s
           }
-        },
 
+        },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
+          top: 10,
           containLabel: true
         },
         xAxis: [{
@@ -291,54 +318,82 @@ export default ({
             }
           }
         }],
-        yAxis: [
-
-          {
-            type: 'category',
+        yAxis: {
+          type: 'category',
+          show: false,
+          boundaryGap: false,
+          data: lineData.price,
+          scale: true,
+          axisTick: {
+            show: true
+          },
+          splitArea: {
+            show: false
+          },
+          axisLabel: {
+            show: true
+          },
+          axisLine: {
             show: false,
-            boundaryGap: false,
-            data: lineData.price,
-            scale: true,
-            axisTick: {
-              show: true
-            },
-            splitArea: {
-              show: false
-            },
-            axisLabel: {
-              show: true
-            },
-            axisLine: {
-              show: false,
-              lineStyle: {
-                type: 'solid',
-                color: '#c9d0d7'
-              }
-            },
-            splitLine: {
-              show: false,
-              lineStyle: {
-                color: '#c9d0d7'
-              }
+            lineStyle: {
+              type: 'solid',
+              color: '#c9d0d7'
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              color: '#c9d0d7'
             }
           }
-        ],
+        },
         series: [{
+
             name: '筹码分布',
             type: 'line',
-            stack: '筹码分布',
-            symbol: 'none',
             smooth: true,
+            symbol: 'none',
+            stack: '筹码分布',
+            itemStyle: {
+              normal: {
+                shadowBlur: 6,
+                shadowColor: 'red',
+                color: config.downColor
+              }
+            },
+            /* lineStyle: {
+                 normal: {
+                     width: 0
+                 }
+             }, */
             areaStyle: {
               normal: {
+                opacity: '1'
+              }
+            },
+            data: lineData.proportionLast
+          },
+          {
+            name: '筹码分布',
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            stack: '筹码分布',
+            itemStyle: {
+              normal: {
+                shadowBlur: 6,
+                shadowColor: 'red',
                 color: config.upColor
               }
-
             },
-            lineStyle: {
+            /* lineStyle: {
+                 normal: {
+                     width: 0
+                 }
+             }, */
+            areaStyle: {
               normal: {
-                color: '#fff',
-                opacity: 0
+                opacity: '1'
               }
             },
             data: lineData.proportion,
@@ -355,19 +410,8 @@ export default ({
                 }
               }
             }
-          },
-          {
-            name: '筹码分布',
-            type: 'line',
-            stack: '筹码分布',
-            symbol: 'none',
-            areaStyle: {
-              normal: {
-                color: config.downColor
-              }
-            },
-            data: lineData.proportionLast
           }
+
         ]
       };
       this.chart.setOption(opt)
