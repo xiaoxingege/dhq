@@ -151,7 +151,6 @@ export default {
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
       if(stocks[stock.innerCode] !== undefined){
-        console.log(stocks[stock.innerCode].code,stocks[stock.innerCode].price)
         stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
         stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
       }

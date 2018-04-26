@@ -323,7 +323,7 @@ body {
 <div class="clinic-top-wrap">
   <div class="clinic-top display-box">
     <div class="clinic-top-left box-flex-1">
-      <div class="mark-name">{{smartStock.name}}[{{smartStock.innerCode}}]综合评分
+      <div class="mark-name">{{smartStock.name}}[{{smartStock.symbol}}]综合评分
         <div class="help-img fr"><i>{{this.iconHelpMsg}}</i></div>
       </div>
       <div class="mark-num red">{{changeTofixed1(smartStock.score)}}</div>

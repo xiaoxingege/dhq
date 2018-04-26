@@ -116,6 +116,7 @@ body {
 
 .clinic-dime-wrap {
     background-color: $bgConColor;
+    margin-top: 4px;
 }
 .dime-tab {
     overflow: hidden;
@@ -182,6 +183,16 @@ body {
     background: $bgConColor;
     margin: 0 5px 6px 0;
 }
+/* nth-of-type */
+.tech-charts1:nth-child(3) {
+    margin-bottom: 0;
+}
+.tech-charts1:nth-child(4) {
+    margin-bottom: 0;
+}
+.mb-0 {
+    margin-bottom: 0;
+}
 </style>
 <template>
 <div class="clinic-dime-wrap" id="wrap">
@@ -204,10 +215,10 @@ body {
       </div>
     </div>
     <div class="chart-box2">
-      <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===2'>
+      <div class="chart-kline box-flex-1 mb-0" v-for='(item,index) of indexFaceData' v-if='index===2'>
         <Barline :innerCode='code' :indexFace='item' :dataIndex='index' />
       </div>
-      <div class="chart-grop box-flex-1">
+      <div class="chart-grop box-flex-1 mb-0">
         <Pieline :innerCode='code' />
       </div>
     </div>
@@ -216,7 +227,7 @@ body {
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
       <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='code' />
     </div>
-    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index>=2'>
+    <div class="box-flex-1 chart2-kline mb-0" v-for='(item,index) of baseFaceData' v-if='index>=2'>
       <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='code' />
     </div>
   </div>
@@ -235,7 +246,7 @@ body {
       </div>
     </div>
     <div class="chart-box2">
-      <div class="chart-barline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===2'>
+      <div class="chart-barline box-flex-1 mb-0" v-for='(item,index) of industryFaceData' v-if='index===2'>
         <IndustryvoBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
       </div>
     </div>

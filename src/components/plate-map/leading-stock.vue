@@ -166,10 +166,10 @@ export default {
         value = this.dateFormatUtil(pbDate)
       } else if (this.condition === 'mkt_idx.keep_days_today') {
         value = value + '天';
-      } else if (this.condition === 'margin_buy_value') {
-        value = value >= 10 ? (value / 10).toFixed(2) + '亿' : (value > 1 && value < 10 ? value.toFixed(2) + '千万' : (1000 * value).toFixed(2) + '万')
-      } else if (this.condition === 'margin_buy_net_value') {
-        value = Math.abs(value) >= 10000 ? (value / 10000).toFixed(2) + '亿' : (Math.abs(value) > 1000 && Math.abs(value) < 10000 ? (value / 1000).toFixed(2) + '千万' : value.toFixed(2) + '万')
+      } else if (this.condition === 'margin_buy_value') { // 融资融券买入额
+        value = this.formatMarginValue(value)
+      } else if (this.condition === 'margin_buy_net_value') { // 融资融券净买入额
+        value = this.formatMarginValue(value)
       } else if (this.isUnit[this.condition] === '%') {
         if (this.condition !== 'mkt_idx.div_rate') {
           if (value >= 0) {
@@ -225,6 +225,16 @@ export default {
         day = '0' + day
       }
       return day
+    },
+    formatMarginValue(value) {
+      if (Math.abs(parseFloat(value)) >= 100000000) {
+        value = (parseFloat(value) / 100000000).toFixed(2) + '亿'
+      } else if (Math.abs(parseFloat(value)) >= 10000000 && Math.abs(parseFloat(value)) < 100000000) {
+        value = (parseFloat(value) / 10000000).toFixed(2) + '千万'
+      } else {
+        value = (parseFloat(value) / 10000).toFixed(2) + '万'
+      }
+      return value
     }
   },
   mounted() {

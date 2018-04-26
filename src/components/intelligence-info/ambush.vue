@@ -70,9 +70,9 @@ export default {
     overflow: auto;
     li {
         overflow: hidden;
-        height: 36px;
-        line-height: 18px;
-        margin: 5px 6px;
+        height: 40px;
+        line-height: 20px;
+        margin: 10px 6px;
         a {
             color: $wordsColorBase;
             text-decoration: none;

@@ -8,12 +8,12 @@
           <span v-if="item.postiveIndex != '' " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span class="name">[{{ item.newsType | convert}}]{{item.title}}</span>
+            <span class="name">{{item.title}}</span>
           </router-link>
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span>{{cutStr(item.summary,350)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -142,7 +142,6 @@
         }
       },
       cutStr(str, len) {
-        if (str === '' || str === null) str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag) {
@@ -243,6 +242,7 @@
       font-size: 12px;
   }
   .name {
+      font-size: 14px;
       font-weight: bold;
   }
   .source {

@@ -10,8 +10,8 @@
             <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <span v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}</span>
             </a>
-            <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
-            <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+            <span>{{relatedStocks[item.equity.code].price  | filterNum('') }}</span>
+            <span>{{relatedStocks[item.equity.code].chngPct  |  filterNum('%') }}</span>
           </p>
         </div>
         <div>
@@ -22,7 +22,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span>{{cutStr(item.summary,350)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -32,7 +32,7 @@
     <p class="tc mt-10 mb-20">
       <a ref="more" v-if="!noData && listedCompany.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-      <p v-if="listedCompany.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+      <p v-if="listedCompany.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -138,7 +138,6 @@
         }
       },
       cutStr(str, len) {
-        if (str === '' || str === null) str = '--'
         return cutString(str, len)
       },
       upAndDownColor(flag) {
@@ -234,8 +233,9 @@
   .stock {
       font-size: 12px;
   }
-  .name {
-      font-weight: bold;
+  .name{
+    font-size: 14px;
+    font-weight: bold;
   }
   .source {
       color: #656766;
@@ -322,5 +322,11 @@
   }
   .blockbg {
       background: #525a65;
+  }
+  .noDataList{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
   }
 </style>
