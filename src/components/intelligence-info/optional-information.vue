@@ -314,6 +314,7 @@
     font-size: 12px;
   }
   .name{
+    font-size: 14px;
     font-weight: bold;
   }
   .source{

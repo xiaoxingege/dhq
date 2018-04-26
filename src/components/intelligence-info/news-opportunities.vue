@@ -2,7 +2,6 @@
   <!-- 机会挖掘 -->
   <div class="news-opportunities" @scroll="getScrollTop($event)">
     <div class="news-wrapper">
-      <span class="num">{{refresh}}</span>
       <div class="news-nav-top">
         <a href="javascript:;" :class="{active: index === typeIndex}" class="nav-item" v-for="(item,index) in navData" @click="selectType(index)">{{item.name}}</a>
       </div>
@@ -11,19 +10,25 @@
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-                <span class="name">{{item.equity.name | isNull}}</span>
+                <span v-if="item.equity.name.length <=5" class="name fontS22">{{item.equity.name | isNull}}</span>
+                <span v-else-if="item.equity.name.length === 6" class="name fontS18">{{item.equity.name | isNull}}</span>
+                <span v-else  class="name fontS16">{{item.equity.name | isNull}}</span>
                 <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.indu.chngPct">
-                <span class="name">{{item.indu.name | isNull}}</span>
+                <span v-if="item.indu.name.length <=5" class="name fontS22">{{item.indu.name | isNull}}</span>
+                <span v-else-if="item.indu.name.length === 6" class="name fontS18">{{item.indu.name | isNull}}</span>
+                <span v-else class="name fontS16">{{item.indu.name | isNull}}</span>
                 <p>{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.topic.chngPct">
-                <span class="name">{{item.topic.name | isNull}}</span>
+                <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
+                <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
+                <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
                 <p>{{item.topic.chngPct | filterNum("%") }}</p>
               </div>
             </a>
@@ -47,7 +52,9 @@
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-                <span class="name">{{item.equity.name | isNull}}</span>
+                <span v-if="item.equity.name.length <=5" class="name fontS22">{{item.equity.name | isNull}}</span>
+                <span v-else-if="item.equity.name.length === 6" class="name fontS18">{{item.equity.name | isNull}}</span>
+                <span v-else  class="name fontS16">{{item.equity.name | isNull}}</span>
                 <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
@@ -71,13 +78,17 @@
           <div class="leftTime" >
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.topic.chngPct">
-                <span class="name">{{item.topic.name | isNull}}</span>
+                <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
+                <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
+                <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
                 <p>{{item.topic.chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.indu.chngPct">
-                <span class="name">{{item.indu.name | isNull}}</span>
+                <span v-if="item.indu.name.length <=5" class="name fontS22">{{item.indu.name | isNull}}</span>
+                <span v-else-if="item.indu.name.length === 6" class="name fontS18">{{item.indu.name | isNull}}</span>
+                <span v-else class="name fontS16">{{item.indu.name | isNull}}</span>
                 <p>{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
@@ -100,7 +111,9 @@
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <div class="txt" v-z3-updowncolor="1">
-              <span class="name">{{item.equity.productName}}</span>
+              <span v-if="item.equity.productName.length <=5" class="name fontS22">{{item.equity.productName | isNull}}</span>
+              <span v-else-if="item.equity.productName.length ===6" class="name fontS18">{{item.equity.productName | isNull}}</span>
+              <span v-else class="name fontS16">{{item.equity.productName | isNull}}</span>
             </div>
           </div>
           <div class="news-list-item box-flex-1">
@@ -156,7 +169,6 @@
       return {
         page: 0,
         totalPage: 200,
-        updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
         innerHeight: window.innerHeight,
@@ -165,13 +177,14 @@
                   { name: '个股机会',value: '0' },
                   { name: '板块机会', value: '0' },
                   { name: '产品机会', value: '0' }],
-        refresh:0
+        isA: true,
+        isB: false
       }
     },
     mounted() {
       this.loadListInit()
       this.updateNews()
-      // this.updateNum()
+      console.log(this.$refs.name)
     },
     computed: {
       ...mapState([
@@ -224,11 +237,6 @@
           this.$store.commit('setNoData',true)
         }
       },
-      updateNum(){
-        setInterval(() => {
-          this.refresh +=1
-        },1000)
-      },
       updateNews() {
         intervalId = setInterval(() => {
           this.page = 0
@@ -276,8 +284,9 @@
         }
       },
       selectType(index) {
+        console.log(intervalId)
         if(intervalId) {
-          clearInterval(this.updateNewsPid)
+          clearInterval(intervalId)
         }
         this.$store.commit('setNoData',false)
         this.$store.commit('setIsTop',false)
@@ -350,7 +359,7 @@
     },
     destroyed() {
       if(intervalId) {
-        clearInterval(this.updateNewsPid)
+        clearInterval(intervalId)
       }
       z3websocket.ws && z3websocket.ws.close()
     }
@@ -373,6 +382,7 @@
       border-bottom-color: #23272c;
       font-size: 0;
       padding-left: 4px;
+      margin-bottom: 2px;
       .nav-item {
           display: inline-block;
           font-size: 12px;
@@ -393,6 +403,7 @@
   .leftTime {
       position: relative;
       width: 130px;
+      min-height: 98px;
       background-color: #26272d;
       &.upColor {
         a {
@@ -406,10 +417,13 @@
         }
         border-color: $downColor;
       }
-      .name,
       p {
           font-size: 16px;
+          margin-top: 10px;
       }
+      .name.fontS18{font-size: 18px}
+      .name.fontS16{font-size: 16px}
+      .name.fontS22{font-size: 22px}
       .txt {
           width: 100%;
           text-align: center;
@@ -433,8 +447,9 @@
   .stock {
       font-size: 12px;
   }
-  .name {
-      font-weight: bold;
+  .name{
+    font-size: 14px;
+    font-weight: bold;
   }
   .source {
       color: #656766;
@@ -457,7 +472,7 @@
       .news-list-item {
           // border: 1px solid #0d1112;
           background-color: #1a1b1f;
-          padding: 10px 10px 10px 5px;
+          padding: 10px 10px 10px 10px;
           a {
               color: $wordsColorBase;
               &:hover {

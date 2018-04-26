@@ -53,7 +53,6 @@
       return {
         page: 0,
         totalPage: 300,
-        updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
         innerHeight: window.innerHeight
@@ -211,7 +210,7 @@
     },
     destroyed() {
       if(intervalId) {
-        clearInterval(this.updateNewsPid)
+        clearInterval(intervalId)
       }
       z3websocket.ws && z3websocket.ws.close()
     }
@@ -233,8 +232,9 @@
   .stock {
       font-size: 12px;
   }
-  .name {
-      font-weight: bold;
+  .name{
+    font-size: 14px;
+    font-weight: bold;
   }
   .source {
       color: #656766;
