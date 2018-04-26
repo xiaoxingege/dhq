@@ -86,20 +86,23 @@ module.exports = function(router) {
     let data = ctx.request.body;
     let { sign, t } = ctx.request.query || {};
     let now = Date.now()
-    if (!t || now - t > 10 * 1000) {
-      ctx.body = {
-        code: 1,
-        message: 't has expired'
+    if (exceptClasses.indexOf(className) === -1) {
+      if (!t || now - t > 10 * 1000) {
+        ctx.body = {
+          code: 1,
+          message: 't has expired'
+        }
+        return
       }
-      return
-    }
-    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
-      ctx.body = {
-        code: 1,
-        message: 'invalid sign'
+      if (!checkSign(data, t, sign)) {
+        ctx.body = {
+          code: 1,
+          message: 'invalid sign'
+        }
+        return
       }
-      return
     }
+
     if (!data) {
       ctx.body = {
         code: 1,
@@ -130,19 +133,21 @@ module.exports = function(router) {
     let data = ctx.request.body;
     let { sign, t } = ctx.request.query || {};
     let now = Date.now()
-    if (!t || now - t > 10 * 1000) {
-      ctx.body = {
-        code: 1,
-        message: 't has expired'
+    if (exceptClasses.indexOf(className) === -1) {
+      if (!t || now - t > 10 * 1000) {
+        ctx.body = {
+          code: 1,
+          message: 't has expired'
+        }
+        return
       }
-      return
-    }
-    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
-      ctx.body = {
-        code: 1,
-        message: 'invalid sign'
+      if (!checkSign(data, t, sign)) {
+        ctx.body = {
+          code: 1,
+          message: 'invalid sign'
+        }
+        return
       }
-      return
     }
     if (!data) {
       ctx.body = {
@@ -181,19 +186,21 @@ module.exports = function(router) {
     let data = ctx.request.body;
     let { sign, t } = query;
     let now = Date.now()
-    if (!t || now - t > 10 * 1000) {
-      ctx.body = {
-        code: 1,
-        message: 't has expired'
+    if (exceptClasses.indexOf(className) === -1) {
+      if (!t || now - t > 10 * 1000) {
+        ctx.body = {
+          code: 1,
+          message: 't has expired'
+        }
+        return
       }
-      return
-    }
-    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
-      ctx.body = {
-        code: 1,
-        message: 'invalid sign'
+      if (!checkSign(data, t, sign)) {
+        ctx.body = {
+          code: 1,
+          message: 'invalid sign'
+        }
+        return
       }
-      return
     }
     if (!objectId && !where) {
       ctx.body = {
