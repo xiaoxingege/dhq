@@ -1,105 +1,101 @@
-<style>
+<style lang="scss">
 @import '../assets/css/base.css';
+@import "../assets/scss/style";
 .index-top {
-  width: 100%;
-  /*height: 37%;*/
-  background: #0d0e0f;
+    width: 100%;
+    /*height: 37%;*/
+    background: $bgDeepColor;
 }
 
 .index-chart {
-  width: 100%;
-  height: 74%;
-  background: #0d0e0f;
-  padding-bottom: 3px;
+    width: 100%;
+    height: 74%;
+    background: $bgDeepColor;
+    padding-bottom: 3px;
 }
 
 .line-chart {
-  background: #141518;
-  margin-right: 0.3%;
-  width: 24.75%;
-  height: 100%;
-  float: left;
-  position: relative;
+    background: $bgConColor;
+    margin-right: 0.3%;
+    width: 24.75%;
+    height: 100%;
+    float: left;
+    position: relative;
 }
-
 .line-chart:last-child {
-  margin-right: 0;
+    margin-right: 0;
 }
-
 .line-chart:hover {
-  background: #26272B;
+    background: #26272B;
 }
 
 .line-chart img {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .indexChart {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
-
-.indexChart>div:hover {
-  cursor: pointer !important;
+.indexChart > div:hover {
+    cursor: pointer !important;
 }
 
 .indexNum {
-  position: absolute;
-  top: 5px;
-  right: 20px;
+    position: absolute;
+    top: 5px;
+    right: 20px;
 }
 
 .chartInfo {
-  margin: 0 auto;
-  float: left;
-  width: 25%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 1% 20px;
-  position: relative;
+    margin: 0 auto;
+    float: left;
+    width: 25%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1% 20px;
+    position: relative;
 }
 
 .chartInfo_text {
-  color: #fff;
+    color: #fff;
 }
 
 .chart-info {
-  background: #141518;
-  font-size: 12px;
-  height: 26%;
+    background: $bgConColor;
+    font-size: $fontSizeBase;
+    height: 26%;
 }
 
 .chartInfo_bar {
-  margin-top: 10px;
-  background: #404852;
+    margin-top: 10px;
+    background: $bgNavColor;
 }
 
 .chartInfo_bar div {
-  height: 8px;
-  /*width: 50%;*/
+    height: 8px;
+    /*width: 50%;*/
 }
-
 .chartInfo_bar div:first-child {
-  background: #ca4941;
-  float: left;
+    background: $upColor;
+    float: left;
 }
-
 .chartInfo_bar div:last-child {
-  background: #56a870;
-  float: right;
+    background: $downColor;
+    float: right;
 }
 
 .info-alert {
-  background: #cccfd9;
-  color: #666;
-  padding: 2px;
-  border: 1px solid #eee;
-  display: none;
-  width: auto;
-  position: absolute;
-  right: 0;
-  top: 80%;
-  z-index: 9999;
+    background: #cccfd9;
+    color: #666;
+    padding: 2px;
+    border: 1px solid #eee;
+    display: none;
+    width: auto;
+    position: absolute;
+    right: 0;
+    top: 80%;
+    z-index: 9999;
 }
 </style>
 <template>

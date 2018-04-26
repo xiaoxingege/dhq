@@ -42,7 +42,7 @@ const connectDb = async(dbName) => {
   }
 }
 
-const exceptClasses = ['11thActivity', 'koaLoggerParse', 'applog']
+const exceptClasses = ['11thActivity', 'koaLoggerParse']
 const privateKey = 'hello2018'
 
 const signature = function(params, t) {
@@ -84,25 +84,25 @@ module.exports = function(router) {
   router.post('/crud/:className', async(ctx, next) => {
     let className = ctx.params.className;
     let data = ctx.request.body;
-    let { sign, t } = ctx.request.query || {};
+    let {
+      sign,
+      t
+    } = ctx.request.query || {};
     let now = Date.now()
-    if (exceptClasses.indexOf(className) === -1) {
-      if (!t || now - t > 10 * 1000) {
-        ctx.body = {
-          code: 1,
-          message: 't has expired'
-        }
-        return
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
       }
-      if (!checkSign(data, t, sign)) {
-        ctx.body = {
-          code: 1,
-          message: 'invalid sign'
-        }
-        return
-      }
+      return
     }
-
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
+      }
+      return
+    }
     if (!data) {
       ctx.body = {
         code: 1,
@@ -131,23 +131,24 @@ module.exports = function(router) {
     let className = ctx.params.className;
     let objectId = ctx.params.objectId;
     let data = ctx.request.body;
-    let { sign, t } = ctx.request.query || {};
+    let {
+      sign,
+      t
+    } = ctx.request.query || {};
     let now = Date.now()
-    if (exceptClasses.indexOf(className) === -1) {
-      if (!t || now - t > 10 * 1000) {
-        ctx.body = {
-          code: 1,
-          message: 't has expired'
-        }
-        return
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
       }
-      if (!checkSign(data, t, sign)) {
-        ctx.body = {
-          code: 1,
-          message: 'invalid sign'
-        }
-        return
+      return
+    }
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
       }
+      return
     }
     if (!data) {
       ctx.body = {
@@ -184,23 +185,24 @@ module.exports = function(router) {
     let query = ctx.request.query || {};
     let where = query.where;
     let data = ctx.request.body;
-    let { sign, t } = query;
+    let {
+      sign,
+      t
+    } = query;
     let now = Date.now()
-    if (exceptClasses.indexOf(className) === -1) {
-      if (!t || now - t > 10 * 1000) {
-        ctx.body = {
-          code: 1,
-          message: 't has expired'
-        }
-        return
+    if (!t || now - t > 10 * 1000) {
+      ctx.body = {
+        code: 1,
+        message: 't has expired'
       }
-      if (!checkSign(data, t, sign)) {
-        ctx.body = {
-          code: 1,
-          message: 'invalid sign'
-        }
-        return
+      return
+    }
+    if (exceptClasses.indexOf(className) === -1 && !checkSign(data, t, sign)) {
+      ctx.body = {
+        code: 1,
+        message: 'invalid sign'
       }
+      return
     }
     if (!objectId && !where) {
       ctx.body = {

@@ -12,11 +12,11 @@ export default {
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更新
     dataList: null,
-    data:null,
+    data: null,
     dataType: false, // repeatType 1未重复、2重复
     err: null,
-    appItemId:8,
-    commentSubmit:0
+    appItemId: 8,
+    commentSubmit: 0
   },
   mutations: {
     setData(state, res) {
@@ -24,11 +24,11 @@ export default {
       state.data = res.data
       state.dataType = true
     },
-    setAppItemId(state, res){
-        state.appItemId = res
+    setAppItemId(state, res) {
+      state.appItemId = res
     },
-    setCommentSubmit(state, res){
-        state.commentSubmit = res
+    setCommentSubmit(state, res) {
+      state.commentSubmit = res
     },
     setError(state, err) {
       state.err = err
@@ -36,26 +36,26 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-      whereList({
-        commit,
-        rootState,
-        state
-      }, options) {
-        commit('setAppItemId', options.appItemId)
-        fetch(`//itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${state.appItemId}&bizType=8&pageSize=10`, {
-          credentials: 'include'
-        }).then(res => {
-          return res.json()
-        }).then(json => {
-            if(json.retCode === 0){
-                commit('setData', json)
-            }else{
-                commit('setError', {
-                    retCode: json.retCode,
-                    msg: json.msg
-                })
-            }
-        })
+    whereList({
+      commit,
+      rootState,
+      state
+    }, options) {
+      commit('setAppItemId', options.appItemId)
+      fetch(`http://itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${state.appItemId}&bizType=8&pageSize=10`, {
+        credentials: 'include'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        if (json.retCode === 0) {
+          commit('setData', json)
+        } else {
+          commit('setError', {
+            retCode: json.retCode,
+            msg: json.msg
+          })
+        }
+      })
     },
     addComment({
       commit,
@@ -63,64 +63,64 @@ export default {
       dispatch,
       state
     }, options) {
-        // `//itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
+      // `http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
 
-        if(options.frm === 'app'){
-            fetch(`//itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  'passportId':options.passportId,
-                  'devId':options.devId,
-                  'accessToken': options.accessToken
-              },
-              body:`itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
-              credentials: 'include'
-            }).then(res => {
-              return res.json()
-            }).then(json => {
-                if(json.retCode === 0){
-                    commit('setCommentSubmit', state.commentSubmit+1)
-                    dispatch('whereList',{
-                        appItemId:state.appItemId
-                    })
-                }else{
-                    commit('setError', {
-                        retCode: json.retCode,
-                        msg: json.msg
-                    })
-                }
-                // if(json.success){
-                //     dispatch('whereList',{
-                //         appItemId:state.appItemId
-                //     })
-                // }else{
-                //     commit('setError', {
-                //         retCode: json.code,
-                //         msg: json.message
-                //     })
-                // }
+      if (options.frm === 'app') {
+        fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'passportId': options.passportId,
+            'devId': options.devId,
+            'accessToken': options.accessToken
+          },
+          body: `itemTitle=股市学院&content=${options.content}&type=1&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}&senderName=大地震`,
+          credentials: 'include'
+        }).then(res => {
+          return res.json()
+        }).then(json => {
+          if (json.retCode === 0) {
+            commit('setCommentSubmit', state.commentSubmit + 1)
+            dispatch('whereList', {
+              appItemId: state.appItemId
             })
-        }else if(options.frm === 'web'){
-            fetch(`//itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
-              method: 'get',
-              credentials: 'include'
-            }).then(res => {
-              return res.json()
-            }).then(json => {
-                if(json.success){
-                    commit('setCommentSubmit', state.commentSubmit+1)
-                    dispatch('whereList',{
-                        appItemId:state.appItemId
-                    })
-                }else{
-                    commit('setError', {
-                        retCode: json.code,
-                        msg: json.message
-                    })
-                }
+          } else {
+            commit('setError', {
+              retCode: json.retCode,
+              msg: json.msg
             })
-        }
+          }
+          // if(json.success){
+          //     dispatch('whereList',{
+          //         appItemId:state.appItemId
+          //     })
+          // }else{
+          //     commit('setError', {
+          //         retCode: json.code,
+          //         msg: json.message
+          //     })
+          // }
+        })
+      } else if (options.frm === 'web') {
+        fetch(`http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
+          method: 'get',
+          credentials: 'include'
+        }).then(res => {
+          return res.json()
+        }).then(json => {
+          if (json.success) {
+            commit('setCommentSubmit', state.commentSubmit + 1)
+            dispatch('whereList', {
+              appItemId: state.appItemId
+            })
+          } else {
+            commit('setError', {
+              retCode: json.code,
+              msg: json.message
+            })
+          }
+        })
+      }
     }
   }
 }

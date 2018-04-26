@@ -1,12 +1,12 @@
 <style>
 body {
-    background: url("../assets/images/pqng-activity/pqng-h5-bg.jpg") center 0 repeat-y #720a0b !important;
-    font-family: '微软雅黑';
+  background: url("../assets/images/pqng-activity/pqng-h5-bg.jpg") center 0 repeat-y #720a0b !important;
+  font-family: '微软雅黑';
 }
 
 input,
 button {
-    outline: none;
+  outline: none;
 }
 </style>
 <style lang="scss" scoped>
@@ -242,48 +242,48 @@ button {
 
 <template>
 <div class="box">
-    <div class="bg1">
-        <div class="box-con">
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
-        </div>
+  <div class="bg1">
+    <div class="box-con">
+      <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
     </div>
-    <div class="bg2">
-        <div class="box-con">
-            <span v-text="wxid"></span>
-            <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
-        </div>
+  </div>
+  <div class="bg2">
+    <div class="box-con">
+      <span v-text="wxid"></span>
+      <button type="button" name="button" class="pulse animated infinite" @click="popClick"></button>
     </div>
-    <div class="bg3">
+  </div>
+  <div class="bg3">
+  </div>
+  <div class="bg4">
+    <div class="box-con">
+      <span v-text="wxid"></span>
     </div>
-    <div class="bg4">
-        <div class="box-con">
-            <span v-text="wxid"></span>
-        </div>
+  </div>
+  <div class="nav-fixed" @click="popClick">
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <div>
+        <em></em>
+        <span v-text="wxid"></span>
+      </div>
+      <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
     </div>
-    <div class="nav-fixed" @click="popClick">
+  </div>
+  <div class='fixBg' v-if="popShow"></div>
+  <div class="pop" v-if="popShow">
+    <div class="close" @click="close">X</div>
+    <div class="pop-con">
+      <span v-text="wxid"></span>
+      <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
     </div>
-    <div class="footer">
-        <div class="box-con">
-            <div>
-                <em></em>
-                <span v-text="wxid"></span>
-            </div>
-            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
-        </div>
-    </div>
-    <div class='fixBg' v-if="popShow"></div>
-    <div class="pop" v-if="popShow">
-        <div class="close" @click="close">X</div>
-        <div class="pop-con">
-            <span v-text="wxid"></span>
-            <button type="button" name="button" class='btn' :data-clipboard-text="wxid" @click="copOpenwx" tt-data-click tt-data-convertid="78777396907" tt-data-eventtype="wechat"></button>
-        </div>
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
@@ -291,54 +291,54 @@ import Clipboard from '../assets/plugins/clipboard/clipboard.min.js'
 window.Clipboard = Clipboard
 
 export default {
-    data() {
-        return {
-            popShow: false,
-            codeImg: '',
-            wxid: ''
-        }
-    },
-    computed: mapState({}),
-    components: {},
-    methods: {
-        close() {
-            this.popShow = false
-        },
-        popClick(type) {
-            this.popShow = true
-            this.popText = type
-            window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-clickPop', 'WT.ti', 'pqng-activity-clickPop')
-        },
-        copOpenwx() {
-            new Clipboard('.btn')
-            window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-openWx', 'WT.ti', 'pqng-activity-openWx')
-            location.href = 'weixin://'
-            this.popShow = false
-        }
-    },
-    mounted() {
-        document.title = '加微信 送盘前牛股'
-        var _this = this
-        $.ajax({
-            url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage&actId=1',
-            dataType: 'jsonp',
-            jsonpCallback: 'callback'
-        }).then(data => {
-            _this.codeImg = 'http://wx.jrj.com.cn' + data.imgurl
-            _this.wxid = data.wxid
-        })
-        $(function() {
-            window.InitWeChatShare({
-                shareTitle: window.document.title,
-                shareLink: window.location.href,
-                shareDesc: '这个微信号刷爆了朋友圈，每天免费送牛股，不信试试',
-                shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/pqng-h5-share-img.jpg',
-                callback: function(wx) {
-
-                }
-            })
-
-        })
+  data() {
+    return {
+      popShow: false,
+      codeImg: '',
+      wxid: ''
     }
+  },
+  computed: mapState({}),
+  components: {},
+  methods: {
+    close() {
+      this.popShow = false
+    },
+    popClick(type) {
+      this.popShow = true
+      this.popText = type
+      window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-clickPop', 'WT.ti', 'pqng-activity-clickPop')
+    },
+    copOpenwx() {
+      new Clipboard('.btn')
+      window.dcsMultiTrack('DCS.dcsuri', 'pqng-activity-openWx', 'WT.ti', 'pqng-activity-openWx')
+      location.href = 'weixin://'
+      this.popShow = false
+    }
+  },
+  mounted() {
+    document.title = '加微信 送盘前牛股'
+    var _this = this
+    $.ajax({
+      url: 'http://wx.jrj.com.cn/jrj/open.jsp?action=getImage&actId=1',
+      dataType: 'jsonp',
+      jsonpCallback: 'callback'
+    }).then(data => {
+      _this.codeImg = 'http://wx.jrj.com.cn' + data.imgurl
+      _this.wxid = data.wxid
+    })
+    $(function() {
+      window.InitWeChatShare({
+        shareTitle: window.document.title,
+        shareLink: window.location.href,
+        shareDesc: '这个微信号刷爆了朋友圈，每天免费送牛股，不信试试',
+        shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/pqng-h5-share-img.jpg',
+        callback: function(wx) {
+
+        }
+      })
+
+    })
+  }
 }
 </script>

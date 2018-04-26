@@ -1,93 +1,94 @@
-<style>
+<style lang="scss">
 @import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
 .bullBox * {
-  font-family: 微软雅黑 !important;
+    font-family: 微软雅黑 !important;
 }
 
 .bullBox {
-  width: 100%;
-  height: 100%;
-  color: #c9d0d7;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    color: #c9d0d7;
+    position: relative;
 }
 
 .bullChartHeader {
-  position: absolute;
-  padding: 0 15px;
-  width: 100%;
-  top: 0;
-  height: 40px;
-  line-height: 40px;
+    position: absolute;
+    padding: 0 15px;
+    width: 100%;
+    top: 0;
+    height: 40px;
+    line-height: 40px;
 }
 
 .bullChartHeader select {
-  width: 185px;
-  border: 0;
-  height: 24px;
-  border-radius: 3px;
-  line-height: 24px;
-  padding-left: 10px;
-  -webkit-appearance: none;
-  background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
-  background-position-x: 95%;
-  color: #c9d0d7;
-  background-color: #23272C;
-  cursor: pointer;
+    width: 185px;
+    border: 0;
+    height: 24px;
+    border-radius: 3px;
+    line-height: 24px;
+    padding-left: 10px;
+    -webkit-appearance: none;
+    background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
+    background-position-x: 95%;
+    color: #c9d0d7;
+    background-color: #23272C;
+    cursor: pointer;
 }
 
 .currentTime {
-  line-height: 40px;
-  color: #c9d0d7;
+    line-height: 40px;
+    color: #c9d0d7;
 }
 
 .bullChart {
-  position: absolute;
-  width: 100%;
-  top: 40px;
-  bottom: 30px;
-  /*padding-top: 15px;*/
-  box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    top: 40px;
+    bottom: 30px;
+    /*padding-top: 15px;*/
+    box-sizing: border-box;
 }
 
 .chart_con {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
-.bullChart .chart_con>div {
-  width: 50%;
-  height: 100%;
+.bullChart .chart_con > div {
+    width: 50%;
+    height: 100%;
 }
 
-.bullChart .chart_con>div>p {
-  padding-left: 15px;
-  font-size: 16px;
+.bullChart .chart_con > div > p {
+    padding-left: 15px;
+    font-size: 16px;
 }
 
 .themeBox {
-  height: calc(100% - 30px);
+    height: calc(100% - 30px);
 }
 
 .industryBox {
-  height: calc(100% - 30px);
+    height: calc(100% - 30px);
 }
 
 .bullLegend {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  height: 30px;
-  padding: 0 15px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 30px;
+    padding: 0 15px;
 }
 
 .bullLegend ul li {
-  float: left;
-  width: 45px;
-  height: 20px;
-  line-height: 20px;
-  margin-right: 2px;
-  color: #fff;
-  text-align: center;
+    float: left;
+    width: 45px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 2px;
+    color: #fff;
+    text-align: center;
 }
 </style>
 <template>

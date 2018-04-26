@@ -1,90 +1,108 @@
-<style>
+<style lang="scss" scoped>
 @import '../../assets/css/base.css';
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .map_con {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .chart {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .map_legend {
-  color: #fff;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 400;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
-  position: absolute;
-  top: 0px;
-  right: 0px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .map_legend .step {
-  /*  width: 50px;*/
-  height: 20px;
-  line-height: 20px;
-  cursor: default;
-  display: inline-block;
-  float: left;
-  text-align: center;
-  margin-left: 4px;
+    /*  width: 50px;*/
+    height: 20px;
+    line-height: 20px;
+    cursor: default;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    margin-left: 4px;
 }
 
 .playback {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  color: #fff;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
 }
 
 .chart_bottom {
-  margin-top: 10px;
-  position: relative;
-  height: 25px;
+    margin-top: 10px;
+    position: relative;
+    height: 25px;
 }
 
 .btn-wrap {
-  width: 125px;
-  height: 25px;
-  padding-top: 10px;
-  box-sizing: border-box;
-  position: absolute;
-  top: -32px;
-  right: 0px;
+    width: 125px;
+    height: 25px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: -32px;
+    right: 0;
 }
 
 .btn-wrap span {
-  color: #bdbdbd;
+    color: #bdbdbd;
 }
 
 .btn-wrap a {
-  cursor: pointer
+    cursor: pointer;
 }
 
 .btn-wrap .back-plate {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .btn-wrap .restore {
-  position: absolute;
-  bottom: 0px;
-  right: 3px;
+    position: absolute;
+    bottom: 0;
+    right: 3px;
 }
 
 .map_wrap {
-  position: relative;
+    position: relative;
+}
+
+.ball {
+    position: fixed;
+    top: 50%;
+    left: -20px;
+    transform: translate(0px, -50%);
+    cursor: pointer;
+    z-index: 99999;
+}
+
+.drag-wrap {
+    width: 13px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translate(0, 0);
 }
 </style>
 <template>
@@ -97,6 +115,10 @@
   </div>
   <div class="map_con" :style="{height:mapHeight+'px',width:mapWidth+'px'}" ref="mapcontainment">
     <div class="chart" ref="treemap" @mousemove="move($event)"></div>
+  </div>
+  <LeadStock :condition="conditionTopic" :boxHeight="mapHeight" :conditionList="conditionList" :kLineType="kLineType" :isUnit="isUnit" v-if="isShowLeadStock && mapType === 'plate'"></LeadStock>
+  <div class="drag-wrap" ref="drag_wrap" v-show="mapType === 'plate'">
+    <img src="../../assets/images/stock-map/ball.png" ref="ball" alt="" class="ball" @mouseover="inBall" @mouseout="outBall" v-z3-drag="{containment:'drag_wrap'}" v-z3-drop="ballBack" />
   </div>
   <div class="chart_bottom">
     <div class="clearfix playback" v-if="showPlayback">
@@ -111,6 +133,7 @@
 <script>
 import echarts from 'echarts'
 import StockList from 'components/stock-list-map'
+import LeadStock from 'components/plate-map/leading-stock'
 import config from '../../z3tougu/config'
 import playbackline from 'components/playback-line'
 import {
@@ -125,10 +148,11 @@ const valueRangeGX = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6] // 股息率
 const valueRangeSJ = [0, 1.2, 2.4, 3.6, 4.8, 6, 7.2, 8.4, 9.6] // 股息率
 const valueRangeUD = [-12, -9, -6, -3, 0, 3, 6, 9, 12] // 连涨天数
 export default {
-  props: ['plateType', 'conditionTopic', 'conditionStock', 'topicIndexs', 'topicStockIndexs'], // 从父组件传下来
+  props: ['plateType', 'conditionTopic', 'conditionStock', 'topicIndexs', 'topicStockIndexs', 'conditionList'], // 从父组件传下来
   components: {
     StockList,
-    playbackline
+    playbackline,
+    LeadStock
   },
   data() {
     return {
@@ -277,7 +301,9 @@ export default {
         status: 0,
         time: ''
       },
-      timeoutID: null
+      timeoutID: null,
+      ballTimeOut: null,
+      isShowLeadStock: false
     }
   },
   watch: {
@@ -297,6 +323,16 @@ export default {
       this.autoUpdate = true
       this.updateStockData()
       this.resetPlay();
+    },
+    mapType() {
+      if (this.mapType === 'stock') {
+        if (this.ballTimeOut) {
+          clearTimeout(this.ballTimeOut)
+        }
+        $('.ball').animate({
+          right: '-35px'
+        })
+      }
     }
   },
   computed: {
@@ -995,6 +1031,32 @@ export default {
     resetPlay: function() {
       this.playback.status = 0;
       this.playback.time = '';
+    },
+    /* 鼠标移入小球 */
+    inBall: function() {
+      this.isShowLeadStock = true
+      if (this.ballTimeOut) {
+        clearTimeout(this.ballTimeOut)
+      }
+      $('.ball').animate({
+        left: '-53px'
+      })
+    },
+    /* 鼠标移出小球 */
+    outBall: function() {
+      this.isShowLeadStock = false
+      this.ballTimeOut = setTimeout(() => {
+        if (!this.isShowLeadStock) {
+          $('.ball').animate({
+            left: '-20px'
+          })
+        }
+      }, 3000)
+    },
+    ballBack: function() {
+      /*  $('.ball').animate({
+       left:'-20px'
+       },1000) */
     }
   },
   mounted() {

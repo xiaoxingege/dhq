@@ -1,17 +1,17 @@
 <style>
 body {
-    background-color: #0f2180 !important;
-    font-family: '微软雅黑';
+  background-color: #0f2180 !important;
+  font-family: '微软雅黑';
 }
 
 input,
 button {
-    outline: none;
+  outline: none;
 }
 
 .list-box {
-    height: 6.72rem;
-    overflow-y: scroll;
+  height: 6.72rem;
+  overflow-y: scroll;
 }
 </style>
 <style lang="scss" scoped>
@@ -197,54 +197,54 @@ button {
 
 <template>
 <div class="box">
-    <div class="bg1">
-        <div class="box-con">
-            <div class="nav-a">
-                <a href="javascript:;"></a>
-                <a href="javascript:;"></a>
-                <a href="javascript:;"></a>
-            </div>
-        </div>
+  <div class="bg1">
+    <div class="box-con">
+      <div class="nav-a">
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+      </div>
     </div>
-    <div class="bg2">
-        <div class="box-con" v-if="dataType">
-            <h3>{{stockCamp.title}}</h3>
-            <div class="stockCamp-box">
-                <a :href="'http://itougu.jrj.com.cn/live/'+stockCamp.roomId"><img :src="stockCamp.image" /></a>
-                <p>主讲嘉宾：{{stockCamp.guest}}</p>
-                <p>本期主题：{{stockCamp.title}}</p>
-                <div class="stockCamp-links">
-                    <a href="javascript:;" @click="dcsMultiTrack('kjyx',stockCamp.courseware)"></a>
-                    <a href="javascript:;" @click="dcsMultiTrack(stockCamp.roomId,'http://itougu.jrj.com.cn/live/'+stockCamp.roomId)"></a>
-                </div>
-            </div>
+  </div>
+  <div class="bg2">
+    <div class="box-con" v-if="dataType">
+      <h3>{{stockCamp.title}}</h3>
+      <div class="stockCamp-box">
+        <a :href="'http://itougu.jrj.com.cn/live/'+stockCamp.roomId"><img :src="stockCamp.image" /></a>
+        <p>主讲嘉宾：{{stockCamp.guest}}</p>
+        <p>本期主题：{{stockCamp.title}}</p>
+        <div class="stockCamp-links">
+          <a href="javascript:;" @click="dcsMultiTrack('kjyx',stockCamp.courseware)"></a>
+          <a href="javascript:;" @click="dcsMultiTrack(stockCamp.roomId,'http://itougu.jrj.com.cn/live/'+stockCamp.roomId)"></a>
         </div>
+      </div>
     </div>
-    <div class="bg3">
-        <div class="box-con">
-            <!-- :listData="listData" -->
-            <div class="bg3-box">
-                <topic-comment :appItemId="appItemId" />
-            </div>
-        </div>
+  </div>
+  <div class="bg3">
+    <div class="box-con">
+      <!-- :listData="listData" -->
+      <div class="bg3-box">
+        <topic-comment :appItemId="appItemId" />
+      </div>
     </div>
-    <div class="bg4">
-        <div class="box-con" v-if="dataType">
-            <div class="pubCourse-box">
-                <a href="javascript:;" @click="dcsMultiTrack('pubCourse1',pubCourse.list[0].url)"><img :src="pubCourse.list[0].image" /></a>
-                <ul>
-                    <li v-for="item,index in pubCourse.list" v-if="index !== 0">
-                        <a href="javascript:;" @click="dcsMultiTrack('pubCourse'+item.sort,item.url)">{{item.title}}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  </div>
+  <div class="bg4">
+    <div class="box-con" v-if="dataType">
+      <div class="pubCourse-box">
+        <a href="javascript:;" @click="dcsMultiTrack('pubCourse1',pubCourse.list[0].url)"><img :src="pubCourse.list[0].image" /></a>
+        <ul>
+          <li v-for="item,index in pubCourse.list" v-if="index !== 0">
+            <a href="javascript:;" @click="dcsMultiTrack('pubCourse'+item.sort,item.url)">{{item.title}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="bg5">
-        <div class="box-con" v-if="dataType">
-            <ul class="excellentCourse-box">
-                <li v-for="item,index in excellentCourse.list">
-                    <a href="javascript:;" @click="linksClick('http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa',index+1)"><img :src="item.image" />
+  </div>
+  <div class="bg5">
+    <div class="box-con" v-if="dataType">
+      <ul class="excellentCourse-box">
+        <li v-for="item,index in excellentCourse.list">
+          <a href="javascript:;" @click="linksClick('http://itougu.jrj.com.cn/class/'+item.courseId+'.jspa',index+1)"><img :src="item.image" />
                     <div>
                         <h5>{{item.courseName}}</h5>
                         <span>{{item.tgName}}</span>
@@ -252,97 +252,97 @@ button {
                         <p>课程概要：{{item.courseDesc}}</p>
                     </div>
                     </a>
-                </li>
-            </ul>
-        </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import topicComment from 'components/topic-comment'
 
 export default {
-    data() {
-        return {
-            stockCamp: null,
-            pubCourse: null,
-            excellentCourse: null,
-            dataType: false,
-            // appItemId: 8
-            appItemId: 25
-        }
-    },
-    computed: mapState({
-        commentSubmit: state => state.topicComment.commentSubmit
-    }),
-    components: {
-        topicComment
-    },
-    methods: {
-        linksClick(linkUrl, index) {
-            if (window.app.name !== '{{appid}}') {
-                window.location.href = linkUrl
-            } else {
-                window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
-                setTimeout(function() {
-                    if (!document.webkitHidden) {
-                        window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
-                    }
-                }, 1500);
-            }
-            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-excellentCourse-' + index, 'WT.ti', 'gsxy-activity-excellentCourse-' + index)
-        },
-        dcsMultiTrack(par, url) {
-            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-' + par, 'WT.ti', 'gsxy-activity-' + par)
-            window.location.href = url
-        }
-    },
-    mounted() {
-        document.title = '股市学院-金融界'
-        var _this = this
-        $.ajax({
-            url: 'http://itougu.jrj.com.cn/marketing/stockRoom.jspa',
-            dataType: 'jsonp',
-            jsonpCallback: 'callback'
-        }).then(data => {
-            if (data.retCode === 1) {
-                _this.excellentCourse = data.data.excellentCourse
-                _this.pubCourse = data.data.pubCourse
-                _this.stockCamp = data.data.stockCamp[0]
-                _this.dataType = true
-            } else {
-                alert(data.msg)
-            }
-        })
-        $(function() {
-            // window.InitWeChatShare({
-            //     shareTitle: window.document.title,
-            //     shareLink: window.location.href,
-            //     shareDesc: '2017年底行情如何布局？2018A股市场将会怎样？金融界送您每天3只盘前热股，关注跨年行情',
-            //     shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/endYear-H5-bg1.jpg',
-            //     callback: function(wx) {
-            //
-            //     }
-            // })
-            $('.nav-a a').click(function() {
-                var index = $(this).index();
-                index = index === 0 ? 2 : index === 1 ? 4 : index === 2 ? 5 : ''
-                var pos = $('.bg' + index).offset().top
-                // 实现平滑移动 1000代表时间ms
-                $('html,body').stop().animate({
-                    scrollTop: pos
-                }, 500)
-            })
-        })
-        this.$watch('commentSubmit', commentSubmit => {
-            $('html,body').scrollTop($('.bg3').offset().top)
-            window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-commentSubmit', 'WT.ti', 'gsxy-activity-commentSubmit')
-        })
+  data() {
+    return {
+      stockCamp: null,
+      pubCourse: null,
+      excellentCourse: null,
+      dataType: false,
+      // appItemId: 8
+      appItemId: 25
     }
+  },
+  computed: mapState({
+    commentSubmit: state => state.topicComment.commentSubmit
+  }),
+  components: {
+    topicComment
+  },
+  methods: {
+    linksClick(linkUrl, index) {
+      if (window.app.name !== '{{appid}}') {
+        window.location.href = linkUrl
+      } else {
+        window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
+        setTimeout(function() {
+          if (!document.webkitHidden) {
+            window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+          }
+        }, 1500);
+      }
+      window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-excellentCourse-' + index, 'WT.ti', 'gsxy-activity-excellentCourse-' + index)
+    },
+    dcsMultiTrack(par, url) {
+      window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-' + par, 'WT.ti', 'gsxy-activity-' + par)
+      window.location.href = url
+    }
+  },
+  mounted() {
+    document.title = '股市学院-金融界'
+    var _this = this
+    $.ajax({
+      url: 'http://itougu.jrj.com.cn/marketing/stockRoom.jspa',
+      dataType: 'jsonp',
+      jsonpCallback: 'callback'
+    }).then(data => {
+      if (data.retCode === 1) {
+        _this.excellentCourse = data.data.excellentCourse
+        _this.pubCourse = data.data.pubCourse
+        _this.stockCamp = data.data.stockCamp[0]
+        _this.dataType = true
+      } else {
+        alert(data.msg)
+      }
+    })
+    $(function() {
+      // window.InitWeChatShare({
+      //     shareTitle: window.document.title,
+      //     shareLink: window.location.href,
+      //     shareDesc: '2017年底行情如何布局？2018A股市场将会怎样？金融界送您每天3只盘前热股，关注跨年行情',
+      //     shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/endYear-H5-bg1.jpg',
+      //     callback: function(wx) {
+      //
+      //     }
+      // })
+      $('.nav-a a').click(function() {
+        var index = $(this).index();
+        index = index === 0 ? 2 : index === 1 ? 4 : index === 2 ? 5 : ''
+        var pos = $('.bg' + index).offset().top
+        // 实现平滑移动 1000代表时间ms
+        $('html,body').stop().animate({
+          scrollTop: pos
+        }, 500)
+      })
+    })
+    this.$watch('commentSubmit', commentSubmit => {
+      $('html,body').scrollTop($('.bg3').offset().top)
+      window.dcsMultiTrack('DCS.dcsuri', 'gsxy-activity-commentSubmit', 'WT.ti', 'gsxy-activity-commentSubmit')
+    })
+  }
 }
 </script>

@@ -1,77 +1,90 @@
 <style>
 @import '../assets/css/reset.css';
-.payment-success{
+.payment-success {
   box-sizing: border-box;
   position: relative;
   font-family: Microsoft Yahei, Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
 }
-.top{
+
+.top {
   box-sizing: border-box;
   height: 47%;
-  padding:1.76rem 0 0 1.35rem;
+  padding: 1.76rem 0 0 1.35rem;
 }
-.bottom{
+
+.bottom {
   box-sizing: border-box;
   height: 53%;
   position: relative;
 }
-.top-content{
+
+.top-content {
   height: 1.2rem;
   overflow: hidden;
 }
-.hint-img{
+
+.hint-img {
   display: block;
-  width:1.2rem;
+  width: 1.2rem;
   height: 1.2rem;
   float: left;
 }
-.hint-text{
+
+.hint-text {
   float: left;
-  margin-left:0.25rem;
+  margin-left: 0.25rem;
   height: 1.2rem;
   line-height: 1.2rem;
   font-size: 0.48rem;
-  color:#333;
+  color: #333;
   font-weight: 600;
 }
-.hint-lading{
+
+.hint-lading {
   display: block;
   height: 0.5rem;
-  width:0.5rem;
-  margin:0.35rem 0 0 2.15rem;
+  width: 0.5rem;
+  margin: 0.35rem 0 0 2.15rem;
 }
+
+
 /* .order-num{
   font-size: 0.28rem;
   color:#888;
 } */
-.download-text{
+
+.download-text {
   font-size: 0.32rem;
   line-height: 0.46rem;
-  color:#333;
+  color: #333;
   text-align: center;
 }
-.download-logo{
+
+.download-logo {
   display: block;
-  width:1.79rem;
+  width: 1.79rem;
   height: 1.79rem;
-  margin:0.3rem auto 0.35rem;;
+  margin: 0.3rem auto 0.35rem;
+  ;
 }
-.download-btn{
-  width:4.2rem;
+
+.download-btn {
+  width: 4.2rem;
   height: 0.9rem;
   background: RGBA(245, 73, 73, 1);
-  color:#fff;
+  color: #fff;
   font-size: 0.32rem;
   line-height: 0.9rem;
   text-align: center;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.phone{
-  font-size:0.26rem;
-  color:rgba(170,170,170,1)!important;
-  line-height:0.3rem;
+
+.phone {
+  font-size: 0.26rem;
+  color: rgba(170, 170, 170, 1)!important;
+  line-height: 0.3rem;
   text-align: center;
-  width:100%;
+  width: 100%;
   position: absolute;
   bottom: 0.65rem;
 }
@@ -98,8 +111,7 @@
   </div>
   <div class="bottom">
     <div class="download-text">
-      请下载金融界App <br>
-      获取智能投顾工作室服务
+      请下载金融界App <br> 获取智能投顾工作室服务
     </div>
     <img class="download-logo" src="../assets/images/payment/logo.png" alt="">
     <div class="download-btn" @click="toDownload()">
@@ -118,11 +130,11 @@ window.jQuery = window.$ = jQuery
 export default {
   data() {
     return {
-      containerHeight:600,
-      timeStamp:'',
-      bizCode:this.getQueryString('bizCode') ? this.getQueryString('bizCode'):'5',
-      sellerOrderId:this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId'):'0',
-      status:-1 // loading
+      containerHeight: 600,
+      timeStamp: '',
+      bizCode: this.getQueryString('bizCode') ? this.getQueryString('bizCode') : '5',
+      sellerOrderId: this.getQueryString('sellerOrderId') ? this.getQueryString('sellerOrderId') : '0',
+      status: -1 // loading
     }
   },
   beforecreated() {
@@ -138,21 +150,21 @@ export default {
     this.getTimeStamp()
   },
   methods: {
-    toDownload(){
-      window.location.href='http://appcms.jrj.com.cn/download.jspa?channel=transfer1&tgqdcode=transfer'
+    toDownload() {
+      window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer1&tgqdcode=transfer'
     },
-    getQueryString (name,chinese) {
+    getQueryString(name, chinese) {
       var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
       var r = window.location.search.substr(1).match(reg)
-			if (chinese) {
-				if (r != null) return decodeURI(r[2])
-			}else{
-				if (r != null) return unescape(r[2])
-			}
+      if (chinese) {
+        if (r != null) return decodeURI(r[2])
+      } else {
+        if (r != null) return unescape(r[2])
+      }
       return null
     },
-    getTimeStamp(){
-      var url='https://cashier.jrj.com.cn/order/resultquery'
+    getTimeStamp() {
+      var url = 'https://cashier.jrj.com.cn/order/resultquery'
       fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -162,24 +174,24 @@ export default {
       }).then(d => {
         if (d.retCode === 1) {
           if (d.data.timeStamp) {
-            console.log('getTimeStamp-d-timeStamp：'+d.data.timeStamp)
-            console.log('getTimeStamp-timeStamp：'+this.timeStamp)
+            console.log('getTimeStamp-d-timeStamp：' + d.data.timeStamp)
+            console.log('getTimeStamp-timeStamp：' + this.timeStamp)
             this.timeStamp = d.data.timeStamp
             this.getPaymentResult()
           }
-        }else{
+        } else {
           console.log(d.msg)
         }
       }).catch(v2 => {
         console.log(v2)
       })
     },
-    getPaymentResult(){
+    getPaymentResult() {
       // https://cashier.jrj.com.cn/order/resultquery?version=1.0&signType=2&timeStamp=20180306144934&sign=abc&bizCode=5&sellerOrderId=13072576524616656076862400000581
       // https://cashier.jrj.com.cn/order/resultquery?version=1.0&signType=2&timeStamp=20180306164934&sign=abc&bizCode=5&sellerOrderId=1.3072576524616655e+31&callback=jQuery321011057758869628476_1520331495885&_=1520331495886
-      console.log('getPaymentResult-timeStamp：'+this.timeStamp)
-      var url='https://cashier.jrj.com.cn/order/resultquery'
-      url=url+'?version=1.0&signType=2&timeStamp='+this.timeStamp+'&sign=abc&bizCode='+this.bizCode+'&sellerOrderId='+this.sellerOrderId
+      console.log('getPaymentResult-timeStamp：' + this.timeStamp)
+      var url = 'https://cashier.jrj.com.cn/order/resultquery'
+      url = url + '?version=1.0&signType=2&timeStamp=' + this.timeStamp + '&sign=abc&bizCode=' + this.bizCode + '&sellerOrderId=' + this.sellerOrderId
       console.log(url)
       fetch(url, {
         method: 'GET',
@@ -191,11 +203,11 @@ export default {
         if (d.retCode === 0) {
           if (d.data) {
             console.log(d.data.status)
-            console.log( typeof (d.data.status) )
-						this.status=d.data.status
+            console.log(typeof(d.data.status))
+            this.status = d.data.status
           }
-        }else{
-          this.status=10 // else
+        } else {
+          this.status = 10 // else
           console.log(d.msg)
         }
       }).catch(v2 => {

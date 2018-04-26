@@ -1,29 +1,29 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 .bg5 .box-con .swiper-box {
-    top: 78px;
+  top: 78px;
 }
 
 .bg5 .swiper-button-next {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    z-index: 10;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 10;
 }
 
 .bg5 .swiper-button-prev {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 10;
 }
 </style>
 <style lang="scss" scoped>
@@ -66,50 +66,50 @@ input {
 
 <template>
 <div class="box">
-    <div class="bg1">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+    <div class="box-con">
+      <div class="iphoneImg">
+        <img v-if="imgUrl" :src="imgUrl" />
+      </div>
+      <img src="../assets/images/gsxy-activity/gsxy-web-img2.png" class="codeImg" />
     </div>
-    <div class="bg2">
-        <div class="box-con">
-            <div class="iphoneImg">
-                <img v-if="imgUrl" :src="imgUrl" />
-            </div>
-            <img src="../assets/images/gsxy-activity/gsxy-web-img2.png" class="codeImg" />
-        </div>
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 
 export default {
-    data() {
-        return {
-            imgUrl: ''
-        }
-    },
-    computed: mapState({}),
-    components: {},
-    methods: {
-
-    },
-    mounted() {
-        var _this = this
-        document.title = '金融界股市学院'
-        $.ajax({
-            url: 'http://itougu.jrj.com.cn/marketing/stockRoom.jspa',
-            dataType: 'jsonp',
-            jsonpCallback: 'callback'
-        }).then(data => {
-            if (data.retCode === 1) {
-                _this.imgUrl = data.data.webImage
-            } else {
-                alert(data.msg)
-            }
-        })
+  data() {
+    return {
+      imgUrl: ''
     }
+  },
+  computed: mapState({}),
+  components: {},
+  methods: {
+
+  },
+  mounted() {
+    var _this = this
+    document.title = '金融界股市学院'
+    $.ajax({
+      url: 'http://itougu.jrj.com.cn/marketing/stockRoom.jspa',
+      dataType: 'jsonp',
+      jsonpCallback: 'callback'
+    }).then(data => {
+      if (data.retCode === 1) {
+        _this.imgUrl = data.data.webImage
+      } else {
+        alert(data.msg)
+      }
+    })
+  }
 }
 </script>

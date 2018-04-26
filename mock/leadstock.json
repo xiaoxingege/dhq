@@ -1,0 +1,355 @@
+{
+  "errCode": 0,
+  "msg": "",
+  "data": [{
+      "stockName": "平安银行",
+      "symbol": "000001.SZ",
+      "price": 10.94,
+      "chg": 0.09,
+      "condition": null
+    },
+    {
+      "stockName": "万科A",
+      "symbol": "000002.SZ",
+      "price": 31.02,
+      "chg": 2.27,
+      "condition": null
+    },
+    {
+      "stockName": "国农科技",
+      "symbol": "000004.SZ",
+      "price": 23.6,
+      "chg": 3.51,
+      "condition": null
+    },
+    {
+      "stockName": "世纪星源",
+      "symbol": "000005.SZ",
+      "price": 3.77,
+      "chg": 2.17,
+      "condition": null
+    },
+    {
+      "stockName": "深振业A",
+      "symbol": "000006.SZ",
+      "price": 7.29,
+      "chg": 1.25,
+      "condition": null
+    },
+    {
+      "stockName": "全新好",
+      "symbol": "000007.SZ",
+      "price": 14.33,
+      "chg": 5.99,
+      "condition": null
+    },
+    {
+      "stockName": "神州高铁",
+      "symbol": "000008.SZ",
+      "price": 7.01,
+      "chg": -0.14,
+      "condition": null
+    },
+    {
+      "stockName": "中国宝安",
+      "symbol": "000009.SZ",
+      "price": 6.03,
+      "chg": 2.03,
+      "condition": null
+    },
+    {
+      "stockName": "美丽生态",
+      "symbol": "000010.SZ",
+      "price": 4.47,
+      "chg": 2.05,
+      "condition": null
+    },
+    {
+      "stockName": "深物业A",
+      "symbol": "000011.SZ",
+      "price": 15.51,
+      "chg": 1.44,
+      "condition": null
+    },
+    {
+      "stockName": "南玻A",
+      "symbol": "000012.SZ",
+      "price": 7.43,
+      "chg": 1.78,
+      "condition": null
+    },
+    {
+      "stockName": "沙河股份",
+      "symbol": "000014.SZ",
+      "price": 10.95,
+      "chg": 2.62,
+      "condition": null
+    },
+    {
+      "stockName": "深康佳A",
+      "symbol": "000016.SZ",
+      "price": 6.8,
+      "chg": 4.94,
+      "condition": null
+    },
+    {
+      "stockName": "深中华A",
+      "symbol": "000017.SZ",
+      "price": 5.63,
+      "chg": 1.26,
+      "condition": null
+    },
+    {
+      "stockName": "神州长城",
+      "symbol": "000018.SZ",
+      "price": 6.03,
+      "chg": 0.33,
+      "condition": null
+    },
+    {
+      "stockName": "深深宝A",
+      "symbol": "000019.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "深华发A",
+      "symbol": "000020.SZ",
+      "price": 14.8,
+      "chg": 0.75,
+      "condition": null
+    },
+    {
+      "stockName": "深科技",
+      "symbol": "000021.SZ",
+      "price": 8.47,
+      "chg": 4.18,
+      "condition": null
+    },
+    {
+      "stockName": "深赤湾A",
+      "symbol": "000022.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "深天地A",
+      "symbol": "000023.SZ",
+      "price": 18.19,
+      "chg": 4.66,
+      "condition": null
+    },
+    {
+      "stockName": "特力A",
+      "symbol": "000025.SZ",
+      "price": 37.1,
+      "chg": 4.1,
+      "condition": null
+    },
+    {
+      "stockName": "飞亚达A",
+      "symbol": "000026.SZ",
+      "price": 10.8,
+      "chg": 4.05,
+      "condition": null
+    },
+    {
+      "stockName": "深圳能源",
+      "symbol": "000027.SZ",
+      "price": 5.74,
+      "chg": 0.7,
+      "condition": null
+    },
+    {
+      "stockName": "国药一致",
+      "symbol": "000028.SZ",
+      "price": 60.58,
+      "chg": 3.75,
+      "condition": null
+    },
+    {
+      "stockName": "深深房A",
+      "symbol": "000029.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "富奥股份",
+      "symbol": "000030.SZ",
+      "price": 7.06,
+      "chg": 1.29,
+      "condition": null
+    },
+    {
+      "stockName": "中粮地产",
+      "symbol": "000031.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "深桑达A",
+      "symbol": "000032.SZ",
+      "price": 10.41,
+      "chg": 6.01,
+      "condition": null
+    },
+    {
+      "stockName": "神州数码",
+      "symbol": "000034.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "中国天楹",
+      "symbol": "000035.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "华联控股",
+      "symbol": "000036.SZ",
+      "price": 8.37,
+      "chg": 2.57,
+      "condition": null
+    },
+    {
+      "stockName": "深南电A",
+      "symbol": "000037.SZ",
+      "price": 7.28,
+      "chg": 2.25,
+      "condition": null
+    },
+    {
+      "stockName": "深大通",
+      "symbol": "000038.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "中集集团",
+      "symbol": "000039.SZ",
+      "price": 16.68,
+      "chg": 3.6,
+      "condition": null
+    },
+    {
+      "stockName": "东旭蓝天",
+      "symbol": "000040.SZ",
+      "price": 11.74,
+      "chg": 2.44,
+      "condition": null
+    },
+    {
+      "stockName": "中洲控股",
+      "symbol": "000042.SZ",
+      "price": 14.61,
+      "chg": 0.69,
+      "condition": null
+    },
+    {
+      "stockName": "中航地产",
+      "symbol": "000043.SZ",
+      "price": 9.03,
+      "chg": 1.69,
+      "condition": null
+    },
+    {
+      "stockName": "深纺织A",
+      "symbol": "000045.SZ",
+      "price": 9.52,
+      "chg": 1.82,
+      "condition": null
+    },
+    {
+      "stockName": "泛海控股",
+      "symbol": "000046.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "康达尔",
+      "symbol": "000048.SZ",
+      "price": 24.27,
+      "chg": 0.41,
+      "condition": null
+    },
+    {
+      "stockName": "德赛电池",
+      "symbol": "000049.SZ",
+      "price": 33.23,
+      "chg": 2.78,
+      "condition": null
+    },
+    {
+      "stockName": "深天马A",
+      "symbol": "000050.SZ",
+      "price": 15.72,
+      "chg": 2.41,
+      "condition": null
+    },
+    {
+      "stockName": "方大集团",
+      "symbol": "000055.SZ",
+      "price": 7.25,
+      "chg": 1.68,
+      "condition": null
+    },
+    {
+      "stockName": "皇庭国际",
+      "symbol": "000056.SZ",
+      "price": null,
+      "chg": null,
+      "condition": null
+    },
+    {
+      "stockName": "深赛格",
+      "symbol": "000058.SZ",
+      "price": 6.45,
+      "chg": 2.38,
+      "condition": null
+    },
+    {
+      "stockName": "华锦股份",
+      "symbol": "000059.SZ",
+      "price": 9.1,
+      "chg": 0.89,
+      "condition": null
+    },
+    {
+      "stockName": "中金岭南",
+      "symbol": "000060.SZ",
+      "price": 9.31,
+      "chg": 2.08,
+      "condition": null
+    },
+    {
+      "stockName": "农产品",
+      "symbol": "000061.SZ",
+      "price": 7.36,
+      "chg": 2.36,
+      "condition": null
+    },
+    {
+      "stockName": "深圳华强",
+      "symbol": "000062.SZ",
+      "price": 19.18,
+      "chg": 2.68,
+      "condition": null
+    },
+    {
+      "stockName": "中兴通讯",
+      "symbol": "000063.SZ",
+      "price": 30.43,
+      "chg": 3.19,
+      "condition": null
+    }
+  ]
+}

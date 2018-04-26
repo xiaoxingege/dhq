@@ -1,60 +1,60 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
 input,
 button {
-    outline: none;
+  outline: none;
 }
 
 .list-box {
-    height: 6.24rem;
-    overflow-y: scroll;
+  height: 6.24rem;
+  overflow-y: scroll;
 }
 
 .bg4 .box {
-    background: none;
+  background: none;
 }
 
 .bg4 .comment-box h5 span {
-    color: #fff57c;
+  color: #fff57c;
 }
 
 .bg4 .comment-box h5 strong {
-    color: #5d3014;
+  color: #5d3014;
 }
 
 .bg4 .comment-box p {
-    color: #c0a967;
+  color: #c0a967;
 }
 
 .bg4 .comment-list {
-    margin: 0.11rem 2.5%;
+  margin: 0.11rem 2.5%;
 }
 
 .bg4 .comment-box div {
-    background-color: #543f2f;
+  background-color: #543f2f;
 }
 
 .bg4 .send-box {
-    margin-top: 0.1rem;
+  margin-top: 0.1rem;
 }
 
 .bg4 .send-box textarea {
-    width: 76%;
+  width: 76%;
 }
 
 .bg4 .send-box button {
-    background-color: #f2dd7b;
-    font-size: 0.24rem;
-    color: #3e200d;
-    float: right;
+  background-color: #f2dd7b;
+  font-size: 0.24rem;
+  color: #3e200d;
+  float: right;
 }
 </style>
 <style lang="scss" scoped>
@@ -87,7 +87,7 @@ button {
     margin-top: 0.39rem;
 }
 .bg5 {
-    background: url("../assets/images/zjpk-activity/zjpk-app-bg5-1.jpg") center 0 no-repeat;
+    background: url("../assets/images/zjpk-activity/zjpk-app-bg5.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 4.29rem;
     float: left;
@@ -416,98 +416,98 @@ button {
 
 <template>
 <div class="box">
-    <div class="bg1">
-        <div class="box-con">
-            <a :href="data.submitUrl" v-if="dataType"></a>
-        </div>
+  <div class="bg1">
+    <div class="box-con">
+      <a :href="data.submitUrl" v-if="dataType"></a>
     </div>
-    <div class="bg2">
-        <div class="box-con" v-if="dataType">
-            <h3>{{data.pkNO}}（{{data.pkTime}}）</h3>
-            <div class="device">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="item,index in dataList.slice(0,2)">
-                            <div></div>
-                            <img :src="item.headImage" />
-                            <i v-if="index===0"></i>
-                            <p>{{index+1+'.'+item.userName}}</p>
-                        </div>
-                    </div>
-                </div>
+  </div>
+  <div class="bg2">
+    <div class="box-con" v-if="dataType">
+      <h3>{{data.pkNO}}（{{data.pkTime}}）</h3>
+      <div class="device">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="item,index in dataList.slice(0,2)">
+              <div></div>
+              <img :src="item.headImage" />
+              <i v-if="index===0"></i>
+              <p>{{index+1+'.'+item.userName}}</p>
             </div>
-            <div class="tginfo" v-if="plType">
-                <strong>NO.{{data.tgInfo[clickIndex].sort}}  <span>{{dataList[clickIndex].userName}}</span><span>{{dataList[clickIndex].typeDesc}}</span></strong>
-                <p>{{data.tgInfo[clickIndex].desc}}</p>
-                <a :href="'http://itougu.jrj.com.cn/live/'+data.tgInfo[clickIndex].roomId"></a>
-            </div>
-            <div class="ggzj">
-                <div></div>
-                <table v-if="plType">
-                    <tr>
-                        <th>内参盈亏</th>
-                        <th>建议个股数</th>
-                        <th>盈亏比例</th>
-                    </tr>
-                    <tr v-for="item in data.tgInfo[clickIndex].profit">
-                        <td>{{item.name}}</td>
-                        <td>{{item.suggestNum}}</td>
-                        <td>{{item.suggestRatio}}</td>
-                    </tr>
-                </table>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="tginfo" v-if="plType">
+        <strong>NO.{{data.tgInfo[clickIndex].sort}}  <span>{{dataList[clickIndex].userName}}</span><span>{{dataList[clickIndex].typeDesc}}</span></strong>
+        <p>{{data.tgInfo[clickIndex].desc}}</p>
+        <a :href="'http://itougu.jrj.com.cn/live/'+data.tgInfo[clickIndex].roomId"></a>
+      </div>
+      <div class="ggzj">
+        <div></div>
+        <table v-if="plType">
+          <tr>
+            <th>内参盈亏</th>
+            <th>建议个股数</th>
+            <th>盈亏比例</th>
+          </tr>
+          <tr v-for="item in data.tgInfo[clickIndex].profit">
+            <td>{{item.name}}</td>
+            <td>{{item.suggestNum}}</td>
+            <td>{{item.suggestRatio}}</td>
+          </tr>
+        </table>
+      </div>
     </div>
-    <div class="bg3">
-        <div class="box-con">
-            <div class="slcz">
-                <div class="slcz-box" v-if="plType && dataType">
-                    <div class="slcz-title"></div>
-                    <div class="slcz-img">
-                        <img :src="item" v-for="item in data.tgInfo[clickIndex].pic" />
-                        <a :href="'http://itougu.jrj.com.cn/account/adviser/'+data.tgInfo[clickIndex].userId+'/'">点击了解ＴA的服务</a>
-                        <div v-for="item in data.tgInfo[clickIndex].summary">
-                            <h5>{{item.title}}</h5>
-                            <p>{{item.content}}</p>
-                        </div>
+  </div>
+  <div class="bg3">
+    <div class="box-con">
+      <div class="slcz">
+        <div class="slcz-box" v-if="plType && dataType">
+          <div class="slcz-title"></div>
+          <div class="slcz-img">
+            <img :src="item" v-for="item in data.tgInfo[clickIndex].pic" />
+            <a :href="'http://itougu.jrj.com.cn/account/adviser/'+data.tgInfo[clickIndex].userId+'/'">点击了解ＴA的服务</a>
+            <div v-for="item in data.tgInfo[clickIndex].summary">
+              <h5>{{item.title}}</h5>
+              <p>{{item.content}}</p>
+            </div>
 
-                    </div>
-                    <div class="slcz-con" v-for="item in data.tgInfo.slice(2,5)">
-                        <div class="slcz-tginfo" v-if="plType">
-                            <img :src="dataList[item.sort-1].headImage" />
-                            <div>
-                                <strong>NO.{{item.sort}}  <span>{{dataList[item.sort-1].userName}}</span><span>{{dataList[item.sort-1].typeDesc}}</span></strong>
-                                <p>{{item.desc}}</p>
-                            </div>
-                            <a :href="'http://itougu.jrj.com.cn/live/'+item.roomId">在线交流</a>
-                        </div>
-                        <div v-for="items in item.summary">
-                            <h5>{{items.title}}</h5>
-                            <p>{{items.content}}</p>
-                        </div>
-                    </div>
-                    <p class="tips">*风险提示：历史战绩不代表未来！</p>
-                </div>
+          </div>
+          <div class="slcz-con" v-for="item in data.tgInfo.slice(2,5)">
+            <div class="slcz-tginfo" v-if="plType">
+              <img :src="dataList[item.sort-1].headImage" />
+              <div>
+                <strong>NO.{{item.sort}}  <span>{{dataList[item.sort-1].userName}}</span><span>{{dataList[item.sort-1].typeDesc}}</span></strong>
+                <p>{{item.desc}}</p>
+              </div>
+              <a :href="'http://itougu.jrj.com.cn/live/'+item.roomId">在线交流</a>
             </div>
-        </div>
-    </div>
-    <div class="bg4">
-        <div class="box-con">
-            <div class="bg4-box" v-if="dataType">
-                <topic-comment :appItemId="appItemId" />
+            <div v-for="items in item.summary">
+              <h5>{{items.title}}</h5>
+              <p>{{items.content}}</p>
             </div>
+          </div>
+          <p class="tips">*风险提示：历史战绩不代表未来！</p>
         </div>
+      </div>
     </div>
-    <div class="bg5">
-        <div class="box-con">
-            <a href="http://itougu.jrj.com.cn/view/102765.jspa"></a>
-        </div>
+  </div>
+  <div class="bg4">
+    <div class="box-con">
+      <div class="bg4-box" v-if="dataType">
+        <topic-comment :appItemId="appItemId" />
+      </div>
     </div>
+  </div>
+  <div class="bg5">
+    <div class="box-con">
+      <a href="http://itougu.jrj.com.cn/view/102765.jspa"></a>
+    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
@@ -517,84 +517,84 @@ window.Swiper = Swiper
 import getQueryString from 'utils/getQueryString'
 
 export default {
-    data() {
-        return {
-            data: null,
-            dataType: false,
-            appItemId: 29,
-            plType: false,
-            tgInfo: null,
-            clickIndex: 0
-            // appItemId: 25
-        }
-    },
-    computed: mapState({
-        commentSubmit: state => state.topicComment.commentSubmit,
-        dataList: state => state.zjpkActivity.dataList
-    }),
-    components: {
-        topicComment
-    },
-    methods: {},
-    mounted() {
-
-        var _this = this
-        var id = getQueryString('id') || '4'
-        $.ajax({
-            url: '//itougu.jrj.com.cn/marketing/topics.jspa?id=' + id,
-            dataType: 'jsonp',
-            jsonpCallback: 'callback'
-        }).then(data => {
-            if (data.retCode === 1) {
-                _this.data = data.data
-                _this.dataType = true
-            } else {
-                alert(data.msg)
-            }
-        })
-        this.$watch('dataType', dataType => {
-            if (dataType) {
-                _this.appItemId = _this.data.topicId
-                document.title = _this.data.shareInfo.title
-                window.InitWeChatShare({
-                    shareTitle: window.document.title,
-                    shareLink: window.location.href,
-                    shareDesc: _this.data.shareInfo.desc,
-                    shareImg: _this.data.shareInfo.pic,
-                    callback: function(wx) {
-
-                    }
-                })
-
-                let allPromises = []
-                for (var i = 0; i < _this.data.tgInfo.length; i++) {
-                    var userId = _this.data.tgInfo[i].userId
-                    var sort = _this.data.tgInfo[i].sort
-                    allPromises.push(_this.$store.dispatch('zjpkActivity/whereList', {
-                        userId: userId,
-                        sort: sort
-                    }))
-                }
-                Promise.all(allPromises).then(() => {
-                    _this.plType = true
-                    new Swiper('.swiper-container', {
-                        slidesPerView: 2,
-                        paginationClickable: true,
-                        spaceBetween: 30,
-                        slideToClickedSlide: true,
-                        loop: true,
-                        initialSlide: 0,
-                        onlyExternal: true,
-                        onClick: function(swiper) {
-                            _this.clickIndex = swiper.realIndex
-                        }
-                    });
-                })
-            }
-        })
-        this.$watch('commentSubmit', commentSubmit => {
-            $('html,body').scrollTop($('.bg4').offset().top)
-        })
+  data() {
+    return {
+      data: null,
+      dataType: false,
+      appItemId: 29,
+      plType: false,
+      tgInfo: null,
+      clickIndex: 0
+      // appItemId: 25
     }
+  },
+  computed: mapState({
+    commentSubmit: state => state.topicComment.commentSubmit,
+    dataList: state => state.zjpkActivity.dataList
+  }),
+  components: {
+    topicComment
+  },
+  methods: {},
+  mounted() {
+
+    var _this = this
+    var id = getQueryString('id') || '4'
+    $.ajax({
+      url: 'http://itougu.jrj.com.cn/marketing/topics.jspa?id=' + id,
+      dataType: 'jsonp',
+      jsonpCallback: 'callback'
+    }).then(data => {
+      if (data.retCode === 1) {
+        _this.data = data.data
+        _this.dataType = true
+      } else {
+        alert(data.msg)
+      }
+    })
+    this.$watch('dataType', dataType => {
+      if (dataType) {
+        _this.appItemId = _this.data.topicId
+        document.title = _this.data.shareInfo.title
+        window.InitWeChatShare({
+          shareTitle: window.document.title,
+          shareLink: window.location.href,
+          shareDesc: _this.data.shareInfo.desc,
+          shareImg: _this.data.shareInfo.pic,
+          callback: function(wx) {
+
+          }
+        })
+
+        let allPromises = []
+        for (var i = 0; i < _this.data.tgInfo.length; i++) {
+          var userId = _this.data.tgInfo[i].userId
+          var sort = _this.data.tgInfo[i].sort
+          allPromises.push(_this.$store.dispatch('zjpkActivity/whereList', {
+            userId: userId,
+            sort: sort
+          }))
+        }
+        Promise.all(allPromises).then(() => {
+          _this.plType = true
+          new Swiper('.swiper-container', {
+            slidesPerView: 2,
+            paginationClickable: true,
+            spaceBetween: 30,
+            slideToClickedSlide: true,
+            loop: true,
+            initialSlide: 0,
+            onlyExternal: true,
+            onClick: function(swiper) {
+              _this.clickIndex = swiper.realIndex
+            }
+          });
+        })
+      }
+    })
+    this.$watch('commentSubmit', commentSubmit => {
+      $('html,body').scrollTop($('.bg4').offset().top)
+    })
+  }
 }
 </script>

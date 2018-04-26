@@ -15,12 +15,12 @@ Vue.use(Vuex)
 /*
  * 实例化store
  */
- import reservation from 'stores/reservation'
- const store = new Vuex.Store({
-   modules: {
-     reservation
-   }
- })
+import reservation from 'stores/reservation'
+const store = new Vuex.Store({
+  modules: {
+    reservation
+  }
+})
 
 /*
  * 实例化vue对象，渲染页面

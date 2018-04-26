@@ -130,37 +130,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../assets/scss/style.scss";
 .position-box {
-  position: absolute;
-  padding: 10px;
-  border: 1px solid #eee;
-  background: #fff;
-  z-index: 999;
-  width: 350px;
-  max-height: 290px;
-  overflow: auto;
-  left: 55px;
-  bottom: 10px;
-  display: none;
+    position: absolute;
+    padding: 10px;
+    border: 1px solid #eee;
+    background: #fff;
+    z-index: 999;
+    width: 350px;
+    max-height: 290px;
+    overflow: auto;
+    left: 55px;
+    bottom: 10px;
+    display: none;
 }
 
 .position-box-null {
-  height: 0px;
-  padding: 0px;
-  border: 0px solid #eee;
+    height: 0;
+    padding: 0;
+    border: 0 solid #eee;
 }
 
 .position-box-table {
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .position-box-table td {
-  border-bottom: 1px solid #dedede;
-  height: 24px;
-  /*color: #c9d0d7;*/
+    border-bottom: 1px solid #dedede;
+    height: 24px;
+    /*color: #c9d0d7;*/
 }
 </style>

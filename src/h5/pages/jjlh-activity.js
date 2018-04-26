@@ -18,7 +18,7 @@ Vue.use(Vuex)
 import reservation from 'stores/reservation'
 const store = new Vuex.Store({
   modules: {
-      reservation
+    reservation
   }
 })
 

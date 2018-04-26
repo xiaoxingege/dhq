@@ -1,30 +1,34 @@
 <style>
-.limit-graph2{
-    background: #fff;
-    font-size: 0.28rem;
-    padding-top: 0.4rem;
+.limit-graph2 {
+  background: #fff;
+  font-size: 0.28rem;
+  padding-top: 0.4rem;
 }
-.summary2{
-  box-sizing:border-box;
-  padding:0.5rem 0.23rem 0.23rem;
+
+.summary2 {
+  box-sizing: border-box;
+  padding: 0.5rem 0.23rem 0.23rem;
   overflow: hidden;
 }
-.summary2 li{
+
+.summary2 li {
   float: left;
-  width:50%;
+  width: 50%;
   padding-left: 0.57rem;
   box-sizing: border-box;
 }
-.summary2 li p{
+
+.summary2 li p {
   margin-bottom: 0.12rem;
   height: 0.4rem;
   line-height: 0.4rem;
-  color:#888;
+  color: #888;
   font-size: 0.28rem;
   text-align: left;
 }
-.summary2 li p span{
-  color:#333;
+
+.summary2 li p span {
+  color: #333;
 }
 </style>
 
@@ -45,36 +49,34 @@
 </div>
 </template>
 <script>
-
 import 'whatwg-fetch'
 import echarts from 'echarts'
 
 export default {
-  data () {
+  data() {
     return {
-      graphData:[],
-      option2:null,
-      myChart2:null,
-      up:0,
-      down:0,
-      up5:0,
-      down5:0
+      graphData: [],
+      option2: null,
+      myChart2: null,
+      up: 0,
+      down: 0,
+      up5: 0,
+      down5: 0
     }
   },
-  mounted () {
-    var _this=this
+  mounted() {
+    var _this = this
     this.fetchNewsData()
     this.getlimitChange()
-    setInterval(function(){
+    setInterval(function() {
       _this.fetchNewsData()
       _this.getlimitChange()
       _this.myChart2.setOption(_this.option2)
-    },5000)
+    }, 5000)
   },
-  filters: {
-  },
+  filters: {},
   methods: {
-    insertEchart(){
+    insertEchart() {
       this.myChart2 = echarts.init(document.getElementById('graph2'));
       var data = this.graphData;
       var dataX = [];
@@ -84,112 +86,106 @@ export default {
         dataY.push(data[i].stockNum)
       }
       this.option2 = {
-          grid: {
-              top: '12%',
-              left: '0%',
-              right: '2%',
-              bottom: '20%',
-              containLabel: true
+        grid: {
+          top: '12%',
+          left: '0%',
+          right: '2%',
+          bottom: '20%',
+          containLabel: true
+        },
+        xAxis: [{
+          type: 'category',
+          data: dataX,
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(219,219,219,1)'
+            }
           },
-          xAxis : [
-              {
-                  type : 'category',
-                  data : dataX,
-                  axisLine: {
-                    lineStyle: {
-                      color:'rgba(219,219,219,1)'
-                    }
-                  },
-                  axisTick: {
-                    show:false
-                  },
-                  axisLabel: {
-                    interval:0,
-                    rotate:45,
-                    color:'rgba(136,136,136,1)'
-                  }
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: 45,
+            color: 'rgba(136,136,136,1)'
+          }
+        }],
+        yAxis: [{
+          type: 'value',
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          splitLine: {
+            show: false
+          }
+        }],
+        series: [{
+          name: '个股数量',
+          type: 'bar',
+          barWidth: '60%',
+          itemStyle: {
+            normal: {
+              show: true,
+              position: 'top',
+              color: function(params) {
+                var colorList = ['#00B267', '#00B267', '#00B267', '#00B267', '#00B267', '#999999', '#F54949', '#F54949', '#F54949', '#F54949', '#F54949']
+                return colorList[params.dataIndex]
               }
-          ],
-          yAxis : [
-              {
-                  type : 'value',
-                  axisLine: {
-                    show:false
-                  },
-                  axisTick: {
-                    show:false
-                  },
-                  axisLabel: {
-                    show:false
-                  },
-                  splitLine:{
-                    show:false
-                  }
-              }
-          ],
-          series : [
-              {
-                  name:'个股数量',
-                  type:'bar',
-                  barWidth: '60%',
-                  itemStyle:{
-                      normal: {
-                          show: true,
-                          position: 'top',
-                          color:function(params) {
-                              var colorList = ['#00B267','#00B267', '#00B267', '#00B267', '#00B267','#999999', '#F54949', '#F54949','#F54949', '#F54949', '#F54949']
-                              return colorList[params.dataIndex]
-                          }
-                      }
-                  },
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'top',
-                          color:'rgba(51,51,51,1)'
-                      }
-                  },
-                  data:dataY
-              }
-          ]
+            }
+          },
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              color: 'rgba(51,51,51,1)'
+            }
+          },
+          data: dataY
+        }]
       };
       // 使用刚指定的配置项和数据显示图表。
       this.myChart2.setOption(this.option2);
 
     },
-    fetchNewsData () {
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/hqindex/query_market_analysis'
+    fetchNewsData() {
+      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/hqindex/query_market_analysis'
       fetch(url, {
-        method:'get',
-        mode:'cors',
-        cache:'default'
+        method: 'get',
+        mode: 'cors',
+        cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
-        this.graphData=v.data.advanceDeclineRatios
+        this.graphData = v.data.advanceDeclineRatios
         this.insertEchart()
       }).catch(v2 => {
         console.log(v2)
       })
     },
-    getlimitChange(){
+    getlimitChange() {
       $.ajax({
-				 url:'https://sslapi.jrj.com.cn/flashdata2/home/limitStatistic/market.js',
-				 type:'get',
-				 cache:false,
-				 dataType:'script',
-				 success:() => {
-					 if ( window.market ) {
-             this.up=window.market.limitUp
-             this.down=window.market.limitDown
-             this.up5=window.market.up5
-             this.down5=window.market.down5
-					 }
-				 },
-				 error:function(){
-					 console.log('error');
-				 }
-			 })
+        url: 'https://sslapi.jrj.com.cn/flashdata2/home/limitStatistic/market.js',
+        type: 'get',
+        cache: false,
+        dataType: 'script',
+        success: () => {
+          if (window.market) {
+            this.up = window.market.limitUp
+            this.down = window.market.limitDown
+            this.up5 = window.market.up5
+            this.down5 = window.market.down5
+          }
+        },
+        error: function() {
+          console.log('error');
+        }
+      })
     }
 
   }

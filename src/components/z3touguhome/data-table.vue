@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .table-wrap {
     width: 100%;
     height: 100%;
@@ -13,7 +14,7 @@
     height: 100%;
 }
 .data-table td {
-    border: 1px solid #23272c;
+    border: 1px solid $lineAndTitleColor;
     box-sizing: border-box;
     height: 12.5%;
     text-align: center;
@@ -21,7 +22,7 @@
 }
 .data-table tr td:first-child {
     text-align: left;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
     padding-left: 23px;
     width: 40%;
@@ -36,13 +37,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    color: #808ba1;
+    color: $grayWordsColor;
 }
 .data-table .stock-hover {
     cursor: pointer;
 }
 .data-table .stock-hover:hover {
-    background-color: #2e4465;
+    background-color: $hoverBgColor;
 }
 </style>
 <template>

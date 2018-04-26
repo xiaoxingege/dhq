@@ -1,16 +1,17 @@
 <style lang="scss">
 @import '../assets/css/base.css';
+@import '../assets/scss/style';
 body .app,
 html {
     height: 100%;
 }
 * {
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: $fontSizeBase;
     font-family: 'Microsoft YaHei';
 }
 .map {
-    background-color: #141518;
+    background-color: $bgConColor;
     height: 100%;
     min-width: 1217px;
 }
@@ -26,11 +27,11 @@ html {
 }
 .condition select {
     -webkit-appearance: none;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     border: none;
     padding-left: 10px;
     background: url("../assets/images/stock-map/down-arrow.png") no-repeat scroll right center transparent;
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
     height: 22px;
     background-position-x: 95%;
     border-radius: 3px;
@@ -104,10 +105,10 @@ html {
     border-bottom-right-radius: 3px;
 }
 .selected-color {
-    background-color: #1984ea;
+    background-color: $blueWordsColor;
 }
 .unselected-color {
-    background-color: #23272c;
+    background-color: $lineAndTitleColor;
 }
 </style>
 <template>
@@ -154,7 +155,7 @@ html {
     </div>
     <StockSearch :rangeCode="rangeCode" :condition="condition" @focusStock="getFocusStockName"></StockSearch>
   </div>
-  <StockMap :rangeCode="rangeCode" :condition="condition" :focusStockName="focusStockName" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf"></StockMap>
+  <StockMap :rangeCode="rangeCode" :condition="condition" :focusStockName="focusStockName" @isEnlarge="isShow" @isStopPlayback="isShowMaskFn" @toZdfCondition="toZdf" :conditionList="conditionList"></StockMap>
 </div>
 </template>
 <script type="text/javascript">
@@ -171,7 +172,28 @@ export default {
       mapHeight: 0,
       mapWidth: 0,
       maskHeight: window.innerHeight - 35,
-      isShowMask: false
+      isShowMask: false,
+      conditionList: {
+        'margin_buy_value': '融资买入额',
+        'margin_buy_net_value': '融资净买入额',
+        'mkt_idx.cur_chng_pct': '涨跌幅',
+        'mkt_idx.chng_pct_week': '近1周涨跌幅',
+        'perf_idx.chng_pct_month': '近1月涨跌幅',
+        'perf_idx.chng_pct_3month': '近3月涨跌幅',
+        'perf_idx.chng_pct_6month': '近6月涨跌幅',
+        'perf_idx.chng_pct_year': '近1年涨跌幅',
+        'perf_idx.chng_pct_year_sofar': '今年以来涨跌幅',
+        'mkt_idx.rela_volume': '相对成交量',
+        'mkt_idx.peg': 'PEG',
+        'mkt_idx.ps': '市销率',
+        'mkt_idx.pb': '市净率',
+        'mkt_idx.div_rate': '股息率',
+        'mkt_idx.pe_ttm': '市盈率(TTM)',
+        'mkt_idx.fir_fcst_pe': '预测市盈率',
+        'fin_idx.eps_5year': 'EPS增长率(过去5年)',
+        'act_date': '业绩公布日',
+        'mkt_idx.keep_days_today': '连续涨跌天数'
+      }
     }
   },
   watch: {

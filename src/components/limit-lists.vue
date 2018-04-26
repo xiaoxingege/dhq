@@ -1,145 +1,168 @@
 <style>
-.limit-lists{
-    font-size: 0.28rem;
+.limit-lists {
+  font-size: 0.28rem;
 }
-.limitmove-lists{
-  width:100%;
+
+.limitmove-lists {
+  width: 100%;
   background: #fff;
   overflow: hidden;
-  position:relative;
+  position: relative;
 }
-.lists-left{
+
+.lists-left {
   float: left;
 }
-.limit .lists-left{
-  width:2.15rem
+
+.limit .lists-left {
+  width: 2.15rem
 }
-.limit-open .lists-left{
-  width:1.7rem
+
+.limit-open .lists-left {
+  width: 1.7rem
 }
-.lists-right{
+
+.lists-right {
   float: left;
   overflow-x: auto;
 }
-.limit .lists-right{
-  width:5.35rem;
-}
-.limit-open .lists-right{
-  width:5.8rem;
+
+.limit .lists-right {
+  width: 5.35rem;
 }
 
-.lists-title{
+.limit-open .lists-right {
+  width: 5.8rem;
+}
+
+.lists-title {
   height: 0.7rem;
   line-height: 0.7rem;
-  color:rgba(136,136,136,1);
-  font-size:0.26rem;
-  border-bottom:1px solid rgba(230,230,230,1);
+  color: rgba(136, 136, 136, 1);
+  font-size: 0.26rem;
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
   box-sizing: border-box;
 }
-.lists-left .lists-title{
+
+.lists-left .lists-title {
   padding-left: 0.3rem;
   text-align: left;
 }
-.limit .lists-left .lists-title{
+
+.limit .lists-left .lists-title {
   position: relative;
 }
-.limit .lists-left .lists-title span{
+
+.limit .lists-left .lists-title span {
   position: absolute;
-  top:0.41rem;
-  left:1.37rem;
-  width:0;
+  top: 0.41rem;
+  left: 1.37rem;
+  width: 0;
   height: 0;
   border-bottom: 0.1rem solid #ccc;
   border-left: 0.1rem solid transparent;
 }
-.lists-con{
 
-}
-.lists-con li{
+.lists-con {}
+
+.lists-con li {
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(230,230,230,1);
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
 }
+
+
 /*.limit .lists-con li{
   height: 1.4rem;
 }*/
-.limit .lists-con li{
+
+.limit .lists-con li {
   height: 1.08rem;
 }
 
-.limit-open .lists-con li{
+.limit-open .lists-con li {
   height: 1.08rem;
 }
-.lists-left .lists-con li{
-  padding-left:0.3rem;
-  text-align:left;
+
+.lists-left .lists-con li {
+  padding-left: 0.3rem;
+  text-align: left;
 }
 
-.lists-left .lists-con li h6{
+.lists-left .lists-con li h6 {
   height: 0.32rem;
   line-height: 0.32rem;
   overflow: hidden;
 }
 
+
 /*.limit .lists-left .lists-con li h6{
   padding-top:0.28rem;
 }*/
-.limit .lists-left .lists-con li h6{
-  padding-top:0.24rem;
+
+.limit .lists-left .lists-con li h6 {
+  padding-top: 0.24rem;
 }
 
-.limit-open .lists-left .lists-con li h6{
-  padding-top:0.24rem;
+.limit-open .lists-left .lists-con li h6 {
+  padding-top: 0.24rem;
 }
 
-.lists-left .lists-con li h6 .name{
+.lists-left .lists-con li h6 .name {
   float: left;
   font-size: 0.32rem;
-  color:#333333;
+  color: #333333;
 }
-.lists-left .lists-con li h6 .sign{
+
+.lists-left .lists-con li h6 .sign {
   float: right;
-  width:0.5rem;
+  width: 0.5rem;
   height: 0.3rem;
   box-sizing: border-box;
   line-height: 0.28rem;
   border: 1px solid #F54949;
   font-size: 0.2rem;
-  color:#F54949;
+  color: #F54949;
   text-align: center;
 }
-.lists-left .lists-con li p{
+
+.lists-left .lists-con li p {
   height: 0.22rem;
   font-size: 0.22rem;
-  color:#AAAAAA;
-  padding-top:0.1rem;
+  color: #AAAAAA;
+  padding-top: 0.1rem;
 }
 
-.lists-right .lists-con li{
-  padding-top:0.38rem;
+.lists-right .lists-con li {
+  padding-top: 0.38rem;
 }
-.lists-right .lists-con li .main{
+
+.lists-right .lists-con li .main {
   height: 0.4rem;
   line-height: 0.4rem;
 }
-.lists-right .lists-con li .hint{
-  padding-left: 0.16rem;
-  margin-top:0.12rem;
-  font-size: 0.2rem;
-  color:#888;
-}
-.lists-right-container{
 
+.lists-right .lists-con li .hint {
+  padding-left: 0.16rem;
+  margin-top: 0.12rem;
+  font-size: 0.2rem;
+  color: #888;
 }
-.limit .lists-right-container{
-  min-width:22.2rem;
+
+.lists-right-container {}
+
+.limit .lists-right-container {
+  min-width: 22.2rem;
 }
-.limit-open .lists-right-container{
-  width:5.8rem;
+
+.limit-open .lists-right-container {
+  width: 5.8rem;
 }
-.lists-right .lists-title{
+
+.lists-right .lists-title {
   overflow: hidden;
 }
-.lists-right .lists-title p{
+
+.lists-right .lists-title p {
   height: 0.7rem;
   line-height: 0.75rem;
   float: left;
@@ -148,43 +171,49 @@
   box-sizing: border-box;
   position: relative;
 }
-.lists-right .lists-title p span{
+
+.lists-right .lists-title p span {
   width: 0.13rem;
-    height: 0.17rem;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -0.06rem;
-    background: url(https://i0.jrjimg.cn/optional/default.png) center no-repeat;
-    background-size: contain;
+  height: 0.17rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -0.06rem;
+  background: url(https://i0.jrjimg.cn/optional/default.png) center no-repeat;
+  background-size: contain;
 }
-.lists-right .lists-title p.desc span{
+
+.lists-right .lists-title p.desc span {
   background: url(https://i0.jrjimg.cn/optional/desc.png) center no-repeat;
   background-size: contain;
 }
-.lists-right .lists-title p.asce span{
+
+.lists-right .lists-title p.asce span {
   background: url(https://i0.jrjimg.cn/optional/asce.png) center no-repeat;
   background-size: contain;
 }
-.lists-right .lists-con{
 
-}
-.lists-right .lists-con li span{
+.lists-right .lists-con {}
+
+.lists-right .lists-con li span {
   float: left;
   text-align: right;
 }
-.lists-right .lists-con li span.red{
-  color:#F54949;
+
+.lists-right .lists-con li span.red {
+  color: #F54949;
 }
-.lists-right .lists-con li span.green{
-  color:#00B267;
+
+.lists-right .lists-con li span.green {
+  color: #00B267;
 }
-.dataEmpty{
-	height: 1rem;
-	line-height: 1rem;
-	font-size: 0.28rem;
-	color:#aaa;
-	text-align: center;
+
+.dataEmpty {
+  height: 1rem;
+  line-height: 1rem;
+  font-size: 0.28rem;
+  color: #aaa;
+  text-align: center;
 }
 </style>
 
@@ -324,189 +353,189 @@
 <script>
 import 'whatwg-fetch'
 export default {
-  data () {
+  data() {
     return {
-      filtrateType:1,
-      filtrateName:'全部涨停',
-      limitTab:'1',
-      limitUpNum:0,
-      limitDownNum:0,
-      sort1:1,
-      order1:'desc',
-      limitList:[],
-      limitOpenTab:'1',
-      limitUpOpenNum:0,
-      limitDownOpenNum:0,
-      limitOpenList:[],
-      show:1,
-      UpOrDown:'涨'
+      filtrateType: 1,
+      filtrateName: '全部涨停',
+      limitTab: '1',
+      limitUpNum: 0,
+      limitDownNum: 0,
+      sort1: 1,
+      order1: 'desc',
+      limitList: [],
+      limitOpenTab: '1',
+      limitUpOpenNum: 0,
+      limitDownOpenNum: 0,
+      limitOpenList: [],
+      show: 1,
+      UpOrDown: '涨'
     }
   },
   watch: {
-    limitTab: function (val) {
+    limitTab: function(val) {
       if (val === '1') {
-        this.UpOrDown='涨'
+        this.UpOrDown = '涨'
       }
       if (val === '2') {
-        this.UpOrDown='跌'
+        this.UpOrDown = '跌'
       }
     }
   },
-  mounted () {
+  mounted() {
     this.loading()
-    var _this=this
-    setInterval(function(){
+    var _this = this
+    setInterval(function() {
       _this.loading()
-    },5000)
+    }, 5000)
   },
   filters: {
-    convert (d) {
-    	if (d/100000000>=1 || d/100000000<=-1) {
-    		return (d / 100000000).toFixed(2) + '亿'
-    	}else if(d/10000>=1 || d/10000<=-1){
-    		return (d / 10000).toFixed(2) + '万'
-    	}else{
-    		return d
-    	}
+    convert(d) {
+      if (d / 100000000 >= 1 || d / 100000000 <= -1) {
+        return (d / 100000000).toFixed(2) + '亿'
+      } else if (d / 10000 >= 1 || d / 10000 <= -1) {
+        return (d / 10000).toFixed(2) + '万'
+      } else {
+        return d
+      }
     },
-    convert2 (v) {
+    convert2(v) {
       if ((v + '').indexOf('-') !== -1) {
         return v.toFixed(2)
-      } else if(v===0){
+      } else if (v === 0) {
         return v.toFixed(2)
-      }else{
-      	return '+'+v.toFixed(2)
+      } else {
+        return '+' + v.toFixed(2)
       }
     }
   },
   methods: {
-    loading(){
+    loading() {
       this.getLimitLen('1')
       this.getLimitLen('2')
       this.getLimitOpenLen('1')
       this.getLimitOpenLen('2')
-      if (this.show===1) {
+      if (this.show === 1) {
         this.getLimitList()
       }
-      if (this.show===2) {
+      if (this.show === 2) {
         this.getLimitOpenList()
       }
     },
-    addcolor (v) {
+    addcolor(v) {
       if ((v + '').indexOf('-') !== -1) {
         return 'green'
-      } else if(v===0){
+      } else if (v === 0) {
         return ''
-      }else{
-      	return 'red'
+      } else {
+        return 'red'
       }
     },
     /*
-    * 切换【涨跌停】tab方法
-    */
-    toLimitTab(v){
+     * 切换【涨跌停】tab方法
+     */
+    toLimitTab(v) {
       // 展示列表模块1-limit
-      this.show=1
+      this.show = 1
       // 打开涨跌停的tab
-      this.limitTab= v.currentTarget.getAttribute('data-index')
+      this.limitTab = v.currentTarget.getAttribute('data-index')
       // 排序功能初始化
-      this.sort1=1
-      this.order1='desc'
+      this.sort1 = 1
+      this.order1 = 'desc'
       $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
       $('.lists-right .lists-title p:first').addClass('desc')
       // 筛选功能初始化
       this.filtrateType = 1
-      if (this.limitTab==='1') {
-        this.filtrateName='全部涨停'
+      if (this.limitTab === '1') {
+        this.filtrateName = '全部涨停'
       }
-      if (this.limitTab==='2') {
-        this.filtrateName='全部跌停'
+      if (this.limitTab === '2') {
+        this.filtrateName = '全部跌停'
       }
       // 获取涨跌停数据
       this.getLimitList()
     },
     /*
-    * 切换【涨跌停打开】tab方法
-    */
-    toLimitOpenTab(v){
+     * 切换【涨跌停打开】tab方法
+     */
+    toLimitOpenTab(v) {
       // 展示列表模块2-limit-open
-      this.show=2
+      this.show = 2
       // 打开涨跌停打开的tab
       this.limitOpenTab = v.currentTarget.getAttribute('data-index')
       // 排序功能初始化
-      this.sort1=1
-      this.order1='desc'
+      this.sort1 = 1
+      this.order1 = 'desc'
       $('.lists-right .lists-title p').removeClass('desc').removeClass('asce')
       $('.lists-right .lists-title p:first').addClass('desc')
       // 获取涨跌停打开数据
       this.getLimitOpenList()
     },
     /*
-    * 跳转【个股】贯通
-    */
-    toStock(stockcode){
-				var stockCode=stockcode
-				let market = '';
-				if((stockCode.slice(0,3) === '000') || (stockCode.slice(0,3) === '002') || (stockCode.slice(0,3) === '300')){
-						market = 'sz'
-				}else {
-						market = 'sh'
-				}
-				if (window.jrj && window.jrj.jsCallNative) {
-						window.jrj.jsCallNative(100, JSON.stringify({
-							stockCode:stockCode,
-							stockMarket:market
-						}))
-				}
-		},
-    /*
-    * 【涨跌停】数据筛选
-    */
-    filt(item){
-      if (this.filtrateType === 1) {
-        return true
+     * 跳转【个股】贯通
+     */
+    toStock(stockcode) {
+      var stockCode = stockcode
+      let market = '';
+      if ((stockCode.slice(0, 3) === '000') || (stockCode.slice(0, 3) === '002') || (stockCode.slice(0, 3) === '300')) {
+        market = 'sz'
+      } else {
+        market = 'sh'
       }
-      if (item.type===this.filtrateName) {
-        return item.type===this.filtrateName
+      if (window.jrj && window.jrj.jsCallNative) {
+        window.jrj.jsCallNative(100, JSON.stringify({
+          stockCode: stockCode,
+          stockMarket: market
+        }))
       }
     },
     /*
-    * 点击筛选的 数据处理
-    */
-    filtrate(){
-      this.filtrateType++
-      if (this.filtrateType>3) {
-        this.filtrateType=1
-      }
+     * 【涨跌停】数据筛选
+     */
+    filt(item) {
       if (this.filtrateType === 1) {
-        if (this.limitTab==='1') {
-          this.filtrateName='全部涨停'
+        return true
+      }
+      if (item.type === this.filtrateName) {
+        return item.type === this.filtrateName
+      }
+    },
+    /*
+     * 点击筛选的 数据处理
+     */
+    filtrate() {
+      this.filtrateType++
+        if (this.filtrateType > 3) {
+          this.filtrateType = 1
         }
-        if (this.limitTab==='2') {
-          this.filtrateName='全部跌停'
+      if (this.filtrateType === 1) {
+        if (this.limitTab === '1') {
+          this.filtrateName = '全部涨停'
+        }
+        if (this.limitTab === '2') {
+          this.filtrateName = '全部跌停'
         }
 
       }
       if (this.filtrateType === 2) {
-        if (this.limitTab==='1') {
-          this.filtrateName='一字涨停'
+        if (this.limitTab === '1') {
+          this.filtrateName = '一字涨停'
         }
-        if (this.limitTab==='2') {
-          this.filtrateName='一字跌停'
+        if (this.limitTab === '2') {
+          this.filtrateName = '一字跌停'
         }
       }
       if (this.filtrateType === 3) {
-        if (this.limitTab==='1') {
-          this.filtrateName='自然涨停'
+        if (this.limitTab === '1') {
+          this.filtrateName = '自然涨停'
         }
-        if (this.limitTab==='2') {
-          this.filtrateName='自然跌停'
+        if (this.limitTab === '2') {
+          this.filtrateName = '自然跌停'
         }
       }
     },
     /*
-    * 【涨跌停】排序
-    */
+     * 【涨跌停】排序
+     */
     clickSort(e) {
       if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
         if (this.order1 === 'desc') {
@@ -525,8 +554,8 @@ export default {
       this.getLimitList()
     },
     /*
-    * 【涨跌停打开】排序
-    */
+     * 【涨跌停打开】排序
+     */
     clickSort2(e) {
       if (this.sort1 === e.currentTarget.getAttribute('data-index')) {
         if (this.order1 === 'desc') {
@@ -545,24 +574,24 @@ export default {
       this.getLimitOpenList()
     },
     /*
-    * 获取【涨跌停】列表数据数量
-    */
-    getLimitLen(type){
+     * 获取【涨跌停】列表数据数量
+     */
+    getLimitLen(type) {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+type
+      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=' + type
       fetch(url, {
-        method:'get',
-        mode:'cors',
-        cache:'default'
+        method: 'get',
+        mode: 'cors',
+        cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
-        if (type==='1') {
-          this.limitUpNum=v.data.items.length
+        if (type === '1') {
+          this.limitUpNum = v.data.items.length
         }
-        if (type==='2') {
-          this.limitDownNum=v.data.items.length
+        if (type === '2') {
+          this.limitDownNum = v.data.items.length
         }
       }).catch(v2 => {
         console.log(v2)
@@ -570,24 +599,24 @@ export default {
 
     },
     /*
-    * 获取【涨跌停】列表数据
-    */
-    getLimitList(){
+     * 获取【涨跌停】列表数据
+     */
+    getLimitList() {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=1&sort_column=1&order_type=desc
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type='+this.limitTab+'&sort_column='+this.sort1+'&order_type='+this.order1
+      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_up_down_limit?type=' + this.limitTab + '&sort_column=' + this.sort1 + '&order_type=' + this.order1
       // console.log('涨跌停：'+url)
       fetch(url, {
-        method:'get',
-        mode:'cors',
-        cache:'default'
+        method: 'get',
+        mode: 'cors',
+        cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
-        if (v.data.items.length===0) {
-          this.limitList=[]
-        }else{
-          this.limitList=v.data.items
+        if (v.data.items.length === 0) {
+          this.limitList = []
+        } else {
+          this.limitList = v.data.items
         }
       }).catch(v2 => {
         console.log(v2)
@@ -595,24 +624,24 @@ export default {
 
     },
     /*
-    * 获取【涨跌停打开】列表数据数量
-    */
-    getLimitOpenLen(type){
+     * 获取【涨跌停打开】列表数据数量
+     */
+    getLimitOpenLen(type) {
 
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+type
+      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=' + type
       fetch(url, {
-        method:'get',
-        mode:'cors',
-        cache:'default'
+        method: 'get',
+        mode: 'cors',
+        cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
-        if (type==='1') {
-          this.limitUpOpenNum=v.data.items.length
+        if (type === '1') {
+          this.limitUpOpenNum = v.data.items.length
         }
-        if (type==='2') {
-          this.limitDownOpenNum=v.data.items.length
+        if (type === '2') {
+          this.limitDownOpenNum = v.data.items.length
         }
       }).catch(v2 => {
         console.log(v2)
@@ -620,23 +649,23 @@ export default {
 
     },
     /*
-    * 获取【涨跌停打开】列表数据
-    */
-    getLimitOpenList(){
+     * 获取【涨跌停打开】列表数据
+     */
+    getLimitOpenList() {
       // https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=1&sort_column=1&order_type=desc
-      var url='https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type='+this.limitOpenTab+'&sort_column='+this.sort1+'&order_type='+this.order1
+      var url = 'https://sslapi.jrj.com.cn/zxhq/sapi/datacenter/query_open_up_down_limit?type=' + this.limitOpenTab + '&sort_column=' + this.sort1 + '&order_type=' + this.order1
       // console.log('涨跌停打开：'+url)
       fetch(url, {
-        method:'get',
-        mode:'cors',
-        cache:'default'
+        method: 'get',
+        mode: 'cors',
+        cache: 'default'
       }).then((res) => {
         return res.json()
       }).then(v => {
-        if (v.data.items.length===0) {
-          this.limitOpenList=[]
-        }else{
-          this.limitOpenList=v.data.items
+        if (v.data.items.length === 0) {
+          this.limitOpenList = []
+        } else {
+          this.limitOpenList = v.data.items
         }
       }).catch(v2 => {
         console.log(v2)

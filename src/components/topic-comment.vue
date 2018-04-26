@@ -89,215 +89,215 @@ textarea {
 
 <template>
 <div class="box" v-if="dataType">
-    <div class="list-box">
-        <div class="comment-list" v-for="item in dataList">
-            <img :src="item.senderHeadImage" />
-            <div class="comment-box">
-                <h5 @click="reply(item.senderId,item.id,item.senderName)">
-                    <span>{{item.senderName}}:</span>
-                    <strong>{{moment(parseInt(item.ctime),'MM月DD日 HH:mm')}}</strong>
-                </h5>
-                <p v-html="item.content.replace(/#.*#/g, '')"></p>
-                <div v-for="items in item.reply">
-                    <h5>
-                        <span>{{items.senderName}}:</span>
-                        <strong>{{moment(parseInt(items.ctime),'MM月DD日 HH:mm')}}</strong>
-                    </h5>
-                    <p v-html="'回复'+items.receiverName+':'+items.content.replace(/#.*#/g, '')"></p>
-                </div>
-            </div>
+  <div class="list-box">
+    <div class="comment-list" v-for="item in dataList">
+      <img :src="item.senderHeadImage" />
+      <div class="comment-box">
+        <h5 @click="reply(item.senderId,item.id,item.senderName)">
+          <span>{{item.senderName}}:</span>
+          <strong>{{moment(parseInt(item.ctime),'MM月DD日 HH:mm')}}</strong>
+        </h5>
+        <p v-html="item.content.replace(/#.*#/g, '')"></p>
+        <div v-for="items in item.reply">
+          <h5>
+            <span>{{items.senderName}}:</span>
+            <strong>{{moment(parseInt(items.ctime),'MM月DD日 HH:mm')}}</strong>
+          </h5>
+          <p v-html="'回复'+items.receiverName+':'+items.content.replace(/#.*#/g, '')"></p>
         </div>
+      </div>
     </div>
-    <div class="send-box">
-        <!-- <input type="text" name="" value="" ref="sendContent" :placeholder="placeholder" /> -->
-        <textarea v-model="sendContent" :placeholder="placeholder"></textarea >
+  </div>
+  <div class="send-box">
+    <!-- <input type="text" name="" value="" ref="sendContent" :placeholder="placeholder" /> -->
+    <textarea v-model="sendContent" :placeholder="placeholder"></textarea >
         <button type="button" name="button" @click="sendSubmit">发表评论</button>
     </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import moment from 'moment'
 
 export default {
-    data() {
-        return {
-            placeholder: '',
-            commentType: false,
-            receiverId: '',
-            receiverName: '',
-            replyRootId: '',
-            accessToken: '',
-            passportId: '',
-            devId: '',
-            sendContent: ''
-        }
-    },
-    props: ['appItemId', 'frm'],
-    computed: mapState({
-        data: state => state.topicComment.data,
-        dataList: state => state.topicComment.dataList,
-        dataType: state => state.topicComment.dataType,
-        loginStatus: state => state.user.loginStatus,
-        ssoId: state => state.user.ssoId,
-        err: state => state.topicComment.err,
-        commentSubmit: state => state.topicComment.commentSubmit
-    }),
-    methods: {
-        moment(time, format) {
-            return moment(time).format(format)
-        },
-        sendSubmit() {
-            var _this = this
-            var sendContent = this.sendContent
-            if (sendContent === '') {
-                alert('评论不可为空')
-                return
-            } else if (sendContent.length > 100) {
-                alert('超出字数限制')
-                return
-            }
-            if (window.app && window.app.name && window.app.name !== '{{appid}}') {
-                if (this.loginStatus === 'yes') {
-                    if (this.commentType) {
-                        this.$store.dispatch('topicComment/addComment', {
-                            appItemId: _this.data.appItemId,
-                            bizType: '8',
-                            senderId: _this.ssoId,
-                            appId: _this.data.appId,
-                            content: sendContent,
-                            // frm: 'web',
-                            frm: 'app',
-                            receiverId: _this.receiverId,
-                            receiverName: _this.receiverName,
-                            replyRootId: _this.replyRootId,
-                            replyToId: _this.replyRootId,
-                            accessToken: _this.accessToken,
-                            passportId: _this.passportId,
-                            devId: _this.devId
-                        })
-                    } else {
-                        this.$store.dispatch('topicComment/addComment', {
-                            appItemId: _this.data.appItemId,
-                            bizType: '8',
-                            senderId: _this.ssoId,
-                            appId: _this.data.appId,
-                            content: sendContent,
-                            frm: 'app',
-                            accessToken: _this.accessToken,
-                            passportId: _this.passportId,
-                            devId: _this.devId
-                            // frm: 'web'
-                        })
-                    }
-                } else {
-                    window.jrj.jsCallNative('108', JSON.stringify({
-                        returnUrl: encodeURI(window.location.href)
-                    }))
-                }
-            } else {
-
-
-                if (this.frm === 'web') {
-                    if (this.loginStatus === 'yes') {
-                        if (this.commentType) {
-                            this.$store.dispatch('topicComment/addComment', {
-                                appItemId: _this.data.appItemId,
-                                bizType: '8',
-                                senderId: _this.ssoId,
-                                appId: _this.data.appId,
-                                content: sendContent,
-                                frm: 'web',
-                                // frm: 'app',
-                                receiverId: _this.receiverId,
-                                receiverName: _this.receiverName,
-                                replyRootId: _this.replyRootId,
-                                replyToId: _this.replyRootId,
-                                accessToken: _this.accessToken,
-                                passportId: _this.passportId,
-                                devId: _this.devId
-                            })
-                        } else {
-                            this.$store.dispatch('topicComment/addComment', {
-                                appItemId: _this.data.appItemId,
-                                bizType: '8',
-                                senderId: _this.ssoId,
-                                appId: _this.data.appId,
-                                content: sendContent,
-                                // frm: 'app',
-                                frm: 'web',
-                                accessToken: _this.accessToken,
-                                passportId: _this.passportId,
-                                devId: _this.devId
-                            })
-                        }
-                    } else {
-                        location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
-                    }
-                } else {
-                    window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
-                    setTimeout(function() {
-                        if (!document.webkitHidden) {
-                            window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
-                        }
-                    }, 1500);
-                }
-            }
-
-        },
-        reply(senderId, replyRootId, senderName) {
-            this.placeholder = '回复' + senderName + '：'
-            this.commentType = true
-            this.receiverId = senderId
-            this.receiverName = senderName
-            this.replyRootId = replyRootId
-        }
-    },
-    mounted() {
-        var _this = this
-        this.$store.dispatch('topicComment/whereList', {
-            // appItemId: 8
-            appItemId: _this.appItemId
-        })
-        let fnName = 'cb' + Date.now()
-        window[fnName] = function(data) {
-            delete window[fnName]
-            if (typeof data === 'string') {
-                data = JSON.parse(data)
-            }
-            _this.accessToken = data.data.accessToken
-            _this.passportId = data.data.passportId
-            _this.devId = data.data.devId
-        }
-
-        function timedCount() {
-            if (!window.jrj) {
-                setTimeout(timedCount, 500)
-            } else {
-                window.jrj.jsCallNative('130', JSON.stringify({
-                    method: 'get',
-                    url: 'http://itougu.jrj.com.cn/act/getClientInfo',
-                    callback: fnName
-                }))
-            }
-        }
-        this.$store.dispatch('user/checkLogin').then(() => {
-            if (this.loginStatus === 'yes') {
-                timedCount()
-            }
-        })
-        // .catch(err => {
-        //     alert(err)
-        // })
-        this.$watch('err', err => {
-            alert(err.msg)
-        })
-        this.$watch('commentSubmit', commentSubmit => {
-            _this.sendContent = ''
-            $('.list-box').scrollTop(0)
-        })
+  data() {
+    return {
+      placeholder: '',
+      commentType: false,
+      receiverId: '',
+      receiverName: '',
+      replyRootId: '',
+      accessToken: '',
+      passportId: '',
+      devId: '',
+      sendContent: ''
     }
+  },
+  props: ['appItemId', 'frm'],
+  computed: mapState({
+    data: state => state.topicComment.data,
+    dataList: state => state.topicComment.dataList,
+    dataType: state => state.topicComment.dataType,
+    loginStatus: state => state.user.loginStatus,
+    ssoId: state => state.user.ssoId,
+    err: state => state.topicComment.err,
+    commentSubmit: state => state.topicComment.commentSubmit
+  }),
+  methods: {
+    moment(time, format) {
+      return moment(time).format(format)
+    },
+    sendSubmit() {
+      var _this = this
+      var sendContent = this.sendContent
+      if (sendContent === '') {
+        alert('评论不可为空')
+        return
+      } else if (sendContent.length > 100) {
+        alert('超出字数限制')
+        return
+      }
+      if (window.app && window.app.name && window.app.name !== '{{appid}}') {
+        if (this.loginStatus === 'yes') {
+          if (this.commentType) {
+            this.$store.dispatch('topicComment/addComment', {
+              appItemId: _this.data.appItemId,
+              bizType: '8',
+              senderId: _this.ssoId,
+              appId: _this.data.appId,
+              content: sendContent,
+              // frm: 'web',
+              frm: 'app',
+              receiverId: _this.receiverId,
+              receiverName: _this.receiverName,
+              replyRootId: _this.replyRootId,
+              replyToId: _this.replyRootId,
+              accessToken: _this.accessToken,
+              passportId: _this.passportId,
+              devId: _this.devId
+            })
+          } else {
+            this.$store.dispatch('topicComment/addComment', {
+              appItemId: _this.data.appItemId,
+              bizType: '8',
+              senderId: _this.ssoId,
+              appId: _this.data.appId,
+              content: sendContent,
+              frm: 'app',
+              accessToken: _this.accessToken,
+              passportId: _this.passportId,
+              devId: _this.devId
+              // frm: 'web'
+            })
+          }
+        } else {
+          window.jrj.jsCallNative('108', JSON.stringify({
+            returnUrl: encodeURI(window.location.href)
+          }))
+        }
+      } else {
+
+
+        if (this.frm === 'web') {
+          if (this.loginStatus === 'yes') {
+            if (this.commentType) {
+              this.$store.dispatch('topicComment/addComment', {
+                appItemId: _this.data.appItemId,
+                bizType: '8',
+                senderId: _this.ssoId,
+                appId: _this.data.appId,
+                content: sendContent,
+                frm: 'web',
+                // frm: 'app',
+                receiverId: _this.receiverId,
+                receiverName: _this.receiverName,
+                replyRootId: _this.replyRootId,
+                replyToId: _this.replyRootId,
+                accessToken: _this.accessToken,
+                passportId: _this.passportId,
+                devId: _this.devId
+              })
+            } else {
+              this.$store.dispatch('topicComment/addComment', {
+                appItemId: _this.data.appItemId,
+                bizType: '8',
+                senderId: _this.ssoId,
+                appId: _this.data.appId,
+                content: sendContent,
+                // frm: 'app',
+                frm: 'web',
+                accessToken: _this.accessToken,
+                passportId: _this.passportId,
+                devId: _this.devId
+              })
+            }
+          } else {
+            location.href = 'https://sso.jrj.com.cn/sso/ssopassportlogin?ReturnURL=' + encodeURIComponent(location.href)
+          }
+        } else {
+          window.location.href = 'jrjnews://tougu?t=web&url=' + window.location.href
+          setTimeout(function() {
+            if (!document.webkitHidden) {
+              window.location.href = 'http://appcms.jrj.com.cn/download.jspa?channel=transfer2&tgqdcode=transfe3&channel=V4V6497Y9&tgqdcode=3Q2Y3H95'
+            }
+          }, 1500);
+        }
+      }
+
+    },
+    reply(senderId, replyRootId, senderName) {
+      this.placeholder = '回复' + senderName + '：'
+      this.commentType = true
+      this.receiverId = senderId
+      this.receiverName = senderName
+      this.replyRootId = replyRootId
+    }
+  },
+  mounted() {
+    var _this = this
+    this.$store.dispatch('topicComment/whereList', {
+      // appItemId: 8
+      appItemId: _this.appItemId
+    })
+    let fnName = 'cb' + Date.now()
+    window[fnName] = function(data) {
+      delete window[fnName]
+      if (typeof data === 'string') {
+        data = JSON.parse(data)
+      }
+      _this.accessToken = data.data.accessToken
+      _this.passportId = data.data.passportId
+      _this.devId = data.data.devId
+    }
+
+    function timedCount() {
+      if (!window.jrj) {
+        setTimeout(timedCount, 500)
+      } else {
+        window.jrj.jsCallNative('130', JSON.stringify({
+          method: 'get',
+          url: 'http://itougu.jrj.com.cn/act/getClientInfo',
+          callback: fnName
+        }))
+      }
+    }
+    this.$store.dispatch('user/checkLogin').then(() => {
+      if (this.loginStatus === 'yes') {
+        timedCount()
+      }
+    })
+    // .catch(err => {
+    //     alert(err)
+    // })
+    this.$watch('err', err => {
+      alert(err.msg)
+    })
+    this.$watch('commentSubmit', commentSubmit => {
+      _this.sendContent = ''
+      $('.list-box').scrollTop(0)
+    })
+  }
 }
 </script>

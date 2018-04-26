@@ -1,6 +1,5 @@
 <style scoped>
 @import '../assets/css/reset.css';
-
 #outlook {
   width: 1920px;
   height: 1440px;
@@ -21,6 +20,8 @@
   top: -145px;
   margin-left: -297px;
 }
+
+
 /*三等奖*/
 
 .three {
@@ -122,7 +123,7 @@
 }
 </style>
 <style>
-body{
+body {
   background: #cf2b2c;
 }
 </style>

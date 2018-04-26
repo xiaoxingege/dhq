@@ -85,7 +85,9 @@ const getQuota = async function() {
     quota
   }
 }
-const getRandomNum = async function({ max }) {
+const getRandomNum = async function({
+  max
+}) {
   // var rnd = [];
   // for (var i = 0; i < max; i++) {
   //   rnd.push(Math.ceil(Math.random() * max));
@@ -93,7 +95,10 @@ const getRandomNum = async function({ max }) {
   // return rnd;
 
   let quotaInfo = await getQuota()
-  let { proxy, quota } = quotaInfo
+  let {
+    proxy,
+    quota
+  } = quotaInfo
   let integersResult = await request({
     headers: {
       'content-type': 'text/plain;charset=utf-8',
@@ -154,7 +159,9 @@ module.exports = function(router) {
     // 先判断剩余配额，如果配额不足，则改用代理服务器请求
 
     // 调用random.org接口生成一组真随机数
-    let integersResult = await getRandomNum({ max })
+    let integersResult = await getRandomNum({
+      max
+    })
     // 从结果中排除已经中过奖的号码
     integersResult = removeByValue(integersResult, dataArr)
     integersResult = integersResult.slice(0, num)
@@ -203,12 +210,18 @@ module.exports = function(router) {
         });
         ssoResult = JSON.parse(ssoResult)
         if (ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0, 2) === 'YG') {
-          ctx.body = { type: true }
+          ctx.body = {
+            type: true
+          }
         } else {
-          ctx.body = { type: false }
+          ctx.body = {
+            type: false
+          }
         }
       } else {
-        ctx.body = { type: true }
+        ctx.body = {
+          type: true
+        }
       }
     } else {
       let ssoResult = await request({
@@ -220,9 +233,13 @@ module.exports = function(router) {
       });
       ssoResult = JSON.parse(ssoResult)
       if (ssoResult.length !== 0 && ssoResult[0].bizSource.substring(0, 2) === 'YG') {
-        ctx.body = { type: true }
+        ctx.body = {
+          type: true
+        }
       } else {
-        ctx.body = { type: false }
+        ctx.body = {
+          type: false
+        }
       }
     }
   })

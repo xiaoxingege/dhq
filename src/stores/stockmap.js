@@ -11,7 +11,8 @@ const state = {
   calendarsData: null,
   curTimeItem: '0930',
   industryAvg: '',
-  industryChngPct: ''
+  industryChngPct: '',
+  leadStockData: []
 }
 
 // getters
@@ -26,6 +27,7 @@ const mutationsTypes = {
   INDUSTRY_AVG: '',
   CALENDARS_DATA: 'CALENDARS_DATA',
   CUR_TIME_ITEM: 'CUR_TIME_ITEM',
+  LEADSTOCK_DATA: 'LEADSTOCK_DATA',
   ERROR: 'ERROR'
 }
 // actions
@@ -157,6 +159,23 @@ const actions = {
     }).catch(() => {
       commit(mutationsTypes.ERROR)
     })
+  },
+  getLeadStock({
+    commit
+  }, {
+    size,
+    sort,
+    condition,
+    industryCode,
+    isContinue
+  }) {
+    const url = `${domain}/openapi/cloud/stockTop?size=${size}&sort=${sort}&condition=${condition}&industryCode=${industryCode}&isContinue=${isContinue}`
+    // const url = '../../mock/leadstock.json'
+    return fetch(url).then((res) => {
+      return res.json()
+    }).then((body) => {
+      commit(mutationsTypes.LEADSTOCK_DATA, body)
+    })
   }
 }
 // mutations
@@ -179,6 +198,11 @@ const mutations = {
   },
   [mutationsTypes.CUR_TIME_ITEM](state, curTime) {
     state.curTimeItem = curTime;
+  },
+  [mutationsTypes.LEADSTOCK_DATA](state, result) {
+    if (result.errCode === 0) {
+      state.leadStockData = result.data
+    }
   }
 }
 

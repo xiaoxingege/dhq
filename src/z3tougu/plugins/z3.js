@@ -15,8 +15,8 @@ export default {
         el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
-          const winH = window.document.body.scrollHeight;
-          const winW = window.document.body.scrollWidth;
+          const winH = window.document.body.scrollHeight || window.innerHeight;
+          const winW = window.document.body.scrollWidth || window.innerWidth;
           let left = event.x + parseInt(scrollleft) + 50;
           let top = event.y + parseInt(scrollTop) - 20;
           if (winH - top < 300) {
@@ -27,6 +27,7 @@ export default {
           }
           popupVm.$props.left = left
           popupVm.$props.top = top
+          document.body.appendChild(popupVm.$el);
           popupVm.isShow = true;
           popupVm.$props.stockCode = el.stockCode;
           popupVm.curStockCode = el.stockCode;
@@ -44,13 +45,85 @@ export default {
       var flag = binding.value;
       if (flag > 0) {
         el.style.color = config.upColor
+        // el.style.borderColor = config.upColor
       } else if (flag < 0) {
         el.style.color = config.downColor
+        // el.style.borderColor = config.downColor
       } else {
         el.style.color = config.flatColor
-
+        // el.style.borderColor = config.flatColor
       }
     })
+
+    /**
+    * 使用方式:1、时间戳毫秒级 <div  v-z3-time="{ time: '1521279696000', type: '1' }"></div>
+              2、日期格式<div  v-z3-time="{ time: '2018-03-22 10:21:12', type: '2' }"></div>
+              3、type=1 & type=2
+                     （1）新闻的资讯按照时间1小时以内的是“多少分钟前”，1分钟内的资讯显示“刚刚”表示
+                     （2）当天内显示“小时:分钟”， 如“1:00”
+    */
+    Vue.directive('z3-time', (el, binding, vnode, oldVnode) => {
+      var dateTimeStamp = binding.value.time // 传入时间戳
+      var dateType = parseInt(binding.value.type)
+      if (dateTimeStamp.indexOf('-') == -1) {
+        dateTimeStamp = parseInt(binding.value.time)
+      }
+
+      if (dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp != '') {
+        if (dateTimeStamp.length == 13) {
+          dateTimeStamp = parseInt(binding.value)
+        } else {
+          var timestamp = Date.parse(new Date(dateTimeStamp))
+          dateTimeStamp = timestamp
+        }
+        var now = new Date().getTime()
+        var day_conver = 1000 * 60 * 60 * 24
+        var hour_conver = 1000 * 60 * 60
+        var min_conver = 1000 * 60
+        var time_conver = now - dateTimeStamp
+        var temp_conver
+        var date = new Date(dateTimeStamp)
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+        var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' '
+        var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':'
+        var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes())
+        if ((time_conver / day_conver) < 1) {
+          if (dateType === 1) {
+            temp_conver = (time_conver / hour_conver)
+            if (temp_conver >= 1) {
+              el.innerHTML = parseInt(temp_conver) + "小时前"
+            } else {
+              temp_conver = (time_conver / min_conver)
+              if (temp_conver >= 1) {
+                el.innerHTML = parseInt(temp_conver) + "分钟前"
+              } else {
+                el.innerHTML = "刚刚"
+              }
+            }
+          } else {
+            el.innerHTML = h + m
+          }
+        } else {
+          var curTimeMillis = new Date().getTime() // 系统当前时间戳
+          var curDate = new Date(curTimeMillis)
+          var todayHoursSeconds = curDate.getHours() * 60 * 60
+          var todayMinutesSeconds = curDate.getMinutes() * 60
+          var todaySeconds = curDate.getSeconds()
+          var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000
+          var todayStartMillis = curTimeMillis - todayMillis
+          var oneDayMillis = 24 * 60 * 60 * 1000
+          var yesterdayStartMilis = todayStartMillis - oneDayMillis
+          if (dateTimeStamp >= yesterdayStartMilis) {
+            el.innerHTML = "昨天 " + h + m
+          } else {
+            el.innerHTML = M + D + h + m
+          }
+        }
+      } else {
+        el.innerHTML = "--"
+      }
+    })
+
     Vue.directive('z3-updowncolor-bg', (el, binding, vnode, oldVnode) => {
       var flag = binding.value;
       if (flag > 0) {
@@ -69,7 +142,7 @@ export default {
     })
     Vue.directive('z3-drag', {
       inserted: (el, binding, vnode, oldVnode) => {
-        let oDiv = el; //当前元素
+        let oDiv = el; // 当前元素
         var containmentRef = binding.value.containment;
         var vm = vnode.context;
         var l;
@@ -133,6 +206,12 @@ export default {
         };
       }
     })
+    Vue.directive('z3-drop', function(el, binding) {
+      let oDiv = el; // 当前元素
+      oDiv.onmouseup = function(e) {
+        binding.value()
+      }
+    });
     Vue.directive('drag', {
       bind: function(el, binding) {
         let oDiv = el; //当前元素
@@ -245,6 +324,28 @@ export default {
         return value
       }
     })
+    Vue.filter('chngPct', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value.toFixed(2) + '%';
+        } else {
+          return value.toFixed(2) + '%';
+        }
+      }
+    });
+    Vue.filter('chng', function(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + value;
+        } else {
+          return value;
+        }
+      }
+    })
     Vue.directive('z3-help', {
       bind(el, binding, vnode, oldVnode) {
         el.addEventListener('mouseover', (event) => {
@@ -273,6 +374,18 @@ export default {
           hDiv.parentNode.removeChild(hDiv);
         })
       }
+
+    })
+    Vue.directive('z3-nav', (el, binding, vnode, oldVnode) => {
+      // el.childNodes[0].className = binding.expression
+      el.childNodes.forEach((item) => {
+        item.addEventListener('click', (event) => {
+          el.childNodes.forEach((v) => {
+            v.className = ''
+          })
+          item.className = binding.expression
+        })
+      })
 
     })
 

@@ -12,14 +12,12 @@ export default {
     maskColor: 'rgba(20,21,24,0.8)'
   }
 }
-// const domain = '//test.z3quant.com' // openapi
-// const websocketDomain = '//test.z3quant.com' // websocket
-const domain = '//www.z3quant.com' // openapi
-const websocketDomain = '//www.z3quant.com' // websocket
+const domain = '//test.z3quant.com' // openapi
+const websocketDomain = '//test.z3quant.com' // websocket
+// const domain = '//www.z3quant.com' // openapi
+// const websocketDomain = '//www.z3quant.com' // websocket
 const ctx = '/zstgweb'
 // const ctx = '';
-// const domain = '//www.z3quant.com'
-// const domain = '//10.77.4.84:8899'
 export {
   domain,
   websocketDomain,

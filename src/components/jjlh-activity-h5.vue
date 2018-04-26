@@ -1,46 +1,46 @@
 <style>
 body {
-    background-color: #99001e !important;
-    font-family: '微软雅黑';
+  background-color: #99001e !important;
+  font-family: '微软雅黑';
 }
 
 input,
 button {
-    outline: none;
+  outline: none;
 }
 
 .bg4 .box-con .swiper-box {
-    width: 7.28rem;
-    height: 3.4rem;
-    top: 3.87rem;
-    left: 0.12rem;
+  width: 7.28rem;
+  height: 3.4rem;
+  top: 3.87rem;
+  left: 0.12rem;
 }
 
 .bg4 .swiper-pagination {
-    z-index: 9;
-    bottom: -0.9rem !important;
+  z-index: 9;
+  bottom: -0.9rem !important;
 }
 
 .bg4 .swiper-pagination .swiper-pagination-switch {
-    width: 0.18rem;
-    height: 0.18rem;
-    background-color: #84001a;
-    margin: 0 0.05rem;
+  width: 0.18rem;
+  height: 0.18rem;
+  background-color: #84001a;
+  margin: 0 0.05rem;
 }
 
 .bg4 .swiper-pagination .swiper-pagination-switch.swiper-active-switch {
-    background-color: #ff4f71;
+  background-color: #ff4f71;
 }
 
 .bg3 .pagination .swiper-pagination-switch {
-    width: 0.18rem;
-    height: 0.18rem;
-    background-color: #84001a;
-    margin: 0 0.05rem;
+  width: 0.18rem;
+  height: 0.18rem;
+  background-color: #84001a;
+  margin: 0 0.05rem;
 }
 
 .bg3 .pagination .swiper-pagination-switch.swiper-active-switch {
-    background-color: #ff4f71;
+  background-color: #ff4f71;
 }
 </style>
 <style lang="scss" scoped>
@@ -257,72 +257,72 @@ button {
 
 <template>
 <div class="box">
-    <div class="bg1">
-    </div>
-    <div class="bg2">
-        <div class="box-con">
-            <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/20180301lh2.mp4" controls="controls">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+    <div class="box-con">
+      <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/20180301lh2.mp4" controls="controls">
                 您的浏览器不支持 video 标签。
             </video>
-        </div>
     </div>
-    <div class="bg3">
-        <div class="box-con">
-            <div class="swiper1-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide red-slide slide-img1"></div>
-                    <div class="swiper-slide blue-slide slide-img2"></div>
-                    <div class="swiper-slide orange-slide slide-img3"></div>
-                    <div class="swiper-slide green-slide slide-img4"></div>
-                </div>
-            </div>
-            <div class="pagination"></div>
+  </div>
+  <div class="bg3">
+    <div class="box-con">
+      <div class="swiper1-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide red-slide slide-img1"></div>
+          <div class="swiper-slide blue-slide slide-img2"></div>
+          <div class="swiper-slide orange-slide slide-img3"></div>
+          <div class="swiper-slide green-slide slide-img4"></div>
         </div>
+      </div>
+      <div class="pagination"></div>
     </div>
-    <div class="bg4">
-        <div class="box-con">
-            <activity-slider :listData="listData" />
-            <button type="button" name="button" @click="popClick(1)"></button>
+  </div>
+  <div class="bg4">
+    <div class="box-con">
+      <activity-slider :listData="listData" />
+      <button type="button" name="button" @click="popClick(1)"></button>
+    </div>
+  </div>
+  <div class="bg5">
+    <div class="box-con">
+    </div>
+  </div>
+  <div class="bg6">
+    <div class="box-con">
+    </div>
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <div class="popClick3" @click="popClick(1)"></div>
+    </div>
+  </div>
+  <div class='fixBg' v-if="popShow"></div>
+  <div class="pop" v-if="popShow">
+    <div class="close" @click="close">X</div>
+    <div class="pop-con">
+      <div class="pop-text1" v-if="popText === 1">
+        <h1>预约领取</h1>
+        <div>
+          <span>手机号：</span>
+          <input type="text" name="" value="" v-model="phone">
+          <em v-html="txtHtml" v-if="txtShow"></em>
         </div>
+        <button type="button" name="button" @click="joinSubmit">立即添加，领热点金股</button>
+      </div>
+      <div class="pop-text2" v-else-if="popText === 2">
+        <h1>预约成功</h1>
+        <div>工作人员将会在3个工作日内为您发放<br />《2018年两会超级热点金股策略》</div>
+        <button type="button" name="button" @click="close">知道了</button>
+      </div>
     </div>
-    <div class="bg5">
-        <div class="box-con">
-        </div>
-    </div>
-    <div class="bg6">
-        <div class="box-con">
-        </div>
-    </div>
-    <div class="footer">
-        <div class="box-con">
-            <div class="popClick3" @click="popClick(1)"></div>
-        </div>
-    </div>
-    <div class='fixBg' v-if="popShow"></div>
-    <div class="pop" v-if="popShow">
-        <div class="close" @click="close">X</div>
-        <div class="pop-con">
-            <div class="pop-text1" v-if="popText === 1">
-                <h1>预约领取</h1>
-                <div>
-                    <span>手机号：</span>
-                    <input type="text" name="" value="" v-model="phone">
-                    <em v-html="txtHtml" v-if="txtShow"></em>
-                </div>
-                <button type="button" name="button" @click="joinSubmit">立即添加，领热点金股</button>
-            </div>
-            <div class="pop-text2" v-else-if="popText === 2">
-                <h1>预约成功</h1>
-                <div>工作人员将会在3个工作日内为您发放<br />《2018年两会超级热点金股策略》</div>
-                <button type="button" name="button" @click="close">知道了</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import activitySlider from 'components/activity-slider'
 import jQuery from 'jquery'
@@ -333,118 +333,118 @@ window.Clipboard = Clipboard
 import getQueryString from 'utils/getQueryString'
 
 export default {
-    data() {
-        return {
-            listData: {
-                conWidth: '7.28rem',
-                conHeight: '3.4rem',
-                conPadding: '0',
-                pagShow: true,
-                arrowShow: false,
-                loop: true,
-                slidesPerView: 1,
-                autoplay: 5000,
-                list: [{
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img1.png'),
-                        link: ''
-                    },
-                    {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img2.png'),
-                        link: ''
-                    },
-                    {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img3.png'),
-                        link: ''
-                    },
-                    {
-                        imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img4.png'),
-                        link: ''
-                    }
-                ]
-            },
-            popShow: false,
-            popText: 1,
-            txtShow: false,
-            txtHtml: ''
-        }
-    },
-    computed: mapState({
-        type: state => {
-            return state.reservation.type
-        },
-        err: state => {
-            return state.reservation.err
-        }
-    }),
-    components: {
-        activitySlider
-    },
-    methods: {
-        popClick(type) {
-            this.popShow = true
-            this.popText = type
-            this.phone = ''
-            window.dcsMultiTrack('DCS.dcsuri', 'jjlh-activity-popClick', 'WT.ti', 'jjlh-activity-popClick')
-        },
-        close() {
-            this.popShow = false
-        },
-        joinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.phone || this.phone.length === 0) {
-                this.txtShow = true
-                this.txtHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.phone)) {
-                this.txtShow = true
-                this.txtHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '835110116492165120',
-                userName: '',
-                phone: this.phone,
-                bizsource: getQueryString('bizsource') || 'mSite',
-                source: '4',
-                tgqdcode: getQueryString('tgqdcode') || 'LHUXZRZB'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'jjlh-activity-joinSubmit', 'WT.ti', 'jjlh-activity-joinSubmit')
-        }
-    },
-    mounted() {
-        document.title = '决胜开局 聚焦超级热点'
-        var _this = this
-        new Swiper('.swiper1-container', {
-            pagination: '.pagination',
-            paginationClickable: true,
-            loop: true,
-            autoplay: 5000,
-            autoplayDisableOnInteraction: false
-        })
-        window.InitWeChatShare({
-            shareTitle: window.document.title,
-            shareLink: window.location.href,
-            shareDesc: '政策红利孕育超级龙头，2018年这些股将蓄势腾飞！',
-            shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/jjlh-activity-bg1.jpg',
-            callback: function(wx) {
-
-            }
-        })
-        this.$watch('type', type => {
-            if (type) {
-                this.popText = 2
-            }
-        })
-        this.$watch('txtShow', txtShow => {
-            setTimeout(function() {
-                _this.txtShow = false
-                _this.txtHtml = ''
-            }, 1000)
-        })
+  data() {
+    return {
+      listData: {
+        conWidth: '7.28rem',
+        conHeight: '3.4rem',
+        conPadding: '0',
+        pagShow: true,
+        arrowShow: false,
+        loop: true,
+        slidesPerView: 1,
+        autoplay: 5000,
+        list: [{
+            imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img1.png'),
+            link: ''
+          },
+          {
+            imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img2.png'),
+            link: ''
+          },
+          {
+            imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img3.png'),
+            link: ''
+          },
+          {
+            imgUrl: require('assets/images/jjlh-activity/jjlh-activity-img4.png'),
+            link: ''
+          }
+        ]
+      },
+      popShow: false,
+      popText: 1,
+      txtShow: false,
+      txtHtml: ''
     }
+  },
+  computed: mapState({
+    type: state => {
+      return state.reservation.type
+    },
+    err: state => {
+      return state.reservation.err
+    }
+  }),
+  components: {
+    activitySlider
+  },
+  methods: {
+    popClick(type) {
+      this.popShow = true
+      this.popText = type
+      this.phone = ''
+      window.dcsMultiTrack('DCS.dcsuri', 'jjlh-activity-popClick', 'WT.ti', 'jjlh-activity-popClick')
+    },
+    close() {
+      this.popShow = false
+    },
+    joinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.phone || this.phone.length === 0) {
+        this.txtShow = true
+        this.txtHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.phone)) {
+        this.txtShow = true
+        this.txtHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '835110116492165120',
+        userName: '',
+        phone: this.phone,
+        bizsource: getQueryString('bizsource') || 'mSite',
+        source: '4',
+        tgqdcode: getQueryString('tgqdcode') || 'LHUXZRZB'
+      })
+      window.dcsMultiTrack('DCS.dcsuri', 'jjlh-activity-joinSubmit', 'WT.ti', 'jjlh-activity-joinSubmit')
+    }
+  },
+  mounted() {
+    document.title = '决胜开局 聚焦超级热点'
+    var _this = this
+    new Swiper('.swiper1-container', {
+      pagination: '.pagination',
+      paginationClickable: true,
+      loop: true,
+      autoplay: 5000,
+      autoplayDisableOnInteraction: false
+    })
+    window.InitWeChatShare({
+      shareTitle: window.document.title,
+      shareLink: window.location.href,
+      shareDesc: '政策红利孕育超级龙头，2018年这些股将蓄势腾飞！',
+      shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/jjlh-activity-bg1.jpg',
+      callback: function(wx) {
+
+      }
+    })
+    this.$watch('type', type => {
+      if (type) {
+        this.popText = 2
+      }
+    })
+    this.$watch('txtShow', txtShow => {
+      setTimeout(function() {
+        _this.txtShow = false
+        _this.txtHtml = ''
+      }, 1000)
+    })
+  }
 }
 </script>

@@ -37,7 +37,31 @@ export default {
     minmaxXDefault: '',
     minmaxYDefault: '',
     setDefaultX: '',
-    setDefaultY: ''
+    setDefaultY: '',
+    ztgBubblesData: {
+      xDefault: '',
+      xData: '',
+      yData: '',
+      bubblesSize: '',
+      bubbleColor: '',
+      innerCode: [],
+      name: [],
+      seriesData: []
+    },
+    ztgBubblesLine: [],
+    stockListTime: '',
+    isTop: false,
+    ztgCompare: {
+      up: [],
+      openUp: [],
+      down: [],
+      openDown: []
+    },
+    zbgLine: null,
+    newStockList: null,
+    newStockSortType: '',
+    newStockSort: ''
+
   },
   mutations: {
     setBubblesOptions(state, options) {
@@ -136,6 +160,186 @@ export default {
     setZoomRangeDefault(state, options) {
       state.setDefaultX = [options.X, options.XDefault]
       state.setDefaultY = [options.Y, options.YDefault]
+    },
+    setStockBubblesData(state, result) {
+      const data = result.data
+      state.ztgBubblesData = {
+        xDefault: [],
+        xData: [],
+        yData: [],
+        bubbleSize: [],
+        bubbleColor: [],
+        innerCode: [],
+        name: [],
+        seriesData: []
+      }
+      if (result.errCode === 0) {
+        for (var item of data) {
+          if (item.xData !== null && item.yData !== null) {
+            state.ztgBubblesData.xDefault.push(item.xData)
+            if (item.xData > 10) {
+              state.ztgBubblesData.xData.push(Math.log(11))
+            } else {
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
+            }
+            state.ztgBubblesData.yData.push(item.yData)
+            state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+            state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+            state.ztgBubblesData.innerCode.push(item.innerCode)
+            state.ztgBubblesData.name.push(item.name)
+            if (item.xData > 10) {
+              state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
+            } else {
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+            }
+          }
+        }
+      } else {
+        // alert(result.msg)
+        state.ztgBubblesData = {
+          xDefault: [],
+          xData: [],
+          yData: [],
+          bubbleSize: [],
+          bubbleColor: [],
+          innerCode: [],
+          name: [],
+          seriesData: []
+        }
+      }
+    },
+    setBubblesLine(state, result) {
+      if (result.errCode === 0) {
+        state.ztgBubblesLine = result.data.reverse()
+        state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+      } else {
+        state.ztgBubblesLine = null
+      }
+    },
+    updateBubblesLine(state, result) {
+      if (result.errCode === 0) {
+        if (result.data.length !== 0) {
+          state.ztgBubblesLine.unshift(result.data[0])
+          state.stockListTime = state.ztgBubblesLine[0].dateTime
+          state.isTop = true
+        } else {
+          state.isTop = false
+        }
+
+      }
+    },
+    setZdCompare(state, result) {
+      if (result.errCode === 0) {
+        state.ztgCompare = {
+          up: [],
+          openUp: [],
+          down: [],
+          openDown: []
+        }
+        for (var item of result.data) {
+          state.ztgCompare.up.push(item[0])
+          state.ztgCompare.down.push(item[1])
+          state.ztgCompare.openUp.push(item[2])
+          state.ztgCompare.openDown.push(item[3])
+
+        }
+      } else {
+        state.ztgCompare = null
+      }
+    },
+    setZbgLine(state, result) {
+      if (result.errCode === 0) {
+        state.zbgLine = result.data
+      } else {
+        state.zbgLine = null
+      }
+    },
+    setNewStockList(state, result) {
+      if (result.errCode === 0) {
+        state.newStockList = result.data.sort(function(a, b) {
+          return b.chg - a.chg
+        })
+
+        // state.newStockList = result.data
+      } else {
+        state.newStockList = null
+      }
+    },
+    sortNewList(state, result) {
+
+      function compare(propertyName) {
+        return function(object1, object2) {
+          var value1 = object1[propertyName];
+          var value2 = object2[propertyName];
+          if (value2 < value1) {
+            return 1;
+          } else if (value2 > value1) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }
+      }
+      state.newStockSortType = result.type
+      state.newStockSort = result.sortType
+
+      if (result.type === 'name') {
+        if (result.sortType === 'desc') {
+          state.newStockList.sort(compare('chiSpel')).reverse()
+        } else {
+          state.newStockList.sort(compare('chiSpel'))
+        }
+      } else if (result.type === 'innerCode') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.symbol - b.symbol
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.symbol - a.symbol
+          })
+        }
+      } else if (result.type === 'price') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.price - b.price
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.price - a.price
+          })
+        }
+      } else if (result.type === 'chg') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.chg - b.chg
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.chg - a.chg
+          })
+        }
+      } else if (result.type === 'lznum') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.limitNum - b.limitNum
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.limitNum - a.limitNum
+          })
+        }
+      } else if (result.type === 'zfnum') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.chgNum - b.chgNum
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.chgNum - a.chgNum
+          })
+        }
+      }
     }
   },
   actions: {
@@ -225,6 +429,93 @@ export default {
         Y,
         XDefault,
         YDefault
+      })
+    },
+    getStockBubbles({
+      commit
+    }, {
+      options
+    }) {
+      commit('setBubblesOptions', options)
+      return fetch(`${domain}/openapi/dimension/bubbles`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: `xData=${options.xDefault}&yData=${options.yDefault}&bubbleSize=${options.sizeDefault}&bubbleColor=${options.colorDefault}&type=${options.type}`
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setStockBubblesData', body)
+      })
+    },
+    getBubblesLine({
+      commit
+    }, {
+      type,
+      currentTime
+    }) {
+      return fetch(`${domain}/openapi/dimension/abnormal/stock/${type}?startTime=${currentTime}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        if (currentTime === '') {
+          commit('setBubblesLine', body)
+        } else {
+          commit('updateBubblesLine', body)
+        }
+
+      })
+    },
+    getZdCompare({
+      commit
+    }) {
+      return fetch(`${domain}/openapi/dimension/upDownRatios`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZdCompare', body)
+      })
+    },
+    getZbgLine({
+      commit
+    }, {
+      type
+    }) {
+      return fetch(`${domain}/openapi/dimension/monoLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setZbgLine', body)
+      })
+    },
+    getNewStockList({
+      commit
+    }, {
+      type
+    }) {
+      return fetch(`${domain}/openapi/dimension/stocks/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setNewStockList', body)
+      })
+    },
+    sortNewStockList({
+      commit
+    }, {
+      type,
+      sortType
+    }) {
+      commit('sortNewList', {
+        type,
+        sortType
       })
     }
 

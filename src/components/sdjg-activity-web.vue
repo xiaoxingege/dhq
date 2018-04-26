@@ -1,15 +1,15 @@
 <style>
 body {
-    background-color: #000 !important;
-    font-family: '微软雅黑';
+  background-color: #000 !important;
+  font-family: '微软雅黑';
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 input::-webkit-input-placeholder {
-    color: #ebab55;
+  color: #ebab55;
 }
 </style>
 <style lang="scss" scoped>
@@ -613,419 +613,419 @@ input::-webkit-input-placeholder {
 
 <template>
 <div class="box">
-    <div class="bg1">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+  </div>
+  <div class="bg3">
+    <div class="box-con">
+      <div>
+        <p>
+          <span>姓名：</span>
+          <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg3UserName" />
+          <em v-html="bg3TxtUHtml" v-if="bg3TxtUShow"></em>
+        </p>
+        <p>
+          <span>手机：</span>
+          <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg3Phone" />
+          <em v-html="bg3TxtPHtml" v-if="bg3TxtPShow"></em>
+        </p>
+      </div>
+      <a href="javascript:;" @click="bg3JoinSubmit" class="pulse animated infinite">&nbsp;</a>
     </div>
-    <div class="bg2">
-    </div>
-    <div class="bg3">
-        <div class="box-con">
-            <div>
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg3UserName" />
-                    <em v-html="bg3TxtUHtml" v-if="bg3TxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg3Phone" />
-                    <em v-html="bg3TxtPHtml" v-if="bg3TxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="bg3JoinSubmit" class="pulse animated infinite">&nbsp;</a>
-        </div>
-    </div>
-    <div class="bg4">
-        <div class="box-con">
-            <div class="video-box">
-                <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" id="myvideo" autoplay="autoplay">
+  </div>
+  <div class="bg4">
+    <div class="box-con">
+      <div class="video-box">
+        <video src="http://flvdata.jrj.com.cn/2012/2017/qita/20180112jzw.mp4" controls="controls" id="myvideo" autoplay="autoplay">
                 您的浏览器不支持 video 标签。
                 </video>
-            </div>
-            <div class="links">
-                <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjkedaxunfei/" target="_blank"></a>
-                <a href="http://finance.jrj.com.cn/focus/jjj/" target="_blank"></a>
-                <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjaierphone/" target="_blank"></a>
-                <a href="http://finance.jrj.com.cn/ztcfjbaofengjituan/" target="_blank"></a>
-            </div>
+      </div>
+      <div class="links">
+        <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
+        <a href="http://finance.jrj.com.cn/ztcfjkedaxunfei/" target="_blank"></a>
+        <a href="http://finance.jrj.com.cn/focus/jjj/" target="_blank"></a>
+        <a href="http://finance.jrj.com.cn/focus/csx/" target="_blank"></a>
+        <a href="http://finance.jrj.com.cn/ztcfjaierphone/" target="_blank"></a>
+        <a href="http://finance.jrj.com.cn/ztcfjbaofengjituan/" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+  <div class="bg5">
+    <div class="box-con">
+      <div class="circle-box">
+        <div class="big-circle circle1">
+          <ul>
+            <p>DDE</p>
+            <p>连续飘红</p>
+          </ul>
         </div>
-    </div>
-    <div class="bg5">
-        <div class="box-con">
-            <div class="circle-box">
-                <div class="big-circle circle1">
-                    <ul>
-                        <p>DDE</p>
-                        <p>连续飘红</p>
-                    </ul>
-                </div>
-                <div class="big-circle circle1">
-                    <ul>
-                        <p>资金强度</p>
-                        <p>超过阈值</p>
-                    </ul>
-                </div>
-                <div class="big-circle circle1">
-                    <ul>
-                        <p style="padding-top:20px;">量能持续</p>
-                    </ul>
-                </div>
-                <div class="big-circle circle1">
-                    <ul>
-                        <p>技术面</p>
-                        <p>平台突破</p>
-                    </ul>
-                </div>
-                <div class="big-circle circle1">
-                    <ul>
-                        <p>底部</p>
-                        <p>蓄势待发</p>
-                    </ul>
-                </div>
-                <div class="big-circle circle1">
-                    <ul>
-                        <p>盈利</p>
-                        <p>能力稳定</p>
-                    </ul>
-                </div>
-            </div>
+        <div class="big-circle circle1">
+          <ul>
+            <p>资金强度</p>
+            <p>超过阈值</p>
+          </ul>
         </div>
-    </div>
-    <div class="bg6">
-        <div class="box-con">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide slide-img1"></div>
-                    <div class="swiper-slide slide-img2"></div>
-                    <div class="swiper-slide slide-img3"></div>
-                    <div class="swiper-slide slide-img4"></div>
-                </div>
-                <div class="swiper-pagination" id="pagination"></div>
-            </div>
-            <div class="signInput">
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg6UserName" />
-                    <em v-html="bg6TxtUHtml" v-if="bg6TxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg6Phone" />
-                    <em v-html="bg6TxtPHtml" v-if="bg6TxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="bg6JoinSubmit" class="pulse animated infinite">&nbsp;</a>
+        <div class="big-circle circle1">
+          <ul>
+            <p style="padding-top:20px;">量能持续</p>
+          </ul>
         </div>
-    </div>
-    <div class="bg7">
-    </div>
-    <div class="bg8">
-    </div>
-    <div class="footer">
-        <div class="box-con">
-            <div>
-                <p>
-                    <span>姓名：</span>
-                    <input type="text" value="" placeholder="请输入您的中文姓名" v-model="fUserName" />
-                    <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
-                </p>
-                <p>
-                    <span>手机：</span>
-                    <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="fPhone" />
-                    <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
-                </p>
-            </div>
-            <a href="javascript:;" @click="fJoinSubmit" class="pulse animated infinite">&nbsp;</a>
+        <div class="big-circle circle1">
+          <ul>
+            <p>技术面</p>
+            <p>平台突破</p>
+          </ul>
         </div>
-    </div>
-    <div class="mask" v-if="maskShow"></div>
-    <div class="layer success" v-if="successShow">
-        <div class="box">
-            <i class="close" @click="close"></i>
+        <div class="big-circle circle1">
+          <ul>
+            <p>底部</p>
+            <p>蓄势待发</p>
+          </ul>
         </div>
+        <div class="big-circle circle1">
+          <ul>
+            <p>盈利</p>
+            <p>能力稳定</p>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="layer popup-join" v-if="joinShow">
-        <div class="box">
-            <i class="close" @click="close"></i>
-            <div class="join">
-                <span class="userNamebox">
+  </div>
+  <div class="bg6">
+    <div class="box-con">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide-img1"></div>
+          <div class="swiper-slide slide-img2"></div>
+          <div class="swiper-slide slide-img3"></div>
+          <div class="swiper-slide slide-img4"></div>
+        </div>
+        <div class="swiper-pagination" id="pagination"></div>
+      </div>
+      <div class="signInput">
+        <p>
+          <span>姓名：</span>
+          <input type="text" value="" placeholder="请输入您的中文姓名" v-model="bg6UserName" />
+          <em v-html="bg6TxtUHtml" v-if="bg6TxtUShow"></em>
+        </p>
+        <p>
+          <span>手机：</span>
+          <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="bg6Phone" />
+          <em v-html="bg6TxtPHtml" v-if="bg6TxtPShow"></em>
+        </p>
+      </div>
+      <a href="javascript:;" @click="bg6JoinSubmit" class="pulse animated infinite">&nbsp;</a>
+    </div>
+  </div>
+  <div class="bg7">
+  </div>
+  <div class="bg8">
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <div>
+        <p>
+          <span>姓名：</span>
+          <input type="text" value="" placeholder="请输入您的中文姓名" v-model="fUserName" />
+          <em v-html="fTxtUHtml" v-if="fTxtUShow"></em>
+        </p>
+        <p>
+          <span>手机：</span>
+          <input type="text" value="" placeholder="请输入您的11位手机号码" v-model="fPhone" />
+          <em v-html="fTxtPHtml" v-if="fTxtPShow"></em>
+        </p>
+      </div>
+      <a href="javascript:;" @click="fJoinSubmit" class="pulse animated infinite">&nbsp;</a>
+    </div>
+  </div>
+  <div class="mask" v-if="maskShow"></div>
+  <div class="layer success" v-if="successShow">
+    <div class="box">
+      <i class="close" @click="close"></i>
+    </div>
+  </div>
+  <div class="layer popup-join" v-if="joinShow">
+    <div class="box">
+      <i class="close" @click="close"></i>
+      <div class="join">
+        <span class="userNamebox">
                   <input type="text" class="userName" placeholder="请输入您的中文名" v-model="userName" />
                   <em v-html="txtUHtml" v-if="txtUShow"></em>
               </span>
-                <span class="phonebox">
+        <span class="phonebox">
                   <input type="text" class="phone" placeholder="请输入您的11位手机号码" v-model="phone" />
                   <em v-html="txtPHtml" v-if="txtPShow"></em>
               </span>
-                <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
-            </div>
-        </div>
+        <a href="javascript:;" class="btn btn-large btn-join" @click="joinSubmit">立即预约</a>
+      </div>
     </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import Swiper from '../assets/plugins/activity-slider/swiper.min.js'
 window.Swiper = Swiper
 
 export default {
-    data() {
-        return {
-            show: false,
-            maskShow: false,
-            successShow: false,
-            joinShow: false,
-            txtUHtml: '',
-            txtUShow: false,
-            txtPHtml: '',
-            txtPShow: false,
-            fTxtUHtml: '',
-            fTxtUShow: false,
-            fTxtPHtml: '',
-            fTxtPShow: false,
-            bg3TxtUHtml: '',
-            bg3TxtUShow: false,
-            bg3TxtPHtml: '',
-            bg3TxtPShow: false,
-            bg6TxtUHtml: '',
-            bg6TxtUShow: false,
-            bg6TxtPHtml: '',
-            bg6TxtPShow: false
+  data() {
+    return {
+      show: false,
+      maskShow: false,
+      successShow: false,
+      joinShow: false,
+      txtUHtml: '',
+      txtUShow: false,
+      txtPHtml: '',
+      txtPShow: false,
+      fTxtUHtml: '',
+      fTxtUShow: false,
+      fTxtPHtml: '',
+      fTxtPShow: false,
+      bg3TxtUHtml: '',
+      bg3TxtUShow: false,
+      bg3TxtPHtml: '',
+      bg3TxtPShow: false,
+      bg6TxtUHtml: '',
+      bg6TxtUShow: false,
+      bg6TxtPHtml: '',
+      bg6TxtPShow: false
 
-        }
-    },
-    computed: mapState({
-        type: state => {
-            return state.reservation.type
-        },
-        err: state => {
-            return state.reservation.err
-        }
-    }),
-    components: {},
-    methods: {
-        popShow() {
-            this.maskShow = true
-            this.joinShow = true
-        },
-        close() {
-            this.maskShow = false
-            this.successShow = false
-            this.joinShow = false
-            this.userName = ''
-            this.phone = ''
-        },
-        joinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.userName || this.userName.length === 0) {
-                this.txtUShow = true
-                this.txtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.userName)) {
-                this.txtUShow = true
-                this.txtUHtml = '请输入中文名'
-                return
-            } else if (!this.phone || this.phone.length === 0) {
-                this.txtPShow = true
-                this.txtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.phone)) {
-                this.txtPShow = true
-                this.txtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.userName,
-                phone: this.phone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-        },
-        fJoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.fUserName || this.fUserName.length === 0) {
-                this.fTxtUShow = true
-                this.fTxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.fUserName)) {
-                this.fTxtUShow = true
-                this.fTxtUHtml = '请输入中文名'
-                return
-            } else if (!this.fPhone || this.fPhone.length === 0) {
-                this.fTxtPShow = true
-                this.fTxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.fPhone)) {
-                this.fTxtPShow = true
-                this.fTxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.fUserName,
-                phone: this.fPhone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
-        },
-        bg3JoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.bg3UserName || this.bg3UserName.length === 0) {
-                this.bg3TxtUShow = true
-                this.bg3TxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.bg3UserName)) {
-                this.bg3TxtUShow = true
-                this.bg3TxtUHtml = '请输入中文名'
-                return
-            } else if (!this.bg3Phone || this.bg3Phone.length === 0) {
-                this.bg3TxtPShow = true
-                this.bg3TxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.bg3Phone)) {
-                this.bg3TxtPShow = true
-                this.bg3TxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.bg3UserName,
-                phone: this.bg3Phone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
-        },
-        bg6JoinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var regname = /^[\u4e00-\u9fa5]+$/gi
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.bg6UserName || this.bg6UserName.length === 0) {
-                this.bg6TxtUShow = true
-                this.bg6TxtUHtml = '姓名不能为空！'
-                return
-            } else if (!regname.test(this.bg6UserName)) {
-                this.bg6TxtUShow = true
-                this.bg6TxtUHtml = '请输入中文名'
-                return
-            } else if (!this.bg6Phone || this.bg6Phone.length === 0) {
-                this.bg6TxtPShow = true
-                this.bg6TxtPHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.bg6Phone)) {
-                this.bg6TxtPShow = true
-                this.bg6TxtPHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '818141666863591424',
-                userName: this.bg6UserName,
-                phone: this.bg6Phone,
-                bizsource: 'JRJ',
-                source: '1',
-                tgqdcode: 'KAN4M5AT'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
-        }
-    },
-    mounted() {
-        document.title = '金融界实地调研 直击2018A股价值王'
-        window.Swiper('.swiper-container', {
-            slidesPerView: 1,
-            paginationClickable: true,
-            autoplay: 4000,
-            loop: true,
-            grabCursor: true,
-            spaceBetween: 0,
-            pagination: '.swiper-pagination',
-            autoplayDisableOnInteraction: false
-        })
-        var _this = this
-        this.$watch('txtUShow', txtUShow => {
-            setTimeout(function() {
-                _this.txtUShow = false
-                _this.txtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('txtPShow', txtPShow => {
-            setTimeout(function() {
-                _this.txtPShow = false
-                _this.txtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('fTxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.fTxtUShow = false
-                _this.fTxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('fTxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.fTxtPShow = false
-                _this.fTxtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg3TxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.bg3TxtUShow = false
-                _this.bg3TxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg3TxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.bg3TxtPShow = false
-                _this.bg3TxtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg6TxtUShow', fTxtUShow => {
-            setTimeout(function() {
-                _this.bg6TxtUShow = false
-                _this.bg6TxtUHtml = ''
-            }, 1000)
-        })
-        this.$watch('bg6TxtPShow', fTxtPShow => {
-            setTimeout(function() {
-                _this.bg6TxtPShow = false
-                _this.bg6TxtPHtml = ''
-            }, 1000)
-        })
-        this.$watch('type', type => {
-            if (type) {
-                this.maskShow = true
-                this.successShow = true
-                this.joinShow = false
-            }
-        }, {
-            deep: true
-        })
-        this.$watch('err', err => {
-            alert(err.msg)
-        })
     }
+  },
+  computed: mapState({
+    type: state => {
+      return state.reservation.type
+    },
+    err: state => {
+      return state.reservation.err
+    }
+  }),
+  components: {},
+  methods: {
+    popShow() {
+      this.maskShow = true
+      this.joinShow = true
+    },
+    close() {
+      this.maskShow = false
+      this.successShow = false
+      this.joinShow = false
+      this.userName = ''
+      this.phone = ''
+    },
+    joinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var regname = /^[\u4e00-\u9fa5]+$/gi
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.userName || this.userName.length === 0) {
+        this.txtUShow = true
+        this.txtUHtml = '姓名不能为空！'
+        return
+      } else if (!regname.test(this.userName)) {
+        this.txtUShow = true
+        this.txtUHtml = '请输入中文名'
+        return
+      } else if (!this.phone || this.phone.length === 0) {
+        this.txtPShow = true
+        this.txtPHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.phone)) {
+        this.txtPShow = true
+        this.txtPHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '818141666863591424',
+        userName: this.userName,
+        phone: this.phone,
+        bizsource: 'JRJ',
+        source: '1',
+        tgqdcode: 'KAN4M5AT'
+      })
+    },
+    fJoinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var regname = /^[\u4e00-\u9fa5]+$/gi
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.fUserName || this.fUserName.length === 0) {
+        this.fTxtUShow = true
+        this.fTxtUHtml = '姓名不能为空！'
+        return
+      } else if (!regname.test(this.fUserName)) {
+        this.fTxtUShow = true
+        this.fTxtUHtml = '请输入中文名'
+        return
+      } else if (!this.fPhone || this.fPhone.length === 0) {
+        this.fTxtPShow = true
+        this.fTxtPHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.fPhone)) {
+        this.fTxtPShow = true
+        this.fTxtPHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '818141666863591424',
+        userName: this.fUserName,
+        phone: this.fPhone,
+        bizsource: 'JRJ',
+        source: '1',
+        tgqdcode: 'KAN4M5AT'
+      })
+      window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
+    },
+    bg3JoinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var regname = /^[\u4e00-\u9fa5]+$/gi
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.bg3UserName || this.bg3UserName.length === 0) {
+        this.bg3TxtUShow = true
+        this.bg3TxtUHtml = '姓名不能为空！'
+        return
+      } else if (!regname.test(this.bg3UserName)) {
+        this.bg3TxtUShow = true
+        this.bg3TxtUHtml = '请输入中文名'
+        return
+      } else if (!this.bg3Phone || this.bg3Phone.length === 0) {
+        this.bg3TxtPShow = true
+        this.bg3TxtPHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.bg3Phone)) {
+        this.bg3TxtPShow = true
+        this.bg3TxtPHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '818141666863591424',
+        userName: this.bg3UserName,
+        phone: this.bg3Phone,
+        bizsource: 'JRJ',
+        source: '1',
+        tgqdcode: 'KAN4M5AT'
+      })
+      window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
+    },
+    bg6JoinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var regname = /^[\u4e00-\u9fa5]+$/gi
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.bg6UserName || this.bg6UserName.length === 0) {
+        this.bg6TxtUShow = true
+        this.bg6TxtUHtml = '姓名不能为空！'
+        return
+      } else if (!regname.test(this.bg6UserName)) {
+        this.bg6TxtUShow = true
+        this.bg6TxtUHtml = '请输入中文名'
+        return
+      } else if (!this.bg6Phone || this.bg6Phone.length === 0) {
+        this.bg6TxtPShow = true
+        this.bg6TxtPHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.bg6Phone)) {
+        this.bg6TxtPShow = true
+        this.bg6TxtPHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '818141666863591424',
+        userName: this.bg6UserName,
+        phone: this.bg6Phone,
+        bizsource: 'JRJ',
+        source: '1',
+        tgqdcode: 'KAN4M5AT'
+      })
+      window.dcsMultiTrack('DCS.dcsuri', 'sdjg-activity-webClick', 'WT.ti', 'sdjg-activity-webClick')
+    }
+  },
+  mounted() {
+    document.title = '金融界实地调研 直击2018A股价值王'
+    window.Swiper('.swiper-container', {
+      slidesPerView: 1,
+      paginationClickable: true,
+      autoplay: 4000,
+      loop: true,
+      grabCursor: true,
+      spaceBetween: 0,
+      pagination: '.swiper-pagination',
+      autoplayDisableOnInteraction: false
+    })
+    var _this = this
+    this.$watch('txtUShow', txtUShow => {
+      setTimeout(function() {
+        _this.txtUShow = false
+        _this.txtUHtml = ''
+      }, 1000)
+    })
+    this.$watch('txtPShow', txtPShow => {
+      setTimeout(function() {
+        _this.txtPShow = false
+        _this.txtPHtml = ''
+      }, 1000)
+    })
+    this.$watch('fTxtUShow', fTxtUShow => {
+      setTimeout(function() {
+        _this.fTxtUShow = false
+        _this.fTxtUHtml = ''
+      }, 1000)
+    })
+    this.$watch('fTxtPShow', fTxtPShow => {
+      setTimeout(function() {
+        _this.fTxtPShow = false
+        _this.fTxtPHtml = ''
+      }, 1000)
+    })
+    this.$watch('bg3TxtUShow', fTxtUShow => {
+      setTimeout(function() {
+        _this.bg3TxtUShow = false
+        _this.bg3TxtUHtml = ''
+      }, 1000)
+    })
+    this.$watch('bg3TxtPShow', fTxtPShow => {
+      setTimeout(function() {
+        _this.bg3TxtPShow = false
+        _this.bg3TxtPHtml = ''
+      }, 1000)
+    })
+    this.$watch('bg6TxtUShow', fTxtUShow => {
+      setTimeout(function() {
+        _this.bg6TxtUShow = false
+        _this.bg6TxtUHtml = ''
+      }, 1000)
+    })
+    this.$watch('bg6TxtPShow', fTxtPShow => {
+      setTimeout(function() {
+        _this.bg6TxtPShow = false
+        _this.bg6TxtPHtml = ''
+      }, 1000)
+    })
+    this.$watch('type', type => {
+      if (type) {
+        this.maskShow = true
+        this.successShow = true
+        this.joinShow = false
+      }
+    }, {
+      deep: true
+    })
+    this.$watch('err', err => {
+      alert(err.msg)
+    })
+  }
 }
 </script>

@@ -1,4 +1,5 @@
 <style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .top-industry-con {
     width: 100%;
 }
@@ -17,13 +18,13 @@
     border-spacing: 0;
 }
 .top-industry-table tr:hover {
-    background-color: #2e4465;
+    background-color: $hoverBgColor;
 }
 .top-industry-table td span {
     cursor: pointer;
 }
 .top-industry-table td {
-    border: 1px solid #23272c;
+    border: 1px solid $lineAndTitleColor;
     text-align: center;
     height: 10%;
 }
@@ -39,14 +40,14 @@
 .top-industry-table tr td:first-child {
     text-align: left;
     padding-left: 23px;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
     border-left-width: 0;
 }
 .top-industry-table tr td:nth-child(3) {
     text-align: left;
     padding-left: 23px;
-    color: #c9d0d7;
+    color: $wordsColorBase;
     padding-right: 0;
 }
 .more-industry {
@@ -59,7 +60,7 @@
     height: 100%;
 }
 .more-industry a {
-    color: #808ba1;
+    color: $grayWordsColor;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
