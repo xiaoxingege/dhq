@@ -253,7 +253,7 @@ export default {
             },
             data: xData,
             splitNumber: 5,
-            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
             // scale:true
 
           },

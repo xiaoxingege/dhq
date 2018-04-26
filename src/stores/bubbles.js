@@ -176,40 +176,30 @@ export default {
         seriesData: []
       }
       if (result.body.errCode === 0) {
-        if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4 || result.options.type === 7) {
-          for (let item of data) {
+        for (let item of data) {
+          if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4 || result.options.type === 7) {
             if (item.xData !== null && item.yData !== null && item.xData !== 'null' && item.yData !== 'null') {
               state.ztgBubblesData.xDefault.push(item.xData)
               if (item.xData > 10) {
                 state.ztgBubblesData.xData.push(Math.log(11))
-              } else {
-                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
-              }
-              state.ztgBubblesData.yData.push(item.yData)
-              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-              state.ztgBubblesData.innerCode.push(item.innerCode)
-              state.ztgBubblesData.name.push(item.name)
-              if (item.xData > 10) {
                 state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
               } else {
+                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
                 state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
               }
             }
-          }
-        } else {
-          for (let item of data) {
+          } else if (result.options.type === 6 || result.options.type === 5) {
             if (item.xData !== null && item.yData !== null) {
               state.ztgBubblesData.xDefault.push(item.xData)
-              state.ztgBubblesData.xData.push(item.xData)
-              state.ztgBubblesData.yData.push(item.yData)
-              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-              state.ztgBubblesData.innerCode.push(item.innerCode)
-              state.ztgBubblesData.name.push(item.name)
-              state.ztgBubblesData.seriesData.push([item.xData, item.yData])
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 2))
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 2), item.yData])
             }
           }
+          state.ztgBubblesData.yData.push(item.yData)
+          state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+          state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+          state.ztgBubblesData.innerCode.push(item.innerCode)
+          state.ztgBubblesData.name.push(item.name)
         }
 
       } else {

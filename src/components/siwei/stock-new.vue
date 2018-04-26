@@ -114,7 +114,7 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连板数',
+          name: '连板数',
           type: 'lznum',
           showImg: false,
           showBImg: false
@@ -218,7 +218,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 25,
+            right: 30,
             bottom: 50
           },
           tooltip: {

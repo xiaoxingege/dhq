@@ -110,13 +110,13 @@ export default {
           showBImg: false
         },
         {
-          name: '昨日是否开板',
+          name: '昨日板否',
           type: 'ysdisKb',
           showImg: false,
           showBImg: false
         },
         {
-          name: '昨日连板数',
+          name: '连板数',
           type: 'ystlbNum',
           showImg: false,
           showBImg: false
