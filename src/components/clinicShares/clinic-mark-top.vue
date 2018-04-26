@@ -286,6 +286,12 @@ body {
     color: #06e607;
     border: 1px solid #06e607;
 }
+.mess-desc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 15%;
+}
 .short-title {
     padding-bottom: 21px;
 }
@@ -317,6 +323,11 @@ body {
 .no-value {
     padding-left: 10px;
 
+}
+.label-tit {
+    width: 51px;
+    float: left;
+    line-height: 32px;
 }
 </style>
 <template>
@@ -367,8 +378,9 @@ body {
         <span class="no-value">无</span>
       </div>
 
-      <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">消息面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
+      <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
+        <div class="label-tit">消息面：</div>
+        <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
@@ -404,8 +416,9 @@ body {
         <span class="no-value">无</span>
       </div>
 
-      <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">消息面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
+      <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
+        <div class="label-tit">消息面：</div>
+        <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
         <!--  <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>

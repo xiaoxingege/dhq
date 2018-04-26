@@ -13,7 +13,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,200)}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -26,8 +26,12 @@
                   <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
                 </a>
               </li>
-              <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a></li>
-              <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | filterNum("%")}}</span></a></li>
+              <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)">
+                <a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a>
+              </li>
+              <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(topicList[item.topic.code].chngPct)">
+                <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | filterNum("%")}}</span></a>
+              </li>
             </ul>
         </div>
       </li>
@@ -45,6 +49,7 @@
 
 <script>
   let intervalId = ''
+  let intervalId2 = ''
   import 'whatwg-fetch'
   import { cutString } from 'utils/date'
   import { mapState } from 'vuex'
@@ -57,7 +62,6 @@
       return {
         page: 0,
         totalPage: 200,
-        updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
         innerHeight: window.innerHeight
@@ -66,6 +70,9 @@
     mounted() {
       this.loadList()
       this.updateNews()
+      intervalId2 = setInterval(() => {
+        this.updateTopic()
+      },30000)
     },
     computed: {
       ...mapState([
@@ -74,7 +81,8 @@
         'wisdomHeadlinesList',
         'newTime',
         'isTops',
-        'noData'
+        'noData',
+        'topicList'
       ]),
       ...mapGetters({
         loadingShow: 'loadingShow',
@@ -82,10 +90,12 @@
         wisdomHeadlinesList: 'wisdomHeadlinesList',
         newTime: 'newTime',
         isTops:'isTops',
-        noData:'noData'
+        noData:'noData',
+        topicList:'topicList'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
+        topicCode: state => state.intelligenceInfo.topicCode,
         socketState: state => state.z3sockjs.readystate,
         stockMessage: state => {
           const msg = state.z3sockjs.message
@@ -165,6 +175,10 @@
       updateStock(stock) {
         this.$store.commit('UPDATE_RELSTOCK', stock)
       },
+      updateTopic() {
+        // console.log(this.topicCode)
+        this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
+      },
       subscribeStock() {
         const msg = {
           subject: 'snapshot',
@@ -192,6 +206,11 @@
           this.updateStock(this.stockMessage)
         }
       },
+      // topicCode() {
+      //   if(this.topicCode) {
+      //     this.updateTopic()
+      //   }
+      // },
       socketState() {
         if (this.socketState === 1) {
           // 建立连接
@@ -215,7 +234,10 @@
     },
     destroyed() {
       if(intervalId) {
-        clearInterval(this.updateNewsPid)
+        clearInterval(intervalId)
+      }
+      if(intervalId2) {
+        clearInterval(intervalId2)
       }
       z3websocket.ws && z3websocket.ws.close()
     }

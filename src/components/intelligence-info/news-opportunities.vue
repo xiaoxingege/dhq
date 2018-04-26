@@ -169,7 +169,6 @@
       return {
         page: 0,
         totalPage: 200,
-        updateNewsPid: '',
         intervalTime: 60000,
         scrollTop: 0,
         innerHeight: window.innerHeight,
@@ -285,8 +284,9 @@
         }
       },
       selectType(index) {
+        console.log(intervalId)
         if(intervalId) {
-          clearInterval(this.updateNewsPid)
+          clearInterval(intervalId)
         }
         this.$store.commit('setNoData',false)
         this.$store.commit('setIsTop',false)
@@ -359,7 +359,7 @@
     },
     destroyed() {
       if(intervalId) {
-        clearInterval(this.updateNewsPid)
+        clearInterval(intervalId)
       }
       z3websocket.ws && z3websocket.ws.close()
     }
