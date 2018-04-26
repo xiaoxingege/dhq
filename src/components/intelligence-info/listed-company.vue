@@ -233,8 +233,9 @@
   .stock {
       font-size: 12px;
   }
-  .name {
-      font-weight: bold;
+  .name{
+    font-size: 14px;
+    font-weight: bold;
   }
   .source {
       color: #656766;

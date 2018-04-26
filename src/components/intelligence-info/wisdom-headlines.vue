@@ -36,7 +36,7 @@
     <p class="tc mt-10 mb-20">
       <a ref="more" v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-      <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+      <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -324,11 +324,5 @@
   }
   .blockbg {
       background: #525a65;
-  }
-  .noDataList{
-    position: absolute;
-    top: 50%;
-    left:50%;
-    transform: translate(-50%,-50%);
   }
 </style>

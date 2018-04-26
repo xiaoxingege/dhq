@@ -251,6 +251,7 @@
       font-size: 12px;
   }
   .name {
+      font-size: 14px;
       font-weight: bold;
   }
   .source {
@@ -271,7 +272,7 @@
       .news-list-item {
           border: 1px solid #0d1112;
           background-color: #1a1b1f;
-          padding: 10px 10px 10px 5px;
+          padding: 10px 10px 10px 10px;
           a {
               color: $wordsColorBase;
               &:hover {
