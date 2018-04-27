@@ -363,7 +363,7 @@ export default {
       if (result.errCode === 0) {
         state.cxLineData = result.data
       } else {
-        state.cxLineData = null
+        state.cxLineData = []
       }
     },
     setYstLine(state, result) {
