@@ -14,7 +14,7 @@
             </div·>
             <div class="con-txt">
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+                <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
               </router-link>
               <span class="source">( {{item.srcName}} )</span>
             </div>
@@ -28,7 +28,9 @@
                     </a>
                   </li>
                   <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a></li>
-                  <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | filterNum("%")}}</span></a></li>
+                  <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(topicList[item.topic.code].chngPct)">
+                    <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | filterNum("%")}}</span></a>
+                  </li>
               </ul>
             </div>
           </div>
@@ -46,6 +48,7 @@
 </template>
 
 <script>
+  let intervalId2 = ''
   import 'whatwg-fetch'
   import { cutString } from 'utils/date'
   import { mapState } from 'vuex'
@@ -67,6 +70,7 @@
     mounted() {
       this.loadList()
       this.updateNews()
+      this.updateTopic()
     },
     computed: {
       ...mapState([
@@ -75,7 +79,8 @@
         'pageSize',
         'isTops',
         'loadingShow',
-        'noData'
+        'noData',
+        'topicList'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
@@ -83,11 +88,13 @@
         newTime:'newTime',
         isTops:'isTops',
         loadingShow:'loadingShow',
-        noData:'noData'
+        noData:'noData',
+        topicList:'topicList'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
         socketState: state => state.z3sockjs.readystate,
+        topicCode: state => state.intelligenceInfo.topicCode,
         stockMessage: state => {
           const msg = state.z3sockjs.message
           if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -112,6 +119,14 @@
           console.log('启动定时器'+this.updateNewsPid)
           this.$store.dispatch('getNewsFlashList', { page:0, isTop:true, newTime: this.newTime })
         },this.intervalTime)
+      },
+      updateTopic() {
+        intervalId2 = setInterval(() => {
+          this.getTopicData()
+        },30000)
+      },
+      getTopicData(){
+        this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
       },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop*2
@@ -210,11 +225,19 @@
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {
       z3websocket.ws && z3websocket.ws.close()
-      clearInterval(this.updateNewsPid)
+      if(intervalId2) {
+        clearInterval(intervalId2)
+      }
+      if(this.updateNewsPid){
+        clearInterval(this.updateNewsPid)
+      }
     }
   }
 </script>

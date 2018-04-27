@@ -22,12 +22,12 @@
           <div>
             <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-              <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span>
+              <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
             </router-link>
           </div>
           <div class="con-txt">
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-              <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+              <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
             </router-link>
           </div>
           <div class="con-bottom">
@@ -259,6 +259,9 @@
       },
       code(value) {
         return value.substring(0,6)
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {

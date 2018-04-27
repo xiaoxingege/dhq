@@ -22,7 +22,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -206,6 +206,9 @@
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {
