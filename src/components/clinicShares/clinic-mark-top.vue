@@ -248,6 +248,7 @@ body {
 }
 .desc i {
     display: none;
+
 }
 .desc:hover {
     color: #ff2e29;
@@ -285,6 +286,33 @@ body {
 .desc-green:hover {
     color: #06e607;
     border: 1px solid #06e607;
+}
+.messdesc-box {
+    display: inline;
+    position: relative;
+    cursor: pointer;
+}
+.messdesc-box i {
+    display: none;
+
+}
+.messdesc-box:hover i {
+    display: block;
+    position: absolute;
+    padding: 6px;
+    color: $grayWordsColor;
+    background: #f1f2f7;
+    /*border-radius: 10px;*/
+    z-index: 999;
+    /*line-height: 22px;*/
+    left: 150px;
+    /*right: 0;*/
+    top: 82%;
+    border: 1px solid $lineAndTitleColor;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+    max-width: 100px;
 }
 .mess-desc {
     white-space: nowrap;
@@ -380,7 +408,13 @@ body {
 
       <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="label-tit">消息面：</div>
-        <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
+        <!--  <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a> -->
+        <div class="pl-5c messdesc-box" v-for="short of smartStock.shortMessages" @click="fundShow($event,'newsinfo')">
+          <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="short.status===-1?'desc-green green':'desc-red red'">
+             {{short.content}}
+          </a>
+          <i>{{short.tag}}</i>
+        </div>
         <!-- <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
@@ -418,7 +452,12 @@ body {
 
       <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
         <div class="label-tit">消息面：</div>
-        <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.midMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a>
+        <div class="pl-5c messdesc-box" v-for="short of smartStock.midMessages" @click="fundShow($event,'newsinfo')">
+          <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="short.status===-1?'desc-green green':'desc-red red'">
+             {{short.content}}
+          </a>
+          <i>{{short.tag}}</i>
+        </div>
         <!--  <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>

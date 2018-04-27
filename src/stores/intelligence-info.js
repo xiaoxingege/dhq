@@ -111,10 +111,14 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
+      const stocks = {}
+      const topics = {}
+      const indus = {}
+      let topicArr = []
+      let indusArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
-      const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
         state.newsFlash = state.temporary.concat(state.newsFlash)
@@ -124,17 +128,35 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsFlash) {
         let equity = intelligence.equity
+        let topic = intelligence.topic
+        let indu = intelligence.indu
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
+        if(topic !== null ){
+          topics[topic.code] = topic
+          topicArr.push(topic.code)
+        }
+        if(indu !== null){
+          indus[indu.code] = indu
+          indusArr.push(indu.code)
+        }
       }
+      state.topicList = topics
+      state.induList = indus
+      state.topicCode = topicArr.join(',')
+      state.induCode = indusArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
+      const stocks = {}
+      const topics = {}
+      const indus = {}
+      let topicArr = []
+      let indusArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
-      const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
         state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
@@ -144,11 +166,24 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsOpportunities) {
         let equity = intelligence.equity
+        let topic = intelligence.topic
+        let indu = intelligence.indu
         if (equity  !== null ) {
           stocks[equity.code] = equity
-          // console.log(stocks[equity.code])
+        }
+        if(topic !== null ){
+          topics[topic.code] = topic
+          topicArr.push(topic.code)
+        }
+        if(indu !== null){
+          indus[indu.code] = indu
+          indusArr.push(indu.code)
         }
       }
+      state.topicList = topics
+      state.induList = indus
+      state.topicCode = topicArr.join(',')
+      state.induCode = indusArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
@@ -223,14 +258,14 @@ export default {
     updateTopic(state,result){
       const topics = state.topicList
       for(let topic of result){
-        topics[topic.code].chngPct = topic.chngPct !== null &&  topic.chngPct !== undefined ? Number(topic.chngPct.toFixed(2)) : ''
+        topics[topic.code].chngPct =topic.chngPct !==null && topic.chngPct !==undefined ? Number(topic.chngPct.toFixed(2)) : ''
       }
       console.log(JSON.stringify(state.topicList))
     },
     updateIndu(state,result){
       const inidus = state.induList
       for(let inidu of result){
-        inidus[inidu.code].chngPct = inidu.chngPct !== null &&  inidu.chngPct !== undefined ? Number(inidu.chngPct.toFixed(2)) : ''
+        inidus[inidu.code].chngPct = Number(inidu.chngPct.toFixed(2))
       }
     }
   },

@@ -25,11 +25,11 @@
               </div>
             </a>
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+              <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
                 <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
                 <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
                 <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p>{{item.topic.chngPct | filterNum("%") }}</p>
+                <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
           </div>
@@ -42,7 +42,7 @@
               </div·>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+                  <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
@@ -68,7 +68,7 @@
               </div·>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span>{{cutStr(item.summary,350)}}</span>
+                  <span>{{cutStr(item.summary,370) | trim}}</span>
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
@@ -77,11 +77,11 @@
         <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="item.topic.chngPct">
+              <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
                 <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
                 <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
                 <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p>{{item.topic.chngPct | filterNum("%") }}</p>
+                <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
@@ -102,7 +102,7 @@
               </div·>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span>{{cutStr(item.summary,350)}}</span>
+                  <span>{{cutStr(item.summary,370) | trim}}</span>
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
@@ -125,7 +125,7 @@
               </div·>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                  <span>{{cutStr(item.summary,350)}}</span>
+                  <span>{{cutStr(item.summary,370) | trim}}</span>
                 </router-link>
               </div>
               <p class="source">( {{item.srcName}} )</p>
@@ -157,6 +157,7 @@
 
 <script>
   let intervalId = ''
+  let intervalId2 = ''
   import 'whatwg-fetch'
   import { cutString } from 'utils/date'
   import { mapState } from 'vuex'
@@ -184,7 +185,7 @@
     mounted() {
       this.loadListInit()
       this.updateNews()
-      console.log(this.$refs.name)
+      this.updateTopic()
     },
     computed: {
       ...mapState([
@@ -193,7 +194,8 @@
         'newsOpportunities',
         'newTime',
         'isTops',
-        'noData'
+        'noData',
+        'topicList'
       ]),
       ...mapGetters({
         loadingShow: 'loadingShow',
@@ -201,11 +203,13 @@
         newsOpportunities: 'newsOpportunities',
         newTime: 'newTime',
         isTops:'isTops',
-        noData:'noData'
+        noData:'noData',
+        topicList:'topicList'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
         socketState: state => state.z3sockjs.readystate,
+        topicCode: state => state.intelligenceInfo.topicCode,
         stockMessage: state => {
           const msg = state.z3sockjs.message
           if (msg && msg.data && msg.data.subject === 'snapshot') {
@@ -246,6 +250,14 @@
           this.typeList(this.typeIndex)
         },this.intervalTime)
       },
+      updateTopic() {
+        intervalId2 = setInterval(() => {
+          this.getTopicData()
+        },30000)
+      },
+      getTopicData(){
+        this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
+      },
       getScrollTop(e) {
         this.scrollTop = e.target.scrollTop * 2
         if (this.scrollTop >= this.innerHeight) {
@@ -284,7 +296,6 @@
         }
       },
       selectType(index) {
-        console.log(intervalId)
         if(intervalId) {
           clearInterval(intervalId)
         }
@@ -355,11 +366,17 @@
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
-      }
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
+       }
     },
     destroyed() {
       if(intervalId) {
         clearInterval(intervalId)
+      }
+      if(intervalId2) {
+        clearInterval(intervalId2)
       }
       z3websocket.ws && z3websocket.ws.close()
     }

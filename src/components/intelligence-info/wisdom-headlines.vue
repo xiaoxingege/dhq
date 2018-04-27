@@ -13,7 +13,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,200)}}</span>
+            <span v-if="item.summary!==null">{{item.summary | trim}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -70,9 +70,7 @@
     mounted() {
       this.loadList()
       this.updateNews()
-      intervalId2 = setInterval(() => {
-        this.updateTopic()
-      },30000)
+      this.updateTopic()
     },
     computed: {
       ...mapState([
@@ -176,7 +174,11 @@
         this.$store.commit('UPDATE_RELSTOCK', stock)
       },
       updateTopic() {
-        // console.log(this.topicCode)
+        intervalId2 = setInterval(() => {
+          this.getTopicData()
+        },30000)
+      },
+      getTopicData(){
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
       },
       subscribeStock() {
@@ -206,11 +208,6 @@
           this.updateStock(this.stockMessage)
         }
       },
-      // topicCode() {
-      //   if(this.topicCode) {
-      //     this.updateTopic()
-      //   }
-      // },
       socketState() {
         if (this.socketState === 1) {
           // 建立连接
@@ -230,6 +227,9 @@
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {
