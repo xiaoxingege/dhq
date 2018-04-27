@@ -12,7 +12,7 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-                  <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
+            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type)">{{item.name}}</span>
                   <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                   <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
               </a>
@@ -107,13 +107,13 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连板数',
+          name: '连板数',
           type: 'beforeKb',
           showImg: false,
           showBImg: false
         },
         {
-          name: '开板后累计涨幅',
+          name: '开板涨幅',
           type: 'afterKb',
           showImg: false,
           showBImg: false
@@ -173,6 +173,7 @@ export default {
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
 
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+
         const xMaxData = Math.max.apply(null, xData)
         const xMinData = Math.min.apply(null, xData)
 
@@ -265,6 +266,7 @@ export default {
               show: false
             },
             max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
@@ -280,7 +282,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -444,8 +448,8 @@ export default {
             stockCode: that.dialogOptions.stockCode
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
-          that.dialogOptions.leftList.xData.value = that.$store.state.bubbles.ztgBubblesData.xData[params.dataIndex]
-          that.dialogOptions.leftList.yData.value = Number(that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex]
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
           that.dialogOptions.leftList.bubbleColor.value = that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex] === null ? '--' : Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
@@ -714,6 +718,7 @@ export default {
               show: false
             },
             max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
@@ -728,7 +733,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -962,7 +969,15 @@ export default {
         })
       }
       //  this.newListTitle[index].showImg = true
+    },
+    showTitleDetail(titleTime) {
+      if (titleTime === 'beforeKb') {
+        console.log(titleTime)
+      } else if (titleTime === 'afterKb') {
+        console.log(titleTime)
+      }
     }
+
   },
   mounted() {
     const that = this

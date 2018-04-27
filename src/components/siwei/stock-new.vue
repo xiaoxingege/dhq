@@ -11,7 +11,7 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-                <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
+            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type)">{{item.name}}</span>
                 <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                 <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
         </a>
@@ -114,7 +114,7 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连板数',
+          name: '连板数',
           type: 'lznum',
           showImg: false,
           showBImg: false
@@ -218,7 +218,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 25,
+            right: 30,
             bottom: 50
           },
           tooltip: {
@@ -692,6 +692,11 @@ export default {
         })
       }
       //  this.newListTitle[index].showImg = true
+    },
+    showTitleDetail(titleTime) {
+      if (titleTime === 'lznum') {
+        console.log(titleTime)
+      }
     }
   },
   mounted() {
