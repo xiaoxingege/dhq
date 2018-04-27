@@ -75,7 +75,8 @@ module.exports = function(router) {
         appId: ctx.headers.appid,
         mac: ctx.headers.mac,
         paltId: ctx.headers.paltid,
-        userAgent: ctx.headers['user-agent']
+        userAgent: ctx.headers['user-agent'],
+        channelId: ctx.headers.channelId
       },
       msg: 'success'
     }
