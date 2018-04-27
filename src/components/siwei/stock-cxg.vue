@@ -12,10 +12,12 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type)">{{item.name}}</span>
+            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type,'over',$event)"
+                  @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
                   <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                   <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
               </a>
+        <span class="titleDetail" ref="titleDetail"></span>
       </div>
       <ul ref="newListUl">
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
@@ -970,11 +972,20 @@ export default {
       }
       //  this.newListTitle[index].showImg = true
     },
-    showTitleDetail(titleTime) {
-      if (titleTime === 'beforeKb') {
-        console.log(titleTime)
-      } else if (titleTime === 'afterKb') {
-        console.log(titleTime)
+    showTitleDetail(titleTime, isOver, e) {
+      if (isOver === 'over' && titleTime === 'beforeKb') {
+        this.$refs.titleDetail.style.display = 'block'
+        this.$refs.titleDetail.innerHTML = '开板前连板数'
+        this.$refs.titleDetail.style.left = '214px'
+      } else if (isOver === 'out' && titleTime === 'beforeKb') {
+        this.$refs.titleDetail.style.display = 'none'
+      }
+      if (isOver === 'over' && titleTime === 'afterKb') {
+        this.$refs.titleDetail.style.display = 'block'
+        this.$refs.titleDetail.innerHTML = '开板后累计涨幅'
+        this.$refs.titleDetail.style.left = '254px'
+      } else if (isOver === 'out' && titleTime === 'afterKb') {
+        this.$refs.titleDetail.style.display = 'none'
       }
     }
 
@@ -1041,6 +1052,7 @@ export default {
         width: 100%;
         border-bottom: 1px solid #131417;
         padding-top: 10px;
+        position: relative;
 
         a {
             width: 14%;
@@ -1050,7 +1062,7 @@ export default {
             text-align: center;
 
             span {
-                height: 34px;
+                height: 17px;
                 width: 100%;
                 display: block;
                 line-height: 17px;
@@ -1067,6 +1079,18 @@ export default {
         }
         a:first-child span {
             cursor: default;
+        }
+
+        .titleDetail {
+            display: none;
+            padding: 5px 10px;
+            color: #666666;
+            background: #cccfd9;
+            border-radius: 3px;
+            z-index: 999999;
+            line-height: 18px;
+            position: absolute;
+            top: 29px;
         }
 
     }
