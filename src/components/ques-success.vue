@@ -133,7 +133,7 @@
     color: #2e7cd7;
 }
 
-/ / 111 .circleProgress_wrapper {
+.circleProgress_wrapper {
     width: 2.46rem;
     height: 3.4rem;
     position: relative;
@@ -286,8 +286,9 @@
       <li v-for="item in dataList" v-if="jchdShow">
         <div class="ques-tg-list-box clearfix">
           <h5 v-html="item.content"></h5>
-          <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a>
-          <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
+          <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
+          <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
+
 
           <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
           <div>
@@ -306,8 +307,8 @@
       <li v-else>
         <div class="ques-tg-list-box clearfix">
           <h5 v-html="item.askContent"></h5>
-          <!-- <a :href="'http://localhost:8082/dist/ques_alading/ques-detail.html?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult"></a> -->
-          <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a>
+          <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
+          <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
           <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
           <div>
             <img :src="item.userInfo.headImage" :userId="item.userInfo.userId" />

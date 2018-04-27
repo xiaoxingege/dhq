@@ -3,7 +3,7 @@ import fetchJsonp from 'fetch-jsonp'
 import {
   domain
 } from '../dhq/config'
-import fetch from '../z3tougu/util/z3fetch'
+import fetch from '../dhq/util/z3fetch'
 const chartLineObj = {
   priceArr: [],
   upDownExtent: '',

@@ -1,6 +1,10 @@
 import 'whatwg-fetch'
-import config, { domain } from '../z3tougu/config'
-import { formatDate } from 'utils/date'
+import config, {
+  domain
+} from '../z3tougu/config'
+import {
+  formatDate
+} from 'utils/date'
 import fetch from '../z3tougu/util/z3fetch'
 
 export const PAGE_SIZE = 8;
@@ -20,14 +24,14 @@ export default {
     newsOpportunities: [], // 机会挖掘
     newsFlash: [], // 7*24小时快讯
     listedCompany: [], // 上市公司
-    relatedStocks: [],// websocket推送数据
-    pageSize: PAGE_SIZE,// 默认页数
+    relatedStocks: [], // websocket推送数据
+    pageSize: PAGE_SIZE, // 默认页数
     loadingShow: true, // 加载中状态
     newTime: '',
     userId: '',
     stockPool: null, // 股票池列表
-    innerCode:'',
-    isTops:true // 是否在顶部
+    innerCode: '',
+    isTops: true // 是否在顶部
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -46,9 +50,9 @@ export default {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
       const stocks = {}
       state.temporary = list
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
-      }else{
+      } else {
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -69,9 +73,9 @@ export default {
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
       const stocks = {}
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
-      }else{
+      } else {
         state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -84,9 +88,9 @@ export default {
     [types.SET_NEWSFLASH_LIST](state, list) {
       const stocks = {}
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.newsFlash = state.temporary.concat(state.newsFlash)
-      }else{
+      } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -98,18 +102,18 @@ export default {
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
-      }else{
+      } else {
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
       const stocks = {}
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.listedCompany = state.temporary.concat(state.listedCompany)
-      }else{
+      } else {
         state.listedCompany = state.listedCompany.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -129,45 +133,51 @@ export default {
       state.loadingShow = visible
     },
     getNewTime(state, time) {
-      if(time === null){
-          state.newTime = time
-      }else{
-        state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+      if (time === null) {
+        state.newTime = time
+      } else {
+        state.newTime = formatDate(time, 'yyyy-MM-dd hh:mm:ss')
       }
     },
     setStockPool(state, result) {
       state.stockPool = result
-      for(let i = 0; i< 1; i++) {
+      for (let i = 0; i < 1; i++) {
         state.optionalStockId = result[0].poolId
         var equityPool = result[0].equityPool
-        if(equityPool === null){
+        if (equityPool === null) {
           state.innerCode = ''
-        }else{
-          for(let j = 0; j < equityPool.length; j++) {
-            state.innerCode  += equityPool[j].innerCode + ','
+        } else {
+          for (let j = 0; j < equityPool.length; j++) {
+            state.innerCode += equityPool[j].innerCode + ','
           }
-          var str = state.innerCode.substring(0,state.innerCode.length-1)
+          var str = state.innerCode.substring(0, state.innerCode.length - 1)
           state.innerCode = str
         }
       }
     },
-    setOptionalStockId(state,result){
+    setOptionalStockId(state, result) {
       state.optionalStockId = result.id
       state.innerCode = result.innerCode
     },
-    setOptionalinformationInit(state,result){
+    setOptionalinformationInit(state, result) {
       state.optionalInformationList = result
     },
-    setNewsOpportunitiesInit(state,result){
+    setNewsOpportunitiesInit(state, result) {
       state.newsOpportunities = result
     },
-    setIsTop(state,result) {
+    setIsTop(state, result) {
       state.isTops = result
     }
   },
   actions: {
     // 获取智头条数据
-    getWisdomHeadlinesList({ commit }, { page, isTop, newTime }) {
+    getWisdomHeadlinesList({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -190,7 +200,14 @@ export default {
       });
     },
     // 获取自选情报数据
-    getOptionalInformation({ commit }, { innerCode, page, isTop, newTime }) {
+    getOptionalInformation({
+      commit
+    }, {
+      innerCode,
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -199,7 +216,7 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        if(result.errCode ===0) {
+        if (result.errCode === 0) {
           commit('setMask', false)
         }
         if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
@@ -215,7 +232,13 @@ export default {
       });
     },
     // 获取7*24快讯数据
-    getNewsFlashList({ commit }, { page, isTop, newTime }) {
+    getNewsFlashList({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -238,7 +261,13 @@ export default {
     },
 
     // 获取全部机会挖掘数据
-    getAllChance({ commit }, { page, isTop, newTime }) {
+    getAllChance({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -261,7 +290,13 @@ export default {
       });
     },
     // 获取个股挖掘数据
-    getStockChance({ commit }, { page, isTop, newTime }) {
+    getStockChance({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -284,7 +319,13 @@ export default {
       });
     },
     // 获取板块挖掘数据
-    getTopicChance({ commit }, { page, isTop, newTime }) {
+    getTopicChance({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -307,7 +348,13 @@ export default {
       });
     },
     // 获取板块挖掘数据
-    getProductChance({ commit }, { page, isTop, newTime }) {
+    getProductChance({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -330,7 +377,13 @@ export default {
       });
     },
     // 获取上市公司数据
-    getListedCompany({ commit }, { page, isTop, newTime }) {
+    getListedCompany({
+      commit
+    }, {
+      page,
+      isTop,
+      newTime
+    }) {
       commit('setMask', true)
       const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
       return fetch(url, {
@@ -353,7 +406,11 @@ export default {
       });
     },
     // 获取股票池列表
-    getStockPool({ commit, state, rootState }) {
+    getStockPool({
+      commit,
+      state,
+      rootState
+    }) {
       const userId = rootState.user.userId
       if (!userId) {
         commit('setStockPool', [])

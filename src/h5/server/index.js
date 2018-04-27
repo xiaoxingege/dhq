@@ -7,6 +7,8 @@ import Router from 'koa-router'
 import fs from 'fs'
 import path from 'path'
 import getTemplatePath from 'utils/getTemplatePath'
+import body from 'koa-body'
+import cors from '@koa/cors'
 
 const app = new Koa();
 
@@ -14,6 +16,8 @@ const router = new Router();
 
 require('./routes')(router);
 
+app.use(cors())
+app.use(body());
 app.use(router.routes());
 
 /* 读取编译后的相应的html模板文件 */

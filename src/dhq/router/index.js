@@ -30,8 +30,8 @@ import DetailPages from 'components/detail-pages'
 // import FundChart from 'components/fund-chart'
 // import FundFile from 'components/fund-file'
 // import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
-import SmartPoolList from 'components/smartPool/smartPoolList'
-import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
+// import SmartPoolList from 'components/smartPool/smartPoolList'
+// import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 /* import FundArchives from 'components/fund-archives/fund-archives'
  import FundRecommend from 'components/fund-recommend'
  import StrategyList from 'components/z3touguhome/strategy-list'
@@ -99,16 +99,16 @@ export default [{
     name: 'industryDetail',
     component: IndustryDetail
   },
-  {
-    path: ctx + '/smartPool',
-    name: 'smartPoolList',
-    component: SmartPoolList
-  },
-  {
-    path: ctx + '/smartPoolListDetails/:id',
-    name: 'smartPoolListDetails',
-    component: SmartPoolListDetails
-  },
+  // {
+  //   path: ctx + '/smartPool',
+  //   name: 'smartPoolList',
+  //   component: SmartPoolList
+  // },
+  // {
+  //   path: ctx + '/smartPoolListDetails/:id',
+  //   name: 'smartPoolListDetails',
+  //   component: SmartPoolListDetails
+  // },
   {
     path: ctx + '/themeIndex',
     name: 'themeindex',

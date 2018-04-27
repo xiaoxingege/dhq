@@ -158,8 +158,7 @@
   <div class="ques-detail">
     <div>
       <p><i></i>{{askData.textContent}}</p>
-      <strong>{{askData.answeredTimes}}个回答<i></i>{{moment(parseInt(askData.ctime),'YYYY年MM月DD日
-                    HH:mm')}}</strong>
+      <strong>{{askData.answeredTimes}}个回答<i></i>{{moment(parseInt(askData.ctime),'YYYY年MM月DD日HH:mm')}}</strong>
     </div>
   </div>
   <div class="ques-detail-list">
@@ -307,11 +306,11 @@ export default {
     })
     this.$store.dispatch('quesFocus/jsSdk')
     window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_detail', 'WT.ti', 'TG_Msite_Baidu_detail')
-    // this.$watch('askData', askData => {
-    //   this.show = true
-    // }, {
-    //   deep: true
-    // })
+    this.$watch('askData', askData => {
+      this.show = true
+    }, {
+      deep: true
+    })
     var _this = this
     this.$watch('focusResult', focusResult => {
       window.cambrian.isBox({
