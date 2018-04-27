@@ -10,16 +10,19 @@ export default function(url, options) {
   const updateTime = authInfo.updateTime
   const now = new Date().getTime()
   if (expires !== -1 && now - updateTime < expires * 1000) {
-    options = insertAuthHeader(options)
+    options = insertAuthHeader(url, options)
     return originFetch(url, options)
   }
   return store.dispatch('authSetting').then(() => {
-    options = insertAuthHeader(options)
+    options = insertAuthHeader(url, options)
     return originFetch(url, options)
   })
 }
 
-function insertAuthHeader(options) {
+function insertAuthHeader(url, options) {
+  if (url.indexOf('z3quant.com/openapi') === -1) {
+    return options;
+  }
   const authHeader = store.getters.authHeader // authHeader是fetch传过来的header
   let headers = {}
   if (!options) {
