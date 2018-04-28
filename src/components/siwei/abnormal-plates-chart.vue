@@ -27,7 +27,7 @@ export default {
       indexData: state => state.marketBubble.indexData,
       // 处理为0的数据
       indexArr: state => state.marketBubble.indexData.data.map(value => value === 0 ? null : value),
-      plates: state => state.marketBubble.abnormalPlateList
+      plates: state => state.marketBubble.indexPlateList
     }),
     indexRange: function() {
       // 过滤0数据，算最大最小值。
@@ -182,15 +182,17 @@ export default {
     },
     addMarkData() {
       const interval = this.indexRange.interval;
+      this.markPointData = [];
+      this.markLineData = [];
       this.plates.forEach((plate) => {
-        const time = this.formatTime(plate.dateTime);
-        const chg = plate.chg;
-        const name = plate.industryName;
-        const color = chg >= 0 ? config.upColor : config.downColor;
+        const time = this.formatTime(plate.tradeMin);
+        const riseSpeed = plate.riseSpeed;
+        const name = plate.idxName;
+        const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
         const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
-          const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
+          const coordY = riseSpeed >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
           let point = {
             coord: [time, coordY],
             symbolSize: [markPointSize, 20],
@@ -231,9 +233,7 @@ export default {
       });
     },
     updatePlates() {
-      this.$store.dispatch('marketBubble/updateAbnormalPlates', {
-        startTime: this.lastPlateTime
-      }).then(() => {
+      this.$store.dispatch('marketBubble/updateIndexPlates').then(() => {
         this.addMarkData();
         setTimeout(() => {
           this.chart.setOption({
@@ -278,7 +278,7 @@ export default {
   mounted() {
     this.chart = echarts.init(this.$refs.chart);
     const p1 = this.$store.dispatch('marketBubble/updateIndexData');
-    const p2 = this.$store.dispatch('marketBubble/updateAbnormalPlates', {
+    const p2 = this.$store.dispatch('marketBubble/updateIndexPlates', {
       startTime: this.lastPlateTime
     })
     Promise.all([p1, p2]).then(() => {
@@ -287,7 +287,7 @@ export default {
     })
     pcId = setInterval(() => {
       this.updateIndex();
-      // this.updatePlates();
+      this.updatePlates();
     }, 60 * 1000);
     window.addEventListener('resize', () => {
       const chartWrapper = this.$refs.chart;

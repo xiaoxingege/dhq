@@ -8,6 +8,7 @@ const state = {
   bubbleData: [],
   abnormalStockList: [], // 异动个股
   abnormalPlateList: [], // 异动板块
+  indexPlateList: [], // 指数显示的异动板块（规则过滤后的）
   indexData: {
     closePx: 0,
     data: []
@@ -20,7 +21,8 @@ const mutationsTypes = {
   UPDATE_ABNORMAL_STOCKS: 'UPDATE_ABNORMAL_STOCKS',
   UPDATE_PLATE_LIST: 'UPDATE_PLATE_LIST',
   UPDATE_INDEX_DATA: 'UPDATE_INDEX_DATA',
-  UPDATE_MARKET_COUNT: 'UPDATE_MARKET_COUNT'
+  UPDATE_MARKET_COUNT: 'UPDATE_MARKET_COUNT',
+  UPDATE_INDEX_PLATES: 'UPDATE_INDEX_PLATES'
 }
 
 const actions = {
@@ -107,6 +109,21 @@ const actions = {
         })
       }
     })
+  },
+  updateIndexPlates({
+    commit,
+    state
+  }) {
+    const url = `${domain}/openapi/dimension/abnormal/idx/section`
+    return fetch(url).then((res) => res.json()).then((result) => {
+      if (result.errCode === 0) {
+        commit(mutationsTypes.UPDATE_INDEX_PLATES, result.data);
+      } else {
+        commit('ERROR', result, {
+          root: true
+        })
+      }
+    })
   }
 }
 
@@ -126,6 +143,9 @@ const mutations = {
   },
   [mutationsTypes.UPDATE_MARKET_COUNT](state, countList) {
     state.marketCount = JSON.parse(countList);
+  },
+  [mutationsTypes.UPDATE_INDEX_PLATES](state, plates) {
+    state.indexPlateList = plates;
   }
 }
 
