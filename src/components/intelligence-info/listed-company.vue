@@ -198,9 +198,6 @@
       }
     },
     filters: {
-      isNull(value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum(value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },

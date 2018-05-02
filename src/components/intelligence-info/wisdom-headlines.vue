@@ -51,7 +51,7 @@
   let intervalId = ''
   let intervalId2 = ''
   import 'whatwg-fetch'
-  import { cutString } from 'utils/date'
+  import { cutString,formatDate } from 'utils/date'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
@@ -70,7 +70,14 @@
     mounted() {
       this.loadList()
       this.updateNews()
-      this.updateTopic()
+      var date = new Date()
+      var nowTime = formatDate(date,'hh:mm')
+      if(nowTime < "09:25" ||  nowTime > "15:30") {
+        console.log(nowTime)
+        clearInterval(intervalId2)
+      }else{
+        this.updateTopic()
+      }
     },
     computed: {
       ...mapState([
@@ -176,7 +183,7 @@
       updateTopic() {
         intervalId2 = setInterval(() => {
           this.getTopicData()
-        },30000)
+        },60000)
       },
       getTopicData(){
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
@@ -219,9 +226,6 @@
       }
     },
     filters: {
-      isNull(value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum(value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
