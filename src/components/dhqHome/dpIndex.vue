@@ -135,16 +135,6 @@ export default {
         // 断开连接，重新建立连接
         this.$store.dispatch('z3sockjs/init')
       }
-    },
-    'dpData': {
-      deep: true,
-      handler: function() {
-        if (z3websocket.ws) {
-          z3websocket.ws && z3websocket.ws.close()
-        } else {
-          this.$store.dispatch('z3sockjs/init')
-        }
-      }
     }
   },
   components: {
@@ -200,6 +190,7 @@ export default {
         })
         .then(() => {
           this.dpIndexList = this.dpIndexData
+          this.$store.dispatch('z3sockjs/init')
         })
     },
     formatData: function(value) {
