@@ -15,10 +15,11 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type,'over',$event)"
-                  @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
+          <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+                @mouseover="showTitleDetail(item.type,'over',$event)"
+                @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
           <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
-            <img v-if="item.type === 'chg'" src="../../assets/images/z3img/siwei-xia.png">
+          <!-- <img v-if="item.type === 'chg'" src="../../assets/images/z3img/siwei-xia.png">-->
           <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
         </a>
         <span class="titleDetail" ref="titleDetail"></span>
@@ -109,7 +110,7 @@ export default {
         {
           name: '涨跌幅',
           type: 'chg',
-          showImg: false,
+          showImg: true,
           showBImg: false
         },
         {
@@ -1117,35 +1118,43 @@ export default {
         })
       })
     },
-    sortList(type, indexNum) {
-      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
-        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
-        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
-        if (this.newListTitle[indexNum].showBImg) {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type,
-            sortType: 'desc'
-          })
-        } else {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type
-          })
-        }
-      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
-        this.newListTitle.forEach(function(item, index) {
-          if (indexNum === index) {
-            item.showImg = true
-          } else {
-            item.showImg = false
-            item.showBImg = false
-          }
+    sortList(type, indexNum, e) {
+      const that = this
+      let sortType = e.target.getAttribute('sortType')
+      let clearSort = () => {
+        this.$refs.sortSpan.forEach(function(item, index) {
+          that.newListTitle[index].showImg = false
+          that.newListTitle[index].showBImg = false
+          item.setAttribute('sortType', '')
         })
+      }
+      if (sortType === '') {
+        clearSort()
         this.$store.dispatch('bubbles/sortNewStockList', {
           type: type
         })
+        this.newListTitle[indexNum].showImg = true
+        e.target.setAttribute('sortType', 'asce')
+      } else if (sortType === 'asce') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type,
+          sortType: 'desc'
+        })
+        this.newListTitle[indexNum].showImg = false
+        this.newListTitle[indexNum].showBImg = true
+        e.target.setAttribute('sortType', 'desc')
+      } else if (sortType === 'desc') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+        this.newListTitle[indexNum].showImg = true
+        this.newListTitle[indexNum].showBImg = false
+        e.target.setAttribute('sortType', 'asce')
       }
     },
-    showTitleDetail(titleTime, isOver, e) {
+    showTitleDetail(titleTime, isOver) {
       if (isOver === 'over' && titleTime === 'ysdisKb') {
         this.$refs.titleDetail.style.display = 'block'
         this.$refs.titleDetail.innerHTML = '昨日是否开板'
