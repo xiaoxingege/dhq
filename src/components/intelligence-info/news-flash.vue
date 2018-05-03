@@ -7,7 +7,7 @@
           <div class="leftTime"><span v-z3-time="{ time:item.declareDate+ '' , type: '2' }"></span></div>
           <div class="news-list-item box-flex-1">
             <div>
-              <span  v-if="item.postiveIndex != '' "  class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+              <span  v-if="item.postiveIndex != null "  class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span class="name">{{item.title}}</span>
               </router-link>
