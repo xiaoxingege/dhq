@@ -10,25 +10,19 @@
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-                <span v-if="item.equity.name.length <=5" class="name fontS22">{{item.equity.name | isNull}}</span>
-                <span v-else-if="item.equity.name.length === 6" class="name fontS18">{{item.equity.name | isNull}}</span>
-                <span v-else  class="name fontS16">{{item.equity.name | isNull}}</span>
+                <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
                 <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.indu.chngPct">
-                <span v-if="item.indu.name.length <=5" class="name fontS22">{{item.indu.name | isNull}}</span>
-                <span v-else-if="item.indu.name.length === 6" class="name fontS18">{{item.indu.name | isNull}}</span>
-                <span v-else class="name fontS16">{{item.indu.name | isNull}}</span>
+                <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
                 <p>{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
-                <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
-                <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
-                <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
+                <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
                 <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
@@ -52,9 +46,7 @@
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
-                <span v-if="item.equity.name.length <=5" class="name fontS22">{{item.equity.name | isNull}}</span>
-                <span v-else-if="item.equity.name.length === 6" class="name fontS18">{{item.equity.name | isNull}}</span>
-                <span v-else  class="name fontS16">{{item.equity.name | isNull}}</span>
+                <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
                 <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
@@ -78,17 +70,13 @@
           <div class="leftTime" >
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
-                <span v-if="item.topic.name.length <=5" class="name fontS22">{{item.topic.name | isNull}}</span>
-                <span v-else-if="item.topic.name.length ===6" class="name fontS18">{{item.topic.name | isNull}}</span>
-                <span v-else class="name fontS16">{{item.topic.name | isNull}}</span>
+                <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
                 <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt" v-z3-updowncolor="item.indu.chngPct">
-                <span v-if="item.indu.name.length <=5" class="name fontS22">{{item.indu.name | isNull}}</span>
-                <span v-else-if="item.indu.name.length === 6" class="name fontS18">{{item.indu.name | isNull}}</span>
-                <span v-else class="name fontS16">{{item.indu.name | isNull}}</span>
+                <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
                 <p>{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
@@ -111,9 +99,7 @@
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <div class="txt" v-z3-updowncolor="1">
-              <span v-if="item.equity.productName.length <=5" class="name fontS22">{{item.equity.productName | isNull}}</span>
-              <span v-else-if="item.equity.productName.length ===6" class="name fontS18">{{item.equity.productName | isNull}}</span>
-              <span v-else class="name fontS16">{{item.equity.productName | isNull}}</span>
+              <span :class="{fontS22:item.equity.productName.length<=5,fontS18:item.equity.productName ===6}" class="name fontS16">{{item.equity.productName | isNull}}</span>
             </div>
           </div>
           <div class="news-list-item box-flex-1">
@@ -358,9 +344,6 @@
       }
     },
     filters: {
-      isNull(value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum(value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },

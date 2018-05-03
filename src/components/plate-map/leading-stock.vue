@@ -1,6 +1,6 @@
 <template>
 <div class="lead-stock-box" :style="{maxHeight:boxHeight+'px'}">
-  <h3 class="lead-stock-title">领先个股
+  <h3 class="lead-stock-title">{{title}}
     <!--  <span class="close">×</span> -->
   </h3>
   <table class="lead-stock-table" v-if="kLineType === 'stock'" style="width: 350px;">
@@ -13,7 +13,7 @@
     </tr>
     <tr v-for="item of leadStockList">
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
-      <td style="color:#1984ea;">{{formatData(item.stockName)?'--':item.stockName}}</td>
+      <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chg">
         {{formatData(item.chg)?'--':item.chg>0?'+'+parseFloat(item.chg).toFixed(2)+'%':parseFloat(item.chg).toFixed(2)+'%'}}
@@ -79,11 +79,12 @@ export default {
       updateDataPid: null,
       intervalTime: 6,
       pageSize: 50,
-      sort: this.condition.indexOf('peg') !== -1 || this.condition.indexOf('ps') !== -1 || this.condition.indexOf('pb') !== -1 || this.condition.indexOf('pe_ttm') !== -1 || this.condition.indexOf('fir_fcst_pe') !== -1 || this.condition.indexOf('act_date') !== -1 ? 1 : -1,
+      sort: this.condition.indexOf('peg') !== -1 || (this.condition.indexOf('ps') !== -1 && this.condition.indexOf('eps_5year') === -1) || this.condition.indexOf('pb') !== -1 || this.condition.indexOf('pe_ttm') !== -1 || this.condition.indexOf('fir_fcst_pe') !== -1 || this.condition.indexOf('act_date') !== -1 ? 1 : -1,
       condition: this.condition,
       rangeCode: this.rangeCode || '',
       kLineType: this.kLineType || '',
-      isContinue: 1
+      isContinue: 1,
+      title: this.kLineType === 'stock' ? '领先个股' : '领先板块'
     }
   },
   components: {},
@@ -129,10 +130,6 @@ export default {
           })
           .then(() => {
             this.topicLeadStockList = this.$store.state.plateMap.topicLeadStock
-            const topicValue = this.$store.state.plateMap.topicValue
-            this.topicLeadStockList.forEach(function(stock) {
-              stock.conditionValue = topicValue[stock.dataCode] // 浏览指标值
-            })
           })
       } else if (this.kLineType === 'industry') {
         this.$store.dispatch('plateMap/getIndustryLeadStock', {
@@ -143,10 +140,6 @@ export default {
           })
           .then(() => {
             this.industryLeadStockList = this.$store.state.plateMap.industryLeadStock
-            const industryValue = this.$store.state.plateMap.industryValue
-            this.industryLeadStockList.forEach(function(stock) {
-              stock.conditionValue = industryValue[stock.dataCode] // 浏览指标值
-            })
           })
       }
     },
@@ -161,24 +154,24 @@ export default {
       }
     },
     formatConditionStock(value) {
-      if (this.condition === 'act_date') {
+      if (this.condition === 'act_date') { // 业绩公布日
         const pbDate = new Date(value)
         value = this.dateFormatUtil(pbDate)
-      } else if (this.condition === 'mkt_idx.keep_days_today') {
+      } else if (this.condition === 'mkt_idx.keep_days_today') { // 连续涨跌天数
         value = value + '天';
       } else if (this.condition === 'margin_buy_value') { // 融资融券买入额
         value = this.formatMarginValue(value)
       } else if (this.condition === 'margin_buy_net_value') { // 融资融券净买入额
         value = this.formatMarginValue(value)
-      } else if (this.isUnit[this.condition] === '%') {
-        if (this.condition !== 'mkt_idx.div_rate') {
+      } else if (this.isUnit[this.condition] === '%') { // 涨跌幅和股息率
+        if (this.condition !== 'mkt_idx.div_rate') { // 涨跌幅
           if (value >= 0) {
             value = '+' + parseFloat(value).toFixed(2) + '%'
           } else {
             value = parseFloat(value).toFixed(2) + '%'
           }
         } else {
-          value = parseFloat(value).toFixed(2) + '%'
+          value = parseFloat(value).toFixed(2) + '%' // 股息率
         }
       } else {
         value = parseFloat(value).toFixed(2);
@@ -186,7 +179,9 @@ export default {
       return value
     },
     formatConditionPlate(value) {
-      if (this.condition === 'keep_days') {
+      if (this.condition.indexOf('tech_index') !== -1) {
+        value = Math.ceil(value)
+      } else if (this.condition === 'keep_days') {
         value = value + '天';
       } else if (this.isUnit[this.condition] === '%') {
         if (this.conditionStock !== 'mkt_idx.div_rate') {
