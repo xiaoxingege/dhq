@@ -27,6 +27,7 @@
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
           <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
+          <span>{{item.listDate}}</span>
         </li>
       </ul>
     </div>
@@ -124,6 +125,12 @@ export default {
         {
           name: '累计涨幅',
           type: 'zfnum',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '上市天数',
+          type: 'ssts',
           showImg: false,
           showBImg: false
         }
@@ -766,7 +773,7 @@ export default {
         position: relative;
 
         a {
-            width: 14%;
+            width: 12.5%;
             height: 100%;
             float: left;
             display: block;
@@ -781,6 +788,7 @@ export default {
                 /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
+                color: #c9d0d7;
             }
 
             img {
@@ -815,7 +823,7 @@ export default {
             /*padding: 10px 5px 10px 10px;*/
             span {
                 float: left;
-                width: 14%;
+                width: 12.5%;
                 display: block;
                 line-height: 25px;
                 text-align: center;

@@ -357,6 +357,17 @@ export default {
         } else {
           state.newStockList.sort(compare('open'))
         }
+      } else if (result.type === 'ssts') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.listDate - b.listDate
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.listDate - a.listDate
+          })
+        }
+
       }
     },
     setCxLine(state, result) {

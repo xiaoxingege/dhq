@@ -1244,6 +1244,7 @@ export default {
                 /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
+                color: #c9d0d7;
             }
 
             img {
