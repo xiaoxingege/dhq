@@ -5,7 +5,7 @@
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
-          <span v-if="item.postiveIndex != '' " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
+          <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">{{item.title}}</span>
