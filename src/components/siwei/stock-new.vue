@@ -269,7 +269,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -540,7 +540,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {

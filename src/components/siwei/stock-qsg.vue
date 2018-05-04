@@ -14,9 +14,9 @@
             {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
+            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
+            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">

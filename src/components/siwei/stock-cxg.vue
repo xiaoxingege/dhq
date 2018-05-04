@@ -283,7 +283,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -630,8 +630,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</p>'
 
               return tooltipStr;
             },
@@ -734,7 +734,7 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
                   return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -939,8 +939,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</span></p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</span></p>'
 
               return tooltipStr;
             },

@@ -18,9 +18,9 @@
             {{String(item.dateTime).substring(0,1)+':'+String(item.dateTime).substring(1,3)+':'+String(item.dateTime).substring(3)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
+            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
+            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
@@ -623,11 +623,17 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              let isNull = (v) => {
+                if (v === null) {
+                  return '--'
+                }
+                return v
+              }
               var tooltipStr =
-                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
-                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
-                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+                '<p style="color:#ca4941;">涨停 : ' + isNull(zdCompareData.up[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + isNull(zdCompareData.openUp[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + isNull(zdCompareData.down[params[0].dataIndex][1]) + '</p>' +
+                '<p>非一字跌停 : ' + isNull(zdCompareData.openDown[params[0].dataIndex][1]) + '</p>';
 
               return tooltipStr;
             },
@@ -973,11 +979,17 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              let isNull = (v) => {
+                if (v === null) {
+                  return '--'
+                }
+                return v
+              }
               var tooltipStr =
-                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p style="color:#1984ea;">非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
-                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
-                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+                '<p style="color:#ca4941;">涨停 : ' + isNull(zdCompareData.up[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + isNull(zdCompareData.openUp[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + isNull(zdCompareData.down[params[0].dataIndex][1]) + '</p>' +
+                '<p>非一字跌停 : ' + isNull(zdCompareData.openDown[params[0].dataIndex][1]) + '</p>';
 
               return tooltipStr;
             },
