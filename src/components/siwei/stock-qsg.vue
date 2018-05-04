@@ -684,7 +684,7 @@ export default {
 
         .qsgList {
             height: 100%;
-            width: 461px;
+            width: 464px;
             background: #232630;
         }
 

@@ -893,7 +893,7 @@ export default {
         }
 
         .ztgList {
-            width: 461px;
+            width: 464px;
             height: 100%;
             background: #232630;
         }

@@ -191,8 +191,8 @@ export default {
           } else if (result.options.type === 6 || result.options.type === 5) {
             if (item.xData !== null && item.yData !== null) {
               state.ztgBubblesData.xDefault.push(item.xData)
-              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 2))
-              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 2), item.yData])
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) / 100 + 2))
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) / 100 + 2), item.yData])
             }
           }
           state.ztgBubblesData.yData.push(item.yData)
@@ -241,6 +241,30 @@ export default {
       }
     },
     setZdCompare(state, result) {
+
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
       if (result.errCode === 0) {
         state.ztgCompare = {
           up: [],
@@ -248,13 +272,28 @@ export default {
           down: [],
           openDown: []
         }
-        for (var item of result.data) {
-          state.ztgCompare.up.push(item[0])
-          state.ztgCompare.down.push(item[1])
-          state.ztgCompare.openUp.push(item[2])
-          state.ztgCompare.openDown.push(item[3])
 
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineResult[time] = result.data[key]
         }
+
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.ztgCompare.up.push([k, lineResult[k][0]])
+            state.ztgCompare.down.push([k, lineResult[k][1]])
+            state.ztgCompare.openUp.push([k, lineResult[k][2]])
+            state.ztgCompare.openDown.push([k, lineResult[k][3]])
+          } else {
+            state.ztgCompare.up.push([k, null])
+            state.ztgCompare.down.push([k, null])
+            state.ztgCompare.openUp.push([k, null])
+            state.ztgCompare.openDown.push([k, null])
+          }
+
+        })
       } else {
         state.ztgCompare = null
       }
