@@ -101,7 +101,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" href="stock/000001.SH" target="_blank">
+    <a class="line-chart" @click="toMarketDetail" @dblclick="toDingPan">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -225,6 +225,9 @@
 import echarts from 'echarts'
 import z3websocket from '../z3tougu/z3socket'
 import config from '../z3tougu/config'
+import {
+  ctx
+} from '../z3tougu/config'
 
 import {
   mapState
@@ -234,7 +237,8 @@ export default {
   data() {
     return {
       updateDataPid: null,
-      intervalTime: 1000
+      intervalTime: 1000,
+      timeoutID: null
     }
   },
   components: {},
@@ -902,6 +906,23 @@ export default {
           _this.$store.dispatch('indexChart/getMoveBlock')
         }, 60 * _this.intervalTime)
       }
+    },
+    toMarketDetail: function() {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('click')
+    },
+    toDingPan: function() {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('dblclick')
+    },
+    isDbClick: function(type) {
+      this.timeoutID = setTimeout(() => {
+        if (type === 'click') {
+          window.open(ctx + '/stock/000001.SH')
+        } else if (type === 'dblclick') {
+          window.open(ctx + '/siweiIndex')
+        }
+      }, 250);
     }
   },
   watch: {
