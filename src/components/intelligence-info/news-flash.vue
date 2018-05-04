@@ -123,7 +123,7 @@
       updateTopic() {
         intervalId2 = setInterval(() => {
           this.getTopicData()
-        },30000)
+        },60000)
       },
       getTopicData(){
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
