@@ -13,7 +13,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{item.summary | trim}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -270,6 +270,7 @@
   .name {
       font-size: 14px;
       font-weight: bold;
+      color: #caced7;
   }
   .source {
       color: #656766;
@@ -306,13 +307,11 @@
           font-size: 12px;
           display: inline-block;
           border: 1px solid #c9d0d7;
-          height: 17px;
+          height: 18px;
+          line-height: 18px;
           padding: 0 8px;
           border-radius: 10px;
           margin-right: 20px;
-          a {
-              color: #fff;
-          }
           span {
               margin-left: 8px;
               &:first-child {
