@@ -57,12 +57,15 @@ export default {
       down: [],
       openDown: []
     },
-    zbgLine: null,
+    zbgLine: [],
     newStockList: null,
     newStockSortType: '',
     newStockSort: '',
-    cxLineData: null,
-    ystLineData: null
+    cxLineData: {
+      condition: [],
+      szIndex: []
+    },
+    ystLineData: []
 
   },
   mutations: {
@@ -191,8 +194,8 @@ export default {
           } else if (result.options.type === 6 || result.options.type === 5) {
             if (item.xData !== null && item.yData !== null) {
               state.ztgBubblesData.xDefault.push(item.xData)
-              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 2))
-              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 2), item.yData])
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) / 100 + 2))
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) / 100 + 2), item.yData])
             }
           }
           state.ztgBubblesData.yData.push(item.yData)
@@ -241,6 +244,30 @@ export default {
       }
     },
     setZdCompare(state, result) {
+
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
       if (result.errCode === 0) {
         state.ztgCompare = {
           up: [],
@@ -248,22 +275,75 @@ export default {
           down: [],
           openDown: []
         }
-        for (var item of result.data) {
-          state.ztgCompare.up.push(item[0])
-          state.ztgCompare.down.push(item[1])
-          state.ztgCompare.openUp.push(item[2])
-          state.ztgCompare.openDown.push(item[3])
 
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineResult[time] = result.data[key]
         }
+
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.ztgCompare.up.push([k, lineResult[k][0]])
+            state.ztgCompare.down.push([k, lineResult[k][1]])
+            state.ztgCompare.openUp.push([k, lineResult[k][2]])
+            state.ztgCompare.openDown.push([k, lineResult[k][3]])
+          } else {
+            state.ztgCompare.up.push([k, null])
+            state.ztgCompare.down.push([k, null])
+            state.ztgCompare.openUp.push([k, null])
+            state.ztgCompare.openDown.push([k, null])
+          }
+
+        })
       } else {
         state.ztgCompare = null
       }
     },
     setZbgLine(state, result) {
+
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
       if (result.errCode === 0) {
-        state.zbgLine = result.data
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineResult[time] = result.data[key]
+        }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.zbgLine.push([k, lineResult[k]])
+          } else {
+            state.zbgLine.push([k, null])
+          }
+
+        })
       } else {
-        state.zbgLine = null
+        state.zbgLine = []
       }
     },
     setNewStockList(state, result) {
@@ -357,20 +437,122 @@ export default {
         } else {
           state.newStockList.sort(compare('open'))
         }
+      } else if (result.type === 'ssts') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.listDate - b.listDate
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.listDate - a.listDate
+          })
+        }
+
       }
     },
     setCxLine(state, result) {
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
       if (result.errCode === 0) {
-        state.cxLineData = result.data
+        state.cxLineData = {
+          condition: [],
+          szIndex: []
+        }
+        let lineConditionResult = {}
+        let lineszIndexResult = {}
+
+        for (let key in result.data.condition) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineConditionResult[time] = result.data.condition[key]
+        }
+        for (let key in result.data.szIndex) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineszIndexResult[time] = result.data.szIndex[key]
+        }
+        timeline.forEach(function(k, v) {
+          if (lineConditionResult[k] !== undefined) {
+            state.cxLineData.condition.push([k, lineConditionResult[k]])
+          } else {
+            state.cxLineData.condition.push([k, null])
+          }
+          if (lineszIndexResult[k] !== undefined) {
+            state.cxLineData.szIndex.push([k, lineszIndexResult[k]])
+          } else {
+            state.cxLineData.szIndex.push([k, null])
+          }
+
+        })
       } else {
-        state.cxLineData = []
+        state.cxLineData = {
+          condition: [],
+          szIndex: []
+        }
       }
     },
     setYstLine(state, result) {
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
       if (result.errCode === 0) {
-        state.ystLineData = result.data
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          lineResult[time] = result.data[key]
+        }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.ystLineData.push([k, lineResult[k]])
+          } else {
+            state.ystLineData.push([k, null])
+          }
+
+        })
       } else {
-        state.ystLineData = null
+        state.ystLineData = []
       }
     }
   },

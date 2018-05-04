@@ -57,7 +57,7 @@ export default {
       let size = 0;
       if (list.length > 0) {
         const height = this.$refs.datalist.clientHeight;
-        size = Math.floor(height / 28);
+        size = Math.floor(height / 30);
       }
 
       return list.slice(0, size);
@@ -108,12 +108,12 @@ export default {
     background: #303539;
 }
 .hot ul {
-    height: calc(100% - 26px);
+    height: calc(100% - 25px);
     overflow: auto;
     li {
         overflow: hidden;
-        height: 18px;
-        line-height: 18px;
+        height: 20px;
+        line-height: 20px;
         margin: 10px 6px;
         a {
             color: $wordsColorBase;
@@ -136,8 +136,8 @@ export default {
             width: 35%;
             .full {
                 width: 90%;
-                height: 16px;
-                line-height: 16px;
+                height: 18px;
+                line-height: 18px;
                 margin: 0 10%;
             }
             .progress {

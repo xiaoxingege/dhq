@@ -12,7 +12,8 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type,'over',$event)"
+            <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+                  @mouseover="showTitleDetail(item.type,'over',$event)"
                   @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
                   <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                   <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
@@ -28,6 +29,7 @@
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
           <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
+          <span>{{item.listDate}}</span>
         </li>
       </ul>
     </div>
@@ -105,7 +107,7 @@ export default {
         {
           name: '涨跌幅',
           type: 'chg',
-          showImg: false,
+          showImg: true,
           showBImg: false
         },
         {
@@ -117,6 +119,12 @@ export default {
         {
           name: '开板涨幅',
           type: 'afterKb',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '上市天数',
+          type: 'ssts',
           showImg: false,
           showBImg: false
         }
@@ -234,7 +242,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 45,
+            right: 60,
             bottom: 50
           },
           tooltip: {
@@ -273,9 +281,9 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '开板后累计涨幅'
+                  return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -622,8 +630,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</p>'
 
               return tooltipStr;
             },
@@ -724,9 +732,9 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '开板后累计涨幅'
+                  return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -931,8 +939,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex]) + '</span></p>'
+                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</span></p>'
 
               return tooltipStr;
             },
@@ -943,34 +951,41 @@ export default {
         })
       })
     },
-    sortList(type, indexNum) {
-      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
-        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
-        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
-        if (this.newListTitle[indexNum].showBImg) {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type,
-            sortType: 'desc'
-          })
-        } else {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type
-          })
-        }
-      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
-        this.newListTitle.forEach(function(item, index) {
-          if (indexNum === index) {
-            item.showImg = true
-          } else {
-            item.showImg = false
-            item.showBImg = false
-          }
+    sortList(type, indexNum, e) {
+      const that = this
+      let sortType = e.target.getAttribute('sortType')
+      let clearSort = () => {
+        this.$refs.sortSpan.forEach(function(item, index) {
+          that.newListTitle[index].showImg = false
+          that.newListTitle[index].showBImg = false
+          item.setAttribute('sortType', '')
         })
+      }
+      if (sortType === '') {
+        clearSort()
         this.$store.dispatch('bubbles/sortNewStockList', {
           type: type
         })
+        this.newListTitle[indexNum].showImg = true
+        e.target.setAttribute('sortType', 'asce')
+      } else if (sortType === 'asce') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type,
+          sortType: 'desc'
+        })
+        this.newListTitle[indexNum].showImg = false
+        this.newListTitle[indexNum].showBImg = true
+        e.target.setAttribute('sortType', 'desc')
+      } else if (sortType === 'desc') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+        this.newListTitle[indexNum].showImg = true
+        this.newListTitle[indexNum].showBImg = false
+        e.target.setAttribute('sortType', 'asce')
       }
-      //  this.newListTitle[index].showImg = true
     },
     showTitleDetail(titleTime, isOver, e) {
       if (isOver === 'over' && titleTime === 'beforeKb') {
@@ -1055,7 +1070,7 @@ export default {
         position: relative;
 
         a {
-            width: 14%;
+            width: 12.5%;
             height: 100%;
             float: left;
             display: block;
@@ -1070,6 +1085,7 @@ export default {
                 /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
+                color: #c9d0d7;
             }
 
             img {
@@ -1104,7 +1120,7 @@ export default {
             /*padding: 10px 5px 10px 10px;*/
             span {
                 float: left;
-                width: 14%;
+                width: 12.5%;
                 display: block;
                 line-height: 25px;
                 text-align: center;

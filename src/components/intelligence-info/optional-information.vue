@@ -13,10 +13,10 @@
           <div class="con-top">
             <p v-z3-updowncolor="item.equityList.chngPct">
               <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
-                <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
+                <span class="fontS14" v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
               </a>
-              <span>{{relatedStocks[item.equityList.code].price}}</span>
-              <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
+              <span class="fontS14">{{relatedStocks[item.equityList.code].price}}</span>
+              <span class="fontS14">{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
             </p>
           </div>
           <div>
@@ -248,9 +248,6 @@
       }
     },
     filters: {
-      isNull (value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum (value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
@@ -319,6 +316,7 @@
   .name{
     font-size: 14px;
     font-weight: bold;
+    color: #caced7;
   }
   .source{
     color: #656766;
@@ -367,13 +365,11 @@
       font-size: 12px;
       display: inline-block;
       border: 1px solid #c9d0d7;
-      height: 17px;
+      height: 18px;
+      line-height: 17px;
       padding:0 8px;
       border-radius:10px;
       margin-right: 20px;
-      a{
-        color: #fff;
-      }
       span{
         margin-left: 8px;
         &:first-child{
@@ -418,4 +414,5 @@
     left:50%;
     transform: translate(-50%,-50%);
   }
+  .fontS14{font-size: 14px}
 </style>

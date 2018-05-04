@@ -7,7 +7,7 @@
           <div class="leftTime"><span v-z3-time="{ time:item.declareDate+ '' , type: '2' }"></span></div>
           <div class="news-list-item box-flex-1">
             <div>
-              <span  v-if="item.postiveIndex != '' "  class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+              <span  v-if="item.postiveIndex != null "  class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span class="name">{{item.title}}</span>
               </router-link>
@@ -123,7 +123,7 @@
       updateTopic() {
         intervalId2 = setInterval(() => {
           this.getTopicData()
-        },30000)
+        },60000)
       },
       getTopicData(){
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
@@ -217,9 +217,6 @@
       }
     },
     filters: {
-      isNull (value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum (value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
@@ -276,6 +273,7 @@
   .name {
       font-size: 14px;
       font-weight: bold;
+      color: #caced7;
   }
   .source {
       color: #656766;
@@ -310,13 +308,11 @@
           font-size: 12px;
           display: inline-block;
           border: 1px solid #c9d0d7;
-          height: 17px;
+          height: 18px;
+          line-height: 17px;
           padding: 0 8px;
           border-radius: 10px;
           margin-right: 20px;
-          a {
-              color: #fff;
-          }
           span {
               margin-left: 8px;
               &:first-child {
