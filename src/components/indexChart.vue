@@ -283,11 +283,11 @@ export default {
       }
     },
     moveBlockData: state => {
-      const moveBlockData = state.z3touguIndex.moveBlock
+      const moveBlockData = state.indexChart.moveBlock
       return moveBlockData
     },
     moveUpBlockData: state => {
-      const moveUpBlockData = state.z3touguIndex.moveBlock
+      const moveUpBlockData = state.indexChart.moveBlock
       if (moveUpBlockData && moveUpBlockData.length > 0) {
         const toTime = moveUpBlockData[0].tradeMin.toString()
         let m;
@@ -304,7 +304,7 @@ export default {
       }
     },
     moveDownBlockData: state => {
-      const moveDownBlockData = state.z3touguIndex.moveBlock
+      const moveDownBlockData = state.indexChart.moveBlock
       if (moveDownBlockData && moveDownBlockData.length > 0) {
         const toTime = moveDownBlockData[1].tradeMin.toString()
         let m;
@@ -588,6 +588,7 @@ export default {
         moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeMin)]
         moveDownName = _this.moveDownBlockData.idxName
       }
+      const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
       // 图表初始化
       this.chart.setOption({
         title: {
@@ -731,9 +732,16 @@ export default {
                   }
                 },
                 {
-                  coord: [moveUpX, moveUpY + 25],
+                  coord: [moveUpX, moveUpY + 5],
                   symbol: 'circle',
-                  symbolSize: 0.1
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.upColor
+                    }
+                  }
                 }
               ],
               [{
@@ -749,9 +757,16 @@ export default {
                   }
                 },
                 {
-                  coord: [moveDownX, moveDownY - 25],
+                  coord: [moveDownX, moveDownY - 5],
                   symbol: 'circle',
-                  symbolSize: 0.1
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.downColor
+                    }
+                  }
                 }
               ]
             ],
@@ -767,14 +782,22 @@ export default {
           markPoint: {
             silent: false,
             symbol: 'rect',
-            symbolSize: [50, 20],
+            symbolSize: function(value, params) {
+              if (params.name === '上涨板块' && moveUpName.length > 4) {
+                return [65, 20]
+              } else if (params.name === '下跌板块' && moveUpName.length > 4) {
+                return [65, 20]
+              } else {
+                return [50, 20]
+              }
+            },
             label: {
               position: [0, 0],
               distance: 0
             },
             data: [{
                 name: '上涨板块',
-                coord: [moveUpX, moveUpY + 35],
+                coord: [moveUpX, moveUpY + 5 + 20 * Dvalue / chartHeight],
                 itemStyle: {
                   normal: {
                     borderWidth: 1,
@@ -793,7 +816,7 @@ export default {
               },
               {
                 name: '下跌板块',
-                coord: [moveDownX, moveDownY - 35],
+                coord: [moveDownX, moveDownY - 5 - 20 * Dvalue / chartHeight],
                 itemStyle: {
                   normal: {
                     borderWidth: 1,
@@ -831,22 +854,6 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
-      window.onresize = function() {
-        const timestampResize = new Date().getTime()
-        _this.$emit('isResize', timestampResize)
-        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]).resize({
-          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
-        })
-        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[1]).resize({
-          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
-        })
-        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[2]).resize({
-          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
-        })
-        echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[3]).resize({
-          height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
-        })
-      }
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -892,7 +899,7 @@ export default {
         clearInterval(this.updateDataPid)
       } else {
         this.updateDataPid = setInterval(function() {
-          _this.$store.dispatch('z3touguIndex/getMoveBlock')
+          _this.$store.dispatch('indexChart/getMoveBlock')
         }, 60 * _this.intervalTime)
       }
     }
@@ -941,9 +948,9 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        // if (this.moveBlockData) {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-        // }
+        if (this.moveBlockData) {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        }
       }
     },
     lsChartData: {
@@ -963,34 +970,37 @@ export default {
       handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
       }
+    },
+    moveBlockData: {
+      deep: true,
+      handler: function() {
+        debugger
+        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+      }
     }
-    /* ,
-        moveBlockData() {
-          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-        } */
   },
   mounted() {
-    /* let p1 = new Promise((resolve, reject) => {
-       this.$store.dispatch('z3touguIndex/getMoveBlock').then(() => {
-         resolve();
-       })
-     });
-     let p2 = new Promise((resolve, reject) => {
-       this.$store.dispatch('indexChart/getIndexChartData', {
-         stockCode: '000001.SH'
-       }).then(() => {
-         resolve();
-       })
-     });
-     Promise.all([p1, p2]).then(() => {
-       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-     });*/
-    // this.autoUpdate()
-    this.$store.dispatch('indexChart/getIndexChartData', {
-      stockCode: '000001.SH'
-    }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-    })
+    let p1 = new Promise((resolve, reject) => {
+      this.$store.dispatch('indexChart/getMoveBlock').then(() => {
+        resolve();
+      })
+    });
+    let p2 = new Promise((resolve, reject) => {
+      this.$store.dispatch('indexChart/getIndexChartData', {
+        stockCode: '000001.SH'
+      }).then(() => {
+        resolve();
+      })
+    });
+    Promise.all([p1, p2]).then(() => {
+      this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+    });
+    this.autoUpdate()
+    /* this.$store.dispatch('indexChart/getIndexChartData', {
+       stockCode: '000001.SH'
+     }).then(() => {
+       this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+     })*/
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
     }).then(() => {
