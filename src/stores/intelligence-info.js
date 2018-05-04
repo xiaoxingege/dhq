@@ -221,7 +221,6 @@ export default {
           state.newTime = time
       }else{
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
-        console.log(state.newTime)
       }
     },
     setStockPool(state, result) {
