@@ -470,9 +470,11 @@
         margin-bottom: 2px;
       }
       .news-list-item {
-          // border: 1px solid #0d1112;
           background-color: #1a1b1f;
           padding: 10px 10px 10px 10px;
+          .name{
+            color: #caced7;
+          }
           a {
               color: $wordsColorBase;
               &:hover {
@@ -487,13 +489,11 @@
           font-size: 12px;
           display: inline-block;
           border: 1px solid #c9d0d7;
-          height: 17px;
+          height: 18px;
+          line-height: 18px;
           padding: 0 8px;
           border-radius: 10px;
           margin-right: 20px;
-          a {
-              color: #fff;
-          }
           span {
               margin-left: 8px;
               &:first-child {
