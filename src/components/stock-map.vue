@@ -181,6 +181,7 @@
 
 .map_wrap {
     position: relative;
+    width: 100%;
 }
 
 .legend-switch {
@@ -349,7 +350,7 @@ export default {
       timeList: ['0930', '0940', '0950', '1000', '1010', '1020', '1030', '1040', '1050', '1100', '1110', '1120', '1130', '1310', '1320', '1330', '1340', '1350', '1400', '1410', '1420', '1430', '1440', '1450', '1500'],
       playbackState: false, // 默认是停止不回放
       mapHeight: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerHeight : window.innerHeight - 70,
-      mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? window.innerWidth : window.innerWidth - 26,
+      mapWidth: this.$route.fullPath.indexOf('fullScreen') > 0 ? document.body.clientWidth : document.body.clientWidth - 26,
       showHover: false,
       hoverNode: null,
       hoverNodeEl: null,
@@ -590,10 +591,10 @@ export default {
       window.onresize = function() {
         if (_this.$route.fullPath.indexOf('fullScreen') > 0) {
           _this.mapHeight = window.innerHeight
-          _this.mapWidth = window.innerWidth
+          _this.mapWidth = document.body.clientWidth
         } else {
           _this.mapHeight = window.innerHeight - 70
-          _this.mapWidth = window.innerWidth - 26
+          _this.mapWidth = document.body.clientWidth - 26
         }
         _this.chart.resize({
           height: _this.mapHeight,
@@ -922,12 +923,12 @@ export default {
       if (this.$route.fullPath.indexOf('fullScreen') > 0) {
         this.isEnlarge = true // 全屏
         this.mapHeight = window.innerHeight
-        this.mapWidth = window.innerWidth
+        this.mapWidth = document.body.clientWidth
         this.$emit('isEnlarge', this.isEnlarge)
       } else if (this.$route.fullPath.indexOf('normal') > 0) {
         this.isEnlarge = false // 非全屏
         this.mapHeight = window.innerHeight - 70
-        this.mapWidth = window.innerWidth - 40
+        this.mapWidth = document.body.clientWidth - 40
         this.$emit('isEnlarge', this.isEnlarge)
       }
     },
@@ -1037,7 +1038,7 @@ export default {
         this.offsetX = event.clientX + 50
         this.offsetY = event.clientY + 50
       }
-      const windowWidth = window.innerWidth
+      const windowWidth = document.body.clientWidth
       const windowHeight = window.innerHeight
       if (document.getElementsByClassName('hover-wrapper').length > 0) {
         const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
