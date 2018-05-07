@@ -74,7 +74,8 @@ export default {
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
 .newsinfo {
-    height: 250px;
+    /*  height: 250px; 
+    height：702px*/
     overflow: hidden;
     line-height: 30px;
     color: $wordsColorBase;
@@ -86,9 +87,9 @@ export default {
         padding: 0 10px;
     }
     .list {
-        height: 220px;
+        /*  height: 220px; */
         .list_con {
-            height: 190px;
+            /*   height: 190px; */
             overflow: auto;
         }
         ul {

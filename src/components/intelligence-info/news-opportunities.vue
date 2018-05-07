@@ -489,8 +489,7 @@
           font-size: 12px;
           display: inline-block;
           border: 1px solid #c9d0d7;
-          height: 18px;
-          line-height: 18px;
+          line-height: 1.4;
           padding: 0 8px;
           border-radius: 10px;
           margin-right: 20px;

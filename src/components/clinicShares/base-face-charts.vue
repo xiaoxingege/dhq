@@ -155,7 +155,7 @@ body {
 }
 .kline-charts {
 
-    height: 264px;
+    height: 350px;
     width: 100%;
 }
 .assess1 {
@@ -416,7 +416,290 @@ export default ({
       const borderWidth = this.borderWidth
       const borderColor = this.borderColor
       console.log(this.themeColor) */
+      //  const opt = {
+
+      /* legend: {
+         left: 5,
+         top: 0,
+         itemHeight: 2,
+         itemWidth: 20,
+         textStyle: {
+           color: '#c9d0d7',
+           fontSize: 12
+         },
+         data: [{
+             name: legendNames.nameInc,
+             // icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+             icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line2.png'
+           },
+           {
+             name: legendNames.nameRate,
+             //      icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+             icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line1.png'
+
+           }
+         ]
+       }, */
+      /*  tooltip: {
+          trigger: 'axis',
+          padding: [10, 55, 10, 20],
+          textStyle: {
+            align: 'left'
+          },
+          showContent: true,
+          axisPointer: {
+            type: 'cross',
+            label: {
+              show: true,
+              formatter: function(params) {
+                let yLabelData = ''
+                if (params.seriesData.length > 0) {
+                  yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
+                  return params.seriesData[0].name
+                } else {
+                  if (typeof yLabelData !== 'undefined') {
+                    return yLabelData
+                  } else {
+                    return ''
+                  }
+                }
+              },
+              backgroundColor: '#777',
+              // padding:[20,0,10,10],
+              textStyle: {
+                /* color:'#000',
+                 fontWeight:'bold'*/
+      /*      }
+          },
+          crossStyle: {
+            color: '#666'
+          }
+        },
+        formatter: function(params) {
+          var s = ''
+          var colorValue = ''
+          for (var i = 0; i < params.length; i++) {
+            // console.log(params[i].dataIndex)
+            // console.log(params)
+            if (i === 0) {
+              colorValue = params[i].value < 0 ? config.downColor : config.upColor
+              if (params[0].color === 'transparent') {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+              } else {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+              }
+
+            }
+            if (lineData.growthRate[params[i].dataIndex] === null || 0) {
+              // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
+              if (i === 2) {
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                  legendNames.nameRate + ' : ' + params[i].value + '%'
+
+              }
+            } else {
+              if (i === 1) {
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                  legendNames.nameInc + ' : ' + params[i].value + '%'
+
+              }
+            }
+
+
+          }
+          return s
+        }
+      },*/
+      /* xAxis: {
+         // interval:0,
+         type: 'category',
+         splitLine: {
+           show: false,
+           lineStyle: {
+             type: 'solid',
+             color: '#23272c'
+           }
+         },
+         axisLine: {
+           onZero: true,
+           symbol: ['none', 'arrow'],
+           lineStyle: {
+             color: '#23272c',
+             type: 'dashed'
+           }
+         },
+         axisLabel: {
+           // show:false
+           color: '#c9d0d7'
+         },
+         axisTick: {
+           show: false,
+           inside: true,
+           alignWithLabel: false
+         },
+
+         data: lineData.times
+       },
+       yAxis: [{
+         type: 'value',
+         name: unitName,
+         nameTextStyle: {
+           color: '#c9d0d7',
+           padding: [0, 0, 0, 70]
+         },
+         nameGap: 6,
+         splitLine: {
+           show: false,
+           lineStyle: {
+             type: 'solid',
+             color: '#23272c'
+           }
+         },
+         axisLine: {
+           symbol: ['none', 'arrow'],
+           lineStyle: {
+             color: '#23272c'
+           }
+         },
+         axisTick: {
+           show: false,
+           alignWithLabel: false
+         },
+         axisLabel: {
+           formatter: function(val) {
+             return val
+           },
+           color: '#c9d0d7'
+         }
+       }], */
+      /*  series: [{
+            data: lineData.ydata,
+            name: legendNames.nameIncome,
+            type: 'bar',
+            barWidth: 50,
+            stack: legendNames.nameIncome,
+            label: {
+              normal: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                formatter: function(params) {
+                  return params.value
+                }
+              }
+            },
+            itemStyle: {
+              normal: { */
+      // color:themeColor,
+      /*   color: function (params){
+
+              console.log(params.dataIndex)
+              if (params.dataIndex === 0) {
+                return 'transparent'
+              } else {
+                return '#ca4941'
+              }
+            
+        }, */
+      /* borderWidth: borderWidth,
+       borderColor:borderColor,
+       borderType:borderType */
+      /*     }
+         }
+       },
+       {*/
+      /* data: lineData.growthRate,
+       name: legendNames.nameInc,
+       type: 'line',
+       symbol: 'circle',
+       symbolSize: 9,
+       stack: legendNames.nameInc, */
+      /* symbol: 'circle',
+      symbolSize: 8,
+      itemStyle: {
+        normal: {
+          color: '#000',
+          borderColor: '#fff',
+          borderWidth: 3
+        }
+      },*/
+      /* itemStyle: {
+        normal: { */
+      // color: 'rgba(252,230,48,1)',
+      // barBorderRadius: 0,
+      /*  color: '#141518',
+        borderColor: config.upColor,
+        borderWidth: 3,
+        lineStyle: {
+          color: config.upColor,
+          type: 'solid',
+          width: 3
+        }, */
+      /*  label: {
+                  show: true,
+                  position: 'top',
+                  color: '#c9d0d7',
+                  fontSize: 12,
+                  formatter: function(p) {
+                    return p.value === 0 ? '' : (p.value + '%');
+                  }
+                }
+              }
+            }
+          }, */
+      /*  {
+          data: lineData.growthRateLast,
+          name: legendNames.nameRate,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameRate,
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'dashed',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+        }
+      ],*/
+      // color: ['#ca4941', '#1984ea'],
+      /*   grid: { */
+      // width: '97%',
+      /* width: '100%',
+      height: '80%',
+      left: 0,
+      top: '10%',
+      show: true,
+      borderColor: '#2A2E36',
+      containLabel: true */
+      /*  left: 45,
+        right: 10,
+        top: '19%',
+        //  width: '100%',
+        height: '70%',
+        show: false
+      } */
+      //   };
+
       const opt = {
+        // backgroundColor:'#fff',
 
         legend: {
           left: 5,
@@ -478,40 +761,57 @@ export default ({
           formatter: function(params) {
             var s = ''
             var colorValue = ''
-            for (var i = 0; i < params.length; i++) {
-              // console.log(params[i].dataIndex)
-              // console.log(params)
-              if (i === 0) {
-                colorValue = params[i].value < 0 ? config.downColor : config.upColor
-                if (params[0].color === 'transparent') {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+            /* var obj = t[0];
+            var time = obj.name; // 时间
+            var axisid = obj.axisIndex
+            if (axisid === 1) { */
+            console.log(params[0].axisIndex)
+            var axisid = params[0].axisIndex
+            if (axisid === 1) {
+              for (var i = 0; i < params.length; i++) {
+                // console.log(params[i].dataIndex)
+                // console.log(params)
+                if (i === 0) {
+                  colorValue = params[i].value < 0 ? config.downColor : config.upColor
+                  if (params[0].color === 'transparent') {
+                    s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+                  } else {
+                    s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+                  }
+
+                }
+                if (lineData.growthRate[params[i].dataIndex] === null || 0) {
+                  // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
+                  if (i === 2) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                      legendNames.nameRate + ' : ' + params[i].value + '%'
+
+                  }
                 } else {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+                  if (i === 1) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                      legendNames.nameInc + ' : ' + params[i].value + '%'
+
+                  }
                 }
+
 
               }
-              if (lineData.growthRate[params[i].dataIndex] === null || 0) {
-                // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
-                if (i === 2) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
-                    legendNames.nameRate + ' : ' + params[i].value + '%'
-
-                }
-              } else {
-                if (i === 1) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
-                    legendNames.nameInc + ' : ' + params[i].value + '%'
-
-                }
-              }
-
-
             }
             return s
           }
         },
-        xAxis: {
-          // interval:0,
+        animation: false,
+        axisPointer: {
+          link: {
+            xAxisIndex: 'all'
+          },
+          label: {
+            backgroundColor: '#777'
+          }
+        },
+        xAxis: [{
+          show: false,
           type: 'category',
           splitLine: {
             show: false,
@@ -539,13 +839,44 @@ export default ({
           },
 
           data: lineData.times
-        },
+
+        }, {
+          type: 'category',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            onZero: true,
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c',
+              type: 'dashed'
+            }
+          },
+          axisLabel: {
+            // show:false
+            color: '#c9d0d7'
+          },
+          axisTick: {
+            show: false,
+            inside: true,
+            alignWithLabel: false
+          },
+
+          data: lineData.times,
+          gridIndex: 1
+        }],
         yAxis: [{
+          show: true,
           type: 'value',
           name: unitName,
           nameTextStyle: {
             color: '#c9d0d7',
-            padding: [0, 0, 0, 70]
+            padding: [0, 0, 15, 65]
           },
           nameGap: 6,
           splitLine: {
@@ -567,120 +898,54 @@ export default ({
           },
           axisLabel: {
             formatter: function(val) {
-              return val
+              /* if(val ===0){
+                   return val
+                } */
             },
             color: '#c9d0d7'
           }
-        }],
-        series: [{
-            data: lineData.ydata,
-            name: legendNames.nameIncome,
-            type: 'bar',
-            barWidth: 50,
-            stack: legendNames.nameIncome,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                // color:themeColor,
-                /*   color: function (params){
+        }, {
+          show: true,
+          type: 'value',
+          /* name: unitName,
+          nameTextStyle: {
+            color: '#c9d0d7',
+            padding: [0, 0, 0, 70]
+          },
+          nameGap: 6, */
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
+          axisTick: {
+            show: false,
+            alignWithLabel: false
+          },
+          axisLabel: {
+            // show: false,
+            formatter: function(val) {
 
-                        console.log(params.dataIndex)
-                        if (params.dataIndex === 0) {
-                          return 'transparent'
-                        } else {
-                          return '#ca4941'
-                        }
-                      
-                  }, */
-                /* borderWidth: borderWidth,
-                 borderColor:borderColor,
-                 borderType:borderType */
+              if (val === 0) {
+                return val
               }
-            }
+
+            },
+            color: '#c9d0d7'
           },
-          {
-            data: lineData.growthRate,
-            name: legendNames.nameInc,
-            type: 'line',
-            symbol: 'circle',
-            symbolSize: 9,
-            stack: legendNames.nameInc,
-            /* symbol: 'circle',
-            symbolSize: 8,
-            itemStyle: {
-              normal: {
-                color: '#000',
-                borderColor: '#fff',
-                borderWidth: 3
-              }
-            },*/
-            itemStyle: {
-              normal: {
-                // color: 'rgba(252,230,48,1)',
-                // barBorderRadius: 0,
-                color: '#141518',
-                borderColor: config.upColor,
-                borderWidth: 3,
-                lineStyle: {
-                  color: config.upColor,
-                  type: 'solid',
-                  width: 3
-                },
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: '#c9d0d7',
-                  fontSize: 12,
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
-              }
-            }
-          },
-          {
-            data: lineData.growthRateLast,
-            name: legendNames.nameRate,
-            type: 'line',
-            symbol: 'circle',
-            symbolSize: 9,
-            stack: legendNames.nameRate,
-            itemStyle: {
-              normal: {
-                // color: 'rgba(252,230,48,1)',
-                // barBorderRadius: 0,
-                color: '#141518',
-                borderColor: config.upColor,
-                borderWidth: 3,
-                lineStyle: {
-                  color: config.upColor,
-                  type: 'dashed',
-                  width: 3
-                },
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: '#c9d0d7',
-                  fontSize: 12,
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
-              }
-            }
-          }
-        ],
-        // color: ['#ca4941', '#1984ea'],
-        grid: {
+          gridIndex: 1
+        }],
+
+        grid: [{
+          bottom: '60%',
           // width: '97%',
           /* width: '100%',
           height: '80%',
@@ -691,11 +956,130 @@ export default ({
           containLabel: true */
           left: 45,
           right: 10,
-          top: '19%',
+          // top: '19%',
           //  width: '100%',
-          height: '70%',
+          // height: '70%',
           show: false
-        }
+
+
+        }, {
+          top: '43%',
+          left: 45,
+          right: 10,
+          // top: '19%',
+          //  width: '100%',
+          // height: '70%',
+          //  bottom:'6%',
+          show: false
+        }],
+        series: [{
+          data: lineData.growthRate,
+          name: legendNames.nameInc,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameInc,
+          /* symbol: 'circle',
+           symbolSize: 8,
+           itemStyle: {
+             normal: {
+               color: '#000',
+               borderColor: '#fff',
+               borderWidth: 3
+             }
+           }, */
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'solid',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+
+        }, {
+          data: lineData.growthRateLast,
+          name: legendNames.nameRate,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameRate,
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'dashed',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+
+        }, {
+          data: lineData.ydata,
+          name: legendNames.nameIncome,
+          type: 'bar',
+          barWidth: 50,
+          stack: legendNames.nameIncome,
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              color: '#c9d0d7',
+              formatter: function(params) {
+                return params.value
+              }
+            }
+          },
+          itemStyle: {
+            normal: {
+              // color:themeColor,
+              /*    color: function (params){
+
+                       console.log(params.dataIndex)
+                       if (params.dataIndex === 0) {
+                         return 'transparent'
+                       } else {
+                         return '#ca4941'
+                       }
+                     
+                 }, */
+              /* borderWidth: borderWidth,
+               borderColor:borderColor,
+               borderType:borderType */
+            }
+          },
+          xAxisIndex: 1,
+          yAxisIndex: 1
+        }]
       };
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)

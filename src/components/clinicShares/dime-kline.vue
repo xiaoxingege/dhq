@@ -244,12 +244,12 @@ export default ({
         data.times.push(time)
         data.tradeTimeArr.push(time)
 
-        let openPx = item.openPx
-        let closePx = item.closePx
-        const highPx = item.highPx
-        const lowPx = item.lowPx
-        const volume = item.volume
-        const prevClosePx = item.prevClosePx
+        let openPx = item.openPx.toFixed(2)
+        let closePx = item.closePx.toFixed(2)
+        const highPx = item.highPx.toFixed(2)
+        const lowPx = item.lowPx.toFixed(2)
+        const volume = item.volume.toFixed(2)
+        const prevClosePx = item.prevClosePx.toFixed(2)
         data.kdata.push([openPx, closePx, highPx, lowPx])
         data.markLineData.push([{
             coord: [data.times[0], stressPrice],
@@ -458,8 +458,6 @@ export default ({
                 lowPx = objarr[4];
                 volume = t[0].value;
 
-                return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
-                  '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
               }
             } else if (axisid === 0) {
               objarr = obj.value; // 开盘 收盘  最高 最低  成交量
@@ -470,11 +468,20 @@ export default ({
                 lowPx = objarr[4];
                 volume = t[1].value;
 
-                return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
-                  '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
+                /*  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+                    '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--'); */
               }
             }
 
+            if (volume > 100000000) {
+              volume = (volume / 100000000).toFixed(2) + '亿手'
+            } else if (volume > 10000) {
+              volume = (volume / 10000).toFixed(2) + '万手'
+            } else {
+              volume = volume.toFixed(2) + '手';
+            }
+            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+              '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
           }
         },
         animation: false,
