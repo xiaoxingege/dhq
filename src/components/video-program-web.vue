@@ -9,7 +9,7 @@
   .item3{width: 100%;height: 783px;background:  url('../assets/images/video-program/item-bg_03.jpg')  repeat 50% 50%;position: relative;}
     .item3>p{color: #fee741;}
     .item3>div{width: 940px;height: 783px;background:  url('../assets/images/video-program/main-bg.png')  no-repeat 50% 50%;margin: 0 auto;overflow: hidden;}
-    .item3>div img{width: 920px;height: 760px;margin: 0 auto;margin-top: 10px;}
+    .item3>div img{width: 876px;height: 670px;margin: 0 auto;margin-top: 50px;}
   .item4{width: 100%;height: 591px;background:  url('../assets/images/video-program/item-bg_04.jpg')  repeat 50% 50%}
     .item4 ul{width: 936px;height: 591px;margin: 0 auto;overflow: hidden;}
     .item4 li:first-child{width: 268px;height: 380px;background: url('../assets/images/video-program/teacher-img.png')  repeat 50% 50%;float: left;margin-left: 32px;margin-top: 50px;}
@@ -17,9 +17,9 @@
     .item4 li:first-child +li{width: 603px;height: 379px;background: url('../assets/images/video-program/teacher-dec.png')  repeat 50% 50%;float: left; margin-left: 32px;overflow: hidden;margin-top: 50px;}
     .item4 li:first-child +li>div{width: 544px;height: 46px;border-radius: 23px;background: #aa0108;margin-top: 25px;margin-left: 28px;}
     .item4 li:first-child +li>div h2{font-size: 32px;line-height: 46px;color: #feed7e;float: left;margin-left: 30px;}
-    .item4 li:first-child +li>div i{font-size: 24px;line-height: 46px;color: #fff;margin-left: 25px;}
+    .item4 li:first-child +li>div i{font-size: 24px;line-height: 46px;color: #fff;margin-left: 25px;float: left;}
     .item4 li:first-child +li>p{font-size: 20px;line-height: 36px;color: #fff;margin-left: 28px;margin-top: 10px;margin-right: 50px;}
-    .more{width: 120px;height: 36px;display:  inline-block;border-radius: 5px;font-size: #fff;line-height: 36px;text-align: center;background: #d62c2e;}
+    .more{width: 120px;height: 36px;display:  inline-block;border-radius: 5px;font-size: 20px;line-height: 36px;text-align: center;background: #d62c2e;color: #fff;}
   .item5{width: 100%;height: 621px;background:  url('../assets/images/video-program/item-bg_05.jpg')  repeat 50% 50%;position: relative;}
     .item5>div{width: 940px;height: 511px;background: url('../assets/images/video-program/item5-conBg.png') no-repeat 100% 100%;margin: 0 auto;overflow: hidden;}
     .item5>p,.item6>p{color: #fff;}
@@ -36,10 +36,12 @@
   }
   table{color: #fff;width: 860px;height: 250px;margin: 0 auto;margin-top: 64px;text-align: center;}
   tr{height: 50px;line-height: 50px;color: #2e0101;}
-  td{background: #fff;border-bottom: 1px solid #d9b900;border-right: 1px solid #d9b900;box-sizing: border-box;}
+  table tr:first-child td{font-size: 20px;font-weight: bold;}
+  td{background: #fff;border-bottom: 1px solid #d9b900;border-right: 1px solid #d9b900;box-sizing: border-box;font-size: 18px;}
   tr td:first-child{border-left: 1px solid #d9b900;}
   table tr:first-child td{background: #fee843;border-top:1px solid #d9b900; }
   img{width: 100%;height: 100%;display: block;}
+  a:visited{color: #fff;}
 </style>
 <template>
   <div class="video">
@@ -47,7 +49,7 @@
     <div class="item2">
       <p class="tit">{{data.videoTitle}}</p>
       <div>
-        <video :src="data.videoSrc" autoplay="autoplay"  controls ></video>
+        <video :src="data.videoSrc" autoplay="autoplay"  controls id="myvideo"></video>
       </div>
     </div>
     <div class="item3">
@@ -60,7 +62,7 @@
       <ul class="clearfix">
         <li><img :src="data.teacherImg" alt="" ></li>
         <li>
-          <div>
+          <div class="clearfix">
             <h2>{{data.teacherName}}</h2>
             <i>{{data.teacherTit}}</i>
           </div>
@@ -118,7 +120,8 @@ import $ from 'jquery'
 export default {
   data() {
     return {
-      data:''
+      data:{},
+      timeId:''
     }
   },
   components: {
@@ -131,18 +134,51 @@ export default {
 
   },
   mounted() {
+      document.title = '纵横股今'
       var self = this;
-      $.ajax({
-        url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=179',
-        type: 'get',
-        dataType: 'jsonp', 
-        success:function(jsondata){
-            self.data = JSON.parse(jsondata.data)
-        },
-        error:function(e){
-          // console.log(e);
+      document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625+ '%'
+
+      var p = new Promise(function(resolve, reject){        
+            $.ajax({
+              url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=179',
+              type: 'get',
+              dataType: 'jsonp', 
+              success:function(jsondata){
+                  self.data = JSON.parse(jsondata.data)
+                  resolve(self.data);
+              },
+              error:function(e){
+                // console.log(e);
+              }
+          }) 
+      });
+
+      p.then(function(data){
+        self.timeId = Number(Math.random().toString().substr(3,20) + Date.now()).toString(36);
+        var myvideo=document.getElementById('myvideo');
+        var timer;
+        var num = 0;
+        myvideo.addEventListener('play',function(){
+          if( num === 0 ){
+            num++;
+            window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=start','WT.ti',data.videoTitle);
+            timeOn();
+          }else{
+            timeOn();
+          }  
+        });
+        myvideo.addEventListener('pause',function(){
+          clearInterval(timer);
+        });
+        function timeOn(){
+            timer = setInterval( () => {
+              window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=on','WT.ti',data.videoTitle);
+            },10000);         
         }
-    })
+      })
+  },
+  beforeDestroy(){
+    window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time=10&type=end','WT.ti',this.data.videoTitle);
   }
 
 }
