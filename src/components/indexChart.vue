@@ -593,6 +593,18 @@ export default {
         moveDownName = _this.moveDownBlockData.idxName
       }
       const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
+      let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
+      let pointUpY = moveUpY + 5 + 20 * Dvalue / chartHeight; // 上涨板块指示线的终点Y坐标
+      let lineDownY = moveDownY - 5; // 下跌板块指示线的终点Y坐标
+      let pointDownY = moveDownY - 5 - 20 * Dvalue / chartHeight; // 下跌板块指示线的终点Y坐标
+      if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
+        lineUpY = moveUpY - 5
+        pointUpY = moveUpY - 5 - 20 * Dvalue / chartHeight
+      }
+      if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
+        lineDownY = moveDownY + 5
+        pointDownY = moveDownY + 5 + 20 * Dvalue / chartHeight
+      }
       // 图表初始化
       this.chart.setOption({
         title: {
@@ -736,7 +748,7 @@ export default {
                   }
                 },
                 {
-                  coord: [moveUpX, moveUpY + 5],
+                  coord: [moveUpX, lineUpY],
                   symbol: 'circle',
                   symbolSize: 0.1,
                   lineStyle: {
@@ -761,7 +773,7 @@ export default {
                   }
                 },
                 {
-                  coord: [moveDownX, moveDownY - 5],
+                  coord: [moveDownX, lineDownY],
                   symbol: 'circle',
                   symbolSize: 0.1,
                   lineStyle: {
@@ -801,7 +813,7 @@ export default {
             },
             data: [{
                 name: '上涨板块',
-                coord: [moveUpX, moveUpY + 5 + 20 * Dvalue / chartHeight],
+                coord: [moveUpX, pointUpY],
                 itemStyle: {
                   normal: {
                     borderWidth: 1,
@@ -820,7 +832,7 @@ export default {
               },
               {
                 name: '下跌板块',
-                coord: [moveDownX, moveDownY - 5 - 20 * Dvalue / chartHeight],
+                coord: [moveDownX, pointDownY],
                 itemStyle: {
                   normal: {
                     borderWidth: 1,
