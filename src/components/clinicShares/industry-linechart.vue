@@ -259,7 +259,7 @@ export default ({
       if (klineData.length <= 60) {
         klineData.forEach((item, index) => {
           const infoIndex = Number(item.infoIndex).toFixed(2)
-          const techIndex = Number(item.techIndex).toFixed(2)
+          const techIndex = Number(item.techIndex).toFixed(2) // 行业指数
           let time = ''
           time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
           this.data.times.push(time)
@@ -386,12 +386,12 @@ export default ({
           },
           data: lineData.times
         },
-        yAxis: {
-
+        yAxis: [{
+          show: true,
           // type: 'category', 
           type: 'value',
           // name: this.floatYname,
-
+          position: 'left',
           nameTextStyle: {
             color: '#c9d0d7',
             padding: [0, 0, 0, 110]
@@ -421,10 +421,52 @@ export default ({
             },
             color: '#c9d0d7'
           }
-        },
+          /* ,
+                     min: 'dataMin',
+                     max: 'dataMax' */
+        }, {
+          show: true,
+          // type: 'category', 
+          type: 'value',
+          // name: this.floatYname,
+          position: 'right',
+          nameTextStyle: {
+            color: '#c9d0d7',
+            padding: [0, 0, 0, 110]
+          },
+
+          nameGap: 6,
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
+          axisTick: {
+            show: true,
+            alignWithLabel: false
+          },
+          axisLabel: {
+            formatter: function(val) {
+              return val
+            },
+            color: '#c9d0d7'
+          }
+          /* ,
+                     min: 'dataMin',
+                     max: 'dataMax' */
+        }],
 
         series: [{
-            data: lineData.infoIndex,
+            yAxisIndex: 0,
+            data: lineData.techIndex,
             name: lineData.induName + this.legendName1,
             type: 'line',
             barWidth: 35,
@@ -440,7 +482,8 @@ export default ({
 
           },
           {
-            data: lineData.techIndex,
+            yAxisIndex: 1,
+            data: lineData.infoIndex,
             name: lineData.induName + this.legendName2,
             type: 'line',
             barWidth: 35,
@@ -468,7 +511,7 @@ export default ({
 
         ],
         // color: ['#ca4941', '#1984ea'],
-        grid: {
+        grid: [{
           // width: '97%',
           /* width: '100%',
           height: '80%',
@@ -477,12 +520,18 @@ export default ({
           show: true,
           borderColor: '#2A2E36',
           containLabel: true */
+
+          /* left: 45,
+           right: 10,
+           top: '10%',
+           height: '81%',
+           show: false */
+          // bottom: '16%',
           left: 45,
-          right: 10,
-          top: '10%',
-          height: '81%',
+          right: 22,
+          height: '70%',
           show: false
-        }
+        }]
       };
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)

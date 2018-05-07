@@ -84,7 +84,7 @@ body {
     <ClinicDimension :innerCode='innerCode' :isShow='isType' />
   </div>
   <div class="foot-tishi clearfix">
-    风险提示：诊断结果基于自动模型加工客观数据而成，仅供参考，不构成绝对投资建议，风险自担！
+    风险提示：诊股结果基于各统计模型计算而来，仅供投资者投资参考，不作为买卖建议，风险自担！
   </div>
 </div>
 </template>
@@ -145,15 +145,9 @@ export default {
   mounted() {
 
     this.init()
-    /*  alert(111111)
-      if (window.Z3) {
-          window.Z3.SndTokenInfo((info) => {
-            const authInfo = JSON.parse(info)
-             for(var key in authInfo){
-                 alert(key+','+authInfo[key])
-             } 
-          })
-        } */
+    // alert(111111)
+    // alert(this.$route.query.query)
+    // alert(this.$route.params.innerCode)
     // console.log(this.innerCode)
     // console.log(this.$route.params)
   },

@@ -463,7 +463,7 @@ export default ({
               silent: true,
               symbol: ['none', 'none'],
               data: [{
-                yAxis: 5
+                yAxis: 50
               }],
               label: {
                 normal: {

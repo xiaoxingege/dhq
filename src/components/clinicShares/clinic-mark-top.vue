@@ -86,7 +86,9 @@ body {
 .green {
     color: $downColor;
 }
-
+.lightcolor {
+    color: $wordsColorBase;
+}
 .c_txt {
     color: $wordsColorBase;
 }
@@ -201,7 +203,8 @@ body {
 }
 .clinic-top-center {
     border-right: 1px solid $lineAndTitleColor;
-    width: 33%;
+    /*  width: 33%; */
+    width: 31%;
 }
 .radar-box {
     height: 180px;
@@ -216,13 +219,16 @@ body {
 }
 .clinic-top-right {
     padding-left: 70px;
-    width: 37%;
+    /* width: 37%; */
+    width: 40%;
 }
 .short-title {
     padding-bottom: 12px;
     font-size: 14px;
 }
-.short-detail {}
+.short-detail {
+    padding-right: 20px;
+}
 .short-tit {
     font-size: 14px;
 }
@@ -263,14 +269,18 @@ body {
     /*border-radius: 10px;*/
     z-index: 999;
     /*line-height: 22px;*/
-    left: 150px;
+
     /*right: 0;*/
     top: 82%;
     border: 1px solid $lineAndTitleColor;
     display: inline-block;
     text-align: center;
-    min-width: 80px;
-    max-width: 100px;
+    /*  left: 150px; */
+    /* min-width: 80px;
+    max-width: 100px; */
+    left: 50px;
+    min-width: 180px;
+    max-width: 400px;
 }
 .desc-red {
     border: 1px solid $upColor;
@@ -286,6 +296,14 @@ body {
 .desc-green:hover {
     color: #06e607;
     border: 1px solid #06e607;
+}
+.desc-lightcolor {
+    border: 1px solid #525a65;
+
+}
+.desc-lightcolor:hover {
+    color: #fff;
+    border: 1px solid #fff;
 }
 .messdesc-box {
     display: inline;
@@ -386,10 +404,10 @@ body {
   </div>
   <div class="value-box">
     <div class="short-line-value">
-      <div class="short-title">短线价值</div>
+      <div class="short-title">短线分析</div>
       <!-- <a href="#wrap"> -->
       <div class="short-fund" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">资金面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'capital')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="short of smartStock.shortCapital" v-if="short.status===0" class="no-value">无</span> -->
       </div>
 
@@ -398,7 +416,7 @@ body {
       </div>
       <!-- </a> -->
       <div class="short-fund" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">技术面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'techs')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="(short,index) of smartStock.shortTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
 
       </div>
@@ -408,10 +426,10 @@ body {
 
       <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="label-tit">消息面：</div>
-        <!--  <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.content}}<i>{{short.tag}}</i></a> -->
+        <!--  <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.title}}<i>{{short.tag}}</i></a> -->
         <div class="pl-5c messdesc-box" v-for="short of smartStock.shortMessages" @click="fundShow($event,'newsinfo')">
           <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="short.status===-1?'desc-green green':'desc-red red'">
-             {{short.content}}
+             {{short.title}}
           </a>
           <i>{{short.tag}}</i>
         </div>
@@ -424,10 +442,10 @@ body {
 
     </div>
     <div class="mid-line-value">
-      <div class="short-title">中线价值</div>
+      <div class="short-title">中线分析</div>
       <!-- <a href="#wrap"> -->
       <div class="short-fund" v-if="smartStock.midCapital && smartStock.midCapital.length>0">资金面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'capital')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="short of smartStock.midCapital" v-if="short.status===0" class="no-value">无</span> -->
       </div>
       <div class="short-fund" v-else>资金面：
@@ -435,14 +453,14 @@ body {
       </div>
       <!--  </a> -->
       <div class="short-fund" v-if="smartStock.bases && smartStock.bases.length>0">基本面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'base')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="short of smartStock.bases" v-if="short.status===0" class="no-value">无</span> -->
       </div>
       <div class="short-fund" v-else>基本面：
         <span class="no-value">无</span>
       </div>
       <div class="short-fund" v-if="smartStock.midTechs && smartStock.midTechs.length>0">技术面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'techs')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
         <!--  <span v-for="(short,index) of smartStock.midTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
 
       </div>
@@ -454,7 +472,7 @@ body {
         <div class="label-tit">消息面：</div>
         <div class="pl-5c messdesc-box" v-for="short of smartStock.midMessages" @click="fundShow($event,'newsinfo')">
           <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="short.status===-1?'desc-green green':'desc-red red'">
-             {{short.content}}
+             {{short.title}}
           </a>
           <i>{{short.tag}}</i>
         </div>
@@ -465,7 +483,7 @@ body {
         <span class="no-value">无</span>
       </div>
       <div class="short-fund" v-if="smartStock.indus && smartStock.indus.length>0">行业面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'industry')">{{short.content}}<i>{{short.tag}}</i></a>
+        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" :class="checkStatus(short.status)" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag}}</i></a>
         <!-- <span v-for="short of smartStock.indus" v-if="short.status===0" class="no-value">无</span> -->
 
       </div>
@@ -487,7 +505,7 @@ export default {
     return {
       iconHelpMsg: '基于资金面、基本面、技术面、消息面和行业面5维度的综合评分，越高越看好未来表现，越低说明存在未来不确定风险。',
       iconHelpMsg2: '综合资金面、基本面、技术面、消息面和行业面5维度表现，智能给出短线(3天)、中线(20天)行情解读和操盘建议。',
-      leixing: ''
+      labelPosition: 'top'
     }
   },
   computed: mapState({
@@ -506,6 +524,7 @@ export default {
         radarAllData: radarAllData
 
       }
+
     }
 
   }),
@@ -544,11 +563,9 @@ export default {
       this.$emit('changeShowValue', type)
     },
     drawCharts(radarAllData) {
+
       this.chart.setOption({
-        // backgroundColor:'#fff',
-        tooltip: {
-          trigger: 'axis'
-        },
+
         radar: {
           indicator: [{
             text: '资金面',
@@ -604,75 +621,62 @@ export default {
            } */
         },
         series: [{
-          type: 'radar',
-          symbol: 'none',
-          /* tooltip: {
-              trigger: 'item'
-          }, */
-          /* symbol: 'circle',
-          symbolSize: 5,
-          radius:'', */
-          data: [{
-            value: radarAllData
-          }],
-          lineStyle: {
-            normal: {
-              color: '#fff',
-              opacity: 0
-            }
-          },
-          itemStyle: {
-            normal: {
+            name: '雷达图',
+            type: 'radar',
+            symbol: 'circle',
+            itemStyle: {
+              emphasis: {
+                areaStyle: {
+                  color: '#ff2e29',
+                  opacity: 0.5
+                },
+                label: {
+                  show: true,
+                  formatter: function(params) {
 
-              areaStyle: {
-                normal: {
-                  color: {
-                    type: 'linear',
-                    x: 0,
-                    y: 0,
-                    x2: 0,
-                    y2: 1,
-                    colorStops: [{
-                      offset: 0,
-                      color: '#ca4941'
-                    }, {
-                      offset: 1,
-                      color: '#ca4941'
-                    }],
-                    globalCoord: false
-                  }
-                }
-              },
-
-              label: {
-                normal: {
-                  show: false,
-                  formatter: function(params) {},
+                  },
                   position: 'top'
                 }
-              }
+              },
+              normal: {
+                areaStyle: {
+                  normal: {
+                    color: {
+                      type: 'linear',
+                      x: 0,
+                      y: 0,
+                      x2: 0,
+                      y2: 1,
+                      colorStops: [{
+                        offset: 0,
+                        color: '#ca4941'
+                      }, {
+                        offset: 1,
+                        color: '#ca4941'
+                      }],
+                      globalCoord: false
+                    }
+                  }
+                }
 
+              }
             },
-            emphasis: {
-              areaStyle: {
-                color: '#ff2e29'
-              }
-              /* ,
-                                    lineStyle: {
-                                        color:'#ff2e29'
-                                       
-                                    },
-                                    itemStyle: {
-                                        color: '#ff0',
-                                        borderColor: '#000'
-                                      
-                                    }  */
-            }
-          },
-          color: ['#ca4941', '#D65838']
-        }]
-      })
+            data: [{
+              value: radarAllData,
+              lineStyle: {
+                normal: {
+                  color: '#fff',
+                  opacity: 0
+                }
 
+              }
+
+
+            }]
+          }
+
+        ]
+      })
       window.addEventListener('resize', () => this.chart.resize(), false)
 
     },
@@ -684,6 +688,15 @@ export default {
       // return (num * 100).toFixed(0) + '%'
 
       return num * 100 >= 99 ? parseInt(num * 100) + '%' : Math.round(num * 100) + '%'
+    },
+    checkStatus(status) {
+      if (status === 1) {
+        return 'desc-red red'
+      } else if (status === 2) {
+        return 'desc-green green'
+      } else {
+        return 'desc-lightcolor lightcolor'
+      }
     },
     changeDate(time) {
       if (time === 0) {

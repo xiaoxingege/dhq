@@ -282,8 +282,8 @@ export default {
       industryYname: '分值（满分10分）',
       legendName1: '行业均值',
       legendName2: '个股水平',
-      legendNameInfo: '舆情指数',
-      legendNameTech: '热度指数',
+      legendNameInfo: '行业指数',
+      legendNameTech: '舆情指数',
       legendNameIndu: '评分',
       legendShow: false,
       curPage: 'capital', // 'capital'|'base'|'techs'|'newsinfo'|'industry'
