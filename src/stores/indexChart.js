@@ -15,7 +15,7 @@ export default {
       cybzChartData: null
     },
     barData: null,
-    moveTopBlock: []
+    moveBlock: []
   },
   mutations: {
     setSzzsChartData(state, result) {
