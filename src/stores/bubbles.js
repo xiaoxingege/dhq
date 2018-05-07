@@ -222,7 +222,9 @@ export default {
     setBubblesLine(state, result) {
       if (result.body.errCode === 0) {
         if (result.type === 3) {
-          state.ztgBubblesLine = result.body.data
+          state.ztgBubblesLine = result.body.data.sort(function(a, b) {
+            return b.chg - a.chg
+          })
         } else {
           state.ztgBubblesLine = result.body.data.reverse()
           state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
@@ -280,9 +282,13 @@ export default {
 
         for (let key in result.data) {
           let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          lineResult[time] = result.data[key]
-        }
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
 
+        }
         timeline.forEach(function(k, v) {
           if (lineResult[k] !== undefined) {
             state.ztgCompare.up.push([k, lineResult[k][0]])
@@ -328,11 +334,16 @@ export default {
 
 
       if (result.errCode === 0) {
+        state.zbgLine = []
         let lineResult = {}
 
         for (let key in result.data) {
           let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          lineResult[time] = result.data[key]
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
         }
         timeline.forEach(function(k, v) {
           if (lineResult[k] !== undefined) {
@@ -347,10 +358,16 @@ export default {
       }
     },
     setNewStockList(state, result) {
-      if (result.errCode === 0) {
-        state.newStockList = result.data.sort(function(a, b) {
-          return b.chg - a.chg
-        })
+      if (result.body.errCode === 0) {
+        if (result.type === 0 || result.type === 1) {
+          state.newStockList = result.body.data.sort(function(a, b) {
+            return b.chgNum - a.chgNum
+          })
+        } else if (result.type === 2) {
+          state.newStockList = result.body.data.sort(function(a, b) {
+            return b.chg - a.chg
+          })
+        }
 
         // state.newStockList = result.data
       } else {
@@ -485,11 +502,19 @@ export default {
 
         for (let key in result.data.condition) {
           let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          lineConditionResult[time] = result.data.condition[key]
+          if (time === '11:30' || time === '13:00') {
+            lineConditionResult['11:30/13:00'] = result.data.condition[key]
+          } else {
+            lineConditionResult[time] = result.data.condition[key]
+          }
         }
         for (let key in result.data.szIndex) {
           let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          lineszIndexResult[time] = result.data.szIndex[key]
+          if (time === '11:30' || time === '13:00') {
+            lineszIndexResult['11:30/13:00'] = result.data.szIndex[key]
+          } else {
+            lineszIndexResult[time] = result.data.szIndex[key]
+          }
         }
         timeline.forEach(function(k, v) {
           if (lineConditionResult[k] !== undefined) {
@@ -537,11 +562,16 @@ export default {
 
 
       if (result.errCode === 0) {
+        state.ystLineData = []
         let lineResult = {}
 
         for (let key in result.data) {
           let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
-          lineResult[time] = result.data[key]
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
         }
         timeline.forEach(function(k, v) {
           if (lineResult[k] !== undefined) {
@@ -724,7 +754,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setNewStockList', body)
+        commit('setNewStockList', {
+          body,
+          type
+        })
       })
     },
     sortNewStockList({

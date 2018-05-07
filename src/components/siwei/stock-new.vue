@@ -114,7 +114,7 @@ export default {
         {
           name: '涨跌幅',
           type: 'chg',
-          showImg: true,
+          showImg: false,
           showBImg: false
         },
         {
@@ -126,7 +126,7 @@ export default {
         {
           name: '累计涨幅',
           type: 'zfnum',
-          showImg: false,
+          showImg: true,
           showBImg: false
         },
         {
@@ -228,7 +228,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 60,
+            right: 45,
             bottom: 50
           },
           tooltip: {
@@ -267,7 +267,7 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln(2+开板后累计涨幅)'
+                  return 'ln(2+累计涨幅)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -538,7 +538,7 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return 'ln(2+开板后累计涨幅)'
+                  return 'ln(2+累计涨幅)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)

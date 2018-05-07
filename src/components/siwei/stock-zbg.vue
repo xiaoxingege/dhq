@@ -119,7 +119,8 @@ export default {
   },
   computed: mapState({
     ztgList: state => state.bubbles.ztgBubblesLine,
-    stockListTime: state => state.bubbles.stockListTime
+    stockListTime: state => state.bubbles.stockListTime,
+    isTop: state => state.bubbles.isTop
   }),
   methods: {
     setDialog(data) {

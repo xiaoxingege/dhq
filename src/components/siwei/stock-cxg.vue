@@ -12,7 +12,8 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-            <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+            <span ref="sortSpan" :sortType="item.type === 'afterKb' ? 'asce':''"
+                  @click="sortList(item.type,index,$event)"
                   @mouseover="showTitleDetail(item.type,'over',$event)"
                   @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
                   <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
@@ -107,7 +108,7 @@ export default {
         {
           name: '涨跌幅',
           type: 'chg',
-          showImg: true,
+          showImg: false,
           showBImg: false
         },
         {
@@ -119,7 +120,7 @@ export default {
         {
           name: '开板涨幅',
           type: 'afterKb',
-          showImg: false,
+          showImg: true,
           showBImg: false
         },
         {
