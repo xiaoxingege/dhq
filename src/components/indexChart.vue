@@ -995,7 +995,6 @@ export default {
     moveBlockData: {
       deep: true,
       handler: function() {
-        debugger
         this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
       }
     }
