@@ -5,7 +5,7 @@
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
-          <span v-if="item.postiveIndex != '' " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
+          <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">{{item.title}}</span>
@@ -13,7 +13,7 @@
         </div>
         <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,200)}}</span>
+            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
         </div>
@@ -51,7 +51,7 @@
   let intervalId = ''
   let intervalId2 = ''
   import 'whatwg-fetch'
-  import { cutString } from 'utils/date'
+  import { cutString,formatDate } from 'utils/date'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
@@ -70,9 +70,14 @@
     mounted() {
       this.loadList()
       this.updateNews()
-      intervalId2 = setInterval(() => {
+      var date = new Date()
+      var nowTime = formatDate(date,'hh:mm')
+      if(nowTime < "09:25" ||  nowTime > "15:30") {
+        console.log(nowTime)
+        clearInterval(intervalId2)
+      }else{
         this.updateTopic()
-      },30000)
+      }
     },
     computed: {
       ...mapState([
@@ -176,7 +181,11 @@
         this.$store.commit('UPDATE_RELSTOCK', stock)
       },
       updateTopic() {
-        // console.log(this.topicCode)
+        intervalId2 = setInterval(() => {
+          this.getTopicData()
+        },60000)
+      },
+      getTopicData(){
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
       },
       subscribeStock() {
@@ -206,11 +215,6 @@
           this.updateStock(this.stockMessage)
         }
       },
-      // topicCode() {
-      //   if(this.topicCode) {
-      //     this.updateTopic()
-      //   }
-      // },
       socketState() {
         if (this.socketState === 1) {
           // 建立连接
@@ -222,14 +226,14 @@
       }
     },
     filters: {
-      isNull(value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum(value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {
@@ -266,6 +270,7 @@
   .name {
       font-size: 14px;
       font-weight: bold;
+      color: #caced7;
   }
   .source {
       color: #656766;
@@ -286,7 +291,6 @@
           border: 1px solid #0d1112;
           background-color: #1a1b1f;
           padding: 10px 10px 10px 5px;
-
           a {
               color: $wordsColorBase;
               &:hover {
@@ -302,13 +306,10 @@
           font-size: 12px;
           display: inline-block;
           border: 1px solid #c9d0d7;
-          height: 17px;
+          line-height: 1.4;
           padding: 0 8px;
           border-radius: 10px;
           margin-right: 20px;
-          a {
-              color: #fff;
-          }
           span {
               margin-left: 8px;
               &:first-child {

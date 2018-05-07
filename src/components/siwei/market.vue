@@ -27,8 +27,7 @@
             </div>
             <div class="news" v-if="newsObj(stock.msg).newsId">
               <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msg).newsId}}"
-                target="_blank" class="news_tit">{{newsObj(stock.msg).title}}</router-link>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msg).title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
               <li class="topic" v-for="topic in stock.topics">
@@ -51,8 +50,7 @@
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
             </div>
             <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}"
-                target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
             </div>
             <table class="stockList">
               <tr v-for="stock of plate.baseDetailList" @dblclick="openStock(stock.symbol)">
@@ -93,6 +91,7 @@ export default {
       plateLastTime: '',
       stockList: [],
       plateList: [],
+      xData: [],
       legendData: [{
           value: '-0.5%',
           color: '#00d641'
@@ -141,8 +140,16 @@ export default {
       let data = this.$store.state.marketBubble.bubbleData;
       let bubbles = [];
       let lbl = {};
+      this.xData = [];
       data.forEach((stock, index) => {
         const symbolSize = this.matchSize(Math.abs(stock.bubbleSize));
+        // 如果量比为0，则转为1.新股没有量比数据
+        if (Number(stock.xData) === 0) {
+          stock.xData = 1;
+        } else {
+          stock.xData = Number(stock.xData);
+        }
+        this.xData.push(Math.log(stock.xData));
         if (symbolSize < 30) {
           lbl = {
             position: 'bottom',
@@ -158,13 +165,19 @@ export default {
             formatter: stock.name.substring(0, 2) + '\n' + stock.name.substring(2)
           }
         }
+        const color = this.matchColor(stock.bubbleSize);
         let item = {
           name: stock.name,
           value: [Math.log(Number(stock.xData)), Number(stock.yData)],
           symbolSize: symbolSize,
           itemStyle: {
             normal: {
-              color: this.matchColor(stock.bubbleSize)
+              color: color,
+              opacity: 0.6
+            },
+            emphasis: {
+              color: color,
+              opacity: 0.6
             }
           },
           label: {
@@ -215,6 +228,15 @@ export default {
   },
   methods: {
     initStocks() {
+      const bubbles = this.bubbles;
+      let maxX = Math.max(...this.xData);
+      let minX = Math.min(...this.xData);
+      if (maxX > 0) {
+        maxX = maxX * 1.1
+      } else {
+        maxX = maxX * 0.9
+      }
+      const intervalX = (maxX - minX) / 5;
       this.chart.setOption({
         grid: [{
             width: 'auto',
@@ -273,9 +295,16 @@ export default {
           axisTick: {
             length: 0
           },
+          min: minX,
+          max: maxX,
+          interval: intervalX,
           axisLabel: {
             color: '#ccc',
+            interval: intervalX,
             formatter: (value, index) => {
+              if (value === maxX) {
+                return "ln(l量比)           ";
+              }
               return value.toFixed(2);
             }
           }
@@ -288,9 +317,9 @@ export default {
               show: true,
               lineStyle: {
                 color: ['#32343E', '#32343E', '#32343E', '#32343E', '#32343E', '#505A66']
-                // color:'#32343E'
               }
             },
+            splitNumber: 4,
             axisTick: {
               interval: 1,
               length: 0
@@ -381,12 +410,9 @@ export default {
 
             }
           },
-          data: this.bubbles
+          data: bubbles
         }]
       });
-    },
-    initBubbleChart() {
-
     },
     openStock(code) {
       window.open(`stock/${code}`);
@@ -394,19 +420,20 @@ export default {
     matchColor(value) {
       let range = this.legendData;
       let color = '';
+      value = Number(value);
       if (value > 0) {
-        if (value >= range[8].value) {
+        if (value >= parseFloat(range[8].value)) {
           return range[8].color
         }
         range = range.slice(4, 9);
       } else {
-        if (value <= range[0].value) {
+        if (value <= parseFloat(range[0].value)) {
           return range[0].color
         }
-        range = range.slice(1, 4);
+        range = range.slice(1, 5);
       }
       range.some((item, index) => {
-        if (item.value - 0.0625 <= value && item.value + 0.0625 > value) {
+        if (parseFloat(item.value) - 0.0625 <= value && parseFloat(item.value) + 0.0625 > value) {
           color = item.color
           return true
         }
@@ -457,11 +484,27 @@ export default {
         });
       }, 0)
     },
+    updateBuuble() {
+      this.$store.dispatch('marketBubble/updateBubble', {
+        x: 'mkt_idx.volume_ratio', // 量比
+        y: 'mkt_idx.cur_chng_pct', // 涨跌幅
+        size: 'mkt_idx.rising_rate', // 涨速
+        color: 'mkt_idx.cur_chng_pct', // 涨跌幅
+        type: 0
+      }).then(() => {
+        this.initStocks();
+      });
+    },
     updateAbnormalStocks() {
       this.$store.dispatch('marketBubble/updateAbnormalStocks', {
         type: 0,
         startTime: this.stockLastTime
       });
+    },
+    updateAbnormalPlates() {
+      this.$store.dispatch('marketBubble/updateAbnormalPlates', {
+        startTime: this.plateLastTime
+      })
     }
   },
   watch: {
@@ -482,12 +525,13 @@ export default {
         return
       }
       const delta = [].concat(this.deltaPlateList).reverse();
+      this.plateLastTime = delta[0].dateTime;
       this.plateList.unshift(...delta);
     }
   },
   mounted() {
     this.chart = echarts.init(this.$refs.chart);
-    this.initStocks();
+    // this.initStocks();
     this.$store.dispatch('marketBubble/updateBubble', {
       x: 'mkt_idx.volume_ratio', // 量比
       y: 'mkt_idx.cur_chng_pct', // 涨跌幅
@@ -497,10 +541,15 @@ export default {
     }).then(() => {
       this.initStocks();
     });
+
     this.updateAbnormalStocks();
+    this.updateAbnormalPlates();
     pcid1 = setInterval(() => {
       this.updateAbnormalStocks()
-    }, 3 * 1000);
+    }, 6 * 1000);
+    pcid2 = setInterval(() => {
+      this.updateAbnormalPlates()
+    }, 60 * 1000);
     window.addEventListener('resize', () => {
       const chartWrapper = this.$refs.chart;
       let height = chartWrapper.clientHeight;
@@ -578,6 +627,9 @@ export default {
         height: calc(100% - 25px);
         overflow: auto;
     }
+    .topic {
+        color: #666;
+    }
 }
 .market .news .mark {
     padding: 2px;
@@ -605,7 +657,6 @@ export default {
         height: calc(100% - 25px);
         overflow: auto;
     }
-
 }
 .market .right .tit {
     height: 24px;
@@ -650,12 +701,13 @@ export default {
 .market .block .item {
     padding: 2px;
     span {
-        margin-right: 4px;
+        margin-right: 10px;
     }
 }
 
 .market .block .item .type {
     float: right;
+    margin-right: 0;
 }
 
 .market .news {
@@ -668,7 +720,7 @@ export default {
     overflow: hidden;
     a {
         text-align: center;
-        color: $wordsColorBase;
+        color: #666;
     }
     .name {
         overflow: hidden;

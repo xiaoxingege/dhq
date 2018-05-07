@@ -14,7 +14,7 @@ export default {
           hours = 13;
           minutes = 0;
         } else {
-          timeline.push(hours + ':' + (minutes < 10 ? '0' + minutes : minutes));
+          timeline.push((hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes));
         }
         minutes++;
         if (minutes === 60) {

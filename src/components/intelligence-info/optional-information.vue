@@ -13,21 +13,21 @@
           <div class="con-top">
             <p v-z3-updowncolor="item.equityList.chngPct">
               <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
-                <span v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
+                <span class="fontS14" v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
               </a>
-              <span>{{relatedStocks[item.equityList.code].price}}</span>
-              <span>{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
+              <span class="fontS14">{{relatedStocks[item.equityList.code].price}}</span>
+              <span class="fontS14">{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
             </p>
           </div>
           <div>
             <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-              <span class="name">[{{item.newsType | convert}} ]{{item.title}}</span>
+              <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
             </router-link>
           </div>
           <div class="con-txt">
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-              <span v-if="item.summary!==null">{{cutStr(item.summary,350)}}</span>
+              <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
             </router-link>
           </div>
           <div class="con-bottom">
@@ -248,9 +248,6 @@
       }
     },
     filters: {
-      isNull (value) {
-        return value === null || value === '' ? '--' : value
-      },
       filterNum (value, type) {
         return value === null || value === '' ? '--' : value.toFixed(2) + type
       },
@@ -259,6 +256,9 @@
       },
       code(value) {
         return value.substring(0,6)
+      },
+      trim(str) {
+         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
     },
     destroyed() {
@@ -316,6 +316,7 @@
   .name{
     font-size: 14px;
     font-weight: bold;
+    color: #caced7;
   }
   .source{
     color: #656766;
@@ -364,13 +365,10 @@
       font-size: 12px;
       display: inline-block;
       border: 1px solid #c9d0d7;
-      height: 17px;
+      line-height: 1.4;
       padding:0 8px;
       border-radius:10px;
       margin-right: 20px;
-      a{
-        color: #fff;
-      }
       span{
         margin-left: 8px;
         &:first-child{
@@ -415,4 +413,5 @@
     left:50%;
     transform: translate(-50%,-50%);
   }
+  .fontS14{font-size: 14px}
 </style>

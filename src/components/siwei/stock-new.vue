@@ -11,10 +11,13 @@
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-            <span @click="sortList(item.type,index,$event)" @mouseover="showTitleDetail(item.type)">{{item.name}}</span>
+            <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+                  @mouseover="showTitleDetail(item.type,'over',$event)"
+                  @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
                 <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                 <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
         </a>
+        <span class="titleDetail" ref="titleDetail"></span>
       </div>
       <ul ref="newListUl">
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
@@ -25,6 +28,7 @@
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
           <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
+          <span>{{item.listDate}}</span>
         </li>
       </ul>
     </div>
@@ -110,7 +114,7 @@ export default {
         {
           name: '涨跌幅',
           type: 'chg',
-          showImg: false,
+          showImg: true,
           showBImg: false
         },
         {
@@ -122,6 +126,12 @@ export default {
         {
           name: '累计涨幅',
           type: 'zfnum',
+          showImg: false,
+          showBImg: false
+        },
+        {
+          name: '上市天数',
+          type: 'ssts',
           showImg: false,
           showBImg: false
         }
@@ -218,7 +228,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 30,
+            right: 60,
             bottom: 50
           },
           tooltip: {
@@ -257,9 +267,9 @@ export default {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '累计涨幅'
+                  return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -528,9 +538,9 @@ export default {
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '累计涨幅'
+                  return 'ln(2+开板后累计涨幅)'
                 }
-                return Number(v).toFixed(2) + '%'
+                return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
               },
               textStyle: {
@@ -664,38 +674,48 @@ export default {
     toStockDetail(innerCode) {
       window.open('/stock/' + innerCode + '.shtml')
     },
-    sortList(type, indexNum) {
-      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
-        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
-        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
-        if (this.newListTitle[indexNum].showBImg) {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type,
-            sortType: 'desc'
-          })
-        } else {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type
-          })
-        }
-      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
-        this.newListTitle.forEach(function(item, index) {
-          if (indexNum === index) {
-            item.showImg = true
-          } else {
-            item.showImg = false
-            item.showBImg = false
-          }
+    sortList(type, indexNum, e) {
+      const that = this
+      let sortType = e.target.getAttribute('sortType')
+      let clearSort = () => {
+        this.$refs.sortSpan.forEach(function(item, index) {
+          that.newListTitle[index].showImg = false
+          that.newListTitle[index].showBImg = false
+          item.setAttribute('sortType', '')
         })
+      }
+      if (sortType === '') {
+        clearSort()
         this.$store.dispatch('bubbles/sortNewStockList', {
           type: type
         })
+        this.newListTitle[indexNum].showImg = true
+        e.target.setAttribute('sortType', 'asce')
+      } else if (sortType === 'asce') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type,
+          sortType: 'desc'
+        })
+        this.newListTitle[indexNum].showImg = false
+        this.newListTitle[indexNum].showBImg = true
+        e.target.setAttribute('sortType', 'desc')
+      } else if (sortType === 'desc') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+        this.newListTitle[indexNum].showImg = true
+        this.newListTitle[indexNum].showBImg = false
+        e.target.setAttribute('sortType', 'asce')
       }
-      //  this.newListTitle[index].showImg = true
     },
-    showTitleDetail(titleTime) {
-      if (titleTime === 'lznum') {
-        console.log(titleTime)
+    showTitleDetail(titleTime, isOver, e) {
+      if (isOver === 'over' && titleTime === 'lznum') {
+        this.$refs.titleDetail.style.display = 'block'
+        this.$refs.titleDetail.innerHTML = '开板前连板数'
+      } else if (isOver === 'out' && titleTime === 'lznum') {
+        this.$refs.titleDetail.style.display = 'none'
       }
     }
   },
@@ -758,16 +778,17 @@ export default {
         width: 100%;
         border-bottom: 1px solid #131417;
         padding-top: 10px;
+        position: relative;
 
         a {
-            width: 14%;
+            width: 12.5%;
             height: 100%;
             float: left;
             display: block;
             text-align: center;
 
             span {
-                height: 34px;
+                height: 17px;
                 width: 100%;
                 display: block;
                 line-height: 17px;
@@ -775,6 +796,7 @@ export default {
                 /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
+                color: #c9d0d7;
             }
 
             img {
@@ -784,6 +806,19 @@ export default {
         }
         a:first-child span {
             cursor: default;
+        }
+
+        .titleDetail {
+            display: none;
+            padding: 5px 10px;
+            color: #666666;
+            background: #cccfd9;
+            border-radius: 3px;
+            z-index: 999999;
+            line-height: 18px;
+            position: absolute;
+            top: 29px;
+            left: 214px;
         }
 
     }
@@ -796,7 +831,7 @@ export default {
             /*padding: 10px 5px 10px 10px;*/
             span {
                 float: left;
-                width: 14%;
+                width: 12.5%;
                 display: block;
                 line-height: 25px;
                 text-align: center;
