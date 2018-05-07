@@ -247,11 +247,11 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/style.scss";
 .lead-stock-box {
-    position: absolute;
+    position: fixed;
     background: #fff;
     z-index: 999;
     right: 100px;
-    top: 0;
+    top: 35px;
     overflow: hidden;
 }
 
