@@ -17,17 +17,17 @@
       <div class='stocks'>
         <div class='tit'>异动个股</div>
         <div class="list" ref="stocks_list">
-          <div class='block' v-for='stock in stockList'>
+          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.symbol)">
             <div class='time'>{{stock.dateTime | hhmmss}}</div>
             <div class='item'>
-              <span class=''>{{stock.stockName}}</span>
-              <span class=''>{{stock.symbol | simpleCode}}</span>
+              <span class=''>{{stock.stockName}}[{{stock.symbol | simpleCode}}]</span>
+              <span v-z3-updowncolor="stock.chg">{{stock.price}}</span>
               <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
               <span class='type'>{{stock.reason}}</span>
             </div>
-            <div class="news" v-if="newsObj(stock.msg).newsId">
+            <div class="news" v-if="newsObj(stock.msgId).newsId">
               <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msg).title}}</router-link>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msgId).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msgId).title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
               <li class="topic" v-for="topic in stock.topics">
@@ -43,7 +43,7 @@
       <div class="blocks">
         <div class="tit">异动板块</div>
         <div class="list">
-          <div class="block" v-for="plate of plateList">
+          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.symbol)">
             <div class="time plate_top">
               <span>{{plate.dateTime | hhmm}}</span>
               <span class="name">{{plate.industryName}}</span>
@@ -53,7 +53,7 @@
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
             </div>
             <table class="stockList">
-              <tr v-for="stock of plate.baseDetailList" @dblclick="openStock(stock.symbol)">
+              <tr v-for="stock of plate.baseDetailList">
                 <td class="name">{{stock.stockName}}</td>
                 <td class="code">{{stock.symbol}}</td>
                 <td v-z3-updowncolor="stock.chg" class="price">{{stock.price | price}}</td>
@@ -303,7 +303,7 @@ export default {
             interval: intervalX,
             formatter: (value, index) => {
               if (value === maxX) {
-                return "ln(l量比)           ";
+                return "ln(量比)           ";
               }
               return value.toFixed(2);
             }
@@ -416,6 +416,11 @@ export default {
     },
     openStock(code) {
       window.open(`stock/${code}`);
+    },
+    openPlate(code) {
+      this.$router.push({
+        name: ''
+      });
     },
     matchColor(value) {
       let range = this.legendData;
@@ -531,7 +536,7 @@ export default {
   },
   mounted() {
     this.chart = echarts.init(this.$refs.chart);
-    // this.initStocks();
+    this.initStocks();
     this.$store.dispatch('marketBubble/updateBubble', {
       x: 'mkt_idx.volume_ratio', // 量比
       y: 'mkt_idx.cur_chng_pct', // 涨跌幅
@@ -669,6 +674,9 @@ export default {
     padding: 2px 8px;
     overflow: hidden;
     margin: 0 0 4px;
+    .stockList {
+        color: #666;
+    }
 }
 .market .block:hover {
     background: #525A65;
@@ -682,8 +690,7 @@ export default {
     height: 24px;
     line-height: 24px;
     .name {
-        border: 1px solid #32343E;
-        background: #23252E;
+        border: 1px solid #525A65;
         text-align: center;
         min-width: 60px;
         padding: 0 4px;
@@ -733,7 +740,7 @@ export default {
     width: calc(25% - 4px);
     margin: 0 1px;
     background: #23252E;
-    border: 1px solid #32343E;
+    border: 1px solid #525A65;
     height: 40px;
     line-height: 20px;
     text-align: center;
