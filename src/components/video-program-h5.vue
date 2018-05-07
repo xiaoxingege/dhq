@@ -145,6 +145,7 @@ export default {
             },10000);         
         }
       })
+      
   },
   beforeDestroy(){
     window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time=10&type=end','WT.ti',this.data.videoTitle);

@@ -16,6 +16,7 @@ Vue.use(Vuex)
  * 实例化store
  */
 
+
 const store = new Vuex.Store({
   modules: {
     
