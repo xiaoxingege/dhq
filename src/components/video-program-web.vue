@@ -42,6 +42,9 @@
   table tr:first-child td{background: #fee843;border-top:1px solid #d9b900; }
   img{width: 100%;height: 100%;display: block;}
   a:visited{color: #fff;}
+  a:link{color: #fff;}
+  a:active{color: #fff;}
+  a:hover{color: #fff;}
 </style>
 <template>
   <div class="video">
@@ -68,7 +71,7 @@
           </div>
           <p>
             {{data.teacherDec}}
-            <i class="more"><a :href="data.teacherMore">查看更多</a></i>
+            <i class="more"><a :href="data.teacherMoreWeb">查看更多</a></i>
           </p>
         </li>
       </ul>
@@ -98,7 +101,7 @@
         </table>
         <span>风险提示：历史涨幅空间不代表对未来涨幅的任何承诺；股市有风险，投资需谨慎。</span>
         <p class="dec">金融界智能金融、投资顾问、研究院三大团队应用最前沿的智能金融技术，鼎力打造智能量化选股
-    利器——极智选股，三大核心服务精选好股，帮助大家解决选股难题。<i class="more"><a :href="data.stockMore">查看更多</a></i></p>         
+    利器——极智选股，三大核心服务精选好股，帮助大家解决选股难题。<i class="more"><a :href="data.stockMoreWeb">查看更多</a></i></p>         
       </div>  
     </div>
 
@@ -106,7 +109,7 @@
       <p  class="conTit">{{data.teamTitle1}}<i>{{data.teamTitle2}}</i></p>
       <ul class="clearfix">
         <li v-for="item in data.teamImg">
-          <a :href="item.link">
+          <a :href="item.linkWeb">
             <img :src="item.src" alt="">
           </a>
         </li>
@@ -121,7 +124,8 @@ export default {
   data() {
     return {
       data:{},
-      timeId:''
+      timeId:'',
+      timeLength:''
     }
   },
   components: {
@@ -136,8 +140,6 @@ export default {
   mounted() {
       document.title = '纵横股今'
       var self = this;
-      document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625+ '%'
-
       var p = new Promise(function(resolve, reject){        
             $.ajax({
               url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=179',
@@ -158,27 +160,28 @@ export default {
         var myvideo=document.getElementById('myvideo');
         var timer;
         var num = 0;
-        myvideo.addEventListener('play',function(){
+        myvideo.addEventListener('play',function(event){
           if( num === 0 ){
             num++;
-            window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=start','WT.ti',data.videoTitle);
-            timeOn();
-          }else{
-            timeOn();
+            window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=0&type=start','WT.ti',data.videoTitle);
+            timeOn(event);
+          } else{
+            self.timeLength = Math.ceil(event.target.currentTime);
+            timeOn(event);
           }  
         });
         myvideo.addEventListener('pause',function(){
           clearInterval(timer);
         });
-        function timeOn(){
+        function timeOn(event){
             timer = setInterval( () => {
-              window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=on','WT.ti',data.videoTitle);
-            },10000);         
+              window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time='+Math.ceil(event.target.currentTime)+'&type=on','WT.ti',data.videoTitle);
+            },10000)     
         }
       })
   },
   beforeDestroy(){
-    window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time=10&type=end','WT.ti',this.data.videoTitle);
+    window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time='+this.timeLength+'&type=end','WT.ti',this.data.videoTitle);
   }
 
 }
