@@ -31,17 +31,17 @@ import {
 } from 'vuex'
 
 export default {
-//   options: {
-//     stockName: '',
-//     stockCode: '',
-//     valueList: [
-//        {text:'',value},
-//        {text:'',value},
-//        {text:'',value},
-//        {text:'',value},
-//     ]
-//   }
-  props: ['options','isShow'],
+  //   options: {
+  //     stockName: '',
+  //     stockCode: '',
+  //     valueList: [
+  //        {text:'',value},
+  //        {text:'',value},
+  //        {text:'',value},
+  //        {text:'',value},
+  //     ]
+  //   }
+  props: ['options', 'isShow'],
   data() {
     return {
       isShowSelection: false,
@@ -56,14 +56,14 @@ export default {
   },
   watch: {
     'options.stockCode': function() {
-        if(!this.options.stockCode){
-            return
-        }
-        this.$store.dispatch('stock/querySelection', {
-            stockCode: this.options.stockCode
-        }).then(() => {
-            this.isShowSelection = this.$store.state.stock.isSelfSelection
-        })
+      if (!this.options.stockCode) {
+        return
+      }
+      this.$store.dispatch('stock/querySelection', {
+        stockCode: this.options.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
     },
     isShow() {
       // 当设置隐藏时，延迟200ms隐藏
@@ -134,8 +134,8 @@ export default {
     width: 470px;
     height: 240px;
     background: #4B515E;
-    position:absolute;
-    z-index:10000;
+    position: absolute;
+    z-index: 10000;
 }
 .top {
     height: 34px;
