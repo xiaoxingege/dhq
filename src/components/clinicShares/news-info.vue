@@ -12,7 +12,7 @@
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary('latest', news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="newsType ==='latest' && news.newsId === newsId">
-              <p>{{news.sumary||'--'}}</p>
+              <p>{{news.summary && news.summary.slice(0,140) || '--'}}</p>
             </div>
           </li>
         </ul>
@@ -28,7 +28,7 @@
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary('important',news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="newsType === 'important' && news.newsId === newsId">
-              <p>{{news.sumary||'--'}}</p>
+              <p>{{news.summary && news.summary.slice(0,140) || '--'}}</p>
             </div>
           </li>
         </ul>

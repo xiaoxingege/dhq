@@ -6,7 +6,7 @@
       <div class="item">
         <router-link :to="{ name:'topicDetail', params: {topicId:item.effCode} }" target="_blank" class="col name" v-if="item.flag==='topic'">{{item.effName}}</router-link>
         <router-link :to="{ name:'industryDetail', params: {industryId:item.effCode} }" target="_blank" class="col name" v-else-if="item.flag==='indu'">{{item.effName}}</router-link>
-        <span class="col name" v-else>{{item.effName}}</span>
+        <a class="col name" :href="'/stock/'+item.effCode" v-else>{{item.effName}}</a>
         <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
         <span class="col time">{{item.occrDate}}</span>
       </div>
@@ -66,7 +66,7 @@ export default {
 }
 .ambush ul {
     padding: 5px 0;
-    height: calc(100% - 34px);
+    height: calc(100% - 24px);
     overflow: auto;
     li {
         overflow: hidden;
@@ -83,18 +83,18 @@ export default {
         }
         .col {
             float: left;
-            width: 38%;
+            width: 43%;
             overflow: hidden;
         }
         .chg {
-            width: 28%;
+            width: 25%;
             text-align: center;
         }
         .name {
             cursor: pointer;
         }
         .time {
-            width: 34%;
+            width: 32%;
             text-align: right;
         }
         .name:before {

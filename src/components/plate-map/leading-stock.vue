@@ -84,7 +84,7 @@ export default {
       rangeCode: this.rangeCode || '',
       kLineType: this.kLineType || '',
       isContinue: 1,
-      title: this.kLineType === 'stock' ? '领先个股' : '领先板块'
+      title: this.kLineType === 'stock' ? '领先个股' : this.kLineType === 'topic' ? '领先题材' : '领先行业'
     }
   },
   components: {},
@@ -247,11 +247,11 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/style.scss";
 .lead-stock-box {
-    position: absolute;
+    position: fixed;
     background: #fff;
     z-index: 999;
     right: 100px;
-    top: 0;
+    top: 35px;
     overflow: hidden;
 }
 

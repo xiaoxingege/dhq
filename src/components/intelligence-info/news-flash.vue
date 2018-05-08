@@ -250,17 +250,18 @@
   }
   .leftTime {
       position: relative;
-      width: 63px;
-      background-color: #26272d;
+      width: 83px;
+      background-color: #2e4465;
       text-align: center;
       border: 1px solid #0d1112;
       span {
-          width: 100%;
+          width: 88%;
           display: block;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%,-50%);
+          font-size: 14px;
       }
   }
 
@@ -272,7 +273,6 @@
   }
   .name {
       font-size: 14px;
-      font-weight: bold;
       color: #caced7;
   }
   .source {
@@ -286,7 +286,7 @@
       background-color: #525a65;
   }
   .con-txt {
-      margin: 8px 0 10px;
+      margin: 4px 0 10px;
       line-height: 18px;
   }
   .news-list {
@@ -294,6 +294,13 @@
           border: 1px solid #0d1112;
           background-color: #1a1b1f;
           padding: 10px 10px 10px 10px;
+          .con-txt{
+            a{
+              font-size: 14px;
+              color: #808ba1;
+              line-height: 20px;
+            }
+          }
           a {
               color: $wordsColorBase;
               &:hover {

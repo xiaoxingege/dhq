@@ -9,21 +9,21 @@
         <li v-if="typeIndex ===0" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <div class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
+              <div class="txt"  >
                 <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
-                <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
+                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+              <div class="txt">
                 <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
-                <p>{{item.indu.chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
+              <div class="txt">
                 <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
           </div>
@@ -45,9 +45,9 @@
         <li v-if="typeIndex === 1" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <div v-if='item.equity != null' class="txt" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct" >
+              <div v-if='item.equity != null' class="txt" >
                 <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
-                <p>{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
+                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
               </div>
             </a>
           </div>
@@ -69,15 +69,15 @@
         <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="topicList[item.topic.code].chngPct">
+              <div class="txt">
                 <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p>{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
-              <div class="txt" v-z3-updowncolor="item.indu.chngPct">
+              <div class="txt">
                 <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
-                <p>{{item.indu.chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | filterNum("%") }}</p>
               </div>
             </a>
           </div>
@@ -98,7 +98,7 @@
         </li>
         <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
           <div class="leftTime" >
-            <div class="txt" v-z3-updowncolor="1">
+            <div class="txt">
               <span :class="{fontS22:item.equity.productName.length<=5,fontS18:item.equity.productName ===6}" class="name fontS16">{{item.equity.productName | isNull}}</span>
             </div>
           </div>
@@ -404,7 +404,7 @@
       position: relative;
       width: 130px;
       min-height: 98px;
-      background-color: #26272d;
+      background-color: #2e4465;
       &.upColor {
         a {
           color: $upColor;
@@ -420,6 +420,9 @@
       p {
           font-size: 16px;
           margin-top: 10px;
+      }
+      .name{
+        color: $wordsColorBase;
       }
       .name.fontS18{font-size: 18px}
       .name.fontS16{font-size: 16px}
@@ -449,7 +452,6 @@
   }
   .name{
     font-size: 14px;
-    font-weight: bold;
   }
   .source {
       color: #656766;
@@ -462,7 +464,7 @@
       background-color: #525a65;
   }
   .con-txt {
-      margin: 8px 0 0;
+      margin: 4px 0 0;
       line-height: 18px;
   }
   .news-list {
@@ -472,6 +474,13 @@
       .news-list-item {
           background-color: #1a1b1f;
           padding: 10px 10px 10px 10px;
+          .con-txt{
+            a{
+              font-size: 14px;
+              color: #808ba1;
+              line-height: 20px;
+            }
+          }
           .name{
             color: #caced7;
           }

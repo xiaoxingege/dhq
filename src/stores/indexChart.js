@@ -127,7 +127,7 @@ export default {
     getMoveBlock({
       commit
     }) {
-      const url = 'http://test.z3quant.com/openapi/line/section'
+      const url = `${domain}/openapi/line/section`
       return fetch(url, {
         mode: 'cors'
       }).then((res) => {

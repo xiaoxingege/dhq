@@ -315,7 +315,6 @@
   }
   .name{
     font-size: 14px;
-    font-weight: bold;
     color: #caced7;
   }
   .source{
@@ -329,7 +328,7 @@
     background-color:#525a65;
   }
   .con-txt{
-    margin-top: 7px;
+    margin-top: 4px;
     line-height: 18px;
   }
   .con-top{
@@ -339,6 +338,7 @@
     }
   }
   .con-bottom{
+    margin-top: 2px;
     .time{
       margin-left: 10px;
     }
@@ -350,7 +350,14 @@
     .news-list-item{
       border: 1px solid #0d1112;
       background-color:#1a1b1f;
-      padding: 6px 10px 6px 5px;
+      padding: 6px 10px 10px 5px;
+      .con-txt{
+        a{
+          font-size: 14px;
+          color: #808ba1;
+          line-height: 20px;
+        }
+      }
       a{
         color: $wordsColorBase;
         &:hover{
