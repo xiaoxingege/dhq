@@ -119,7 +119,6 @@ export default {
               }
           }) 
       });
-
       p.then(function(data){
         self.timeId = Number(Math.random().toString().substr(3,20) + Date.now()).toString(36);
         var myvideo=document.getElementById('myvideo');
