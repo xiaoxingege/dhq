@@ -269,7 +269,6 @@
   }
   .name {
       font-size: 14px;
-      font-weight: bold;
       color: #caced7;
   }
   .source {
@@ -283,7 +282,7 @@
       background-color: #525a65;
   }
   .con-txt {
-      margin: 8px 0 10px;
+      margin: 4px 0 10px;
       line-height: 18px;
   }
   .news-list {
@@ -291,6 +290,13 @@
           border: 1px solid #0d1112;
           background-color: #1a1b1f;
           padding: 10px 10px 10px 5px;
+          .con-txt{
+            a{
+              font-size: 14px;
+              color: #808ba1;
+              line-height: 20px;
+            }
+          }
           a {
               color: $wordsColorBase;
               &:hover {
