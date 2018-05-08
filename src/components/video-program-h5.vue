@@ -88,7 +88,8 @@ export default {
   data() {
     return {
       data:{},
-      timeId:''
+      timeId:'',
+      timeLength:''
     }
   },
   components: {
@@ -104,9 +105,6 @@ export default {
       document.title = '纵横股今'
       var self = this;
       document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625+ '%'
-
-
-
       var p = new Promise(function(resolve, reject){        
             $.ajax({
               url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=179',
@@ -127,28 +125,29 @@ export default {
         var myvideo=document.getElementById('myvideo');
         var timer;
         var num = 0;
-        myvideo.addEventListener('play',function(){
+        myvideo.addEventListener('play',function(event){
           if( num === 0 ){
             num++;
-            window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=start','WT.ti',data.videoTitle);
-            timeOn();
-          }else{
-            timeOn();
+            window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=0&type=start','WT.ti',data.videoTitle);
+            timeOn(event);
+          } else{
+            self.timeLength = Math.ceil(event.target.currentTime);
+            timeOn(event);
           }  
         });
         myvideo.addEventListener('pause',function(){
           clearInterval(timer);
         });
-        function timeOn(){
+        function timeOn(event){
             timer = setInterval( () => {
-              window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time=10&type=on','WT.ti',data.videoTitle);
-            },10000);         
+              window.dcsMultiTrack('DCS.dcsuri',''+data.videoSrc+'?play_id='+self.timeId+'&play_time='+Math.ceil(event.target.currentTime)+'&type=on','WT.ti',data.videoTitle);
+            },10000)     
         }
       })
-      
+
   },
   beforeDestroy(){
-    window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time=10&type=end','WT.ti',this.data.videoTitle);
+    window.dcsMultiTrack('DCS.dcsuri',''+this.data.videoSrc+'?play_id='+this.timeId+'&play_time='+this.timeLength+'&type=end','WT.ti',this.data.videoTitle);
   }
 
 }
