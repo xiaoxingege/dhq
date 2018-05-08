@@ -39,7 +39,7 @@
     <div class="part1"></div>
     <div class="part2">
       <p>{{data.videoTitle}}</p>
-      <video :src="data.videoSrc"  controls id="myvideo"></video>
+      <video :src="data.videoSrc"  controls id="myvideo"  poster="http://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/zhuanti/01/videoBg.png"></video>
     </div>
     <div class="part3">
       <p class="tit">{{data.theme}}</p>
