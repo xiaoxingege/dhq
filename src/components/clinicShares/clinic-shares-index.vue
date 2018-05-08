@@ -1,81 +1,71 @@
 <style lang="scss" scoped>
-@import '../../assets/css/base.css';
-@import "../../assets/scss/style";
-* {
-    text-align: justify;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    box-sizing: border-box;
-    font-family: '微软雅黑';
-    font-size: $fontSizeBase;
-}
-/*$bgDeepColor:#0d0e0f;/* 最深背景 */
-/*$bgConColor:#141518;/* 内容背景 */
-/*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
-/*$bgNavColor:#404852;/* 导航外框背景 */
-/*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
-/*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
-/*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
-/*$blueWordsColor:#1984ea;/* 蓝色文字色 */
-/*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
-/*$upColor:#ca4941;/* 所有红色 上涨 */
-/*$downColor:#56a870;/* 所有绿色 上涨 */
-/*$backupYellow:#f0b540;/* 备用黄色 */
-/*$fontSizeBase:12px; /* 基本字体 */
-.topic-detail {
-    width: 100%;
-    background: #141518;
-    font-size: 12px;
-    color: #c9d0d7;
-    /* height: 100%; */
-    border-left: 1px solid #0d0e0f;
-    border-bottom: 3px solid #0d0e0f;
-}
-.app,
-body,
-html {
-    height: 100%;
-    /*background-color: $bgDeepColor;*/
-}
-
-.clinic-shares-wrap {
-    min-width: 1217px;
-    height: 100%;
-    background-color: $bgDeepColor;
-    min-height: 100%;
-    border-top: 1px solid $lineAndTitleColor;
-    border-left: 1px solid $lineAndTitleColor;
-    border-bottom: 1px solid $lineAndTitleColor;
-    margin: 3px 0 0 1px;
-    /*   float: left; */
-
-}
-
-body {
-    background-color: $bgDeepColor;
-}
-
-.c_up {
-    color: $upColor;
-}
-
-.c_down {
-    color: $downColor;
-}
-
-.c_txt {
-    color: $wordsColorBase;
-}
-.foot-tishi {
-    font-size: 12px;
-    background: #141518;
-    color: $wordsColorBase;
-    line-height: 28px;
-
-}
+  @import '../../assets/css/base.css';
+  @import "../../assets/scss/style";
+  * {
+      text-align: justify;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      box-sizing: border-box;
+      font-family: '微软雅黑';
+      font-size: $fontSizeBase;
+  }
+  /*$bgDeepColor:#0d0e0f;/* 最深背景 */
+  /*$bgConColor:#141518;/* 内容背景 */
+  /*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
+  /*$bgNavColor:#404852;/* 导航外框背景 */
+  /*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
+  /*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
+  /*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
+  /*$blueWordsColor:#1984ea;/* 蓝色文字色 */
+  /*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
+  /*$upColor:#ca4941;/* 所有红色 上涨 */
+  /*$downColor:#56a870;/* 所有绿色 上涨 */
+  /*$backupYellow:#f0b540;/* 备用黄色 */
+  /*$fontSizeBase:12px; /* 基本字体 */
+  .topic-detail {
+      width: 100%;
+      background: #141518;
+      font-size: 14px;
+      color: #c9d0d7;
+      /* height: 100%; */
+      border-left: 1px solid #0d0e0f;
+      border-bottom: 3px solid #0d0e0f;
+  }
+  .app,
+  body,
+  html {
+      height: 100%;
+  }
+  .clinic-shares-wrap {
+      max-width: 1200px;
+      height: 100%;
+      background-color: $bgDeepColor;
+      min-height: 100%;
+      margin: 3px auto 1px;
+  }
+  body {
+      background-color: $bgDeepColor;
+  }
+  .c_up {
+      color: $upColor;
+  }
+  .c_down {
+      color: $downColor;
+  }
+  .c_txt {
+      color: $wordsColorBase;
+  }
+  .foot-tishi {
+      font-size: 14px;
+      background: #141518;
+      color: $wordsColorBase;
+      line-height: 28px;
+      width: 1200px;
+      margin: auto;
+  }
 </style>
 <template>
 <div class="wrap-all clearfix">
@@ -89,70 +79,56 @@ body {
 </div>
 </template>
 <script type="text/javascript">
-import {
-  mapState
-} from 'vuex'
-import util from '../../z3tougu/util'
-import ClinicMarkTop from 'components/clinicShares/clinic-mark-top'
-import ClinicDimension from 'components/clinicShares/clinic-dimension'
-export default {
-  data() {
-    return {
-      code: this.$route.params.innerCode,
-      innerCode: '',
-      isType: ''
-    }
-  },
-  computed: mapState({
-
-
-
-  }),
-  components: {
-    ClinicMarkTop,
-    ClinicDimension
-  },
-  methods: {
-    init: function() {
-      const query = this.$route.query
-      if (query && query.query) {
-
-        this.innerCode = query.query
-      } else {
-        //  console.log(query.query)
-        this.concats(this.code)
-        // this.innerCode = '600000.SH'
+  import { mapState } from 'vuex'
+  import util from '../../z3tougu/util'
+  import ClinicMarkTop from 'components/clinicShares/clinic-mark-top'
+  import ClinicDimension from 'components/clinicShares/clinic-dimension'
+  export default {
+    data() {
+      return {
+        code: this.$route.params.innerCode,
+        innerCode: '',
+        isType: ''
       }
-
     },
-
-    concats(code) {
-
-      this.innerCode = util.formatterInnercode(code)
-
+    computed: mapState({}),
+    components: {
+      ClinicMarkTop,
+      ClinicDimension
     },
-    getShowValue(type) {
-      this.isType = type
-      console.log(this.isType + '是index 的值')
-    }
-  },
-  watch: {
-    isShow() {
-      console.log(this.isType)
+    methods: {
+      init: function() {
+        const query = this.$route.query
+        if (query && query.query) {
 
-    }
-  },
-  mounted() {
-
-    this.init()
-    // alert(111111)
-    // alert(this.$route.query.query)
-    // alert(this.$route.params.innerCode)
-    // console.log(this.innerCode)
-    // console.log(this.$route.params)
-  },
-  destroyed() {
-
+          this.innerCode = query.query
+        } else {
+          //  console.log(query.query)
+          this.concats(this.code)
+          // this.innerCode = '600000.SH'
+        }
+      },
+      concats(code) {
+        this.innerCode = util.formatterInnercode(code)
+      },
+      getShowValue(type) {
+        this.isType = type
+        console.log(this.isType + '是index 的值')
+      }
+    },
+    watch: {
+      isShow() {
+        console.log(this.isType)
+      }
+    },
+    mounted() {
+      this.init()
+      // alert(111111)
+      // alert(this.$route.query.query)
+      // alert(this.$route.params.innerCode)
+      // console.log(this.innerCode)
+      // console.log(this.$route.params)
+    },
+    destroyed() {}
   }
-}
 </script>

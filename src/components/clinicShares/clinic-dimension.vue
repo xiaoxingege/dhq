@@ -1,198 +1,199 @@
 <style lang="scss" scoped>
-@import '../../assets/css/base.css';
-@import "../../assets/scss/style";
-* {
-    text-align: justify;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    box-sizing: border-box;
-    font-family: '微软雅黑';
-    font-size: $fontSizeBase;
-    color: $wordsColorBase;
-    font-family: "Microsoft YaHei";
-}
-/*$bgDeepColor:#0d0e0f;/* 最深背景 */
-/*$bgConColor:#141518;/* 内容背景 */
-/*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
-/*$bgNavColor:#404852;/* 导航外框背景 */
-/*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
-/*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
-/*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
-/*$blueWordsColor:#1984ea;/* 蓝色文字色 */
-/*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
-/*$upColor:#ca4941;/* 所有红色 上涨 */
-/*$downColor:#56a870;/* 所有绿色 上涨 */
-/*$backupYellow:#f0b540;/* 备用黄色 */
-/*$fontSizeBase:12px; /* 基本字体 */
-.topic-detail {
-    width: 100%;
-    background: #141518;
-    font-size: 12px;
-    color: #c9d0d7;
-    /* height: 100%; */
-    border-left: 1px solid #0d0e0f;
-    border-bottom: 3px solid #0d0e0f;
-}
-.app,
-body,
-html {
-    height: 100%;
-    /*  background-color: $bgDeepColor;*/
-}
+  @import '../../assets/css/base.css';
+  @import "../../assets/scss/style";
+  * {
+      text-align: justify;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      box-sizing: border-box;
+      font-family: '微软雅黑';
+      font-size: $fontSizeBase;
+      color: $wordsColorBase;
+      font-family: "Microsoft YaHei";
+  }
+  /*$bgDeepColor:#0d0e0f;/* 最深背景 */
+  /*$bgConColor:#141518;/* 内容背景 */
+  /*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
+  /*$bgNavColor:#404852;/* 导航外框背景 */
+  /*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
+  /*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
+  /*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
+  /*$blueWordsColor:#1984ea;/* 蓝色文字色 */
+  /*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
+  /*$upColor:#ca4941;/* 所有红色 上涨 */
+  /*$downColor:#56a870;/* 所有绿色 上涨 */
+  /*$backupYellow:#f0b540;/* 备用黄色 */
+  /*$fontSizeBase:12px; /* 基本字体 */
+  .topic-detail {
+      width: 100%;
+      background: #141518;
+      font-size: 14px;
+      color: #c9d0d7;
+      /* height: 100%; */
+      border-left: 1px solid #0d0e0f;
+      border-bottom: 3px solid #0d0e0f;
+  }
+  .app,
+  body,
+  html {
+      height: 100%;
+      /*  background-color: $bgDeepColor;*/
+  }
 
-body {
-    /* background-color: $bgDeepColor;*/
-}
-.display-box {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -o-box;
-    display: box;
-}
-.box-flex-1 {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -ms-flex: 1;
-    -o-box-flex: 1;
-    box-flex: 1;
-}
-.box-flex-2 {
-    -webkit-box-flex: 2;
-    -moz-box-flex: 2;
-    -ms-flex: 2;
-    -o-box-flex: 2;
-    box-flex: 2;
-}
-.box-flex-3 {
-    -webkit-box-flex: 3;
-    -moz-box-flex: 3;
-    -ms-flex: 3;
-    -o-box-flex: 3;
-    box-flex: 3;
-}
-.clinic-top-left {
+  body {
+      /* background-color: $bgDeepColor;*/
+  }
+  .display-box {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -o-box;
+      display: box;
+  }
+  .box-flex-1 {
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -ms-flex: 1;
+      -o-box-flex: 1;
+      box-flex: 1;
+  }
+  .box-flex-2 {
+      -webkit-box-flex: 2;
+      -moz-box-flex: 2;
+      -ms-flex: 2;
+      -o-box-flex: 2;
+      box-flex: 2;
+  }
+  .box-flex-3 {
+      -webkit-box-flex: 3;
+      -moz-box-flex: 3;
+      -ms-flex: 3;
+      -o-box-flex: 3;
+      box-flex: 3;
+  }
+  .clinic-top-left {
 
-    border-right: 1px solid $lineAndTitleColor;
-}
-.red {
-    color: $upColor;
-}
+      border-right: 1px solid $lineAndTitleColor;
+  }
+  .red {
+      color: $upColor;
+  }
 
-.green {
-    color: $downColor;
-}
+  .green {
+      color: $downColor;
+  }
 
-.c_txt {
-    color: $wordsColorBase;
-}
+  .c_txt {
+      color: $wordsColorBase;
+  }
 
-.radar-box {
-    height: 180px;
-    position: relative;
-    left: 15%;
-}
-.radarChart {
-    height: 100%;
-    width: 100%;
+  .radar-box {
+      height: 180px;
+      position: relative;
+      left: 15%;
+  }
+  .radarChart {
+      height: 100%;
+      width: 100%;
 
-}
+  }
 
-.desc-red {
-    border: 1px solid $upColor;
+  .desc-red {
+      border: 1px solid $upColor;
 
-}
-.desc-green {
-    border: 1px solid $downColor;
+  }
+  .desc-green {
+      border: 1px solid $downColor;
 
-}
+  }
 
-.pl-5 {
-    padding-left: 5px;
-}
+  .pl-5 {
+      padding-left: 5px;
+  }
 
-.clinic-dime-wrap {
-    /*  background-color: $bgConColor; */
-    margin-top: 4px;
-}
-.dime-tab {
-    overflow: hidden;
-}
-.tab-ul {
-    width: 100%;
-    background: $bgNavColor;
-}
-.tab-ul li {
-    width: 70px;
-    height: 30px;
-    line-height: 30px;
-    background: $bgNavColor;
-    text-align: center;
-    border-right: 1px solid $bgDeepColor;
-    cursor: pointer;
-}
-.tab-ul li.active {
-    background: $menuSelColor;
-}
-.dime-charts {
-    background: $bgDeepColor;
-}
-.chart-box1 {
-    width: 100%;
+  .clinic-dime-wrap {
+      /*  background-color: $bgConColor; */
+      margin-top: 4px;
+  }
+  .dime-tab {
+      overflow: hidden;
+  }
+  .tab-ul {
+      width: 100%;
+      background: $bgNavColor;
+  }
+  .tab-ul li {
+      width: 70px;
+      height: 30px;
+      line-height: 30px;
+      background: $bgNavColor;
+      text-align: center;
+      border-right: 1px solid $bgDeepColor;
+      cursor: pointer;
+      font-size: 14px;
+  }
+  .tab-ul li.active {
+      background: $menuSelColor;
+  }
+  .dime-charts {
+      background: $bgDeepColor;
+  }
+  .chart-box1 {
+      width: 100%;
 
-}
-.chart-kline {
-    width: 49.5%;
-    background: $bgConColor;
-    margin: 0 5px 6px 0;
-    float: left;
-}
-.chart-barline {
-    width: 100%;
-    background: $bgConColor;
-    margin: 0 5px 6px 0;
-    float: left;
-}
-.chart-grop {
-    width: 49.5%;
-    background: $bgConColor;
-    margin: 0 5px 6px 0;
-    float: left;
-}
-.chart2-kline {
-    width: 49.5%;
-    background: $bgConColor;
-    margin: 0 5px 6px 0;
-    float: left;
-}
-.chart-grop2 {
-    /*width: 50%;*/
-}
-.charts-base {
-    /* height: 264px;*/
-    background: $bgDeepColor;
-    width: 100%;
-    display: inline-block;
-}
-.tech-charts1 {
-    width: 49.5%;
-    display: inline-block;
-    background: $bgConColor;
-    margin: 0 5px 6px 0;
-}
-/* nth-of-type */
-.tech-charts1:nth-child(3) {
-    margin-bottom: 0;
-}
-.tech-charts1:nth-child(4) {
-    margin-bottom: 0;
-}
-.mb-0 {
-    margin-bottom: 0;
-}
+  }
+  .chart-kline {
+      width: 50%;
+      background: $bgConColor;
+      margin-bottom:6px;
+      float: left;
+  }
+  .chart-barline {
+      width: 100%;
+      background: $bgConColor;
+      margin: 0 0px 6px 0;
+      float: left;
+  }
+  .chart-grop {
+      width: 49.5%;
+      background: $bgConColor;
+      margin-bottom:6px;
+      float: right;
+  }
+  .chart2-kline {
+      width: 49.5%;
+      background: $bgConColor;
+      margin: 0 5px 6px 0;
+      float: left;
+  }
+  .chart-grop2 {
+      /*width: 50%;*/
+  }
+  .charts-base {
+      /* height: 264px;*/
+      background: $bgDeepColor;
+      width: 100%;
+      display: inline-block;
+  }
+  .tech-charts1 {
+      width: 49.5%;
+      display: inline-block;
+      background: $bgConColor;
+      margin: 0 5px 6px 0;
+  }
+  /* nth-of-type */
+  .tech-charts1:nth-child(3) {
+      margin-bottom: 0;
+  }
+  .tech-charts1:nth-child(4) {
+      margin-bottom: 0;
+  }
+  .mb-0 {
+      margin-bottom: 0;
+  }
 </style>
 <template>
 <div class="clinic-dime-wrap" id="wrap">

@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -402,7 +403,7 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           // data: ['0', '50%', '100%'],

@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -427,14 +428,14 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           // data: ['0', '50%', '100%'],
           splitNumber: 2,
           min: 0,
           max: 100,
-          /* 
+          /*
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -539,7 +540,7 @@ export default ({
           // width: '97%',
           /* width: '100%',
           height: '80%',
-         
+
           borderColor: '#2A2E36',
           containLabel: true */
           left: 45,

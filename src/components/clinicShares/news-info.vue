@@ -74,7 +74,7 @@ export default {
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
 .newsinfo {
-    /*  height: 250px; 
+    /*  height: 250px;
     height：702px*/
     overflow: hidden;
     line-height: 30px;
@@ -83,6 +83,7 @@ export default {
         background: $bgDeepColor;
     }
     .desc {
+        font-size: 14px;
         border-bottom: 1px solid $borderColor;
         padding: 0 10px;
     }
@@ -95,6 +96,7 @@ export default {
         ul {
             li {
                 padding: 0 10px;
+                font-size: 14px;
                 .mark {
                     padding: 2px 4px;
                     text-align: center;
@@ -117,6 +119,7 @@ export default {
                     text-overflow: ellipsis;
                     vertical-align: middle;
                     color: $wordsColorBase;
+                    font-size: 14px;
                 }
                 .time {
                     float: right;
@@ -149,6 +152,7 @@ export default {
         }
     }
     .tit {
+        font-size: 14px;
         margin: 0 10px;
         border-bottom: 1px solid $borderColor;
     }

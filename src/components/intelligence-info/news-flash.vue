@@ -295,7 +295,7 @@
           background-color: #1a1b1f;
           padding: 10px 10px 10px 10px;
           .con-txt{
-            a{
+            span{
               font-size: 14px;
               color: #808ba1;
               line-height: 20px;
