@@ -131,10 +131,13 @@ export default {
     },
     timestampToTime: function(timestamp) {
       const date = new Date(timestamp); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      const h = date.getHours() + ':';
-      const m = date.getMinutes() + ':';
-      const s = date.getSeconds();
-      return h + m + s;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let minute = date.getMinutes();
+      let second = date.getSeconds();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      second = second < 10 ? ('0' + second) : second;
+      return h + ':' + minute + ':' + second;
     }
   },
   mounted() {
