@@ -140,6 +140,7 @@ body {
     margin: 0 5px 6px 0;
 }
 .kline-title {
+
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -217,8 +218,8 @@ export default ({
 
       klineData.forEach((item) => {
         let time = ''
-        const day = Number(item.today / 100000000).toFixed(2)
-        const days5 = Number(item.fiveDay / 100000000).toFixed(2)
+        const day = Number(item.today / 10000).toFixed(2)
+        const days5 = Number(item.fiveDay / 10000).toFixed(2)
 
         time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
         data.times.push(time)
@@ -334,7 +335,7 @@ export default ({
         },
         yAxis: {
           type: 'value',
-          name: '单位：亿',
+          name: '单位：万',
           nameTextStyle: {
             color: '#c9d0d7',
             padding: [0, 0, -10, 60]
@@ -376,7 +377,8 @@ export default ({
         grid: {
           // width: '97%',
           // containLabel: true */
-          left: 55,
+          /* left: 55,*/
+          left: 75,
           right: 10,
           top: '19%',
           height: '70%',
@@ -387,9 +389,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

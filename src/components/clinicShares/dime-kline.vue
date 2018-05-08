@@ -140,6 +140,7 @@ body {
 
 }
 .kline-title {
+
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -315,7 +316,7 @@ export default ({
             normal: {
 
               // color: 各异，
-              // borderColor: 各异,     // 标注边线颜色，优先于color
+              // borderColor: 各异,     // 标注边线颜色，优先于color 
               // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               // label: {
               // show: true,
@@ -496,7 +497,7 @@ export default ({
 
         grid: [{
             left: 45,
-            right: 10,
+            right: 15,
             top: 10,
             height: '60%',
             show: false
@@ -541,7 +542,7 @@ export default ({
             }
           },
           {
-            /*
+            /*  
         boundaryGap : false,
         axisPointer: {
             type: 'shadow',
@@ -730,9 +731,9 @@ export default ({
       //          })
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

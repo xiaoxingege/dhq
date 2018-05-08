@@ -140,6 +140,7 @@ body {
     /* margin: 0 5px 6px 0; */
 }
 .kline-title {
+
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -218,6 +219,7 @@ export default ({
       const klineData = [].concat(this.indexFace.datas.data)
       const currPirce = this.indexFace.datas.currPirce
       // data.currPirce.push(currPirce)
+      console.log(currPirce)
       data.cuur = currPirce + ''
 
       klineData.forEach((item) => {
@@ -302,8 +304,8 @@ export default ({
 
         },
         grid: {
-          left: '1%',
-          right: '6%',
+          left: '3%',
+          right: '4%',
           bottom: '3%',
           top: 10,
           containLabel: true
@@ -357,8 +359,10 @@ export default ({
             itemStyle: {
               normal: {
                 shadowBlur: 6,
+                /* shadowColor: 'red',
+                color: config.downColor */
                 shadowColor: 'red',
-                color: config.downColor
+                color: config.upColor
               }
             },
             /* lineStyle: {
@@ -382,8 +386,10 @@ export default ({
             itemStyle: {
               normal: {
                 shadowBlur: 6,
+                /* shadowColor: 'red',
+                color: config.upColor */
                 shadowColor: 'red',
-                color: config.upColor
+                color: config.downColor
               }
             },
             /* lineStyle: {
@@ -418,9 +424,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

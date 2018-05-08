@@ -399,11 +399,11 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category',
+          // type: 'category', 
           type: 'value',
           name: this.industryYname,
           // data: ['0', '50%', '100%'],
-          /*
+          /* 
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -500,9 +500,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

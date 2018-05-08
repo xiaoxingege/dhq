@@ -428,14 +428,14 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category',
+          // type: 'category', 
           type: 'value',
           // name: this.floatYname,
           // data: ['0', '50%', '100%'],
           splitNumber: 2,
           min: 0,
           max: 100,
-          /*
+          /* 
           axisLabel: {
               formatter: '{value} %'
           }, */
@@ -540,7 +540,7 @@ export default ({
           // width: '97%',
           /* width: '100%',
           height: '80%',
-
+         
           borderColor: '#2A2E36',
           containLabel: true */
           left: 45,
@@ -554,9 +554,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

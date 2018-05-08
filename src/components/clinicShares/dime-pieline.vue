@@ -140,6 +140,7 @@ body {
     margin: 0 5px 6px 0;
 }
 .kline-title {
+
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -223,10 +224,14 @@ export default ({
           if (index === 3) {
             const klineData = [].concat(alls.datas.data).reverse()
             klineData.forEach((item) => {
-              let today = Number(item.day1 / 100000000).toFixed(2)
+              /* let today = Number(item.day1 / 100000000).toFixed(2)
               let threeday = Number(item.day3 / 100000000).toFixed(2)
               const fiveday = Number(item.day5 / 100000000).toFixed(2)
-              const tenday = Number(item.day10 / 100000000).toFixed(2)
+              const tenday = Number(item.day10 / 100000000).toFixed(2) */
+              let today = Number(item.day1 / 10000).toFixed(2)
+              let threeday = Number(item.day3 / 10000).toFixed(2)
+              const fiveday = Number(item.day5 / 10000).toFixed(2)
+              const tenday = Number(item.day10 / 10000).toFixed(2)
 
               data.yData.push(today)
               data.yData.push(threeday)
@@ -349,11 +354,11 @@ export default ({
             var s = ''
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '亿'
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '万'
               }
               if (i === 1) {
                 s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value + '亿'
+                  params[i].seriesName + ' : ' + params[i].value + '万'
               }
             }
             return s
@@ -504,9 +509,9 @@ export default ({
       window.addEventListener('resize', () => this.chartPie.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'
