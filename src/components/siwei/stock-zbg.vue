@@ -951,7 +951,7 @@ export default {
                 padding-left: 5px;
                 .name {
                     line-height: 20px;
-                    color: #999;
+                    color: #a6a6a6;
                 }
 
                 .price {

@@ -241,7 +241,7 @@ export default {
           // backgroundColor: '#23252D',
           animation: false,
           grid: {
-            top: 50,
+            top: 70,
             left: 65,
             right: 60,
             bottom: 50
@@ -261,6 +261,7 @@ export default {
               fontSize: 14
             },
             position: 'top',
+            offset: 20,
             // max: 31,
             splitLine: {
               lineStyle: {
@@ -341,6 +342,51 @@ export default {
             interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
+          dataZoom: [{
+              type: 'slider',
+              xAxisIndex: 0,
+              filterMode: 'empty',
+              top: 50,
+              textStyle: {
+                color: '#aed2ff'
+              },
+              borderColor: '#3c4868',
+              width: '91.3%',
+              height: '6',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '250%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              realtime: false,
+              labelPrecision: 2,
+              startValue: 0.45,
+              endValue: 0.55
+            },
+            {
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           series: [{
             type: 'scatter',
             itemStyle: {
@@ -713,6 +759,7 @@ export default {
               fontSize: 14
             },
             position: 'top',
+            offset: 20,
             // max: 31,
             splitLine: {
               lineStyle: {
@@ -792,6 +839,49 @@ export default {
             interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
+          dataZoom: [{
+              type: 'slider',
+              xAxisIndex: 0,
+              filterMode: 'empty',
+              top: 50,
+              textStyle: {
+                color: '#aed2ff'
+              },
+              borderColor: '#3c4868',
+              width: '91.3%',
+              height: '6',
+              handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
+              handleSize: '250%',
+              dataBackground: {
+                areaStyle: {
+                  color: '#222445'
+                },
+                lineStyle: {
+                  opacity: 0.8,
+                  color: '#222445'
+                }
+              },
+              handleStyle: {
+                color: '#aed2ff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+              },
+              realtime: false,
+              labelPrecision: 2
+            },
+            {
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           series: [{
             type: 'scatter',
             itemStyle: {

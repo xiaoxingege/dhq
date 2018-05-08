@@ -1093,7 +1093,7 @@ export default {
 
                 .name {
                     line-height: 20px;
-                    color: #999;
+                    color: #a6a6a6;
                 }
 
                 .price {
