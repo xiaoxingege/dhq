@@ -84,7 +84,7 @@ export default {
       rangeCode: this.rangeCode || '',
       kLineType: this.kLineType || '',
       isContinue: 1,
-      title: this.kLineType === 'stock' ? '领先个股' : '领先板块'
+      title: this.kLineType === 'stock' ? '领先个股' : this.kLineType === 'topic' ? '领先题材' : '领先行业'
     }
   },
   components: {},
