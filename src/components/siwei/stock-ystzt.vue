@@ -632,7 +632,11 @@ export default {
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            position: function(point) {
+              return [point[0] + 10, point[1]];
+
+            }
 
           }
         })
