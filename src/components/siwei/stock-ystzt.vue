@@ -439,11 +439,8 @@ export default {
         })
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.ztgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.ztgBubbles.clientHeight) {
             that.offsetY = that.$refs.ztgBubbles.clientHeight - 247
@@ -1019,7 +1016,6 @@ export default {
       this.$store.dispatch('bubbles/getCxLine', {
         type: 1
       }).then(() => {
-        const that = this
         let cxLineData = this.$store.state.bubbles.cxLineData
 
         this.lineChart && this.lineChart.setOption({
@@ -1223,7 +1219,7 @@ export default {
 
         .qsgList {
             height: 100%;
-            width: 410px;
+            width: 450px;
             background: #232630;
         }
 
