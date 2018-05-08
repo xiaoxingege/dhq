@@ -142,7 +142,7 @@ export default {
             }
             .progress {
                 text-align: center;
-                background: #BB0102;
+                background: #ca4941;
             }
         }
 

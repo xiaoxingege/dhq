@@ -103,14 +103,14 @@ export default {
             display: inline-block;
             margin-right: 3px;
             border-radius: 4px;
-            background: #FF0200;
+            background: #ca4941;
             content: '';
         }
         .news {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: $wordsColorBase;
+            color: #808ba1;
             padding-left: 11px;
             background: transparent;
         }
