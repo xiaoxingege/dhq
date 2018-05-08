@@ -140,7 +140,6 @@ body {
 
 }
 .kline-title {
-
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -151,6 +150,7 @@ body {
     /*  padding: 10px 7px 16px; */
     height: 62px;
     padding: 10px 5px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -315,7 +315,7 @@ export default ({
             normal: {
 
               // color: 各异，
-              // borderColor: 各异,     // 标注边线颜色，优先于color 
+              // borderColor: 各异,     // 标注边线颜色，优先于color
               // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               // label: {
               // show: true,
@@ -541,7 +541,7 @@ export default ({
             }
           },
           {
-            /*  
+            /*
         boundaryGap : false,
         axisPointer: {
             type: 'shadow',

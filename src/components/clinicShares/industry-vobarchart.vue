@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -148,6 +149,7 @@ body {
     margin: 0 5px 6px 0;
 }
 .techline-title2 {
+    font-size: 14px;
     height: 42px;
     padding: 10px 5px;
 }
@@ -397,11 +399,11 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           name: this.industryYname,
           // data: ['0', '50%', '100%'],
-          /* 
+          /*
           axisLabel: {
               formatter: '{value} %'
           }, */

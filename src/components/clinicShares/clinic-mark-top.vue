@@ -30,7 +30,7 @@
   .topic-detail {
       width: 100%;
       background: #141518;
-      font-size: 12px;
+      font-size: 14px;
       color: #c9d0d7;
       /* height: 100%; */
       border-left: 1px solid #0d0e0f;
@@ -197,6 +197,7 @@
   }
   .mark-detail {
       text-align: center;
+      font-size: 14px;
   }
   .mark-date {
       padding-left: 7px;
@@ -228,13 +229,15 @@
   }
   .short-detail {
       padding-right: 20px;
+      color:#808ba1;
+      font-size: 14px;
   }
   .short-tit {
       font-size: 14px;
   }
   .center-title {
       font-size: 14px;
-      padding: 47px 0 12px;
+      padding: 20px 0 12px;
   }
   .value-box {
       padding: 10px;
@@ -251,6 +254,7 @@
       position: relative;
       cursor: pointer;
       display: inline-block;
+      font-size: 14px;
   }
   .desc i {
       display: none;
@@ -342,6 +346,7 @@
       padding-bottom: 21px;
   }
   .short-fund {
+      font-size:14px;
       margin-bottom: 10px;
       /* display: inline-block;*/
   }
@@ -371,9 +376,10 @@
 
   }
   .label-tit {
-      width: 51px;
+      width: 60px;
       float: left;
       line-height: 32px;
+      font-size: 14px;
   }
   .circleBox{position: relative;width: 133px;height: 78px;margin:34px auto 30px;}
 	.top{top:-1px;clip:rect(0,auto,70px,auto);width:99pt;height:99pt;background:#434345;transition:1s ease-out;transform:rotate(0)}
@@ -381,7 +387,7 @@
 	.mask{top:4px;left:4px;clip:rect(0,auto,62px,auto);width:124px;height:124px;background:#141519;}
 	.circle{position:absolute;top:0;left:0;clip:rect(0,auto,65px,auto);width:99pt;height:99pt;border-radius:50%;background:#cc4941;z-index: 0;}
 	#num{position:relative;z-index:99;margin-top:13px;color:#cc4941;text-align:center;font-size:48px}
-	.numL,.numR{position: absolute; font-size: 12px;color: #c9d0d7;bottom: -2px;}
+	.numL,.numR{position: absolute; font-size: 14px;color: #c9d0d7;bottom: -2px;}
 	.numL{left: -3px;}
 	.numR{right: -3px;}
 </style>

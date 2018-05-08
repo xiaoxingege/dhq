@@ -140,7 +140,6 @@ body {
     margin: 0 5px 6px 0;
 }
 .kline-title {
-
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
@@ -149,6 +148,7 @@ body {
 .kline-title2 {
     height: 62px;
     padding: 10px 5px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;

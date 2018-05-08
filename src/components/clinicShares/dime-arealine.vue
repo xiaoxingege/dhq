@@ -29,7 +29,7 @@
 .topic-detail {
     width: 100%;
     background: #141518;
-    font-size: 12px;
+    font-size: 14px;
     color: #c9d0d7;
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
@@ -140,13 +140,13 @@ body {
     /* margin: 0 5px 6px 0; */
 }
 .kline-title {
-
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
     font-weight: 900;
 }
 .kline-title2 {
+    font-size: 14px;
     padding: 10px 5px;
     height: 62px;
 }
@@ -302,8 +302,8 @@ export default ({
 
         },
         grid: {
-          left: '3%',
-          right: '4%',
+          left: '1%',
+          right: '6%',
           bottom: '3%',
           top: 10,
           containLabel: true

@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -148,6 +149,7 @@ body {
     margin: 0 5px 6px 0;
 }
 .techline-title2 {
+    font-size: 14px;
     height: 22px;
     padding: 10px 5px;
 }
@@ -388,7 +390,7 @@ export default ({
         },
         yAxis: [{
           show: true,
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           position: 'left',
@@ -426,7 +428,7 @@ export default ({
                      max: 'dataMax' */
         }, {
           show: true,
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           position: 'right',
