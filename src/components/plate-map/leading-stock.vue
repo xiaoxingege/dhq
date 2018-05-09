@@ -3,7 +3,7 @@
   <h3 class="lead-stock-title">{{title}}
     <!--  <span class="close">×</span> -->
   </h3>
-  <table class="lead-stock-table" v-if="kLineType === 'stock'" style="width: 350px;">
+  <table class="lead-stock-table" v-if="kLineType === 'stock'">
     <tr style="color:#666;">
       <td>股票代码</td>
       <td>股票简称</td>
@@ -12,7 +12,7 @@
       <td v-if="condition!='mkt_idx.cur_chng_pct'">{{conditionList[condition]}}</td>
     </tr>
     <tr v-for="item of leadStockList">
-      <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
+      <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol.split('.')[0]}}</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
       <td v-z3-updowncolor="item.chg">
@@ -22,7 +22,7 @@
       <td v-else-if="condition!='mkt_idx.cur_chng_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionStock(item.condition)}}</td>
     </tr>
   </table>
-  <table class="lead-stock-table" v-if="kLineType === 'topic'" style="width: 500px;">
+  <table class="lead-stock-table" v-if="kLineType === 'topic'">
     <tr style="color:#666;">
       <td>板块名称</td>
       <td v-if="condition!='chg_pct'">{{conditionList[condition]}}</td>
@@ -43,7 +43,7 @@
       <td v-z3-updowncolor="item.chg">{{formatData(item.chg)?'--':item.chg>0?'+'+parseFloat(item.chg).toFixed(2)+'%':parseFloat(item.chg).toFixed(2)+'%'}}</td>
     </tr>
   </table>
-  <table class="lead-stock-table" v-if="kLineType === 'industry'" style="width: 500px;">
+  <table class="lead-stock-table" v-if="kLineType === 'industry'">
     <tr style="color:#666;">
       <td>板块名称</td>
       <td v-if="condition!='chg_pct'">{{conditionList[condition]}}</td>
@@ -273,6 +273,9 @@ export default {
 .lead-stock-table tr td:last-child {
     padding-right: 10px;
     text-align: right;
+}
+.lead-stock-table td {
+    width: 70px;
 }
 .lead-stock-box h3 {
     font-size: 13.5px;

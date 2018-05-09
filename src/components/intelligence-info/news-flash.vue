@@ -224,7 +224,7 @@
         return value === '新闻' ? '资讯' : value;
       },
       trim(str) {
-         return str.replace(/(^\s*)|(\s*$)/g, "");
+         return str.replace(/(^\s*)|(\s*$)/g, '');
       }
     },
     destroyed() {

@@ -1,7 +1,7 @@
 <template>
 <!-- 智头条 -->
-<div class="wisdomHeadlines" @scroll="getScrollTop($event)">
-  <div class="news-wrapper">
+<div class="wisdomHeadlines"@scroll="getScrollTop($event)">
+  <div class="news-wrapper" ref="newsWrapper" >
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
@@ -38,7 +38,6 @@
     </ul>
     <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
     <p class="tc mt-10 mb-20">
-      <a ref="more" v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
       <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
@@ -51,7 +50,7 @@
   let intervalId = ''
   let intervalId2 = ''
   import 'whatwg-fetch'
-  import { cutString,formatDate } from 'utils/date'
+  import { cutString } from 'utils/date'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
@@ -70,14 +69,6 @@
     mounted() {
       this.loadList()
       this.updateNews()
-      var date = new Date()
-      var nowTime = formatDate(date,'hh:mm')
-      if(nowTime < "09:25" ||  nowTime > "15:30") {
-        console.log(nowTime)
-        clearInterval(intervalId2)
-      }else{
-        this.updateTopic()
-      }
     },
     computed: {
       ...mapState([
@@ -122,11 +113,11 @@
           this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' })
       },
       loadMore() {
-        var moreOffsetTop = this.$refs.more.offsetTop
+        // var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        if( moreOffsetTop < this.innerHeight){
-          this.$store.commit('setIsTop',false)
-        }
+        // if( moreOffsetTop < this.innerHeight){
+        //   this.$store.commit('setIsTop',false)
+        // }
         this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
@@ -141,7 +132,12 @@
         },this.intervalTime)
       },
       getScrollTop(e) {
-        this.scrollTop = e.target.scrollTop
+        let offsetHeight = e.target.offsetHeight
+        let scrollHeight = e.target.scrollHeight
+        let scrollTop = e.target.scrollTop
+        let scrollBottom = offsetHeight + scrollTop
+        this.scrollTop = e.target.scrollTop*2
+
         if (this.scrollTop >= this.innerHeight) {
           if (intervalId) {
             console.log(intervalId)
@@ -149,11 +145,16 @@
             clearInterval(intervalId)
           }
         }
+
         if (this.scrollTop === 0) {
           this.$store.commit('setIsTop',true)
           this.updateNews()
         }else{
           this.$store.commit('setIsTop',false)
+        }
+
+        if(scrollBottom === scrollHeight && this.noData !== true){
+          this.loadMore()
         }
       },
       cutStr(str, len) {
@@ -233,7 +234,7 @@
         return value === '新闻' ? '资讯' : value;
       },
       trim(str) {
-         return str.replace(/(^\s*)|(\s*$)/g, "");
+         return str.replace(/(^\s*)|(\s*$)/g, '');
       }
     },
     destroyed() {
@@ -258,9 +259,6 @@
       overflow: auto;
   }
 
-  .news-wrapper {
-      padding-bottom: 20px;
-  }
   .con-txt,
   .labels,
   .name,
