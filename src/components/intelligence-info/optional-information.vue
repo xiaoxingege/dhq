@@ -25,11 +25,11 @@
               <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
             </router-link>
           </div>
-          <!-- <div class="con-txt">
+          <div class="con-txt">
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
               <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
             </router-link>
-          </div> -->
+          </div>
           <div class="con-bottom">
             <span class="source">{{item.srcName}}</span>
             <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
