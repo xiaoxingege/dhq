@@ -983,5 +983,8 @@ export default {
     line-height: 20px;
     text-align: center;
     font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 </style>

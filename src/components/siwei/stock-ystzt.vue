@@ -37,7 +37,14 @@
       </ul>
     </div>
   </div>
-  <div class="legend"></div>
+  <div class="legend clearfix">
+    <div class="fr">
+      <ul class="clearfix">
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -61,6 +68,8 @@ export default {
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
+      quoteChange: Data.quoteChange,
+      chgColor: Data.chgColor,
       dialogOptions: {
         stockName: '',
         stockCode: '',
@@ -79,8 +88,8 @@ export default {
           }
         }
       },
-      bubbleHeight: (window.innerHeight - 29) * 0.66,
-      lineChartHeight: (window.innerHeight - 29) * 0.33,
+      bubbleHeight: (window.innerHeight - 29) * 0.66-22,
+      lineChartHeight: (window.innerHeight - 29) * 0.33-22,
       isShowDialog: false,
       offsetX: '',
       offsetY: '',
@@ -1209,7 +1218,7 @@ export default {
 
 .ztgBox {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 44px);
 
     .ztgMain {
         width: 100%;
@@ -1308,5 +1317,24 @@ export default {
     width: 470px;
     height: 247px;
     position: absolute;
+}
+.legend {
+  right: 10px;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  margin: 12px 0;
+}
+
+.legend ul li {
+  float: left;
+  width: 60px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  border-right: 1px solid #000000;
+  box-sizing: border-box;
+  border-bottom: 1px solid #000;
 }
 </style>
