@@ -107,7 +107,7 @@ export default {
       document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625+ '%'
       var p = new Promise(function(resolve, reject){        
             $.ajax({
-              url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=179',
+              url: '//appcms.jrj.com.cn/base/getFragmentById.jspa?fragmentId=172',
               type: 'get',
               dataType: 'jsonp', 
               success:function(jsondata){
