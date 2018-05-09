@@ -356,11 +356,11 @@ export default {
               xAxisIndex: 0,
               filterMode: 'empty',
               top: 50,
+              left:'center',
               textStyle: {
                 color: '#aed2ff'
               },
               borderColor: '#3c4868',
-              width: '91.3%',
               height: '6',
               handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
               handleSize: '250%',
@@ -850,11 +850,11 @@ export default {
               xAxisIndex: 0,
               filterMode: 'empty',
               top: 50,
+              left:'center',
               textStyle: {
                 color: '#aed2ff'
               },
               borderColor: '#3c4868',
-              width: '91.3%',
               height: '6',
               handleIcon: 'M0,0 v9.7h5 v-9.7h-5 Z',
               handleSize: '250%',
