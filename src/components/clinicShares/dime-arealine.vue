@@ -150,6 +150,7 @@ body {
     font-size: 14px;
     padding: 10px 5px;
     height: 62px;
+    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
@@ -305,7 +306,7 @@ export default ({
         },
         grid: {
           left: '3%',
-          right: '4%',
+          right: '7%',
           bottom: '3%',
           top: 10,
           containLabel: true
