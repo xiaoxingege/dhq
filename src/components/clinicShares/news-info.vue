@@ -135,7 +135,7 @@ export default {
                     color: #6F7D97;
                     padding: 10px;
                     border-radius: 4px;
-                    line-height: 28px;
+                    line-height: 20px;
                     position: relative;
                 }
                 .sumary:before {
