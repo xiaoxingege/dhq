@@ -117,6 +117,7 @@
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
+import util from '../../dhq/util'
 import {
   ctx
 } from '../../dhq/config'
@@ -200,6 +201,7 @@ export default {
       }
     },
     linkStock: function(innerCode) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg', 'WT.ti', document.title) // 点击龙头股打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
