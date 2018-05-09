@@ -395,11 +395,8 @@ export default {
         })
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.ztgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.ztgBubbles.clientHeight) {
             that.offsetY = that.$refs.ztgBubbles.clientHeight - 247
@@ -1093,7 +1090,7 @@ export default {
 
                 .name {
                     line-height: 20px;
-                    color: #999;
+                    color: #a6a6a6;
                 }
 
                 .price {

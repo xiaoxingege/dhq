@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -269,10 +270,12 @@ export default ({
             normal: {
               label: {
                 show: true,
-                position: 'top',
+                position: ['-10%', -18],
                 color: '#c9d0d7',
                 fontSize: 12,
                 fontWeight: 'bold',
+                /* align:'right',
+                 */
                 formatter: function(p) {
                   return stkLevelDetail === null ? '' : stkLevelDetail
                 }
@@ -497,9 +500,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

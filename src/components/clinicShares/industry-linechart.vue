@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -148,6 +149,7 @@ body {
     margin: 0 5px 6px 0;
 }
 .techline-title2 {
+    font-size: 14px;
     height: 22px;
     padding: 10px 5px;
 }
@@ -219,7 +221,7 @@ export default ({
         range: [],
         rangeYdata: [],
         infoIndex: [],
-        techIndex: [],
+        induIndex: [],
         induName: ''
       }
     }
@@ -247,7 +249,7 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.industryFace.datas.datas).reverse()
+      const klineData = [].concat(this.industryFace.datas.datas)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
       } else if (this.dataIndex === 1) {
@@ -258,14 +260,33 @@ export default ({
       this.data.induName = this.industryFace.datas.induName
       if (klineData.length <= 60) {
         klineData.forEach((item, index) => {
-          const infoIndex = Number(item.infoIndex).toFixed(2)
-          const techIndex = Number(item.techIndex).toFixed(2) // 行业指数
+          /* if (index === 0) {
+            induIndex.push(0)
+            hs300ChngPct.push(0)
+          } else {
+            var indexs = getIndex(item.tradeMin)
+            induIndex[indexs] = Number(item.induIndex).toFixed(2)
+            hs300ChngPct[indexs] = Number(item.hs300ChngPct).toFixed(2)
+            // induIndex.push(Number(item.induIndex).toFixed(2))
+            // hs300ChngPct.push(Number(item.hs300ChngPct).toFixed(2))
+          } */
+
+          const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
+          const induIndex = Number(item.induIndex).toFixed(2) // 行业指数
           let time = ''
           time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
           this.data.times.push(time)
           this.data.tradeTimeArr.push(time)
-          this.data.infoIndex.push(infoIndex)
-          this.data.techIndex.push(techIndex)
+          if (index === 0) {
+            this.data.infoIndex.push('0')
+            this.data.induIndex.push('0')
+          } else {
+            this.data.infoIndex.push(infoIndex)
+            this.data.induIndex.push(induIndex)
+
+          }
+          console.log(this.data.infoIndex)
+          console.log(this.data.induIndex)
 
         })
       }
@@ -297,11 +318,11 @@ export default ({
             fontSize: 12
           },
           data: [{
-              name: lineData.induName + this.legendName1,
+              name: this.legendName1,
               icon: 'line'
             },
             {
-              name: lineData.induName + this.legendName2,
+              name: this.legendName2,
               icon: 'line'
 
             }
@@ -350,7 +371,13 @@ export default ({
               for (var i = 0; i < params.length; i++) {
                 var param = params[i]
                 if (param.value !== '') {
-                  boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + param.seriesName + ': ' + param.value + '<br/></span></div>'
+                  if (i === 0) {
+                    boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + param.seriesName + ': ' + param.value + '%<br/></span></div>'
+                  }
+                  if (i === 1) {
+                    boxHtml += '<span style=\'display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '\'></span><span style="color:#c9d0d7;">' + ' ' + param.seriesName + ': ' + param.value + '<br/></span></div>'
+                  }
+
                 }
               }
               return boxHtml
@@ -417,7 +444,7 @@ export default ({
           },
           axisLabel: {
             formatter: function(val) {
-              return val
+              return val + '%'
             },
             color: '#c9d0d7'
           }
@@ -466,12 +493,12 @@ export default ({
 
         series: [{
             yAxisIndex: 0,
-            data: lineData.techIndex,
-            name: lineData.induName + this.legendName1,
+            data: lineData.induIndex,
+            name: this.legendName1,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: lineData.induName + this.legendName1,
+            stack: this.legendName1,
 
             itemStyle: {
               normal: {
@@ -484,11 +511,11 @@ export default ({
           {
             yAxisIndex: 1,
             data: lineData.infoIndex,
-            name: lineData.induName + this.legendName2,
+            name: this.legendName2,
             type: 'line',
             barWidth: 35,
             symbol: 'none',
-            stack: lineData.induName + this.legendName2,
+            stack: this.legendName2,
             /* label: {
               normal: {
                 show: true,
@@ -537,9 +564,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

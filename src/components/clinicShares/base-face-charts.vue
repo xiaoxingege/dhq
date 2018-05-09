@@ -147,6 +147,7 @@ body {
     font-weight: 900;
 }
 .kline-title2 {
+    font-size: 14px;
     height: 62px;
     padding: 10px 5px;
 }
@@ -1085,9 +1086,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

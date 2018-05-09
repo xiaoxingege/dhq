@@ -386,11 +386,8 @@ export default {
 
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.qsgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.qsgBubbles.clientHeight) {
             that.offsetY = that.$refs.qsgBubbles.clientHeight - 247
@@ -729,7 +726,7 @@ export default {
 
                 .name {
                     line-height: 20px;
-                    color: #999;
+                    color: #a6a6a6;
                 }
 
                 .price {
@@ -764,5 +761,8 @@ export default {
     line-height: 20px;
     text-align: center;
     font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 </style>

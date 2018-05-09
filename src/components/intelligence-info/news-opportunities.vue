@@ -351,7 +351,7 @@
         return value === '新闻' ? '资讯' : value;
       },
       trim(str) {
-         return str.replace(/(^\s*)|(\s*$)/g, "");
+         return str.replace(/(^\s*)|(\s*$)/g, '');
        }
     },
     destroyed() {
@@ -423,6 +423,7 @@
       }
       .name{
         color: $wordsColorBase;
+        font-weight: bold;
       }
       .name.fontS18{font-size: 18px}
       .name.fontS16{font-size: 16px}
@@ -475,7 +476,7 @@
           background-color: #1a1b1f;
           padding: 10px 10px 10px 10px;
           .con-txt{
-            a{
+            span{
               font-size: 14px;
               color: #808ba1;
               line-height: 20px;

@@ -1,9 +1,141 @@
+<template>
+<div class="dialog" :style="'left:'+options.position.left+'px;top:'+options.position.top+'px;'" @mouseenter="enterbox" @mouseleave="leavebox" v-show="isOpen">
+  <div class="top clearfix">
+    <span class="fl">{{hoverStock.stockName}}[{{hoverStock.stockCode.substring(0,6)}}]</span>
+    <span class="fr" style="font-weight: bold">
+    <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
+    <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
+    <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
+    <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
+    <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
+    </span>
+  </div>
+  <div class="bottom clearfix">
+    <div class="bottomLeft fl">
+      <div v-for="item in options.valueList">
+        <p>{{item.text}}</p>
+        <p>{{item.value}}</p>
+      </div>
+    </div>
+    <div class="bottomRight fl">
+      <Stockkline :stockCode="options.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+import Stockkline from 'components/stock-kline'
+// import * as Data from '../z3tougu/constant/siwei.js'
+import {
+  mapState
+} from 'vuex'
+
+export default {
+  //   options: {
+  //     stockName: '',
+  //     stockCode: '',
+  //     valueList: [
+  //        {text:'',value},
+  //        {text:'',value},
+  //        {text:'',value},
+  //        {text:'',value},
+  //     ]
+  //   }
+  props: ['options', 'isShow'],
+  data() {
+    return {
+      isShowSelection: false,
+      isShow: false,
+      delayHide: false,
+      isMouseover: false,
+      curStockCode: ''
+    }
+  },
+  components: {
+    Stockkline
+  },
+  watch: {
+    'options.stockCode': function() {
+      if (!this.options.stockCode) {
+        return
+      }
+      this.$store.dispatch('stock/querySelection', {
+        stockCode: this.options.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    },
+    isShow() {
+      // 当设置隐藏时，延迟200ms隐藏
+      if (this.isShow === false) {
+        this.delayHide = true;
+        setTimeout(() => {
+          if (!this.isMouseover) {
+            this.delayHide = false;
+          }
+        }, 200)
+      }
+    }
+  },
+  computed: mapState({
+    hoverStock: state => state.stock.stock,
+    colorS: function() {
+      if (Number(this.hoverStock.chgPx) > 0) {
+        return '#ca4941'
+      } else if (Number(this.hoverStock.chgPx) < 0) {
+        return '#14b143'
+      } else {
+        return ''
+      }
+    },
+    isOpen() {
+      return this.isShow || this.delayHide;
+    }
+  }),
+  methods: {
+    addSelfChoice() {
+      this.$store.dispatch('stock/addSelection', {
+        stockCode: this.options.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    },
+    deleteSelfChoice() {
+      this.$store.dispatch('stock/removeSelection', {
+        stockCode: this.options.stockCode
+      }).then(() => {
+        this.isShowSelection = this.$store.state.stock.isSelfSelection
+      })
+    },
+    enterbox() {
+      this.delayHide = true;
+      this.isMouseover = true;
+    },
+    leavebox(e) {
+      // 避免多次click触发mouseleave（不知道是不是浏览器BUG）
+      if (e.toElement === null) {
+        return
+      }
+      this.delayHide = false;
+      this.isMouseover = false;
+
+    }
+
+  },
+  mounted() {
+
+  }
+}
+</script>
+
 <style lang="scss" scoped>
-@import '../assets/css/base.css';
+@import '../../assets/css/base.css';
 .dialog {
     width: 470px;
     height: 240px;
     background: #4B515E;
+    position: absolute;
+    z-index: 10000;
 }
 .top {
     height: 34px;
@@ -56,134 +188,3 @@
     color: #DA3D45;
 }
 </style>
-<template>
-<div class="dialog" @mouseover="showDialog" @mouseout="hideDialog" v-show="isOpen">
-  <div class="top clearfix">
-    <span class="fl">{{dialogOptions.stockName}}[{{dialogOptions.stockCode.substring(0,6)}}]</span>
-    <span class="fr" style="font-weight: bold">
-    <span :style="{color:colorS,marginRight:5+'px'}">{{hoverStock.lastPx}}</span>
-    <span :style="{color:colorS,marginRight:5+'px'}">{{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPx}}</span>
-    <span :style="{color:colorS}">({{Number(hoverStock.chgPx) >0 ? '+':''}}{{hoverStock.chgPctPx}})</span>
-    <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
-    <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
-    </span>
-  </div>
-  <div class="bottom clearfix">
-    <div class="bottomLeft fl">
-      <div v-show="xData !== 'chi_spel' && xData !== 'order'">
-        <p>{{xSelectData[xData]}}</p>
-        <p>{{dialogOptions.leftList.xData.value}}</p>
-      </div>
-      <div v-show="yData !== 'chi_spel' && yData !== 'order'">
-        <p>{{xSelectData[yData]}}</p>
-        <p>{{dialogOptions.leftList.yData.value}}</p>
-      </div>
-      <div v-show="bubbleSize !== ''">
-        <p>{{bubbleSizeSelect[bubbleSize]}}</p>
-        <p>{{dialogOptions.leftList.bubbleSize.value}}</p>
-      </div>
-      <div v-show="bubbleColor !== ''">
-        <p>{{bubbleColorSelect[bubbleColor]}}</p>
-        <p>{{dialogOptions.leftList.bubbleColor.value}}</p>
-      </div>
-    </div>
-    <div class="bottomRight fl">
-      <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
-    </div>
-  </div>
-</div>
-</template>
-<script>
-import Stockkline from 'components/stock-kline'
-import * as Data from '../z3tougu/constant/siwei.js'
-import {
-  mapState
-} from 'vuex'
-
-export default {
-  /* dialogOptions: {
-   stockName: '',
-   stockCode: '',
-   leftList: {
-   xData: {
-   value: ''
-   },
-   yData: {
-   value: ''
-   },
-   bubbleSize: {
-   value: ''
-   },
-   bubbleColor: {
-   value: ''
-   }
-   }
-   }*/
-  props: ['dialogOptions'],
-  data() {
-    return {
-      xSelectData: Data.xSelectData,
-      bubbleSizeSelect: Data.bubbleSizeSelect,
-      bubbleColorSelect: Data.bubbleColorSelect,
-      isShowSelection: false
-    }
-  },
-  components: {
-    Stockkline
-  },
-  watch: {
-    'dialogOptions.stockCode': function() {
-      this.$store.dispatch('stock/querySelection', {
-        stockCode: this.dialogOptions.stockCode
-      }).then(() => {
-        this.isShowSelection = this.$store.state.stock.isSelfSelection
-      })
-    }
-  },
-  computed: mapState({
-    xData: state => state.bubbles.parameterData.xData,
-    yData: state => state.bubbles.parameterData.yData,
-    bubbleSize: state => state.bubbles.parameterData.bubblesSize,
-    bubbleColor: state => state.bubbles.parameterData.bubbleColor,
-    hoverStock: state => state.stock.stock,
-    colorS: function() {
-      if (Number(this.hoverStock.chgPx) > 0) {
-        return '#ca4941'
-      } else if (Number(this.hoverStock.chgPx) < 0) {
-        return '#14b143'
-      } else {
-        return ''
-      }
-    }
-  }),
-  methods: {
-    addSelfChoice() {
-      this.$store.dispatch('stock/addSelection', {
-        stockCode: this.dialogOptions.stockCode
-      }).then(() => {
-        this.isShowSelection = this.$store.state.stock.isSelfSelection
-      })
-    },
-    deleteSelfChoice() {
-      this.$store.dispatch('stock/removeSelection', {
-        stockCode: this.dialogOptions.stockCode
-      }).then(() => {
-        this.isShowSelection = this.$store.state.stock.isSelfSelection
-      })
-    },
-    showDialog() {
-      this.$emit('toShowDialog', true)
-    },
-    hideDialog(e) {
-      if (e.toElement === null) {
-        return
-      }
-      this.$emit('toHideDialog', false)
-    }
-
-  },
-  mounted() {
-
-  }
-}
-</script>

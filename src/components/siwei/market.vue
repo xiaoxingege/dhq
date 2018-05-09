@@ -1,5 +1,6 @@
 <template>
 <div class='market'>
+  <stockBox :options="stockBoxOptions" :isShow="showStockBox"></stockBox>
   <div class="market_con">
     <div class='left'>
       <div class='top'>
@@ -68,6 +69,7 @@
   <div class="legend">
     <chartLegend :legendData="legendData"></chartLegend>
   </div>
+
 </div>
 </template>
 
@@ -79,6 +81,7 @@ import {
 } from 'vuex'
 import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
 import chartLegend from 'components/siwei/legend'
+import stockBox from 'components/siwei/stock-box'
 
 let pcid1 = '';
 let pcid2 = '';
@@ -128,12 +131,20 @@ export default {
           value: '0.5%',
           color: '#e41414'
         }
-      ]
+      ],
+      stockBoxOptions: {
+        position: {
+          left: 0,
+          top: 0
+        }
+      },
+      showStockBox: false
     }
   },
   components: {
     abnormalPlatesChart,
-    chartLegend
+    chartLegend,
+    stockBox
   },
   computed: {
     bubbles: function() {
@@ -194,6 +205,7 @@ export default {
       return bubbles;
     },
     ...mapState({
+      bubbleData: state => state.marketBubble.bubbleData,
       deltaStockList: state => state.marketBubble.abnormalStockList,
       deltaPlateList: state => state.marketBubble.abnormalPlateList,
       marketCount: state => {
@@ -228,15 +240,16 @@ export default {
   },
   methods: {
     initStocks() {
-      const bubbles = this.bubbles;
-      let maxX = Math.max(...this.xData);
-      let minX = Math.min(...this.xData);
-      if (maxX > 0) {
-        maxX = maxX * 1.1
-      } else {
-        maxX = maxX * 0.9
-      }
-      const intervalX = (maxX - minX) / 5;
+      this.chart = echarts.init(this.$refs.chart);
+      // const bubbles = this.bubbles;
+      // let maxX = Math.max(...this.xData);
+      // let minX = Math.min(...this.xData);
+      // if (maxX > 0) {
+      //   maxX = maxX * 1.1
+      // } else {
+      //   maxX = maxX * 0.9
+      // }
+      // const intervalX = (maxX - minX) / 5;
       this.chart.setOption({
         grid: [{
             width: 'auto',
@@ -294,20 +307,20 @@ export default {
           },
           axisTick: {
             length: 0
-          },
-          min: minX,
-          max: maxX,
-          interval: intervalX,
-          axisLabel: {
-            color: '#ccc',
-            interval: intervalX,
-            formatter: (value, index) => {
-              if (value === maxX) {
-                return "ln(量比)           ";
-              }
-              return value.toFixed(2);
-            }
           }
+          // min: minX,
+          // max: maxX,
+          // interval: intervalX,
+          // axisLabel: {
+          //   color: '#ccc',
+          //   interval: intervalX,
+          //   formatter: (value, index) => {
+          //     if (value === maxX) {
+          //       return "ln(量比)           ";
+          //     }
+          //     return value.toFixed(2);
+          //   }
+          // }
         }],
         yAxis: [{
             type: 'category',
@@ -329,7 +342,7 @@ export default {
                 if (value === '10') {
                   return '涨跌幅';
                 } else {
-                  return Number(value).toFixed(2) + '%'
+                  return Number(value) + '%'
                 }
               },
               color: (value) => {
@@ -405,14 +418,51 @@ export default {
               normal: {
                 show: false
               }
-            },
-            symbolSize: (val) => {
-
             }
-          },
-          data: bubbles
+          }
         }]
       });
+      this.chart.on('mouseover', (params) => {
+        const position = {};
+        const x = params.event.offsetX;
+        const y = params.event.offsetY;
+        if (x >= this.$refs.chart.clientWidth / 2) {
+          position.left = x - 490
+        } else {
+          position.left = x + 20
+        }
+        if (y >= this.$refs.chart.clientHeight / 2) {
+          position.top = y - 247
+        } else {
+          position.top = y
+        }
+        const stock = this.bubbleData[params.dataIndex];
+        this.stockBoxOptions = {
+          stockCode: stock.innerCode,
+          position: position,
+          valueList: [{
+              text: '量比',
+              value: stock.xData !== null ? stock.xData.toFixed(3) : '--'
+            },
+            {
+              text: '涨跌幅',
+              value: stock.yData !== null ? stock.yData + '%' : '--'
+            },
+            {
+              text: '绝对涨速',
+              value: Math.abs(Number(stock.bubbleSize)).toFixed(3)
+            },
+            {
+              text: '涨速',
+              value: Number(stock.bubbleSize).toFixed(3)
+            }
+          ]
+        }
+        this.showStockBox = true;
+      });
+      this.chart.on('mouseout', (params) => {
+        this.showStockBox = false;
+      })
     },
     openStock(code) {
       window.open(`stock/${code}`);
@@ -466,7 +516,7 @@ export default {
       }
       const index = str.indexOf(',');
       const newsId = str.substring(0, index);
-      if (index === -1 || newsId === "null") {
+      if (index === -1 || newsId === 'null') {
         return {
           newsId: null,
           title: null
@@ -489,7 +539,7 @@ export default {
         });
       }, 0)
     },
-    updateBuuble() {
+    updateBubble() {
       this.$store.dispatch('marketBubble/updateBubble', {
         x: 'mkt_idx.volume_ratio', // 量比
         y: 'mkt_idx.cur_chng_pct', // 涨跌幅
@@ -497,7 +547,35 @@ export default {
         color: 'mkt_idx.cur_chng_pct', // 涨跌幅
         type: 0
       }).then(() => {
-        this.initStocks();
+        const bubbles = this.bubbles;
+        let maxX = Math.max(...this.xData);
+        let minX = Math.min(...this.xData);
+        if (maxX > 0) {
+          maxX = maxX * 1.1
+        } else {
+          maxX = maxX * 0.9
+        }
+        const intervalX = (maxX - minX) / 5;
+        this.chart.setOption({
+          xAxis: [{}, {
+            min: minX,
+            max: maxX,
+            interval: intervalX,
+            axisLabel: {
+              color: '#ccc',
+              interval: intervalX,
+              formatter: (value, index) => {
+                if (value === maxX) {
+                  return "ln(量比)           ";
+                }
+                return value.toFixed(2);
+              }
+            }
+          }],
+          series: [{}, {
+            data: bubbles
+          }]
+        });
       });
     },
     updateAbnormalStocks() {
@@ -535,22 +613,24 @@ export default {
     }
   },
   mounted() {
-    this.chart = echarts.init(this.$refs.chart);
+
     this.initStocks();
-    this.$store.dispatch('marketBubble/updateBubble', {
-      x: 'mkt_idx.volume_ratio', // 量比
-      y: 'mkt_idx.cur_chng_pct', // 涨跌幅
-      size: 'mkt_idx.rising_rate', // 涨速
-      color: 'mkt_idx.cur_chng_pct', // 涨跌幅
-      type: 0
-    }).then(() => {
-      this.initStocks();
-    });
+    this.updateBubble();
+    // this.$store.dispatch('marketBubble/updateBubble', {
+    //   x: 'mkt_idx.volume_ratio', // 量比
+    //   y: 'mkt_idx.cur_chng_pct', // 涨跌幅
+    //   size: 'mkt_idx.rising_rate', // 涨速
+    //   color: 'mkt_idx.cur_chng_pct', // 涨跌幅
+    //   type: 0
+    // }).then(() => {
+    //   this.initStocks();
+    // });
 
     this.updateAbnormalStocks();
     this.updateAbnormalPlates();
     pcid1 = setInterval(() => {
-      this.updateAbnormalStocks()
+      this.updateAbnormalStocks();
+      this.updateBubble();
     }, 6 * 1000);
     pcid2 = setInterval(() => {
       this.updateAbnormalPlates()
@@ -633,7 +713,7 @@ export default {
         overflow: auto;
     }
     .topic {
-        color: #666;
+        color: #a6a6a6;
     }
 }
 .market .news .mark {
@@ -675,8 +755,12 @@ export default {
     overflow: hidden;
     margin: 0 0 4px;
     .stockList {
-        color: #666;
+        color: #b8b8b8;
     }
+
+}
+.market .block:hover .stockList {
+    color: #fff;
 }
 .market .block:hover {
     background: #525A65;
@@ -727,7 +811,7 @@ export default {
     overflow: hidden;
     a {
         text-align: center;
-        color: #666;
+        color: #a6a6a6;
     }
     .name {
         overflow: hidden;

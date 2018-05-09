@@ -151,6 +151,7 @@ body {
     /*  padding: 10px 7px 16px; */
     height: 62px;
     padding: 10px 5px;
+    font-size: 14px;
 }
 .kline {
     height: 264px;
@@ -496,7 +497,7 @@ export default ({
 
         grid: [{
             left: 45,
-            right: 10,
+            right: 15,
             top: 10,
             height: '60%',
             show: false
@@ -730,9 +731,9 @@ export default ({
       //          })
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

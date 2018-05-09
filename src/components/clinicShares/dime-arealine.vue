@@ -29,7 +29,7 @@
 .topic-detail {
     width: 100%;
     background: #141518;
-    font-size: 12px;
+    font-size: 14px;
     color: #c9d0d7;
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
@@ -147,6 +147,7 @@ body {
     font-weight: 900;
 }
 .kline-title2 {
+    font-size: 14px;
     padding: 10px 5px;
     height: 62px;
 }
@@ -218,6 +219,7 @@ export default ({
       const klineData = [].concat(this.indexFace.datas.data)
       const currPirce = this.indexFace.datas.currPirce
       // data.currPirce.push(currPirce)
+      console.log(currPirce)
       data.cuur = currPirce + ''
 
       klineData.forEach((item) => {
@@ -357,8 +359,10 @@ export default ({
             itemStyle: {
               normal: {
                 shadowBlur: 6,
+                /* shadowColor: 'red',
+                color: config.downColor */
                 shadowColor: 'red',
-                color: config.downColor
+                color: config.upColor
               }
             },
             /* lineStyle: {
@@ -382,8 +386,10 @@ export default ({
             itemStyle: {
               normal: {
                 shadowBlur: 6,
+                /* shadowColor: 'red',
+                color: config.upColor */
                 shadowColor: 'red',
-                color: config.upColor
+                color: config.downColor
               }
             },
             /* lineStyle: {
@@ -418,9 +424,9 @@ export default ({
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'

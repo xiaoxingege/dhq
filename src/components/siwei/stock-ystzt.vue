@@ -37,7 +37,14 @@
       </ul>
     </div>
   </div>
-  <div class="legend"></div>
+  <div class="legend clearfix">
+    <div class="fr">
+      <ul class="clearfix">
+        <li v-for="(item,index) in quoteChange" :style="{'background':chgColor[index]}" v-if="options.colorDefault==='mkt_idx.cur_chng_pct'">{{item}}%
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -61,6 +68,8 @@ export default {
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
+      quoteChange: Data.quoteChange,
+      chgColor: Data.chgColor,
       dialogOptions: {
         stockName: '',
         stockCode: '',
@@ -79,8 +88,8 @@ export default {
           }
         }
       },
-      bubbleHeight: (window.innerHeight - 29) * 0.66,
-      lineChartHeight: (window.innerHeight - 29) * 0.33,
+      bubbleHeight: (window.innerHeight - 29) * 0.66-22,
+      lineChartHeight: (window.innerHeight - 29) * 0.33-22,
       isShowDialog: false,
       offsetX: '',
       offsetY: '',
@@ -439,11 +448,8 @@ export default {
         })
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.ztgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.ztgBubbles.clientHeight) {
             that.offsetY = that.$refs.ztgBubbles.clientHeight - 247
@@ -562,7 +568,7 @@ export default {
             type: 'value',
             axisLabel: {
               formatter: function(val) {
-                return val * 100 + '%'
+                return val + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -630,12 +636,16 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex][1]) + '</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            position: function(point) {
+              return [point[0] + 10, point[1]];
+
+            }
 
           }
         })
@@ -1019,7 +1029,6 @@ export default {
       this.$store.dispatch('bubbles/getCxLine', {
         type: 1
       }).then(() => {
-        const that = this
         let cxLineData = this.$store.state.bubbles.cxLineData
 
         this.lineChart && this.lineChart.setOption({
@@ -1066,8 +1075,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + that.dealNumFormat(cxLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(cxLineData.szIndex[params[0].dataIndex][1]) + '</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
 
               return tooltipStr;
             },
@@ -1209,7 +1218,7 @@ export default {
 
 .ztgBox {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 44px);
 
     .ztgMain {
         width: 100%;
@@ -1223,7 +1232,7 @@ export default {
 
         .qsgList {
             height: 100%;
-            width: 410px;
+            width: 450px;
             background: #232630;
         }
 
@@ -1308,5 +1317,24 @@ export default {
     width: 470px;
     height: 247px;
     position: absolute;
+}
+.legend {
+  right: 10px;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  margin: 12px 0;
+}
+
+.legend ul li {
+  float: left;
+  width: 60px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  border-right: 1px solid #000000;
+  box-sizing: border-box;
+  border-bottom: 1px solid #000;
 }
 </style>
