@@ -158,7 +158,9 @@
         this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
-          this.$store.commit('setNoData',true)
+          setTimeout(() => {
+            this.$store.commit('setNoData',true)
+          },300)
         }
       },
       cutStr(str, len) {

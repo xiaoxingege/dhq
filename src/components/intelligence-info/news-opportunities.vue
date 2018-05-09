@@ -222,7 +222,9 @@
         this.typeList(this.typeIndex)
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
-          this.$store.commit('setNoData',true)
+          setTimeout(() => {
+            this.$store.commit('setNoData',true)
+          },300)
         }
       },
       updateNews() {
