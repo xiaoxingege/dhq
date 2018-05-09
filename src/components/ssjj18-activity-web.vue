@@ -206,11 +206,13 @@ input {
     z-index: 12;
 }
 .pop .close {
-    width: 36px;
-    height: 36px;
+    width: 17px;
+    height: 17px;
     position: absolute;
-    top: 18px;
-    right: 21px;
+    top: 21px;
+    right: 28px;
+    background: url("../assets/images/ssjj18-activity/ssjj18-web-close.png") no-repeat;
+    background-size: 100% 100%;
 }
 
 .join {
