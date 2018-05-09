@@ -65,7 +65,7 @@
       line-height: 28px;
       width: 1200px;
       margin: auto;
-      font-family: "微软雅黑";
+      font-family: "Microsoft YaHei";
   }
 </style>
 <template>
