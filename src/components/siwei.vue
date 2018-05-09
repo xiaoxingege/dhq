@@ -763,8 +763,10 @@ export default {
       if (tmpValue === 'demoTmp0') {
         return
       }
-      this.options = { ...this.templateList[tmpValue].options,
-        ...this.options
+      this.options = {
+          ...this.options,
+          ...this.templateList[tmpValue].options
+
       }
       this.dimensionOptions.xDefault = this.templateList[tmpValue].options.xDefault
       this.dimensionOptions.yDefault = this.templateList[tmpValue].options.yDefault
