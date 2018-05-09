@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -276,13 +276,13 @@ export default ({
         var newValue = {}
         // var newGrow = {}
         /* var newValue = {
-            value: value, 
+            value: value,
             itemStyle: {
               normal: {
                  color: this.themeColor = value < 0 ? config.downColor : config.upColor,
                 borderColor: value < 0 ? config.downColor : config.upColor,
                 borderType:'',
-                borderWidth:0 
+                borderWidth:0
               }
             }
         } */
@@ -310,10 +310,10 @@ export default ({
                  normal: {
                   width: 8,
                   color: '#fff'
-                } 
+                }
               } */
           /* newGrow = {
-             value: growthRate, 
+             value: growthRate,
              itemStyle: {
                  normal: {
                      // color: 'rgba(252,230,48,1)',
@@ -354,7 +354,7 @@ export default ({
           }
 
           /* newGrow = {
-            value: growthRate, 
+            value: growthRate,
             itemStyle: {
               normal: {
                   // color: 'rgba(252,230,48,1)',
@@ -398,7 +398,7 @@ export default ({
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
       // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
+      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])
       /* if (this.strategyDetail) {
 
        } */
@@ -600,7 +600,7 @@ export default ({
               } else {
                 return '#ca4941'
               }
-            
+
         }, */
       /* borderWidth: borderWidth,
        borderColor:borderColor,
@@ -1071,7 +1071,7 @@ export default ({
                        } else {
                          return '#ca4941'
                        }
-                     
+
                  }, */
               /* borderWidth: borderWidth,
                borderColor:borderColor,

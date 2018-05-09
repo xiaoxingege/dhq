@@ -9,7 +9,7 @@
       -ms-user-select: none;
       user-select: none;
       box-sizing: border-box;
-      font-family: '微软雅黑';
+      font-family: "Microsoft YaHei";
       font-size: $fontSizeBase;
   }
   /*$bgDeepColor:#0d0e0f;/* 最深背景 */
