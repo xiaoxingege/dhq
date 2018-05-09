@@ -59,7 +59,7 @@
       color: $wordsColorBase;
   }
   .foot-tishi {
-      font-size: 14px;
+      font-size: 12px;
       background: #141518;
       color: $wordsColorBase;
       line-height: 28px;
