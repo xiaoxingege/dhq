@@ -7,8 +7,8 @@
         <div></div>
         <div class='chart' ref='chart'></div>
         <span class="desc">气泡大小：绝对涨速&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;气泡颜色：涨速</span>
-        <span v-z3-updowncolor=1 class='zt'>涨停{{zt}}家 ST{{stzt}}家</span>
-        <span v-z3-updowncolor=-1 class='dt'>跌停{{dt}}家 ST{{stdt}}家</span>
+        <span v-z3-updowncolor=1 class='zt'>涨停{{zt | isNull}}家 ST{{stzt | isNull}}家</span>
+        <span v-z3-updowncolor=-1 class='dt'>跌停{{dt | isNull}}家 ST{{stdt | isNull}}家</span>
       </div>
       <div class='bottom'>
         <abnormalPlatesChart></abnormalPlatesChart>
@@ -184,11 +184,7 @@ export default {
           itemStyle: {
             normal: {
               color: color,
-              opacity: 0.6
-            },
-            emphasis: {
-              color: color,
-              opacity: 0.6
+              opacity: 0.7
             }
           },
           label: {
@@ -397,7 +393,7 @@ export default {
           },
           itemStyle: {
             normal: {
-              color: (params) => Number(params.name) >= 0 ? config.upColor : config.downColor
+              color: (params) => Number(params.name) > 0 ? config.upColor : (Number(params.name) < 0 ? config.downColor : config.flatColor)
             }
           },
           data: this.marketCount
@@ -405,6 +401,7 @@ export default {
           type: 'scatter',
           xAxisIndex: 1,
           yAxisIndex: 1,
+          hoverAnimation: false,
           markLine: {
             silent: true,
             animation: false,
@@ -442,7 +439,7 @@ export default {
           position: position,
           valueList: [{
               text: '量比',
-              value: stock.xData !== null ? stock.xData.toFixed(3) : '--'
+              value: stock.xData !== null ? stock.xData.toFixed(2) : '--'
             },
             {
               text: '涨跌幅',
@@ -450,11 +447,11 @@ export default {
             },
             {
               text: '绝对涨速',
-              value: Math.abs(Number(stock.bubbleSize)).toFixed(3)
+              value: Math.abs(Number(stock.bubbleSize)).toFixed(2)
             },
             {
               text: '涨速',
-              value: Number(stock.bubbleSize).toFixed(3)
+              value: Number(stock.bubbleSize).toFixed(2)
             }
           ]
         }
@@ -462,15 +459,28 @@ export default {
       });
       this.chart.on('mouseout', (params) => {
         this.showStockBox = false;
+      });
+      this.chart.on('dblclick', (params) => {
+        const innerCode = this.bubbleData[params.dataIndex].innerCode;
+        this.openStock(innerCode);
       })
     },
     openStock(code) {
       window.open(`stock/${code}`);
     },
     openPlate(code) {
-      this.$router.push({
-        name: ''
-      });
+      const route = code.length === 6 ? {
+        name: "industryDetail",
+        params: {
+          industryId: code
+        }
+      } : {
+        name: "topicDetail",
+        params: {
+          topicId: code
+        }
+      };
+      this.$router.push(route);
     },
     matchColor(value) {
       let range = this.legendData;
@@ -613,7 +623,6 @@ export default {
     }
   },
   mounted() {
-
     this.initStocks();
     this.updateBubble();
     // this.$store.dispatch('marketBubble/updateBubble', {

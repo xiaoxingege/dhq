@@ -1,6 +1,6 @@
 <template>
 <div class="abnormal-plates-chart">
-  <div class="chart" ref="chart"></div>
+  <div class="chart" ref="chart" @dblclick="openIndex"></div>
 </div>
 </template>
 
@@ -273,6 +273,9 @@ export default {
         value = "0" + value;
       }
       return value.substring(0, 2) + ":" + value.substring(2, 4)
+    },
+    openIndex() {
+      window.open('stock/000001.SH');
     }
   },
   mounted() {
