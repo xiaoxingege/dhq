@@ -152,6 +152,7 @@ body {
     height: 62px;
     padding: 10px 5px;
     font-size: 14px;
+    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
@@ -316,7 +317,7 @@ export default ({
             normal: {
 
               // color: 各异，
-              // borderColor: 各异,     // 标注边线颜色，优先于color 
+              // borderColor: 各异,     // 标注边线颜色，优先于color
               // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               // label: {
               // show: true,
@@ -542,7 +543,7 @@ export default ({
             }
           },
           {
-            /*  
+            /*
         boundaryGap : false,
         axisPointer: {
             type: 'shadow',

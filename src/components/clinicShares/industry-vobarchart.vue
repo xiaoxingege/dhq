@@ -131,12 +131,12 @@ body {
 .kline-title2 {
     padding: 10px 7px;
     font-size: 14px;
+    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
 }
 .kline-charts {
-
     height: 264px;
     width: 100%;
 }
@@ -399,11 +399,11 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           name: this.industryYname,
           // data: ['0', '50%', '100%'],
-          /* 
+          /*
           axisLabel: {
               formatter: '{value} %'
           }, */

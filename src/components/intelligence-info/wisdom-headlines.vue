@@ -1,7 +1,7 @@
 <template>
 <!-- 智头条 -->
 <div class="wisdomHeadlines" @scroll="getScrollTop($event)">
-  <div class="news-wrapper">
+  <div class="news-wrapper pb-30">
     <ul class="news-list" ref="newsList">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
@@ -38,7 +38,7 @@
     </ul>
     <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
     <p class="tc mt-10 mb-20">
-      <a ref="more" v-if="!noData && wisdomHeadlinesList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
+      <a ref="more" ></a>
       <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
       <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </p>
@@ -62,7 +62,7 @@
       return {
         page: 0,
         totalPage: 200,
-        intervalTime: 60000,
+        intervalTime: 5000,
         scrollTop: 0,
         innerHeight: window.innerHeight
       }
@@ -72,7 +72,7 @@
       this.updateNews()
       var date = new Date()
       var nowTime = formatDate(date,'hh:mm')
-      if(nowTime < "09:25" ||  nowTime > "15:30") {
+      if(nowTime < '09:25' ||  nowTime > '15:30') {
         console.log(nowTime)
         clearInterval(intervalId2)
       }else{
@@ -122,11 +122,11 @@
           this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' })
       },
       loadMore() {
-        var moreOffsetTop = this.$refs.more.offsetTop
+        // var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        if( moreOffsetTop < this.innerHeight){
-          this.$store.commit('setIsTop',false)
-        }
+        // if( moreOffsetTop < this.innerHeight){
+        //   this.$store.commit('setIsTop',false)
+        // }
         this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
@@ -141,7 +141,14 @@
         },this.intervalTime)
       },
       getScrollTop(e) {
-        this.scrollTop = e.target.scrollTop
+        // console.log((this.scrollTop+this.innerHeight)+"=="+document.body.offsetHeight)
+        // var offsetHeight = e.target.offsetHeight
+        var scrollHeight = e.target.scrollHeight
+        var scrollTop = e.target.scrollTop
+        var scrollBottom = offsetHeight + scrollTop
+        // console.log("offsetHeight= "+offsetHeight+" scrollHeight= "+scrollHeight+" scrollTop= "+scrollTop+" scrollBottom= "+scrollBottom)
+        console.log(scrollBottom+'=='+scrollHeight)
+        this.scrollTop = e.target.scrollTop*2
         if (this.scrollTop >= this.innerHeight) {
           if (intervalId) {
             console.log(intervalId)
@@ -154,6 +161,9 @@
           this.updateNews()
         }else{
           this.$store.commit('setIsTop',false)
+        }
+        if(scrollBottom===scrollHeight && this.noData !== true){
+          this.loadMore()
         }
       },
       cutStr(str, len) {

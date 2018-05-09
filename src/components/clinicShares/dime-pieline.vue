@@ -150,6 +150,7 @@ body {
     height: 62px;
     padding: 10px 5px;
     font-size: 14px;
+    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
