@@ -104,6 +104,7 @@ export default {
   mounted() {
       document.title = '纵横股今'
       var self = this;
+      
       document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.getBoundingClientRect().width / 750 * 625+ '%'
       var p = new Promise(function(resolve, reject){        
             $.ajax({
