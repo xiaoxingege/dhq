@@ -18,7 +18,7 @@
           <span class="source">( {{item.srcName}} )</span>
         </div>
         <div class="con-bottom">
-          <ul class="stock">
+          <ul class="stock"> 
               <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                 <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                   <span>{{item.equity.name}}</span>
