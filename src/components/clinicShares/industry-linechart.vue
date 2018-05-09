@@ -131,7 +131,6 @@ body {
 .kline-title2 {
     padding: 10px 7px;
     font-size: 14px;
-    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
@@ -416,7 +415,7 @@ export default ({
         },
         yAxis: [{
           show: true,
-          // type: 'category',
+          // type: 'category', 
           type: 'value',
           // name: this.floatYname,
           position: 'left',
@@ -454,7 +453,7 @@ export default ({
                      max: 'dataMax' */
         }, {
           show: true,
-          // type: 'category',
+          // type: 'category', 
           type: 'value',
           // name: this.floatYname,
           position: 'right',

@@ -75,8 +75,9 @@ body {
     box-flex: 3;
 }
 .clinic-top-left {
+
     border-right: 1px solid $lineAndTitleColor;
-    width:331px;
+    width: 27%;
 }
 .red {
     color: $upColor;
@@ -199,12 +200,12 @@ body {
     font-size: 14px;
 }
 .mark-date {
-    font-size: 14px;
     padding-left: 7px;
 }
 .clinic-top-center {
     border-right: 1px solid $lineAndTitleColor;
-    width: 331px;
+    /*  width: 33%; */
+    width: 31%;
 }
 .radar-box {
     height: 180px;
@@ -218,11 +219,12 @@ body {
       position: relative;*/
 }
 .clinic-top-right {
-  padding-left: 37px;
-  width: 537px;
+    padding-left: 70px;
+    /* width: 37%; */
+    width: 40%;
 }
 .short-title {
-    padding-bottom: 5px;
+    padding-bottom: 12px;
     font-size: 14px;
 }
 .short-detail {
@@ -235,7 +237,7 @@ body {
 }
 .center-title {
     font-size: 14px;
-    padding: 15px 0 5px;
+    padding: 20px 0 12px;
 }
 .value-box {
     padding: 10px;
@@ -340,6 +342,9 @@ body {
     text-overflow: ellipsis;
     width: 15%;
 }
+.short-title {
+    padding-bottom: 21px;
+}
 .short-fund {
     font-size: 14px;
     margin-bottom: 10px;
@@ -429,7 +434,7 @@ body {
     position: absolute;
     font-size: 14px;
     color: #c9d0d7;
-    bottom: -7px;
+    bottom: -2px;
 }
 .numL {
     left: -3px;
@@ -628,6 +633,7 @@ export default {
             text: '行业面',
             min: 0,
             max: 10
+
           }, {
             text: '消息面',
             min: 0,
@@ -641,9 +647,9 @@ export default {
             min: 0,
             max: 10
           }],
-          radius: '85%',
+          radius: '70%',
           nameGap: 8,
-          center: ['50%', '56%'],
+          center: ['50%', '50%'],
           splitArea: {
             show: false
           },
@@ -662,8 +668,7 @@ export default {
           },
           name: {
             textStyle: {
-              color: '#d3d9dd',
-              fontSize:'14'
+              color: '#d3d9dd'
             }
           }
           /* splitArea: {
