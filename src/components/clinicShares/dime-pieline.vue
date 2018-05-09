@@ -294,7 +294,7 @@ export default ({
       const opt = {
         title: {
           left: 1,
-          top: -6,
+          top: -5,
           text: '当日、近3、5、10日累计净流入',
           textStyle: {
             color: '#c9d0d7',
