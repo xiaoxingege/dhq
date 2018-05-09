@@ -131,6 +131,7 @@ body {
 .kline-title2 {
     padding: 10px 7px;
     font-size: 14px;
+    font-family: '微软雅黑';
 }
 .kline {
     height: 264px;
@@ -307,7 +308,7 @@ export default ({
         legend: {
           show: this.legendShow,
           left: 3,
-          top: -6,
+          top: -5,
           itemWidth: 20,
           itemHeight: 10,
           textStyle: {
@@ -405,7 +406,7 @@ export default ({
         },
         yAxis: {
 
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           // data: ['0', '50%', '100%'],
