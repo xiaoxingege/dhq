@@ -28,7 +28,7 @@
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary('important',news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="newsType === 'important' && news.newsId === newsId">
-              <p>{{news.summary && news.summary.slice(0,140) || '--'}}…</p>
+              <p>{{news.summary && news.summary.slice(0,140) || '--'}}</p>
             </div>
           </li>
         </ul>
@@ -137,6 +137,10 @@ export default {
                     border-radius: 4px;
                     line-height: 20px;
                     position: relative;
+                }
+                .sumary p{
+                  font-size: 12px;
+                  font-family: '微软雅黑';
                 }
                 .sumary:before {
                     content: '';
