@@ -37,7 +37,7 @@
       </li>
     </ul>
     <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-    <p v-if="noData"  class="tc mt-20 loadMore">数据已加载完</p>
+    <p v-if="noData"  class="tc loadMore">数据已加载完</p>
     <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
   </div>
   <StockBox ref="stockbox"></StockBox>

@@ -37,11 +37,8 @@
         </li>
       </ul>
       <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-      <p class="tc mt-10 mb-20">
-        <a ref="more" v-if="!noData && newsFlash.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        <p v-if="noData"  class="tc mt-10 loadMore  mb-20">数据已加载完</p>
-        <p v-if="newsFlash.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
-      </p>
+      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
+      <p v-if="newsFlash.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>
@@ -112,7 +109,12 @@
     },
     methods: {
       loadList() {
-        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' })
+        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+              if(_height<this.innerHeight){
+                this.loadMore()
+              }
+        })
       },
       updateNews() {
         this.updateNewsPid = setInterval(() => {
@@ -129,6 +131,10 @@
         this.$store.dispatch('getTopicIndu', { code:this.topicCode, flag: 'topic' })
       },
       getScrollTop(e) {
+        let offsetHeight = e.target.offsetHeight
+        let scrollHeight = e.target.scrollHeight
+        let scrollTop = e.target.scrollTop
+        let scrollBottom = offsetHeight + scrollTop
         this.scrollTop = e.target.scrollTop*2
         if (this.scrollTop >= this.innerHeight) {
           if (this.updateNewsPid) {
@@ -142,13 +148,13 @@
         }else{
           this.$store.commit('setIsTop',false)
         }
+
+        if(scrollBottom === scrollHeight && this.noData !== true){
+          this.loadMore()
+        }
       },
       loadMore() {
-        var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        if( moreOffsetTop < this.innerHeight){
-          this.$store.commit('setIsTop',false)
-        }
         this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
@@ -242,6 +248,18 @@
   @import '../../assets/scss/style.scss';
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
+  .news-wrapper{
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .pullUptoRefresh,.loadMore{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height:50px;
+    line-height: 50px;
+  }
   .news-flash {
       color: $wordsColorBase;
       height:100%;

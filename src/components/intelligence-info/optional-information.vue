@@ -7,7 +7,7 @@
       </select>
       <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank"  class="lookStock">自选股查看</a>
     </div>
-    <div class="news-wrappe">
+    <div class="news-wrapper">
       <ul class="news-list">
         <li class="news-list-item" v-for="item in optionalInformationList">
           <div class="con-top">
@@ -25,11 +25,11 @@
               <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
             </router-link>
           </div>
-          <div class="con-txt">
+          <!-- <div class="con-txt">
             <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
               <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
             </router-link>
-          </div>
+          </div> -->
           <div class="con-bottom">
             <span class="source">{{item.srcName}}</span>
             <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
@@ -37,12 +37,9 @@
           </div>
         </li>
       </ul>
-      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-      <p class="tc mt-10 mb-20">
-        <a ref="more" v-if="!noData && optionalInformationList.length >= 8 &&  loadingShow != true" href="javascript:;" class="loadMore" @click="loadMore">加载更多</a>
-        <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-        <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
-      </p>
+      <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
+      <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>
@@ -74,6 +71,8 @@
         this.loadList()
       })
       this.updateNews()
+
+      console.log($('.pullUptoRefresh').offsetHeight)
     },
     computed: {
       ...mapState([
@@ -119,7 +118,12 @@
     methods: {
       loadList() {
         this.$nextTick(() => {
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' })
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' }).then(() => {
+            let _height = $('.news-list').get(0).offsetHeight
+                if(_height<this.innerHeight){
+                  this.loadMore()
+                }
+          })
         })
       },
       updateNews() {
@@ -130,6 +134,10 @@
         },this.intervalTime)
       },
       getScrollTop(e) {
+        let offsetHeight = e.target.offsetHeight
+        let scrollHeight = e.target.scrollHeight
+        let scrollTop = e.target.scrollTop
+        let scrollBottom = offsetHeight + scrollTop
         this.scrollTop = e.target.scrollTop
         if (this.scrollTop*2 >= this.innerHeight ) {
           if (this.updateNewsPid) {
@@ -144,13 +152,12 @@
         }else{
           this.$store.commit('setIsTop',false)
         }
+        if(scrollBottom === scrollHeight && this.noData !== true){
+          this.loadMore()
+        }
       },
       loadMore() {
-        var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        if( moreOffsetTop < this.innerHeight){
-          this.$store.commit('setIsTop',false)
-        }
         this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
@@ -281,8 +288,16 @@
   }
   .news-wrapper{
     position:relative;
-    padding-bottom: 20px;
-    height: 100%;
+    margin-bottom: 50px;
+  }
+
+  .pullUptoRefresh,.loadMore{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height:50px;
+    line-height: 50px;
   }
   .top-bar{
     height: 32px;
