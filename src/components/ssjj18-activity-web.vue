@@ -308,8 +308,8 @@ input {
 .nav {
     position: relative;
     z-index: 10;
-    width: 140px;
-    height: 113px;
+    width: 232px;
+    height: 165px;
     position: fixed;
     top: 15%;
     right: 5%;
@@ -317,8 +317,8 @@ input {
     border-radius: 10px;
 }
 .nav video {
-    width: 138px;
-    height: 78px;
+    width: 230px;
+    height: 130px;
     margin: 1px;
     border-radius: 10px 10px 0 0;
 }
