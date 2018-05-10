@@ -1,8 +1,8 @@
 <template>
 <!-- 智头条 -->
 <div class="wisdomHeadlines"@scroll="getScrollTop($event)">
-  <div class="news-wrapper" ref="newsWrapper" >
-    <ul class="news-list" ref="newsList">
+  <div class="news-wrapper" >
+    <ul class="news-list">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
           <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
@@ -18,7 +18,7 @@
           <span class="source">( {{item.srcName}} )</span>
         </div>
         <div class="con-bottom">
-          <ul class="stock"> 
+          <ul class="stock">
               <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                 <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                   <span>{{item.equity.name}}</span>
@@ -36,11 +36,9 @@
         </div>
       </li>
     </ul>
-    <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-    <p class="tc mt-10 mb-20">
-      <p v-if="noData"  class="tc mt-10 loadMore mb-20">数据已加载完</p>
-      <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
-    </p>
+    <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+    <p v-if="noData"  class="tc loadMore">数据已加载完</p>
+    <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -69,6 +67,7 @@
     mounted() {
       this.loadList()
       this.updateNews()
+      this.updateTopic()
     },
     computed: {
       ...mapState([
@@ -110,18 +109,21 @@
     },
     methods: {
       loadList() {
-          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' })
+          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' }).then(() => {
+            let _height = $('.news-list').get(0).offsetHeight
+                if(_height<this.innerHeight){
+                  this.loadMore()
+                }
+          })
       },
       loadMore() {
-        // var moreOffsetTop = this.$refs.more.offsetTop
         this.page++
-        // if( moreOffsetTop < this.innerHeight){
-        //   this.$store.commit('setIsTop',false)
-        // }
         this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
-          this.$store.commit('setNoData',true)
+          setTimeout(() => {
+            this.$store.commit('setNoData',true)
+          },300)
         }
       },
       updateNews() {
@@ -258,7 +260,18 @@
       height: 100%;
       overflow: auto;
   }
-
+  .news-wrapper{
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .pullUptoRefresh,.loadMore{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height:50px;
+    line-height: 50px;
+  }
   .con-txt,
   .labels,
   .name,

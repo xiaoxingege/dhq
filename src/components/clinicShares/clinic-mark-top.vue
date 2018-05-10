@@ -9,7 +9,6 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
     font-family: "Microsoft YaHei";

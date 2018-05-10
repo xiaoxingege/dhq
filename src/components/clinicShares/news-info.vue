@@ -140,7 +140,7 @@ export default {
                 }
                 .sumary p{
                   font-size: 12px;
-                  font-family: '微软雅黑';
+                  font-family: "Microsoft YaHei";
                 }
                 .sumary:before {
                     content: '';
