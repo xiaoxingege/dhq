@@ -35,8 +35,8 @@
             </div>
           </div>
         </li>
+        <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
       </ul>
-      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
       <p v-if="noData"  class="tc loadMore">数据已加载完</p>
       <p v-if="newsFlash.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
@@ -251,7 +251,6 @@
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
   .news-wrapper{
-    position: relative;
     margin-bottom: 50px;
   }
   .pullUptoRefresh,.loadMore{
@@ -310,6 +309,7 @@
       line-height: 18px;
   }
   .news-list {
+      position: relative;
       .news-list-item {
           border: 1px solid #0d1112;
           background-color: #1a1b1f;

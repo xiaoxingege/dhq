@@ -39,10 +39,10 @@
             <span class="price" v-if="item.newsType=== '研报'">目标价格：{{item.equityList.expectPrice | isNull}}</span>
           </div>
         </li>
+        <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
       </ul>
-      <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
       <p v-if="noData"  class="tc loadMore">数据已加载完</p>
-      <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 loadMore"><img src="../../assets/images/empty_data.png" alt="" /></p>
+      <p v-if="optionalInformationList.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
     <StockBox ref="stockbox"></StockBox>
   </div>
@@ -292,10 +292,9 @@
     overflow: auto;
   }
   .news-wrapper{
-    position:relative;
     margin-bottom: 50px;
+    height:100%;
   }
-
   .pullUptoRefresh,.loadMore{
     position: absolute;
     bottom: -50px;
@@ -367,6 +366,7 @@
     }
   }
   .news-list{
+    position: relative;
     .news-list-item{
       border: 1px solid #0d1112;
       background-color:#1a1b1f;
