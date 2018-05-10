@@ -241,7 +241,7 @@
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
         <IndustryStklevelBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
       </div>
-      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
+      <div class="chart-grop box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
         <IndustryLinechart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
       </div>
     </div>
