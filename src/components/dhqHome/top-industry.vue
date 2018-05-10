@@ -86,10 +86,10 @@
         <td>最新价</td>
         <td>涨幅</td>
       </tr>
-      <tr v-for="item of industryList">
-        <td @click="toIndustryDetail(item.industryCode)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
+      <tr v-for="(item,index) of industryList">
+        <td @click="toIndustryDetail(item.industryCode,index)" style="cursor: pointer;">{{item.industryName === null?'--':item.industryName}}</td>
         <td v-z3-updowncolor="item.industryChg">{{formateData(item.industryChg)?'--':parseFloat(item.industryChg).toFixed(2)+'%'}}</td>
-        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
+        <td><span @click="linkStock(item.innerCode,index)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChg">{{formateData(item.stockChg)?'--':parseFloat(item.stockChg).toFixed(2)+'%'}}</td>
       </tr>
@@ -102,10 +102,10 @@
         <td>最新价</td>
         <td>涨跌幅</td>
       </tr>
-      <tr v-for="item of hotTopicList">
-        <td @click="toTopicDetail(item.topicCode)"><span>{{formateData(item.topicName)?'--':item.topicName}}</span></td>
+      <tr v-for="(item,index) of hotTopicList">
+        <td @click="toTopicDetail(item.topicCode,index)"><span>{{formateData(item.topicName)?'--':item.topicName}}</span></td>
         <td v-z3-updowncolor="item.topicChngPct">{{formateData(item.topicChngPct)?'--':parseFloat(item.topicChngPct).toFixed(2)+'%'}}</td>
-        <td><span @click="linkStock(item.innerCode)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
+        <td><span @click="linkStock(item.innerCode,index)" v-z3-stock="{ref:'stockbox',code:item.innerCode}" :value="item.innerCode">{{formateData(item.stockName)?'--':item.stockName}}</span></td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockPrice)?'--':parseFloat(item.stockPrice).toFixed(2)}}</td>
         <td v-z3-updowncolor="item.stockChngPct">{{formateData(item.stockChngPct)?'--':parseFloat(item.stockChngPct).toFixed(2)+'%'}}</td>
       </tr>
@@ -142,7 +142,12 @@ export default {
       },
       styleLiObj: {
         width: '85px'
-      }
+      },
+      pointKey:{
+          'industry': 'click_sybkzs_hy',
+          'topic':'click_sybkzs_tc'
+      },
+     userId:this.$store.state.user.userId
     }
   },
   watch: {
@@ -171,6 +176,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point='+this.pointKey[data]+'&userId='+this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     initTopIndustry(date) {
       if (this.type === 'industry') {
@@ -200,18 +206,20 @@ export default {
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function(innerCode) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg', 'WT.ti', document.title) // 点击龙头股打点
+    linkStock: function(innerCode,index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击龙头股打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toTopicDetail: function(topicCode) {
+    toTopicDetail: function(topicCode,index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_tc&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击板块指数打点
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     },
-    toIndustryDetail: function(code) {
+    toIndustryDetail: function(code,index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_hy&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击板块指数打点
       if (code) {
         window.open(ctx + '/industry/' + code.split('.')[0])
       }

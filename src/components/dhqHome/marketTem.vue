@@ -105,7 +105,7 @@ export default {
           grid: {
             left: 0,
             top: 30,
-            width: '120%',
+            width: '110%',
             height: '80%',
             containLabel: true
           },

@@ -101,6 +101,7 @@
 import NavBar from 'components/dhqHome/nav-bar'
 import DayMarketChart from 'components/dhqHome/daiyMarketChart'
 import z3websocket from '../../dhq/z3socket'
+import util from '../../dhq/util'
 import {
   ctx
 } from '../../dhq/config'
@@ -152,6 +153,7 @@ export default {
     DayMarketChart
   },
   computed: mapState({
+    userId:state  => state.user.userId,
     dpData: state => state.dhqIndex.dpIndexData,
     dpIndexData: function() {
       const dpIndexData = this.$store.state.dhqIndex.dpIndexData
@@ -214,6 +216,7 @@ export default {
       this.isDbClick('click', item)
     },
     toMarketDetail: function(item) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sy_zhishu&userId='+this.userId, 'WT.ti', document.title)
       clearTimeout(this.timeoutID)
       this.isDbClick('dblclick', item)
     },
