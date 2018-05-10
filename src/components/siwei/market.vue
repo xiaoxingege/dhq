@@ -424,12 +424,12 @@ export default {
         const x = params.event.offsetX;
         const y = params.event.offsetY;
         if (x >= this.$refs.chart.clientWidth / 2) {
-          position.left = x - 490
+          position.left = Math.max(x - 490, 0)
         } else {
           position.left = x + 20
         }
         if (y >= this.$refs.chart.clientHeight / 2) {
-          position.top = y - 247
+          position.top = Math.max(y - 247, 0);
         } else {
           position.top = y
         }
@@ -510,9 +510,9 @@ export default {
       if (value === 0) {
         return minSize
       } else if (value <= 0.5) {
-        return 14 * Math.log(1 + 10 * value) + 11;
+        return 10 * Math.log(1 + 10 * value) + 11;
       } else if (value <= 2) {
-        return 91 * Math.log(1 + value)
+        return 72 * Math.log(1 + value)
       } else {
         return maxSize;
       }
@@ -575,7 +575,7 @@ export default {
               color: '#ccc',
               interval: intervalX,
               formatter: (value, index) => {
-                if (value === maxX) {
+                if (index === 5) {
                   return "ln(量比)           ";
                 }
                 return value.toFixed(2);
