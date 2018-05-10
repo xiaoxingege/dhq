@@ -15,7 +15,7 @@
               <a :href="'/stock/'+item.equityList.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equityList.code}" :value='item.equityList.code'>
                 <span class="fontS14" v-z3-updowncolor="item.equityList.chngPct">{{relatedStocks[item.equityList.code].name}}[{{item.equityList.code | code}}]</span>
               </a>
-              <span class="fontS14">{{relatedStocks[item.equityList.code].price}}</span>
+              <span class="fontS14">{{relatedStocks[item.equityList.code].price | price}}</span>
               <span class="fontS14">{{relatedStocks[item.equityList.code].chngPct | chngPct}}</span>
             </p>
           </div>

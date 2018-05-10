@@ -119,7 +119,7 @@
                 <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                   <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                     <span>{{item.equity.name}}</span>
-                    <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
+                    <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
                     <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
                   </a>
                 </li>
