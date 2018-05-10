@@ -48,7 +48,7 @@
   let intervalId = ''
   let intervalId2 = ''
   import 'whatwg-fetch'
-  import { cutString } from 'utils/date'
+  import { cutString,formatDate } from 'utils/date'
   import { mapState } from 'vuex'
   import { mapGetters } from 'vuex'
   import StockBox from 'components/stock-box'
@@ -68,7 +68,7 @@
       this.loadList()
       this.updateNews()
       this.updateTopic()
-
+    
     },
     computed: {
       ...mapState([

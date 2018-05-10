@@ -21,7 +21,10 @@
           </div>
           <div>
             <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
-            <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
+            <router-link v-if="item.newsType === '公告'" :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'notice'} }" target="_blank">
+              <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
+            </router-link>
+            <router-link v-else :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
               <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
             </router-link>
           </div>
@@ -63,6 +66,7 @@
         scrollTop: 0,
         innerHeight: window.innerHeight,
         innerCodes:'',
+        innerCode:'600229.SH',
         flag:true
       }
     },
