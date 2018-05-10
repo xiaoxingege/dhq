@@ -66,7 +66,6 @@
         scrollTop: 0,
         innerHeight: window.innerHeight,
         innerCodes:'',
-        innerCode:'600229.SH',
         flag:true
       }
     },

@@ -224,10 +224,17 @@ export default {
       }
     },
     setStockPool(state, result) {
-      state.stockPool = result
-      for(let i = 0; i< 1; i++) {
-        state.optionalStockId = result[0].poolId
-        var equityPool = result[0].equityPool
+      var data = result
+      const stockPool = []
+      for(var item in data){
+        if(data[item].poolType === 1){
+          stockPool.push(data[item])
+        }
+      }
+      state.stockPool = stockPool
+      for(let i = 0; i< stockPool.length; i++) {
+        state.optionalStockId = stockPool[0].poolId
+        var equityPool = stockPool[0].equityPool
         if(equityPool === null){
           state.innerCode = ''
         }else{
@@ -472,7 +479,7 @@ export default {
         }
       })
     },
-    // 获取股票池列表
+
     getTopicIndu({ commit }, { code,flag } ) {
       const url = `${domain}/openapi/news/chngPctList.shtml?code=${code}&flag=${flag}`
       return fetch(url, {
