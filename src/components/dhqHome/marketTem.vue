@@ -108,7 +108,7 @@ export default {
             left: 10,
             top: 30,
             width: '99%',
-            height: '80%'
+            height: '70%'
             //   containLabel: true
           },
           xAxis: [{
