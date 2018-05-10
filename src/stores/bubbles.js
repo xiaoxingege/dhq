@@ -187,8 +187,8 @@ export default {
                 state.ztgBubblesData.xData.push(Math.log(11))
                 state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
               } else {
-                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
-                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+                state.ztgBubblesData.xData.push(Math.log(Number(item.xData)))
+                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData)), item.yData])
               }
                 state.ztgBubblesData.yData.push(item.yData)
                 state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
@@ -363,15 +363,31 @@ export default {
       }
     },
     setNewStockList(state, result) {
+      function dealNull(arr,key){
+            let apendArr = []
+            for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
+
+                if(arr[i] && arr[i][key] === null ){
+                    apendArr.push(arr[i])
+                    arr.splice(i,1);
+                    flag = false;
+                } else {
+                    flag = true;
+                }
+            }
+            return arr.concat(apendArr)
+        }
       if (result.body.errCode === 0) {
         if (result.type === 0 || result.type === 1) {
           state.newStockList = result.body.data.sort(function(a, b) {
             return b.chgNum - a.chgNum
           })
+            state.newStockList =  dealNull(state.newStockList,'chgNum')
         } else if (result.type === 2) {
           state.newStockList = result.body.data.sort(function(a, b) {
             return b.chg - a.chg
           })
+            state.newStockList =  dealNull(state.newStockList,'chg')
         }
 
         // state.newStockList = result.data
@@ -396,6 +412,20 @@ export default {
       }
       state.newStockSortType = result.type
       state.newStockSort = result.sortType
+      function dealNull(arr,key){
+          let apendArr = []
+          for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
+
+              if(arr[i] && arr[i][key] === null ){
+                  apendArr.push(arr[i])
+                  arr.splice(i,1);
+                  flag = false;
+              } else {
+                  flag = true;
+              }
+          }
+          return arr.concat(apendArr)
+      }
 
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
@@ -428,10 +458,12 @@ export default {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chg - b.chg
           })
+            state.newStockList =  dealNull(state.newStockList,'chg')
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chg - a.chg
           })
+          state.newStockList =  dealNull(state.newStockList,'chg')
         }
       } else if (result.type === 'lznum' || result.type === 'ystlbNum' || result.type === 'beforeKb') {
         if (result.sortType === 'desc') {
@@ -448,10 +480,13 @@ export default {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chgNum - b.chgNum
           })
+          state.newStockList =  dealNull(state.newStockList,'chgNum')
+
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chgNum - a.chgNum
           })
+          state.newStockList =  dealNull(state.newStockList,'chgNum')
         }
       } else if (result.type === 'ysdisKb') {
         if (result.sortType === 'desc') {

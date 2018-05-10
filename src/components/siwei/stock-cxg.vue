@@ -615,7 +615,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return Number(val * 100) + '%'
+                return Number(val) + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -683,8 +683,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</p>'
+                '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--' : Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)) + '%</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (czgLineData.szIndex[params[0].dataIndex][1] === null ? '--' : Number(czgLineData.szIndex[params[0].dataIndex][1]).toFixed(2)) + '%</p>'
 
               return tooltipStr;
             },
@@ -990,7 +990,6 @@ export default {
       this.$store.dispatch('bubbles/getCxLine', {
         type: 0
       }).then(() => {
-        const that = this
         let czgLineData = this.$store.state.bubbles.cxLineData
         this.lineChart && this.lineChart.setOption({
           series: [{
@@ -1036,8 +1035,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</span></p>'
+                  '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--':Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)) + '%</p>' +
+                  '<p style="color:#f0b540">上证指数 : ' + (czgLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(czgLineData.szIndex[params[0].dataIndex][1]).toFixed(2)) + '%</p>'
 
               return tooltipStr;
             },
