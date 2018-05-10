@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -130,6 +130,7 @@ body {
 }
 .kline-title2 {
     padding: 10px 7px;
+    font-family: "Microsoft YaHei";
     font-size: 14px;
 }
 .kline {
@@ -310,7 +311,7 @@ export default ({
         legend: {
           show: this.legendShow,
           left: 3,
-          top: -6,
+          top: -5,
           itemWidth: 20,
           itemHeight: 10,
           textStyle: {
@@ -415,7 +416,7 @@ export default ({
         },
         yAxis: [{
           show: true,
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           position: 'left',
@@ -453,7 +454,7 @@ export default ({
                      max: 'dataMax' */
         }, {
           show: true,
-          // type: 'category', 
+          // type: 'category',
           type: 'value',
           // name: this.floatYname,
           position: 'right',

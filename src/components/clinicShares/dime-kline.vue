@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -147,11 +147,10 @@ body {
     font-weight: 900;
 }
 .kline-title2 {
-    /*padding: 10px 7px;*/
-    /*  padding: 10px 7px 16px; */
     height: 62px;
     padding: 10px 5px;
     font-size: 14px;
+    font-family: "Microsoft YaHei";
 }
 .kline {
     height: 264px;
@@ -316,7 +315,7 @@ export default ({
             normal: {
 
               // color: 各异，
-              // borderColor: 各异,     // 标注边线颜色，优先于color 
+              // borderColor: 各异,     // 标注边线颜色，优先于color
               // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               // label: {
               // show: true,
@@ -542,7 +541,7 @@ export default ({
             }
           },
           {
-            /*  
+            /*
         boundaryGap : false,
         axisPointer: {
             type: 'shadow',

@@ -1167,14 +1167,14 @@ export default {
       if (isOver === 'over' && titleTime === 'ysdisKb') {
         this.$refs.titleDetail.style.display = 'block'
         this.$refs.titleDetail.innerHTML = '昨日是否开板'
-        this.$refs.titleDetail.style.left = '214px'
+        this.$refs.titleDetail.style.left = '254px'
       } else if (isOver === 'out' && titleTime === 'ysdisKb') {
         this.$refs.titleDetail.style.display = 'none'
       }
       if (isOver === 'over' && titleTime === 'ystlbNum') {
         this.$refs.titleDetail.style.display = 'block'
         this.$refs.titleDetail.innerHTML = '昨日连板数'
-        this.$refs.titleDetail.style.left = '264px'
+        this.$refs.titleDetail.style.left = '324px'
       } else if (isOver === 'out' && titleTime === 'ystlbNum') {
         this.$refs.titleDetail.style.display = 'none'
       }
@@ -1284,7 +1284,7 @@ export default {
             line-height: 18px;
             position: absolute;
             top: 29px;
-            left: 214px;
+            left: 264px;
         }
 
     }

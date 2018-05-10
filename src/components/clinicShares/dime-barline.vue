@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -150,6 +150,7 @@ body {
     padding: 10px 5px;
     height: 62px;
     font-size: 14px;
+    font-family: "Microsoft YaHei";
 }
 .kline {
     height: 264px;

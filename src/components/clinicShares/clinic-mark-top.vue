@@ -9,7 +9,6 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
     font-family: "Microsoft YaHei";
@@ -75,9 +74,8 @@ body {
     box-flex: 3;
 }
 .clinic-top-left {
-
     border-right: 1px solid $lineAndTitleColor;
-    width: 27%;
+    width:331px;
 }
 .red {
     color: $upColor;
@@ -200,12 +198,12 @@ body {
     font-size: 14px;
 }
 .mark-date {
+    font-size: 14px;
     padding-left: 7px;
 }
 .clinic-top-center {
     border-right: 1px solid $lineAndTitleColor;
-    /*  width: 33%; */
-    width: 31%;
+    width:331px;
 }
 .radar-box {
     height: 180px;
@@ -219,12 +217,11 @@ body {
       position: relative;*/
 }
 .clinic-top-right {
-    padding-left: 70px;
-    /* width: 37%; */
-    width: 40%;
+  padding-left: 37px;
+  width: 537px;
 }
 .short-title {
-    padding-bottom: 12px;
+    padding-bottom: 5px;
     font-size: 14px;
 }
 .short-detail {
@@ -237,7 +234,7 @@ body {
 }
 .center-title {
     font-size: 14px;
-    padding: 20px 0 12px;
+    padding: 15px 0 5px;
 }
 .value-box {
     padding: 10px;
@@ -342,9 +339,6 @@ body {
     text-overflow: ellipsis;
     width: 15%;
 }
-.short-title {
-    padding-bottom: 21px;
-}
 .short-fund {
     font-size: 14px;
     margin-bottom: 10px;
@@ -434,7 +428,7 @@ body {
     position: absolute;
     font-size: 14px;
     color: #c9d0d7;
-    bottom: -2px;
+    bottom: -7px;
 }
 .numL {
     left: -3px;
@@ -647,9 +641,9 @@ export default {
             min: 0,
             max: 10
           }],
-          radius: '70%',
+          radius: '85%',
           nameGap: 8,
-          center: ['50%', '50%'],
+          center: ['50%', '56%'],
           splitArea: {
             show: false
           },
@@ -668,7 +662,8 @@ export default {
           },
           name: {
             textStyle: {
-              color: '#d3d9dd'
+              color: '#d3d9dd',
+              fontSize:'14'
             }
           }
           /* splitArea: {

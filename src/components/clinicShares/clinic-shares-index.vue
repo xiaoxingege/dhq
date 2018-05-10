@@ -9,7 +9,7 @@
       -ms-user-select: none;
       user-select: none;
       box-sizing: border-box;
-      font-family: '微软雅黑';
+      font-family: "Microsoft YaHei";
       font-size: $fontSizeBase;
   }
   /*$bgDeepColor:#0d0e0f;/* 最深背景 */
@@ -59,12 +59,13 @@
       color: $wordsColorBase;
   }
   .foot-tishi {
-      font-size: 14px;
+      font-size: 12px;
       background: #141518;
       color: $wordsColorBase;
       line-height: 28px;
       width: 1200px;
       margin: auto;
+      font-family: "Microsoft YaHei";
   }
 </style>
 <template>
