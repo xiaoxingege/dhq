@@ -2,19 +2,20 @@
 <div class="margin-balance">
   <div class="margin-balance-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObjOut" :styleLiObj="styleLiObjOut"></NavBar>
-    <div class="ns-help-img fr" v-z3-help="iconHelpMsg"></div>
+    <div class="ns-help-img fr" v-z3-help="iconHelpMsg" @mouseover="helpMaiDian"></div>
   </div>
   <div class="chart-wrap">
     <div class="timeTab">
       <NavBar :data="navTimeText" :type="timeType" :styleLiObj="styleLiObj" :styleObject="styleObj" v-on:changeType="changeTimeNavType"></NavBar>
     </div>
-    <div class="margin-balance-chart" ref="chart"></div>
+    <div class="margin-balance-chart" ref="chart" @mouseover="chartMaiDian"></div>
   </div>
 </div>
 </template>
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import echarts from 'echarts'
+import util from '../../dhq/util'
 export default {
   props: ['isResizeBottomChart'],
   data() {
@@ -46,7 +47,8 @@ export default {
       styleObjOut: {
         backgroundColor: '#525a65'
       },
-      iconHelpMsg: '南北向资金走势：代表海外资金动向，北向资金净流入越多，代表海外资金越看好a股。'
+      iconHelpMsg: '南北向资金走势：代表海外资金动向，北向资金净流入越多，代表海外资金越看好a股。',
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -433,6 +435,12 @@ export default {
       const m = date.substring(4, 6)
       const d = date.substring(6)
       return y + '/' + m + '/' + d
+    },
+    chartMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_synb_ck&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
+    },
+    helpMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_synb_ask&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
     }
   },
   mounted() {

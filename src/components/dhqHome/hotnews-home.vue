@@ -81,6 +81,7 @@
 </template>
 <script type="text/javascript">
 import NavBar from 'components/dhqHome/nav-bar'
+import util from '../../dhq/util'
 export default {
   props: [],
   data() {
@@ -99,7 +100,12 @@ export default {
       },
       styleLiObj: {
         width: '85px'
-      }
+      },
+      pointKey: {
+        'ywnews': 'click_syxw_cj',
+        'companynews': 'click_syxw_gs'
+      },
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -142,6 +148,7 @@ export default {
     },
     changeNavType(data) {
       this.type = data
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     updateNews: function() {
       const _this = this

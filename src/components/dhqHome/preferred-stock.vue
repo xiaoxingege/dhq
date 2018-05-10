@@ -121,6 +121,7 @@
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import StockBox from 'components/stock-box'
+import util from '../../dhq/util'
 export default {
   data() {
     return {
@@ -143,7 +144,12 @@ export default {
       },
       styleLiObj: {
         width: '85px'
-      }
+      },
+      pointKey: {
+        'industryTop': 'click_syyx_hy',
+        'topicTop': 'click_syyx_tc'
+      },
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -189,6 +195,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     initPreferredStock() {
       if (this.type === 'topicTop') {
@@ -214,6 +221,7 @@ export default {
       }
     },
     linkStock: function(innerCode) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_syyx_gg&userId=' + this.userId, 'WT.ti', document.title) // 点击进入优选股票打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
