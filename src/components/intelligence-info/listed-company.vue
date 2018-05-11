@@ -28,8 +28,8 @@
         </div>
       </li>
       <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
     </ul>
-    <p v-if="noData"  class="tc loadMore">数据已加载完</p>
     <p v-if="listedCompany.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -98,14 +98,14 @@
       loadList() {
           this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: '' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
-                if(_height<this.innerHeight){
-                  this.loadMore()
-                }
+            if(_height<this.innerHeight){
+              this.loadMore()
+            }
           })
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
