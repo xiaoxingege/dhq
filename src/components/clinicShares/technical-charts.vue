@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: "Microsoft YaHei";
+    font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -84,13 +84,13 @@ body {
 .green {
     color: $downColor;
 }
-
-.c_txt {
-    color: $wordsColorBase;
-}
 .lightcolor {
     color: $wordsColorBase;
 }
+.c_txt {
+    color: $wordsColorBase;
+}
+
 .radar-box {
     height: 180px;
     position: relative;
@@ -108,7 +108,9 @@ body {
 }
 .desc-green {
     border: 1px solid $downColor;
+
 }
+
 .pl-5 {
     padding-left: 5px;
 }
@@ -116,59 +118,101 @@ body {
 .clinic-dime-wrap {
     background-color: $bgConColor;
 }
-
+.tab-ul {
+    width: 100%;
+    background: $bgNavColor;
+}
+.tab-ul li {
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    background: $bgNavColor;
+    text-align: center;
+    border-right: 1px solid $bgDeepColor;
+    cursor: pointer;
+}
+.tab-ul li.active {
+    background: $menuSelColor;
+}
 .dime-kline {
     padding: 10px;
-    /*float: left;*/
-    margin: 0 5px 6px 0;
-    /*width: 49%;*/
+    clear: both;
+
 }
 .kline-title {
-    line-height: 41px;
-    border-bottom: 1px solid $lineAndTitleColor;
-    font-size: 14px;
-}
-.kline-title2 {
-    padding: 10px 7px;
-    font-size: 14px;
-}
-.kline {
-    height: 264px;
-}
-.kline-charts {
 
-    height: 264px;
-    width: 100%;
-}
-.assess1 {
-    padding-left: 9px;
-    font-size: 14px;
-}
-.dime-tech {
-    padding: 10px;
-    margin: 0 5px 6px 0;
-}
-.techline-title2 {
-    height: 62px;
-    padding: 10px 5px;
-}
-.techline-title {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
     font-weight: 900;
 }
+.kline-title2 {
+    /*padding: 10px 7px;*/
+    /*  padding: 10px 7px 16px; */
+    height: 62px;
+    padding: 10px 5px;
+    font-size: 14px;
+}
+.kline {
+    /* height: 264px; */
+    height: 400px;
+}
+.kline-charts {
+
+    /*  height: 264px; */
+    height: 400px;
+    width: 100%;
+}
+.assess1 {
+    padding-left: 5px;
+    font-size: 14px;
+}
+.txt > div {
+    margin-right: 10px;
+    float: left;
+}
 </style>
 <template>
-<div class="dime-tech">
+<div class="dime-kline">
   <div>
-    <div class="techline-title">
-      {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null || techFace.status===0?'':techFace.tag}}</span><span class="assess1" :class="checkStatus(techFace.status2)">{{techFace.tag2==null || techFace.status2===0?'':techFace.tag2}}</span>
+    <div class="kline-title">
+      个股近120日技术指标多空信号分布（注：日K线前复权）
+      <!--  {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'':techFace.tag}}</span> -->
     </div>
-    <div class="techline-title2">{{techFace.describe==null?'':techFace.describe}}</div>
+    <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
+    <div id="fstxt" class="txt clearfix">
+      <div>
+        时间：<span class="num" id="kdate" ref='kdate'>2018-05-08</span>
 
+      </div>
+      <div class="">
+        今开：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        最高：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        最低：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        昨收：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div>成交量：<span class="num" id="vol">208.00手</span></div>
+      <div>涨幅：<span class="num" id="vol">208.00手</span></div>
+
+
+    </div>
   </div>
-  <div class="kline-charts" ref="lineCharts">
+
+  <div class="kline-charts" ref="klineChart">
 
   </div>
 
@@ -184,374 +228,550 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['techFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
+  props: ['innerCode', 'testData'],
   data() {
     return {
       showX: true,
-      legendNames: {},
-      legendName1: {
-        name1: '营业收入增长率',
-        name2: '预测营业收入增长率'
-      },
-
-      legendName2: {
-        name1: '净利润增长率',
-        name2: '预测净利润增长率'
-      },
-      legendName3: {
-        name1: '未来3日上涨概率',
-        name2: '未来20日上涨概率'
-      },
-      // themeColor:'transparent',
-      borderType: 'dashed',
-      borderWidth: 3,
-      borderColor: '',
-      lineType: 'solid',
+      techFace: {},
       data: {
         times: [],
         tradeTimeArr: [],
-        ydata: [],
-        winRate3: [],
-        winRate20: [],
-        growthR: [],
-        growthRate: [],
-        growthRateLast: [],
-        day: [],
-        days5: [],
-        vols: [],
-        range: [],
-        rangeYdata: []
+        kdata: [],
+        markLineData: [],
+        markPointData: [],
+        vols: []
       }
+
     }
   },
   computed: {
     ...mapState({
+
       lineData: state => {
         var data = {
           times: [],
           tradeTimeArr: [],
-          ydata: [],
-          growthR: [],
-          growthRate: [],
-          growthRateLast: [],
-          day: [],
-          days5: [],
-          vols: [],
-          rangeYdata: []
+          kdata: [],
+          markLineData: [],
+          markPointData: [],
+          vols: []
         }
         return data
 
+      },
+      xLabelInterval() {
+        let interval = 17
+        return interval
       }
-
     })
   },
   methods: {
     init() {
-      const klineData = [].concat(this.techFace.datas.data.idxData)
-      // console.log(this.dataIndex)
-      if (this.dataIndex === 0) {
-        this.legendNames = this.legendName1
-        // console.log(this.legendNames)
-      } else if (this.dataIndex === 1) {
-        this.legendNames = this.legendName2
-      } else {
-        this.legendNames = this.legendName3
-      }
-      klineData.forEach((item, index) => {
-        const winRate3day = item.winRate3day
-        const winRate20day = item.winRate20day
-        const range = item.range
-        this.data.range.push(range)
 
-        if (this.techFace.range === range) {
-          var newValue3 = {}
-          var newValue20 = {}
-          newValue3 = {
-            value: winRate3day,
-            itemStyle: {
+      const klineData = [].concat(this.techFace.datas).reverse()
+      const stressPrice = '11.00'
+      //     const stressPrice = '0'
+      const currPirce = '11.00'
+      //  const currPirce = '0'
+      const supportPrice = '11.00'
+
+      var data = this.data
+      //   const supportPrice = '0'
+      console.log(this.techFace.datas)
+      klineData && klineData.forEach((item) => {
+        // console.log(item)
+        let time = ''
+        time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
+        data.times.push(time)
+        data.tradeTimeArr.push(time)
+
+        let openPx = item.openPx.toFixed(2)
+        let closePx = item.closePx.toFixed(2)
+        const highPx = item.highPx.toFixed(2)
+        const lowPx = item.lowPx.toFixed(2)
+        const volume = item.volume.toFixed(2)
+        const prevClosePx = item.prevClosePx.toFixed(2)
+        data.kdata.push([openPx, closePx, highPx, lowPx])
+        data.markLineData.push([{
+            coord: [data.times[0], stressPrice],
+            lineStyle: {
               normal: {
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: config.upColor,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
+                color: config.upColor,
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], stressPrice],
+            lineStyle: {
+              normal: {
+                color: config.upColor,
+                type: 'solid'
               }
             }
           }
-          newValue20 = {
-            value: winRate20day,
-            itemStyle: {
+        ], [{
+            coord: [data.times[0], currPirce],
+            lineStyle: {
               normal: {
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: config.upColor,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
+                color: '#c9d0d7',
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], currPirce],
+            lineStyle: {
+              normal: {
+                color: '#c9d0d7',
+                type: 'solid'
               }
             }
           }
-          this.data.winRate3.push(newValue3)
-          this.data.winRate20.push(newValue20)
-        } else {
+        ], [{
+            coord: [data.times[0], supportPrice],
+            lineStyle: {
+              normal: {
+                color: '#1984ea',
+                type: 'solid'
+              }
+            }
+          },
+          {
+            coord: [data.times[data.times.length - 1], supportPrice],
+            lineStyle: {
+              normal: {
+                color: '#1984ea',
+                type: 'solid'
+              }
+            }
+          }
+        ])
+        data.markPointData.push({
+          name: '压力线',
+          coord: [data.times[0], stressPrice],
+          symbol: 'rect',
+          symbolSize: [86, 22],
+          itemStyle: {
+            normal: {
 
-          this.data.winRate3.push(winRate3day)
-          this.data.winRate20.push(winRate20day)
+              // color: 各异，
+              // borderColor: 各异,     // 标注边线颜色，优先于color 
+              // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
+              // label: {
+              // show: true,
+              // position: 'inside' // 可选为'left'|'right'|'top'|'bottom'
+              // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+              // }
+
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: config.upColor,
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: config.upColor,
+                fontSize: 12
+
+              }
+            }
+          }
+
+        }, {
+          name: '当前价',
+          coord: [data.times[0], currPirce],
+          symbol: 'rect',
+          symbolSize: [88, 22],
+          itemStyle: {
+            normal: {
+              color: '#141518',
+              borderColor: '#c9d0d7',
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: '#c9d0d7',
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: '#c9d0d7',
+                fontSize: 12
+
+              }
+            }
+          }
+
+        }, {
+          name: '支撑位',
+          coord: [data.times[0], supportPrice],
+          symbol: 'rect',
+          symbolSize: [88, 22],
+          itemStyle: {
+            normal: {
+              color: '#141518',
+              borderColor: '#1984ea',
+              borderWidth: 1,
+              opacity: 0.5,
+              lineStyle: {
+                color: '#1984ea',
+                type: 'solid',
+                width: 1
+              },
+              label: {
+                show: true,
+                // fontWeight:'bold',
+                color: '#1984ea',
+                fontSize: 12
+
+              }
+            }
+          }
+        })
+
+        var newVols = {
+          value: volume, // 万手
+          itemStyle: {
+            normal: {
+              color: closePx < prevClosePx ? config.downColor : config.upColor,
+              borderColor: closePx < prevClosePx ? config.downColor : config.upColor
+            }
+          }
         }
-
+        data.vols.push(newVols)
       })
+      if (klineData.length < 60) {
+        for (var i = 0; i < 60 - klineData.length; i++) {
+          data.times.push('')
+          data.tradeTimeArr.push('')
+          const dt = []
+          data.kdata.push(dt)
+          data.vols.push('')
+        }
+      }
+      // return data
 
-      this.initLine()
+      this.initKline()
     },
-    initLine() {
-      this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
+    initKline() {
+      this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
 
       if (this.techFace) {
         this.drawCharts()
 
       }
-
     },
     drawCharts() {
       const lineData = this.data
-      const legendNames = this.legendNames
-
+      var _self = this
       const opt = {
-
-        legend: {
-          show: this.legendShow,
-          left: 3,
-          top: -5,
-          itemWidth: 20,
-          itemHeight: 10,
-          textStyle: {
-            color: '#c9d0d7',
-            fontSize: 12
-          },
-          data: [{
-              name: legendNames.name1,
-              icon: 'rect'
-            },
-            {
-              name: legendNames.name2,
-              icon: 'rect'
-
-            }
-          ]
+        toolbox: {
+          show: false
         },
         tooltip: {
           trigger: 'axis',
-          padding: [10, 55, 10, 20],
-          textStyle: {
-            align: 'left'
-          },
-          showContent: true,
           axisPointer: {
-            type: 'cross',
-            label: {
+            type: 'cross'
+          },
+          formatter: function(t) {
+            var obj = t[0];
+            var time = obj.name; // 时间
+            var axisid = obj.axisIndex
+            var objarr;
+            var openPx;
+            var closePx;
+            var highPx;
+            var lowPx;
+            var volume;
+            _self.$refs.kdate.innerText = time
+            if (axisid === 1) {
+              //  console.log(t[1])
+              objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
+              if (objarr[0] >= 0) {
+                openPx = objarr[1];
+                closePx = objarr[2];
+                highPx = objarr[3];
+                lowPx = objarr[4];
+                volume = t[0].value;
+                console.log(_self.$refs.kdate.innerText)
+
+              }
+            } else if (axisid === 0) {
+              objarr = obj.value; // 开盘 收盘  最高 最低  成交量
+              if (objarr[0] >= 0) {
+                openPx = objarr[1];
+                closePx = objarr[2];
+                highPx = objarr[3];
+                lowPx = objarr[4];
+                volume = t[1].value;
+
+                /*  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+                    '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--'); */
+              }
+            }
+
+            if (volume > 100000000) {
+              volume = (volume / 100000000).toFixed(2) + '亿手'
+            } else if (volume > 10000) {
+              volume = (volume / 10000).toFixed(2) + '万手'
+            } else {
+              volume = Number(volume).toFixed(2) + '手';
+            }
+            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
+              '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
+          }
+        },
+        animation: false,
+        axisPointer: {
+          link: {
+            xAxisIndex: 'all'
+          },
+          label: {
+            backgroundColor: '#777'
+          }
+        },
+
+        grid: [{
+            left: 45,
+            right: 15,
+            top: 10,
+            height: '60%',
+            show: false
+          },
+          {
+            left: 35,
+            right: 10,
+            bottom: 25,
+            height: '27%',
+            show: false
+          }
+        ],
+        xAxis: [{
+            show: this.showX,
+            type: 'category',
+            data: lineData.times,
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+            axisLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            /* min: 'dataMin',
+            max: 'dataMax', */
+            axisLabel: {
+              show: false,
+              interval: this.xLabelInterval,
+              showMinLabel: true,
+              color: '#c9d0d7'
+            }
+          },
+          {
+            /*  
+        boundaryGap : false,
+        axisPointer: {
+            type: 'shadow',
+            label: {show: false},
+            triggerTooltip: true,
+            handle: {
+                show: true,
+                margin: 30,
+                color: '#B80C00'
+            }
+        }*/
+            type: 'category',
+            gridIndex: 1,
+            data: lineData.times,
+            splitNumber: 20,
+            scale: true,
+            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+            axisLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            axisLabel: {
               show: true,
-              formatter: function(params) {
-                let yLabelData = ''
-                if (params.seriesData.length > 0) {
-                  yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
-                  return params.seriesData[0].name
-                } else {
-                  if (typeof yLabelData !== 'undefined') {
-                    return yLabelData
-                  } else {
-                    return ''
+              color: '#c9d0d7'
+              // interval: this.xLabelInterval,
+              // showMinLabel: true
+            },
+            axisPointer: {
+              /* label: {
+                formatter: function(params) {
+                  var seriesValue = (params.seriesData[0] || {}).value
+                  return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
+                }
+              } */
+              /* type: 'shadow',
+               label: {show: false},
+               triggerTooltip: true,
+               handle: {
+                   show: true,
+                   margin: 30,
+                   color: '#B80C00'
+               } */
+            }
+          }
+        ],
+        yAxis: [{
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            splitArea: {
+              show: false
+            },
+            axisLabel: {
+              show: false
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#23272c'
+              }
+            }
+          },
+          {
+            scale: true,
+            gridIndex: 1,
+            splitNumber: 2,
+            axisLabel: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            }
+          }
+        ],
+        brush: {
+          xAxisIndex: 'all',
+          brushLink: 'all',
+          outOfBrush: {
+            colorAlpha: 0.1
+          }
+        },
+        series: [{
+            name: 'K线',
+            type: 'candlestick',
+            data: lineData.kdata,
+            stack: 'K线',
+            // barCategoryGap: '3',
+            // barWidth : data.length<30?8:3.5,//柱图宽度
+            itemStyle: {
+              normal: {
+                color: config.upColor,
+                color0: config.downColor,
+                borderColor: config.upColor,
+                borderColor0: config.downColor
+              }
+            },
+            markPoint: {
+              data: lineData.markPointData,
+              label: {
+                // color:'green',
+                normal: {
+                  formatter: function(t) {
+                    //  console.log(t)
+                    var name = t.name
+                    var yaliPx = t.data.coord[1]
+                    return '' + name + '：' + (yaliPx || '--')
                   }
                 }
               },
-              // backgroundColor: '#777',
-              // padding:[20,0,10,10],
-              textStyle: {
-                /* color:'#000',
-                 fontWeight:'bold'*/
-              }
-            },
-            crossStyle: {
-              color: '#666'
-            }
-          },
-          formatter: function(params) {
-            var s = ''
-            for (var i = 0; i < params.length; i++) {
-              if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%' + '</br>'
-              }
-              if (i === 1) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '%'
-              }
+              /* itemStyle:{
+                color:'#ff0',
+                borderColor:'green'
 
-            }
-            return s
-          }
-        },
-        xAxis: {
-          // interval:0,
-          type: 'category',
-          splitLine: {
-            show: false,
-            lineStyle: {
-              type: 'solid',
-              color: '#23272c'
-            }
-          },
-          axisLine: {
-            onZero: true,
-            symbol: ['none', 'arrow'],
-            lineStyle: {
-              color: '#23272c',
-              type: 'solid'
-            }
-          },
-          axisLabel: {
-            // show:false
-            color: '#c9d0d7'
-          },
-          axisTick: {
-            show: false,
-            inside: true,
-            alignWithLabel: false
-          },
-          data: lineData.range
-        },
-        yAxis: {
-
-          // type: 'category',
-          type: 'value',
-          // name: this.floatYname,
-          // data: ['0', '50%', '100%'],
-          splitNumber: 2,
-          min: 0,
-          max: 100,
-          /*
-          axisLabel: {
-              formatter: '{value} %'
-          }, */
-          nameTextStyle: {
-            color: '#c9d0d7',
-            padding: [0, 0, 0, 110]
-          },
-
-          nameGap: 6,
-          splitLine: {
-            show: false,
-            lineStyle: {
-              type: 'solid',
-              color: '#23272c'
-            }
-          },
-          axisLine: {
-            symbol: ['none', 'arrow'],
-            lineStyle: {
-              color: '#23272c'
-            }
-          },
-          axisTick: {
-            show: true,
-            alignWithLabel: false
-          },
-          axisLabel: {
-            formatter: function(val) {
-              return val + '%'
-            },
-            color: '#c9d0d7'
-          }
-        },
-
-        series: [{
-            data: lineData.winRate3,
-            name: legendNames.name1,
-            type: 'bar',
-            barWidth: 35,
-            stack: legendNames.name1,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value + '%'
+              }, */
+              tooltip: {
+                formatter: function(param) {
+                  return param.name + '<br>' + (param.data.coord || '');
                 }
-              }
-            },
-
-            itemStyle: {
-              normal: {
-                color: '#525a65'
-
               }
             },
             markLine: {
-              silent: true,
+              name: '压力位',
               symbol: ['none', 'none'],
-              data: [{
-                yAxis: 50
-              }],
-              label: {
+              data: lineData.markLineData
+              /* lineStyle: {
                 normal: {
-                  show: false
+                  color: '#ca4941',
+                  type: 'solid'
                 }
-              }
-
+              } */
             }
-
           },
-          {
-            data: lineData.winRate20,
-            name: legendNames.name2,
-            type: 'bar',
-            barWidth: 35,
-            stack: legendNames.name2,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value + '%'
-                }
-              }
-            },
 
+          {
+            name: '成交量',
+            type: 'bar',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: lineData.vols,
+            barCategoryGap: '3', // 需要根据宽度定
             itemStyle: {
               normal: {
-                color: '#1984ea'
-
+                color: '#7fbe9e'
+              },
+              emphasis: {
+                color: '#140'
               }
+              /* normal: {
+                color: function(params) {
+                  return lineData.kdata[params.dataIndex][1] > lineData.kdata[params.dataIndex][0] ? config.upColor : config.downColor
+                }
+              } */
             }
-
           }
 
-        ],
-        // color: ['#ca4941', '#1984ea'],
-        grid: {
-          // width: '97%',
-          /* width: '100%',
-          height: '80%',
-
-          borderColor: '#2A2E36',
-          containLabel: true */
-          left: 45,
-          right: 10,
-          top: '10%',
-          height: '81%',
-          show: false
-        }
-      };
+        ]
+      }
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)
+      //          })
     },
     checkStatus(status) {
       if (status === 2) {
@@ -562,16 +782,24 @@ export default ({
         return 'lightcolor'
       }
     }
-
+    /* ,
+    formatDate(datestr) {
+      return formatDateStr(datestr, 'yyyyMMdd', 'yyyy-MM-dd')
+    } */
   },
   watch: {
     innerCode: function() {
       this.init()
+    },
+    testData: function() {
+      console.log(this.testData)
+      this.techFace = this.testData
     }
   },
-
   mounted() {
+
     this.init()
+    console.log(this.testData)
 
   }
 
