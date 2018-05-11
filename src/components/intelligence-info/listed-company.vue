@@ -8,14 +8,14 @@
           <span class="time fr" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">
             <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <span class="fontS14" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}</span>
+              <span class="fontS14" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}[{{item.equity.code | code}}]</span>
             </a>
-            <span class="fontS14" >{{relatedStocks[item.equity.code].price  | filterNum('') }}</span>
-            <span class="fontS14" >{{relatedStocks[item.equity.code].chngPct  |  filterNum('%') }}</span>
+            <span class="fontS14" >{{relatedStocks[item.equity.code].price  | price }}</span>
+            <span class="fontS14" >{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
           </p>
         </div>
         <div>
-          <span v-if="item.positiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+          <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">[{{ item.newsType  | convert}}] {{item.title}}</span>
           </router-link>
@@ -211,6 +211,9 @@
       },
       convert(value) {
         return value === '新闻' ? '资讯' : value;
+      },
+      code(value) {
+        return value.substring(0,6)
       },
       trim(str) {
          return str.replace(/(^\s*)|(\s*$)/g, '');

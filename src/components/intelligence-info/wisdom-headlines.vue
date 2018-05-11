@@ -23,14 +23,14 @@
                 <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                   <span>{{item.equity.name}}</span>
                   <span>{{relatedStocks[item.equity.code].price  | isNull | price }}</span>
-                  <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+                  <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
                 </a>
               </li>
               <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)">
-                <a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a>
+                <a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a>
               </li>
               <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(topicList[item.topic.code].chngPct)">
-                <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | filterNum("%")}}</span></a>
+                <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | chngPct}}</span></a>
               </li>
             </ul>
         </div>
