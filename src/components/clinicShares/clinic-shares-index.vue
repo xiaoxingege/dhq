@@ -60,7 +60,6 @@
   }
   .foot-tishi {
       font-size: 12px;
-      background: #141518;
       color: $wordsColorBase;
       line-height: 28px;
       width: 1200px;
