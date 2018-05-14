@@ -653,7 +653,11 @@ export default {
     toThemeDetail(topicCode, target) {
       target.stopPropagation()
       if (topicCode) {
-        window.open(ctx + '/topic/' + topicCode)
+          if(String(topicCode).length === 9){
+              window.open(ctx + '/topic/' + topicCode)
+          }else if(String(topicCode).length === 6){
+              window.open(ctx + '/industry/' + topicCode)
+          }
       }
     },
     updateBubbles() {
