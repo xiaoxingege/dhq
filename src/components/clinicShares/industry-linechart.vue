@@ -556,7 +556,7 @@ export default ({
            show: false */
           // bottom: '16%',
           left: 45,
-          right: 22,
+          right: 30,
           height: '70%',
           show: false
         }]
