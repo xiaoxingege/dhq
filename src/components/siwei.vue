@@ -63,7 +63,7 @@
 
 .legend {
     color: #fff;
-    min-height: 40px;
+    min-height: 30px;
 }
 
 .legend ul li {

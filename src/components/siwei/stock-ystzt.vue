@@ -645,7 +645,15 @@ export default {
             position: function(point) {
               return [point[0] + 10, point[1]];
 
-            }
+            },
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })
@@ -769,7 +777,15 @@ export default {
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })

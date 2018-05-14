@@ -254,7 +254,6 @@ export default {
             data: xData,
             splitNumber: 5,
             interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
-            // scale:true
 
           },
           yAxis: {
@@ -634,7 +633,15 @@ export default {
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })
