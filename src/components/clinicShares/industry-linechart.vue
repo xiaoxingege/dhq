@@ -286,8 +286,8 @@ export default ({
             this.data.induIndex.push(induIndex)
 
           }
-          console.log(this.data.infoIndex)
-          console.log(this.data.induIndex)
+          //  console.log(this.data.infoIndex)
+          // console.log(this.data.induIndex)
 
         })
       }

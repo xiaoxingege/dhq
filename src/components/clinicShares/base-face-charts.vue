@@ -214,7 +214,7 @@ export default ({
       },
       // themeColor:'transparent',
       unitName: '',
-      unitTenBillion: '营业收入：百亿',
+      unitTenBillion: '营业收入：亿',
       uniBillion: '净利润：亿',
       borderType: 'dashed',
       borderWidth: 3,
@@ -257,7 +257,7 @@ export default ({
         const growthRate = Number(item.growthRate * 100).toFixed(2)
         // console.log(growthRate)
         if (this.dataIndex === 0) {
-          value = Number(item.value / 10000000000).toFixed(2)
+          value = Number(item.value / 100000000).toFixed(2)
           this.unitName = this.unitTenBillion
           this.legendNames = this.legendName1
 
