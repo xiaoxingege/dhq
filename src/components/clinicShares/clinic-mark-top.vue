@@ -239,7 +239,7 @@ body {
     font-weight: 900;
 }
 .value-box {
-    padding: 10px 10px 0;
+    padding: 10px;
     background-color: $bgConColor;
 }
 .short-line-value {
