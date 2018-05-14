@@ -108,7 +108,7 @@
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span class="name">{{item.title}}</span>
               </router-link>
-              </div·>
+              </div>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                   <span>{{cutStr(item.summary,370) | trim}}</span>
