@@ -75,7 +75,9 @@
 
 <script>
 import echarts from 'echarts'
-import config from '../../z3tougu/config'
+import config, {
+  ctx
+} from '../../z3tougu/config'
 import {
   mapState
 } from 'vuex'
@@ -96,39 +98,39 @@ export default {
       plateList: [],
       xData: [],
       legendData: [{
-          value: '-0.5%',
+          value: '-0.5',
           color: '#00d641'
         },
         {
-          value: '-0.375%',
+          value: '-0.375',
           color: '#1aa448'
         },
         {
-          value: '-0.25%',
+          value: '-0.25',
           color: '#0e6f2f'
         },
         {
-          value: '-0.125%',
+          value: '-0.125',
           color: '#085421'
         },
         {
-          value: '0%',
+          value: '0',
           color: '#424453'
         },
         {
-          value: '0.125%',
+          value: '0.125',
           color: '#6d1414'
         },
         {
-          value: '0.25%',
+          value: '0.25',
           color: '#961010'
         },
         {
-          value: '0.375%',
+          value: '0.375',
           color: '#be0808'
         },
         {
-          value: '0.5%',
+          value: '0.5',
           color: '#e41414'
         }
       ],
@@ -208,10 +210,10 @@ export default {
         const data = state.marketBubble.marketCount;
         return data.slice(2, data.length - 2).reverse();
       },
-      stzt: state => state.marketBubble.marketCount[0],
-      zt: state => state.marketBubble.marketCount[1],
-      stdt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1],
-      dt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2],
+      stzt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[0] : null,
+      zt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[1] : null,
+      stdt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1] : null,
+      dt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2] : null,
       countMax: state => Math.max(...state.marketBubble.marketCount, 0) * 1.4
     })
   },
@@ -469,18 +471,8 @@ export default {
       window.open(`stock/${code}`);
     },
     openPlate(code) {
-      const route = code.length === 6 ? {
-        name: "industryDetail",
-        params: {
-          industryId: code
-        }
-      } : {
-        name: "topicDetail",
-        params: {
-          topicId: code
-        }
-      };
-      this.$router.push(route);
+      const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
+      window.open(path);
     },
     matchColor(value) {
       let range = this.legendData;
@@ -792,8 +784,8 @@ export default {
     }
 
     .chg {
-        float: right;
         height: 24px;
+        margin-left: 10px;
         line-height: 24px;
     }
 
