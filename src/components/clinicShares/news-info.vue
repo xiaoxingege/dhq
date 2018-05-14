@@ -100,7 +100,11 @@ export default {
                 padding: 0 10px;
                 font-size: 14px;
                 .mark {
-                    padding: 2px 4px;
+                    /* padding: 2px 4px; */
+                    width: 36px;
+                    height: 22px;
+                    display: inline-block;
+                    line-height: 22px;
                     text-align: center;
                     // background:$flatColor;
                     background: #505A66;
@@ -174,9 +178,9 @@ export default {
     }
 }
 .assess {
-    width: 40px;
-    height: 23px;
-    margin-right: 6px;
+    width: 36px;
+    height: 22px;
+    margin-right: 4px;
     vertical-align: middle;
 }
 </style>
