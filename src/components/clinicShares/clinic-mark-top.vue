@@ -75,7 +75,7 @@ body {
 }
 .clinic-top-left {
     border-right: 1px solid $lineAndTitleColor;
-    width:331px;
+    width: 331px;
 }
 .red {
     color: $upColor;
@@ -203,7 +203,7 @@ body {
 }
 .clinic-top-center {
     border-right: 1px solid $lineAndTitleColor;
-    width:331px;
+    width: 331px;
 }
 .radar-box {
     height: 180px;
@@ -217,8 +217,8 @@ body {
       position: relative;*/
 }
 .clinic-top-right {
-  padding-left: 37px;
-  width: 537px;
+    padding-left: 37px;
+    width: 537px;
 }
 .short-title {
     padding-bottom: 5px;
@@ -226,22 +226,24 @@ body {
 }
 .short-detail {
     padding-right: 20px;
-    color: #808ba1;
+    color: $wordsColorBase;
     font-size: 14px;
 }
 .short-tit {
     font-size: 14px;
+    font-weight: 900;
 }
 .center-title {
     font-size: 14px;
     padding: 15px 0 5px;
+    font-weight: 900;
 }
 .value-box {
-    padding: 10px;
+    padding: 10px 10px 0;
     background-color: $bgConColor;
 }
 .short-line-value {
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
     border-bottom: 1px solid $lineAndTitleColor;
 }
 .desc {
@@ -252,6 +254,7 @@ body {
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 .desc i {
     display: none;
@@ -275,11 +278,12 @@ body {
     top: 82%;
     border: 1px solid $lineAndTitleColor;
     display: inline-block;
-    text-align: center;
+    text-align: left;
     /*  left: 150px; */
     /* min-width: 80px;
       max-width: 100px; */
-    left: 50px;
+    /* left: 50px; */
+    left: -2px;
     min-width: 180px;
     max-width: 400px;
 }
@@ -307,29 +311,16 @@ body {
     border: 1px solid #fff;
 }
 .messdesc-box {
-    display: inline;
+    /* display: inline;
     position: relative;
-    cursor: pointer;
+    cursor: pointer; */
 }
 .messdesc-box i {
     display: none;
 
 }
 .messdesc-box:hover i {
-    display: block;
-    position: absolute;
-    padding: 6px;
-    color: $grayWordsColor;
-    background: #f1f2f7;
-    /*border-radius: 10px;*/
-    z-index: 999;
-    /*line-height: 22px;*/
-    left: 150px;
-    /*right: 0;*/
-    top: 82%;
-    border: 1px solid $lineAndTitleColor;
-    display: inline-block;
-    text-align: center;
+
     min-width: 80px;
     max-width: 100px;
 }
@@ -341,14 +332,25 @@ body {
 }
 .short-fund {
     font-size: 14px;
-    margin-bottom: 10px;
+    /*  margin-bottom: 10px; */
     /* display: inline-block;*/
+}
+.face-left-title {
+    font-size: 14px;
+    width: 5%;
+    line-height: 35px;
+}
+.face-right-txt {
+    width: 90%;
+}
+.fund-mess {
+    margin-bottom: 6px;
 }
 .pl-5 {
     padding-left: 5px;
 }
 .mid-line-value {
-    padding: 10px 0;
+    padding: 5px 0 0;
 }
 .tab-ul li {
     width: 70px;
@@ -367,6 +369,8 @@ body {
 }
 .no-value {
     padding-left: 10px;
+    line-height: 35px;
+    font-size: 14px;
 
 }
 .label-tit {
@@ -471,84 +475,100 @@ body {
       <div class="short-detail">{{smartStock.midDescribe}}</div>
     </div>
   </div>
-  <div class="value-box">
-    <div class="short-line-value">
+
+  <div class="value-box clearfix">
+    <div class="short-line-value clearfix">
       <div class="short-title">短线分析</div>
-      <!-- <a href="#wrap"> -->
-      <div class="short-fund" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">资金面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!-- <span v-for="short of smartStock.shortCapital" v-if="short.status===0" class="no-value">无</span> -->
-      </div>
-      <div class="short-fund" v-else>资金面：
-        <span class="no-value">无</span>
-      </div>
-      <!-- </a> -->
-      <div class="short-fund" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">技术面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!-- <span v-for="(short,index) of smartStock.shortTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
-      </div>
-      <div class="short-fund" v-else>技术面：
-        <span class="no-value">无</span>
-      </div>
-      <div class="short-fund" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
-        <div class="label-tit">消息面：</div>
-        <!--  <a href="#wrap" class="desc pl-5 mess-desc" v-for="short of smartStock.shortMessages" v-if="short.status!==0" :class="short.status===-1?'desc-green green':'desc-red red'" @click="fundShow($event,'newsinfo')">{{short.title}}<i>{{short.tag}}</i></a> -->
-        <div class="pl-5c messdesc-box" v-for="short of smartStock.shortMessages" @click="fundShow($event,'newsinfo')">
-          <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="checkStatus(short.status)">
-             {{short.title}}
-          </a>
-          <i>{{short.tag}}</i>
+      <div class="short-fund clearfix" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">
+        <div class="face-left-title fl">资金面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
+
         </div>
-        <!-- <span v-for="short of smartStock.shortMessages" v-if="short.status===0" class="no-value">无</span> -->
       </div>
-      <div class="short-fund" v-else>消息面：
-        <span class="no-value">无</span>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">资金面：</div>
+        <div class="no-value fl">无</div>
+      </div>
+      <div class="short-fund clearfix" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">
+        <div class="face-left-title fl">技术面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
+
+        </div>
+      </div>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">技术面：</div>
+        <div class="no-value fl">无</div>
+      </div>
+      <div class="short-fund clearfix" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
+        <div class="face-left-title fl">消息面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag}}</i></a>
+
+        </div>
+      </div>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">消息面：</div>
+        <div class="no-value fl">无</div>
       </div>
     </div>
-    <div class="mid-line-value">
+    <div class="mid-line-value clearfix">
       <div class="short-title">中线分析</div>
-      <!-- <a href="#wrap"> -->
-      <div class="short-fund" v-if="smartStock.midCapital && smartStock.midCapital.length>0">资金面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!-- <span v-for="short of smartStock.midCapital" v-if="short.status===0" class="no-value">无</span> -->
-      </div>
-      <div class="short-fund" v-else>资金面：
-        <span class="no-value">无</span>
-      </div>
-      <!--  </a> -->
-      <div class="short-fund" v-if="smartStock.bases && smartStock.bases.length>0">基本面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!-- <span v-for="short of smartStock.bases" v-if="short.status===0" class="no-value">无</span> -->
-      </div>
-      <div class="short-fund" v-else>基本面：
-        <span class="no-value">无</span>
-      </div>
-      <div class="short-fund" v-if="smartStock.midTechs && smartStock.midTechs.length>0">技术面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!--  <span v-for="(short,index) of smartStock.midTechs" v-if="short.status===0" class="no-value">{{index>0?'':'无'}}</span> -->
-      </div>
-      <div class="short-fund" v-else>技术面：
-        <span class="no-value">无</span>
-      </div>
-      <div class="short-fund" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
-        <div class="label-tit">消息面：</div>
-        <div class="pl-5c messdesc-box" v-for="short of smartStock.midMessages" @click="fundShow($event,'newsinfo')">
-          <a href="#wrap" v-if="short.status!==0" class="desc mess-desc" :class="checkStatus(short.status)">
-             {{short.title}}
-          </a>
-          <i>{{short.tag}}</i>
+      <div class="short-fund clearfix" v-if="smartStock.midCapital && smartStock.midCapital.length>0">
+        <div class="face-left-title fl">资金面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
+
         </div>
-        <!--  <span v-for="short of smartStock.midMessages" v-if="short.status===0" class="no-value">无</span> -->
       </div>
-      <div class="short-fund" v-else>消息面：
-        <span class="no-value">无</span>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">资金面：</div>
+        <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund" v-if="smartStock.indus && smartStock.indus.length>0">行业面：
-        <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" :class="checkStatus(short.status)" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag}}</i></a>
-        <!-- <span v-for="short of smartStock.indus" v-if="short.status===0" class="no-value">无</span> -->
+      <div class="short-fund clearfix" v-if="smartStock.bases && smartStock.bases.length>0">
+        <div class="face-left-title fl">基本面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag}}</i></a>
+
+        </div>
       </div>
-      <div class="short-fund" v-else>行业面：
-        <span class="no-value">无</span>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">基本面：</div>
+        <div class="no-value fl">无</div>
+      </div>
+      <div class="short-fund clearfix" v-if="smartStock.midTechs && smartStock.midTechs.length>0">
+        <div class="face-left-title fl">技术面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
+
+        </div>
+      </div>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">技术面：</div>
+        <div class="no-value fl">无</div>
+      </div>
+      <div class="short-fund clearfix" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
+        <div class="face-left-title fl">消息面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag}}</i></a>
+
+        </div>
+      </div>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">消息面：</div>
+        <div class="no-value fl">无</div>
+      </div>
+      <div class="short-fund clearfix" v-if="smartStock.indus && smartStock.indus.length>0">
+        <div class="face-left-title fl">行业面：</div>
+        <div class="face-right-txt fl">
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" :class="checkStatus(short.status)" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag}}</i></a>
+
+        </div>
+      </div>
+      <div class="short-fund" v-else>
+        <div class="face-left-title fl">行业面：</div>
+        <div class="no-value fl">无</div>
       </div>
     </div>
   </div>
@@ -574,11 +594,11 @@ export default {
       const radarDataChart = state.clinicShares.radarData
       // console.log(radarDataChart[0].fundValue)
       let radarAllData = [
-        Number(radarDataChart.capitalValue).toFixed(0),
-        Number(radarDataChart.induValue).toFixed(0),
-        Number(radarDataChart.informValue).toFixed(0),
-        Number(radarDataChart.techValue).toFixed(0),
-        Number(radarDataChart.fundValue).toFixed(0)
+        Number(radarDataChart.capitalValue).toFixed(1),
+        Number(radarDataChart.induValue).toFixed(1),
+        Number(radarDataChart.informValue).toFixed(1),
+        Number(radarDataChart.techValue).toFixed(1),
+        Number(radarDataChart.fundValue).toFixed(1)
       ]
       return {
         radarAllData: radarAllData
@@ -596,21 +616,19 @@ export default {
     },
     initradarChart() {
       this.chart = echarts.getInstanceByDom(this.$refs.radarChart) || echarts.init(this.$refs.radarChart)
-      this.renderCharts()
-    },
-    renderCharts() {
-      this.$store.dispatch('clinicShares/queryRadarData', {
+      this.$store.dispatch('clinicShares/querySmartStock', {
         innerCode: this.innerCode
       }).then(() => {
         this.drawCharts(this.radars.radarAllData)
       })
     },
-    goAnchor(selector) {
-
-      var anchor = document.getElementById(selector)
-      console.log(anchor.offsetTop)
-      document.documentElement.scrollTop = anchor.offsetTop
-    },
+    /*    renderCharts() {
+          this.$store.dispatch('clinicShares/queryRadarData', {
+            innerCode: this.innerCode
+          }).then(() => {
+            this.drawCharts(this.radars.radarAllData)
+          })
+        }, */
     fundShow(e, type) {
       // console.log(type)
       e.preventDefault()
@@ -663,7 +681,7 @@ export default {
           name: {
             textStyle: {
               color: '#d3d9dd',
-              fontSize:'14'
+              fontSize: '14'
             }
           }
           /* splitArea: {
@@ -680,12 +698,19 @@ export default {
           itemStyle: {
             emphasis: {
               areaStyle: {
-                color: '#ff2e29',
-                opacity: 0.5
+                color: '#ff2e29'
+                /* ,
+                                opacity: 0.5 */
               },
               label: {
                 show: true,
-                position: 'top'
+                fontSize: 12,
+                color: '#c9d0d7',
+                formatter: function(params) {
+
+                }
+                /* ,
+                                  position: 'top' */
               }
             },
             normal: {
@@ -750,12 +775,12 @@ export default {
   },
   watch: {
     innerCode: function() {
-      this.initSmartStock()
+      // this.initSmartStock()
       this.initradarChart()
     }
   },
   mounted() {
-    this.initSmartStock()
+    // this.initSmartStock()
     this.initradarChart()
   },
   destroyed() {

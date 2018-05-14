@@ -274,6 +274,7 @@ export default ({
                 position: ['-10%', -18],
                 color: '#c9d0d7',
                 fontSize: 12,
+                //  fontWeight: 'bold',
                 /* align:'right',
                  */
                 formatter: function(p) {
@@ -490,7 +491,7 @@ export default ({
           borderColor: '#2A2E36',
           containLabel: true */
           left: 45,
-          right: 10,
+          right: 30,
           top: '10%',
           height: '81%',
           show: false

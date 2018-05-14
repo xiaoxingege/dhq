@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -166,6 +166,9 @@ body {
 .assess1 {
     padding-left: 5px;
     font-size: 14px;
+}
+.txt {
+    padding-top: 5px;
 }
 .txt > div {
     margin-right: 10px;
@@ -861,7 +864,7 @@ export default {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross'
+            type: 'line'
           },
           formatter: function(t) {
             var obj = t[0];
@@ -869,7 +872,7 @@ export default {
             var axisid = obj.axisIndex
             var objarr;
             var openPx;
-            var closePx;
+            //  var closePx;
             var highPx;
             var lowPx;
             var volume;
@@ -881,7 +884,7 @@ export default {
               objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
               if (objarr[0] >= 0) {
                 openPx = objarr[1];
-                closePx = objarr[2];
+                //  closePx = objarr[2];
                 highPx = objarr[3];
                 lowPx = objarr[4];
                 volume = t[0].value;
@@ -892,7 +895,7 @@ export default {
               objarr = obj.value; // 开盘 收盘  最高 最低  成交量
               if (objarr[0] >= 0) {
                 openPx = objarr[1];
-                closePx = objarr[2];
+                //  closePx = objarr[2];
                 highPx = objarr[3];
                 lowPx = objarr[4];
                 volume = t[1].value;
@@ -956,7 +959,7 @@ export default {
             _self.$refs.high.innerText = highPx
             _self.$refs.low.innerText = lowPx
             _self.$refs.volume.innerText = volume
-            return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
+            //  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
           }
         },
         animation: false,
@@ -972,7 +975,7 @@ export default {
         grid: [{
             left: 45,
             right: 45,
-            top: 80,
+            top: 20,
             height: '60%',
             show: false
           },

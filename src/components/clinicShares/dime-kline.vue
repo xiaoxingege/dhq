@@ -231,11 +231,11 @@ export default ({
     init() {
 
       const klineData = [].concat(this.indexFace.datas.data).reverse()
-      const stressPrice = this.indexFace.datas.stressPrice
+      const stressPrice = Number(this.indexFace.datas.stressPrice).toFixed(2)
       //     const stressPrice = '0'
-      const currPirce = this.indexFace.datas.currPirce
+      const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
       //  const currPirce = '0'
-      const supportPrice = this.indexFace.datas.supportPrice
+      const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
       var data = this.data
       //   const supportPrice = '0'
       klineData.forEach((item) => {
@@ -307,7 +307,7 @@ export default ({
           }
         ])
         data.markPointData.push({
-          name: '压力线',
+          name: '压力位',
           coord: [data.times[0], stressPrice],
           symbol: 'rect',
           symbolSize: [86, 22],
