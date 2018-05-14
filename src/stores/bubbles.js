@@ -186,7 +186,10 @@ export default {
               if (item.xData > 10) {
                 state.ztgBubblesData.xData.push(Math.log(11))
                 state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
-              } else {
+              } else if(Number(item.xData) === 0){
+                  state.ztgBubblesData.xData.push(Math.log(1))
+                  state.ztgBubblesData.seriesData.push([Math.log(1), item.yData])
+              }else{
                 state.ztgBubblesData.xData.push(Math.log(Number(item.xData)))
                 state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData)), item.yData])
               }

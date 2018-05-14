@@ -636,8 +636,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
@@ -1075,8 +1075,8 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
+                  '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                  '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
 
               return tooltipStr;
             },
