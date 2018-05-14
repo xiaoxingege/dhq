@@ -377,7 +377,6 @@
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
   .news-wrapper{
-    position: relative;
     margin-bottom: 50px;
   }
   .pullUptoRefresh,.loadMore{
@@ -488,6 +487,7 @@
       line-height: 18px;
   }
   .news-list {
+      position: relative;
       li{
         margin-bottom: 2px;
       }
