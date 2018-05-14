@@ -11,19 +11,19 @@
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div class="txt"  >
                 <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
-                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
+                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | chngPct }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt">
                 <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
-                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | chngPct }}</p>
               </div>
             </a>
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt">
                 <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | chngPct }}</p>
               </div>
             </a>
           </div>
@@ -47,7 +47,7 @@
             <a v-if="item.equity !=null" :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
               <div v-if='item.equity != null' class="txt" >
                 <span :class="{fontS22:item.equity.name.length<=5,fontS18:item.equity.name.length ===6}" class="name fontS16">{{item.equity.name | isNull}}</span>
-                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | filterNum("%") }}</p>
+                <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{relatedStocks[item.equity.code].chngPct  | chngPct }}</p>
               </div>
             </a>
           </div>
@@ -71,13 +71,13 @@
             <a v-if="item.topic != null" :href="'/zstgweb/topic/'+item.topic.code" target="_blank">
               <div class="txt">
                 <span :class="{fontS22:item.topic.name.length<=5,fontS18:item.topic.name.length ===6}" class="name fontS16">{{item.topic.name | isNull}}</span>
-                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="topicList[item.topic.code].chngPct">{{topicList[item.topic.code].chngPct | chngPct }}</p>
               </div>
             </a>
             <a v-if="item.indu != null" :href="'/zstgweb/industry/'+item.indu.code" target="_blank">
               <div class="txt">
                 <span :class="{fontS22:item.indu.name.length<=5,fontS18:item.indu.name.length ===6}" class="name fontS16">{{item.indu.name | isNull}}</span>
-                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | filterNum("%") }}</p>
+                <p v-z3-updowncolor="item.indu.chngPct">{{item.indu.chngPct | chngPct }}</p>
               </div>
             </a>
           </div>
@@ -119,18 +119,18 @@
                 <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                   <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                     <span>{{item.equity.name}}</span>
-                    <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
-                    <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+                    <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
+                    <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
                   </a>
                 </li>
-                <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a></li>
-                <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | filterNum("%")}}</span></a></li>
+                <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
+                <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | chngPct}}</span></a></li>
               </ul>
             </div>
         </li>
+        <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+        <p v-if="noData"  class="tc loadMore">数据已加载完</p>
       </ul>
-      <div v-if="loadingShow"  class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
       <p v-if="newsOpportunities.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
     <StockBox ref="stockbox"></StockBox>

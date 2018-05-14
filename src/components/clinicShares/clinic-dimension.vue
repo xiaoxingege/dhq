@@ -1,198 +1,205 @@
 <style lang="scss" scoped>
-  @import '../../assets/css/base.css';
-  @import "../../assets/scss/style";
-  * {
-      text-align: justify;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      box-sizing: border-box;
-      font-size: $fontSizeBase;
-      color: $wordsColorBase;
-      font-family: "Microsoft YaHei";
-  }
-  /*$bgDeepColor:#0d0e0f;/* 最深背景 */
-  /*$bgConColor:#141518;/* 内容背景 */
-  /*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
-  /*$bgNavColor:#404852;/* 导航外框背景 */
-  /*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
-  /*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
-  /*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
-  /*$blueWordsColor:#1984ea;/* 蓝色文字色 */
-  /*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
-  /*$upColor:#ca4941;/* 所有红色 上涨 */
-  /*$downColor:#56a870;/* 所有绿色 上涨 */
-  /*$backupYellow:#f0b540;/* 备用黄色 */
-  /*$fontSizeBase:12px; /* 基本字体 */
-  .topic-detail {
-      width: 100%;
-      background: #141518;
-      font-size: 14px;
-      color: #c9d0d7;
-      /* height: 100%; */
-      border-left: 1px solid #0d0e0f;
-      border-bottom: 3px solid #0d0e0f;
-  }
-  .app,
-  body,
-  html {
-      height: 100%;
-      /*  background-color: $bgDeepColor;*/
-  }
+@import '../../assets/css/base.css';
+@import "../../assets/scss/style";
+* {
+    text-align: justify;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+    font-size: $fontSizeBase;
+    color: $wordsColorBase;
+    font-family: "Microsoft YaHei";
+}
+/*$bgDeepColor:#0d0e0f;/* 最深背景 */
+/*$bgConColor:#141518;/* 内容背景 */
+/*$lineAndTitleColor:#23272c;/* 线条颜色和内容标题背景 */
+/*$bgNavColor:#404852;/* 导航外框背景 */
+/*$wordsColorBase:#c9d0d7;/* 最亮文字颜色 */
+/*$grayWordsColor:#808ba1;/* 灰色文字颜色 所有图标颜色 */
+/*$menuSelColor:#525a65;/* 二级菜单选中颜色 */
+/*$blueWordsColor:#1984ea;/* 蓝色文字色 */
+/*$hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
+/*$upColor:#ca4941;/* 所有红色 上涨 */
+/*$downColor:#56a870;/* 所有绿色 上涨 */
+/*$backupYellow:#f0b540;/* 备用黄色 */
+/*$fontSizeBase:12px; /* 基本字体 */
+.topic-detail {
+    width: 100%;
+    background: #141518;
+    font-size: 14px;
+    color: #c9d0d7;
+    /* height: 100%; */
+    border-left: 1px solid #0d0e0f;
+    border-bottom: 3px solid #0d0e0f;
+}
+.app,
+body,
+html {
+    height: 100%;
+    /*  background-color: $bgDeepColor;*/
+}
 
-  body {
-      /* background-color: $bgDeepColor;*/
-  }
-  .display-box {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -o-box;
-      display: box;
-  }
-  .box-flex-1 {
-      -webkit-box-flex: 1;
-      -moz-box-flex: 1;
-      -ms-flex: 1;
-      -o-box-flex: 1;
-      box-flex: 1;
-  }
-  .box-flex-2 {
-      -webkit-box-flex: 2;
-      -moz-box-flex: 2;
-      -ms-flex: 2;
-      -o-box-flex: 2;
-      box-flex: 2;
-  }
-  .box-flex-3 {
-      -webkit-box-flex: 3;
-      -moz-box-flex: 3;
-      -ms-flex: 3;
-      -o-box-flex: 3;
-      box-flex: 3;
-  }
-  .clinic-top-left {
+body {
+    /* background-color: $bgDeepColor;*/
+}
+.display-box {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -o-box;
+    display: box;
+}
+.box-flex-1 {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    -o-box-flex: 1;
+    box-flex: 1;
+}
+.box-flex-2 {
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -ms-flex: 2;
+    -o-box-flex: 2;
+    box-flex: 2;
+}
+.box-flex-3 {
+    -webkit-box-flex: 3;
+    -moz-box-flex: 3;
+    -ms-flex: 3;
+    -o-box-flex: 3;
+    box-flex: 3;
+}
+.clinic-top-left {
 
-      border-right: 1px solid $lineAndTitleColor;
-  }
-  .red {
-      color: $upColor;
-  }
+    border-right: 1px solid $lineAndTitleColor;
+}
+.red {
+    color: $upColor;
+}
 
-  .green {
-      color: $downColor;
-  }
+.green {
+    color: $downColor;
+}
 
-  .c_txt {
-      color: $wordsColorBase;
-  }
+.c_txt {
+    color: $wordsColorBase;
+}
 
-  .radar-box {
-      height: 180px;
-      position: relative;
-      left: 15%;
-  }
-  .radarChart {
-      height: 100%;
-      width: 100%;
+.radar-box {
+    height: 180px;
+    position: relative;
+    left: 15%;
+}
+.radarChart {
+    height: 100%;
+    width: 100%;
 
-  }
+}
 
-  .desc-red {
-      border: 1px solid $upColor;
+.desc-red {
+    border: 1px solid $upColor;
 
-  }
-  .desc-green {
-      border: 1px solid $downColor;
+}
+.desc-green {
+    border: 1px solid $downColor;
 
-  }
+}
 
-  .pl-5 {
-      padding-left: 5px;
-  }
+.pl-5 {
+    padding-left: 5px;
+}
 
-  .clinic-dime-wrap {
-      /*  background-color: $bgConColor; */
-      margin-top: 4px;
-  }
-  .dime-tab {
-      overflow: hidden;
-  }
-  .tab-ul {
-      width: 100%;
-      background: $bgNavColor;
-  }
-  .tab-ul li {
-      width: 70px;
-      height: 30px;
-      line-height: 30px;
-      background: $bgNavColor;
-      text-align: center;
-      border-right: 1px solid $bgDeepColor;
-      cursor: pointer;
-      font-size: 14px;
-  }
-  .tab-ul li.active {
-      background: $menuSelColor;
-  }
-  .dime-charts {
-      background: $bgDeepColor;
-  }
-  .chart-box1 {
-      width: 100%;
+.clinic-dime-wrap {
+    /*  background-color: $bgConColor; */
+    margin-top: 4px;
+}
+.dime-tab {
+    overflow: hidden;
+}
+.tab-ul {
+    width: 100%;
+    background: $bgNavColor;
+}
+.tab-ul li {
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    background: $bgNavColor;
+    text-align: center;
+    border-right: 1px solid $bgDeepColor;
+    cursor: pointer;
+    font-size: 14px;
+}
+.tab-ul li.active {
+    background: $menuSelColor;
+}
+.dime-charts {
+    background: $bgDeepColor;
+}
+.chart-box1 {
+    width: 100%;
 
-  }
-  .chart-kline {
-      width: 50%;
-      background: $bgConColor;
-      margin-bottom:6px;
-      float: left;
-  }
-  .chart-barline {
-      width: 100%;
-      background: $bgConColor;
-      margin: 0 0px 6px 0;
-      float: left;
-  }
-  .chart-grop {
-      width: 49.5%;
-      background: $bgConColor;
-      margin-bottom:6px;
-      float: right;
-  }
-  .chart2-kline {
-      width: 49.5%;
-      background: $bgConColor;
-      margin: 0 5px 6px 0;
-      float: left;
-  }
-  .chart-grop2 {
-      /*width: 50%;*/
-  }
-  .charts-base {
-      /* height: 264px;*/
-      background: $bgDeepColor;
-      width: 100%;
-      display: inline-block;
-  }
-  .tech-charts1 {
-      width: 49.5%;
-      display: inline-block;
-      background: $bgConColor;
-      margin: 0 5px 6px 0;
-  }
-  /* nth-of-type */
-  .tech-charts1:nth-child(3) {
-      margin-bottom: 0;
-  }
-  .tech-charts1:nth-child(4) {
-      margin-bottom: 0;
-  }
-  .mb-0 {
-      margin-bottom: 0;
-  }
+}
+.chart-kline {
+    width: 50%;
+    background: $bgConColor;
+    margin-bottom: 6px;
+    float: left;
+}
+.chart-barline {
+    width: 100%;
+    background: $bgConColor;
+    margin: 0 0 6px;
+    float: left;
+}
+.chart-grop {
+    width: 49.5%;
+    background: $bgConColor;
+    margin-bottom: 6px;
+    float: right;
+}
+.chart2-kline {
+    width: 49.5%;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+    float: left;
+}
+.chart-grop2 {
+    /*width: 50%;*/
+}
+.charts-base {
+    /* height: 264px;*/
+    background: $bgDeepColor;
+    width: 100%;
+    display: inline-block;
+}
+.tech-charts1 {
+    /*  width: 49.5%; */
+    width: 100%;
+    display: inline-block;
+    background: $bgConColor;
+    margin: 0 5px 6px 0;
+}
+/* nth-of-type */
+.tech-charts1:nth-child(3) {
+    margin-bottom: 0;
+}
+.tech-charts1:nth-child(4) {
+    margin-bottom: 0;
+}
+.float-line:nth-child(5) {
+    margin-bottom: 0;
+}
+.float-line:nth-child(6) {
+    margin-bottom: 0;
+}
+.mb-0 {
+    margin-bottom: 0;
+}
 </style>
 <template>
 <div class="clinic-dime-wrap" id="wrap">
@@ -204,6 +211,9 @@
       <li class="fl" @click="faceCheck('newsinfo')" :class="curPage === 'newsinfo'?'active':''">消息面</li>
       <li class="fl" @click="faceCheck('industry')" :class="curPage === 'industry'?'active':''">行业面</li>
     </ul>
+    <!--  <div style="height: 600px">
+     <TechnicalNewChart :innerCode='code'/>
+   </div> -->
   </div>
   <div class="dime-charts" v-if="curPage === 'capital'">
     <div class="chart-box1 ">
@@ -227,14 +237,17 @@
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
       <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='code' />
     </div>
-    <div class="box-flex-1 chart2-kline mb-0" v-for='(item,index) of baseFaceData' v-if='index>=2'>
+    <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of baseFaceData' v-if='index>=2'>
       <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='code' />
     </div>
   </div>
-  <div class="charts-base display-box" v-if="curPage === 'techs'">
-    <div class="tech-charts1 box-flex-1" v-for='(item,index) of techFaceData'>
-      <TechnicalCharts :techFace='item' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
+  <div class="charts-base" v-if="curPage === 'techs'">
+    <div class="tech-charts1">
+      <!--  <TechnicalCharts :testData='tachData' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
+      {{tachData}} -->
+      <TechnicalNewChart :innerCode='code' />
     </div>
+
   </div>
   <div class="dime-charts" v-if="curPage === 'industry'">
     <div class="chart-box1 ">
@@ -255,6 +268,7 @@
   <div class="" v-if="curPage === 'newsinfo'">
     <newsInfo :innerCode='code' :newsInfo='newsInfo'></newsInfo>
   </div>
+
 </div>
 </template>
 <script type="text/javascript">
@@ -273,7 +287,7 @@ import IndustryStklevelBarchart from 'components/clinicShares/industry-stklevel-
 import IndustryLinechart from 'components/clinicShares/industry-linechart'
 import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
 import newsInfo from 'components/clinicShares/news-info'
-
+import TechnicalNewChart from 'components/clinicShares/technical-new-chart'
 export default {
   props: ['innerCode', 'isShow'],
   data() {
@@ -293,7 +307,16 @@ export default {
   computed: mapState({
     indexFaceData: state => state.clinicShares.indexFace,
     baseFaceData: state => state.clinicShares.baseFace,
-    techFaceData: state => state.clinicShares.techFace,
+    /* techFaceData: state => state.clinicShares.techFace, */
+    tachData: function() {
+      return this.$store.state.clinicShares.techFace
+    },
+    /* techFaceData: state => {
+       var alldata = state.clinicShares.techFace
+       console.log(state.clinicShares.techFace)
+       return alldata
+
+     }, */
     industryFaceData: state => state.clinicShares.industryFace,
     newsInfo: state => state.clinicShares.newsInfo
   }),
@@ -308,7 +331,8 @@ export default {
     IndustryStklevelBarchart,
     IndustryLinechart,
     IndustryvoBarchart,
-    newsInfo
+    newsInfo,
+    TechnicalNewChart
   },
   methods: {
     /* init() {
@@ -359,7 +383,7 @@ export default {
       } else if (type === 'base') {
         this.initBaseFace()
       } else if (type === 'techs') {
-        this.initTechFace()
+        // this.initTechFace()
       } else if (type === 'industry') {
         this.initIndustryFace()
       } else if (type === 'newsinfo') {
