@@ -102,7 +102,7 @@ export default {
               }
             }
           } else {
-            el.innerHTML = h + m
+            el.innerHTML = M + D + h + m
           }
         } else {
           var curTimeMillis = new Date().getTime() // 系统当前时间戳

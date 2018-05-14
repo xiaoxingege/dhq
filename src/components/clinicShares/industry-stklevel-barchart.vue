@@ -274,7 +274,6 @@ export default ({
                 position: ['-10%', -18],
                 color: '#c9d0d7',
                 fontSize: 12,
-                fontWeight: 'bold',
                 /* align:'right',
                  */
                 formatter: function(p) {

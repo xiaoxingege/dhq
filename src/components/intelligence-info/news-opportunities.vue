@@ -108,7 +108,7 @@
               <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                 <span class="name">{{item.title}}</span>
               </router-link>
-              </div·>
+              </div>
               <div class="con-txt">
                 <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
                   <span>{{cutStr(item.summary,370) | trim}}</span>
@@ -377,7 +377,6 @@
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
   .news-wrapper{
-    position: relative;
     margin-bottom: 50px;
   }
   .pullUptoRefresh,.loadMore{
@@ -488,6 +487,7 @@
       line-height: 18px;
   }
   .news-list {
+      position: relative;
       li{
         margin-bottom: 2px;
       }
