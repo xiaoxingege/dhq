@@ -1222,6 +1222,8 @@ export default {
     }, Data.refreshTime)
   },
   destroyed() {
+    this.$store.state.bubbles.newStockSortType = ''
+    this.$store.state.bubbles.newStockSort = ''
     this.chart.dispose()
     this.lxztChart.dispose()
     this.interval && clearInterval(this.interval)
