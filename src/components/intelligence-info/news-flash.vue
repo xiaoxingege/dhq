@@ -23,21 +23,21 @@
                   <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                     <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                       <span>{{item.equity.name}}</span>
-                      <span>{{relatedStocks[item.equity.code].price  | isNull }}</span>
-                      <span>{{relatedStocks[item.equity.code].chngPct  | isNull }}%</span>
+                      <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
+                      <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
                     </a>
                   </li>
-                  <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | filterNum("%")}}</span></a></li>
+                  <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
                   <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(topicList[item.topic.code].chngPct)">
-                    <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | filterNum("%")}}</span></a>
+                    <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | chngPct}}</span></a>
                   </li>
               </ul>
             </div>
           </div>
         </li>
+        <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+        <p v-if="noData"  class="tc loadMore">数据已加载完</p>
       </ul>
-      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
       <p v-if="newsFlash.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
     </div>
     <StockBox ref="stockbox"></StockBox>
@@ -251,7 +251,6 @@
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
   .news-wrapper{
-    position: relative;
     margin-bottom: 50px;
   }
   .pullUptoRefresh,.loadMore{
@@ -310,6 +309,7 @@
       line-height: 18px;
   }
   .news-list {
+      position: relative;
       .news-list-item {
           border: 1px solid #0d1112;
           background-color: #1a1b1f;

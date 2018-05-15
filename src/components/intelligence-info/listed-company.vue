@@ -8,14 +8,14 @@
           <span class="time fr" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <p v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">
             <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-              <span class="fontS14" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}</span>
+              <span class="fontS14" v-z3-updowncolor="relatedStocks[item.equity.code].chngPct">{{item.equity.name}}[{{item.equity.code | code}}]</span>
             </a>
-            <span class="fontS14" >{{relatedStocks[item.equity.code].price  | filterNum('') }}</span>
-            <span class="fontS14" >{{relatedStocks[item.equity.code].chngPct  |  filterNum('%') }}</span>
+            <span class="fontS14" >{{relatedStocks[item.equity.code].price  | price }}</span>
+            <span class="fontS14" >{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
           </p>
         </div>
         <div>
-          <span v-if="item.positiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
+          <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">[{{ item.newsType  | convert}}] {{item.title}}</span>
           </router-link>
@@ -27,9 +27,9 @@
           <span class="source">( {{item.srcName}} )</span>
         </div>
       </li>
+      <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
+      <p v-if="noData"  class="tc loadMore">数据已加载完</p>
     </ul>
-    <div v-if="loadingShow"   class="pullUptoRefresh"><div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div><p class="tc">正在加载...</p></div>
-    <p v-if="noData"  class="tc loadMore">数据已加载完</p>
     <p v-if="listedCompany.length===0 && loadingShow != true"  class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -98,14 +98,14 @@
       loadList() {
           this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: '' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
-                if(_height<this.innerHeight){
-                  this.loadMore()
-                }
+            if(_height<this.innerHeight){
+              this.loadMore()
+            }
           })
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
@@ -212,6 +212,9 @@
       convert(value) {
         return value === '新闻' ? '资讯' : value;
       },
+      code(value) {
+        return value.substring(0,6)
+      },
       trim(str) {
          return str.replace(/(^\s*)|(\s*$)/g, '');
       }
@@ -229,7 +232,6 @@
   @import '../../assets/css/reset.css';
   @import '../../assets/css/base.css';
   .news-wrapper{
-    position: relative;
     margin-bottom: 50px;
   }
   .pullUptoRefresh,.loadMore{
@@ -277,6 +279,7 @@
       }
   }
   .news-list {
+      position: relative;
       .news-list-item {
           border: 1px solid #0d1112;
           background-color: #1a1b1f;

@@ -3,12 +3,13 @@
   <p class="desc">{{newsInfo.title||''}}</p>
   <div class="list">
     <div class="latest-news">
-      <div class="tit">最新消息[短线消息]</div>
+      <div class="tit">最新消息</div>
       <div class="list_con">
         <ul v-if="newsInfo.latestNews && newsInfo.latestNews.length>0">
           <li class="news" v-for='news in newsInfo.latestNews'>
             <div>
-              <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
+              <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')" v-if="news.postiveIndex!==null">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
+              <span class="fl assess" v-if="news.postiveIndex===null"></span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary('latest', news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="newsType ==='latest' && news.newsId === newsId">
@@ -19,12 +20,13 @@
       </div>
     </div>
     <div class="important-events">
-      <div class="tit">重要事件[中线影响]</div>
+      <div class="tit">重要事件</div>
       <div class="list_con">
         <ul v-if="newsInfo.importNews && newsInfo.importNews.length>0">
           <li class="news" v-for='news in newsInfo.importNews'>
             <div>
-              <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
+              <span :class="news.postiveIndex===1?'mark bad':(news.postiveIndex===2?'mark good':'mark')" v-if="news.postiveIndex!==null">{{news.postiveIndex === 1 ? '利空' : (news.postiveIndex===2 ? '利好' : '中性')}}</span>
+              <span class="fl assess" v-if="news.postiveIndex===null"></span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:news.newsId}}" class="title" target="_blank">{{news.title}}</router-link><span class="text_sum" @click="toggleSumary('important',news.newsId)">摘要</span><span class="time" v-z3-time="{ time:news.declareDate+'', type: '1' }">{{news.declareDate}}</span>
             </div>
             <div class="sumary" v-if="newsType === 'important' && news.newsId === newsId">
@@ -90,7 +92,7 @@ export default {
     .list {
         /*  height: 220px; */
         .list_con {
-            /*   height: 190px; */
+            height: 646px;
             overflow: auto;
         }
         ul {
@@ -98,7 +100,11 @@ export default {
                 padding: 0 10px;
                 font-size: 14px;
                 .mark {
-                    padding: 2px 4px;
+                    /* padding: 2px 4px; */
+                    width: 36px;
+                    height: 22px;
+                    display: inline-block;
+                    line-height: 22px;
                     text-align: center;
                     // background:$flatColor;
                     background: #505A66;
@@ -138,9 +144,9 @@ export default {
                     line-height: 20px;
                     position: relative;
                 }
-                .sumary p{
-                  font-size: 12px;
-                  font-family: "Microsoft YaHei";
+                .sumary p {
+                    font-size: 12px;
+                    font-family: "Microsoft YaHei";
                 }
                 .sumary:before {
                     content: '';
@@ -170,5 +176,11 @@ export default {
         float: right;
         background: $bgConColor;
     }
+}
+.assess {
+    width: 36px;
+    height: 22px;
+    margin-right: 4px;
+    vertical-align: middle;
 }
 </style>

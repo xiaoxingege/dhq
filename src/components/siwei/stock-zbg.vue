@@ -581,6 +581,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(that.$store.state.bubbles.zbgLine[params[0].dataIndex][1] === null){
+                  return ''
+              }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'
@@ -592,7 +595,15 @@ export default {
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+            }
 
           }
         })
@@ -614,7 +625,11 @@ export default {
     toThemeDetail(topicCode, target) {
       target.stopPropagation();
       if (topicCode) {
-        window.open(ctx + '/topic/' + topicCode)
+          if(String(topicCode).length === 9){
+              window.open(ctx + '/topic/' + topicCode)
+          }else if(String(topicCode).length === 6){
+              window.open(ctx + '/industry/' + topicCode)
+          }
       }
     },
     updateBubbles() {
@@ -834,6 +849,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+                if(that.$store.state.bubbles.zbgLine[params[0].dataIndex][1] === null){
+                    return ''
+                }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'

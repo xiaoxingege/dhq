@@ -615,7 +615,7 @@ export default {
             // max: datas === null ? '' : Number(datas.line) + Dvalue,
             axisLabel: {
               formatter: function(val) {
-                return Number(val * 100) + '%'
+                return Number(val) + '%'
               },
               textStyle: {
                 color: '#c9d0d7'
@@ -682,14 +682,25 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null){
+                  return '--'
+              }
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</p>'
+                '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--' : Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (czgLineData.szIndex[params[0].dataIndex][1] === null ? '--' : Number(czgLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>'
 
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+          }
 
           }
         })
@@ -990,7 +1001,6 @@ export default {
       this.$store.dispatch('bubbles/getCxLine', {
         type: 0
       }).then(() => {
-        const that = this
         let czgLineData = this.$store.state.bubbles.cxLineData
         this.lineChart && this.lineChart.setOption({
           series: [{
@@ -1035,9 +1045,12 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null){
+                  return '--'
+              }
               var tooltipStr =
-                '<p>次新指数 : ' + that.dealNumFormat(czgLineData.condition[params[0].dataIndex][1]) + '</p>' +
-                '<p style="color:#f0b540">上证指数 : <span>' + that.dealNumFormat(czgLineData.szIndex[params[0].dataIndex][1]) + '</span></p>'
+                  '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--':Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                  '<p style="color:#f0b540">上证指数 : ' + (czgLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(czgLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>'
 
               return tooltipStr;
             },
@@ -1127,6 +1140,8 @@ export default {
     }, Data.refreshTime)
   },
   destroyed() {
+    this.$store.state.bubbles.newStockSortType = ''
+    this.$store.state.bubbles.newStockSort = ''
     this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }

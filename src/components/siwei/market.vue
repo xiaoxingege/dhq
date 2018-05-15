@@ -75,7 +75,9 @@
 
 <script>
 import echarts from 'echarts'
-import config from '../../z3tougu/config'
+import config, {
+  ctx
+} from '../../z3tougu/config'
 import {
   mapState
 } from 'vuex'
@@ -96,39 +98,39 @@ export default {
       plateList: [],
       xData: [],
       legendData: [{
-          value: '-0.5%',
+          value: '-0.5',
           color: '#00d641'
         },
         {
-          value: '-0.375%',
+          value: '-0.375',
           color: '#1aa448'
         },
         {
-          value: '-0.25%',
+          value: '-0.25',
           color: '#0e6f2f'
         },
         {
-          value: '-0.125%',
+          value: '-0.125',
           color: '#085421'
         },
         {
-          value: '0%',
+          value: '0',
           color: '#424453'
         },
         {
-          value: '0.125%',
+          value: '0.125',
           color: '#6d1414'
         },
         {
-          value: '0.25%',
+          value: '0.25',
           color: '#961010'
         },
         {
-          value: '0.375%',
+          value: '0.375',
           color: '#be0808'
         },
         {
-          value: '0.5%',
+          value: '0.5',
           color: '#e41414'
         }
       ],
@@ -208,10 +210,10 @@ export default {
         const data = state.marketBubble.marketCount;
         return data.slice(2, data.length - 2).reverse();
       },
-      stzt: state => state.marketBubble.marketCount[0],
-      zt: state => state.marketBubble.marketCount[1],
-      stdt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1],
-      dt: state => state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2],
+      stzt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[0] : null,
+      zt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[1] : null,
+      stdt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[state.marketBubble.marketCount.length - 1] : null,
+      dt: state => state.marketBubble.marketCount.length ? state.marketBubble.marketCount[state.marketBubble.marketCount.length - 2] : null,
       countMax: state => Math.max(...state.marketBubble.marketCount, 0) * 1.4
     })
   },
@@ -424,12 +426,12 @@ export default {
         const x = params.event.offsetX;
         const y = params.event.offsetY;
         if (x >= this.$refs.chart.clientWidth / 2) {
-          position.left = x - 490
+          position.left = Math.max(x - 490, 0)
         } else {
           position.left = x + 20
         }
         if (y >= this.$refs.chart.clientHeight / 2) {
-          position.top = y - 247
+          position.top = Math.max(y - 247, 0);
         } else {
           position.top = y
         }
@@ -469,18 +471,8 @@ export default {
       window.open(`stock/${code}`);
     },
     openPlate(code) {
-      const route = code.length === 6 ? {
-        name: "industryDetail",
-        params: {
-          industryId: code
-        }
-      } : {
-        name: "topicDetail",
-        params: {
-          topicId: code
-        }
-      };
-      this.$router.push(route);
+      const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
+      window.open(path);
     },
     matchColor(value) {
       let range = this.legendData;
@@ -510,9 +502,9 @@ export default {
       if (value === 0) {
         return minSize
       } else if (value <= 0.5) {
-        return 14 * Math.log(1 + 10 * value) + 11;
+        return 10 * Math.log(1 + 10 * value) + 11;
       } else if (value <= 2) {
-        return 91 * Math.log(1 + value)
+        return 72 * Math.log(1 + value)
       } else {
         return maxSize;
       }
@@ -575,7 +567,7 @@ export default {
               color: '#ccc',
               interval: intervalX,
               formatter: (value, index) => {
-                if (value === maxX) {
+                if (index === 5) {
                   return "ln(量比)           ";
                 }
                 return value.toFixed(2);
@@ -792,8 +784,8 @@ export default {
     }
 
     .chg {
-        float: right;
         height: 24px;
+        margin-left: 10px;
         line-height: 24px;
     }
 

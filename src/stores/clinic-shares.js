@@ -77,6 +77,7 @@ export default {
 
         if (result.errCode === 0) {
           commit('updateSmartStock', result.data)
+          commit('updateRadarData', result.data.radarData)
           // console.log(result.data)
         } else {
           commit('ERROR', result, {
@@ -161,7 +162,6 @@ export default {
         if (result.errCode === 0) {
           // console.log(result.data)
           commit('updateTechFace', result.data)
-          // console.log(result.data)
         } else {
           commit('ERROR', result, {
             root: true

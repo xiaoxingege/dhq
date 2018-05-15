@@ -635,9 +635,12 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
@@ -645,7 +648,15 @@ export default {
             position: function(point) {
               return [point[0] + 10, point[1]];
 
-            }
+            },
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })
@@ -763,13 +774,24 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(lxztData[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
 
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })
@@ -1074,9 +1096,12 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%</p>';
+                  '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
+                  '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
 
               return tooltipStr;
             },
@@ -1115,6 +1140,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(lxztData[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
 
@@ -1206,6 +1234,8 @@ export default {
     }, Data.refreshTime)
   },
   destroyed() {
+    this.$store.state.bubbles.newStockSortType = ''
+    this.$store.state.bubbles.newStockSort = ''
     this.chart.dispose()
     this.lxztChart.dispose()
     this.interval && clearInterval(this.interval)
