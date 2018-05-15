@@ -197,6 +197,9 @@ export default {
               }
             }
           ],
+          dataZoom: [{
+            type: 'inside'
+          }],
           color: ['#1984ea', '#fc2721'],
           animation: false,
           series: [{
