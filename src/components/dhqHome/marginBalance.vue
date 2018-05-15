@@ -173,6 +173,7 @@ export default {
             {
               type: 'value',
               position: 'right',
+              offset: 2,
               splitLine: {
                 show: false
               },
