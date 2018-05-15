@@ -92,7 +92,7 @@ export default {
     .list {
         /*  height: 220px; */
         .list_con {
-            height: 646px;
+            /*   height: 190px; */
             overflow: auto;
         }
         ul {
