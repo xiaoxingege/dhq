@@ -635,6 +635,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                 '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
                 '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
@@ -771,6 +774,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(lxztData[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
 
@@ -1090,6 +1096,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                   '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
                   '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
@@ -1131,6 +1140,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(lxztData[params[0].dataIndex][1] === null){
+                  return ''
+              }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
 

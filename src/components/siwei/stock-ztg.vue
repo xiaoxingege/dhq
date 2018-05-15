@@ -618,6 +618,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
+                  return ''
+              }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'
@@ -986,6 +989,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+                if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
+                    return ''
+                }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'

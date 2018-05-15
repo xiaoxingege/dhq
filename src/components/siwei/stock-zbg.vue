@@ -581,6 +581,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(that.$store.state.bubbles.zbgLine[params[0].dataIndex][1] === null){
+                  return ''
+              }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'
@@ -846,6 +849,9 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+                if(that.$store.state.bubbles.zbgLine[params[0].dataIndex][1] === null){
+                    return ''
+                }
               let isNull = (v) => {
                 if (v === null) {
                   return '--'
