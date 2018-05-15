@@ -36,7 +36,7 @@
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
-      <td v-z3-updowncolor="item.necessary">{{formatData(item.necessary)?'--':item.necessary>0?'+'+parseFloat(item.necessary).toFixed(2):parseFloat(item.necessary).toFixed(2)}}%</td>
+      <td v-z3-updowncolor="item.necessary">{{formatData(item.necessary)?'--':item.necessary>0?'+'+parseFloat(item.necessary).toFixed(2)+'%':parseFloat(item.necessary).toFixed(2)+'%'}}</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
@@ -57,7 +57,7 @@
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
-      <td v-z3-updowncolor="item.necessary">{{formatData(item.necessary)?'--':item.necessary>0?'+'+parseFloat(item.necessary).toFixed(2):parseFloat(item.necessary).toFixed(2)}}%</td>
+      <td v-z3-updowncolor="item.necessary">{{formatData(item.necessary)?'--':item.necessary>0?'+'+parseFloat(item.necessary).toFixed(2)+'%':parseFloat(item.necessary).toFixed(2)+'%'}}</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
