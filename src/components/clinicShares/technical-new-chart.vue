@@ -244,7 +244,7 @@ body {
         昨收：<span class="price cred" id="prevClosePx" ref='prevClosePx'>{{prevClosePx}}</span>
       </div>
       <div class="volu-box">成交量：<span class="volume" id="volume" ref='volume'>{{volume}}</span></div>
-      <div class="chg">涨幅：<span class="num" id="chgPct" ref='chgPct'>{{chgPct+'%'}}</span></div>
+      <div class="chg">涨幅：<span class="num" id="chgPct" ref='chgPct'>{{chgPct}}%</span></div>
       <div class="kma5" @click="showMa('Ma5')" :class="opacityMa5===0?'gray':''">MA5：<span id="kma5" ref='kma5'>{{ma5}}</span></div>
       <div class="kma10" @click="showMa('Ma10')" :class="opacityMa10===0?'gray':''">MA10：<span id="kma10" ref='kma10'>{{ma10}}</span></div>
       <div class="kma20" @click="showMa('Ma20')" :class="opacityMa20===0?'gray':''">MA20：<span id="kma20" ref='kma20'>{{ma20}}</span></div>
@@ -1003,8 +1003,8 @@ export default {
               //  console.log(item)
               if (item.endDate + '' === newTime) {
                 //  console.log(item.endDate === newTime)
-                _self.$refs.chgPct.innerText = item.chgPct.toFixed(2)
-                _self.$refs.prevClosePx.innerText = item.prevClosePx.toFixed(2)
+                _self.chgPct = item.chgPct.toFixed(2)
+                _self.prevClosePx = item.prevClosePx.toFixed(2)
 
               }
             })
