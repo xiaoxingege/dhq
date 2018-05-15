@@ -492,8 +492,8 @@ export default ({
           containLabel: true */
           left: 45,
           right: 30,
-          top: '10%',
-          height: '81%',
+          top: '15%',
+          height: '76%',
           show: false
         }
       };

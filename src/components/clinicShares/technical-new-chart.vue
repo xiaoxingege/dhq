@@ -11,7 +11,7 @@
     box-sizing: border-box;
     font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
-    color: $wordsColorBase;
+    /*  color: $wordsColorBase; */
 }
 /*$bgDeepColor:#0d0e0f;/* 最深背景 */
 /*$bgConColor:#141518;/* 内容背景 */
@@ -174,14 +174,18 @@ body {
     margin-right: 10px;
     float: left;
 }
+.txt .volu-box {
+    margin-right: 0;
+}
 .volume {
-    width: 70px;
+    width: 72px;
     display: inline-block;
 }
 .kma5 {
     color: #c9d0d7;
     cursor: pointer;
 }
+
 .kma10 {
     color: #e6e603;
     cursor: pointer;
@@ -211,6 +215,9 @@ body {
     position: relative;
     top: -25px;
 }
+.gray {
+    color: $grayWordsColor;
+}
 </style>
 <template>
 <div class="dime-kline">
@@ -222,28 +229,28 @@ body {
     <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
     <div id="fstxt" class="txt clearfix">
       <div>
-        时间：<span class="num" id="kdate" ref='kdate'>2018-05-08</span>
+        时间：<span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
       </div>
       <div class="">
-        今开：<span class="price cred" id="open" ref='open'>--</span>
+        今开：<span class="price cred" id="open" ref='open'>{{openPx}}</span>
       </div>
       <div class="">
-        最高：<span class="price cred" id="high" ref='high'>--</span>
+        最高：<span class="price cred" id="high" ref='high'>{{highPx}}</span>
       </div>
       <div class="">
-        最低：<span class="price cred" id="low" ref='low'>--</span>
+        最低：<span class="price cred" id="low" ref='low'>{{lowPx}}</span>
       </div>
       <div class="">
-        昨收：<span class="price cred" id="prevClosePx" ref='prevClosePx'>--</span>
+        昨收：<span class="price cred" id="prevClosePx" ref='prevClosePx'>{{prevClosePx}}</span>
       </div>
-      <div>成交量：<span class="volume" id="volume" ref='volume'>--</span></div>
-      <div>涨幅：<span class="num" id="chgPct" ref='chgPct'>--</span></div>
-      <div class="kma5" @click="showMa('Ma5')">MA5：<span class="kma5" id="kma5" ref='kma5'>--</span></div>
-      <div class="kma10" @click="showMa('Ma10')">MA10：<span class="kma10" id="kma10" ref='kma10'>--</span></div>
-      <div class="kma20" @click="showMa('Ma20')">MA20：<span class="kma20" id="kma20" ref='kma20'>--</span></div>
-      <div class="kma30" @click="showMa('Ma30')">MA30：<span class="kma30" id="kma30" ref='kma30'>--</span></div>
-      <div class="kma60" @click="showMa('Ma60')">MA60：<span class="kma60" id="kma60" ref='kma60'>--</span></div>
-      <div class="kma120" @click="showMa('Ma120')">MA120：<span class="kma120" id="kma120" ref='kma120'>--</span></div>
+      <div class="volu-box">成交量：<span class="volume" id="volume" ref='volume'>{{volume}}</span></div>
+      <div class="chg">涨幅：<span class="num" id="chgPct" ref='chgPct'>{{chgPct+'%'}}</span></div>
+      <div class="kma5" @click="showMa('Ma5')" :class="opacityMa5===0?'gray':''">MA5：<span id="kma5" ref='kma5'>{{ma5}}</span></div>
+      <div class="kma10" @click="showMa('Ma10')" :class="opacityMa10===0?'gray':''">MA10：<span id="kma10" ref='kma10'>{{ma10}}</span></div>
+      <div class="kma20" @click="showMa('Ma20')" :class="opacityMa20===0?'gray':''">MA20：<span id="kma20" ref='kma20'>{{ma20}}</span></div>
+      <div class="kma30" @click="showMa('Ma30')" :class="opacityMa30===0?'gray':''">MA30：<span id="kma30" ref='kma30'>{{ma30}}</span></div>
+      <div class="kma60" @click="showMa('Ma60')" :class="opacityMa60===0?'gray':''">MA60：<span id="kma60" ref='kma60'>{{ma60}}</span></div>
+      <div class="kma120" @click="showMa('Ma120')" :class="opacityMa120===0?'gray':''">MA120：<span id="kma120" ref='kma120'>{{ma120}}</span></div>
       <!--  <div>MA250：<span class="num" id="kma250" ref='kma250'>208.00</span></div> -->
     </div>
   </div>
@@ -264,6 +271,8 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 import util from '../../z3tougu/util'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   // props: ['innerCode'],
   data() {
@@ -277,6 +286,13 @@ export default {
       ma60: '--',
       ma120: '--',
       ma250: '--',
+      endDate: '--',
+      openPx: '--',
+      highPx: '--',
+      lowPx: '--',
+      prevClosePx: '--',
+      volume: '--',
+      chgPct: '--',
       message: '',
       showX: true,
       techFace: {},
@@ -289,10 +305,10 @@ export default {
       greens: '',
       strs: '',
       isMa5: true,
-      opacityMa5: 0.5,
-      opacityMa10: 0.5,
+      opacityMa5: 0,
+      opacityMa10: 0,
       opacityMa20: 0.5,
-      opacityMa30: 0.5,
+      opacityMa30: 0,
       opacityMa60: 0.5,
       opacityMa120: 0.5,
       data: {
@@ -440,7 +456,7 @@ export default {
         } */
       var data = this.data
       // data.pointTitle = this.allData.tags
-      klineData && klineData.reverse().forEach((item) => {
+      klineData && klineData.reverse().forEach((item, index) => {
         // console.log(item)
         let time = ''
         time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
@@ -452,14 +468,15 @@ export default {
         const highPx = item.highPx.toFixed(2)
         const lowPx = item.lowPx.toFixed(2)
         const volume = item.volume.toFixed(2)
+        console.log(item.volume)
         const prevClosePx = item.prevClosePx.toFixed(2)
         const chgPct = item.chgPct.toFixed(2)
-        const ma5 = item.ma5
-        const ma10 = item.ma10
-        const ma20 = item.ma20
-        const ma30 = item.ma30
-        const ma60 = item.ma60
-        const ma120 = item.ma120
+        const ma5 = Number(item.ma5).toFixed(2)
+        const ma10 = Number(item.ma10).toFixed(2)
+        const ma20 = Number(item.ma20).toFixed(2)
+        const ma30 = Number(item.ma30).toFixed(2)
+        const ma60 = Number(item.ma60).toFixed(2)
+        const ma120 = Number(item.ma120).toFixed(2)
         // const ma250 = item.ma250
         data.kdata.push([openPx, closePx, highPx, lowPx])
         data.ma5.push(ma5)
@@ -475,12 +492,40 @@ export default {
         // const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         //  const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
         // console.log(item.tagsInfo)
+
+        console.log(klineData[index])
+        if (index === klineData.length - 1) {
+          console.log(index === klineData.length - 1)
+          this.ma5 = klineData[index].ma5 === null ? '--' : Number(klineData[index].ma5).toFixed(2)
+          this.ma10 = klineData[index].ma10 === null ? '--' : Number(klineData[index].ma10).toFixed(2)
+          this.ma20 = klineData[index].ma20 === null ? '--' : Number(klineData[index].ma20).toFixed(2)
+          this.ma30 = klineData[index].ma30 === null ? '--' : Number(klineData[index].ma30).toFixed(2)
+          this.ma60 = klineData[index].ma60 === null ? '--' : Number(klineData[index].ma60).toFixed(2)
+          this.ma120 = klineData[index].ma120 === null ? '--' : Number(klineData[index].ma120).toFixed(2)
+          this.openPx = klineData[index].openPx.toFixed(2)
+          this.highPx = klineData[index].highPx.toFixed(2)
+          this.lowPx = klineData[index].lowPx.toFixed(2)
+          this.prevClosePx = klineData[index].prevClosePx.toFixed(2)
+          this.chgPct = klineData[index].chgPct.toFixed(2)
+          if (klineData[index].volume > 100000000) {
+            this.volume = (klineData[index].volume / 100000000).toFixed(2) + '亿手'
+          } else if (klineData[index].volume > 10000) {
+            this.volume = (klineData[index].volume / 10000).toFixed(2) + '万手'
+          } else {
+            this.volume = (klineData[index].volume).toFixed(2) + '手';
+          }
+
+          console.log(klineData[index].volume)
+          this.endDate = data.times[klineData.length - 1]
+        }
+
+        console.log(this.ma5)
         let tags = item.tagsInfo
 
         for (var key in tags) {
-          console.log(tags[key])
+          // console.log(tags[key])
           //   var infoStr='';
-          console.log(time)
+          //   console.log(time)
           var obj = tags[key];
           if (obj === {}) continue;
           var oneObj = tags[1];
@@ -488,7 +533,7 @@ export default {
           var lenGreen = ''
           var lenRed = ''
           if (tags[1] && tags[2]) {
-            console.log('(3):' + oneObj + twoObj) //  两个都画上  
+            // console.log('(3):' + oneObj + twoObj) //  两个都画上  
             lenGreen = oneObj.length
             lenRed = twoObj.length
             const pointRed = {
@@ -573,7 +618,7 @@ export default {
             data.markPointData.push(pointGreen);
 
           } else if (tags[1] && tags[2] === undefined) {
-            console.log('(1):' + oneObj) // 如果只有1 就只画上 1,
+            //  console.log('(1):' + oneObj) // 如果只有1 就只画上 1,
             lenGreen = oneObj.length
             const pointGreen = {
               coord: [time, lowPx],
@@ -617,7 +662,7 @@ export default {
             // data.markLineData.push(lineGreen);
 
           } else if (tags[1] === undefined && tags[2]) {
-            console.log('(2):' + twoObj) // 如果只有2 ，就只画上2 
+            //   console.log('(2):' + twoObj) // 如果只有2 ，就只画上2 
             // var pointOpen = ''
             lenRed = twoObj.length
             //    pointOpen = openPx
@@ -706,7 +751,13 @@ export default {
           // last.innerText = '123456789034567890'
           var left = parseInt(params.event.offsetX) + 38
           var top = parseInt(params.event.offsetY) - 15
+          var scrollx = $(window).scrollLeft()
 
+          var elewidth = 270
+          if ((left + elewidth - scrollx) > (window.innerWidth)) {
+            left = parseInt(params.event.offsetX) - 100 - 320;
+            console.log(left)
+          }
           /* downtxt.appendChild(newSpan); */
           var klineTags = self.allData.tags
           // console.log(klineTags[20180502][1])
@@ -804,8 +855,9 @@ export default {
       })
       this.chart.on('mouseout', function(params) {
         var last = document.getElementById('toolpoint')
-        var detail = document.getElementById('toopdetail')
-        last.removeChild(detail);
+        // last.removeChild(detail);
+        last.innerHTML = ''
+
       })
     },
     initTag() {
@@ -877,8 +929,8 @@ export default {
             var lowPx;
             var volume;
 
-            _self.$refs.kdate.innerText = time
-            // console.log(obj)
+            _self.$refs.kdate.innerText = time === '' || null || undefined ? '--' : time
+            // console.log(time)
             if (axisid === 1) {
               //  console.log(t[1])
               objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
@@ -898,7 +950,7 @@ export default {
                 //  closePx = objarr[2];
                 highPx = objarr[3];
                 lowPx = objarr[4];
-                volume = t[1].value;
+                volume = t[7].value;
 
                 /*  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
                     '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--'); */
@@ -916,33 +968,35 @@ export default {
               if (t[i].seriesName === 'MA5') {
                 var ma5 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma5
-                _self.$refs.kma5.innerText = ma5
+
+                _self.ma5 = ma5
               } else if (t[i].seriesName === 'MA10') {
                 var ma10 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma10
-                _self.$refs.kma10.innerText = ma10
+                _self.ma10 = ma10
               } else if (t[i].seriesName === 'MA20') {
                 var ma20 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma120
-                _self.$refs.kma20.innerText = ma20
+                _self.ma20 = ma20
               } else if (t[i].seriesName === 'MA30') {
                 var ma30 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma120
-                _self.$refs.kma30.innerText = ma30
+                _self.ma30 = ma30
               } else if (t[i].seriesName === 'MA60') {
                 var ma60 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma120
-                _self.$refs.kma60.innerText = ma60
+                _self.ma60 = ma60
               } else if (t[i].seriesName === 'MA120') {
                 var ma120 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma120
-                _self.$refs.kma120.innerText = ma120
+                _self.ma120 = ma120
               } else if (t[i].seriesName === 'MA250') {
                 var ma250 = t[i].value === undefined ? '--' : t[i].value;
                 // 更新ma120
-                _self.$refs.kma250.innerText = ma250
+                _self.ma250 = ma250
               }
             }
+
             var kData = _self.allData.datas
             var newTime = time.replace(/\-/g, '')
             kData && kData.reverse().forEach((item) => {
@@ -951,14 +1005,15 @@ export default {
                 //  console.log(item.endDate === newTime)
                 _self.$refs.chgPct.innerText = item.chgPct.toFixed(2)
                 _self.$refs.prevClosePx.innerText = item.prevClosePx.toFixed(2)
+
               }
             })
 
-            _self.$refs.open.innerText = openPx
+            _self.openPx = openPx === undefined ? '--' : openPx
             //  _self.$refs.close.innerText = closePx
-            _self.$refs.high.innerText = highPx
-            _self.$refs.low.innerText = lowPx
-            _self.$refs.volume.innerText = volume
+            _self.highPx = highPx === undefined ? '--' : highPx
+            _self.lowPx = lowPx === undefined ? '--' : lowPx
+            _self.volume = volume === undefined ? '--' : volume
             //  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
           }
         },
@@ -973,9 +1028,9 @@ export default {
         },
 
         grid: [{
-            left: 45,
-            right: 45,
-            top: 20,
+            left: 35,
+            right: 40,
+            top: 60,
             height: '60%',
             show: false
           },
@@ -1263,7 +1318,7 @@ export default {
             xAxisIndex: 1,
             yAxisIndex: 1,
             data: lineData.vols,
-            barCategoryGap: '3', // 需要根据宽度定
+            // barCategoryGap: '3', // 需要根据宽度定
             itemStyle: {
               normal: {
                 color: '#7fbe9e'
@@ -1292,6 +1347,7 @@ export default {
       if (type === 'Ma5') {
         if (this.opacityMa5 === 0.5) {
           this.opacityMa5 = 0
+
         } else if (this.opacityMa5 === 0) {
           this.opacityMa5 = 0.5
         }

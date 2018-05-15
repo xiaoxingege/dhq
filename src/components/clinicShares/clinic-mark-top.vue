@@ -226,7 +226,7 @@ body {
 }
 .short-detail {
     padding-right: 20px;
-    color: $wordsColorBase;
+    color: #a6a6a6;
     font-size: 14px;
 }
 .short-tit {
@@ -323,6 +323,16 @@ body {
 
     min-width: 80px;
     max-width: 100px;
+}
+.indu-desc:hover i {
+
+    min-width: 80px;
+    max-width: 100px;
+}
+.tech-desc:hover i {
+
+    min-width: 200px;
+    max-width: 400px;
 }
 .mess-desc {
     white-space: nowrap;
@@ -482,7 +492,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">
         <div class="face-left-title fl">资金面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -493,7 +503,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">
         <div class="face-left-title fl">技术面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 tech-desc" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -504,7 +514,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -518,7 +528,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.midCapital && smartStock.midCapital.length>0">
         <div class="face-left-title fl">资金面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -529,7 +539,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.bases && smartStock.bases.length>0">
         <div class="face-left-title fl">基本面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -540,7 +550,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.midTechs && smartStock.midTechs.length>0">
         <div class="face-left-title fl">技术面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 tech-desc" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -551,7 +561,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -562,7 +572,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.indus && smartStock.indus.length>0">
         <div class="face-left-title fl">行业面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5" v-for="short of smartStock.indus" :class="checkStatus(short.status)" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 indu-desc" v-for="short of smartStock.indus" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
