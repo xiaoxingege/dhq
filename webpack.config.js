@@ -119,7 +119,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: {
-      index: `/dist/${featureName}/`
+      index: `/dist/${featureName}/index.html`
     },
     host: '0.0.0.0',
     port: port,

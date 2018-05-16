@@ -35,11 +35,11 @@ body {
 }
 
 .top-wrap {
-    height: 37%;
+    height: 34%;
 }
 
 .con-bottom {
-    height: 28.5%;
+    height: 33%;
     padding-top: 3px;
 }
 
@@ -61,21 +61,9 @@ body {
     background-color: $bgConColor;
 }
 
-.c_up {
-    color: $upColor;
-}
-
-.c_down {
-    color: $downColor;
-}
-
-.c_txt {
-    color: $wordsColorBase;
-}
-
 .sector-wrap {
     padding-top: 3px;
-    height: 34.5%;
+    height: 33%;
 }
 
 .sector-wrap > div {

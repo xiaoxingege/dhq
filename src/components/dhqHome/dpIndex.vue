@@ -84,7 +84,7 @@
         </tr>
       </table>
       <table class="dpindex-table">
-        <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item,index)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
+        <tr v-for="(item,index) of dpIndexList" @click="toHqChart(item)" @dblclick="toMarketDetail(item)" :class="stockCode === stockCodeList[index]?'hoverColor':''">
           <td>{{item.name === null?'--':item.name}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.stockVal)?'--':parseFloat(item.stockVal).toFixed(2)}}</td>
           <td v-z3-updowncolor="item.upDown">{{formatData(item.upDown)?'--':parseFloat(item.upDown).toFixed(2)}}</td>
@@ -94,13 +94,16 @@
       </table>
     </div>
   </div>
-  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp"></DayMarketChart>
+  <DayMarketChart :isResizeBottomChart="isResizeBottomChart" :stockCode="stockCode" :stockName="stockName" :timestamp="timestamp" :stockCodeList="stockCodeList"></DayMarketChart>
 </div>
 </template>
 <script>
-import NavBar from 'components/z3touguhome/nav-bar'
+import NavBar from 'components/dhqHome/nav-bar'
 import DayMarketChart from 'components/dhqHome/daiyMarketChart'
-import z3websocket from '../../z3tougu/z3socket'
+import z3websocket from '../../dhq/z3socket'
+import {
+  ctx
+} from '../../dhq/config'
 import {
   mapState
 } from 'vuex'
@@ -114,7 +117,8 @@ export default {
       stockCodeList: ['000001.SH', '399001.SZ', '399006.SZ', '399005.SZ', '000300.SH', '000016.SH', '399905.SZ', '000985.SH'],
       stockCode: '000001.SH',
       stockName: '上证指数',
-      timestamp: ''
+      timestamp: '',
+      timeoutID: null
     }
   },
   watch: {
@@ -130,16 +134,6 @@ export default {
       } else if (this.socketState === 3) {
         // 断开连接，重新建立连接
         this.$store.dispatch('z3sockjs/init')
-      }
-    },
-    'dpData': {
-      deep: true,
-      handler: function() {
-        if (z3websocket.ws) {
-          z3websocket.ws && z3websocket.ws.close()
-        } else {
-          this.$store.dispatch('z3sockjs/init')
-        }
       }
     }
   },
@@ -196,6 +190,7 @@ export default {
         })
         .then(() => {
           this.dpIndexList = this.dpIndexData
+          this.$store.dispatch('z3sockjs/init')
         })
     },
     formatData: function(value) {
@@ -205,9 +200,23 @@ export default {
         return true
       }
     },
-    toHqChart: function(item, index) {
-      this.stockCode = item.stockCode
-      this.stockName = item.name
+    toHqChart: function(item) {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('click', item)
+    },
+    toMarketDetail: function(item) {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('dblclick', item)
+    },
+    isDbClick: function(type, item) {
+      this.timeoutID = setTimeout(() => {
+        if (type === 'click') {
+          this.stockCode = item.stockCode
+          this.stockName = item.name
+        } else if (type === 'dblclick') {
+          window.open(ctx + '/stock/' + item.stockCode)
+        }
+      }, 250);
     },
     unitFormat: function(value) {
       if (value >= 100000000) {

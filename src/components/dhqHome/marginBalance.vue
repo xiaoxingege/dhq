@@ -32,7 +32,7 @@ export default {
   watch: {
     isResizeBottomChart() {
       this.chart.resize({
-        height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+        height: (window.innerHeight * 0.33) * 0.85 < 710 * 0.33 * 0.85 ? 710 * 0.33 * 0.85 : (window.innerHeight * 0.33) * 0.85
       })
     }
   },
@@ -80,7 +80,7 @@ export default {
               fontWeight: 400
             },
             left: 50,
-            top: 10
+            top: 5
           },
           legend: {
             data: [{
@@ -94,7 +94,7 @@ export default {
             ],
             itemWidth: 20,
             itemHeight: 1,
-            right: '8%',
+            right: '0%',
             top: 0,
             textStyle: {
               color: '#707b8f',
@@ -115,16 +115,7 @@ export default {
               let value;
               for (let i = 0; i < params.length; i++) {
                 if (i === 0) {
-                  if (params[i].value > 0) {
-                    value = '+' + parseFloat(params[i].value).toFixed(2) + '亿'
-                    params[i].textColor = '#fc2721'
-                  } else if (params[i].value < 0) {
-                    value = '-' + parseFloat(params[i].value).toFixed(2) + '亿'
-                    params[i].textColor = '#0bc846'
-                  } else {
-                    value = parseFloat(params[i].value).toFixed(2) + '亿'
-                    params[i].textColor = '#c9d0d7'
-                  }
+                  value = parseFloat(params[i].value).toFixed(2) + '亿'
                   s = s + '<br/>' + params[i].seriesName + ': <span style="color: ' + params[i].textColor + '">' + value + '</span>';
                 }
               }
@@ -134,7 +125,7 @@ export default {
           grid: {
             left: 10,
             top: 30,
-            width: '92%',
+            width: '95%',
             height: '80%',
             containLabel: true
           },
@@ -152,25 +143,63 @@ export default {
                 color: function(params) {
                   return '#707b8f'
                 }
-              }
+              },
+              interval: 150
             },
+            // splitNumber:2,
             data: this.chartDateData
           }],
           yAxis: [{
-            type: 'value',
-            splitLine: {
-              show: false
-            },
-            axisTick: {
-              show: false
-            },
-            axisLabel: {
-              textStyle: {
-                color: function(params) {
-                  return '#707b8f'
+              type: 'value',
+              splitLine: {
+                show: false
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                textStyle: {
+                  color: function(params) {
+                    return '#707b8f'
+                  }
+                },
+                formatter: function(value) {
+                  return value.toFixed(2)
                 }
+              },
+              min: 'dataMin',
+              max: 'dataMax'
+            },
+            {
+              type: 'value',
+              position: 'right',
+              offset: 2,
+              splitLine: {
+                show: false
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                textStyle: {
+                  color: function(params) {
+                    return '#707b8f'
+                  }
+                },
+                formatter: function(value) {
+                  return value.toFixed(2)
+                }
+              },
+              max: function(value) {
+                return value.max + (value.max - value.min) / 8
+              },
+              min: function(value) {
+                return value.min - (value.max - value.min) / 8
               }
             }
+          ],
+          dataZoom: [{
+            type: 'inside'
           }],
           color: ['#1984ea', '#fc2721'],
           animation: false,
@@ -183,6 +212,7 @@ export default {
             name: '上证指数',
             type: 'line',
             showSymbol: false,
+            yAxisIndex: 1,
             data: this.referenceData
           }]
         })

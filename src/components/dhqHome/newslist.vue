@@ -4,6 +4,7 @@
 * {
     box-sizing: border-box;
     font-size: $fontSizeBase;
+    font-family: "Microsoft YaHei";
 }
 /*html,body,.app{height:100%;}*/
 p {
@@ -68,10 +69,10 @@ p {
 <div class="news-list-wrap clearfix" :style="{height:wrapHeight+'px'}">
   <div class="news-list fl" :style="{height:wrapHeight-2+'px'}">
     <div class="news-list-top">
-      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject"></NavBar>
+      <NavBar :data="navText" :type="type" v-on:changeType="changeNavType" :styleObject="styleObject" :styleLiObj="styleLiObj"></NavBar>
     </div>
     <ul class="news-list-con" :style="{height:wrapHeight-2-25+'px'}">
-      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="$route.query.newsIndex === index?'news-active':''">
+      <li v-for="(item,index) of newsList" class="c_txt tl clearfix news-con-li" v-on:click="focusLi(item.iiid,index)" v-bind:class="item.iiid === newsId?'news-active':''">
         <a class="fl news-list-title">【{{item.source}}】{{item.title}}</a>
         <span class="fr">{{item.makedate.substring(11)}}</span>
       </li>
@@ -83,8 +84,8 @@ p {
 </div>
 </template>
 <script type="text/javascript">
-import NavBar from 'components/z3touguhome/nav-bar'
-import newsDetail from 'components/z3touguhome/news-details'
+import NavBar from 'components/dhqHome/nav-bar'
+import newsDetail from 'components/dhqHome/news-details'
 export default {
   props: [],
   data() {
@@ -102,19 +103,19 @@ export default {
       // newsId: ''
       intervalTime: 10,
       updateNewsPid: null,
+      styleLiObj: {
+        width: '85px'
+      },
       styleObject: {
         borderRight: '1px solid #141518',
-        borderRadius: '0px'
+        borderRadius: '0px',
+        backgroundColor: '#525a65'
       }
     }
   },
   watch: {
     type() {
       this.changeNews()
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[0].style.backgroundColor = '#2e4465'
     }
   },
   components: {
@@ -210,10 +211,6 @@ export default {
     },
     focusLi: function(id, index) {
       this.newsId = id
-      for (let i = 0; i < document.getElementsByClassName('news-con-li').length; i++) {
-        document.getElementsByClassName('news-con-li')[i].style.backgroundColor = '#141518'
-      }
-      document.getElementsByClassName('news-con-li')[index].style.backgroundColor = '#2e4465'
     }
   },
   mounted() {

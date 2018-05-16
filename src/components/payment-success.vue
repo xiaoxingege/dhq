@@ -202,8 +202,8 @@ export default {
       }).then(d => {
         if (d.retCode === 0) {
           if (d.data) {
-            console.log(d.data.status)
-            console.log(typeof(d.data.status))
+            // console.log(d.data.status)
+            // console.log(typeof d.data.status)
             this.status = d.data.status
           }
         } else {
