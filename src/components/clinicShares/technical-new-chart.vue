@@ -753,10 +753,9 @@ export default {
           var top = parseInt(params.event.offsetY) - 15
           var scrollx = $(window).scrollLeft()
 
-          var elewidth = 270
-          if ((left + elewidth - scrollx) > (window.innerWidth)) {
-            left = parseInt(params.event.offsetX) - 100 - 320;
-            console.log(left)
+          var elewidth = 300
+          if ((left + elewidth) > 1200) {
+            left = parseInt(params.event.offsetX) - 40 - 320;
           }
           /* downtxt.appendChild(newSpan); */
           var klineTags = self.allData.tags
