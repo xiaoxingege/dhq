@@ -138,7 +138,9 @@ export default {
           showImg: false,
           showBImg: false
         }
-      ]
+      ],
+        tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
+        tcapMin: Math.sqrt(9.722757458E9 / 1e11)
     }
   },
   components: {
@@ -197,43 +199,43 @@ export default {
         const xMaxData = Math.max.apply(null, xData)
         const xMinData = Math.min.apply(null, xData)
 
-        let sd = [];
-        this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
-          let ps = ''
-          let labelFun
-          let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
-            ps = 'bottom'
-            labelFun = function(params) {
-              return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
-            }
-          } else {
-            ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
-              labelFun = function(params) {
-                return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
+          let sd = [];
+          this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
+              let ps = ''
+              let labelFun
+              let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
+              if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
+                  ps = 'bottom'
+                  labelFun = function(params) {
+                      return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
+                  }
+              } else {
+                  ps = 'inside'
+                  if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
+                      labelFun = function(params) {
+                          return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
+
+                      }
+                  } else {
+                      labelFun = function(params) {
+                          return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
+                      }
+                  }
 
               }
-            } else {
-              labelFun = function(params) {
-                return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
-              }
-            }
 
-          }
-
-          sd.push({
-            label: {
-              normal: {
-                show: true,
-                position: ps,
-                color: '#fff',
-                formatter: labelFun
-              }
-            },
-            value: value
+              sd.push({
+                  label: {
+                      normal: {
+                          show: true,
+                          position: ps,
+                          color: '#fff',
+                          formatter: labelFun
+                      }
+                  },
+                  value: value
+              })
           })
-        })
 
         this.chart.setOption({
           title: {
@@ -728,43 +730,43 @@ export default {
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
         const xMaxData = Math.max.apply(null, xData)
         const xMinData = Math.min.apply(null, xData)
-        let sd = [];
-        this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
-          let ps = ''
-          let labelFun
-          let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
-            ps = 'bottom'
-            labelFun = function(params) {
-              return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
-            }
-          } else {
-            ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
-              labelFun = function(params) {
-                return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
+          let sd = [];
+          this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
+              let ps = ''
+              let labelFun
+              let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
+              if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
+                  ps = 'bottom'
+                  labelFun = function(params) {
+                      return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
+                  }
+              } else {
+                  ps = 'inside'
+                  if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
+                      labelFun = function(params) {
+                          return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
+
+                      }
+                  } else {
+                      labelFun = function(params) {
+                          return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
+                      }
+                  }
 
               }
-            } else {
-              labelFun = function(params) {
-                return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
-              }
-            }
 
-          }
-
-          sd.push({
-            label: {
-              normal: {
-                show: true,
-                position: ps,
-                color: '#fff',
-                formatter: labelFun
-              }
-            },
-            value: value
+              sd.push({
+                  label: {
+                      normal: {
+                          show: true,
+                          position: ps,
+                          color: '#fff',
+                          formatter: labelFun
+                      }
+                  },
+                  value: value
+              })
           })
-        })
 
         this.chart && this.chart.setOption({
           xAxis: {
