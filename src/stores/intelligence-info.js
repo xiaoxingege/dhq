@@ -29,9 +29,15 @@ export default {
     loadingShow: true, // 加载中状态
     newTime: '',
     userId: '',
+    optionalStockId:'',
     stockPool: null, // 股票池列表
-    innerCode: '',
-    isTops: true // 是否在顶部
+    innerCode:'',
+    isTops:true, // 是否在顶部
+    noData:false,
+    topicList:[],
+    induList:[],
+    topicCode:'',
+    induCode:''
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -44,13 +50,23 @@ export default {
     newTime: state => state.newTime,
     stockPool: state => state.stockPool,
     innerCode: state => state.innerCode,
-    isTops: state => state.isTops
+    isTops: state => state.isTops,
+    optionalStockId: state => state.optionalStockId,
+    noData:state => state.noData,
+    topicList: state => state.topicList
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
       const stocks = {}
-      state.temporary = list
-      if (state.isTops === true) {
+      const topics = {}
+      const indus = {}
+      let topicArr = []
+      let indusArr = []
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
+      state.temporary = list.rows
+      if(state.isTops === true){
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
       } else {
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
@@ -58,19 +74,30 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
         let equity = intelligence.equity
-        //  for (let stock of equityList) {
-        if (equity.code !== null && equity.code !== undefined) {
+        let topic = intelligence.topic
+        let indu = intelligence.indu
+        if (equity  !== null ) {
           stocks[equity.code] = equity
         }
-        // }
-        // console.log(equityList)
-        // if (equityList.code !== null && equityList.code !== undefined) {
-        //   // stocks[equityList.code] = equityList
-        // }
+        if(topic !== null ){
+          topics[topic.code] = topic
+          topicArr.push(topic.code)
+        }
+        if(indu !== null){
+          indus[indu.code] = indu
+          indusArr.push(indu.code)
+        }
       }
+      state.topicList = topics
+      state.induList = indus
+      state.topicCode = topicArr.join(',')
+      state.induCode = indusArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       if (state.isTops === true) {
@@ -80,13 +107,22 @@ export default {
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
-        let equityList = intelligence.equityList
-        stocks[equityList.code] = equityList
+        let equity = intelligence.equityList
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
       }
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
       const stocks = {}
+      const topics = {}
+      const indus = {}
+      let topicArr = []
+      let indusArr = []
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       state.temporary = list.rows
       if (state.isTops === true) {
         state.newsFlash = state.temporary.concat(state.newsFlash)
@@ -94,21 +130,70 @@ export default {
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
-      for (let intelligence of state.optionalInformationList) {
-        let equityList = intelligence.equityList
-        stocks[equityList.code] = equityList
+      for (let intelligence of state.newsFlash) {
+        let equity = intelligence.equity
+        let topic = intelligence.topic
+        let indu = intelligence.indu
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
+        if(topic !== null ){
+          topics[topic.code] = topic
+          topicArr.push(topic.code)
+        }
+        if(indu !== null){
+          indus[indu.code] = indu
+          indusArr.push(indu.code)
+        }
       }
+      state.topicList = topics
+      state.induList = indus
+      state.topicCode = topicArr.join(',')
+      state.induCode = indusArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
+      const stocks = {}
+      const topics = {}
+      const indus = {}
+      let topicArr = []
+      let indusArr = []
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       state.temporary = list.rows
       if (state.isTops === true) {
         state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
       } else {
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
+      // 取出websocket 要更新的字段
+      for (let intelligence of state.newsOpportunities) {
+        let equity = intelligence.equity
+        let topic = intelligence.topic
+        let indu = intelligence.indu
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
+        if(topic !== null ){
+          topics[topic.code] = topic
+          topicArr.push(topic.code)
+        }
+        if(indu !== null){
+          indus[indu.code] = indu
+          indusArr.push(indu.code)
+        }
+      }
+      state.topicList = topics
+      state.induList = indus
+      state.topicCode = topicArr.join(',')
+      state.induCode = indusArr.join(',')
+      state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
+      if(list.rows.length === 0 && state.isTops !== true){
+        state.noData = true
+      }
       const stocks = {}
       state.temporary = list.rows
       if (state.isTops === true) {
@@ -118,33 +203,43 @@ export default {
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
-        let equityList = intelligence.equityList
-        console.log(equityList)
-        stocks[equityList.code] = equityList
+        let equity = intelligence.equity
+        if (equity  !== null ) {
+          stocks[equity.code] = equity
+        }
       }
       state.relatedStocks = stocks
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
-      stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? parseFloat(stock.price).toFixed(2) : config.emptyValue
-      stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? parseFloat(stock.curChngPct).toFixed(2) : config.emptyValue
+      if(stocks[stock.innerCode] !== undefined){
+        stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+        stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
+      }
     },
     setMask(state, visible) {
       state.loadingShow = visible
     },
     getNewTime(state, time) {
-      if (time === null) {
-        state.newTime = time
-      } else {
-        state.newTime = formatDate(time, 'yyyy-MM-dd hh:mm:ss')
+      if(time === null || time === ''){
+          state.newTime = time
+      }else{
+        state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
       }
     },
     setStockPool(state, result) {
-      state.stockPool = result
-      for (let i = 0; i < 1; i++) {
-        state.optionalStockId = result[0].poolId
-        var equityPool = result[0].equityPool
-        if (equityPool === null) {
+      var data = result
+      const stockPool = []
+      for(var item in data){
+        if(data[item].poolType === 1){
+          stockPool.push(data[item])
+        }
+      }
+      state.stockPool = stockPool
+      for(let i = 0; i< stockPool.length; i++) {
+        state.optionalStockId = stockPool[0].poolId
+        var equityPool = stockPool[0].equityPool
+        if(equityPool === null){
           state.innerCode = ''
         } else {
           for (let j = 0; j < equityPool.length; j++) {
@@ -167,6 +262,22 @@ export default {
     },
     setIsTop(state, result) {
       state.isTops = result
+    },
+    setNoData(state,result) {
+      state.noData = result
+    },
+    updateTopic(state,result){
+      const topics = state.topicList
+      for(let topic of result){
+        topics[topic.code].chngPct =topic.chngPct !==null && topic.chngPct !==undefined ? Number(topic.chngPct.toFixed(2)) : ''
+      }
+      console.log(JSON.stringify(state.topicList))
+    },
+    updateIndu(state,result){
+      const inidus = state.induList
+      for(let inidu of result){
+        inidus[inidu.code].chngPct = Number(inidu.chngPct.toFixed(2))
+      }
     }
   },
   actions: {
@@ -186,8 +297,8 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(result => {
-        if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
-          commit(types.SET_WISDOMHEADLINES_LIST, result.data.rows)
+        if (result.errCode === 0) {
+          commit(types.SET_WISDOMHEADLINES_LIST, result.data)
           commit('getNewTime', result.data.newTime)
           commit('setMask', false)
         } else {
@@ -218,8 +329,6 @@ export default {
       }).then(result => {
         if (result.errCode === 0) {
           commit('setMask', false)
-        }
-        if (result.errCode === 0 && JSON.stringify(result.data) !== '{}') {
           commit('getNewTime', result.data.newTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
         } else {
@@ -249,6 +358,7 @@ export default {
       }).then(result => {
         if (result.errCode === 0) {
           commit('setMask', false)
+          commit('getNewTime', result.data.newTime)
           commit(types.SET_NEWSFLASH_LIST, result.data)
         } else {
           commit('ERROR', result, {
@@ -416,7 +526,7 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=304f525a-9af2-4a60-b15e-00fc552917bb`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -425,6 +535,31 @@ export default {
           commit('setStockPool', result.data)
         }
       })
+    },
+
+    getTopicIndu({ commit }, { code,flag } ) {
+      const url = `${domain}/openapi/news/chngPctList.shtml?code=${code}&flag=${flag}`
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.errCode === 0) {
+          if(flag === 'topic'){
+            commit('updateTopic', result.data)
+          }
+          if(flag === 'indu'){
+            commit('updateIndu', result.data)
+          }
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      }).catch(v2 => {
+        console.log(v2)
+      });
     }
   }
 }

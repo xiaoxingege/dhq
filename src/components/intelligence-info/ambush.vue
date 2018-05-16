@@ -6,12 +6,13 @@
       <div class="item">
         <router-link :to="{ name:'topicDetail', params: {topicId:item.effCode} }" target="_blank" class="col name" v-if="item.flag==='topic'">{{item.effName}}</router-link>
         <router-link :to="{ name:'industryDetail', params: {industryId:item.effCode} }" target="_blank" class="col name" v-else-if="item.flag==='indu'">{{item.effName}}</router-link>
-        <span class="col name" v-else>{{item.effName}}</span>
+        <a class="col name" :href="'/stock/'+item.effCode" target="_blank" v-else>{{item.effName}}</a>
         <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
         <span class="col time">{{item.occrDate}}</span>
       </div>
       <div class="news">
-        <router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}" target="_blank">{{item.newsTitle}}</router-link>
+        <!--router-link :to="{name:'detailPages', params:{detailType:'news', id:item.newsId}}" target="_blank">{{item.newsTitle}}</router-link-->
+        <span>{{item.newsTitle}}</span>
       </div>
     </li>
   </ul>
@@ -65,13 +66,13 @@ export default {
 }
 .ambush ul {
     padding: 5px 0;
-    height: calc(100% - 34px);
+    height: calc(100% - 24px);
     overflow: auto;
     li {
         overflow: hidden;
-        height: 36px;
-        line-height: 18px;
-        margin: 5px 6px;
+        height: 40px;
+        line-height: 20px;
+        margin: 10px 6px;
         a {
             color: $wordsColorBase;
             text-decoration: none;
@@ -82,15 +83,19 @@ export default {
         }
         .col {
             float: left;
-            width: 35%;
+            width: 43%;
             overflow: hidden;
         }
         .chg {
-            width: 30%;
+            width: 25%;
             text-align: center;
         }
         .name {
             cursor: pointer;
+        }
+        .time {
+            width: 32%;
+            text-align: right;
         }
         .name:before {
             width: 8px;
@@ -98,14 +103,14 @@ export default {
             display: inline-block;
             margin-right: 3px;
             border-radius: 4px;
-            background: #FF0200;
+            background: #ca4941;
             content: '';
         }
         .news {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: $wordsColorBase;
+            color: #808ba1;
             padding-left: 11px;
             background: transparent;
         }

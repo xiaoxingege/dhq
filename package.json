@@ -27,9 +27,6 @@
     },
     "z3tougu": {
       "port": 3000
-    },
-    "dhq": {
-      "port": 3001
     }
   },
   "devDependencies": {
@@ -102,12 +99,10 @@
     "hsy-vue-tooltip": "^0.0.7",
     "iscroll": "^5.2.0",
     "js-md5": "^0.7.3",
-    "js-sha1": "^0.6.0",
     "koa": "^2.3.0",
     "koa-body": "^2.5.0",
     "koa-router": "^7.2.1",
     "log4js": "^1.1.1",
-    "mescroll.js": "^1.3.2",
     "moment": "^2.18.1",
     "mongodb": "^2.2.33",
     "node-fetch": "^1.7.1",
@@ -120,4 +115,9 @@
     "vuedraggable": "^2.14.1",
     "xlsx": "^0.11.19"
   }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> z3tougu

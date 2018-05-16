@@ -51,29 +51,34 @@
 <div class="finance-news">
   <div class="news-top">
     <NavBar :data="navText" :type="type" v-on:changeType="changeNavType"></NavBar>
-    <p class="more-news">
-      <router-link :to="{name:'newslist',query:{type:type}}">更多></router-link>
+    <p class="more-news" @click="toZInfo(type)">
+      <!--  <router-link :to="{name:'wisdomHeadlines'}" target="_blank" v-if="type === 'ztt'">更多></router-link>
+      <router-link :to="{name:'listedCompany'}" target="_blank" v-if="type === 'ssgs'">更多></router-link>-->
+      <a>更多</a>
     </p>
   </div>
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
-      <router-link class="fl newtitle" :to="{name:'newslist',query:{newsIndex:index,type:type}}">{{item.title}}</router-link>
-      <span class="fr">{{item.makedate.substring(11)}}</span>
+      <router-link class="fl newtitle" :to="{name:'detailPages',params:{id:item.newsId, detailType:'news'}}" target="_blank">{{item.title}}</router-link>
+      <span class="fr">{{timestampToTime(item.declareDate)}}</span>
     </li>
   </ul>
 </div>
 </template>
 <script type="text/javascript">
 import NavBar from 'components/z3touguhome/nav-bar'
+import {
+  ctx
+} from '../../z3tougu/config'
 export default {
   props: [],
   data() {
     return {
       navText: [
-        ['财经要闻', 'ywnews'],
-        ['上市公司', 'companynews']
+        ['智头条', 'ztt'],
+        ['上市公司', 'ssgs']
       ],
-      type: 'ywnews',
+      type: 'ztt',
       newsSize: 6,
       newsList: [],
       intervalTime: 10,
@@ -100,14 +105,14 @@ export default {
   },
   methods: {
     getNews: function() {
-      if (this.type === 'ywnews') {
+      if (this.type === 'ztt') {
         this.$store.dispatch('z3touguIndex/getFinanceNews', {
             size: this.newsSize
           })
           .then(() => {
             this.newsList = this.financeNewsData
           })
-      } else if (this.type === 'companynews') {
+      } else if (this.type === 'ssgs') {
         this.$store.dispatch('z3touguIndex/getListedCompanyNews', {
             size: this.newsSize
           })
@@ -127,6 +132,23 @@ export default {
         this.updateNewsPid = setInterval(function() {
           _this.getNews()
         }, 60 * 1000 * _this.intervalTime)
+      }
+    },
+    timestampToTime: function(timestamp) {
+      const date = new Date(timestamp); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let minute = date.getMinutes();
+      let second = date.getSeconds();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      second = second < 10 ? ('0' + second) : second;
+      return h + ':' + minute + ':' + second;
+    },
+    toZInfo: function(type) {
+      if (this.type === 'ztt') {
+        window.open(ctx + '/zInfo/wisdomHeadlines')
+      } else if (this.type === 'ssgs') {
+        window.open(ctx + '/zInfo/listedCompany')
       }
     }
   },

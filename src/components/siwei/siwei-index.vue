@@ -118,14 +118,14 @@ export default {
           name: 'cxg'
         },
         {
-          text: '昨日跌停',
+          text: '昨日涨停',
           path: ctx + '/siweiIndex/zrzt',
           name: 'zrzt'
         },
         {
           text: '更多',
-          path: '',
-          name: ''
+          path: ctx + '/siwei',
+          name: 'bubbles'
         }
       ],
       routeName: this.$route.name

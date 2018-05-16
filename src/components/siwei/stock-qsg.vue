@@ -3,27 +3,26 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="qsgMian clearfix">
-    <div class="qsgChart fl">
+  <div class="qsgMian display-box">
+    <div class="qsgChart box-flex-1">
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
-    <div class="qsgList fr">
+    <div class="qsgList">
       <ul ref="ztgListUl">
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
           <div class="mb-10" v-show="false">
             {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
+            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.price">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
+            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
             <li v-for="value in item.topics" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
-              </div>
+              <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
             </li>
           </ul>
         </li>
@@ -105,6 +104,18 @@ export default {
     ztgList: state => state.bubbles.ztgBubblesLine
   }),
   methods: {
+    setDialog(data) {
+      if (data) {
+        this.isOverDialog = data
+        this.zIndex = 999999
+      } else {
+        // alert('i dont konw')
+        this.isOverBubbles = data
+        this.isOverDialog = data
+        this.zIndex = ''
+      }
+
+    },
     initBubbles() {
       this.chart = echarts.init(this.$refs.qsgBubbles)
       this.chart.showLoading(config.loadingConfig);
@@ -116,6 +127,9 @@ export default {
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
 
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
 
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
@@ -172,7 +186,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
+            right: 25,
             bottom: 50
           },
           tooltip: {
@@ -205,12 +219,13 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -221,7 +236,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -247,7 +264,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.05),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -257,12 +274,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 6,
+            interval: (Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.05)) / 6
 
           },
           series: [{
@@ -367,11 +386,8 @@ export default {
 
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.qsgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.qsgBubbles.clientHeight) {
             that.offsetY = that.$refs.qsgBubbles.clientHeight - 247
@@ -387,7 +403,7 @@ export default {
           that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
           that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
-          that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.bubbleColor.value = that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex] === null ? '--' : Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
         })
 
@@ -429,6 +445,8 @@ export default {
         const that = this
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
           let ps = ''
@@ -470,11 +488,12 @@ export default {
         this.chart && this.chart.setOption({
           animation: false,
           xAxis: {
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -485,11 +504,14 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
+
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.05),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -498,12 +520,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 6,
+            interval: (Math.max.apply(null, yData) + (Math.max.apply(null, yData) * 0.05)) / 6
 
           },
           series: [{
@@ -609,7 +633,11 @@ export default {
     toThemeDetail(topicCode, target) {
       target.stopPropagation();
       if (topicCode) {
-        window.open(ctx + '/topic/' + topicCode)
+          if(String(topicCode).length === 9){
+              window.open(ctx + '/topic/' + topicCode)
+          }else if(String(topicCode).length === 6){
+              window.open(ctx + '/industry/' + topicCode)
+          }
       }
     }
   },
@@ -651,13 +679,13 @@ export default {
 
         .qsgChart {
             height: 100%;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             background: #232630;
         }
 
         .qsgList {
             height: 100%;
-            width: 25%;
+            width: 464px;
             background: #232630;
         }
 
@@ -671,6 +699,7 @@ export default {
 
         li {
             padding: 10px 5px 10px 10px;
+            color: #fff;
         }
         li:hover {
             background: #525A65;
@@ -701,6 +730,7 @@ export default {
 
                 .name {
                     line-height: 20px;
+                    color: #a6a6a6;
                 }
 
                 .price {
@@ -735,5 +765,8 @@ export default {
     line-height: 20px;
     text-align: center;
     font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 </style>

@@ -108,9 +108,7 @@ body {
 }
 .desc-green {
     border: 1px solid $downColor;
-
 }
-
 .pl-5 {
     padding-left: 5px;
 }
@@ -118,37 +116,20 @@ body {
 .clinic-dime-wrap {
     background-color: $bgConColor;
 }
-.tab-ul {
-    width: 100%;
-    background: $bgNavColor;
-}
-.tab-ul li {
-    width: 70px;
-    height: 30px;
-    line-height: 30px;
-    background: $bgNavColor;
-    text-align: center;
-    border-right: 1px solid $bgDeepColor;
-    cursor: pointer;
-}
-.tab-ul li.active {
-    background: $menuSelColor;
-}
+
 .dime-kline {
     padding: 10px;
-    clear: both;
+    /*float: left;*/
     margin: 0 5px 6px 0;
+    /*width: 49%;*/
 }
 .kline-title {
-
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
-    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 5px;
-    height: 62px;
+    padding: 10px 7px;
     font-size: 14px;
     font-family: "Microsoft YaHei";
 }
@@ -161,21 +142,35 @@ body {
     width: 100%;
 }
 .assess1 {
-    padding-left: 5px;
+    padding-left: 9px;
     font-size: 14px;
+}
+.dime-tech {
+    padding: 10px;
+    margin: 0 5px 6px 0;
+}
+.techline-title2 {
+    height: 22px;
+    padding: 10px 5px;
+}
+.techline-title {
+    line-height: 41px;
+    border-bottom: 1px solid $lineAndTitleColor;
+    font-size: 14px;
+    font-weight: 900;
 }
 </style>
 <template>
-<div class="dime-kline">
+<div class="dime-tech">
   <div>
-    <div class="kline-title">
-      {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
+    <div class="techline-title">
+      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)">{{industryFace.tag==null?'':industryFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+    <div class="techline-title2">{{industryFace.describe==null?'':industryFace.describe}}</div>
 
   </div>
 
-  <div class="kline-charts" ref="barChart">
+  <div class="kline-charts" ref="lineCharts">
 
   </div>
 
@@ -191,75 +186,143 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
   data() {
     return {
       showX: true,
+      legendNames: {},
+      legendName1: {
+        name1: '营业收入增长率',
+        name2: '预测营业收入增长率'
+      },
+
+      legendName2: {
+        name1: '净利润增长率',
+        name2: '预测净利润增长率'
+      },
+      legendName3: {
+        name1: '未来3日上涨概率',
+        name2: '未来20日上涨概率'
+      },
+      // themeColor:'transparent',
+      borderType: 'dashed',
+      borderWidth: 3,
+      borderColor: '',
+      lineType: 'solid',
       data: {
         times: [],
         tradeTimeArr: [],
-        kdata: [],
+        ydata: [],
+        winRate3: [],
+        winRate20: [],
         day: [],
         days5: [],
-        vols: []
+        vols: [],
+        range: [],
+        rangeYdata: [],
+        induAvg: [],
+        stkLevel: []
       }
     }
   },
   computed: {
     ...mapState({
+      lineData: state => {
+        var data = {
+          times: [],
+          tradeTimeArr: [],
+          ydata: [],
+          growthR: [],
+          growthRate: [],
+          growthRateLast: [],
+          day: [],
+          days5: [],
+          vols: [],
+          rangeYdata: []
+        }
+        return data
 
+      }
 
     })
   },
   methods: {
     init() {
+      const klineData = [].concat(this.industryFace.datas.datas)
+      if (this.dataIndex === 0) {
+        this.legendNames = this.legendName1
+        // console.log(this.legendNames)
+      } else if (this.dataIndex === 1) {
+        this.legendNames = this.legendName2
+      } else {
+        this.legendNames = this.legendName3
+      }
+      klineData.forEach((item, index) => {
+        const induAvg = item.induAvg
+        const stkLevel = Number(item.stkLevel).toFixed(2)
+        // console.log(induAvg)
+        const stkLevelDetail = item.stkLevelDetail
 
-      var data = this.data
-      const klineData = [].concat(this.indexFace.datas.data).reverse()
+        var newValueStkLevel = {}
 
-      klineData.forEach((item) => {
-        let time = ''
-        const day = Number(item.today / 10000).toFixed(2)
-        const days5 = Number(item.fiveDay / 10000).toFixed(2)
-
-        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-        data.times.push(time)
-        data.tradeTimeArr.push(time)
-        data.day.push(day)
-        data.days5.push(days5)
+        newValueStkLevel = {
+          value: stkLevel,
+          itemStyle: {
+            normal: {
+              label: {
+                show: true,
+                position: ['-10%', -18],
+                color: '#c9d0d7',
+                fontSize: 12,
+                //  fontWeight: 'bold',
+                /* align:'right',
+                 */
+                formatter: function(p) {
+                  return stkLevelDetail === null ? '' : stkLevelDetail
+                }
+              }
+            }
+          }
+        }
+        this.data.induAvg.push(induAvg)
+        this.data.stkLevel.push(newValueStkLevel)
 
       })
 
-      this.initKline()
+      this.initLine()
     },
-    initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
+    initLine() {
+      this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
 
-      if (this.indexFace) {
+      if (this.industryFace) {
         this.drawCharts()
 
       }
+
     },
     drawCharts() {
       const lineData = this.data
+      //  const legendNames = this.legendNames
       const opt = {
 
         legend: {
+          show: this.legendShow,
           left: 3,
-          top: 0,
+          top: -5,
           itemWidth: 20,
           itemHeight: 10,
           textStyle: {
-            color: '#c9d0d7'
+            color: '#c9d0d7',
+            fontSize: 12
           },
           data: [{
-              name: '当日主力净流入',
+              name: this.legendName1,
               icon: 'rect'
             },
             {
-              name: '近5日主力净流入',
-              icon: 'line',
-              backgroundColor: '#1984ea'
+              name: this.legendName2,
+              icon: 'rect'
+
             }
           ]
         },
@@ -287,7 +350,7 @@ export default ({
                   }
                 }
               },
-              backgroundColor: '#777',
+              // backgroundColor: '#777',
               // padding:[20,0,10,10],
               textStyle: {
                 /* color:'#000',
@@ -302,12 +365,12 @@ export default ({
             var s = ''
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '</br>'
               }
               if (i === 1) {
-                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
               }
+
             }
             return s
           }
@@ -322,6 +385,14 @@ export default ({
               color: '#23272c'
             }
           },
+          axisLine: {
+            onZero: true,
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c',
+              type: 'solid'
+            }
+          },
           axisLabel: {
             // show:false
             color: '#c9d0d7'
@@ -331,16 +402,21 @@ export default ({
             inside: true,
             alignWithLabel: false
           },
-
-          data: lineData.times
+          data: ['个股涨幅', '估值', '清偿能力', '盈利能力', '成长性']
         },
         yAxis: {
+
+          // type: 'category',
           type: 'value',
-          name: '单位：万',
+          // name: this.floatYname,
+          // data: ['0', '50%', '100%'],
+
           nameTextStyle: {
             color: '#c9d0d7',
-            padding: [0, 0, -10, 60]
+            padding: [0, 0, 0, 110]
           },
+
+          nameGap: 6,
           splitLine: {
             show: false,
             lineStyle: {
@@ -348,8 +424,14 @@ export default ({
               color: '#23272c'
             }
           },
+          axisLine: {
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
           axisTick: {
-            show: false,
+            show: true,
             alignWithLabel: false
           },
           axisLabel: {
@@ -359,30 +441,59 @@ export default ({
             color: '#c9d0d7'
           }
         },
+
         series: [{
-            data: lineData.day,
-            name: '当日主力净流入',
+            data: lineData.induAvg,
+            name: this.legendName1,
             type: 'bar',
-            barWidth: 28,
-            stack: '当日主力净流入'
+            barWidth: 35,
+            stack: this.legendName1,
+            /* label: {
+              normal: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                formatter: function(params) {
+                  return params.value + '%'
+                }
+              }
+            },
+*/
+            itemStyle: {
+              normal: {
+                color: '#525a65'
+
+              }
+            }
+
           },
           {
-            data: lineData.days5,
-            name: '近5日主力净流入',
-            type: 'line',
-            symbol: 'none',
-            stack: '近5日主力净流入'
+            data: lineData.stkLevel,
+            name: this.legendName2,
+            type: 'bar',
+            barWidth: 35,
+            stack: this.legendName2,
+
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+
+              }
+            }
+
           }
+
         ],
-        color: ['#ca4941', '#1984ea'],
+        // color: ['#ca4941', '#1984ea'],
         grid: {
           // width: '97%',
-          // containLabel: true */
-          /* left: 55,*/
-          left: 75,
-          right: 10,
-          top: '19%',
-          height: '70%',
+          /* width: '100%',
+          borderColor: '#2A2E36',
+          containLabel: true */
+          left: 45,
+          right: 30,
+          top: '15%',
+          height: '76%',
           show: false
         }
       };
@@ -401,10 +512,12 @@ export default ({
 
   },
   watch: {
+
     innerCode: function() {
       this.init()
     }
   },
+
   mounted() {
 
     this.init()

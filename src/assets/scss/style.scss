@@ -10,11 +10,11 @@ $menuSelColor:#525a65;/* 二级菜单选中颜色 */
 $blueWordsColor:#1984ea;/* 蓝色文字色 */
 $hoverBgColor:#2e4465;/* 鼠标滑过列表背景色 */
 $upColor:#ca4941;/* 所有红色 上涨 */
-$downColor:#56a870;/* 所有绿色 下跌 */
+$downColor:#56a870;/* 所有绿色 上涨 */
+$flatColor:#c9d0d7;
 $backupYellow:#f0b540;/* 备用黄色 */
 $fontSizeBase:12px; /* 基本字体 */
-$upColorDhq:#fc2721;/* 所有红色 上涨 */
-$downColorDhq:#0bc846;/* 所有绿色 下跌 */
+$borderColor:#23272c; /* 通用边框色 */
 
 /* 大注释浮框 */
 @mixin noteBoxBig{

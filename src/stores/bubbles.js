@@ -57,10 +57,15 @@ export default {
       down: [],
       openDown: []
     },
-    zbgLine: null,
+    zbgLine: [],
     newStockList: null,
     newStockSortType: '',
-    newStockSort: ''
+    newStockSort: '',
+    cxLineData: {
+      condition: [],
+      szIndex: []
+    },
+    ystLineData: []
 
   },
   mutations: {
@@ -162,7 +167,7 @@ export default {
       state.setDefaultY = [options.Y, options.YDefault]
     },
     setStockBubblesData(state, result) {
-      const data = result.data
+      const data = result.body.data
       state.ztgBubblesData = {
         xDefault: [],
         xData: [],
@@ -173,27 +178,41 @@ export default {
         name: [],
         seriesData: []
       }
-      if (result.errCode === 0) {
-        for (var item of data) {
-          if (item.xData !== null && item.yData !== null) {
-            state.ztgBubblesData.xDefault.push(item.xData)
-            if (item.xData > 10) {
-              state.ztgBubblesData.xData.push(Math.log(11))
-            } else {
-              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) + 1))
+      if (result.body.errCode === 0) {
+        for (let item of data) {
+          if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4 || result.options.type === 7) {
+            if (item.xData !== null && item.yData !== null && item.xData !== 'null' && item.yData !== 'null') {
+              state.ztgBubblesData.xDefault.push(item.xData)
+              if (item.xData > 10) {
+                state.ztgBubblesData.xData.push(Math.log(11))
+                state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
+              } else if(Number(item.xData) === 0){
+                  state.ztgBubblesData.xData.push(Math.log(1))
+                  state.ztgBubblesData.seriesData.push([Math.log(1), item.yData])
+              }else{
+                state.ztgBubblesData.xData.push(Math.log(Number(item.xData)))
+                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData)), item.yData])
+              }
+                state.ztgBubblesData.yData.push(item.yData)
+                state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+                state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+                state.ztgBubblesData.innerCode.push(item.innerCode)
+                state.ztgBubblesData.name.push(item.name)
             }
-            state.ztgBubblesData.yData.push(item.yData)
-            state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-            state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-            state.ztgBubblesData.innerCode.push(item.innerCode)
-            state.ztgBubblesData.name.push(item.name)
-            if (item.xData > 10) {
-              state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
-            } else {
-              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) + 1), item.yData])
+          } else if (result.options.type === 6 || result.options.type === 5) {
+            if (item.xData !== null && item.yData !== null) {
+                state.ztgBubblesData.xDefault.push(item.xData)
+                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) / 100 + 2))
+                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) / 100 + 2), item.yData])
+                state.ztgBubblesData.yData.push(item.yData)
+                state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+                state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+                state.ztgBubblesData.innerCode.push(item.innerCode)
+                state.ztgBubblesData.name.push(item.name)
             }
           }
         }
+
       } else {
         // alert(result.msg)
         state.ztgBubblesData = {
@@ -209,9 +228,15 @@ export default {
       }
     },
     setBubblesLine(state, result) {
-      if (result.errCode === 0) {
-        state.ztgBubblesLine = result.data.reverse()
-        state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+      if (result.body.errCode === 0) {
+        if (result.type === 3) {
+          state.ztgBubblesLine = result.body.data.sort(function(a, b) {
+            return b.chg - a.chg
+          })
+        } else {
+          state.ztgBubblesLine = result.body.data.reverse()
+          state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+        }
       } else {
         state.ztgBubblesLine = null
       }
@@ -229,6 +254,30 @@ export default {
       }
     },
     setZdCompare(state, result) {
+
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
       if (result.errCode === 0) {
         state.ztgCompare = {
           up: [],
@@ -236,29 +285,113 @@ export default {
           down: [],
           openDown: []
         }
-        for (var item of result.data) {
-          state.ztgCompare.up.push(item[0])
-          state.ztgCompare.down.push(item[1])
-          state.ztgCompare.openUp.push(item[2])
-          state.ztgCompare.openDown.push(item[3])
+
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
 
         }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.ztgCompare.up.push([k, lineResult[k][0]])
+            state.ztgCompare.down.push([k, lineResult[k][1]])
+            state.ztgCompare.openUp.push([k, lineResult[k][2]])
+            state.ztgCompare.openDown.push([k, lineResult[k][3]])
+          } else {
+            state.ztgCompare.up.push([k, null])
+            state.ztgCompare.down.push([k, null])
+            state.ztgCompare.openUp.push([k, null])
+            state.ztgCompare.openDown.push([k, null])
+          }
+
+        })
       } else {
         state.ztgCompare = null
       }
     },
     setZbgLine(state, result) {
+
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
       if (result.errCode === 0) {
-        state.zbgLine = result.data
+        state.zbgLine = []
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
+        }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.zbgLine.push([k, lineResult[k]])
+          } else {
+            state.zbgLine.push([k, null])
+          }
+
+        })
       } else {
-        state.zbgLine = null
+        state.zbgLine = []
       }
     },
     setNewStockList(state, result) {
-      if (result.errCode === 0) {
-        state.newStockList = result.data.sort(function(a, b) {
-          return b.chg - a.chg
-        })
+      function dealNull(arr,key){
+            let apendArr = []
+            for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
+
+                if(arr[i] && arr[i][key] === null ){
+                    apendArr.push(arr[i])
+                    arr.splice(i,1);
+                    flag = false;
+                } else {
+                    flag = true;
+                }
+            }
+            return arr.concat(apendArr)
+        }
+      if (result.body.errCode === 0) {
+        if (result.type === 0 || result.type === 1) {
+          state.newStockList = result.body.data.sort(function(a, b) {
+            return b.chgNum - a.chgNum
+          })
+            state.newStockList =  dealNull(state.newStockList,'chgNum')
+        } else if (result.type === 2) {
+          state.newStockList = result.body.data.sort(function(a, b) {
+            return b.chg - a.chg
+          })
+            state.newStockList =  dealNull(state.newStockList,'chg')
+        }
 
         // state.newStockList = result.data
       } else {
@@ -282,6 +415,20 @@ export default {
       }
       state.newStockSortType = result.type
       state.newStockSort = result.sortType
+      function dealNull(arr,key){
+          let apendArr = []
+          for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
+
+              if(arr[i] && arr[i][key] === null ){
+                  apendArr.push(arr[i])
+                  arr.splice(i,1);
+                  flag = false;
+              } else {
+                  flag = true;
+              }
+          }
+          return arr.concat(apendArr)
+      }
 
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
@@ -292,11 +439,11 @@ export default {
       } else if (result.type === 'innerCode') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return a.symbol - b.symbol
+            return a.symbol.substring(0, 6) - b.symbol.substring(0, 6)
           })
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return b.symbol - a.symbol
+            return b.symbol.substring(0, 6) - a.symbol.substring(0, 6)
           })
         }
       } else if (result.type === 'price') {
@@ -314,12 +461,14 @@ export default {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chg - b.chg
           })
+            state.newStockList =  dealNull(state.newStockList,'chg')
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chg - a.chg
           })
+          state.newStockList =  dealNull(state.newStockList,'chg')
         }
-      } else if (result.type === 'lznum') {
+      } else if (result.type === 'lznum' || result.type === 'ystlbNum' || result.type === 'beforeKb') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.limitNum - b.limitNum
@@ -329,16 +478,154 @@ export default {
             return b.limitNum - a.limitNum
           })
         }
-      } else if (result.type === 'zfnum') {
+      } else if (result.type === 'zfnum' || result.type === 'afterKb') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chgNum - b.chgNum
           })
+          state.newStockList =  dealNull(state.newStockList,'chgNum')
+
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chgNum - a.chgNum
           })
+          state.newStockList =  dealNull(state.newStockList,'chgNum')
         }
+      } else if (result.type === 'ysdisKb') {
+        if (result.sortType === 'desc') {
+          state.newStockList.sort(compare('open')).reverse()
+        } else {
+          state.newStockList.sort(compare('open'))
+        }
+      } else if (result.type === 'ssts') {
+        if (result.sortType === 'desc') {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return a.listDate - b.listDate
+          })
+        } else {
+          state.newStockList = state.newStockList.sort(function(a, b) {
+            return b.listDate - a.listDate
+          })
+        }
+
+      }
+    },
+    setCxLine(state, result) {
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
+      if (result.errCode === 0) {
+        state.cxLineData = {
+          condition: [],
+          szIndex: []
+        }
+        let lineConditionResult = {}
+        let lineszIndexResult = {}
+
+        for (let key in result.data.condition) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineConditionResult['11:30/13:00'] = result.data.condition[key]
+          } else {
+            lineConditionResult[time] = result.data.condition[key]
+          }
+        }
+        for (let key in result.data.szIndex) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineszIndexResult['11:30/13:00'] = result.data.szIndex[key]
+          } else {
+            lineszIndexResult[time] = result.data.szIndex[key]
+          }
+        }
+        timeline.forEach(function(k, v) {
+          if (lineConditionResult[k] !== undefined) {
+            state.cxLineData.condition.push([k, lineConditionResult[k]])
+          } else {
+            state.cxLineData.condition.push([k, null])
+          }
+          if (lineszIndexResult[k] !== undefined) {
+            state.cxLineData.szIndex.push([k, lineszIndexResult[k]])
+          } else {
+            state.cxLineData.szIndex.push([k, null])
+          }
+
+        })
+      } else {
+        state.cxLineData = {
+          condition: [],
+          szIndex: []
+        }
+      }
+    },
+    setYstLine(state, result) {
+      function autoTimeline(starts, ends) {
+        var timeline = []
+        var startHour = starts.split(':')[0] * 1
+        var startMin = starts.split(':')[1] * 1
+        var endHour = ends.split(':')[0] * 1
+        var endMin = ends.split(':')[1] * 1
+        for (var i = startHour; i <= endHour; i++) {
+          var start = (i === startHour) ? startMin : '0'
+          var end = (i === endHour) ? endMin : '59'
+          for (var j = start; j <= end; j++) {
+            j = (j < 10) ? '0' + j : j
+            timeline.push(i + ':' + j)
+          }
+        }
+        return timeline
+      }
+
+      let beforenoon = autoTimeline('9:30', '11:30')
+      let afternoon = autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      let timeline = beforenoon.concat(afternoon)
+
+
+      if (result.errCode === 0) {
+        state.ystLineData = []
+        let lineResult = {}
+
+        for (let key in result.data) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = result.data[key]
+          } else {
+            lineResult[time] = result.data[key]
+          }
+        }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.ystLineData.push([k, lineResult[k]])
+          } else {
+            state.ystLineData.push([k, null])
+          }
+
+        })
+      } else {
+        state.ystLineData = []
       }
     }
   },
@@ -448,7 +735,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setStockBubblesData', body)
+        commit('setStockBubblesData', {
+          body,
+          options
+        })
       })
     },
     getBubblesLine({
@@ -463,7 +753,10 @@ export default {
         return res.json()
       }).then(body => {
         if (currentTime === '') {
-          commit('setBubblesLine', body)
+          commit('setBubblesLine', {
+            body,
+            type
+          })
         } else {
           commit('updateBubblesLine', body)
         }
@@ -504,7 +797,10 @@ export default {
       }).then((res) => {
         return res.json()
       }).then(body => {
-        commit('setNewStockList', body)
+        commit('setNewStockList', {
+          body,
+          type
+        })
       })
     },
     sortNewStockList({
@@ -516,6 +812,32 @@ export default {
       commit('sortNewList', {
         type,
         sortType
+      })
+    },
+    getCxLine({
+      commit
+    }, {
+      type: type
+    }) {
+      return fetch(`${domain}/openapi/dimension/doubleLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setCxLine', body)
+      })
+    },
+    getYstLine({
+      commit
+    }, {
+      type: type
+    }) {
+      return fetch(`${domain}/openapi/dimension/monoLine/${type}`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setYstLine', body)
       })
     }
 

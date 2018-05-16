@@ -276,7 +276,7 @@ export default {
       },
       legendList: [],
       mapHeight: window.innerHeight - 70,
-      mapWidth: window.innerWidth - 26,
+      mapWidth: document.body.clientWidth - 26,
       showHover: false,
       hoverNode: null,
       hoverNodeEl: null,
@@ -535,7 +535,7 @@ export default {
       this.getLegendColor(this.conditionIndustry)
       window.onresize = function() {
         _this.mapHeight = window.innerHeight - 70
-        _this.mapWidth = window.innerWidth - 26
+        _this.mapWidth = document.body.clientWidth - 26
         _this.chart.resize({
           height: _this.mapHeight,
           width: _this.mapWidth
@@ -924,7 +924,7 @@ export default {
         this.offsetX = event.clientX + 50
         this.offsetY = event.clientY + 50
       }
-      const windowWidth = window.innerWidth
+      const windowWidth = document.body.clientWidth
       const windowHeight = window.innerHeight
       if (document.getElementsByClassName('hover-wrapper').length > 0) {
         const wrapWidth = document.getElementsByClassName('hover-wrapper')[0].offsetWidth
