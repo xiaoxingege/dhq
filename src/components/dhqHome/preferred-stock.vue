@@ -177,12 +177,16 @@ export default {
   computed: {
     preferredIndustryData: function() {
       const preferredIndustryData = this.$store.state.dhqIndex.preferredIndustryData
-      preferredIndustryData.length = 8
+      if (preferredIndustryData.length > 8) {
+        preferredIndustryData.length = 8
+      }
       return preferredIndustryData
     },
     preferredTopicData: function() {
       const preferredTopicData = this.$store.state.dhqIndex.preferredTopicData
-      preferredTopicData.length = 8
+      if (preferredTopicData.length > 8) {
+        preferredTopicData.length = 8
+      }
       return preferredTopicData
     }
   },

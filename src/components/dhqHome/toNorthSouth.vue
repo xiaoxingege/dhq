@@ -232,6 +232,7 @@ export default {
               {
                 type: 'value',
                 position: 'right',
+                offset: 2,
                 splitLine: {
                   show: false
                 },
@@ -252,10 +253,17 @@ export default {
                   return value.max + (value.max - value.min) / 8
                 },
                 min: function(value) {
-                  return value.min - (value.max - value.min) / 8
+                  let min = value.min - (value.max - value.min) / 8
+                  if (min < 0) {
+                    min = 0
+                  }
+                  return min
                 }
               }
             ],
+            dataZoom: [{
+              type: 'inside'
+            }],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
@@ -378,6 +386,7 @@ export default {
               {
                 type: 'value',
                 position: 'right',
+                offset: 2,
                 splitLine: {
                   show: false
                 },
@@ -398,10 +407,17 @@ export default {
                   return value.max + (value.max - value.min) / 8
                 },
                 min: function(value) {
-                  return value.min - (value.max - value.min) / 8
+                  let min = value.min - (value.max - value.min) / 8
+                  if (min < 0) {
+                    min = 0
+                  }
+                  return min
                 }
               }
             ],
+            dataZoom: [{
+              type: 'inside'
+            }],
             color: ['#1984ea', '#fc2721'],
             animation: false,
             series: [{
