@@ -63,8 +63,16 @@ export default {
       }
       state.temporary = list.rows
       if(state.isTops === true){
-
-        state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
+        var temp = {} // 用于id判断重复
+        var result = [] // 最后的新数组
+        var c = state.temporary.concat(state.wisdomHeadlinesList)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.wisdomHeadlinesList = result
       }else{
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
@@ -98,7 +106,16 @@ export default {
       const stocks = {}
       state.temporary = list.rows
       if(state.isTops === true){
-        state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
+        var temp = {} // 用于id判断重复
+        var result = [] // 最后的新数组
+        var c = state.temporary.concat(state.optionalInformationList)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.optionalInformationList = result
       }else{
         state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
       }
@@ -122,7 +139,16 @@ export default {
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        state.newsFlash = state.temporary.concat(state.newsFlash)
+        var temp = {} // 用于id判断重复
+        var result = [] // 最后的新数组
+        var c = state.temporary.concat(state.newsFlash)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.newsFlash = result
       }else{
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
@@ -160,7 +186,16 @@ export default {
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
+        var temp = {} // 用于id判断重复
+        var result = [] // 最后的新数组
+        var c = state.temporary.concat(state.newsOpportunities)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.newsOpportunities = result
       }else{
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
@@ -193,10 +228,17 @@ export default {
       }
       const stocks = {}
       state.temporary = list.rows
-      console.log(state.temporary)
       if(state.isTops === true){
-        console.log(JSON.stringify(state.listedCompany))
-        state.listedCompany = state.temporary.concat(state.listedCompany)
+        var temp = {} // 用于id判断重复
+        var result = [] // 最后的新数组
+        var c = state.temporary.concat(state.listedCompany)
+        c.map( (item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.listedCompany = result
       }else{
         state.listedCompany = state.listedCompany.concat(state.temporary)
       }

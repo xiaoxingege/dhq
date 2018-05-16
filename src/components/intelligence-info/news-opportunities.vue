@@ -221,6 +221,7 @@
       loadMore() {
         this.page++
         this.typeList(this.typeIndex)
+        var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
             this.$store.commit('setNoData',true)

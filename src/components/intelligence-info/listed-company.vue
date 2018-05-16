@@ -50,7 +50,7 @@
       return {
         page: 0,
         totalPage: 300,
-        intervalTime: 60000,
+        intervalTime: 6000,
         scrollTop: 0,
         innerHeight: window.innerHeight
       }
