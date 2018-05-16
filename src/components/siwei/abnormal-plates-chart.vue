@@ -1,6 +1,6 @@
 <template>
 <div class="abnormal-plates-chart">
-  <div class="chart" ref="chart"></div>
+  <div class="chart" ref="chart" @dblclick="openIndex"></div>
 </div>
 </template>
 
@@ -18,7 +18,8 @@ export default {
     return {
       timeline: util.generateTimeline(),
       markPointData: [],
-      markLineData: []
+      markLineData: [],
+      lastPlateTime: ''
     }
   },
   computed: {
@@ -26,7 +27,7 @@ export default {
       indexData: state => state.marketBubble.indexData,
       // 处理为0的数据
       indexArr: state => state.marketBubble.indexData.data.map(value => value === 0 ? null : value),
-      plates: state => state.marketBubble.abnormalPlateList
+      plates: state => state.marketBubble.indexPlateList
     }),
     indexRange: function() {
       // 过滤0数据，算最大最小值。
@@ -43,6 +44,9 @@ export default {
         max = closePx + Math.abs(closePx - minData);
         min = closePx - Math.abs(closePx - minData);
       }
+      let _interval = max - closePx;
+      max = max + 1 / 4 * _interval;
+      min = min - 1 / 4 * _interval;
       let interval = (max - closePx) / 2;
       return {
         min: min,
@@ -50,18 +54,6 @@ export default {
         interval: interval,
         closePx: closePx
       };
-    },
-    chgRange: function() {
-      let range = this.indexRange;
-      let interval = (range.max - range.closePx) / range.closePx / 2;
-      return {
-        min: 2 * interval,
-        max: -2 * interval,
-        interval: interval
-      }
-    },
-    mark: function() {
-
     }
   },
   methods: {
@@ -139,13 +131,13 @@ export default {
           axisLine: {
             onZero: false
           },
-          min: this.chgRange.min,
-          max: this.chgRange.max,
-          interval: this.chgRange.interval,
+          min: this.indexRange.min,
+          max: this.indexRange.max,
+          interval: this.indexRange.interval,
           splitNumber: 4,
           axisLabel: {
             inside: true,
-            formatter: (value) => (value * 100).toFixed(2) + '%',
+            formatter: (value) => ((value - this.indexRange.closePx) / this.indexRange.closePx * 100).toFixed(2) + '%',
             color: (value, index) => index < 2 ? config.downColor : (index === 2 ? config.flatColor : config.upColor)
           },
           axisTick: {
@@ -173,7 +165,7 @@ export default {
             data: this.markLineData
           },
           markPoint: {
-            silent: true,
+            silent: false,
             symbol: 'roundRect',
             symbolSize: [60, 30],
             itemStyle: {
@@ -190,16 +182,20 @@ export default {
     },
     addMarkData() {
       const interval = this.indexRange.interval;
+      this.markPointData = [];
+      this.markLineData = [];
       this.plates.forEach((plate) => {
-        const time = this.formatTime(plate.dateTime);
-        const chg = plate.chg;
-        const name = plate.industryName;
-        const color = chg >= 0 ? config.upColor : config.downColor;
+        const time = this.formatTime(plate.tradeMin);
+        const riseSpeed = plate.riseSpeed;
+        const name = plate.idxName;
+        const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
-          const coordY = chg >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
+          const coordY = riseSpeed >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
           let point = {
             coord: [time, coordY],
+            symbolSize: [markPointSize, 20],
             itemStyle: {
               normal: {
                 borderColor: color
@@ -237,21 +233,21 @@ export default {
       });
     },
     updatePlates() {
-      // this.this.$store.dispatch('marketBubble/updateAbnormalPlates').then();
-      this.addMarkData();
-      setTimeout(() => {
-        this.chart.setOption({
-          series: [{
-            markPoint: {
-              data: this.markPointData
-            },
-            markLine: {
-              data: this.markLineData
-            }
-          }]
-        })
-      }, 0)
-
+      this.$store.dispatch('marketBubble/updateIndexPlates').then(() => {
+        this.addMarkData();
+        setTimeout(() => {
+          this.chart.setOption({
+            series: [{
+              markPoint: {
+                data: this.markPointData
+              },
+              markLine: {
+                data: this.markLineData
+              }
+            }]
+          })
+        }, 0)
+      });
     },
     updateIndex() {
       this.$store.dispatch('marketBubble/updateIndexData').then(() => {
@@ -261,9 +257,9 @@ export default {
             max: this.indexRange.max,
             interval: this.indexRange.interval
           }, {
-            min: this.chgRange.min,
-            max: this.chgRange.max,
-            interval: this.chgRange.interval
+            min: this.indexRange.min,
+            max: this.indexRange.max,
+            interval: this.indexRange.interval
           }],
           series: [{
             data: this.indexArr
@@ -277,13 +273,16 @@ export default {
         value = "0" + value;
       }
       return value.substring(0, 2) + ":" + value.substring(2, 4)
+    },
+    openIndex() {
+      window.open('stock/000001.SH');
     }
   },
   mounted() {
     this.chart = echarts.init(this.$refs.chart);
     const p1 = this.$store.dispatch('marketBubble/updateIndexData');
-    const p2 = this.$store.dispatch('marketBubble/updateAbnormalPlates', {
-      startTime: ''
+    const p2 = this.$store.dispatch('marketBubble/updateIndexPlates', {
+      startTime: this.lastPlateTime
     })
     Promise.all([p1, p2]).then(() => {
       this.addMarkData();
@@ -291,7 +290,17 @@ export default {
     })
     pcId = setInterval(() => {
       this.updateIndex();
+      this.updatePlates();
     }, 60 * 1000);
+    window.addEventListener('resize', () => {
+      const chartWrapper = this.$refs.chart;
+      let height = chartWrapper.clientHeight;
+      let width = chartWrapper.clientWidth;
+      this.chart && this.chart.resize({
+        height: height,
+        width: width
+      })
+    }, false)
   },
   destroyed() {
     if (pcId) {

@@ -3,28 +3,32 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="qsgMian clearfix">
-    <div class="qsgChart fl">
+  <div class="qsgMian display-box">
+    <div class="qsgChart box-flex-1">
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
-    <div class="qsgList fr">
+    <div class="qsgList">
       <div class="qsgListTitle clearfix">
         <a><span>序号</span></a>
         <a v-for="(item,index) in newListTitle">
-                <span @click="sortList(item.type,index,$event)">{{item.name}}</span>
+            <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+                  @mouseover="showTitleDetail(item.type,'over',$event)"
+                  @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
                 <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
                 <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
-            </a>
+        </a>
+        <span class="titleDetail" ref="titleDetail"></span>
       </div>
       <ul ref="newListUl">
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
-          <span>{{item.symbol | isNull}}</span>
-          <span v-z3-updowncolor="item.chg">{{item.price | isNull}}</span>
-          <span v-z3-updowncolor="item.chg">{{item.chg | isNull | chng}}</span>
+          <span>{{item.symbol.substring(0,6) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.price === null?'--':Number(item.price).toFixed(2)}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
-          <span v-z3-updowncolor="item.chgNum">{{item.chgNum | isNull}}</span>
+          <span v-z3-updowncolor="item.chgNum">{{item.chgNum === null?'--':Number(item.chgNum).toFixed(2)+'%'}}</span>
+          <span>{{item.listDate}}</span>
         </li>
       </ul>
     </div>
@@ -51,11 +55,11 @@ export default {
   data() {
     return {
       options: {
-        xDefault: 'mkt_idx.volume_ratio',
-        yDefault: 'mkt_idx.exchr',
+        xDefault: 'accum_chg_pct',
+        yDefault: 'up_limit_num',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 4
+        type: 5
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -114,7 +118,7 @@ export default {
           showBImg: false
         },
         {
-          name: '开板前连涨数',
+          name: '连板数',
           type: 'lznum',
           showImg: false,
           showBImg: false
@@ -122,6 +126,12 @@ export default {
         {
           name: '累计涨幅',
           type: 'zfnum',
+          showImg: true,
+          showBImg: false
+        },
+        {
+          name: '上市天数',
+          type: 'ssts',
           showImg: false,
           showBImg: false
         }
@@ -137,6 +147,18 @@ export default {
     newStockList: state => state.bubbles.newStockList
   }),
   methods: {
+    setDialog(data) {
+      if (data) {
+        this.isOverDialog = data
+        this.zIndex = 999999
+      } else {
+        // alert('i dont konw')
+        this.isOverBubbles = data
+        this.isOverDialog = data
+        this.zIndex = ''
+      }
+
+    },
     initBubbles() {
       this.chart = echarts.init(this.$refs.qsgBubbles)
       this.chart.showLoading(config.loadingConfig);
@@ -148,6 +170,8 @@ export default {
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
 
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
 
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
@@ -204,7 +228,7 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
+            right: 45,
             bottom: 50
           },
           tooltip: {
@@ -237,12 +261,13 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(2+累计涨幅)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -253,7 +278,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -279,7 +306,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + 5,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -287,14 +314,16 @@ export default {
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '开板前' + '\n' + '连板数'
                 }
-                return v.toFixed(2) + '%'
+                return Number(v).toFixed(0)
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
           series: [{
@@ -399,11 +428,8 @@ export default {
 
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.qsgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.qsgBubbles.clientHeight) {
             that.offsetY = that.$refs.qsgBubbles.clientHeight - 247
@@ -416,10 +442,10 @@ export default {
             stockCode: that.dialogOptions.stockCode
           })
           that.dialogOptions.stockName = that.$store.state.bubbles.ztgBubblesData.name[params.dataIndex]
-          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
-          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
+          that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex]
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
-          that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.bubbleColor.value = that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex] === null ? '--' : Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
         })
 
@@ -461,6 +487,8 @@ export default {
         const that = this
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
           let ps = ''
@@ -502,11 +530,12 @@ export default {
         this.chart && this.chart.setOption({
           animation: false,
           xAxis: {
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(2+累计涨幅)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -517,25 +546,29 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
-            max: Math.max.apply(null, yData),
+            max: Math.max.apply(null, yData) + 5,
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
               },
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
-                  return '换手率'
+                  return '开板前' + '\n' + '连板数'
                 }
-                return v.toFixed(2) + '%'
+                return Number(v).toFixed(0)
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Math.max.apply(null, yData) + 5) / 5
 
           },
           series: [{
@@ -638,34 +671,49 @@ export default {
     toStockDetail(innerCode) {
       window.open('/stock/' + innerCode + '.shtml')
     },
-    sortList(type, indexNum) {
-      if (this.newListTitle[indexNum].showImg || this.newListTitle[indexNum].showBImg) {
-        this.newListTitle[indexNum].showImg = !this.newListTitle[indexNum].showImg
-        this.newListTitle[indexNum].showBImg = !this.newListTitle[indexNum].showBImg
-        if (this.newListTitle[indexNum].showBImg) {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type,
-            sortType: 'desc'
-          })
-        } else {
-          this.$store.dispatch('bubbles/sortNewStockList', {
-            type: type
-          })
-        }
-      } else if (!this.newListTitle[indexNum].showImg && !this.newListTitle[indexNum].showBImg) {
-        this.newListTitle.forEach(function(item, index) {
-          if (indexNum === index) {
-            item.showImg = true
-          } else {
-            item.showImg = false
-            item.showBImg = false
-          }
+    sortList(type, indexNum, e) {
+      const that = this
+      let sortType = e.target.getAttribute('sortType')
+      let clearSort = () => {
+        this.$refs.sortSpan.forEach(function(item, index) {
+          that.newListTitle[index].showImg = false
+          that.newListTitle[index].showBImg = false
+          item.setAttribute('sortType', '')
         })
+      }
+      if (sortType === '') {
+        clearSort()
         this.$store.dispatch('bubbles/sortNewStockList', {
           type: type
         })
+        this.newListTitle[indexNum].showImg = true
+        e.target.setAttribute('sortType', 'asce')
+      } else if (sortType === 'asce') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type,
+          sortType: 'desc'
+        })
+        this.newListTitle[indexNum].showImg = false
+        this.newListTitle[indexNum].showBImg = true
+        e.target.setAttribute('sortType', 'desc')
+      } else if (sortType === 'desc') {
+        clearSort()
+        this.$store.dispatch('bubbles/sortNewStockList', {
+          type: type
+        })
+        this.newListTitle[indexNum].showImg = true
+        this.newListTitle[indexNum].showBImg = false
+        e.target.setAttribute('sortType', 'asce')
       }
-      //  this.newListTitle[index].showImg = true
+    },
+    showTitleDetail(titleTime, isOver, e) {
+      if (isOver === 'over' && titleTime === 'lznum') {
+        this.$refs.titleDetail.style.display = 'block'
+        this.$refs.titleDetail.innerHTML = '开板前连板数'
+      } else if (isOver === 'out' && titleTime === 'lznum') {
+        this.$refs.titleDetail.style.display = 'none'
+      }
     }
   },
   mounted() {
@@ -709,13 +757,13 @@ export default {
 
         .qsgChart {
             height: 100%;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             background: #232630;
         }
 
         .qsgList {
             height: 100%;
-            width: 25%;
+            width: 450px;
             background: #232630;
         }
 
@@ -727,23 +775,25 @@ export default {
         width: 100%;
         border-bottom: 1px solid #131417;
         padding-top: 10px;
+        position: relative;
 
         a {
-            width: 14%;
+            width: 12.5%;
             height: 100%;
             float: left;
             display: block;
             text-align: center;
 
             span {
-                height: 34px;
+                height: 17px;
                 width: 100%;
                 display: block;
                 line-height: 17px;
                 box-sizing: border-box;
-                padding: 0 10px;
+                /*padding: 0 10px;*/
                 cursor: pointer;
                 margin-bottom: 5px;
+                color: #c9d0d7;
             }
 
             img {
@@ -753,6 +803,19 @@ export default {
         }
         a:first-child span {
             cursor: default;
+        }
+
+        .titleDetail {
+            display: none;
+            padding: 5px 10px;
+            color: #666666;
+            background: #cccfd9;
+            border-radius: 3px;
+            z-index: 999999;
+            line-height: 18px;
+            position: absolute;
+            top: 29px;
+            left: 214px;
         }
 
     }
@@ -765,7 +828,7 @@ export default {
             /*padding: 10px 5px 10px 10px;*/
             span {
                 float: left;
-                width: 14%;
+                width: 12.5%;
                 display: block;
                 line-height: 25px;
                 text-align: center;
@@ -808,5 +871,8 @@ export default {
     line-height: 20px;
     text-align: center;
     font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 </style>

@@ -1,4 +1,5 @@
 import config from '../config'
+import { formatDate } from 'utils/date'
 export default {
   install(Vue, options) {
     // 1. 添加全局方法或属性
@@ -87,8 +88,8 @@ export default {
         var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' '
         var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':'
         var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes())
-        if ((time_conver / day_conver) < 1) {
-          if (dateType === 1) {
+        if (dateType === 1) {
+          if ((time_conver / day_conver) < 1) {
             temp_conver = (time_conver / hour_conver)
             if (temp_conver >= 1) {
               el.innerHTML = parseInt(temp_conver) + "小时前"
@@ -101,10 +102,12 @@ export default {
               }
             }
           } else {
-            el.innerHTML = h + m
+            el.innerHTML = M + D + h + m
           }
         } else {
           var curTimeMillis = new Date().getTime() // 系统当前时间戳
+          let yesterdayDate = formatDate(dateTimeStamp,'MM:dd') //传入日期
+          let todayDate = formatDate(curTimeMillis,'MM:dd') //今天日期
           var curDate = new Date(curTimeMillis)
           var todayHoursSeconds = curDate.getHours() * 60 * 60
           var todayMinutesSeconds = curDate.getMinutes() * 60
@@ -113,10 +116,13 @@ export default {
           var todayStartMillis = curTimeMillis - todayMillis
           var oneDayMillis = 24 * 60 * 60 * 1000
           var yesterdayStartMilis = todayStartMillis - oneDayMillis
-          if (dateTimeStamp >= yesterdayStartMilis) {
+          if (todayDate > yesterdayDate) {
             el.innerHTML = "昨天 " + h + m
-          } else {
-            el.innerHTML = M + D + h + m
+            if(dateTimeStamp <= yesterdayStartMilis){
+              el.innerHTML = M + D + h + m
+            }
+          }else if(todayDate === yesterdayDate){
+            el.innerHTML = h + m
           }
         }
       } else {
@@ -302,6 +308,9 @@ export default {
       }
     });
     Vue.filter('price', function(value) {
+      if (value === null || value === '') {
+        return config.emptyValue;
+      }
       let val = Number(value);
       if (isNaN(val)) {
         return config.emptyValue
@@ -310,11 +319,15 @@ export default {
       }
     })
     Vue.filter('decimal', function(value, num) {
-      let val = Number(value);
-      if (isNaN(val)) {
-        return config.emptyValue
+      if (value === null) {
+        return '--'
       } else {
-        return (Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num)
+        let val = Number(value);
+        if (isNaN(val)) {
+          return config.emptyValue
+        } else {
+          return (Math.round(value * Math.pow(10, num)) / Math.pow(10, num)).toFixed(num)
+        }
       }
     })
     Vue.filter('isNull', function(value) {

@@ -3,8 +3,8 @@
   <div class="siweiDialog" :style="{left:offsetX+'px',top:offsetY+'px',zIndex:zIndex}">
     <Siweidialog :dialogOptions="dialogOptions" v-show="isOverBubbles || isOverDialog" @toShowDialog="setDialog" @toHideDialog="setDialog"></Siweidialog>
   </div>
-  <div class="ztgMain clearfix">
-    <div class="ztgChart">
+  <div class="ztgMain display-box">
+    <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
     </div>
@@ -18,16 +18,15 @@
             {{String(item.dateTime).substring(0,1)+':'+String(item.dateTime).substring(1,3)+':'+String(item.dateTime).substring(3)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl"><span class="mr-10">{{item.stockName}}</span><span>{{item.symbol.substring(0,6)}}</span>
+            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fr"><span v-z3-updowncolor="item.chg">{{Number(item.price).toFixed(2) | isNull}}</span><span class="ml-20 mr-10" v-z3-updowncolor="item.chg">{{(Number(item.chg) > 0 ? '+' : '') + Number(item.chg).toFixed(2) | isNull}}%</span>
+            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
             <li v-for="value in item.topics" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{(Number(value.topicChngPct) > 0 ? '+' : '') + Number(value.topicChngPct).toFixed(2)}}%
-              </div>
+              <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
             </li>
           </ul>
         </li>
@@ -141,6 +140,8 @@ export default {
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
 
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
 
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
@@ -197,8 +198,8 @@ export default {
           grid: {
             top: 50,
             left: 65,
-            right: 20,
-            bottom: 55
+            right: 25,
+            bottom: 50
           },
           tooltip: {
             triggerOn: 'none',
@@ -230,12 +231,13 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               showMaxLabel: true,
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -246,7 +248,9 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
 
           },
           yAxis: {
@@ -272,7 +276,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData).toFixed(2),
+            max: Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData) * 0.05),
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -282,12 +286,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData) * 0.05)) / 5
 
           },
           series: [{
@@ -389,11 +395,8 @@ export default {
         })
         that.chart.on('mouseover', function(params) {
           clearTimeout(that.timeout)
-          if ((params.event.offsetX + 500) >= that.$refs.ztgBubbles.clientWidth) {
-            that.offsetX = params.event.offsetX - 490
-          } else {
-            that.offsetX = params.event.offsetX + 20
-          }
+
+          that.offsetX = params.event.offsetX + 20
 
           if ((params.event.offsetY + 247) > that.$refs.ztgBubbles.clientHeight) {
             that.offsetY = that.$refs.ztgBubbles.clientHeight - 247
@@ -409,7 +412,7 @@ export default {
           that.dialogOptions.leftList.xData.value = Number(that.$store.state.bubbles.ztgBubblesData.xDefault[params.dataIndex]).toFixed(2)
           that.dialogOptions.leftList.yData.value = that.$store.state.bubbles.ztgBubblesData.yData[params.dataIndex] + '%'
           that.dialogOptions.leftList.bubbleSize.value = (Number(that.$store.state.bubbles.ztgBubblesData.bubbleSize[params.dataIndex]) / 100000000).toFixed(2) + '亿'
-          that.dialogOptions.leftList.bubbleColor.value = Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
+          that.dialogOptions.leftList.bubbleColor.value = that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex] === null ? '--' : Number(that.$store.state.bubbles.ztgBubblesData.bubbleColor[params.dataIndex]).toFixed(2) + '%'
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
@@ -555,7 +558,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -613,16 +616,33 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
+                  return ''
+              }
+              let isNull = (v) => {
+                if (v === null) {
+                  return '--'
+                }
+                return v
+              }
               var tooltipStr =
-                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
-                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
-                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+                '<p style="color:#ca4941;">涨停 : ' + isNull(zdCompareData.up[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + isNull(zdCompareData.openUp[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + isNull(zdCompareData.down[params[0].dataIndex][1]) + '</p>' +
+                '<p>非一字跌停 : ' + isNull(zdCompareData.openDown[params[0].dataIndex][1]) + '</p>';
 
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
-            padding: [10, 50, 8, 7]
+            padding: [10, 50, 8, 7],
+            axisPointer:{
+                  show:true,
+                  type:'line',
+                  snap:true,
+                  label:{
+                      show:true
+                  }
+              }
 
           }
         })
@@ -644,7 +664,11 @@ export default {
     toThemeDetail(topicCode, target) {
       target.stopPropagation()
       if (topicCode) {
-        window.open(ctx + '/topic/' + topicCode)
+          if(String(topicCode).length === 9){
+              window.open(ctx + '/topic/' + topicCode)
+          }else if(String(topicCode).length === 6){
+              window.open(ctx + '/industry/' + topicCode)
+          }
       }
     },
     updateBubbles() {
@@ -654,6 +678,8 @@ export default {
         const that = this
         const xData = this.$store.state.bubbles.ztgBubblesData.xData
         const yData = this.$store.state.bubbles.ztgBubblesData.yData
+        const xMaxData = Math.max.apply(null, xData)
+        const xMinData = Math.min.apply(null, xData)
         let sd = [];
         this.$store.state.bubbles.ztgBubblesData.seriesData.forEach((value, index) => {
           let ps = ''
@@ -717,11 +743,12 @@ export default {
             axisTick: {
               show: false
             },
-            max: Math.max.apply(null, xData),
+            max: xMaxData + (xMaxData * 0.05),
+            min: xMinData - (xMaxData * 0.05),
             axisLabel: {
               formatter: function(v) {
                 if (Number(v) === Number(that.chart.getOption().xAxis[0].max)) {
-                  return '量比'
+                  return 'ln(量比)'
                 }
                 return Number(v).toFixed(2)
                 // return that.convertNumBySelect('xData', v)
@@ -732,7 +759,10 @@ export default {
               margin: 10,
               interval: 0
             },
-            data: xData
+            data: xData,
+            splitNumber: 5,
+            interval: ((xMaxData + (xMaxData * 0.05)) - (xMinData - (xMaxData * 0.05))) / 5
+
 
           },
           yAxis: {
@@ -758,7 +788,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData).toFixed(2),
+            max: Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData) * 0.05),
             axisLabel: {
               textStyle: {
                 color: '#c9d0d7'
@@ -767,12 +797,14 @@ export default {
                 if (Number(v) === Number(that.chart.getOption().yAxis[0].max)) {
                   return '换手率'
                 }
-                return v.toFixed(2) + '%'
+                return v.toFixed(0) + '%'
                 // return that.convertNumBySelect('yData', v)
               }
 
             },
-            data: yData
+            data: yData,
+            splitNumber: 5,
+            interval: (Number(Math.max.apply(null, yData).toFixed(2)) + (Math.max.apply(null, yData) * 0.05)) / 5
 
           },
           series: [{
@@ -790,6 +822,7 @@ export default {
                 color: function(params) {
                   const colorType = that.options.colorDefault
                   const bubbleColorData = that.$store.state.bubbles.ztgBubblesData.bubbleColor[(params.dataIndex)]
+
                   if (colorType === '' || bubbleColorData === null) {
                     return that.defaultColor
                   }
@@ -898,7 +931,7 @@ export default {
               name: '非一字涨停',
               itemStyle: {
                 normal: {
-                  color: '#fff'
+                  color: '#1984ea'
                 }
               },
               lineStyle: {
@@ -956,11 +989,20 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
+                  return ''
+              }
+              let isNull = (v) => {
+                if (v === null) {
+                  return '--'
+                }
+                return v
+              }
               var tooltipStr =
-                '<p style="color:#ca4941;">涨停 : ' + zdCompareData.up[params[0].dataIndex] + '</p>' +
-                '<p>非一字涨停 : ' + zdCompareData.openUp[params[0].dataIndex] + '</p>' +
-                '<p style="color:#56a870;">跌停 : ' + zdCompareData.down[params[0].dataIndex] + '</p>' +
-                '<p>非一字跌停 : ' + zdCompareData.openDown[params[0].dataIndex] + '</p>';
+                '<p style="color:#ca4941;">涨停 : ' + isNull(zdCompareData.up[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#1984ea;">非一字涨停 : ' + isNull(zdCompareData.openUp[params[0].dataIndex][1]) + '</p>' +
+                '<p style="color:#56a870;">跌停 : ' + isNull(zdCompareData.down[params[0].dataIndex][1]) + '</p>' +
+                '<p>非一字跌停 : ' + isNull(zdCompareData.openDown[params[0].dataIndex][1]) + '</p>';
 
               return tooltipStr;
             },
@@ -1014,15 +1056,13 @@ export default {
         height: 100%;
 
         .ztgChart {
-            float: left;
-            width: calc(75% - 6px);
+            margin-right: 6px;
             height: 100%;
             background: #232630;
         }
 
         .ztgList {
-            float: right;
-            width: 25%;
+            width: 464px;
             height: 100%;
             background: #232630;
         }
@@ -1037,6 +1077,7 @@ export default {
 
         li {
             padding: 10px 5px 10px 10px;
+            color: #fff;
         }
         li:hover {
             background: #525A65;
@@ -1067,6 +1108,7 @@ export default {
 
                 .name {
                     line-height: 20px;
+                    color: #a6a6a6;
                 }
 
                 .price {

@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -144,16 +144,19 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    font-size: 14px;
+    height: 62px;
+    padding: 10px 5px;
 }
 .kline {
     height: 264px;
 }
 .kline-charts {
 
-    height: 264px;
+    height: 350px;
     width: 100%;
 }
 .assess1 {
@@ -165,9 +168,9 @@ body {
 <div class="dime-kline">
   <div>
     <div class="kline-title">
-      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'--':baseFace.tag}}</span>
+      {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'':baseFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe}}</div>
+    <div class="kline-title2">{{baseFace.describe==null?'':baseFace.describe}}</div>
 
   </div>
 
@@ -187,7 +190,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex'],
+  props: ['baseFace', 'dataIndex', 'innerCode'],
   data() {
     return {
       showX: true,
@@ -211,7 +214,7 @@ export default ({
       },
       // themeColor:'transparent',
       unitName: '',
-      unitTenBillion: '净利润：百亿',
+      unitTenBillion: '营业收入：亿',
       uniBillion: '净利润：亿',
       borderType: 'dashed',
       borderWidth: 3,
@@ -232,50 +235,7 @@ export default ({
   },
   computed: {
     ...mapState({
-      lineData: state => {
-        var data = {
-          times: [],
-          tradeTimeArr: [],
-          ydata: [],
-          growthR: [],
-          growthRate: [],
-          growthRateLast: [],
-          day: [],
-          days5: [],
-          vols: []
-        }
 
-        // console.log(state.clinicShares.indexFace[0].tag)
-        /* var baseFace = this.baseFace;
-        console.log(baseFace) */
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.lineCharts.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
-
-        // console.log(item.datas.data[0].prevClosePx)
-        /*        const klineData = [].concat(baseFace.datas.data).reverse()
-
-                klineData.forEach((item) => {
-                    let time = ''
-                    const day = Number(item.day)
-                    const days5 = Number(item.fiveday)
-                    const value = item.value
-                    const growthRate = item.growthRate
-
-                    time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-                    data.times.push(time)
-                    data.tradeTimeArr.push(time)
-                    data.day.push(day)
-                    data.days5.push(days5)
-                    data.growthRate.push(growthRate)
-                    data.ydata.push(value)
-                })*/
-
-        return data
-
-      }
 
     })
   },
@@ -294,10 +254,10 @@ export default ({
       klineData.forEach((item, index) => {
         let time = ''
         let value = ''
-        const growthRate = Number(item.growthRate * 100)
+        const growthRate = Number(item.growthRate * 100).toFixed(2)
         // console.log(growthRate)
         if (this.dataIndex === 0) {
-          value = Number(item.value / 10000000000).toFixed(2)
+          value = Number(item.value / 100000000).toFixed(2)
           this.unitName = this.unitTenBillion
           this.legendNames = this.legendName1
 
@@ -310,79 +270,121 @@ export default ({
         }
         /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
         time = (item.year + '').substring(0, 4)
-        console.log(this.dataIndex)
+        // console.log(this.dataIndex)
         this.data.times.push(time)
         this.data.tradeTimeArr.push(time)
         var newValue = {}
         // var newGrow = {}
         /* var newValue = {
-            value: value, 
+            value: value,
             itemStyle: {
               normal: {
                  color: this.themeColor = value < 0 ? config.downColor : config.upColor,
                 borderColor: value < 0 ? config.downColor : config.upColor,
                 borderType:'',
-                borderWidth:0 
+                borderWidth:0
               }
             }
         } */
+        if (klineData.length > 3) { // 大于3的时候画后面的
 
-        if (klineData.length - 1 === index || klineData.length - 2 === index) {
-          /* this.themeColor = 'transparent'
-          this.borderType = 'dashed'
-          this.borderWidth = 3 */
-          // console.log(index)
-          // console.log(klineData.length-2)
-          console.log(growthRate[index])
 
-          this.data.growthRate.push(null)
-          this.data.growthRateLast.push(growthRate)
-          newValue = {
-            value: value,
-            itemStyle: {
-              normal: {
-                color: 'transparent',
-                borderType: 'dashed',
-                borderColor: value < 0 ? config.downColor : config.upColor,
-                borderWidth: 3
+          if (klineData.length - 1 === index || klineData.length - 2 === index) {
+            /* this.themeColor = 'transparent'
+            this.borderType = 'dashed'
+            this.borderWidth = 3 */
+            // console.log(index)
+            // console.log(klineData.length-2)
+            this.data.growthRate.push(null)
+            this.data.growthRateLast.push(growthRate)
+            newValue = {
+              value: value,
+              itemStyle: {
+                normal: {
+                  color: 'transparent',
+                  borderType: 'dashed',
+                  borderColor: value < 0 ? config.downColor : config.upColor,
+                  borderWidth: 3
+                }
               }
             }
-          }
-          /* lineStyle: {
-                 normal: {
-                  width: 8,
-                  color: '#fff'
-                } 
-              } */
-          /* newGrow = {
-             value: growthRate, 
-             itemStyle: {
-                 normal: {
-                     // color: 'rgba(252,230,48,1)',
-                     // barBorderRadius: 0,
-                     lineStyle:{
-                       color:config.upColor,
-                       type:'dashed'
-                     },
-                     label: {
-                         show: true,
-                         position: 'top',
-                         color: '#c9d0d7',
-                         formatter: function(p) {
-                             return p.value > 0 ? (p.value) : '';
-                         }
-                     }
-                 }
-             }
-           } */
-        } else {
-          this.data.growthRate.push(growthRate)
-          if (klineData.length - 3 === index) {
-            this.data.growthRateLast.push(growthRate)
+            /* lineStyle: {
+                   normal: {
+                    width: 8,
+                    color: '#fff'
+                  }
+                } */
+            /* newGrow = {
+               value: growthRate,
+               itemStyle: {
+                   normal: {
+                       // color: 'rgba(252,230,48,1)',
+                       // barBorderRadius: 0,
+                       lineStyle:{
+                         color:config.upColor,
+                         type:'dashed'
+                       },
+                       label: {
+                           show: true,
+                           position: 'top',
+                           color: '#c9d0d7',
+                           formatter: function(p) {
+                               return p.value > 0 ? (p.value) : '';
+                           }
+                       }
+                   }
+               }
+             } */
           } else {
-            this.data.growthRateLast.push(null)
-          }
+            this.data.growthRate.push(growthRate)
+            if (klineData.length - 3 === index) {
+              this.data.growthRateLast.push(growthRate)
+            } else {
+              this.data.growthRateLast.push(null)
+            }
 
+            newValue = {
+              value: value,
+              itemStyle: {
+                normal: {
+                  color: value < 0 ? config.downColor : config.upColor,
+                  // borderColor: value < 0 ? config.downColor : config.upColor,
+                  borderType: '',
+                  borderWidth: 0
+                }
+              }
+            }
+
+            /* newGrow = {
+              value: growthRate,
+              itemStyle: {
+                normal: {
+                    // color: 'rgba(252,230,48,1)',
+                    // barBorderRadius: 0,
+                    lineStyle:{
+                      color:config.upColor,
+                      type:'dashed'
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#c9d0d7',
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+              }
+            } */
+          }
+          // return newValue
+          // console.log(this.data.growthRateLast)
+          this.data.ydata.push(newValue)
+
+          // console.log(this.data.growthRate)
+          // console.log(this.lineType)
+        } else { // 小于3的时候，不画预测的
+          // console.log('小于3的时候')
           newValue = {
             value: value,
             itemStyle: {
@@ -394,36 +396,11 @@ export default ({
               }
             }
           }
+          this.data.growthRate.push(growthRate)
+          // this.data.growthRateLast.push(null)
+          this.data.ydata.push(newValue)
 
-          /* newGrow = {
-            value: growthRate, 
-            itemStyle: {
-              normal: {
-                  // color: 'rgba(252,230,48,1)',
-                  // barBorderRadius: 0,
-                  lineStyle:{
-                    color:config.upColor,
-                    type:'dashed'
-                  },
-                  label: {
-                      show: true,
-                      position: 'top',
-                      color: '#c9d0d7',
-                      formatter: function(p) {
-                          return p.value > 0 ? (p.value) : '';
-                      }
-                  }
-              }
-            }
-          } */
         }
-        // return newValue
-        // console.log(this.data.growthRateLast)
-        this.data.ydata.push(newValue)
-
-        // console.log(this.data.growthRate)
-        // console.log(this.lineType)
-
       })
       /* var newVols = {
            value: volume, // 万手
@@ -440,7 +417,7 @@ export default ({
     initLine() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
       // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])  
+      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])
       /* if (this.strategyDetail) {
 
        } */
@@ -459,7 +436,290 @@ export default ({
       const borderWidth = this.borderWidth
       const borderColor = this.borderColor
       console.log(this.themeColor) */
+      //  const opt = {
+
+      /* legend: {
+         left: 5,
+         top: 0,
+         itemHeight: 2,
+         itemWidth: 20,
+         textStyle: {
+           color: '#c9d0d7',
+           fontSize: 12
+         },
+         data: [{
+             name: legendNames.nameInc,
+             // icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+             icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line2.png'
+           },
+           {
+             name: legendNames.nameRate,
+             //      icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+             icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line1.png'
+
+           }
+         ]
+       }, */
+      /*  tooltip: {
+          trigger: 'axis',
+          padding: [10, 55, 10, 20],
+          textStyle: {
+            align: 'left'
+          },
+          showContent: true,
+          axisPointer: {
+            type: 'cross',
+            label: {
+              show: true,
+              formatter: function(params) {
+                let yLabelData = ''
+                if (params.seriesData.length > 0) {
+                  yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
+                  return params.seriesData[0].name
+                } else {
+                  if (typeof yLabelData !== 'undefined') {
+                    return yLabelData
+                  } else {
+                    return ''
+                  }
+                }
+              },
+              backgroundColor: '#777',
+              // padding:[20,0,10,10],
+              textStyle: {
+                /* color:'#000',
+                 fontWeight:'bold'*/
+      /*      }
+          },
+          crossStyle: {
+            color: '#666'
+          }
+        },
+        formatter: function(params) {
+          var s = ''
+          var colorValue = ''
+          for (var i = 0; i < params.length; i++) {
+            // console.log(params[i].dataIndex)
+            // console.log(params)
+            if (i === 0) {
+              colorValue = params[i].value < 0 ? config.downColor : config.upColor
+              if (params[0].color === 'transparent') {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+              } else {
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+              }
+
+            }
+            if (lineData.growthRate[params[i].dataIndex] === null || 0) {
+              // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
+              if (i === 2) {
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                  legendNames.nameRate + ' : ' + params[i].value + '%'
+
+              }
+            } else {
+              if (i === 1) {
+                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                  legendNames.nameInc + ' : ' + params[i].value + '%'
+
+              }
+            }
+
+
+          }
+          return s
+        }
+      },*/
+      /* xAxis: {
+         // interval:0,
+         type: 'category',
+         splitLine: {
+           show: false,
+           lineStyle: {
+             type: 'solid',
+             color: '#23272c'
+           }
+         },
+         axisLine: {
+           onZero: true,
+           symbol: ['none', 'arrow'],
+           lineStyle: {
+             color: '#23272c',
+             type: 'dashed'
+           }
+         },
+         axisLabel: {
+           // show:false
+           color: '#c9d0d7'
+         },
+         axisTick: {
+           show: false,
+           inside: true,
+           alignWithLabel: false
+         },
+
+         data: lineData.times
+       },
+       yAxis: [{
+         type: 'value',
+         name: unitName,
+         nameTextStyle: {
+           color: '#c9d0d7',
+           padding: [0, 0, 0, 70]
+         },
+         nameGap: 6,
+         splitLine: {
+           show: false,
+           lineStyle: {
+             type: 'solid',
+             color: '#23272c'
+           }
+         },
+         axisLine: {
+           symbol: ['none', 'arrow'],
+           lineStyle: {
+             color: '#23272c'
+           }
+         },
+         axisTick: {
+           show: false,
+           alignWithLabel: false
+         },
+         axisLabel: {
+           formatter: function(val) {
+             return val
+           },
+           color: '#c9d0d7'
+         }
+       }], */
+      /*  series: [{
+            data: lineData.ydata,
+            name: legendNames.nameIncome,
+            type: 'bar',
+            barWidth: 50,
+            stack: legendNames.nameIncome,
+            label: {
+              normal: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                formatter: function(params) {
+                  return params.value
+                }
+              }
+            },
+            itemStyle: {
+              normal: { */
+      // color:themeColor,
+      /*   color: function (params){
+
+              console.log(params.dataIndex)
+              if (params.dataIndex === 0) {
+                return 'transparent'
+              } else {
+                return '#ca4941'
+              }
+
+        }, */
+      /* borderWidth: borderWidth,
+       borderColor:borderColor,
+       borderType:borderType */
+      /*     }
+         }
+       },
+       {*/
+      /* data: lineData.growthRate,
+       name: legendNames.nameInc,
+       type: 'line',
+       symbol: 'circle',
+       symbolSize: 9,
+       stack: legendNames.nameInc, */
+      /* symbol: 'circle',
+      symbolSize: 8,
+      itemStyle: {
+        normal: {
+          color: '#000',
+          borderColor: '#fff',
+          borderWidth: 3
+        }
+      },*/
+      /* itemStyle: {
+        normal: { */
+      // color: 'rgba(252,230,48,1)',
+      // barBorderRadius: 0,
+      /*  color: '#141518',
+        borderColor: config.upColor,
+        borderWidth: 3,
+        lineStyle: {
+          color: config.upColor,
+          type: 'solid',
+          width: 3
+        }, */
+      /*  label: {
+                  show: true,
+                  position: 'top',
+                  color: '#c9d0d7',
+                  fontSize: 12,
+                  formatter: function(p) {
+                    return p.value === 0 ? '' : (p.value + '%');
+                  }
+                }
+              }
+            }
+          }, */
+      /*  {
+          data: lineData.growthRateLast,
+          name: legendNames.nameRate,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameRate,
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'dashed',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+        }
+      ],*/
+      // color: ['#ca4941', '#1984ea'],
+      /*   grid: { */
+      // width: '97%',
+      /* width: '100%',
+      height: '80%',
+      left: 0,
+      top: '10%',
+      show: true,
+      borderColor: '#2A2E36',
+      containLabel: true */
+      /*  left: 45,
+        right: 10,
+        top: '19%',
+        //  width: '100%',
+        height: '70%',
+        show: false
+      } */
+      //   };
+
       const opt = {
+        // backgroundColor:'#fff',
 
         legend: {
           left: 5,
@@ -472,11 +732,13 @@ export default ({
           },
           data: [{
               name: legendNames.nameInc,
-              icon: 'image://../src/assets/images/z3img/icon-line2.png'
+              // icon: 'image://../../../src/assets/images/z3img/icon-line2.png'
+              icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line2.png'
             },
             {
               name: legendNames.nameRate,
-              icon: 'image://../src/assets/images/z3img/icon-line1.png'
+              //      icon: 'image://../../../src/assets/images/z3img/icon-line1.png'
+              icon: 'image://https://i0.jrjimg.cn/zqt-red-1000/focus/focus2017YMZ/yearEndVote/img/icon-line1.png'
 
             }
           ]
@@ -519,40 +781,57 @@ export default ({
           formatter: function(params) {
             var s = ''
             var colorValue = ''
-            for (var i = 0; i < params.length; i++) {
-              // console.log(params[i].dataIndex)
-              // console.log(params)
-              if (i === 0) {
-                colorValue = params[i].value < 0 ? config.downColor : config.upColor
-                if (params[0].color === 'transparent') {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+            /* var obj = t[0];
+            var time = obj.name; // 时间
+            var axisid = obj.axisIndex
+            if (axisid === 1) { */
+            console.log(params[0].axisIndex)
+            var axisid = params[0].axisIndex
+            if (axisid === 1) {
+              for (var i = 0; i < params.length; i++) {
+                // console.log(params[i].dataIndex)
+                // console.log(params)
+                if (i === 0) {
+                  colorValue = params[i].value < 0 ? config.downColor : config.upColor
+                  if (params[0].color === 'transparent') {
+                    s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameForecast + ' : ' + params[i].value
+                  } else {
+                    s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+                  }
+
+                }
+                if (lineData.growthRate[params[i].dataIndex] === null || 0) {
+                  // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
+                  if (i === 2) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                      legendNames.nameRate + ' : ' + params[i].value + '%'
+
+                  }
                 } else {
-                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + colorValue + '"></span>' + legendNames.nameIncome + ' : ' + params[i].value
+                  if (i === 1) {
+                    s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
+                      legendNames.nameInc + ' : ' + params[i].value + '%'
+
+                  }
                 }
+
 
               }
-              if (lineData.growthRate[params[i].dataIndex] === null || 0) {
-                // console.log(lineData.growthRate[params[i].dataIndex] === null || 0)
-                if (i === 2) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
-                    legendNames.nameRate + ' : ' + params[i].value + '%'
-
-                }
-              } else {
-                if (i === 1) {
-                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + config.upColor + '"></span>' +
-                    legendNames.nameInc + ' : ' + params[i].value + '%'
-
-                }
-              }
-
-
             }
             return s
           }
         },
-        xAxis: {
-          // interval:0,
+        animation: false,
+        axisPointer: {
+          link: {
+            xAxisIndex: 'all'
+          },
+          label: {
+            backgroundColor: '#777'
+          }
+        },
+        xAxis: [{
+          show: false,
           type: 'category',
           splitLine: {
             show: false,
@@ -580,13 +859,44 @@ export default ({
           },
 
           data: lineData.times
-        },
+
+        }, {
+          type: 'category',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            onZero: true,
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c',
+              type: 'dashed'
+            }
+          },
+          axisLabel: {
+            // show:false
+            color: '#c9d0d7'
+          },
+          axisTick: {
+            show: false,
+            inside: true,
+            alignWithLabel: false
+          },
+
+          data: lineData.times,
+          gridIndex: 1
+        }],
         yAxis: [{
+          show: true,
           type: 'value',
           name: unitName,
           nameTextStyle: {
             color: '#c9d0d7',
-            padding: [0, 0, 0, 70]
+            padding: [0, 0, 15, 65]
           },
           nameGap: 6,
           splitLine: {
@@ -608,120 +918,54 @@ export default ({
           },
           axisLabel: {
             formatter: function(val) {
-              return val
+              /* if(val ===0){
+                   return val
+                } */
             },
             color: '#c9d0d7'
           }
-        }],
-        series: [{
-            data: lineData.ydata,
-            name: legendNames.nameIncome,
-            type: 'bar',
-            barWidth: 50,
-            stack: legendNames.nameIncome,
-            label: {
-              normal: {
-                show: true,
-                position: 'top',
-                color: '#c9d0d7',
-                formatter: function(params) {
-                  return params.value
-                }
-              }
-            },
-            itemStyle: {
-              normal: {
-                // color:themeColor,
-                /*   color: function (params){
+        }, {
+          show: true,
+          type: 'value',
+          /* name: unitName,
+          nameTextStyle: {
+            color: '#c9d0d7',
+            padding: [0, 0, 0, 70]
+          },
+          nameGap: 6, */
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#23272c'
+            }
+          },
+          axisTick: {
+            show: false,
+            alignWithLabel: false
+          },
+          axisLabel: {
+            // show: false,
+            formatter: function(val) {
 
-                        console.log(params.dataIndex)
-                        if (params.dataIndex === 0) {
-                          return 'transparent'
-                        } else {
-                          return '#ca4941'
-                        }
-                      
-                  }, */
-                /* borderWidth: borderWidth,
-                 borderColor:borderColor,
-                 borderType:borderType */
+              if (val === 0) {
+                return val
               }
-            }
+
+            },
+            color: '#c9d0d7'
           },
-          {
-            data: lineData.growthRate,
-            name: legendNames.nameInc,
-            type: 'line',
-            symbol: 'circle',
-            symbolSize: 9,
-            stack: legendNames.nameInc,
-            /* symbol: 'circle',
-            symbolSize: 8,
-            itemStyle: {
-              normal: {
-                color: '#000',
-                borderColor: '#fff',
-                borderWidth: 3
-              }
-            },*/
-            itemStyle: {
-              normal: {
-                // color: 'rgba(252,230,48,1)',
-                // barBorderRadius: 0,
-                color: '#141518',
-                borderColor: config.upColor,
-                borderWidth: 3,
-                lineStyle: {
-                  color: config.upColor,
-                  type: 'solid',
-                  width: 3
-                },
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: '#c9d0d7',
-                  fontSize: 12,
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
-              }
-            }
-          },
-          {
-            data: lineData.growthRateLast,
-            name: legendNames.nameRate,
-            type: 'line',
-            symbol: 'circle',
-            symbolSize: 9,
-            stack: legendNames.nameRate,
-            itemStyle: {
-              normal: {
-                // color: 'rgba(252,230,48,1)',
-                // barBorderRadius: 0,
-                color: '#141518',
-                borderColor: config.upColor,
-                borderWidth: 3,
-                lineStyle: {
-                  color: config.upColor,
-                  type: 'dashed',
-                  width: 3
-                },
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: '#c9d0d7',
-                  fontSize: 12,
-                  formatter: function(p) {
-                    return p.value === 0 ? '' : (p.value + '%');
-                  }
-                }
-              }
-            }
-          }
-        ],
-        // color: ['#ca4941', '#1984ea'],
-        grid: {
+          gridIndex: 1
+        }],
+
+        grid: [{
+          bottom: '60%',
           // width: '97%',
           /* width: '100%',
           height: '80%',
@@ -732,19 +976,138 @@ export default ({
           containLabel: true */
           left: 45,
           right: 10,
-          top: '19%',
-          width: '100%',
-          height: '70%',
+          // top: '19%',
+          //  width: '100%',
+          // height: '70%',
           show: false
-        }
+
+
+        }, {
+          top: '43%',
+          left: 45,
+          right: 10,
+          // top: '19%',
+          //  width: '100%',
+          // height: '70%',
+          //  bottom:'6%',
+          show: false
+        }],
+        series: [{
+          data: lineData.growthRate,
+          name: legendNames.nameInc,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameInc,
+          /* symbol: 'circle',
+           symbolSize: 8,
+           itemStyle: {
+             normal: {
+               color: '#000',
+               borderColor: '#fff',
+               borderWidth: 3
+             }
+           }, */
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'solid',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+
+        }, {
+          data: lineData.growthRateLast,
+          name: legendNames.nameRate,
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 9,
+          stack: legendNames.nameRate,
+          itemStyle: {
+            normal: {
+              // color: 'rgba(252,230,48,1)',
+              // barBorderRadius: 0,
+              color: '#141518',
+              borderColor: config.upColor,
+              borderWidth: 3,
+              lineStyle: {
+                color: config.upColor,
+                type: 'dashed',
+                width: 3
+              },
+              label: {
+                show: true,
+                position: 'top',
+                color: '#c9d0d7',
+                fontSize: 12,
+                formatter: function(p) {
+                  return p.value === 0 ? '' : (p.value + '%');
+                }
+              }
+            }
+          }
+
+        }, {
+          data: lineData.ydata,
+          name: legendNames.nameIncome,
+          type: 'bar',
+          barWidth: 50,
+          stack: legendNames.nameIncome,
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              color: '#c9d0d7',
+              formatter: function(params) {
+                return params.value
+              }
+            }
+          },
+          itemStyle: {
+            normal: {
+              // color:themeColor,
+              /*    color: function (params){
+
+                       console.log(params.dataIndex)
+                       if (params.dataIndex === 0) {
+                         return 'transparent'
+                       } else {
+                         return '#ca4941'
+                       }
+
+                 }, */
+              /* borderWidth: borderWidth,
+               borderColor:borderColor,
+               borderType:borderType */
+            }
+          },
+          xAxisIndex: 1,
+          yAxisIndex: 1
+        }]
       };
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'
@@ -756,6 +1119,9 @@ export default ({
     /* baseFace() {
         this.initLine()
       } */
+    innerCode: function() {
+      this.init()
+    }
   },
 
   mounted() {

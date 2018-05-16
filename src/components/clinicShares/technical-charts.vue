@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: "Microsoft YaHei";
+    font-family: '微软雅黑';
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -147,32 +147,69 @@ body {
     font-weight: 900;
 }
 .kline-title2 {
+    /*padding: 10px 7px;*/
+    /*  padding: 10px 7px 16px; */
     height: 62px;
     padding: 10px 5px;
     font-size: 14px;
-    font-family: "Microsoft YaHei";
 }
 .kline {
-    height: 264px;
+    /* height: 264px; */
+    height: 400px;
 }
 .kline-charts {
 
-    height: 264px;
+    /*  height: 264px; */
+    height: 400px;
     width: 100%;
 }
 .assess1 {
     padding-left: 5px;
     font-size: 14px;
 }
+.txt > div {
+    margin-right: 10px;
+    float: left;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
     <div class="kline-title">
-      {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
+      个股近120日技术指标多空信号分布（注：日K线前复权）
+      <!--  {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'':techFace.tag}}</span> -->
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+    <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
+    <div id="fstxt" class="txt clearfix">
+      <div>
+        时间：<span class="num" id="kdate" ref='kdate'>2018-05-08</span>
 
+      </div>
+      <div class="">
+        今开：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        最高：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        最低：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div class="">
+        昨收：<span class="price cred" id="lastPx">6.80</span>
+        <span class="price cred" id="chgPx">+0.07</span>
+        <span class="price cred" id="chngPctPx">(+1.04%)</span>
+      </div>
+      <div>成交量：<span class="num" id="vol">208.00手</span></div>
+      <div>涨幅：<span class="num" id="vol">208.00手</span></div>
+
+
+    </div>
   </div>
 
   <div class="kline-charts" ref="klineChart">
@@ -191,10 +228,11 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['innerCode', 'testData'],
   data() {
     return {
       showX: true,
+      techFace: {},
       data: {
         times: [],
         tradeTimeArr: [],
@@ -230,15 +268,18 @@ export default ({
   methods: {
     init() {
 
-      const klineData = [].concat(this.indexFace.datas.data).reverse()
-      const stressPrice = Number(this.indexFace.datas.stressPrice).toFixed(2)
+      const klineData = [].concat(this.techFace.datas).reverse()
+      const stressPrice = '11.00'
       //     const stressPrice = '0'
-      const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
+      const currPirce = '11.00'
       //  const currPirce = '0'
-      const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
+      const supportPrice = '11.00'
+
       var data = this.data
       //   const supportPrice = '0'
-      klineData.forEach((item) => {
+      console.log(this.techFace.datas)
+      klineData && klineData.forEach((item) => {
+        // console.log(item)
         let time = ''
         time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
         data.times.push(time)
@@ -307,7 +348,7 @@ export default ({
           }
         ])
         data.markPointData.push({
-          name: '压力位',
+          name: '压力线',
           coord: [data.times[0], stressPrice],
           symbol: 'rect',
           symbolSize: [86, 22],
@@ -315,7 +356,7 @@ export default ({
             normal: {
 
               // color: 各异，
-              // borderColor: 各异,     // 标注边线颜色，优先于color
+              // borderColor: 各异,     // 标注边线颜色，优先于color 
               // borderWidth: 2,            // 标注边线线宽，单位px，默认为1
               // label: {
               // show: true,
@@ -422,13 +463,14 @@ export default ({
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
 
-      if (this.indexFace) {
+      if (this.techFace) {
         this.drawCharts()
 
       }
     },
     drawCharts() {
       const lineData = this.data
+      var _self = this
       const opt = {
         toolbox: {
           show: false
@@ -448,6 +490,7 @@ export default ({
             var highPx;
             var lowPx;
             var volume;
+            _self.$refs.kdate.innerText = time
             if (axisid === 1) {
               //  console.log(t[1])
               objarr = t[1].value; // 开盘 收盘  最高 最低  成交量
@@ -457,6 +500,7 @@ export default ({
                 highPx = objarr[3];
                 lowPx = objarr[4];
                 volume = t[0].value;
+                console.log(_self.$refs.kdate.innerText)
 
               }
             } else if (axisid === 0) {
@@ -473,12 +517,12 @@ export default ({
               }
             }
 
-            if (volume > 10000000000) {
-              volume = (volume / 10000000000).toFixed(2) + '亿手'
-            } else if (volume > 1000000) {
-              volume = (volume / 1000000).toFixed(2) + '万手'
+            if (volume > 100000000) {
+              volume = (volume / 100000000).toFixed(2) + '亿手'
+            } else if (volume > 10000) {
+              volume = (volume / 10000).toFixed(2) + '万手'
             } else {
-              volume = (volume / 100).toFixed(2) + '手'
+              volume = Number(volume).toFixed(2) + '手';
             }
             return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
               '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
@@ -541,7 +585,7 @@ export default ({
             }
           },
           {
-            /*
+            /*  
         boundaryGap : false,
         axisPointer: {
             type: 'shadow',
@@ -746,11 +790,16 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    testData: function() {
+      console.log(this.testData)
+      this.techFace = this.testData
     }
   },
   mounted() {
 
     this.init()
+    console.log(this.testData)
 
   }
 

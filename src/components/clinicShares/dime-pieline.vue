@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -144,9 +144,13 @@ body {
     line-height: 41px;
     border-bottom: 1px solid $lineAndTitleColor;
     font-size: 14px;
+    font-weight: 900;
 }
 .kline-title2 {
-    padding: 10px 7px;
+    height: 62px;
+    padding: 10px 5px;
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
 }
 .kline {
     height: 264px;
@@ -169,9 +173,9 @@ body {
 <div class="dime-kline">
   <div v-for="(inFace,index) of indexFace" v-if="index===3">
     <div class="kline-title">
-      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'--':inFace.tag}}</span>
+      {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'':inFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe}}</div>
+    <div class="kline-title2">{{inFace.describe==null?'':inFace.describe}}</div>
 
   </div>
   <div class="charts-box display-box">
@@ -215,33 +219,27 @@ export default ({
           mainValue: [],
           otherValue: []
         }
-        // console.log(state.clinicShares.indexFace[0].tag)
+
         var fundFace = state.clinicShares.indexFace;
-        // console.log(fundFace)
-        // console.log(this.formatDate)
-        // var oldOption = this.$refs.klineChart.getOption();
-        // var data = oldOption.series[0].data;
-        // var dataTime = oldOption.xAxis[0].data;
         fundFace.forEach((alls, index) => {
           if (index === 3) {
-
             const klineData = [].concat(alls.datas.data).reverse()
-
             klineData.forEach((item) => {
-              let today = Number(item.day1 / 100000000).toFixed(2)
+              /* let today = Number(item.day1 / 100000000).toFixed(2)
               let threeday = Number(item.day3 / 100000000).toFixed(2)
               const fiveday = Number(item.day5 / 100000000).toFixed(2)
-              const tenday = Number(item.day10 / 100000000).toFixed(2)
-              /* const volume = item.volume
-              const prevClosePx = item.prevClosePx */
+              const tenday = Number(item.day10 / 100000000).toFixed(2) */
+              let today = Number(item.day1 / 10000).toFixed(2)
+              let threeday = Number(item.day3 / 10000).toFixed(2)
+              const fiveday = Number(item.day5 / 10000).toFixed(2)
+              const tenday = Number(item.day10 / 10000).toFixed(2)
+
               data.yData.push(today)
               data.yData.push(threeday)
               data.yData.push(fiveday)
               data.yData.push(tenday)
               const mainValue = Number(alls.datas.mainChng)
               const otherValue = Number(100 - mainValue)
-              /* data.mainValue.push(mainValue)           
-              data.otherValue.push(otherValue) */
               data.mainValue.push({
                   value: mainValue,
                   name: '当前主力资金影响力',
@@ -282,8 +280,7 @@ export default ({
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.lineChart) || echarts.init(this.$refs.lineChart)
       this.chartPie = echarts.getInstanceByDom(this.$refs.pieChart) || echarts.init(this.$refs.pieChart)
-      // console.log(document.getElementsByClassName('kline-charts'))
-      // this.chart = echarts.init(document.getElementsByClassName('kline-charts')[0])              
+
       this.$store.dispatch('clinicShares/queryIndexFace', {
         innerCode: this.innerCode
       }).then(() => {
@@ -297,7 +294,7 @@ export default ({
       const opt = {
         title: {
           left: 1,
-          top: -2,
+          top: -5,
           text: '当日、近3、5、10日累计净流入',
           textStyle: {
             color: '#c9d0d7',
@@ -358,11 +355,11 @@ export default ({
             var s = ''
             for (var i = 0; i < params.length; i++) {
               if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '亿'
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '万'
               }
               if (i === 1) {
                 s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value + '亿'
+                  params[i].seriesName + ' : ' + params[i].value + '万'
               }
             }
             return s
@@ -432,7 +429,7 @@ export default ({
           right: 0,
           top: '19%',
           height: '70%',
-          width: '95%',
+          // width: '95%',
           show: false
         }
       };
@@ -513,9 +510,9 @@ export default ({
       window.addEventListener('resize', () => this.chartPie.resize(), false)
     },
     checkStatus(status) {
-      if (status === 1) {
+      if (status === 2) {
         return 'red'
-      } else if (status === -1) {
+      } else if (status === 1) {
         return 'green'
       } else {
         return 'lightcolor'
@@ -523,7 +520,9 @@ export default ({
     }
   },
   watch: {
-
+    innerCode: function() {
+      this.initKline()
+    }
   },
 
   mounted() {
