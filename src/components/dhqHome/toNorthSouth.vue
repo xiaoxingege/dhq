@@ -253,7 +253,11 @@ export default {
                   return value.max + (value.max - value.min) / 8
                 },
                 min: function(value) {
-                  return value.min - (value.max - value.min) / 8
+                  let min = value.min - (value.max - value.min) / 8
+                  if (min < 0) {
+                    min = 0
+                  }
+                  return min
                 }
               }
             ],
@@ -403,7 +407,11 @@ export default {
                   return value.max + (value.max - value.min) / 8
                 },
                 min: function(value) {
-                  return value.min - (value.max - value.min) / 8
+                  let min = value.min - (value.max - value.min) / 8
+                  if (min < 0) {
+                    min = 0
+                  }
+                  return min
                 }
               }
             ],
