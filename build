@@ -77,7 +77,7 @@ if [ "$feature" != "z3tougu22" ]; then
     echo "package $feature-$version exists."
     exit 1
   fi
-  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
+  if [ "$env" = "test" -a "$feature" != "z3tougu" -a "$feature" != "dhq" ]; then
     get_valid_port
   fi
 fi
@@ -251,7 +251,7 @@ else
   rm -rf dist/$feature/*.css
   tar -cjf $feature-$version.tar.bzip2 *
   sudo mv $feature-$version.tar.bzip2 $package_path
-  if [ "$env" = "test" -a "$feature" != "z3tougu" ]; then
+  if [ "$env" = "test" -a "$feature" != "z3tougu" -a "$feature" != "dhq" ]; then
     ssh -p 62222 admin@127.0.0.1 "NODE_ENV=test feature=$feature branch=$branch port=$port sh /home/admin/pull.sh"
   fi
 fi

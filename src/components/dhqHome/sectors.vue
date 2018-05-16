@@ -42,13 +42,13 @@
     border-right: 1px solid $lineAndTitleColor;
 }
 .up-table .sectors-table td {
-    color: $upColor;
+    color: $upColorDhq;
 }
 .down-table {
     margin-left: -1px;
 }
 .down-table .sectors-table td {
-    color: $downColor;
+    color: $downColorDhq;
 }
 .sectors-table tr td:first-child {
     text-align: left;

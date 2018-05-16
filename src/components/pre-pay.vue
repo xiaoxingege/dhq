@@ -25,6 +25,8 @@ export default {
     const debug = query.debug
     const skipRiskAssessed = query.skipRiskAssessed === '1'
     const payQuery = qs.parse(payUrl.replace(/.*?\?/, ''))
+    // mobile表示非app内的h5页面，app表示app内的h5页面
+    const platform = window.app.name === '{{appid}}' ? 'mobile' : 'app'
     this.$store.dispatch('user/checkLogin').then(() => {
       return this.$store.dispatch('user/checkBindingInfo', {})
     }).then(() => {
@@ -34,20 +36,25 @@ export default {
         }
         if (!this.bindingMobile && !this.bindingIdentity && !this.riskAssessed) {
           // 未绑定手机号未实名验证未评测
-          const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
-          const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(cpUrl)
-          const phoneUrl = 'http://i.jrj.com.cn/home/app/phoneIdentity?ReturnURL=' + encodeURIComponent(idUrl)
+          const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
+          const idUrl = `http://i.jrj.com.cn/home/${platform}/nameIdentity?ReturnURL=` + encodeURIComponent(cpUrl)
+          const phoneUrl = `http://i.jrj.com.cn/home/${platform}/phoneIdentity?ReturnURL=` + encodeURIComponent(idUrl)
           location.replace(phoneUrl)
         } else if (!this.bindingMobile && !this.bindingIdentity && this.riskAssessed) {
           // 未绑定手机号未绑定实名信息已测评
-          const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(payUrl)
-          const phoneUrl = 'http://i.jrj.com.cn/home/app/phoneIdentity?ReturnURL=' + encodeURIComponent(idUrl)
+          const idUrl = `http://i.jrj.com.cn/home/${platform}/nameIdentity?ReturnURL=` + encodeURIComponent(payUrl)
+          const phoneUrl = `http://i.jrj.com.cn/home/${platform}/phoneIdentity?ReturnURL=` + encodeURIComponent(idUrl)
           location.replace(phoneUrl)
         } else if (this.bindingMobile && !this.bindingIdentity && !this.riskAssessed) {
           // 已绑定手机号未绑定实名信息未测评
-          const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
-          const idUrl = 'http://i.jrj.com.cn/home/app/nameIdentity?ReturnURL=' + encodeURIComponent(cpUrl)
+          const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
+          const idUrl = `http://i.jrj.com.cn/home/${platform}/nameIdentity?ReturnURL=` + encodeURIComponent(cpUrl)
           location.replace(idUrl)
+        } else if (!this.bindingMobile && this.bindingIdentity) {
+          // 有实名认证，但没绑定手机
+          const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
+          const phoneUrl = `http://i.jrj.com.cn/home/${platform}/phoneIdentity?ReturnURL=` + encodeURIComponent(cpUrl)
+          location.replace(phoneUrl)
         } else if (this.bindingMobile && this.bindingIdentity) {
           if (!this.riskAssessed) {
             if (skipRiskAssessed && window.jrj) {
@@ -64,7 +71,7 @@ export default {
               }))
             } else {
               // 已绑手机号已验证实名未测评
-              const cpUrl = 'http://i.jrj.com.cn/home/app/fxcpNotes?layer=0&ReturnURL=' + encodeURIComponent(payUrl)
+              const cpUrl = `http://i.jrj.com.cn/home/${platform}/fxcpNotes?layer=0&ReturnURL=` + encodeURIComponent(payUrl)
               location.replace(cpUrl)
             }
           } else {

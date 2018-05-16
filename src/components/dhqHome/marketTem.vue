@@ -155,8 +155,12 @@ export default {
                 show: false
               },
               position: 'right',
-              min: 'dataMin',
-              max: 'dataMax'
+              min: function(params) {
+                return params.min - (params.max - params.min) * 0.1
+              },
+              max: function(params) {
+                return params.max + (params.max - params.min) * 0.1
+              }
             }
           ],
           color: ['#525a65', '#1984ea'],
@@ -218,7 +222,7 @@ export default {
                   }
                 }
               },
-              data: this.chartLineData
+              data: _this.chartLineData
             }
           ]
         })
@@ -227,7 +231,7 @@ export default {
         const timestampResize = new Date().getTime()
         _this.$emit('isResize', timestampResize)
         _this.chart.resize({
-          height: (window.innerHeight * 0.285) * 0.85 < 710 * 0.285 * 0.85 ? 710 * 0.285 * 0.85 : (window.innerHeight * 0.285) * 0.85
+          height: (window.innerHeight * 0.33) * 0.75 < 710 * 0.33 * 0.75 ? 710 * 0.33 * 0.75 : (window.innerHeight * 0.33) * 0.75
         })
       }
     },

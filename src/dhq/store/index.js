@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import zhikuanSearch from 'stores/zhikuan-search'
+import dhqIndex from 'stores/dhqIndex'
+import z3sockjs from 'stores/dhqsocket'
+import stock from 'stores/dhqStock'
+import topic from 'stores/z3dhq-theme'
+import industry from 'stores/z3dhq-industry'
+import zhikuanDetailPages from 'stores/dhq-detail-pages'
+/* import fetch from '../util/z3fetch' */
+/* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
-import zhikuanDetailPages from 'stores/zhikuan-detail-pages'
 import stockMap from 'stores/stockmap'
-import topic from 'stores/z3tougu-theme'
-import industry from 'stores/z3tougu-industry'
 import bubbles from 'stores/bubbles'
-import stock from 'stores/stock'
-import z3sockjs from 'stores/z3sockjs'
 import fundIntell from 'stores/fund-intell'
 import goldStrategy from 'stores/gold-strategy'
 import z3touguIndex from 'stores/z3tougu-index'
@@ -29,8 +31,7 @@ import dragonList from 'stores/dragon-list-dialog'
 import intelligenceInfo from 'stores/intelligence-info'
 import marketBubble from 'stores/market-bubbles'
 import zInfoPublic from 'stores/z-info-public'
-import dhqIndex from 'stores/dhqIndex'
-import clinicShares from 'stores/clinic-shares'
+import clinicShares from 'stores/clinic-shares'*/
 Vue.use(Vuex)
 
 const mutationTypes = {
@@ -55,12 +56,13 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.auth.authorization) {
+    if (state.auth.accessToken) {
       return {
-        authorization: state.auth.authorization,
         clientid: state.auth.clientid,
         deviceid: state.auth.deviceid,
-        userId: state.user.userId
+        userId: state.user.userId,
+        passportId: state.auth.passportId,
+        accessToken: state.auth.accessToken
       }
     }
     return {}
@@ -75,18 +77,22 @@ const actions = {
       if (window.Z3) {
         window.Z3.SndTokenInfo((info) => {
           const authInfo = JSON.parse(info)
+          /* for(var key in authInfo){
+               alert(key+','+authInfo[key])
+           } */
+          authInfo.passportId = authInfo.userId
           commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
           resolve(authInfo)
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
         const authInfo = {
-          authorization: 'Bearer test_z3quant_accesss_token', // test access_token
-          clientid: 'test_client_id',
+          // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+          clientid: 'z3client_dhq',
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userid: 'userId' // test userid
+          userId: '' // test userid
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
@@ -107,10 +113,12 @@ const mutations = {
       clientid: authInfo.clientid,
       deviceid: authInfo.deviceid,
       expires: authInfo.expires,
+      passportId: authInfo.passportId,
+      accessToken: authInfo.accessToken,
       updateTime: new Date().getTime()
     }
     state.user = {
-      userId: authInfo.userid
+      userId: authInfo.userId
     }
   }
 }
@@ -120,36 +128,36 @@ export default new Vuex.Store({
   actions,
   mutations,
   modules: {
-    zhikuanSearch,
-    zhikuanSearchList,
-    stockMap,
-    zhikuanDetailPages,
+    dhqIndex,
+    z3sockjs,
+    stock,
     topic,
     industry,
-    bubbles,
-    stock,
-    z3sockjs,
-    fundIntell,
-    goldStrategy,
-    z3touguIndex,
-    backtestDetail,
-    smartPool,
-    funcArchives,
-    fundRecord,
-    filter,
-    backtestDetailH5,
-    indexChart,
-    finance,
-    customerList,
-    portraitDetail,
-    optionalStock,
-    bullStock,
-    plateMap,
-    dragonList,
-    intelligenceInfo,
-    zInfoPublic,
-    dhqIndex,
-    marketBubble,
-    clinicShares
+    zhikuanDetailPages
+    /* zhikuanSearch,
+     zhikuanSearchList,
+     stockMap,
+     bubbles,
+     fundIntell,
+     goldStrategy,
+     z3touguIndex,
+     backtestDetail,
+     smartPool,
+     funcArchives,
+     fundRecord,
+     filter,
+     backtestDetailH5,
+     indexChart,
+     finance,
+     customerList,
+     portraitDetail,
+     optionalStock,
+     bullStock,
+     plateMap,
+     dragonList,
+     intelligenceInfo,
+     zInfoPublic,
+     marketBubble,
+     clinicShares */
   }
 })

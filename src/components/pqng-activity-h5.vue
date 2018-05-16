@@ -25,7 +25,7 @@ button {
     height: 5.78rem;
 }
 .bg3 {
-    background: url("../assets/images/pqng-activity/pqng-h5-bg3.jpg") center 0 no-repeat;
+    background: url("../assets/images/pqng-activity/pqng-h5-bg3-1.jpg") center 0 no-repeat;
     background-size: 100% 100%;
     height: 14.53rem;
 }
