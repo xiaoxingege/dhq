@@ -507,12 +507,12 @@ export default {
           this.lowPx = klineData[index].lowPx.toFixed(2)
           this.prevClosePx = klineData[index].prevClosePx.toFixed(2)
           this.chgPct = klineData[index].chgPct.toFixed(2)
-          if (klineData[index].volume > 100000000) {
-            this.volume = (klineData[index].volume / 100000000).toFixed(2) + '亿手'
-          } else if (klineData[index].volume > 10000) {
-            this.volume = (klineData[index].volume / 10000).toFixed(2) + '万手'
+          if (klineData[index].volume > 10000000000) {
+            this.volume = (klineData[index].volume / 10000000000).toFixed(2) + '亿手'
+          } else if (klineData[index].volume > 1000000) {
+            this.volume = (klineData[index].volume / 1000000).toFixed(2) + '万手'
           } else {
-            this.volume = (klineData[index].volume).toFixed(2) + '手';
+            this.volume = (klineData[index].volume / 100).toFixed(2) + '手';
           }
 
           console.log(klineData[index].volume)
@@ -751,7 +751,6 @@ export default {
           // last.innerText = '123456789034567890'
           var left = parseInt(params.event.offsetX) + 38
           var top = parseInt(params.event.offsetY) - 15
-          var scrollx = $(window).scrollLeft()
 
           var elewidth = 300
           if ((left + elewidth) > 1200) {
@@ -956,12 +955,12 @@ export default {
               }
             }
 
-            if (volume > 100000000) {
-              volume = (volume / 100000000).toFixed(2) + '亿手'
-            } else if (volume > 10000) {
-              volume = (volume / 10000).toFixed(2) + '万手'
+            if (volume > 10000000000) {
+              volume = (volume / 10000000000).toFixed(2) + '亿手'
+            } else if (volume > 1000000) {
+              volume = (volume / 1000000).toFixed(2) + '万手'
             } else {
-              volume = Number(volume).toFixed(2) + '手';
+              volume = Number(volume / 100).toFixed(2) + '手';
             }
             for (var i = 0; i < t.length; i++) {
               if (t[i].seriesName === 'MA5') {
