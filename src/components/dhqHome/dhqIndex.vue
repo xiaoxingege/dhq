@@ -61,18 +61,6 @@ body {
     background-color: $bgConColor;
 }
 
-.c_up {
-    color: $upColor;
-}
-
-.c_down {
-    color: $downColor;
-}
-
-.c_txt {
-    color: $wordsColorBase;
-}
-
 .sector-wrap {
     padding-top: 3px;
     height: 33%;

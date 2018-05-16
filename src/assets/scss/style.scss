@@ -15,6 +15,8 @@ $flatColor:#c9d0d7;
 $backupYellow:#f0b540;/* 备用黄色 */
 $fontSizeBase:12px; /* 基本字体 */
 $borderColor:#23272c; /* 通用边框色 */
+$upColorDhq:#fc2721;/* 所有红色 上涨 */
+$downColorDhq:#0bc846;/* 所有绿色 下跌 */
 
 /* 大注释浮框 */
 @mixin noteBoxBig{
