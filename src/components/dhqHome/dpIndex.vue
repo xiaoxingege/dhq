@@ -136,16 +136,6 @@ export default {
         // 断开连接，重新建立连接
         this.$store.dispatch('z3sockjs/init')
       }
-    },
-    'dpData': {
-      deep: true,
-      handler: function() {
-        if (z3websocket.ws) {
-          z3websocket.ws && z3websocket.ws.close()
-        } else {
-          this.$store.dispatch('z3sockjs/init')
-        }
-      }
     }
   },
   components: {
@@ -153,7 +143,7 @@ export default {
     DayMarketChart
   },
   computed: mapState({
-    userId:state  => state.user.userId,
+    userId: state => state.user.userId,
     dpData: state => state.dhqIndex.dpIndexData,
     dpIndexData: function() {
       const dpIndexData = this.$store.state.dhqIndex.dpIndexData
@@ -202,6 +192,7 @@ export default {
         })
         .then(() => {
           this.dpIndexList = this.dpIndexData
+          this.$store.dispatch('z3sockjs/init')
         })
     },
     formatData: function(value) {
@@ -216,7 +207,7 @@ export default {
       this.isDbClick('click', item)
     },
     toMarketDetail: function(item) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sy_zhishu&userId='+this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
       clearTimeout(this.timeoutID)
       this.isDbClick('dblclick', item)
     },

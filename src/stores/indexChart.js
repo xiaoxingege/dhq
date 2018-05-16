@@ -14,7 +14,8 @@ export default {
       szczChartData: null,
       cybzChartData: null
     },
-    barData: null
+    barData: null,
+    moveBlock: []
   },
   mutations: {
     setSzzsChartData(state, result) {
@@ -81,6 +82,12 @@ export default {
     },
     barSocket(state, result) {
       state.barData = result
+    },
+    setMoveBlock(state, options) {
+      const result = options.result
+      if (result.errCode === 0) {
+        state.moveBlock = result.data
+      }
     }
   },
   actions: {
@@ -114,6 +121,21 @@ export default {
         return res.json()
       }).then(body => {
         commit('setBarData', body)
+      })
+    },
+    // 盯盘异动板块
+    getMoveBlock({
+      commit
+    }) {
+      const url = `${domain}/openapi/line/section`
+      return fetch(url, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then((body) => {
+        commit('setMoveBlock', {
+          result: body
+        })
       })
     }
   }

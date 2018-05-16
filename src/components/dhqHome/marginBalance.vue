@@ -175,6 +175,7 @@ export default {
             {
               type: 'value',
               position: 'right',
+              offset: 2,
               splitLine: {
                 show: false
               },
@@ -199,6 +200,9 @@ export default {
               }
             }
           ],
+          dataZoom: [{
+            type: 'inside'
+          }],
           color: ['#1984ea', '#fc2721'],
           animation: false,
           series: [{

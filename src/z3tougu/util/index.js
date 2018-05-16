@@ -14,7 +14,7 @@ export default {
           hours = 13;
           minutes = 0;
         } else {
-          timeline.push(hours + ':' + (minutes < 10 ? '0' + minutes : minutes));
+          timeline.push((hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes));
         }
         minutes++;
         if (minutes === 60) {
@@ -37,5 +37,18 @@ export default {
       count--;
     }
     return data;
+  },
+  formatterInnercode(code) {
+    var str = code + ''
+    var s = '';
+    var begin = str.charAt(0);
+    if (begin === '6' || begin === '9') {
+      s = str + '.SH'
+    } else if (begin === '0' || begin === '2' || begin === '3') {
+      s = str + '.SZ'
+    } else {
+      return code
+    }
+    return s
   }
 }

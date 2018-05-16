@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
     color: $wordsColorBase;
 }
@@ -167,7 +167,7 @@ export default ({
           }
           /* splitArea: {
                areaStyle: {
-                   
+
                    color: ['#C1C1C1', '#fff']
                }
            } */
@@ -229,12 +229,12 @@ export default ({
               /* ,
                                     lineStyle: {
                                         color:'#ff2e29'
-                                       
+
                                     },
                                     itemStyle: {
                                         color: '#ff0',
                                         borderColor: '#000'
-                                      
+
                                     }  */
             }
           },

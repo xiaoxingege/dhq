@@ -169,12 +169,12 @@ export default {
       styleLiObj: {
         width: '85px'
       },
-      userId:this.$store.state.user.userId,
-      pointKey:{
-          'SHQuote': 'click_syph_sh',
-          'SZQuote':'click_syph_sz',
-          'ZXQuote': 'click_syph_zx',
-          'GMEQuote':'click_syph_cy'
+      userId: this.$store.state.user.userId,
+      pointKey: {
+        'SHQuote': 'click_syph_sh',
+        'SZQuote': 'click_syph_sz',
+        'ZXQuote': 'click_syph_zx',
+        'GMEQuote': 'click_syph_cy'
       }
     }
   },
@@ -210,7 +210,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point='+this.pointKey[data]+'&userId='+this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title)
     },
     initSectors(date) {
       this.$store.dispatch('dhqIndex/getSectorsData', {
@@ -243,7 +243,7 @@ export default {
       }
     },
     linkStock: function(innerCode) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_syph_gg&userId='+this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_syph_gg&userId=' + this.userId, 'WT.ti', document.title)
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }

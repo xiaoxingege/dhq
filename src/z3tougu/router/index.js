@@ -54,7 +54,6 @@ import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'*/
 import zInfo from 'components/intelligence-info/z-info'
-import DhqIndex from 'components/dhqHome/dhqIndex'
 /* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
@@ -350,7 +349,7 @@ export default [{
     component: DragonListDialog
   },
   {
-    path: ctx + '/clinicSharesIndex',
+    path: ctx + '/clinicSharesIndex/:innerCode',
     name: 'clinicsharesindex',
     component: ClinicSharesIndex
   },
@@ -380,11 +379,6 @@ export default [{
             component: listedCompany
           } */
     ]
-  },
-  {
-    path: ctx + '/dhq',
-    name: 'dhqIndex',
-    component: DhqIndex
   },
   {
     path: ctx + '/siweiIndex',

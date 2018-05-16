@@ -9,7 +9,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: $fontSizeBase;
 }
 /*$bgDeepColor:#0d0e0f;/* 最深背景 */
@@ -28,7 +28,7 @@
 .topic-detail {
     width: 100%;
     background: #141518;
-    font-size: 12px;
+    font-size: 14px;
     color: #c9d0d7;
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
@@ -38,52 +38,43 @@
 body,
 html {
     height: 100%;
-    /*background-color: $bgDeepColor;*/
 }
-
 .clinic-shares-wrap {
-    /*min-width: 1217px;*/
+    max-width: 1200px;
     height: 100%;
-    background-color: $bgConColor;
+    background-color: $bgDeepColor;
     min-height: 100%;
-    border-top: 1px solid $lineAndTitleColor;
-    border-left: 1px solid $lineAndTitleColor;
-    border-bottom: 1px solid $lineAndTitleColor;
-    margin: 3px 0 0 1px;
+    margin: 3px auto 1px;
 }
-
 body {
     background-color: $bgDeepColor;
 }
-
 .c_up {
     color: $upColor;
 }
-
 .c_down {
     color: $downColor;
 }
-
 .c_txt {
     color: $wordsColorBase;
 }
 .foot-tishi {
     font-size: 12px;
-    background: #141518;
     color: $wordsColorBase;
     line-height: 28px;
-
+    width: 1200px;
+    margin: auto;
+    font-family: "Microsoft YaHei";
 }
 </style>
 <template>
-<div class="wrap-all">
-  <div class="clinic-shares-wrap">
-    <ClinicMarkTop :innerCode='innerCode' />
-    <ClinicDimension :innerCode='innerCode' />
-
+<div class="wrap-all clearfix">
+  <div class="clinic-shares-wrap clearfix">
+    <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
+    <ClinicDimension :innerCode='innerCode' :isShow='isType' />
   </div>
   <div class="foot-tishi clearfix">
-    风险提示：诊断结果基于自动模型加工客观数据而成，仅供参考，不构成绝对投资建议，风险自担！
+    风险提示：诊股结果基于各统计模型计算而来，仅供投资者投资参考，不作为买卖建议，风险自担！
   </div>
 </div>
 </template>
@@ -91,34 +82,55 @@ body {
 import {
   mapState
 } from 'vuex'
+import util from '../../z3tougu/util'
 import ClinicMarkTop from 'components/clinicShares/clinic-mark-top'
 import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
   data() {
     return {
-      innerCode: '600000.SH'
+      code: this.$route.params.innerCode,
+      innerCode: '',
+      isType: ''
     }
   },
-  computed: mapState({
-
-
-
-  }),
+  computed: mapState({}),
   components: {
     ClinicMarkTop,
     ClinicDimension
   },
   methods: {
+    init: function() {
+      const query = this.$route.query
+      if (query && query.query) {
 
+        this.innerCode = query.query
+      } else {
+        //  console.log(query.query)
+        this.concats(this.code)
+        // this.innerCode = '600000.SH'
+      }
+    },
+    concats(code) {
+      this.innerCode = util.formatterInnercode(code)
+    },
+    getShowValue(type) {
+      this.isType = type
+      console.log(this.isType + '是index 的值')
+    }
   },
-  watch: {},
+  watch: {
+    isShow() {
+      console.log(this.isType)
+    }
+  },
   mounted() {
-    // alert(this.innerCode)
-
+    this.init()
+    // alert(111111)
+    // alert(this.$route.query.query)
+    // alert(this.$route.params.innerCode)
+    // console.log(this.innerCode)
     // console.log(this.$route.params)
   },
-  destroyed() {
-
-  }
+  destroyed() {}
 }
 </script>

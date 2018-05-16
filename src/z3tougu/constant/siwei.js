@@ -68,7 +68,12 @@ const xSelectData = {
   'fcst_idx.rating_syn': '分析师观点',
   'mkt_idx.expect_price_chng_pct': '目标价格涨幅',
   'mkt_idx.volume_ratio': '量比',
-  'mkt_idx.exchr': '换手率'
+  'mkt_idx.exchr': '换手率',
+  'accum_chg_pct': '累计涨幅',
+  'up_limit_num': '开板前连板数',
+  'accum_chg_pct_up_term': '开板后累计涨幅',
+  'up_limit_last_day_data.up_limit_term_num': '昨日开板次数',
+  'up_limit_last_day_data.cont_up_limit_days_num': '昨日连板数'
 }
 
 // 气泡大小轴下拉框数据
@@ -280,6 +285,39 @@ const pointArr = ['卖出', '减持', '中性', '增持', '买入']
 
 // 行业数据
 const industryArr = ['采掘', '传媒', '电气设备', '电子', '房地产', '纺织服装', '非银金融', '钢铁', '公用事业', '国防军工', '化工', '建筑材料', '建筑装饰', '交通运输', '家用电器', '计算机', '机械设备', '农林牧渔', '汽车', '轻工制造', '商业贸易', '食品饮料', '通信', '休闲服务', '银行', '医药生物', '有色金属', '综合']
+const newIndustryArr = [{
+    color: '#8425AC',
+    industry: ['纺织服装', '家用电器', '轻工制造', '商业贸易', '汽车', '食品饮料']
+  },
+  {
+    color: '#DF8307',
+    industry: ['计算机', '电子', '通信', '电器设备']
+  },
+  {
+    color: '#515AB8',
+    industry: ['交通运输', '公共事业', '综合', '国防军工']
+  },
+  {
+    color: '#FFD002',
+    industry: ['化工', '采掘', '机械设备', '有色金属', '钢铁']
+  },
+  {
+    color: '#DF3D42',
+    industry: ['房地产', '建筑材料', '建筑装饰']
+  },
+  {
+    color: '#3A7C8D',
+    industry: ['休闲服务', '传媒']
+  },
+  {
+    color: '#DF73E0',
+    industry: ['非银金属', '银行']
+  },
+  {
+    color: '#329607',
+    industry: ['医药生物', '农林牧渔']
+  }
+]
 
 const groupArr = {
   'sw_indu_name': {
@@ -396,6 +434,7 @@ export {
   pointArr,
   groupArr,
   stockSort,
-  refreshTime
+  refreshTime,
+  newIndustryArr
 
 }

@@ -101,7 +101,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" href="stock/000001.SH" target="_blank">
+    <a class="line-chart" @click="toMarketDetail" @dblclick="toDingPan">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -224,6 +224,10 @@
 <script>
 import echarts from 'echarts'
 import z3websocket from '../z3tougu/z3socket'
+import config from '../z3tougu/config'
+import {
+  ctx
+} from '../z3tougu/config'
 
 import {
   mapState
@@ -232,7 +236,9 @@ import {
 export default {
   data() {
     return {
-
+      updateDataPid: null,
+      intervalTime: 1000,
+      timeoutID: null
     }
   },
   components: {},
@@ -278,6 +284,44 @@ export default {
         }
       } else {
         return null
+      }
+    },
+    moveBlockData: state => {
+      const moveBlockData = state.indexChart.moveBlock
+      return moveBlockData
+    },
+    moveUpBlockData: state => {
+      const moveUpBlockData = state.indexChart.moveBlock
+      if (moveUpBlockData && moveUpBlockData.length > 0) {
+        const toTime = moveUpBlockData[0].tradeMin.toString()
+        let m;
+        let s;
+        if (toTime.length === 6) {
+          m = toTime.substring(0, 2)
+          s = toTime.substring(2, 4)
+        } else if (toTime.length === 5) {
+          m = toTime.substring(0, 1)
+          s = toTime.substring(1, 3)
+        }
+        moveUpBlockData[0].tradeMin = m + ':' + s
+        return moveUpBlockData[0]
+      }
+    },
+    moveDownBlockData: state => {
+      const moveDownBlockData = state.indexChart.moveBlock
+      if (moveDownBlockData && moveDownBlockData.length > 0) {
+        const toTime = moveDownBlockData[1].tradeMin.toString()
+        let m;
+        let s;
+        if (toTime.length === 6) {
+          m = toTime.substring(0, 2)
+          s = toTime.substring(2, 4)
+        } else if (toTime.length === 5) {
+          m = toTime.substring(0, 1)
+          s = toTime.substring(1, 3)
+        }
+        moveDownBlockData[1].tradeMin = m + ':' + s
+        return moveDownBlockData[1]
       }
     }
   }),
@@ -434,7 +478,6 @@ export default {
           splitNumber: 4,
           interval: 2 * Dvalue / 4
         }],
-
         series: [{
           name: '当前价',
           showSymbol: false,
@@ -477,7 +520,7 @@ export default {
           name: '均值',
           itemStyle: {
             normal: {
-              color: '#f4b53c '
+              color: '#f4b53c'
             }
           },
           lineStyle: {
@@ -509,6 +552,324 @@ export default {
           height: (window.innerHeight * 0.37) * 0.74 < 710 * 0.37 * 0.74 ? 710 * 0.37 * 0.74 : (window.innerHeight * 0.37) * 0.74
         })
       }
+    },
+    refreshSzzsEcharts(datas, index, chartName) {
+      const _this = this
+      if (datas !== null && datas.priceArr !== null) {
+        var tmpMax = Math.max.apply(Math, this.dealData(datas.priceArr))
+        var tmpMin = Math.min.apply(Math, this.dealData(datas.priceArr))
+      }
+      if (datas !== null && datas.avgArr !== null) {
+        var avgMax = Math.max.apply(Math, this.dealData(datas.avgArr))
+        var avgMin = Math.min.apply(Math, this.dealData(datas.avgArr))
+      }
+      tmpMax = tmpMax > avgMax ? tmpMax : avgMax
+      tmpMin = tmpMin < avgMin ? tmpMin : avgMin
+
+      if (datas !== null) {
+        var Dvalue = Math.abs(tmpMax - datas.line) > Math.abs(tmpMin - datas.line) ? Math.abs(tmpMax - datas.line) : Math.abs(tmpMin - datas.line)
+      }
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[index]) || echarts.init(document.getElementsByClassName('indexChart')[index])
+      // 生成横坐标时间轴
+      var beforenoon = this.autoTimeline('9:30', '11:30')
+      var afternoon = this.autoTimeline('13:00', '15:00')
+      beforenoon.splice(beforenoon.length - 1, 1)
+      afternoon[0] = '11:30/13:00'
+      var timeline = beforenoon.concat(afternoon)
+      let moveUpX;
+      let moveUpY;
+      let moveUpName;
+      let moveDownX;
+      let moveDownY;
+      let moveDownName;
+      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeMin) !== -1) {
+        moveUpX = _this.moveUpBlockData.tradeMin
+        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeMin)]
+        moveUpName = _this.moveUpBlockData.idxName
+      }
+      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeMin) !== -1) {
+        moveDownX = _this.moveDownBlockData.tradeMin
+        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeMin)]
+        moveDownName = _this.moveDownBlockData.idxName
+      }
+      const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
+      let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
+      let pointUpY = moveUpY + 5 + 20 * Dvalue / chartHeight; // 上涨板块指示线的终点Y坐标
+      let lineDownY = moveDownY - 5; // 下跌板块指示线的终点Y坐标
+      let pointDownY = moveDownY - 5 - 20 * Dvalue / chartHeight; // 下跌板块指示线的终点Y坐标
+      if (lineUpY + 40 * Dvalue / chartHeight >= Number(datas.line) + Dvalue) { // 涨的板块超出了图表就在点下面
+        lineUpY = moveUpY - 5
+        pointUpY = moveUpY - 5 - 20 * Dvalue / chartHeight
+      }
+      if (lineDownY - 40 * Dvalue / chartHeight <= Number(datas.line) - Dvalue) { // 跌的板块超出了图表就在点上面
+        lineDownY = moveDownY + 5
+        pointDownY = moveDownY + 5 + 20 * Dvalue / chartHeight
+      }
+      // 图表初始化
+      this.chart.setOption({
+        title: {
+          text: chartName,
+          textStyle: {
+            fontSize: 14,
+            fontWeight: 'normal',
+            color: '#fff'
+          },
+          left: 2,
+          top: 5
+        },
+        grid: {
+          left: 65,
+          top: 40,
+          bottom: 30,
+          right: 15
+        },
+        calculable: true,
+        xAxis: [{
+          type: 'category',
+
+          axisLine: {
+            lineStyle: {
+              color: '#535a64',
+              type: 'solid'
+            }
+          },
+          boundaryGap: false,
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            interval: 59,
+            textStyle: {
+              color: function(params) {
+                return '#707b8f'
+              }
+            }
+          },
+          data: timeline
+        }],
+        yAxis: [{
+          type: 'value',
+          // scale: true,
+          min: datas === null ? '' : Number(datas.line) - Dvalue,
+          max: datas === null ? '' : Number(datas.line) + Dvalue,
+          axisLabel: {
+            formatter: function(val) {
+              return val.toFixed(2)
+            },
+            textStyle: {
+              color: function(params) {
+                var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
+                if (cc > 0) {
+                  return '#ca4947'
+                } else if (cc < 0) {
+                  return '#56a870'
+                }
+                return '#fff'
+              }
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#30343b'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#535a64',
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          splitNumber: 4,
+          interval: 2 * Dvalue / 4
+        }],
+        series: [{
+          name: '当前价',
+          symbol: 'circle',
+          showAllSymbol: 'true',
+          symbolSize: function(value, params) {
+            if (params.name === moveUpX) {
+              return 6
+            } else if (params.name === moveDownX) {
+              return 6
+            } else {
+              return 0
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: function(params) {
+                if (params.name === moveUpX) {
+                  return config.upColor
+                } else if (params.name === moveDownX) {
+                  return config.downColor
+                } else {
+                  return '#fff'
+                }
+              }
+            }
+          },
+          lineStyle: {
+            normal: {
+              width: 1,
+              color: '#fff'
+            }
+          },
+          animation: false,
+          smooth: true,
+          type: 'line',
+          data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.priceArr))),
+          markLine: {
+            silent: true,
+            symbol: false,
+            animation: false,
+            label: {
+              normal: {
+                show: false
+              }
+            },
+            data: [{
+                yAxis: datas === null ? '' : Number(datas.line).toFixed(2)
+              },
+              [{
+                  coord: [moveUpX, moveUpY],
+                  symbol: 'circle',
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.upColor
+                    }
+                  }
+                },
+                {
+                  coord: [moveUpX, lineUpY],
+                  symbol: 'circle',
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.upColor
+                    }
+                  }
+                }
+              ],
+              [{
+                  coord: [moveDownX, moveDownY],
+                  symbol: 'circle',
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.downColor
+                    }
+                  }
+                },
+                {
+                  coord: [moveDownX, lineDownY],
+                  symbol: 'circle',
+                  symbolSize: 0.1,
+                  lineStyle: {
+                    normal: {
+                      width: 1,
+                      type: 'solid',
+                      color: config.downColor
+                    }
+                  }
+                }
+              ]
+            ],
+            lineStyle: {
+              normal: {
+                type: 'solid',
+                color: '#fff',
+                width: 0.3,
+                opacity: 1
+              }
+            }
+          },
+          markPoint: {
+            silent: false,
+            symbol: 'rect',
+            symbolSize: function(value, params) {
+              if (params.name === '上涨板块' && moveUpName.length > 4) {
+                return [65, 20]
+              } else if (params.name === '下跌板块' && moveUpName.length > 4) {
+                return [65, 20]
+              } else {
+                return [50, 20]
+              }
+            },
+            label: {
+              position: [0, 0],
+              distance: 0
+            },
+            data: [{
+                name: '上涨板块',
+                coord: [moveUpX, pointUpY],
+                itemStyle: {
+                  normal: {
+                    borderWidth: 1,
+                    borderColor: config.upColor,
+                    color: 'rgba(0,0,0,0)'
+                  }
+                },
+                label: {
+                  normal: {
+                    color: config.upColor,
+                    formatter: function() {
+                      return moveUpName
+                    }
+                  }
+                }
+              },
+              {
+                name: '下跌板块',
+                coord: [moveDownX, pointDownY],
+                itemStyle: {
+                  normal: {
+                    borderWidth: 1,
+                    borderColor: config.downColor,
+                    color: 'rgba(0,0,0,0)'
+                  }
+                },
+                label: {
+                  normal: {
+                    color: config.downColor,
+                    formatter: function() {
+                      return moveDownName
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }, {
+          name: '均值',
+          itemStyle: {
+            normal: {
+              color: '#f4b53c'
+            }
+          },
+          lineStyle: {
+            normal: {
+              width: 1
+            }
+          },
+          animation: false,
+          smooth: true,
+          type: 'line',
+          showSymbol: false,
+          data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
+        }]
+      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -547,6 +908,33 @@ export default {
     },
     updateStock(data) {
       this.$store.commit('indexChart/chartSocket', data)
+    },
+    autoUpdate: function() {
+      const _this = this
+      if (this.updateDataPid) {
+        clearInterval(this.updateDataPid)
+      } else {
+        this.updateDataPid = setInterval(function() {
+          _this.$store.dispatch('indexChart/getMoveBlock')
+        }, 60 * _this.intervalTime)
+      }
+    },
+    toMarketDetail: function() {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('click')
+    },
+    toDingPan: function() {
+      clearTimeout(this.timeoutID)
+      this.isDbClick('dblclick')
+    },
+    isDbClick: function(type) {
+      this.timeoutID = setTimeout(() => {
+        if (type === 'click') {
+          window.open(ctx + '/stock/000001.SH')
+        } else if (type === 'dblclick') {
+          window.open(ctx + '/siweiIndex')
+        }
+      }, 250);
     }
   },
   watch: {
@@ -593,7 +981,9 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        if (this.moveBlockData) {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        }
       }
     },
     lsChartData: {
@@ -613,15 +1003,36 @@ export default {
       handler: function() {
         this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
       }
+    },
+    moveBlockData: {
+      deep: true,
+      handler: function() {
+        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+      }
     }
-
   },
   mounted() {
-    this.$store.dispatch('indexChart/getIndexChartData', {
-      stockCode: '000001.SH'
-    }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-    })
+    let p1 = new Promise((resolve, reject) => {
+      this.$store.dispatch('indexChart/getMoveBlock').then(() => {
+        resolve();
+      })
+    });
+    let p2 = new Promise((resolve, reject) => {
+      this.$store.dispatch('indexChart/getIndexChartData', {
+        stockCode: '000001.SH'
+      }).then(() => {
+        resolve();
+      })
+    });
+    Promise.all([p1, p2]).then(() => {
+      this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+    });
+    this.autoUpdate()
+    /* this.$store.dispatch('indexChart/getIndexChartData', {
+       stockCode: '000001.SH'
+     }).then(() => {
+       this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+     })*/
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
     }).then(() => {

@@ -1,9 +1,10 @@
 <style lang="scss">
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
-* {
+.wrap,
+.wrap * {
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: 'Microsoft Yahei';
     font-size: $fontSizeBase;
 }
 

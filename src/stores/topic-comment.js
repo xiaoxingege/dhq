@@ -42,7 +42,7 @@ export default {
       state
     }, options) {
       commit('setAppItemId', options.appItemId)
-      fetch(`http://itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${state.appItemId}&bizType=8&pageSize=10`, {
+      fetch(`//itougu.jrj.com.cn/match/v7/cment/commentList.jspa?appItemId=${state.appItemId}&bizType=8&pageSize=10`, {
         credentials: 'include'
       }).then(res => {
         return res.json()
@@ -63,10 +63,10 @@ export default {
       dispatch,
       state
     }, options) {
-      // `http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
+      // `//itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`
 
       if (options.frm === 'app') {
-        fetch(`http://itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
+        fetch(`//itougu.jrj.com.cn/wireless/comment/addComment/${options.appId}/${options.bizType}/${options.appItemId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -102,7 +102,7 @@ export default {
           // }
         })
       } else if (options.frm === 'web') {
-        fetch(`http://itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
+        fetch(`//itougu.jrj.com.cn/comment/addComment.jspa?appItemId=${options.appItemId}&bizType=${options.bizType}&itemTitle=爱投顾&senderId=${options.senderId}&appId=${options.appId}&content=${options.content}&pubType=1&v=3.0&frm=${options.frm}&appVer=3.0&appType=3&receiverId=${options.receiverId || ''}&receiverName=${options.receiverName || ''}&replyRootId=${options.replyRootId || ''}&replyToId=${options.replyToId || ''}`, {
           method: 'get',
           credentials: 'include'
         }).then(res => {

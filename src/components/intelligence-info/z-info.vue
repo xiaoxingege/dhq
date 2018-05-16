@@ -29,7 +29,7 @@ export default {
     top: 0;
     left: 0;
     bottom: 0;
-    right: 370px;
+    right: 462px;
     overflow: hidden;
 }
 .info {
@@ -38,7 +38,7 @@ export default {
 }
 .public {
     position: fixed;
-    width: 370px;
+    width: 462px;
     top: 1px;
     right: 0;
     bottom: 2px;

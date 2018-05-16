@@ -29,6 +29,7 @@ export default {
 .legend ul li {
     float: left;
     width: 60px;
+    margin-left: 1px;
     height: 20px;
     line-height: 20px;
     text-align: center;

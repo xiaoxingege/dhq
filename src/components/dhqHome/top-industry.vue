@@ -143,11 +143,11 @@ export default {
       styleLiObj: {
         width: '85px'
       },
-      pointKey:{
-          'industry': 'click_sybkzs_hy',
-          'topic':'click_sybkzs_tc'
+      pointKey: {
+        'industry': 'click_sybkzs_hy',
+        'topic': 'click_sybkzs_tc'
       },
-     userId:this.$store.state.user.userId
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -176,7 +176,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point='+this.pointKey[data]+'&userId='+this.userId, 'WT.ti', document.title) // 点击tab打点
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     initTopIndustry(date) {
       if (this.type === 'industry') {
@@ -206,20 +206,20 @@ export default {
         }, 1000 * _this.intervalTime)
       }
     },
-    linkStock: function(innerCode,index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击龙头股打点
+    linkStock: function(innerCode, index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击龙头股打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
-    toTopicDetail: function(topicCode,index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_tc&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击板块指数打点
+    toTopicDetail: function(topicCode, index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_tc&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     },
-    toIndustryDetail: function(code,index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_hy&userId='+this.userId+'&rank='+(index+1), 'WT.ti', document.title) // 点击板块指数打点
+    toIndustryDetail: function(code, index) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_hy&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (code) {
         window.open(ctx + '/industry/' + code.split('.')[0])
       }
