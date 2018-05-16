@@ -312,12 +312,31 @@ export default ({
           containLabel: true
         },
         xAxis: [{
+          show: true,
           type: 'value',
           scale: true,
           splitLine: {
             show: false,
             lineStyle: {
-              color: '#c9d0d7'
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLabel: {
+            // show:false
+            color: '#c9d0d7'
+          },
+          axisTick: {
+            show: false,
+            inside: true,
+            alignWithLabel: false
+          },
+          axisLine: {
+            onZero: true,
+            symbol: ['none', 'arrow'],
+            lineStyle: {
+              color: '#c9d0d7',
+              type: 'solid'
             }
           }
         }],
