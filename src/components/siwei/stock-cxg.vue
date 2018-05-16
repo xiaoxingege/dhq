@@ -683,7 +683,7 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               if(czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null){
-                  return '--'
+                  return ''
               }
               var tooltipStr =
                 '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--' : Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
@@ -1046,7 +1046,7 @@ export default {
             trigger: 'axis',
             formatter: function(params) {
               if(czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null){
-                  return '--'
+                  return ''
               }
               var tooltipStr =
                   '<p>次新指数 : ' + (czgLineData.condition[params[0].dataIndex][1] === null ? '--':Number(czgLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
