@@ -212,15 +212,15 @@
       loadListInit() {
           this.$store.dispatch('getAllChance', { page: this.page, isTop: false, newTime: '' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
-                if(_height<this.innerHeight){
-                  this.loadMore()
-                }
+            if(_height<this.innerHeight){
+              this.$store.commit('setIsTop',false)
+              this.loadMore()
+            }
           })
       },
       loadMore() {
         this.page++
         this.typeList(this.typeIndex)
-        var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
             this.$store.commit('setNoData',true)

@@ -63,6 +63,7 @@ export default {
       }
       state.temporary = list.rows
       if(state.isTops === true){
+
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
       }else{
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
@@ -192,7 +193,9 @@ export default {
       }
       const stocks = {}
       state.temporary = list.rows
+      console.log(state.temporary)
       if(state.isTops === true){
+        console.log(JSON.stringify(state.listedCompany))
         state.listedCompany = state.temporary.concat(state.listedCompany)
       }else{
         state.listedCompany = state.listedCompany.concat(state.temporary)
