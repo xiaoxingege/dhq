@@ -79,8 +79,6 @@ export default {
         state.wisdomHeadlinesList = result
       }else{
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
-      } else {
-        state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
@@ -122,9 +120,6 @@ export default {
             }
         })
         state.optionalInformationList = result
-      }else{
-      if (state.isTops === true) {
-        state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
       } else {
         state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
       }
@@ -158,9 +153,6 @@ export default {
             }
         })
         state.newsFlash = result
-      }else{
-      if (state.isTops === true) {
-        state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
@@ -208,9 +200,6 @@ export default {
             }
         })
         state.newsOpportunities = result
-      }else{
-      if (state.isTops === true) {
-        state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
       } else {
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
@@ -254,9 +243,6 @@ export default {
             }
         })
         state.listedCompany = result
-      }else{
-      if (state.isTops === true) {
-        state.listedCompany = state.temporary.concat(state.listedCompany)
       } else {
         state.listedCompany = state.listedCompany.concat(state.temporary)
       }
