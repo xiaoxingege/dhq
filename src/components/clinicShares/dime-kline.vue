@@ -473,12 +473,12 @@ export default ({
               }
             }
 
-            if (volume > 100000000) {
-              volume = (volume / 100000000).toFixed(2) + '亿手'
-            } else if (volume > 10000) {
-              volume = (volume / 10000).toFixed(2) + '万手'
+            if (volume > 10000000000) {
+              volume = (volume / 10000000000).toFixed(2) + '亿手'
+            } else if (volume > 1000000) {
+              volume = (volume / 1000000).toFixed(2) + '万手'
             } else {
-              volume = volume.toFixed(2) + '手';
+              volume = (volume / 100).toFixed(2) + '手'
             }
             return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
               '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--');
