@@ -155,12 +155,12 @@ body {
 }
 .kline {
     /* height: 264px; */
-    height: 450px;
+    height: 750px;
 }
 .kline-charts {
 
     /*  height: 264px; */
-    height: 450px;
+    height: 750px;
     width: 100%;
 }
 .assess1 {
@@ -171,8 +171,15 @@ body {
     padding-top: 5px;
 }
 .txt > div {
-    margin-right: 10px;
+    margin-right: 9px;
     float: left;
+}
+.chgnum {
+    display: inline-block;
+    width: 45px;
+}
+.txt .chg {
+    margin-right: 0;
 }
 .txt .volu-box {
     margin-right: 0;
@@ -229,7 +236,7 @@ body {
     <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
     <div id="fstxt" class="txt clearfix">
       <div>
-        时间：<span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
+        <span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
       </div>
       <div class="">
         今开：<span class="price cred" id="open" ref='open'>{{openPx}}</span>
@@ -244,7 +251,7 @@ body {
         昨收：<span class="price cred" id="prevClosePx" ref='prevClosePx'>{{prevClosePx}}</span>
       </div>
       <div class="volu-box">成交量：<span class="volume" id="volume" ref='volume'>{{volume}}</span></div>
-      <div class="chg">涨幅：<span class="num" id="chgPct" ref='chgPct'>{{chgPct}}%</span></div>
+      <div class="chg">涨幅：<span class="chgnum" id="chgPct" ref='chgPct'>{{chgPct}}</span></div>
       <div class="kma5" @click="showMa('Ma5')" :class="opacityMa5===0?'gray':''">MA5：<span id="kma5" ref='kma5'>{{ma5}}</span></div>
       <div class="kma10" @click="showMa('Ma10')" :class="opacityMa10===0?'gray':''">MA10：<span id="kma10" ref='kma10'>{{ma10}}</span></div>
       <div class="kma20" @click="showMa('Ma20')" :class="opacityMa20===0?'gray':''">MA20：<span id="kma20" ref='kma20'>{{ma20}}</span></div>
@@ -343,6 +350,7 @@ export default {
   },
 
   computed: mapState({
+    techAll: state => state.clinicShares.techFace,
 
     lineData: state => {
 
@@ -468,15 +476,14 @@ export default {
         const highPx = item.highPx.toFixed(2)
         const lowPx = item.lowPx.toFixed(2)
         const volume = item.volume.toFixed(2)
-        console.log(item.volume)
         const prevClosePx = item.prevClosePx.toFixed(2)
         const chgPct = item.chgPct.toFixed(2)
-        const ma5 = Number(item.ma5).toFixed(2)
-        const ma10 = Number(item.ma10).toFixed(2)
-        const ma20 = Number(item.ma20).toFixed(2)
-        const ma30 = Number(item.ma30).toFixed(2)
-        const ma60 = Number(item.ma60).toFixed(2)
-        const ma120 = Number(item.ma120).toFixed(2)
+        const ma5 = item.ma5 === null ? '--' : Number(item.ma5).toFixed(2)
+        const ma10 = item.ma10 === null ? '--' : Number(item.ma10).toFixed(2)
+        const ma20 = item.ma20 === null ? '--' : Number(item.ma20).toFixed(2)
+        const ma30 = item.ma30 === null ? '--' : Number(item.ma30).toFixed(2)
+        const ma60 = item.ma60 === null ? '--' : Number(item.ma60).toFixed(2)
+        const ma120 = item.ma120 === null ? '--' : Number(item.ma120).toFixed(2)
         // const ma250 = item.ma250
         data.kdata.push([openPx, closePx, highPx, lowPx])
         data.ma5.push(ma5)
@@ -493,7 +500,7 @@ export default {
         //  const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
         // console.log(item.tagsInfo)
 
-        console.log(klineData[index])
+        //  console.log(klineData[index])
         if (index === klineData.length - 1) {
           console.log(index === klineData.length - 1)
           this.ma5 = klineData[index].ma5 === null ? '--' : Number(klineData[index].ma5).toFixed(2)
@@ -506,7 +513,7 @@ export default {
           this.highPx = klineData[index].highPx.toFixed(2)
           this.lowPx = klineData[index].lowPx.toFixed(2)
           this.prevClosePx = klineData[index].prevClosePx.toFixed(2)
-          this.chgPct = klineData[index].chgPct.toFixed(2)
+          this.chgPct = klineData[index].chgPct.toFixed(2) + '%'
           if (klineData[index].volume > 10000000000) {
             this.volume = (klineData[index].volume / 10000000000).toFixed(2) + '亿手'
           } else if (klineData[index].volume > 1000000) {
@@ -515,11 +522,11 @@ export default {
             this.volume = (klineData[index].volume / 100).toFixed(2) + '手';
           }
 
-          console.log(klineData[index].volume)
+          //  console.log(klineData[index].volume)
           this.endDate = data.times[klineData.length - 1]
         }
 
-        console.log(this.ma5)
+        // console.log(this.ma5)
         let tags = item.tagsInfo
 
         for (var key in tags) {
@@ -743,8 +750,8 @@ export default {
       var self = this
       this.chart.on('mouseover', function(params) {
         if (params.componentType === 'markPoint') {
-          console.log(params);
-          console.log(params.data.coord[0])
+          // console.log(params);
+          // console.log(params.data.coord[0])
           // console.log(params.event.offsetX);
           // console.log(params.marker);
           var last = document.getElementById('toolpoint')
@@ -793,7 +800,7 @@ export default {
               var objs2 = need2[j];
               var oneStr2 = '';
               for (var p in objs2) {
-                console.log(p)
+                // console.log(p)
                 if (p === 'title') {
                   oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + objs2[p] + '\n'
                 } else if (p === 'tag') {
@@ -917,6 +924,8 @@ export default {
             type: 'line'
           },
           formatter: function(t) {
+            //  console.log(t)
+            //  console.log(t.length)
             var obj = t[0];
             var time = obj.name; // 时间
             var axisid = obj.axisIndex
@@ -948,7 +957,12 @@ export default {
                 //  closePx = objarr[2];
                 highPx = objarr[3];
                 lowPx = objarr[4];
-                volume = t[7].value;
+                if (t.length <= 2) {
+                  volume = t[1].value;
+                } else {
+                  volume = t[7].value;
+                }
+
 
                 /*  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
                     '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--'); */
@@ -1001,17 +1015,24 @@ export default {
               //  console.log(item)
               if (item.endDate + '' === newTime) {
                 //  console.log(item.endDate === newTime)
-                _self.chgPct = item.chgPct.toFixed(2)
-                _self.prevClosePx = item.prevClosePx.toFixed(2)
+                _self.$refs.chgPct.innerText = item.chgPct.toFixed(2) + '%'
+                _self.$refs.prevClosePx.innerText = item.prevClosePx.toFixed(2)
 
               }
+
             })
+            //  console.log(t[0].value.length)
 
             _self.openPx = openPx === undefined ? '--' : openPx
             //  _self.$refs.close.innerText = closePx
             _self.highPx = highPx === undefined ? '--' : highPx
             _self.lowPx = lowPx === undefined ? '--' : lowPx
             _self.volume = volume === undefined ? '--' : volume
+            if (t[0].value.length <= 1) {
+              _self.$refs.chgPct.innerText = '--'
+              _self.$refs.prevClosePx.innerText = '--'
+              _self.volume = '--'
+            }
             //  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
           }
         },
@@ -1028,15 +1049,17 @@ export default {
         grid: [{
             left: 35,
             right: 40,
-            top: 60,
-            height: '60%',
+            // top: 60,
+            top: 55,
+            /* bottom: 25, */
+            height: '80%',
             show: false
           },
           {
             left: 35,
             right: 40,
             bottom: 25,
-            height: '27%',
+            height: '15%',
             show: false
           }
         ],
@@ -1416,7 +1439,7 @@ export default {
       this.drawCharts()
     },
     innerCode: function() {
-      this.initData()
+
     }
   },
   mounted() {
@@ -1425,8 +1448,8 @@ export default {
     this.$store.dispatch('clinicShares/queryTechFace', {
       innerCode: this.innerCode
     }).then(() => {
-
-      this.allData = this.$store.state.clinicShares.techFace
+      // this.allData = this.$store.state.clinicShares.techFace
+      this.allData = this.techAll
       this.initData()
       // this.initTag()
       // this.drawCharts()

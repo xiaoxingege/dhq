@@ -287,102 +287,142 @@ export default ({
             }
         } */
         if (klineData.length > 3) { // 大于3的时候画后面的
-
-
-          if (klineData.length - 1 === index || klineData.length - 2 === index) {
-            /* this.themeColor = 'transparent'
-            this.borderType = 'dashed'
-            this.borderWidth = 3 */
-            // console.log(index)
-            // console.log(klineData.length-2)
-            this.data.growthRate.push(null)
-            this.data.growthRateLast.push(growthRate)
-            newValue = {
-              value: value,
-              itemStyle: {
-                normal: {
-                  color: 'transparent',
-                  borderType: 'dashed',
-                  borderColor: value < 0 ? config.downColor : config.upColor,
-                  borderWidth: 3
-                }
-              }
-            }
-            /* lineStyle: {
-                   normal: {
-                    width: 8,
-                    color: '#fff'
-                  }
-                } */
-            /* newGrow = {
-               value: growthRate,
-               itemStyle: {
-                   normal: {
-                       // color: 'rgba(252,230,48,1)',
-                       // barBorderRadius: 0,
-                       lineStyle:{
-                         color:config.upColor,
-                         type:'dashed'
-                       },
-                       label: {
-                           show: true,
-                           position: 'top',
-                           color: '#c9d0d7',
-                           formatter: function(p) {
-                               return p.value > 0 ? (p.value) : '';
-                           }
-                       }
-                   }
-               }
-             } */
-          } else {
-            this.data.growthRate.push(growthRate)
-            if (klineData.length - 3 === index) {
+          if (klineData.length === 4) { // 等于4的时候
+            // console.log('等于4的时候')
+            if (klineData.length - 1 === index) {
+              this.data.growthRate.push(null)
               this.data.growthRateLast.push(growthRate)
+              newValue = {
+                value: value,
+                itemStyle: {
+                  normal: {
+                    color: 'transparent',
+                    borderType: 'dashed',
+                    borderColor: value < 0 ? config.downColor : config.upColor,
+                    borderWidth: 3
+                  }
+                }
+              }
             } else {
-              this.data.growthRateLast.push(null)
-            }
-
-            newValue = {
-              value: value,
-              itemStyle: {
-                normal: {
-                  color: value < 0 ? config.downColor : config.upColor,
-                  // borderColor: value < 0 ? config.downColor : config.upColor,
-                  borderType: '',
-                  borderWidth: 0
+              newValue = {
+                value: value,
+                itemStyle: {
+                  normal: {
+                    color: value < 0 ? config.downColor : config.upColor,
+                    // borderColor: value < 0 ? config.downColor : config.upColor,
+                    borderType: '',
+                    borderWidth: 0
+                  }
                 }
               }
-            }
+              if (klineData.length - 2 === index) {
+                this.data.growthRateLast.push(growthRate)
+              } else {
+                this.data.growthRateLast.push(null)
+              }
+              this.data.growthRate.push(growthRate)
+              //  this.data.growthRateLast.push(null)
 
-            /* newGrow = {
-              value: growthRate,
-              itemStyle: {
-                normal: {
-                    // color: 'rgba(252,230,48,1)',
-                    // barBorderRadius: 0,
-                    lineStyle:{
-                      color:config.upColor,
-                      type:'dashed'
-                    },
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#c9d0d7',
-                        formatter: function(p) {
-                            return p.value > 0 ? (p.value) : '';
-                        }
+
+            }
+            this.data.ydata.push(newValue)
+          } else {
+
+            if (klineData.length - 1 === index || klineData.length - 2 === index) {
+              /* this.themeColor = 'transparent'
+              this.borderType = 'dashed'
+              this.borderWidth = 3 */
+              // console.log(index)
+              // console.log(klineData.length-2)
+              this.data.growthRate.push(null)
+              this.data.growthRateLast.push(growthRate)
+              newValue = {
+                value: value,
+                itemStyle: {
+                  normal: {
+                    color: 'transparent',
+                    borderType: 'dashed',
+                    borderColor: value < 0 ? config.downColor : config.upColor,
+                    borderWidth: 3
+                  }
+                }
+              }
+              /* lineStyle: {
+                     normal: {
+                      width: 8,
+                      color: '#fff'
                     }
+                  } */
+              /* newGrow = {
+                 value: growthRate,
+                 itemStyle: {
+                     normal: {
+                         // color: 'rgba(252,230,48,1)',
+                         // barBorderRadius: 0,
+                         lineStyle:{
+                           color:config.upColor,
+                           type:'dashed'
+                         },
+                         label: {
+                             show: true,
+                             position: 'top',
+                             color: '#c9d0d7',
+                             formatter: function(p) {
+                                 return p.value > 0 ? (p.value) : '';
+                             }
+                         }
+                     }
+                 }
+               } */
+            } else {
+              this.data.growthRate.push(growthRate)
+              if (klineData.length - 3 === index) {
+                this.data.growthRateLast.push(growthRate)
+              } else {
+                this.data.growthRateLast.push(null)
+              }
+
+              newValue = {
+                value: value,
+                itemStyle: {
+                  normal: {
+                    color: value < 0 ? config.downColor : config.upColor,
+                    // borderColor: value < 0 ? config.downColor : config.upColor,
+                    borderType: '',
+                    borderWidth: 0
+                  }
                 }
               }
-            } */
-          }
-          // return newValue
-          // console.log(this.data.growthRateLast)
-          this.data.ydata.push(newValue)
 
-          // console.log(this.data.growthRate)
-          // console.log(this.lineType)
+              /* newGrow = {
+                value: growthRate,
+                itemStyle: {
+                  normal: {
+                      // color: 'rgba(252,230,48,1)',
+                      // barBorderRadius: 0,
+                      lineStyle:{
+                        color:config.upColor,
+                        type:'dashed'
+                      },
+                      label: {
+                          show: true,
+                          position: 'top',
+                          color: '#c9d0d7',
+                          formatter: function(p) {
+                              return p.value > 0 ? (p.value) : '';
+                          }
+                      }
+                  }
+                }
+              } */
+            }
+            // return newValue
+            // console.log(this.data.growthRateLast)
+            this.data.ydata.push(newValue)
+
+            // console.log(this.data.growthRate)
+            // console.log(this.lineType)
+          }
         } else { // 小于3的时候，不画预测的
           // console.log('小于3的时候')
           newValue = {

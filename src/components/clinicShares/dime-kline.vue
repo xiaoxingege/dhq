@@ -502,8 +502,8 @@ export default ({
             show: false
           },
           {
-            left: 35,
-            right: 10,
+            left: 45,
+            right: 15,
             bottom: 25,
             height: '27%',
             show: false
@@ -707,7 +707,7 @@ export default ({
             xAxisIndex: 1,
             yAxisIndex: 1,
             data: lineData.vols,
-            barCategoryGap: '3', // 需要根据宽度定
+            // barCategoryGap: '3', // 需要根据宽度定
             itemStyle: {
               normal: {
                 color: '#7fbe9e'
