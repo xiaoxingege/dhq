@@ -27,6 +27,9 @@
     },
     "z3tougu": {
       "port": 3000
+    },
+    "dhq": {
+      "port": 3001
     }
   },
   "devDependencies": {
