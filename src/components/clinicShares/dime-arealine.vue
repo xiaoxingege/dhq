@@ -260,6 +260,9 @@ export default ({
       const opt = {
         tooltip: {
           trigger: 'axis',
+          textStyle: {
+            color: '#c9d0d7'
+          },
           axisPointer: {
             type: 'cross',
             label: {
@@ -277,7 +280,7 @@ export default ({
                   }
                 }
               },
-              backgroundColor: '#777',
+              // backgroundColor: '#777',
               // padding:[20,0,10,10],
               textStyle: {
                 /* color:'#000',

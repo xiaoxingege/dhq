@@ -128,6 +128,7 @@
           this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
                 if(_height<this.innerHeight){
+                  this.$store.commit('setIsTop',false)
                   this.loadMore()
                 }
           })

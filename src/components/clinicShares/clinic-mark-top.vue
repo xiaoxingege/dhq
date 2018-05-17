@@ -496,7 +496,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -507,7 +507,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -518,7 +518,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -532,7 +532,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -543,7 +543,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">基本面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -554,7 +554,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -565,7 +565,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -576,7 +576,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">行业面：</div>
         <div class="no-value fl">无</div>
       </div>
