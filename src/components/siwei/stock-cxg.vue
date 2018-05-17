@@ -384,8 +384,8 @@ export default {
               },
               realtime: false,
               labelPrecision: 2,
-              startValue: 0.45,
-              endValue: 0.55
+              startValue: that.$store.state.bubbles.cxgZoom.startValue,
+              endValue: that.$store.state.bubbles.cxgZoom.endValue
             },
             {
               type: 'inside',
