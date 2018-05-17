@@ -848,7 +848,7 @@ export default {
 
       },
       themeList: [],
-      idMaiDian: this.$route.path.indexOf('dhqweb') !== -1
+      isMaiDian: this.$route.path.indexOf('dhqweb') !== -1
     }
   },
 
@@ -900,7 +900,7 @@ export default {
       // if (this.sortField === type && page) {
       //   return
       // }
-      if (this.idMaiDian) {
+      if (this.isMaiDian) {
         if (type === 'updown') { // 涨跌幅排序
           util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_zdf&userId=' + this.userId, 'WT.ti', document.title) // 点击涨跌幅排序打点
         } else if (type === 'keepDay') { // 连涨排序
@@ -963,7 +963,7 @@ export default {
       this.showAz = true
       this.list('updown')
       this.isStyle = 'none'
-      if (this.idMaiDian) {
+      if (this.isMaiDian) {
         util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_tc&userId=' + this.userId, 'WT.ti', document.title) // 点击全部题材打点
       }
     },
@@ -1020,7 +1020,7 @@ export default {
       this.$store.dispatch('z3sockjs/send', msg)
     },
     industryDetailMD(code, index) {
-      if (this.idMaiDian) {
+      if (this.isMaiDian) {
         util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_mc&userId=' + this.userId + '&rank=' + (10 * this.page + index + 1), 'WT.ti', document.title) // 点击题材名称打点
       }
       this.$router.push({
@@ -1060,6 +1060,9 @@ export default {
     }
   },
   mounted() {
+    if (this.isMaiDian) {
+      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm&userId=' + this.userId, 'WT.ti', document.title) // 进入行业排名页面打点
+    }
     this.query('hot')
     var _this = this
     this.$store.dispatch('topic/querySummary')
