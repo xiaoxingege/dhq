@@ -748,7 +748,7 @@ export default {
     },
     eventPoint() {
       var self = this
-      this.chart.on('mouseover', function(params) {
+      this.chart.on('click', function(params) {
         if (params.componentType === 'markPoint') {
           var iocnColor = ''
           var iconLeft = ''
@@ -877,12 +877,12 @@ export default {
           } */
         }
       })
-      this.chart.on('mouseout', function(params) {
-        var last = document.getElementById('toolpoint')
-        // last.removeChild(detail);
-        last.innerHTML = ''
+      /*    this.chart.on('mouseout', function(params) {
+            var last = document.getElementById('toolpoint')
+            // last.removeChild(detail);
+            last.innerHTML = ''
 
-      })
+          }) */
     },
     initTag() {
       const klineTags = this.allData.tags
