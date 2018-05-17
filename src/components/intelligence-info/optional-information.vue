@@ -74,8 +74,6 @@
         this.loadList()
       })
       this.updateNews()
-
-      console.log($('.pullUptoRefresh').offsetHeight)
     },
     computed: {
       ...mapState([

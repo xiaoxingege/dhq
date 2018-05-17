@@ -102,7 +102,6 @@ export default {
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
       state.newsId = newsIdArr.join(',')
-      console.log(state.newsId)
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
@@ -272,6 +271,7 @@ export default {
     setStockPool(state, result) {
       let data = result
       const stockPool = []
+      let innerCode =[]
       for(let item in data){
         if(data[item].poolType === 1){
           stockPool.push(data[item])
@@ -285,12 +285,11 @@ export default {
           state.innerCode = ''
         } else {
           for (let j = 0; j < equityPool.length; j++) {
-            state.innerCode += equityPool[j].innerCode + ','
+            state.innerCode = innerCode.push(equityPool[j].innerCode)
           }
-          let str = state.innerCode.substring(0, state.innerCode.length - 1)
-          state.innerCode = str
         }
       }
+      state.innerCode = innerCode.join(',')
     },
     setOptionalStockId(state, result) {
       state.optionalStockId = result.id
@@ -584,6 +583,7 @@ export default {
         return
       }
       return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=b438726b-0e70-4681-a972-c3bee3dadfef`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
