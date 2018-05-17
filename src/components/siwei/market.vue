@@ -423,6 +423,7 @@ export default {
         }]
       });
       this.chart.on('mouseover', (params) => {
+        if(params.seriesIndex === 0) return
         const position = {};
         const x = params.event.offsetX;
         const y = params.event.offsetY;
