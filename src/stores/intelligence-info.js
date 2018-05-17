@@ -597,7 +597,7 @@ export default {
     getTopicIndu({ commit }, { code,flag } ) {
       const url = `${domain}/openapi/news/chngPctList.shtml?code=${code}&flag=${flag}`
       return fetch(url, {
-        method: 'POST',
+        method: 'GET',
         mode: 'cors'
       }).then((res) => {
         return res.json()
