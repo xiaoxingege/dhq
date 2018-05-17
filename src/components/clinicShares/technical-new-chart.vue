@@ -748,8 +748,10 @@ export default {
     },
     eventPoint() {
       var self = this
-      this.chart.on('mouseover', function(params) {
+      this.chart.on('click', function(params) {
         if (params.componentType === 'markPoint') {
+          var iocnColor = ''
+          var iconLeft = ''
           // console.log(params);
           // console.log(params.data.coord[0])
           // console.log(params.event.offsetX);
@@ -762,6 +764,19 @@ export default {
           var elewidth = 300
           if ((left + elewidth) > 1200) {
             left = parseInt(params.event.offsetX) - 40 - 320;
+            if (params.color === '#56a870') {
+              iocnColor = 'green2'
+            } else if (params.color === '#ca4941') {
+              iocnColor = 'red2'
+            }
+            iconLeft = '283'
+          } else {
+            if (params.color === '#56a870') {
+              iocnColor = 'green'
+            } else if (params.color === '#ca4941') {
+              iocnColor = 'red'
+            }
+            iconLeft = '-20'
           }
           /* downtxt.appendChild(newSpan); */
           var klineTags = self.allData.tags
@@ -773,6 +788,7 @@ export default {
           var need1 = klineTags[timeNew][1]
           var need2 = klineTags[timeNew][2]
           var allStr = '';
+
           // console.log(need1)
           // console.log(need2)
 
@@ -794,6 +810,7 @@ export default {
                 }
               }
               allStr += oneStr1;
+              // iocnColor = 'green'
             }
           } else if (params.color === '#ca4941') { // red 对应的状态是 2
             for (var j = 0; j < need2.length; j++) {
@@ -808,10 +825,12 @@ export default {
                 }
               }
               allStr += oneStr2;
+              //  iocnColor = 'red'
             }
           }
           // console.log(allStr);
-          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><em id="triang" style="display:inline-block;width: 7px;height: 10px;background: url("../../assets/images/z3img/red-triangle.png") no-repeat;position: relative;top: -6px;left: -33px;"></em><div style="margin-top:-22px">' + coordTime + '</div>' + allStr + '</div>';
+          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><img src="http://i0.jrjimg.cn/Astock/' + iocnColor + '-triangle.png" style="position: relative;left: ' + iconLeft + 'px;"><div style="margin-top:-22px">' + coordTime + '</div>' + allStr + '</div>';
+
           /* var downtxt = document.getElementById('triang');
                  // var downtxt = document.createElement('span');
                   downtxt.class = 'triangle'; */
@@ -858,12 +877,12 @@ export default {
           } */
         }
       })
-      this.chart.on('mouseout', function(params) {
-        var last = document.getElementById('toolpoint')
-        // last.removeChild(detail);
-        last.innerHTML = ''
+      /*    this.chart.on('mouseout', function(params) {
+            var last = document.getElementById('toolpoint')
+            // last.removeChild(detail);
+            last.innerHTML = ''
 
-      })
+          }) */
     },
     initTag() {
       const klineTags = this.allData.tags

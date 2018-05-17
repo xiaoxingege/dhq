@@ -267,7 +267,8 @@ export default ({
           trigger: 'axis',
           padding: [10, 55, 10, 20],
           textStyle: {
-            align: 'left'
+            align: 'left',
+            color: '#c9d0d7'
           },
           showContent: true,
           axisPointer: {
@@ -287,7 +288,7 @@ export default ({
                   }
                 }
               },
-              backgroundColor: '#777',
+              // backgroundColor: '#777',
               // padding:[20,0,10,10],
               textStyle: {
                 /* color:'#000',

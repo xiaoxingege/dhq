@@ -309,8 +309,10 @@ export default ({
         data.markPointData.push({
           name: '压力位',
           coord: [data.times[0], stressPrice],
-          symbol: 'rect',
-          symbolSize: [86, 22],
+          // symbol: 'rect',
+          symbol: 'image://http://i0.jrjimg.cn/Astock/red-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['50%', '-65%'],
           itemStyle: {
             normal: {
 
@@ -323,8 +325,9 @@ export default ({
               // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
               // }
 
-              color: '#141518',
-              borderColor: config.upColor,
+              /* color: '#141518',
+               borderColor: config.upColor, */
+              color: config.upColor,
               borderWidth: 1,
               opacity: 0.5,
               lineStyle: {
@@ -335,8 +338,14 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: config.upColor,
-                fontSize: 12
+                // color: config.upColor,
+                color: '#fff',
+                fontSize: 12,
+                position: [8, 3],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '压力位：' + stressPrice
+                }
 
               }
             }
@@ -345,8 +354,11 @@ export default ({
         }, {
           name: '当前价',
           coord: [data.times[0], currPirce],
-          symbol: 'rect',
-          symbolSize: [88, 22],
+          symbol: 'image://http://i0.jrjimg.cn/Astock/white-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['160%', '-70%'],
+          /* symbol: 'rect',
+          symbolSize: [88, 22], */
           itemStyle: {
             normal: {
               color: '#141518',
@@ -361,8 +373,13 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: '#c9d0d7',
-                fontSize: 12
+                color: '#333',
+                fontSize: 12,
+                position: [8, 3],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '当前价：' + currPirce
+                }
 
               }
             }
@@ -371,8 +388,11 @@ export default ({
         }, {
           name: '支撑位',
           coord: [data.times[0], supportPrice],
-          symbol: 'rect',
-          symbolSize: [88, 22],
+          symbol: 'image://http://i0.jrjimg.cn/Astock/blue-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['50%', '65%'],
+          /* symbol: 'rect',
+           symbolSize: [88, 22], */
           itemStyle: {
             normal: {
               color: '#141518',
@@ -387,8 +407,13 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: '#1984ea',
-                fontSize: 12
+                color: '#fff',
+                fontSize: 12,
+                position: [8, 6],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '支撑位：' + supportPrice
+                }
 
               }
             }
@@ -437,6 +462,10 @@ export default ({
           trigger: 'axis',
           axisPointer: {
             type: 'cross'
+          },
+          textStyle: {
+
+            color: '#c9d0d7'
           },
           formatter: function(t) {
             var obj = t[0];
