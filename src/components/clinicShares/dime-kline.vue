@@ -231,6 +231,7 @@ export default ({
     init() {
 
       const klineData = [].concat(this.indexFace.datas.data).reverse()
+
       const stressPrice = Number(this.indexFace.datas.stressPrice).toFixed(2)
       //     const stressPrice = '0'
       const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
@@ -238,6 +239,11 @@ export default ({
       const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
       var data = this.data
       //   const supportPrice = '0'
+      /*    while (klineData.length<60) {
+             klineData.push([])
+             data.vols.push('')
+          }
+          */
       klineData.forEach((item) => {
         let time = ''
         time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
@@ -251,61 +257,50 @@ export default ({
         const volume = item.volume.toFixed(2)
         const prevClosePx = item.prevClosePx.toFixed(2)
         data.kdata.push([openPx, closePx, highPx, lowPx])
-        data.markLineData.push([{
-            coord: [data.times[0], stressPrice],
-            lineStyle: {
-              normal: {
-                color: config.upColor,
-                type: 'solid'
-              }
+        data.markLineData.push({
+          // coord: [data.times[0], stressPrice],
+          yAxis: stressPrice,
+          lineStyle: {
+            normal: {
+              color: config.upColor,
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], stressPrice],
-            lineStyle: {
-              normal: {
-                color: config.upColor,
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ], [{
-            coord: [data.times[0], currPirce],
-            lineStyle: {
-              normal: {
-                color: '#c9d0d7',
-                type: 'solid'
-              }
+        }, {
+          yAxis: currPirce,
+          lineStyle: {
+            normal: {
+              color: '#c9d0d7',
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], currPirce],
-            lineStyle: {
-              normal: {
-                color: '#c9d0d7',
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ], [{
-            coord: [data.times[0], supportPrice],
-            lineStyle: {
-              normal: {
-                color: '#1984ea',
-                type: 'solid'
-              }
+        }, {
+          yAxis: supportPrice,
+          lineStyle: {
+            normal: {
+              color: '#1984ea',
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], supportPrice],
-            lineStyle: {
-              normal: {
-                color: '#1984ea',
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ])
+        })
         data.markPointData.push({
           name: '压力位',
           coord: [data.times[0], stressPrice],
@@ -438,10 +433,11 @@ export default ({
           const dt = []
           data.kdata.push(dt)
           data.vols.push('')
+
         }
       }
       // return data
-
+      console.log(data.kdata)
       this.initKline()
     },
     initKline() {
