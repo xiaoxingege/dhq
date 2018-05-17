@@ -769,7 +769,7 @@ export default {
             } else if (params.color === '#ca4941') {
               iocnColor = 'red2'
             }
-            iconLeft = '296'
+            iconLeft = '268'
           } else {
             if (params.color === '#56a870') {
               iocnColor = 'green'

@@ -235,6 +235,7 @@ export default ({
       //     const stressPrice = '0'
       const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
       //  const currPirce = '0'
+      console.log(currPirce)
       const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
       var data = this.data
       //   const supportPrice = '0'
