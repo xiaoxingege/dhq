@@ -11,12 +11,12 @@
             <span class="name">{{item.title}}</span>
           </router-link>
         </div>
-        <div class="con-txt">
+        <!-- <div class="con-txt">
           <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
           </router-link>
           <span class="source">( {{item.srcName}} )</span>
-        </div>
+        </div> -->
         <div class="con-bottom">
           <ul class="stock">
               <li v-if="item.equity !==null"  class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
@@ -116,6 +116,7 @@
           this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' ,ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
             if(_height<this.innerHeight){
+              this.$store.commit('setIsTop',false)
               this.loadMore()
             }
           })
