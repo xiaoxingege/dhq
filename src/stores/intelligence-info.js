@@ -38,7 +38,8 @@ export default {
     topicList:[],
     induList:[],
     topicCode:'',
-    induCode:''
+    induCode:'',
+    newsId:[]
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -50,6 +51,7 @@ export default {
     loadingShow: state => state.loadingShow,
     newTime: state => state.newTime,
     lastTime: state => state.lastTime,
+    newsId: state => state.newsId,
     stockPool: state => state.stockPool,
     innerCode: state => state.innerCode,
     isTops: state => state.isTops,
@@ -64,36 +66,25 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
-      let temp = {} // 用于id判断重复
-      let result = [] // 最后的新数组
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        let c = state.temporary.concat(state.wisdomHeadlinesList)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-            result.push(item)
-            temp[item.newsId] = true
-          }
-        })
-        state.wisdomHeadlinesList = result
+        state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
       }else{
-        let c = state.temporary.concat(state.wisdomHeadlinesList)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-            result.push(item)
-            temp[item.newsId] = true
-          }
-        })
-        state.wisdomHeadlinesList = result
+        state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -110,6 +101,8 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
+      console.log(state.newsId)
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
@@ -117,36 +110,25 @@ export default {
         state.noData = true
       }
       const stocks = {}
-      let temp = {} // 用于id判断重复
-      let result = [] // 最后的新数组
+      let newsIdArr = []
       state.temporary = list.rows
       if(state.isTops === true){
-        let c = state.temporary.concat(state.optionalInformationList)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.optionalInformationList = result
+        state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
       } else {
-        let c =state.optionalInformationList.concat(state.temporary)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.optionalInformationList = result
+        state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
       }
-
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equity = intelligence.equityList
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
       }
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
@@ -155,36 +137,25 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
-      let temp = {} // 用于id判断重复
-      let result = [] // 最后的新数组
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        let c = state.temporary.concat(state.newsFlash)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.newsFlash = result
+        state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
-        let c = state.newsFlash.concat(state.temporary)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.newsFlash = result
+        state.newsFlash = state.newsFlash.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsFlash) {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -201,6 +172,7 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
@@ -209,36 +181,25 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
-      let temp = {} // 用于id判断重复
-      let result = [] // 最后的新数组
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        let c = state.temporary.concat(state.newsOpportunities)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.newsOpportunities = result
+        state.newsOpportunities =  state.temporary.concat(state.newsOpportunities)
       } else {
-        let c =  state.newsOpportunities.concat(state.temporary)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.newsOpportunities = result
+        state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsOpportunities) {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -255,6 +216,7 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
@@ -262,35 +224,25 @@ export default {
         state.noData = true
       }
       const stocks = {}
-      let temp = {} // 用于id判断重复
-      let result = [] // 最后的新数组
+      let newsIdArr = []
       state.temporary = list.rows
       if(state.isTops === true){
-        let c = state.temporary.concat(state.listedCompany)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.listedCompany = result
+        state.listedCompany = state.temporary.concat(state.listedCompany)
       } else {
-        let c =  state.listedCompany.concat(state.temporary)
-        c.map((item,index) => {
-          if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
-        })
-        state.listedCompany =  result
+        state.listedCompany =   state.listedCompany.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
         let equity = intelligence.equity
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
       }
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.UPDATE_RELSTOCK](state, stock) {
@@ -361,7 +313,6 @@ export default {
       for(let topic of result){
         topics[topic.code].chngPct =topic.chngPct !==null && topic.chngPct !==undefined ? Number(topic.chngPct.toFixed(2)) : ''
       }
-      console.log(JSON.stringify(state.topicList))
     },
     updateIndu(state,result){
       const inidus = state.induList
@@ -377,12 +328,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -408,12 +360,13 @@ export default {
       innerCode,
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -438,12 +391,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -469,12 +423,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -499,12 +454,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -529,12 +485,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -559,12 +516,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -589,12 +547,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -638,7 +597,7 @@ export default {
     getTopicIndu({ commit }, { code,flag } ) {
       const url = `${domain}/openapi/news/chngPctList.shtml?code=${code}&flag=${flag}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()

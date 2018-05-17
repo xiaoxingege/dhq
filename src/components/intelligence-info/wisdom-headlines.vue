@@ -76,6 +76,7 @@
         'wisdomHeadlinesList',
         'newTime',
         'lastTime',
+        'newsId',
         'isTops',
         'noData',
         'topicList'
@@ -88,7 +89,8 @@
         lastTime: 'lastTime',
         isTops:'isTops',
         noData:'noData',
-        topicList:'topicList'
+        topicList:'topicList',
+        newsId:'newsId'
       }),
       ...mapState({
         relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -111,16 +113,16 @@
     },
     methods: {
       loadList() {
-          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' }).then(() => {
+          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: '' ,ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
-                if(_height<this.innerHeight){
-                  this.loadMore()
-                }
+            if(_height<this.innerHeight){
+              this.loadMore()
+            }
           })
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.lastTime })
+        this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.lastTime , ids:this.newsId })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
@@ -132,7 +134,7 @@
         intervalId = setInterval(() => {
           console.log('启动定时器')
           console.log(intervalId)
-          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop:  true, newTime: this.newTime })
+          this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop:  true, newTime: this.newTime , ids:this.newsId })
         },this.intervalTime)
       },
       getScrollTop(e) {

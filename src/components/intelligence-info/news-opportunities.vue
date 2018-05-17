@@ -179,7 +179,8 @@
         'lastTime',
         'isTops',
         'noData',
-        'topicList'
+        'topicList',
+        'newsId'
       ]),
       ...mapGetters({
         loadingShow: 'loadingShow',
@@ -187,6 +188,7 @@
         newsOpportunities: 'newsOpportunities',
         newTime: 'newTime',
         lastTime:'lastTime',
+        newsId:'newsId',
         isTops:'isTops',
         noData:'noData',
         topicList:'topicList'
@@ -212,7 +214,7 @@
     },
     methods: {
       loadListInit() {
-          this.$store.dispatch('getAllChance', { page: this.page, isTop: false, newTime: '' }).then(() => {
+          this.$store.dispatch('getAllChance', { page: this.page, isTop: false, newTime: '' ,ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
             if(_height<this.innerHeight){
               this.$store.commit('setIsTop',false)
@@ -304,13 +306,13 @@
       },
       typeList(type,time){
         if(type === 0){
-          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime: time })
+          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime: time ,ids:this.newsId })
         }else if(type ===1){
-          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime: time })
+          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime: time ,ids:this.newsId })
         }else if(type ===2){
-          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime: time })
+          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime: time ,ids:this.newsId })
         }else if(type ===3){
-          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime: time })
+          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime: time ,ids:this.newsId })
         }
       },
       updateStock(stock) {

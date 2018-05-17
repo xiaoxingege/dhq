@@ -78,13 +78,15 @@
         'isTops',
         'loadingShow',
         'noData',
-        'topicList'
+        'topicList',
+        'newsId'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         newsFlash:'newsFlash',
         newTime:'newTime',
         lastTime:'lastTime',
+        newsId:'newsId',
         isTops:'isTops',
         loadingShow:'loadingShow',
         noData:'noData',
@@ -111,7 +113,7 @@
     },
     methods: {
       loadList() {
-        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' }).then(() => {
+        this.$store.dispatch('getNewsFlashList', { page:this.page,isTop:false,newTime:'' ,ids:'' }).then(() => {
           let _height = $('.news-list').get(0).offsetHeight
               if(_height<this.innerHeight){
                 this.loadMore()
@@ -121,7 +123,7 @@
       updateNews() {
         this.updateNewsPid = setInterval(() => {
           console.log('启动定时器'+this.updateNewsPid)
-          this.$store.dispatch('getNewsFlashList', { page:0, isTop:true, newTime: this.newTime })
+          this.$store.dispatch('getNewsFlashList', { page:0, isTop:true, newTime: this.newTime,ids:this.newsId })
         },this.intervalTime)
       },
       updateTopic() {
@@ -157,7 +159,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.lastTime })
+        this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.lastTime ,ids:this.newsId })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           setTimeout(() => {
