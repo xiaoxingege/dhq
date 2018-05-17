@@ -235,7 +235,6 @@ export default ({
       //     const stressPrice = '0'
       const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
       //  const currPirce = '0'
-      console.log(currPirce)
       const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
       var data = this.data
       //   const supportPrice = '0'
@@ -355,9 +354,9 @@ export default ({
         }, {
           name: '当前价',
           coord: [data.times[0], currPirce],
-          symbol: 'image://http://i0.jrjimg.cn/Astock/white-bj.png',
+          symbol: 'image://http://i0.jrjimg.cn/Astock/white3-bj.png',
           symbolSize: [92, 23],
-          symbolOffset: ['160%', '-70%'],
+          symbolOffset: ['160%', '65%'],
           /* symbol: 'rect',
           symbolSize: [88, 22], */
           itemStyle: {
@@ -376,7 +375,7 @@ export default ({
                 // fontWeight:'bold',
                 color: '#333',
                 fontSize: 12,
-                position: [8, 3],
+                position: [7, 7],
                 formatter: function(params) {
                   // console.log(params)
                   return '当前价：' + currPirce
