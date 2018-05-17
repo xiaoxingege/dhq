@@ -31,7 +31,7 @@ export default {
     }),
     indexRange: function() {
       // 过滤0数据，算最大最小值。
-      const data = this.indexArr.filter(value => value !== null).slice(0, 181);
+      const data = this.indexArr.filter(value => value !== null);
       const closePx = Number(this.indexData.closePx.toFixed(2));
       const maxData = Math.max(...data);
       const minData = Math.min(...data);
