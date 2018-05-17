@@ -31,7 +31,7 @@ export default {
     }),
     indexRange: function() {
       // 过滤0数据，算最大最小值。
-      const data = this.indexArr.filter(value => value !== null);
+      const data = this.indexArr.filter(value => value !== null).slice(0, 181);
       const closePx = Number(this.indexData.closePx.toFixed(2));
       const maxData = Math.max(...data);
       const minData = Math.min(...data);
@@ -186,13 +186,17 @@ export default {
       this.markLineData = [];
       this.plates.forEach((plate) => {
         const time = this.formatTime(plate.tradeMin);
+        console.info(time);
         const riseSpeed = plate.riseSpeed;
         const name = plate.idxName;
         const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        console.info(itemIndex);
         const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
-          const coordY = riseSpeed >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
+          // 如果coordY超过min max 则显示不出来，避免因为计算（四舍五入）导致超界，做-1操作。
+          const coordY = riseSpeed >= 0 ? itemIndex + (interval / 2 - 1) : itemIndex - (interval / 2 - 1);
+          console.info();
           let point = {
             coord: [time, coordY],
             symbolSize: [markPointSize, 20],

@@ -295,7 +295,8 @@ export default {
             color: '#ccc'
           },
           axisLine: {
-            show: false
+            show: false,
+            onZero: false
           },
           splitLine: {
             show: true,
@@ -755,6 +756,7 @@ export default {
     padding: 2px 8px;
     overflow: hidden;
     margin: 0 0 4px;
+    cursor: pointer;
     .stockList {
         color: #b8b8b8;
     }
