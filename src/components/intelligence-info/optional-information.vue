@@ -170,7 +170,7 @@
         if(count === this.page + 1){
           setTimeout(() => {
             this.$store.commit('setNoData',true)
-          },300)
+          },500)
         }
       },
       cutStr(str, len) {
@@ -216,7 +216,6 @@
           str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
         this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
-        // this.loadList()
         this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',ids:'' })
         if(this.scrollTop === 0){
             this.$store.commit('setIsTop',true)

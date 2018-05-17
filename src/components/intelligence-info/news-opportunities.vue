@@ -229,7 +229,7 @@
         if (count === this.page + 1) {
           setTimeout(() => {
             this.$store.commit('setNoData',true)
-          },300)
+          },500)
         }
       },
       updateNews() {
