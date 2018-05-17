@@ -769,14 +769,14 @@ export default {
             } else if (params.color === '#ca4941') {
               iocnColor = 'red2'
             }
-            iconLeft = '283'
+            iconLeft = '296'
           } else {
             if (params.color === '#56a870') {
               iocnColor = 'green'
             } else if (params.color === '#ca4941') {
               iocnColor = 'red'
             }
-            iconLeft = '-20'
+            iconLeft = '-7'
           }
           /* downtxt.appendChild(newSpan); */
           var klineTags = self.allData.tags
@@ -829,7 +829,7 @@ export default {
             }
           }
           // console.log(allStr);
-          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><img src="http://i0.jrjimg.cn/Astock/' + iocnColor + '-triangle.png" style="position: relative;left: ' + iconLeft + 'px;"><div style="margin-top:-22px">' + coordTime + '</div>' + allStr + '</div>';
+          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><img src="http://i0.jrjimg.cn/Astock/' + iocnColor + '-triangle.png" style="position: absolute;left: ' + iconLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr + '</div>';
 
           /* var downtxt = document.getElementById('triang');
                  // var downtxt = document.createElement('span');
