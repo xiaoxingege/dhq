@@ -75,6 +75,7 @@
         'pageSize',
         'wisdomHeadlinesList',
         'newTime',
+        'lastTime',
         'isTops',
         'noData',
         'topicList'
@@ -84,6 +85,7 @@
         pageSize: 'pageSize',
         wisdomHeadlinesList: 'wisdomHeadlinesList',
         newTime: 'newTime',
+        lastTime: 'lastTime',
         isTops:'isTops',
         noData:'noData',
         topicList:'topicList'
@@ -118,7 +120,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.newTime })
+        this.$store.dispatch('getWisdomHeadlinesList', { page: this.page, isTop: false, newTime: this.lastTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {

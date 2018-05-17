@@ -82,6 +82,7 @@
         'optionalInformationList',
         'stockPool',
         'newTime',
+        'lastTime',
         'pageSize',
         'optionalStockId',
         'innerCode',
@@ -94,6 +95,7 @@
         optionalInformationList:'optionalInformationList',
         stockPool:'stockPool',
         newTime:'newTime',
+        lastTime:'lastTime',
         optionalStockId:'optionalStockId',
         innerCode:'innerCode',
         loadingShow:'loadingShow',
@@ -161,7 +163,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.newTime })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.lastTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           setTimeout(() => {

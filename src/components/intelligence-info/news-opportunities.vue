@@ -176,6 +176,7 @@
         'pageSize',
         'newsOpportunities',
         'newTime',
+        'lastTime',
         'isTops',
         'noData',
         'topicList'
@@ -185,6 +186,7 @@
         pageSize: 'pageSize',
         newsOpportunities: 'newsOpportunities',
         newTime: 'newTime',
+        lastTime:'lastTime',
         isTops:'isTops',
         noData:'noData',
         topicList:'topicList'
@@ -220,7 +222,7 @@
       },
       loadMore() {
         this.page++
-        this.typeList(this.typeIndex)
+        this.typeList(this.typeIndex,this.lastTime)
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
@@ -234,7 +236,7 @@
           this.$store.commit('setIsTop',true)
           console.log('启动定时器')
           console.log(intervalId)
-          this.typeList(this.typeIndex)
+          this.typeList(this.typeIndex,this.newTime)
         },this.intervalTime)
       },
       updateTopic() {
@@ -298,17 +300,17 @@
         this.typeIndex = index
         this.page = 0
         this.$store.commit('setNewsOpportunitiesInit',[])
-        this.typeList(this.typeIndex)
+        this.typeList(this.typeIndex,'')
       },
-      typeList(type){
+      typeList(type,time){
         if(type === 0){
-          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime: time })
         }else if(type ===1){
-          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime: time })
         }else if(type ===2){
-          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime: time })
         }else if(type ===3){
-          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime: this.newTime })
+          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime: time })
         }
       },
       updateStock(stock) {

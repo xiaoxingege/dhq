@@ -28,6 +28,7 @@ export default {
     pageSize: PAGE_SIZE, // 默认页数
     loadingShow: true, // 加载中状态
     newTime: '',
+    lastTime:'',
     userId: '',
     optionalStockId:'',
     stockPool: null, // 股票池列表
@@ -48,6 +49,7 @@ export default {
     pageSize: state => state.pageSize,
     loadingShow: state => state.loadingShow,
     newTime: state => state.newTime,
+    lastTime: state => state.lastTime,
     stockPool: state => state.stockPool,
     innerCode: state => state.innerCode,
     isTops: state => state.isTops,
@@ -62,23 +64,30 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let temp = {} // 用于id判断重复
+      let result = [] // 最后的新数组
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        var temp = {} // 用于id判断重复
-        var result = [] // 最后的新数组
-        var c = state.temporary.concat(state.wisdomHeadlinesList)
+        let c = state.temporary.concat(state.wisdomHeadlinesList)
         c.map((item,index) => {
           if(!temp[item.newsId]){
-              result.push(item)
-              temp[item.newsId] = true
-            }
+            result.push(item)
+            temp[item.newsId] = true
+          }
         })
         state.wisdomHeadlinesList = result
       }else{
-        state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
+        let c = state.temporary.concat(state.wisdomHeadlinesList)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+            result.push(item)
+            temp[item.newsId] = true
+          }
+        })
+        state.wisdomHeadlinesList = result
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.wisdomHeadlinesList) {
@@ -108,11 +117,11 @@ export default {
         state.noData = true
       }
       const stocks = {}
+      let temp = {} // 用于id判断重复
+      let result = [] // 最后的新数组
       state.temporary = list.rows
       if(state.isTops === true){
-        var temp = {} // 用于id判断重复
-        var result = [] // 最后的新数组
-        var c = state.temporary.concat(state.optionalInformationList)
+        let c = state.temporary.concat(state.optionalInformationList)
         c.map((item,index) => {
           if(!temp[item.newsId]){
               result.push(item)
@@ -121,8 +130,16 @@ export default {
         })
         state.optionalInformationList = result
       } else {
-        state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
+        let c =state.optionalInformationList.concat(state.temporary)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.optionalInformationList = result
       }
+
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equity = intelligence.equityList
@@ -138,14 +155,14 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let temp = {} // 用于id判断重复
+      let result = [] // 最后的新数组
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        var temp = {} // 用于id判断重复
-        var result = [] // 最后的新数组
-        var c = state.temporary.concat(state.newsFlash)
+        let c = state.temporary.concat(state.newsFlash)
         c.map((item,index) => {
           if(!temp[item.newsId]){
               result.push(item)
@@ -154,7 +171,14 @@ export default {
         })
         state.newsFlash = result
       } else {
-        state.newsFlash = state.newsFlash.concat(state.temporary)
+        let c = state.newsFlash.concat(state.temporary)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.newsFlash = result
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsFlash) {
@@ -185,14 +209,14 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let temp = {} // 用于id判断重复
+      let result = [] // 最后的新数组
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
-        var temp = {} // 用于id判断重复
-        var result = [] // 最后的新数组
-        var c = state.temporary.concat(state.newsOpportunities)
+        let c = state.temporary.concat(state.newsOpportunities)
         c.map((item,index) => {
           if(!temp[item.newsId]){
               result.push(item)
@@ -201,7 +225,14 @@ export default {
         })
         state.newsOpportunities = result
       } else {
-        state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
+        let c =  state.newsOpportunities.concat(state.temporary)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.newsOpportunities = result
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.newsOpportunities) {
@@ -231,12 +262,12 @@ export default {
         state.noData = true
       }
       const stocks = {}
+      let temp = {} // 用于id判断重复
+      let result = [] // 最后的新数组
       state.temporary = list.rows
       if(state.isTops === true){
-        var temp = {} // 用于id判断重复
-        var result = [] // 最后的新数组
-        var c = state.temporary.concat(state.listedCompany)
-        c.map( (item,index) => {
+        let c = state.temporary.concat(state.listedCompany)
+        c.map((item,index) => {
           if(!temp[item.newsId]){
               result.push(item)
               temp[item.newsId] = true
@@ -244,7 +275,14 @@ export default {
         })
         state.listedCompany = result
       } else {
-        state.listedCompany = state.listedCompany.concat(state.temporary)
+        let c =  state.listedCompany.concat(state.temporary)
+        c.map((item,index) => {
+          if(!temp[item.newsId]){
+              result.push(item)
+              temp[item.newsId] = true
+            }
+        })
+        state.listedCompany =  result
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
@@ -272,10 +310,17 @@ export default {
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
       }
     },
+    getLastTime(state, time) {
+      if(time === null || time === ''){
+          state.lastTime = time
+      }else{
+        state.lastTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+      }
+    },
     setStockPool(state, result) {
-      var data = result
+      let data = result
       const stockPool = []
-      for(var item in data){
+      for(let item in data){
         if(data[item].poolType === 1){
           stockPool.push(data[item])
         }
@@ -283,14 +328,14 @@ export default {
       state.stockPool = stockPool
       for(let i = 0; i< stockPool.length; i++) {
         state.optionalStockId = stockPool[0].poolId
-        var equityPool = stockPool[0].equityPool
+        let equityPool = stockPool[0].equityPool
         if(equityPool === null){
           state.innerCode = ''
         } else {
           for (let j = 0; j < equityPool.length; j++) {
             state.innerCode += equityPool[j].innerCode + ','
           }
-          var str = state.innerCode.substring(0, state.innerCode.length - 1)
+          let str = state.innerCode.substring(0, state.innerCode.length - 1)
           state.innerCode = str
         }
       }
@@ -345,6 +390,7 @@ export default {
         if (result.errCode === 0) {
           commit(types.SET_WISDOMHEADLINES_LIST, result.data)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit('setMask', false)
         } else {
           commit('ERROR', result, {
@@ -375,6 +421,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
         } else {
           commit('ERROR', result, {
@@ -404,6 +451,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSFLASH_LIST, result.data)
         } else {
           commit('ERROR', result, {
@@ -434,6 +482,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -463,6 +512,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -492,6 +542,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -521,6 +572,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -550,6 +602,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_LISTEDCOMPANY_LIST, result.data);
         } else {
           commit('ERROR', result, {

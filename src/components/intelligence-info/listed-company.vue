@@ -50,7 +50,7 @@
       return {
         page: 0,
         totalPage: 300,
-        intervalTime: 6000,
+        intervalTime: 60000,
         scrollTop: 0,
         innerHeight: window.innerHeight
       }
@@ -65,6 +65,7 @@
         'pageSize',
         'listedCompany',
         'newTime',
+        'lastTime',
         'isTops',
         'noData'
       ]),
@@ -73,6 +74,7 @@
         pageSize: 'pageSize',
         listedCompany: 'listedCompany',
         newTime: 'newTime',
+        lastTime:'lastTime',
         isTops:'isTops',
         noData:'noData'
       }),
@@ -105,7 +107,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.lastTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {

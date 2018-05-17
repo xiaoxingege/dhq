@@ -73,6 +73,7 @@
       ...mapState([
         'newsFlash',
         'newTime',
+        'lastTime',
         'pageSize',
         'isTops',
         'loadingShow',
@@ -83,6 +84,7 @@
         pageSize:'pageSize',
         newsFlash:'newsFlash',
         newTime:'newTime',
+        lastTime:'lastTime',
         isTops:'isTops',
         loadingShow:'loadingShow',
         noData:'noData',
@@ -155,7 +157,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.newTime })
+        this.$store.dispatch('getNewsFlashList', { page:this.page, isTop:false, newTime: this.lastTime })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           setTimeout(() => {
