@@ -379,7 +379,7 @@ input[type=number]::-webkit-outer-spin-button {
         <div class="template mt-10">
           <p style="display: inline-block">常用推荐:</p>
           <select @change="changeTmp($event)" v-model="tmpId">
-            <option v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
+            <option v-if="key !== 'mkt_idx.volume_ratio'" v-for="(tmp,key) in templateList" :value="key" @click="showOptionValue(this)">{{tmp.name}}
             </option>
           </select>
         </div>
@@ -388,7 +388,7 @@ input[type=number]::-webkit-outer-spin-button {
           <div>
             <select ref="xData" v-model="dimensionOptions.xDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in xDataList" :value="key"
-                        :style="{display:((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                        :style="{display:(((dimensionOptions.yDefault==='order' || dimensionOptions.yDefault==='sw_indu_name' || dimensionOptions.yDefault==='chi_spel') && key==='order') || key === 'mkt_idx.volume_ratio' || key === 'mkt_idx.exchr' || key === 'accum_chg_pct' || key === 'up_limit_num' || key === 'accum_chg_pct_up_term' || key === 'up_limit_last_day_data.up_limit_term_num' || key === 'up_limit_last_day_data.cont_up_limit_days_num') === true ? 'none' : 'block'}">
                   {{val}}
                 </option>
               </select>
@@ -399,7 +399,7 @@ input[type=number]::-webkit-outer-spin-button {
           <div>
             <select ref="yData" v-model="dimensionOptions.yDefault" @change="showSelectData('dimension')">
                 <option v-for="(val,key) in xDataList" :value="key"
-                        :style="{display:((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') === true ? 'none' : 'block'}">
+                        :style="{display:(((dimensionOptions.xDefault==='order' || dimensionOptions.xDefault==='sw_indu_name' || dimensionOptions.xDefault==='chi_spel') && key==='order') || key === 'mkt_idx.volume_ratio' || key === 'mkt_idx.exchr' || key === 'accum_chg_pct' || key === 'up_limit_num' || key === 'accum_chg_pct_up_term' || key === 'up_limit_last_day_data.up_limit_term_num' || key === 'up_limit_last_day_data.cont_up_limit_days_num') === true ? 'none' : 'block'}">
                   {{val}}
                 </option>
               </select>
