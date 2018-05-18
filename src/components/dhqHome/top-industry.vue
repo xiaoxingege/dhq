@@ -213,13 +213,13 @@ export default {
       }
     },
     toTopicDetail: function(topicCode, index) {
-      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_tc&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_zs&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     },
     toIndustryDetail: function(code, index) {
-      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_hy&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_zs&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (code) {
         window.open(ctx + '/industry/' + code.split('.')[0])
       }

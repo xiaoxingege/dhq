@@ -156,7 +156,9 @@ export default {
         '000852': '中证1000'
       },
       strategyId: '',
-      isResizeBottomChart: ''
+      isResizeBottomChart: '',
+      userId: this.$store.state.user.userId,
+      isHaveKey: false
     }
   },
   props: [''],
@@ -182,7 +184,16 @@ export default {
     }
   },
   mounted() {
-
+    const cookieArr = document.cookie.split(';')
+    for (let i = 0; i < cookieArr.length; i++) {
+      if (cookieArr[i].split('=')[0] === 'JRJ.SSOUser_SDC') {
+        this.isHaveKey = true
+        break
+      }
+    }
+    if (!this.isHaveKey) {
+      document.cookie = 'JRJ.SSOUser_SDC=' + new Date().getTime() + '|' + this.userId
+    }
   }
 }
 </script>
