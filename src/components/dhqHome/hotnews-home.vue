@@ -148,7 +148,7 @@ export default {
     },
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     updateNews: function() {
       const _this = this

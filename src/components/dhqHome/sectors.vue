@@ -210,7 +210,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title)
     },
     initSectors(date) {
       this.$store.dispatch('dhqIndex/getSectorsData', {
@@ -243,7 +243,7 @@ export default {
       }
     },
     linkStock: function(innerCode) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_syph_gg&userId=' + this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_syph_gg&userId=' + this.userId, 'WT.ti', document.title)
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }

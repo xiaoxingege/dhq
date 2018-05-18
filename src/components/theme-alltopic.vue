@@ -902,15 +902,15 @@ export default {
       // }
       if (this.isMaiDian) {
         if (type === 'updown') { // 涨跌幅排序
-          util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_zdf&userId=' + this.userId, 'WT.ti', document.title) // 点击涨跌幅排序打点
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_zdf&userId=' + this.userId, 'WT.ti', document.title) // 点击涨跌幅排序打点
         } else if (type === 'keepDay') { // 连涨排序
-          util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_lz&userId=' + this.userId, 'WT.ti', document.title) // 点击连涨排序打点
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_lz&userId=' + this.userId, 'WT.ti', document.title) // 点击连涨排序打点
         } else if (type === 'hot') { // 热度排序
-          util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_rd&userId=' + this.userId, 'WT.ti', document.title) // 点击热度排序打点
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_rd&userId=' + this.userId, 'WT.ti', document.title) // 点击热度排序打点
         } else if (type === 'infoIndex') { // 舆情排序
-          util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_yq&userId=' + this.userId, 'WT.ti', document.title) // 点击舆情排序打点
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_yq&userId=' + this.userId, 'WT.ti', document.title) // 点击舆情排序打点
         } else if (type === 'time') { // 时间排序
-          util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_sj&userId=' + this.userId, 'WT.ti', document.title) // 点击时间排序打点
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_sj&userId=' + this.userId, 'WT.ti', document.title) // 点击时间排序打点
         }
       }
       this.sortField = type
@@ -964,7 +964,7 @@ export default {
       this.list('updown')
       this.isStyle = 'none'
       if (this.isMaiDian) {
-        util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_tc&userId=' + this.userId, 'WT.ti', document.title) // 点击全部题材打点
+        util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_tc&userId=' + this.userId, 'WT.ti', document.title) // 点击全部题材打点
       }
     },
     enterTopictit(e) {
@@ -1021,7 +1021,7 @@ export default {
     },
     industryDetailMD(code, index) {
       if (this.isMaiDian) {
-        util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm_mc&userId=' + this.userId + '&rank=' + (10 * this.page + index + 1), 'WT.ti', document.title) // 点击题材名称打点
+        util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_mc&userId=' + this.userId + '&rank=' + (10 * this.page + index + 1), 'WT.ti', document.title) // 点击题材名称打点
       }
       this.$router.push({
         name: 'industryDetail',
@@ -1061,7 +1061,7 @@ export default {
   },
   mounted() {
     if (this.isMaiDian) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_tcpm&userId=' + this.userId, 'WT.ti', document.title) // 进入行业排名页面打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm&userId=' + this.userId, 'WT.ti', document.title) // 进入行业排名页面打点
     }
     this.query('hot')
     var _this = this

@@ -262,10 +262,10 @@ export default {
       return m + '/' + d
     },
     chartMaiDian: function() {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sywdj_ck&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sywdj_ck&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
     },
     helpMaiDian: function() {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sywdj_ask&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sywdj_ask&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
     }
   },
   mounted() {

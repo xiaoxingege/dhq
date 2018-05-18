@@ -199,7 +199,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     initPreferredStock() {
       if (this.type === 'topicTop') {
@@ -225,7 +225,7 @@ export default {
       }
     },
     linkStock: function(innerCode) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_syyx_gg&userId=' + this.userId, 'WT.ti', document.title) // 点击进入优选股票打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_syyx_gg&userId=' + this.userId, 'WT.ti', document.title) // 点击进入优选股票打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }

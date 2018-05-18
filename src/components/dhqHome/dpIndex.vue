@@ -207,7 +207,7 @@ export default {
       this.isDbClick('click', item)
     },
     toMarketDetail: function(item) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
       clearTimeout(this.timeoutID)
       this.isDbClick('dblclick', item)
     },

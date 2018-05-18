@@ -176,7 +176,7 @@ export default {
   methods: {
     changeNavType(data) {
       this.type = data
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=' + this.pointKey[data] + '&userId=' + this.userId, 'WT.ti', document.title) // 点击tab打点
     },
     initTopIndustry(date) {
       if (this.type === 'industry') {
@@ -207,19 +207,19 @@ export default {
       }
     },
     linkStock: function(innerCode, index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_gg&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击龙头股打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_gg&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击龙头股打点
       if (innerCode) {
         window.open('/stock/' + innerCode)
       }
     },
     toTopicDetail: function(topicCode, index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_tc&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_tc&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (topicCode) {
         window.open(ctx + '/topic/' + topicCode)
       }
     },
     toIndustryDetail: function(code, index) {
-      util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sybkzs_hy&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sybkzs_hy&userId=' + this.userId + '&rank=' + (index + 1), 'WT.ti', document.title) // 点击板块指数打点
       if (code) {
         window.open(ctx + '/industry/' + code.split('.')[0])
       }

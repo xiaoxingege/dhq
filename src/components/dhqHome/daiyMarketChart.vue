@@ -61,7 +61,7 @@ export default {
       stockVal: null,
       upDown: null,
       upDownExtent: null,
-      userId:this.$store.state.user.userId
+      userId: this.$store.state.user.userId
     }
   },
   components: {},
@@ -288,8 +288,8 @@ export default {
         }]
       })
     },
-    toZhiShu(){
-        util.dcsMultiTrack('DCS.dcsuri', window.location.href + '?point=click_sy_zhishu&userId='+this.userId, 'WT.ti', document.title)
+    toZhiShu() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
     }
   },
   watch: {
