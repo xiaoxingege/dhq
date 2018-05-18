@@ -122,7 +122,7 @@
         intervalId = setInterval(() => {
           console.log('启动定时器')
           console.log(intervalId)
-          this.$store.dispatch('getListedCompany', { page:0, isTop: this.isTops, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId  })
+          this.$store.dispatch('getListedCompany', { page:0, isTop: true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId  })
         },this.intervalTime)
       },
       getScrollTop(e) {
