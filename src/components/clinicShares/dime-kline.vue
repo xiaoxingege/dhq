@@ -437,7 +437,7 @@ export default ({
         }
       }
       // return data
-      console.log(data.kdata)
+      //  console.log(data.kdata)
       this.initKline()
     },
     initKline() {
