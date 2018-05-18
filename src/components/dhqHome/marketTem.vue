@@ -84,7 +84,7 @@ export default {
             trigger: 'axis',
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑',
+              fontFamily: 'Microsoft YaHei',
               fontSize: 12,
               color: '#c9d0d7'
             },

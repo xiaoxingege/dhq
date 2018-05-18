@@ -3,7 +3,7 @@
 @import "../../assets/scss/style";
 * {
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: 'Microsoft YaHei';
     font-size: $fontSizeBase;
 }
 
