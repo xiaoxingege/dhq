@@ -118,10 +118,10 @@
           <ul class="stock">
             <li v-if="item.equity !==null" class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
               <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-                    <span>{{item.equity.name}}</span>
-                    <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
-                    <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
-                  </a>
+                  <span>{{item.equity.name}}</span>
+                  <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
+                  <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
+                </a>
             </li>
             <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
             <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | chngPct}}</span></a></li>
@@ -197,15 +197,19 @@ export default {
       'pageSize',
       'newsOpportunities',
       'newTime',
+      'lastTime',
       'isTops',
       'noData',
-      'topicList'
+      'topicList',
+      'newsId'
     ]),
     ...mapGetters({
       loadingShow: 'loadingShow',
       pageSize: 'pageSize',
       newsOpportunities: 'newsOpportunities',
       newTime: 'newTime',
+      lastTime: 'lastTime',
+      newsId: 'newsId',
       isTops: 'isTops',
       noData: 'noData',
       topicList: 'topicList'
@@ -234,22 +238,25 @@ export default {
       this.$store.dispatch('getAllChance', {
         page: this.page,
         isTop: false,
-        newTime: ''
+        newTime: '',
+        nextTime: '',
+        ids: ''
       }).then(() => {
         let _height = $('.news-list').get(0).offsetHeight
         if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
           this.loadMore()
         }
       })
     },
     loadMore() {
       this.page++
-        this.typeList(this.typeIndex)
+        this.typeList(this.typeIndex, this.newTime, this.lastTime)
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
           this.$store.commit('setNoData', true)
-        }, 300)
+        }, 500)
       }
     },
     updateNews() {
@@ -258,7 +265,7 @@ export default {
         this.$store.commit('setIsTop', true)
         console.log('启动定时器')
         console.log(intervalId)
-        this.typeList(this.typeIndex)
+        this.typeList(this.typeIndex, this.newTime, this.lastTime)
       }, this.intervalTime)
     },
     updateTopic() {
@@ -325,32 +332,40 @@ export default {
       this.typeIndex = index
       this.page = 0
       this.$store.commit('setNewsOpportunitiesInit', [])
-      this.typeList(this.typeIndex)
+      this.typeList(this.typeIndex, '', '')
     },
-    typeList(type) {
+    typeList(type, newTime, nextTime) {
       if (type === 0) {
         this.$store.dispatch('getAllChance', {
           page: this.page,
           isTop: this.isTops,
-          newTime: this.newTime
+          newTime: newTime,
+          nextTime: nextTime,
+          ids: this.newsId
         })
       } else if (type === 1) {
         this.$store.dispatch('getStockChance', {
           page: this.page,
           isTop: this.isTops,
-          newTime: this.newTime
+          newTime: newTime,
+          nextTime: nextTime,
+          ids: this.newsId
         })
       } else if (type === 2) {
         this.$store.dispatch('getTopicChance', {
           page: this.page,
           isTop: this.isTops,
-          newTime: this.newTime
+          newTime: newTime,
+          nextTime: nextTime,
+          ids: this.newsId
         })
       } else if (type === 3) {
         this.$store.dispatch('getProductChance', {
           page: this.page,
           isTop: this.isTops,
-          newTime: this.newTime
+          newTime: newTime,
+          nextTime: nextTime,
+          ids: this.newsId
         })
       }
     },

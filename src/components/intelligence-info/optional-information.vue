@@ -83,26 +83,28 @@ export default {
       this.loadList()
     })
     this.updateNews()
-
-    console.log($('.pullUptoRefresh').offsetHeight)
   },
   computed: {
     ...mapState([
       'optionalInformationList',
       'stockPool',
       'newTime',
+      'lastTime',
       'pageSize',
       'optionalStockId',
       'innerCode',
       'loadingShow',
       'isTops',
-      'noData'
+      'noData',
+      'newsId'
     ]),
     ...mapGetters({
       pageSize: 'pageSize',
       optionalInformationList: 'optionalInformationList',
       stockPool: 'stockPool',
       newTime: 'newTime',
+      lastTime: 'lastTime',
+      newsId: 'newsId',
       optionalStockId: 'optionalStockId',
       innerCode: 'innerCode',
       loadingShow: 'loadingShow',
@@ -134,10 +136,13 @@ export default {
           innerCode: this.innerCode,
           page: this.page,
           isTop: false,
-          newTime: ''
+          newTime: '',
+          nextTime: '',
+          ids: ''
         }).then(() => {
           let _height = $('.news-list').get(0).offsetHeight
           if (_height < this.innerHeight) {
+            this.$store.commit('setIsTop', false)
             this.loadMore()
           }
         })
@@ -151,7 +156,9 @@ export default {
           innerCode: this.innerCode,
           page: 0,
           isTop: true,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       }, this.intervalTime)
     },
@@ -184,13 +191,15 @@ export default {
           innerCode: this.innerCode,
           page: this.page,
           isTop: false,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
           this.$store.commit('setNoData', true)
-        }, 300)
+        }, 500)
       }
     },
     cutStr(str, len) {
@@ -239,12 +248,13 @@ export default {
         id: id,
         innerCode: str
       })
-      // this.loadList()
       this.$store.dispatch('getOptionalInformation', {
         innerCode: this.innerCode,
         page: 0,
         isTop: false,
-        newTime: ''
+        newTime: '',
+        nextTime: '',
+        ids: ''
       })
       if (this.scrollTop === 0) {
         this.$store.commit('setIsTop', true)

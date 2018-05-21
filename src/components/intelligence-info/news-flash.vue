@@ -22,10 +22,10 @@
               <ul class="stock">
                 <li v-if="item.equity !==null" class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
                   <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
-                      <span>{{item.equity.name}}</span>
-                      <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
-                      <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
-                    </a>
+                    <span>{{item.equity.name}}</span>
+                    <span>{{relatedStocks[item.equity.code].price  | isNull | price}}</span>
+                    <span>{{relatedStocks[item.equity.code].chngPct  | chngPct }}</span>
+                  </a>
                 </li>
                 <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
                 <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(topicList[item.topic.code].chngPct)">
@@ -82,16 +82,20 @@ export default {
     ...mapState([
       'newsFlash',
       'newTime',
+      'lastTime',
       'pageSize',
       'isTops',
       'loadingShow',
       'noData',
-      'topicList'
+      'topicList',
+      'newsId'
     ]),
     ...mapGetters({
       pageSize: 'pageSize',
       newsFlash: 'newsFlash',
       newTime: 'newTime',
+      lastTime: 'lastTime',
+      newsId: 'newsId',
       isTops: 'isTops',
       loadingShow: 'loadingShow',
       noData: 'noData',
@@ -121,10 +125,13 @@ export default {
       this.$store.dispatch('getNewsFlashList', {
         page: this.page,
         isTop: false,
-        newTime: ''
+        newTime: '',
+        nextTime: '',
+        ids: ''
       }).then(() => {
         let _height = $('.news-list').get(0).offsetHeight
         if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
           this.loadMore()
         }
       })
@@ -135,7 +142,9 @@ export default {
         this.$store.dispatch('getNewsFlashList', {
           page: 0,
           isTop: true,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       }, this.intervalTime)
     },
@@ -178,13 +187,15 @@ export default {
         this.$store.dispatch('getNewsFlashList', {
           page: this.page,
           isTop: false,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
           this.$store.commit('setNoData', true)
-        }, 300)
+        }, 500)
       }
     },
     cutStr(str, len) {

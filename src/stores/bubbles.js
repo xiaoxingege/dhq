@@ -65,7 +65,12 @@ export default {
       condition: [],
       szIndex: []
     },
-    ystLineData: []
+    ystLineData: [],
+    cxgZoom: {
+      startValue: null,
+      endValue: null
+    },
+    isInit: true
 
   },
   mutations: {
@@ -179,6 +184,14 @@ export default {
         seriesData: []
       }
       if (result.body.errCode === 0) {
+        for (let item of data) {
+          if (item.xData !== null) {
+            state.isInit = false
+            state.cxgZoom.startValue = 0.45
+            state.cxgZoom.endValue = 0.55
+            break
+          }
+        }
         for (let item of data) {
           if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4 || result.options.type === 7) {
             if (item.xData !== null && item.yData !== null && item.xData !== 'null' && item.yData !== 'null') {

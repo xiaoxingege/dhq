@@ -74,6 +74,8 @@ export default {
       'pageSize',
       'listedCompany',
       'newTime',
+      'lastTime',
+      'newsId',
       'isTops',
       'noData'
     ]),
@@ -82,6 +84,8 @@ export default {
       pageSize: 'pageSize',
       listedCompany: 'listedCompany',
       newTime: 'newTime',
+      lastTime: 'lastTime',
+      newsId: 'newsId',
       isTops: 'isTops',
       noData: 'noData'
     }),
@@ -108,10 +112,13 @@ export default {
       this.$store.dispatch('getListedCompany', {
         page: this.page,
         isTop: false,
-        newTime: ''
+        newTime: '',
+        nextTime: '',
+        ids: ''
       }).then(() => {
         let _height = $('.news-list').get(0).offsetHeight
         if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
           this.loadMore()
         }
       })
@@ -121,13 +128,15 @@ export default {
         this.$store.dispatch('getListedCompany', {
           page: this.page,
           isTop: false,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
           this.$store.commit('setNoData', true)
-        }, 300)
+        }, 500)
       }
     },
     updateNews() {
@@ -137,7 +146,9 @@ export default {
         this.$store.dispatch('getListedCompany', {
           page: 0,
           isTop: this.isTops,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       }, this.intervalTime)
     },

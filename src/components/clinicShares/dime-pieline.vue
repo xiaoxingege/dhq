@@ -215,7 +215,7 @@ export default ({
           tradeTimeArr: [],
           kdata: [],
           yData: [],
-          xData: ['当日', '近3日', '近5日', '近10日'],
+          xData: ['近3日', '近5日', '近10日'],
           mainValue: [],
           otherValue: []
         }
@@ -229,12 +229,12 @@ export default ({
               let threeday = Number(item.day3 / 100000000).toFixed(2)
               const fiveday = Number(item.day5 / 100000000).toFixed(2)
               const tenday = Number(item.day10 / 100000000).toFixed(2) */
-              let today = Number(item.day1 / 10000).toFixed(2)
+              //  let today = Number(item.day1 / 10000).toFixed(2)
               let threeday = Number(item.day3 / 10000).toFixed(2)
               const fiveday = Number(item.day5 / 10000).toFixed(2)
               const tenday = Number(item.day10 / 10000).toFixed(2)
 
-              data.yData.push(today)
+              // data.yData.push(today)
               data.yData.push(threeday)
               data.yData.push(fiveday)
               data.yData.push(tenday)
@@ -295,7 +295,7 @@ export default ({
         title: {
           left: 1,
           top: -5,
-          text: '当日、近3、5、10日累计净流入',
+          text: '近3、5、10日累计净流入',
           textStyle: {
             color: '#c9d0d7',
             align: 'left',
@@ -320,7 +320,8 @@ export default ({
           trigger: 'axis',
           padding: [10, 55, 10, 20],
           textStyle: {
-            align: 'left'
+            align: 'left',
+            color: '#c9d0d7'
           },
           showContent: true,
           axisPointer: {
@@ -454,6 +455,9 @@ export default ({
         },
         tooltip: {
           trigger: 'item',
+          textStyle: {
+            color: '#c9d0d7'
+          },
           formatter: '{b}: {d}%'
         },
         legend: {

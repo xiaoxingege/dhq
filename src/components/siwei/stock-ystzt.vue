@@ -134,7 +134,9 @@ export default {
           showImg: false,
           showBImg: false
         }
-      ]
+      ],
+      tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
     }
   },
   components: {
@@ -198,14 +200,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -327,7 +329,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData) + 5,
+            max: Math.max.apply(null, yData) + 2,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -344,7 +346,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, yData) + 5) / 5
+            interval: (Math.max.apply(null, yData) + 2) / 5
 
           },
           series: [{
@@ -825,14 +827,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -929,7 +931,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData) + 5,
+            max: Math.max.apply(null, yData) + 2,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -946,7 +948,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, yData) + 5) / 5
+            interval: (Math.max.apply(null, yData) + 2) / 5
 
           },
           series: [{

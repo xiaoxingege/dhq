@@ -84,6 +84,8 @@ export default {
       'pageSize',
       'wisdomHeadlinesList',
       'newTime',
+      'lastTime',
+      'newsId',
       'isTops',
       'noData',
       'topicList'
@@ -93,9 +95,11 @@ export default {
       pageSize: 'pageSize',
       wisdomHeadlinesList: 'wisdomHeadlinesList',
       newTime: 'newTime',
+      lastTime: 'lastTime',
       isTops: 'isTops',
       noData: 'noData',
-      topicList: 'topicList'
+      topicList: 'topicList',
+      newsId: 'newsId'
     }),
     ...mapState({
       relatedStocks: state => state.intelligenceInfo.relatedStocks,
@@ -121,10 +125,13 @@ export default {
       this.$store.dispatch('getWisdomHeadlinesList', {
         page: this.page,
         isTop: false,
-        newTime: ''
+        newTime: '',
+        nextTime: '',
+        ids: ''
       }).then(() => {
         let _height = $('.news-list').get(0).offsetHeight
         if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
           this.loadMore()
         }
       })
@@ -134,13 +141,15 @@ export default {
         this.$store.dispatch('getWisdomHeadlinesList', {
           page: this.page,
           isTop: false,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
           this.$store.commit('setNoData', true)
-        }, 300)
+        }, 500)
       }
     },
     updateNews() {
@@ -150,7 +159,9 @@ export default {
         this.$store.dispatch('getWisdomHeadlinesList', {
           page: this.page,
           isTop: true,
-          newTime: this.newTime
+          newTime: this.newTime,
+          nextTime: this.lastTime,
+          ids: this.newsId
         })
       }, this.intervalTime)
     },
