@@ -123,7 +123,7 @@
     methods: {
       loadList() {
         this.$nextTick(() => {
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',ids:'' }).then(() => {
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
                 if(_height<this.innerHeight){
                   this.$store.commit('setIsTop',false)
@@ -136,7 +136,7 @@
         this.updateNewsPid = setInterval(() => {
           console.log('启动定时器')
           console.log(this.updateNewsPid)
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime,ids:this.newsId })
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         },this.intervalTime)
       },
       getScrollTop(e) {
@@ -164,7 +164,7 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.lastTime,ids:this.newsId })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           setTimeout(() => {
@@ -215,7 +215,7 @@
           str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
         this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',ids:'' })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',nextTime:'',ids:'' })
         if(this.scrollTop === 0){
             this.$store.commit('setIsTop',true)
             this.updateNews()

@@ -228,7 +228,7 @@ export default {
       if(state.isTops === true){
         state.listedCompany = state.temporary.concat(state.listedCompany)
       } else {
-        state.listedCompany =   state.listedCompany.concat(state.temporary)
+        state.listedCompany = state.listedCompany.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
@@ -259,6 +259,8 @@ export default {
           state.newTime = time
       }else{
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+        console.log(state.newTime)
+        console.log('newTime')
       }
     },
     getLastTime(state, time) {
@@ -266,6 +268,7 @@ export default {
           state.lastTime = time
       }else{
         state.lastTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+        console.log(state.lastTime)
       }
     },
     setStockPool(state, result) {
@@ -328,10 +331,11 @@ export default {
       page,
       isTop,
       newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -359,11 +363,11 @@ export default {
       innerCode,
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -390,11 +394,11 @@ export default {
     }, {
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -422,11 +426,11 @@ export default {
     }, {
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -453,11 +457,11 @@ export default {
     }, {
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -484,11 +488,11 @@ export default {
     }, {
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -515,11 +519,11 @@ export default {
     }, {
       page,
       isTop,
-      newTime,
+      newTime,nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -547,10 +551,11 @@ export default {
       page,
       isTop,
       newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&ids=${ids}`
+      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
         method: 'POST',
         mode: 'cors'
@@ -583,7 +588,7 @@ export default {
         return
       }
       return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
-      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=b438726b-0e70-4681-a972-c3bee3dadfef`, {
+      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

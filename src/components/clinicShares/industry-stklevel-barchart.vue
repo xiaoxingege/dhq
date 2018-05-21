@@ -351,7 +351,7 @@ export default ({
                   }
                 }
               },
-              // backgroundColor: '#777',
+              backgroundColor: '#777',
               // padding:[20,0,10,10],
               textStyle: {
                 /* color:'#000',
