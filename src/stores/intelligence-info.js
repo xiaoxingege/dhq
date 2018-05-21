@@ -28,6 +28,7 @@ export default {
     pageSize: PAGE_SIZE, // 默认页数
     loadingShow: true, // 加载中状态
     newTime: '',
+    lastTime:'',
     userId: '',
     optionalStockId:'',
     stockPool: null, // 股票池列表
@@ -37,7 +38,8 @@ export default {
     topicList:[],
     induList:[],
     topicCode:'',
-    induCode:''
+    induCode:'',
+    newsId:[]
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -48,6 +50,8 @@ export default {
     pageSize: state => state.pageSize,
     loadingShow: state => state.loadingShow,
     newTime: state => state.newTime,
+    lastTime: state => state.lastTime,
+    newsId: state => state.newsId,
     stockPool: state => state.stockPool,
     innerCode: state => state.innerCode,
     isTops: state => state.isTops,
@@ -62,13 +66,14 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
       if(state.isTops === true){
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
-      } else {
+      }else{
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -76,6 +81,10 @@ export default {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -92,6 +101,7 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
@@ -99,8 +109,9 @@ export default {
         state.noData = true
       }
       const stocks = {}
+      let newsIdArr = []
       state.temporary = list.rows
-      if (state.isTops === true) {
+      if(state.isTops === true){
         state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
       } else {
         state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
@@ -108,10 +119,15 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.optionalInformationList) {
         let equity = intelligence.equityList
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
       }
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSFLASH_LIST](state, list) {
@@ -120,11 +136,12 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
-      if (state.isTops === true) {
+      if(state.isTops === true){
         state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
@@ -134,6 +151,10 @@ export default {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -150,6 +171,7 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_NEWSOPPORTUNITIES_LIST](state, list) {
@@ -158,12 +180,13 @@ export default {
       const indus = {}
       let topicArr = []
       let indusArr = []
+      let newsIdArr = []
       if(list.rows.length === 0 && state.isTops !== true){
         state.noData = true
       }
       state.temporary = list.rows
-      if (state.isTops === true) {
-        state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
+      if(state.isTops === true){
+        state.newsOpportunities =  state.temporary.concat(state.newsOpportunities)
       } else {
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
@@ -172,6 +195,10 @@ export default {
         let equity = intelligence.equity
         let topic = intelligence.topic
         let indu = intelligence.indu
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
@@ -188,6 +215,7 @@ export default {
       state.induList = indus
       state.topicCode = topicArr.join(',')
       state.induCode = indusArr.join(',')
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
@@ -195,8 +223,9 @@ export default {
         state.noData = true
       }
       const stocks = {}
+      let newsIdArr = []
       state.temporary = list.rows
-      if (state.isTops === true) {
+      if(state.isTops === true){
         state.listedCompany = state.temporary.concat(state.listedCompany)
       } else {
         state.listedCompany = state.listedCompany.concat(state.temporary)
@@ -204,10 +233,15 @@ export default {
       // 取出websocket 要更新的字段
       for (let intelligence of state.listedCompany) {
         let equity = intelligence.equity
+        let newsId = intelligence.newsId
+        if(newsId !== null ){
+          newsIdArr.push(newsId)
+        }
         if (equity  !== null ) {
           stocks[equity.code] = equity
         }
       }
+      state.newsId = newsIdArr.join(',')
       state.relatedStocks = stocks
     },
     [types.UPDATE_RELSTOCK](state, stock) {
@@ -225,12 +259,23 @@ export default {
           state.newTime = time
       }else{
         state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+        console.log(state.newTime)
+        console.log('newTime')
+      }
+    },
+    getLastTime(state, time) {
+      if(time === null || time === ''){
+          state.lastTime = time
+      }else{
+        state.lastTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+        console.log(state.lastTime)
       }
     },
     setStockPool(state, result) {
-      var data = result
+      let data = result
       const stockPool = []
-      for(var item in data){
+      let innerCode =[]
+      for(let item in data){
         if(data[item].poolType === 1){
           stockPool.push(data[item])
         }
@@ -238,17 +283,16 @@ export default {
       state.stockPool = stockPool
       for(let i = 0; i< stockPool.length; i++) {
         state.optionalStockId = stockPool[0].poolId
-        var equityPool = stockPool[0].equityPool
+        let equityPool = stockPool[0].equityPool
         if(equityPool === null){
           state.innerCode = ''
         } else {
           for (let j = 0; j < equityPool.length; j++) {
-            state.innerCode += equityPool[j].innerCode + ','
+            state.innerCode = innerCode.push(equityPool[j].innerCode)
           }
-          var str = state.innerCode.substring(0, state.innerCode.length - 1)
-          state.innerCode = str
         }
       }
+      state.innerCode = innerCode.join(',')
     },
     setOptionalStockId(state, result) {
       state.optionalStockId = result.id
@@ -271,7 +315,6 @@ export default {
       for(let topic of result){
         topics[topic.code].chngPct =topic.chngPct !==null && topic.chngPct !==undefined ? Number(topic.chngPct.toFixed(2)) : ''
       }
-      console.log(JSON.stringify(state.topicList))
     },
     updateIndu(state,result){
       const inidus = state.induList
@@ -287,12 +330,14 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/wisdomHeadline.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -300,6 +345,7 @@ export default {
         if (result.errCode === 0) {
           commit(types.SET_WISDOMHEADLINES_LIST, result.data)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit('setMask', false)
         } else {
           commit('ERROR', result, {
@@ -317,12 +363,13 @@ export default {
       innerCode,
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/selfSelectNews.shtml?innerCode=${innerCode}&page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -330,6 +377,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_OPTIONALINFORMATION_LIST, result.data)
         } else {
           commit('ERROR', result, {
@@ -346,12 +394,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/flashNews.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -359,6 +408,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSFLASH_LIST, result.data)
         } else {
           commit('ERROR', result, {
@@ -376,12 +426,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/allChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -389,6 +440,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -405,12 +457,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/stockChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -418,6 +471,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -434,12 +488,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/topicChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -447,6 +502,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -463,12 +519,13 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/productChance.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -476,6 +533,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_NEWSOPPORTUNITIES_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -492,12 +550,14 @@ export default {
     }, {
       page,
       isTop,
-      newTime
+      newTime,
+      nextTime,
+      ids
     }) {
       commit('setMask', true)
-      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}`
+      const url = `${domain}/openapi/news/listedCom.shtml?page=${page}&istop=${isTop}&newTime=${newTime}&nextTime=${nextTime}&ids=${ids}`
       return fetch(url, {
-        method: 'GET',
+        method: 'POST',
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -505,6 +565,7 @@ export default {
         if (result.errCode === 0) {
           commit('setMask', false)
           commit('getNewTime', result.data.newTime)
+          commit('getLastTime', result.data.nextTime)
           commit(types.SET_LISTEDCOMPANY_LIST, result.data);
         } else {
           commit('ERROR', result, {
@@ -527,6 +588,7 @@ export default {
         return
       }
       return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

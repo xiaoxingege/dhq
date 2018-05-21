@@ -65,6 +65,8 @@
         'pageSize',
         'listedCompany',
         'newTime',
+        'lastTime',
+        'newsId',
         'isTops',
         'noData'
       ]),
@@ -73,6 +75,8 @@
         pageSize: 'pageSize',
         listedCompany: 'listedCompany',
         newTime: 'newTime',
+        lastTime:'lastTime',
+        newsId:'newsId',
         isTops:'isTops',
         noData:'noData'
       }),
@@ -96,28 +100,29 @@
     },
     methods: {
       loadList() {
-          this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: '' }).then(() => {
+          this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: '' ,nextTime:'',ids:''  }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
             if(_height<this.innerHeight){
+              this.$store.commit('setIsTop',false)
               this.loadMore()
             }
           })
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false, newTime: this.newTime })
+        this.$store.dispatch('getListedCompany', { page: this.page, isTop: false,  newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
             this.$store.commit('setNoData',true)
-          },300)
+          },500)
         }
       },
       updateNews() {
         intervalId = setInterval(() => {
           console.log('启动定时器')
           console.log(intervalId)
-          this.$store.dispatch('getListedCompany', { page:0, isTop: this.isTops, newTime: this.newTime })
+          this.$store.dispatch('getListedCompany', { page:0, isTop: true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId  })
         },this.intervalTime)
       },
       getScrollTop(e) {

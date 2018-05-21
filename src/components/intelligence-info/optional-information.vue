@@ -74,26 +74,28 @@
         this.loadList()
       })
       this.updateNews()
-
-      console.log($('.pullUptoRefresh').offsetHeight)
     },
     computed: {
       ...mapState([
         'optionalInformationList',
         'stockPool',
         'newTime',
+        'lastTime',
         'pageSize',
         'optionalStockId',
         'innerCode',
         'loadingShow',
         'isTops',
-        'noData'
+        'noData',
+        'newsId'
       ]),
       ...mapGetters({
         pageSize:'pageSize',
         optionalInformationList:'optionalInformationList',
         stockPool:'stockPool',
         newTime:'newTime',
+        lastTime:'lastTime',
+        newsId:'newsId',
         optionalStockId:'optionalStockId',
         innerCode:'innerCode',
         loadingShow:'loadingShow',
@@ -121,9 +123,10 @@
     methods: {
       loadList() {
         this.$nextTick(() => {
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'' }).then(() => {
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
             let _height = $('.news-list').get(0).offsetHeight
                 if(_height<this.innerHeight){
+                  this.$store.commit('setIsTop',false)
                   this.loadMore()
                 }
           })
@@ -133,7 +136,7 @@
         this.updateNewsPid = setInterval(() => {
           console.log('启动定时器')
           console.log(this.updateNewsPid)
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime: this.newTime })
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         },this.intervalTime)
       },
       getScrollTop(e) {
@@ -161,12 +164,12 @@
       },
       loadMore() {
         this.page++
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime: this.newTime })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         var count = Math.ceil(this.totalPage / this.pageSize)
         if(count === this.page + 1){
           setTimeout(() => {
             this.$store.commit('setNoData',true)
-          },300)
+          },500)
         }
       },
       cutStr(str, len) {
@@ -212,8 +215,7 @@
           str = this.innerCodes.substring(0,this.innerCodes.length-1)
         }
         this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
-        // this.loadList()
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'' })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',nextTime:'',ids:'' })
         if(this.scrollTop === 0){
             this.$store.commit('setIsTop',true)
             this.updateNews()
