@@ -30,7 +30,7 @@
 </template>
 
 <script>
-let pcId = "";
+let pcId = '';
 import StockBox from 'components/stock-box'
 import {
   ctx,
@@ -83,6 +83,11 @@ export default {
       this.$store.dispatch('zInfoPublic/retrieveHotWords', {
         size: 20
       });
+      pcId = setInterval(() => {
+        this.$store.dispatch('zInfoPublic/retrieveHotWords', {
+          size: 20
+        });
+      }, 60 * 1000);
     }
   },
   destroyed() {
