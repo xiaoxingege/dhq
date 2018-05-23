@@ -207,6 +207,17 @@ export default {
               // return '<p style="background: red; width:200px; height:200px">hello</p>'
             }
           },
+          dataZoom: [{
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           xAxis: {
             type: 'value',
             // name: '日期',
@@ -616,8 +627,8 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
-                  return ''
+              if (zdCompareData.up[params[0].dataIndex][1] === null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null) {
+                return ''
               }
               let isNull = (v) => {
                 if (v === null) {
@@ -635,14 +646,14 @@ export default {
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
             padding: [10, 50, 8, 7],
-            axisPointer:{
-                  show:true,
-                  type:'line',
-                  snap:true,
-                  label:{
-                      show:true
-                  }
+            axisPointer: {
+              show: true,
+              type: 'line',
+              snap: true,
+              label: {
+                show: true
               }
+            }
 
           }
         })
@@ -664,11 +675,11 @@ export default {
     toThemeDetail(topicCode, target) {
       target.stopPropagation()
       if (topicCode) {
-          if(String(topicCode).length === 9){
-              window.open(ctx + '/topic/' + topicCode)
-          }else if(String(topicCode).length === 6){
-              window.open(ctx + '/industry/' + topicCode)
-          }
+        if (String(topicCode).length === 9) {
+          window.open(ctx + '/topic/' + topicCode)
+        } else if (String(topicCode).length === 6) {
+          window.open(ctx + '/industry/' + topicCode)
+        }
       }
     },
     updateBubbles() {
@@ -989,8 +1000,8 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(zdCompareData.up[params[0].dataIndex][1]===null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null){
-                  return ''
+              if (zdCompareData.up[params[0].dataIndex][1] === null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null) {
+                return ''
               }
               let isNull = (v) => {
                 if (v === null) {
