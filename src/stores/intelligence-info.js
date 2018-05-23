@@ -28,18 +28,18 @@ export default {
     pageSize: PAGE_SIZE, // 默认页数
     loadingShow: true, // 加载中状态
     newTime: '',
-    lastTime:'',
+    lastTime: '',
     userId: '',
-    optionalStockId:'',
+    optionalStockId: '',
     stockPool: null, // 股票池列表
-    innerCode:'',
-    isTops:true, // 是否在顶部
-    noData:false,
-    topicList:[],
-    induList:[],
-    topicCode:'',
-    induCode:'',
-    newsId:[]
+    innerCode: '',
+    isTops: true, // 是否在顶部
+    noData: false,
+    topicList: [],
+    induList: [],
+    topicCode: '',
+    induCode: '',
+    newsId: []
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -56,7 +56,7 @@ export default {
     innerCode: state => state.innerCode,
     isTops: state => state.isTops,
     optionalStockId: state => state.optionalStockId,
-    noData:state => state.noData,
+    noData: state => state.noData,
     topicList: state => state.topicList
   },
   mutations: {
@@ -67,13 +67,13 @@ export default {
       let topicArr = []
       let indusArr = []
       let newsIdArr = []
-      if(list.rows.length === 0 && state.isTops !== true){
+      if (list.rows.length === 0 && state.isTops !== true) {
         state.noData = true
       }
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.wisdomHeadlinesList = state.temporary.concat(state.wisdomHeadlinesList)
-      }else{
+      } else {
         state.wisdomHeadlinesList = state.wisdomHeadlinesList.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
@@ -82,17 +82,17 @@ export default {
         let topic = intelligence.topic
         let indu = intelligence.indu
         let newsId = intelligence.newsId
-        if(newsId !== null ){
+        if (newsId !== null) {
           newsIdArr.push(newsId)
         }
-        if (equity  !== null ) {
+        if (equity !== null) {
           stocks[equity.code] = equity
         }
-        if(topic !== null ){
+        if (topic !== null) {
           topics[topic.code] = topic
           topicArr.push(topic.code)
         }
-        if(indu !== null){
+        if (indu !== null) {
           indus[indu.code] = indu
           indusArr.push(indu.code)
         }
@@ -105,13 +105,13 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_OPTIONALINFORMATION_LIST](state, list) {
-      if(list.rows.length === 0 && state.isTops !== true){
+      if (list.rows.length === 0 && state.isTops !== true) {
         state.noData = true
       }
       const stocks = {}
       let newsIdArr = []
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.optionalInformationList = state.temporary.concat(state.optionalInformationList)
       } else {
         state.optionalInformationList = state.optionalInformationList.concat(state.temporary)
@@ -120,10 +120,10 @@ export default {
       for (let intelligence of state.optionalInformationList) {
         let equity = intelligence.equityList
         let newsId = intelligence.newsId
-        if(newsId !== null ){
+        if (newsId !== null) {
           newsIdArr.push(newsId)
         }
-        if (equity  !== null ) {
+        if (equity !== null) {
           stocks[equity.code] = equity
         }
       }
@@ -137,11 +137,11 @@ export default {
       let topicArr = []
       let indusArr = []
       let newsIdArr = []
-      if(list.rows.length === 0 && state.isTops !== true){
+      if (list.rows.length === 0 && state.isTops !== true) {
         state.noData = true
       }
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
@@ -152,17 +152,17 @@ export default {
         let topic = intelligence.topic
         let indu = intelligence.indu
         let newsId = intelligence.newsId
-        if(newsId !== null ){
+        if (newsId !== null) {
           newsIdArr.push(newsId)
         }
-        if (equity  !== null ) {
+        if (equity !== null) {
           stocks[equity.code] = equity
         }
-        if(topic !== null ){
+        if (topic !== null) {
           topics[topic.code] = topic
           topicArr.push(topic.code)
         }
-        if(indu !== null){
+        if (indu !== null) {
           indus[indu.code] = indu
           indusArr.push(indu.code)
         }
@@ -181,12 +181,12 @@ export default {
       let topicArr = []
       let indusArr = []
       let newsIdArr = []
-      if(list.rows.length === 0 && state.isTops !== true){
+      if (list.rows.length === 0 && state.isTops !== true) {
         state.noData = true
       }
       state.temporary = list.rows
-      if(state.isTops === true){
-        state.newsOpportunities =  state.temporary.concat(state.newsOpportunities)
+      if (state.isTops === true) {
+        state.newsOpportunities = state.temporary.concat(state.newsOpportunities)
       } else {
         state.newsOpportunities = state.newsOpportunities.concat(state.temporary)
       }
@@ -196,17 +196,17 @@ export default {
         let topic = intelligence.topic
         let indu = intelligence.indu
         let newsId = intelligence.newsId
-        if(newsId !== null ){
+        if (newsId !== null) {
           newsIdArr.push(newsId)
         }
-        if (equity  !== null ) {
+        if (equity !== null) {
           stocks[equity.code] = equity
         }
-        if(topic !== null ){
+        if (topic !== null) {
           topics[topic.code] = topic
           topicArr.push(topic.code)
         }
-        if(indu !== null){
+        if (indu !== null) {
           indus[indu.code] = indu
           indusArr.push(indu.code)
         }
@@ -219,13 +219,13 @@ export default {
       state.relatedStocks = stocks
     },
     [types.SET_LISTEDCOMPANY_LIST](state, list) {
-      if(list.rows.length === 0 && state.isTops !== true){
+      if (list.rows.length === 0 && state.isTops !== true) {
         state.noData = true
       }
       const stocks = {}
       let newsIdArr = []
       state.temporary = list.rows
-      if(state.isTops === true){
+      if (state.isTops === true) {
         state.listedCompany = state.temporary.concat(state.listedCompany)
       } else {
         state.listedCompany = state.listedCompany.concat(state.temporary)
@@ -234,10 +234,10 @@ export default {
       for (let intelligence of state.listedCompany) {
         let equity = intelligence.equity
         let newsId = intelligence.newsId
-        if(newsId !== null ){
+        if (newsId !== null) {
           newsIdArr.push(newsId)
         }
-        if (equity  !== null ) {
+        if (equity !== null) {
           stocks[equity.code] = equity
         }
       }
@@ -246,8 +246,8 @@ export default {
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
-      if(stocks[stock.innerCode] !== undefined){
-        stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ?  Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+      if (stocks[stock.innerCode] !== undefined) {
+        stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
         stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
       }
     },
@@ -255,36 +255,36 @@ export default {
       state.loadingShow = visible
     },
     getNewTime(state, time) {
-      if(time === null || time === ''){
-          state.newTime = time
-      }else{
-        state.newTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+      if (time === null || time === '') {
+        state.newTime = time
+      } else {
+        state.newTime = formatDate(time, 'yyyy-MM-dd hh:mm:ss')
         console.log(state.newTime)
         console.log('newTime')
       }
     },
     getLastTime(state, time) {
-      if(time === null || time === ''){
-          state.lastTime = time
-      }else{
-        state.lastTime = formatDate(time,'yyyy-MM-dd hh:mm:ss')
+      if (time === null || time === '') {
+        state.lastTime = time
+      } else {
+        state.lastTime = formatDate(time, 'yyyy-MM-dd hh:mm:ss')
         console.log(state.lastTime)
       }
     },
     setStockPool(state, result) {
       let data = result
       const stockPool = []
-      let innerCode =[]
-      for(let item in data){
-        if(data[item].poolType === 1){
+      let innerCode = []
+      for (let item in data) {
+        if (data[item].poolType === 1) {
           stockPool.push(data[item])
         }
       }
       state.stockPool = stockPool
-      for(let i = 0; i< stockPool.length; i++) {
+      for (let i = 0; i < stockPool.length; i++) {
         state.optionalStockId = stockPool[0].poolId
         let equityPool = stockPool[0].equityPool
-        if(equityPool === null){
+        if (equityPool === null) {
           state.innerCode = ''
         } else {
           for (let j = 0; j < equityPool.length; j++) {
@@ -313,18 +313,18 @@ export default {
     setIsTop(state, result) {
       state.isTops = result
     },
-    setNoData(state,result) {
+    setNoData(state, result) {
       state.noData = result
     },
-    updateTopic(state,result){
+    updateTopic(state, result) {
       const topics = state.topicList
-      for(let topic of result){
-        topics[topic.code].chngPct =topic.chngPct !==null && topic.chngPct !==undefined ? Number(topic.chngPct.toFixed(2)) : ''
+      for (let topic of result) {
+        topics[topic.code].chngPct = topic.chngPct !== null && topic.chngPct !== undefined ? Number(topic.chngPct.toFixed(2)) : ''
       }
     },
-    updateIndu(state,result){
+    updateIndu(state, result) {
       const inidus = state.induList
-      for(let inidu of result){
+      for (let inidu of result) {
         inidus[inidu.code].chngPct = Number(inidu.chngPct.toFixed(2))
       }
     }
@@ -369,7 +369,8 @@ export default {
       innerCode,
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -400,7 +401,8 @@ export default {
     }, {
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -432,7 +434,8 @@ export default {
     }, {
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -463,7 +466,8 @@ export default {
     }, {
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -494,7 +498,8 @@ export default {
     }, {
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -525,7 +530,8 @@ export default {
     }, {
       page,
       isTop,
-      newTime,nextTime,
+      newTime,
+      nextTime,
       ids
     }) {
       commit('setMask', true)
@@ -594,7 +600,7 @@ export default {
         return
       }
       return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
-      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
+        // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
@@ -605,7 +611,12 @@ export default {
       })
     },
 
-    getTopicIndu({ commit }, { code,flag } ) {
+    getTopicIndu({
+      commit
+    }, {
+      code,
+      flag
+    }) {
       const url = `${domain}/openapi/news/chngPctList.shtml?code=${code}&flag=${flag}`
       return fetch(url, {
         method: 'GET',
@@ -614,10 +625,10 @@ export default {
         return res.json()
       }).then(result => {
         if (result.errCode === 0) {
-          if(flag === 'topic'){
+          if (flag === 'topic') {
             commit('updateTopic', result.data)
           }
-          if(flag === 'indu'){
+          if (flag === 'indu') {
             commit('updateIndu', result.data)
           }
         } else {

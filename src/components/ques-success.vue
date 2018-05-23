@@ -249,250 +249,250 @@
 
 <template>
 <div class="ques-box" v-if="show">
-    <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow" />
-    <div class="ques-success">
-        <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
-            <div class="wrapper right">
-                <div class="circleProgress rightcircle"></div>
-            </div>
-            <div class="wrapper left">
-                <div class="circleProgress leftcircle"></div>
-            </div>
-            <div class="ques-success-load">
-                <h3 v-text="num"></h3>
-                <p>位投顾已推送</p>
-            </div>
-            <div class="ques-success-load-desc">
-                <h3>正在努力</h3>
-                <p>把你的提问推送给每一位投顾</p>
-            </div>
-        </div>
-        <div class="ques-success-box" v-else>
-            <i></i>
-            <div>
-                <h3>提问成功</h3>
-                <p>{{moment(parseInt(showTime),'YYYY年MM月DD日 HH:mm')}}</p>
-            </div>
-            <div>
-                <!-- <h4>有回答时，会通过百度消息通知您</h4> -->
-                <p style="margin-top:0.3rem">有回答时，会通过百度消息通知您</p>
-            </div>
-        </div>
-
+  <ques-nav :title="quesNavTitle" @navBak="navBak" :btnTxt="btnTxt" @navEvents="navEvents" :bakShow="bakShow" />
+  <div class="ques-success">
+    <div class="circleProgress_wrapper" v-if="quesSuccessLoadShow">
+      <div class="wrapper right">
+        <div class="circleProgress rightcircle"></div>
+      </div>
+      <div class="wrapper left">
+        <div class="circleProgress leftcircle"></div>
+      </div>
+      <div class="ques-success-load">
+        <h3 v-text="num"></h3>
+        <p>位投顾已推送</p>
+      </div>
+      <div class="ques-success-load-desc">
+        <h3>正在努力</h3>
+        <p>把你的提问推送给每一位投顾</p>
+      </div>
     </div>
-    <div class="ques-detail-list">
-        <h3>其他精彩回答</h3>
-        <ul>
-            <li v-for="item in dataList" v-if="jchdShow">
-                <div class="ques-tg-list-box clearfix">
-                    <h5 v-html="item.content"></h5>
-                    <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
-                    <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
-
-
-                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
-                    <div>
-                        <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId" />
-                        <p>
-                            <span>{{item.lastedAnswer.adviserUser.userName}}</span>
-                            <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
-                            <strong v-html="item.lastedAnswer.content" v-if="focusResult && focusShow"></strong>
-                            <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
-                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
-                            <strong v-else>请在手机百度APP中查看</strong>
-                        </p>
-                    </div>
-                </div>
-            </li>
-            <li v-else>
-                <div class="ques-tg-list-box clearfix">
-                    <h5 v-html="item.askContent"></h5>
-                    <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
-                    <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
-                    <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
-                    <div>
-                        <img :src="item.userInfo.headImage" :userId="item.userInfo.userId" />
-                        <p>
-                            <span>{{item.userInfo.userName}}</span>
-                            <em>{{moment(parseInt(item.answerTime))}}</em>
-                            <strong v-html="item.answerContent" v-if="focusResult && focusShow"></strong>
-                            <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
-                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
-                            <strong v-else>请在手机百度APP中查看</strong>
-                        </p>
-                    </div>
-                </div>
-            </li>
-        </ul>
+    <div class="ques-success-box" v-else>
+      <i></i>
+      <div>
+        <h3>提问成功</h3>
+        <p>{{moment(parseInt(showTime),'YYYY年MM月DD日 HH:mm')}}</p>
+      </div>
+      <div>
+        <!-- <h4>有回答时，会通过百度消息通知您</h4> -->
+        <p style="margin-top:0.3rem">有回答时，会通过百度消息通知您</p>
+      </div>
     </div>
+
+  </div>
+  <div class="ques-detail-list">
+    <h3>其他精彩回答</h3>
+    <ul>
+      <li v-for="item in dataList" v-if="jchdShow">
+        <div class="ques-tg-list-box clearfix">
+          <h5 v-html="item.content"></h5>
+          <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
+          <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
+
+
+          <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
+          <div>
+            <img :src="item.lastedAnswer.adviserUser.headImage" :userId="item.lastedAnswer.adviserUser.userId" />
+            <p>
+              <span>{{item.lastedAnswer.adviserUser.userName}}</span>
+              <em>{{moment(parseInt(item.lastedAnswer.ctime))}}</em>
+              <strong v-html="item.lastedAnswer.content" v-if="focusResult && focusShow"></strong>
+              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
+                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
+              <strong v-else>请在手机百度APP中查看</strong>
+            </p>
+          </div>
+        </div>
+      </li>
+      <li v-else>
+        <div class="ques-tg-list-box clearfix">
+          <h5 v-html="item.askContent"></h5>
+          <a :href="'http://m.itougu.jrj.com.cn/?showVP=true&frm=baidu#!/ask/'+item.askId" class="niceLink" v-if="focusResult && focusShow"></a>
+          <!-- <a :href="'http://itougu.jrj.com.cn/activity/app/ques-detail.jspa?askid='+item.askId+'&source=success'" class="niceLink" v-if="focusResult && focusShow"></a> -->
+          <a :href="'javascript:;'" class="niceLink" @click="authorize" v-else-if="!focusResult && focusShow"></a>
+          <div>
+            <img :src="item.userInfo.headImage" :userId="item.userInfo.userId" />
+            <p>
+              <span>{{item.userInfo.userName}}</span>
+              <em>{{moment(parseInt(item.answerTime))}}</em>
+              <strong v-html="item.answerContent" v-if="focusResult && focusShow"></strong>
+              <strong v-else-if="!focusResult && focusShow">关注<a href="javascript:;"
+                                                                                   @click="authorize">金融界</a>，查看回答详情</strong>
+              <strong v-else>请在手机百度APP中查看</strong>
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import quesNav from 'components/ques-nav'
 import moment from 'moment'
 import getQueryString from 'utils/getQueryString'
 
 export default {
-    data() {
-        var _this = this
-        setTimeout(function() {
-            _this.quesSuccessLoadShow = false
-            clearInterval(numAdSet)
-        }, 1000)
-        var numAdSet = setInterval(function() {
-            _this.numAdd()
-        }, 100)
-        return {
-            quesNavTitle: '问股',
-            btnTxt: '再问一个',
-            quesSuccessLoadShow: true,
-            jchdShow: false,
-            showTime: '1503625474595',
-            num: 0,
-            userShow: false,
-            bakShow: true,
-            focusShow: false,
-            show: false
-        }
-    },
-    computed: mapState({
-        dataList: state => {
-            return state.quesSuccess.dataList
-        },
-        userId: state => state.user.ssoId,
-        focusResult: state => state.quesFocus.focusResult
-    }),
-    components: {
-        quesNav
-    },
-    methods: {
-        moment(time, format) {
-            if (format) {
-                return moment(time).format(format)
-            } else {
-                return moment(time).locale('zh-cn').calendar(null, {
-                    sameDay: '[今天] HH:mm',
-                    nextDay: '[明天] HH:mm',
-                    nextWeek: '下周',
-                    lastDay: '[昨天] HH:mm',
-                    lastWeek: '[上周] dddd'
-                })
-            }
-        },
-        navBak() {
-            history.back()
-            //   window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
-        },
-        navEvents() {
-            window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
-        },
-        numAdd() {
-            this.num = this.num + Math.floor(Math.random() * 900) + 100
-        },
-        authorize() {
-            if (this.userId) {
-                window.cambrian.subscribe({
-                    data: {
-                        type: 'force', // 类型，optional-弱关注 force-强关注
-                        title: '金融界官方号', // 标题文字，字数限制：4-6个字
-                        describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
-                        button: '关注并继续' // 按钮文字，字数限制：2-6个字
-                    },
-                    success: function(res) {
-                        location.reload()
-                        // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
-                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
-                    },
-                    fail: function(res) {
-                        // res结构如下，可通过status、msg判断错误原因
-                        // 如：{"status": 100, "msg":"not login", "result": 0}
-                    },
-                    complete: function(res) {
-                        // res结构如下，
-                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
-                    }
-                })
-            } else {
-                window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
-            }
-        }
-    },
-    mounted() {
-        if (getQueryString('success') === 'true') {
-            this.quesSuccessLoadShow = false
-        } else {
-            history.replaceState(null, '问答详情', window.location.href + '&success=true')
-        }
-
-        document.title = '问答详情'
-        this.$store.dispatch('user/checkLogin')
-        if (getQueryString('stockCode') === '' || !getQueryString('stockCode') || getQueryString('stockCode') === 'undefined') {
-            this.jchdShow = false
-            this.$store.dispatch('quesSuccess/jchd')
-        } else {
-            this.jchdShow = true
-            this.$store.dispatch('quesSuccess/fetch', {
-                stockCode: getQueryString('stockCode')
-            })
-        }
-        if (getQueryString('showTime')) {
-            this.showTime = getQueryString('showTime')
-        }
-
-        if (this.userId) {
-            this.userShow = true
-        } else {
-            this.userShow = false
-            if (getQueryString('code')) {
-                this.$store.dispatch('quesDetail/authorize', {
-                    code: getQueryString('code'),
-                    redirectUri: window.location.href
-                })
-            }
-        }
-        this.$store.dispatch('quesFocus/jsSdk')
-        window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_success', 'WT.ti', 'TG_Msite_Baidu_success')
-        var _this = this
-        this.$watch('focusResult', focusResult => {
-            if (focusResult === false) {
-                window.cambrian.subscribe({
-                    data: {
-                        type: 'force', // 类型，optional-弱关注 force-强关注
-                        title: '金融界官方号', // 标题文字，字数限制：4-6个字
-                        describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
-                        button: '关注并继续' // 按钮文字，字数限制：2-6个字
-                    },
-                    success: function(res) {
-                        location.reload()
-                        // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
-                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
-                    },
-                    fail: function(res) {
-                        // res结构如下，可通过status、msg判断错误原因
-                        // 如：{"status": 100, "msg":"not login", "result": 0}
-                    },
-                    complete: function(res) {
-                        // res结构如下，
-                        // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
-                    }
-                })
-            }
-            window.cambrian.isBox({
-                success: function(res) {
-                    // res结构如下，result字段，在手百环境返回ture，否则返回false
-                    // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
-                    if (res.result) {
-                        _this.focusShow = true
-                    } else {
-                        _this.focusShow = false
-                    }
-                    _this.show = true
-                }
-            })
-        })
+  data() {
+    var _this = this
+    setTimeout(function() {
+      _this.quesSuccessLoadShow = false
+      clearInterval(numAdSet)
+    }, 1000)
+    var numAdSet = setInterval(function() {
+      _this.numAdd()
+    }, 100)
+    return {
+      quesNavTitle: '问股',
+      btnTxt: '再问一个',
+      quesSuccessLoadShow: true,
+      jchdShow: false,
+      showTime: '1503625474595',
+      num: 0,
+      userShow: false,
+      bakShow: true,
+      focusShow: false,
+      show: false
     }
+  },
+  computed: mapState({
+    dataList: state => {
+      return state.quesSuccess.dataList
+    },
+    userId: state => state.user.ssoId,
+    focusResult: state => state.quesFocus.focusResult
+  }),
+  components: {
+    quesNav
+  },
+  methods: {
+    moment(time, format) {
+      if (format) {
+        return moment(time).format(format)
+      } else {
+        return moment(time).locale('zh-cn').calendar(null, {
+          sameDay: '[今天] HH:mm',
+          nextDay: '[明天] HH:mm',
+          nextWeek: '下周',
+          lastDay: '[昨天] HH:mm',
+          lastWeek: '[上周] dddd'
+        })
+      }
+    },
+    navBak() {
+      history.back()
+      //   window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+    },
+    navEvents() {
+      window.location.href = 'http://itougu.jrj.com.cn/activity/app/ques-ask.jspa'
+    },
+    numAdd() {
+      this.num = this.num + Math.floor(Math.random() * 900) + 100
+    },
+    authorize() {
+      if (this.userId) {
+        window.cambrian.subscribe({
+          data: {
+            type: 'force', // 类型，optional-弱关注 force-强关注
+            title: '金融界官方号', // 标题文字，字数限制：4-6个字
+            describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+            button: '关注并继续' // 按钮文字，字数限制：2-6个字
+          },
+          success: function(res) {
+            location.reload()
+            // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+          },
+          fail: function(res) {
+            // res结构如下，可通过status、msg判断错误原因
+            // 如：{"status": 100, "msg":"not login", "result": 0}
+          },
+          complete: function(res) {
+            // res结构如下，
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+          }
+        })
+      } else {
+        window.location.href = 'https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id=O8FVpeZ0w75ekNMvaWf5oBa63WSEfnIi&scope=snsapi_userinfo&redirect_uri=' + window.location.href
+      }
+    }
+  },
+  mounted() {
+    if (getQueryString('success') === 'true') {
+      this.quesSuccessLoadShow = false
+    } else {
+      history.replaceState(null, '问答详情', window.location.href + '&success=true')
+    }
+
+    document.title = '问答详情'
+    this.$store.dispatch('user/checkLogin')
+    if (getQueryString('stockCode') === '' || !getQueryString('stockCode') || getQueryString('stockCode') === 'undefined') {
+      this.jchdShow = false
+      this.$store.dispatch('quesSuccess/jchd')
+    } else {
+      this.jchdShow = true
+      this.$store.dispatch('quesSuccess/fetch', {
+        stockCode: getQueryString('stockCode')
+      })
+    }
+    if (getQueryString('showTime')) {
+      this.showTime = getQueryString('showTime')
+    }
+
+    if (this.userId) {
+      this.userShow = true
+    } else {
+      this.userShow = false
+      if (getQueryString('code')) {
+        this.$store.dispatch('quesDetail/authorize', {
+          code: getQueryString('code'),
+          redirectUri: window.location.href
+        })
+      }
+    }
+    this.$store.dispatch('quesFocus/jsSdk')
+    window.dcsMultiTrack('DCS.dcsuri', 'TG_Msite_Baidu_success', 'WT.ti', 'TG_Msite_Baidu_success')
+    var _this = this
+    this.$watch('focusResult', focusResult => {
+      if (focusResult === false) {
+        window.cambrian.subscribe({
+          data: {
+            type: 'force', // 类型，optional-弱关注 force-强关注
+            title: '金融界官方号', // 标题文字，字数限制：4-6个字
+            describe: '关注后可及时收到回复', // 关注说明，字数限制：4-30个字
+            button: '关注并继续' // 按钮文字，字数限制：2-6个字
+          },
+          success: function(res) {
+            location.reload()
+            // res结构如下，result字段：关注状态，0-未关注 1-新增关注 2-已关注
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 1}
+          },
+          fail: function(res) {
+            // res结构如下，可通过status、msg判断错误原因
+            // 如：{"status": 100, "msg":"not login", "result": 0}
+          },
+          complete: function(res) {
+            // res结构如下，
+            // 如：{"status": 0, "msg":"subscribe:ok", "result": 2}
+          }
+        })
+      }
+      window.cambrian.isBox({
+        success: function(res) {
+          // res结构如下，result字段，在手百环境返回ture，否则返回false
+          // 如：{"result": true, "msg":"isBfalseox:ok", "status": 0}
+          if (res.result) {
+            _this.focusShow = true
+          } else {
+            _this.focusShow = false
+          }
+          _this.show = true
+        }
+      })
+    })
+  }
 }
 </script>

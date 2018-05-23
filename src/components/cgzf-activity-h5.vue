@@ -1,12 +1,12 @@
 <style>
 body {
-    background-color: #d20001 !important;
-    font-family: '微软雅黑';
+  background-color: #d20001 !important;
+  font-family: '微软雅黑';
 }
 
 input,
 button {
-    outline: none;
+  outline: none;
 }
 </style>
 <style lang="scss" scoped>
@@ -141,124 +141,124 @@ button {
 
 <template>
 <div class="box">
-    <div class="bg1">
+  <div class="bg1">
+  </div>
+  <div class="bg2">
+  </div>
+  <div class="bg3">
+  </div>
+  <div class="footer">
+    <div class="box-con">
+      <div class="popClick3" @click="popClick(1)"></div>
     </div>
-    <div class="bg2">
-    </div>
-    <div class="bg3">
-    </div>
-    <div class="footer">
-        <div class="box-con">
-            <div class="popClick3" @click="popClick(1)"></div>
+  </div>
+  <div class='fixBg' v-if="popShow"></div>
+  <div class="pop" v-if="popShow">
+    <div class="close" @click="close">X</div>
+    <div class="pop-con">
+      <div class="pop-text1" v-if="popText === 1">
+        <h1>预约领取</h1>
+        <div>
+          <span>手机号：</span>
+          <input type="text" name="" value="" v-model="phone" placeholder="请输入您的手机号码">
+          <em v-html="txtHtml" v-if="txtShow"></em>
         </div>
+        <button type="button" name="button" @click="joinSubmit">马上领取</button>
+      </div>
+      <div class="pop-text2" v-else-if="popText === 2">
+        <h1>预约成功</h1>
+        <div>稍后会有工作人员与您联系<br />请保持手机畅通</div>
+        <button type="button" name="button" @click="close">好的</button>
+      </div>
     </div>
-    <div class='fixBg' v-if="popShow"></div>
-    <div class="pop" v-if="popShow">
-        <div class="close" @click="close">X</div>
-        <div class="pop-con">
-            <div class="pop-text1" v-if="popText === 1">
-                <h1>预约领取</h1>
-                <div>
-                    <span>手机号：</span>
-                    <input type="text" name="" value="" v-model="phone" placeholder="请输入您的手机号码">
-                    <em v-html="txtHtml" v-if="txtShow"></em>
-                </div>
-                <button type="button" name="button" @click="joinSubmit">马上领取</button>
-            </div>
-            <div class="pop-text2" v-else-if="popText === 2">
-                <h1>预约成功</h1>
-                <div>稍后会有工作人员与您联系<br />请保持手机畅通</div>
-                <button type="button" name="button" @click="close">好的</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 </template>
 <script>
 import {
-    mapState
+  mapState
 } from 'vuex'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 import getQueryString from 'utils/getQueryString'
 
 export default {
-    data() {
-        return {
-            popShow: false,
-            popText: 1,
-            txtShow: false,
-            txtHtml: ''
-        }
-    },
-    computed: mapState({
-        type: state => {
-            return state.reservation.type
-        },
-        err: state => {
-            return state.reservation.err
-        }
-    }),
-    components: {},
-    methods: {
-        popClick(type) {
-            this.popShow = true
-            this.popText = type
-            this.phone = ''
-            window.dcsMultiTrack('DCS.dcsuri', 'cgzf-activity-popClick', 'WT.ti', 'cgzf-activity-popClick')
-        },
-        close() {
-            this.popShow = false
-        },
-        joinSubmit() {
-            if (!this.type) {
-                alert('提交中')
-                return
-            }
-            var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
-            if (!this.phone || this.phone.length === 0) {
-                this.txtShow = true
-                this.txtHtml = '手机号不能为空！'
-                return
-            } else if (!reg.test(this.phone)) {
-                this.txtShow = true
-                this.txtHtml = '手机号输入不正确！'
-                return
-            }
-            this.$store.dispatch('reservation/fetch', {
-                aid: '841000458974244864',
-                userName: '',
-                phone: this.phone,
-                bizsource: getQueryString('bizsource') || 'YG_WX',
-                source: '4',
-                tgqdcode: getQueryString('tgqdcode') || 'R35E9BFW'
-            })
-            window.dcsMultiTrack('DCS.dcsuri', 'cgzf-activity-joinSubmit', 'WT.ti', 'cgzf-activity-joinSubmit')
-        }
-    },
-    mounted() {
-        document.title = '聚焦春季热点，开启三月红利行动'
-        var _this = this
-        window.InitWeChatShare({
-            shareTitle: window.document.title,
-            shareLink: window.location.href,
-            shareDesc: 'AI工作室红利行动，带你抓3月金股！',
-            shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/cgzf-share-img.jpg',
-            callback: function(wx) {
-
-            }
-        })
-        this.$watch('type', type => {
-            if (type) {
-                this.popText = 2
-            }
-        })
-        this.$watch('txtShow', txtShow => {
-            setTimeout(function() {
-                _this.txtShow = false
-                _this.txtHtml = ''
-            }, 1000)
-        })
+  data() {
+    return {
+      popShow: false,
+      popText: 1,
+      txtShow: false,
+      txtHtml: ''
     }
+  },
+  computed: mapState({
+    type: state => {
+      return state.reservation.type
+    },
+    err: state => {
+      return state.reservation.err
+    }
+  }),
+  components: {},
+  methods: {
+    popClick(type) {
+      this.popShow = true
+      this.popText = type
+      this.phone = ''
+      window.dcsMultiTrack('DCS.dcsuri', 'cgzf-activity-popClick', 'WT.ti', 'cgzf-activity-popClick')
+    },
+    close() {
+      this.popShow = false
+    },
+    joinSubmit() {
+      if (!this.type) {
+        alert('提交中')
+        return
+      }
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/
+      if (!this.phone || this.phone.length === 0) {
+        this.txtShow = true
+        this.txtHtml = '手机号不能为空！'
+        return
+      } else if (!reg.test(this.phone)) {
+        this.txtShow = true
+        this.txtHtml = '手机号输入不正确！'
+        return
+      }
+      this.$store.dispatch('reservation/fetch', {
+        aid: '841000458974244864',
+        userName: '',
+        phone: this.phone,
+        bizsource: getQueryString('bizsource') || 'YG_WX',
+        source: '4',
+        tgqdcode: getQueryString('tgqdcode') || 'R35E9BFW'
+      })
+      window.dcsMultiTrack('DCS.dcsuri', 'cgzf-activity-joinSubmit', 'WT.ti', 'cgzf-activity-joinSubmit')
+    }
+  },
+  mounted() {
+    document.title = '聚焦春季热点，开启三月红利行动'
+    var _this = this
+    window.InitWeChatShare({
+      shareTitle: window.document.title,
+      shareLink: window.location.href,
+      shareDesc: 'AI工作室红利行动，带你抓3月金股！',
+      shareImg: 'http://i0.jrjimg.cn/zqt-red-1000/focus/Qcode/cgzf-share-img.jpg',
+      callback: function(wx) {
+
+      }
+    })
+    this.$watch('type', type => {
+      if (type) {
+        this.popText = 2
+      }
+    })
+    this.$watch('txtShow', txtShow => {
+      setTimeout(function() {
+        _this.txtShow = false
+        _this.txtHtml = ''
+      }, 1000)
+    })
+  }
 }
 </script>

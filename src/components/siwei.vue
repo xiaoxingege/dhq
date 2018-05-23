@@ -764,8 +764,8 @@ export default {
         return
       }
       this.options = {
-          ...this.options,
-          ...this.templateList[tmpValue].options
+        ...this.options,
+        ...this.templateList[tmpValue].options
 
       }
       this.dimensionOptions.xDefault = this.templateList[tmpValue].options.xDefault

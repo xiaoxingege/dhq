@@ -2,15 +2,16 @@
 <div class="market-tem">
   <div class="market-tem-top">
     <NavBar :data="navText" :type="type" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
-    <div class="dptem-help-img fr" v-z3-help="iconHelpMsg"></div>
+    <div class="dptem-help-img fr" v-z3-help="iconHelpMsg" @mouseover="helpMaiDian"></div>
   </div>
-  <div class="market-tem-chart" ref="chart"></div>
+  <div class="market-tem-chart" ref="chart" @mouseover="chartMaiDian"></div>
   <div class="suggestion">解读：{{suggestion}}</div>
 </div>
 </template>
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import echarts from 'echarts'
+import util from '../../dhq/util'
 export default {
   props: ['isResizeBottomChart'],
   data() {
@@ -28,7 +29,8 @@ export default {
       styleLiObj: {
         width: '85px'
       },
-      iconHelpMsg: '大盘温度计是基于趋势交易理论设计的预测算法：以上证指数为假想可操作标的，通过仓位调整，得出类似基金的净值曲线。该预测算法在历史上经过了极为严格的量化回测，可以给出0-100%等多种仓位建议，使这条净值曲线获得最佳收益。'
+      iconHelpMsg: '大盘温度计是基于趋势交易理论设计的预测算法：以上证指数为假想可操作标的，通过仓位调整，得出类似基金的净值曲线。该预测算法在历史上经过了极为严格的量化回测，可以给出0-100%等多种仓位建议，使这条净值曲线获得最佳收益。',
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -82,7 +84,7 @@ export default {
             trigger: 'axis',
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑',
+              fontFamily: 'Microsoft YaHei',
               fontSize: 12,
               color: '#c9d0d7'
             },
@@ -258,6 +260,12 @@ export default {
         d = date.substring(6)
       }
       return m + '/' + d
+    },
+    chartMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sywdj_ck&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
+    },
+    helpMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sywdj_ask&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
     }
   },
   mounted() {
