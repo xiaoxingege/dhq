@@ -224,7 +224,7 @@
       },
       loadMore() {
         this.page++
-        this.typeList(this.typeIndex,this.newTime,this.lastTime)
+        this.typeList(this.typeIndex,this.newTime,this.lastTime,this.newsId)
         var count = Math.ceil(this.totalPage / this.pageSize)
         if (count === this.page + 1) {
           setTimeout(() => {
@@ -238,7 +238,7 @@
           this.$store.commit('setIsTop',true)
           console.log('启动定时器')
           console.log(intervalId)
-          this.typeList(this.typeIndex,this.newTime,this.lastTime)
+          this.typeList(this.typeIndex,this.newTime,this.lastTime,this.newsId)
         },this.intervalTime)
       },
       updateTopic() {
@@ -302,18 +302,18 @@
         this.typeIndex = index
         this.page = 0
         this.$store.commit('setNewsOpportunitiesInit',[])
-        this.typeList(this.typeIndex,'','')
+        this.typeList(this.typeIndex,'','','')
       },
-      typeList(type,newTime,nextTime){
+      typeList(type,newTime,nextTime,ids){
         if(type === 0){
-          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:this.newsId })
+          this.$store.dispatch('getAllChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:ids })
         }else if(type ===1){
-          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:this.newsId })
+          this.$store.dispatch('getStockChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:ids })
         }else if(type ===2){
-          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:this.newsId })
+          this.$store.dispatch('getTopicChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime: nextTime ,ids:ids })
         }else if(type ===3){
-          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime:nextTime ,ids:this.newsId })
-        } 
+          this.$store.dispatch('getProductChance', { page: this.page, isTop: this.isTops, newTime:newTime, nextTime:nextTime ,ids:ids })
+        }
       },
       updateStock(stock) {
         this.$store.commit('UPDATE_RELSTOCK', stock)

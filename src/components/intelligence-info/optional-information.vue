@@ -122,20 +122,28 @@
     },
     methods: {
       loadList() {
-        this.$nextTick(() => {
-          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
-            let _height = $('.news-list').get(0).offsetHeight
-                if(_height<this.innerHeight){
-                  this.$store.commit('setIsTop',false)
-                  this.loadMore()
-                }
-          })
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+          if(_height<this.innerHeight){
+            this.$store.commit('setIsTop',false)
+            this.loadMore()
+          }
         })
+      },
+      loadMore() {
+        this.page++
+        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
+        var count = Math.ceil(this.totalPage / this.pageSize)
+        if(count === this.page + 1){
+          setTimeout(() => {
+            this.$store.commit('setNoData',true)
+          },500)
+        }
       },
       updateNews() {
         this.updateNewsPid = setInterval(() => {
-          console.log('启动定时器')
-          console.log(this.updateNewsPid)
+          // console.log('启动定时器')
+          // console.log(this.updateNewsPid)
           this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
         },this.intervalTime)
       },
@@ -147,8 +155,8 @@
         this.scrollTop = e.target.scrollTop
         if (this.scrollTop*2 >= this.innerHeight ) {
           if (this.updateNewsPid) {
-            console.log(this.updateNewsPid)
-            console.log('清除定时器')
+            // console.log(this.updateNewsPid)
+            // console.log('清除定时器')
             clearInterval(this.updateNewsPid)
           }
         }
@@ -159,17 +167,10 @@
           this.$store.commit('setIsTop',false)
         }
         if(scrollBottom === scrollHeight && this.noData !== true){
-          this.loadMore()
-        }
-      },
-      loadMore() {
-        this.page++
-        this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
-        var count = Math.ceil(this.totalPage / this.pageSize)
-        if(count === this.page + 1){
-          setTimeout(() => {
-            this.$store.commit('setNoData',true)
-          },500)
+          if(!this.loadingShow){
+            // console.log(this.loadingShow)
+            this.loadMore()
+          }
         }
       },
       cutStr(str, len) {
@@ -295,7 +296,6 @@
   }
   .news-wrapper{
     margin-bottom: 50px;
-    height:100%;
   }
   .pullUptoRefresh,.loadMore{
     position: absolute;

@@ -292,7 +292,13 @@ export default {
           }
         }
       }
-      state.innerCode = innerCode.join(',')
+      var newArr =[]
+      for(let i = 0; i<innerCode.length; i++) {
+        if(newArr.indexOf(innerCode[i]) === -1) {
+          newArr.push(innerCode[i])
+        }
+      }
+      state.innerCode = newArr.join(',')
     },
     setOptionalStockId(state, result) {
       state.optionalStockId = result.id
@@ -587,8 +593,8 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
-      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
+      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
