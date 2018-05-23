@@ -130,140 +130,118 @@ export default {
     })
   },
   methods: {
-    loadList() {
-      this.$nextTick(() => {
-        this.$store.dispatch('getOptionalInformation', {
-          innerCode: this.innerCode,
-          page: this.page,
-          isTop: false,
-          newTime: '',
-          nextTime: '',
-          ids: ''
-        }).then(() => {
-          let _height = $('.news-list').get(0).offsetHeight
-          if (_height < this.innerHeight) {
-            this.$store.commit('setIsTop', false)
-            this.loadMore()
-          }
-        })
-      })
-    },
-      methods: {
-          loadList() {
-              this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
-                  let _height = $('.news-list').get(0).offsetHeight
-                  if(_height<this.innerHeight){
-                      this.$store.commit('setIsTop',false)
-                      this.loadMore()
-                  }
-              })
-          },
-          loadMore() {
-              this.page++
-              this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
-              var count = Math.ceil(this.totalPage / this.pageSize)
-              if(count === this.page + 1){
-                  setTimeout(() => {
-                      this.$store.commit('setNoData',true)
-                  },500)
-              }
-          },
-          updateNews() {
-              this.updateNewsPid = setInterval(() => {
-                  // console.log('启动定时器')
-                  // console.log(this.updateNewsPid)
-                  this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
-              },this.intervalTime)
-          },
-          getScrollTop(e) {
-              let offsetHeight = e.target.offsetHeight
-              let scrollHeight = e.target.scrollHeight
-              let scrollTop = e.target.scrollTop
-              let scrollBottom = offsetHeight + scrollTop
-              this.scrollTop = e.target.scrollTop
-              if (this.scrollTop*2 >= this.innerHeight ) {
-                  if (this.updateNewsPid) {
-                      // console.log(this.updateNewsPid)
-                      // console.log('清除定时器')
-                      clearInterval(this.updateNewsPid)
-                  }
-              }
-              if (this.scrollTop === 0) {
-                  this.$store.commit('setIsTop',true)
-                  this.updateNews()
-              }else{
+      loadList() {
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false,newTime:'',nextTime:'', ids:'' }).then(() => {
+              let _height = $('.news-list').get(0).offsetHeight
+              if(_height<this.innerHeight){
                   this.$store.commit('setIsTop',false)
+                  this.loadMore()
               }
-              if(scrollBottom === scrollHeight && this.noData !== true){
-                  if(!this.loadingShow){
-                      // console.log(this.loadingShow)
-                      this.loadMore()
-                  }
-              }
-          },
-          cutStr(str, len) {
-              return cutString(str, len)
-          },
-          upAndDownColor(flag){
-              if (flag > 0) {
-                  return 'upColor'
-              } else if (flag < 0) {
-                  return 'downColor'
-              } else {
-                  return ''
-              }
-          },
-          status(txt) {
-              if(txt ==='利好' || txt ==='增持' || txt === '买入'){
-                  return 'upBgColor'
-              } else if (txt === '利空' || txt === '卖出') {
-                  return 'downBgColor'
-              }else{
-                  return ''
-              }
-          },
-          getInnerCode() {
+          })
+      },
+      loadMore() {
+          this.page++
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:this.page,isTop:false, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
+          var count = Math.ceil(this.totalPage / this.pageSize)
+          if(count === this.page + 1){
+              setTimeout(() => {
+                  this.$store.commit('setNoData',true)
+              },500)
+          }
+      },
+      updateNews() {
+          this.updateNewsPid = setInterval(() => {
+              // console.log('启动定时器')
+              // console.log(this.updateNewsPid)
+              this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0, isTop:true, newTime:this.newTime, nextTime: this.lastTime ,ids:this.newsId })
+          },this.intervalTime)
+      },
+      getScrollTop(e) {
+          let offsetHeight = e.target.offsetHeight
+          let scrollHeight = e.target.scrollHeight
+          let scrollTop = e.target.scrollTop
+          let scrollBottom = offsetHeight + scrollTop
+          this.scrollTop = e.target.scrollTop
+          if (this.scrollTop*2 >= this.innerHeight ) {
               if (this.updateNewsPid) {
                   clearInterval(this.updateNewsPid)
               }
-              this.innerCodes = ''
-              this.page = 0
-              this.$store.commit('setOptionalinformationInit',[])
-              this.$store.commit('setNoData',false)
-              var id = $('.select option:selected').val()
-              let index = $('.select option:selected').attr('data-index')
-              let stocks =  this.stockPool
-              let thisStock = stocks[index]
-              let str
-              if(thisStock.equityPool === null){
-                  str = ''
-              }else{
-                  for(let list of thisStock.equityPool) {
-                      this.innerCodes  += list.innerCode + ','
-                  }
-                  str = this.innerCodes.substring(0,this.innerCodes.length-1)
+          }
+          if (this.scrollTop === 0) {
+              this.$store.commit('setIsTop',true)
+              this.updateNews()
+          }else{
+              this.$store.commit('setIsTop',false)
+          }
+          if(scrollBottom === scrollHeight && this.noData !== true){
+              if(!this.loadingShow){
+                  this.loadMore()
               }
-              this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
-              this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',nextTime:'',ids:'' })
-              if(this.scrollTop === 0){
-                  this.$store.commit('setIsTop',true)
-                  this.updateNews()
-              }
-          },
-          updateStock(stock) {
-              this.$store.commit('UPDATE_RELSTOCK', stock)
-          },
-          subscribeStock() {
-              const msg = {
-                  subject: 'snapshot',
-                  type: '1',
-                  actionType: '1',
-                  stockCodeList: Object.keys(this.relatedStocks),
-                  token: ''
-              }
-              this.$store.dispatch('z3sockjs/send', msg)
           }
       },
+      cutStr(str, len) {
+          return cutString(str, len)
+      },
+      upAndDownColor(flag){
+          if (flag > 0) {
+              return 'upColor'
+          } else if (flag < 0) {
+              return 'downColor'
+          } else {
+              return ''
+          }
+      },
+      status(txt) {
+          if(txt ==='利好' || txt ==='增持' || txt === '买入'){
+              return 'upBgColor'
+          } else if (txt === '利空' || txt === '卖出') {
+              return 'downBgColor'
+          }else{
+              return ''
+          }
+      },
+      getInnerCode() {
+          if (this.updateNewsPid) {
+              clearInterval(this.updateNewsPid)
+          }
+          this.innerCodes = ''
+          this.page = 0
+          this.$store.commit('setOptionalinformationInit',[])
+          this.$store.commit('setNoData',false)
+          var id = $('.select option:selected').val()
+          let index = $('.select option:selected').attr('data-index')
+          let stocks =  this.stockPool
+          let thisStock = stocks[index]
+          let str
+          if(thisStock.equityPool === null){
+              str = ''
+          }else{
+              for(let list of thisStock.equityPool) {
+                  this.innerCodes  += list.innerCode + ','
+              }
+              str = this.innerCodes.substring(0,this.innerCodes.length-1)
+          }
+          this.$store.commit('setOptionalStockId',{ id:id, innerCode:str })
+          this.$store.dispatch('getOptionalInformation', { innerCode:this.innerCode, page:0,isTop:false,newTime:'',nextTime:'',ids:'' })
+          if(this.scrollTop === 0){
+              this.$store.commit('setIsTop',true)
+              this.updateNews()
+          }
+      },
+      updateStock(stock) {
+          this.$store.commit('UPDATE_RELSTOCK', stock)
+      },
+      subscribeStock() {
+          const msg = {
+              subject: 'snapshot',
+              type: '1',
+              actionType: '1',
+              stockCodeList: Object.keys(this.relatedStocks),
+              token: ''
+          }
+          this.$store.dispatch('z3sockjs/send', msg)
+      }
+    },
   components: {
     StockBox
   },
@@ -324,15 +302,12 @@ export default {
 }
 .news-wrapper {
     margin-bottom: 50px;
-<<<<<<< HEAD
   }
   .pullUptoRefresh,.loadMore{
-=======
     height: 100%;
 }
 .loadMore,
 .pullUptoRefresh {
->>>>>>> master
     position: absolute;
     bottom: -50px;
     left: 50%;
