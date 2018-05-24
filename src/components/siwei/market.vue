@@ -32,10 +32,8 @@
             </div>
             <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
               <li class="topic" v-for="topic in stock.topics">
-                <router-link :to="{ name:'topicDetail', params: {topicId:topic.topicCode} }" target="_blank">
-                  <div class="name">{{topic.topicName}}</div>
-                  <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
-                </router-link>
+                <div class="name" @dblclick.stop="openPlate(topic.topicCode)">{{topic.topicName}}</div>
+                <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
               </li>
             </ul>
           </div>
@@ -49,6 +47,7 @@
               <span>{{plate.dateTime | hhmm}}</span>
               <span class="name">{{plate.industryName}}</span>
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
+              <span v-z3-updowncolor="plate.chg" class="chgmark">{{plate.chg>=0?'板块拉升':'板块打压'}}</span>
             </div>
             <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
@@ -423,7 +422,7 @@ export default {
         }]
       });
       this.chart.on('mouseover', (params) => {
-        if(params.seriesIndex === 0) return
+        if (params.seriesIndex === 0) return
         const position = {};
         const x = params.event.offsetX;
         const y = params.event.offsetY;
@@ -661,6 +660,9 @@ export default {
 
 <style lang='scss' scoped>
 @import '../../assets/scss/style.scss';
+.chgmark {
+    float: right;
+}
 .market {
     height: 100%;
     font-size: 12px;
