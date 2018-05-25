@@ -11,7 +11,9 @@ import util from '../../z3tougu/util'
 import {
   mapState
 } from 'vuex'
-
+import {
+  ctx
+} from '../../z3tougu/config'
 let pcId = "";
 export default {
   data() {
@@ -179,6 +181,11 @@ export default {
           smooth: true
         }]
       });
+      this.chart.on('dblclick', (params) => {
+        if (params.componentType === 'markPoint') {
+          this.openPlate(this.plates[params.dataIndex].idxCode)
+        }
+      })
     },
     addMarkData() {
       const interval = this.indexRange.interval;
@@ -280,6 +287,10 @@ export default {
     },
     openIndex() {
       window.open('stock/000001.SH');
+    },
+    openPlate(code) {
+      const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
+      window.open(path);
     }
   },
   mounted() {
