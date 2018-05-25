@@ -11,11 +11,15 @@ const getters = {
 
 }
 
-const buildQL = function(params, { dispatch }) {
+const buildQL = function(params, {
+  dispatch
+}) {
   if (params.nickname) {
     return Promise.resolve(`assignee = ${params.nickname}`)
   } else {
-    return dispatch('fetchUsers', { limit: 999 }).then(users => {
+    return dispatch('fetchUsers', {
+      limit: 999
+    }).then(users => {
       let ql = users.map(user => {
         return `assignee = ${user.name}`
       }).join(' OR ')
@@ -26,9 +30,14 @@ const buildQL = function(params, { dispatch }) {
 
 // actions
 const actions = {
-  fetch({ commit, dispatch }, params) {
+  fetch({
+    commit,
+    dispatch
+  }, params) {
     const $ = require('jquery')
-    return buildQL(params, { dispatch }).then(ql => {
+    return buildQL(params, {
+      dispatch
+    }).then(ql => {
       ql = `(${ql}) AND issuetype = Sub-task AND (status = "In Progress" OR status = 开始 OR status= "To Do") AND createdDate >= 2018-04-16`
       return $.ajax({
         url: 'http://itougu.jrj.com.cn/actm/proxy',
@@ -58,7 +67,9 @@ const actions = {
       })
     })
   },
-  fetchUsers({ commit }, params) {
+  fetchUsers({
+    commit
+  }, params) {
     const $ = require('jquery')
     const t = Date.now()
     const sign = require('utils/sign')
@@ -81,7 +92,9 @@ const actions = {
       return Promise.resolve(data)
     })
   },
-  addUser({ commit }, data) {
+  addUser({
+    commit
+  }, data) {
     const $ = require('jquery')
     const sign = require('utils/sign')
     const t = Date.now()
@@ -101,7 +114,9 @@ const actions = {
       return Promise.resolve()
     })
   },
-  delUser({ commit }, data) {
+  delUser({
+    commit
+  }, data) {
     const $ = require('jquery')
     const sign = require('utils/sign')
     const t = Date.now()

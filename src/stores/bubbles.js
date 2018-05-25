@@ -66,11 +66,11 @@ export default {
       szIndex: []
     },
     ystLineData: [],
-    cxgZoom:{
-      startValue:null,
-      endValue:null
+    cxgZoom: {
+      startValue: null,
+      endValue: null
     },
-    isInit:true
+    isInit: true
 
   },
   mutations: {
@@ -184,13 +184,13 @@ export default {
         seriesData: []
       }
       if (result.body.errCode === 0) {
-        for (let item of data){
-            if(item.xData !== null){
-                state.isInit = false
-                state.cxgZoom.startValue = 0.45
-                state.cxgZoom.endValue = 0.55
-                break
-            }
+        for (let item of data) {
+          if (item.xData !== null) {
+            state.isInit = false
+            state.cxgZoom.startValue = 0.45
+            state.cxgZoom.endValue = 0.55
+            break
+          }
         }
         for (let item of data) {
           if (result.options.type === 1 || result.options.type === 2 || result.options.type === 3 || result.options.type === 4 || result.options.type === 7) {
@@ -199,29 +199,29 @@ export default {
               if (item.xData > 10) {
                 state.ztgBubblesData.xData.push(Math.log(11))
                 state.ztgBubblesData.seriesData.push([Math.log(11), item.yData])
-              } else if(Number(item.xData) === 0){
-                  state.ztgBubblesData.xData.push(Math.log(1))
-                  state.ztgBubblesData.seriesData.push([Math.log(1), item.yData])
-              }else{
+              } else if (Number(item.xData) === 0) {
+                state.ztgBubblesData.xData.push(Math.log(1))
+                state.ztgBubblesData.seriesData.push([Math.log(1), item.yData])
+              } else {
                 state.ztgBubblesData.xData.push(Math.log(Number(item.xData)))
                 state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData)), item.yData])
               }
-                state.ztgBubblesData.yData.push(item.yData)
-                state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-                state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-                state.ztgBubblesData.innerCode.push(item.innerCode)
-                state.ztgBubblesData.name.push(item.name)
+              state.ztgBubblesData.yData.push(item.yData)
+              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+              state.ztgBubblesData.innerCode.push(item.innerCode)
+              state.ztgBubblesData.name.push(item.name)
             }
           } else if (result.options.type === 6 || result.options.type === 5) {
-              if (item.xData !== null && item.yData !== null) {
-                state.ztgBubblesData.xDefault.push(item.xData)
-                state.ztgBubblesData.xData.push(Math.log(Number(item.xData) / 100 + 2))
-                state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) / 100 + 2), item.yData])
-                state.ztgBubblesData.yData.push(item.yData)
-                state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
-                state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
-                state.ztgBubblesData.innerCode.push(item.innerCode)
-                state.ztgBubblesData.name.push(item.name)
+            if (item.xData !== null && item.yData !== null) {
+              state.ztgBubblesData.xDefault.push(item.xData)
+              state.ztgBubblesData.xData.push(Math.log(Number(item.xData) / 100 + 2))
+              state.ztgBubblesData.seriesData.push([Math.log(Number(item.xData) / 100 + 2), item.yData])
+              state.ztgBubblesData.yData.push(item.yData)
+              state.ztgBubblesData.bubbleSize.push(item.bubbleSize)
+              state.ztgBubblesData.bubbleColor.push(item.bubbleColor)
+              state.ztgBubblesData.innerCode.push(item.innerCode)
+              state.ztgBubblesData.name.push(item.name)
             }
           }
         }
@@ -379,31 +379,31 @@ export default {
       }
     },
     setNewStockList(state, result) {
-      function dealNull(arr,key){
-            let apendArr = []
-            for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
+      function dealNull(arr, key) {
+        let apendArr = []
+        for (var i = 0, flag = true, len = arr.length; i < len; flag ? i++ : i) {
 
-                if(arr[i] && arr[i][key] === null ){
-                    apendArr.push(arr[i])
-                    arr.splice(i,1);
-                    flag = false;
-                } else {
-                    flag = true;
-                }
-            }
-            return arr.concat(apendArr)
+          if (arr[i] && arr[i][key] === null) {
+            apendArr.push(arr[i])
+            arr.splice(i, 1);
+            flag = false;
+          } else {
+            flag = true;
+          }
         }
+        return arr.concat(apendArr)
+      }
       if (result.body.errCode === 0) {
         if (result.type === 0 || result.type === 1) {
           state.newStockList = result.body.data.sort(function(a, b) {
             return b.chgNum - a.chgNum
           })
-            state.newStockList =  dealNull(state.newStockList,'chgNum')
+          state.newStockList = dealNull(state.newStockList, 'chgNum')
         } else if (result.type === 2) {
           state.newStockList = result.body.data.sort(function(a, b) {
             return b.chg - a.chg
           })
-            state.newStockList =  dealNull(state.newStockList,'chg')
+          state.newStockList = dealNull(state.newStockList, 'chg')
         }
 
         // state.newStockList = result.data
@@ -428,19 +428,20 @@ export default {
       }
       state.newStockSortType = result.type
       state.newStockSort = result.sortType
-      function dealNull(arr,key){
-          let apendArr = []
-          for(var i=0,flag=true,len=arr.length; i<len; flag ? i++ : i){
 
-              if(arr[i] && arr[i][key] === null ){
-                  apendArr.push(arr[i])
-                  arr.splice(i,1);
-                  flag = false;
-              } else {
-                  flag = true;
-              }
+      function dealNull(arr, key) {
+        let apendArr = []
+        for (var i = 0, flag = true, len = arr.length; i < len; flag ? i++ : i) {
+
+          if (arr[i] && arr[i][key] === null) {
+            apendArr.push(arr[i])
+            arr.splice(i, 1);
+            flag = false;
+          } else {
+            flag = true;
           }
-          return arr.concat(apendArr)
+        }
+        return arr.concat(apendArr)
       }
 
       if (result.type === 'name') {
@@ -474,12 +475,12 @@ export default {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chg - b.chg
           })
-            state.newStockList =  dealNull(state.newStockList,'chg')
+          state.newStockList = dealNull(state.newStockList, 'chg')
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chg - a.chg
           })
-          state.newStockList =  dealNull(state.newStockList,'chg')
+          state.newStockList = dealNull(state.newStockList, 'chg')
         }
       } else if (result.type === 'lznum' || result.type === 'ystlbNum' || result.type === 'beforeKb') {
         if (result.sortType === 'desc') {
@@ -496,13 +497,13 @@ export default {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return a.chgNum - b.chgNum
           })
-          state.newStockList =  dealNull(state.newStockList,'chgNum')
+          state.newStockList = dealNull(state.newStockList, 'chgNum')
 
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
             return b.chgNum - a.chgNum
           })
-          state.newStockList =  dealNull(state.newStockList,'chgNum')
+          state.newStockList = dealNull(state.newStockList, 'chgNum')
         }
       } else if (result.type === 'ysdisKb') {
         if (result.sortType === 'desc') {

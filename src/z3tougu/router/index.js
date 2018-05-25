@@ -356,27 +356,29 @@ export default [{
   {
     path: ctx + '/zInfo',
     component: zInfo,
-    children: [{
-      path: 'wisdomHeadlines',
-      name: 'wisdomHeadlines',
-      component: wisdomHeadlines
-    }, {
-      path: 'optionalInformation',
-      name: 'optionalInformation',
-      component: optionalInformation
-    }, {
-      path: 'newsFlash',
-      name: 'newsFlash',
-      component: newsFlash
-    }, {
-      path: 'newsOpportunities',
-      name: 'newsOpportunities',
-      component: newsOpportunities
-    }, {
-      path: 'listedCompany',
-      name: 'listedCompany',
-      component: listedCompany
-    }]
+    children: [
+      {
+            path: 'wisdomHeadlines',
+            name: 'wisdomHeadlines',
+            component: wisdomHeadlines
+          }, {
+            path: 'optionalInformation',
+            name: 'optionalInformation',
+            component: optionalInformation
+          }, {
+            path: 'newsFlash',
+            name: 'newsFlash',
+            component: newsFlash
+          }, {
+            path: 'newsOpportunities',
+            name: 'newsOpportunities',
+            component: newsOpportunities
+          }, {
+            path: 'listedCompany',
+            name: 'listedCompany',
+            component: listedCompany
+          }
+    ]
   },
   {
     path: ctx + '/siweiIndex',
