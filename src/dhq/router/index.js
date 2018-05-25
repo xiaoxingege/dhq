@@ -5,6 +5,7 @@ import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
+import Calendar from 'components/jzxg/calendar'
 
 // import Search from 'components/search'
 // import Map from 'components/z3tougu-map'
@@ -98,6 +99,11 @@ export default [{
     path: ctx + '/industry/:industryId',
     name: 'industryDetail',
     component: IndustryDetail
+  },
+  {
+    path: ctx + 'jzxg',
+    name: 'calendar',
+    component: Calendar
   },
   // {
   //   path: ctx + '/smartPool',
