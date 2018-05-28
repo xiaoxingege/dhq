@@ -246,9 +246,15 @@ export default {
     },
     [types.UPDATE_RELSTOCK](state, stock) {
       const stocks = state.relatedStocks
+      let date = new Date()
       if (stocks[stock.innerCode] !== undefined) {
-        stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
-        stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
+        if(formatDate(date, 'hh:mm') === '09:05'){
+          stocks[stock.innerCode].price = null
+          stocks[stock.innerCode].chngPct =  null
+        }else {
+          stocks[stock.innerCode].price = stock.price !== null && stock.price !== undefined ? Number(parseFloat(stock.price).toFixed(2)) : config.emptyValue
+          stocks[stock.innerCode].chngPct = stock.curChngPct !== null && stock.price !== undefined ? Number(parseFloat(stock.curChngPct).toFixed(2)) : config.emptyValue
+        }
       }
     },
     setMask(state, visible) {
