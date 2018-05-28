@@ -37,5 +37,24 @@ export default {
       count--;
     }
     return data;
+  },
+  dcsMultiTrack() {
+    for (let i = 0; i < arguments.length; i++) {
+      if (arguments[i].indexOf('WT.') === 0) {
+        window.WT[arguments[i].substring(3)] = arguments[i + 1];
+        i++;
+      }
+      if (arguments[i].indexOf('DCS.') === 0) {
+        window.DCS[arguments[i].substring(4)] = arguments[i + 1];
+        i++;
+      }
+      if (arguments[i].indexOf('DCSext.') === 0) {
+        window.DCSext[arguments[i].substring(7)] = arguments[i + 1];
+        i++;
+      }
+    }
+    let dCurrent = new Date();
+    window.DCS.dcsdat = dCurrent.getTime();
+    window.dcsTag();
   }
 }

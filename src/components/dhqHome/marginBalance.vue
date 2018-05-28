@@ -2,14 +2,15 @@
 <div class="margin-balance">
   <div class="margin-balance-top">
     <NavBar :data="navText" :type="type" :styleObject="styleObj" :styleLiObj="styleLiObj"></NavBar>
-    <div class="mb-help-img fr" v-z3-help="iconHelpMsg"></div>
+    <div class="mb-help-img fr" v-z3-help="iconHelpMsg" @mouseover="helpMaiDian"></div>
   </div>
-  <div class="margin-balance-chart" ref="chart"></div>
+  <div class="margin-balance-chart" ref="chart" @mouseover="chartMaiDian"></div>
 </div>
 </template>
 <script>
 import NavBar from 'components/dhqHome/nav-bar'
 import echarts from 'echarts'
+import util from '../../dhq/util'
 export default {
   props: ['isResizeBottomChart'],
   data() {
@@ -26,7 +27,8 @@ export default {
       styleLiObj: {
         width: '85px'
       },
-      iconHelpMsg: '两融余额：代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标；'
+      iconHelpMsg: '两融余额：代表杠杆资金动向，牛市初期为先行看好指标，牛市后期为先行见顶指标；',
+      userId: this.$store.state.user.userId
     }
   },
   watch: {
@@ -106,7 +108,7 @@ export default {
             trigger: 'axis',
             textStyle: {
               align: 'left',
-              fontFamily: '微软雅黑',
+              fontFamily: 'Microsoft YaHei',
               fontSize: 12,
               color: '#c9d0d7'
             },
@@ -223,10 +225,19 @@ export default {
       const m = date.substring(4, 6)
       const d = date.substring(6)
       return y + '/' + m + '/' + d
+    },
+    chartMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sylr_ck&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
+    },
+    helpMaiDian: function() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sylr_ask&userId=' + this.userId, 'WT.ti', document.title) // 滑动至图表区域打点
     }
   },
   mounted() {
     this.chart = echarts.getInstanceByDom(this.$refs.chart) || echarts.init(this.$refs.chart)
+    this.chart.on('mouseover', function(params) {
+      console.log(1)
+    })
     this.init()
   },
   destroyed() {

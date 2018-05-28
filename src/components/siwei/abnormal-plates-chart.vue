@@ -11,8 +11,10 @@ import util from '../../z3tougu/util'
 import {
   mapState
 } from 'vuex'
-
-let pcId = '';
+import {
+  ctx
+} from '../../z3tougu/config'
+let pcId = "";
 export default {
   data() {
     return {
@@ -179,6 +181,11 @@ export default {
           smooth: true
         }]
       });
+      this.chart.on('dblclick', (params) => {
+        if (params.componentType === 'markPoint') {
+          this.openPlate(this.plates[params.dataIndex].idxCode)
+        }
+      })
     },
     addMarkData() {
       const interval = this.indexRange.interval;
@@ -186,13 +193,17 @@ export default {
       this.markLineData = [];
       this.plates.forEach((plate) => {
         const time = this.formatTime(plate.tradeMin);
+        console.info(time);
         const riseSpeed = plate.riseSpeed;
         const name = plate.idxName;
         const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
+        console.info(itemIndex);
         const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
-          const coordY = riseSpeed >= 0 ? itemIndex + interval / 2 : itemIndex - interval / 2;
+          // 如果coordY超过min max 则显示不出来，避免因为计算（四舍五入）导致超界，做-1操作。
+          const coordY = riseSpeed >= 0 ? itemIndex + (interval / 2 - 1) : itemIndex - (interval / 2 - 1);
+          console.info();
           let point = {
             coord: [time, coordY],
             symbolSize: [markPointSize, 20],
@@ -276,6 +287,10 @@ export default {
     },
     openIndex() {
       window.open('stock/000001.SH');
+    },
+    openPlate(code) {
+      const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
+      window.open(path);
     }
   },
   mounted() {

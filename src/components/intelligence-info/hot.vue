@@ -83,6 +83,11 @@ export default {
       this.$store.dispatch('zInfoPublic/retrieveHotWords', {
         size: 20
       });
+      pcId = setInterval(() => {
+        this.$store.dispatch('zInfoPublic/retrieveHotWords', {
+          size: 20
+        });
+      }, 60 * 1000);
     }
   },
   destroyed() {

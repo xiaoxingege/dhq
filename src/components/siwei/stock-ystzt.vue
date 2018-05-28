@@ -88,8 +88,8 @@ export default {
           }
         }
       },
-      bubbleHeight: (window.innerHeight - 29) * 0.66-22,
-      lineChartHeight: (window.innerHeight - 29) * 0.33-22,
+      bubbleHeight: (window.innerHeight - 29) * 0.66 - 22,
+      lineChartHeight: (window.innerHeight - 29) * 0.33 - 22,
       isShowDialog: false,
       offsetX: '',
       offsetY: '',
@@ -134,7 +134,9 @@ export default {
           showImg: false,
           showBImg: false
         }
-      ]
+      ],
+      tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
     }
   },
   components: {
@@ -198,14 +200,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -257,6 +259,17 @@ export default {
               // return '<p style="background: red; width:200px; height:200px">hello</p>'
             }
           },
+          dataZoom: [{
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           xAxis: {
             type: 'value',
             // name: '日期',
@@ -327,7 +340,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData) + 5,
+            max: Math.max.apply(null, yData) + 2,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -344,7 +357,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, yData) + 5) / 5
+            interval: (Math.max.apply(null, yData) + 2) / 5
 
           },
           series: [{
@@ -635,12 +648,12 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
-                  return ''
+              if (cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null) {
+                return ''
               }
               var tooltipStr =
-                '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
-                '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null ? '--' : Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%') + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--' : Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%') + '</p>';
               return tooltipStr;
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
@@ -649,14 +662,14 @@ export default {
               return [point[0] + 10, point[1]];
 
             },
-            axisPointer:{
-                  show:true,
-                  type:'line',
-                  snap:true,
-                  label:{
-                      show:true
-                  }
+            axisPointer: {
+              show: true,
+              type: 'line',
+              snap: true,
+              label: {
+                show: true
               }
+            }
 
           }
         })
@@ -774,8 +787,8 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(lxztData[params[0].dataIndex][1] === null){
-                  return ''
+              if (lxztData[params[0].dataIndex][1] === null) {
+                return ''
               }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
@@ -784,14 +797,14 @@ export default {
             },
             backgroundColor: 'rgba(67, 73, 84,0.9)',
             padding: [10, 50, 8, 7],
-            axisPointer:{
-                  show:true,
-                  type:'line',
-                  snap:true,
-                  label:{
-                      show:true
-                  }
+            axisPointer: {
+              show: true,
+              type: 'line',
+              snap: true,
+              label: {
+                show: true
               }
+            }
 
           }
         })
@@ -825,14 +838,14 @@ export default {
           let ps = ''
           let labelFun
           let num = this.$store.state.bubbles.ztgBubblesData.bubbleSize[index]
-          if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(79858278508 / 1e11) * 40).toFixed(2))) {
+          if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 30) {
             ps = 'bottom'
             labelFun = function(params) {
               return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)]
             }
           } else {
             ps = 'inside'
-            if (Number((Math.sqrt(num / 1e11) * 40).toFixed(2)) < Number((Math.sqrt(782000000 / 1e11) * 40).toFixed(2))) {
+            if ((150 * (Math.sqrt(num / 1e11) - that.tcapMin) + 13 * (that.tcapMax - that.tcapMin)) < 60) {
               labelFun = function(params) {
                 return that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(0, 2) + '\n' + that.$store.state.bubbles.ztgBubblesData.name[(params.dataIndex)].substring(2)
 
@@ -929,7 +942,7 @@ export default {
                 color: '#343741'
               }
             },
-            max: Math.max.apply(null, yData) + 5,
+            max: Math.max.apply(null, yData) + 2,
             axisLabel: {
               showMaxLabel: true,
               textStyle: {
@@ -946,7 +959,7 @@ export default {
             },
             data: yData,
             splitNumber: 5,
-            interval: (Math.max.apply(null, yData) + 5) / 5
+            interval: (Math.max.apply(null, yData) + 2) / 5
 
           },
           series: [{
@@ -1096,12 +1109,12 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null){
-                  return ''
+              if (cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null) {
+                return ''
               }
               var tooltipStr =
-                  '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null? '--':Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>' +
-                  '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--':Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2)+'%') + '</p>';
+                '<p>昨日涨停今日平均涨幅 : ' + (cxLineData.condition[params[0].dataIndex][1] === null ? '--' : Number(cxLineData.condition[params[0].dataIndex][1]).toFixed(2) + '%') + '</p>' +
+                '<p style="color:#f0b540">上证指数 : ' + (cxLineData.szIndex[params[0].dataIndex][1] === null ? '--' : Number(cxLineData.szIndex[params[0].dataIndex][1]).toFixed(2) + '%') + '</p>';
 
               return tooltipStr;
             },
@@ -1140,8 +1153,8 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
-              if(lxztData[params[0].dataIndex][1] === null){
-                  return ''
+              if (lxztData[params[0].dataIndex][1] === null) {
+                return ''
               }
               var tooltipStr =
                 '<p>今日连续涨停占比 : ' + that.dealNumFormat(lxztData[params[0].dataIndex][1]) + '</p>'
@@ -1349,22 +1362,22 @@ export default {
     position: absolute;
 }
 .legend {
-  right: 10px;
-  position: absolute;
-  bottom: 0;
-  color: #fff;
-  margin: 12px 0;
+    right: 10px;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    margin: 12px 0;
 }
 
 .legend ul li {
-  float: left;
-  width: 60px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  font-size: 12px;
-  border-right: 1px solid #000000;
-  box-sizing: border-box;
-  border-bottom: 1px solid #000;
+    float: left;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    border-right: 1px solid #000000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #000;
 }
 </style>

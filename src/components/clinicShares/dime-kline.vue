@@ -231,6 +231,7 @@ export default ({
     init() {
 
       const klineData = [].concat(this.indexFace.datas.data).reverse()
+
       const stressPrice = Number(this.indexFace.datas.stressPrice).toFixed(2)
       //     const stressPrice = '0'
       const currPirce = Number(this.indexFace.datas.currPirce).toFixed(2)
@@ -238,6 +239,11 @@ export default ({
       const supportPrice = Number(this.indexFace.datas.supportPrice).toFixed(2)
       var data = this.data
       //   const supportPrice = '0'
+      /*    while (klineData.length<60) {
+             klineData.push([])
+             data.vols.push('')
+          }
+          */
       klineData.forEach((item) => {
         let time = ''
         time = (item.endDate + '').substring(0, 4) + '-' + (item.endDate + '').substring(4, 6) + '-' + (item.endDate + '').substring(6, (item.endDate + '').length)
@@ -251,66 +257,57 @@ export default ({
         const volume = item.volume.toFixed(2)
         const prevClosePx = item.prevClosePx.toFixed(2)
         data.kdata.push([openPx, closePx, highPx, lowPx])
-        data.markLineData.push([{
-            coord: [data.times[0], stressPrice],
-            lineStyle: {
-              normal: {
-                color: config.upColor,
-                type: 'solid'
-              }
+        data.markLineData.push({
+          // coord: [data.times[0], stressPrice],
+          yAxis: stressPrice,
+          lineStyle: {
+            normal: {
+              color: config.upColor,
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], stressPrice],
-            lineStyle: {
-              normal: {
-                color: config.upColor,
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ], [{
-            coord: [data.times[0], currPirce],
-            lineStyle: {
-              normal: {
-                color: '#c9d0d7',
-                type: 'solid'
-              }
+        }, {
+          yAxis: currPirce,
+          lineStyle: {
+            normal: {
+              color: '#c9d0d7',
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], currPirce],
-            lineStyle: {
-              normal: {
-                color: '#c9d0d7',
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ], [{
-            coord: [data.times[0], supportPrice],
-            lineStyle: {
-              normal: {
-                color: '#1984ea',
-                type: 'solid'
-              }
+        }, {
+          yAxis: supportPrice,
+          lineStyle: {
+            normal: {
+              color: '#1984ea',
+              type: 'solid'
             }
           },
-          {
-            coord: [data.times[data.times.length - 1], supportPrice],
-            lineStyle: {
-              normal: {
-                color: '#1984ea',
-                type: 'solid'
-              }
+          label: {
+            normal: {
+              show: false
             }
+
           }
-        ])
+        })
         data.markPointData.push({
           name: '压力位',
           coord: [data.times[0], stressPrice],
-          symbol: 'rect',
-          symbolSize: [86, 22],
+          // symbol: 'rect',
+          symbol: 'image://http://i0.jrjimg.cn/Astock/red-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['50%', '-65%'],
           itemStyle: {
             normal: {
 
@@ -323,8 +320,9 @@ export default ({
               // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
               // }
 
-              color: '#141518',
-              borderColor: config.upColor,
+              /* color: '#141518',
+               borderColor: config.upColor, */
+              color: config.upColor,
               borderWidth: 1,
               opacity: 0.5,
               lineStyle: {
@@ -335,8 +333,14 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: config.upColor,
-                fontSize: 12
+                // color: config.upColor,
+                color: '#fff',
+                fontSize: 12,
+                position: [8, 3],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '压力位：' + stressPrice
+                }
 
               }
             }
@@ -345,8 +349,11 @@ export default ({
         }, {
           name: '当前价',
           coord: [data.times[0], currPirce],
-          symbol: 'rect',
-          symbolSize: [88, 22],
+          symbol: 'image://http://i0.jrjimg.cn/Astock/white3-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['160%', '65%'],
+          /* symbol: 'rect',
+          symbolSize: [88, 22], */
           itemStyle: {
             normal: {
               color: '#141518',
@@ -361,8 +368,13 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: '#c9d0d7',
-                fontSize: 12
+                color: '#333',
+                fontSize: 12,
+                position: [7, 7],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '当前价：' + currPirce
+                }
 
               }
             }
@@ -371,8 +383,11 @@ export default ({
         }, {
           name: '支撑位',
           coord: [data.times[0], supportPrice],
-          symbol: 'rect',
-          symbolSize: [88, 22],
+          symbol: 'image://http://i0.jrjimg.cn/Astock/blue-bj.png',
+          symbolSize: [92, 23],
+          symbolOffset: ['50%', '65%'],
+          /* symbol: 'rect',
+           symbolSize: [88, 22], */
           itemStyle: {
             normal: {
               color: '#141518',
@@ -387,8 +402,13 @@ export default ({
               label: {
                 show: true,
                 // fontWeight:'bold',
-                color: '#1984ea',
-                fontSize: 12
+                color: '#fff',
+                fontSize: 12,
+                position: [8, 6],
+                formatter: function(params) {
+                  // console.log(params)
+                  return '支撑位：' + supportPrice
+                }
 
               }
             }
@@ -413,10 +433,11 @@ export default ({
           const dt = []
           data.kdata.push(dt)
           data.vols.push('')
+
         }
       }
       // return data
-
+      //  console.log(data.kdata)
       this.initKline()
     },
     initKline() {
@@ -437,6 +458,10 @@ export default ({
           trigger: 'axis',
           axisPointer: {
             type: 'cross'
+          },
+          textStyle: {
+
+            color: '#c9d0d7'
           },
           formatter: function(t) {
             var obj = t[0];
@@ -502,8 +527,8 @@ export default ({
             show: false
           },
           {
-            left: 35,
-            right: 10,
+            left: 45,
+            right: 15,
             bottom: 25,
             height: '27%',
             show: false
@@ -617,6 +642,7 @@ export default ({
                 color: '#23272c'
               }
             },
+            //   min:10.06,
             splitLine: {
               show: true,
               lineStyle: {
@@ -707,7 +733,7 @@ export default ({
             xAxisIndex: 1,
             yAxisIndex: 1,
             data: lineData.vols,
-            barCategoryGap: '3', // 需要根据宽度定
+            // barCategoryGap: '3', // 需要根据宽度定
             itemStyle: {
               normal: {
                 color: '#7fbe9e'

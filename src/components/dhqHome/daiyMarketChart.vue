@@ -38,7 +38,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" :href="'stock/'+ stockCode" target="_blank">
+    <a class="line-chart" :href="'stock/'+ stockCode" target="_blank" @click="toZhiShu">
       <div v-if="lsChartData.priceArr.length>0" class="indexNum">
         <span v-z3-updowncolor="upDown" class="mr-5">{{stockVal === null ? '--':stockVal === undefined?'--':parseFloat(stockVal).toFixed(2)}}</span>
         <img v-if="upDownExtent && upDownExtent>0" src="../../assets/images/i_jiantou_up.png" />
@@ -53,13 +53,15 @@
 </template>
 <script>
 import echarts from 'echarts'
+import util from '../../dhq/util'
 export default {
   props: ['isResizeBottomChart', 'stockCode', 'stockName', 'timestamp', 'stockCodeList'],
   data() {
     return {
       stockVal: null,
       upDown: null,
-      upDownExtent: null
+      upDownExtent: null,
+      userId: this.$store.state.user.userId
     }
   },
   components: {},
@@ -285,6 +287,9 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
+    },
+    toZhiShu() {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_sy_zhishu&userId=' + this.userId, 'WT.ti', document.title)
     }
   },
   watch: {

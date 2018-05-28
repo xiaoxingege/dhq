@@ -468,7 +468,7 @@ body {
           <div class="mask"></div>
         </div>
       </div>
-      <div class="mark-detail">打败了{{checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
+      <div class="mark-detail">打败了{{smartStock.wineRate==null?'--':checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
     </div>
     <div class="clinic-top-center box-flex-1">
       <div class="radar-box">
@@ -496,7 +496,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -507,7 +507,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -518,7 +518,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -532,7 +532,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -543,7 +543,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">基本面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -554,7 +554,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -565,7 +565,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
@@ -576,7 +576,7 @@ body {
 
         </div>
       </div>
-      <div class="short-fund" v-else>
+      <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">行业面：</div>
         <div class="no-value fl">无</div>
       </div>

@@ -155,12 +155,12 @@ body {
 }
 .kline {
     /* height: 264px; */
-    height: 450px;
+    height: 750px;
 }
 .kline-charts {
 
     /*  height: 264px; */
-    height: 450px;
+    height: 750px;
     width: 100%;
 }
 .assess1 {
@@ -171,8 +171,15 @@ body {
     padding-top: 5px;
 }
 .txt > div {
-    margin-right: 10px;
+    margin-right: 9px;
     float: left;
+}
+.chgnum {
+    display: inline-block;
+    width: 45px;
+}
+.txt .chg {
+    margin-right: 0;
 }
 .txt .volu-box {
     margin-right: 0;
@@ -229,7 +236,7 @@ body {
     <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
     <div id="fstxt" class="txt clearfix">
       <div>
-        时间：<span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
+        <span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
       </div>
       <div class="">
         今开：<span class="price cred" id="open" ref='open'>{{openPx}}</span>
@@ -244,7 +251,7 @@ body {
         昨收：<span class="price cred" id="prevClosePx" ref='prevClosePx'>{{prevClosePx}}</span>
       </div>
       <div class="volu-box">成交量：<span class="volume" id="volume" ref='volume'>{{volume}}</span></div>
-      <div class="chg">涨幅：<span class="num" id="chgPct" ref='chgPct'>{{chgPct}}%</span></div>
+      <div class="chg">涨幅：<span class="chgnum" id="chgPct" ref='chgPct'>{{chgPct}}</span></div>
       <div class="kma5" @click="showMa('Ma5')" :class="opacityMa5===0?'gray':''">MA5：<span id="kma5" ref='kma5'>{{ma5}}</span></div>
       <div class="kma10" @click="showMa('Ma10')" :class="opacityMa10===0?'gray':''">MA10：<span id="kma10" ref='kma10'>{{ma10}}</span></div>
       <div class="kma20" @click="showMa('Ma20')" :class="opacityMa20===0?'gray':''">MA20：<span id="kma20" ref='kma20'>{{ma20}}</span></div>
@@ -295,16 +302,17 @@ export default {
       chgPct: '--',
       message: '',
       showX: true,
+      showTool: true,
       techFace: {},
       techAllData: '',
-      pointTitle: '',
       redGreen: '',
       allData: {},
       opintRedGreen: '',
       reds: '',
       greens: '',
       strs: '',
-      isMa5: true,
+      toopLeft: 0,
+      toopSize: 0,
       opacityMa5: 0,
       opacityMa10: 0,
       opacityMa20: 0.5,
@@ -327,7 +335,6 @@ export default {
         vols: [],
         chgPct: [],
         detailJson: [],
-        pointTitle: '',
         pointColor: '',
         pointText: '',
         pointColorDown: '',
@@ -343,6 +350,7 @@ export default {
   },
 
   computed: mapState({
+    techAll: state => state.clinicShares.techFace,
 
     lineData: state => {
 
@@ -412,7 +420,7 @@ export default {
         this.drawCharts()
 
       }
-      this.eventPoint()
+      // this.eventPoint()
     },
     initData() {
       // var allData = state.clinicShares.techFace
@@ -468,15 +476,14 @@ export default {
         const highPx = item.highPx.toFixed(2)
         const lowPx = item.lowPx.toFixed(2)
         const volume = item.volume.toFixed(2)
-        console.log(item.volume)
         const prevClosePx = item.prevClosePx.toFixed(2)
         const chgPct = item.chgPct.toFixed(2)
-        const ma5 = Number(item.ma5).toFixed(2)
-        const ma10 = Number(item.ma10).toFixed(2)
-        const ma20 = Number(item.ma20).toFixed(2)
-        const ma30 = Number(item.ma30).toFixed(2)
-        const ma60 = Number(item.ma60).toFixed(2)
-        const ma120 = Number(item.ma120).toFixed(2)
+        const ma5 = item.ma5 === null ? '--' : Number(item.ma5).toFixed(2)
+        const ma10 = item.ma10 === null ? '--' : Number(item.ma10).toFixed(2)
+        const ma20 = item.ma20 === null ? '--' : Number(item.ma20).toFixed(2)
+        const ma30 = item.ma30 === null ? '--' : Number(item.ma30).toFixed(2)
+        const ma60 = item.ma60 === null ? '--' : Number(item.ma60).toFixed(2)
+        const ma120 = item.ma120 === null ? '--' : Number(item.ma120).toFixed(2)
         // const ma250 = item.ma250
         data.kdata.push([openPx, closePx, highPx, lowPx])
         data.ma5.push(ma5)
@@ -493,7 +500,7 @@ export default {
         //  const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
         // console.log(item.tagsInfo)
 
-        console.log(klineData[index])
+        //  console.log(klineData[index])
         if (index === klineData.length - 1) {
           console.log(index === klineData.length - 1)
           this.ma5 = klineData[index].ma5 === null ? '--' : Number(klineData[index].ma5).toFixed(2)
@@ -506,7 +513,7 @@ export default {
           this.highPx = klineData[index].highPx.toFixed(2)
           this.lowPx = klineData[index].lowPx.toFixed(2)
           this.prevClosePx = klineData[index].prevClosePx.toFixed(2)
-          this.chgPct = klineData[index].chgPct.toFixed(2)
+          this.chgPct = klineData[index].chgPct.toFixed(2) + '%'
           if (klineData[index].volume > 10000000000) {
             this.volume = (klineData[index].volume / 10000000000).toFixed(2) + '亿手'
           } else if (klineData[index].volume > 1000000) {
@@ -515,11 +522,11 @@ export default {
             this.volume = (klineData[index].volume / 100).toFixed(2) + '手';
           }
 
-          console.log(klineData[index].volume)
+          //  console.log(klineData[index].volume)
           this.endDate = data.times[klineData.length - 1]
         }
 
-        console.log(this.ma5)
+        // console.log(this.ma5)
         let tags = item.tagsInfo
 
         for (var key in tags) {
@@ -743,8 +750,10 @@ export default {
       var self = this
       this.chart.on('mouseover', function(params) {
         if (params.componentType === 'markPoint') {
-          console.log(params);
-          console.log(params.data.coord[0])
+          var iocnColor = ''
+          var iconLeft = ''
+          // console.log(params);
+          // console.log(params.data.coord[0])
           // console.log(params.event.offsetX);
           // console.log(params.marker);
           var last = document.getElementById('toolpoint')
@@ -755,6 +764,19 @@ export default {
           var elewidth = 300
           if ((left + elewidth) > 1200) {
             left = parseInt(params.event.offsetX) - 40 - 320;
+            if (params.color === '#56a870') {
+              iocnColor = 'green2'
+            } else if (params.color === '#ca4941') {
+              iocnColor = 'red2'
+            }
+            iconLeft = '268'
+          } else {
+            if (params.color === '#56a870') {
+              iocnColor = 'green'
+            } else if (params.color === '#ca4941') {
+              iocnColor = 'red'
+            }
+            iconLeft = '-7'
           }
           /* downtxt.appendChild(newSpan); */
           var klineTags = self.allData.tags
@@ -766,14 +788,7 @@ export default {
           var need1 = klineTags[timeNew][1]
           var need2 = klineTags[timeNew][2]
           var allStr = '';
-          // console.log(need1)
-          // console.log(need2)
 
-          /*   if(tags[1] && tags[2] === undefined){
-    position: relative;
-    top: -2px;
-    left: -3px;margin: 3px 6px;
-                } */
           if (params.color === '#56a870') { //  green  对应的状态是1
             for (var i = 0; i < need1.length; i++) {
               var objs1 = need1[i];
@@ -787,13 +802,14 @@ export default {
                 }
               }
               allStr += oneStr1;
+              // iocnColor = 'green'
             }
           } else if (params.color === '#ca4941') { // red 对应的状态是 2
             for (var j = 0; j < need2.length; j++) {
               var objs2 = need2[j];
               var oneStr2 = '';
               for (var p in objs2) {
-                console.log(p)
+                // console.log(p)
                 if (p === 'title') {
                   oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + objs2[p] + '\n'
                 } else if (p === 'tag') {
@@ -801,54 +817,12 @@ export default {
                 }
               }
               allStr += oneStr2;
+              //  iocnColor = 'red'
             }
           }
           // console.log(allStr);
-          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><em id="triang" style="display:inline-block;width: 7px;height: 10px;background: url("../../assets/images/z3img/red-triangle.png") no-repeat;position: relative;top: -6px;left: -33px;"></em><div style="margin-top:-22px">' + coordTime + '</div>' + allStr + '</div>';
-          /* var downtxt = document.getElementById('triang');
-                 // var downtxt = document.createElement('span');
-                  downtxt.class = 'triangle'; */
-          /*  var klineTags = self.lineData.pointTitle
-             for(var key in klineTags){
-              if(klineTags[key][1] === undefined && klineTags[key][2] === undefined){
-             // console.log(key);
-              }else{
-               // var packJson = klineTags[key][1]
-                var str = ''
-                var str1 = ''
-                if(klineTags[key][1] === undefined){
-                  var len2 = klineTags[key][2].length
-                  var tagTitle = klineTags[key][2]
-                  for(var i=0; i<len2; i++){
-                    console.log(tagTitle[i].title)
-                    str += '<span>' + tagTitle[i].tag + '</span>';
-                    // console.log(str)
-                  }
-                  document.getElementById('toopdetail').innerHTML = str
-                }else if(klineTags[key][2] === undefined){
-                  var len1 = klineTags[key][1].length
-                  var tagTitle2 = klineTags[key][1]
-                 // console.log(len1)
-                  for(var j=0; j<len1; j++){
-                    str1 += '<span>' + tagTitle2[j].tag + '</span>';
-                  }
-                  document.getElementById('toopdetail').innerHTML = str1
+          last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><img src="http://i0.jrjimg.cn/Astock/' + iocnColor + '-triangle.png" style="position: absolute;left: ' + iconLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr + '</div>';
 
-                } */
-          // for(var p in packJson) { // 遍历json数组时，这么写p为索引，0,1
-          // console.log(p)
-          //  console.log(packJson[p])
-          // data.detailJson.push(packJson[p])
-          // console.log(packJson[p].name + " " + packJson[p].password);
-          //   console.log(data.detailJson)
-          // console.log(packJson)
-
-
-
-
-          // } 
-          /*  }
-          } */
         }
       })
       this.chart.on('mouseout', function(params) {
@@ -916,7 +890,20 @@ export default {
           axisPointer: {
             type: 'line'
           },
+
+          position: function(pos, params, dom, rect, size) {
+
+            _self.toopLeft = pos[0]
+            _self.toopSize = size.viewSize[0]
+            // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+            /*   var obj = {top: '50%'};
+             obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = '50%';
+             console.log(obj)
+             return obj; */
+          },
+          extraCssText: 'background-color: transparent;',
           formatter: function(t) {
+            //  console.log(t)
             var obj = t[0];
             var time = obj.name; // 时间
             var axisid = obj.axisIndex
@@ -948,7 +935,12 @@ export default {
                 //  closePx = objarr[2];
                 highPx = objarr[3];
                 lowPx = objarr[4];
-                volume = t[7].value;
+                if (t.length <= 2) {
+                  volume = t[1].value;
+                } else {
+                  volume = t[7].value;
+                }
+
 
                 /*  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') +
                     '<br/>最低价：' + (lowPx || '--') + '<br/>成交量：' + (volume || '--'); */
@@ -1001,22 +993,73 @@ export default {
               //  console.log(item)
               if (item.endDate + '' === newTime) {
                 //  console.log(item.endDate === newTime)
-                _self.chgPct = item.chgPct.toFixed(2)
-                _self.prevClosePx = item.prevClosePx.toFixed(2)
+                _self.$refs.chgPct.innerText = item.chgPct.toFixed(2) + '%'
+                _self.$refs.prevClosePx.innerText = item.prevClosePx.toFixed(2)
 
               }
-            })
 
+            })
+            //  console.log(t[0].value.length)
             _self.openPx = openPx === undefined ? '--' : openPx
             //  _self.$refs.close.innerText = closePx
             _self.highPx = highPx === undefined ? '--' : highPx
             _self.lowPx = lowPx === undefined ? '--' : lowPx
             _self.volume = volume === undefined ? '--' : volume
+            if (t[0].value.length <= 1) {
+              _self.$refs.chgPct.innerText = '--'
+              _self.$refs.prevClosePx.innerText = '--'
+              _self.volume = '--'
+            }
             //  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
+
+            /* downtxt.appendChild(newSpan); */
+            var klineTags = _self.allData.tags
+            var coordTime = t[0].axisValue
+            // console.log(coordTime.replace(/\-/g, ''))
+            var timeNew = coordTime.replace(/\-/g, '')
+
+            var allStr1 = '';
+            var allStr2 = '';
+            var all = '';
+            var all2 = '';
+            var infoStr = ''
+            var tLeft = ''
+            if (klineTags[timeNew] !== undefined) {
+              var need1 = klineTags[timeNew][1]
+              var need2 = klineTags[timeNew][2]
+              console.log(need1)
+              console.log(need2)
+              if (need1 && need2) {
+                allStr1 = _self.redGreenTooltip(need1)
+                allStr2 = _self.redGreenTooltip(need2)
+                if (_self.toopLeft + 489 >= _self.toopSize) {
+
+                  tLeft = '-515'
+                }
+
+                all = '<div style="display:inline-block;border:1px solid ' + config.downColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7;position: absolute;top:0px;left:' + tLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr1 + '</div>';
+
+                all2 = '<div style="display:inline-block;border:1px solid ' + config.upColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7;position: absolute;top:-120px;left:' + tLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr2 + '</div>';
+                return all + all2
+              } else if (need1 && need2 === undefined) { //  1 是绿
+
+                infoStr = _self.redGreenTooltip(need1)
+                all = '<div style="display:inline-block;border:1px solid ' + config.downColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7" id="toopdetail"><div style="">' + coordTime + '</div>' + infoStr + '</div>';
+                return all
+              } else if (need1 === undefined && need2) { // red 对应的状态是 2
+                infoStr = _self.redGreenTooltip(need2)
+
+                all = '<div style="display:inline-block;border:1px solid ' + config.upColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7" id="toopdetail"><div style="">' + coordTime + '</div>' + infoStr + '</div>';
+                return all
+              }
+
+            }
+
           }
         },
         animation: false,
         axisPointer: {
+          z: 999,
           link: {
             xAxisIndex: 'all'
           },
@@ -1028,15 +1071,17 @@ export default {
         grid: [{
             left: 35,
             right: 40,
-            top: 60,
-            height: '60%',
+            // top: 60,
+            top: 55,
+            /* bottom: 25, */
+            height: '80%',
             show: false
           },
           {
             left: 35,
             right: 40,
             bottom: 25,
-            height: '27%',
+            height: '15%',
             show: false
           }
         ],
@@ -1338,6 +1383,25 @@ export default {
       window.addEventListener('resize', () => this.chart.resize(), false)
       //          })
     },
+    redGreenTooltip(arr, type) {
+      var allStr = '';
+      for (var j = 0; j < arr.length; j++) {
+        var objs2 = arr[j];
+        var oneStr2 = '';
+        for (var p in objs2) {
+          // console.log(p)
+          if (p === 'title') {
+            oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + objs2[p] + '\n'
+          } else if (p === 'tag') {
+            oneStr2 += objs2[p] + '\n<br/>'
+          }
+        }
+        allStr += oneStr2;
+
+      }
+      return allStr;
+
+    },
     showMa(type) {
       this.checkOpacity(type)
     },
@@ -1416,7 +1480,7 @@ export default {
       this.drawCharts()
     },
     innerCode: function() {
-      this.initData()
+
     }
   },
   mounted() {
@@ -1425,8 +1489,8 @@ export default {
     this.$store.dispatch('clinicShares/queryTechFace', {
       innerCode: this.innerCode
     }).then(() => {
-
-      this.allData = this.$store.state.clinicShares.techFace
+      // this.allData = this.$store.state.clinicShares.techFace
+      this.allData = this.techAll
       this.initData()
       // this.initTag()
       // this.drawCharts()

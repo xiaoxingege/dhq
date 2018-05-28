@@ -708,10 +708,10 @@ a.kuai_icon {
   </div>
   <div class="main-list" v-show="showList">
     <ol class="topic-ol" :style="{  minHeight: fullHeight + 'px' }">
-      <li v-for="allTopic of themeList" class="clearfix">
+      <li v-for="(allTopic,index) of themeList" class="clearfix">
         <div class="content-box clearfix display-box">
           <div class="con-bar-1 box-flex-1">
-            <router-link :to="{name:'topicDetail',params:{topicId:allTopic.topicCode}}" class="blue ">
+            <a class="blue" @click="topicDetailMD(allTopic.topicCode,index)" style="display: inline-block;width: 100%;height:100%;cursor: pointer;">
               <div class="topic-name lightcolor">{{ allTopic.topicName }}</div>
               <div class="topic-chng-box">
                 <span class="topic-chng" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span>
@@ -720,7 +720,7 @@ a.kuai_icon {
                 <span class="keep-num" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday>=2">{{allTopic.topicMarket.keepDaysToday}}连涨</span>
                 <span class="keep-num keep-num1" v-z3-updowncolor="allTopic.topicMarket.keepDaysToday" v-if="allTopic.topicMarket.keepDaysToday<=-2">{{Math.abs(allTopic.topicMarket.keepDaysToday)}}连跌</span>
               </div>
-            </router-link>
+            </a>
           </div>
           <div class="con-bar-2 box-flex-1">
             <div class="topic-date-box"><span class="topic-date">发布时间：</span><span class="time-num">{{allTopic.declareDate==null?'--':format(allTopic.declareDate)}}</span></div>
@@ -817,6 +817,7 @@ import ThemeSortAz from './theme-sort-az'
 //  import { mutationTypes } from 'stores/z3tougu-theme'
 import z3websocket from '../z3tougu/z3socket'
 import StockBox from 'components/stock-box'
+import util from '../dhq/util'
 export default {
   data() {
     return {
@@ -846,11 +847,13 @@ export default {
         curChngPct: ''
 
       },
-      themeList: []
+      themeList: [],
+      isMaiDian: this.$route.path.indexOf('dhqweb') !== -1
     }
   },
 
   computed: mapState({
+    userId: state => state.user.userId,
     /* themeList: state => state.topic.themeList,*/
     themeListData: state => {
       const listData = state.topic.themeList
@@ -897,6 +900,19 @@ export default {
       // if (this.sortField === type && page) {
       //   return
       // }
+      if (this.isMaiDian) {
+        if (type === 'updown') { // 涨跌幅排序
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_zdf&userId=' + this.userId, 'WT.ti', document.title) // 点击涨跌幅排序打点
+        } else if (type === 'keepDay') { // 连涨排序
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_lz&userId=' + this.userId, 'WT.ti', document.title) // 点击连涨排序打点
+        } else if (type === 'hot') { // 热度排序
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_rd&userId=' + this.userId, 'WT.ti', document.title) // 点击热度排序打点
+        } else if (type === 'infoIndex') { // 舆情排序
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_yq&userId=' + this.userId, 'WT.ti', document.title) // 点击舆情排序打点
+        } else if (type === 'time') { // 时间排序
+          util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_sj&userId=' + this.userId, 'WT.ti', document.title) // 点击时间排序打点
+        }
+      }
       this.sortField = type
       // sortField, page, pagesize, totalPages
       // this.$store.dispatch('topic/queryAllTopic', { sortField: this.FIELDS[this.sortField] })
@@ -947,6 +963,9 @@ export default {
       this.showAz = true
       this.list('updown')
       this.isStyle = 'none'
+      if (this.isMaiDian) {
+        util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_tc&userId=' + this.userId, 'WT.ti', document.title) // 点击全部题材打点
+      }
     },
     enterTopictit(e) {
       e.preventDefault()
@@ -999,6 +1018,17 @@ export default {
         token: ''
       }
       this.$store.dispatch('z3sockjs/send', msg)
+    },
+    topicDetailMD(code, index) {
+      if (this.isMaiDian) {
+        util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_mc&userId=' + this.userId + '&rank=' + (10 * this.page + index + 1), 'WT.ti', document.title) // 点击题材名称打点
+      }
+      this.$router.push({
+        name: 'topicDetail',
+        params: {
+          topicId: code
+        }
+      })
     }
   },
   watch: {
@@ -1030,6 +1060,9 @@ export default {
     }
   },
   mounted() {
+    if (this.isMaiDian) {
+      util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm&userId=' + this.userId, 'WT.ti', document.title) // 进入行业排名页面打点
+    }
     this.query('hot')
     var _this = this
     this.$store.dispatch('topic/querySummary')

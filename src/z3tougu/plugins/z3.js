@@ -1,5 +1,7 @@
 import config from '../config'
-import { formatDate } from 'utils/date'
+import {
+  formatDate
+} from 'utils/date'
 export default {
   install(Vue, options) {
     // 1. 添加全局方法或属性
@@ -106,8 +108,8 @@ export default {
           }
         } else {
           var curTimeMillis = new Date().getTime() // 系统当前时间戳
-          let yesterdayDate = formatDate(dateTimeStamp,'MM:dd') //传入日期
-          let todayDate = formatDate(curTimeMillis,'MM:dd') //今天日期
+          let yesterdayDate = formatDate(dateTimeStamp, 'MM:dd') //传入日期
+          let todayDate = formatDate(curTimeMillis, 'MM:dd') //今天日期
           var curDate = new Date(curTimeMillis)
           var todayHoursSeconds = curDate.getHours() * 60 * 60
           var todayMinutesSeconds = curDate.getMinutes() * 60
@@ -118,10 +120,10 @@ export default {
           var yesterdayStartMilis = todayStartMillis - oneDayMillis
           if (todayDate > yesterdayDate) {
             el.innerHTML = "昨天 " + h + m
-            if(dateTimeStamp <= yesterdayStartMilis){
+            if (dateTimeStamp <= yesterdayStartMilis) {
               el.innerHTML = M + D + h + m
             }
-          }else if(todayDate === yesterdayDate){
+          } else if (todayDate === yesterdayDate) {
             el.innerHTML = h + m
           }
         }

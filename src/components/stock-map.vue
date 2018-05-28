@@ -1166,6 +1166,9 @@ export default {
       this.playback.time = '';
       // 回放结束后
       this.updateData();
+      this.autoUpdate = true
+      this.updateDataPid = null
+      this.autoUpdateData();
     },
     resetPlay: function() {
       this.playback.status = 0;
