@@ -145,7 +145,7 @@ export default {
         console.log(intervalId)
         this.$store.dispatch('getListedCompany', {
           page: 0,
-          isTop: this.isTops,
+          isTop: true,
           newTime: this.newTime,
           nextTime: this.lastTime,
           ids: this.newsId
