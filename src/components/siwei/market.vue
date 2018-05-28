@@ -568,7 +568,7 @@ export default {
               interval: intervalX,
               formatter: (value, index) => {
                 if (index === 5) {
-                  return "ln(量比)           ";
+                  return 'ln(量比)           ';
                 }
                 return value.toFixed(2);
               }

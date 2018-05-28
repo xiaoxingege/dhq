@@ -12,7 +12,7 @@ import {
   mapState
 } from 'vuex'
 
-let pcId = "";
+let pcId = '';
 export default {
   data() {
     return {
@@ -268,11 +268,11 @@ export default {
       })
     },
     formatTime(value) {
-      value += "";
+      value += '';
       if (value.length === 5) {
-        value = "0" + value;
+        value = '0' + value;
       }
-      return value.substring(0, 2) + ":" + value.substring(2, 4)
+      return value.substring(0, 2) + ':' + value.substring(2, 4)
     },
     openIndex() {
       window.open('stock/000001.SH');

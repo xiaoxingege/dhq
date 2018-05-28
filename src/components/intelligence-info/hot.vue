@@ -30,7 +30,7 @@
 </template>
 
 <script>
-let pcId = "";
+let pcId = '';
 import StockBox from 'components/stock-box'
 import {
   ctx,

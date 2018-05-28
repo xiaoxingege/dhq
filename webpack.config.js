@@ -54,13 +54,14 @@ const buildHTML = function() {
 
 module.exports = {
   entry: Object.assign({
-    vendor: ['vue', 'vue-router', 'vuex', 'babel-polyfill']
+    vendor: ['vue', 'vue-router', 'vuex', 'babel-polyfill', 'echarts']
   }, buildEntry()),
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: process.env.NODE_ENV == 'production' ?
       `//i0.jrjimg.cn/assets/` : '/dist/',
-    filename: process.env.NODE_ENV == 'production' ? featureName + '/[name].[chunkhash:12].js' : featureName + '/[name].js'
+    filename: process.env.NODE_ENV == 'production' ? featureName + '/[name].[chunkhash:12].js' : featureName + '/[name].js',
+    chunkFilename: featureName + '/[name].[chunkhash:12].js'
   },
   resolve: {
     extensions: [
