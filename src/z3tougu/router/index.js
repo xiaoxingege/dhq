@@ -49,9 +49,7 @@ const stockZrzt = () =>
 // 首页
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
-// 金盘策略块状列表
 import StrategyList from 'components/z3touguhome/strategy-list'
-// 筛股策略块状列表
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import errorPage from 'components/z3tougu-error-page'
 
@@ -88,13 +86,10 @@ const BacktestTimeH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/backtest-time-h5')
 const backtestHelp = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/help.vue')
-// import FundChart from 'components/fund-chart'
-// import FundFile from 'components/fund-file'
-
-
-
 
 // 基金
+// import FundChart from 'components/fund-chart'
+// import FundFile from 'components/fund-file'
 // import SmartPoolList from 'components/smartPool/smartPoolList'
 // import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 // import FundArchives from 'components/fund-archives/fund-archives'
@@ -124,8 +119,7 @@ const BullStock = () =>
 // import AutoinpBox from 'components/autoinp-box'
 
 
-const DragonListDialog = () =>
-  import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
+import DragonListDialog from 'components/dragon-list-dialog'
 
 // 智能诊股
 const ClinicSharesIndex = () =>
