@@ -114,8 +114,9 @@ const OptionalStock = () =>
   import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
 
 
-import BullStockList from 'components/bull-stock-list'
-import BullStock from 'components/bullStock/bull-stock-index'
+// const BullStockList = () => import(/* webpackChunkName: "bullstock" */ 'components/bull-stock-list')
+const BullStock = () =>
+  import ( /* webpackChunkName: "bullstock" */ 'components/bullStock/bull-stock-index')
 // import AutoinpBox from 'components/autoinp-box'
 
 import FilterStrategyList from 'components/z3-filter-strategy-list'
@@ -398,11 +399,11 @@ export default [{
   //   name: 'timeindex',
   //   component: TimeIndex
   // },
-  {
-    path: ctx + '/bullStockList',
-    name: 'bullstocklist',
-    component: BullStockList
-  },
+  // {
+  //   path: ctx + '/bullStockList',
+  //   name: 'bullstocklist',
+  //   component: BullStockList
+  // },
   // {
   //   path: ctx + '/test/autoinpBox',
   //   name: 'autoinpbox',
