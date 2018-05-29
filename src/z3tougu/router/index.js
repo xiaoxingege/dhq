@@ -119,15 +119,16 @@ const BullStock = () =>
 // import AutoinpBox from 'components/autoinp-box'
 
 
-const DragonListDialog = () =>
-  import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
+// const DragonListDialog = () =>
+//   import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
+import DragonListDialog from 'components/dragon-list-dialog'
 
 // 智能诊股
 const ClinicSharesIndex = () =>
   import ( /* webpackChunkName: "stock-clinic" */ 'components/clinicShares/clinic-shares-index')
 
 // 智能资讯
-import zInfo from 'components/intelligence-info/z-info'
+// import zInfo from 'components/intelligence-info/z-info'
 const wisdomHeadlines = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/wisdom-headlines')
 const optionalInformation = () =>
@@ -138,8 +139,8 @@ const newsOpportunities = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-opportunities')
 const listedCompany = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/listed-company')
-// const zInfo = () =>
-//   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
+const zInfo = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
 
 
 import {
