@@ -50,7 +50,6 @@ const stockZrzt = () =>
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
 import StrategyList from 'components/z3touguhome/strategy-list'
-import FilterStrategyList from 'components/z3-filter-strategy-list'
 import errorPage from 'components/z3tougu-error-page'
 
 // 策略
@@ -86,10 +85,13 @@ const BacktestTimeH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/backtest-time-h5')
 const backtestHelp = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/help.vue')
-
-// 基金
 // import FundChart from 'components/fund-chart'
 // import FundFile from 'components/fund-file'
+
+
+
+
+// 基金
 // import SmartPoolList from 'components/smartPool/smartPoolList'
 // import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
 // import FundArchives from 'components/fund-archives/fund-archives'
@@ -111,24 +113,19 @@ const PortraitDetail = () =>
 const OptionalStock = () =>
   import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
 
-// 牛股归因
-const BullStockList = () =>
-  import ( /* webpackChunkName: "bullstock" */ 'components/bull-stock-list')
-const BullStock = () =>
-  import ( /* webpackChunkName: "bullstock" */ 'components/bullStock/bull-stock-index')
+
+import BullStockList from 'components/bull-stock-list'
+import BullStock from 'components/bullStock/bull-stock-index'
 // import AutoinpBox from 'components/autoinp-box'
 
-
-// const DragonListDialog = () =>
-//   import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
-// import DragonListDialog from 'components/dragon-list-dialog'
+import FilterStrategyList from 'components/z3-filter-strategy-list'
+import DragonListDialog from 'components/dragon-list-dialog'
 
 // 智能诊股
 const ClinicSharesIndex = () =>
   import ( /* webpackChunkName: "stock-clinic" */ 'components/clinicShares/clinic-shares-index')
 
 // 智能资讯
-// import zInfo from 'components/intelligence-info/z-info'
 const wisdomHeadlines = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/wisdom-headlines')
 const optionalInformation = () =>
@@ -141,7 +138,6 @@ const listedCompany = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/listed-company')
 const zInfo = () =>
   import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
-
 
 import {
   ctx
@@ -422,11 +418,11 @@ export default [{
     name: 'filterStrategyList',
     component: FilterStrategyList
   },
-  // {
-  //   path: ctx + '/dragonList',
-  //   name: 'dragonListDialog',
-  //   component: DragonListDialog
-  // },
+  {
+    path: ctx + '/dragonList',
+    name: 'dragonListDialog',
+    component: DragonListDialog
+  },
   {
     path: ctx + '/clinicSharesIndex/:innerCode',
     name: 'clinicsharesindex',
