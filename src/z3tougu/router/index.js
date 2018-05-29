@@ -128,17 +128,17 @@ const ClinicSharesIndex = () =>
 
 // 智能资讯
 const wisdomHeadlines = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/wisdom-headlines')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/wisdom-headlines')
 const optionalInformation = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/optional-information')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/optional-information')
 const newsFlash = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-flash')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/news-flash')
 const newsOpportunities = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-opportunities')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/news-opportunities')
 const listedCompany = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/listed-company')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/listed-company')
 const zInfo = () =>
-  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
+  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/z-info')
 
 import {
   ctx
