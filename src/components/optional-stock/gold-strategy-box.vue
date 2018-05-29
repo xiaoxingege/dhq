@@ -103,7 +103,8 @@ export default {
                 type: 'category',
                 axisLabel: {
                   align: 'left',
-                  color: '#c9d0d7'
+                  color: '#c9d0d7',
+                  interval: 85
                 },
                 axisLine: {
                   lineStyle: {
