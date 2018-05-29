@@ -119,9 +119,9 @@ const BullStock = () =>
 // import AutoinpBox from 'components/autoinp-box'
 
 
-// const DragonListDialog = () =>
-//   import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
-import DragonListDialog from 'components/dragon-list-dialog'
+const DragonListDialog = () =>
+  import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
+// import DragonListDialog from 'components/dragon-list-dialog'
 
 // 智能诊股
 const ClinicSharesIndex = () =>
