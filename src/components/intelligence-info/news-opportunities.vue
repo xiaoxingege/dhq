@@ -33,14 +33,14 @@
             <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
             </router-link>
-            </div·>
-            <div class="con-txt">
-              <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
-              </router-link>
-            </div>
-            <p class="source">( {{item.srcName}} )</p>
           </div>
+          <div class="con-txt">
+            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+              <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
+            </router-link>
+          </div>
+          <p class="source">( {{item.srcName}} )</p>
+        </div>
       </li>
       <li v-if="typeIndex === 1" class="display-box" v-for="item in newsOpportunities">
         <div class="leftTime">
@@ -57,14 +57,14 @@
             <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
             </router-link>
-            </div·>
-            <div class="con-txt">
-              <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                <span>{{cutStr(item.summary,370) | trim}}</span>
-              </router-link>
-            </div>
-            <p class="source">( {{item.srcName}} )</p>
           </div>
+          <div class="con-txt">
+            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+              <span>{{cutStr(item.summary,370) | trim}}</span>
+            </router-link>
+          </div>
+          <p class="source">( {{item.srcName}} )</p>
+        </div>
       </li>
       <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
         <div class="leftTime">
@@ -87,14 +87,14 @@
             <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
             </router-link>
-            </div·>
-            <div class="con-txt">
-              <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-                <span>{{cutStr(item.summary,370) | trim}}</span>
-              </router-link>
-            </div>
-            <p class="source">( {{item.srcName}} )</p>
           </div>
+          <div class="con-txt">
+            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+              <span>{{cutStr(item.summary,370) | trim}}</span>
+            </router-link>
+          </div>
+          <p class="source">( {{item.srcName}} )</p>
+        </div>
       </li>
       <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
         <div class="leftTime">
@@ -135,9 +135,9 @@
       <p v-if="noData" class="tc loadMore">数据已加载完</p>
     </ul>
     <p v-if="newsOpportunities.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
-    </div>
-    <StockBox ref="stockbox"></StockBox>
-    </div>
+  </div>
+  <StockBox ref="stockbox"></StockBox>
+</div>
 </template>
 
 <script>
@@ -251,7 +251,7 @@ export default {
     },
     loadMore() {
       this.page++
-        this.typeList(this.typeIndex, this.newTime, this.lastTime)
+        this.typeList(this.typeIndex, this.newTime, this.lastTime, this.newsId)
       var count = Math.ceil(this.totalPage / this.pageSize)
       if (count === this.page + 1) {
         setTimeout(() => {
@@ -265,7 +265,7 @@ export default {
         this.$store.commit('setIsTop', true)
         console.log('启动定时器')
         console.log(intervalId)
-        this.typeList(this.typeIndex, this.newTime, this.lastTime)
+        this.typeList(this.typeIndex, this.newTime, this.lastTime, this.newsId)
       }, this.intervalTime)
     },
     updateTopic() {
@@ -332,16 +332,16 @@ export default {
       this.typeIndex = index
       this.page = 0
       this.$store.commit('setNewsOpportunitiesInit', [])
-      this.typeList(this.typeIndex, '', '')
+      this.typeList(this.typeIndex, '', '', '')
     },
-    typeList(type, newTime, nextTime) {
+    typeList(type, newTime, nextTime, ids) {
       if (type === 0) {
         this.$store.dispatch('getAllChance', {
           page: this.page,
           isTop: this.isTops,
           newTime: newTime,
           nextTime: nextTime,
-          ids: this.newsId
+          ids: ids
         })
       } else if (type === 1) {
         this.$store.dispatch('getStockChance', {
@@ -349,7 +349,7 @@ export default {
           isTop: this.isTops,
           newTime: newTime,
           nextTime: nextTime,
-          ids: this.newsId
+          ids: ids
         })
       } else if (type === 2) {
         this.$store.dispatch('getTopicChance', {
@@ -357,7 +357,7 @@ export default {
           isTop: this.isTops,
           newTime: newTime,
           nextTime: nextTime,
-          ids: this.newsId
+          ids: ids
         })
       } else if (type === 3) {
         this.$store.dispatch('getProductChance', {
@@ -365,7 +365,7 @@ export default {
           isTop: this.isTops,
           newTime: newTime,
           nextTime: nextTime,
-          ids: this.newsId
+          ids: ids
         })
       }
     },

@@ -642,6 +642,7 @@ export default ({
                 color: '#23272c'
               }
             },
+            //   min:10.06,
             splitLine: {
               show: true,
               lineStyle: {

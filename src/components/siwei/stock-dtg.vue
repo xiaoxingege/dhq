@@ -207,6 +207,17 @@ export default {
               // return '<p style="background: red; width:200px; height:200px">hello</p>'
             }
           },
+          dataZoom: [{
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           xAxis: {
             type: 'value',
             // name: '日期',
