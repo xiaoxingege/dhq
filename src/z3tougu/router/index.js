@@ -49,7 +49,10 @@ const stockZrzt = () =>
 // 首页
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
+// 金盘策略块状列表
 import StrategyList from 'components/z3touguhome/strategy-list'
+// 筛股策略块状列表
+import FilterStrategyList from 'components/z3-filter-strategy-list'
 import errorPage from 'components/z3tougu-error-page'
 
 // 策略
@@ -113,13 +116,16 @@ const PortraitDetail = () =>
 const OptionalStock = () =>
   import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
 
+// 牛股归因
+const BullStockList = () =>
+  import ( /* webpackChunkName: "bullstock" */ 'components/bull-stock-list')
+const BullStock = () =>
+  import ( /* webpackChunkName: "bullstock" */ 'components/bullStock/bull-stock-index')
+// import AutoinpBox from 'components/autoinp-box'
 
-import BullStockList from 'components/bull-stock-list'
-import BullStock from 'components/bullStock/bull-stock-index'
-import AutoinpBox from 'components/autoinp-box'
 
-import FilterStrategyList from 'components/z3-filter-strategy-list'
-import DragonListDialog from 'components/dragon-list-dialog'
+const DragonListDialog = () =>
+  import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
 
 // 智能诊股
 const ClinicSharesIndex = () =>
@@ -403,11 +409,11 @@ export default [{
     name: 'bullstocklist',
     component: BullStockList
   },
-  {
-    path: ctx + '/test/autoinpBox',
-    name: 'autoinpbox',
-    component: AutoinpBox
-  },
+  // {
+  //   path: ctx + '/test/autoinpBox',
+  //   name: 'autoinpbox',
+  //   component: AutoinpBox
+  // },
   {
     path: ctx + '/plateMap',
     name: 'plateMap',
