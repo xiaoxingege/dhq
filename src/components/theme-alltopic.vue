@@ -711,7 +711,7 @@ a.kuai_icon {
       <li v-for="(allTopic,index) of themeList" class="clearfix">
         <div class="content-box clearfix display-box">
           <div class="con-bar-1 box-flex-1">
-            <a class="blue" @click="industryDetailMD(allTopic.induCode,index)" style="display: inline-block;width: 100%;height:100%;cursor: pointer;">
+            <a class="blue" @click="topicDetailMD(allTopic.topicCode,index)" style="display: inline-block;width: 100%;height:100%;cursor: pointer;">
               <div class="topic-name lightcolor">{{ allTopic.topicName }}</div>
               <div class="topic-chng-box">
                 <span class="topic-chng" v-z3-updowncolor="allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':allTopic.topicMarket.chngPct">{{ allTopic.topicMarket===null || allTopic.topicMarket.chngPct===null?'--':changeTofixed(allTopic.topicMarket.chngPct)}}</span>
@@ -1019,14 +1019,14 @@ export default {
       }
       this.$store.dispatch('z3sockjs/send', msg)
     },
-    industryDetailMD(code, index) {
+    topicDetailMD(code, index) {
       if (this.isMaiDian) {
         util.dcsMultiTrack('DCS.dcsuri', this.$route.fullPath + '?point=click_tcpm_mc&userId=' + this.userId + '&rank=' + (10 * this.page + index + 1), 'WT.ti', document.title) // 点击题材名称打点
       }
       this.$router.push({
-        name: 'industryDetail',
+        name: 'topicDetail',
         params: {
-          industryId: code
+          topicId: code
         }
       })
     }
