@@ -141,6 +141,7 @@ html {
                 <option value="perf_idx.chng_pct_6month">近6月涨跌幅</option>
                 <option value="perf_idx.chng_pct_year">近1年涨跌幅</option>
                 <option value="perf_idx.chng_pct_year_sofar">今年以来涨跌幅</option>
+                <option value="mkt_idx.rising_rate">涨速</option>
                 <option value="mkt_idx.rela_volume">相对成交量</option>
                 <option value="mkt_idx.peg">PEG</option>
                 <option value="mkt_idx.ps">市销率</option>
@@ -183,6 +184,7 @@ export default {
         'perf_idx.chng_pct_6month': '近6月涨跌幅',
         'perf_idx.chng_pct_year': '近1年涨跌幅',
         'perf_idx.chng_pct_year_sofar': '今年以来涨跌幅',
+        'mkt_idx.rising_rate': '涨速',
         'mkt_idx.rela_volume': '相对成交量',
         'mkt_idx.peg': 'PEG',
         'mkt_idx.ps': '市销率',
