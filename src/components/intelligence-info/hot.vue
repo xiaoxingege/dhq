@@ -6,7 +6,7 @@
       <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full" >
+        <div class="full">
           <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
@@ -28,7 +28,7 @@
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
-          <div  @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+          <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    console.info('Hot>>>>>>>>>>>>>>new！！！！！！！！！！！！！！！！！！！');
+    console.info('Hot>>>>>>>>>>>>>>new！new！new！new！！！！！！！！！！！！！！！！');
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
         size: 20
