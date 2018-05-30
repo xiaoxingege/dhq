@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    // console.info('Hot>>>>>>>>>>>>>>new！！！！！！');
+    console.info('Hot>>>>>>>>>>>>>>new！！！！！！！！！！！！！！！！！！！');
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
         size: 20
