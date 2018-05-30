@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../assets/css/base.css';
 .app {
   height: 100%;

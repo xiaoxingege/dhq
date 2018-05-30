@@ -167,6 +167,7 @@ export default {
       this.updateNewsPid = setInterval(() => {
         // console.log('启动定时器')
         // console.log(this.updateNewsPid)
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getOptionalInformation', {
           innerCode: this.innerCode,
           page: 0,

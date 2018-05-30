@@ -46,135 +46,138 @@
 </template>
 
 <script>
-  let pcId = '';
-  import StockBox from 'components/stock-box'
-  import {
-    ctx,
-    domain
-  } from '../../z3tougu/config'
-  export default {
-    props: ['title', 'type'],
-    data() {
-      return {
-          entitiesState:[]
-      }
-    },
-    components: {
-      StockBox
-    },
-    computed: {
-      dataList: function() {
-        let list = [];
-        if (this.type === 'stock') {
-          list = this.$store.state.zInfoPublic.hotStocks;
-        } else if (this.type === 'word') {
-          list = this.$store.state.zInfoPublic.hotWords
-        }
-        let size = 0;
-        if (list.length > 0) {
-          const height = this.$refs.datalist.clientHeight;
-          size = Math.floor(height / 30);
-        }
-
-        return list.slice(0, size);
-      }
-    },
-    methods: {
-      progressWidth: progress => progress <= 30 ? '30%' : progress.toFixed(0) + '%',
-      search: function(keyword) {
-        window.open(`${domain}${ctx}/search/infor/${keyword}`);
-      },
-      showDialog(i){
-         let state=this.entitiesState;
-         this.$set(state,i,true);
-         for(let a in this.entitiesState){
-             if(Number(a)!==i){
-                 this.$set(state,a,false);
-             }
-         }
-      },
-      closeDialog(i){
-        let state=this.entitiesState;
-        this.$set(state,i,false);
-      }
-    },
-    mounted() {
+let pcId = '';
+import StockBox from 'components/stock-box'
+import {
+  ctx,
+  domain
+} from '../../z3tougu/config'
+export default {
+  props: ['title', 'type'],
+  data() {
+    return {
+      entitiesState: []
+    }
+  },
+  components: {
+    StockBox
+  },
+  computed: {
+    dataList: function() {
+      let list = [];
       if (this.type === 'stock') {
+        list = this.$store.state.zInfoPublic.hotStocks;
+      } else if (this.type === 'word') {
+        list = this.$store.state.zInfoPublic.hotWords
+      }
+      let size = 0;
+      if (list.length > 0) {
+        const height = this.$refs.datalist.clientHeight;
+        size = Math.floor(height / 30);
+      }
+
+      return list.slice(0, size);
+    }
+  },
+  methods: {
+    progressWidth: progress => progress <= 30 ? '30%' : progress.toFixed(0) + '%',
+    search: function(keyword) {
+      window.open(`${domain}${ctx}/search/infor/${keyword}`);
+    },
+    showDialog(i) {
+      let state = this.entitiesState;
+      this.$set(state, i, true);
+      for (let a in this.entitiesState) {
+        if (Number(a) !== i) {
+          this.$set(state, a, false);
+        }
+      }
+    },
+    closeDialog(i) {
+      let state = this.entitiesState;
+      this.$set(state, i, false);
+    }
+  },
+  mounted() {
+    // console.info('Hot>>>>>>>>>>>>>>new！！！！！！');
+    if (this.type === 'stock') {
+      this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
+        size: 20
+      });
+      pcId = setInterval(() => {
         this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
           size: 20
         });
-        pcId = setInterval(() => {
-          this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
-            size: 20
-          });
-        }, 60 * 1000);
-      } else if (this.type === 'word') {
+      }, 60 * 1000);
+    } else if (this.type === 'word') {
+      this.$store.dispatch('zInfoPublic/retrieveHotWords', {
+        size: 20
+      });
+      pcId = setInterval(() => {
         this.$store.dispatch('zInfoPublic/retrieveHotWords', {
           size: 20
         });
-        pcId = setInterval(() => {
-          this.$store.dispatch('zInfoPublic/retrieveHotWords', {
-            size: 20
-          });
-        }, 60 * 1000);
-      }
-    },
-    destroyed() {
-      if (pcId) {
-        clearInterval(pcId);
-      }
+      }, 60 * 1000);
+    }
+  },
+  destroyed() {
+    if (pcId) {
+      clearInterval(pcId);
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
 @import '../../assets/scss/style.scss';
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.1s ease-out;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.1s ease-out;
 }
 
-.fade-enter, .fade-leave-to {
-  opacity: 0;
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
-.newsDialog{
-  position: absolute;
-  top: 30px;
-  right: 0;
-  width: 300px;
-  z-index: 99999;
-  // transition: 0.2s opacity ease-in;
-  .title{
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-    color: #fff;
-    padding-left: 15px;
-    background-color: #404852;
-  }
-  .box{
-    padding:8px 0;
-    background-color: #fff;
-  }
-  .newsTitle{
-    position: relative;
-    height: 30px;
-    line-height: 30px;
-    font-size: 12px;
-    color: #666;
-    padding:0 12px 0 25px;
-    overflow: hidden;
-    cursor: default;
-    &:after{
-      content: '';
-      position: absolute;
-      left: 15px;
-      top: 13px;
-      width: 6px;
-      height: 6px;
-      background-color: #666;
-      border-radius: 100px;
+.newsDialog {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 300px;
+    z-index: 99999;
+    // transition: 0.2s opacity ease-in;
+    .title {
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        color: #fff;
+        padding-left: 15px;
+        background-color: #404852;
     }
-  }
+    .box {
+        padding: 8px 0;
+        background-color: #fff;
+    }
+    .newsTitle {
+        position: relative;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+        color: #666;
+        padding: 0 12px 0 25px;
+        overflow: hidden;
+        cursor: default;
+        &:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 13px;
+            width: 6px;
+            height: 6px;
+            background-color: #666;
+            border-radius: 100px;
+        }
+    }
 }
 .hot {
     height: 100%;
@@ -214,7 +217,7 @@
             cursor: pointer;
         }
         .hot-index {
-            position:relative;
+            position: relative;
             width: 35%;
             cursor: default;
             .full {
