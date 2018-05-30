@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.1076",
+  "version": "0.0.1081",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -82,6 +82,7 @@
     "vue-template-compiler": "^2.4.2",
     "vuex": "^2.3.1",
     "webpack": "^2.6.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^4.1.0",

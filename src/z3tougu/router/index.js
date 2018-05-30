@@ -59,16 +59,16 @@ const GoldStrategyH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/gold-strategy-h5')
 const BacktestDetailH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/backtest-detail-h5')
-const foundpoollist = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/foundpoollist')
-const foundpooldetail = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/foundpooldetail')
-const ownstrategylist = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/ownstrategylist')
-const editstrategy = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/editstrategy')
-const runstatestrategy = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/runstatestrategy')
+// const foundpoollist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpoollist')
+// const foundpooldetail = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpooldetail')
+// const ownstrategylist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/ownstrategylist')
+// const editstrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/editstrategy')
+// const runstatestrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/runstatestrategy')
 const Filter = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/filter/filter')
 const BacktestFilter = () =>
@@ -114,9 +114,8 @@ const OptionalStock = () =>
   import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
 
 
-// const BullStockList = () => import(/* webpackChunkName: "bullstock" */ 'components/bull-stock-list')
-const BullStock = () =>
-  import ( /* webpackChunkName: "bullstock" */ 'components/bullStock/bull-stock-index')
+import BullStockList from 'components/bull-stock-list'
+import BullStock from 'components/bullStock/bull-stock-index'
 // import AutoinpBox from 'components/autoinp-box'
 
 import FilterStrategyList from 'components/z3-filter-strategy-list'
@@ -128,17 +127,17 @@ const ClinicSharesIndex = () =>
 
 // 智能资讯
 const wisdomHeadlines = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/wisdom-headlines')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/wisdom-headlines')
 const optionalInformation = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/optional-information')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/optional-information')
 const newsFlash = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/news-flash')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-flash')
 const newsOpportunities = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/news-opportunities')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-opportunities')
 const listedCompany = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/listed-company')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/listed-company')
 const zInfo = () =>
-  import ( /* webpackChunkName: "intelligence-info" */ 'components/intelligence-info/z-info')
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
 
 import {
   ctx
@@ -248,31 +247,31 @@ export default [{
     name: 'BacktestDetailH5',
     component: BacktestDetailH5
   },
-  {
-    path: ctx + '/foundpoollist',
-    name: 'foundpoollist',
-    component: foundpoollist
-  },
-  {
-    path: ctx + '/foundpooldetail/:id',
-    name: 'foundpooldetail',
-    component: foundpooldetail
-  },
-  {
-    path: ctx + '/ownstrategylist',
-    name: 'ownstrategylist',
-    component: ownstrategylist
-  },
-  {
-    path: ctx + '/editstrategy',
-    name: 'editstrategy',
-    component: editstrategy
-  },
-  {
-    path: ctx + '/runstatestrategy',
-    name: 'runstatestrategy',
-    component: runstatestrategy
-  },
+  // {
+  //   path: ctx + '/foundpoollist',
+  //   name: 'foundpoollist',
+  //   component: foundpoollist
+  // },
+  // {
+  //   path: ctx + '/foundpooldetail/:id',
+  //   name: 'foundpooldetail',
+  //   component: foundpooldetail
+  // },
+  // {
+  //   path: ctx + '/ownstrategylist',
+  //   name: 'ownstrategylist',
+  //   component: ownstrategylist
+  // },
+  // {
+  //   path: ctx + '/editstrategy',
+  //   name: 'editstrategy',
+  //   component: editstrategy
+  // },
+  // {
+  //   path: ctx + '/runstatestrategy',
+  //   name: 'runstatestrategy',
+  //   component: runstatestrategy
+  // },
   {
     path: ctx + '/z3touguIndex',
     name: 'z3touguIndex',
@@ -399,11 +398,11 @@ export default [{
   //   name: 'timeindex',
   //   component: TimeIndex
   // },
-  // {
-  //   path: ctx + '/bullStockList',
-  //   name: 'bullstocklist',
-  //   component: BullStockList
-  // },
+  {
+    path: ctx + '/bullStockList',
+    name: 'bullstocklist',
+    component: BullStockList
+  },
   // {
   //   path: ctx + '/test/autoinpBox',
   //   name: 'autoinpbox',
