@@ -6,8 +6,8 @@
       <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full" @mouseover="showDialog(index)" @mouseout="closeDialog(index)">
-          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+        <div class="full" >
+          <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
@@ -27,8 +27,8 @@
       <span @dblclick="search(item.showName)" class="col name" v-else>{{item.showName}}</span>
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full" @mouseover="showDialog(index)" @mouseout="closeDialog(index)">
-          <div :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+        <div class="full">
+          <div  @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
