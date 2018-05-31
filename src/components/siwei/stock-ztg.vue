@@ -429,6 +429,7 @@ export default {
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
+          that.dialogOptions.stockCode = ''
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {
