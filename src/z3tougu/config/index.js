@@ -16,21 +16,23 @@ export default {
 // 开发环境
 const domain = '//test.z3quant.com' // openapi
 const websocketDomain = '//test.z3quant.com' // websocket
-// const env='dev';
+const env = 'dev';
 
 // 测试环境
 // const domain = '//test.z3quant.com' // openapi
 // const websocketDomain = '//test.z3quant.com' // websocket
 // const env = 'test';
 
-// 开发环境
+// 生产环境
 // const domain = '//www.z3quant.com' // openapi
 // const websocketDomain = '//www.z3quant.com' // websocket
+// const env='production';
 
 const ctx = '/zstgweb'
 // const ctx = '';
 export {
   domain,
   websocketDomain,
-  ctx
+  ctx,
+  env
 }
