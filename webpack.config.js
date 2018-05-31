@@ -3,8 +3,8 @@ var path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   BomPlugin = require('webpack-utf8-bom'),
   fs = require('fs'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  WebpackMd5Hash = require('webpack-md5-hash')
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
+// WebpackMd5Hash = require('webpack-md5-hash')
 // BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /*
@@ -145,7 +145,7 @@ module.exports.plugins = buildHTML().concat([
     name: 'manifest',
     chunks: ['vendor']
   }),
-  new WebpackMd5Hash(),
+  // new WebpackMd5Hash(),
   new webpack.LoaderOptionsPlugin({
     options: {
       vue: {

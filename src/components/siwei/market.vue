@@ -22,7 +22,7 @@
             <div class='time'>{{stock.dateTime | hhmmss}}</div>
             <div class='item'>
               <span class=''>{{stock.stockName}}[{{stock.symbol | simpleCode}}]</span>
-              <span v-z3-updowncolor="stock.chg">{{stock.price}}</span>
+              <span v-z3-updowncolor="stock.chg">{{stock.price | price}}</span>
               <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
               <span class='type'>{{stock.reason}}</span>
             </div>
