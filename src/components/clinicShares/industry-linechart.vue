@@ -250,7 +250,7 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.industryFace.datas.datas)
+      let klineData = [].concat(this.industryFace.datas.datas)
       if (this.dataIndex === 0) {
         this.legendNames = this.legendName1
       } else if (this.dataIndex === 1) {
@@ -259,38 +259,41 @@ export default ({
         this.legendNames = this.legendName3
       }
       this.data.induName = this.industryFace.datas.induName
-      if (klineData.length <= 60) {
-        klineData.forEach((item, index) => {
-          /* if (index === 0) {
-            induIndex.push(0)
-            hs300ChngPct.push(0)
-          } else {
-            var indexs = getIndex(item.tradeMin)
-            induIndex[indexs] = Number(item.induIndex).toFixed(2)
-            hs300ChngPct[indexs] = Number(item.hs300ChngPct).toFixed(2)
-            // induIndex.push(Number(item.induIndex).toFixed(2))
-            // hs300ChngPct.push(Number(item.hs300ChngPct).toFixed(2))
-          } */
-
-          const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
-          const induIndex = Number(item.induIndex).toFixed(2) // 行业指数
-          let time = ''
-          time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-          this.data.times.push(time)
-          this.data.tradeTimeArr.push(time)
-          if (index === 0) {
-            this.data.infoIndex.push('0')
-            this.data.induIndex.push('0')
-          } else {
-            this.data.infoIndex.push(infoIndex)
-            this.data.induIndex.push(induIndex)
-
-          }
-          //  console.log(this.data.infoIndex)
-          // console.log(this.data.induIndex)
-
-        })
+      // if (klineData.length <= 60) {
+      if (klineData.length >= 60) {
+        klineData = klineData.slice(klineData.length - 60, klineData.length);
       }
+      klineData.forEach((item, index) => {
+        /* if (index === 0) {
+          induIndex.push(0)
+          hs300ChngPct.push(0)
+        } else {
+          var indexs = getIndex(item.tradeMin)
+          induIndex[indexs] = Number(item.induIndex).toFixed(2)
+          hs300ChngPct[indexs] = Number(item.hs300ChngPct).toFixed(2)
+          // induIndex.push(Number(item.induIndex).toFixed(2))
+          // hs300ChngPct.push(Number(item.hs300ChngPct).toFixed(2))
+        } */
+
+        const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
+        const induIndex = Number(item.induIndex).toFixed(2) // 行业指数
+        let time = ''
+        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+        this.data.times.push(time)
+        this.data.tradeTimeArr.push(time)
+        if (index === 0) {
+          this.data.infoIndex.push('0')
+          this.data.induIndex.push('0')
+        } else {
+          this.data.infoIndex.push(infoIndex)
+          this.data.induIndex.push(induIndex)
+
+        }
+        //  console.log(this.data.infoIndex)
+        // console.log(this.data.induIndex)
+
+      })
+      // }
 
       this.initLine()
     },
