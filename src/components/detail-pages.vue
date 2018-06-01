@@ -241,12 +241,14 @@ export default {
       return con
     },
       reformatNoticeContent: function() {
-          const content = this.result.content.split('\n')
-          let con = ''
-          content.forEach((p) => {
-              con += '<p>' + p + '</p>'
-          })
-          return con
+        if(this.result && this.result.content){
+            const content =  this.result.content.split('\n')
+            let con = ''
+            content.forEach((p) => {
+                con += '<p>' + p + '</p>'
+            })
+            return con
+        }
       },
     urlId: function() {
       return this.$route.params.id
