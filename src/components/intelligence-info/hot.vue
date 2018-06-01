@@ -145,7 +145,6 @@ export default {
     right: 0;
     width: 300px;
     z-index: 99999;
-    // transition: 0.2s opacity ease-in;
     .title {
         height: 30px;
         line-height: 30px;
@@ -163,8 +162,8 @@ export default {
         white-space: pre;
         text-overflow: ellipsis;
         position: relative;
-        height: 30px;
-        line-height: 30px;
+        height: 26px;
+        line-height: 26px;
         font-size: 12px;
         color: #666;
         padding: 0 12px 0 25px;
@@ -174,7 +173,7 @@ export default {
             content: '';
             position: absolute;
             left: 15px;
-            top: 13px;
+            top: 10px;
             width: 6px;
             height: 6px;
             background-color: #666;
