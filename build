@@ -119,7 +119,7 @@ fi
 pinfo 'npm buildserver done.'
 pinfo 'checking for new files'
 newfiles=()
-ftp -n 117.121.12.155 <<f1 >>/dev/null
+ftp -n 172.16.192.157 <<f1 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 mkdir jrjimg/assets/$feature
@@ -158,7 +158,7 @@ fi
 
 if [ ${#newfiles[@]} -gt 0 ]; then
   pinfo 'has new files.'
-  ftp -n 117.121.12.155 <<f2 >>/dev/null
+  ftp -n 172.16.192.157 <<f2 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
@@ -168,7 +168,7 @@ mput *
 bye
 f2
   if [ -d dist/$feature/ftp/images ]; then
-    ftp -n 117.121.12.155 <<f3 >>/dev/null
+    ftp -n 172.16.192.157 <<f3 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
@@ -203,7 +203,7 @@ if [ "$feature" = "z3tougu22" ]; then
     sleep 5s
   done
   touch /tmp/version.lock
-  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@117.121.12.155/jrjimg/fe/$env/version"
+  curl -o version "ftp://shihuang.piao.ftp.img:n6i7&FOy^q@172.16.192.157/jrjimg/fe/$env/version"
   count=$(cat version | grep "^"$feature" " | wc -l)
   if [ "$count" = "0" ]; then
     echo $feature" "$version >> version
@@ -212,7 +212,7 @@ if [ "$feature" = "z3tougu22" ]; then
   fi
   rm -f *.bzip2
   tar -cjf $feature-$version.tar.bzip2 *
-  ftp -n 117.121.12.155 <<f3 >>/dev/null
+  ftp -n 172.16.192.157 <<f3 >>/dev/null
 quote USER shihuang.piao.ftp.img
 quote PASS n6i7&FOy^q
 prompt
