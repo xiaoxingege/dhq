@@ -356,9 +356,9 @@ export default {
         return '--';
       } else {
         if (value > 0) {
-          return '+' + value;
+          return '+' + value.toFixed(2);
         } else {
-          return value;
+          return value.toFixed(2);
         }
       }
     })
