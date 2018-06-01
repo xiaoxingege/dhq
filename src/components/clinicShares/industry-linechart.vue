@@ -260,9 +260,9 @@ export default ({
       }
       this.data.induName = this.industryFace.datas.induName
       // if (klineData.length <= 60) {
-      if (klineData.length >= 60) {
-        klineData = klineData.slice(klineData.length - 60, klineData.length);
-      }
+      // if (klineData.length >= 60) {
+      //   klineData = klineData.slice(klineData.length - 60, klineData.length);
+      // }
       klineData.forEach((item, index) => {
         /* if (index === 0) {
           induIndex.push(0)
