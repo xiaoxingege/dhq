@@ -248,7 +248,7 @@ export default {
           })
         } else {
           state.ztgBubblesLine = result.body.data.reverse()
-          state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].dateTime
+          state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].tradeTime
         }
       } else {
         state.ztgBubblesLine = null
@@ -258,7 +258,7 @@ export default {
       if (result.errCode === 0) {
         if (result.data.length !== 0) {
           state.ztgBubblesLine.unshift(result.data[0])
-          state.stockListTime = state.ztgBubblesLine[0].dateTime
+          state.stockListTime = state.ztgBubblesLine[0].tradeTime
           state.isTop = true
         } else {
           state.isTop = false
