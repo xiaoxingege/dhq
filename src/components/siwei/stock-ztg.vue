@@ -20,7 +20,7 @@
           <div style="margin-bottom: 8px;" class="clearfix">
             <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fl"><span v-z3-updowncolor="item.chng">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chng">{{item.chng | chngPct}}</span>
+            <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
