@@ -10,7 +10,7 @@
     </div>
     <div class="ztgList">
       <ul ref="ztgListUl">
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
+        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
           <div class="mb-10" v-if="String(item.tradeTime).length === 6">
             {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
           </div>
@@ -152,8 +152,12 @@ export default {
       return timeline
     },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.ztgBubbles)
-      this.chart.showLoading(config.loadingConfig);
+        this.$nextTick(() => {
+            // DOM 更新了
+            this.chart = echarts.init(this.$refs.ztgBubbles)
+            this.chart.showLoading(config.loadingConfig);
+        })
+
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
       }).then(() => {
@@ -481,8 +485,12 @@ export default {
 
     },
     initZtgCompare() {
-      this.lineChart = echarts.init(this.$refs.ztgLine)
-      this.lineChart.showLoading(config.loadingConfig);
+        this.$nextTick(() => {
+            // DOM 更新了
+            this.lineChart = echarts.init(this.$refs.ztgLine)
+            this.lineChart.showLoading(config.loadingConfig);
+        })
+
       this.$store.dispatch('bubbles/getZbgLine', {
         type: '0'
       }).then(() => {

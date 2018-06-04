@@ -117,8 +117,12 @@ export default {
 
     },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.qsgBubbles)
-      this.chart.showLoading(config.loadingConfig);
+        this.$nextTick(() => {
+            // DOM 更新了
+            this.chart = echarts.init(this.$refs.qsgBubbles)
+            this.chart.showLoading(config.loadingConfig);
+        })
+
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
       }).then(() => {
