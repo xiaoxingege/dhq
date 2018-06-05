@@ -27,7 +27,7 @@
               <span class='type'>{{stock.reason}}</span>
             </div>
             <div class="news" v-if="newsObj(stock.msgId).newsId">
-              <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span>
+              <span :class="stock.msgType === 2?'mark good':(stock.msgType === 1?'mark bad':'mark normal')">{{stock.msgType === 2?'利好':(stock.msgType === 1?'利空':'中性')}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msgId).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msgId).title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
@@ -50,7 +50,7 @@
               <span class="name">{{plate.industryName}}</span>
               <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
             </div>
-            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span>
+            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType === 2?'mark good':(plate.msgType === 1?'mark bad':'mark normal')">{{plate.msgType === 2?'利好':(plate.msgType === 1?'利空':'中性')}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
             </div>
             <table class="stockList">
@@ -725,10 +725,10 @@ export default {
     margin-right: 4px;
 }
 .market .news .good {
-    background: #DB3C39;
+    background: #fc2721;
 }
 .market .news .bad {
-    background: #BAC3CB;
+    background: #56a870;
 }
 .market .news .normal {
     background: #505A66;
