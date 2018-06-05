@@ -156,9 +156,10 @@ export default {
       intervalId = setInterval(() => {
         console.log('启动定时器')
         console.log(intervalId)
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getWisdomHeadlinesList', {
-          page: this.page,
-          isTop: true,
+          page: 0,
+          isTop: this.isTops,
           newTime: this.newTime,
           nextTime: this.lastTime,
           ids: this.newsId

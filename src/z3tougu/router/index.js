@@ -49,10 +49,7 @@ const stockZrzt = () =>
 // 首页
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
-// 金盘策略块状列表
 import StrategyList from 'components/z3touguhome/strategy-list'
-// 筛股策略块状列表
-import FilterStrategyList from 'components/z3-filter-strategy-list'
 import errorPage from 'components/z3tougu-error-page'
 
 // 策略
@@ -62,16 +59,16 @@ const GoldStrategyH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/gold-strategy-h5')
 const BacktestDetailH5 = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/backtest-detail-h5')
-const foundpoollist = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/foundpoollist')
-const foundpooldetail = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/foundpooldetail')
-const ownstrategylist = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/ownstrategylist')
-const editstrategy = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/editstrategy')
-const runstatestrategy = () =>
-  import ( /* webpackChunkName: "strategy" */ 'components/runstatestrategy')
+// const foundpoollist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpoollist')
+// const foundpooldetail = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpooldetail')
+// const ownstrategylist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/ownstrategylist')
+// const editstrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/editstrategy')
+// const runstatestrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/runstatestrategy')
 const Filter = () =>
   import ( /* webpackChunkName: "strategy" */ 'components/filter/filter')
 const BacktestFilter = () =>
@@ -116,16 +113,13 @@ const PortraitDetail = () =>
 const OptionalStock = () =>
   import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
 
-// 牛股归因
-const BullStockList = () =>
-  import ( /* webpackChunkName: "bullstock" */ 'components/bull-stock-list')
-const BullStock = () =>
-  import ( /* webpackChunkName: "bullstock" */ 'components/bullStock/bull-stock-index')
+
+import BullStockList from 'components/bull-stock-list'
+import BullStock from 'components/bullStock/bull-stock-index'
 // import AutoinpBox from 'components/autoinp-box'
 
-
-const DragonListDialog = () =>
-  import ( /* webpackChunkName: "dragon-list" */ 'components/dragon-list-dialog')
+import FilterStrategyList from 'components/z3-filter-strategy-list'
+import DragonListDialog from 'components/dragon-list-dialog'
 
 // 智能诊股
 const ClinicSharesIndex = () =>
@@ -253,31 +247,31 @@ export default [{
     name: 'BacktestDetailH5',
     component: BacktestDetailH5
   },
-  {
-    path: ctx + '/foundpoollist',
-    name: 'foundpoollist',
-    component: foundpoollist
-  },
-  {
-    path: ctx + '/foundpooldetail/:id',
-    name: 'foundpooldetail',
-    component: foundpooldetail
-  },
-  {
-    path: ctx + '/ownstrategylist',
-    name: 'ownstrategylist',
-    component: ownstrategylist
-  },
-  {
-    path: ctx + '/editstrategy',
-    name: 'editstrategy',
-    component: editstrategy
-  },
-  {
-    path: ctx + '/runstatestrategy',
-    name: 'runstatestrategy',
-    component: runstatestrategy
-  },
+  // {
+  //   path: ctx + '/foundpoollist',
+  //   name: 'foundpoollist',
+  //   component: foundpoollist
+  // },
+  // {
+  //   path: ctx + '/foundpooldetail/:id',
+  //   name: 'foundpooldetail',
+  //   component: foundpooldetail
+  // },
+  // {
+  //   path: ctx + '/ownstrategylist',
+  //   name: 'ownstrategylist',
+  //   component: ownstrategylist
+  // },
+  // {
+  //   path: ctx + '/editstrategy',
+  //   name: 'editstrategy',
+  //   component: editstrategy
+  // },
+  // {
+  //   path: ctx + '/runstatestrategy',
+  //   name: 'runstatestrategy',
+  //   component: runstatestrategy
+  // },
   {
     path: ctx + '/z3touguIndex',
     name: 'z3touguIndex',

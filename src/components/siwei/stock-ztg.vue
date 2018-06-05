@@ -10,21 +10,21 @@
     </div>
     <div class="ztgList">
       <ul ref="ztgListUl">
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10" v-if="item.dateTime.length === 6">
-            {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
+        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
+          <div class="mb-10" v-if="String(item.tradeTime).length === 6">
+            {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
           </div>
-          <div class="mb-10" v-if="item.dateTime.length === 5">
-            {{String(item.dateTime).substring(0,1)+':'+String(item.dateTime).substring(1,3)+':'+String(item.dateTime).substring(3)}}
+          <div class="mb-10" v-if="String(item.tradeTime).length === 5">
+            {{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)+':'+String(item.tradeTime).substring(3)}}
           </div>
           <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
+            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
-            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
+            <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
             </div>
           </div>
           <ul class="topicStock clearfix">
-            <li v-for="value in item.topics" @dblclick="toThemeDetail(value.topicCode,$event)">
+            <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
               <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
             </li>
@@ -131,8 +131,12 @@ export default {
       return timeline
     },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.ztgBubbles)
-      this.chart.showLoading(config.loadingConfig);
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.chart = echarts.init(this.$refs.ztgBubbles)
+        this.chart.showLoading(config.loadingConfig);
+      })
+
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
       }).then(() => {
@@ -429,6 +433,7 @@ export default {
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
+          that.dialogOptions.stockCode = ''
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {
@@ -460,8 +465,12 @@ export default {
 
     },
     initZtgCompare() {
-      this.lineChart = echarts.init(this.$refs.ztgLine)
-      this.lineChart.showLoading(config.loadingConfig);
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.lineChart = echarts.init(this.$refs.ztgLine)
+        this.lineChart.showLoading(config.loadingConfig);
+      })
+
       this.$store.dispatch('bubbles/getZdCompare').then(() => {
         const that = this
         // 生成横坐标时间轴

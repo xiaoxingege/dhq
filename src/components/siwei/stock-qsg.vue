@@ -117,8 +117,12 @@ export default {
 
     },
     initBubbles() {
-      this.chart = echarts.init(this.$refs.qsgBubbles)
-      this.chart.showLoading(config.loadingConfig);
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.chart = echarts.init(this.$refs.qsgBubbles)
+        this.chart.showLoading(config.loadingConfig);
+      })
+
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
       }).then(() => {
@@ -408,6 +412,7 @@ export default {
         })
 
         that.chart.on('mouseout', function(params) {
+          that.dialogOptions.stockCode = ''
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {
