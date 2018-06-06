@@ -18,7 +18,7 @@
       <div class='stocks'>
         <div class='tit'>异动个股</div>
         <div class="list" ref="stocks_list">
-          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.symbol)">
+          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
             <div class='time'>{{stock.tradeTime | hhmmss}}</div>
             <div class='item'>
               <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
