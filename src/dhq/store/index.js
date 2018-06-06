@@ -6,10 +6,12 @@ import stock from 'stores/dhqStock'
 import topic from 'stores/z3dhq-theme'
 import industry from 'stores/z3dhq-industry'
 import zhikuanDetailPages from 'stores/dhq-detail-pages'
+import stockMap from 'stores/dhqStockMap'
+import plateMap from 'stores/dhqPlateMap'
+
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
-import stockMap from 'stores/stockmap'
 import bubbles from 'stores/bubbles'
 import fundIntell from 'stores/fund-intell'
 import goldStrategy from 'stores/gold-strategy'
@@ -26,7 +28,6 @@ import customerList from 'stores/customers'
 import portraitDetail from 'stores/portrait-detail'
 import optionalStock from 'stores/optional-stock'
 import bullStock from 'stores/bullStock'
-import plateMap from 'stores/plate-map'
 import dragonList from 'stores/dragon-list-dialog'
 import intelligenceInfo from 'stores/intelligence-info'
 import marketBubble from 'stores/market-bubbles'
@@ -133,10 +134,11 @@ export default new Vuex.Store({
     stock,
     topic,
     industry,
-    zhikuanDetailPages
+    zhikuanDetailPages,
+    stockMap,
+    plateMap
     /* zhikuanSearch,
      zhikuanSearchList,
-     stockMap,
      bubbles,
      fundIntell,
      goldStrategy,
@@ -153,7 +155,6 @@ export default new Vuex.Store({
      portraitDetail,
      optionalStock,
      bullStock,
-     plateMap,
      dragonList,
      intelligenceInfo,
      zInfoPublic,

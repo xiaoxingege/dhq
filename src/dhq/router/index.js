@@ -6,9 +6,10 @@ import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
+import Map from 'components/z3tougu-map'
+import PlateMap from 'components/plate-map/plate-map-index'
 
 // import Search from 'components/search'
-// import Map from 'components/z3tougu-map'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
 // import Siwei from 'components/siwei'
@@ -47,7 +48,6 @@ import Calendar from 'components/jzxg/calendar'
  import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
 import AutoinpBox from 'components/autoinp-box'
-import PlateMap from 'components/plate-map/plate-map-index'
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
 import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'*/
@@ -57,7 +57,6 @@ import newsFlash from 'components/intelligence-info/news-flash'
 import newsOpportunities from 'components/intelligence-info/news-opportunities'
 import listedCompany from 'components/intelligence-info/listed-company'
 import zInfo from 'components/intelligence-info/z-info' */
-/* import StockMapOld from 'components/stockmap-old/stockmap-old' */
 /* import SiweiIndex from 'components/siwei/siwei-index'
 import stockZtg from 'components/siwei/stock-ztg'
 import stockZbg from 'components/siwei/stock-zbg'
@@ -105,6 +104,26 @@ export default [{
     name: 'calendar',
     component: Calendar
   },
+  {
+    path: ctx + '/map',
+    name: 'map',
+    component: Map
+  },
+  {
+    path: ctx + '/map/fullScreen',
+    name: 'bigMap',
+    component: Map
+  },
+  {
+    path: ctx + '/map/normal',
+    name: 'normalMap',
+    component: Map
+  },
+  {
+    path: ctx + '/plateMap',
+    name: 'plateMap',
+    component: PlateMap
+  },
   // {
   //   path: ctx + '/smartPool',
   //   name: 'smartPoolList',
@@ -140,21 +159,6 @@ export default [{
      name: 'search',
      component: Search
    },*/
-  /* {
-    path: ctx + '/map',
-    name: 'map',
-    component: Map
-  },
-  {
-    path: ctx + '/map/fullScreen',
-    name: 'bigMap',
-    component: Map
-  },
-  {
-    path: ctx + '/map/normal',
-    name: 'normalMap',
-    component: Map
-  }, */
   /* {
      path: ctx + '/themeList',
      name: 'themelist',
@@ -342,11 +346,6 @@ export default [{
      component: AutoinpBox
    },
    {
-     path: ctx + '/plateMap',
-     name: 'plateMap',
-     component: PlateMap
-   },
-   {
      path: ctx + '/filterStrategyList',
      name: 'filterStrategyList',
      component: FilterStrategyList
@@ -436,16 +435,6 @@ export default [{
         name: 'zrzt'
       }
     ]
-  } */
-  /* {
-    path: ctx + '/stockMapOld/fullScreen',
-    name: 'stockMapOldBig',
-    component: StockMapOld
-  },
-  {
-    path: ctx + '/stockMapOld/normal',
-    name: 'stockMapOldNormal',
-    component: StockMapOld
   } */
 
 ]
