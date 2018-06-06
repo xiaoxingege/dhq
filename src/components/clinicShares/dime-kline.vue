@@ -457,7 +457,8 @@ export default ({
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross'
+            // type: 'cross'
+            type: 'line'
           },
           textStyle: {
 
@@ -542,6 +543,14 @@ export default ({
             axisTick: {
               show: false
             },
+            // axisPointer: {
+            //    label: {
+            //     formatter: function(params) {
+            //      // var seriesValue = (params.seriesData[0] || {}).value
+            //       return ''
+            //     }
+            //   } 
+            // },
             boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
             axisLine: {
               lineStyle: {
@@ -605,23 +614,24 @@ export default ({
               color: '#c9d0d7'
               // interval: this.xLabelInterval,
               // showMinLabel: true
-            },
-            axisPointer: {
-              /* label: {
-                formatter: function(params) {
-                  var seriesValue = (params.seriesData[0] || {}).value
-                  return (seriesValue != null ? echarts.format.addCommas(seriesValue) : '')
-                }
-              } */
-              /* type: 'shadow',
-               label: {show: false},
-               triggerTooltip: true,
-               handle: {
-                   show: true,
-                   margin: 30,
-                   color: '#B80C00'
-               } */
-            }
+            } // ,
+            // axisPointer: {
+            //   label: {
+            //     formatter: function(params) {
+            //      // console.log(params.value)
+            //       var seriesValue = params.value
+            //       return (seriesValue != null ? seriesValue : '')
+            //     }
+            //   } 
+            /* type: 'shadow',
+             label: {show: false},
+             triggerTooltip: true,
+             handle: {
+                 show: true,
+                 margin: 30,
+                 color: '#B80C00'
+             } */
+            // }
           }
         ],
         yAxis: [{
