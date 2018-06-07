@@ -873,7 +873,7 @@ export default {
       this.chart.on('click', (params) => {
         if (params.componentType === 'markPoint') {
           params.event.event.stopPropagation();
-          window.open(ctx + '/siweiIndex')
+          window.open(ctx + '/siweiIndex?key=zsIndex')
         }
       })
     },
