@@ -14,14 +14,14 @@ export default {
 }
 
 // 开发环境
-const domain = '//test.z3quant.com' // openapi
-const websocketDomain = '//test.z3quant.com' // websocket
-const env = 'dev';
-
-// 测试环境
 // const domain = '//test.z3quant.com' // openapi
 // const websocketDomain = '//test.z3quant.com' // websocket
-// const env = 'test';
+// const env = 'dev';
+
+// 测试环境
+const domain = '//test.z3quant.com' // openapi
+const websocketDomain = '//test.z3quant.com' // websocket
+const env = 'test';
 
 // 生产环境
 // const domain = '//www.z3quant.com' // openapi

@@ -260,21 +260,11 @@ export default ({
       }
       this.data.induName = this.industryFace.datas.induName
       // if (klineData.length <= 60) {
-      if (klineData.length >= 60) {
-        klineData = klineData.slice(klineData.length - 60, klineData.length);
-      }
+      // if (klineData.length >= 60) {
+      //   klineData = klineData.slice(klineData.length - 60, klineData.length);
+      // }
 
       klineData.forEach((item, index) => {
-        /* if (index === 0) {
-          induIndex.push(0)
-          hs300ChngPct.push(0)
-        } else {
-          var indexs = getIndex(item.tradeMin)
-          induIndex[indexs] = Number(item.induIndex).toFixed(2)
-          hs300ChngPct[indexs] = Number(item.hs300ChngPct).toFixed(2)
-          // induIndex.push(Number(item.induIndex).toFixed(2))
-          // hs300ChngPct.push(Number(item.hs300ChngPct).toFixed(2))
-        } */
 
         const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
         const induIndex = Number(item.induIndex).toFixed(2) // 行业指数

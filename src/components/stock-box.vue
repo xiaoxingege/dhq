@@ -151,7 +151,7 @@ export default {
   border: 1px solid #FF2921;
   color: #FF2921;
   border-radius: 4px;
-  height: 22px;
+  height: 20px;
   line-height: 20px;
   display: inline-block;
   width: 48px;
@@ -169,7 +169,7 @@ export default {
   display: inline-block;
   width: 48px;
   text-align: center;
-  height: 22px;
+  height: 20px;
   line-height: 20px;
   padding: 0 4px;
   font-size: 12px;

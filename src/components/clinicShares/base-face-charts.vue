@@ -826,7 +826,7 @@ export default ({
             var time = obj.name; // 时间
             var axisid = obj.axisIndex
             if (axisid === 1) { */
-            console.log(params[0].axisIndex)
+            //  console.log(params[0].axisIndex)
             var axisid = params[0].axisIndex
             if (axisid === 1) {
               for (var i = 0; i < params.length; i++) {

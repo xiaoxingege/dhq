@@ -134,6 +134,9 @@ html {
 .noticeDiv .reportTime {
     margin: 0 25px;
 }
+    .fileNews{
+        padding-bottom: 20px;
+    }
 </style>
 <template>
 <div class="news">
@@ -197,7 +200,7 @@ html {
       <span v-if="result">发布时间：{{noticeDate}}</span>
     </div>
     <div class="newMain" v-html="reformatNoticeContent"></div>
-    <div class="newMain" v-if="result && result.fileType === 'pdf'">
+    <div class="newMain fileNews" v-if="result && result.fileType === 'pdf'">
       正文请详见附件 :
       <a :href="'http://www.z3quant.com/openapi/news/downAccFile/'+result.newsId+'.shtml'">查看附件
         <svg class="svg_icon_q" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
