@@ -104,26 +104,6 @@ export default [{
     name: 'calendar',
     component: Calendar
   },
-  {
-    path: ctx + '/map',
-    name: 'map',
-    component: Map
-  },
-  {
-    path: ctx + '/map/fullScreen',
-    name: 'bigMap',
-    component: Map
-  },
-  {
-    path: ctx + '/map/normal',
-    name: 'normalMap',
-    component: Map
-  },
-  {
-    path: ctx + '/plateMap',
-    name: 'plateMap',
-    component: PlateMap
-  },
   // {
   //   path: ctx + '/smartPool',
   //   name: 'smartPoolList',
@@ -148,7 +128,27 @@ export default [{
     path: ctx + '/detail-pages/:detailType/:id',
     name: 'detailPages',
     component: DetailPages
-  }
+  },
+    {
+        path: ctx + '/map',
+        name: 'map',
+        component: Map
+    },
+    {
+        path: ctx + '/map/fullScreen',
+        name: 'bigMap',
+        component: Map
+    },
+    {
+        path: ctx + '/map/normal',
+        name: 'normalMap',
+        component: Map
+    },
+    {
+        path: ctx + '/plateMap',
+        name: 'plateMap',
+        component: PlateMap
+    }
   /* {
      path: ctx + '/search-box',
      name: 'search-box',
