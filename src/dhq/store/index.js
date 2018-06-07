@@ -6,6 +6,7 @@ import stock from 'stores/dhqStock'
 import topic from 'stores/z3dhq-theme'
 import industry from 'stores/z3dhq-industry'
 import zhikuanDetailPages from 'stores/dhq-detail-pages'
+import touguWorkspaceStore from 'stores/tougu-workspace'
 import stockMap from 'stores/dhqStockMap'
 import plateMap from 'stores/dhqPlateMap'
 
@@ -136,7 +137,8 @@ export default new Vuex.Store({
     industry,
     zhikuanDetailPages,
     stockMap,
-    plateMap
+    plateMap,
+    touguWorkspaceStore
     /* zhikuanSearch,
      zhikuanSearchList,
      bubbles,
