@@ -1103,8 +1103,9 @@ export default {
         this.$emit('isStopplayback', false);
         this.stopPlay();
       }
-      this.autoUpdate = true;
       this.updateData();
+      this.autoUpdate = true;
+      this.updateDataPid = null
       this.autoUpdateData();
     },
     getTime: function() {
