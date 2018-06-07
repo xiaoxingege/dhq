@@ -100,7 +100,7 @@ export default [{
     component: IndustryDetail
   },
   {
-    path: ctx + 'jzxg',
+    path: ctx + '/jzxg',
     name: 'calendar',
     component: Calendar
   },
