@@ -151,7 +151,7 @@ export default {
   border: 1px solid #FF2921;
   color: #FF2921;
   border-radius: 4px;
-  height: 22px;
+  height: 20px;
   line-height: 20px;
   display: inline-block;
   width: 48px;
