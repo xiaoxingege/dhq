@@ -131,7 +131,7 @@ export default {
         // alert('i dont konw')
         this.isOverBubbles = data
         this.isOverDialog = data
-        this.zIndex = ''
+        this.zIndex = -999999
       }
 
     },
@@ -463,7 +463,7 @@ export default {
             } else {
               that.isOverBubbles = false
               if (!that.isOverDialog) {
-                that.zIndex = ''
+                that.zIndex = -999999
                 that.dialogOptions.stockCode = ''
               }
             }
