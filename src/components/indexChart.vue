@@ -101,7 +101,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" @click="toMarketDetail" @dblclick="toDingPan">
+    <a class="line-chart" @click="toMarketDetail">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -870,6 +870,12 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
+      this.chart.on('click', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          window.open(ctx + '/siweiIndex')
+        }
+      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -920,8 +926,9 @@ export default {
       }
     },
     toMarketDetail: function() {
-      clearTimeout(this.timeoutID)
-      this.isDbClick('click')
+      window.open(ctx + '/stock/000001.SH')
+      /*  clearTimeout(this.timeoutID)
+        this.isDbClick('click')*/
     },
     toDingPan: function() {
       clearTimeout(this.timeoutID)
