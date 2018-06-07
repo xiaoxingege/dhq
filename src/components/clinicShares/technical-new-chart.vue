@@ -302,16 +302,17 @@ export default {
       chgPct: '--',
       message: '',
       showX: true,
+      showTool: true,
       techFace: {},
       techAllData: '',
-      pointTitle: '',
       redGreen: '',
       allData: {},
       opintRedGreen: '',
       reds: '',
       greens: '',
       strs: '',
-      isMa5: true,
+      toopLeft: 0,
+      toopSize: 0,
       opacityMa5: 0,
       opacityMa10: 0,
       opacityMa20: 0.5,
@@ -334,7 +335,6 @@ export default {
         vols: [],
         chgPct: [],
         detailJson: [],
-        pointTitle: '',
         pointColor: '',
         pointText: '',
         pointColorDown: '',
@@ -420,7 +420,7 @@ export default {
         this.drawCharts()
 
       }
-      this.eventPoint()
+      // this.eventPoint()
     },
     initData() {
       // var allData = state.clinicShares.techFace
@@ -789,14 +789,6 @@ export default {
           var need2 = klineTags[timeNew][2]
           var allStr = '';
 
-          // console.log(need1)
-          // console.log(need2)
-
-          /*   if(tags[1] && tags[2] === undefined){
-    position: relative;
-    top: -2px;
-    left: -3px;margin: 3px 6px;
-                } */
           if (params.color === '#56a870') { //  green  对应的状态是1
             for (var i = 0; i < need1.length; i++) {
               var objs1 = need1[i];
@@ -831,50 +823,6 @@ export default {
           // console.log(allStr);
           last.innerHTML = '<div style="display:inline-block;border:1px solid ' + params.color + ';padding:13px;position:absolute;left:' + left + 'px;top:' + top + 'px;z-index:99999;background:#141518;width:270px;color:#c9d0d7" id="toopdetail"><img src="http://i0.jrjimg.cn/Astock/' + iocnColor + '-triangle.png" style="position: absolute;left: ' + iconLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr + '</div>';
 
-          /* var downtxt = document.getElementById('triang');
-                 // var downtxt = document.createElement('span');
-                  downtxt.class = 'triangle'; */
-          /*  var klineTags = self.lineData.pointTitle
-             for(var key in klineTags){
-              if(klineTags[key][1] === undefined && klineTags[key][2] === undefined){
-             // console.log(key);
-              }else{
-               // var packJson = klineTags[key][1]
-                var str = ''
-                var str1 = ''
-                if(klineTags[key][1] === undefined){
-                  var len2 = klineTags[key][2].length
-                  var tagTitle = klineTags[key][2]
-                  for(var i=0; i<len2; i++){
-                    console.log(tagTitle[i].title)
-                    str += '<span>' + tagTitle[i].tag + '</span>';
-                    // console.log(str)
-                  }
-                  document.getElementById('toopdetail').innerHTML = str
-                }else if(klineTags[key][2] === undefined){
-                  var len1 = klineTags[key][1].length
-                  var tagTitle2 = klineTags[key][1]
-                 // console.log(len1)
-                  for(var j=0; j<len1; j++){
-                    str1 += '<span>' + tagTitle2[j].tag + '</span>';
-                  }
-                  document.getElementById('toopdetail').innerHTML = str1
-
-                } */
-          // for(var p in packJson) { // 遍历json数组时，这么写p为索引，0,1
-          // console.log(p)
-          //  console.log(packJson[p])
-          // data.detailJson.push(packJson[p])
-          // console.log(packJson[p].name + " " + packJson[p].password);
-          //   console.log(data.detailJson)
-          // console.log(packJson)
-
-
-
-
-          // } 
-          /*  }
-          } */
         }
       })
       this.chart.on('mouseout', function(params) {
@@ -942,9 +890,20 @@ export default {
           axisPointer: {
             type: 'line'
           },
+
+          position: function(pos, params, dom, rect, size) {
+
+            _self.toopLeft = pos[0]
+            _self.toopSize = size.viewSize[0]
+            // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+            /*   var obj = {top: '50%'};
+             obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = '50%';
+             console.log(obj)
+             return obj; */
+          },
+          extraCssText: 'background-color: transparent;',
           formatter: function(t) {
             //  console.log(t)
-            //  console.log(t.length)
             var obj = t[0];
             var time = obj.name; // 时间
             var axisid = obj.axisIndex
@@ -1041,7 +1000,6 @@ export default {
 
             })
             //  console.log(t[0].value.length)
-
             _self.openPx = openPx === undefined ? '--' : openPx
             //  _self.$refs.close.innerText = closePx
             _self.highPx = highPx === undefined ? '--' : highPx
@@ -1053,10 +1011,55 @@ export default {
               _self.volume = '--'
             }
             //  return '时间：' + time + '<br/>开盘价：' + (openPx || '--') + '<br/>收盘价：' + (closePx || '--') + '<br/>最高价：' + (highPx || '--') + '<br/>最低价：' + (lowPx || '--') + '<br/>MA5：' + (ma5 || '--') + '<br/>MA10：' + (ma10 || '--') + '<br/>MA20：' + (ma20 || '--') + '<br/>MA30：' + (ma30 || '--') + '<br/>MA60：' + (ma60 || '--') + '<br/>MA120：' + (ma120 || '--') + '<br/>成交量：' + (volume || '--');
+
+            /* downtxt.appendChild(newSpan); */
+            var klineTags = _self.allData.tags
+            var coordTime = t[0].axisValue
+            // console.log(coordTime.replace(/\-/g, ''))
+            var timeNew = coordTime.replace(/\-/g, '')
+
+            var allStr1 = '';
+            var allStr2 = '';
+            var all = '';
+            var all2 = '';
+            var infoStr = ''
+            var tLeft = ''
+            if (klineTags[timeNew] !== undefined) {
+              var need1 = klineTags[timeNew][1]
+              var need2 = klineTags[timeNew][2]
+              // console.log(need1)
+              //  console.log(need2)
+              if (need1 && need2) {
+                allStr1 = _self.redGreenTooltip(need1)
+                allStr2 = _self.redGreenTooltip(need2)
+                if (_self.toopLeft + 489 >= _self.toopSize) {
+
+                  tLeft = '-515'
+                }
+
+                all = '<div style="display:inline-block;border:1px solid ' + config.downColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7;position: absolute;top:0px;left:' + tLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr1 + '</div>';
+
+                all2 = '<div style="display:inline-block;border:1px solid ' + config.upColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7;position: absolute;top:-120px;left:' + tLeft + 'px;"><div style="">' + coordTime + '</div>' + allStr2 + '</div>';
+                return all + all2
+              } else if (need1 && need2 === undefined) { //  1 是绿
+
+                infoStr = _self.redGreenTooltip(need1)
+                all = '<div style="display:inline-block;border:1px solid ' + config.downColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7" id="toopdetail"><div style="">' + coordTime + '</div>' + infoStr + '</div>';
+                return all
+              } else if (need1 === undefined && need2) { // red 对应的状态是 2
+                infoStr = _self.redGreenTooltip(need2)
+
+                all = '<div style="display:inline-block;border:1px solid ' + config.upColor + ';padding:13px;z-index:99999;background:#141518;color:#c9d0d7" id="toopdetail"><div style="">' + coordTime + '</div>' + infoStr + '</div>';
+                return all
+              }
+
+            }
+
           }
         },
         animation: false,
         axisPointer: {
+          z: 999,
           link: {
             xAxisIndex: 'all'
           },
@@ -1379,6 +1382,25 @@ export default {
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)
       //          })
+    },
+    redGreenTooltip(arr, type) {
+      var allStr = '';
+      for (var j = 0; j < arr.length; j++) {
+        var objs2 = arr[j];
+        var oneStr2 = '';
+        for (var p in objs2) {
+          // console.log(p)
+          if (p === 'title') {
+            oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + objs2[p] + '\n'
+          } else if (p === 'tag') {
+            oneStr2 += objs2[p] + '\n<br/>'
+          }
+        }
+        allStr += oneStr2;
+
+      }
+      return allStr;
+
     },
     showMa(type) {
       this.checkOpacity(type)

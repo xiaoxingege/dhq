@@ -14,6 +14,7 @@
     padding-top: 5px;
     border-bottom: 1px solid $lineAndTitleColor;
     position: relative;
+    width: 100%;
 }
 .finance-news-list li a,
 .finance-news-list li span {

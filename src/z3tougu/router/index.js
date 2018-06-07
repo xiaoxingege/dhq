@@ -1,69 +1,144 @@
-import Search from 'components/search'
-import Map from 'components/z3tougu-map'
-import SearchBox from 'components/search-box'
-import DetailPages from 'components/detail-pages'
-import ThemeList from 'components/theme-list'
-import ThemeIndex from 'components/theme-index'
-import Siwei from 'components/siwei'
-import ThemeInformat from 'components/theme-informat-list'
-import TopicDetail from 'components/topic-detail'
-import GoldStrategy from 'components/gold-strategy'
-import GoldStrategyH5 from 'components/gold-strategy-h5'
-import BacktestDetailH5 from 'components/backtest-detail-h5'
-import foundpoollist from 'components/foundpoollist'
-import foundpooldetail from 'components/foundpooldetail'
-import ownstrategylist from 'components/ownstrategylist'
-import editstrategy from 'components/editstrategy'
-import runstatestrategy from 'components/runstatestrategy'
-import Filter from 'components/filter/filter'
-import BacktestFilter from 'components/backtest-filter'
-import BacktestFilterH5 from 'components/backtest-filter-h5'
-import BacktestFilterBuysell from 'components/backtest-filter-buysell'
-import BacktestFilterBuysell2 from 'components/backtest-filter-buysell2'
-import BacktestTime from 'components/backtest-time'
-import BacktestTimeH5 from 'components/backtest-time-h5'
-import FundChart from 'components/fund-chart'
-import FundFile from 'components/fund-file'
+// 搜索
+const Search = () =>
+  import ( /* webpackChunkName: "search" */ 'components/search')
+const SearchBox = () =>
+  import ( /* webpackChunkName: "search" */ 'components/search-box')
+const DetailPages = () =>
+  import ( /* webpackChunkName: "detail-pages" */ 'components/detail-pages')
+// 板块
+const ThemeList = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/theme-list')
+const ThemeIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/theme-index')
+const ThemeInformat = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/theme-informat-list')
+const TopicDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/topic-detail')
+const IndustryIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-index')
+const IndustryDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-detail')
+// 大盘云图
+const Map = () =>
+  import ( /* webpackChunkName: "map" */ 'components/z3tougu-map')
+const PlateMap = () =>
+  import ( /* webpackChunkName: "map" */ 'components/plate-map/plate-map-index')
+
+// 四维图析
+const Siwei = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei')
+const SiweiIndex = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/siwei-index')
+const stockZtg = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-ztg')
+const stockZbg = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-zbg')
+const marketBubble = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/market')
+const stockQsg = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-qsg')
+const stockDtg = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-dtg')
+const stockNew = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-new')
+const stockCxg = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-cxg')
+const stockZrzt = () =>
+  import ( /* webpackChunkName: "siwei" */ 'components/siwei/stock-ystzt')
+
+// 首页
 import z3TouguIndex from 'components/z3touguhome/z3tougu-index'
 import NewsList from 'components/z3touguhome/newslist'
-import SmartPoolList from 'components/smartPool/smartPoolList'
-import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
-import FundArchives from 'components/fund-archives/fund-archives'
-import FundRecommend from 'components/fund-recommend'
 import StrategyList from 'components/z3touguhome/strategy-list'
-import backtestHelp from 'components/help'
-import finance from 'components/finance'
-import blank from 'components/z3touguhome/blank'
 import errorPage from 'components/z3tougu-error-page'
-import CustomerList from 'components/customer-list'
-import PortraitDetail from 'components/customerPortrait/portrait-detail'
-import OptionalStock from 'components/optional-stock/optional-stock'
-import IndustryIndex from 'components/industry-index'
-import IndustryDetail from 'components/industry-detail'
-import TimeIndex from 'components/time-index'
+
+// 策略
+const GoldStrategy = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/gold-strategy')
+const GoldStrategyH5 = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/gold-strategy-h5')
+const BacktestDetailH5 = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-detail-h5')
+// const foundpoollist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpoollist')
+// const foundpooldetail = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/foundpooldetail')
+// const ownstrategylist = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/ownstrategylist')
+// const editstrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/editstrategy')
+// const runstatestrategy = () =>
+//   import ( /* webpackChunkName: "strategy" */ 'components/runstatestrategy')
+const Filter = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/filter/filter')
+const BacktestFilter = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-filter')
+const BacktestFilterH5 = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-filter-h5')
+const BacktestFilterBuysell = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-filter-buysell')
+const BacktestFilterBuysell2 = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-filter-buysell2')
+const BacktestTime = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-time')
+const BacktestTimeH5 = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/backtest-time-h5')
+const backtestHelp = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/help.vue')
+// import FundChart from 'components/fund-chart'
+// import FundFile from 'components/fund-file'
+
+
+
+
+// 基金
+// import SmartPoolList from 'components/smartPool/smartPoolList'
+// import SmartPoolListDetails from 'components/smartPool/smartPoolListDetails'
+// import FundArchives from 'components/fund-archives/fund-archives'
+// import FundRecommend from 'components/fund-recommend'
+
+// 客户端嵌套的“财”页面
+const finance = () =>
+  import ( /* webpackChunkName: "finance" */ 'components/finance')
+// import TimeIndex from 'components/time-index'
+
+// import blank from 'components/z3touguhome/blank'
+
+
+// 客户画像
+const CustomerList = () =>
+  import ( /* webpackChunkName: "personas" */ 'components/customer-list')
+const PortraitDetail = () =>
+  import ( /* webpackChunkName: "personas" */ 'components/customerPortrait/portrait-detail')
+const OptionalStock = () =>
+  import ( /* webpackChunkName: "personas" */ 'components/optional-stock/optional-stock')
+
+
 import BullStockList from 'components/bull-stock-list'
 import BullStock from 'components/bullStock/bull-stock-index'
-import AutoinpBox from 'components/autoinp-box'
-import PlateMap from 'components/plate-map/plate-map-index'
+// import AutoinpBox from 'components/autoinp-box'
+
 import FilterStrategyList from 'components/z3-filter-strategy-list'
 import DragonListDialog from 'components/dragon-list-dialog'
-import ClinicSharesIndex from 'components/clinicShares/clinic-shares-index'
-/* import wisdomHeadlines from 'components/intelligence-info/wisdom-headlines'
-import optionalInformation from 'components/intelligence-info/optional-information'
-import newsFlash from 'components/intelligence-info/news-flash'
-import newsOpportunities from 'components/intelligence-info/news-opportunities'
-import listedCompany from 'components/intelligence-info/listed-company'*/
-import zInfo from 'components/intelligence-info/z-info'
-/* import StockMapOld from 'components/stockmap-old/stockmap-old' */
-import SiweiIndex from 'components/siwei/siwei-index'
-import stockZtg from 'components/siwei/stock-ztg'
-import stockZbg from 'components/siwei/stock-zbg'
-import marketBubble from 'components/siwei/market'
-import stockQsg from 'components/siwei/stock-qsg'
-import stockDtg from 'components/siwei/stock-dtg'
-import stockNew from 'components/siwei/stock-new'
-import stockCxg from 'components/siwei/stock-cxg'
-import stockZrzt from 'components/siwei/stock-ystzt'
+
+// 智能诊股
+const ClinicSharesIndex = () =>
+  import ( /* webpackChunkName: "stock-clinic" */ 'components/clinicShares/clinic-shares-index')
+
+// 智能资讯
+const wisdomHeadlines = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/wisdom-headlines')
+const optionalInformation = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/optional-information')
+const newsFlash = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-flash')
+const newsOpportunities = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/news-opportunities')
+const listedCompany = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/listed-company')
+const zInfo = () =>
+  import ( /* webpackChunkName: "wisdom-newsinfo" */ 'components/intelligence-info/z-info')
+
 import {
   ctx
 } from '../config'
@@ -172,31 +247,31 @@ export default [{
     name: 'BacktestDetailH5',
     component: BacktestDetailH5
   },
-  {
-    path: ctx + '/foundpoollist',
-    name: 'foundpoollist',
-    component: foundpoollist
-  },
-  {
-    path: ctx + '/foundpooldetail/:id',
-    name: 'foundpooldetail',
-    component: foundpooldetail
-  },
-  {
-    path: ctx + '/ownstrategylist',
-    name: 'ownstrategylist',
-    component: ownstrategylist
-  },
-  {
-    path: ctx + '/editstrategy',
-    name: 'editstrategy',
-    component: editstrategy
-  },
-  {
-    path: ctx + '/runstatestrategy',
-    name: 'runstatestrategy',
-    component: runstatestrategy
-  },
+  // {
+  //   path: ctx + '/foundpoollist',
+  //   name: 'foundpoollist',
+  //   component: foundpoollist
+  // },
+  // {
+  //   path: ctx + '/foundpooldetail/:id',
+  //   name: 'foundpooldetail',
+  //   component: foundpooldetail
+  // },
+  // {
+  //   path: ctx + '/ownstrategylist',
+  //   name: 'ownstrategylist',
+  //   component: ownstrategylist
+  // },
+  // {
+  //   path: ctx + '/editstrategy',
+  //   name: 'editstrategy',
+  //   component: editstrategy
+  // },
+  // {
+  //   path: ctx + '/runstatestrategy',
+  //   name: 'runstatestrategy',
+  //   component: runstatestrategy
+  // },
   {
     path: ctx + '/z3touguIndex',
     name: 'z3touguIndex',
@@ -237,42 +312,42 @@ export default [{
     name: 'backtesttimeh5',
     component: BacktestTimeH5
   },
-  {
-    path: ctx + '/fundRecommend',
-    name: 'fundrecommend',
-    component: FundRecommend
-  },
+  // {
+  //   path: ctx + '/fundRecommend',
+  //   name: 'fundrecommend',
+  //   component: FundRecommend
+  // },
   // { path: ctx+'/intellCombList', name: 'intellcomblist', component: IntellCombList },
-  {
-    path: ctx + '/fund-chart',
-    name: 'fundchart',
-    component: FundChart
-  },
-  {
-    path: ctx + '/fund-file',
-    name: 'fundfile',
-    component: FundFile
-  },
+  // {
+  //   path: ctx + '/fund-chart',
+  //   name: 'fundchart',
+  //   component: FundChart
+  // },
+  // {
+  //   path: ctx + '/fund-file',
+  //   name: 'fundfile',
+  //   component: FundFile
+  // },
   {
     path: ctx + '/newslist',
     name: 'newslist',
     component: NewsList
   },
-  {
-    path: ctx + '/smartPool',
-    name: 'smartPoolList',
-    component: SmartPoolList
-  },
-  {
-    path: ctx + '/smartPoolListDetails/:id',
-    name: 'smartPoolListDetails',
-    component: SmartPoolListDetails
-  },
-  {
-    path: ctx + '/fundArchives',
-    name: 'fundArchives',
-    component: FundArchives
-  },
+  // {
+  //   path: ctx + '/smartPool',
+  //   name: 'smartPoolList',
+  //   component: SmartPoolList
+  // },
+  // {
+  //   path: ctx + '/smartPoolListDetails/:id',
+  //   name: 'smartPoolListDetails',
+  //   component: SmartPoolListDetails
+  // },
+  // {
+  //   path: ctx + '/fundArchives',
+  //   name: 'fundArchives',
+  //   component: FundArchives
+  // },
   {
     path: ctx + '/strategyList',
     name: 'strategyList',
@@ -288,11 +363,11 @@ export default [{
     name: 'finance',
     component: finance
   },
-  {
-    path: ctx + '/blank',
-    name: 'blank',
-    component: blank
-  },
+  // {
+  //   path: ctx + '/blank',
+  //   name: 'blank',
+  //   component: blank
+  // },
   {
     path: ctx + '/error',
     name: 'error',
@@ -318,21 +393,21 @@ export default [{
     name: 'bullStock',
     component: BullStock
   },
-  {
-    path: ctx + '/test/timeIndex',
-    name: 'timeindex',
-    component: TimeIndex
-  },
+  // {
+  //   path: ctx + '/test/timeIndex',
+  //   name: 'timeindex',
+  //   component: TimeIndex
+  // },
   {
     path: ctx + '/bullStockList',
     name: 'bullstocklist',
     component: BullStockList
   },
-  {
-    path: ctx + '/test/autoinpBox',
-    name: 'autoinpbox',
-    component: AutoinpBox
-  },
+  // {
+  //   path: ctx + '/test/autoinpBox',
+  //   name: 'autoinpbox',
+  //   component: AutoinpBox
+  // },
   {
     path: ctx + '/plateMap',
     name: 'plateMap',
@@ -356,29 +431,27 @@ export default [{
   {
     path: ctx + '/zInfo',
     component: zInfo,
-    children: [
-      /* {
-            path: 'wisdomHeadlines',
-            name: 'wisdomHeadlines',
-            component: wisdomHeadlines
-          }, {
-            path: 'optionalInformation',
-            name: 'optionalInformation',
-            component: optionalInformation
-          }, {
-            path: 'newsFlash',
-            name: 'newsFlash',
-            component: newsFlash
-          }, {
-            path: 'newsOpportunities',
-            name: 'newsOpportunities',
-            component: newsOpportunities
-          }, {
-            path: 'listedCompany',
-            name: 'listedCompany',
-            component: listedCompany
-          } */
-    ]
+    children: [{
+      path: 'wisdomHeadlines',
+      name: 'wisdomHeadlines',
+      component: wisdomHeadlines
+    }, {
+      path: 'optionalInformation',
+      name: 'optionalInformation',
+      component: optionalInformation
+    }, {
+      path: 'newsFlash',
+      name: 'newsFlash',
+      component: newsFlash
+    }, {
+      path: 'newsOpportunities',
+      name: 'newsOpportunities',
+      component: newsOpportunities
+    }, {
+      path: 'listedCompany',
+      name: 'listedCompany',
+      component: listedCompany
+    }]
   },
   {
     path: ctx + '/siweiIndex',

@@ -38,6 +38,7 @@ export default {
         el.addEventListener('mouseenter', el._popupStock);
         el.addEventListener('mouseleave', (event) => {
           popupVm.isShow = false;
+          popupVm.$props.stockCode = '';
         })
       },
       update(el, binding, vnode, oldVnode) {

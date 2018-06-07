@@ -259,6 +259,17 @@ export default {
               // return '<p style="background: red; width:200px; height:200px">hello</p>'
             }
           },
+          dataZoom: [{
+              type: 'inside',
+              xAxisIndex: 0,
+              filterMode: 'empty'
+            },
+            {
+              type: 'inside',
+              yAxisIndex: 0,
+              filterMode: 'empty'
+            }
+          ],
           xAxis: {
             type: 'value',
             // name: '日期',
@@ -471,6 +482,7 @@ export default {
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
+          that.dialogOptions.stockCode = ''
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {

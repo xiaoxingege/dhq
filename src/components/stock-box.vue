@@ -169,7 +169,7 @@ export default {
   display: inline-block;
   width: 48px;
   text-align: center;
-  height: 22px;
+  height: 20px;
   line-height: 20px;
   padding: 0 4px;
   font-size: 12px;

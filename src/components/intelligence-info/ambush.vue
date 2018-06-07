@@ -20,6 +20,7 @@
 </template>
 
 <script>
+let pcId = '';
 export default {
   props: ['title', 'type'],
   data() {
@@ -42,10 +43,20 @@ export default {
   mounted() {
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveAmbushedStocks');
+      pcId = setInterval(() => {
+        this.$store.dispatch('zInfoPublic/retrieveAmbushedStocks');
+      }, 30 * 1000);
     } else if (this.type === 'plate') {
       this.$store.dispatch('zInfoPublic/retrieveAmbushedPlates');
+      pcId = setInterval(() => {
+        this.$store.dispatch('zInfoPublic/retrieveAmbushedPlates');
+      }, 60 * 1000);
     }
-
+  },
+  destroyed() {
+    if (pcId) {
+      clearInterval(pcId);
+    }
   }
 }
 </script>

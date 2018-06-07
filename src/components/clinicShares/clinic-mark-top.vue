@@ -468,7 +468,7 @@ body {
           <div class="mask"></div>
         </div>
       </div>
-      <div class="mark-detail">打败了{{checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
+      <div class="mark-detail">打败了{{smartStock.wineRate==null?'--':checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
     </div>
     <div class="clinic-top-center box-flex-1">
       <div class="radar-box">

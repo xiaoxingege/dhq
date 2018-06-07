@@ -11,7 +11,9 @@ import util from '../../z3tougu/util'
 import {
   mapState
 } from 'vuex'
-
+import {
+  ctx
+} from '../../z3tougu/config'
 let pcId = "";
 export default {
   data() {
@@ -179,6 +181,12 @@ export default {
           smooth: true
         }]
       });
+      this.chart.on('dblclick', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          this.openPlate(this.plates[params.dataIndex].idxCode)
+        }
+      })
     },
     addMarkData() {
       const interval = this.indexRange.interval;
@@ -186,12 +194,10 @@ export default {
       this.markLineData = [];
       this.plates.forEach((plate) => {
         const time = this.formatTime(plate.tradeMin);
-        console.info(time);
         const riseSpeed = plate.riseSpeed;
         const name = plate.idxName;
         const color = riseSpeed >= 0 ? config.upColor : config.downColor;
         const itemIndex = this.indexArr[this.timeline.indexOf(time)] || 0;
-        console.info(itemIndex);
         const markPointSize = 60 + (name.length - 4) * 10;
         if (itemIndex !== 0) {
           // 如果coordY超过min max 则显示不出来，避免因为计算（四舍五入）导致超界，做-1操作。
@@ -272,14 +278,19 @@ export default {
       })
     },
     formatTime(value) {
-      value += "";
+      value += '';
       if (value.length === 5) {
-        value = "0" + value;
+        value = '0' + value;
       }
-      return value.substring(0, 2) + ":" + value.substring(2, 4)
+      return value.substring(0, 2) + ':' + value.substring(2, 4)
     },
     openIndex() {
+      console.info('openindex');
       window.open('stock/000001.SH');
+    },
+    openPlate(code) {
+      const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
+      window.open(path);
     }
   },
   mounted() {

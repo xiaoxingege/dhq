@@ -143,6 +143,7 @@ export default {
       intervalId = setInterval(() => {
         console.log('启动定时器')
         console.log(intervalId)
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getListedCompany', {
           page: 0,
           isTop: this.isTops,
