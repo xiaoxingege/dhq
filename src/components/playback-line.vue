@@ -3,7 +3,7 @@
   <div class="playback_btn perday" v-if="!isFullScreen || isplaybackShow"><img :src="playbackSrc" alt="" v-on:click="togglePlay()" ref="playBtn"></div>
   <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*35+playLineLeft+'px'}" v-if="!isFullScreen || isplaybackShow"></div>
   <!--div v-for="date of playbackDateShow" class="perday" v-if="!isEnlarge || isplaybackShow">{{date}}</div-->
-  <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" @click="index <= datetimeIndex && status!==1 && jumpToPlay(index+1)" v-if="!isFullScreen || isplaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
+  <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" @click="index < datetimeIndex && status!==1 && jumpToPlay(index+1)" v-if="!isFullScreen || isplaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
   <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isFullScreen && !isplaybackShow" v-on:click="switchplayback">
   <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isFullScreen && isplaybackShow" v-on:click="switchplayback">
 </div>
@@ -57,7 +57,7 @@ export default {
     updateDatetime: function() {
       return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
         const playbackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playbackTime = playbackDatetime.timeTag;
+        this.playbackTime = "1420"; //playbackDatetime.timeTag;
         this.playbackTradeDate = playbackDatetime.tradeDate;
         this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
       })
@@ -122,6 +122,7 @@ export default {
     },
     jumpToPlay(index) {
       // 点击进度，当做暂停逻辑处理
+      debugger;
       this.goPlay(index);
       this.$emit('pausePlay');
     },
