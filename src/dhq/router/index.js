@@ -7,6 +7,7 @@ import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
 import TouguStudio from 'components/touguStudio/touguStudio'
+import TouguWorkspaceIndex from 'components/touguStudio/tougu-workspace'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 
@@ -134,7 +135,11 @@ export default [{
     path: ctx + '/touguStudio',
     name: 'touguStudio',
     component: TouguStudio
-
+  },
+  {
+    path: ctx + '/touguStudio/index',
+    name: 'touguWorkspace',
+    component: TouguWorkspaceIndex
   },
   {
     path: ctx + '/map',
