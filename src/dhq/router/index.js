@@ -6,6 +6,7 @@ import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
+import SignalIndex from 'components/toolCenter/signal-index'
 import TouguStudio from 'components/touguStudio/touguStudio'
 import TouguWorkspaceIndex from 'components/touguStudio/tougu-workspace'
 import Map from 'components/z3tougu-map'
@@ -130,6 +131,11 @@ export default [{
     path: ctx + '/detail-pages/:detailType/:id',
     name: 'detailPages',
     component: DetailPages
+  },
+  {
+    path: ctx + '/signalIndex',
+    name: 'signalindex',
+    component: SignalIndex
   },
   {
     path: ctx + '/touguStudio',
