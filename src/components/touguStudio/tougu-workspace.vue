@@ -8,7 +8,8 @@
         <div class="tougu-workspace-wrapper-inner">
             <TouguWorkspaceHeader></TouguWorkspaceHeader>
             <TouguWorkspaceNav></TouguWorkspaceNav>
-            <TouguWorkspaceStrategy></TouguWorkspaceStrategy>
+            <TouguWorkspaceStrategy v-if="selectTabIndex === 2"></TouguWorkspaceStrategy>
+            <TouguWorkspaceTraining v-if="selectTabIndex === 4"></TouguWorkspaceTraining>
         </div>
     </div>
 </template>
@@ -19,6 +20,7 @@
     import TouguWorkspaceHeader from './tougu-workspace-header.vue'
     import TouguWorkspaceNav from './tougu-workspace-nav.vue'
     import TouguWorkspaceStrategy from './tougu-workspace-strategy.vue'
+    import TouguWorkspaceTraining from './tougu-training.vue'
     import getQueryString from '../../utils/getQueryString.js'
     import getCookie from '../../utils/getCookie.js'
 
@@ -37,7 +39,8 @@
         components:{
             TouguWorkspaceHeader,
             TouguWorkspaceNav,
-            TouguWorkspaceStrategy
+            TouguWorkspaceStrategy,
+            TouguWorkspaceTraining
         },
         methods:{
 
