@@ -9,7 +9,7 @@ import zhikuanDetailPages from 'stores/dhq-detail-pages'
 import touguWorkspaceStore from 'stores/tougu-workspace'
 import stockMap from 'stores/dhqStockMap'
 import plateMap from 'stores/dhqPlateMap'
-
+import signal from 'stores/signal'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
@@ -138,7 +138,8 @@ export default new Vuex.Store({
     zhikuanDetailPages,
     stockMap,
     plateMap,
-    touguWorkspaceStore
+    touguWorkspaceStore,
+    signal
     /* zhikuanSearch,
      zhikuanSearchList,
      bubbles,
