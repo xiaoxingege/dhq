@@ -6,7 +6,8 @@ import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
-
+import Replay from 'components/jjrl/replay'
+import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
 // import Map from 'components/z3tougu-map'
 // import SearchBox from 'components/search-box'
@@ -104,6 +105,16 @@ export default [{
     path: ctx + 'jzxg',
     name: 'calendar',
     component: Calendar
+  },
+  {
+    path:ctx+'/jjrl',
+    name:'replay',
+    component:Replay
+  },
+  {
+    path:ctx+'/jjrl',
+    name:'notOpenStock',
+    component:notOpenStock
   },
   // {
   //   path: ctx + '/smartPool',

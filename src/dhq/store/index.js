@@ -6,6 +6,7 @@ import stock from 'stores/dhqStock'
 import topic from 'stores/z3dhq-theme'
 import industry from 'stores/z3dhq-industry'
 import zhikuanDetailPages from 'stores/dhq-detail-pages'
+import jjrl from 'stores/jjrl'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
@@ -133,7 +134,8 @@ export default new Vuex.Store({
     stock,
     topic,
     industry,
-    zhikuanDetailPages
+    zhikuanDetailPages,
+    jjrl
     /* zhikuanSearch,
      zhikuanSearchList,
      stockMap,
