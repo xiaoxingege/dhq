@@ -621,7 +621,7 @@ export default {
           left: 65,
           top: 40,
           bottom: 30,
-          right: 15
+          right: 25
         },
         calculable: true,
         xAxis: [{
