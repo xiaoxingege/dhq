@@ -7,6 +7,7 @@ import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
 import TouguStudio from 'components/touguStudio/touguStudio'
+import Reservation from 'components/touguStudio/reservation'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 
@@ -135,7 +136,14 @@ export default [{
         name: 'touguStudio',
         component: TouguStudio
 
-    }
+    },
+
+    {
+        path: ctx + '/reservation',
+        name: 'reservation',
+        component: Reservation
+
+    },
     /* {
        path: ctx + '/search-box',
        name: 'search-box',
@@ -146,21 +154,22 @@ export default [{
        name: 'search',
        component: Search
      },*/
-    /* {
-      path: ctx + '/map',
-      name: 'map',
-      component: Map
-    },
     {
-      path: ctx + '/map/fullScreen',
-      name: 'bigMap',
-      component: Map
+        path: ctx + '/map',
+        name: 'map',
+        component: Map
     },
-    {
-      path: ctx + '/map/normal',
-      name: 'normalMap',
-      component: Map
-    }, */
+    /*
+       {
+         path: ctx + '/map/fullScreen',
+         name: 'bigMap',
+         component: Map
+       },
+       {
+         path: ctx + '/map/normal',
+         name: 'normalMap',
+         component: Map
+       }, */
     /* {
        path: ctx + '/themeList',
        name: 'themelist',
@@ -346,27 +355,28 @@ export default [{
        path: ctx + '/test/autoinpBox',
        name: 'autoinpbox',
        component: AutoinpBox
-     },
-     {
-       path: ctx + '/plateMap',
-       name: 'plateMap',
-       component: PlateMap
-     },
-     {
-       path: ctx + '/filterStrategyList',
-       name: 'filterStrategyList',
-       component: FilterStrategyList
-     },
-     {
-       path: ctx + '/dragonList',
-       name: 'dragonListDialog',
-       component: DragonListDialog
-     },
-     {
-       path: ctx + '/clinicSharesIndex',
-       name: 'clinicsharesindex',
-       component: ClinicSharesIndex
-     }*/
+     },*/
+    {
+        path: ctx + '/plateMap',
+        name: 'plateMap',
+        component: PlateMap
+    }
+    /*
+         {
+           path: ctx + '/filterStrategyList',
+           name: 'filterStrategyList',
+           component: FilterStrategyList
+         },
+         {
+           path: ctx + '/dragonList',
+           name: 'dragonListDialog',
+           component: DragonListDialog
+         },
+         {
+           path: ctx + '/clinicSharesIndex',
+           name: 'clinicsharesindex',
+           component: ClinicSharesIndex
+         }*/
     /* {
       path: ctx + '/zInfo',
       component: zInfo,
