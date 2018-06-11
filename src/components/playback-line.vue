@@ -122,7 +122,6 @@ export default {
     },
     jumpToPlay(index) {
       // 点击进度，当做暂停逻辑处理
-      debugger;
       this.goPlay(index);
       this.$emit('pausePlay');
     },
