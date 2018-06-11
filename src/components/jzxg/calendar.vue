@@ -10,7 +10,9 @@
         <span style="cursor: pointer">{{nowDate.year}}年</span>
         <span style="display: inline-block;width:30px;"></span>
         <span>{{nowDate.month+1}}月</span>
-
+        <ul v-for="year in yearList">
+          <li></li>
+        </ul>
       </div>
       <!-- <span class="fr" @click="nextYear">»</span>-->
       <div class="fr arrowr-wrap">
@@ -47,6 +49,9 @@ export default {
     },
     nowMonthDays() {
       return this.calcDays(this.nowDate.year, this.nowDate.month)
+    },
+    yearList() {
+      return
     }
   },
   created() {
@@ -108,18 +113,24 @@ export default {
     },
     // 上月
     lastMonth() {
-      if (this.nowDate.month === 0) {
+      if (this.nowDate.month === 0 && this.nowDate.year > 2016) {
         this.nowDate.month = 11
         this.nowDate.year--
+      } else if (this.nowDate.month === 0 && this.nowDate.year === 2016) {
+        this.nowDate.month = 0
+        this.nowDate.year = 2016
       } else {
         this.nowDate.month--
       }
     },
     // 下月
     nextMonth() {
-      if (this.nowDate.month === 11) {
+      if (this.nowDate.month === 11 && this.nowDate.year < new Date().getFullYear()) {
         this.nowDate.month = 0
         this.nowDate.year++
+      } else if (this.nowDate.month === new Date().getMonth() && this.nowDate.year === new Date().getFullYear()) {
+        this.nowDate.month = new Date().getMonth()
+        this.nowDate.year = new Date().getFullYear()
       } else {
         this.nowDate.month++
       }
