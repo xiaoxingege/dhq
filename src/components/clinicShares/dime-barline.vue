@@ -189,7 +189,7 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-// import config from '../../z3tougu/config'
+import config from '../../z3tougu/config'
 export default ({
   props: ['innerCode', 'indexFace'],
   data() {
@@ -225,9 +225,28 @@ export default ({
         time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
         data.times.push(time)
         data.tradeTimeArr.push(time)
-        data.day.push(day)
+        // data.day.push(day)
         data.days5.push(days5)
-
+        /* var newVols = {
+          value: volume, // 万手
+          itemStyle: {
+            normal: {
+              color: closePx < prevClosePx ? config.downColor : config.upColor,
+              borderColor: closePx < prevClosePx ? config.downColor : config.upColor
+            }
+          }
+        }
+        data.vols.push(newVols) */
+        console.log(day)
+        var newDay = {
+          value: day,
+          itemStyle: {
+            normal: {
+              color: day <= 0 ? config.downColor : config.upColor
+            }
+          }
+        }
+        data.day.push(newDay)
       })
 
       this.initKline()
@@ -372,10 +391,15 @@ export default ({
             name: '近5日主力净流入',
             type: 'line',
             symbol: 'none',
-            stack: '近5日主力净流入'
+            stack: '近5日主力净流入',
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+              }
+            }
           }
         ],
-        color: ['#ca4941', '#1984ea'],
+        // color: ['#ca4941', '#1984ea'],
         grid: {
           // width: '97%',
           // containLabel: true */

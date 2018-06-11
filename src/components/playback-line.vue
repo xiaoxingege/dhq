@@ -57,7 +57,7 @@ export default {
     updateDatetime: function() {
       return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
         const playbackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playbackTime = playbackDatetime.timeTag;
+        this.playbackTime = '1420'; // playbackDatetime.timeTag;
         this.playbackTradeDate = playbackDatetime.tradeDate;
         this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
       })
@@ -122,6 +122,7 @@ export default {
     },
     jumpToPlay(index) {
       // 点击进度，当做暂停逻辑处理
+      debugger;
       this.goPlay(index);
       this.$emit('pausePlay');
     },
