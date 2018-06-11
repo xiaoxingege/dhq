@@ -666,9 +666,7 @@ line-height:14px;
   right: 10px;
   display: block; 
 }
-.rightNavAct{
-  color: red;
-}
+
 .rightNav-top{
   visibility: hidden;
 }
