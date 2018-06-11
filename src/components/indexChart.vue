@@ -799,13 +799,14 @@ export default {
             silent: false,
             symbol: 'rect',
             symbolSize: function(value, params) {
-              if (params.name === '上涨板块' && moveUpName.length > 4) {
-                return [65, 20]
-              } else if (params.name === '下跌板块' && moveUpName.length > 4) {
-                return [65, 20]
-              } else {
-                return [50, 20]
+              if (params.name === '上涨板块') {
+                return [moveUpName.length * 15, 20]
+              } else if (params.name === '下跌板块') {
+                return [moveDownName.length * 15, 20]
               }
+              /* else {
+                              return [50, 20]
+                            }*/
             },
             label: {
               position: [0, 0],
