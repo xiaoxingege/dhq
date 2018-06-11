@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Vue from 'vue'
 import Vuex from 'vuex'
 import dhqIndex from 'stores/dhqIndex'
@@ -8,6 +7,10 @@ import topic from 'stores/z3dhq-theme'
 import industry from 'stores/z3dhq-industry'
 import zhikuanDetailPages from 'stores/dhq-detail-pages'
 import jjrl from 'stores/jjrl'
+import touguWorkspaceStore from 'stores/tougu-workspace'
+import stockMap from 'stores/dhqStockMap'
+import plateMap from 'stores/dhqPlateMap'
+import signal from 'stores/signal'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
@@ -136,7 +139,11 @@ export default new Vuex.Store({
     topic,
     industry,
     zhikuanDetailPages,
-    jjrl
+    jjrl,
+    stockMap,
+    plateMap,
+    touguWorkspaceStore,
+    signal
     /* zhikuanSearch,
      zhikuanSearchList,
      stockMap,
@@ -163,7 +170,6 @@ export default new Vuex.Store({
      marketBubble,
      clinicShares */
   }
-=======
 import Vue from 'vue'
 import Vuex from 'vuex'
 import dhqIndex from 'stores/dhqIndex'
@@ -330,5 +336,4 @@ export default new Vuex.Store({
      marketBubble,
      clinicShares */
   }
->>>>>>> e04c64486d107f7ce5ab9a644f7c713226bbe2d6
 })

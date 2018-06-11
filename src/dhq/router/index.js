@@ -6,15 +6,12 @@ import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Calendar from 'components/jzxg/calendar'
-<<<<<<< HEAD
 import Replay from 'components/jjrl/replay'
 import notOpenStock from 'components/jjrl/notOpenStock'
-=======
 import TouguStudio from 'components/touguStudio/touguStudio'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 import TouguWorkspace from 'components/touguStudio/tougu-workspace'
->>>>>>> e04c64486d107f7ce5ab9a644f7c713226bbe2d6
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -77,7 +74,6 @@ import {
 } from '../config'
 
 export default [{
-<<<<<<< HEAD
     path: ctx,
     component: DhqIndex
   },
@@ -463,7 +459,6 @@ export default [{
     name: 'stockMapOldNormal',
     component: StockMapOld
   } */
-=======
         path: ctx,
         component: DhqIndex
     },
@@ -854,6 +849,5 @@ export default [{
       name: 'stockMapOldNormal',
       component: StockMapOld
     } */
->>>>>>> e04c64486d107f7ce5ab9a644f7c713226bbe2d6
 
 ]
