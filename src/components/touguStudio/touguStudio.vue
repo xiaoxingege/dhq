@@ -18,7 +18,6 @@
                  </span>
         <span class="span5">
                    <i>资产配置实现高能风报比，智能工具让投资更加便捷</i>
-<<<<<<< HEAD
                  </span>              
             </div>
         </div>
@@ -143,40 +142,10 @@
       <buyModel type='buy' :showstate='showBuy' @buyClose="cancle"></buyModel>
       <reservationModel type='reservation' :showstate='showReservation' @reservationClose="cancleR"></reservationModel>
       <reSuccessModel type='resuccess' :showstate='showReSuccess' @resuccessClose="cancleC"></reSuccessModel>
-=======
-                 </span>
-      </div>
-    </div>
-    <div class="item3"></div>
-    <div class="item4">
-      <div class="item4-bh">
-        <div class="itemBh-title"></div>
-        <div class="itemBh-three">
-          <div class="nn"></div>
-          <div class="nn"></div>
-          <div class="nn"></div>
-        </div>
-      </div>
-      <div class="item4-ai">
-        <div class="itemAi-title"></div>
-        <div class="itemAi-two">
-          <div class="nn"></div>
-          <div class="nn"></div>
-        </div>
-      </div>
-      <div class="item4-back"></div>
-    </div>
-
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   </div>
-  <div class="rightNav">
-    侧边导航条
-  </div>
-</div>
 </template>
 
 <script>
-<<<<<<< HEAD
 import Swiper from 'swiper'
 import $ from 'jquery'
 import buyModel from 'components/touguStudio/buy'
@@ -341,15 +310,6 @@ export default{
            });
     });
    
-=======
-import FiveStudio from 'components/touguStudio/fiveStudio'
-export default {
-  data: function() {
-
-  },
-  components: {
-    FiveStudio
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   }
 
 
@@ -359,12 +319,8 @@ export default {
 
 <style>
 @import '../../assets/css/base.css';
-<<<<<<< HEAD
 @import '../../assets/css/swiper.min.css';
 .touguStudio{
-=======
-.touguStudio {
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   width: 100%;
   min-width: 1020px;
   height: auto;
@@ -385,7 +341,6 @@ export default {
   height: 427px;
   background: url('../../assets/images/touguStudio/touguStudio02.jpg') center no-repeat;
 }
-<<<<<<< HEAD
 .item5{
   height: 967px;
   background: url('../../assets/images/touguStudio/touguStudio04.jpg') center no-repeat;
@@ -432,15 +387,10 @@ export default {
   height: 10px;
 }
 .item2 .in{
-=======
-
-.item2 .in {
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   position: relative;
   width: 789px;
   margin: 0 auto;
 }
-<<<<<<< HEAD
 .ul{
   width: 650px;
   display: flex;
@@ -494,11 +444,6 @@ margin-left: 11px;
 }
 .item2 span{
   position:absolute;
-=======
-
-.item2 span {
-  position: absolute;
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   width: 118px;
   height: 118px;
   border-radius: 50%;
@@ -610,7 +555,6 @@ margin-left: 11px;
   align-items: center;
   justify-content: center
 }
-<<<<<<< HEAD
 .fStudio{
   display: flex;
   flex-direction: column;
@@ -717,17 +661,9 @@ line-height:14px;
 .rightNav{
   width: 140px;
   height: 372px;
-=======
-
-.rightNav {
-  width: 100px;
-  height: 100px;
-  background-color: blue;
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
   position: fixed;
   top:42%;
   right: 10px;
-<<<<<<< HEAD
   display: block; 
 }
 .rightNavAct{
@@ -804,8 +740,5 @@ line-height:26px;
  font-size: 12px;
  padding-left: 8px;
  padding-top: 3px;
-=======
-  display: none;
->>>>>>> 6161716daa4ead39cb9ff055d014fdcd53faaa74
 }
 </style>
