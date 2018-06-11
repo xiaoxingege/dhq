@@ -6,7 +6,7 @@
       <a v-z3-stock="{ref:'stockbox',code:item.innerCode}" class="col name" :href="'/stock/'+item.innerCode" target="_blank">{{item.name}}</a>
       <span class="col chg" v-z3-updowncolor="item.curChngPct">{{item.curChngPct | chngPct}}</span>
       <div class="col hot-index">
-        <div class="full" >
+        <div class="full">
           <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
@@ -28,7 +28,7 @@
       <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
       <div class="col hot-index">
         <div class="full">
-          <div  @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
+          <div @mouseover="showDialog(index)" @mouseout="closeDialog(index)" :style="'width:'+progressWidth(item.infoIndex)" class="progress">{{item.infoIndex.toFixed(0)}}</div>
         </div>
         <transition name='fade'>
           <div class="newsDialog" v-show="entitiesState[index]">
@@ -56,7 +56,8 @@ export default {
   props: ['title', 'type'],
   data() {
     return {
-      entitiesState: []
+      entitiesState: [],
+      height: 0
     }
   },
   components: {
@@ -72,10 +73,9 @@ export default {
       }
       let size = 0;
       if (list.length > 0) {
-        const height = this.$refs.datalist.clientHeight;
+        const height = this.height;
         size = Math.floor(height / 30);
       }
-
       return list.slice(0, size);
     }
   },
@@ -96,10 +96,14 @@ export default {
     closeDialog(i) {
       let state = this.entitiesState;
       this.$set(state, i, false);
+    },
+    resize() {
+      this.height = this.$refs.datalist.clientHeight;
     }
   },
   mounted() {
-    console.info('Hot>>>>>>>>>>>>>>new！！！！！！！！！！！！！！！！！！！');
+    window.addEventListener('resize', this.resize);
+    this.height = this.$refs.datalist.clientHeight;
     if (this.type === 'stock') {
       this.$store.dispatch('zInfoPublic/retrieveHotStocks', {
         size: 20
@@ -121,6 +125,7 @@ export default {
     }
   },
   destroyed() {
+    window.removeEventListener('resize', this.resize);
     if (pcId) {
       clearInterval(pcId);
     }
@@ -158,7 +163,7 @@ export default {
         background-color: #fff;
     }
     .newsTitle {
-        width:263px;
+        width: 263px;
         white-space: pre;
         text-overflow: ellipsis;
         position: relative;
