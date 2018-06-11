@@ -1027,8 +1027,8 @@ export default {
             if (klineTags[timeNew] !== undefined) {
               var need1 = klineTags[timeNew][1]
               var need2 = klineTags[timeNew][2]
-              console.log(need1)
-              console.log(need2)
+              // console.log(need1)
+              //  console.log(need2)
               if (need1 && need2) {
                 allStr1 = _self.redGreenTooltip(need1)
                 allStr2 = _self.redGreenTooltip(need2)

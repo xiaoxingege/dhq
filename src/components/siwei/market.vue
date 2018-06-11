@@ -18,20 +18,20 @@
       <div class='stocks'>
         <div class='tit'>异动个股</div>
         <div class="list" ref="stocks_list">
-          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.symbol)">
-            <div class='time'>{{stock.dateTime | hhmmss}}</div>
+          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
+            <div class='time'>{{stock.tradeTime | hhmmss}}</div>
             <div class='item'>
-              <span class=''>{{stock.stockName}}[{{stock.symbol | simpleCode}}]</span>
-              <span v-z3-updowncolor="stock.chg">{{stock.price}}</span>
-              <span v-z3-updowncolor="stock.chg">{{stock.chg | chngPct}}</span>
-              <span class='type'>{{stock.reason}}</span>
+              <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
+              <span v-z3-updowncolor="stock.chng">{{stock.price | price}}</span>
+              <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
+              <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
             </div>
-            <div class="news" v-if="newsObj(stock.msgId).newsId">
-              <span :class="stock.msgType > 0?'mark good':(stock.msgType < 0?'mark bad':'mark normal')">{{stock.msgType > 0?'利好':(stock.msgType < 0?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msgId).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msgId).title}}</router-link>
+            <div class="news" v-if="stock.moveRelaNewsId">
+              <span :class="stock.moveSignalId > 1?'mark good':'mark bad'">{{stock.moveSignalId > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
             </div>
-            <ul class='topics' v-if="stock.topics && stock.topics.length > 0">
-              <li class="topic" v-for="topic in stock.topics">
+            <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
+              <li class="topic" v-for="topic in stock.topicDataList">
                 <div class="name" @dblclick.stop="openPlate(topic.topicCode)">{{topic.topicName}}</div>
                 <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
               </li>
@@ -42,22 +42,22 @@
       <div class="blocks">
         <div class="tit">异动板块</div>
         <div class="list">
-          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.symbol)">
+          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
             <div class="time plate_top">
-              <span>{{plate.dateTime | hhmm}}</span>
-              <span class="name">{{plate.industryName}}</span>
-              <span v-z3-updowncolor="plate.chg" class="chg">{{plate.chg | chngPct}}</span>
-              <span v-z3-updowncolor="plate.chg" class="chgmark">{{plate.chg>=0?'板块拉升':'板块打压'}}</span>
+              <span>{{plate.tradeTime | hhmm}}</span>
+              <span class="name">{{plate.sectionName}}</span>
+              <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
+              <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
             </div>
-            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType > 0?'mark good':(plate.msgType < 0?'mark bad':'mark normal')">{{plate.msgType > 0?'利好':(plate.msgType < 0?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
+            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.moveSignalId > 1?'mark good':'mark bad'">{{plate.moveSignalId > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
             </div>
             <table class="stockList">
-              <tr v-for="stock of plate.baseDetailList">
-                <td class="name">{{stock.stockName}}</td>
-                <td class="code">{{stock.symbol}}</td>
-                <td v-z3-updowncolor="stock.chg" class="price">{{stock.price | price}}</td>
-                <td v-z3-updowncolor="stock.chg" class="chg">{{stock.chg | chngPct}}</td>
+              <tr v-for="stock of plate.stockDataList">
+                <td class="name" @dblclick.stop="openStock(stock.innerCode)">{{stock.stockName}}</td>
+                <td class="code">{{stock.stockCode}}</td>
+                <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
+                <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
               </tr>
             </table>
           </div>
@@ -602,7 +602,7 @@ export default {
         return
       }
       const delta = [].concat(this.deltaStockList).reverse();
-      this.stockLastTime = delta[0].dateTime;
+      this.stockLastTime = delta[0].tradeTime;
       this.stockList.unshift(...delta);
       this.$refs['stocks_list'].scrollTop = 0;
     },
@@ -611,7 +611,7 @@ export default {
         return
       }
       const delta = [].concat(this.deltaPlateList).reverse();
-      this.plateLastTime = delta[0].dateTime;
+      this.plateLastTime = delta[0].tradeTime;
       this.plateList.unshift(...delta);
     }
   },
@@ -727,10 +727,10 @@ export default {
     margin-right: 4px;
 }
 .market .news .good {
-    background: #DB3C39;
+    background: #ca4941;
 }
 .market .news .bad {
-    background: #BAC3CB;
+    background: #56a870;
 }
 .market .news .normal {
     background: #505A66;

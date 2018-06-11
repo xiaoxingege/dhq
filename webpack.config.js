@@ -3,8 +3,9 @@ var path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   BomPlugin = require('webpack-utf8-bom'),
   fs = require('fs'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  WebpackMd5Hash = require('webpack-md5-hash')
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
+// WebpackMd5Hash = require('webpack-md5-hash')
+// BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /*
  * 指定项目名
@@ -46,7 +47,7 @@ const buildHTML = function() {
     return new HtmlWebpackPlugin({
       filename: `${featureName}/${basename}.html`,
       template: `./src/${featureName}/index.html`,
-      chunks: ['vendor', basename],
+      chunks: ['manifest', 'vendor', basename],
       inject: 'true'
     })
   });
@@ -131,7 +132,7 @@ module.exports = {
 module.exports.plugins = buildHTML().concat([
   featureName === 'jrj-sdk' ? function() {} : new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
-    filename: process.env.NODE_ENV === 'production' ? featureName + '/vendors.[chunkhash:12].js' : featureName + '/vendors.js',
+    // filename: process.env.NODE_ENV === 'production' ? featureName + '/vendors.[chunkhash:12].js' : featureName + '/vendors.[chunkhash:12].js',
     minChunks: function(module, count) {
       return false
     },
@@ -140,7 +141,11 @@ module.exports.plugins = buildHTML().concat([
       collapseWhitespace: false
     }
   }),
-  new WebpackMd5Hash(),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'manifest',
+    chunks: ['vendor']
+  }),
+  // new WebpackMd5Hash(),
   new webpack.LoaderOptionsPlugin({
     options: {
       vue: {
@@ -151,6 +156,7 @@ module.exports.plugins = buildHTML().concat([
     }
   }),
   new webpack.HashedModuleIdsPlugin()
+  // new BundleAnalyzerPlugin()
 ]);
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([

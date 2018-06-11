@@ -144,7 +144,6 @@ export default {
     right: 0;
     width: 300px;
     z-index: 99999;
-    // transition: 0.2s opacity ease-in;
     .title {
         height: 30px;
         line-height: 30px;
@@ -158,9 +157,12 @@ export default {
         background-color: #fff;
     }
     .newsTitle {
+        width:263px;
+        white-space: pre;
+        text-overflow: ellipsis;
         position: relative;
-        height: 30px;
-        line-height: 30px;
+        height: 26px;
+        line-height: 26px;
         font-size: 12px;
         color: #666;
         padding: 0 12px 0 25px;

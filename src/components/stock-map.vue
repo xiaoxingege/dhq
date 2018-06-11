@@ -291,6 +291,7 @@ export default {
         'perf_idx.chng_pct_6month': colorsList1.slice().reverse(), // 近6月涨跌幅
         'perf_idx.chng_pct_year': colorsList1.slice().reverse(), // 近1年涨跌幅
         'perf_idx.chng_pct_year_sofar': colorsList1.slice().reverse(), // 今年以来涨跌幅
+        'mkt_idx.rising_rate': colorsList1.slice().reverse(), // 涨速
         'mkt_idx.rela_volume': colorsList2, // 相对成交量
         'mkt_idx.peg': colorsList1, // PEG
         'mkt_idx.ps': colorsList1, // 市销率
@@ -312,6 +313,7 @@ export default {
         'perf_idx.chng_pct_6month': this.fmtraneValue(valueRange1d, 8), // 近6月涨跌幅
         'perf_idx.chng_pct_year': this.fmtraneValue(valueRange1d, 9), // 近1年涨跌幅
         'perf_idx.chng_pct_year_sofar': this.fmtraneValue(valueRange1d, 8), // 今年以来涨跌幅
+        'mkt_idx.rising_rate': this.fmtraneValue(valueRange1d, 0.125), // 涨速
         'mkt_idx.rela_volume': valueRangeRelvol, // 相对成交量
         'mkt_idx.peg': this.fmtraneValue(valueRangeGX, 2.5), // PEG
         'mkt_idx.ps': this.fmtraneValue(valueRangeGX, 10), // 市销率
@@ -333,6 +335,7 @@ export default {
         'perf_idx.chng_pct_6month': '%', // 近6月涨跌幅
         'perf_idx.chng_pct_year': '%', // 近1年涨跌幅
         'perf_idx.chng_pct_year_sofar': '%', // 今年以来涨跌幅
+        'mkt_idx.rising_rate': '', // 涨速
         'mkt_idx.rela_volume': '', // 相对成交量
         'mkt_idx.peg': '', // PEG
         'mkt_idx.ps': '', // 市销率

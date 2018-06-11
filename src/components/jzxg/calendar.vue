@@ -1,12 +1,23 @@
 <template>
 <div class="calendar-container">
   <div class="year">
-    <div>
-      <span class="fl" @click="lastYear">«</span>
-      <span class="fl" @click="lastMonth">‹</span>
-      <p>{{nowDate.year}}年{{nowDate.month+1}}月</p>
-      <span class="fr" @click="nextYear">»</span>
-      <span class="fr" @click="nextMonth">›</span>
+    <div class="clearfix">
+      <!-- <span class="fl" @click="lastYear">«</span>-->
+      <div class="arrowl-wrap fl">
+        <span class="arrowl" @click="lastMonth"></span>
+      </div>
+      <div class="fl year-label">
+        <span style="cursor: pointer">{{nowDate.year}}年</span>
+        <span style="display: inline-block;width:30px;"></span>
+        <span>{{nowDate.month+1}}月</span>
+        <ul v-for="year in yearList">
+          <li></li>
+        </ul>
+      </div>
+      <!-- <span class="fr" @click="nextYear">»</span>-->
+      <div class="fr arrowr-wrap">
+        <span class="arrowr" @click="nextMonth"></span>
+      </div>
     </div>
   </div>
   <ul class="week">
@@ -38,6 +49,9 @@ export default {
     },
     nowMonthDays() {
       return this.calcDays(this.nowDate.year, this.nowDate.month)
+    },
+    yearList() {
+      return
     }
   },
   created() {
@@ -99,18 +113,24 @@ export default {
     },
     // 上月
     lastMonth() {
-      if (this.nowDate.month === 0) {
+      if (this.nowDate.month === 0 && this.nowDate.year > 2016) {
         this.nowDate.month = 11
         this.nowDate.year--
+      } else if (this.nowDate.month === 0 && this.nowDate.year === 2016) {
+        this.nowDate.month = 0
+        this.nowDate.year = 2016
       } else {
         this.nowDate.month--
       }
     },
     // 下月
     nextMonth() {
-      if (this.nowDate.month === 11) {
+      if (this.nowDate.month === 11 && this.nowDate.year < new Date().getFullYear()) {
         this.nowDate.month = 0
         this.nowDate.year++
+      } else if (this.nowDate.month === new Date().getMonth() && this.nowDate.year === new Date().getFullYear()) {
+        this.nowDate.month = new Date().getMonth()
+        this.nowDate.year = new Date().getFullYear()
       } else {
         this.nowDate.month++
       }
@@ -142,65 +162,102 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped="">
+@import "../../assets/scss/style.scss";
 .calendar-container {
-  padding: 2vw 3vw;
+    width: 279px;
+    height: 195px;
+    background-color: #fff;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .year {
-  text-align: center;
-  margin-bottom: 10px;
-  height: 30px;
+    height: 30px;
 }
 
-.week,
-.date {
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
+.year > div {
+    height: 30px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+.arrowl-wrap,
+.arrowr-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 15%;
+    height: 100%;
+}
+.arrowr-wrap {
+    position: relative;
+}
+.arrowl {
+    border-color: transparent #ccc transparent transparent;
+}
+.arrowr {
+    border-color: transparent transparent transparent #ccc;
+    position: absolute;
+    right: 0;
+}
+.arrowl,
+.arrowr {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: solid;
+    align-self: center;
+    cursor: pointer;
+}
+.year .year-label {
+    line-height: 30px;
+    width: 70%;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
 }
 
+.date,
 .week {
-  border-bottom: .5px solid #ddd;
-  margin-bottom: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.date {
+    padding: 0;
+    margin: 15px 0 0;
+}
+.week {
+    border-bottom: 0.5px solid #ddd;
+    margin-bottom: 5px;
+    display: none;
 }
 
-ul>li {
-  font-size: 14px;
-  width: calc(94vw/7);
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
+.date > li {
+    font-size: 12px;
+    width: 22px;
+    height: 22px;
+    margin: 4px 8.9px;
+    text-align: center;
+    line-height: 22px;
+    border-radius: 11px;
+    cursor: pointer;
 }
-
+.date > li:hover {
+    background-color: #e6e6e6;
+}
 .none-week {
-  color: #aaa;
-}
-
-.year>div {
-  height: 30px;
-  overflow: hidden;
-}
-
-.year span {
-  line-height: 30px;
-  font-size: 20px;
-  display: inline-block;
-  width: 10%;
-}
-
-.year p {
-  line-height: 2;
-  width: 50%;
-  display: inline-block;
+    color: #ccc;
 }
 
 .fl {
-  float: left;
+    float: left;
 }
 
 .fr {
-  float: right;
+    float: right;
 }
 </style>

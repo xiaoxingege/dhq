@@ -1,59 +1,59 @@
-<style>
+<style lang="scss">
 @import '../assets/css/base.css';
 .app {
-  height: 100%;
+    height: 100%;
 }
 
 * {
-  box-sizing: border-box;
-  font-family: '微软雅黑';
-  font-size: 12px;
+    box-sizing: border-box;
+    font-family: '微软雅黑';
+    font-size: 12px;
 }
 
 body {
-  background-color: #ebecee;
+    background-color: #ebecee;
 }
 
 p {
-  margin: 0px;
+    margin: 0;
 }
 
-html,
-body {
-  height: 100%;
+body,
+html {
+    height: 100%;
 }
 
 .strategy-wrap1 {
-  height: 100%;
-  min-width: 1217px;
-  background-color: #0d0e0f;
-  color: #c9d0d7;
+    height: 100%;
+    min-width: 1217px;
+    background-color: #0d0e0f;
+    color: #c9d0d7;
 }
 
-.strategy-wrap1>ul {
-  height: 100%;
-  padding: 3px 1px;
+.strategy-wrap1 > ul {
+    height: 100%;
+    padding: 3px 1px;
 }
 
-.strategy-wrap1>ul>li {
-  background-color: #0d0e0f;
-  padding: 0px 1px 3px 1px;
-  width: 25%;
-  float: left;
-  display: inline-block;
-  height: 33.33%;
+.strategy-wrap1 > ul > li {
+    background-color: #0d0e0f;
+    padding: 0 1px 3px;
+    width: 25%;
+    float: left;
+    display: inline-block;
+    height: 33.33%;
 }
 
 .strategy-wrap1 .page {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .page-wrap {
-  background-color: #0d0e0f;
+    background-color: #0d0e0f;
 }
 
-.page-wrap>div {
-  text-align: center;
+.page-wrap > div {
+    text-align: center;
 }
 </style>
 <template>
