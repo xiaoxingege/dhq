@@ -101,7 +101,7 @@
 <template>
 <div class="index-top">
   <div class="index-chart clearfix">
-    <a class="line-chart" @click="toMarketDetail" @dblclick="toDingPan">
+    <a class="line-chart" @click="toMarketDetail">
       <div v-if="szzsChartData !== null" class="indexNum">
         <span v-z3-updowncolor="szzsChartData.upDown" class="mr-5">{{szzsChartData.stockVal === null ? '--':szzsChartData.stockVal === undefined?'--':Number(szzsChartData.stockVal).toFixed(2)}}</span>
         <img v-if="szzsChartData && szzsChartData.upDownExtent>0" src="../assets/images/i_jiantou_up.png" />
@@ -621,7 +621,7 @@ export default {
           left: 65,
           top: 40,
           bottom: 30,
-          right: 15
+          right: 25
         },
         calculable: true,
         xAxis: [{
@@ -799,13 +799,14 @@ export default {
             silent: false,
             symbol: 'rect',
             symbolSize: function(value, params) {
-              if (params.name === '上涨板块' && moveUpName.length > 4) {
-                return [65, 20]
-              } else if (params.name === '下跌板块' && moveUpName.length > 4) {
-                return [65, 20]
-              } else {
-                return [50, 20]
+              if (params.name === '上涨板块') {
+                return [moveUpName.length * 15, 20]
+              } else if (params.name === '下跌板块') {
+                return [moveDownName.length * 15, 20]
               }
+              /* else {
+                              return [50, 20]
+                            }*/
             },
             label: {
               position: [0, 0],
@@ -870,6 +871,12 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
+      this.chart.on('click', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          window.open(ctx + '/siweiIndex?key=zsIndex')
+        }
+      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -920,8 +927,9 @@ export default {
       }
     },
     toMarketDetail: function() {
-      clearTimeout(this.timeoutID)
-      this.isDbClick('click')
+      window.open(ctx + '/stock/000001.SH')
+      /*  clearTimeout(this.timeoutID)
+        this.isDbClick('click')*/
     },
     toDingPan: function() {
       clearTimeout(this.timeoutID)

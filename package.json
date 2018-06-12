@@ -1,6 +1,6 @@
 {
   "name": "jrj-vue",
-  "version": "0.0.1100",
+  "version": "0.0.1110",
   "description": "a project using vue vuex webpack",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,9 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -80,6 +82,7 @@
     "vue-template-compiler": "^2.4.2",
     "vuex": "^2.3.1",
     "webpack": "^2.6.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^4.1.0",

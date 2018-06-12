@@ -313,6 +313,16 @@ export default {
         pointData: pointData,
         seriesData: seriesData
       }
+    },
+    xLabelInterval() {
+      let interval = 'auto'
+      if (this.day === 250) {
+
+        interval = 40
+      } else {
+        interval = 'auto'
+      }
+      return interval
     }
   }),
   components: {
@@ -389,6 +399,7 @@ export default {
           max: 'dataMax',
           axisLabel: {
             align: 'left',
+            interval: this.xLabelInterval,
             textStyle: {
               color: '#c9d0d7'
             }

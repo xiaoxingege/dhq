@@ -143,6 +143,7 @@ export default {
       intervalId = setInterval(() => {
         console.log('启动定时器')
         console.log(intervalId)
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getListedCompany', {
           page: 0,
           isTop: this.isTops,
@@ -152,30 +153,30 @@ export default {
         })
       }, this.intervalTime)
     },
-      getScrollTop(e) {
-          this.scrollTop = e.target.scrollTop
-          let offsetHeight = e.target.offsetHeight
-          let scrollHeight = e.target.scrollHeight
-          let scrollTop = e.target.scrollTop
-          let scrollBottom = offsetHeight + scrollTop
-          if (this.scrollTop*2 >= this.innerHeight) {
-              if (intervalId) {
-                  console.log(intervalId)
-                  console.log('清除定时器')
-                  clearInterval(intervalId)
-              }
-          }
-          if (this.scrollTop === 0) {
-              this.$store.commit('setIsTop',true)
-              this.updateNews()
-          }else{
-              this.$store.commit('setIsTop',false)
-          }
+    getScrollTop(e) {
+      this.scrollTop = e.target.scrollTop
+      let offsetHeight = e.target.offsetHeight
+      let scrollHeight = e.target.scrollHeight
+      let scrollTop = e.target.scrollTop
+      let scrollBottom = offsetHeight + scrollTop
+      if (this.scrollTop * 2 >= this.innerHeight) {
+        if (intervalId) {
+          console.log(intervalId)
+          console.log('清除定时器')
+          clearInterval(intervalId)
+        }
+      }
+      if (this.scrollTop === 0) {
+        this.$store.commit('setIsTop', true)
+        this.updateNews()
+      } else {
+        this.$store.commit('setIsTop', false)
+      }
 
-          if(scrollBottom === scrollHeight && this.noData !== true){
-              this.loadMore()
-          }
-      },
+      if (scrollBottom === scrollHeight && this.noData !== true) {
+        this.loadMore()
+      }
+    },
     cutStr(str, len) {
       return cutString(str, len)
     },

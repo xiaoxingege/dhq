@@ -6,7 +6,7 @@
       <div class="item">
         <router-link :to="{ name:'topicDetail', params: {topicId:item.effCode} }" target="_blank" class="col name" v-if="item.flag==='topic'">{{item.effName}}</router-link>
         <router-link :to="{ name:'industryDetail', params: {industryId:item.effCode} }" target="_blank" class="col name" v-else-if="item.flag==='indu'">{{item.effName}}</router-link>
-        <a class="col name" :href="'/stock/'+item.effCode" target="_blank" v-else>{{item.effName}}</a>
+        <a v-z3-stock="{ref:'stockbox',code:item.effCode}" class="col name" :href="'/stock/'+item.effCode" target="_blank" v-else>{{item.effName}}</a>
         <span v-z3-updowncolor="item.chngPct" class="col chg">{{item.chngPct | chngPct}}</span>
         <span class="col time">{{item.occrDate}}</span>
       </div>
@@ -16,17 +16,23 @@
       </div>
     </li>
   </ul>
+  <StockBox ref="stockbox"></StockBox>
 </div>
 </template>
 
 <script>
+import StockBox from 'components/stock-box'
 let pcId = '';
+
 export default {
   props: ['title', 'type'],
   data() {
     return {
 
     }
+  },
+  components: {
+    StockBox
   },
   computed: {
     dataList() {

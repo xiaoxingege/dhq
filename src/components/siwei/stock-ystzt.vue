@@ -160,7 +160,7 @@ export default {
         // alert('i dont konw')
         this.isOverBubbles = data
         this.isOverDialog = data
-        this.zIndex = ''
+        this.zIndex = -999999
       }
 
     },
@@ -482,6 +482,7 @@ export default {
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
+
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {
@@ -490,7 +491,8 @@ export default {
             } else {
               that.isOverBubbles = false
               if (!that.isOverDialog) {
-                that.zIndex = ''
+                that.zIndex = -999999
+                that.dialogOptions.stockCode = ''
               }
             }
 

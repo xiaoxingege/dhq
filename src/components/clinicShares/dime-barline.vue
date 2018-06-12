@@ -189,7 +189,7 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-// import config from '../../z3tougu/config'
+import config from '../../z3tougu/config'
 export default ({
   props: ['innerCode', 'indexFace'],
   data() {
@@ -200,6 +200,8 @@ export default ({
         tradeTimeArr: [],
         kdata: [],
         day: [],
+        dayRed: [],
+        dayGreen: [],
         days5: [],
         vols: []
       }
@@ -225,9 +227,24 @@ export default ({
         time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
         data.times.push(time)
         data.tradeTimeArr.push(time)
-        data.day.push(day)
+        // data.day.push(day)
         data.days5.push(days5)
-
+        // console.log(day)
+        // var newDay = {
+        //   value: day,
+        //   itemStyle: {
+        //     normal: {
+        //       color: day <= 0 ? config.downColor : config.upColor
+        //     }
+        //   }
+        // }
+        if (day <= 0) {
+          data.dayRed.push('-')
+          data.dayGreen.push(day)
+        } else {
+          data.dayRed.push(day)
+          data.dayGreen.push('-')
+        }
       })
 
       this.initKline()
@@ -254,6 +271,10 @@ export default ({
           },
           data: [{
               name: '当日主力净流入',
+              icon: 'rect'
+            },
+            {
+              name: '当日主力净流出',
               icon: 'rect'
             },
             {
@@ -302,13 +323,21 @@ export default ({
           formatter: function(params) {
             var s = ''
             for (var i = 0; i < params.length; i++) {
-              if (i === 0) {
-                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+              if (params[i].value !== '-') {
+                if (i === 0) {
+                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+                }
+                if (i === 1) {
+                  s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
+                    params[i].seriesName + ' : ' + params[i].value
+                }
+                if (i === 2) {
+                  s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
+                    params[i].seriesName + ' : ' + params[i].value
+                }
+
               }
-              if (i === 1) {
-                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value
-              }
+
             }
             return s
           }
@@ -361,21 +390,43 @@ export default ({
           }
         },
         series: [{
-            data: lineData.day,
+            data: lineData.dayRed,
             name: '当日主力净流入',
             type: 'bar',
-            barWidth: 28,
-            stack: '当日主力净流入'
+            barWidth: 20,
+            stack: '总量',
+            itemStyle: {
+              normal: {
+                color: config.upColor
+              }
+            }
+          },
+          {
+            data: lineData.dayGreen,
+            name: '当日主力净流出',
+            type: 'bar',
+            barWidth: 20,
+            stack: '总量',
+            itemStyle: {
+              normal: {
+                color: config.downColor
+              }
+            }
           },
           {
             data: lineData.days5,
             name: '近5日主力净流入',
             type: 'line',
             symbol: 'none',
-            stack: '近5日主力净流入'
+            stack: '近5日主力净流入',
+            itemStyle: {
+              normal: {
+                color: '#1984ea'
+              }
+            }
           }
         ],
-        color: ['#ca4941', '#1984ea'],
+        // color: ['#ca4941', '#1984ea'],
         grid: {
           // width: '97%',
           // containLabel: true */

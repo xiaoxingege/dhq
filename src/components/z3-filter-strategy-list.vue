@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
 @import '../assets/css/base.css';
 .app {
   height: 100%;

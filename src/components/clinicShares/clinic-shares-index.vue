@@ -70,8 +70,8 @@ body {
 <template>
 <div class="wrap-all clearfix">
   <div class="clinic-shares-wrap clearfix">
-    <ClinicMarkTop :innerCode='innerCode' @changeShowValue='getShowValue' />
-    <ClinicDimension :innerCode='innerCode' :isShow='isType' />
+    <ClinicMarkTop :innerCode='initCode()' @changeShowValue='getShowValue' />
+    <ClinicDimension :innerCode='initCode()' :isShow='isType' />
   </div>
   <div class="foot-tishi clearfix">
     风险提示：诊股结果基于各统计模型计算而来，仅供投资者投资参考，不作为买卖建议，风险自担！
@@ -88,8 +88,8 @@ import ClinicDimension from 'components/clinicShares/clinic-dimension'
 export default {
   data() {
     return {
-      code: this.$route.params.innerCode,
-      innerCode: '',
+      // code: this.$route.params.innerCode,
+      // innerCode: '',
       isType: ''
     }
   },
@@ -110,12 +110,15 @@ export default {
         // this.innerCode = '600000.SH'
       }
     },
+    initCode() {
+      return this.concats(this.$route.params.innerCode)
+    },
     concats(code) {
-      this.innerCode = util.formatterInnercode(code)
+      return util.formatterInnercode(code)
     },
     getShowValue(type) {
       this.isType = type
-      console.log(this.isType + '是index 的值')
+      //  console.log(this.isType + '是index 的值')
     }
   },
   watch: {

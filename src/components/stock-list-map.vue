@@ -252,7 +252,7 @@ export default {
         } else {
           avg = parseInt(avg);
         }
-      } else if (this.condition === 'act_date') {
+      } else if (this.condition === 'act_date' || this.condition === 'mkt_idx.rising_rate') {
         avg = '';
       }
       return avg === 'NaN' ? '--' : avg;

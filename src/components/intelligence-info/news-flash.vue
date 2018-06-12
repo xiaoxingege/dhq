@@ -139,6 +139,7 @@ export default {
     updateNews() {
       this.updateNewsPid = setInterval(() => {
         console.log('启动定时器' + this.updateNewsPid)
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getNewsFlashList', {
           page: 0,
           isTop: true,
