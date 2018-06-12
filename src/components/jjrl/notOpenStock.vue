@@ -34,7 +34,7 @@
                     <td class="col-10"></td> 
                     
                  </tr>
-               
+             </tbody>
     </table>
   </div>
 </div>
@@ -79,7 +79,8 @@ export default{
               Q=q.join('')  // 数字
               let code=Q+'.'+R
               this.para.stockCode=code
-              native.opendStock(this.para)
+              //  console.log(code)
+              native.openStock(this.para)
            }
 
     },

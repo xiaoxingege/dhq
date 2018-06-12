@@ -72,7 +72,7 @@
               Q=q.join('')  // 数字
               let code=Q+'.'+R
               this.para.stockCode=code
-              native.opendStock(this.para)
+              native.openStock(this.para)
             
           },
           setDate(date){
