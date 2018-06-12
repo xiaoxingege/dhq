@@ -63,6 +63,7 @@ export default {
     toNorthData: [],
     toSouthData: [],
     dpIndexData: []
+
   },
   mutations: {
     setStrategyList(state, options) {

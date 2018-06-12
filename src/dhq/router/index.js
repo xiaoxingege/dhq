@@ -5,11 +5,15 @@ import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
-import JzxgBefore from 'components/jzxg/jzxg-before'
+import Calendar from 'components/jzxg/calendar'
+import Replay from 'components/jjrl/replay'
+import notOpenStock from 'components/jjrl/notOpenStock'
 import TouguStudio from 'components/touguStudio/touguStudio'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 import TouguWorkspace from 'components/touguStudio/tougu-workspace'
+import Headline from 'components/headlines/headline'
+
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -101,9 +105,19 @@ export default [{
     component: IndustryDetail
   },
   {
-    path: ctx + '/jzxg',
-    name: 'JzxgBefore',
-    component: JzxgBefore
+    path: ctx + 'jzxg',
+    name: 'calendar',
+    component: Calendar
+  },
+  {
+    path: ctx + '/jjrl',
+    name: 'replay',
+    component: Replay
+  },
+  {
+    path: ctx + '/jjrl',
+    name: 'notOpenStock',
+    component: notOpenStock
   },
   // {
   //   path: ctx + '/smartPool',
@@ -142,7 +156,11 @@ export default [{
     component: TouguWorkspace
 
   },
-
+  {
+    path: ctx + '/headline',
+    name: 'headline',
+    component: Headline
+  },
   /* {
      path: ctx + '/search-box',
      name: 'search-box',
@@ -361,21 +379,21 @@ export default [{
     component: PlateMap
   }
   /*
-       {
-         path: ctx + '/filterStrategyList',
-         name: 'filterStrategyList',
-         component: FilterStrategyList
-       },
-       {
-         path: ctx + '/dragonList',
-         name: 'dragonListDialog',
-         component: DragonListDialog
-       },
-       {
-         path: ctx + '/clinicSharesIndex',
-         name: 'clinicsharesindex',
-         component: ClinicSharesIndex
-       }*/
+   {
+     path: ctx + '/filterStrategyList',
+     name: 'filterStrategyList',
+     component: FilterStrategyList
+   },
+   {
+     path: ctx + '/dragonList',
+     name: 'dragonListDialog',
+     component: DragonListDialog
+   },
+   {
+     path: ctx + '/clinicSharesIndex',
+     name: 'clinicsharesindex',
+     component: ClinicSharesIndex
+   }*/
   /* {
     path: ctx + '/zInfo',
     component: zInfo,
@@ -462,5 +480,6 @@ export default [{
     name: 'stockMapOldNormal',
     component: StockMapOld
   } */
+
 
 ]

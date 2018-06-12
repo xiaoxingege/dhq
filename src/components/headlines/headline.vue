@@ -1,12 +1,10 @@
 <template>
-<div class="">
+<div class="headline">
   <div class="left">
-    <headlineList @viewNews="viewNewsDetail">
-      <headlineList>
+    <headlineList @viewNews="viewNewsDetail"></headlineList>
   </div>
   <div class="right">
-    <headlineNews :newsId="newsId">
-      <headlineNews>
+    <headlineNews :newsId="newsId"></headlineNews>
   </div>
 </div>
 </template>
@@ -31,7 +29,27 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
-Error: Source sample is missing.
+@import '../../assets/css/base.css';
+@import "../../assets/scss/style.scss";
+.headline {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    color: $wordsColorBase;
+    .left {
+        width: 50%;
+        min-height: 100%;
+        height: 100%;
+        overflow: auto;
+        float: left;
+    }
+    .right {
+        width: 50%;
+        min-height: 100%;
+        height: 100%;
+        overflow: auto;
+        float: left;
+    }
+}
 </style>
