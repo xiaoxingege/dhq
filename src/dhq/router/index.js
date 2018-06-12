@@ -5,7 +5,7 @@ import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
-import Calendar from 'components/jzxg/calendar'
+import JzxgBefore from 'components/jzxg/jzxg-before'
 import Replay from 'components/jjrl/replay'
 import notOpenStock from 'components/jjrl/notOpenStock'
 import TouguStudio from 'components/touguStudio/touguStudio'
@@ -105,9 +105,9 @@ export default [{
     component: IndustryDetail
   },
   {
-    path: ctx + 'jzxg',
-    name: 'calendar',
-    component: Calendar
+    path: ctx + '/jzxg',
+    name: 'JzxgBefore',
+    component: JzxgBefore
   },
   {
     path: ctx + '/jjrl',
