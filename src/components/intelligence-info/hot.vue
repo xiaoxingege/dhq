@@ -135,15 +135,15 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/style.scss';
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.1s ease-out;
-}
-
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-}
+// .fade-enter-active,
+// .fade-leave-active {
+//     transition: opacity 0.1s ease-out;
+// }
+//
+// .fade-enter,
+// .fade-leave-to {
+//     opacity: 0;
+// }
 .newsDialog {
     position: absolute;
     top: 30px;
