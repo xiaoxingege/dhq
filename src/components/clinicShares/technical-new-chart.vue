@@ -1074,7 +1074,7 @@ export default {
             // top: 60,
             top: 55,
             /* bottom: 25, */
-            height: '80%',
+            height: '70%',
             show: false
           },
           {
@@ -1086,37 +1086,6 @@ export default {
           }
         ],
         xAxis: [{
-            show: this.showX,
-            type: 'category',
-            data: lineData.times,
-            scale: true,
-            axisTick: {
-              show: false
-            },
-            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
-            axisLine: {
-              lineStyle: {
-                type: 'solid',
-                color: '#23272c'
-              }
-            },
-            splitLine: {
-              show: false,
-              lineStyle: {
-                type: 'solid',
-                color: '#23272c'
-              }
-            },
-            /* min: 'dataMin',
-            max: 'dataMax', */
-            axisLabel: {
-              show: false,
-              interval: this.xLabelInterval,
-              showMinLabel: true,
-              color: '#c9d0d7'
-            }
-          },
-          {
             /*  
         boundaryGap : false,
         axisPointer: {
@@ -1130,7 +1099,7 @@ export default {
             }
         }*/
             type: 'category',
-            gridIndex: 1,
+
             data: lineData.times,
             splitNumber: 20,
             scale: true,
@@ -1173,7 +1142,40 @@ export default {
                    color: '#B80C00'
                } */
             }
+          },
+          {
+            show: this.showX,
+            type: 'category',
+            gridIndex: 1,
+            data: lineData.times,
+            scale: true,
+            axisTick: {
+              show: false
+            },
+            boundaryGap: true, // 不从零刻度开始，不然会挤在y轴上
+            axisLine: {
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                type: 'solid',
+                color: '#23272c'
+              }
+            },
+            /* min: 'dataMin',
+            max: 'dataMax', */
+            axisLabel: {
+              show: false,
+              interval: this.xLabelInterval,
+              showMinLabel: true,
+              color: '#c9d0d7'
+            }
           }
+
         ],
         yAxis: [{
             scale: true,

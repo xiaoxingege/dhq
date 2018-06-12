@@ -13,7 +13,7 @@ import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 import TouguWorkspace from 'components/touguStudio/tougu-workspace'
 import Headline from 'components/headlines/headline'
-
+import SignalIndex from 'components/toolCenter/signal-index'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -160,6 +160,11 @@ export default [{
     path: ctx + '/headline',
     name: 'headline',
     component: Headline
+  },
+  {
+    path: ctx + '/signalIndex',
+    name: 'signalindex',
+    component: SignalIndex
   },
   /* {
      path: ctx + '/search-box',
@@ -385,8 +390,8 @@ export default [{
      component: AutoinpBox
    }*/
 
-  
-    /*
+
+  /*
    {
      path: ctx + '/filterStrategyList',
      name: 'filterStrategyList',

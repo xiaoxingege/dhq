@@ -106,7 +106,7 @@ export default {
   methods: {
     setValue: function(v) {
       this.time = v;
-      console.log(this.time)
+      // console.log(this.time)
     }
   },
   mounted() {

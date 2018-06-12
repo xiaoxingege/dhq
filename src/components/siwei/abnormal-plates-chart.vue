@@ -14,7 +14,7 @@ import {
 import {
   ctx
 } from '../../z3tougu/config'
-let pcId = "";
+let pcId = '';
 export default {
   data() {
     return {

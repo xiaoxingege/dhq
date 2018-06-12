@@ -25,8 +25,7 @@
     width: 100%;
 
 }
-.table-box {
-    }
+.table-box {}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -133,7 +132,7 @@ td div {
         {{formatDuring(item.signalTime)}}
       </td>
       <td>
-        <div>{{item.signalName}}</div>
+        <div>{{item.stockName}}</div>
       </td>
       <td class="td-chngPct">
         <div v-z3-updowncolor="item.stockPl">{{item.stockPl | chngPct}}</div>
