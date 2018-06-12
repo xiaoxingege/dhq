@@ -258,9 +258,6 @@ export default ({
                 data.yDataGreen.push('-')
               }
 
-              console.log(data.yDataRed)
-              console.log(data.yDataGreen)
-
               const mainValue = Number(alls.datas.mainChng)
               const otherValue = Number(100 - mainValue)
               data.mainValue.push({

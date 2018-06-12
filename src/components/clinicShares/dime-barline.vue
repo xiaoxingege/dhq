@@ -229,7 +229,7 @@ export default ({
         data.tradeTimeArr.push(time)
         // data.day.push(day)
         data.days5.push(days5)
-        console.log(day)
+        // console.log(day)
         // var newDay = {
         //   value: day,
         //   itemStyle: {
