@@ -57,7 +57,7 @@ export default {
     updateDatetime: function() {
       return this.$store.dispatch('stockMap/queryCurTimeItem').then(() => {
         const playbackDatetime = this.$store.state.stockMap.curTimeItem;
-        this.playbackTime = '1420'; // playbackDatetime.timeTag;
+        this.playbackTime = playbackDatetime.timeTag;
         this.playbackTradeDate = playbackDatetime.tradeDate;
         this.datetimeIndex = this.timeList.indexOf(this.playbackTime);
       })
