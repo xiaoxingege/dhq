@@ -5,13 +5,15 @@ import IndustryDetail from 'components/industry-detail'
 import ThemeIndex from 'components/theme-index'
 import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
-import Calendar from 'components/jzxg/calendar'
+import JzxgBefore from 'components/jzxg/jzxg-before'
 import Replay from 'components/jjrl/replay'
 import notOpenStock from 'components/jjrl/notOpenStock'
 import TouguStudio from 'components/touguStudio/touguStudio'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
 import TouguWorkspace from 'components/touguStudio/tougu-workspace'
+import Headline from 'components/headlines/headline'
+
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -70,7 +72,7 @@ import stockNew from 'components/siwei/stock-new'
 import stockCxg from 'components/siwei/stock-cxg'
 import stockZrzt from 'components/siwei/stock-ystzt' */
 import {
-    ctx
+  ctx
 } from '../config'
 
 export default [{
@@ -103,19 +105,19 @@ export default [{
     component: IndustryDetail
   },
   {
-    path: ctx + 'jzxg',
-    name: 'calendar',
-    component: Calendar
+    path: ctx + '/jzxg',
+    name: 'JzxgBefore',
+    component: JzxgBefore
   },
   {
-    path:ctx+'/jjrl',
-    name:'replay',
-    component:Replay
+    path: ctx + '/jjrl',
+    name: 'replay',
+    component: Replay
   },
   {
-    path:ctx+'/jjrl',
-    name:'notOpenStock',
-    component:notOpenStock
+    path: ctx + '/jjrl',
+    name: 'notOpenStock',
+    component: notOpenStock
   },
   // {
   //   path: ctx + '/smartPool',
@@ -147,13 +149,18 @@ export default [{
     name: 'touguStudio',
     component: TouguStudio
 
-},
-{
+  },
+  {
     path: ctx + '/tougu-workspace',
     name: 'touguWorkspace',
     component: TouguWorkspace
 
-},
+  },
+  {
+    path: ctx + '/headline',
+    name: 'headline',
+    component: Headline
+  },
   /* {
      path: ctx + '/search-box',
      name: 'search-box',
@@ -164,7 +171,7 @@ export default [{
      name: 'search',
      component: Search
    },*/
-   {
+  {
     path: ctx + '/map',
     name: 'map',
     component: Map
@@ -180,11 +187,17 @@ export default [{
     name: 'bigMap',
     component: Map
   },
-  {
-    path: ctx + '/map/normal',
-    name: 'normalMap',
-    component: Map
-  }, */
+  /*
+     {
+       path: ctx + '/map/fullScreen',
+       name: 'bigMap',
+       component: Map
+     },
+     {
+       path: ctx + '/map/normal',
+       name: 'normalMap',
+       component: Map
+     }, */
   /* {
      path: ctx + '/themeList',
      name: 'themelist',

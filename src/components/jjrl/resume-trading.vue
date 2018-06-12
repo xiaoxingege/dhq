@@ -1,26 +1,29 @@
 <template>
-    <div class="contentPage">
-        <div class="middlearea">
-            <fpStock></fpStock>
-        </div>
-        <div class="rightArea">
-             <fpDetail></fpDetail>
-        </div>
-       
-    </div>
+<div class="contentPage">
+  <div class="middlearea">
+    <fpStock></fpStock>
+  </div>
+  <div class="rightArea">
+    <fpDetail></fpDetail>
+  </div>
+
+</div>
 </template>
 <script>
 import fpStock from 'components/jjrl/fp-stock'
 import fpDetail from 'components/jjrl/fp-detail'
-export default{
-    components:{ fpStock , fpDetail },
-   
-    data(){
-        return{
+export default {
+  components: {
+    fpStock,
+    fpDetail
+  },
 
-        }
+  data() {
+    return {
 
     }
+
+  }
 }
 </script>
 
@@ -40,7 +43,7 @@ export default{
     color: $wordsColorBase;
 }
 
-.middlearea{
+.middlearea {
     width: 17.8%;
     background-color: #191c1e;
     border-right: 1px solid $bgNavColor;
@@ -49,10 +52,13 @@ export default{
 }
 .rightArea {
     width: 82.2%;
+<<<<<<< HEAD
     height: auto;
     overflow: auto;
+=======
+>>>>>>> a07658fb92a8de52b918d8bb39874822e6e53234
 }
-.contentPage{
+.contentPage {
     display: flex;
     justify-content: space-between;
 }

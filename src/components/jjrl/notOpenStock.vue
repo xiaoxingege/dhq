@@ -37,9 +37,24 @@
                
              </tbody>
 
-         </table>
-     </div>
+        </tr>
+        <tr>
+          <td>00</td>
+
+        </tr>
+        <tr>
+          <td>00</td>
+
+        </tr>
+        <tr>
+          <td>00</td>
+
+        </tr>
+      </tbody>
+
+    </table>
   </div>
+</div>
 </template>
 <script>
 
@@ -119,25 +134,25 @@ export default{
 .stockAll{
     padding: 27px 26px;
 }
-.notOpenstock{
+.notOpenstock {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 6px;
 
 }
-.notOpenstock i{
+.notOpenstock i {
     display: inline-block;
     width: 6px;
     height: 22px;
     border-radius: 2px;
     background-color: $bgNavColor;
     vertical-align: middle;
-    margin-right: 5px
+    margin-right: 5px;
 }
 table {
     width: 100%;
     text-align: center;
-    border-collapse:collapse;
+    border-collapse: collapse;
 }
 table thead th{
     
@@ -156,29 +171,30 @@ table, th, td{
 .col-1{
     width: 100px;
 }
-.col-2, .col-3{
+.col-2,
+.col-3 {
     width: 86px;
 }
-.clo-4{
+.clo-4 {
     width: 114px;
 }
-.col-5{
-    width:  108px;
+.col-5 {
+    width: 108px;
 }
-.col-6{
+.col-6 {
     width: 123px;
 }
-.col-7{
+.col-7 {
     width: 102px;
 }
-.col-8{
+.col-8 {
     width: 102px;
-    
+
 }
-.col-9{
+.col-9 {
     width: 100px;
 }
-.col-10{
+.col-10 {
     width: 70px;
 }
 </style>

@@ -1,7 +1,7 @@
 import fetch from '../z3tougu/util/z3fetch'
-import {
-  domain
-} from '../dhq/config'
+// import {
+//   domain
+// } from '../dhq/config'
 
 const state = {
   headlineList: []
@@ -35,4 +35,11 @@ const mutations = {
   [mutationTypes.UPDATE_HEADLINE_LIST](state, headlineList) {
     state.headlineList = headlineList;
   }
+}
+
+export default {
+  namespaced: true,
+  state,
+  actions,
+  mutations
 }

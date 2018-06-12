@@ -19,11 +19,9 @@
                   <span class="date">{{timestampToTime(item.contentdate)}}</span>
                 </div>  
 
-
-          </div>
-        </div>
-    </div>
-
+  </div>
+  </div>
+</div>
 </template>
 <script>
     import { mapState } from  'vuex'
@@ -98,21 +96,22 @@
                 if( D < 10 ) { D = '0' + D; }
                 return Y + M + D;
     }
-        },
-        mounted(){
-          
-        }
-    }
+  },
+ 
+  mounted() {
+
+  }
+}
 </script>
 
 <style lang='scss' scoped>
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style";
 
-.fl{
+.fl {
     float: left;
 }
-.fr{
+.fr {
     float: right;
 }
 .title{
@@ -123,40 +122,41 @@
 .date{
     margin-right: 63px;
 }
-.content{
+.content {
     box-sizing: border-box;
-    padding :10px 30px 15px 30px;
-  
+    padding: 10px 30px 15px;
+
 }
-.noticeAll{
+.noticeAll {
     background-color: $lineAndTitleColor;
     cursor: pointer;
     border-radius: 2px;
     box-sizing: border-box;
 }
 
-.newNotice{
-    padding:5px 25px;
+.newNotice {
+    padding: 5px 25px;
 }
 
-.tab{
+.tab {
     height: 21px;
     margin-bottom: 23px;
     border-bottom: 1px solid $bgNavColor;
 }
-.fiveNotice_detail p,.newNews_detail p{
-   width: 100%;
-   line-height: 26px;
+.fiveNotice_detail p,
+.newNews_detail p {
+    width: 100%;
+    line-height: 26px;
 }
-.notice{
+.notice {
     display: flex;
     justify-content: space-between;
     margin-bottom: 13px;
 }
-.cur{
+.cur {
     background-color: $hoverBgColor;
 }
-.chart{
+.chart {
     height: 56%;
 }
 .notice{

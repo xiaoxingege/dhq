@@ -1,9 +1,6 @@
-
-
 //  import fetchJsonp from 'fetch-jsonp'
-   import fetch from '../dhq/util/z3fetch' 
-   import $ from 'jquery'
-
+import fetch from '../dhq/util/z3fetch'
+import $ from 'jquery'
    const state = {
       guide: [],
       getStock:[],
@@ -158,10 +155,9 @@
     // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   
 
-    export default{
-        namespaced:true,
-        state,
-        actions,
-        mutations
-    }
-  
+export default {
+  namespaced: true,
+  state,
+  actions,
+  mutations
+}
