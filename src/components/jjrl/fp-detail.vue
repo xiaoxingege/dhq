@@ -11,7 +11,7 @@
           </div>
           <div class="fiveNotice_detail">
                 <div class="notice" v-for="item in stopStock"  v-show="show">
-                  <span>{{item.TITLE}}</span>
+                  <span class='title'>{{item.TITLE}}</span>
                   <span class="date">{{setDate(item.PUBDATE)}}</span>
                 </div> 
                 <div class="notice" v-for="item in newNews" v-show="hide" >
@@ -63,17 +63,17 @@
               if(index===0){
                      this.show=true
                      this.hide=false
-                    console.log(123)
+                 //   console.log(123)
                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then(res => {
                         this.list= this.stopStock
                     })
                 }else{
                      this.show=false
                      this.hide=true
-                    console.log(456)
+               //     console.log(456)
                     this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode }).then( res => {
                         this.list= this.newNews
-                       console.log(this.newNews)
+                     //  console.log(this.newNews)
                    })
                 } 
                 
@@ -115,7 +115,10 @@
 .fr{
     float: right;
 }
-
+.title{
+   
+    margin-right: 20px;
+}
 
 .date{
     margin-right: 63px;
@@ -148,6 +151,7 @@
 .notice{
     display: flex;
     justify-content: space-between;
+    margin-bottom: 13px;
 }
 .cur{
     background-color: $hoverBgColor;
@@ -156,7 +160,6 @@
     height: 56%;
 }
 .notice{
-    height: 25px;
     cursor: pointer;
 }
 </style>

@@ -5,14 +5,13 @@
                 @click="showDetail(index,item)"
                 :class="addCur===index?'cur':''"
                   >   
-                
                 <div class="choose">
-                    <span class="name">{{item[1]}}</span>
+                    <span class="name">{{item[2]}}</span>
                     <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
                     <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
                 </div>
-                <div class="price" :class="item[6]>0?'red':'green'"><span>{{item[4].toFixed(3)}}</span><span>{{item[5].toFixed(2)}}</span><span>{{item[6].toFixed(2)+"%"}}</span></div>
-                <div class="open"><span >今开：<i :class="item[6]>0?'red':'green'">{{item[3].toFixed(2)}}</i></span><span>昨收：{{item[2].toFixed(2)}}</span></div>
+                <div class="price" :class="item[7]>0?'red':'green'" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
+                <div class="open"><span >今开：<i :class="item[7]>0?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
             </li>
         </ul>
     </div>
@@ -20,6 +19,7 @@
 </template>
 <script>
     import { mapState } from  'vuex'
+    import native from '../../utils/nativeApi'
     export default{
         data(){
             return{
@@ -31,6 +31,9 @@
                 stockCode:'',
                 params:{
                     stopdate:'',
+                    stockCode:''
+                },
+                para:{
                     stockCode:''
                 }
             }
@@ -46,7 +49,7 @@
          showDetail(index,item){
               this.addCur=index
               this.stopdate=this.getStock[index].STP_DT //   停牌日期
-              this.stockCode=item[0]  //  当前股票代码
+              this.stockCode=item[1]  //  当前股票代码
               this.setDate(this.stopdate)
                 this.$store.dispatch('jjrl/storeData',{
                     stopdate:this.stopdate,
@@ -61,6 +64,17 @@
           deleteSelfChoice(){
 
           },
+          toDetails(item){
+              var r,q,R,Q
+              r=item[0].match(/^[a-z|A-Z]+/gi);
+              q=item[0].match(/\d+$/gi);
+              R=r.join('').toUpperCase() //
+              Q=q.join('')  // 数字
+              let code=Q+'.'+R
+              this.para.stockCode=code
+              native.opendStock(this.para)
+            
+          },
           setDate(date){
             var d,Y,M,D
                 d = new Date(date)
@@ -74,7 +88,7 @@
         },
     
         mounted () {
-            var data='2018-06-06'
+            var data='2018-06-11'
             this.$store.dispatch('jjrl/getStock',data).then( res => {
                 this.stopdate=this.getStock[0].STP_DT
                 this.setDate(this.stopdate)
@@ -130,13 +144,14 @@
 
 .price {
     margin-bottom: 5px;
+    cursor: pointer;
 }
 .price span{
     margin-right: 8px;
     
 }
 .showStock ul li{
-    cursor: pointer;
+    
     box-sizing: border-box;
 }
 .addSelfChoice{

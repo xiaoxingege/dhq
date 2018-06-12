@@ -168,6 +168,11 @@ export default [{
     path: ctx + '/map',
     name: 'map',
     component: Map
+  },
+  {
+    path: ctx + '/plateMap',
+    name: 'plateMap',
+    component: PlateMap
   }
   /*
   {
@@ -365,12 +370,9 @@ export default [{
      path: ctx + '/test/autoinpBox',
      name: 'autoinpbox',
      component: AutoinpBox
-   },*/
-   {
-     path: ctx + '/plateMap',
-     name: 'plateMap',
-     component: PlateMap
-   }
+   }*/
+
+  
     /*
    {
      path: ctx + '/filterStrategyList',

@@ -44,9 +44,13 @@ export default{
     width: 17.8%;
     background-color: #191c1e;
     border-right: 1px solid $bgNavColor;
+    height: auto;
+    overflow: auto;
 }
 .rightArea {
-    width: 82.2%
+    width: 82.2%;
+    height: auto;
+    overflow: auto;
 }
 .contentPage{
     display: flex;
