@@ -52,11 +52,8 @@ export default {
 }
 .rightArea {
     width: 82.2%;
-<<<<<<< HEAD
     height: auto;
     overflow: auto;
-=======
->>>>>>> a07658fb92a8de52b918d8bb39874822e6e53234
 }
 .contentPage {
     display: flex;

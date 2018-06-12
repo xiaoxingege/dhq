@@ -105,15 +105,7 @@ export default {
       this.list[3].detail = this.setGuide.xwlb_wz
       this.list[4].count = null
       this.list[4].detail = this.setGuide.jrrd_wz
-      /*                this.list.forEach(item =>{
-                        if(!item.count){
-                         
-                        }else{
-                             
-                        }
-                    }) 
-
-          //   console.log( this.list)*/
+   
     })
   }
 }

@@ -35,23 +35,6 @@
                     
                  </tr>
                
-             </tbody>
-
-        </tr>
-        <tr>
-          <td>00</td>
-
-        </tr>
-        <tr>
-          <td>00</td>
-
-        </tr>
-        <tr>
-          <td>00</td>
-
-        </tr>
-      </tbody>
-
     </table>
   </div>
 </div>
