@@ -198,7 +198,7 @@ import echarts from 'echarts'
 /* import {
   formatDateStr
 } from 'utils/date' */
-// import config from '../../z3tougu/config'
+import config from '../../z3tougu/config'
 export default ({
   props: ['innerCode'],
   data() {
@@ -217,7 +217,9 @@ export default ({
           yData: [],
           xData: ['近3日', '近5日', '近10日'],
           mainValue: [],
-          otherValue: []
+          otherValue: [],
+          yDataGreen: [],
+          yDataRed: []
         }
 
         var fundFace = state.clinicShares.indexFace;
@@ -234,10 +236,31 @@ export default ({
               const fiveday = Number(item.day5 / 10000).toFixed(2)
               const tenday = Number(item.day10 / 10000).toFixed(2)
 
-              // data.yData.push(today)
-              data.yData.push(threeday)
-              data.yData.push(fiveday)
-              data.yData.push(tenday)
+              if (threeday <= 0) {
+                data.yDataRed.push('-')
+                data.yDataGreen.push(threeday)
+              } else {
+                data.yDataRed.push(threeday)
+                data.yDataGreen.push('-')
+              }
+              if (fiveday <= 0) {
+                data.yDataRed.push('-')
+                data.yDataGreen.push(fiveday)
+              } else {
+                data.yDataRed.push(fiveday)
+                data.yDataGreen.push('-')
+              }
+              if (tenday <= 0) {
+                data.yDataRed.push('-')
+                data.yDataGreen.push(tenday)
+              } else {
+                data.yDataRed.push(tenday)
+                data.yDataGreen.push('-')
+              }
+
+              console.log(data.yDataRed)
+              console.log(data.yDataGreen)
+
               const mainValue = Number(alls.datas.mainChng)
               const otherValue = Number(100 - mainValue)
               data.mainValue.push({
@@ -312,9 +335,15 @@ export default ({
             color: '#c9d0d7'
           },
           data: [{
-            name: '净流入',
-            icon: 'rect'
-          }]
+              name: '净流入',
+              icon: 'rect'
+            },
+            {
+              name: '净流出',
+              icon: 'rect'
+            }
+
+          ]
         },
         tooltip: {
           trigger: 'axis',
@@ -354,13 +383,11 @@ export default ({
           },
           formatter: function(params) {
             var s = ''
+
             for (var i = 0; i < params.length; i++) {
-              if (i === 0) {
+              // console.log(params[i].value)
+              if (params[i].value !== '-') {
                 s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value + '万'
-              }
-              if (i === 1) {
-                s = s + '<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' +
-                  params[i].seriesName + ' : ' + params[i].value + '万'
               }
             }
             return s
@@ -408,15 +435,58 @@ export default ({
             color: '#c9d0d7'
           }
         },
+        series: [
 
-        series: [{
-          data: lineData.yData,
-          name: '净流入',
-          type: 'bar',
-          barWidth: 28,
-          stack: '净流入'
-        }],
-        color: ['#ca4941', '#1984ea'],
+          {
+            name: '净流入',
+            type: 'bar',
+            stack: 'sum',
+            barWidth: 28,
+            itemStyle: {
+              normal: {
+                color: config.upColor
+              }
+            },
+            data: lineData.yDataRed
+          },
+          {
+            name: '净流出',
+            type: 'bar',
+            stack: 'sum',
+            barWidth: 28,
+            itemStyle: {
+              normal: {
+                color: config.downColor
+              }
+            },
+            data: lineData.yDataGreen
+          }
+        ],
+        // series: [{
+        //   data: lineData.yData,
+        //   name: '净流入',
+        //   type: 'bar',
+        //   barWidth: 28,
+        //   stack: '净流入',
+        //   itemStyle: {
+        //       normal: {
+        //         color: config.upColor
+        //       }
+        //   }
+        // },
+        // {
+        //   data: lineData.yDataGreen,
+        //   name: '净流出',
+        //   type: 'bar',
+        //   barWidth: 28,
+        //   stack: '净流出',
+        //   itemStyle: {
+        //       normal: {
+        //         color: config.downColor
+        //       }
+        //   }
+        // }],
+        // color: ['#ca4941', '#1984ea'],
         grid: {
           // width: '97%',
           /* width: '100%',
