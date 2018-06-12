@@ -11,6 +11,7 @@ import stockMap from 'stores/dhqStockMap'
 import plateMap from 'stores/dhqPlateMap'
 import signal from 'stores/signal'
 import jjrl from 'stores/jjrl'
+import headline from 'stores/headline'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
@@ -142,6 +143,7 @@ export default new Vuex.Store({
     touguWorkspaceStore,
     signal,
     jjrl
+    headline
     /* zhikuanSearch,
      zhikuanSearchList,
      bubbles,
