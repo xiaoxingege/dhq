@@ -24,7 +24,7 @@ export default {
     getJzxgBeforeData({
       commit
     }) {
-      const url = `//172.16.20.86:8031/mockjsdata/24/smartstock/api/excellent/buyPage.jspa`
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/buyPage.jspa`
       return fetch(url, {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {

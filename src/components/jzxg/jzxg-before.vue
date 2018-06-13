@@ -12,7 +12,9 @@
           <span class="label-value">{{item.value}}</span>
         </li>
       </ul>
-      <IncomeCharts :jzmncChartData="jzmncChartData"></IncomeCharts>
+      <div style="height:310px;">
+        <IncomeCharts :jzmncChartData="jzmncChartData"></IncomeCharts>
+      </div>
     </div>
     <div class="jzmnc-right">
 
@@ -82,7 +84,11 @@ export default {
     color: $wordsColorBase;
 }
 .jzxg-wrap {
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
     }
+}
 .jzxg-banner {
     height: 220px;
     background: url("../../assets/images/jzxg/jzxg_banner.png") center;

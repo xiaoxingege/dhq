@@ -20,7 +20,7 @@ export default {
   computed: {
     xData: function() {
       if (this.jzmncChartData) {
-        const xData = this.jzmncChartData.netAsset[0]
+        const xData = this.jzmncChartData.netAsset
         const dateArr = []
         xData.dataList.forEach((asset) => {
           dateArr.push(this.dateFormatUtil(asset.date))
@@ -30,7 +30,7 @@ export default {
     },
     jzxgChartData: function() {
       if (this.jzmncChartData) {
-        const jzxgData = this.jzmncChartData.netAsset[0]
+        const jzxgData = this.jzmncChartData.netAsset
         const dateArr = []
         jzxgData.dataList.forEach((asset) => {
           dateArr.push(asset.value)
@@ -40,7 +40,7 @@ export default {
     },
     zzqzChartData: function() {
       if (this.jzmncChartData) {
-        const zzqzData = this.jzmncChartData.reference[0]
+        const zzqzData = this.jzmncChartData.reference
         const dateArr = []
         zzqzData.dataList.forEach((asset) => {
           dateArr.push(asset.value)
@@ -63,18 +63,45 @@ export default {
             }
           ]
         },
+        tooltip: {
+          trigger: 'axis',
+          textStyle: {
+            align: 'left',
+            fontFamily: 'Microsoft YaHei',
+            fontSize: 12,
+            color: '#c9d0d7'
+          },
+          position: function(point, params, dom, rect, size) {
+            return [point[0], '10%'];
+          },
+          formatter: function(params) {
+            let s = params[0].name;
+            let value;
+            for (let i = 0; i < params.length; i++) {
+              value = 100 * params[i].value.toFixed(2) + '%'
+              s = s + ' <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+            }
+            return s;
+          }
+        },
         grid: {
+          show: true,
+          borderColor: '#23272c',
           left: 10,
           top: 30,
           width: '90%',
           height: '80%',
           containLabel: true
         },
-        xAxis: [{
+        xAxis: {
           type: 'category',
           boundaryGap: false,
           splitLine: {
-            show: false
+            show: true,
+            lineStyle: {
+              color: '#23272c',
+              type: 'solid'
+            }
           },
           axisTick: {
             show: false
@@ -84,16 +111,17 @@ export default {
               color: '#c9d0d7'
             }
           },
-          // splitNumber:2,
           data: this.xData
-        }],
+        },
         yAxis: {
           type: 'value',
-          splitLine: {
-            show: false
-          },
           axisTick: {
             show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#23272c'
+            }
           },
           axisLabel: {
             textStyle: {
@@ -102,11 +130,12 @@ export default {
             formatter: function(value) {
               return 100 * value.toFixed(2) + '%'
             }
-          },
-          min: 'dataMin',
-          max: 'dataMax'
+          }
+          /*,
+                    min: 'dataMin',
+                    max: 'dataMax'*/
         },
-        color: ['#1984ea', '#fc2721'],
+        color: ['#fc2721', '#1984ea'],
         animation: false,
         series: [{
           name: '极智选股',
