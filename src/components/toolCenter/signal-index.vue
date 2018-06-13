@@ -43,6 +43,9 @@
     top: 3px;
     left: 0;
 }
+.title-img2 {
+    background-position: 0 -21px;
+}
 .title-txt {
     font-size: 16px;
     padding-left: 8px;
@@ -58,6 +61,9 @@
 .table-detail:last-child {
     margin-right: 0;
 }
+.time {
+    padding-left: 20px;
+}
 </style>
 <template>
 <div class="signal-wrap">
@@ -70,9 +76,9 @@
   <!-- </div> -->
 
   <div class="top-title">
-    <span class="title-img"></span>
+    <span class="title-img title-img2"></span>
     <span class="title-txt">趋势信号</span>
-    <span>{{time}}更新</span>
+    <span class="time">{{time}}更新</span>
   </div>
   <TrendSignal @timeValue='setValue' />
 

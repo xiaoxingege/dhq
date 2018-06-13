@@ -35,9 +35,10 @@ export default {
     querySignalRealTime({
       commit
     }, {
-      type
+      type,
+      size
     }) {
-      return fetch(`http://172.16.20.86:8031/mockjsdata/17/zxhq/sapi/discover/signal-list?type=${type}`, {
+      return fetch(`https://sslapi.jrj.com.cn/zxhq/sapi/discover/signal-list?type=${type}&size=${size}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()

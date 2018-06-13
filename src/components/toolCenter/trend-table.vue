@@ -25,8 +25,7 @@
     width: 100%;
 
 }
-.table-box {
-    }
+.table-box {}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -91,7 +90,7 @@ td div {
 }
 .tr-title {
     color: $wordsColorBase;
-    padding-left: 4px;
+    padding-left: 5px;
     font-size: 12px;
     display: inline-block;
     line-height: 24px;
@@ -101,6 +100,7 @@ td div {
 }
 .td-chngPct > div {
     text-align: right;
+    padding: 6px 10px;
 }
 .no-data {
     width: 99px;
@@ -112,6 +112,13 @@ td div {
     color: $menuSelColor;
     text-align: center;
     padding-bottom: 89px;
+}
+td a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.tonative {
+    cursor: pointer;
 }
 </style>
 <template>
@@ -130,9 +137,12 @@ td div {
     <tr v-for="(item,index) of signalTrend" v-if="index<8">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
-        {{item.stkname}}
+        <div @click='toNative({stockCode:concats(item.stkcode)})' class="tonative">
+          <!-- <a :href="'/stock/'+item.stkcode" target="_blank"> -->{{item.stkname}}
+          <!-- </a> -->
+        </div>
       </td>
-      <td>
+      <td class="td-chngPct">
         <div v-z3-updowncolor="item.riseAndFall">{{item.price | price}}</div>
       </td>
       <td class="td-chngPct">
@@ -166,6 +176,8 @@ td div {
 /* import {
   ctx
 } from '../../dhq/config' */
+import util from '../../z3tougu/util'
+import native from 'utils/nativeApi'
 import {
   mapState
 } from 'vuex'
@@ -222,6 +234,12 @@ export default {
               console.log(this.allData)
             });
         },*/
+    toNative(stockCode) {
+      return native.openStock(stockCode)
+    },
+    concats(code) {
+      return util.formatterInnercode(code)
+    },
     formatDuring(time) {
       var date = new Date(time)
       var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours())

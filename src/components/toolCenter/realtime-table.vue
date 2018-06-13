@@ -90,7 +90,7 @@ td div {
 }
 .tr-title {
     color: $wordsColorBase;
-    padding-left: 4px;
+    padding-left: 5px;
     font-size: 12px;
     display: inline-block;
     line-height: 24px;
@@ -100,6 +100,7 @@ td div {
 }
 .td-chngPct > div {
     text-align: right;
+    padding: 6px 10px;
 }
 .no-data {
     width: 99px;
@@ -111,6 +112,13 @@ td div {
     color: $menuSelColor;
     text-align: center;
     padding-bottom: 89px;
+}
+td a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.tonative {
+    cursor: pointer;
 }
 </style>
 <template>
@@ -126,13 +134,16 @@ td div {
                 <div class="no-data"></div>
                 <div class="no-data-txt">暂无信号</div>
             </tr> -->
-    <tr v-for="(item,index) of signalRealTime" v-if="index<8">
+    <tr v-for="(item,index) of signalRealTime">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
-        {{formatDuring(item.signalTime)}}
+        <div>{{formatDuring(item.signalTime)}}</div>
       </td>
       <td>
-        <div>{{item.stockName}}</div>
+        <div @click='toNative({stockCode:concats(item.stockCode)})' class="tonative">
+          <!-- <a :href="'/stock/'+item.stockCode" target="_blank"> -->{{item.stockName}}
+          <!-- </a> -->
+        </div>
       </td>
       <td class="td-chngPct">
         <div v-z3-updowncolor="item.stockPl">{{item.stockPl | chngPct}}</div>
@@ -165,6 +176,8 @@ td div {
 /* import {
   ctx
 } from '../../dhq/config' */
+import util from '../../z3tougu/util'
+import native from 'utils/nativeApi'
 import {
   mapState
 } from 'vuex'
@@ -190,6 +203,12 @@ export default {
   },
   computed: mapState({}),
   methods: {
+    toNative(stockCode) {
+      return native.openStock(stockCode)
+    },
+    concats(code) {
+      return util.formatterInnercode(code)
+    },
     formatDuring(time) {
       var date = new Date(time)
       var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours())
@@ -199,6 +218,7 @@ export default {
     checkClass(index) {
       return index === 4 ? 'tr-img2' : index === 3 ? 'tr-img3' : ''
     }
+
   },
   mounted() {
 

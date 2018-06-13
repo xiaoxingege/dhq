@@ -25,8 +25,7 @@
     width: 100%;
 
 }
-.table-box {
-    }
+.table-box {}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -151,6 +150,9 @@ td div {
   ctx
 } from '../../dhq/config' */
 import {
+  formatDate
+} from 'utils/date'
+import {
   mapState
 } from 'vuex'
 //
@@ -178,7 +180,8 @@ export default {
           type: 3
         }
       ],
-      alltimers: ''
+      alltimers: '',
+      size: 8
 
     }
   },
@@ -195,7 +198,8 @@ export default {
     initRealTimeType() {
       let p1 = new Promise((resolve, reject) => {
         this.$store.dispatch('signal/querySignalRealTime', {
-          type: 5
+          type: 5,
+          size: this.size
         }).then(() => {
           resolve();
           this.hjfsArr = this.signalRealTime
@@ -203,7 +207,8 @@ export default {
       });
       let p2 = new Promise((resolve, reject) => {
         this.$store.dispatch('signal/querySignalRealTime', {
-          type: 4
+          type: 4,
+          size: this.size
         }).then(() => {
           resolve();
           this.ztzjArr = this.signalRealTime
@@ -211,32 +216,71 @@ export default {
       });
       let p3 = new Promise((resolve, reject) => {
         this.$store.dispatch('signal/querySignalRealTime', {
-          type: 3
+          type: 3,
+          size: this.size
         }).then(() => {
           resolve();
           this.cxgArr = this.signalRealTime
         })
       });
       Promise.all([p1, p2, p3]).then(() => {
+        this.allData = []
         this.allData.push(this.hjfsArr, this.ztzjArr, this.cxgArr)
         console.log(this.allData)
       });
+    },
+    timeRange(beginTime, endTime, nowTime) {
+      var strb = beginTime.split(':');
+      if (strb.length !== 2) {
+        return false;
+      }
+
+      var stre = endTime.split(':');
+      if (stre.length !== 2) {
+        return false;
+      }
+
+      var b = new Date();
+      var e = new Date();
+      var n = new Date();
+
+      b.setHours(strb[0]);
+      b.setMinutes(strb[1]);
+      e.setHours(stre[0]);
+      e.setMinutes(stre[1]);
+
+      if (n.getDay() === 6 || n.getDay() === 0) {
+        return false;
+      }
+      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+        // this.reFresh()
+        return true;
+      } else {
+        // alert ('当前时间是：' + n.getHours () + ':' + n.getMinutes () + '，不在该时间范围内！');
+        return false;
+      }
+      // return false;
+    },
+    reFresh() {
+      var inTime = this.timeRange('9:10', '11:40')
+      var inTime2 = this.timeRange('12:50', '15:30')
+      if (inTime || inTime2) {
+        this.initRealTimeType();
+      }
+      this.alltimers = setTimeout(this.reFresh, 30000)
+    },
+
+    format(date) {
+      return formatDate(date)
     }
   },
   mounted() {
-    /*      var _this = this
-          this.initRealTimeType()
-          this.alltimers = setInterval(function() {
-            _this.initRealTimeType()
-          }, 30000) */
     this.initRealTimeType()
-
-
-
+    this.reFresh()
 
   },
   destroyed() {
-    //  this.alltimers && clearInterval(this.alltimers)
+    this.alltimers && clearTimeout(this.alltimers)
   }
 }
 </script>
