@@ -19,7 +19,7 @@ export default {
 // const env = 'dev';
 
 // 测试环境
-const domain = '//test.z3quant.com' // openapi
+const domain = 'https://test.z3quant.com' // openapi
 const websocketDomain = '//test.z3quant.com' // websocket
 const env = 'test';
 

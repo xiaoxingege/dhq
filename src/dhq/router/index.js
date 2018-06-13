@@ -176,6 +176,17 @@ export default [{
     name: 'map',
     component: Map
   },
+  {
+    path: ctx + '/plateMap',
+    name: 'plateMap',
+    component: PlateMap
+  }
+  /*
+  {
+    path: ctx + '/map/fullScreen',
+    name: 'bigMap',
+    component: Map
+  },
   /*
      {
        path: ctx + '/map/fullScreen',
@@ -372,13 +383,10 @@ export default [{
      path: ctx + '/test/autoinpBox',
      name: 'autoinpbox',
      component: AutoinpBox
-   },*/
-  {
-    path: ctx + '/plateMap',
-    name: 'plateMap',
-    component: PlateMap
-  }
-  /*
+   }*/
+
+  
+    /*
    {
      path: ctx + '/filterStrategyList',
      name: 'filterStrategyList',
