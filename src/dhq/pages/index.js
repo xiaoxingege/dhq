@@ -31,7 +31,7 @@ initVue({
     routes,
     historyMode: 'history',
     beforeEach(to, from, next) {
-      if (!store.state.auth.authorization) {
+      if (!store.state.auth.accessToken) {
         store.dispatch('authSetting').then(next).catch(next)
       } else {
         next()
