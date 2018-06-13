@@ -903,14 +903,22 @@ export default {
     this.interval = setInterval(function() {
       that.updateBubbles()
       that.updateCompare()
-      that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 2,
-        currentTime: that.stockListTime
-      }).then(() => {
-        if (that.isTop) {
-          that.$refs.ztgListUl.scrollTop = 0
+        if(that.stockListTime){
+            that.$store.dispatch('bubbles/getBubblesLine', {
+                type: 2,
+                currentTime: that.stockListTime
+            }).then(() => {
+                if (that.isTop) {
+                    that.$refs.ztgListUl.scrollTop = 0
+                }
+            })
+        }else {
+            that.$store.dispatch('bubbles/getBubblesLine', {
+                type: 2,
+                currentTime: ''
+            }).then(() => {})
         }
-      })
+
     }, Data.refreshTime)
 
   },
