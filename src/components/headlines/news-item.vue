@@ -1,7 +1,7 @@
 <template>
 <div class="news">
   <div class="news-title">
-    <span class="mark"></span>
+    <span :class="{mark:true,good:model.isBear===1,bad:model.isBear===3}">{{model.isBear===1?'利好':(model.isBear===3?'利空':'')}}</span>
     <span class="title">{{model.title}}</span>
   </div>
   <div class="rel-stocks" v-if="model && model.infostocks && model.infostocks.length">
@@ -40,14 +40,7 @@ export default {
     background: #141518;
     margin: 2px 0;
     cursor: pointer;
-    .title {
-        padding: 5px 0;
-        color: $wordsColorBase;
-    }
-    .mark {
-        display: inline-block;
-        width: 48px;
-    }
+
     .rel-stocks {
         padding: 10px 0 10px 48px;
     }
@@ -62,6 +55,21 @@ export default {
     }
     .news-title {
         padding: 5px 0;
+        .title {
+            padding: 5px 0;
+            color: $wordsColorBase;
+        }
+        .mark {
+            display: inline-block;
+            width: 40px;
+            margin: 0 4px;
+        }
+        .good {
+            background: $upColor;
+        }
+        .bad {
+            background: $downColor;
+        }
     }
     .news-datetime {
         float: left;

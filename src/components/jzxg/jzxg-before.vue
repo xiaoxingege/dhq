@@ -6,10 +6,14 @@
   <div class="jzmnc">
     <div class="jzmnc-left">
       <div class="feature-title">极智模拟仓</div>
-      <div class="income-labels">
-        累计收益<span style="margin-right:43px;">{{jzmncData}}</span> 年化收益
-        <span style="margin-right:43px;">{{}}</span> 月收益
-        <span>{{}}</span>
+      <ul class="income-labels clearfix">
+        <li class="fl" v-for="item of jzmncDataList">
+          <span class="label-name">{{item.label}}</span>
+          <span class="label-value">{{item.value}}</span>
+        </li>
+      </ul>
+      <div style="height:310px;">
+        <IncomeCharts :jzmncChartData="jzmncChartData"></IncomeCharts>
       </div>
     </div>
     <div class="jzmnc-right">
@@ -19,6 +23,7 @@
 </div>
 </template>
 <script>
+import IncomeCharts from 'components/jzxg/income-chart'
 import {
   mapState
 } from 'vuex'
@@ -26,14 +31,19 @@ export default {
   props: [],
   data() {
     return {
-
+      jzmncDataList: [],
+      bdyxDataList: [],
+      zxjjDataList: [],
+      rdjjDataList: [],
+      zltjDataList: [],
+      jzmncChartData: null
     }
   },
   watch: {
 
   },
   components: {
-
+    IncomeCharts
   },
   computed: mapState({
     subscriptions: state => state.jzxg.subscriptions,
@@ -45,7 +55,16 @@ export default {
   }),
   methods: {
     init: function() {
-      this.$store.dispatch('jzxg/getJzxgBeforeData')
+      this.$store.dispatch('jzxg/getJzxgBeforeData').then(() => {
+        // 收益标签值
+        this.jzmncDataList = this.jzmncData.indicators
+        this.bdyxDataList = this.bdyxData.indicators
+        this.zxjjDataList = this.zxjjData.indicators
+        this.rdjjDataList = this.rdjjData.indicators
+        this.zltjDataList = this.zltjData.indicators
+        // 收益曲线和饼图值
+        this.jzmncChartData = this.jzmncData.performCurve
+      })
     }
   },
   mounted() {
@@ -60,8 +79,15 @@ export default {
     background-color: $bgDeepColor;
     font-size: 12px;
     min-width: 1217px;
+    padding: 3px 1px;
     font-family: "Microsoft YaHei";
     color: $wordsColorBase;
+}
+.jzxg-wrap {
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
 }
 .jzxg-banner {
     height: 220px;
@@ -109,6 +135,17 @@ export default {
 .income-labels {
     padding: 20px 0 10px 200px;
 }
-.income-labels span {
-    }
+.income-labels li {
+    margin-left: 45px;
+}
+.income-labels li:first-child {
+    margin-left: 0;
+}
+.label-name {
+    color: $wordsColorBase;
+    margin-right: 10px;
+}
+.label-value {
+    color: $upColorDhq;
+}
 </style>

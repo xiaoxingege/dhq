@@ -10,16 +10,13 @@ export default {
     zltjData: null // 主力天机
   },
   mutations: {
-    setJzxgBeforeData(state, options) {
-      const result = options.result
-      if (result.retCode === 0) {
-        state.subscriptions = result.data.orderNum
-        state.jzmncData = result.data.strategies[0]
-        state.bdyxData = result.data.strategies[1]
-        state.zxjjData = result.data.strategies[2]
-        state.rdjjData = result.data.strategies[3]
-        state.zltjData = result.data.strategies[4]
-      }
+    setJzxgBeforeData(state, jzxgData) {
+      state.subscriptions = jzxgData.orderNum
+      state.jzmncData = jzxgData.strategies[0]
+      state.bdyxData = jzxgData.strategies[1]
+      state.zxjjData = jzxgData.strategies[2]
+      state.rdjjData = jzxgData.strategies[3]
+      state.zltjData = jzxgData.strategies[4]
     }
   },
   actions: {
@@ -27,11 +24,11 @@ export default {
     getJzxgBeforeData({
       commit
     }) {
-      const url = `//172.16.20.86:8031/mockjsdata/24/smartstock/api/excellent/buyPage.jspa`
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/buyPage.jspa`
       return fetch(url, {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {
-        if (result.errCode === 0) {
+        if (result.retCode === 0) {
           commit('setJzxgBeforeData', result.data)
         } else {
           commit('ERROR', result, {

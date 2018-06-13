@@ -19,14 +19,14 @@ export default {
 // const env = 'dev';
 
 // 测试环境
-// const domain = 'https://test.z3quant.com' // openapi
-// const websocketDomain = 'https://test.z3quant.com' // websocket
-// const env = 'test';
+const domain = 'https://test.z3quant.com' // openapi
+const websocketDomain = '//test.z3quant.com' // websocket
+const env = 'test';
 
 // 生产环境
-const domain = 'https://www.z3quant.com' // openapi
-const websocketDomain = 'https://www.z3quant.com' // websocket
-const env = 'production';
+// const domain = '//www.z3quant.com' // openapi
+// const websocketDomain = '//www.z3quant.com' // websocket
+// const env='production';
 
 const ctx = '/zstgweb'
 // const ctx = '';
