@@ -26,9 +26,9 @@
               <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
               <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
             </div>
-            <div class="news" v-if="newsObj(stock.msgId).newsId">
-              <span :class="stock.msgType === 2?'mark good':(stock.msgType === 1?'mark bad':'mark normal')">{{stock.msgType === 2?'利好':(stock.msgType === 1?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(stock.msgId).newsId}}" target="_blank" class="news_tit">{{newsObj(stock.msgId).title}}</router-link>
+            <div class="news" v-if="stock.moveRelaNewsId">
+              <span :class="stock.moveSignalId > 1?'mark good':'mark bad'">{{stock.moveSignalId > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
               <li class="topic" v-for="topic in stock.topicDataList">
@@ -49,8 +49,8 @@
               <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
               <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
             </div>
-            <div class="news" v-if="newsObj(plate.msg).newsId"><span :class="plate.msgType === 2?'mark good':(plate.msgType === 1?'mark bad':'mark normal')">{{plate.msgType === 2?'利好':(plate.msgType === 1?'利空':'中性')}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:newsObj(plate.msg).newsId}}" target="_blank" class="news_tit">{{newsObj(plate.msg).title}}</router-link>
+            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.moveSignalId > 1?'mark good':'mark bad'">{{plate.moveSignalId > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
             </div>
             <table class="stockList">
               <tr v-for="stock of plate.stockDataList">
@@ -729,7 +729,7 @@ export default {
     margin-right: 4px;
 }
 .market .news .good {
-    background: #fc2721;
+  background: #ca4941;
 }
 .market .news .bad {
     background: #56a870;
