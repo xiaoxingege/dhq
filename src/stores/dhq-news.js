@@ -4,36 +4,37 @@ import fetch from '../dhq/util/z3fetch'
 // } from '../dhq/config'
 
 const state = {
-  headlineList: []
+  news: {}
 }
 
 const mutationTypes = {
-  UPDATE_HEADLINE_LIST: 'UPDATE_HEADLINE_LIST'
+  UPDATE_NEWS: 'UPDATE_NEWS'
 }
 
 const actions = {
-  queryHeadline({
+  queryNewsDetail({
     commit
   }, {
-    pageNo,
-    pageSize
+    newsUrl,
+    iiid
   }) {
-    const url = `http://mapi.itougu.jrj.com.cn/wireless/information/getMajorInfoList.jspa?pn=${pageNo}&ps=${pageSize}`;
+    const infoUrl = encodeURIComponent(newsUrl);
+    const url = `http://mapi.itougu.jrj.com.cn/wireless/information/queryNewsDetail?infourl=${infoUrl}&iiid=${iiid}`
     return fetch(url).then(res => res.json()).then((result) => {
       if (result.retCode === 0) {
-        commit(mutationTypes.UPDATE_HEADLINE_LIST, result.data);
+        commit(mutationTypes.UPDATE_NEWS, result.data);
       } else {
         commit('ERROR', result, {
           root: true
-        })
+        });
       }
-    });
+    })
   }
 }
 
 const mutations = {
-  [mutationTypes.UPDATE_HEADLINE_LIST](state, headlineList) {
-    state.headlineList.push(...headlineList);
+  [mutationTypes.UPDATE_NEWS](state, news) {
+    state.news = news;
   }
 }
 

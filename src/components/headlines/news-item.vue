@@ -1,5 +1,5 @@
 <template>
-<div class="news">
+<div :class="{news:true,active:!!active}">
   <div class="news-title">
     <span :class="{mark:true,good:model.isBear===1,bad:model.isBear===3}">{{model.isBear===1?'利好':(model.isBear===3?'利空':'')}}</span>
     <span class="title">{{model.title}}</span>
@@ -17,7 +17,7 @@
 <script>
 import native from '../../utils/nativeApi'
 export default {
-  props: ['model'],
+  props: ['model', 'active'],
   data() {
     return {
 
@@ -35,6 +35,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/style.scss";
+.news.active {
+    background: #2e4465;
+}
 .news {
     color: #808ba1;
     background: #141518;
@@ -63,6 +66,10 @@ export default {
             display: inline-block;
             width: 40px;
             margin: 0 4px;
+            padding: 2px 0;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
         }
         .good {
             background: $upColor;

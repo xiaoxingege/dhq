@@ -14,6 +14,7 @@ import PlateMap from 'components/plate-map/plate-map-index'
 import TouguWorkspace from 'components/touguStudio/tougu-workspace'
 import Headline from 'components/headlines/headline'
 import SignalIndex from 'components/toolCenter/signal-index'
+import TestNative from 'components/test/test-native'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -185,6 +186,11 @@ export default [{
     path: ctx + '/plateMap',
     name: 'plateMap',
     component: PlateMap
+  },
+  {
+    path: ctx + '/testNative',
+    name: 'testNative',
+    component: TestNative
   }
   /*
   {
