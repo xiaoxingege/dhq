@@ -67,21 +67,23 @@
 </style>
 <template>
 <div class="signal-wrap">
-  <div class="top-title">
-    <span class="title-img"></span>
-    <span class="title-txt">实时信号</span>
-  </div>
+  <div style="height: 50%">
+    <div class="top-title">
+      <span class="title-img"></span>
+      <span class="title-txt">实时信号</span>
+    </div>
 
-  <RealtimeSignal/>
+    <RealtimeSignal :size='initSize()' />
+  </div>
   <!-- </div> -->
-
-  <div class="top-title">
-    <span class="title-img title-img2"></span>
-    <span class="title-txt">趋势信号</span>
-    <span class="time">{{time}}更新</span>
+  <div style="height: 50%">
+    <div class="top-title">
+      <span class="title-img title-img2"></span>
+      <span class="title-txt">趋势信号</span>
+      <span class="time">{{time}}更新</span>
+    </div>
+    <TrendSignal @timeValue='setValue' :size='initSize()' />
   </div>
-  <TrendSignal @timeValue='setValue' />
-
 </div>
 </template>
 <script>
@@ -96,11 +98,15 @@ import TrendSignal from 'components/toolCenter/trend-signal'
 export default {
   data() {
     return {
-      time: ''
+      time: '',
+      screenHeight: document.documentElement.clientHeight
     }
   },
   watch: {
-
+    screenHeight(val) {
+      // alert(val)
+      this.screenHeight = val
+    }
   },
   components: {
     RealtimeSignal,
@@ -112,11 +118,25 @@ export default {
   methods: {
     setValue: function(v) {
       this.time = v;
-      // console.log(this.time)
+    },
+    initSize() {
+      const height = (this.screenHeight) * 0.5 - 129
+      var size = Math.floor(height / 30);
+      return size
+
     }
   },
   mounted() {
+    this.initSize()
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenHeight = document.documentElement.clientHeight
+        that.screenHeight = window.screenHeight
+        console.log(window.screenHeight)
 
+      })()
+    }
   },
   destroyed() {
 

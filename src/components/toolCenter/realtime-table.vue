@@ -30,6 +30,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     background: $bgConColor;
+    font-size: 12px;
 }
 /* table:last-child{
   margin-right: 0
@@ -124,7 +125,7 @@ td a {
 <template>
 <div class="signal-table-wrap">
   <!-- <div class="table-box display-box"> -->
-  <table class="table1" v-if='signalRealTime.length!=0'>
+  <table class="table1" v-if='signalRealTime.length!=0' ref='datalist'>
     <tr>
       <td colspan="4">
         <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
@@ -137,11 +138,11 @@ td a {
     <tr v-for="(item,index) of signalRealTime">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
-        <div>{{formatDuring(item.signalTime)}}</div>
+        <div>{{formatDuring(item.signalTime) ||'--'}}</div>
       </td>
       <td>
         <div @click='toNative({stockCode:concats(item.stockCode)})' class="tonative">
-          <!-- <a :href="'/stock/'+item.stockCode" target="_blank"> -->{{item.stockName}}
+          <!-- <a :href="'/stock/'+item.stockCode" target="_blank"> -->{{item.stockName ||'--'}}
           <!-- </a> -->
         </div>
       </td>
@@ -149,7 +150,7 @@ td a {
         <div v-z3-updowncolor="item.stockPl">{{item.stockPl | chngPct}}</div>
       </td>
       <td>
-        <div>{{item.signalName}}</div>
+        <div>{{item.signalName ||'--'}}</div>
       </td>
 
     </tr>
@@ -176,7 +177,7 @@ td a {
 /* import {
   ctx
 } from '../../dhq/config' */
-import util from '../../z3tougu/util'
+import util from '../../dhq/util'
 import native from 'utils/nativeApi'
 import {
   mapState
@@ -191,7 +192,8 @@ export default {
       cxgArr: [], // type 3,
       type: '',
       navTitle: ['火箭发射', '涨停追击', '创新高'],
-      alltimers: ''
+      alltimers: '',
+      size: ''
 
     }
   },
@@ -221,7 +223,6 @@ export default {
 
   },
   mounted() {
-
 
   },
   destroyed() {}

@@ -30,6 +30,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     background: $bgConColor;
+    font-size: 12px;
 }
 /* table:last-child{
   margin-right: 0
@@ -123,7 +124,7 @@ td a {
 </style>
 <template>
 <div class="signal-table-wrap">
-  <!--  <div class="table-box display-box"> -->
+
   <table class="table1" v-if='signalTrend && signalTrend.length!==0'>
     <tr>
       <td colspan="4">
@@ -134,11 +135,11 @@ td a {
                 <div class="no-data"></div>
                 <div class="no-data-txt">暂无信号</div>
             </tr> -->
-    <tr v-for="(item,index) of signalTrend" v-if="index<8">
+    <tr v-for="(item,index) of signalTrend" v-if="index<size">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
         <div @click='toNative({stockCode:concats(item.stkcode)})' class="tonative">
-          <!-- <a :href="'/stock/'+item.stkcode" target="_blank"> -->{{item.stkname}}
+          <!-- <a :href="'/stock/'+item.stkcode" target="_blank"> -->{{item.stkname ||'--'}}
           <!-- </a> -->
         </div>
       </td>
@@ -149,7 +150,7 @@ td a {
         <div v-z3-updowncolor="item.riseAndFall">{{item.riseAndFall | chngPct}}</div>
       </td>
       <td>
-        <div>{{item.subTypeName}}</div>
+        <div>{{item.subTypeName ||'--'}}</div>
       </td>
 
     </tr>
@@ -169,20 +170,19 @@ td a {
     </tr>
     <tr></tr>
   </table>
-  <!--      </div>   -->
 </div>
 </template>
 <script>
 /* import {
   ctx
 } from '../../dhq/config' */
-import util from '../../z3tougu/util'
+import util from '../../dhq/util'
 import native from 'utils/nativeApi'
 import {
   mapState
 } from 'vuex'
 export default {
-  props: ['type', 'name', 'signalTrend'],
+  props: ['type', 'name', 'signalTrend', 'size'],
   data() {
     return {
       allData: [],
@@ -195,7 +195,10 @@ export default {
     }
   },
   watch: {
-
+    size() {
+      console.log(this.size)
+      // this.initRealTimeType()
+    }
   },
   components: {
 
@@ -204,36 +207,6 @@ export default {
     // signalTrend:state => state.signal.signalTrend 
   }),
   methods: {
-    /*    initTrendType(){
-            let p1 = new Promise((resolve, reject) => {
-              this.$store.dispatch('signal/querySignalTrend',{
-                  trendTypeId:2
-              }).then(() => {
-                resolve();
-                this.qsArr = this.signalTrend
-              })
-            });
-            let p2 = new Promise((resolve, reject) => {
-              this.$store.dispatch('signal/querySignalTrend',{
-                  trendTypeId:1
-              }).then(() => {
-                resolve();
-                this.qskzdArr = this.signalTrend
-              })
-            });
-            let p3 = new Promise((resolve, reject) => {
-              this.$store.dispatch('signal/querySignalTrend',{
-                  trendTypeId:3
-              }).then(() => {
-                resolve();
-                this.zdsArr = this.signalTrend
-              })
-            });
-            Promise.all([p1, p2, p3]).then(() => {
-              this.allData.push(this.hjfsArr,this.ztzjArr,this.cxgArr)
-              console.log(this.allData)
-            });
-        },*/
     toNative(stockCode) {
       return native.openStock(stockCode)
     },
@@ -251,9 +224,6 @@ export default {
     }
   },
   mounted() {
-
-    //    this.initTrendType()
-
 
   },
   destroyed() {

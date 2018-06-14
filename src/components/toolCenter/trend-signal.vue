@@ -25,8 +25,7 @@
     width: 100%;
 
 }
-.table-box {
-    }
+.table-box {}
 table {
     border-collapse: collapse;
     width: 100%;
@@ -127,23 +126,11 @@ td div {
 </style>
 <template>
 <div class="signal-table-wrap">
-  <!--  <div class="table-box display-box"> -->
   <div class="display-box table-box">
     <div class="table-detail box-flex-1" v-for="(item,index) of trendData">
-      <TrendTable :signalTrend='item' :name='navTrend[index].name' :type="navTrend[index].trendTypeId" />
+      <TrendTable :signalTrend='item' :name='navTrend[index].name' :type="navTrend[index].trendTypeId" :size='size' />
     </div>
-    <!--       <div class="table-detail box-flex-1">
-                  <TrendTable :signalTrend='qskzdArr' :name='navTitle[1]'/>
-               </div>
-               <div class="table-detail box-flex-1">
-                    <TrendTable :signalTrend='zdsArr' :name='navTitle[2]'/>
-                </div> -->
-    <!--  <div class="table-detail box-flex-1" v-for="(item,index) of allData">
-                  <RealtimeTable :signalRealTime ='item' :name='navTitle[index].name' :type="navTitle[index].type"/>
-               </div> -->
-    <!--       </div> -->
   </div>
-  <!--      </div>   -->
 </div>
 </template>
 <script>
@@ -155,7 +142,7 @@ import {
 } from 'vuex'
 import TrendTable from 'components/toolCenter/trend-table'
 export default {
-  props: ['trendTypeId'],
+  props: ['size'],
   data() {
     return {
       allData: [],
@@ -180,9 +167,7 @@ export default {
 
     }
   },
-  watch: {
-
-  },
+  watch: {},
   components: {
     TrendTable
 
@@ -247,10 +232,6 @@ export default {
         this.zdsArr = this.signalTrend.record
       })
 
-      /* Promise.all([p1, p2, p3]).then(() => {
-         this.allData.push(this.hjfsArr,this.ztzjArr,this.cxgArr)
-         console.log(this.allData)
-       }); */
     },
     formatDuring(time) {
       var date = new Date(time)
@@ -264,10 +245,7 @@ export default {
   },
   mounted() {
     // this.initTrend()
-
     this.initTrendType()
-
-
 
   },
   destroyed() {

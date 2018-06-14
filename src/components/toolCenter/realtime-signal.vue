@@ -126,23 +126,13 @@ td div {
 </style>
 <template>
 <div>
-  <!-- <div class="table-box display-box"> -->
   <div class="display-box table-box">
-    <!--   -->
     <div class="table-detail box-flex-1" v-for="(item,index) of allData">
       <RealtimeTable :signalRealTime='item' :name='navTitle[index].name' :type="navTitle[index].type" />
     </div>
-    <!-- <div class="table-detail box-flex-1">
-                  <RealtimeTable :signalRealTime ='ztzjArr' :name='navTitle[1]'/>
-               </div>
-               <div class="table-detail box-flex-1">
-                  <RealtimeTable :signalRealTime ='cxgArr' :name='navTitle[2]'/>
-               </div> -->
-    <!--          </div> -->
+
   </div>
 
-
-  <!--    </div> -->
 </div>
 </template>
 <script>
@@ -158,7 +148,7 @@ import {
 //
 import RealtimeTable from 'components/toolCenter/realtime-table'
 export default {
-  props: ['type', 'name'],
+  props: ['size'],
   data() {
     return {
       allData: [],
@@ -180,13 +170,15 @@ export default {
           type: 3
         }
       ],
-      alltimers: '',
-      size: 8
+      alltimers: ''
 
     }
   },
   watch: {
-
+    size() {
+      console.log(this.size)
+      this.initRealTimeType()
+    }
   },
   components: {
     RealtimeTable
@@ -277,6 +269,7 @@ export default {
   mounted() {
     this.initRealTimeType()
     this.reFresh()
+
 
   },
   destroyed() {
