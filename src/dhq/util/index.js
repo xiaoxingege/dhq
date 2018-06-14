@@ -56,5 +56,18 @@ export default {
     let dCurrent = new Date();
     window.DCS.dcsdat = dCurrent.getTime();
     window.dcsTag();
+  },
+  formatterInnercode(code) {
+    var str = code + ''
+    var s = '';
+    var begin = str.charAt(0);
+    if (begin === '6' || begin === '9') {
+      s = str + '.SH'
+    } else if (begin === '0' || begin === '2' || begin === '3') {
+      s = str + '.SZ'
+    } else {
+      return code
+    }
+    return s
   }
 }
