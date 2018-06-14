@@ -176,7 +176,7 @@ export default {
   },
   watch: {
     size() {
-      console.log(this.size)
+      clearTimeout(this.alltimers)
       this.initRealTimeType()
     }
   },
@@ -218,7 +218,7 @@ export default {
       Promise.all([p1, p2, p3]).then(() => {
         this.allData = []
         this.allData.push(this.hjfsArr, this.ztzjArr, this.cxgArr)
-        console.log(this.allData)
+        // console.log(this.allData)
       });
     },
     timeRange(beginTime, endTime, nowTime) {

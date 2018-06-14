@@ -196,7 +196,7 @@ export default {
   },
   watch: {
     size() {
-      console.log(this.size)
+      // console.log(this.size)
       // this.initRealTimeType()
     }
   },

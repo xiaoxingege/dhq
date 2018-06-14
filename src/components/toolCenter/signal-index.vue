@@ -133,7 +133,7 @@ export default {
       return (() => {
         window.screenHeight = document.documentElement.clientHeight
         that.screenHeight = window.screenHeight
-        console.log(window.screenHeight)
+        //  console.log(window.screenHeight)
 
       })()
     }

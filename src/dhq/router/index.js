@@ -160,12 +160,12 @@ export default [{
     path: ctx + '/headline',
     name: 'headline',
     component: Headline
-  },
-  {
+  }, {
     path: ctx + '/signalIndex',
     name: 'signalindex',
     component: SignalIndex
   },
+
   /* {
      path: ctx + '/search-box',
      name: 'search-box',

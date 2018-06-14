@@ -61,7 +61,6 @@ export default {
       }).then(result => {
         if (result.retCode === 0) {
           commit('updateSignalTrend', result.data)
-          console.log(result.data)
         }
       })
     }

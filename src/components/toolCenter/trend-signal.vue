@@ -184,7 +184,7 @@ export default {
           resolve();
           this.qsArr = this.signalTrend.record
           this.$emit('timeValue', this.signalTrend.updateTime)
-          console.log(this.signalTrend.updateTime)
+
         })
       });
       let p2 = new Promise((resolve, reject) => {
@@ -205,7 +205,7 @@ export default {
       });
       Promise.all([p1, p2, p3]).then(() => {
         this.trendData.push(this.qsArr, this.qskzdArr, this.zdsArr)
-        console.log(this.trendData)
+
       });
     },
     initTrend() {
