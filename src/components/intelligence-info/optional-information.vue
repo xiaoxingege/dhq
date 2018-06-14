@@ -254,6 +254,12 @@ export default {
         newTime: '',
         nextTime: '',
         ids: ''
+      }).then(() => {
+        let _height = $('.news-list').get(0).offsetHeight
+        if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
+          this.loadMore()
+        }
       })
       if (this.scrollTop === 0) {
         this.$store.commit('setIsTop', true)

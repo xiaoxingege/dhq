@@ -342,6 +342,12 @@ export default {
           newTime: newTime,
           nextTime: nextTime,
           ids: ids
+        }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+          if (_height < this.innerHeight) {
+            this.$store.commit('setIsTop', false)
+            this.loadMore()
+          }
         })
       } else if (type === 1) {
         this.$store.dispatch('getStockChance', {
@@ -350,6 +356,12 @@ export default {
           newTime: newTime,
           nextTime: nextTime,
           ids: ids
+        }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+          if (_height < this.innerHeight) {
+            this.$store.commit('setIsTop', false)
+            this.loadMore()
+          }
         })
       } else if (type === 2) {
         this.$store.dispatch('getTopicChance', {
@@ -358,6 +370,12 @@ export default {
           newTime: newTime,
           nextTime: nextTime,
           ids: ids
+        }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+          if (_height < this.innerHeight) {
+            this.$store.commit('setIsTop', false)
+            this.loadMore()
+          }
         })
       } else if (type === 3) {
         this.$store.dispatch('getProductChance', {
@@ -366,6 +384,12 @@ export default {
           newTime: newTime,
           nextTime: nextTime,
           ids: ids
+        }).then(() => {
+          let _height = $('.news-list').get(0).offsetHeight
+          if (_height < this.innerHeight) {
+            this.$store.commit('setIsTop', false)
+            this.loadMore()
+          }
         })
       }
     },
