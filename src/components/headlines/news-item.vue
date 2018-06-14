@@ -5,7 +5,7 @@
     <span class="title">{{model.title}}</span>
   </div>
   <div class="rel-stocks" v-if="model && model.infostocks && model.infostocks.length">
-    影响股票：<span class="rel-stock" v-for="stock in model.infostocks.slice(0,4)" @dblclick="openStock(stock.stockcode)">{{stock.stockname}}</span>
+    影响股票：<span class="rel-stock" v-for="stock in model.infostocks.slice(0,4)" @click="openStock(stock.stockcode)">{{stock.stockname}}</span>
   </div>
   <div class="bottom">
     <span class="news-datetime">{{model.makedate}}</span>
@@ -16,6 +16,7 @@
 
 <script>
 import native from '../../utils/nativeApi'
+import util from '../../dhq/util'
 export default {
   props: ['model', 'active'],
   data() {
@@ -24,9 +25,9 @@ export default {
     }
   },
   methods: {
-    openStock(innerCode) {
+    openStock(stockCode) {
       native.openStock({
-        stockCode: innerCode
+        stockCode: util.formatterInnercode(stockCode)
       });
     }
   }
