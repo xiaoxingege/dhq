@@ -19,7 +19,7 @@ const actions = {
     iiid
   }) {
     const infoUrl = encodeURIComponent(newsUrl);
-    const url = `//mapi.itougu.jrj.com.cn/wireless/information/queryNewsDetail?infourl=${infoUrl}&iiid=${iiid}`
+    const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/queryNewsDetail?infourl=${infoUrl}&iiid=${iiid}`
     return fetch(url).then(res => res.json()).then((result) => {
       if (result.retCode === 0) {
         commit(mutationTypes.UPDATE_NEWS, result.data);

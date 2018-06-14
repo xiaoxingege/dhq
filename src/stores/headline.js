@@ -18,7 +18,7 @@ const actions = {
     pageNo,
     pageSize
   }) {
-    const url = `//mapi.itougu.jrj.com.cn/wireless/information/getMajorInfoList.jspa?pn=${pageNo}&ps=${pageSize}`;
+    const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/getMajorInfoList.jspa?pn=${pageNo}&ps=${pageSize}`;
     return fetch(url).then(res => res.json()).then((result) => {
       if (result.retCode === 0) {
         commit(mutationTypes.UPDATE_HEADLINE_LIST, result.data);
