@@ -75,7 +75,6 @@ export default {
         const height = this.$refs.datalist.clientHeight;
         size = Math.floor(height / 30);
       }
-
       return list.slice(0, size);
     }
   },
@@ -157,7 +156,7 @@ export default {
         background-color: #fff;
     }
     .newsTitle {
-        width:263px;
+        width: 263px;
         white-space: pre;
         text-overflow: ellipsis;
         position: relative;

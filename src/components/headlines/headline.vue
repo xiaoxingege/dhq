@@ -1,21 +1,23 @@
 <template>
 <div class="headline">
   <div class="left">
-    <headlineList @viewNews="viewNewsDetail"></headlineList>
+    <headlineList @viewNewsDetail="viewNewsDetail"></headlineList>
   </div>
-  <div class="right">
-    <headlineNews :newsId="newsId"></headlineNews>
+  <div class="right" ref="newsdetail">
+    <headlineNews :iiid="newsId" :newsUrl="newsUrl"></headlineNews>
   </div>
 </div>
 </template>
 
 <script>
 import headlineList from 'components/headlines/headline-list'
-import headlineNews from 'components/headlines/headline-news'
+import headlineNews from 'components/dhq-news-detail'
 export default {
   data() {
     return {
-      newsId: null
+      newsId: '',
+      newsUrl: '',
+      month: ''
     }
   },
   components: {
@@ -23,8 +25,14 @@ export default {
     headlineNews
   },
   methods: {
-    viewNewsDetail(newsId) {
-      this.newsId = newsId;
+    viewNewsDetail(news) {
+      this.newsId = news.iiid;
+      this.newsUrl = news.infourl;
+    }
+  },
+  watch: {
+    newsUrl() {
+      this.$refs.newsdetail.scrollTop = 0;
     }
   }
 }
@@ -36,6 +44,7 @@ export default {
     height: 100%;
     min-height: 100%;
     overflow: hidden;
+    font-size: 14px;
     color: $wordsColorBase;
     .left {
         width: 50%;

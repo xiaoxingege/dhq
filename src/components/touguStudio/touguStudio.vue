@@ -26,7 +26,7 @@
           <div class="item4-bh">
              <div class="itemBh-title"></div>
              <div class="itemBh-three">
-                 <div class="fStudio" @click="alertBuy">
+                 <div class="fStudio" @click="alertBuy" id="160603010046392493">
                      <p class="fStudio-title">黑马三期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -34,7 +34,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div> 
-                 <div class="fStudio" @click="alertBuy">
+                 <div class="fStudio" @click="alertBuy" id="141126010097487282">
                      <p class="fStudio-title">黑马二期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -42,7 +42,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div>  
-                 <div class="fStudio" @click="alertBuy">
+                 <div class="fStudio" @click="alertBuy" id="141210010098595802">
                      <p class="fStudio-title">黑马一期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/mine.png" style="width:15px;height:15px;"/>
@@ -55,7 +55,7 @@
           <div class="item4-ai">
              <div class="itemAi-title"></div>
              <div class="itemAi-two">
-                <div class="fStudio" @click="alertBuy">
+                <div class="fStudio" @click="alertBuy" id="140912010047742826">
                      <p class="fStudio-title">AI二期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -63,7 +63,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div>  
-                 <div class="fStudio" @click="alertBuy">
+                 <div class="fStudio" @click="alertBuy" id="100323010017140421">
                      <p class="fStudio-title">AI一期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -543,7 +543,7 @@ margin-left: 11px;
 }
 
 .itemAi-title {
-  background: url('../../assets/images/touguStudio/aiStudio.jpg') no-repeat center;
+  background: url('../../assets/images/touguStudio/AiStudio.jpg') no-repeat center;
 }
 
 .itemBh-three,

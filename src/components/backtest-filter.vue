@@ -378,7 +378,7 @@ span.copy {
             <div class="no-data"></div>
           </div>
         </div>
-        <Pagination @getPageFromChild="goToStockPage" :totalPage="totalPage" />
+        <Pagination @getPageFromChild="goToStockPage" :totalPage="totalPage" v-show="nowChooseStock.length>0" />
       </div>
       <div class="bfilter-today" v-show="showTradeDay">
         <div class="table-head table-head2">
@@ -411,7 +411,7 @@ span.copy {
             <div class="no-data"></div>
           </div>
         </div>
-        <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" />
+        <Pagination @getPageFromChild="goTotradePage" :totalPage="tradeTotalPage" v-show="tradeDetail.length>0" />
       </div>
       <div v-if="showReturns" :style="{  minHeight: (fullHeight+58) + 'px' }">
         <LineChartFilter :strategyId="strategyId" :height="(fullHeight+58)"></LineChartFilter>

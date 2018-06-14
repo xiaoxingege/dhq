@@ -12,6 +12,7 @@ import plateMap from 'stores/dhqPlateMap'
 import signal from 'stores/signal'
 import jjrl from 'stores/jjrl'
 import headline from 'stores/headline'
+import dhqNews from 'stores/dhq-news'
 import jzxg from 'stores/dhqJzxg'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
@@ -147,7 +148,8 @@ export default new Vuex.Store({
     signal,
     jjrl,
     headline,
-    jzxg
+    jzxg,
+    dhqNews
     /* zhikuanSearch,
      zhikuanSearchList,
      bubbles,

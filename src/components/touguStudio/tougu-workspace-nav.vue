@@ -26,10 +26,10 @@
                 return state.touguWorkspaceStore.selectTabIndex
             }
         }),
-        methods:{
+       methods:{
             setSelectedTabIndex(index){
                 this.$store.commit('touguWorkspaceStore/setSelectedTabIndex', index)
             }
-        }
+        }  
     }
 </script>
