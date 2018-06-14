@@ -543,7 +543,7 @@ margin-left: 11px;
 }
 
 .itemAi-title {
-  background: url('../../assets/images/touguStudio/AIStudio.jpg') no-repeat center;
+  background: url('../../assets/images/touguStudio/AiStudio.jpg') no-repeat center;
 }
 
 .itemBh-three,
