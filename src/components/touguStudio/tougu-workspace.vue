@@ -8,6 +8,7 @@
         <div class="tougu-workspace-wrapper-inner">
             <TouguWorkspaceHeader></TouguWorkspaceHeader>
             <TouguWorkspaceNav></TouguWorkspaceNav>
+            <TouguWorkspaceLive v-if="selectTabIndex === 1"></TouguWorkspaceLive>
             <TouguWorkspaceStrategy v-if="selectTabIndex === 2"></TouguWorkspaceStrategy>
             <TouguWorkspaceTraining v-if="selectTabIndex === 4"></TouguWorkspaceTraining>
         </div>
@@ -21,6 +22,7 @@
     import TouguWorkspaceNav from './tougu-workspace-nav.vue'
     import TouguWorkspaceStrategy from './tougu-workspace-strategy.vue'
     import TouguWorkspaceTraining from './tougu-training.vue'
+    import TouguWorkspaceLive from './tougu-workspace-live.vue'
     import getQueryString from '../../utils/getQueryString.js'
     import getCookie from '../../utils/getCookie.js'
 
@@ -40,13 +42,15 @@
             TouguWorkspaceHeader,
             TouguWorkspaceNav,
             TouguWorkspaceStrategy,
-            TouguWorkspaceTraining
+            TouguWorkspaceTraining,
+            TouguWorkspaceLive
         },
         methods:{
 
         },
         mounted(){
             this.$store.dispatch('touguWorkspaceStore/getStudioInfo', {
+                // js获取url的参数值的方法
                 roomId: getQueryString('tgid'),
                 userId: getCookie('itg_passport_userid')
             })
