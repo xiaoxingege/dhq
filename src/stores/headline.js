@@ -32,15 +32,9 @@ const actions = {
 }
 
 const mutations = {
-<<<<<<< HEAD
     [mutationTypes.UPDATE_HEADLINE_LIST](state, headlineList) {
-        state.headlineList = headlineList;
+        state.headlineList.push(...headlineList);
     }
-=======
-  [mutationTypes.UPDATE_HEADLINE_LIST](state, headlineList) {
-    state.headlineList.push(...headlineList);
-  }
->>>>>>> e45fd392a7597dae9e17e9988687c32df5d8fde0
 }
 
 export default {
