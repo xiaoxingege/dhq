@@ -53,13 +53,20 @@ export default {
     init() {
       this.chart.setOption({
         legend: {
-          left: 20,
-          bottom: 10,
+          left: 40,
+          bottom: 0,
+          itemWidth: 8,
+          itemHeight: 8,
+          textStyle: {
+            color: '#c9d0d7'
+          },
           data: [{
-              name: '极智选股'
+              name: '极智选股',
+              icon: 'image://../../../src/assets/images/jzxg/jzxg.png'
             },
             {
-              name: '中证全指'
+              name: '中证全指',
+              icon: 'image://../../../src/assets/images/jzxg/zzqz.png'
             }
           ]
         },
@@ -71,15 +78,25 @@ export default {
             fontSize: 12,
             color: '#c9d0d7'
           },
-          position: function(point, params, dom, rect, size) {
-            return [point[0], '10%'];
+          backgroundColor: 'transparent',
+          position: (point, params, dom, rect, size) => {
+            // const contentWidth = size.contentSize[0]
+            const contentWidth = 188
+            const viewWidth = size.viewSize[0]
+            if (point[0] < contentWidth / 2) {
+              return [0, 3];
+            } else if (point[0] + contentWidth / 2 >= viewWidth) {
+              return [viewWidth - contentWidth, 3];
+            } else {
+              return [point[0] - contentWidth / 2, 3];
+            }
           },
           formatter: function(params) {
             let s = params[0].name;
             let value;
             for (let i = 0; i < params.length; i++) {
-              value = 100 * params[i].value.toFixed(2) + '%'
-              s = s + ' <span style="color: ' + params[i].textColor + '">' + value + '</span>';
+              value = (100 * params[i].value).toFixed(2) + '%'
+              s = s + '<span style="display:inline-block;margin-left:5px;border-radius:6px;width:6px;height:6px;border:1px solid #c9d0d7;background-color:' + params[i].color + '"></span><span style="color: ' + params[i].color + '">' + value + '</span>';
             }
             return s;
           }
@@ -89,7 +106,7 @@ export default {
           borderColor: '#23272c',
           left: 10,
           top: 30,
-          width: '90%',
+          width: '95%',
           height: '80%',
           containLabel: true
         },
@@ -128,7 +145,7 @@ export default {
               color: '#c9d0d7'
             },
             formatter: function(value) {
-              return 100 * value.toFixed(2) + '%'
+              return parseInt(100 * value) + '%'
             }
           }
           /*,
@@ -175,6 +192,9 @@ export default {
 .income-chart-wrap {
     width: 100%;
     height: 100%;
+    * {
+        box-sizing: border-box;
+    }
     .income-chart {
         height: 100%;
     }
