@@ -4,7 +4,7 @@
   <div class="right-arrow" @click="rightScroll"><span class="arrowr"></span></div>
   <div class="stock-list-wrap" ref="stockListWrap">
     <ul class="clearfix stock-ul" :style="{left:stockUiLeft+'px'}">
-      <li class="fl stock-li" v-for="item of jzmncTenStockList">
+      <li class="fl stock-li" v-for="item of tenStockList">
         <p>{{item.stkname}}</p>
         <ul>
           <li>
@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-  props: ['jzmncTenStockList'],
+  props: ['tenStockList'],
   data() {
     return {
       stockUiLeft: 0
@@ -143,14 +143,15 @@ export default {
     }
     .stock-li li span {
         display: inline-block;
-        width: 48%;
         height: 100%;
     }
     .stock-li li span:first-child {
         text-align: left;
+        width: 40%;
     }
     .stock-li li span:last-child {
         text-align: right;
+        width: 56%;
     }
     .arrowl {
         border-color: transparent #3d444d transparent transparent;
