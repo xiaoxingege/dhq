@@ -2,6 +2,7 @@ import fetch from '../dhq/util/z3fetch'
 export default {
   namespaced: true,
   state: {
+    authentication: 0, // 鉴权
     subscriptions: '', // 订阅份数
     jzmncData: null, // 极智模拟仓
     bdyxData: null, // 波段选股
@@ -17,6 +18,9 @@ export default {
       state.zxjjData = jzxgData.strategies[2]
       state.rdjjData = jzxgData.strategies[3]
       state.zltjData = jzxgData.strategies[4]
+    },
+    setAuthentication(state, authentication) {
+      state.authentication = authentication.valid
     }
   },
   actions: {
@@ -30,6 +34,23 @@ export default {
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
           commit('setJzxgBeforeData', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 鉴权接口
+    getAuthentication({
+      commit
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setAuthentication', result.data)
         } else {
           commit('ERROR', result, {
             root: true

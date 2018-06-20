@@ -183,21 +183,27 @@
     </div>
     <ul class="video-wrap display-box">
       <li class="box-flex-1 video-li">
-        <div class="video-con"></div>
+        <div class="video-con">
+          <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/jzxg2018.mp4" controls="controls" controlslist='nodownload'></video>
+        </div>
         <div class="video-txt">
           <p class="video-txt-title">《手把手教你玩转极智选股》</p>
           <p>首席投顾全面剖析产品的背后逻辑以及五大金股池使用秘籍</p>
         </div>
       </li>
       <li class="box-flex-1 video-li">
-        <div class="video-con"></div>
+        <div class="video-con">
+          <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/yjbf01.mp4" controls="controls" controlslist='nodownload'></video>
+        </div>
         <div class="video-txt">
           <p class="video-txt-title">《《赢家兵法-操盘必看》》</p>
           <p>分享独家操盘心经与股市经验心得，帮助您轻松应对股市行情</p>
         </div>
       </li>
       <li class="box-flex-1 video-li">
-        <div class="video-con"></div>
+        <div class="video-con">
+          <video controls="controls" controlslist='nodownload'></video>
+        </div>
         <div class="video-txt">
           <p class="video-txt-title">《纵横股今》</p>
           <p>深度解析当天市场行情，市场热点机会实时显现</p>
@@ -240,15 +246,28 @@
     <p>金融界智能金融团队：拥有国内首家专注于智能金融研究的博士后科研工作站，成员均来自国内外名校，全部为硕士以上学历，潜心研究金融智能算法，不断优化输出高胜率炒股策略。</p>
     <div class="clearfix" style="margin-top:40px;">
       <img src="../../assets/images/jzxg/team1.png" class="fl" />
-      <img src="../../assets/images/jzxg/team2.png" class="fr" />
+      <img src="../../assets/images/jzxg/team2.png" class="fl" style="margin-left: 40px;" />
     </div>
   </div>
+  <div class="jzxg-footer">
+    <p><img src="../../assets/images/jzxg/tip.png" alt="" style="margin-right:3px;">订阅后消息中心实时推送调仓信息供您查收；同时可登录大行情app让您策略不离身。</p>
+    <p>
+      <a class="to-subscribe" @click="alertBuy">我要订阅</a>
+    </p>
+    <div class="subscrip-div">已售<span class="subscrip">{{subscriptions}}</span>份！</div>
+    <div class="contact-div">
+      <p>联系我的专属客服</p>
+      <p>400-166-1188</p>
+    </div>
+  </div>
+  <buyModel :showstate='showBuy' @buyClose="cancle"></buyModel>
 </div>
 </template>
 <script>
 import IncomeCharts from 'components/jzxg/income-chart'
 import tenStocks from 'components/jzxg/ten-stock'
 import PieChart from 'components/jzxg/pie-chart'
+import buyModel from 'components/touguStudio/buy'
 import {
   mapState
 } from 'vuex'
@@ -256,6 +275,7 @@ export default {
   props: [],
   data() {
     return {
+      showBuy: false,
       // 收益标签值
       jzmncLabelData: [],
       bdyxLabelData: [],
@@ -288,7 +308,8 @@ export default {
   components: {
     IncomeCharts,
     tenStocks,
-    PieChart
+    PieChart,
+    buyModel
   },
   computed: mapState({
     subscriptions: state => state.jzxg.subscriptions,
@@ -333,6 +354,12 @@ export default {
       } else {
         return false
       }
+    },
+    cancle: function() {
+      this.showBuy = false;
+    },
+    alertBuy: function() {
+      this.showBuy = true;
     }
   },
   mounted() {
@@ -357,7 +384,10 @@ export default {
         box-sizing: border-box;
     }
 }
-.jzxg-wrap > div {
+.featured-class,
+.jzxgblock,
+.seven-service,
+.team-info {
     background-color: $bgConColor;
 }
 .jzxg-banner {
@@ -379,9 +409,9 @@ export default {
     border-bottom: 5px solid transparent;
 }
 .jzxgblock:hover {
-    border-top: 5px solid rgba(18,82,108,0.6);
-    border-bottom: 5px solid rgba(18,82,108,0.6);
-    box-shadow: 0 0 8px rgba(18,82,108,0.6);
+    /*  border-top: 5px solid rgba(18,82,108,0.6);
+    border-bottom: 5px solid rgba(18,82,108,0.6);*/
+    box-shadow: 0 0 10px rgba(37,139,181,0.8);
 }
 .feature-title {
     position: absolute;
@@ -472,12 +502,14 @@ export default {
     padding: 0 30px;
     height: 280px;
 }
-.video-li {
-    }
+.video-li {}
 .video-con {
     width: 290px;
     height: 180px;
     margin: 0 auto;
+}
+.video-con video {
+    width: 100%;
 }
 .video-txt {
     margin: 20px auto 0;
@@ -509,5 +541,43 @@ export default {
 }
 .team-info p {
     margin-bottom: 15px;
+}
+.jzxg-footer {
+    background-color: $bgDeepColor;
+    height: 75px;
+    padding: 0 0 10px;
+    position: relative;
+}
+.jzxg-footer p {
+    text-align: center;
+}
+.to-subscribe {
+    display: inline-block;
+    width: 560px;
+    height: 40px;
+    background-color: #fc2721;
+    margin-top: 10px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    cursor: pointer;
+}
+.subscrip-div {
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+}
+.subscrip {
+    color: $upColorDhq;
+}
+.contact-div {
+    position: absolute;
+    right: 7px;
+    bottom: 12px;
+}
+.contact-div p {
+    text-align: right;
+    margin-top: 6px;
 }
 </style>
