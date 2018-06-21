@@ -1,10 +1,12 @@
 <template>
 <div>
   <JzxgBefore v-if="!isValid"></JzxgBefore>
+  <JzxgAfter v-if="isValid"></JzxgAfter>
 </div>
 </template>
 <script>
 import JzxgBefore from 'components/jzxg/jzxg-before'
+import JzxgAfter from 'components/jzxg/jzxg-after'
 import {
   mapState
 } from 'vuex'
@@ -15,14 +17,15 @@ export default {
     }
   },
   components: {
-    JzxgBefore
+    JzxgBefore,
+    JzxgAfter
   },
   computed: mapState({
     authentication: state => state.jzxg.authentication
   }),
   mounted() {
     this.$store.dispatch('jzxg/getAuthentication').then(() => {
-      this.isValid = this.authentication
+      // this.isValid = this.authentication
     })
   }
 }

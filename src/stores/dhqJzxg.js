@@ -8,7 +8,9 @@ export default {
     bdyxData: null, // 波段选股
     zxjjData: null, // 中线掘金
     rdjjData: null, // 热点狙击
-    zltjData: null // 主力天机
+    zltjData: null, // 主力天机
+    navData: [],
+    strategyDetail: null
   },
   mutations: {
     setJzxgBeforeData(state, jzxgData) {
@@ -21,6 +23,12 @@ export default {
     },
     setAuthentication(state, authentication) {
       state.authentication = authentication.valid
+    },
+    setNavData(state, navData) {
+      state.navData = navData.strategies
+    },
+    setStrategyDetail(state, strategyDetail) {
+      state.strategyDetail = strategyDetail
     }
   },
   actions: {
@@ -51,6 +59,42 @@ export default {
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
           commit('setAuthentication', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 左侧导航栏-购后
+    getNavData({
+      commit
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/homePage.jspa`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setNavData', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 策略详情 - 极智选股购后
+    getStrategyDetail({
+      commit
+    }, {
+      strategyId
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/queryStrategyInfo.jspa?strategyId=${strategyId}`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setStrategyDetail', result.data)
         } else {
           commit('ERROR', result, {
             root: true

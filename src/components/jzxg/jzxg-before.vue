@@ -254,7 +254,7 @@
     <p>
       <a class="to-subscribe" @click="alertBuy">我要订阅</a>
     </p>
-    <div class="subscrip-div">已售<span class="subscrip">{{subscriptions}}</span>份！</div>
+    <div class="subscrip-div">已售<span class="subscrip">{{formatData(subscriptions)?subscriptions:'--'}}</span>份！</div>
     <div class="contact-div">
       <p>联系我的专属客服</p>
       <p>400-166-1188</p>
