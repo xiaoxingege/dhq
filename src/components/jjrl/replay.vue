@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div class="rili">
-    <celendar></celendar>
+    <calendar></calendar>
   </div>
   <div class="mainBox">
     <div class='replay'>
@@ -29,6 +29,7 @@ import {
 } from 'vuex'
 import resumeTrading from 'components/jjrl/resume-trading'
 import notOpenStock from 'components/jjrl/notOpenStock'
+import calendar from 'components/jjrl/calendar'
 export default {
   data() {
     return {
@@ -78,8 +79,10 @@ export default {
       ],
       curType: '0',
       isCur: 0
-
     }
+  },
+  components: {
+    calendar
   },
   computed: {
     ...mapState({
@@ -167,6 +170,6 @@ export default {
     background-color: $hoverBgColor;
 }
 .rili {
-    height: 27px;
+    height: 30px;
 }
 </style>

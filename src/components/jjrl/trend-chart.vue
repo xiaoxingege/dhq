@@ -129,26 +129,20 @@ export default{
                 return  Y + '.' + M + '.' + D 
           },
         paint(date){
-             this.$store.dispatch('jjrl/setStockLine',date).then(res => {
+            this.$store.dispatch('jjrl/setStockLine',date).then(res => {
             let code =this.storeData.stockCode
             this.chartData=this.setStockLine[code]
-           //  console.log(this.setStockLine)
-            // console.log(this.chartData)
-           //  console.log(this.storeData)
-           this.chartData.zs.forEach(item => {
-               this.bkData.push(item.index)
-               
+            this.chartData.zs.forEach(item => {
+            this.bkData.push(item.index)
            })
             this.chartData.hq.forEach(item => {
-               let time= this.setDate(item.trade_date)
-               this.tradeDate.push(time)
-               this.ggData.push(item.index)
+            let time= this.setDate(item.trade_date)
+            this.tradeDate.push(time)
+            this.ggData.push(item.index)
                
            })
-         //   console.log(this.bkData)
-         //   console.log(this.ggData)
-          this.initChart()
-          this.drawCharts()
+            this.initChart()
+            this.drawCharts()
         })
       
         }
