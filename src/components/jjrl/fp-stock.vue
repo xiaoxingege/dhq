@@ -7,10 +7,10 @@
                   >   
                 <div class="choose">
                     <span class="name">{{item[2]}}</span>
-                    <span class="addSelfChoice" @click="addSelfChoice" v-if="!isShowSelection">+自选</span>
-                    <span class="deleteSelfChoice" @click="deleteSelfChoice" v-if="isShowSelection">-自选</span>
+                    <span class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!isSelfSelection">+自选</span>
+                    <span class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="isSelfSelection">-自选</span>
                 </div>
-                <div class="price" :class="item[7]>0?'red':'green'" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
+                <div class="price" v-z3-updowncolor="item[7]" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
                 <div class="open"><span >今开：<i :class="item[7]>0?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
             </li>
         </ul>
@@ -20,10 +20,11 @@
 <script>
     import { mapState } from  'vuex'
     import native from '../../utils/nativeApi'
+    //  import echarts from 'echarts'
     export default{
         data(){
             return{
-                isShowSelection: false,
+               // isSelfSelection: false,
                 getStockCode:[],
                 setStockData:[],
                 addCur:0,
@@ -35,31 +36,56 @@
                 },
                 para:{
                     stockCode:''
-                }
+                },
+                public:'',
+                zszd:'' ,//  指数涨跌,
+                date:''
             }
         },
         computed:{ 
             ...mapState({
                 setStock:state => state.jjrl.setStock,
                 getStock:state => state.jjrl.getStock,
-                storeData:state => state.jjrl.dateAndCode
+                storeData:state => state.jjrl.dateAndCode,
+                isSelfSelection: state => state.jjrl.isSelfSelection,
+                setStockLine:state => state.jjrl.setStockLine,
+                stopStock:state => state.jjrl.stopStock
             })
         },
         methods: {
          showDetail(index,item){
               this.addCur=index
               this.stopdate=this.getStock[index].STP_DT //   停牌日期
+              this.public=this.getStock[index].ESP_HINT //  停牌时间公告
               this.stockCode=item[1]  //  当前股票代码
               this.setDate(this.stopdate)
-                this.$store.dispatch('jjrl/storeData',{
-                    stopdate:this.stopdate,
-                    stockCode:this.stockCode }).then( res => {
-                })
-                this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
+
+              this.$store.dispatch('jjrl/setStockLine',this.data).then( res => {
+                 this.zszd=this.setStockLine[this.stockCode].return_pct.toFixed(2)+'%'
+               // console.log(this.setStockLine)
+                this.$store.dispatch('jjrl/storeData',{ // 存储停牌时间，代码，公告和涨跌停数据
+                     stopdate:this.stopdate,
+                    stockCode:this.stockCode,
+                    public:this.public,
+                    zszd:this.zszd
+                     }).then(res => {
+                        // console.log(this.storeData)
+                     })
+                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then( res => {  // 请求停牌公告
+              
+              })
+              })
+            
+             
+                
            
           }  ,
-          addSelfChoice(){
-
+          addSelfChoice(item,index ){
+              // this.stockCode=item[1]
+          /*      this.$store.dispatch('stock/addSelection', {
+                    stockCode: this.stockCode
+             })
+            */
           },
           deleteSelfChoice(){
 
@@ -73,43 +99,67 @@
               let code=Q+'.'+R
               this.para.stockCode=code
               native.openStock(this.para)
-            
           },
           setDate(date){
             var d,Y,M,D
                 d = new Date(date)
+                d.setDate(d.getDate()-5); 
                 Y = d.getFullYear()
                 M = d.getMonth()+1
-                D = d.getDate()-5
+                D = d.getDate()
                 if( M < 10 ) { M = '0' + M; }
-                if( D < 10 ) { D = '0' + D; }
+                if( D <= 5 ) { D = '0' + D; }
             this.stopdate=  Y + '-' + M + '-' + D 
           }
         },
     
         mounted () {
-            var data='2018-06-11'
+            this.data='2018-06-15'
+            var data=this.data
             this.$store.dispatch('jjrl/getStock',data).then( res => {
                 this.stopdate=this.getStock[0].STP_DT
                 this.setDate(this.stopdate)
                 this.stockCode=this.getStock[0].STOCKCODE
                 this.getStock.forEach( ele => {
-                this.getStockCode.push(ele.STOCKCODE)
+                this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
                 })
-                let item= this.getStockCode.join(',')
+                let item= this.getStockCode.join(',') // q接口支持多个查询
                 this.$store.dispatch('jjrl/setStock',item).then( res => {
                 this.setStockData =this.setStock
+                   
                 }) 
+                /* 自选股部分 */
+                 this.getStockCode.forEach(item => {
+                 //   console.log(item)
+                   this.$store.dispatch('jjrl/querySelection',item).then(res => {
+                    }) 
+                }) 
+               this.public=this.getStock[0].ESP_HINT 
                 this.$store.dispatch('jjrl/storeData',{
                 stopdate:this.stopdate,
-                stockCode:this.stockCode })
-                
+                stockCode:this.stockCode,
+                public:this.public })
                 this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
-           
+                   /* 图表部分 */
+                 this.$store.dispatch('jjrl/setStockLine',data).then( res => {
+                     let code=this.storeData.stockCode
+                    this.zszd=this.setStockLine[code].return_pct.toFixed(2)+'%'
+              // console.log( this.setStockLine)
+                  this.$store.dispatch('jjrl/storeData',{
+                        stopdate:this.stopdate,
+                        stockCode:this.stockCode,
+                        public:this.public,
+                        zszd:this.zszd }).then( res => {
+                        //    console.log(this.storeData)
+                        })
+                   
+                })
+
+
             })  
-                  
-                     
-           
+         
+
+
         }
     }
 </script>
@@ -157,7 +207,7 @@
 .addSelfChoice{
     width: 40px;
     height: 18px;
-    padding-left: 3px;
+    padding-left: 1px;
     box-sizing: border-box;
     background-color: $upColorDhq;
     border-radius: 2px;

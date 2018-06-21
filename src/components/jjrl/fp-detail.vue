@@ -10,12 +10,12 @@
               :class="{'cur':isCur===index}" :style="index===0?fiveNotice:newNotice">{{item}}</span>
           </div>
           <div class="fiveNotice_detail">
-                <div class="notice" v-for="item in stopStock"  v-show="show">
-                  <span class='title'>{{item.TITLE}}</span>
-                  <span class="date">{{setDate(item.PUBDATE)}}</span>
+                <div class="notice" v-for="(item,index) in stopStock"  v-show="show">
+                  <span class='title' @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.TITLE}}</span>
+                  <span class="date" >{{setDate(item.PUBDATE)}}</span>
                 </div> 
-                <div class="notice" v-for="item in newNews" v-show="hide" >
-                  <span>{{item.title}}</span>
+                <div class="notice" v-for="(item,index) in newNews" v-show="hide" >
+                  <span @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.title}}</span>
                   <span class="date">{{timestampToTime(item.contentdate)}}</span>
                 </div>  
 
@@ -43,7 +43,9 @@
                 stopCode:'',
                 show:true,
                 hide:false,
-                dataShow:false
+                dataShow:false,
+                isActive:false
+                
             }
         },
         computed:{
@@ -59,24 +61,27 @@
             changeNotice(index){
                 this.isCur=index
               if(index===0){
-                     this.show=true
-                     this.hide=false
-                 //   console.log(123)
+                    this.show=true
+                    this.hide=false
                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then(res => {
                         this.list= this.stopStock
                     })
                 }else{
-                     this.show=false
-                     this.hide=true
-               //     console.log(456)
+                    this.show=false
+                    this.hide=true
                     this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode }).then( res => {
-                        this.list= this.newNews
-                     //  console.log(this.newNews)
+                    this.list= this.newNews
                    })
                 } 
                 
             },
-              setDate(date){
+            showDetail(index){
+                this.isActive = index
+            },
+            leaveDetail(index){
+                this.isActive = null
+            },
+            setDate(date){
                 var d,Y,M,D
                 d = new Date(date)
                 Y = d.getFullYear()
@@ -118,11 +123,15 @@
    
     margin-right: 20px;
 }
+.active{
+    color:$blueWordsColor;
+}
 
 .date{
     margin-right: 63px;
 }
 .content {
+    height: 100%;
     box-sizing: border-box;
     padding: 10px 30px 15px;
 
@@ -157,7 +166,7 @@
     background-color: $hoverBgColor;
 }
 .chart {
-    height: 56%;
+
 }
 .notice{
     cursor: pointer;

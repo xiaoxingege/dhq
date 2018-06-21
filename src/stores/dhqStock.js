@@ -88,6 +88,7 @@ const actions = {
     }
     stockCode = stockCode && stockCode.substring(0, 6);
     const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${stockCode}&userId=${userId}`
+    
     return fetch(url, {
       mode: 'cors',
       headers: {
@@ -130,7 +131,7 @@ const actions = {
           /*  'clientid': 'z3client_dhq',
            'deviceid': 'test_device_id',
            'userId': '171003010002481622',
-           'accessToken': 'JyX/ixccgzj1D1iZCBpv+htvr+MMihHcnVOjvtAvbUL97NIHFgtJTKtzfwl44i32',
+           "accessToken": "JyX/ixccgzj1D1iZCBpv+i57OmMpJ8oZZNDM36nm2Esg9tRW3U5D3wr3lBMkolsk"
            'passportId': '171003010002481622' */
         },
         method: 'post',

@@ -157,6 +157,7 @@ export default {
     width: 86.42%;
 }
 .mainBox {
+    height: 100%;
     display: flex;
     justify-content: space-between;
 }
