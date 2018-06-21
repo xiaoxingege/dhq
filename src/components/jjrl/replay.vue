@@ -1,6 +1,8 @@
 <template>
 <div class="container">
+  <div class="rili">
   <celendar></celendar>
+  </div>
   <div class="mainBox">
     <div class='replay'>
       <ul>
@@ -163,5 +165,8 @@ export default {
 }
 .cur {
     background-color: $hoverBgColor;
+}
+.rili{
+  height: 27px;
 }
 </style>

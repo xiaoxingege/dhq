@@ -96,7 +96,7 @@ import {
                 url:url+'&vname=newsData_'+stockCode.stockCode
             }).then( data => {
                 var newsData=window['newsData_'+stockCode.stockCode]
-               // console.log(newsData)
+               console.log(newsData)
                 commit(mutationsTypes.NEW_NEWS,newsData.data)
             })
         },
