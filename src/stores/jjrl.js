@@ -139,64 +139,6 @@ import {
         })
         },
 
-  newNews({
-    commit
-  }, stockCode) {
-    const url = `https://mystock.jrj.com.cn/news/content/getNewsByStockid?seq=desc&by=t&ids=${stockCode.stockCode}&currentPage=1&pageSize=20`
-    return $.ajax({
-      type: 'get',
-      dataType: 'script',
-      url: url + '&vname=newsData_' + stockCode.stockCode
-    }).then(data => {
-      var newsData = window['newsData_' + stockCode.stockCode]
-      console.log(newsData)
-      commit(mutationsTypes.NEW_NEWS, newsData.data)
-    })
-  },
-  notOpenStock({
-    commit
-  }, date) { //  未开板新股
-    const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/notOpenNewStock.jspa?tradeDate=${date}`
-    const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
-    return fetch(url, {
-      mode
-    }).then(res => {
-      return res.json()
-    }).then(json => {
-      commit(mutationsTypes.NOT_OPEN_STOCK, json.data)
-    })
-  },
-  notOpenStockList({
-    commit
-  }, stockCode) {
-    const vname = stockCode.split(',').join('')
-    return $.ajax({
-      type: 'get',
-      dataType: 'script',
-      url: 'https://sslapi.jrj.com.cn/jrjimg/q/?q=cn|s&i=' + stockCode + '&c=np,code,id&n=hqData_' + vname
-    }).then(data => {
-      var hqData = window['hqData_' + vname];
-      // console.log(hqData.HqData)
-      commit(mutationsTypes.NOT_OPEN_STOCK_LIST, hqData.HqData)
-    })
-  },
-  setStockLine({
-    commit
-  }, date) {
-    const url = `https://itougu.jrj.com.cn/wireless/information/stockPlateMarketByCrossDomain.jspa?tradeDate=${date}`
-    return $.ajax({
-      type: 'get',
-      dataType: 'jsonp',
-      jsonp: 'callback',
-      url: url
-    }).then(res => {
-      //   var hqData = window['hqData_'+vname];
-      //  console.log(res.data)
-      commit(mutationsTypes.SET_STOCK_LINE, res.data)
-    })
-  },
-
-
         //   股票是否添加自选操作
         
         querySelection({  // 检查是否自选过
