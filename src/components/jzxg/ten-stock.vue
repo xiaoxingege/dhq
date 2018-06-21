@@ -6,7 +6,7 @@
     <ul class="clearfix stock-ul" :style="{left:stockUiLeft+'px'}">
       <li class="fl stock-li" v-for="item of tenStockList">
         <p>{{item.stkname}}</p>
-        <ul>
+        <ul class="stockLabelList">
           <li>
             <span>累计收益</span>
             <span v-z3-updowncolor='item.profitRatio'>{{formatData(item.profitRatio)?(100*item.profitRatio).toFixed(2)+'%':'--'}}</span>
@@ -78,6 +78,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../assets/css/base.css";
+@import "../../assets/scss/style";
 .ten-stock-wrap {
     height: 100%;
     position: relative;
@@ -172,6 +174,9 @@ export default {
         border-style: solid;
         align-self: center;
         position: absolute;
+    }
+    .stockLabelList > li > span:first-child {
+        color: $grayWordsColor;
     }
 }
 </style>
