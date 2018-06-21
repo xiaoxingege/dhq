@@ -1,6 +1,8 @@
 <template>
 <div class="container">
-  <celendar></celendar>
+  <div class="rili">
+    <celendar></celendar>
+  </div>
   <div class="mainBox">
     <div class='replay'>
       <ul>
@@ -105,7 +107,7 @@ export default {
       this.list[3].detail = this.setGuide.xwlb_wz
       this.list[4].count = null
       this.list[4].detail = this.setGuide.jrrd_wz
-   
+
     })
   }
 }
@@ -163,5 +165,8 @@ export default {
 }
 .cur {
     background-color: $hoverBgColor;
+}
+.rili {
+    height: 27px;
 }
 </style>

@@ -7,7 +7,6 @@ import IndustryIndex from 'components/industry-index'
 import DetailPages from 'components/detail-pages'
 import Jzxg from 'components/jzxg/jzxg'
 import Replay from 'components/jjrl/replay'
-import notOpenStock from 'components/jjrl/notOpenStock'
 import TouguStudio from 'components/touguStudio/touguStudio'
 import Map from 'components/z3tougu-map'
 import PlateMap from 'components/plate-map/plate-map-index'
@@ -15,6 +14,7 @@ import TouguWorkspace from 'components/touguStudio/tougu-workspace'
 import Headline from 'components/headlines/headline'
 import SignalIndex from 'components/toolCenter/signal-index'
 import TestNative from 'components/test/test-native'
+// import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
 // import ThemeList from 'components/theme-list'
@@ -115,11 +115,11 @@ export default [{
     name: 'replay',
     component: Replay
   },
-  {
-    path: ctx + '/jjrl',
-    name: 'notOpenStock',
-    component: notOpenStock
-  },
+  /*   {
+      path: ctx + '/jjrl',
+      name: 'notOpenStock',
+      component: notOpenStock
+    }, */
   // {
   //   path: ctx + '/smartPool',
   //   name: 'smartPoolList',
