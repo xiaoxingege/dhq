@@ -101,7 +101,16 @@ const actions = {
           expires: -1, // second
           userId: 'userId', // test userid
           passportId: 'passportId'
-        }
+        }  
+/*         const authInfo = {
+          accessToken: 'JyX/ixccgzj1D1iZCBpv+tTGjD5Pgmkk5ud9SyZgWvjJl5hTqJSiFu2nwRHIBvVW',
+          clientid: 'z3client_dhq',
+          deviceid: '42BB112FE6FAFAA39662DD54D90FC0BD',
+          updateTime: null, // updateTime
+          expires: -1, // second
+          userId: '171003010002481622', // test userid
+          passportId: '171003010002481622'
+        }  */
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
       }

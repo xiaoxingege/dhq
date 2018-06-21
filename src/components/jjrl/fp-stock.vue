@@ -5,10 +5,10 @@
                 @click="showDetail(index,item)"
                 :class="addCur===index?'cur':''"
                   >   
-                <div class="choose">
+                <div class="choose" >
                     <span class="name">{{item[2]}}</span>
-                    <span class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!isSelfSelection">+自选</span>
-                    <span class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="isSelfSelection">-自选</span>
+                    <span  class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!item[8]">+自选</span>
+                    <span  class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="item[8]">-自选</span>
                 </div>
                 <div class="price" v-z3-updowncolor="item[7]" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
                 <div class="open"><span >今开：<i :class="item[7]>0?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
@@ -24,7 +24,7 @@
     export default{
         data(){
             return{
-               // isSelfSelection: false,
+                // isSelfSelection: false,
                 getStockCode:[],
                 setStockData:[],
                 addCur:0,
@@ -39,7 +39,9 @@
                 },
                 public:'',
                 zszd:'' ,//  指数涨跌,
-                date:''
+                date:'',
+                index:0,
+                element:''
             }
         },
         computed:{ 
@@ -50,7 +52,11 @@
                 isSelfSelection: state => state.jjrl.isSelfSelection,
                 setStockLine:state => state.jjrl.setStockLine,
                 stopStock:state => state.jjrl.stopStock
-            })
+            }),
+            changeZx(){
+               // console.log(this.isSelfSelection)
+                 return this.isSelfSelection;
+            }
         },
         methods: {
          showDetail(index,item){
@@ -72,23 +78,32 @@
                         // console.log(this.storeData)
                      })
                      this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then( res => {  // 请求停牌公告
-              
+                        })
+                    this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode }).then( res => {
+                 
+                   })
               })
-              })
-            
-             
-                
-           
           }  ,
           addSelfChoice(item,index ){
-              // this.stockCode=item[1]
-          /*      this.$store.dispatch('stock/addSelection', {
+             this.stockCode=item[1]
+             this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
-             })
-            */
+             }).then( res => {
+                 const len=this.setStockData[index].length;
+                 const ele = this.isSelfSelection
+                 this.setStockData[index].splice([len-1],1,ele);
+             }) 
+           
           },
-          deleteSelfChoice(){
-
+          deleteSelfChoice(item,index ){
+            this.stockCode=item[1]
+            this.$store.dispatch('jjrl/removeSelection', {
+                    stockCode: this.stockCode
+             }).then(res => {
+                  const len=this.setStockData[index].length;
+                 const ele = this.isSelfSelection
+                 this.setStockData[index].splice([len-1],1,ele);
+             })
           },
           toDetails(item){
               var r,q,R,Q
@@ -110,13 +125,23 @@
                 if( M < 10 ) { M = '0' + M; }
                 if( D <= 5 ) { D = '0' + D; }
             this.stopdate=  Y + '-' + M + '-' + D 
+          },
+          init(data){
+         
           }
         },
+        watch:{
+            changeZx:function () { 
+          //  this.setStockData=[]
+           console.log(this.setStockData)
+            }
+        }, 
     
         mounted () {
             this.data='2018-06-15'
             var data=this.data
-            this.$store.dispatch('jjrl/getStock',data).then( res => {
+            // this.init(data)
+                this.$store.dispatch('jjrl/getStock',data).then( res => {
                 this.stopdate=this.getStock[0].STP_DT
                 this.setDate(this.stopdate)
                 this.stockCode=this.getStock[0].STOCKCODE
@@ -126,14 +151,28 @@
                 let item= this.getStockCode.join(',') // q接口支持多个查询
                 this.$store.dispatch('jjrl/setStock',item).then( res => {
                 this.setStockData =this.setStock
-                   
+            //      console.log( this.setStockData)
                 }) 
                 /* 自选股部分 */
-                 this.getStockCode.forEach(item => {
-                 //   console.log(item)
-                   this.$store.dispatch('jjrl/querySelection',item).then(res => {
+              
+                const me=this;
+               getState();
+               function getState(){
+                   me.element=me.getStockCode[me.index];
+                 //  console.log( me.element)
+                    me.$store.dispatch('jjrl/querySelection',me.element).then(res => {
+                //   debugger
+                        me.setStockData[me.index].push(me.isSelfSelection);
+                        if(me.index<me.getStockCode.length-1){
+                          me.index++;
+                          me.element=me.getStockCode[me.index]
+                          getState();
+                        }
+                     
                     }) 
-                }) 
+                   
+               }
+            // console.log(this.isSelfSelection)
                this.public=this.getStock[0].ESP_HINT 
                 this.$store.dispatch('jjrl/storeData',{
                 stopdate:this.stopdate,
@@ -157,11 +196,11 @@
 
 
             })  
-         
 
 
         }
-    }
+        }
+    
 </script>
 
 <style lang='scss' scoped>
@@ -225,6 +264,7 @@
     border: 1px solid $upColorDhq;
     border-radius: 2px;
     color:$upColorDhq;
+    cursor: pointer;
 }
 .showStock ul li{
      padding:5px 12px;
