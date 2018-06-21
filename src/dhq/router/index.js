@@ -149,13 +149,11 @@ export default [{
     path: ctx + '/touguStudio',
     name: 'touguStudio',
     component: TouguStudio
-
   },
   {
     path: ctx + '/tougu-workspace',
     name: 'touguWorkspace',
     component: TouguWorkspace
-
   },
   {
     path: ctx + '/headline',
