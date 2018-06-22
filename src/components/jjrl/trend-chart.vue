@@ -24,15 +24,23 @@ export default{
             chartData:[],
             bkData:[],
             ggData:[],
-            tradeDate:[]
+            showDate:[],
+            zszd:'',
+            public:'',
+            code:'',
+            stopdate:''
+
+
         }
     },
     computed:{
          ...mapState({
                 storeData:state => state.jjrl.dateAndCode,
-                setStockLine:state => state.jjrl.setStockLine
+                setStockLine:state => state.jjrl.setStockLine,
+                saveDate:state => state.jjrl.saveDate
             }),
             getStockCode() {
+          //      console.log(this.storeData.stockCode)
              return this.storeData.stockCode;
             }
     },
@@ -59,7 +67,7 @@ export default{
                 type: 'category',
                 show:false,
                 boundaryGap: false,
-                data:  this.tradeDate
+                data:  this.showDate
             },
             yAxis: {
                 type: 'value',
@@ -84,7 +92,7 @@ export default{
                         width:1
                     },
                    
-                    data: this.ggData
+                    data: this.storeData.ggData
                 },
                 {
                     name:'板块行情',
@@ -111,7 +119,7 @@ export default{
                             }])
                         }
                     },
-                    data: this.bkData
+                    data: this.storeData.bkData
                 }
             ]
         };
@@ -126,21 +134,31 @@ export default{
                 D = d.getDate()
                 if( M < 10 ) { M = '0' + M; }
                 if( D < 10 ) { D = '0' + D; }
-                return  Y + '.' + M + '.' + D 
+                return  Y + '-' + M + '-' + D 
           },
         paint(date){
             this.$store.dispatch('jjrl/setStockLine',date).then(res => {
-            let code =this.storeData.stockCode
-            this.chartData=this.setStockLine[code]
+            this.code =this.storeData.stockCode
+            this.zszd=this.storeData.zszd
+            this.public=this.storeData.public
+            this.stopdate=this.storeData.stopdate
+            this.chartData=this.setStockLine[this.code]
             this.chartData.zs.forEach(item => {
-            this.bkData.push(item.index)
+            this.bkData.push(item.index.toFixed(2))
            })
             this.chartData.hq.forEach(item => {
             let time= this.setDate(item.trade_date)
-            this.tradeDate.push(time)
-            this.ggData.push(item.index)
+            this.showDate.push(time)
+            this.ggData.push(item.index.toFixed(2))
                
            })
+            this.$store.dispatch('jjrl/storeData',{
+            stopdate:this.stopdate,
+            stockCode:this.code,
+            public:this.public,
+            zszd:this.zszd ,
+            bkData:this.bkData,
+            ggData:this.ggData })
             this.initChart()
             this.drawCharts()
         })
@@ -150,18 +168,13 @@ export default{
     },
     watch: {
     getStockCode:function() {
-         var date='2018-06-15'
-     // console.log(this.storeData.stockCode)
-       this.paint(date)
+        this.paint(this.saveDate.chooseDate)
     }
-  },
+  }, 
     mounted () {
-        var date='2018-06-15'
-         this.paint(date)
-     
+        this.initChart()
+        this.drawCharts()
     }
-
-
 }
 
 </script>

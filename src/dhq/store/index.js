@@ -94,7 +94,7 @@ const actions = {
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
-        const authInfo = {
+         const authInfo = {
           accessToken: 'Bearer test_z3quant_accesss_token',
           // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
           clientid: 'z3client_dhq',

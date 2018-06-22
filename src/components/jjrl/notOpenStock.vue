@@ -31,7 +31,10 @@
                     <td class="col-7">{{item.INDU_NAME}}</td>
                     <td class="col-8">{{item.INDU_PE.toFixed(2)}}</td>
                     <td class="col-9">{{item.PE.toFixed(2)}}</td>
-                    <td class="col-10"></td> 
+                    <td class="col-10">
+                        <span  class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!item['zx']">+自选</span>
+                    <span  class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="item['zx']">-自选</span>
+                    </td> 
                     
                  </tr>
              </tbody>
@@ -53,13 +56,18 @@ export default{
             isActive:false,
             para:{
                     stockCode:''
-                }
+                },
+            index:0,
+            element:''
         }
     },
     computed:{
          ...mapState({
              notOpenStock:state => state.jjrl.notOpenStock,
-             notOpenStockList:state => state.jjrl.notOpenStockList
+             notOpenStockList:state => state.jjrl.notOpenStockList,
+             saveDate: state => state.jjrl.saveDate,
+             storeData:state => state.jjrl.dateAndCode,
+            isSelfSelection: state => state.jjrl.isSelfSelection
          })
        
     },
@@ -81,19 +89,33 @@ export default{
               this.para.stockCode=code
               //  console.log(code)
               native.openStock(this.para)
-           }
-
+           },
+           addSelfChoice(item,index ){
+            this.stockCode=item.STOCKCODE
+            this.$store.dispatch('jjrl/addSelection', {
+                    stockCode: this.stockCode
+             }).then( res => {
+           //    debugger
+                 const ele = this.isSelfSelection
+                 this.notOpenStock[index]['zx']=ele;
+             }) 
+          },
+          deleteSelfChoice(item,index ){
+            this.stockCode=item.STOCKCODE
+            this.$store.dispatch('jjrl/removeSelection', {
+                    stockCode: this.stockCode
+             }).then(res => {
+                const ele = this.isSelfSelection
+                 this.notOpenStock[index]['zx']=ele;
+             })
+          }
     },
+    
     mounted(){
-      this.$store.dispatch('jjrl/notOpenStock','2018-06-11').then(res => {
-             this.notOpenStock.forEach( ele => {
-                this.notOpenStockCode.push(ele.STOCKCODE)
-                })
-              console.log(this.notOpenStock)
-            let item=this.notOpenStockCode.join(',')
-            this.$store.dispatch('jjrl/notOpenStockList',item)
-      })
-        
+ /*        this.$store.dispatch('jjrl/saveDate').then( res => {
+          console.log(this.saveDate)
+  
+        }) */
     }
 }
 </script>
@@ -180,5 +202,30 @@ table, th, td{
 }
 .col-10 {
     width: 70px;
+}
+.addSelfChoice{
+    width: 40px;
+    height: 18px;
+    padding-left: 1px;
+    box-sizing: border-box;
+    background-color: $upColorDhq;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+.name{
+    margin: 5px 0
+}
+.deleteSelfChoice{
+    width: 40px;
+    height: 18px;
+    padding-left: 3px;
+    box-sizing: border-box;
+    border: 1px solid $upColorDhq;
+    border-radius: 2px;
+    color:$upColorDhq;
+    cursor: pointer;
+    display: inline-block;
 }
 </style>

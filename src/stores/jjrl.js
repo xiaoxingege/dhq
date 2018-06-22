@@ -17,7 +17,10 @@ import {
       isSelfSelection:[],
       addSelection:[],
       removeSelection:[],
-      setStockLine:[]
+      setStockLine:[],
+      saveDate:[],
+      resetFp:[],
+      setCount:[]   // 存放功能区数据的数量
 
     }
     const mutationsTypes = {
@@ -32,16 +35,32 @@ import {
         UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION',
         ADD_SELECTION:'ADD_SELECTION',
         REMOVE_SELECTION:'REMOVE_SELECTION',
-        SET_STOCK_LINE:'SET_STOCK_LINE'
+        SET_STOCK_LINE:'SET_STOCK_LINE',
+        SAVE_DATE:'SAVE_DATE',
+        RESET_FP:'RESET_FP',
+        SET_COUNT:'SET_COUNT'
     } 
     
     const actions = {
+      setCount({ commit },value){
+        commit(mutationsTypes.SET_COUNT,value)
+      },
+      resetFp({ commit } ){
+        commit(mutationsTypes.SET_STOCK,null)
+        commit(mutationsTypes.SAVE_DATE,null)
+        commit(mutationsTypes.DATE_CODE,null)
+        commit(mutationsTypes.NEW_NEWS,null)
+        commit(mutationsTypes.STOP_STOCK,null)
+        },
+        saveDate({ commit }, value){  // 存放日期 
+          commit(mutationsTypes.SAVE_DATE,value)
+        },
         storeData({ commit }, value){  //  存放股票代码和停牌时间
             commit(mutationsTypes.DATE_CODE,value)
         },
-       setGuide( { commit }){
+       setGuide( { commit },date){
            const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
-           const url= `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/investCalendarHomePage.jspa?tradeDate=2018-06-06`
+           const url= `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/investCalendarHomePage.jspa?tradeDate=${date}`
            return fetch(url,{
                mode ,
                credentials:'include'
@@ -53,7 +72,7 @@ import {
            })
        },
        getStock({ commit },tradeDate ){
-            const url = `https://itougu.jrj.com.cn/wireless/information/stopResumeTrading.jspa?tradeDate=${tradeDate}`
+            const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/stopResumeTrading.jspa?tradeDate=${tradeDate}`
             const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
             return fetch(url,{
                 mode
@@ -263,8 +282,20 @@ import {
       [mutationsTypes.STOP_STOCK](state,res){
         state.stopStock=res
       },
-      [mutationsTypes.DATE_CODE](state,res){  //  存放股票代码和停牌时间
+      [mutationsTypes.DATE_CODE](state,res){ 
+      //  console.log(state.dateAndCode) //  存放股票代码和停牌时间
         state.dateAndCode=res
+      },
+      [mutationsTypes.SAVE_DATE](state,res){ 
+    //   console.log(state.saveDate) //  存放日历时间
+        state.saveDate=res
+      },
+      [mutationsTypes.RESET_FP](state,res){ 
+    //   console.log(state.saveDate) //  清空复牌数据
+        state.resetFp=res
+      },
+      [mutationsTypes.SET_COUNT](state,res){
+        state.setCount=res
       },
       [mutationsTypes.NEW_NEWS](state,res){
         state.newNews=res
@@ -281,6 +312,7 @@ import {
                 let obj=state.notOpenStock[i];
                 obj.np=state.notOpenStockList[i][2].toFixed(2);
                 obj.id=state.notOpenStockList[i][0];
+                
            }
        }
       },
