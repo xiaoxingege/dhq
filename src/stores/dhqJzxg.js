@@ -10,7 +10,8 @@ export default {
     rdjjData: null, // 热点狙击
     zltjData: null, // 主力天机
     navData: [],
-    strategyDetail: null
+    strategyDetail: null,
+    latestInData: []
   },
   mutations: {
     setJzxgBeforeData(state, jzxgData) {
@@ -29,6 +30,9 @@ export default {
     },
     setStrategyDetail(state, strategyDetail) {
       state.strategyDetail = strategyDetail
+    },
+    setLatestInData(state, latestInData) {
+      state.latestInData = latestInData
     }
   },
   actions: {
@@ -36,7 +40,7 @@ export default {
     getJzxgBeforeData({
       commit
     }) {
-      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/buyPage.jspa`
+      const url = '//itougu.jrj.com.cn/smartstock/api/excellent/buyPage.jspa'
       return fetch(url, {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {
@@ -53,7 +57,7 @@ export default {
     getAuthentication({
       commit
     }) {
-      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa`
+      const url = '//itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa'
       return fetch(url, {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {
@@ -70,7 +74,7 @@ export default {
     getNavData({
       commit
     }) {
-      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/homePage.jspa`
+      const url = '//itougu.jrj.com.cn/smartstock/api/excellent/homePage.jspa'
       return fetch(url, {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {
@@ -95,6 +99,27 @@ export default {
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
           commit('setStrategyDetail', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 最新调入股票数据(下拉刷新) - 购后
+    getLatestInData({
+      commit
+    }, {
+      strategyId,
+      pageSize,
+      pageStart
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/queryLastExcellent.jspa?strategyId=${strategyId}&pageSize=${pageSize}&pageStart=${pageStart}`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setLatestInData', result.data)
         } else {
           commit('ERROR', result, {
             root: true

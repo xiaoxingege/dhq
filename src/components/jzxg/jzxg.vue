@@ -13,7 +13,7 @@ import {
 export default {
   data() {
     return {
-      isValid: true // 是否有权限，如果有权限则显示购后页 如果无权则显示购前页
+      isValid: false // 是否有权限，如果有权限则显示购后页 如果无权则显示购前页
     }
   },
   components: {
@@ -25,7 +25,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('jzxg/getAuthentication').then(() => {
-      this.isValid = this.authentication
+      // this.isValid = this.authentication
     })
   }
 }

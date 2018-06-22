@@ -13,7 +13,7 @@
     <div class="label-wrap">
       <div class="clearfix">
         <p class="fl" style="font-size:16px;color:#fff;">{{strategyName}}</p>
-        <p class="fr"><img src="../../assets/images/jzxg/help.png" style="vertical-align:middle;" /><span style="vertical-align:middle;margin-left: 5px;">帮助</span></p>
+        <p style="cursor:pointer;" class="fr" @click="popUpHelpWindow"><img src="../../assets/images/jzxg/help.png" style="vertical-align:middle;" /><span style="vertical-align:middle;margin-left: 5px;">帮助</span></p>
       </div>
       <div class="clearfix" style="height:50px;margin-top:18px;">
         <ul class="label-ul display-box fl">
@@ -40,10 +40,12 @@
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
   </div>
+  <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow"></PopWindow>
 </div>
 </template>
 <script>
 import tenStocks from 'components/jzxg/ten-stock'
+import PopWindow from 'components/jzxg/popup-window'
 import {
   mapState
 } from 'vuex'
@@ -55,7 +57,14 @@ export default {
       strategyName: '极智模拟仓',
       labelList: [],
       isShowIconHelp: false,
-      detailTenStock: []
+      detailTenStock: [],
+      pageSize: 10,
+      pageStart: 0,
+      lateInList: [],
+      popWidth: 780,
+      popHeight: 545,
+      popTitle: '极智选股-极智模拟仓',
+      isPopHelpWindow: false
     }
   },
   watch: {
@@ -64,11 +73,13 @@ export default {
     }
   },
   components: {
-    tenStocks
+    tenStocks,
+    PopWindow
   },
   computed: mapState({
     navListData: state => state.jzxg.navData,
-    strategyData: state => state.jzxg.strategyDetail
+    strategyData: state => state.jzxg.strategyDetail,
+    lateInData: state => state.jzxg.latestInData
   }),
   methods: {
     initNav: function() {
@@ -102,11 +113,27 @@ export default {
     },
     hideHelp: function() {
       this.isShowIconHelp = false;
+    },
+    dropLatestIn: function() {
+      this.$store.dispatch('jzxg/getLatestInData', {
+        strategyId: this.strategyId,
+        pageSize: this.pageSize,
+        pageStart: this.pageStart
+      }).then(() => {
+        this.lateInList = this.lateInData
+      })
+    },
+    popUpHelpWindow: function() {
+      this.isPopHelpWindow = true
+    },
+    closeHelpWindow: function() {
+      this.isPopHelpWindow = false
     }
   },
   mounted() {
     this.initNav()
     this.initStrategyDetail()
+    this.dropLatestIn()
   }
 }
 </script>
