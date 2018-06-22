@@ -8,11 +8,16 @@
              <p class="buy-inf">大行情PC端暂时不支持支付功能，如需支付请下载大行情App并在产品订阅页进行支付，大行情智能投服团队期待为您服务！</p>
              <div class="buy-code">
                  <div class="buycode-model">
-                   <img src="../../assets/images/touguStudio/buycode.png">
-                   <p>大行情Android版</p>
+                    <div id="Android">
+                        <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
+                    </div>
+                    
+                    <p>大行情Android版</p>
                  </div>
                   <div class="buycode-model">
-                   <img src="../../assets/images/touguStudio/buycode.png">
+                    <div id="IOS">
+                        <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
+                    </div>
                    <p>大行情IOS版</p>
                  </div>
              </div>
@@ -20,24 +25,97 @@
      </div>
  </div>
 </template>
-
 <script>
+import QRCode from 'qrcodejs2'
+import $ from 'jquery'
 export default{
    name:'buy',
    props:['type','showstate'],
-   data:function(){
-
+   data(){
+        return {
+            Android:'',
+            IOS:''
+        }
    },
    methods:{
        buyClose:function(){
            this.$emit('buyClose');
        }
+   },
+   watch:{
+      Android: {
+        deep: true,
+        handler: function (){
+            var _this=this;
+              new QRCode(document.getElementById('Android'), {
+                        width : 121, 
+                        height :121,
+                        text: _this.Android,
+                        render: 'table'
+          });
+        }
+      },
+      IOS:{
+          deep:true,
+          handler:function(){
+              var _this=this;
+               new QRCode(document.getElementById('IOS'), {
+                        width : 121, 
+                        height :121,
+                        text: _this.IOS,
+                        render: 'table'
+          });
+          }
+      }
+   },
+   mounted:function(){
+       var _this=this;
+       // 请求安卓接口
+        $.ajax({
+                type: 'get',
+                url: `http://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300001`,
+                dataType: 'json',
+                success: function(data) { 
+                    if (data.retCode===1) {
+                        // alert(typeof(data.data));
+                        _this.Android=data.data;
+                    } else {
+                       // 出现异常
+                    }
+                }
+       });
+
+     // 请求ios接口
+      $.ajax({
+                type: 'get',
+                url: `http://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300002`,
+                dataType: 'json',
+                success: function(data) { 
+                    if (data.retCode===1) {
+                        // alert(typeof(data.data));
+                        _this.IOS=data.data;
+                    } else {
+                       // 出现异常
+                    }
+                }
+    });  
+         
    }
 
 }
 </script>
 <style>
 @import '../../assets/css/base.css';
+.dhqlogo{
+    position: absolute;
+    z-index: 999;
+}
+.dhqlogo img{
+    width: 40;
+    height:40px;
+    padding-left: 42px;
+    padding-top: 40px;
+}
 .buyGlobal{
     position:fixed;
     left:0;
@@ -95,9 +173,10 @@ export default{
 .buy-code div{
     width: 121px;
 }
-.buycode-model img{
-    width: 121px;
-    height: 121px;
+.buycode-model #Android,.buycode-model #IOS{
+    width: 121;
+    height: 121;
+    border: 6px solid #fff;
 }
 .buycode-model p{
 font-size:14px;

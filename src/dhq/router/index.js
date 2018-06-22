@@ -152,7 +152,7 @@ export default [{
 
     },
     {
-        path: ctx + '/tougu-workspace',
+        path: ctx + '/tougu-workspace/:roomId',
         name: 'touguWorkspace',
         component: TouguWorkspace
 
