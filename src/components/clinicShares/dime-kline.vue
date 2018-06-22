@@ -460,7 +460,6 @@ export default ({
             type: 'cross'
           },
           textStyle: {
-
             color: '#c9d0d7'
           },
           formatter: function(t) {

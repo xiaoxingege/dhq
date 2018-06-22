@@ -6,16 +6,163 @@
       <span class='bk'><i></i>板块行情</span>
       <span class='gg'><i></i>个股行情</span>
     </div>
-    <div class="chart">
+    <div class="chart" ref="hqzsChart">
 
     </div>
-    <p>停牌期间上证指数下跌44444</p>
-    <p>停牌提示：重要事项未公告，自##年##月##日连续停牌，2018年月日复牌。</p>
+    <p><span>停牌期间上证指数下跌：</span>{{storeData.zszd}}</p>
+    <p><span>停牌提示：</span>{{storeData.public}}</p>
   </div>
 
 </div>
 </template>
 <script>
+import { mapState } from  'vuex'
+import echarts from 'echarts'
+export default{
+    data(){
+        return {
+            chartData:[],
+            bkData:[],
+            ggData:[],
+            tradeDate:[]
+        }
+    },
+    computed:{
+         ...mapState({
+                storeData:state => state.jjrl.dateAndCode,
+                setStockLine:state => state.jjrl.setStockLine
+            }),
+            getStockCode() {
+             return this.storeData.stockCode;
+            }
+    },
+    methods: {
+        initChart(){
+             this.chart = echarts.getInstanceByDom(this.$refs.hqzsChart) || echarts.init(this.$refs.hqzsChart)
+        },
+        drawCharts(){
+          const  option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            grid:{
+                left:'3%',
+                right:'1%',
+                top:'5px',
+                bottom:'3%'
+            },
+    
+            xAxis: {
+                type: 'category',
+                show:false,
+                boundaryGap: false,
+                data:  this.tradeDate
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series: [
+                {
+                    name:'个股行情',
+                    type:'line',
+                    smooth:true,
+                    symbol: 'none',
+                    sampling: 'average',
+                    itemStyle: {
+                        normal: {
+                            color: '#f0b540'
+                        }
+                    },
+                    lineStyle:{
+                        width:1
+                    },
+                   
+                    data: this.ggData
+                },
+                {
+                    name:'板块行情',
+                    type:'line',
+                    smooth:true,
+                    symbol: 'none',
+                    sampling: 'average',
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(25, 132, 234)'
+                        }
+                    },
+                      lineStyle:{
+                        width:1
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(25, 132, 234,0.3)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(25, 132, 234,0)'
+                            }])
+                        }
+                    },
+                    data: this.bkData
+                }
+            ]
+        };
+        this.chart.setOption(option)
+        window.addEventListener('resize', () => this.chart.resize(), false)
+        },
+        setDate(date){
+                var d,Y,M,D
+                d = new Date(date)
+                Y = d.getFullYear()
+                M = d.getMonth()+1
+                D = d.getDate()
+                if( M < 10 ) { M = '0' + M; }
+                if( D < 10 ) { D = '0' + D; }
+                return  Y + '.' + M + '.' + D 
+          },
+        paint(date){
+            this.$store.dispatch('jjrl/setStockLine',date).then(res => {
+            let code =this.storeData.stockCode
+            this.chartData=this.setStockLine[code]
+            this.chartData.zs.forEach(item => {
+            this.bkData.push(item.index)
+           })
+            this.chartData.hq.forEach(item => {
+            let time= this.setDate(item.trade_date)
+            this.tradeDate.push(time)
+            this.ggData.push(item.index)
+               
+           })
+            this.initChart()
+            this.drawCharts()
+        })
+      
+        }
+      
+    },
+    watch: {
+    getStockCode:function() {
+         var date='2018-06-15'
+     // console.log(this.storeData.stockCode)
+       this.paint(date)
+    }
+  },
+    mounted () {
+        var date='2018-06-15'
+         this.paint(date)
+     
+    }
+
+
+}
 
 </script>
 
@@ -49,13 +196,13 @@
 
 }
 .chart {
-    width: 100%;
+  /*   width: 100%; */
     height: 195px;
-    border: 1px solid red;
+   // border: 1px solid red;
     margin-bottom: 13px;
 }
 .introduce p {
     line-height: 22px;
-    padding-left: 30px;
+    // padding-left: 30px;
 }
 </style>

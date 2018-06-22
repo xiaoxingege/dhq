@@ -378,3 +378,23 @@ to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
 @keyframes load{0%{-webkit-transform:rotate(0);transform:rotate(0)}
 to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
 }
+
+/**
+ * 日历
+**/
+.vdp-datepicker__calendar header .prev:after{
+    border-right-color:#999
+}
+.vdp-datepicker__calendar header .next:after{
+    border-left-color:#999
+}
+.vdp-datepicker__calendar .cell.selected {
+  border:1px solid#1984ea;
+  background:#1984ea;
+  color:#fff
+}
+.vdp-datepicker__calendar .cell.selected:hover {
+    border:1px solid#1984ea;
+    background:#1984ea;
+    color:#fff
+}
