@@ -14,7 +14,8 @@ export default {
         // 获取工作室信息
         getStudioInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                const url = `http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
+                // const url = `http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
+                const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                 return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
