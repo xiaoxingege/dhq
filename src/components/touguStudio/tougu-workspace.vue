@@ -23,8 +23,8 @@
     import TouguWorkspaceStrategy from './tougu-workspace-strategy.vue'
     import TouguWorkspaceTraining from './tougu-training.vue'
     import TouguWorkspaceLive from './tougu-workspace-live.vue'
-    import getQueryString from '../../utils/getQueryString.js'
-    import getCookie from '../../utils/getCookie.js'
+    // import getQueryString from '../../utils/getQueryString.js'
+    // import getCookie from '../../utils/getCookie.js'
 
 
     export default {
@@ -49,11 +49,7 @@
 
         },
         mounted(){
-            this.$store.dispatch('touguWorkspaceStore/getStudioInfo', {
-                // js获取url的参数值的方法
-                roomId: getQueryString('tgid'),
-                userId: getCookie('itg_passport_userid')
-            })
+
         }
     }
 </script>
