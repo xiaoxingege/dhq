@@ -14,6 +14,7 @@ import TouguWorkspace from 'components/touguStudio/tougu-workspace'
 import Headline from 'components/headlines/headline'
 import SignalIndex from 'components/toolCenter/signal-index'
 import TestNative from 'components/test/test-native'
+import DhqNews from 'components/dhq-news-detail'
 // import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
@@ -189,24 +190,26 @@ export default [{
     path: ctx + '/testNative',
     name: 'testNative',
     component: TestNative
-  }
-  /*
+  },
   {
     path: ctx + '/map/fullScreen',
     name: 'bigMap',
     component: Map
   },
-  /*
-     {
-       path: ctx + '/map/fullScreen',
-       name: 'bigMap',
-       component: Map
-     },
-     {
-       path: ctx + '/map/normal',
-       name: 'normalMap',
-       component: Map
-     }, */
+  {
+    path: ctx + '/map/normal',
+    name: 'normalMap',
+    component: Map
+  },
+  {
+    path: ctx + '/dhqNews',
+    name: 'dhqNews',
+    component: DhqNews,
+    props: (route) => ({
+      iiid: route.query.id || '',
+      newsUrl: route.query.sourceUrl ? decodeURIComponent(route.query.sourceUrl) : ''
+    })
+  }
   /* {
      path: ctx + '/themeList',
      name: 'themelist',
