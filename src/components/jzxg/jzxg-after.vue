@@ -36,6 +36,7 @@
         </div>
       </div>
     </div>
+    <p class="detail-ten">极智十大选股</p>
     <div class="ten-stock">
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
@@ -167,7 +168,7 @@ export default {
 .feature-detail {
     height: 1000px;
     background-color: $bgConColor;
-    padding-left: 20px;
+    padding: 0 20px;
 }
 .nav-list {
     width: 200px;
@@ -199,7 +200,7 @@ export default {
 .label-wrap {
     height: 116px;
     border-bottom: 1px solid $lineAndTitleColor;
-    padding: 18px 20px 20px 0;
+    padding: 18px 0 20px;
 }
 .label-ul {
     width: 30%;
@@ -244,5 +245,11 @@ export default {
 }
 .ten-stock {
     height: 170px;
+}
+.detail-ten {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #fff;
 }
 </style>
