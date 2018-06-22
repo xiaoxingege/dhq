@@ -5433,6 +5433,10 @@ qrcode@^0.9.0:
     isarray "^2.0.1"
     pngjs "^2.3.1"
 
+qrcodejs2@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/qrcodejs2/-/qrcodejs2-0.0.2.tgz#465afe5e39f19facecb932c11f7a186109146ae1"
+
 qs@6.4.0, qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.npmjs.org/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
@@ -6458,9 +6462,9 @@ swap-case@^1.1.0:
     lower-case "^1.1.1"
     upper-case "^1.1.1"
 
-swiper@^2:
+swiper@^2.7.6:
   version "2.7.6"
-  resolved "https://registry.npmjs.org/swiper/-/swiper-2.7.6.tgz#9b6c782adde0301a35d7219cf4d850964a43687a"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-2.7.6.tgz#9b6c782adde0301a35d7219cf4d850964a43687a"
 
 sync-request@3.0.1:
   version "3.0.1"
@@ -6991,6 +6995,10 @@ vuedraggable@^2.14.1:
   resolved "http://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.14.1.tgz#034e1e052e25b9388429ae96db9eb6f2c3b10d87"
   dependencies:
     sortablejs "^1.6.0"
+
+vuejs-datepicker@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/vuejs-datepicker/-/vuejs-datepicker-1.5.2.tgz#e89e8ec91f1a5c50e229934f47b611fbb8d20e68"
 
 vuex@^2.3.1:
   version "2.3.1"
