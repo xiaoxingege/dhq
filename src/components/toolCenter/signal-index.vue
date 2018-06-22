@@ -1,4 +1,4 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import "../../assets/scss/style";
 * {
     text-align: justify;
@@ -120,7 +120,7 @@ export default {
       this.time = v;
     },
     initSize() {
-      const height = (this.screenHeight) * 0.5 - 129
+      const height = (this.screenHeight) * 0.5 - 109
       var size = Math.floor(height / 30);
       return size
 

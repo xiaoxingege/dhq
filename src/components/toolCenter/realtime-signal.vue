@@ -1,4 +1,4 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import "../../assets/scss/style";
 * {
     text-align: justify;
@@ -123,16 +123,88 @@ td div {
 .table-detail:last-child {
     margin-right: 0;
 }
+.table_scroll {
+    }
+.table-body {
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+}
+.table-head {
+    background-color: #999;
+    color: #000;
+}
+.table-head table td {
+    width: 24%;
+}
+
+.table-body table,
+.table-head table {
+    width: 100%;
+}
+
+.sti-tbl-container {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sti-tbl-body table,
+.sti-tbl-header table {
+    table-layout: fixed;
+}
+
+.sti-tbl-container .sti-tbl-body {
+    flex-grow: 1;
+    height: 489px;
+    overflow-y: scroll;
+}
+.table tr td {
+    width: 24%;
+}
+.table tr td:nth-child(3) {
+    text-align: right;
+    padding-right: 11px;
+}
+.table tr td:last-child {
+    width: 25%;
+}
+.sti-tbl-header .table td {
+    background: $menuSelColor;
+    font-size: 12px;
+    color: $wordsColorBase;
+    border-right: none;
+    height: 30px;
+}
 </style>
 <template>
 <div>
   <div class="display-box table-box">
     <div class="table-detail box-flex-1" v-for="(item,index) of allData">
-      <RealtimeTable :signalRealTime='item' :name='navTitle[index].name' :type="navTitle[index].type" />
+      <RealtimeTable :signalRealTime='item' :name='navTitle[index].name' :type="navTitle[index].type" @toShowDialog='dialogShowfn' />
+
     </div>
-
   </div>
-
+  <SignalDialog v-show="dialogShow" @toHideDialog='dialogclosefn' :name='dialogName' :type="dialogId" :desc='dialogDesc'>
+    <div slot="content">
+      <!--  <div class="table_scroll"> -->
+      <div class="sti-tbl-container">
+        <div class="sti-tbl-header">
+          <table class="table table-bordered">
+            <tr v-if='thTitle'>
+              <td v-for="(th,index) of thTitle">
+                <span class="">{{th}}</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="sti-tbl-body">
+          <RealtimeTable :signalRealTime='dialogArr.length>0 && dialogArr' :thTitle='thTitle' />
+        </div>
+      </div>
+    </div>
+  </SignalDialog>
 </div>
 </template>
 <script>
@@ -145,8 +217,8 @@ import {
 import {
   mapState
 } from 'vuex'
-//
 import RealtimeTable from 'components/toolCenter/realtime-table'
+import SignalDialog from 'components/toolCenter/signal-dialog'
 export default {
   props: ['size'],
   data() {
@@ -156,6 +228,7 @@ export default {
       ztzjArr: [], // type 4
       cxgArr: [], // type 3,
       type: '',
+      dialogShow: false,
       // navTitle:['火箭发射','涨停追击','创新高'],
       navTitle: [{
           name: '火箭发射',
@@ -170,7 +243,14 @@ export default {
           type: 3
         }
       ],
-      alltimers: ''
+      thTitle: ['时间', '股票', '涨幅', '信号'],
+      alltimers: '',
+      dialogArr: [],
+      typeArr: [],
+      dialogType: 5,
+      dialogName: '火箭发射',
+      dialogId: 5,
+      dialogDesc: ''
 
     }
   },
@@ -181,10 +261,19 @@ export default {
     }
   },
   components: {
-    RealtimeTable
+    RealtimeTable,
+    SignalDialog
   },
   computed: mapState({
-    signalRealTime: state => state.signal.signalRealTime
+    signalRealTime: state => state.signal.signalRealTime,
+    // signalType: state => state.signal.signalType
+    signalType: state => {
+      const listData = state.signal.signalType
+      /* listData && listData.forEach(item => {
+        console.log(item)
+      }) */
+      return listData
+    }
   }),
   methods: {
     initRealTimeType() {
@@ -220,6 +309,17 @@ export default {
         this.allData.push(this.hjfsArr, this.ztzjArr, this.cxgArr)
         // console.log(this.allData)
       });
+    },
+    initDialogData(type) {
+      this.$store.dispatch('signal/querySignalRealTime', {
+        type: type,
+        size: 151
+      }).then(() => {
+        this.dialogArr = this.signalRealTime
+      })
+    },
+    initType() {
+      this.$store.dispatch('signal/querySignalType')
     },
     timeRange(beginTime, endTime, nowTime) {
       var strb = beginTime.split(':');
@@ -261,7 +361,22 @@ export default {
       }
       this.alltimers = setTimeout(this.reFresh, 30000)
     },
-
+    dialogShowfn(v) {
+      this.dialogShow = v.show
+      this.initDialogData(v.type)
+      console.log(this.signalType)
+      for (var i = 0; i < this.signalType.length; i++) {
+        if (v.type === this.signalType[i].id) {
+          console.log(this.signalType[i].id)
+          this.dialogName = this.signalType[i].name
+          this.dialogId = this.signalType[i].id
+          this.dialogDesc = this.signalType[i].description
+        }
+      }
+    },
+    dialogclosefn() {
+      this.dialogShow = false
+    },
     format(date) {
       return formatDate(date)
     }
@@ -269,7 +384,7 @@ export default {
   mounted() {
     this.initRealTimeType()
     this.reFresh()
-
+    this.initType()
 
   },
   destroyed() {

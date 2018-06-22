@@ -1,27 +1,27 @@
 <template>
-    <div class="history">
-        <div class="summary"></div>
-        <div class="chart" ref="chart"></div>
-    </div>
+<div class="history">
+  <div class="summary"></div>
+  <div class="chart" ref="chart"></div>
+</div>
 </template>
 
-<script> 
-    export default{
-        data(){
-            return {
+<script>
+export default {
+  data() {
+    return {
 
-            }
-        },
-        cumputed:{
-
-        },
-        method:{
-            initChart(){
-
-            }
-        },
-        mounted(){
-            
-        }
     }
+  },
+  cumputed: {
+
+  },
+  method: {
+    initChart() {
+
+    }
+  },
+  mounted() {
+
+  }
+}
 </script>

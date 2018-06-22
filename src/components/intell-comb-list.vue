@@ -1,164 +1,179 @@
 <style scoped>
-  @import '../assets/css/base.css';
-  input {
-    outline: none;
-  }
-  *{
-    font-size: 12px;
-    color: #191919;
-  }
-  body {
-    background: #fff;
-  }
-  .clearfix:after{ 
-    display: block;
-    content: ''; 
-    clear: both;
-  }
-  a,
-  .blue {
-    color: #2388da;
-  }
-  .blue{
-      color: #2388da;
-      font-size: 12px;
-    }
-  .itell-list-wrap {
-    padding: 11px 3px 8px 8px;
-  }
+@import '../assets/css/base.css';
+input {
+  outline: none;
+}
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 14px;
-  }
+* {
+  font-size: 12px;
+  color: #191919;
+}
 
-  table tr:nth-child(1) {
-    background: #f2f2f2;
-    color: #666;
-    font-size: 12px;
-  }
+body {
+  background: #fff;
+}
 
-  table tr:nth-child(1) td {
-    height: 30px;
-  }
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+}
 
-  td {
-    border-bottom: 1px solid #e5e5e5;
-    text-align: center;
-  }
-  .t-head{
-    border-bottom: none;
-  }
-  td,
-  th {
-    word-break: break-all;
-    height: 38px;
-  }
+a,
+.blue {
+  color: #2388da;
+}
 
-  td div {
-    padding: 5px;
-  }
+.blue {
+  color: #2388da;
+  font-size: 12px;
+}
 
-  .editbox a {
-    padding: 0 20px;
-    line-height: 20px;
-    border: 1px solid #2a8ae1;
-    margin: 0 10px;
-    border-radius: 2px;
-    font-size: 12px;
-    float: left;
-  }
+.itell-list-wrap {
+  padding: 11px 3px 8px 8px;
+}
 
-  .editbox .delete {
-    width: 20px;
-    height: 20px;
-    background: url('../assets/images/z3img/delete.png') no-repeat center center;
-    padding: 0
-  }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
 
-  .editbox .nodelete {
-    width: 20px;
-    height: 20px;
-    background: url('../assets/images/z3img/nodelete.png') no-repeat center center;
-    padding: 0;
-    border-color: #ccc;
-  }
+table tr:nth-child(1) {
+  background: #f2f2f2;
+  color: #666;
+  font-size: 12px;
+}
 
-  .footer div {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
+table tr:nth-child(1) td {
+  height: 30px;
+}
 
-  .footer div a {
-    line-height: 35px;
-    background: blue;
-    border-radius: 4px;
-    color: #fff;
-    text-align: center;
-    margin: 0 20px;
-    padding:0 10px;
-  }
+td {
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+}
 
-  .up {
-    margin: 0 auto;
-    font-size: 16px;
-    width: 340px;
-    padding-top: 20px;
-  }
+.t-head {
+  border-bottom: none;
+}
 
-  .up2 {
-    width: 380px;
-  }
+td,
+th {
+  word-break: break-all;
+  height: 38px;
+}
 
-  .up a {
-    color: #2a8ae1;
-    font-size: 16px;
-  }
+td div {
+  padding: 5px;
+}
 
-  .up input {
-    width: 230px;
-    height: 34px;
-    line-height: 34px;
-    font-size: 14px;
-    padding-left: 10px;
-    margin-left: 10px;
-  }
-  .up .check input{
-    width:auto;
-    float: left;
-    margin-left: 100px;
-   }
-  .up .check i{
-      float: left;
-      font-size: 14px;
-      line-height: 33px;
-      margin-left: 10px;
-    }
-  .up2 input{
-    float: left;
-   }
-  .up2 span{
-    float: left; 
-    width:100px;
-    line-height: 34px;
-  }
-  h3{ 
-   /*  margin-top: 20px; */
-    padding:0 0 14px 3px;
-    font-size: 12px;
-    font-weight: normal;
-    color: #191919;
-  }
- .tit{
-    text-align: center;
-    line-height: 50px;
-    font-size: 12px;
-  }
-  .one-td{
-     /* width: 18%; */
-  }
+.editbox a {
+  padding: 0 20px;
+  line-height: 20px;
+  border: 1px solid #2a8ae1;
+  margin: 0 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  float: left;
+}
+
+.editbox .delete {
+  width: 20px;
+  height: 20px;
+  background: url('../assets/images/z3img/delete.png') no-repeat center center;
+  padding: 0
+}
+
+.editbox .nodelete {
+  width: 20px;
+  height: 20px;
+  background: url('../assets/images/z3img/nodelete.png') no-repeat center center;
+  padding: 0;
+  border-color: #ccc;
+}
+
+.footer div {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.footer div a {
+  line-height: 35px;
+  background: blue;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  margin: 0 20px;
+  padding: 0 10px;
+}
+
+.up {
+  margin: 0 auto;
+  font-size: 16px;
+  width: 340px;
+  padding-top: 20px;
+}
+
+.up2 {
+  width: 380px;
+}
+
+.up a {
+  color: #2a8ae1;
+  font-size: 16px;
+}
+
+.up input {
+  width: 230px;
+  height: 34px;
+  line-height: 34px;
+  font-size: 14px;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+.up .check input {
+  width: auto;
+  float: left;
+  margin-left: 100px;
+}
+
+.up .check i {
+  float: left;
+  font-size: 14px;
+  line-height: 33px;
+  margin-left: 10px;
+}
+
+.up2 input {
+  float: left;
+}
+
+.up2 span {
+  float: left;
+  width: 100px;
+  line-height: 34px;
+}
+
+h3 {
+  /*  margin-top: 20px; */
+  padding: 0 0 14px 3px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #191919;
+}
+
+.tit {
+  text-align: center;
+  line-height: 50px;
+  font-size: 12px;
+}
+
+.one-td {
+  /* width: 18%; */
+}
 </style>
 <template>
 <div class="itell-list-wrap">
@@ -208,17 +223,17 @@
           <div>{{item.position_times==null?'--':item.position_times}}次</div>
         </td>
         <td>
-          <div class="editbox clearfix"  :zuhename="item.name" :zuheId="item.strategyId">
+          <div class="editbox clearfix" :zuhename="item.name" :zuheId="item.strategyId">
             <a href="#" class="copy" @click="showdialogfn($event,2)">复制</a>
-            <a href="#" class="nodelete" @click="showdialogfn($event,4)" ></a>
+            <a href="#" class="nodelete" @click="showdialogfn($event,4)"></a>
           </div>
         </td>
       </tr>
     </table>
   </div>
 
-  <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogclosefn" >
-    <div class=""  slot="content">
+  <founddialog :title="popTitle" v-if="dialogShow" @toHideDialog="dialogclosefn">
+    <div class="" slot="content">
       <div class="up up1" v-if="content===1">
         <ul class="newzuhe">
 
@@ -230,7 +245,7 @@
           <li>
             <span>新组合名称</span><input type="text" name="" v-model="copyzuheName" placeholder="请输入组合名称">
           </li>
-          <li  class="clearfix check">
+          <li class="clearfix check">
             <label for="newname" class="clearfix">
               <input type="checkbox" class="" id="newname" name=""  v-model="isCreatePool" >
               <i>同时创建新基金池</i>
@@ -251,7 +266,7 @@
       <a href="javascript:;" @click="dialogclosefn" v-if="closebtnshow">{{closebtntxt ? closebtntxt : '取消'}}</a>
     </div>
   </founddialog>
-  <toast :msg="msgtxt"  v-if="msgshow"></toast>
+  <toast :msg="msgtxt" v-if="msgshow"></toast>
 </div>
 </template>
 <script>
@@ -263,7 +278,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       tabledata: {
         th: ['名称', '总收益率', '年化收益率', '最大回撤', '波动率', '夏普比', '超额收益', '调仓次数', '回测周期', '编辑'],
@@ -284,12 +299,10 @@ export default {
       orgCode: '200180365',
       isCreatePool: false,
       // 基金池列表
-      pools: [
-        {
-          poolName: '',
-          poolId: ''
-        }
-      ]
+      pools: [{
+        poolName: '',
+        poolId: ''
+      }]
 
     }
   },
@@ -300,20 +313,20 @@ export default {
   computed: mapState({
     tabledataTd: state => state.fundIntell.portfolioList
   }),
-  mounted () {
+  mounted() {
     this.getdate()
   },
   methods: {
-    showmsg (m) {
+    showmsg(m) {
       this.msgshow = true
       this.msgtxt = m
       var t = this
       clearTimeout(this.timer)
-      this.timer = setTimeout(function () {
+      this.timer = setTimeout(function() {
         t.msgshow = false
       }, 3000)
     },
-    showdialogfn (v, content) {
+    showdialogfn(v, content) {
       this.zuhename = v.toElement.parentNode.getAttribute('zuhename')
       this.zuheId = v.toElement.parentNode.getAttribute('zuheId')
       this.dialogShow = true
@@ -332,10 +345,10 @@ export default {
         this.okbtntxt = '确定'
       }
     },
-    dialogclosefn () {
+    dialogclosefn() {
       this.dialogShow = false
     },
-    dialogokfn () {
+    dialogokfn() {
       if (this.content === 1) {
         alert('我要新建')
       } else if (this.content === 2) {
@@ -345,7 +358,7 @@ export default {
       }
       // this.dialogShow = false
     },
-    getdate () {
+    getdate() {
       this.$store.dispatch('fundIntell/queryPortfolioList')
       /* fetch('http://test.z3quant.com/openapi/fund/getStrategyInfoList.shtml?userId=20170901-170354', {
         method: 'GET',
@@ -363,7 +376,7 @@ export default {
         console.log(v2)
       })*/
     },
-    copyFundPool () {
+    copyFundPool() {
       if (!this.copyzuheName) {
         this.showmsg('请输入组合名称')
         return
@@ -394,7 +407,7 @@ export default {
         console.log(v2)
       })
     },
-    deleteFundPool () {
+    deleteFundPool() {
       fetch('http://test.z3quant.com/openapi/fund/' + this.poolId + '.shtml?userId=3dce11a5-7db5-42a8-b2d0-81cb70dc10dd&orgCode' + this.orgCode, {
         method: 'POST',
         mode: 'cors',

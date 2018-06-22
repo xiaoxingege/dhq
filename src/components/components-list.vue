@@ -3,9 +3,9 @@ a {
     color: #666;
     font-size: 14px;
 }
-    .components-list .search-bar{
-        background: red;
-    }
+.components-list .search-bar {
+    background: red;
+}
 </style>
 
 <template>
@@ -44,7 +44,7 @@ a {
   ]">
     <SearchBar @searchsuccess="showArticleList" @searcherror="cleanArticleList" placeholder="支持搜索股票、主题、信号、指标、资讯、研报" />
   </ComponentPanel>
-    <ComponentPanel name="search-bar" desc="文章列表块" :props="[
+  <ComponentPanel name="search-bar" desc="文章列表块" :props="[
     {
       name: 'data',
       desc: `传入的数据。数据结构：[{
@@ -70,8 +70,8 @@ a {
     ]" :slots="[
 
     ]">
-        <ArticleList :data="articleList" width="498" />
-    </ComponentPanel>
+    <ArticleList :data="articleList" width="498" />
+  </ComponentPanel>
 </div>
 </template>
 
@@ -83,7 +83,7 @@ import ArticleList from './article-list'
 import JichushareMessage from './jichushare-message'
 
 export default {
-  data () {
+  data() {
     return {
       articleList: null
     }
@@ -96,7 +96,7 @@ export default {
     JichushareMessage
   },
   methods: {
-    showArticleList () {
+    showArticleList() {
       const searchResult = this.$store.state.zhikuanSearch
       this.articleList = [{
         title: '股票',
@@ -109,10 +109,10 @@ export default {
         })
       }]
     },
-    cleanArticleList () {
+    cleanArticleList() {
       this.articleList = null
     }
   },
-  mounted () {}
+  mounted() {}
 }
 </script>

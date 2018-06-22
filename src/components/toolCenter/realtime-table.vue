@@ -1,4 +1,4 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import "../../assets/scss/style";
 * {
     text-align: justify;
@@ -31,6 +31,7 @@ table {
     width: 100%;
     background: $bgConColor;
     font-size: 12px;
+
 }
 /* table:last-child{
   margin-right: 0
@@ -54,6 +55,7 @@ table tr td:last-child {
 table tr:last-child td {
     border-bottom: none;
     color: $blueWordsColor;
+
 }
 td {
     border-bottom: 1px solid $borderColor;
@@ -121,13 +123,17 @@ td a {
 .tonative {
     cursor: pointer;
 }
+.more {
+    cursor: pointer;
+}
 </style>
 <template>
 <div class="signal-table-wrap">
+
   <!-- <div class="table-box display-box"> -->
   <table class="table1" v-if='signalRealTime.length!=0' ref='datalist'>
     <tr>
-      <td colspan="4">
+      <td colspan="4" v-show='name'>
         <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
       </td>
     </tr>
@@ -147,15 +153,15 @@ td a {
         </div>
       </td>
       <td class="td-chngPct">
-        <div v-z3-updowncolor="item.stockPl">{{item.stockPl | chngPct}}</div>
+        <div v-z3-updowncolor="item.stockPl">{{checkChngPct(item.stockPl)}}</div>
       </td>
       <td>
         <div>{{item.signalName ||'--'}}</div>
       </td>
 
     </tr>
-    <tr>
-      <td colspan="4">更多>></td>
+    <tr v-show='name'>
+      <td colspan="4" @click="moreData" class="more">更多>></td>
     </tr>
   </table>
   <table v-if='signalRealTime.length==0'>
@@ -171,6 +177,7 @@ td a {
     <tr></tr>
   </table>
   <!--    </div> -->
+
 </div>
 </template>
 <script>
@@ -183,7 +190,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['type', 'name', 'signalRealTime'],
+  props: ['type', 'name', 'signalRealTime', 'thTitle'],
   data() {
     return {
       allData: [],
@@ -205,6 +212,13 @@ export default {
   },
   computed: mapState({}),
   methods: {
+    moreData() {
+      //  this.dialogShow = true
+      this.$emit('toShowDialog', {
+        show: true,
+        type: this.type
+      })
+    },
     toNative(stockCode) {
       return native.openStock(stockCode)
     },
@@ -219,6 +233,17 @@ export default {
     },
     checkClass(index) {
       return index === 4 ? 'tr-img2' : index === 3 ? 'tr-img3' : ''
+    },
+    checkChngPct(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + (Number(value) * 100).toFixed(2) + '%';
+        } else {
+          return (Number(value) * 100).toFixed(2) + '%';
+        }
+      }
     }
 
   },

@@ -333,7 +333,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  data () {
+  data() {
     return {
       tabledata: {
         th: ['序号', '股票代码', '股票简称', '买卖方向', '买入日期', '卖出日期', '买入价格(前复权)', '卖出价格', '盈亏', '收益率'],
@@ -354,17 +354,17 @@ export default {
   }),
 
   methods: {
-    init (buyPage) {
+    init(buyPage) {
       this.$store.dispatch('backtestDetail/queryBuysellStocks', {
         strategyId: this.strategyId,
         backtestDate: this.backtestDate,
         sort: this.direction
       })
     },
-    routerBack () {
+    routerBack() {
       this.$router.go(-1)
     },
-    sortStock (e, dire, str) {
+    sortStock(e, dire, str) {
       e.preventDefault()
       this.stockSort = str
       console.log(str)
@@ -385,14 +385,14 @@ export default {
          this.stockList = this.stockData
        })*/
     },
-    checkNull (str) {
+    checkNull(str) {
       if (str === null) {
         return '--'
       } else {
         return str
       }
     },
-    changeAdd (num) {
+    changeAdd(num) {
       if (num > 0) {
         return '+' + (Number(num) * 100).toFixed(2) + '%'
       } else if (num < 0) {
@@ -401,30 +401,30 @@ export default {
         return num
       }
     },
-    changePlus (num) {
+    changePlus(num) {
       if (num > 0) {
         return '+' + num
       } else if (num <= 0) {
         return num
       }
     },
-    changePer (num) {
+    changePer(num) {
       return (Number(num) * 100).toFixed(2) + '%'
     },
-    changeTofixed (num) {
+    changeTofixed(num) {
       return num > 0 ? '+' + parseFloat(num).toFixed(2) + '%' : parseFloat(num).toFixed(2) + '%'
     },
-    changeDate (time) {
+    changeDate(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
     }
   },
   watch: {
-    buyPage () {
+    buyPage() {
       this.init(this.buyPage)
     }
 
   },
-  mounted () {
+  mounted() {
     this.init()
     console.log(this.$route.query.strategyId)
   }

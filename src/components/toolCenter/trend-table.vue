@@ -1,4 +1,4 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import "../../assets/scss/style";
 * {
     text-align: justify;
@@ -121,13 +121,16 @@ td a {
 .tonative {
     cursor: pointer;
 }
+.more {
+    cursor: pointer;
+}
 </style>
 <template>
 <div class="signal-table-wrap">
 
   <table class="table1" v-if='signalTrend && signalTrend.length!==0'>
     <tr>
-      <td colspan="4">
+      <td colspan="4" v-show='name'>
         <span class="tr-img4" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
       </td>
     </tr>
@@ -147,15 +150,15 @@ td a {
         <div v-z3-updowncolor="item.riseAndFall">{{item.price | price}}</div>
       </td>
       <td class="td-chngPct">
-        <div v-z3-updowncolor="item.riseAndFall">{{item.riseAndFall | chngPct}}</div>
+        <div v-z3-updowncolor="item.riseAndFall">{{checkChngPct(item.riseAndFall)}}</div>
       </td>
       <td>
         <div>{{item.subTypeName ||'--'}}</div>
       </td>
 
     </tr>
-    <tr>
-      <td colspan="4">更多>></td>
+    <tr v-show='name'>
+      <td colspan="4" @click="moreData" class="more">更多>></td>
     </tr>
   </table>
   <table v-if='signalTrend && signalTrend.length==0'>
@@ -207,6 +210,12 @@ export default {
     // signalTrend:state => state.signal.signalTrend 
   }),
   methods: {
+    moreData() {
+      this.$emit('toShowDialog', {
+        show: true,
+        type: this.type
+      })
+    },
     toNative(stockCode) {
       return native.openStock(stockCode)
     },
@@ -221,6 +230,17 @@ export default {
     },
     checkClass(index) {
       return index === 1 ? 'tr-img5' : index === 3 ? 'tr-img6' : ''
+    },
+    checkChngPct(value) {
+      if (value === null || value === '') {
+        return '--';
+      } else {
+        if (value > 0) {
+          return '+' + (Number(value) * 100).toFixed(2) + '%';
+        } else {
+          return (Number(value) * 100).toFixed(2) + '%';
+        }
+      }
     }
   },
   mounted() {

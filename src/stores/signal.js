@@ -13,13 +13,17 @@ import fetch from '../dhq/util/z3fetch'
 export const mutationTypes = {
 
 }
-
+const PAGE_SIZE = 20
 export default {
   namespaced: true,
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
     signalRealTime: [],
-    signalTrend: {}
+    signalTrend: {},
+    signalType: [],
+    pagesize: PAGE_SIZE,
+    page: 0,
+    total: 0
   },
   mutations: {
     updateSignalRealTime(state, signalRealTime) {
@@ -27,6 +31,16 @@ export default {
     },
     updateSignalTrend(state, signalTrend) {
       state.signalTrend = signalTrend
+    },
+    updateSignalType(state, signalType) {
+      state.signalType = signalType
+      //   console.log(state.signalType)
+    },
+    updatePage(state, options) {
+      // console.log(options.totalPages)
+      state.pagesize = options.pageSize || PAGE_SIZE
+      state.page = options.page || 1
+      state.total = options.totalPages
     }
 
   },
@@ -46,21 +60,55 @@ export default {
         if (result.retcode === 0) {
           commit('updateSignalRealTime', result.data.signalList)
           //   console.log(result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    querySignalType({
+      commit
+    }) {
+      return fetch('https://sslapi.jrj.com.cn/zxhq/sapi/discover/signal-type', {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(result => {
+        if (result.retcode === 0) {
+          commit('updateSignalType', result.data.items)
+
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     },
     querySignalTrend({
       commit
     }, {
-      trendTypeId
+      trendTypeId,
+      page,
+      pagesize
     }) {
-      return fetch(`https://sslapi.jrj.com.cn/itougu/mapi/wireless/smartStock/choiceStock/trendAnalysis2List/${trendTypeId}`, {
+      page = page || 0
+      pagesize = pagesize || PAGE_SIZE
+      return fetch(`https://sslapi.jrj.com.cn/itougu/mapi/wireless/smartStock/choiceStock/trendAnalysis2List/${trendTypeId}?start=${page}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
       }).then(result => {
         if (result.retCode === 0) {
           commit('updateSignalTrend', result.data)
+          commit('updatePage', {
+            page: result.data.nextStart,
+            totalPages: result.data.num
+          })
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
         }
       })
     }
