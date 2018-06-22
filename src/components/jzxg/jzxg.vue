@@ -25,7 +25,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('jzxg/getAuthentication').then(() => {
-      // this.isValid = this.authentication
+      this.isValid = this.authentication
     })
   }
 }

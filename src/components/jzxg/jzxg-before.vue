@@ -201,8 +201,9 @@
         </div>
       </li>
       <li class="box-flex-1 video-li">
-        <div class="video-con">
-          <video controls="controls" controlslist='nodownload'></video>
+        <div class="video-con" style="position: relative">
+          <video poster="../../../src/assets/images/jzxg/zongheng.jpg" style="width: 95%;"></video>
+          <div style="width:56px;height:56px;background-color:#fefefd;border-radius: 50%;position: absolute;top:57px;left:110px;"></div>
         </div>
         <div class="video-txt">
           <p class="video-txt-title">《纵横股今》</p>
