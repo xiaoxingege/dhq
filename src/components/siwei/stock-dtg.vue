@@ -109,7 +109,7 @@ export default {
         // alert('i dont konw')
         this.isOverBubbles = data
         this.isOverDialog = data
-        this.zIndex = ''
+        this.zIndex = -999999
       }
 
     },
@@ -431,7 +431,7 @@ export default {
           that.isOverBubbles = true
         })
         that.chart.on('mouseout', function(params) {
-          that.dialogOptions.stockCode = ''
+
           that.timeout = setTimeout(function() {
             // alert('延时 is work')
             if (that.isOverBubbles && that.isOverDialog) {
@@ -440,7 +440,8 @@ export default {
             } else {
               that.isOverBubbles = false
               if (!that.isOverDialog) {
-                that.zIndex = ''
+                that.zIndex = -999999
+                that.dialogOptions.stockCode = ''
               }
             }
 
@@ -1045,14 +1046,21 @@ export default {
     this.interval = setInterval(function() {
       that.updateBubbles()
       that.updateCompare()
-      that.$store.dispatch('bubbles/getBubblesLine', {
-        type: 4,
-        currentTime: that.stockListTime
-      }).then(() => {
-        if (that.isTop) {
-          that.$refs.ztgListUl.scrollTop = 0
-        }
-      })
+      if (that.stockListTime) {
+        that.$store.dispatch('bubbles/getBubblesLine', {
+          type: 4,
+          currentTime: that.stockListTime
+        }).then(() => {
+          if (that.isTop) {
+            that.$refs.ztgListUl.scrollTop = 0
+          }
+        })
+      } else {
+        that.$store.dispatch('bubbles/getBubblesLine', {
+          type: 4,
+          currentTime: ''
+        }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
+      }
     }, Data.refreshTime)
   },
   destroyed() {
