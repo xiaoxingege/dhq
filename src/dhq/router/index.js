@@ -77,97 +77,6 @@ import {
 } from '../config'
 
 export default [{
-<<<<<<< HEAD
-        path: ctx,
-        component: DhqIndex
-    },
-    {
-        path: ctx + '/',
-        name: 'homeRoot',
-        component: DhqIndex
-    },
-    {
-        path: ctx + '/home',
-        name: 'home',
-        component: DhqIndex
-    },
-    {
-        path: ctx + '/newslist',
-        name: 'newslist',
-        component: NewsList
-    },
-    {
-        path: ctx + '/topic/:topicId',
-        name: 'topicDetail',
-        component: TopicDetail
-    },
-    {
-        path: ctx + '/industry/:industryId',
-        name: 'industryDetail',
-        component: IndustryDetail
-    },
-    {
-        path: ctx + '/jzxg',
-        name: 'JzxgBefore',
-        component: JzxgBefore
-    },
-    {
-        path: ctx + '/jjrl',
-        name: 'replay',
-        component: Replay
-    },
-    {
-        path: ctx + '/jjrl',
-        name: 'notOpenStock',
-        component: notOpenStock
-    },
-    // {
-    //   path: ctx + '/smartPool',
-    //   name: 'smartPoolList',
-    //   component: SmartPoolList
-    // },
-    // {
-    //   path: ctx + '/smartPoolListDetails/:id',
-    //   name: 'smartPoolListDetails',
-    //   component: SmartPoolListDetails
-    // },
-    {
-        path: ctx + '/themeIndex',
-        name: 'themeindex',
-        component: ThemeIndex
-    },
-    {
-        path: ctx + '/industryIndex',
-        name: 'industryindex',
-        component: IndustryIndex
-    },
-    {
-        path: ctx + '/detail-pages/:detailType/:id',
-        name: 'detailPages',
-        component: DetailPages
-    },
-    {
-        path: ctx + '/touguStudio',
-        name: 'touguStudio',
-        component: TouguStudio
-
-    },
-    {
-        path: ctx + '/tougu-workspace/:roomId',
-        name: 'touguWorkspace',
-        component: TouguWorkspace
-
-    },
-    {
-        path: ctx + '/headline',
-        name: 'headline',
-        component: Headline
-    }, {
-        path: ctx + '/signalIndex',
-        name: 'signalindex',
-        component: SignalIndex
-    },
-=======
     path: ctx,
     component: DhqIndex
   },
@@ -255,7 +164,6 @@ export default [{
     name: 'signalindex',
     component: SignalIndex
   },
->>>>>>> 8da0f7eb80e0037130539c1fe340c5734cae463a
 
   /* {
      path: ctx + '/search-box',
