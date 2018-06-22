@@ -221,7 +221,7 @@ textarea:-ms-input-placeholder {
       <li v-for="list of searchData.searchList" @click="focusStock($event)"><span>{{list.stockUrl.substring(7,16) }}</span><span>{{list.stockName}}</span></li>
     </ul>
   </div>
-  <div class="k-line-box" id="ss" v-if="strategyId&&innerCode">
+  <div class="k-line-box" id="ss" v-show="strategyId&&innerCode">
     <timechart :strategyId="strategyId" :innerCode="innerCode" :chartWidth="chartWidth" :chartHeight="chartHeight" day=750 minRange=250 showDataZoom=true />
   </div>
 

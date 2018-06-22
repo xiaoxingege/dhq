@@ -263,7 +263,6 @@ export default ({
       // if (klineData.length >= 60) {
       //   klineData = klineData.slice(klineData.length - 60, klineData.length);
       // }
-
       klineData.forEach((item, index) => {
 
         const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数

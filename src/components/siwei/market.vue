@@ -464,8 +464,10 @@ export default {
         this.showStockBox = false;
       });
       this.chart.on('dblclick', (params) => {
-        const innerCode = this.bubbleData[params.dataIndex].innerCode;
-        this.openStock(innerCode);
+        if (params.seriesIndex === 1) {
+          const innerCode = this.bubbleData[params.dataIndex].innerCode;
+          this.openStock(innerCode);
+        }
       })
     },
     openStock(code) {

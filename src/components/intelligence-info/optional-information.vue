@@ -29,7 +29,7 @@
           </router-link>
         </div>
         <div class="con-txt">
-          <router-link :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
+          <router-link v-if="item.newsType != '公告'" :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
             <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
           </router-link>
         </div>
