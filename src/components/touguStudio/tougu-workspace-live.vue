@@ -3,7 +3,7 @@
     color: white;
     position: fixed;
     width: 100%;
-    height: 80%;
+    height: 82%;
     overflow:scroll;
 }
 .liveModel{
@@ -48,6 +48,12 @@ line-height: 22px;
 .live-content .editor-insert-stock a,.live-content a{
     font-size: 14px;
 }
+.live-content p{
+    color:#D3D9DD !important;
+}
+.live-content p a,.editor-insert-stock a,.live-content a{
+    text-decoration:underline !important;
+    }
 </style>
 
 <template>
@@ -58,7 +64,7 @@ line-height: 22px;
                <p class="live-time">{{new Date().getDate() - dateFormat(new Date(item.timeId), 'dd')==0 && new Date().getFullYear()-dateFormat(new Date(item.timeId), 'yyyy')==0 && new Date().getMonth()+1 - dateFormat(new Date(item.timeId), 'mm')==0 ? dateFormat(new Date(item.timeId), '今天 hh:nn'):new Date().getDate() - dateFormat(new Date(item.timeId), 'dd')==1?dateFormat(new Date(item.timeId), '昨天 hh:nn'):dateFormat(new Date(item.timeId), 'yyyy-mm-dd hh:nn')}}</p>
                <div>
                <img src="../../assets/images/touguStudio/QP.png" class="QP"/>
-                <p class="live-content" v-html="item.content">
+                <p class="live-content" v-html="item.content" @click="checkLink($event,item)">
                 </p> 
                </div> 
              </div>
@@ -67,6 +73,8 @@ line-height: 22px;
 </template>
 
 <script>
+import native from '../../utils/nativeApi'
+import util from '../../dhq/util'
 // import $ from 'jquery'
 import { mapState } from 'vuex'
     export default {
@@ -92,6 +100,11 @@ import { mapState } from 'vuex'
            }
    },
        methods:{
+           openStock(stockCode){
+            native.openStock({
+                stockCode: util.formatterInnercode(stockCode)
+            });
+            },
             leadingZero: function(num, size) {
                 var s = '000000000' + num;
                 return s.substr(s.length - size);
@@ -136,7 +149,20 @@ import { mapState } from 'vuex'
                         var container = document.getElementById('live-global');  
                         container.scrollTop=3024;
                     })  
-                } 
+                } ,
+                checkLink(e,data) {
+                    var _this=this;
+                    if(e.target.tagName.toLowerCase() === 'a' && data.tipsId) {
+                        e.preventDefault();
+                        this.$store.commit('touguWorkspaceStore/setSelectedTabIndex', 2);
+                    }else if(e.target.tagName.toLowerCase() === 'a' && !data.tipsId){
+                        e.preventDefault();
+                        var href=e.target.href;
+                        var one=href.split('stock/')[1];
+                        var two=one.split('.jspa')[0];
+                       _this.openStock(two);
+                    }
+                }
        },
  
         mounted(){

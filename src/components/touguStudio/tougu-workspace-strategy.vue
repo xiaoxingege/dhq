@@ -12,12 +12,13 @@
     .strategy-author { padding-left:2%; height:24px; margin-top:8px; }
     .author-headimg { width:23px; height:24px; float:left; border-radius: 50%}
     .author-name { color:#AFB6BD; font-size:12px; line-height:24px; float:left; margin-left:8px;}
-    .split-area { width:96%; height:4px; background:#23272C; margin:8px auto 0; }
-    .strategy-item { width:92%; margin:20px auto 0; box-sizing:border-box; padding: 20px 2%; border-bottom: 1px solid #23272C}
-    .item-ctime { color:#AFB6BD; font-size:12px; float:left }
-    .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;}
-    .strategy-item-collapse { width:100%; height:20px; line-height:20px; margin-top:13px; }
-    .item-collapse { color:#1984EA; float:right; font-size: 12px; }
+    .split-area { width:85%; height:4px; background:#23272C; margin:8px 0; margin-left:2%;}
+    .strategy-item { width:85%; box-sizing:border-box; padding: 0px 2%; border-bottom: 1px solid #23272C;padding-bottom:20px;}
+    .item-ctime { color:#AFB6BD; font-size:12px; float:right; padding-top:25px;}
+    .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;padding-top:57px;padding-bottom:25px;padding-left:2%;font-size:14px;font-family:MicrosoftYaHei;}
+    .strategy-item-content p,.editor-img-wrap{margin-top:8px;}
+    .strategy-item-collapse { width:100%; height:20px; line-height:20px;}
+    .item-collapse { color:#1984EA; float:right; font-size: 12px; padding-top:-30px;cursor:pointer;}
 </style>
 
 <template>
@@ -28,12 +29,12 @@
             <div class="author-name">{{studioList.username}}</div>
         </div>
         <div class="split-area"></div>
-        <div class="strategy-item" v-for="item in strategyList">
-            <div class="strategy-item-content" v-html="item.content">
+        <div class="strategy-item" v-for="(item,index) in strategyList">
+            <div class="item-ctime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
+            <div class="strategy-item-content" ref="abc" v-html="item.content" @click="checkLink($event)">
                 
             </div>
             <div class="strategy-item-collapse">
-                <div class="item-ctime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
                 <div class="item-collapse">点击查看全文</div>
             </div>
         </div>
@@ -42,7 +43,8 @@
 
 <script>
     import { mapState } from 'vuex'
-
+    import native from '../../utils/nativeApi'
+    import util from '../../dhq/util'
     export default {
         data(){
             return {
@@ -61,6 +63,21 @@
             }
         }),
         methods:{
+            openStock(stockCode){
+            native.openStock({
+                stockCode: util.formatterInnercode(stockCode)
+            });
+            },
+             checkLink(e,data) {
+                    var _this=this;
+                   if(e.target.tagName.toLowerCase() === 'a'){
+                        e.preventDefault();
+                        var href=e.target.href;
+                        var one=href.split('stock/')[1];
+                        var two=one.split('.jspa')[0];
+                       _this.openStock(two);
+                    }
+             },
             leadingZero: function(num, size) {
                 var s = '000000000' + num;
                 return s.substr(s.length - size);
