@@ -218,55 +218,55 @@ body {
   <div class="dime-charts" v-if="curPage === 'capital'">
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===0'>
-        <DimeKline :innerCode='code' :indexFace='item' :dataIndex='index' />
+        <DimeKline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
       </div>
       <div class="chart-grop box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===1'>
-        <Arealine :innerCode='code' :indexFace='item' :dataIndex='index' />
+        <Arealine :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
       </div>
     </div>
     <div class="chart-box2">
       <div class="chart-kline box-flex-1 mb-0" v-for='(item,index) of indexFaceData' v-if='index===2'>
-        <Barline :innerCode='code' :indexFace='item' :dataIndex='index' />
+        <Barline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
       </div>
       <div class="chart-grop box-flex-1 mb-0">
-        <Pieline :innerCode='code' />
+        <Pieline :innerCode='innerCode' />
       </div>
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'base'">
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='code' />
+      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
     </div>
     <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='code' />
+      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'techs'">
     <div class="tech-charts1">
       <!--  <TechnicalCharts :testData='tachData' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
       {{tachData}} -->
-      <TechnicalNewChart :innerCode='code' />
+      <TechnicalNewChart :innerCode='innerCode' />
     </div>
 
   </div>
   <div class="dime-charts" v-if="curPage === 'industry'">
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
-        <IndustryStklevelBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
+        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
       </div>
       <div class="chart-grop box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
-        <IndustryLinechart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
+        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
       </div>
     </div>
     <div class="chart-box2">
       <div class="chart-barline box-flex-1 mb-0" v-for='(item,index) of industryFaceData' v-if='index===2'>
-        <IndustryvoBarchart :innerCode='code' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
+        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
       </div>
     </div>
 
   </div>
   <div class="" v-if="curPage === 'newsinfo'">
-    <newsInfo :innerCode='code' :newsInfo='newsInfo'></newsInfo>
+    <newsInfo :innerCode='innerCode' :newsInfo='newsInfo'></newsInfo>
   </div>
 
 </div>
@@ -340,28 +340,28 @@ export default {
     }, */
     initCapitalFace() {
       this.$store.dispatch('clinicShares/queryIndexFace', {
-        innerCode: this.code
+        innerCode: this.innerCode
       })
 
     },
     initBaseFace() {
       this.$store.dispatch('clinicShares/queryBaseFace', {
-        innerCode: this.code
+        innerCode: this.innerCode
       })
     },
     initTechFace() {
       this.$store.dispatch('clinicShares/queryTechFace', {
-        innerCode: this.code
+        innerCode: this.innerCode
       })
     },
     initIndustryFace() {
       this.$store.dispatch('clinicShares/queryIndustryFace', {
-        innerCode: this.code
+        innerCode: this.innerCode
       })
     },
     initNewsInfo() {
       this.$store.dispatch('clinicShares/queryNewsInfo', {
-        innerCode: this.code
+        innerCode: this.innerCode
       })
     },
     initLegendName() {
@@ -393,9 +393,9 @@ export default {
     }
   },
   watch: {
-    innerCode: function() {
-      this.code = this.innerCode
-    },
+    // innerCode: function() {
+    //   this.code = this.innerCode
+    // },
     isShow() {
       console.log(this.isShow)
       this.typeOfJudgment(this.isShow)

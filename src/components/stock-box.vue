@@ -138,23 +138,23 @@ export default {
 
 .stock-box .stock-box-header .left {
   float: left;
-  margin-left: 10px;
+  margin-left: 0px;
   color: #1984ea;
 }
 
 .stock-box .stock-box-header .right {
   float: right;
-  margin-right: 10px;
+  margin-left: 6px;
 }
 
 .stock-box .stock-box-header .btn_remove {
   border: 1px solid #FF2921;
   color: #FF2921;
   border-radius: 4px;
-  height: 22px;
+  height: 20px;
   line-height: 20px;
   display: inline-block;
-  width: 48px;
+  width: 40px;
   text-align: center;
   padding: 0 4px;
   font-size: 12px;

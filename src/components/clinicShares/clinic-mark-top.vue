@@ -455,7 +455,7 @@ body {
 <div class="clinic-top-wrap">
   <div class="clinic-top display-box">
     <div class="clinic-top-left box-flex-1">
-      <div class="mark-name">{{smartStock.name}}[{{smartStock.symbol}}]综合评分
+      <div class="mark-name">{{smartStock.name || '--'}}[{{smartStock.symbol || '--'}}]综合评分
         <div class="help-img fr"><i>{{this.iconHelpMsg}}</i></div>
       </div>
       <!-- <div class="mark-num red">{{changeTofixed1(smartStock.score)}}</div> -->
@@ -468,7 +468,7 @@ body {
           <div class="mask"></div>
         </div>
       </div>
-      <div class="mark-detail">打败了{{smartStock.wineRate==null?'--':checkRecommend(smartStock.wineRate)}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate)}}</span></div>
+      <div class="mark-detail">打败了{{checkRecommend(smartStock.wineRate) || '--'}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate) || '--'}}</span></div>
     </div>
     <div class="clinic-top-center box-flex-1">
       <div class="radar-box">
@@ -776,6 +776,9 @@ export default {
       }
     },
     changeDate(time) {
+      if (time === undefined) {
+        return '--'
+      }
       if (time === 0) {
         return '--'
       } else {
