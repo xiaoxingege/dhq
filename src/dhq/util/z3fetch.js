@@ -20,7 +20,7 @@ export default function(url, options) {
 }
 
 function insertAuthHeader(url, options) {
-  if (url.indexOf('z3quant.com/openapi') === -1 && url.indexOf('mapi.itougu.jrj.com.cn') === -1 && url.indexOf('itougu.jrj.com.cn') === -1) {
+  if (url.indexOf('z3quant.com/openapi') === -1 && url.indexOf('mapi.itougu.jrj.com.cn') === -1 && url.indexOf('sslapi') === -1 && url.indexOf('itougu.jrj.com.cn') === -1) {
     return options;
   }
   const authHeader = store.getters.authHeader // authHeader是fetch传过来的header
