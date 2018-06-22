@@ -5,7 +5,7 @@
   <div class="stock-list-wrap" ref="stockListWrap">
     <ul class="clearfix stock-ul" :style="{left:stockUiLeft+'px'}">
       <li class="fl stock-li" v-for="item of tenStockList">
-        <p>{{item.stkname}}</p>
+        <p @click="toStockDetail(item.stkid)">{{item.stkname}}</p>
         <ul class="stockLabelList">
           <li>
             <span>累计收益</span>
@@ -34,6 +34,7 @@
 </div>
 </template>
 <script>
+import native from '../../utils/nativeApi'
 export default {
   props: ['tenStockList'],
   data() {
@@ -70,6 +71,11 @@ export default {
       } else {
         this.stockUiLeft = 160 * scrollNum + this.stockUiLeft
       }
+    },
+    toStockDetail: function(code) {
+      native.openStock({
+        stockCode: code.substring(2) + '.' + code.substring(0, 2).toUpperCase()
+      })
     }
   },
   mounted() {
