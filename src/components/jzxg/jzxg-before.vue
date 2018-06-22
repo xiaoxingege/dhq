@@ -202,8 +202,13 @@
       </li>
       <li class="box-flex-1 video-li">
         <div class="video-con" style="position: relative">
-          <video poster="../../../src/assets/images/jzxg/zongheng.jpg" style="width: 95%;"></video>
-          <div style="width:56px;height:56px;background-color:#fefefd;border-radius: 50%;position: absolute;top:57px;left:110px;"></div>
+          <video poster="http://i0.jrjimg.cn/bighq/zongheng.jpg" style="width: 95%;"></video>
+          <div style="position:absolute;width:95%;height:95%;background-color:rgba(0,0,0,0.3);top:0;left:0;">
+            <div style="width:56px;height:56px;background-color:#fefefd;border-radius: 50%;position: absolute;top:57px;left:110px;">
+              <div class="arrow-play"></div>
+              <!--  <img src="../../assets/images/jzxg/play.png" />-->
+            </div>
+          </div>
         </div>
         <div class="video-txt">
           <p class="video-txt-title">《纵横股今》</p>
@@ -580,5 +585,15 @@ export default {
 .contact-div p {
     text-align: right;
     margin-top: 6px;
+}
+.arrow-play {
+    width: 0;
+    height: 0;
+    border-left: 15px solid #000;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    position: absolute;
+    right: 18px;
+    top: 20px;
 }
 </style>

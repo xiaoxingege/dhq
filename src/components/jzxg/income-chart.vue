@@ -62,11 +62,11 @@ export default {
           },
           data: [{
               name: '极智选股',
-              icon: 'image://../../../src/assets/images/jzxg/jzxg.png'
+              icon: 'image://http://i0.jrjimg.cn/bighq/jzxg.png'
             },
             {
               name: '中证全指',
-              icon: 'image://../../../src/assets/images/jzxg/zzqz.png'
+              icon: 'image://http://i0.jrjimg.cn/bighq/zzqz.png'
             }
           ]
         },
