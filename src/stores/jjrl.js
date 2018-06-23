@@ -84,7 +84,7 @@ const actions = {
     commit
   }, tradeDate) {
     const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/stopResumeTrading.jspa?tradeDate=${tradeDate}`
-    const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
+    const mode = 'cors';
     return fetch(url, {
       mode
     }).then(res => {
@@ -113,7 +113,7 @@ const actions = {
     commit
   }, stockCode) {
     const url = `https://sslapi.jrj.com.cn/genius/glink/base/SEC_DISC_INFO/limit=20&full=2&filter-SEC_CODE-in-str=${stockCode.stockCode}&sort=DECLAREDATE&skip=0&filter-DECLAREDATE-gte-str=${stockCode.date}`
-    const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
+    const mode = 'cors';
     return fetch(url, {
       mode
     }).then(res => {
@@ -142,7 +142,7 @@ const actions = {
     commit
   }, date) { //  未开板新股
     const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/notOpenNewStock.jspa?tradeDate=${date}`
-    const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
+    const mode = 'cors'
     return fetch(url, {
       mode
     }).then(res => {
