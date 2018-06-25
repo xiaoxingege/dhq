@@ -22,6 +22,8 @@ export default {
   },
   methods: {
     init() {
+      console.log(this.iiid);
+      console.log(this.newsUrl);
       if (this.iiid && this.newsUrl) {
         this.$store.dispatch('dhqNews/queryNewsDetail', {
           iiid: this.iiid,
@@ -46,13 +48,19 @@ export default {
     newsUrl: function() {
       this.init();
     }
+  },
+  created() {
+    this.init();
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/base.css';
+@import "../assets/scss/style.scss";
 .dhq-news-detail {
     padding: 20px 30px;
+    color: $wordsColorBase;
     .header {
         text-align: center;
         line-height: 36px;
