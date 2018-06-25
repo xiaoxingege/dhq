@@ -61,12 +61,11 @@ export default{
                 left:'3%',
                 right:'1%',
                 top:'5px',
-                bottom:'3%'
+                bottom:'10%'
             },
     
             xAxis: {
                 type: 'category',
-                show:false,
                 boundaryGap: false,
                 data:  this.showDate
             },
