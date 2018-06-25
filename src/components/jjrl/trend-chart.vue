@@ -41,7 +41,7 @@ export default{
                 resetChart:state => state.jjrl.resetChart
             }),
             getStockCode() {
-           console.log(this.storeData.stockCode)
+          // console.log(this.storeData.stockCode)
              return this.storeData.stockCode;
             }
     },
@@ -83,7 +83,7 @@ export default{
                     type:'line',
                     smooth:true,
                     symbol: 'none',
-                 //   sampling: 'average',
+                    sampling: 'average',
                     itemStyle: {
                         normal: {
                             color: '#f0b540'
@@ -100,7 +100,7 @@ export default{
                     type:'line',
                     smooth:true,
                     symbol: 'none',
-                //    sampling: 'average',
+                    sampling: 'average',
                     itemStyle: {
                         normal: {
                             color: 'rgb(25, 132, 234)'
@@ -175,7 +175,7 @@ export default{
     },
     watch: {
     getStockCode:function() {
-      console.log(this.storeData)
+     // console.log(this.storeData)
         this.paint(this.saveDate.chooseDate)
     }
   }, 

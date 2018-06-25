@@ -276,7 +276,7 @@ export default {
                         zszd:this.zszd ,
                         bkData:this.bkData,
                         ggData:this.ggData }).then( res => {
-                    console.log(this.storeData)
+                 //   console.log(this.storeData)
                         })
                 })
             })  

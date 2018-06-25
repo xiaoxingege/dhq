@@ -61,7 +61,11 @@
     "jquery": "^3.2.1",
     "json-loader": "^0.5.4",
     "loophole": "^1.1.0",
+<<<<<<< Updated upstream
     "node-sass": "4.7.2",
+=======
+    "node-sass": "^4.7.2",
+>>>>>>> Stashed changes
     "prettydiff": "^99.0.1",
     "promise": "^8.0.1",
     "pug": "^2.0.0-rc.2",
@@ -124,4 +128,8 @@
     "vuejs-datepicker": "^1.5.2",
     "xlsx": "^0.11.19"
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
