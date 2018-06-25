@@ -1,5 +1,5 @@
- import 'whatwg-fetch'
- // import fetch from '../dhq/util/z3fetch'
+ // import 'whatwg-fetch'
+ import fetch from '../dhq/util/z3fetch'
  export default {
      namespaced: true,
      state: {
@@ -20,13 +20,7 @@
              return new Promise((resolve, reject) => {
                  // const url = ` http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                  const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
-                 return fetch(url, {
-                     headers: {
-                         'passportId': '171027010061123406',
-                         'accessToken': 'dNmwZmIWJLCjl1rl3igPNxsj8Vn2+97Aj72qoMaq7q92+FZHu8E5gcvaPSBS2/eh',
-                         'APPVER': '7.0.0'
-                     }
-                 }).then((res) => {
+                 return fetch(url).then((res) => {
                      return res.json()
                  }).then((data) => {
                      if (data.retCode) {
