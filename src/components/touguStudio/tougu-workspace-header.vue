@@ -39,6 +39,9 @@ import { mapState } from 'vuex'
               }),
             willExpired:function(){
                 var _this=this;
+                if(!_this.studioTime.expireDate){
+                    return false;
+                }
                 var expireDate=new Date(_this.studioTime.expireDate);
                 var today = new Date();
                 if(expireDate-today<30*24*60*60*1000){
@@ -51,6 +54,9 @@ import { mapState } from 'vuex'
        },
        filters:{
            dateFormat:function(data){
+               if(!data){
+                   return "--";
+               }
              var arr1=data.split('-');
              var year=arr1[0];
              var month=arr1[1].split('0')[1];
