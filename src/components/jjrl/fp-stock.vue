@@ -90,10 +90,10 @@
              this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
              }).then( res => {
-               //  console.log(this.setStock)
-                 const len=this.setStockData[index].length;
+                 console.log(this.setStock)
+                 const len=this.setStock[index].length;
                  const ele = this.isSelfSelection
-                 this.setStockData[index].splice([len-1],1,ele);
+                 this.setStock[index].splice([len-1],1,ele);
              }) 
            
           },
@@ -102,9 +102,9 @@
             this.$store.dispatch('jjrl/removeSelection', {
                     stockCode: this.stockCode
              }).then(res => {
-                  const len=this.setStockData[index].length;
+                  const len=this.setStock[index].length;
                  const ele = this.isSelfSelection
-                 this.setStockData[index].splice([len-1],1,ele);
+                 this.setStock[index].splice([len-1],1,ele);
              })
           },
           toDetails(item){

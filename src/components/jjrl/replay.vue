@@ -26,6 +26,7 @@ import {
 import resumeTrading from 'components/jjrl/resume-trading'
 import notOpenStock from 'components/jjrl/notOpenStock'
 import calendar from 'components/jjrl/calendar'
+import hyCalendar from 'components/jjrl/hyCalendar'
 export default {
   data() {
     return {
@@ -35,7 +36,7 @@ export default {
           components: resumeTrading
         },
         '1': {
-
+          components: hyCalendar
         },
         '2': {
           components: notOpenStock

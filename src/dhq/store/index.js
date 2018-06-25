@@ -94,7 +94,7 @@ const actions = {
         })
       } else {
         // 如果不是从客户端过来的，则给予测试信息
-         const authInfo = {
+    /*      const authInfo = {
           accessToken: 'Bearer test_z3quant_accesss_token',
           // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
           clientid: 'z3client_dhq',
@@ -103,6 +103,16 @@ const actions = {
           expires: -1, // second
           userId: 'userId', // test userid
           passportId: 'null'
+        } */
+         const authInfo = {
+          accessToken: '/HSqGc0oYtIDUqcyXceDJl/CiT8UadubcfmikWiUdj2c01HKVU6BUcAytybjVa2r',
+          // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+          clientid: 'z3client_dhq',
+          deviceid: 'test_device_id',
+          updateTime: null, // updateTime
+          expires: -1, // second
+          userId: '180418010039598000', // test userid
+          passportId: '180418010039598000'
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

@@ -11,14 +11,14 @@
           </div>
           <div class="fiveNotice_detail">
                 <div class="notice" v-for="(item,index) in stopStock"  v-show="show">
-                <!-- <router-link :to="{name: 'dhqNews',params:{iiid:}}"> -->
+                <router-link :to="{name: 'detailPages',params:{id:item.DISC_ID,detailType:'notice'}}" target="_blank"> 
                   <span class='title' @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.TITLE}}</span>
-                  <!-- </router-link> -->
+                </router-link> 
                   <span class="date" >{{setDate(item.PUBDATE)}}</span>
                 </div> 
                 <div class="notice" v-for="(item,index) in newNews" v-show="hide" >
-                <router-link :to="{name: 'dhqNews',query:{id:item.id,sourceUrl:item.url}}">
-                  <span @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.title}}</span></router-link>
+                <router-link :to="{name: 'dhqNews',query:{id:item.id,sourceUrl:item.url}}" target="_blank">
+                  <span  @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.title}}</span></router-link>
                   <span class="date">{{timestampToTime(item.contentdate)}}</span>
                 </div>  
 
@@ -79,6 +79,7 @@
                 
             },
             showDetail(index){
+               
                 this.isActive = index
             },
             leaveDetail(index){
@@ -126,9 +127,9 @@
    
     margin-right: 20px;
 }
-/* .active{
-    color:$blueWordsColor;
-} */
+ .active{
+    color:$blueWordsColor !important;
+} 
 
 .date{
     margin-right: 63px;

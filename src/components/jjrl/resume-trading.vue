@@ -58,7 +58,9 @@ export default {
 }
 .contentPage {
     height: 100%;
+    //  height: 890px;
     display: flex;
+    overflow: auto;
     justify-content: space-between;
 }
 </style>
