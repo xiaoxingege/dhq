@@ -1,5 +1,5 @@
 <template>
-  <div class="stockAll">
+  <div class="stockAll" v-if="count">
      <div class="name">
          <div class="notOpenstock">
              <i></i>未开板新股
@@ -47,6 +47,7 @@
 import { mapState } from  'vuex'
 import native from '../../utils/nativeApi'
 export default{
+     props:['count'],
     data(){
         return {
             list: [],

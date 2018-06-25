@@ -74,7 +74,7 @@ export default {
           detail: ''
         }
       ],
-      curType: '0',
+      curType: '1',
       isCur: 0,
       date:new Date(),
       notOpenStockCode:[],
