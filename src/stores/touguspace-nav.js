@@ -35,7 +35,7 @@ export default {
         },
         // 获取服务时间
         getServerTime({ commit, state }, data) {
-            const url = `https://itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa?adviserId=161226010027925289`;
+            const url = `https://itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa?adviserId=${data.adviserId}`;
             return fetch(url).then((res) => {
                 return res.json()
             }).then((data) => {

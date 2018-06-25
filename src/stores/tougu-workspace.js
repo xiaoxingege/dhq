@@ -1,4 +1,4 @@
-import $ from 'jquery'
+// import $ from 'jquery'
 // import 'whatwg-fetch'
 import fetch from '../dhq/util/z3fetch'
 export default {

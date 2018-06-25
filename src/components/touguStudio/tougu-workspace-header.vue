@@ -63,7 +63,7 @@ import { mapState } from 'vuex'
                  roomId:this.$route.params.roomId
           });
            this.$store.dispatch('touguSpaceNav/getServerTime',{
-                 adviserId:this.studioList.userid
+                 adviserId:this.studioList.userId
           });
         }
     }
