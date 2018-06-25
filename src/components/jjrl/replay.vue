@@ -362,6 +362,7 @@ export default {
 }
 .detailBox {
     width: 86.42%;
+    height: 100%;
 }
 .mainBox {
     height: 100%;

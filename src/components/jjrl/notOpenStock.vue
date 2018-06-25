@@ -175,33 +175,32 @@ table, th, td{
     cursor: pointer;
 }
 .col-1{
-    width: 100px;
+    width: 10.25%;
 }
-.col-2,
-.col-3 {
-    width: 86px;
+.col-2, .col-3 {
+    width: 8.64%;
 }
 .clo-4 {
-    width: 114px;
+    width: 11.46%;
 }
 .col-5 {
-    width: 108px;
+    width:10.25%;
 }
 .col-6 {
-    width: 123px;
+    width: 12.36%;
 }
 .col-7 {
-    width: 102px;
+    width:10.25%;
 }
 .col-8 {
-    width: 102px;
+    width:10.25%;
 
 }
 .col-9 {
-    width: 100px;
+    width: 10.25%;
 }
 .col-10 {
-    width: 70px;
+    width:  8.64%;
 }
 .addSelfChoice{
     width: 40px;
