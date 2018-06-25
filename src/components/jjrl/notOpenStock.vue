@@ -67,7 +67,7 @@ export default{
              notOpenStockList:state => state.jjrl.notOpenStockList,
              saveDate: state => state.jjrl.saveDate,
              storeData:state => state.jjrl.dateAndCode,
-            isSelfSelection: state => state.jjrl.isSelfSelection
+             isSelfSelection: state => state.jjrl.isSelfSelection
          })
        
     },

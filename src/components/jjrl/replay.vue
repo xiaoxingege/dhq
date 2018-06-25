@@ -145,7 +145,6 @@ export default {
        if(this.curType===2){
          this.initNotOpenStock(this.tradeDate) 
        }else if(this.curType===0){
-     //   debugger
           if(this.list[0].count===0){
            this.$store.dispatch('jjrl/resetFp')
           }
@@ -166,6 +165,7 @@ export default {
             if( D <= 10 ) { D = '0' + D; }
         this.stopdate=  Y + '-' + M + '-' + D 
       },
+      /* 初始化功能栏 */
     initConsole(){
       this.$store.dispatch('jjrl/setGuide',this.tradeDate).then(res => {
       this.list[0].count = this.setGuide.tfp_count
@@ -188,6 +188,7 @@ export default {
     })
 
     },
+    // 初始化为开板新股
     initNotOpenStock(){
        this.$store.dispatch('jjrl/notOpenStock', this.tradeDate).then(res => {
         //  debugger
@@ -214,6 +215,7 @@ export default {
       })
      
     },
+    //  初始化复牌
     initFp(date){
              //   console.log( this.calenderDate)
                 this.$store.dispatch('jjrl/getStock',date).then( res => {
@@ -285,6 +287,7 @@ export default {
       
     }
     
+  // 初始化 会议日历
 
 
   },
@@ -301,19 +304,18 @@ export default {
     }
   },
   mounted() {
- 
     this.initConsole(this.tradeDate)
-     this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
+    this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
        if( this.fpCount===0){
       //  this.$store.dispatch('jjrl/resetFp')
       }
-          this.initFp(this.saveDate.chooseDate)
-         this.$store.dispatch('jjrl/setCount',{
+    this.initFp(this.saveDate.chooseDate)
+    this.$store.dispatch('jjrl/setCount',{
       fp: this.fpCount,
       hy:this.hyCount,
       wkbxg:this.wkbCount 
     })
-   
+    
   }
   
 }
