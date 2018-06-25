@@ -1,8 +1,8 @@
-<style>
+<style lang='scss' scoped>
     .tougu-workspace-strategy{
     position: fixed;
     width: 100%;
-    height: 80%;
+    height: 100%;
     overflow:scroll;
     }
     .editor-insert-stock a{
@@ -16,9 +16,13 @@
     .strategy-item { width:85%; box-sizing:border-box; padding: 0px 2%; border-bottom: 1px solid #23272C;padding-bottom:20px;}
     .item-ctime { color:#AFB6BD; font-size:12px; float:right; padding-top:25px;}
     .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;padding-top:57px;padding-bottom:25px;padding-left:2%;font-size:14px;font-family:MicrosoftYaHei;}
+    .showHidden{height:30px;overflow:hidden;}
     .strategy-item-content p,.editor-img-wrap{margin-top:8px;}
     .strategy-item-collapse { width:100%; height:20px; line-height:20px;}
     .item-collapse { color:#1984EA; float:right; font-size: 12px; padding-top:-30px;cursor:pointer;}
+    /* .editor-img-wrap{
+        display:none;
+    } */
 </style>
 
 <template>
@@ -31,11 +35,11 @@
         <div class="split-area"></div>
         <div class="strategy-item" v-for="(item,index) in strategyList">
             <div class="item-ctime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
-            <div class="strategy-item-content" ref="abc" v-html="item.content" @click="checkLink($event)">
-                
+            <div ref="abc" v-html="item.content" @click="checkLink($event)" class='strategy-item-content'>
+                 
             </div>
             <div class="strategy-item-collapse">
-                <div class="item-collapse">点击查看全文</div>
+                <div class="item-collapse" @click="check(index)">点击查看全文</div>
             </div>
         </div>
     </div>
@@ -48,7 +52,7 @@
     export default {
         data(){
             return {
-
+                 num:[]
             }
         },
         computed: mapState({
@@ -77,7 +81,8 @@
                         var two=one.split('.jspa')[0];
                        _this.openStock(two);
                     }
-             },
+             },   
+            
             leadingZero: function(num, size) {
                 var s = '000000000' + num;
                 return s.substr(s.length - size);
@@ -114,24 +119,20 @@
         mounted(){
              this.$store.dispatch('touguSpaceNav/getStudioInfo',{
                  roomId:this.$route.params.roomId      
-             }).then(() => {
-                this.$store.dispatch('touguStrategy/getStrategyByTid', {
-                tid: this.studioList.vipRoomInfo.tipsId
-                }).then(() => {
-                        var _this=this;
-                        var divscroll=_this.$refs.viewBox2;
-                        divscroll.onscroll=() => {
-                        if(divscroll.scrollHeight-divscroll.scrollTop===divscroll.clientHeight){
-                               this.$store.dispatch('touguStrategy/getStrategyByCid', {
-                                tid: _this.studioList.vipRoomInfo.tipsId,
-                                cid: _this.strategyList[_this.strategyList.length-1].id
-                           });
-                        } 
-                    };  
-                });
-               
              });
-            
+            this.$store.dispatch('touguStrategy/getStrategyByTid', {
+            tid: this.studioList.vipRoomInfo.tipsId
+             })
+            var _this=this;
+            var divscroll=_this.$refs.viewBox2;
+            divscroll.onscroll=() => {
+            if(divscroll.scrollHeight-divscroll.scrollTop===divscroll.clientHeight){
+                    this.$store.dispatch('touguStrategy/getStrategyByCid', {
+                    tid: _this.studioList.vipRoomInfo.tipsId,
+                    cid: _this.strategyList[_this.strategyList.length-1].id
+                });     
+            } 
+        };
         }
     }
 </script>

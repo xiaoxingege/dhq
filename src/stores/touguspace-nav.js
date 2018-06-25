@@ -3,18 +3,22 @@ import fetch from '../dhq/util/z3fetch'
 export default {
     namespaced: true,
     state: {
-        roomData: []
+        roomData: [],
+        roomTime: []
     },
     mutations: {
         setStudioData(state, data) {
             state.roomData = data
+        },
+        setStudioTime(state, data) {
+            state.roomTime = data
         }
     },
     actions: {
         // 获取工作室信息
         getStudioInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                // const url = `http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
+                // const url = ` http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                 const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                 return fetch(url).then((res) => {
                     return res.json()
@@ -28,10 +32,20 @@ export default {
                 });
             });
 
-        }
+        },
         // 获取服务时间
-        // getServerTime({ commit, state }, data) {
-        //     const url = `http://itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa`;
-        // }
+        getServerTime({ commit, state }, data) {
+            const url = `https://itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa?adviserId=161226010027925289`;
+            return fetch(url).then((res) => {
+                return res.json()
+            }).then((data) => {
+                if (data.retCode === 0) {
+                    commit('setStudioTime', data.data);
+                } else {
+                    // 如果有code 则出现异常
+                }
+            });
+
+        }
     }
 }

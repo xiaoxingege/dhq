@@ -22,7 +22,8 @@ export default {
         // 获取投资策略信息
         getStrategyByTid({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=3`;
+                const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=5`;
+                // const url = `http://mapi.itougu.jrj.com.cn/wireless/tips/${data.tid}?ps=5`;
                 return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
@@ -37,8 +38,8 @@ export default {
         },
         getStrategyByCid({ commit, state }, data) {
             return new Promise((resolve, reject) => {
-                // const url = `http://mapi.itougu.jrj.com.cn/wireless/tips/${data.tid}?ps=3&cid=${data.cid}`;
-                const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=3&cid=${data.cid}`;
+                // const url = `http://mapi.itougu.jrj.com.cn/wireless/tips/${data.tid}?ps=5&cid=${data.cid}`;
+                const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=5&cid=${data.cid}`;
                 return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {

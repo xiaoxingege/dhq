@@ -36,6 +36,7 @@ padding: 21px 26px;
 color: #D3D9DD;
 font-size: 14px;
 line-height: 22px;
+word-wrap:break-word;
 }
 
 .QP{
@@ -152,15 +153,16 @@ import { mapState } from 'vuex'
                 } ,
                 checkLink(e,data) {
                     var _this=this;
-                    if(e.target.tagName.toLowerCase() === 'a' && data.tipsId) {
-                        e.preventDefault();
-                        this.$store.commit('touguWorkspaceStore/setSelectedTabIndex', 2);
-                    }else if(e.target.tagName.toLowerCase() === 'a' && !data.tipsId){
+                    if(e.target.tagName.toLowerCase() === 'a') {
                         e.preventDefault();
                         var href=e.target.href;
-                        var one=href.split('stock/')[1];
-                        var two=one.split('.jspa')[0];
-                       _this.openStock(two);
+                        if(href.indexOf('tips')!== -1){
+                             this.$store.commit('touguWorkspaceStore/setSelectedTabIndex', 2);
+                        }else if(href.indexOf('stock')!== -1){
+                            var one=href.split('stock/')[1];
+                            var two=one.split('.jspa')[0];
+                            _this.openStock(two);
+                        } 
                     }
                 }
        },
