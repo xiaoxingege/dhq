@@ -11,11 +11,14 @@
           </div>
           <div class="fiveNotice_detail">
                 <div class="notice" v-for="(item,index) in stopStock"  v-show="show">
+                <!-- <router-link :to="{name: 'dhqNews',params:{iiid:}}"> -->
                   <span class='title' @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.TITLE}}</span>
+                  <!-- </router-link> -->
                   <span class="date" >{{setDate(item.PUBDATE)}}</span>
                 </div> 
                 <div class="notice" v-for="(item,index) in newNews" v-show="hide" >
-                  <span @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.title}}</span>
+                <router-link :to="{name: 'dhqNews',query:{id:item.id,sourceUrl:item.url}}">
+                  <span @mouseenter="showDetail(index)" @mouseleave="leaveDetail(index)" :class="{'active':isActive===index}">{{item.title}}</span></router-link>
                   <span class="date">{{timestampToTime(item.contentdate)}}</span>
                 </div>  
 
@@ -123,9 +126,9 @@
    
     margin-right: 20px;
 }
-.active{
+/* .active{
     color:$blueWordsColor;
-}
+} */
 
 .date{
     margin-right: 63px;
@@ -165,8 +168,8 @@
 .cur {
     background-color: $hoverBgColor;
 }
-.chart {
-
+.notice span{
+    color: $wordsColorBase;
 }
 .notice{
     cursor: pointer;
