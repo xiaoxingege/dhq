@@ -103,6 +103,7 @@ const actions = {
           expires: -1, // second
           userId: 'userId', // test userid
           passportId: 'null'
+          
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()

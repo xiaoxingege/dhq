@@ -157,8 +157,6 @@ export default{
                
            })
           
-         //  this.$store.dispatch('jjrl/resetChart').then( res => {
-          //   debugger
             this.$store.dispatch('jjrl/storeData',{
             stopdate:this.stopdate,
             stockCode:this.code,
@@ -168,9 +166,6 @@ export default{
             ggData:this.ggData })
             this.initChart()
             this.drawCharts()
-       //    console.log(this.storeData)
-           
-       // })
          
            })
             
@@ -180,8 +175,6 @@ export default{
     },
     watch: {
     getStockCode:function() {
-     //   debugger
-    
       console.log(this.storeData)
         this.paint(this.saveDate.chooseDate)
     }
