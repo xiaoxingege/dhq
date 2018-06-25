@@ -19,7 +19,7 @@ const state = {
   removeSelection: [],
   setStockLine: [],
   saveDate: [],
-  resetFp: [],
+  resetChart: [],
   setCount: [] // 存放功能区数据的数量
 
 }
@@ -37,7 +37,7 @@ const mutationsTypes = {
   REMOVE_SELECTION: 'REMOVE_SELECTION',
   SET_STOCK_LINE: 'SET_STOCK_LINE',
   SAVE_DATE: 'SAVE_DATE',
-  RESET_FP: 'RESET_FP',
+  RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT'
 }
 
@@ -47,14 +47,10 @@ const actions = {
   }, value) {
     commit(mutationsTypes.SET_COUNT, value)
   },
-  resetFp({
+  resetChart({
     commit
   }) {
-    commit(mutationsTypes.SET_STOCK, null)
-    commit(mutationsTypes.SAVE_DATE, null)
     commit(mutationsTypes.DATE_CODE, null)
-    commit(mutationsTypes.NEW_NEWS, null)
-    commit(mutationsTypes.STOP_STOCK, null)
   },
   saveDate({
     commit
@@ -313,9 +309,9 @@ const mutations = {
     //   console.log(state.saveDate) //  存放日历时间
     state.saveDate = res
   },
-  [mutationsTypes.RESET_FP](state, res) {
+  [mutationsTypes.RESET_CHART](state, res) {
     //   console.log(state.saveDate) //  清空复牌数据
-    state.resetFp = res
+    state.resetChart = res
   },
   [mutationsTypes.SET_COUNT](state, res) {
     state.setCount = res

@@ -254,6 +254,7 @@ export default {
                 public:this.public })
                 this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
                    /* 图表部分文字 */ 
+                 //  debugger
                 this.$store.dispatch('jjrl/setStockLine',date).then( res => {
                 let code=this.storeData.stockCode
                 this.zszd=this.setStockLine[code].return_pct.toFixed(2)+'%'
@@ -275,7 +276,7 @@ export default {
                         zszd:this.zszd ,
                         bkData:this.bkData,
                         ggData:this.ggData }).then( res => {
-                   //   console.log(this.storeData)
+                    console.log(this.storeData)
                         })
                 })
             })  

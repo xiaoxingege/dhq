@@ -37,10 +37,11 @@ export default{
          ...mapState({
                 storeData:state => state.jjrl.dateAndCode,
                 setStockLine:state => state.jjrl.setStockLine,
-                saveDate:state => state.jjrl.saveDate
+                saveDate:state => state.jjrl.saveDate,
+                resetChart:state => state.jjrl.resetChart
             }),
             getStockCode() {
-          //      console.log(this.storeData.stockCode)
+           console.log(this.storeData.stockCode)
              return this.storeData.stockCode;
             }
     },
@@ -82,7 +83,7 @@ export default{
                     type:'line',
                     smooth:true,
                     symbol: 'none',
-                    sampling: 'average',
+                 //   sampling: 'average',
                     itemStyle: {
                         normal: {
                             color: '#f0b540'
@@ -99,7 +100,7 @@ export default{
                     type:'line',
                     smooth:true,
                     symbol: 'none',
-                    sampling: 'average',
+                //    sampling: 'average',
                     itemStyle: {
                         normal: {
                             color: 'rgb(25, 132, 234)'
@@ -138,6 +139,9 @@ export default{
           },
         paint(date){
             this.$store.dispatch('jjrl/setStockLine',date).then(res => {
+            this.bkData=[]
+            this.ggData=[] 
+            this.showDate=[]
             this.code =this.storeData.stockCode
             this.zszd=this.storeData.zszd
             this.public=this.storeData.public
@@ -152,6 +156,9 @@ export default{
             this.ggData.push(item.index.toFixed(2))
                
            })
+          
+         //  this.$store.dispatch('jjrl/resetChart').then( res => {
+          //   debugger
             this.$store.dispatch('jjrl/storeData',{
             stopdate:this.stopdate,
             stockCode:this.code,
@@ -161,13 +168,21 @@ export default{
             ggData:this.ggData })
             this.initChart()
             this.drawCharts()
-        })
+       //    console.log(this.storeData)
+           
+       // })
+         
+           })
+            
       
         }
       
     },
     watch: {
     getStockCode:function() {
+     //   debugger
+    
+      console.log(this.storeData)
         this.paint(this.saveDate.chooseDate)
     }
   }, 
