@@ -13,9 +13,9 @@ export default {
   }
 }
 const domain = 'https://test.z3quant.com' // openapi
-const websocketDomain = 'https://test.z3quant.com' // websocket
-// const domain = '//www.z3quant.com' // openapi
-// const websocketDomain = '//www.z3quant.com' // websocket
+const websocketDomain = 'https://test.z3quant.com' // websocket  
+/* const domain = '//www.z3quant.com' // openapi
+ const websocketDomain = '//www.z3quant.com' // websocket */
 const ctx = '/dhqweb'
 // const ctx = '';
 export {

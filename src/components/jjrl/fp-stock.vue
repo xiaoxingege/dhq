@@ -1,7 +1,7 @@
 <template>
-    <div class="showStock">
+    <div class="showStock" >
         <ul>
-            <li v-for="(item , index) in setStockData" 
+            <li v-for="(item , index) in setStock" 
                 @click="showDetail(index,item)"
                 :class="addCur===index?'cur':''"
                   >   
@@ -10,7 +10,7 @@
                     <span  class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!item[8]">+自选</span>
                     <span  class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="item[8]">-自选</span>
                 </div>
-                <div class="price" v-z3-updowncolor="item[7]" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
+                <div class="price" v-z3-updowncolor="item[7]" @click="toDetails(item)"><span>{{item[4].toFixed(3)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7]+"%"}}</span></div>
                 <div class="open"><span >今开：<i :class="item[7]>0?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
             </li>
         </ul>
@@ -20,7 +20,6 @@
 <script>
     import { mapState } from  'vuex'
     import native from '../../utils/nativeApi'
-    //  import echarts from 'echarts'
     export default{
         data(){
             return{
@@ -39,9 +38,9 @@
                 },
                 public:'',
                 zszd:'' ,//  指数涨跌,
-                date:'',
                 index:0,
-                element:''
+                element:'',
+                calenderDate:''
             }
         },
         computed:{ 
@@ -51,47 +50,50 @@
                 storeData:state => state.jjrl.dateAndCode,
                 isSelfSelection: state => state.jjrl.isSelfSelection,
                 setStockLine:state => state.jjrl.setStockLine,
-                stopStock:state => state.jjrl.stopStock
+                stopStock:state => state.jjrl.stopStock,
+                saveDate: state => state.jjrl.saveDate,
+                setCount:state => state.jjrl.setCount
             }),
-            changeZx(){
-               // console.log(this.isSelfSelection)
-                 return this.isSelfSelection;
+            changeCalendar(){
+                 return this.saveDate.chooseDate;
+            },  
+            changeCode(){
+                return this.storeData.stockCode
             }
         },
         methods: {
          showDetail(index,item){
               this.addCur=index
+            //  debugger
               this.stopdate=this.getStock[index].STP_DT //   停牌日期
               this.public=this.getStock[index].ESP_HINT //  停牌时间公告
               this.stockCode=item[1]  //  当前股票代码
               this.setDate(this.stopdate)
-
-              this.$store.dispatch('jjrl/setStockLine',this.data).then( res => {
+              this.$store.dispatch('jjrl/setStockLine',this.saveDate.chooseDate).then( res => {
                  this.zszd=this.setStockLine[this.stockCode].return_pct.toFixed(2)+'%'
-               // console.log(this.setStockLine)
+              // console.log(this.zszd)
                 this.$store.dispatch('jjrl/storeData',{ // 存储停牌时间，代码，公告和涨跌停数据
-                     stopdate:this.stopdate,
-                    stockCode:this.stockCode,
-                    public:this.public,
-                    zszd:this.zszd
+                        stopdate:this.stopdate,
+                        stockCode:this.stockCode,
+                        public:this.public,
+                        zszd:this.zszd
                      }).then(res => {
-                        // console.log(this.storeData)
-                     })
-                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then( res => {  // 请求停牌公告
-                        })
-                    this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode }).then( res => {
-                 
-                   })
+              //   console.log(this.storeData)
+                     }) 
+                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })// 请求停牌公告
+                    this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode })
               })
           }  ,
           addSelfChoice(item,index ){
              this.stockCode=item[1]
+            // debugger
              this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
              }).then( res => {
-                 const len=this.setStockData[index].length;
+                 console.log(this.setStock)
+                 const len=this.setStock[index].length;
                  const ele = this.isSelfSelection
-                 this.setStockData[index].splice([len-1],1,ele);
+                 this.setStock[index].splice([len-1],1,ele);
              }) 
            
           },
@@ -100,9 +102,9 @@
             this.$store.dispatch('jjrl/removeSelection', {
                     stockCode: this.stockCode
              }).then(res => {
-                  const len=this.setStockData[index].length;
+                  const len=this.setStock[index].length;
                  const ele = this.isSelfSelection
-                 this.setStockData[index].splice([len-1],1,ele);
+                 this.setStock[index].splice([len-1],1,ele);
              })
           },
           toDetails(item){
@@ -123,81 +125,23 @@
                 M = d.getMonth()+1
                 D = d.getDate()
                 if( M < 10 ) { M = '0' + M; }
-                if( D <= 5 ) { D = '0' + D; }
+                if( D <= 10 ) { D = '0' + D; }
             this.stopdate=  Y + '-' + M + '-' + D 
-          },
-          init(data){
-         
           }
         },
-        watch:{
-            changeZx:function () { 
-          //  this.setStockData=[]
-           console.log(this.setStockData)
-            }
-        }, 
-    
+      watch:{
+          changeCalendar:function () { 
+            this.addCur=0
+            this.index=0
+     
+          }
+        },
         mounted () {
-            this.data='2018-06-15'
-            var data=this.data
-            // this.init(data)
-                this.$store.dispatch('jjrl/getStock',data).then( res => {
-                this.stopdate=this.getStock[0].STP_DT
-                this.setDate(this.stopdate)
-                this.stockCode=this.getStock[0].STOCKCODE
-                this.getStock.forEach( ele => {
-                this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
-                })
-                let item= this.getStockCode.join(',') // q接口支持多个查询
-                this.$store.dispatch('jjrl/setStock',item).then( res => {
-                this.setStockData =this.setStock
-            //      console.log( this.setStockData)
-                }) 
-                /* 自选股部分 */
-              
-                const me=this;
-               getState();
-               function getState(){
-                   me.element=me.getStockCode[me.index];
-                 //  console.log( me.element)
-                    me.$store.dispatch('jjrl/querySelection',me.element).then(res => {
-                //   debugger
-                        me.setStockData[me.index].push(me.isSelfSelection);
-                        if(me.index<me.getStockCode.length-1){
-                          me.index++;
-                          me.element=me.getStockCode[me.index]
-                          getState();
-                        }
-                     
-                    }) 
-                   
-               }
-            // console.log(this.isSelfSelection)
-               this.public=this.getStock[0].ESP_HINT 
-                this.$store.dispatch('jjrl/storeData',{
-                stopdate:this.stopdate,
-                stockCode:this.stockCode,
-                public:this.public })
-                this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
-                   /* 图表部分 */
-                 this.$store.dispatch('jjrl/setStockLine',data).then( res => {
-                     let code=this.storeData.stockCode
-                    this.zszd=this.setStockLine[code].return_pct.toFixed(2)+'%'
-              // console.log( this.setStockLine)
-                  this.$store.dispatch('jjrl/storeData',{
-                        stopdate:this.stopdate,
-                        stockCode:this.stockCode,
-                        public:this.public,
-                        zszd:this.zszd }).then( res => {
-                        //    console.log(this.storeData)
-                        })
-                   
-                })
-
-
-            })  
-
-
+         
+           /*  this.$store.dispatch('jjrl/setCount').then(
+                console.log(this.setCount)
+            ) */
+                
         }
         }
     

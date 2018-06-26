@@ -1,9 +1,9 @@
 <template>
 <div class="contentPage">
-  <div class="middlearea">
+  <div class="middlearea" v-if="count">
     <fpStock></fpStock>
   </div>
-  <div class="rightArea">
+  <div class="rightArea" v-if="count">
     <fpDetail></fpDetail>
   </div>
 
@@ -13,6 +13,7 @@
 import fpStock from 'components/jjrl/fp-stock'
 import fpDetail from 'components/jjrl/fp-detail'
 export default {
+  props:['count'],
   components: {
     fpStock,
     fpDetail
@@ -57,7 +58,9 @@ export default {
 }
 .contentPage {
     height: 100%;
+    //  height: 890px;
     display: flex;
+    overflow: auto;
     justify-content: space-between;
 }
 </style>

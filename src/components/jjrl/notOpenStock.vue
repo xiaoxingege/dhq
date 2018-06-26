@@ -1,5 +1,5 @@
 <template>
-  <div class="stockAll">
+  <div class="stockAll" v-if="count">
      <div class="name">
          <div class="notOpenstock">
              <i></i>未开板新股
@@ -31,7 +31,10 @@
                     <td class="col-7">{{item.INDU_NAME}}</td>
                     <td class="col-8">{{item.INDU_PE.toFixed(2)}}</td>
                     <td class="col-9">{{item.PE.toFixed(2)}}</td>
-                    <td class="col-10"></td> 
+                    <td class="col-10">
+                        <span  class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!item['zx']">+自选</span>
+                    <span  class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="item['zx']">-自选</span>
+                    </td> 
                     
                  </tr>
              </tbody>
@@ -44,6 +47,7 @@
 import { mapState } from  'vuex'
 import native from '../../utils/nativeApi'
 export default{
+     props:['count'],
     data(){
         return {
             list: [],
@@ -53,13 +57,18 @@ export default{
             isActive:false,
             para:{
                     stockCode:''
-                }
+                },
+            index:0,
+            element:''
         }
     },
     computed:{
          ...mapState({
              notOpenStock:state => state.jjrl.notOpenStock,
-             notOpenStockList:state => state.jjrl.notOpenStockList
+             notOpenStockList:state => state.jjrl.notOpenStockList,
+             saveDate: state => state.jjrl.saveDate,
+             storeData:state => state.jjrl.dateAndCode,
+             isSelfSelection: state => state.jjrl.isSelfSelection
          })
        
     },
@@ -81,19 +90,33 @@ export default{
               this.para.stockCode=code
               //  console.log(code)
               native.openStock(this.para)
-           }
-
+           },
+           addSelfChoice(item,index ){
+            this.stockCode=item.STOCKCODE
+            this.$store.dispatch('jjrl/addSelection', {
+                    stockCode: this.stockCode
+             }).then( res => {
+           //    debugger
+                 const ele = this.isSelfSelection
+                 this.notOpenStock[index]['zx']=ele;
+             }) 
+          },
+          deleteSelfChoice(item,index ){
+            this.stockCode=item.STOCKCODE
+            this.$store.dispatch('jjrl/removeSelection', {
+                    stockCode: this.stockCode
+             }).then(res => {
+                const ele = this.isSelfSelection
+                 this.notOpenStock[index]['zx']=ele;
+             })
+          }
     },
+    
     mounted(){
-      this.$store.dispatch('jjrl/notOpenStock','2018-06-11').then(res => {
-             this.notOpenStock.forEach( ele => {
-                this.notOpenStockCode.push(ele.STOCKCODE)
-                })
-              console.log(this.notOpenStock)
-            let item=this.notOpenStockCode.join(',')
-            this.$store.dispatch('jjrl/notOpenStockList',item)
-      })
-        
+ /*        this.$store.dispatch('jjrl/saveDate').then( res => {
+          console.log(this.saveDate)
+  
+        }) */
     }
 }
 </script>
@@ -153,32 +176,56 @@ table, th, td{
     cursor: pointer;
 }
 .col-1{
-    width: 100px;
+    width: 10.25%;
 }
-.col-2,
-.col-3 {
-    width: 86px;
+.col-2, .col-3 {
+    width: 8.64%;
 }
 .clo-4 {
-    width: 114px;
+    width: 11.46%;
 }
 .col-5 {
-    width: 108px;
+    width:10.25%;
 }
 .col-6 {
-    width: 123px;
+    width: 12.36%;
 }
 .col-7 {
-    width: 102px;
+    width:10.25%;
 }
 .col-8 {
-    width: 102px;
+    width:10.25%;
 
 }
 .col-9 {
-    width: 100px;
+    width: 10.25%;
 }
 .col-10 {
-    width: 70px;
+    width:  8.64%;
+}
+.addSelfChoice{
+    width: 40px;
+    height: 18px;
+    padding-left: 1px;
+    box-sizing: border-box;
+    background-color: $upColorDhq;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+.name{
+    margin: 5px 0
+}
+.deleteSelfChoice{
+    width: 40px;
+    height: 18px;
+    padding-left: 3px;
+    box-sizing: border-box;
+    border: 1px solid $upColorDhq;
+    border-radius: 2px;
+    color:$upColorDhq;
+    cursor: pointer;
+    display: inline-block;
 }
 </style>

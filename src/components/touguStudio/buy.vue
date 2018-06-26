@@ -73,7 +73,7 @@ export default{
        // 请求安卓接口
         $.ajax({
                 type: 'get',
-                url: `http://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300001`,
+                url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300001`,
                 dataType: 'json',
                 success: function(data) { 
                     if (data.retCode===1) {
@@ -88,7 +88,7 @@ export default{
      // 请求ios接口
       $.ajax({
                 type: 'get',
-                url: `http://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300002`,
+                url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300002`,
                 dataType: 'json',
                 success: function(data) { 
                     if (data.retCode===1) {
