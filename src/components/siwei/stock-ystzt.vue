@@ -123,7 +123,7 @@ export default {
           showBImg: false
         },
         {
-          name: '昨日板否',
+          name: '昨日开板',
           type: 'ysdisKb',
           showImg: false,
           showBImg: false
