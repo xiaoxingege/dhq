@@ -15,6 +15,7 @@ import Headline from 'components/headlines/headline'
 import SignalIndex from 'components/toolCenter/signal-index'
 import TestNative from 'components/test/test-native'
 import DhqNews from 'components/dhq-news-detail'
+import AireplayIndex from 'components/toolCenter/ai-replay-index'
 // import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
@@ -160,12 +161,17 @@ export default [{
     path: ctx + '/headline',
     name: 'headline',
     component: Headline
-  }, {
+  },
+  {
     path: ctx + '/signalIndex',
     name: 'signalindex',
     component: SignalIndex
   },
-
+  {
+    path: ctx + '/aireplayIndex',
+    name: 'aireplayindex',
+    component: AireplayIndex
+  },
   /* {
      path: ctx + '/search-box',
      name: 'search-box',
