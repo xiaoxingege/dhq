@@ -21,7 +21,7 @@
     box-flex: 1;
 }
 .signal-wrap {
-    width: 100%;
+    /* width: 100%; */
     border-top: 1px solid $bgDeepColor;
     border-left: 1px solid $bgDeepColor;
     border-right: 2px solid $bgDeepColor;
