@@ -19,8 +19,9 @@ const state = {
   removeSelection: [],
   setStockLine: [],
   saveDate: [],
-  resetFp: [],
-  setCount: [] // 存放功能区数据的数量
+  resetChart: [],
+  setCount: [], // 存放功能区数据的数量，
+  setHyList: [] // 会议日历的列表数据
 
 }
 const mutationsTypes = {
@@ -33,12 +34,11 @@ const mutationsTypes = {
   NOT_OPEN_STOCK: 'NOT_OPEN_STOCK',
   NOT_OPEN_STOCK_LIST: 'NOT_OPEN_STOCK_LIST',
   UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION',
-  ADD_SELECTION: 'ADD_SELECTION',
-  REMOVE_SELECTION: 'REMOVE_SELECTION',
   SET_STOCK_LINE: 'SET_STOCK_LINE',
   SAVE_DATE: 'SAVE_DATE',
-  RESET_FP: 'RESET_FP',
-  SET_COUNT: 'SET_COUNT'
+  RESET_CHART: 'RESET_CHART',
+  SET_COUNT: 'SET_COUNT',
+  SET_HY_LIST: 'SET_HY_LIST'
 }
 
 const actions = {
@@ -47,14 +47,10 @@ const actions = {
   }, value) {
     commit(mutationsTypes.SET_COUNT, value)
   },
-  resetFp({
+  resetChart({
     commit
   }) {
-    commit(mutationsTypes.SET_STOCK, null)
-    commit(mutationsTypes.SAVE_DATE, null)
     commit(mutationsTypes.DATE_CODE, null)
-    commit(mutationsTypes.NEW_NEWS, null)
-    commit(mutationsTypes.STOP_STOCK, null)
   },
   saveDate({
     commit
@@ -112,7 +108,7 @@ const actions = {
   stopStock({
     commit
   }, stockCode) {
-    const url = `https://sslapi.jrj.com.cn/genius/glink/base/SEC_DISC_INFO/limit=20&full=2&filter-SEC_CODE-in-str=${stockCode.stockCode}&sort=DECLAREDATE&skip=0&filter-DECLAREDATE-gte-str=${stockCode.date}`
+    const url = `https://sslapi.jrj.com.cn/genius/glink/base/SEC_DISC_INFO/limit=20&full=2&filter-SEC_CODE-in-str=${stockCode.stockCode}&sort=DECLAREDATE&skip=0&filter-DECLAREDATE-gte-str=${stockCode.date}&filter-TYPE-int=1 `
     const mode = 'cors';
     return fetch(url, {
       mode
@@ -266,17 +262,12 @@ const actions = {
       return;
     }
     const url = `${domain}/openapi/selectStock/del.shtml`
-
     return fetch(url, {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
-        /*  'clientid': 'z3client_dhq',
-          'deviceid': 'test_device_id',
-          'userId': '171003010002481622',
-          'accessToken': 'JyX/ixccgzj1D1iZCBpv+htvr+MMihHcwT585kqpHCkgmTrULvQo4yf4DFL3eR4b',
-          'passportId': '171003010002481622' */
+
       },
       method: 'post',
       body: `stocks=${stockCode}&userId=${userId}`
@@ -313,9 +304,9 @@ const mutations = {
     //   console.log(state.saveDate) //  存放日历时间
     state.saveDate = res
   },
-  [mutationsTypes.RESET_FP](state, res) {
+  [mutationsTypes.RESET_CHART](state, res) {
     //   console.log(state.saveDate) //  清空复牌数据
-    state.resetFp = res
+    state.resetChart = res
   },
   [mutationsTypes.SET_COUNT](state, res) {
     state.setCount = res
@@ -341,22 +332,18 @@ const mutations = {
   },
   //  是否添加自选
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
-    //   debugger;
-    // console.log(state.isSelfSelection)
     state.isSelfSelection = isSelfSelection
     //  state.isSelfSelection.push(isSelfSelection)
   },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
-    /*   for(var i=0; i< state.setStock.length; i++){
-       state.setStock[i].push( state.isSelfSelection[i])
-       } */
-  },
-  [mutationsTypes.ADD_SELECTION](state, isSelfSelection) {
 
   },
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
+  },
+  [mutationsTypes.SET_HY_LIST](state, setHyList) {
+    state.setHyList = setHyList
   }
 }
 
