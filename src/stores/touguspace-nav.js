@@ -20,7 +20,11 @@
              return new Promise((resolve, reject) => {
                  // const url = ` http://mapi.itougu.jrj.com.cn/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                  const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
-                 return fetch(url).then((res) => {
+                 return fetch(url, {
+                     headers: {
+                         'APPVER': '7.0.0'
+                     }
+                 }).then((res) => {
                      return res.json()
                  }).then((data) => {
                      if (data.retCode) {
