@@ -238,7 +238,8 @@ export default {
     return {
       updateDataPid: null,
       intervalTime: 1000,
-      timeoutID: null
+      timeoutID: null,
+      chartInterval: null
     }
   },
   components: {},
@@ -890,7 +891,7 @@ export default {
     hideAlert(index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'none'
     },
-    indexStock() {
+    /* indexStock() {
       const msg = {
         subject: 'timeline',
         type: '1',
@@ -909,7 +910,7 @@ export default {
         token: ''
       }
       this.$store.dispatch('z3sockjs/send', msg)
-    },
+    }, */
     updateBar(data) {
       this.$store.commit('indexChart/barSocket', data)
     },
@@ -925,6 +926,29 @@ export default {
           _this.$store.dispatch('indexChart/getMoveBlock')
         }, 60 * _this.intervalTime)
       }
+      this.chartInterval = setInterval(function(){
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+              stockCode: '000001.SH'
+          }).then(() => {
+              _this.refreshEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+          })
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+              stockCode: '000300.SH'
+          }).then(() => {
+              _this.refreshEcharts(_this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+          })
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+              stockCode: '399001.SZ'
+          }).then(() => {
+              _this.refreshEcharts(_this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
+          })
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+              stockCode: '399006.SZ'
+          }).then(() => {
+              _this.refreshEcharts(_this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
+          })
+          _this.$store.dispatch('indexChart/getBarData').then(() => {})
+      },3*_this.intervalTime)
     },
     toMarketDetail: function() {
       window.open(ctx + '/stock/000001.SH')
@@ -946,7 +970,7 @@ export default {
     }
   },
   watch: {
-    stockMessage() {
+    /* stockMessage() {
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
@@ -960,7 +984,7 @@ export default {
         // 断开连接，重新建立连接
         this.$store.dispatch('z3sockjs/init')
       }
-    },
+    }, */
     barMessage() {
       if (this.barMessage) {
         this.updateBar(this.barMessage)
@@ -1035,31 +1059,32 @@ export default {
     Promise.all([p1, p2]).then(() => {
       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
     });
+    this.$store.dispatch('indexChart/getIndexChartData', {
+        stockCode: '000300.SH'
+    }).then(() => {
+        this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+    })
+    this.$store.dispatch('indexChart/getIndexChartData', {
+        stockCode: '399001.SZ'
+    }).then(() => {
+        this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
+    })
+    this.$store.dispatch('indexChart/getIndexChartData', {
+        stockCode: '399006.SZ'
+    }).then(() => {
+        this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
+    })
+    this.$store.dispatch('indexChart/getBarData').then(() => {})
     this.autoUpdate()
     /* this.$store.dispatch('indexChart/getIndexChartData', {
        stockCode: '000001.SH'
      }).then(() => {
        this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
      })*/
-    this.$store.dispatch('indexChart/getIndexChartData', {
-      stockCode: '000300.SH'
-    }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
-    })
-    this.$store.dispatch('indexChart/getIndexChartData', {
-      stockCode: '399001.SZ'
-    }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
-    })
-    this.$store.dispatch('indexChart/getIndexChartData', {
-      stockCode: '399006.SZ'
-    }).then(() => {
-      this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
-    })
-    this.$store.dispatch('indexChart/getBarData').then(() => {})
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()
+    this.chartInterval && clearInterval(this.chartInterval)
   }
 }
 </script>
