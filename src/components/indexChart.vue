@@ -585,12 +585,12 @@ export default {
       if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeTime) !== -1) {
         moveUpX = _this.moveUpBlockData.tradeTime
         moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeTime)]
-        moveUpName = _this.moveUpBlockData.idxName
+        moveUpName = _this.moveUpBlockData.sectionName
       }
       if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeTime) !== -1) {
         moveDownX = _this.moveDownBlockData.tradeTime
         moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeTime)]
-        moveDownName = _this.moveDownBlockData.idxName
+        moveDownName = _this.moveDownBlockData.sectionName
       }
       const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
       let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
@@ -989,7 +989,7 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData) {
+        if (this.moveBlockData.length > 0 && this.szzsChartData) {
           this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         }
       }
@@ -1015,7 +1015,9 @@ export default {
     moveBlockData: {
       deep: true,
       handler: function() {
-        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        if (this.moveBlockData.length > 0 && this.szzsChartData) {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        }
       }
     }
   },
