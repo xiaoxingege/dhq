@@ -56,17 +56,14 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.auth.authorization) {
-      return {
-        authorization: state.auth.authorization,
-        accessToken: state.auth.accessToken,
-        userType: state.auth.userType,
-        clientid: state.auth.clientid,
-        deviceid: state.auth.deviceid,
-        userId: state.user.userId
-      }
+    return {
+      authorization: state.auth.authorization || '',
+      accessToken: state.auth.accessToken || '',
+      userType: state.auth.userType || '',
+      clientid: state.auth.clientid,
+      deviceid: state.auth.deviceid,
+      userId: state.user.userId
     }
-    return {}
   }
 }
 const actions = {
