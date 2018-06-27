@@ -1,11 +1,11 @@
 <template>
 <div>
-  <ul>
-    <li>
-      <hyDetail></hyDetail>
-    </li>
-  </ul>
-
+    <ul>
+        <li v-for='(item,index) in setHyList.data' @click="showDetail(item,index)">
+            <hyDetail :model="item" :active='cur===index'></hyDetail>
+        </li>
+    </ul>
+   
 </div>
 </template>
 <script>
@@ -16,25 +16,45 @@ import hyDetail from 'components/jjrl/hy-detail'
 export default {
   components: {
     hyDetail
-  },
-  data() {
-    return {
-
-    }
-  },
-  computed: {
+    },
+    data(){
+        return {
+            cur:'',
+            hyList:{}
+        }
+    },
+    computed: { 
     ...mapState({
-      storeData: state => state.jjrl.dateAndCode
-
+        storeData:state => state.jjrl.dateAndCode,
+        setHyList:state => state.jjrl.setHyList
+      
     })
 
-  },
-  methods: {
-
-  },
-  mounted() {
-
-  }
+    },
+    methods:{
+        showDetail(item,index){
+         //   console.log(index)
+            this.cur===index
+            this.hyList=item
+            this.$emit('hyCalenderDetail',this.hyList)
+        }
+    },
+    mounted () {
+        this.$store.dispatch('jjrl/setHyList','201806').then( res => {
+            this.hyList=this.setHyList.data.length?this.setHyList.data:{}
+            this.$emit('hyCalenderDetail',this.hyList)
+          //  console.log(this.setHyList.data)
+            this.setHyList.data.forEach(ele => {
+         ele.events.forEach( res => {
+               let arrCode=[]
+             arrCode.push(res.concepts[0])
+               console.log(arrCode)
+         })
+              
+            })
+         //   let relateStockCode=this.setHyList.data
+        })
+    }
 }
 </script>
 
