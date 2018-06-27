@@ -21,8 +21,8 @@ const state = {
   saveDate: [],
   resetChart: [],
   setCount: [], // 存放功能区数据的数量，
-  setHyList:[] // 会议日历的列表数据
- 
+  setHyList: [] // 会议日历的列表数据
+
 }
 const mutationsTypes = {
   SET_GUIDE: 'SET_GUIDE',
@@ -38,7 +38,7 @@ const mutationsTypes = {
   SAVE_DATE: 'SAVE_DATE',
   RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT',
-  SET_HY_LIST:'SET_HY_LIST'
+  SET_HY_LIST: 'SET_HY_LIST'
 }
 
 const actions = {
@@ -93,8 +93,8 @@ const actions = {
   setStock({
     commit
   }, stockCode) {
-    // const url=`//q.jrjimg.cn/?q=cn|s&i=${stoceCode}&c=np,hlp,pl,lcp,op,name`
     const vname = stockCode.split(',').join('')
+   // debugger
     return $.ajax({
       type: 'get',
       dataType: 'script',
@@ -147,7 +147,7 @@ const actions = {
       commit(mutationsTypes.NOT_OPEN_STOCK, json.data)
     })
   },
-  notOpenStockList({
+  notOpenStockList({ // 获取价格
     commit
   }, stockCode) {
     const vname = stockCode.split(',').join('')
@@ -183,15 +183,21 @@ const actions = {
       rootState,
       commit
     },
-    stockCode
+   value
   ) {
+   // debugger
     const userId = rootState.user.userId || '';
     // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     if (!userId) {
       return;
     }
+
     //  stockCode = stockCode && stockCode.substring(0, 6);
-    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${stockCode}&userId=${userId}`
+    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value.stockCode}&userId=${userId}`
+    // debugger
+ /*    const item =`${value.item}`
+    const type =`${value.type}` 
+    console.log(item)*/
     return fetch(url, {
       mode: 'cors',
       headers: {
@@ -267,7 +273,7 @@ const actions = {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
-  
+
       },
       method: 'post',
       body: `stocks=${stockCode}&userId=${userId}`
@@ -280,6 +286,18 @@ const actions = {
           root: true
         })
       }
+    })
+  },
+  setHyList({ commit }, date){  
+    const url = `https://mapp.jrj.com.cn/json/invest/get?month=${date}&vname=content` // 需要年月份
+    return $.ajax({
+      type: 'get',
+      dataType: 'script',
+      url: url
+    }).then(res => {
+       var hqData = window['content'];
+   //   console.log(hqData)
+      commit(mutationsTypes.SET_HY_LIST, hqData)
     })
   }
 }
@@ -324,8 +342,10 @@ const mutations = {
     for (var i = 0; i < state.notOpenStock.length; i++) {
       if (state.notOpenStock[i].STOCKCODE === state.notOpenStockList[i][1]) {
         let obj = state.notOpenStock[i];
-        obj.np = state.notOpenStockList[i][2].toFixed(2);
-        obj.id = state.notOpenStockList[i][0];
+        state.notOpenStock.splice(i,1,{ ...obj,  np:state.notOpenStockList[i][2].toFixed(2),id:state.notOpenStockList[i][0] })
+       
+        // obj.np = state.notOpenStockList[i][2].toFixed(2);
+        // obj.id = state.notOpenStockList[i][0];
 
       }
     }
@@ -333,7 +353,6 @@ const mutations = {
   //  是否添加自选
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
     state.isSelfSelection = isSelfSelection
-    //  state.isSelfSelection.push(isSelfSelection)
   },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
@@ -342,8 +361,8 @@ const mutations = {
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
   },
-  [mutationsTypes.SET_HY_LIST](state,setHyList){
-    state.setHyList=setHyList
+  [mutationsTypes.SET_HY_LIST](state, setHyList) {
+    state.setHyList = setHyList
   }
 }
 

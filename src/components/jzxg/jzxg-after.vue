@@ -36,10 +36,12 @@
         </div>
       </div>
     </div>
-    <p class="detail-ten">极智十大选股</p>
+    <p class="detail-title">{{tenStockTitle[strategyId-1]}}</p>
     <div class="ten-stock">
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
+    <p class="detail-title">最新调仓（最新调入）</p>
+    <RecentIn :recentInData="lateInList" :strategyId="strategyId" :nextStart="nextStart"></RecentIn>
   </div>
   <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow"></PopWindow>
 </div>
@@ -47,6 +49,7 @@
 <script>
 import tenStocks from 'components/jzxg/ten-stock'
 import PopWindow from 'components/jzxg/popup-window'
+import RecentIn from 'components/jzxg/recent-in'
 import {
   mapState
 } from 'vuex'
@@ -54,7 +57,8 @@ export default {
   data() {
     return {
       navList: [],
-      strategyId: 5,
+      strategyId: 2,
+      nextStart: '',
       strategyName: '极智模拟仓',
       labelList: [],
       isShowIconHelp: false,
@@ -65,7 +69,8 @@ export default {
       popWidth: 780,
       popHeight: 545,
       popTitle: '极智选股-极智模拟仓',
-      isPopHelpWindow: false
+      isPopHelpWindow: false,
+      tenStockTitle: ['波段优选十大牛股', '中线掘金十大牛股', '主力天机十大牛股', '热点狙击十大牛股', '极智十大牛股']
     }
   },
   watch: {
@@ -75,12 +80,12 @@ export default {
   },
   components: {
     tenStocks,
-    PopWindow
+    PopWindow,
+    RecentIn
   },
   computed: mapState({
     navListData: state => state.jzxg.navData,
-    strategyData: state => state.jzxg.strategyDetail,
-    lateInData: state => state.jzxg.latestInData
+    strategyData: state => state.jzxg.strategyDetail
   }),
   methods: {
     initNav: function() {
@@ -106,6 +111,8 @@ export default {
           this.strategyName = this.strategyData.name
           this.labelList = this.strategyData.indicators
           this.detailTenStock = this.strategyData.hotStocks
+          this.lateInList = this.strategyData.lastExcellent.stocks
+          this.nextStart = this.strategyData.lastExcellent.nextStart
         }
       })
     },
@@ -115,15 +122,15 @@ export default {
     hideHelp: function() {
       this.isShowIconHelp = false;
     },
-    dropLatestIn: function() {
-      this.$store.dispatch('jzxg/getLatestInData', {
-        strategyId: this.strategyId,
-        pageSize: this.pageSize,
-        pageStart: this.pageStart
-      }).then(() => {
-        this.lateInList = this.lateInData
-      })
-    },
+    /* dropLatestIn: function() {
+       this.$store.dispatch('jzxg/getLatestInData', {
+         strategyId: this.strategyId,
+         pageSize: this.pageSize,
+         pageStart: this.pageStart
+       }).then(() => {
+         this.lateInList = this.lateInData
+       })
+     },*/
     popUpHelpWindow: function() {
       this.isPopHelpWindow = true
     },
@@ -134,7 +141,7 @@ export default {
   mounted() {
     this.initNav()
     this.initStrategyDetail()
-    this.dropLatestIn()
+    // this.dropLatestIn()
   }
 }
 </script>
@@ -246,7 +253,7 @@ export default {
 .ten-stock {
     height: 170px;
 }
-.detail-ten {
+.detail-title {
     margin-top: 30px;
     margin-bottom: 15px;
     font-size: 16px;

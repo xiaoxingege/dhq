@@ -101,9 +101,8 @@ const actions = {
           deviceid: 'test_device_id',
           updateTime: null, // updateTime
           expires: -1, // second
-          userId: 'userId', // test userid
-          passportId: 'null'
-          
+          userId: '171003010002481622', // test userid
+          passportId: '171003010002481622'
         }
         commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
         resolve()
