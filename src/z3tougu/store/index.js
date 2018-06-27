@@ -43,6 +43,8 @@ const state = {
   },
   auth: {
     authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
+    accessToken: '',
+    userType: '',
     clientid: '', // 'test_client_id',
     deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
@@ -57,6 +59,8 @@ const getters = {
     if (state.auth.authorization) {
       return {
         authorization: state.auth.authorization,
+        accessToken: state.auth.accessToken,
+        userType: state.auth.userType,
         clientid: state.auth.clientid,
         deviceid: state.auth.deviceid,
         userId: state.user.userId
