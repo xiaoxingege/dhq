@@ -20,7 +20,8 @@ export default {
     data(){
         return {
             cur:'',
-            hyList:{}
+            hyList:{},
+            arrCode:[]
         }
     },
     computed: { 
@@ -45,19 +46,18 @@ export default {
             this.$emit('hyCalenderDetail',this.hyList)
           //  console.log(this.setHyList.data)
             this.setHyList.data.forEach(ele => {
-         ele.events.forEach( res => {
-               let arrCode=[]
-             arrCode.push(res.concepts[0])
-               console.log(arrCode)
+        ele.events.forEach( res => {
+             console.log(res)
+            this.arrCode.push(res.concepts[0])
+           
+              
          })
               
-            })
+            }) 
+            console.log(this.arrCode)
          //   let relateStockCode=this.setHyList.data
         })
     }
 }
 </script>
 
-<style lang="scss" scoped>
-Error: Source sample is missing.
-</style>

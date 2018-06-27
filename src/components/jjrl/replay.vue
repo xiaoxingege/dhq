@@ -146,11 +146,11 @@ export default {
       this.curType = index
       this.isCur = index
        this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
-       if(this.curType==2){
+       if(parseInt(this.curType)===2){
          this.index=0
          this.notOpenStockCode=[]
          this.initNotOpenStock(this.tradeDate) 
-       }else if(this.curType==0){
+       }else if(parseInt(this.curType)===0){
          this.index=0
           this.initFp(this.saveDate.chooseDate) 
        }
@@ -212,7 +212,7 @@ export default {
              var currentIndex=0;
             getState(currentIndex);
             function getState(){
-              //debugger
+              // debugger
               me.element=me.notOpenStockCode[currentIndex];
               const item =me.notOpenStock[currentIndex];
             //  console.log("请求之前",currentIndex);
@@ -319,12 +319,11 @@ export default {
         chooseDate: this.tradeDate
       }).then(res => {
         this.initConsole(this.saveDate.chooseDate)
-        if(this.curType==2){
-        //  debugger
+        if(parseInt(this.curType)===2){
           this.index=0
           this.notOpenStockCode=[]
           this.initNotOpenStock(this.saveDate.chooseDate)
-        }else if(this.curType=='0'){
+        }else if(parseInt(this.curType)===0){
           this.index=0
           this.initFp(this.saveDate.chooseDate) 
         }

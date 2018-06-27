@@ -1,5 +1,6 @@
-//  import fetchJsonp from 'fetch-jsonp'
-import fetch from '../dhq/util/z3fetch'
+//  import fetchJsonp from 'z3fetch-jsonp'
+import z3fetch from '../dhq/util/z3fetch'
+import 'whatwg-fetch'
 import $ from 'jquery'
 import {
   domain
@@ -21,8 +22,8 @@ const state = {
   saveDate: [],
   resetChart: [],
   setCount: [], // 存放功能区数据的数量，
-  setHyList: [] // 会议日历的列表数据
-
+  setHyList:[] // 会议日历的列表数据
+ 
 }
 const mutationsTypes = {
   SET_GUIDE: 'SET_GUIDE',
@@ -38,7 +39,7 @@ const mutationsTypes = {
   SAVE_DATE: 'SAVE_DATE',
   RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT',
-  SET_HY_LIST: 'SET_HY_LIST'
+  SET_HY_LIST:'SET_HY_LIST'
 }
 
 const actions = {
@@ -65,14 +66,12 @@ const actions = {
   setGuide({
     commit
   }, date) {
-    //  const mode = location.hostname.indexOf('localhost') !== -1 ? 'cors' : 'no-cors'
     const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/investCalendarHomePage.jspa?tradeDate=${date}`
-    return fetch(url, {
+    return z3fetch(url, {
       mode: 'cors'
     }).then(res => {
       return res.json()
     }).then(json => {
-      // console.log(json)
       commit(mutationsTypes.SET_GUIDE, json.data)
     })
   },
@@ -81,12 +80,11 @@ const actions = {
   }, tradeDate) {
     const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/stopResumeTrading.jspa?tradeDate=${tradeDate}`
     const mode = 'cors';
-    return fetch(url, {
+    return z3fetch(url, {
       mode
     }).then(res => {
       return res.json()
     }).then(json => {
-      //  console.log(json.data)
       commit(mutationsTypes.GET_STOCK, json.data)
     })
   },
@@ -139,7 +137,7 @@ const actions = {
   }, date) { //  未开板新股
     const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/notOpenNewStock.jspa?tradeDate=${date}`
     const mode = 'cors'
-    return fetch(url, {
+    return z3fetch(url, {
       mode
     }).then(res => {
       return res.json()
@@ -171,8 +169,6 @@ const actions = {
       jsonp: 'callback',
       url: url
     }).then(res => {
-      //   var hqData = window['hqData_'+vname];
-      //  console.log(res.data)
       commit(mutationsTypes.SET_STOCK_LINE, res.data)
     })
   },
@@ -187,18 +183,12 @@ const actions = {
   ) {
    // debugger
     const userId = rootState.user.userId || '';
-    // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     if (!userId) {
       return;
     }
-
-    //  stockCode = stockCode && stockCode.substring(0, 6);
     const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value.stockCode}&userId=${userId}`
-    // debugger
- /*    const item =`${value.item}`
-    const type =`${value.type}` 
-    console.log(item)*/
-    return fetch(url, {
+    
+    return z3fetch(url, {
       mode: 'cors',
       headers: {
         'Cache-Control': 'no-cache',
@@ -207,9 +197,7 @@ const actions = {
       }
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) { // 在自选中
-        //   console.log(result)
         commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
-        //  console.log("调用我了")
       } else if (result.errCode === -1) { // 不在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
       } else {
@@ -233,7 +221,7 @@ const actions = {
       return;
     }
     const url = `${domain}/openapi/selectStock/add.shtml`
-    return fetch(
+    return z3fetch(
       url, {
         mode: 'cors',
         headers: {
@@ -244,8 +232,6 @@ const actions = {
         body: `stocks=${stockCode}&userId=${userId}`
       }
     ).then(res => res.json()).then((result) => {
-
-      //  console.log(result)
       if (result.errCode === 0) {
         commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
       } else {
@@ -268,12 +254,12 @@ const actions = {
       return;
     }
     const url = `${domain}/openapi/selectStock/del.shtml`
-    return fetch(url, {
+    return z3fetch(url, {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
-
+  
       },
       method: 'post',
       body: `stocks=${stockCode}&userId=${userId}`
@@ -300,6 +286,7 @@ const actions = {
       commit(mutationsTypes.SET_HY_LIST, hqData)
     })
   }
+
 }
 
 
@@ -361,8 +348,8 @@ const mutations = {
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
   },
-  [mutationsTypes.SET_HY_LIST](state, setHyList) {
-    state.setHyList = setHyList
+  [mutationsTypes.SET_HY_LIST](state,setHyList){
+    state.setHyList=setHyList
   }
 }
 
