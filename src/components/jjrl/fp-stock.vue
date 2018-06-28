@@ -86,7 +86,6 @@
           }  ,
           addSelfChoice(item,index ){
              this.stockCode=item[1]
-            // debugger
              this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
              }).then( res => {
