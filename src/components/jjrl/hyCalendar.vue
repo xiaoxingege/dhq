@@ -1,44 +1,46 @@
 <template>
 <div class="hyAll">
-    <div class="hyList" >
-        <hyList @hyCalenderDetail="hyCalenderDetail"></hyList>
-    </div>
+  <div class="hyList">
+    <hyList @hyCalenderDetail="hyCalenderDetail"></hyList>
+  </div>
 
-<!--     <div class="hyDetail">
+  <!--     <div class="hyDetail">
         <hyNews></hyNews>
     </div> -->
-  </div>
+</div>
 </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import {
+  mapState
+} from 'vuex'
 // import hyNews from 'components/dhq-news-detail'
 import hyList from 'components/jjrl/hy-list'
 export default {
-      components: {
-  //  hyNews,
+  components: {
+    //  hyNews,
     hyList
   },
-    data(){
-        return {
-            hyurl:''
-        }
-    },
-    computed: { 
+  data() {
+    return {
+      hyurl: ''
+    }
+  },
+  computed: {
     ...mapState({
-        storeData:state => state.jjrl.dateAndCode,
-        setHyList:state => state.jjrl.setHyList
+      storeData: state => state.jjrl.dateAndCode,
+      setHyList: state => state.jjrl.setHyList
     })
 
-    },
-    methods:{
-    hyCalenderDetail(item){
-        this.hyurl=item.link
+  },
+  methods: {
+    hyCalenderDetail(item) {
+      this.hyurl = item.link
     }
-    },
-    mounted () {
-        
-    }
+  },
+  mounted() {
+
+  }
 }
 </script>
 
