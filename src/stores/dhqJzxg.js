@@ -25,8 +25,8 @@ export default {
       state.jzmncData = jzxgData.strategies[0]
       state.bdyxData = jzxgData.strategies[1]
       state.zxjjData = jzxgData.strategies[2]
-      state.rdjjData = jzxgData.strategies[3]
-      state.zltjData = jzxgData.strategies[4]
+      state.zltjData = jzxgData.strategies[3]
+      state.rdjjData = jzxgData.strategies[4]
     },
     setAuthData(state, auth) {
       state.authData = auth

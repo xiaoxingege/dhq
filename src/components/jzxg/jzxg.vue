@@ -17,7 +17,7 @@ export default {
       // isValid: true, // 是否有权限，如果有权限则显示购后页 如果无权则显示购前页
       expireDate: '',
       arr: ['JzxgBefore', 'JzxgAfter'],
-      index: ''
+      index: 0
     }
   },
   components: {
@@ -32,7 +32,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('jzxg/getAuthData').then(() => {
-      this.index = this.authData.valid
+      // this.index = this.authData.valid
       this.expireDate = this.authData.expireDate
     })
   }

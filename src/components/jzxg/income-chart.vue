@@ -96,7 +96,7 @@ export default {
             let value;
             for (let i = 0; i < params.length; i++) {
               value = (100 * params[i].value).toFixed(2) + '%'
-              s = s + '<span style="display:inline-block;margin-left:5px;border-radius:6px;width:6px;height:6px;border:1px solid #c9d0d7;background-color:' + params[i].color + '"></span><span style="color: ' + params[i].color + '">' + value + '</span>';
+              s = s + '<span style="display:inline-block;margin-left:5px;border-radius:6px;width:6px;height:6px;border:1px solid #c9d0d7;background-color:' + params[i].color + '"></span><span style="margin-left:2px;color: ' + params[i].color + '">' + value + '</span>';
             }
             return s;
           }
