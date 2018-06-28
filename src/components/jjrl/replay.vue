@@ -148,12 +148,12 @@ export default {
       this.$store.dispatch('jjrl/saveDate', {
         chooseDate: this.tradeDate
       })
-      if (this.curType === 2) {
+      if (parseInt(this.curType) === 2) {
+        this.index = 0
+        this.notOpenStockCode = []
         this.initNotOpenStock(this.tradeDate)
-      } else if (this.curType === 0) {
-        if (this.list[0].count === 0) {
-          this.$store.dispatch('jjrl/resetFp')
-        }
+      } else if (parseInt(this.curType) === 0) {
+        this.index = 0
         this.initFp(this.saveDate.chooseDate)
       }
     },
@@ -207,18 +207,33 @@ export default {
         })
         let item = this.notOpenStockCode.join(',')
         this.$store.dispatch('jjrl/notOpenStockList', item)
+        //  console.log(this.notOpenStock)
         /* 自选股部分 */
         const me = this;
-        getState();
+        me.index = 0;
+        var currentIndex = 0;
+        getState(currentIndex);
 
         function getState() {
-          me.element = me.notOpenStockCode[me.index];
-          me.$store.dispatch('jjrl/querySelection', me.element).then(res => {
-            me.notOpenStock[me.index]['zx'] = me.isSelfSelection;
-            if (me.index < me.notOpenStockCode.length - 1) {
-              me.index++;
-              me.element = me.notOpenStockCode[me.index]
-              getState();
+          // debugger
+          me.element = me.notOpenStockCode[currentIndex];
+          const item = me.notOpenStock[currentIndex];
+          //  console.log("请求之前",currentIndex);
+          me.$store.dispatch('jjrl/querySelection', {
+            stockCode: me.element,
+            item: item,
+            type: 'not'
+          }).then(res => {
+            console.log(me.notOpenStock);
+            let obj = me.notOpenStock[currentIndex]
+            me.notOpenStock.splice(currentIndex, 1, { ...obj,
+              zx: me.isSelfSelection
+            })
+            //    me.notOpenStock[currentIndex]['zx']=me.isSelfSelection; 
+            if (currentIndex < me.notOpenStockCode.length - 1) {
+              currentIndex++;
+              me.element = me.notOpenStockCode[currentIndex]
+              getState(currentIndex);
             }
 
           })
@@ -238,20 +253,23 @@ export default {
           this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
         })
         let item = this.getStockCode.join(',') // q接口支持多个查询
-        this.$store.dispatch('jjrl/setStock', item).then(res => {
-          this.setStockData = this.setStock
-        })
+        //     debugger
+        this.$store.dispatch('jjrl/setStock', item)
         /* 自选股部分 */
         const me = this;
+        me.index = 0
         getState();
 
         function getState() {
           me.element = me.getStockCode[me.index];
-          //    console.log( me.setStockData)
-          me.$store.dispatch('jjrl/querySelection', me.element).then(res => {
+          var item = me.setStock[me.index]
+          me.$store.dispatch('jjrl/querySelection', {
+            stockCode: me.element,
+            item: item,
+            type: 'fp'
+          }).then(res => {
             //   debugger
-            //    console.log( me.setStockData)
-            me.setStockData[me.index].push(me.isSelfSelection);
+            me.setStock[me.index].push(me.isSelfSelection);
             if (me.index < me.getStockCode.length - 1) {
               me.index++;
               me.element = me.getStockCode[me.index]
@@ -300,8 +318,6 @@ export default {
         })
       })
 
-
-
     }
 
     // 初始化 会议日历
@@ -314,11 +330,14 @@ export default {
         chooseDate: this.tradeDate
       }).then(res => {
         this.initConsole(this.saveDate.chooseDate)
-        this.notOpenStockCode = []
-        this.index = 0
-        this.initNotOpenStock(this.saveDate.chooseDate)
-        this.initFp(this.saveDate.chooseDate)
-        //    console.log(this.list[0].count)
+        if (parseInt(this.curType) === 2) {
+          this.index = 0
+          this.notOpenStockCode = []
+          this.initNotOpenStock(this.saveDate.chooseDate)
+        } else if (parseInt(this.curType) === 0) {
+          this.index = 0
+          this.initFp(this.saveDate.chooseDate)
+        }
       })
     }
   },
@@ -327,9 +346,7 @@ export default {
     this.$store.dispatch('jjrl/saveDate', {
       chooseDate: this.tradeDate
     })
-    if (this.fpCount === 0) {
-      //  this.$store.dispatch('jjrl/resetFp')
-    }
+
     this.initFp(this.saveDate.chooseDate)
     this.$store.dispatch('jjrl/setCount', {
       fp: this.fpCount,
