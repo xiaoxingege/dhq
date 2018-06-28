@@ -1,6 +1,6 @@
 <template>
 <!-- 智头条 -->
-<div class="wisdomHeadlines" @scroll="getScrollTop($event)">
+<div id="wisdomHeadlines" class="wisdomHeadlines" @scroll="getScrollTop($event)">
   <div class="news-wrapper">
     <ul class="news-list">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
@@ -39,9 +39,10 @@
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
-      <p v-if="noData" class="tc loadMore">数据已加载完</p>
+      <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+    <!-- <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'wisdomHeadlines'"></scrollTopBar> -->
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -51,18 +52,12 @@
 let intervalId = ''
 let intervalId2 = ''
 import 'whatwg-fetch'
-import {
-  cutString
-} from 'utils/date'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { cutString } from 'utils/date'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
-
+import scrollTopBar from '../../components/intelligence-info/scrollTop.vue'
 export default {
   data() {
     return {
@@ -70,7 +65,8 @@ export default {
       totalPage: 200,
       intervalTime: 60000,
       scrollTop: 0,
-      innerHeight: window.innerHeight
+      innerHeight: window.innerHeight,
+      isBackTop:false
     }
   },
   mounted() {
@@ -154,8 +150,8 @@ export default {
     },
     updateNews() {
       intervalId = setInterval(() => {
-        console.log('启动定时器')
-        console.log(intervalId)
+        // console.log('启动定时器')
+        // console.log(intervalId)
         this.$store.commit('setIsTop', true)
         this.$store.dispatch('getWisdomHeadlinesList', {
           page: 0,
@@ -172,11 +168,10 @@ export default {
       let scrollTop = e.target.scrollTop
       let scrollBottom = offsetHeight + scrollTop
       this.scrollTop = e.target.scrollTop * 2
-
       if (this.scrollTop >= this.innerHeight) {
         if (intervalId) {
-          console.log(intervalId)
-          console.log('清除定时器')
+          // console.log(intervalId)
+          // console.log('清除定时器')
           clearInterval(intervalId)
         }
       }
@@ -187,9 +182,13 @@ export default {
       } else {
         this.$store.commit('setIsTop', false)
       }
-
       if (scrollBottom === scrollHeight && this.noData !== true) {
         this.loadMore()
+      }
+      if(this.scrollTop>200){
+        this.isBackTop = true
+      }else{
+        this.isBackTop = false
       }
     },
     cutStr(str, len) {
@@ -239,7 +238,8 @@ export default {
     }
   },
   components: {
-    StockBox
+    StockBox,
+    scrollTopBar
   },
   watch: {
     relatedStocks() {
@@ -295,6 +295,7 @@ export default {
     font-size: 12px;
     height: 100%;
     overflow: auto;
+    transition: all 0.5s;
 }
 .news-wrapper {
     margin-bottom: 50px;
