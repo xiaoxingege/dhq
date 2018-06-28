@@ -32,7 +32,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('jzxg/getAuthData').then(() => {
-      // this.index = this.authData.valid
+      this.index = this.authData.valid
       this.expireDate = this.authData.expireDate
     })
   }
