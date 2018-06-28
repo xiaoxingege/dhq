@@ -55,7 +55,7 @@ import { mapState } from 'vuex'
        filters:{
            dateFormat:function(data){
                if(!data){
-                   return "--";
+                   return '--';
                }
              var arr1=data.split('-');
              var year=arr1[0];
@@ -69,7 +69,7 @@ import { mapState } from 'vuex'
                  roomId:this.$route.params.roomId
           });
            this.$store.dispatch('touguSpaceNav/getServerTime',{
-                 adviserId:this.studioList.userId
+                 adviserId:this.studioList.userid
           });
         }
     }

@@ -1,5 +1,5 @@
 <style scoped>
-    .nav { width:96%; height:25px; line-height:25px; background:#30353B; margin:20px auto  }
+    .nav { width:96%; height:25px; line-height:25px; background:#30353B; margin:0px auto; margin-top: 20px;}
     .nav-item { float:left; color:#C9D0D7; font-size:12px; text-align:center; cursor:pointer }
     .selected { background:#525A65; color:#fff }
     .live {width: 91px;}

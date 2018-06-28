@@ -36,7 +36,15 @@ export default {
         getLiveInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 const url = `https://sslapi.jrj.com.cn/itougu/mapi/xlive_poll/queryViewAndTalkForNew/${data.roomId}?onlyView=true`;
-                return fetch(url).then((res) => {
+                return fetch(url, {
+                    headers: {
+                        'accessToken': 'e9V5G7TavUmrEC5/RY5zeosPpYpFfaviY+jjJ+W9mAtAOH0NieGLkM33DyPMnSyG',
+                        'passportId': '171027010061123406'
+                            // 'passportId': '180522010063596180',
+                            // 'accessToken': 'dNmwZmIWJLCjl1rl3igPNxsj8Vn2+97Aj72qoMaq7q92+FZHu8E5gcvaPSBS2/eh',
+                            // 'APPVER': '7.0.0'
+                    }
+                }).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.retCode) {
@@ -52,7 +60,15 @@ export default {
         getHistoryInfo({ commit, state }, data) {
             return new Promise((resolve, reject) => {
                 const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/queryViewAndTalkForOld/${data.roomId}/${data.timeId}?onlyView=true`;
-                return fetch(url).then((res) => {
+                return fetch(url, {
+                    headers: {
+                        'accessToken': 'e9V5G7TavUmrEC5/RY5zeosPpYpFfaviY+jjJ+W9mAtAOH0NieGLkM33DyPMnSyG',
+                        'passportId': '171027010061123406'
+                            // 'passportId': '180522010063596180',
+                            // 'accessToken': 'dNmwZmIWJLCjl1rl3igPNxsj8Vn2+97Aj72qoMaq7q92+FZHu8E5gcvaPSBS2/eh',
+                            // 'APPVER': '7.0.0'
+                    }
+                }).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.retCode) {

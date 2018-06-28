@@ -1,28 +1,34 @@
-<style lang='scss' scoped>
+<style lang='scss'>
     .tougu-workspace-strategy{
-    position: fixed;
     width: 100%;
     height: 100%;
-    overflow:scroll;
+    overflow-y: scroll;
+    overflow-x:hidden;
     }
     .editor-insert-stock a{
         font-size: 14px;
     }
-    .strategy-title { padding-left:2%; color:#D3D9DD; font-size:24px; }
+    .strategy-title { padding-left:2%; color:#D3D9DD; font-size:24px;font-family:MicrosoftYaHei;}
     .strategy-author { padding-left:2%; height:24px; margin-top:8px; }
     .author-headimg { width:23px; height:24px; float:left; border-radius: 50%}
     .author-name { color:#AFB6BD; font-size:12px; line-height:24px; float:left; margin-left:8px;}
     .split-area { width:85%; height:4px; background:#23272C; margin:8px 0; margin-left:2%;}
-    .strategy-item { width:85%; box-sizing:border-box; padding: 0px 2%; border-bottom: 1px solid #23272C;padding-bottom:20px;}
+    .strategy-item { width:85%; box-sizing:border-box; margin: 0px 2%; border-bottom: 1px solid #23272C;padding-bottom:20px;}
     .item-ctime { color:#AFB6BD; font-size:12px; float:right; padding-top:25px;}
     .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;padding-top:57px;padding-bottom:25px;padding-left:2%;font-size:14px;font-family:MicrosoftYaHei;}
     .showHidden{height:30px;overflow:hidden;}
     .strategy-item-content p,.editor-img-wrap{margin-top:8px;}
     .strategy-item-collapse { width:100%; height:20px; line-height:20px;}
     .item-collapse { color:#1984EA; float:right; font-size: 12px; padding-top:-30px;cursor:pointer;}
-    /* .editor-img-wrap{
-        display:none;
-    } */
+    .item-collapse-img img{
+        width: 10px;
+        height: 6px;
+        padding:9px;
+        float:right;
+    }
+    .strategy-item-content .editor-img-wrap img{
+       display: none;
+    }
 </style>
 
 <template>
@@ -39,7 +45,8 @@
                  
             </div>
             <div class="strategy-item-collapse">
-                <div class="item-collapse" @click="check(index)">点击查看全文</div>
+                <div class="item-collapse-img"><img src="../../assets/images/touguStudio/checkcontent.png"/></div>
+                <div class="item-collapse" @click="check($event)">点击查看全文</div>
             </div>
         </div>
     </div>
@@ -49,6 +56,7 @@
     import { mapState } from 'vuex'
     import native from '../../utils/nativeApi'
     import util from '../../dhq/util'
+    import $ from 'jquery'
     export default {
         data(){
             return {
@@ -67,6 +75,18 @@
             }
         }),
         methods:{
+            check(e){
+                if($(e.target).text()==='点击查看全文'){
+                    $(e.target).parent().prev().children('.editor-img-wrap').children('img').slideDown(500);
+                    $(e.target).text('收起内容');
+                    $(e.target).prev().children().css('transform', 'rotate(' + 180 + 'deg)');
+                }else if($(e.target).text()==='收起内容'){
+                    $(e.target).parent().prev().children('.editor-img-wrap').children('img').slideUp(500);
+                    $(e.target).text('点击查看全文');
+                    $(e.target).prev().children().css('transform', 'rotate(' + 0 + 'deg)');
+                }
+             
+            },
             openStock(stockCode){
             native.openStock({
                 stockCode: util.formatterInnercode(stockCode)
@@ -117,12 +137,9 @@
             }
         },
         mounted(){
-             this.$store.dispatch('touguSpaceNav/getStudioInfo',{
-                 roomId:this.$route.params.roomId      
-             });
             this.$store.dispatch('touguStrategy/getStrategyByTid', {
             tid: this.studioList.vipRoomInfo.tipsId
-             })
+             });
             var _this=this;
             var divscroll=_this.$refs.viewBox2;
             divscroll.onscroll=() => {

@@ -1,10 +1,10 @@
-<style>
+<style lang='scss' scoped>
 .live-global{
     color: white;
-    position: fixed;
     width: 100%;
-    height: 82%;
-    overflow:scroll;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x:hidden;
 }
 .liveModel{
     width: 94%;
@@ -17,8 +17,10 @@
 .headImage img{
     width: 44px;
     height: 45px;
+    border-radius: 50%;
 }
 .live-right{
+    width: 100%;
     margin-left: 20px;
 }
 .live-time{
@@ -28,7 +30,7 @@ font-family:MicrosoftYaHei;
 color:rgba(175,182,189,1);
 }
 .live-content{
-width:860px;
+width:80%;
 background:rgba(48,53,59,1);
 border-radius:20px;
 margin-top: 18px;
@@ -173,11 +175,12 @@ import { mapState } from 'vuex'
             }).then(() => {
             var _this=this;
             var divscroll=_this.$refs.viewBox;
-            setInterval(this.$store.dispatch('touguWorkspaceStore/getLiveInfo',{
+            setInterval(
+               this.$store.dispatch('touguWorkspaceStore/getLiveInfo',{
                  roomId:this.studioList.room_id
              }).then(() => {
                  divscroll.scrollTop=divscroll.scrollHeight;
-             })       
+             })      
              ,5000); 
             // 判断是否加载到顶部         
             divscroll.onscroll=() => {
@@ -188,6 +191,7 @@ import { mapState } from 'vuex'
                     roomId:this.studioList.room_id,
                     timeId:this.roomList[0].timeId
                     });
+
                   } 
                };  
             });

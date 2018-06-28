@@ -22,7 +22,12 @@
                  const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/xlive/getStudioInfo?rid=${data.roomId}`;
                  return fetch(url, {
                      headers: {
-                         'APPVER': '7.0.0'
+                         'APPVER': '7.0.0',
+                         'accessToken': 'tqIFgibY1H2o16oipUVhUAVeWgbev2nkssmxKSw7HQfxcSvLuaXkh8kys44oUALr',
+                         'passportId': '180626010006707696'
+                             //  'passportId': '180522010063596180',
+                             //  'accessToken': 'dNmwZmIWJLCjl1rl3igPNxsj8Vn2+97Aj72qoMaq7q92+FZHu8E5gcvaPSBS2/eh',
+                             //  'APPVER': '7.0.0'
                      }
                  }).then((res) => {
                      return res.json()
@@ -40,7 +45,15 @@
          // 获取服务时间
          getServerTime({ commit, state }, data) {
              const url = `https://itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa?adviserId=${data.adviserId}`;
-             return fetch(url).then((res) => {
+             return fetch(url, {
+                 headers: {
+                     'accessToken': 'tqIFgibY1H2o16oipUVhUAVeWgbev2nkssmxKSw7HQfxcSvLuaXkh8kys44oUALr',
+                     'passportId': '180626010006707696'
+                         //  'passportId': '180522010063596180',
+                         //  'accessToken': 'dNmwZmIWJLCjl1rl3igPNxsj8Vn2+97Aj72qoMaq7q92+FZHu8E5gcvaPSBS2/eh',
+                         //  'APPVER': '7.0.0'
+                 }
+             }).then((res) => {
                  return res.json()
              }).then((data) => {
                  if (data.retCode === 0) {
@@ -52,4 +65,4 @@
 
          }
      }
- }
+ };
