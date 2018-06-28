@@ -153,27 +153,17 @@ html {
                         v-for="item in result.topicList">{{item.topicName}}</span></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
-    <span class="moreNews">更多相关资讯</span>
+    <span class="moreNews" v-if="moreInfor && moreInfor.length !== 0">更多相关资讯</span>
     <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null &&  result.equityList.length !== 0">
-      <li value="item.newsId" v-if="item.newsType === '新闻'">
+      <li value="item.newsId">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'news'}}">
-          {{item.title}}
-        </router-link>
-      </li>
-      <li value="item.newsId" v-if="item.newsType === '公告'">
-        <router-link :to="{name:'detailPages' , params:{ id : item.newsId, detailType:'notice'}}">
           {{item.title}}
         </router-link>
       </li>
     </ul>
     <ul class="moreNewsList" v-for="item in this.moreInfor" v-if="result !== null && result.equityList !== null && result.equityList.length === 0">
-      <li value="item.id" v-if="item.newsType === '新闻'">
+      <li value="item.id">
         <router-link :to="{name:'detailPages' , params:{ id : item.newsUrl.substring(6,item.newsUrl.indexOf('.')), detailType:'news'}}">
-          {{item.newsTitle}}
-        </router-link>
-      </li>
-      <li value="item.id" v-if="item.newsType === '公告'">
-        <router-link :to="{name:'detailPages' , params:{ id : item.newsUrl.substring(6,item.newsUrl.indexOf('.')), detailType:'notice'}}">
           {{item.newsTitle}}
         </router-link>
       </li>
