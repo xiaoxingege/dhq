@@ -174,7 +174,7 @@ export default {
 .after-wrap {
     background-color: $bgDeepColor;
     font-size: 12px;
-    min-width: 1217px;
+    /*  min-width: 1217px;*/
     padding: 3px 1px 3px 242px;
     font-family: "Microsoft YaHei";
     color: $wordsColorBase;
