@@ -23,12 +23,7 @@ export default {
             return new Promise((resolve, reject) => {
                 const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=5`;
                 // const url = `http://mapi.itougu.jrj.com.cn/wireless/tips/${data.tid}?ps=5`;
-                return fetch(url, {
-                    headers: {
-                        'accessToken': 'tqIFgibY1H2o16oipUVhUAVeWgbev2nkssmxKSw7HQfxcSvLuaXkh8kys44oUALr',
-                        'passportId': '180626010006707696'
-                    }
-                }).then((res) => {
+                return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.ret === 0) {
@@ -44,12 +39,7 @@ export default {
             return new Promise((resolve, reject) => {
                 // const url = `http://mapi.itougu.jrj.com.cn/wireless/tips/${data.tid}?ps=5&cid=${data.cid}`;
                 const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/tips/${data.tid}?ps=3&cid=${data.cid}`;
-                return fetch(url, {
-                    headers: {
-                        'accessToken': 'tqIFgibY1H2o16oipUVhUAVeWgbev2nkssmxKSw7HQfxcSvLuaXkh8kys44oUALr',
-                        'passportId': '180626010006707696'
-                    }
-                }).then((res) => {
+                return fetch(url).then((res) => {
                     return res.json()
                 }).then((data) => {
                     if (data.ret === 0) {

@@ -15,12 +15,12 @@
       <div style="height:275px;">
         <IncomeCharts :jzmncChartData="jzmncChartData"></IncomeCharts>
       </div>
-      <div style="padding-left: 15px;">支付宝收益的<span style="color:#fc2721;">{{formatData(jzmncProfitMultiple)?jzmncProfitMultiple:'--'}}</span>倍!</div>
+      <div style="padding-left: 15px;" v-if="jzmncProfitType === 1">支付宝收益的<span style="color:#fc2721;">{{formatData(jzmncProfitMultiple)?jzmncProfitMultiple:'--'}}</span>倍!</div>
     </div>
     <div class="jzxgblock-right fl">
       <div class="jzxgblock-right-wrap">
         <p class="jzxgblock-right-text">运用z量化底层算法和AI-Pattern Recognition（人工智能形态识别）算法，通过分析资金面，k线走势形态，策略判断出即将出现主升浪的个股，轻松赢在起跑线；按照黄金盈亏比例预设止损止盈点，跟随策略调仓，无畏恐惧，战胜贪婪。</p>
-        <div class="ten-stock-title">极智十大选股</div>
+        <div class="ten-stock-title">极智十大牛股</div>
         <div class="ten-stock">
           <tenStocks :tenStockList="jzmncTenStockData"></tenStocks>
         </div>
@@ -52,12 +52,12 @@
           <p>严选-大数据分析市场所处轮动风格，推荐股票</p>
         </div>
       </div>
-      <div style="padding-left: 15px;">支付宝收益的<span style="color:#fc2721;">{{formatData(bdyxProfitMultiple)?bdyxProfitMultiple:'--'}}</span>倍!</div>
+      <div style="padding-left: 15px;" v-if="bdyxProfitType === 1">支付宝收益的<span style="color:#fc2721;">{{formatData(bdyxProfitMultiple)?bdyxProfitMultiple:'--'}}</span>倍!</div>
     </div>
     <div class="jzxgblock-right fl">
       <div class="jzxgblock-right-wrap">
         <p class="jzxgblock-right-text">万物互联，AI-Martket Wave Band（人工智能市场波段）算法把物理学中电磁波和衍射分析的思想和市场行为结合，打造出波段优选策略。择天时，定低点，判洗盘，抓反转；高抛低吸，道法自然。</p>
-        <div class="ten-stock-title">波段优选十大选股</div>
+        <div class="ten-stock-title">波段优选十大牛股</div>
         <div class="ten-stock">
           <tenStocks :tenStockList="bdyxTenStockData"></tenStocks>
         </div>
@@ -89,12 +89,12 @@
           <p>掘金-深挖金股，用时间换空间</p>
         </div>
       </div>
-      <div style="padding-left: 15px;">支付宝收益的<span style="color:#fc2721;">{{formatData(zxjjProfitMultiple)?zxjjProfitMultiple:'--'}}</span>倍!</div>
+      <div style="padding-left: 15px;" v-if="zxjjProfitType === 1">支付宝收益的<span style="color:#fc2721;">{{formatData(zxjjProfitMultiple)?zxjjProfitMultiple:'--'}}</span>倍!</div>
     </div>
     <div class="jzxgblock-right fl">
       <div class="jzxgblock-right-wrap">
         <p class="jzxgblock-right-text">用时间换空间，中线掘金策略中期范围内挖掘价格错配个股，并采用是自主研发的Z-Timing择时模型，深度学习市场风格，规避系统性风险，捕捉价值回归。</p>
-        <div class="ten-stock-title">极智十大选股</div>
+        <div class="ten-stock-title">中线掘金十大牛股</div>
         <div class="ten-stock">
           <tenStocks :tenStockList="zxjjTenStockData"></tenStocks>
         </div>
@@ -126,12 +126,12 @@
           <p>狙击-选出个股，坐等“风口”</p>
         </div>
       </div>
-      <div style="padding-left: 15px;">支付宝收益的<span style="color:#fc2721;">{{formatData(rdjjProfitMultiple)?rdjjProfitMultiple:'--'}}</span>倍!</div>
+      <div style="padding-left: 15px;" v-if="rdjjProfitType === 1">支付宝收益的<span style="color:#fc2721;">{{formatData(rdjjProfitMultiple)?rdjjProfitMultiple:'--'}}</span>倍!</div>
     </div>
     <div class="jzxgblock-right fl">
       <div class="jzxgblock-right-wrap">
         <p class="jzxgblock-right-text">热点狙击旨在利用量化趋势分析技术，智能地抓取板块热度的起势点，并通过板块内轮动原理，挖掘未来涨势可能较大的股票。不再追高，坐等风口。</p>
-        <div class="ten-stock-title">极智十大选股</div>
+        <div class="ten-stock-title">热点狙击十大牛股</div>
         <div class="ten-stock">
           <tenStocks :tenStockList="rdjjTenStockData"></tenStocks>
         </div>
@@ -163,12 +163,12 @@
           <p>识别-短期获利机会</p>
         </div>
       </div>
-      <div style="padding-left: 15px;">支付宝收益的<span style="color:#fc2721;">{{formatData(zltjProfitMultiple)?zltjProfitMultiple:'--'}}</span>倍!</div>
+      <div style="padding-left: 15px;" v-if="zltjProfitType === 1">支付宝收益的<span style="color:#fc2721;">{{formatData(zltjProfitMultiple)?zltjProfitMultiple:'--'}}</span>倍!</div>
     </div>
     <div class="jzxgblock-right fl">
       <div class="jzxgblock-right-wrap">
         <p class="jzxgblock-right-text">主力天机利用AI-Pattern Recognition（人工智能形态识别）技术，识别出前期稳定，近期连续突破新高的个股，有效地判断出主力资金的投资行为，从而达到短期的获利。跟对主力，顺势而为。</p>
-        <div class="ten-stock-title">极智十大选股</div>
+        <div class="ten-stock-title">主力天机十大牛股</div>
         <div class="ten-stock">
           <tenStocks :tenStockList="zltjTenStockData"></tenStocks>
         </div>
@@ -231,7 +231,7 @@
       <li class="box-flex-1"><img src="../../assets/images/jzxg/service3.png" />
         <p>四大金股池</p>
       </li>
-      <li class="box-flex-1"><img src="../../assets/images/jzxg/service3.png" />
+      <li class="box-flex-1"><img src="../../assets/images/jzxg/service4.png" />
         <p>热点题材策略</p>
       </li>
       <li class="box-flex-1"><img src="../../assets/images/jzxg/service5.png" />
@@ -305,7 +305,13 @@ export default {
       bdyxProfitMultiple: '',
       zxjjProfitMultiple: null,
       rdjjProfitMultiple: null,
-      zltjProfitMultiple: null
+      zltjProfitMultiple: null,
+      // 是否显示收益倍数
+      jzmncProfitType: 1,
+      bdyxProfitType: 1,
+      zxjjProfitType: 1,
+      rdjjProfitType: 1,
+      zltjProfitType: 1
     }
   },
   watch: {
@@ -352,6 +358,12 @@ export default {
         this.zxjjProfitMultiple = this.zxjjData.profitMultiple
         this.rdjjProfitMultiple = this.rdjjData.profitMultiple
         this.zltjProfitMultiple = this.zltjData.profitMultiple
+        // 是否显示收益倍数
+        this.jzmncProfitType = this.jzmncData.profitType
+        this.bdyxProfitType = this.jzmncData.profitType
+        this.zxjjProfitType = this.jzmncData.profitType
+        this.rdjjProfitType = this.jzmncData.profitType
+        this.zltjProfitType = this.jzmncData.profitType
       })
     },
     formatData: function(value) {
@@ -550,9 +562,12 @@ export default {
 }
 .jzxg-footer {
     background-color: $bgDeepColor;
-    height: 75px;
-    padding: 0 0 10px;
-    position: relative;
+    height: 85px;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 .jzxg-footer p {
     text-align: center;

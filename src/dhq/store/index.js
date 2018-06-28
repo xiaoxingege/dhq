@@ -17,6 +17,7 @@ import headline from 'stores/headline'
 import dhqNews from 'stores/dhq-news'
 import jzxg from 'stores/dhqJzxg'
 import touguSpaceConsultation from 'stores/tougu-workspace-consultation'
+import aiReplay from 'stores/ai-replay'
 /* import fetch from '../util/z3fetch' */
 /* import zhikuanSearch from 'stores/zhikuan-search'
 import zhikuanSearchList from 'stores/zhikuan-search-list'
@@ -156,7 +157,8 @@ export default new Vuex.Store({
         jjrl,
         headline,
         jzxg,
-        dhqNews
+        dhqNews,
+        aiReplay
         /* zhikuanSearch,
          zhikuanSearchList,
          bubbles,
