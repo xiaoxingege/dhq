@@ -404,17 +404,7 @@ export default {
       })
 
     })
-    Vue.directive('scroll', {
-      bind(el, binding) {
-        debugger
-        window.addEventListener('scroll', function() {
-          if (document.documentElement.scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            let loadData = binding.value
-            loadData()
-          }
-        })
-      }
-    })
+
     // Vue.directive('z3-qrcode',(el, binding, vnode, oldVnode) => {
     //   let openQrcode = function(e){
     //     let div = "<div><canvas></canvas></div>"
