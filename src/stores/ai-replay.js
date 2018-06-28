@@ -32,32 +32,11 @@ export default {
   },
   // 浏览器环境才可以使用actions来获取数据，服务端应该用Node.js的方式获取数据后，通过mutations同步的把数据存入到store
   actions: {
-    // querySignalRealTime({
-    //   commit
-    // }, {
-    //   type,
-    //   size
-    // }) {
-    //   return fetch(`https://sslapi.jrj.com.cn/zxhq/sapi/discover/signal-list?type=${type}&size=${size}`, {
-    //     mode: 'cors'
-    //   }).then((res) => {
-    //     return res.json()
-    //   }).then(result => {
-    //     if (result.retcode === 0) {
-    //       commit('updateSignalRealTime', result.data.signalList)
-    //       //   console.log(result.data)
-    //     } else {
-    //       commit('ERROR', result, {
-    //         root: true
-    //       })
-    //     }
-    //   })
-    // }
     // http://172.16.20.86:8031/mockjsdata/24/smartstock/api/market/queryResume.jspa
     queryResume({
       commit
     }) {
-      return fetch('http://172.16.20.86:8031/mockjsdata/24/smartstock/api/market/queryResume.jspa', {
+      return fetch('https://itougu.jrj.com.cn/smartstock/api/market/queryResume.jspa', {
         mode: 'cors'
       }).then((res) => {
         return res.json()

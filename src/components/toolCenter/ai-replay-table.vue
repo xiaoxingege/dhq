@@ -1,4 +1,5 @@
 <style lang="scss" scoped>
+@import '../../assets/css/base.css';
 @import "../../assets/scss/style";
 * {
     text-align: justify;
@@ -23,7 +24,6 @@
 
 .signal-table-wrap {
     width: 100%;
-
 }
 .table-box {}
 table {
@@ -41,25 +41,25 @@ table tr:nth-child(1) {
     font-size: 12px;
 }
 table tr:nth-child(1) td {
-    height: 28px;
+    height: 30px;
     text-align: center;
+    border: none;
 }
-table tr td:last-child {
-    border-right: none;
-}
-.table1 tr:last-child {
+
+/* .table1 tr:last-child {
     text-align: center;
     height: 40px;
     line-height: 40px;
-}
+} */
 table tr:last-child td {
     border-bottom: none;
     color: $blueWordsColor;
 
 }
 td {
-    border-bottom: 1px solid $borderColor;
-    border-right: 1px solid $borderColor;
+    /* border-bottom: 1px solid $borderColor;
+    border-right: 1px solid $borderColor; */
+    border: 1px solid $borderColor;
 
 }
 
@@ -68,29 +68,14 @@ th {
     word-break: break-all;
     height: 26px;
     text-align: center;
-    width: 25%;
+    /* width: 25%; */
 }
 
 td div {
-    padding: 6px;
+    /*  padding: 6px; */
     text-align: center;
 }
-.tr-img {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    background: url("../../assets/images/dhq/signal-icon2.png") no-repeat;
-    background-position: 0 0;
-    position: relative;
-    top: 5px;
-    left: 0;
-}
-.tr-img2 {
-    background-position: 0 -19px;
-}
-.tr-img3 {
-    background-position: 0 -38px;
-}
+
 .tr-title {
     color: $wordsColorBase;
     padding-left: 5px;
@@ -99,10 +84,10 @@ td div {
     line-height: 24px;
 }
 .td-chngPct {
-    text-align: right;
+    /*  text-align: right; */
 }
 .td-chngPct > div {
-    text-align: right;
+    /*  text-align: right; */
     padding: 6px 10px;
 }
 .no-data {
@@ -126,6 +111,67 @@ td a {
 .more {
     cursor: pointer;
 }
+
+.table-chart {
+    width: 100%;
+    height: 26px;
+}
+.pro-td {
+    width: 35%;
+}
+.progress-box {
+    width: 85%;
+    /*    display: inline-block; */
+    margin: 0 auto;
+}
+
+.progress {
+    background: #ca4941;
+    width: 10%;
+    /*  height: 100%; */
+    /* display: inline-block; */
+    text-align: center;
+    /*  border-radius: 10px; */
+
+    height: 8px;
+    line-height: 8px;
+}
+
+.redbg {
+    background: $upColorDhq;
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+}
+
+.greenbg {
+    background: $downColorDhq;
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+}
+.chart-td {
+    width: 12%;
+}
+.table1 tr td:nth-child(1) {
+    width: 14.7%;
+}
+.table1 tr td:nth-child(2) {
+    width: 12.7%;
+}
+.table1 tr td:nth-child(3) {
+    width: 9%;
+}
+.table1 tr td:nth-child(4) {
+    width: 12.8%;
+}
+.table1 tr td:nth-child(5) {
+    width: 22.3%;
+}
+.table1 tr td:nth-child(6) {
+    width: 13.8%;
+}
+.table1 tr td:nth-child(7) {
+    width: 13.7%;
+}
 </style>
 <template>
 <div class="signal-table-wrap">
@@ -137,10 +183,12 @@ td a {
         <span class="">{{th}}</span>
       </td>
     </tr>
-    <!--  <tr v-if='indexResume.length==0'>
-                <div class="no-data"></div>
-                <div class="no-data-txt">暂无信号</div>
-            </tr> -->
+    <tr v-if='indexResume.length==0'>
+
+      <div class="no-data"></div>
+      <div class="no-data-txt">暂无数据</div>
+
+    </tr>
     <tr v-for="(item,index) of indexResume">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
@@ -153,46 +201,44 @@ td a {
         <div v-z3-updowncolor="item.changeRatio">{{checkChngPct(item.changeRatio)}}</div>
       </td>
       <td class="td-chngPct">
-        <div>{{checkChngPct(item.volume)}}</div>
+        <div>{{checkUnit(item.volume) ||'--'}}</div>
       </td>
-      <td>
+      <!-- <td>
         <div class="tonative">
           {{item.compStockRiseRatio ||'--'}}
         </div>
+      </td> -->
+      <td class='pro-td'>
+        <div class="progress-box"><span class="progress redbg fl" :style="'width:'+Math.round(item.compStockRiseRatio*100)+'%;'"></span><span class="progress greenbg fr" :style="'width:'+ Math.round((1-item.compStockRiseRatio)*100)+'%;'"></span></div>
       </td>
-      <td>
-        <div>{{item.fundFlow5Days ||'--'}}</div>
+      <td class="chart-td">
+        <div class="table-chart"></div>
       </td>
       <td>
         <div>{{item.operability ||'--'}}</div>
       </td>
     </tr>
-    <tr v-show='name'>
-      <td colspan="4" @click="moreData" class="more">更多>></td>
-    </tr>
   </table>
-  <table v-if='indexResume.length==0'>
+  <!--  <table v-if='indexResume.length==0'>
     <tr>
-      <td colspan="4">
-        <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
+      <td v-for="(th,index) of thTitle">
+        <span class="">{{th}}</span>
       </td>
     </tr>
     <tr>
       <div class="no-data"></div>
-      <div class="no-data-txt">暂无信号</div>
+      <div class="no-data-txt">暂无数据</div>
     </tr>
     <tr></tr>
-  </table>
-  <!--    </div> -->
+  </table> -->
 
 </div>
 </template>
 <script>
-/* import {
-  ctx
-} from '../../dhq/config' */
+import config from '../../dhq/config'
 import util from '../../dhq/util'
 import native from 'utils/nativeApi'
+import echarts from 'echarts'
 import {
   mapState
 } from 'vuex'
@@ -200,32 +246,97 @@ export default {
   props: ['indexResume'],
   data() {
     return {
-      allData: [],
-      hjfsArr: [], // type 5
-      ztzjArr: [], // type 4
-      cxgArr: [], // type 3,
       type: '',
-      navTitle: ['火箭发射', '涨停追击', '创新高'],
-      thTitle: ['指数', '最新', '涨幅', '成交额', '涨跌比', '近期资金流向', '可操作性']
+      thTitle: ['指数', '最新', '涨幅', '成交额', '涨跌比', '近期资金流向', '可操作性'],
       alltimers: '',
-      size: ''
+      size: '',
+      data: {
+        fundDays: []
+      }
 
     }
   },
-  watch: {
 
+  watch: {
+    indexResume() {
+      this.init()
+    }
   },
   components: {
 
   },
   computed: mapState({}),
   methods: {
-    moreData() {
-      //  this.dialogShow = true
-      this.$emit('toShowDialog', {
-        show: true,
-        type: this.type
+    init() {
+      this.$nextTick(() => {
+        var barChart = document.getElementsByClassName('table-chart')
+        if (barChart.length > 0) {
+          //  console.log(document.getElementsByClassName('table-chart').length)
+          this.indexResume.forEach((item, index) => {
+            //   console.log(this.indexResume[i].fundFlow5Days)
+            // var fundFlow5Days = this.indexResume[i].fundFlow5Days
+            this.drawCharts(index, item.fundFlow5Days)
+          })
+
+        }
       })
+    },
+    drawCharts(index, fundFlow5Days) {
+      //  let chart = echarts.getInstanceByDom(el) || echarts.init(el);     
+      var barChart = document.getElementsByClassName('table-chart')
+      var chart = echarts.getInstanceByDom(barChart[index]) || echarts.init(barChart[index]);
+      const opt = {
+
+        xAxis: {
+          type: 'category',
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          data: ['2017-01-01', '2017-01-01', '2017-01-01', '2017-01-01', '2017-01-01']
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            show: false
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          }
+        },
+        series: [{
+          type: 'bar',
+          barWidth: '60%',
+          data: fundFlow5Days,
+          itemStyle: {
+            normal: {
+              color: function(params) {
+                return params.value < 0 ? config.downColor : config.upColor
+              }
+            }
+          }
+        }],
+        grid: {
+          show: false,
+          left: 35,
+          top: 5,
+          bottom: 8,
+          right: 35
+        }
+      };
+      chart.setOption(opt);
+      window.addEventListener('resize', () => chart.resize(), false)
     },
     toNative(stockCode) {
       return native.openStock(stockCode)
@@ -242,6 +353,9 @@ export default {
     checkClass(index) {
       return index === 4 ? 'tr-img2' : index === 3 ? 'tr-img3' : ''
     },
+    checkUnit(str) {
+      return str + '亿'
+    },
     checkChngPct(value) {
       if (value === null || value === '') {
         return '--';
@@ -256,6 +370,8 @@ export default {
 
   },
   mounted() {
+
+    this.init()
 
   },
   destroyed() {}

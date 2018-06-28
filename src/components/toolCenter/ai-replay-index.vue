@@ -32,10 +32,31 @@
     border-right: 2px solid $bgDeepColor;
     border-bottom: 5px solid $bgDeepColor;
 }
+.replay-center {
+    margin-top: 6px;
+    background: $bgConColor;
+
+}
+.center-title {
+    padding: 9px 0 15px 5px;
+    font-size: 14px;
+}
+.center-title {
+    padding-bottom: 10px;
+}
 </style>
 <template>
 <div class="replay-wrap">
   <ReplayGauge :summary='summary' />
+  <div class='replay-center'>
+    <div class="center-title">重要指数表现</div>
+    <ReplayTable :indexResume='indexResume' />
+  </div>
+  <!--   <div class='replay-center'>
+    <div class="center-title center-title2">市场热点</div>
+    <ReplayBlock/>
+  </div> -->
+
 </div>
 </template>
 <script>
@@ -46,6 +67,8 @@ import {
   mapState
 } from 'vuex'
 import ReplayGauge from 'components/toolCenter/ai-replay-gauge'
+import ReplayTable from 'components/toolCenter/ai-replay-table'
+import ReplayBlock from 'components/toolCenter/ai-replay-block'
 export default {
   data() {
     return {
@@ -56,7 +79,9 @@ export default {
 
   },
   components: {
-    ReplayGauge
+    ReplayGauge,
+    ReplayTable,
+    ReplayBlock
   },
   computed: mapState({
     summary: state => state.aiReplay.summary,

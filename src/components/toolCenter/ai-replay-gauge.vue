@@ -22,8 +22,7 @@
     box-flex: 1;
 }
 
-.gauge-wrap {
-    }
+.gauge-wrap {}
 .repay-time {
     text-align: center;
     padding-bottom: 8px;
@@ -41,7 +40,8 @@
     padding-bottom: 17px;
 }
 .charts-box {
-    width: 50%;
+    /* width: 50%; */
+    width: 26%;
 }
 .txt-box {
     width: 50%;
@@ -61,7 +61,7 @@
 </style>
 <template>
 <div class="gauge-wrap">
-  <div class="repay-time">{{checkDate(summary.date)}}<span class="week">{{checkDay(summary.date)}}</span></div>
+  <div class="repay-time">{{checkDate(summary.date) ||'--'}}<span class="week">{{checkDay(summary.date)||'--'}}</span></div>
   <div class="main display-box">
     <div class="box-flex-1 charts-box">
       <div class="sud-title fl">市场温度</div>
@@ -69,7 +69,7 @@
     </div>
     <div class="box-flex-1 txt-box">
       <div class="sud-title sud-title2">复盘点评</div>
-      <div class="comment">{{summary.comment}}</div>
+      <div class="comment" v-html="checkBr(summary.comment)"></div>
     </div>
   </div>
 </div>
@@ -104,13 +104,24 @@ export default {
       if (this.summary) {
         this.drawCharts(this.summary.heat)
       }
-
     },
     checkDate(time) {
       return (time + '').substring(4, 6) + '月' + (time + '').substring(6, (time + '').length) + '日'
     },
     checkFormatDay(time) {
       return (time + '').substring(0, 4) + '-' + (time + '').substring(4, 6) + '-' + (time + '').substring(6, (time + '').length)
+    },
+    checkBr(val) {
+      if (val === null || val === undefined) {
+        return
+      }
+      const content = val.split('\n')
+      let con = ''
+      content.forEach((p) => {
+        con += '<p>' + p + '</p>'
+      })
+      return con
+
     },
     checkDay(time) {
       var date = new Date(this.checkFormatDay(time))
@@ -124,6 +135,19 @@ export default {
       if (date.getDay() === 6) week = '星期六'
       return week;
 
+    },
+    colorList(value) {
+      if (value <= 0.2) {
+        return config.downColor
+      } else if (value > 0.2 && value <= 0.4) {
+        return '#95E367'
+      } else if (value > 0.4 && value <= 0.6) {
+        return '#FFD419'
+      } else if (value > 0.6 && value <= 0.8) {
+        return '#EA8F2B'
+      } else if (value > 0.8 && value <= 1) {
+        return config.upColor
+      }
     },
     drawCharts(gaugeValue) {
       // var gaugeValue=15
@@ -144,7 +168,7 @@ export default {
         series: [{
           startAngle: 180,
           endAngle: 0,
-          name: '实际完成',
+          name: '外圈',
           type: 'gauge',
           center: ['50%', '85%'], // 默认全局居中  
           // radius: 173,
@@ -154,10 +178,13 @@ export default {
           splitNumber: 0,
           axisLine: { // 坐标轴线  
             lineStyle: {
+              // color: [
+              //   [gaugeValue, config.downColor],
+              //   [1, '#d7d6d6']
+              // ], // 属性lineStyle控制线条样式  
               color: [
-                [gaugeValue, config.downColor],
                 [1, '#d7d6d6']
-              ], // 属性lineStyle控制线条样式  
+              ],
               width: 4
             }
           },
@@ -189,7 +216,58 @@ export default {
           }
 
         }, {
-          name: '信用分',
+          startAngle: 180,
+          endAngle: 0,
+          name: '显示外圈',
+          type: 'gauge',
+          center: ['50%', '85%'], // 默认全局居中  
+          // radius: 173,
+          radius: '170%',
+          min: 0,
+          max: 100,
+          splitNumber: 0,
+          axisLine: { // 坐标轴线  
+            lineStyle: {
+              // color: [
+              //   [gaugeValue, config.downColor],
+              //   [1, '#d7d6d6']
+              // ], // 属性lineStyle控制线条样式  
+              color: [
+                [gaugeValue, this.colorList(gaugeValue)]
+
+              ],
+              width: 4
+            }
+          },
+
+          axisTick: {
+            show: false
+          },
+          axisLabel: { // 坐标轴小标记  
+            textStyle: { // 属性lineStyle控制线条样式  
+              fontWeight: 'bolder',
+              fontSize: 16,
+              color: 'rgba(30,144,255,0)'
+            }
+          },
+          splitLine: { // 分隔线  
+            length: 10, // 属性length控制线长  
+            lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式  
+              width: 0,
+              color: '#444'
+            }
+          },
+          pointer: { // 分隔线 指针  
+            color: '#666666',
+            width: 0,
+            length: 230
+          },
+          detail: {
+            show: false
+          }
+
+        }, {
+          name: '表盘',
           type: 'gauge',
           startAngle: 180,
           // radius: 160,
@@ -264,6 +342,7 @@ export default {
       this.chart.setOption(opt)
       window.addEventListener('resize', () => this.chart.resize(), false)
     }
+
   },
   mounted() {
     this.initChart()
