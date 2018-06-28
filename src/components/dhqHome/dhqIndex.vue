@@ -15,7 +15,6 @@ p {
 body,
 html {
     height: 100%;
-    background-color: $bgConColor;
 }
 
 .wrap {

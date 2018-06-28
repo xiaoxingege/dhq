@@ -1,4 +1,7 @@
 import fetch from '../dhq/util/z3fetch'
+import {
+  domain
+} from '../dhq/config'
 export default {
   namespaced: true,
   state: {
@@ -11,7 +14,10 @@ export default {
     zltjData: null, // 主力天机
     navData: [],
     strategyDetail: null,
-    latestInData: []
+    latestInData: [],
+    holdStockData: [],
+    isSelfSelection: false,
+    multiSelectionData: []
   },
   mutations: {
     setJzxgBeforeData(state, jzxgData) {
@@ -22,8 +28,8 @@ export default {
       state.rdjjData = jzxgData.strategies[3]
       state.zltjData = jzxgData.strategies[4]
     },
-    setAuthentication(state, authentication) {
-      state.authentication = authentication.valid
+    setAuthData(state, auth) {
+      state.authData = auth
     },
     setNavData(state, navData) {
       state.navData = navData.strategies
@@ -33,6 +39,15 @@ export default {
     },
     setLatestInData(state, latestInData) {
       state.latestInData = latestInData
+    },
+    setHoldStockData(state, holdStockData) {
+      state.holdStockData = holdStockData
+    },
+    setSelection(state, isSelfSelection) {
+      state.isSelfSelection = isSelfSelection;
+    },
+    setMultiSelection(state, selfSelectionInfo) {
+      state.multiSelectionData = selfSelectionInfo;
     }
   },
   actions: {
@@ -54,7 +69,7 @@ export default {
       })
     },
     // 鉴权接口
-    getAuthentication({
+    getAuthData({
       commit
     }) {
       const url = '//itougu.jrj.com.cn/smartstock/api/excellent/checkAuth.jspa'
@@ -62,7 +77,7 @@ export default {
         mode: 'cors'
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
-          commit('setAuthentication', result.data)
+          commit('setAuthData', result.data)
         } else {
           commit('ERROR', result, {
             root: true
@@ -120,6 +135,132 @@ export default {
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
           commit('setLatestInData', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 当前持仓
+    queryHoldStockData({
+      commit
+    }, {
+      strategyId,
+      pageSize,
+      pageStart
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/queryHoldStockList.jspa?strategyId=${strategyId}&pageSize=${pageSize}&pageStart=${pageStart}`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setHoldStockData', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 查询是否添加自选
+    querySelection({
+      rootState,
+      commit
+    }, {
+      stockCode
+    }) {
+      const userId = rootState.user.userId || '';
+      if (!userId) {
+        return;
+      }
+      // stockCode = stockCode && stockCode.substring(0, 6);
+      const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${stockCode}&userId=${userId}`
+      return fetch(url, {
+        mode: 'cors',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(res => res.json()).then((result) => {
+        commit('setMultiSelection', result.data)
+        /* if(stockCode.toString().indexOf(',') === -1){
+             if (result.errCode === 0) {
+                 commit('setSelection', true);
+             } else if (result.errCode === -1) {
+                 commit('setSelection', false);
+             } else {
+                 commit('ERROR', result, {
+                     root: true
+                 })
+             }
+         }else{
+           if(result.errCode === 0){
+             commit('setMultiSelection',result.data)
+           }else{
+               commit('ERROR', result, {
+                   root: true
+               })
+           }
+         }*/
+      })
+    },
+    addSelection({
+      rootState,
+      commit
+    }, {
+      stockCode
+    }) {
+      const userId = rootState.user.userId || '';
+      stockCode = stockCode && stockCode.substring(0, 6);
+      if (!userId) {
+        return;
+      }
+      const url = `${domain}/openapi/selectStock/add.shtml`
+      return fetch(
+        url, {
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          method: 'post',
+          body: `stocks=${stockCode}&userId=${userId}`
+        }
+      ).then(res => res.json()).then((result) => {
+        if (result.errCode === 0) {
+          commit('setSelection', true);
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    removeSelection({
+      rootState,
+      commit
+    }, {
+      stockCode
+    }) {
+      const userId = rootState.user.userId || '';
+      stockCode = stockCode && stockCode.substring(0, 6);
+      if (!userId) {
+        return;
+      }
+      const url = `${domain}/openapi/selectStock/del.shtml`
+      return fetch(url, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: `stocks=${stockCode}&userId=${userId}`
+      }).then(res => res.json()).then((result) => {
+        if (result.errCode === 0) {
+          commit('setSelection', false);
         } else {
           commit('ERROR', result, {
             root: true

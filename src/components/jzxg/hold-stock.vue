@@ -8,23 +8,26 @@
         <td>调入日期</td>
         <td>建议调入价格</td>
         <td>最新价格</td>
-        <td>调入后最高涨幅</td>
+        <td>累计涨幅</td>
+        <td>持仓天数</td>
         <td></td>
       </tr>
     </table>
   </div>
   <div class="sti-tbl-body">
-    <div class="yo-scroll" @scroll="onScroll($event)">
+    <div v-if="!(holdStockList.length>0)" class="no-data">当前暂无持仓股票</div>
+    <div class="yo-scroll" @scroll="onScroll($event)" v-if="holdStockList.length>0">
       <section class="inner">
-        <div class="signal-table-wrap" slot="content">
-          <table class="recentin-table">
-            <tr v-for="(item,index) of recentInList">
+        <div class="signal-table-wrap">
+          <table class="hold-stock-table">
+            <tr v-for="(item,index) of holdStockList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
               <td>{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
-              <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio)?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.profitRatio">{{formatData(item.profitRatio)?(100*item.profitRatio).toFixed(2)+'%':'--'}}</td>
+              <td>{{formatData(item.holdingDays)?item.holdingDays+'天':'--'}}</td>
               <td>
                 <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && !(multiSelectionList[index].add === 0)">+自选</span>
                 <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index].add === 0">-自选</span>
@@ -46,14 +49,14 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['dataList', 'strategyId', 'nextStart'],
+  props: ['strategyId'],
   data() {
     return {
       noFlag: false, // 暂无更多数据显示,
       infiniteLoading: false,
       num: 5, //  一页显示多少条
-      recentInList: this.dataList,
-      pageStart: this.nextStart,
+      holdStockList: [],
+      pageStart: 0,
       loadFlag: false,
       multiSelectionList: []
     }
@@ -74,29 +77,41 @@ export default {
     nextStart() {
       this.pageStart = this.nextStart
     },
-    dataList() {
-      this.recentInList = this.dataList
-      this.querySelSelection()
+    strategyId() {
+      this.initHoldStock()
     }
   },
   computed: mapState({
-    lateInData: state => state.jzxg.latestInData,
+    holdStockData: state => state.jzxg.holdStockData,
     multiSelectionData: state => state.jzxg.multiSelectionData
   }),
   methods: {
+    initHoldStock: function() {
+      this.$store.dispatch('jzxg/queryHoldStockData', {
+        strategyId: this.strategyId,
+        pageSize: 10,
+        pageStart: 0
+      }).then(() => {
+        if (this.holdStockData) {
+          this.pageStart = this.holdStockData.nextStart
+          this.holdStockList = this.holdStockData.stocks
+          this.querySelSelection()
+        }
+      })
+    },
     onInfinite() {
       let more = this.$el.querySelector('.load-more')
       if (!more) {
         return
       }
       this.noFlag = false
-      this.$store.dispatch('jzxg/getLatestInData', {
+      this.$store.dispatch('jzxg/queryHoldStockData', {
         strategyId: this.strategyId,
         pageSize: this.num,
         pageStart: this.pageStart
       }).then(() => {
-        this.recentInList = this.recentInList.concat(this.lateInData.stocks)
-        this.pageStart = this.lateInData.nextStart
+        this.holdStockList = this.holdStockList.concat(this.holdStockData.stocks)
+        this.pageStart = this.holdStockData.nextStart
         this.querySelSelection()
       })
       this.infiniteLoading = false
@@ -124,14 +139,16 @@ export default {
         this.infinite() // 开始请求接口加载数据
       }
     },
-    querySelSelection() {
-      const codeArr = this.recentInList.map((stock) => {
+    querySelSelection(stockCode) {
+      const codeArr = this.holdStockList.map((stock) => {
         return stock.stkcode
       })
       this.$store.dispatch('jzxg/querySelection', {
         stockCode: codeArr.join(',')
       }).then(() => {
-        this.multiSelectionList = this.multiSelectionData
+        this.holdStockList.forEach((stock) => {
+          this.multiSelectionList = this.multiSelectionData
+        })
       })
     },
     addStock(index, code) {
@@ -155,7 +172,7 @@ export default {
     }
   },
   mounted() {
-    //  this.querySelSelection()
+    this.initHoldStock()
   }
 }
 </script>
@@ -164,10 +181,6 @@ export default {
 @import "../../assets/css/base.css";
 .sti-tbl-container {
     height: 185px;
-    box-sizing: border-box;
-    * {
-        box-sizing: border-box;
-    }
 }
 .sti-tbl-container .sti-tbl-body {
     height: 155px;
@@ -188,23 +201,23 @@ export default {
     height: 30px;
     text-align: center;
 }
-.recentin-table {
+.hold-stock-table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
 }
-.recentin-table td {
+.hold-stock-table td {
     text-align: center;
     height: 30px;
     border: 1px solid $lineAndTitleColor;
 }
-.recentin-table tr td:last-child {
+.hold-stock-table tr td:last-child {
     border-right-width: 0;
 }
-.recentin-table tr td:first-child {
+.hold-stock-table tr td:first-child {
     border-left-width: 0;
 }
-.recentin-table tr:first-child td {
+.hold-stock-table tr:first-child td {
     border-top-width: 0;
 }
 .yo-scroll {
@@ -243,6 +256,7 @@ export default {
     line-height: 30px;
     text-align: center;
 }
+,
 .add-btn,
 .remove-btn {
     display: inline-block;
@@ -260,5 +274,11 @@ export default {
 .remove-btn {
     border: 1px solid $upColorDhq;
     color: $upColorDhq;
+}
+.no-data {
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-bottom: 1px solid $lineAndTitleColor;
 }
 </style>
