@@ -174,7 +174,7 @@ export default {
 .after-wrap {
     background-color: $bgDeepColor;
     font-size: 12px;
-    /*  min-width: 1217px;*/
+    min-width: 1217px;
     padding: 3px 1px 3px 242px;
     font-family: "Microsoft YaHei";
     color: $wordsColorBase;
@@ -194,7 +194,8 @@ export default {
     top: 3px;
     left: 1px;
     padding: 18px 20px 20px;
-    min-height: 100%;
+    height: 100%;
+    z-index: 100;
 }
 .to-renewals {
     position: absolute;
@@ -271,9 +272,6 @@ export default {
 .label-ul {
     width: 30%;
     height: 100%;
-}
-.label-ul li {
-    margin-right: 35px;
 }
 .label-ul li:nth-child(3) {
     margin-right: 20px;

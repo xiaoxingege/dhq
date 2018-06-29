@@ -20,7 +20,7 @@
           <table class="recentin-table">
             <tr v-for="(item,index) of recentInList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
-              <td>{{formatData(item.stkname)?item.stkname:'--'}}</td>
+              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
@@ -45,6 +45,7 @@
 import {
   mapState
 } from 'vuex'
+import native from '../../utils/nativeApi'
 export default {
   props: ['dataList', 'strategyId', 'nextStart'],
   data() {
@@ -152,6 +153,11 @@ export default {
       } else {
         return false
       }
+    },
+    toStockDetail: function(code) {
+      native.openStock({
+        stockCode: code.substring(2) + '.' + code.substring(0, 2).toUpperCase()
+      })
     }
   },
   mounted() {
@@ -211,7 +217,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow: auto;
-    z-index: 9999;
+    z-index: 99;
     position: absolute;
     top: 0;
     left: 0;
