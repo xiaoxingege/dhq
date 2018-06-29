@@ -163,6 +163,22 @@ export default {
     vertical-align: bottom;
 }
 
+<<<<<<< Updated upstream
+=======
+
+.relateStock{
+    display: flex;
+}
+.relateStock ul{
+    display: inline-block;
+}
+.relateStock ul li {
+    float: left;
+     margin-left: 15px;
+    color: $blueWordsColor;
+    cursor: pointer;
+}
+>>>>>>> Stashed changes
 
 .relateStock{
     display: flex;
