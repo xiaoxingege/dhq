@@ -42,6 +42,9 @@ export default {
       });
       return fetch(url, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
         body: `data=${content}`
       }).then((res) => {
         return res.json()
