@@ -1,5 +1,5 @@
 <template>
-<div class="stockAll" v-if="count">
+<div class="stockAll">
   <div class="name">
     <div class="notOpenstock">
       <i></i>未开板新股
@@ -25,7 +25,7 @@
           <td class="col-1 col-1-color" @click="jumpDetail(item,index)">{{item.STOCKSNAME}}</td>
           <td class="col-2">{{item.STOCKCODE}}</td>
           <td class="col-3">{{item.np}}</td>
-          <td class="col-4">{{item.CHNG_PCT.toFixed(2)}}</td>
+          <td class="col-4">{{item.CHNG_PCT.toFixed(2)+'%'}}</td>
           <td class="col-5">{{item.yiziban_days}}</td>
           <td class="col-6">{{item.LCLOSE.toFixed(2)}}</td>
           <td class="col-7">{{item.INDU_NAME}}</td>
@@ -48,7 +48,7 @@ import {
 } from 'vuex'
 import native from '../../utils/nativeApi'
 export default {
-  props: ['count'],
+  props: ['wkbCount'],
   data() {
     return {
       list: [],

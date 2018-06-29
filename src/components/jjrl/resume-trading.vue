@@ -1,9 +1,9 @@
 <template>
 <div class="contentPage">
-  <div class="middlearea" v-if="count">
+  <div class="middlearea" v-if="fpCount">
     <fpStock></fpStock>
   </div>
-  <div class="rightArea" v-if="count">
+  <div class="rightArea" v-if="fpCount">
     <fpDetail></fpDetail>
   </div>
 
@@ -13,7 +13,7 @@
 import fpStock from 'components/jjrl/fp-stock'
 import fpDetail from 'components/jjrl/fp-detail'
 export default {
-  props:['count'],
+  props:['fpCount'],
   components: {
     fpStock,
     fpDetail

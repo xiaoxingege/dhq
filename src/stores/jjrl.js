@@ -22,8 +22,11 @@ const state = {
   saveDate: [],
   resetChart: [],
   setCount: [], // 存放功能区数据的数量，
-  setHyList: [] // 会议日历的列表数据
-
+  setHyList:[] ,// 会议日历的列表数据
+  setHyName:null,
+  saveHyUrl:'',//  存储会议URL
+  saveHyIndex:''
+ 
 }
 const mutationsTypes = {
   SET_GUIDE: 'SET_GUIDE',
@@ -39,10 +42,20 @@ const mutationsTypes = {
   SAVE_DATE: 'SAVE_DATE',
   RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT',
-  SET_HY_LIST: 'SET_HY_LIST'
+  SET_HY_LIST:'SET_HY_LIST',
+  SET_HY_NAME:'SET_HY_NAME',
+  SAVE_HY_URL:'SAVE_HY_URL',
+  SAVE_HY_INDEX:'SAVE_HY_INDEX'
 }
 
 const actions = {
+  
+  saveHyIndex({ commit },value){
+    commit(mutationsTypes.SAVE_HY_INDEX,value)
+  },
+  saveHyUrl({ commit },value){
+    commit(mutationsTypes.SAVE_HY_URL,value)
+  },
   setCount({
     commit
   }, value) {
@@ -92,7 +105,7 @@ const actions = {
     commit
   }, stockCode) {
     const vname = stockCode.split(',').join('')
-    // debugger
+   // debugger
     return $.ajax({
       type: 'get',
       dataType: 'script',
@@ -179,15 +192,14 @@ const actions = {
       rootState,
       commit
     },
-    value
+   value
   ) {
-    // debugger
+   // debugger
     const userId = rootState.user.userId || '';
     if (!userId) {
       return;
     }
     const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value.stockCode}&userId=${userId}`
-
     return z3fetch(url, {
       mode: 'cors',
       headers: {
@@ -248,7 +260,6 @@ const actions = {
     stockCode
   }) {
     const userId = rootState.user.userId || '';
-    // const userId = '461afaa0-39b4-4bd8-8c18-118b026d2017';
     stockCode = stockCode && stockCode.substring(0, 6);
     if (!userId) {
       return;
@@ -259,7 +270,7 @@ const actions = {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
-
+  
       },
       method: 'post',
       body: `stocks=${stockCode}&userId=${userId}`
@@ -274,18 +285,29 @@ const actions = {
       }
     })
   },
-  setHyList({
-    commit
-  }, date) {
+  setHyList({ commit }, date){  
     const url = `https://mapp.jrj.com.cn/json/invest/get?month=${date}&vname=content` // 需要年月份
     return $.ajax({
       type: 'get',
       dataType: 'script',
       url: url
     }).then(res => {
-      var hqData = window['content'];
-      //   console.log(hqData)
+       var hqData = window['content']; 
       commit(mutationsTypes.SET_HY_LIST, hqData)
+    })
+  },
+  setHyName({
+    state, // 获取名字
+    commit
+  }, stockCode) {
+    const vname = stockCode.split(',').join('')
+    return $.ajax({
+      type: 'get',
+      dataType: 'script',
+      url: 'https://sslapi.jrj.com.cn/jrjimg/q/?q=cn|s&i=' + stockCode + '&c=code,name,id&n=hqData_' + vname
+    }).then(data => {
+      var hqData = window['hqData_' + vname];
+      commit(mutationsTypes.SET_HY_NAME, hqData.HqData)
     })
   }
 
@@ -322,23 +344,15 @@ const mutations = {
     state.newNews = res
   },
   [mutationsTypes.NOT_OPEN_STOCK](state, res) {
-    // console.log(res)
     state.notOpenStock = res
   },
   [mutationsTypes.NOT_OPEN_STOCK_LIST](state, res) {
     state.notOpenStockList = res
-
+    //  onsole.log(state.notOpenStock)
     for (var i = 0; i < state.notOpenStock.length; i++) {
       if (state.notOpenStock[i].STOCKCODE === state.notOpenStockList[i][1]) {
         let obj = state.notOpenStock[i];
-        state.notOpenStock.splice(i, 1, { ...obj,
-          np: state.notOpenStockList[i][2].toFixed(2),
-          id: state.notOpenStockList[i][0]
-        })
-
-        // obj.np = state.notOpenStockList[i][2].toFixed(2);
-        // obj.id = state.notOpenStockList[i][0];
-
+        state.notOpenStock.splice(i,1,{ ...obj,  np:state.notOpenStockList[i][2].toFixed(2),id:state.notOpenStockList[i][0] })
       }
     }
   },
@@ -353,8 +367,32 @@ const mutations = {
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
   },
-  [mutationsTypes.SET_HY_LIST](state, setHyList) {
-    state.setHyList = setHyList
+  [mutationsTypes.SET_HY_LIST](state,setHyList){
+    
+    state.setHyList=setHyList
+  },
+
+  [mutationsTypes.SET_HY_NAME](state,setHyName){
+    if(!state.setHyName){
+      state.setHyName = {}
+    }
+ /*    for (var i=0; i<state.setHyName.length; i++){
+      state.setHyName[i]
+    } */
+    setHyName.map((item) => {
+      if(!state.setHyName[item[1]]){
+        state.setHyName[item[1]] = item;
+      }
+    }) 
+  // console.log(state.setHyName)
+  },
+  [mutationsTypes.SAVE_HY_URL](state,saveHyUrl){
+ //  console.log(saveHyUrl)
+    state.saveHyUrl=saveHyUrl
+  },
+  [mutationsTypes.SAVE_HY_INDEX](state,saveHyIndex){
+ //  console.log(saveHyIndex)
+    state.saveHyIndex=saveHyIndex
   }
 }
 
