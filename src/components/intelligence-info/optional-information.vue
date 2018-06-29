@@ -41,7 +41,7 @@
       </div>
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
-    <p v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+    <div v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock"><img src="../../assets/images/news-img/noStock.png" alt="" /></a><p class="tc mt-10">您还没有自选股，快去<a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock">【添加】</a>吧~</p></div>
     <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'optionalInformation'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -67,7 +67,8 @@ export default {
       innerHeight: window.innerHeight,
       innerCodes: '',
       flag: true,
-      isBackTop:false
+      isBackTop:false,
+      optionalInformationList:[]
     }
   },
   mounted() {
@@ -500,6 +501,12 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    font-size: 14px;
+    color: #808ba1;
+    a{
+      font-size: 14px;
+      color:#009afe;
+    }
 }
 .fontS14 {
     font-size: 14px;
