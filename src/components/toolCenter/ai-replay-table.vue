@@ -172,6 +172,9 @@ td a {
 .table1 tr td:nth-child(7) {
     width: 13.7%;
 }
+.tonative {
+    cursor: pointer;
+}
 </style>
 <template>
 <div class="signal-table-wrap">
@@ -192,7 +195,7 @@ td a {
     <tr v-for="(item,index) of indexResume">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
-        <div>{{item.stkname ||'--'}}</div>
+        <div @click='toNative({stockCode:concats(item.stkcode)})' class="tonative">{{item.stkname ||'--'}}</div>
       </td>
       <td class="td-chngPct">
         <div v-z3-updowncolor="item.changeRatio">{{item.price | price}}</div>
@@ -203,11 +206,6 @@ td a {
       <td class="td-chngPct">
         <div>{{checkUnit(item.volume) ||'--'}}</div>
       </td>
-      <!-- <td>
-        <div class="tonative">
-          {{item.compStockRiseRatio ||'--'}}
-        </div>
-      </td> -->
       <td class='pro-td'>
         <div class="progress-box"><span class="progress redbg fl" :style="'width:'+Math.round(item.compStockRiseRatio*100)+'%;'"></span><span class="progress greenbg fr" :style="'width:'+ Math.round((1-item.compStockRiseRatio)*100)+'%;'"></span></div>
       </td>
