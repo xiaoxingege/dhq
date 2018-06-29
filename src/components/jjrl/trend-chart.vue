@@ -9,7 +9,7 @@
     <div class="chart" ref="hqzsChart">
 
     </div>
-    <p><span>停牌期间上证指数下跌：</span>{{storeData.zszd}}</p>
+    <p><span>停牌期间上证指数<i v-if="storeData.zszd>0?false:true">下跌</i><i v-else>上涨</i>：</span>{{storeData.zszd+"%"}}</p>
     <p><span>停牌提示：</span>{{storeData.public}}</p>
   </div>
 
@@ -31,6 +31,7 @@ export default {
       public: '',
       code: '',
       stopdate: ''
+      
 
 
     }
@@ -46,6 +47,7 @@ export default {
       // console.log(this.storeData.stockCode)
       return this.storeData.stockCode;
     }
+   
   },
   methods: {
     initChart() {
@@ -185,6 +187,7 @@ export default {
     }
   },
   mounted() {
+ 
     this.initChart()
     this.drawCharts()
   }

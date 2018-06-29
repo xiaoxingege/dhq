@@ -1,46 +1,52 @@
 <template>
 <div class="hyAll">
-  <div class="hyList">
-    <hyList @hyCalenderDetail="hyCalenderDetail"></hyList>
+    <div class="hyList" >
+        <hyList @hyCalenderDetail="hyCalenderDetail" ></hyList>
+    </div>
+
+    <div class="hyDetail" ref="hydetail">
+        <hyNews  :newsUrl="saveHyUrl"></hyNews>
+    </div> 
   </div>
 
-  <!--     <div class="hyDetail">
-        <hyNews></hyNews>
-    </div> -->
-</div>
-</div>
 </template>
 <script>
-import {
-  mapState
-} from 'vuex'
-// import hyNews from 'components/dhq-news-detail'
+import { mapState } from 'vuex'
+import hyNews from 'components/dhq-news-detail'
 import hyList from 'components/jjrl/hy-list'
 export default {
-  components: {
-    //  hyNews,
+      components: {
+    hyNews,
     hyList
   },
-  data() {
-    return {
-      hyurl: ''
-    }
-  },
-  computed: {
+ 
+    data(){
+        return {
+            hyurl:''
+        }
+    },
+    computed: { 
     ...mapState({
-      storeData: state => state.jjrl.dateAndCode,
-      setHyList: state => state.jjrl.setHyList
+        storeData:state => state.jjrl.dateAndCode,
+        setHyList:state => state.jjrl.setHyList,
+        saveHyUrl:state => state.jjrl.saveHyUrl
     })
 
-  },
-  methods: {
-    hyCalenderDetail(item) {
-      this.hyurl = item.link
+    },
+    methods:{
+    hyCalenderDetail(item){
+   //  debugger
+        
+       // this.hyurl=item.events[0].link
     }
-  },
-  mounted() {
-
+    },
+    watch: {
+    hyurl() {
+      this.$refs.hydetail.scrollTop = 0;
+    }
   }
+   
+
 }
 </script>
 
@@ -58,5 +64,12 @@ export default {
     overflow: auto;
     background-color: #191c1e;
     border-right: 1px solid $bgNavColor;
+    float: left;
+}
+.hyDetail{
+    float: left;
+    width: 67.5%;
+    overflow: auto;
+    height: 100%;
 }
 </style>

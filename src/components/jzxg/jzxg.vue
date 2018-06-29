@@ -1,5 +1,5 @@
 <template>
-<div class="jzxg-wrap">
+<div class="jzxg-all">
   <component :is="currentView" :expireDate="expireDate"></component>
   <!-- <JzxgBefore v-if="!isValid" :expireDate="expireDate"></JzxgBefore>
   <JzxgAfter v-if="isValid" :expireDate="expireDate"></JzxgAfter>-->
@@ -44,7 +44,7 @@ body,
 html {
     height: 100%;
 }
-.jzxg-wrap {
-    min-height: 100%;
+.jzxg-all {
+    height: 100%;
 }
 </style>

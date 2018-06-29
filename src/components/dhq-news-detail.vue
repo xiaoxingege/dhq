@@ -12,7 +12,7 @@
 import {
   mapState
 } from 'vuex'
-// import $ from 'jquery'
+import $ from 'jquery'
 export default {
   props: ['iiid', 'newsUrl'],
   data() {
@@ -24,7 +24,7 @@ export default {
     init() {
       console.log(this.iiid);
       console.log(this.newsUrl);
-      if (this.iiid && this.newsUrl) {
+      if (this.newsUrl) {
         this.$store.dispatch('dhqNews/queryNewsDetail', {
           iiid: this.iiid,
           newsUrl: this.newsUrl
