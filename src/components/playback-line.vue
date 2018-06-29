@@ -171,13 +171,13 @@ export default {
     overflow: hidden;
 }
 .perday {
-    width: 35px;
+    width: 32px;
     height: 20px;
     line-height: 20px;
     cursor: pointer;
     display: inline-block;
     float: left;
-    font-size: 12px;
+    font-size: 10px;
     text-align: center;
     border-right: 2px solid #141518;
     background-color: #262626;
