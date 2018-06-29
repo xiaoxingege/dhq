@@ -7,15 +7,10 @@
         <div>
           <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
           <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+          <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">{{item.title}}</span>
+            <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}} <span class="source"> ( {{item.srcName}} )</span></p>
           </router-link>
-        </div>
-        <div class="con-txt">
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
-          </router-link>
-          <span class="source">( {{item.srcName}} )</span>
         </div>
         <div class="con-bottom">
           <ul class="stock">
@@ -42,7 +37,7 @@
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
-    <!-- <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'wisdomHeadlines'"></scrollTopBar> -->
+    <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'wisdomHeadlines'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -331,27 +326,33 @@ export default {
 }
 .con-txt {
     margin: 4px 0 10px;
-    line-height: 18px;
+    font-size: 14px;
+    color: #808ba1;
+    line-height: 20px;
+}
+.news-a{
+  &:visited{
+    .name{
+      color: #808ba1;
+    }
+  }
+  
 }
 .news-list {
     position: relative;
     .news-list-item {
+        transition: all .3s;
+        &:hover{
+          background-color: #2e4465;
+        }
         border: 1px solid #0d1112;
         background-color: #1a1b1f;
         padding: 10px 10px 10px 5px;
-        .con-txt {
-            span {
-                font-size: 14px;
-                color: #808ba1;
-                line-height: 20px;
-            }
-        }
         a {
             color: $wordsColorBase;
             &:hover {
                 color: #2388da;
             }
-
         }
     }
 }
