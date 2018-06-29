@@ -65,8 +65,7 @@
     border-top-right-radius: 2em;
     border-bottom-right-radius: 2em;
 }
-.name-box {
-    }
+.name-box {}
 .block-num {
     font-size: 14px;
     display: inline-block;

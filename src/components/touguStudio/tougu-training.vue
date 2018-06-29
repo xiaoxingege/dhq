@@ -1,5 +1,5 @@
-<style>
-    .tougu-training { width:100%; position:absolute; top:153px; bottom:0; box-sizing:border-box; padding: 10px 2%; }
+<style scoped>
+    .tougu-training { width:100%;bottom:0; box-sizing:border-box; padding: 10px 2%; }
     .tougu-training > div { float:left;}
     .video-mask { position:absolute; top:0; left:0; background:rgba(29,30,34,0.6); width:100%; height:100%; }
     .video-mask-play-icon { position:absolute; top:50%; left:50%; width:98px; height:98px; background:url('../../assets/images/touguStudio/play-icon.png'); background-size:100% 100%; margin-left:-49px; margin-top:-49px; }
