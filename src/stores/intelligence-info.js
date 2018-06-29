@@ -251,7 +251,7 @@ export default {
       const stocks = state.relatedStocks
       let date = new Date()
       if (stocks[stock.innerCode] !== undefined) {
-        if (formatDate(date, 'hh:mm') === '09:05') {
+        if (formatDate(date, 'hh:mm') === '09:00') {
           stocks[stock.innerCode].price = null
           stocks[stock.innerCode].chngPct = null
         } else {
