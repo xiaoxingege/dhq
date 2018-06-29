@@ -12,13 +12,28 @@
 .finance-news-list li {
     height: 16.66%;
     padding-top: 8px;
+    position: relative;
+    padding-right: 50px;
+    padding-left: 11px;
 }
 .newtitle {
     cursor: pointer;
     color: $wordsColorBase;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .newtitle:hover {
     color: $blueWordsColor;
+}
+.news-time {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    display: inline-block;
+    width: 50px;
 }
 .finance-news-list > li:before {
     float: left;
@@ -28,7 +43,9 @@
     height: 6px;
     overflow: hidden;
     display: inline-block;
-    margin: 6px 5px 0 0;
+    position: absolute;
+    top: 13px;
+    left: 0;
     border-radius: 50%;
 }
 ,
@@ -60,7 +77,7 @@
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
       <router-link class="fl newtitle" :to="{name:'detailPages',params:{id:item.newsId, detailType:'news'}}" target="_blank">{{item.title}}</router-link>
-      <span class="fr">{{timestampToTime(item.declareDate)}}</span>
+      <span class="fr news-time">{{timestampToTime(item.declareDate)}}</span>
     </li>
   </ul>
 </div>
