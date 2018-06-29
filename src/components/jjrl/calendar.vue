@@ -71,10 +71,12 @@ export default {
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style.scss";
 .calendar-con {
-    position: relative;
+    position: fixed;
     height: 30px;
     color: $wordsColorBase;
     font-size: 13px;
+    background-color: $bgDeepColor;
+    z-index: 99;
     .date {
         display: inline-block;
         width: 132px;
