@@ -161,7 +161,7 @@
   <div class="consultation-content" ref="cBOX">
     <div v-for="item in messageList">
       <div class="divisionTime" v-if="item.showTime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
-      <div class="recipient" v-show="item.contentType==2">
+      <div class="recipient" v-show="item.senderId !== userId">
         <div class="recipient-headimage">
           <img :src="conversationList.userList[0].headImage" />
         </div>
@@ -171,7 +171,7 @@
         </div>
       </div>
       <div style="clear:both"></div>
-      <div class="sender" v-show="item.contentType==1">
+      <div class="sender" v-show="item.senderId === userId">
         <div class="sender-content">
           <p v-html="item.content"></p>
           <img src="../../assets/images/touguStudio/QP2.png" />
@@ -265,7 +265,8 @@ export default {
       },
       studioList: state => {
         return state.touguSpaceNav.roomData
-      }
+      },
+      userId: state => state.auth.passportId
     })
   },
 
