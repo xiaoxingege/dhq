@@ -144,7 +144,7 @@ export default {
         this.getTopData()
         this.showMsg = true
         if(this.newsFlashLength<=0){
-          this.refreshMsg = '还没有新内容哦'
+          this.refreshMsg = '还没有新内容哦~'
         }else{
           this.refreshMsg = '新更新'+this.newsFlashLength+'条资讯，快去看看吧~'
         }
