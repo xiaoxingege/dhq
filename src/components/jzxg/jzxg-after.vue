@@ -179,7 +179,7 @@ export default {
     font-family: "Microsoft YaHei";
     color: $wordsColorBase;
     position: relative;
-    min-height: 100%;
+    height: 100%;
 }
 .after-wrap {
     box-sizing: border-box;
