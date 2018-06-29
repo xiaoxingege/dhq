@@ -3,7 +3,7 @@
      <div class="listCon">
         <div  v-for='(ele,index) in model.events' @click="chooseHy(ele,index)">
         <div class="hyTitle" :class="isSelected&&(cur===index)?'cur':''">
-            <div :title='curTitle'>{{showTitle(ele.title)}}</div>
+            <div :title='curTitle'>{{ele.title}}</div>
             <div>
                 <span>关注程度：</span>
                 <ul class="star">
@@ -56,23 +56,7 @@ export default {
         saveHyUrl:state => state.jjrl.saveHyUrl,
         saveHyIndex: state => state.jjrl.saveHyIndex
     })
-
-
   },
-  methods: {
-    getDate(date) {
-      var d, M, D
-      d = new Date(date)
-      M = d.getMonth() + 1
-      D = d.getDate()
-      if (M < 10) {
-        M = '0' + M;
-      }
-      if (D <= 10) {
-        D = '0' + D;
-      }
-      return M + '-' + D
-    },
     methods:{
      getDate(date){
             var d,M,D
@@ -109,11 +93,7 @@ export default {
         })
          this.$emit('hyCalenderDetail',this.setHyList)
     }
-    },
-    mounted() {
-        
     }
-  }
    
 }
 </script>
@@ -162,10 +142,6 @@ export default {
     display: inline-block;
     vertical-align: bottom;
 }
-
-<<<<<<< Updated upstream
-=======
-
 .relateStock{
     display: flex;
 }
@@ -178,7 +154,6 @@ export default {
     color: $blueWordsColor;
     cursor: pointer;
 }
->>>>>>> Stashed changes
 
 .relateStock{
     display: flex;
