@@ -29,8 +29,8 @@
               <td v-z3-updowncolor="item.profitRatio">{{formatData(item.profitRatio)?(100*item.profitRatio).toFixed(2)+'%':'--'}}</td>
               <td>{{formatData(item.holdingDays)?item.holdingDays+'天':'--'}}</td>
               <td>
-                <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && !(multiSelectionList[index].add === 0)">+自选</span>
-                <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index].add === 0">-自选</span>
+                <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
+                <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && multiSelectionList[index].add === 0">-自选</span>
               </td>
             </tr>
           </table>
@@ -79,6 +79,8 @@ export default {
       this.pageStart = this.nextStart
     },
     strategyId() {
+      this.holdStockList = []
+      this.multiSelectionList = []
       this.initHoldStock()
     }
   },
@@ -122,7 +124,7 @@ export default {
       this.infiniteLoading = true
       setTimeout(() => {
         this.onInfinite();
-      }, 1000);
+      }, 1500);
     },
     onScroll(e) {
       if (this.pageStart === -1) {

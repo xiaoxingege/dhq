@@ -26,8 +26,8 @@
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
               <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio)?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
               <td>
-                <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && !(multiSelectionList[index].add === 0)">+自选</span>
-                <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index].add === 0">-自选</span>
+                <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
+                <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && multiSelectionList[index].add === 0">-自选</span>
               </td>
             </tr>
           </table>
@@ -78,6 +78,10 @@ export default {
     dataList() {
       this.recentInList = this.dataList
       this.querySelSelection()
+    },
+    strategyId() {
+      this.recentInList = []
+      this.multiSelectionList = []
     }
   },
   computed: mapState({
@@ -107,7 +111,7 @@ export default {
       this.infiniteLoading = true
       setTimeout(() => {
         this.onInfinite();
-      }, 1000);
+      }, 1500);
     },
     onScroll(e) {
       if (this.pageStart === -1) {
