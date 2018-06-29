@@ -19,13 +19,15 @@ export default {
   state: {
     // 初始化时，务必要把所有的数据成员做初始化，否则后面数据的更新，将不会触发显示的更
     summary: {},
-    indexResume: []
+    indexResume: [],
+    block: []
   },
   mutations: {
     updateResume(state, option) {
       state.summary = option.summary
       state.indexResume = option.index
-      console.log(option.summary)
+      state.block = option.block
+      console.log(option.block)
 
     }
 

@@ -69,15 +69,17 @@
 .block-num {
     font-size: 14px;
     display: inline-block;
-    width: 48px;
+    /* width: 48px; */
     height: 24px;
     line-height: 24px;
     background: #ffd31a;
     color: $menuSelColor;
-    text-align: center;
+    /*  text-align: center; */
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
+    font-style: italic;
+    padding: 0 12px 0 8px;
 }
 .block-name {
     padding-left: 4px;
@@ -100,40 +102,54 @@
     padding: 11px 0 5px 2px;
 }
 .line-charts {
-    height: 65px;
+    /* width: 50%; */
+    height: 66px;
+}
+.blue {
+    color: $blueWordsColor;
+    cursor: pointer;
+}
+.tonative {
+    cursor: pointer;
+}
+.leading-chg {
+    padding-left: 7px;
+}
+.leading-box {
+    margin-right: 32px;
 }
 </style>
 <template>
 <div class="hot-block-wrap">
   <div class="name-box">
-    <span class="block-num">No.1</span><span class="block-name">海南概念</span><span class="block-chg">+232%</span>
+    <em class="block-num">No.{{index+1}}</em><span class="block-name">{{blockData.name ||'--'}}</span><span class="block-chg" v-z3-updowncolor="blockData.changeRatio">{{checkChngPct(blockData.changeRatio) ||'--'}}</span>
   </div>
   <div class="leading-stock">
-    <span>相关事件：</span><span>海南自贸区宣布成立！</span>
+    <span>相关事件：</span><span v-for="(item,index) of blockData.event" class="blue">{{item.title ||'--'}}</span>
   </div>
   <div class="leading-stock clearfix">
     <span class="fl">龙头股：</span>
-    <div class="fl">
-      <span>海南概念</span><span>+232%</span>
+    <div class="fl leading-box" v-for="(item,index) of blockData.leadingStock">
+      <span @click='toNative({stockCode:concats(item.stkcode)})' class="blue">{{item.stkname ||'--'}}</span><span v-z3-updowncolor="blockData.changeRatio" class="leading-chg">{{checkChngPct(item.changeRatio) ||'--'}}</span>
     </div>
   </div>
   <div class="recent-day">近20日走势</div>
-  <div class="line-charts"></div>
+  <div class="line-charts" ref="lineCharts"></div>
 </div>
 </template>
 <script>
-// import config from '../../dhq/config'
+import config from '../../dhq/config'
 import util from '../../dhq/util'
 import native from 'utils/nativeApi'
+import echarts from 'echarts'
 import {
   mapState
 } from 'vuex'
 export default {
-  props: ['indexResume'],
+  props: ['blockData', 'index'],
   data() {
     return {
       type: '',
-      thTitle: ['指数', '最新', '涨幅', '成交额', '涨跌比', '近期资金流向', '可操作性'],
       alltimers: '',
       size: '',
       data: {
@@ -144,14 +160,147 @@ export default {
   },
 
   watch: {
-
+    blockData() {
+      this.initLine()
+    }
   },
   components: {
 
   },
   computed: mapState({}),
   methods: {
+    initLine() {
+      this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
 
+      if (this.blockData) {
+        this.drawCharts(this.blockData.recent20DayQuote)
+
+      }
+
+    },
+    drawCharts(recent20DayQuote) {
+      const opt = {
+        // tooltip: {
+        //   trigger: 'axis',
+        //   padding: [10, 55, 10, 20],
+        //   textStyle: {
+        //     align: 'left',
+        //     color: '#c9d0d7'
+        //   },
+        //   showContent: true,
+        //   axisPointer: {
+        //     type: 'cross',
+        //     label: {
+        //       show: true,
+        //       formatter: function(params) {
+        //         let yLabelData = ''
+        //         if (params.seriesData.length > 0) {
+        //           yLabelData = params.seriesData[0].data === 0 ? params.seriesData[1].data : params.seriesData[0].data
+        //           return params.seriesData[0].name
+        //         } else {
+        //           if (typeof yLabelData !== 'undefined') {
+        //             return yLabelData
+        //           } else {
+        //             return ''
+        //           }
+        //         }
+        //       },
+        //       backgroundColor: '#777',
+        //       // padding:[20,0,10,10],
+        //       textStyle: {
+        //         /* color:'#000',
+        //          fontWeight:'bold'*/
+        //       }
+        //     },
+        //     crossStyle: {
+        //       color: '#666'
+        //     }
+        //   },
+        //   formatter: function(params) {
+        //     var s = ''
+        //     for (var i = 0; i < params.length; i++) {
+        //       if (i === 0) {
+        //         s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].name + '评分: ' + params[i].value + '</br>'
+        //       }
+        //       if (i === 1) {
+        //         s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>' + params[i].seriesName + ' : ' + params[i].value
+        //       }
+
+        //     }
+        //     return s
+        //   }
+        // },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            show: false,
+            color: '#c9d0d7'
+          },
+          axisTick: {
+            show: false
+          },
+          data: ['2018-06-01', '2018-06-02', '2018-06-03', '2018-06-04', '2018-06-05', '2018-06-06', '2018-06-07', '2018-06-08', '2018-06-09', '2018-06-10', '2018-06-11', '2018-06-12', '2018-06-13', '2018-06-14', '2018-06-15', '2018-06-16', '2018-06-17', '2018-06-18', '2018-06-19', '2018-06-20']
+        },
+        yAxis: {
+          // type: 'category',
+          type: 'value',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: 'solid',
+              color: '#23272c'
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false,
+            alignWithLabel: false
+          },
+          axisLabel: {
+            show: false
+          }
+        },
+        series: [{
+            data: recent20DayQuote,
+            name: 'this.legendName1',
+            type: 'line',
+            symbol: 'none',
+            itemStyle: {
+              normal: {
+                color: '#ffd31a'
+
+              }
+            }
+
+          }
+
+        ],
+        grid: {
+          left: 0,
+          right: 10,
+          // top: '10%',
+          // height: '81%',
+          show: true,
+          borderColor: '#23272c',
+          borderWidth: 1
+        }
+      };
+      this.chart.setOption(opt)
+      window.addEventListener('resize', () => this.chart.resize(), false)
+    },
     toNative(stockCode) {
       return native.openStock(stockCode)
     },
@@ -184,7 +333,7 @@ export default {
 
   },
   mounted() {
-
+    this.initLine()
 
   },
   destroyed() {}

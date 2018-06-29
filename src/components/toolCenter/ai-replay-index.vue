@@ -44,6 +44,17 @@
 .center-title {
     padding-bottom: 10px;
 }
+.table-box {
+    width: 100%;
+}
+.table-detail {
+    width: 33%;
+    /*  font-size: 14px; */
+    margin-right: 184px;
+}
+.table-detail:last-child {
+    margin-right: 0;
+}
 </style>
 <template>
 <div class="replay-wrap">
@@ -52,10 +63,15 @@
     <div class="center-title">重要指数表现</div>
     <ReplayTable :indexResume='indexResume' />
   </div>
-  <!--   <div class='replay-center'>
+  <div class='replay-center'>
     <div class="center-title center-title2">市场热点</div>
-    <ReplayBlock/>
-  </div> -->
+    <div class="display-box table-box">
+      <div class="table-detail box-flex-1" v-for="(item,index) of block">
+        <ReplayBlock :blockData='item' :index="index" />
+      </div>
+    </div>
+
+  </div>
 
 </div>
 </template>
@@ -85,7 +101,8 @@ export default {
   },
   computed: mapState({
     summary: state => state.aiReplay.summary,
-    indexResume: state => state.aiReplay.indexResume
+    indexResume: state => state.aiReplay.indexResume,
+    block: state => state.aiReplay.block
   }),
   methods: {
     init() {
