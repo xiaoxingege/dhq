@@ -178,7 +178,6 @@ td a {
 </style>
 <template>
 <div class="signal-table-wrap">
-
   <!-- <div class="table-box display-box"> -->
   <table class="table1" v-if='indexResume.length!=0' ref='datalist'>
     <tr>
@@ -315,7 +314,7 @@ export default {
         },
         series: [{
           type: 'bar',
-          barWidth: '60%',
+          barWidth: 15,
           data: fundFlow5Days,
           itemStyle: {
             normal: {
