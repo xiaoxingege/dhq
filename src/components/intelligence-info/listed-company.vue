@@ -20,7 +20,7 @@
             <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
           </router-link>
         </div>
-        <p class="source">( {{item.srcName}} ) <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+        <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
