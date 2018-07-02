@@ -294,7 +294,7 @@ export default {
     moveUpBlockData: state => {
       const moveUpBlockData = state.indexChart.moveBlock
       if (moveUpBlockData && moveUpBlockData.length > 0) {
-        const toTime = moveUpBlockData[0].tradeMin.toString()
+        const toTime = moveUpBlockData[0].tradeTime.toString()
         let m;
         let s;
         if (toTime.length === 6) {
@@ -304,14 +304,14 @@ export default {
           m = toTime.substring(0, 1)
           s = toTime.substring(1, 3)
         }
-        moveUpBlockData[0].tradeMin = m + ':' + s
+        moveUpBlockData[0].tradeTime = m + ':' + s
         return moveUpBlockData[0]
       }
     },
     moveDownBlockData: state => {
       const moveDownBlockData = state.indexChart.moveBlock
       if (moveDownBlockData && moveDownBlockData.length > 0) {
-        const toTime = moveDownBlockData[1].tradeMin.toString()
+        const toTime = moveDownBlockData[1].tradeTime.toString()
         let m;
         let s;
         if (toTime.length === 6) {
@@ -321,7 +321,7 @@ export default {
           m = toTime.substring(0, 1)
           s = toTime.substring(1, 3)
         }
-        moveDownBlockData[1].tradeMin = m + ':' + s
+        moveDownBlockData[1].tradeTime = m + ':' + s
         return moveDownBlockData[1]
       }
     }
@@ -583,15 +583,15 @@ export default {
       let moveDownX;
       let moveDownY;
       let moveDownName;
-      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeMin) !== -1) {
-        moveUpX = _this.moveUpBlockData.tradeMin
-        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeMin)]
-        moveUpName = _this.moveUpBlockData.idxName
+      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeTime) !== -1) {
+        moveUpX = _this.moveUpBlockData.tradeTime
+        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeTime)]
+        moveUpName = _this.moveUpBlockData.sectionName
       }
-      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeMin) !== -1) {
-        moveDownX = _this.moveDownBlockData.tradeMin
-        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeMin)]
-        moveDownName = _this.moveDownBlockData.idxName
+      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeTime) !== -1) {
+        moveDownX = _this.moveDownBlockData.tradeTime
+        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeTime)]
+        moveDownName = _this.moveDownBlockData.sectionName
       }
       const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
       let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
@@ -926,29 +926,29 @@ export default {
           _this.$store.dispatch('indexChart/getMoveBlock')
         }, 60 * _this.intervalTime)
       }
-      this.chartInterval = setInterval(function(){
-          _this.$store.dispatch('indexChart/getIndexChartData', {
-              stockCode: '000001.SH'
-          }).then(() => {
-              _this.refreshEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-          })
-          _this.$store.dispatch('indexChart/getIndexChartData', {
-              stockCode: '000300.SH'
-          }).then(() => {
-              _this.refreshEcharts(_this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
-          })
-          _this.$store.dispatch('indexChart/getIndexChartData', {
-              stockCode: '399001.SZ'
-          }).then(() => {
-              _this.refreshEcharts(_this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
-          })
-          _this.$store.dispatch('indexChart/getIndexChartData', {
-              stockCode: '399006.SZ'
-          }).then(() => {
-              _this.refreshEcharts(_this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
-          })
-          _this.$store.dispatch('indexChart/getBarData').then(() => {})
-      },3*_this.intervalTime)
+      this.chartInterval = setInterval(function() {
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '000001.SH'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '000300.SH'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '399001.SZ'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '399006.SZ'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
+        })
+        _this.$store.dispatch('indexChart/getBarData').then(() => {})
+      }, 3 * _this.intervalTime)
     },
     toMarketDetail: function() {
       window.open(ctx + '/stock/000001.SH')
@@ -1013,7 +1013,7 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData) {
+        if (this.moveBlockData.length > 0 && this.szzsChartData) {
           this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         }
       }
@@ -1039,7 +1039,9 @@ export default {
     moveBlockData: {
       deep: true,
       handler: function() {
-        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        if (this.moveBlockData.length > 0 && this.szzsChartData) {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        }
       }
     }
   },
@@ -1060,19 +1062,19 @@ export default {
       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
     });
     this.$store.dispatch('indexChart/getIndexChartData', {
-        stockCode: '000300.SH'
+      stockCode: '000300.SH'
     }).then(() => {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
     })
     this.$store.dispatch('indexChart/getIndexChartData', {
-        stockCode: '399001.SZ'
+      stockCode: '399001.SZ'
     }).then(() => {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
     })
     this.$store.dispatch('indexChart/getIndexChartData', {
-        stockCode: '399006.SZ'
+      stockCode: '399006.SZ'
     }).then(() => {
-        this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
+      this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
     this.autoUpdate()

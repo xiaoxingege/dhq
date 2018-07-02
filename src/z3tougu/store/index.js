@@ -104,6 +104,8 @@ const mutations = {
   [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
+      accessToken: authInfo.accessToken,
+      userType: authInfo.userType,
       clientid: authInfo.clientid,
       deviceid: authInfo.deviceid,
       expires: authInfo.expires,
