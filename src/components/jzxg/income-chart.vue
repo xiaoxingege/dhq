@@ -22,9 +22,22 @@ export default {
       if (this.jzmncChartData) {
         const xData = this.jzmncChartData.netAsset
         const dateArr = []
-        xData.dataList.forEach((asset) => {
-          dateArr.push(this.dateFormatUtil(asset.date))
-        })
+        for (let index in xData.dataList) {
+          let align = ''
+          if (parseInt(index) === 0) {
+            align = 'left'
+          } else if (parseInt(index) === xData.dataList.length - 1) {
+            align = 'right'
+          } else {
+            align = 'center'
+          }
+          dateArr.push({
+            value: this.dateFormatUtil(xData.dataList[index].date),
+            textStyle: {
+              align: align
+            }
+          })
+        }
         return dateArr
       }
     },
@@ -112,7 +125,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          boundaryGap: false,
+          boundaryGap: true,
           splitLine: {
             show: true,
             lineStyle: {
@@ -126,7 +139,11 @@ export default {
           axisLabel: {
             textStyle: {
               color: '#c9d0d7'
-            }
+            },
+            align: 'right',
+            interval: this.xData && parseInt(this.xData.length / 3),
+            showMinLabel: true,
+            showMaxLabel: true
           },
           data: this.xData
         },

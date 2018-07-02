@@ -1,7 +1,7 @@
 <template>
 <div class="ten-stock-wrap">
-  <div class="left-arrow" @click="leftScroll"><span class="arrowl"></span></div>
-  <div class="right-arrow" @click="rightScroll"><span class="arrowr"></span></div>
+  <div class="left-arrow" @click="rightScroll"><span class="arrowl"></span></div>
+  <div class="right-arrow" @click="leftScroll"><span class="arrowr"></span></div>
   <div class="stock-list-wrap" ref="stockListWrap">
     <ul class="clearfix stock-ul" :style="{left:stockUiLeft+'px'}">
       <li class="fl stock-li" v-for="item of tenStockList">

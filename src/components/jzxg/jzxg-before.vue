@@ -196,7 +196,7 @@
           <video src="http://flvdata.jrj.com.cn/2012/2017/hezuo/yjbf01.mp4" controls="controls" controlslist='nodownload'></video>
         </div>
         <div class="video-txt">
-          <p class="video-txt-title">《《赢家兵法-操盘必看》》</p>
+          <p class="video-txt-title">《赢家兵法-操盘必看》</p>
           <p>分享独家操盘心经与股市经验心得，帮助您轻松应对股市行情</p>
         </div>
       </li>
@@ -246,7 +246,7 @@
     </ul>
   </div>
   <div class="team-info">
-    <p style="font-size:14px;">金融界-新兰德 三大团队为您投资赋能</p>
+    <p style="font-size:16px;">金融界-新兰德 三大团队为您投资赋能</p>
     <p>金融界专业投顾团队：皆由从事股票领域工作数十年、实战经验丰富的投资顾问组成，团队成员全部拥有证券执业资质，曾多次应邀出席业界研讨会及接受新闻媒体访问，其实力早已获得专业领域的普遍认同。</p>
     <p>金融界研究院：中国金融在线集团旗下研究机构，致力于研究中国宏观经济和资本市场，擅长对资讯、大数据以及市场交易者行为进行挖掘。团队成员80%以上拥有研究生及以上学历，具备证券公司、公募基金、私募机构等行业从业经历。</p>
     <p>金融界智能金融团队：拥有国内首家专注于智能金融研究的博士后科研工作站，成员均来自国内外名校，全部为硕士以上学历，潜心研究金融智能算法，不断优化输出高胜率炒股策略。</p>
@@ -360,10 +360,10 @@ export default {
         this.zltjProfitMultiple = this.zltjData.profitMultiple
         // 是否显示收益倍数
         this.jzmncProfitType = this.jzmncData.profitType
-        this.bdyxProfitType = this.jzmncData.profitType
-        this.zxjjProfitType = this.jzmncData.profitType
-        this.rdjjProfitType = this.jzmncData.profitType
-        this.zltjProfitType = this.jzmncData.profitType
+        this.bdyxProfitType = this.bdyxData.profitType
+        this.zxjjProfitType = this.zxjjData.profitType
+        this.rdjjProfitType = this.rdjjData.profitType
+        this.zltjProfitType = this.zltjData.profitType
       })
     },
     formatData: function(value) {
@@ -548,12 +548,11 @@ export default {
     text-align: center;
 }
 .service-wrap li p {
-    font-size: 16px;
     text-align: center;
     margin-top: 28px;
 }
 .team-info {
-    height: 594px;
+    height: 660px;
     margin: 15px 0;
     padding: 24px 74px 0 50px;
 }
