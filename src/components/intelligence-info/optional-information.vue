@@ -67,8 +67,7 @@ export default {
       innerHeight: window.innerHeight,
       innerCodes: '',
       flag: true,
-      isBackTop:false,
-      optionalInformationList:[]
+      isBackTop:false
     }
   },
   mounted() {

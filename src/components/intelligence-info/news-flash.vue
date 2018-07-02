@@ -482,6 +482,8 @@ export default {
   height: 24px;
   line-height: 24px;
   background: #303539;
+  border: 1px solid #0d1112;
+  border-bottom: none;
   .left{
     width: calc(100% - 120px);
     float: left;
