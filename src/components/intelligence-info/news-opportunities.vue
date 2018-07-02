@@ -1,6 +1,6 @@
 <template>
 <!-- 机会挖掘 -->
-<div class="news-opportunities" @scroll="getScrollTop($event)">
+<div id="newsOpportunities" class="news-opportunities" @scroll="getScrollTop($event)">
   <div class="news-wrapper">
     <div class="news-nav-top">
       <a href="javascript:;" :class="{active: index === typeIndex}" class="nav-item" v-for="(item,index) in navData" @click="selectType(index)">{{item.name}}</a>
@@ -28,18 +28,11 @@
           </a>
         </div>
         <div class="news-list-item box-flex-1">
-          <div>
-            <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+          <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
+              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          </div>
-          <div class="con-txt">
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-              <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
-            </router-link>
-          </div>
-          <p class="source">( {{item.srcName}} )</p>
+          <p class="source">( {{item.srcName}} ) <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex === 1" class="display-box" v-for="item in newsOpportunities">
@@ -52,18 +45,11 @@
           </a>
         </div>
         <div class="news-list-item box-flex-1">
-          <div>
-            <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+          <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
+              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          </div>
-          <div class="con-txt">
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-              <span>{{cutStr(item.summary,370) | trim}}</span>
-            </router-link>
-          </div>
-          <p class="source">( {{item.srcName}} )</p>
+          <p class="source">( {{item.srcName}} ) <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
@@ -82,18 +68,11 @@
           </a>
         </div>
         <div class="news-list-item box-flex-1">
-          <div>
-            <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+          <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
+              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          </div>
-          <div class="con-txt">
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-              <span>{{cutStr(item.summary,370) | trim}}</span>
-            </router-link>
-          </div>
-          <p class="source">( {{item.srcName}} )</p>
+          <p class="source">( {{item.srcName}} ) <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
@@ -104,17 +83,11 @@
         </div>
         <div class="news-list-item box-flex-1">
           <div>
-            <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+            <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
+              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
           </div>
-          <div class="con-txt">
-            <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-              <span>{{cutStr(item.summary,370) | trim}}</span>
-            </router-link>
-          </div>
-          <p class="source">( {{item.srcName}} )</p>
           <ul class="stock">
             <li v-if="item.equity !==null" class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
               <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
@@ -126,15 +99,17 @@
             <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
             <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | chngPct}}</span></a></li>
           </ul>
+          <p class="source mt-5">( {{item.srcName}} ) <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
-      <p v-if="noData" class="tc loadMore">数据已加载完</p>
+      <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="newsOpportunities.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+    <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'newsOpportunities'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -144,18 +119,12 @@
 let intervalId = ''
 let intervalId2 = ''
 import 'whatwg-fetch'
-import {
-  cutString
-} from 'utils/date'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { cutString } from 'utils/date'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
-
+import scrollTopBar from '../../components/intelligence-info/scrollTop.vue'
 export default {
   data() {
     return {
@@ -183,7 +152,8 @@ export default {
         }
       ],
       isA: true,
-      isB: false
+      isB: false,
+      isBackTop:false
     }
   },
   mounted() {
@@ -301,6 +271,11 @@ export default {
       if (scrollBottom === scrollHeight && this.noData !== true) {
         this.loadMore()
       }
+      if(this.scrollTop>200){
+        this.isBackTop = true
+      }else{
+        this.isBackTop = false
+      }
     },
     cutStr(str, len) {
       return cutString(str, len)
@@ -408,7 +383,8 @@ export default {
     }
   },
   components: {
-    StockBox
+    StockBox,
+    scrollTopBar
   },
   watch: {
     relatedStocks() {
@@ -564,6 +540,7 @@ export default {
 }
 .source {
     color: #656766;
+    line-height: 1;
 }
 .labels {
     display: inline-block;
@@ -572,16 +549,16 @@ export default {
     margin-right: 5px;
     background-color: #525a65;
 }
-.con-txt {
-    margin: 4px 0 0;
-    line-height: 18px;
-}
 .news-list {
     position: relative;
     li {
         margin-bottom: 2px;
     }
     .news-list-item {
+        &:hover {
+          background-color: #2e4465;
+        }
+        transition: all .3s;
         background-color: #1a1b1f;
         padding: 10px;
         .con-txt {
@@ -601,6 +578,19 @@ export default {
             }
         }
     }
+}
+.con-txt {
+  margin: 4px 0 10px;
+  font-size: 14px;
+  color: #808ba1;
+  line-height: 20px;
+}
+.news-a {
+  &:visited {
+    .name {
+      color: #808ba1;
+    }
+  }
 }
 .stock {
     font-size: 0;

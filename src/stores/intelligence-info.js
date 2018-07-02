@@ -33,13 +33,14 @@ export default {
     optionalStockId: '',
     stockPool: null, // 股票池列表
     innerCode: '',
-    isTops: true, // 是否在顶部
+    isTops: false, // 是否在顶部
     noData: false,
     topicList: [],
     induList: [],
     topicCode: '',
     induCode: '',
-    newsId: []
+    newsId: [],
+    newsFlashLength:0
   },
   getters: {
     wisdomHeadlinesList: state => state.wisdomHeadlinesList,
@@ -57,7 +58,8 @@ export default {
     isTops: state => state.isTops,
     optionalStockId: state => state.optionalStockId,
     noData: state => state.noData,
-    topicList: state => state.topicList
+    topicList: state => state.topicList,
+    newsFlashLength: state => state.newsFlashLength
   },
   mutations: {
     [types.SET_WISDOMHEADLINES_LIST](state, list) {
@@ -142,6 +144,7 @@ export default {
       }
       state.temporary = list.rows
       if (state.isTops === true) {
+        state.newsFlashLength = state.temporary.length
         state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
@@ -248,7 +251,7 @@ export default {
       const stocks = state.relatedStocks
       let date = new Date()
       if (stocks[stock.innerCode] !== undefined) {
-        if (formatDate(date, 'hh:mm') === '09:05') {
+        if (formatDate(date, 'hh:mm') === '09:00') {
           stocks[stock.innerCode].price = null
           stocks[stock.innerCode].chngPct = null
         } else {
