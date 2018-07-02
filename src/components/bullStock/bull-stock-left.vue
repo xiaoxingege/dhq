@@ -152,7 +152,7 @@ export default {
   data() {
     return {
       currentTime: '',
-      bullSelected: 'heatIndex',
+      bullSelected: 'chngPct',
       colors: {
         // 'heatIndex': colorsList.slice().reverse().slice(20),
         'heatIndex': colorsList.slice().reverse(),

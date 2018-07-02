@@ -13,7 +13,7 @@
     height: 16.66%;
     padding-top: 8px;
     position: relative;
-    padding-right: 50px;
+    padding-right: 80px;
     padding-left: 11px;
 }
 .newtitle {
@@ -33,7 +33,8 @@
     top: 8px;
     right: 0;
     display: inline-block;
-    width: 50px;
+    width: 80px;
+    text-align: right;
 }
 .finance-news-list > li:before {
     float: left;
