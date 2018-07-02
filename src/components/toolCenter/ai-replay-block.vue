@@ -23,7 +23,7 @@
 }
 
 .hot-block-wrap {
-    width: 100%;
+    /*   width: 100%; */
     padding: 0 2px 5px;
 }
 .table-box {}
@@ -101,9 +101,13 @@
 .recent-day {
     padding: 11px 0 5px 2px;
 }
+.chartbox {
+    height: 366px;
+}
 .line-charts {
+    height: 100%;
     /* width: 50%; */
-    height: 66px;
+    /*  height: 266px; */
 }
 .blue {
     color: $blueWordsColor;
@@ -125,7 +129,8 @@
     <em class="block-num">No.{{index+1}}</em><span class="block-name">{{blockData.name ||'--'}}</span><span class="block-chg" v-z3-updowncolor="blockData.changeRatio">{{checkChngPct(blockData.changeRatio) ||'--'}}</span>
   </div>
   <div class="leading-stock">
-    <span>相关事件：</span><span v-for="(item,index) of blockData.event" class="blue">{{item.title ||'--'}}</span>
+    <span>相关事件：</span>
+    <span v-for="(item,index) of blockData.event"><router-link :to="{name: 'dhqNews',query:{sourceUrl:item.url}}" target="_blank" class="blue">{{item.title ||'--'}}</router-link></span>
   </div>
   <div class="leading-stock clearfix">
     <span class="fl">龙头股：</span>
@@ -134,11 +139,14 @@
     </div>
   </div>
   <div class="recent-day">近20日走势</div>
-  <div class="line-charts" ref="lineCharts"></div>
+  <div class="chartbox" :style="{ height: chartHeight + 'px'}">
+    <div class="line-charts" ref="lineCharts"></div>
+  </div>
+
 </div>
 </template>
 <script>
-import config from '../../dhq/config'
+// import config from '../../dhq/config'
 import util from '../../dhq/util'
 import native from 'utils/nativeApi'
 import echarts from 'echarts'
@@ -146,7 +154,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['blockData', 'index'],
+  props: ['blockData', 'index', 'chartHeight'],
   data() {
     return {
       type: '',
@@ -154,7 +162,9 @@ export default {
       size: '',
       data: {
         fundDays: []
-      }
+      },
+      isNews: false,
+      toNews: null
 
     }
   },
@@ -291,7 +301,7 @@ export default {
         grid: {
           left: 0,
           right: 10,
-          // top: '10%',
+          top: 3,
           // height: '81%',
           show: true,
           borderColor: '#23272c',
@@ -334,6 +344,7 @@ export default {
   },
   mounted() {
     this.initLine()
+    console.log(this.chartHeight)
 
   },
   destroyed() {}

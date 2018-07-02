@@ -73,7 +73,7 @@
       <span class="title-txt">实时信号</span>
     </div>
 
-    <RealtimeSignal :size='initSize()' />
+    <RealtimeSignal :size='initSize()' :bottom='initDialog()' />
   </div>
   <!-- </div> -->
   <div style="height: 50%">
@@ -82,7 +82,7 @@
       <span class="title-txt">趋势信号</span>
       <span class="time">{{time}}更新</span>
     </div>
-    <TrendSignal @timeValue='setValue' :size='initSize()' />
+    <TrendSignal @timeValue='setValue' :size='initSize()' :bottom='initDialog()' />
   </div>
 </div>
 </template>
@@ -124,6 +124,11 @@ export default {
       var size = Math.floor(height / 30);
       return size
 
+    },
+    initDialog() {
+      const height = (this.screenHeight) - 615
+      var bottom = Math.floor(height / 2);
+      return bottom
     }
   },
   mounted() {
@@ -133,7 +138,7 @@ export default {
       return (() => {
         window.screenHeight = document.documentElement.clientHeight
         that.screenHeight = window.screenHeight
-        //  console.log(window.screenHeight)
+        console.log(window.screenHeight)
 
       })()
     }

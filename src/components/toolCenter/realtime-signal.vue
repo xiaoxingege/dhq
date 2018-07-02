@@ -123,8 +123,7 @@ td div {
 .table-detail:last-child {
     margin-right: 0;
 }
-.table_scroll {
-    }
+.table_scroll {}
 .table-body {
     width: 100%;
     height: 300px;
@@ -186,7 +185,7 @@ td div {
 
     </div>
   </div>
-  <SignalDialog v-show="dialogShow" @toHideDialog='dialogclosefn' :name='dialogName' :type="dialogId" :desc='dialogDesc'>
+  <SignalDialog v-show="dialogShow" @toHideDialog='dialogclosefn' :name='dialogName' :type="dialogId" :desc='dialogDesc' :bottom='bottom'>
     <div slot="content">
       <!--  <div class="table_scroll"> -->
       <div class="sti-tbl-container">
@@ -220,7 +219,7 @@ import {
 import RealtimeTable from 'components/toolCenter/realtime-table'
 import SignalDialog from 'components/toolCenter/signal-dialog'
 export default {
-  props: ['size'],
+  props: ['size', 'bottom'],
   data() {
     return {
       allData: [],

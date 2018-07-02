@@ -67,7 +67,7 @@
     <div class="center-title center-title2">市场热点</div>
     <div class="display-box table-box">
       <div class="table-detail box-flex-1" v-for="(item,index) of block">
-        <ReplayBlock :blockData='item' :index="index" />
+        <ReplayBlock :blockData='item' :index="index" :chartHeight='initHeigh()' />
       </div>
     </div>
 
@@ -88,7 +88,7 @@ import ReplayBlock from 'components/toolCenter/ai-replay-block'
 export default {
   data() {
     return {
-
+      screenHeight: document.documentElement.clientHeight
     }
   },
   watch: {
@@ -107,11 +107,27 @@ export default {
   methods: {
     init() {
       this.$store.dispatch('aiReplay/queryResume')
+    },
+    initHeigh() {
+      const height = (this.screenHeight) - 624
+      var chartHeight = Math.floor(height);
+      console.log(chartHeight)
+      return chartHeight
+
     }
   },
   mounted() {
     this.init()
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenHeight = document.documentElement.clientHeight
+        that.screenHeight = window.screenHeight
+        //  console.log(window.screenHeight)
 
+      })()
+    }
+    this.initHeigh()
   },
   destroyed() {
 

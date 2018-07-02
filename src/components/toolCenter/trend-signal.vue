@@ -123,8 +123,7 @@ td div {
 .table-detail:last-child {
     margin-right: 0;
 }
-.table_scroll {
-    }
+.table_scroll {}
 .table-body {
     width: 100%;
     height: 300px;
@@ -195,7 +194,7 @@ td div {
       <TrendTable :signalTrend='item' :name='navTrend[index].name' :type="navTrend[index].trendTypeId" :size='size' @toShowDialog='dialogShowfn' />
     </div>
   </div>
-  <SignalDialog v-show="dialogShow" @toHideDialog='dialogclosefn' :name='dialogArr.trendTypeName' :type="dialogArr.trendTypeId" :desc='dialogDesc' :isTrend='true'>
+  <SignalDialog v-show="dialogShow" @toHideDialog='dialogclosefn' :name='dialogArr.trendTypeName' :type="dialogArr.trendTypeId" :desc='dialogDesc' :isTrend='true' :bottom='bottom'>
     <div slot="content">
       <div class="sti-tbl-container">
         <div class="sti-tbl-header">
@@ -228,7 +227,7 @@ import TrendTable from 'components/toolCenter/trend-table'
 import SignalDialog from 'components/toolCenter/signal-dialog'
 import Vscroll from 'components/toolCenter/load-more'
 export default {
-  props: ['size'],
+  props: ['size', 'bottom'],
   data() {
     return {
       allData: [],

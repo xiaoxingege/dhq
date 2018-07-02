@@ -43,12 +43,14 @@
         -ms-transform: translate3d(-50%, -50%, 0);
         transform: translate3d(-50%, -50%, 0); */
     position: fixed;
-    top: 0;
+    /* top: 0; */
+    /*  top: 49px; */
     bottom: 0;
     left: 0;
     right: 0;
     text-align: center;
-    margin: 8% auto;
+    margin: 0 auto;
+    /*  margin: 8% auto; */
     /*  margin-top: 13%;
           top: 50%; */
     /*     left: 50%;
@@ -166,7 +168,7 @@ input {
 </style>
 <template>
 <div class="masks">
-  <div class="dialog">
+  <div class="dialog" :style="{ bottom: bottom + 'px'}">
     <div class="header clearfix">
 
       <div class="head-con clearfix">
@@ -227,7 +229,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['type', 'name', 'dialogArr', 'desc', 'isTrend'],
+  props: ['type', 'name', 'dialogArr', 'desc', 'isTrend', 'bottom'],
   data() {
     return {
 
