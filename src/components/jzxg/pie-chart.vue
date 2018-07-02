@@ -48,6 +48,9 @@ export default {
         this.chart.setOption({
           color: ['#0168a3', '#e9573e', '#6798d3', '#4ac4ed'],
           animation: false,
+          tooltip: {
+            show: false
+          },
           series: [{
             name: '波段优选',
             center: ['50%', '55%'],

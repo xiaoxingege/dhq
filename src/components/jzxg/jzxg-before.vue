@@ -202,8 +202,8 @@
       </li>
       <li class="box-flex-1 video-li">
         <div class="video-con" style="position: relative">
-          <video poster="http://i0.jrjimg.cn/bighq/zongheng.jpg" style="width: 95%;"></video>
-          <div style="position:absolute;width:95%;height:95%;background-color:rgba(0,0,0,0.3);top:0;left:0;">
+          <video poster="http://i0.jrjimg.cn/bighq/zongheng.jpg"></video>
+          <div style="position:absolute;width:100%;height:100%;background-color:rgba(0,0,0,0.3);top:0;left:0;">
             <div style="width:56px;height:56px;background-color:#fefefd;border-radius: 50%;position: absolute;top:57px;left:110px;">
               <div class="arrow-play"></div>
               <!--  <img src="../../assets/images/jzxg/play.png" />-->
