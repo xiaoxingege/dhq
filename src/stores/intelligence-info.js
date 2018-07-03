@@ -610,8 +610,8 @@ export default {
         commit('setStockPool', [])
         return
       }
-      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
-        return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
+      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+        // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
