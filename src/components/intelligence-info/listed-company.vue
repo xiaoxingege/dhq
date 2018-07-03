@@ -302,7 +302,7 @@ export default {
     background-color: #525a65;
 }
 .con-txt {
-    margin: 4px 0 10px;
+    margin: 4px 0 6px;
     font-size: 14px;
     color: #808ba1;
     line-height: 20px;

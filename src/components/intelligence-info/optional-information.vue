@@ -407,15 +407,12 @@ export default {
 }
 .con-bottom {
     line-height: 1;
-    .time {
-        margin-left: 10px;
-    }
     .price {
         margin-left: 110px;
     }
 }
 .con-txt {
-  margin: 4px 0 10px;
+  margin: 4px 0 6px;
   font-size: 14px;
   color: #808ba1;
   line-height: 20px;

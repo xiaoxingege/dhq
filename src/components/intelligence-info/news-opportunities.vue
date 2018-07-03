@@ -99,7 +99,7 @@
             <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
             <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | chngPct}}</span></a></li>
           </ul>
-          <p class="source mt-5">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">
@@ -580,7 +580,7 @@ export default {
     }
 }
 .con-txt {
-  margin: 4px 0 10px;
+  margin: 4px 0 6px;
   font-size: 14px;
   color: #808ba1;
   line-height: 20px;
@@ -594,6 +594,7 @@ export default {
 }
 .stock {
     font-size: 0;
+    margin: 7px 0 ;
     .stock-item {
         font-size: 12px;
         display: inline-block;
@@ -640,9 +641,6 @@ export default {
 }
 .blockbg {
     background: #525a65;
-}
-.stock {
-    margin-top: 10px;
 }
 .num {
     font-size: 0;

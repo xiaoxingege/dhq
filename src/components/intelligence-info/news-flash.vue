@@ -10,7 +10,7 @@
       </div>
       <div class="right">
         <span class="sec mr-10" href="javascript:;"><i class="icon-time icon"></i> {{count}}秒后</span>
-        <a class="refresh" href="javascript:;" @click="getTopDataClick">刷新 <i class="icon-refresh icon"></i> </a>
+        <a class="refresh" href="javascript:;" @click="getTopDataClick">刷新 <i class="icon-refresh icon"></i></a>
       </div>
     </div>
     <ul class="news-list">
@@ -21,7 +21,7 @@
             <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
             <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
               <span class="name">{{item.title}}</span>
-              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}} <span class="source"> ( {{item.srcName}} )</span></p>
+              <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
           </div>
           <div class="con-bottom">
@@ -38,6 +38,7 @@
                 <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | chngPct}}</span></a>
               </li>
             </ul>
+            <p class="source">{{item.srcName}}</p>
           </div>
         </div>
       </li>
@@ -392,7 +393,7 @@ export default {
   background-color: #525a65;
 }
 .con-txt {
-  margin: 4px 0 10px;
+  margin: 4px 0 6px;
   font-size: 14px;
   color: #808ba1;
   line-height: 20px;
@@ -425,6 +426,7 @@ export default {
 }
 .stock {
   font-size: 0;
+  margin-bottom: 6px;
   .stock-item {
     font-size: 12px;
     display: inline-block;

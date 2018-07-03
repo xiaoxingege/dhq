@@ -144,7 +144,9 @@ export default {
       }
       state.temporary = list.rows
       if (state.isTops === true) {
+        state.newsFlashLength = 0
         state.newsFlashLength = state.temporary.length
+        console.log('最新资讯条数：'+state.newsFlashLength)
         state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
         state.newsFlash = state.newsFlash.concat(state.temporary)
@@ -608,8 +610,8 @@ export default {
         commit('setStockPool', [])
         return
       }
-      return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
-        // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
+      // return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=${userId}`, {
+        return fetch(`${domain}/openapi/filter/stock/listEquityPool.shtml?userId=c245841c-53cd-4538-8c51-55bc2aff35b5`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
