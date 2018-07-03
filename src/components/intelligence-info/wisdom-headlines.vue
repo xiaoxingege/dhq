@@ -28,7 +28,7 @@
               <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | chngPct}}</span></a>
             </li>
           </ul>
-          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">

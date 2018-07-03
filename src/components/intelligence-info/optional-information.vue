@@ -31,8 +31,7 @@
           </router-link>
         </div>
         <div class="con-bottom">
-          <span class="source">{{item.srcName}}</span>
-          <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
+          <span class="source">{{item.srcName}}</span><span class="time pl-10" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <span class="price" v-if="item.newsType=== '研报'">目标价格：{{item.equityList.expectPrice | isNull}}</span>
         </div>
       </li>
