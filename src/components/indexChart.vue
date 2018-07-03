@@ -1013,7 +1013,7 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData.length > 0 && this.szzsChartData) {
+        if (this.moveBlockData && this.szzsChartData) {
           this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         }
       }
@@ -1039,7 +1039,7 @@ export default {
     moveBlockData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData.length > 0 && this.szzsChartData) {
+        if (this.moveBlockData && this.szzsChartData) {
           this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         }
       }
@@ -1055,6 +1055,7 @@ export default {
       this.$store.dispatch('indexChart/getIndexChartData', {
         stockCode: '000001.SH'
       }).then(() => {
+        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         resolve();
       })
     });
