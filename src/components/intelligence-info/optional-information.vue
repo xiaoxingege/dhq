@@ -23,6 +23,7 @@
           <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
           <router-link class="news-a" v-if="item.newsType === '公告'" :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'notice'} }" target="_blank">
             <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
+            <p class="con-txt"></p>
           </router-link>
           <router-link class="news-a"  v-else :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
             <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
