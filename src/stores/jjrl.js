@@ -1,5 +1,5 @@
 //  import fetchJsonp from 'z3fetch-jsonp'
-import z3fetch from '../dhq/util/z3fetch'
+import z3fetch from '../dhq/util/z3fetch' // 需要校验token的
 import 'whatwg-fetch'
 import $ from 'jquery'
 import {
@@ -25,8 +25,10 @@ const state = {
   setHyList:[] ,// 会议日历的列表数据
   setHyName:null,
   saveHyUrl:'',//  存储会议URL
-  saveHyIndex:''
- 
+  saveHyIndex:'',
+  getNewsBroadcast:[] ,// 新闻联播
+  todayHotStock:[] ,// 今日热点股
+  todayHotStockPrice:[]
 }
 const mutationsTypes = {
   SET_GUIDE: 'SET_GUIDE',
@@ -45,7 +47,10 @@ const mutationsTypes = {
   SET_HY_LIST:'SET_HY_LIST',
   SET_HY_NAME:'SET_HY_NAME',
   SAVE_HY_URL:'SAVE_HY_URL',
-  SAVE_HY_INDEX:'SAVE_HY_INDEX'
+  SAVE_HY_INDEX:'SAVE_HY_INDEX',
+  GET_NEWS_BROADCAST:'GET_NEWS_BROADCAST',
+  TODAY_HOT_STOCKS:'TODAY_HOT_STOCKS',
+  TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE'
 }
 
 const actions = {
@@ -309,6 +314,40 @@ const actions = {
       var hqData = window['hqData_' + vname];
       commit(mutationsTypes.SET_HY_NAME, hqData.HqData)
     })
+  },
+  getNewsBroadcast({ commit },date){
+    const url = `https://mapi.itougu.jrj.com.cn/wireless/information/newsBroadcast.jspa?tradeDate=${date}`
+    return $.ajax({
+      type: 'get',
+      dataType: 'jsonp',
+      url: url
+    }).then(res => {
+      commit(mutationsTypes.GET_NEWS_BROADCAST, res.data)
+    })
+  },
+  todayHotStock({ commit }){
+    const url =  `https://mapi.itougu.jrj.com.cn/wireless/information/hotConcept.jspa`
+    return $.ajax({
+      type: 'get',
+      dataType: 'jsonp',
+      url: url
+    }).then(res => {
+    //  console.log(res.data)
+      commit(mutationsTypes.TODAY_HOT_STOCKS, res.data)
+    })
+  },
+  todayHotStockPrice( { commit } ,stockCode){
+    const vname = stockCode.split(',').join('')
+   // debugger
+    return $.ajax({
+      type: 'get',
+      dataType: 'script',
+      url: 'https://sslapi.jrj.com.cn/jrjimg/q/?q=cn|s&i=' + stockCode + '&c=np,pl,name,code,id&n=hqData_' + vname
+    }).then(data => {
+      var hqData = window['hqData_' + vname];
+   //  console.log(hqData)
+      commit(mutationsTypes.TODAY_HOT_STOCKS_PRICE, hqData.HqData)
+    })
   }
 
 }
@@ -348,7 +387,6 @@ const mutations = {
   },
   [mutationsTypes.NOT_OPEN_STOCK_LIST](state, res) {
     state.notOpenStockList = res
-    //  onsole.log(state.notOpenStock)
     for (var i = 0; i < state.notOpenStock.length; i++) {
       if (state.notOpenStock[i].STOCKCODE === state.notOpenStockList[i][1]) {
         let obj = state.notOpenStock[i];
@@ -376,9 +414,7 @@ const mutations = {
     if(!state.setHyName){
       state.setHyName = {}
     }
- /*    for (var i=0; i<state.setHyName.length; i++){
-      state.setHyName[i]
-    } */
+ 
     setHyName.map((item) => {
       if(!state.setHyName[item[1]]){
         state.setHyName[item[1]] = item;
@@ -387,12 +423,28 @@ const mutations = {
   // console.log(state.setHyName)
   },
   [mutationsTypes.SAVE_HY_URL](state,saveHyUrl){
- //  console.log(saveHyUrl)
     state.saveHyUrl=saveHyUrl
   },
   [mutationsTypes.SAVE_HY_INDEX](state,saveHyIndex){
- //  console.log(saveHyIndex)
     state.saveHyIndex=saveHyIndex
+  },
+  [mutationsTypes.GET_NEWS_BROADCAST](state,getNewsBroadcast){
+    state.getNewsBroadcast=getNewsBroadcast
+  },
+  [mutationsTypes.TODAY_HOT_STOCKS](state,todayHotStock){
+    state.todayHotStock=todayHotStock
+ //   console.log(state.todayHotStock)
+  },
+  [mutationsTypes.TODAY_HOT_STOCKS_PRICE](state,todayHotStockPrice){
+    state.todayHotStockPrice=todayHotStockPrice
+ //   debugger
+    for (var i=0; i<state.todayHotStock.length; i++){
+      if(state.todayHotStock[i].STOCKCODE === state.todayHotStockPrice[i][1] ){
+        let obj =state.todayHotStock[i]
+        state.todayHotStock.splice(i,1,{ ...obj, np:state.todayHotStockPrice[i][3].toFixed(2),pl:state.todayHotStockPrice[i][4].toFixed(2) })
+      }
+    }
+   
   }
 }
 

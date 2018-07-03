@@ -27,6 +27,8 @@ import resumeTrading from 'components/jjrl/resume-trading'
 import notOpenStock from 'components/jjrl/notOpenStock'
 import calendar from 'components/jjrl/calendar'
 import hyCalendar from 'components/jjrl/hyCalendar'
+import newsBroadcast from 'components/jjrl/newsBroadcast'
+import todayHotStocks from 'components/jjrl/todayHotStocks'
 export default {
   data() {
     return {
@@ -43,10 +45,10 @@ export default {
           components: notOpenStock
         },
         '3': {
-
+          components:newsBroadcast
         },
         '4': {
-
+          components:todayHotStocks
         }
       },
       list: [{
@@ -106,7 +108,8 @@ export default {
       arrCode:[],
       getAllCode:[],
       curHyCode:'',
-      queryCode:''
+      queryCode:'',
+      arr:[]
     }
   },
   components: {
@@ -127,7 +130,11 @@ export default {
       setCount: state => state.jjrl.setCount,
       setHyList:state => state.jjrl.setHyList,
       setHyName:state => state.jjrl.setHyName,
-      saveHyIndex: state => state.jjrl.saveHyIndex
+      saveHyIndex: state => state.jjrl.saveHyIndex,
+      getNewsBroadcast:state => state.jjrl.getNewsBroadcast,
+      todayHotStock:state => state.jjrl.todayHotStock,
+      todayHotStockPrice:state => state.jjrl.todayHotStockPrice
+      
     }),
     comp: function() {
       return this.replayList[this.curType].components;
@@ -144,7 +151,6 @@ export default {
       if (D < 10) {
         D = '0' + D;
       }
-      // console.log(Y + '-' + M + '-' + D)
       return Y + '-' + M + '-' + D
     }
   },
@@ -154,12 +160,15 @@ export default {
       this.isCur = index
        this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
        if(parseInt(this.curType)===2){
-         this.initNotOpenStock(this.tradeDate) 
+        this.initNotOpenStock(this.tradeDate) 
        }else if(parseInt(this.curType)===0){
-          this.initFp(this.saveDate.chooseDate) 
+        this.initFp(this.saveDate.chooseDate) 
        }else if(parseInt(this.curType)===1){
-          
-          this.initHy(this.hyDate(this.saveDate.chooseDate) )
+        this.initHy(this.hyDate(this.saveDate.chooseDate) )
+       }else if(parseInt(this.curType)===3){
+        this.initNewsBroadcast(this.saveDate.chooseDate)
+       }else if(parseInt(this.curType)===4){
+         this.initHotStock()
        }
     },
     chooseDate(date) {
@@ -268,39 +277,39 @@ export default {
     },
     //  初始化复牌
     initFp(date){
-          this.index=0
-          this.$store.dispatch('jjrl/getStock',date).then( res => {
-          this.stopdate=this.getStock[0].STP_DT
-          this.setDate(this.stopdate)
-          this.stockCode=this.getStock[0].STOCKCODE
-          this.getStockCode=[]
-          this.getStock.forEach( ele => {
-          this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
-          })
-          let item= this.getStockCode.join(',') // q接口支持多个查询
-    //     debugger
-          this.$store.dispatch('jjrl/setStock',item)
-          /* 自选股部分 */
-          const me=this;
-          me.index=0
-          getState();
-          function getState(){
-              me.element=me.getStockCode[me.index];
-              var item= me.setStock[me.index]
-              me.$store.dispatch('jjrl/querySelection',{
-                  stockCode:me.element,
-                  item:item,
-                  type:'fp'
-              }).then(res => {
-          //   debugger
-                  me.setStock[me.index].push(me.isSelfSelection);
-                  if(me.index<me.getStockCode.length-1){
-                    me.index++;
-                    me.element=me.getStockCode[me.index]
-                    getState();
-                  }
-              }) 
-          }
+        this.index=0
+        this.$store.dispatch('jjrl/getStock',date).then( res => {
+        this.stopdate=this.getStock[0].STP_DT
+        this.setDate(this.stopdate)
+        this.stockCode=this.getStock[0].STOCKCODE
+        this.getStockCode=[]
+        this.getStock.forEach( ele => {
+        this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
+        })
+        let item= this.getStockCode.join(',') // q接口支持多个查询
+          //     debugger
+        this.$store.dispatch('jjrl/setStock',item)
+        /* 自选股部分 */
+        const me=this;
+        me.index=0
+        getState();
+        function getState(){
+            me.element=me.getStockCode[me.index];
+            var item= me.setStock[me.index]
+            me.$store.dispatch('jjrl/querySelection',{
+                stockCode:me.element,
+                item:item,
+                type:'fp'
+            }).then(res => {
+        //   debugger
+                me.setStock[me.index].push(me.isSelfSelection);
+                if(me.index<me.getStockCode.length-1){
+                  me.index++;
+                  me.element=me.getStockCode[me.index]
+                  getState();
+                }
+            }) 
+        }
       // console.log(this.isSelfSelection)
           this.public=this.getStock[0].ESP_HINT 
           this.$store.dispatch('jjrl/storeData',{
@@ -311,6 +320,9 @@ export default {
               /* 图表部分文字 */ 
             //  debugger
           this.$store.dispatch('jjrl/setStockLine',date).then( res => {
+          this.bkData = []
+          this.ggData = []
+          this.showDate = []
           let code=this.storeData.stockCode
           this.zszd=this.setStockLine[code].return_pct.toFixed(2)
           // console.log(this.setStockLine)
@@ -390,8 +402,21 @@ export default {
          //   console.log(this.queryCode)
             this.$store.dispatch('jjrl/setHyName',this.queryCode)
         }) 
+  },
+  
+  initNewsBroadcast(date){
+     this.$store.dispatch('jjrl/getNewsBroadcast',date)
+  },
+  initHotStock(){
+            this.arr=[]
+            this.$store.dispatch('jjrl/todayHotStock').then( res => {
+            this.todayHotStock.forEach( ele => {
+               this.arr.push(ele.STOCKCODE) 
+            })
+          this.arr=this.arr.join(',')
+          this.$store.dispatch('jjrl/todayHotStockPrice',this.arr)
+        })
   }
-
   },
   watch: {
     tradeDate: function() {
@@ -405,7 +430,11 @@ export default {
           this.initFp(this.saveDate.chooseDate) 
         }else if(parseInt(this.curType)===1){
          this.initHy(this.hyDate(this.saveDate.chooseDate))
-        }
+        }else if(parseInt(this.curType)===3){
+        this.initNewsBroadcast(this.saveDate.chooseDate)
+       }else if(parseInt(this.curType)===4){
+         this.initHotStock()
+       }
       })
     }
   },
@@ -469,6 +498,7 @@ export default {
 .detailBox {
     width: 86.42%;
     height: 100%;
+    overflow: auto;
 }
 .mainBox {
     height: 100%;
