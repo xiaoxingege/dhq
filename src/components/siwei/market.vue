@@ -93,6 +93,8 @@ export default {
     return {
       stockLastTime: '',
       plateLastTime: '',
+      stockTradeDate:'',
+      plateTradeDate:'',
       stockList: [],
       plateList: [],
       xData: [],
@@ -604,8 +606,17 @@ export default {
         return
       }
       const delta = [].concat(this.deltaStockList).reverse();
+      this.plateLastTime = delta[0].tradeTime;
+      const stockTradeDate = delta[0].tradeDate;
       this.stockLastTime = delta[0].tradeTime;
-      this.stockList.unshift(...delta);
+      // 如果在初始化之前打开页面（取的上一个交易日数据）则再获取新的异动数据前清空上一个交易日的异动信息
+      if(this.stockTradeDate !== stockTradeDate){
+        this.stockList = delta
+        this.stockTradeDate = stockTradeDate;
+      }else{
+        this.stockList.unshift(...delta);
+      }
+      
       this.$refs['stocks_list'].scrollTop = 0;
     },
     deltaPlateList: function() {
@@ -614,7 +625,15 @@ export default {
       }
       const delta = [].concat(this.deltaPlateList).reverse();
       this.plateLastTime = delta[0].tradeTime;
-      this.plateList.unshift(...delta);
+      const plateTradeDate = delta[0].tradeDate;
+      // 如果在初始化之前打开页面（取的上一个交易日数据）则再获取新的异动数据前清空上一个交易日的异动信息
+      if(this.plateTradeDate !== plateTradeDate){
+        this.plateList = delta;
+        this.plateTradeDate = plateTradeDate
+      }else{
+        this.plateList.unshift(...delta);
+      }
+      
     }
   },
   mounted() {

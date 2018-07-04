@@ -21,7 +21,7 @@ export default {
           const winH = window.document.body.scrollHeight || window.innerHeight;
           const winW = window.document.body.scrollWidth || window.innerWidth;
           let left = event.x + parseInt(scrollleft) + 50;
-          let top = event.y + parseInt(scrollTop) - 20;
+          let top = Math.max(event.y + parseInt(scrollTop) - 20, 0);
           if (winH - top < 300) {
             top = winH - 300;
           }
