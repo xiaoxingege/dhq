@@ -20,8 +20,6 @@
                 <ul v-if="ele.concepts[0].stocks && setHyName">
                    <li v-for="item in ele.concepts[0].stocks.split(',')" @click='jumpDetail(item,index)'> {{ setHyName[item][2] }} </li>  
                 </ul>   
-              
-               
             </div>
         </div>
         </div>
@@ -120,9 +118,6 @@ export default {
 }
 .hyTitle{
     padding: 10px 10px 10px 70px; 
-    
-    
-    
 }
 .hyTitle div {
     margin-bottom: 13px;
@@ -131,7 +126,6 @@ export default {
     background: url(' http://i0.jrjimg.cn/Astock/xin1.png') no-repeat;
     width: 15px;
     height: 15px;
-
 }
 .greyStar {
     background: url(' http://i0.jrjimg.cn/Astock/xin2.png') no-repeat;

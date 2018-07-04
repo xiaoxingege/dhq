@@ -35,9 +35,7 @@ export default {
     },
     methods:{
     hyCalenderDetail(item){
-   //  debugger
-        
-       // this.hyurl=item.events[0].link
+   
     }
     },
     watch: {
