@@ -107,7 +107,10 @@ span {
     font-weight: 400;
 }
 .main-list {
+    position: absolute;
+    height: 100%;
     padding-top: 30px;
+    overflow-y: auto;
 }
 .topic-num {
     margin-left: 6px;
