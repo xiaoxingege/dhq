@@ -50,7 +50,8 @@
 .table-detail {
     width: 33%;
     /*  font-size: 14px; */
-    margin-right: 184px;
+    /* margin-right: 184px; */
+    float: left;
 }
 .table-detail:last-child {
     margin-right: 0;
@@ -65,9 +66,9 @@
   </div>
   <div class='replay-center'>
     <div class="center-title center-title2">市场热点</div>
-    <div class="display-box table-box">
-      <div class="table-detail box-flex-1" v-for="(item,index) of block">
-        <ReplayBlock :blockData='item' :index="index" :chartHeight='initHeigh()' />
+    <div class="table-box clearfix">
+      <div class="table-detail" v-for="(item,index) of block">
+        <ReplayBlock :blockData='item' :index="index" />
       </div>
     </div>
 

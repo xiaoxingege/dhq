@@ -102,11 +102,12 @@
     padding: 11px 0 5px 2px;
 }
 .chartbox {
-    height: 366px;
+    height: 166px;
+    width: 80%;
 }
 .line-charts {
     height: 100%;
-    /* width: 50%; */
+    width: 80%;
     /*  height: 266px; */
 }
 .blue {
@@ -139,7 +140,7 @@
     </div>
   </div>
   <div class="recent-day">近20日走势</div>
-  <div class="chartbox" :style="{ height: chartHeight + 'px'}">
+  <div class="chartbox">
     <div class="line-charts" ref="lineCharts"></div>
   </div>
 
@@ -154,7 +155,7 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['blockData', 'index', 'chartHeight'],
+  props: ['blockData', 'index'],
   data() {
     return {
       type: '',
@@ -265,6 +266,8 @@ export default {
         yAxis: {
           // type: 'category',
           type: 'value',
+          min: 'dataMin',
+          max: 'dataMax',
           splitLine: {
             show: false,
             lineStyle: {
@@ -302,6 +305,7 @@ export default {
           left: 0,
           right: 10,
           top: 3,
+          // width:'60%',
           // height: '81%',
           show: true,
           borderColor: '#23272c',
