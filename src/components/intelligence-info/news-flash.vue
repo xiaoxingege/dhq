@@ -141,13 +141,14 @@ export default {
     },
     getTopDataClick(){ // 点击刷新最新数据
       if(this.showMsg===false){
-        this.getTopData()
-        this.showMsg = true
-        if(this.newsFlashLength<=0){
-          this.refreshMsg = '还没有新内容哦~'
-        }else{
-          this.refreshMsg = '新更新'+this.newsFlashLength+'条资讯，快去看看吧~'
-        }
+        this.$store.dispatch('getNewsFlashList', { page: 0,isTop: true,newTime: this.newTime, nextTime: this.lastTime, ids: this.newsId }).then(() => {
+          this.showMsg = true
+          if(this.newsFlashLength<=0){
+            this.refreshMsg = '还没有新内容哦~'
+          }else{
+            this.refreshMsg = '新更新'+this.newsFlashLength+'条资讯，快去看看吧~'
+          }
+        })
         setTimeout(() => {
           this.showMsg = false
           this.refreshMsg=''
