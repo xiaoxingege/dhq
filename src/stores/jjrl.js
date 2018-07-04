@@ -316,17 +316,18 @@ const actions = {
     })
   },
   getNewsBroadcast({ commit },date){
-    const url = `https://mapi.itougu.jrj.com.cn/wireless/information/newsBroadcast.jspa?tradeDate=${date}`
+    const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/newsBroadcast.jspa?tradeDate=${date}`
     return $.ajax({
       type: 'get',
       dataType: 'jsonp',
       url: url
     }).then(res => {
+      console.log(res)
       commit(mutationsTypes.GET_NEWS_BROADCAST, res.data)
     })
   },
   todayHotStock({ commit }){
-    const url =  `https://mapi.itougu.jrj.com.cn/wireless/information/hotConcept.jspa`
+    const url =  `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/hotConcept.jspa`
     return $.ajax({
       type: 'get',
       dataType: 'jsonp',

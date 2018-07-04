@@ -7,7 +7,7 @@
     <div class='replay'>
       <ul>
         <li v-for="(item,index ) in list" @click="addCur(index)" :class="{'cur':isCur===index}">
-          <p class="title">{{item.name}} <i v-if="item.count===null?false:true">（{{item.count}}只）</i></p>
+          <p class="title">{{item.name}} <i v-if="item.count===null?false:true">{{item.count}}</i></p>
           <p>{{item.detail}}</p>
         </li>
 
@@ -195,12 +195,55 @@ export default {
       // d.setDate(d.getDate() - 5);
       Y = d.getFullYear()
       M = d.getMonth() + 1
-      
       if (M < 10) {
         M = '0' + M;
       }
-    
     return Y +  M 
+    },
+    newsDate(date){
+      var d,Y,M,D,h,m,cur,curD,curM
+      cur= new Date()
+      d = new Date(date)
+      Y = d.getFullYear()
+      M = d.getMonth() + 1
+      D = d.getDate()
+      h = d.getHours()
+      m = d.getMinutes()
+      curM=cur.getMonth() + 1
+     
+      if (M < 10) {
+        M = '0' + M;
+      }
+      if (D < 10) {
+        D = '0' + D;
+      }
+      if (curM< 10) {
+        curM = '0' + curM;
+      }
+      if (cur.getDate() < 10) {
+        curD = '0' +cur.getDate();
+        }
+      if(curD === D&& curM===M ){ //  当天20点半之前,凌晨之后，都显示前一天数据
+      if(h < 20&&m < 30){
+      d.setDate(d.getDate() - 1);
+      D = d.getDate()
+      M = d.getMonth() + 1
+      if (D < 10) {
+        D = '0' + D;
+        }
+      if (M < 10) {
+        M = '0' + M;
+      }
+        return Y + '-' + M + '-' + D
+      }else{
+        return Y + '-' + M + '-' + D
+      }
+      
+      }else if(curD > D || curM > M){
+        return Y + '-' + M + '-' + D
+      }
+     
+
     },
     getDayOfDate(date){
       return parseInt(date.substr(date.lastIndexOf('-')+1))
@@ -208,26 +251,27 @@ export default {
     /* 初始化功能栏 */
     initConsole() {
       this.$store.dispatch('jjrl/setGuide', this.tradeDate).then(res => {
-        this.list[0].count = this.setGuide.tfp_count
+        this.list[0].count = this.setGuide.tfp_count?"（"+this.setGuide.tfp_count+"只）":"(暂无数据)"
         this.list[0].detail = this.setGuide.tfp_wz
-        this.list[1].count = this.setGuide.hy_count
+        this.list[1].count = "（"+this.setGuide.hy_count+"个）"
         this.list[1].detail = this.setGuide.hy_wz
-        this.list[2].count = this.setGuide.cxg_count
+        this.list[2].count = this.setGuide.cxg_count?"（"+this.setGuide.cxg_count+"只）":"(暂无数据)"
         this.list[2].detail = this.setGuide.cxg_wz
         this.list[3].count = null
         this.list[3].detail = this.setGuide.xwlb_wz
         this.list[4].count = null
         this.list[4].detail = this.setGuide.jrrd_wz
-        if (this.list[0].count === 0) {
+        // 判断数量是否为空
+        this.list[0].countSave=this.setGuide.tfp_count
+        this.list[2].countSave=this.setGuide.cxg_count
+        if (this.list[0].countSave === 0) {
           this.hasCount === false
         }
-        if(this.list[2].count === 0){
-         
+        if(this.list[2].countSave === 0){
           this.getCount === false
         }
-        this.hasCount = this.list[0].count
-        this.hyCount = this.list[1].count
-        this.wkbCount = this.list[2].count
+        this.hasCount = this.list[0].countSave
+        this.wkbCount = this.list[2].countSave
 
       })
 
@@ -280,8 +324,9 @@ export default {
         this.index=0
         this.$store.dispatch('jjrl/getStock',date).then( res => {
         this.stopdate=this.getStock[0].STP_DT
-        this.setDate(this.stopdate)
-        this.stockCode=this.getStock[0].STOCKCODE
+        this.setDate(this.stopdate)  // 获取停牌日期
+     //   console.log(this.stopdate +"11111111") 
+        this.stockCode=this.getStock[0].STOCKCODE // 获取停牌股票
         this.getStockCode=[]
         this.getStock.forEach( ele => {
         this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
@@ -311,14 +356,17 @@ export default {
             }) 
         }
       // console.log(this.isSelfSelection)
+          // console.log(this.storeData)
+      
           this.public=this.getStock[0].ESP_HINT 
           this.$store.dispatch('jjrl/storeData',{
           stopdate:this.stopdate,
           stockCode:this.stockCode,
           public:this.public })
           this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
+         //  console.log(this.storeData)
               /* 图表部分文字 */ 
-            //  debugger
+            //   debugger
           this.$store.dispatch('jjrl/setStockLine',date).then( res => {
           this.bkData = []
           this.ggData = []
@@ -336,6 +384,9 @@ export default {
           this.showDate.push(time)
           this.ggData.push(item.index.toFixed(2))
           })
+          this.stopdate=this.getStock[0].STP_DT
+          this.setDate(this.stopdate)  // 获取停牌日期
+        //  console.log(this.stopdate+"222222222")
           this.$store.dispatch('jjrl/storeData',{
                 stopdate:this.stopdate,
                 stockCode:this.stockCode,
@@ -343,7 +394,7 @@ export default {
                 zszd:this.zszd ,
                 bkData:this.bkData,
                 ggData:this.ggData }).then( res => {
-          //   console.log(this.storeData)
+        //   console.log(this.storeData)
             })
           })
       })  
@@ -405,7 +456,8 @@ export default {
   },
   
   initNewsBroadcast(date){
-     this.$store.dispatch('jjrl/getNewsBroadcast',date)
+    // debugger
+     this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){
             this.arr=[]
@@ -442,11 +494,7 @@ export default {
     this.initConsole(this.tradeDate)
     this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
     this.initFp(this.saveDate.chooseDate)
-    this.$store.dispatch('jjrl/setCount', {
-      fp: this.fpCount,
-      hy: this.hyCount,
-      wkbxg: this.wkbCount
-    })
+
 
   }
 

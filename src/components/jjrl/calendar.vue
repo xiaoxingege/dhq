@@ -77,6 +77,7 @@ export default {
     font-size: 13px;
     background-color: $bgDeepColor;
     z-index: 99;
+    width: 100%;
     .date {
         display: inline-block;
         width: 132px;
