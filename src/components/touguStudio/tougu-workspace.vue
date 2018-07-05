@@ -4,19 +4,19 @@ html,
 body,
 .tougu-workspace-wrapper,
 .tougu-workspace-wrapper-inner {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   overflow: hidden;
 }
-
 .header {
   width: 100%;
-  height: 25%;
+  height: 108;
 }
-
 .content {
-  width: 100%;
-  height: 75%;
+  display: flex;
+  flex-Direction: column;
+  flex: 1;
 }
 </style>
 

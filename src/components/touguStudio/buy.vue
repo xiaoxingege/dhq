@@ -11,14 +11,7 @@
           <div id="Android">
             <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
           </div>
-
           <p>大行情Android版</p>
-        </div>
-        <div class="buycode-model">
-          <div id="IOS">
-            <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
-          </div>
-          <p>大行情IOS版</p>
         </div>
       </div>
     </div>
@@ -27,7 +20,6 @@
 </template>
 <script>
 import QRCode from 'qrcodejs2'
-import $ from 'jquery'
 export default {
   name: 'buy',
   props: ['type', 'showstate'],
@@ -40,66 +32,19 @@ export default {
   methods: {
     buyClose: function() {
       this.$emit('buyClose');
-    }
-  },
-  watch: {
-    Android: {
-      deep: true,
-      handler: function() {
-        var _this = this;
+    },
+    SCcode:function(){
         new QRCode(document.getElementById('Android'), {
           width: 121,
           height: 121,
-          text: _this.Android,
+          text:'https://appcms.jrj.com.cn/download.jspa?productId=6300001',
           render: 'table'
         });
-      }
-    },
-    IOS: {
-      deep: true,
-      handler: function() {
-        var _this = this;
-        new QRCode(document.getElementById('IOS'), {
-          width: 121,
-          height: 121,
-          text: _this.IOS,
-          render: 'table'
-        });
-      }
     }
   },
   mounted: function() {
     var _this = this;
-    // 请求安卓接口
-    $.ajax({
-      type: 'get',
-      url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300001`,
-      dataType: 'json',
-      success: function(data) {
-        if (data.retCode === 1) {
-          // alert(typeof(data.data));
-          _this.Android = data.data;
-        } else {
-          // 出现异常
-        }
-      }
-    });
-
-    // 请求ios接口
-    $.ajax({
-      type: 'get',
-      url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300002`,
-      dataType: 'json',
-      success: function(data) {
-        if (data.retCode === 1) {
-          // alert(typeof(data.data));
-          _this.IOS = data.data;
-        } else {
-          // 出现异常
-        }
-      }
-    });
-
+    _this.SCcode();
   }
 
 }
@@ -133,15 +78,18 @@ export default {
   align-items: center;
 }
 
-.close {
+.close{
   width: 32px;
   height: 46px;
   float: right;
-  margin-top: -67px;
+  margin-top: -45px;
   margin-right: 20px;
   cursor: pointer;
 }
-
+.close img{
+  width: 32px;
+  height: 46px;
+}
 .model {
   width: 559px;
 }
