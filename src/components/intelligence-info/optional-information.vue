@@ -31,8 +31,7 @@
           </router-link>
         </div>
         <div class="con-bottom">
-          <span class="source">{{item.srcName}}</span>
-          <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
+          <span class="source">{{item.srcName}}</span><span class="time pl-10" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <span class="price" v-if="item.newsType=== '研报'">目标价格：{{item.equityList.expectPrice | isNull}}</span>
         </div>
       </li>
@@ -42,7 +41,12 @@
       </div>
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
-    <div v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock"><img src="../../assets/images/news-img/noStock.png" alt="" /></a><p class="tc mt-10">您还没有自选股，快去<a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock">【添加】</a>吧~</p></div>
+    <div v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList">
+      <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock"></a>
+      <!-- <img src="../../assets/images/news-img/noStock.png" alt="" /> -->
+      <i class="addStockBg"></i>
+      <p class="tc mt-10">您还没有自选股，快去<a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock">【添加】</a>吧~</p>
+    </div>
     <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'optionalInformation'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
@@ -68,7 +72,8 @@ export default {
       innerHeight: window.innerHeight,
       innerCodes: '',
       flag: true,
-      isBackTop:false
+      isBackTop:false,
+      optionalInformationList:[]
     }
   },
   mounted() {
@@ -503,6 +508,17 @@ export default {
     a{
       font-size: 14px;
       color:#009afe;
+    }
+    .addStockBg{
+      display: inline-block;
+      width: 41px;
+      height: 51px;
+      background: url('../../assets/images/news-img/noStock.png') center no-repeat;
+      cursor: pointer;
+      transition: all .2s;
+      &:hover{
+        background: url('../../assets/images/news-img/noStock_h.png') center no-repeat;
+      }
     }
 }
 .fontS14 {

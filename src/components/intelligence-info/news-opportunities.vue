@@ -32,7 +32,7 @@
               <span class="name">{{item.title}}</span>
               <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex === 1" class="display-box" v-for="item in newsOpportunities">
@@ -49,7 +49,7 @@
               <span class="name">{{item.title}}</span>
               <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex ===2" class="display-box" v-for="item in newsOpportunities">
@@ -72,7 +72,7 @@
               <span class="name">{{item.title}}</span>
               <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
             </router-link>
-          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <li v-if="typeIndex === 3" class="display-box" v-for="item in newsOpportunities">
@@ -99,7 +99,7 @@
             <li v-if="item.indu !==null" class="stock-item" :class="upAndDownColor(item.indu.chngPct)"><a :href="'/zstgweb/industry/'+item.indu.code" target="_blank"><span>{{item.indu.name}}</span><span>{{item.indu.chngPct | chngPct}}</span></a></li>
             <li v-if="item.topic !==null" class="stock-item" :class="upAndDownColor(item.topic.chngPct)"><a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{item.topic.chngPct | chngPct}}</span></a></li>
           </ul>
-          <p class="source">{{item.srcName}} <span class="time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">

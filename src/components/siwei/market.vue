@@ -94,6 +94,8 @@ export default {
     return {
       stockLastTime: '',
       plateLastTime: '',
+      stockTradeDate:'',
+      plateTradeDate:'',
       stockList: [],
       plateList: [],
       xData: [],
@@ -602,50 +604,50 @@ export default {
         this.scrollHeight = this.$refs.stocks_list.scrollTop
     }
   },
-  watch: {
-    marketCount: function() {
-      this.updateMarketCount();
-    },
-    deltaStockList: function() {
-      if (this.deltaStockList.length === 0) {
-        return
-      }
-      this.stockList = [].concat(this.deltaStockList).reverse();
-    },
-    updateStockList: function(){
-        if (this.updateStockList && this.updateStockList.length !== 0) {
-            const delta = [].concat(this.updateStockList).reverse();
-            this.stockList.push(...delta);
-        }
-    },
-    deltaPlateList: function() {
-      if (this.deltaPlateList.length === 0) {
-        return
-      }
-      const delta = [].concat(this.deltaPlateList).reverse();
-      this.plateLastTime = delta[0].tradeTime;
-      this.plateList.unshift(...delta);
-    },
-    scrollHeight: function() {
-        if(this.scrollHeight === 0){
-            this.bottomTime = 0
-            this.updateAbnormalStocks();
-            pcid3 = setInterval(() => {
+    watch: {
+        marketCount: function() {
+            this.updateMarketCount();
+        },
+        deltaStockList: function() {
+            if (this.deltaStockList.length === 0) {
+                return
+            }
+            this.stockList = [].concat(this.deltaStockList).reverse();
+        },
+        updateStockList: function(){
+            if (this.updateStockList && this.updateStockList.length !== 0) {
+                const delta = [].concat(this.updateStockList).reverse();
+                this.stockList.push(...delta);
+            }
+        },
+        deltaPlateList: function() {
+            if (this.deltaPlateList.length === 0) {
+                return
+            }
+            const delta = [].concat(this.deltaPlateList).reverse();
+            this.plateLastTime = delta[0].tradeTime;
+            this.plateList.unshift(...delta);
+        },
+        scrollHeight: function() {
+            if(this.scrollHeight === 0){
+                this.bottomTime = 0
                 this.updateAbnormalStocks();
-            }, 6 * 1000);
-        }else{
-            if((this.scrollHeight+this.$refs.stocks_list.clientHeight) === this.$refs.stocks_list.scrollHeight){
-                // 显示剩余数据的逻辑
-                // alert('到底了')
-                this.bottomTime = this.bottomTime+1
-                this.$store.dispatch('marketBubble/addAbnormalStocks',{ bottomTime:this.bottomTime })
-            }
-            if (pcid3) {
-                clearInterval(pcid3);
+                pcid3 = setInterval(() => {
+                    this.updateAbnormalStocks();
+                }, 6 * 1000);
+            }else{
+                if((this.scrollHeight+this.$refs.stocks_list.clientHeight) === this.$refs.stocks_list.scrollHeight){
+                    // 显示剩余数据的逻辑
+                    // alert('到底了')
+                    this.bottomTime = this.bottomTime+1
+                    this.$store.dispatch('marketBubble/addAbnormalStocks',{ bottomTime:this.bottomTime })
+                }
+                if (pcid3) {
+                    clearInterval(pcid3);
+                }
             }
         }
-    }
-  },
+    },
   mounted() {
       this.$nextTick(() => {
           this.scrollHeight = this.$refs.stocks_list.scrollTop

@@ -82,7 +82,6 @@ export default {
   },
   mounted() {
     this.loadList()
-    // this.updateNews()
     this.updateTopic()
     this.timeCount()
   },
@@ -142,13 +141,14 @@ export default {
     },
     getTopDataClick(){ // 点击刷新最新数据
       if(this.showMsg===false){
-        this.getTopData()
-        this.showMsg = true
-        if(this.newsFlashLength<=0){
-          this.refreshMsg = '还没有新内容哦~'
-        }else{
-          this.refreshMsg = '新更新'+this.newsFlashLength+'条资讯，快去看看吧~'
-        }
+        this.$store.dispatch('getNewsFlashList', { page: 0,isTop: true,newTime: this.newTime, nextTime: this.lastTime, ids: this.newsId }).then(() => {
+          this.showMsg = true
+          if(this.newsFlashLength<=0){
+            this.refreshMsg = '还没有新内容哦~'
+          }else{
+            this.refreshMsg = '新更新'+this.newsFlashLength+'条资讯，快去看看吧~'
+          }
+        })
         setTimeout(() => {
           this.showMsg = false
           this.refreshMsg=''
@@ -210,11 +210,9 @@ export default {
       let scrollTop = e.target.scrollTop
       let scrollBottom = offsetHeight + scrollTop
       this.scrollTop = e.target.scrollTop * 2
-      if (this.scrollTop >= this.innerHeight) {
-        if (this.updateNewsPid) {
-          console.log('清除定时器' + this.updateNewsPid)
-          clearInterval(this.updateNewsPid)
-        }
+      if (this.updateNewsPid) {
+        console.log('清除定时器' + this.updateNewsPid)
+        clearInterval(this.updateNewsPid)
       }
       if (this.scrollTop === 0) {
         this.$store.commit('setIsTop', true)
@@ -408,7 +406,7 @@ export default {
 .news-list {
   position: relative;
   .news-list-item {
-    transition: all .3s;
+    transition: all 0.3s;
     &:hover {
       background-color: #2e4465;
     }
@@ -480,74 +478,73 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.topBar{
+.topBar {
   height: 24px;
   line-height: 24px;
   background: #303539;
   border: 1px solid #0d1112;
   border-bottom: none;
-  .left{
+  .left {
     width: calc(100% - 120px);
     float: left;
     text-align: center;
   }
-  .right{
+  .right {
     width: 120px;
     float: right;
   }
-  .txt{
+  .txt {
     display: block;
     padding-left: 60px;
   }
-  a{
-    color:$wordsColorBase;
+  a {
+    color: $wordsColorBase;
   }
-  .sec{
+  .sec {
     width: 56px;
     display: inline-block;
   }
-  .refresh:hover{
-    .icon-refresh{
+  .refresh:hover {
+    .icon-refresh {
       cursor: pointer;
-      transition: -webkit-transform .5s ease-in;
+      transition: -webkit-transform 0.5s ease-in;
       transform: rotate(360deg);
     }
   }
 }
-.icon{
+.icon {
   display: inline-block;
   vertical-align: -2px;
 }
 .icon-refresh,
-.icon-time{
+.icon-time {
   width: 14px;
   height: 14px;
 }
-.icon-refresh{
+.icon-refresh {
   background: url(../../assets/images/news-img/refresh.png) center no-repeat;
 }
-.icon-time{
+.icon-time {
   background: url(../../assets/images/news-img/time.png) center no-repeat;
 }
-.animated{
+.animated {
   animation-duration: 0.5s;
-  animation-fill-mode:both;
+  animation-fill-mode: both;
 }
 @keyframes slideInDown {
-    0% {
-        transform: translate3d(0,-100%,0);
-        visibility: visible
-    }
+  0% {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
 
-    to {
-        transform: translateZ(0)
-    }
+  to {
+    transform: translateZ(0);
+  }
 }
 
 .slideInDown {
-    animation-name: slideInDown
+  animation-name: slideInDown;
 }
 </style>
 <style>
-
 </style>
