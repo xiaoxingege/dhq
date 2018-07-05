@@ -86,6 +86,7 @@ import stockBox from 'components/siwei/stock-box'
 
 let pcid1 = '';
 let pcid2 = '';
+let pcid3 = ''
 const minSize = 10;
 const maxSize = 100;
 export default {
@@ -139,7 +140,9 @@ export default {
           top: 0
         }
       },
-      showStockBox: false
+      showStockBox: false,
+      scrollHeight: '',
+      bottomTime:0
     }
   },
   components: {
@@ -204,6 +207,7 @@ export default {
     ...mapState({
       bubbleData: state => state.marketBubble.bubbleData,
       deltaStockList: state => state.marketBubble.abnormalStockList,
+      updateStockList: state => state.marketBubble.updateAbnormalStockList,
       deltaPlateList: state => state.marketBubble.abnormalPlateList,
       marketCount: state => {
         const data = state.marketBubble.marketCount;
@@ -593,6 +597,9 @@ export default {
       this.$store.dispatch('marketBubble/updateAbnormalPlates', {
         startTime: this.plateLastTime
       })
+    },
+    handleScroll(){
+        this.scrollHeight = this.$refs.stocks_list.scrollTop
     }
   },
   watch: {
@@ -603,10 +610,13 @@ export default {
       if (this.deltaStockList.length === 0) {
         return
       }
-      const delta = [].concat(this.deltaStockList).reverse();
-      this.stockLastTime = delta[0].tradeTime;
-      this.stockList.unshift(...delta);
-      this.$refs['stocks_list'].scrollTop = 0;
+      this.stockList = [].concat(this.deltaStockList).reverse();
+    },
+    updateStockList: function(){
+        if (this.updateStockList && this.updateStockList.length !== 0) {
+            const delta = [].concat(this.updateStockList).reverse();
+            this.stockList.push(...delta);
+        }
     },
     deltaPlateList: function() {
       if (this.deltaPlateList.length === 0) {
@@ -615,9 +625,33 @@ export default {
       const delta = [].concat(this.deltaPlateList).reverse();
       this.plateLastTime = delta[0].tradeTime;
       this.plateList.unshift(...delta);
+    },
+    scrollHeight: function() {
+        if(this.scrollHeight === 0){
+            this.bottomTime = 0
+            this.updateAbnormalStocks();
+            pcid3 = setInterval(() => {
+                this.updateAbnormalStocks();
+            }, 6 * 1000);
+        }else{
+            if((this.scrollHeight+this.$refs.stocks_list.clientHeight) === this.$refs.stocks_list.scrollHeight){
+                // 显示剩余数据的逻辑
+                // alert('到底了')
+                this.bottomTime = this.bottomTime+1
+                this.$store.dispatch('marketBubble/addAbnormalStocks',{ bottomTime:this.bottomTime })
+            }
+            if (pcid3) {
+                clearInterval(pcid3);
+            }
+        }
     }
   },
   mounted() {
+      this.$nextTick(() => {
+          this.scrollHeight = this.$refs.stocks_list.scrollTop
+          this.$refs.stocks_list.addEventListener('scroll', this.handleScroll, false)
+      })
+
     this.initStocks();
     this.updateBubble();
     // this.$store.dispatch('marketBubble/updateBubble', {
@@ -633,7 +667,6 @@ export default {
     this.updateAbnormalStocks();
     this.updateAbnormalPlates();
     pcid1 = setInterval(() => {
-      this.updateAbnormalStocks();
       this.updateBubble();
     }, 6 * 1000);
     pcid2 = setInterval(() => {
@@ -655,6 +688,9 @@ export default {
     }
     if (pcid2) {
       clearInterval(pcid2);
+    }
+    if (pcid3) {
+        clearInterval(pcid3);
     }
   }
 }

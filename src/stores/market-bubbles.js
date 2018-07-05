@@ -13,7 +13,10 @@ const state = {
     closePx: 0,
     data: []
   }, // 指数数据
-  marketCount: [] // 涨跌股票统计数据
+  marketCount: [],
+    // 涨跌股票统计数据
+  abnormalStockTotal:[],
+  updateAbnormalStockList: []
 }
 
 const mutationsTypes = {
@@ -124,15 +127,43 @@ const actions = {
         })
       }
     })
-  }
+  },
+    addAbnormalStocks({ commit, state }, { bottomTime }) {
+
+          commit('addBottomAbnormalStocks', bottomTime)
+
+    }
+
 }
 
 const mutations = {
+   addBottomAbnormalStocks(state,bottomTime){
+       if(bottomTime > state.abnormalStockTotal.length) {
+           state.updateAbnormalStockList = []
+       }else{
+           state.updateAbnormalStockList = state.abnormalStockTotal[bottomTime] && state.abnormalStockTotal[bottomTime].reverse()
+       }
+
+
+   },
   [mutationsTypes.UPDATE_BUBBLE](state, bubbleData) {
     state.bubbleData = bubbleData || []
   },
   [mutationsTypes.UPDATE_ABNORMAL_STOCKS](state, stocks) {
-    state.abnormalStockList = stocks || []
+
+    let result = [].concat(stocks).reverse()    // 数据时间倒叙
+    let dealData = []
+    if(result.length > 2000){
+            for(let i = 0; i<parseInt(result.length/100); i++){
+                dealData.push(result.slice(i*100,(i+1)*100))
+            }
+            dealData.push(result.slice(parseInt(result.length/100)*100))
+            state.abnormalStockTotal = [].concat(dealData)
+            state.abnormalStockList = dealData[0].reverse()
+    }else{
+            state.abnormalStockList = result.reverse() || []
+    }
+
   },
   [mutationsTypes.UPDATE_PLATE_LIST](state, plates) {
     state.abnormalPlateList = plates || []
