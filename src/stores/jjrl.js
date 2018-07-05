@@ -322,7 +322,7 @@ const actions = {
       dataType: 'jsonp',
       url: url
     }).then(res => {
-      console.log(res)
+   //   console.log(res)
       commit(mutationsTypes.GET_NEWS_BROADCAST, res.data)
     })
   },

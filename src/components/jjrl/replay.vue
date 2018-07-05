@@ -109,7 +109,8 @@ export default {
       getAllCode:[],
       curHyCode:'',
       queryCode:'',
-      arr:[]
+      arr:[],
+      intervalid1:Object
     }
   },
   components: {
@@ -161,14 +162,23 @@ export default {
        this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
        if(parseInt(this.curType)===2){
         this.initNotOpenStock(this.tradeDate) 
+         clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===0){
         this.initFp(this.saveDate.chooseDate) 
+         clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===1){
         this.initHy(this.hyDate(this.saveDate.chooseDate) )
+         clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===3){
         this.initNewsBroadcast(this.saveDate.chooseDate)
+         clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===4){
-         this.initHotStock()
+          clearInterval(this.intervalid1)
+          this.initHotStock()
+          this.intervalid1 =setInterval( () => {
+            this.initHotStock()
+         },5000)
+        
        }
     },
     chooseDate(date) {
@@ -460,13 +470,14 @@ export default {
      this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){
-            this.arr=[]
-            this.$store.dispatch('jjrl/todayHotStock').then( res => {
-            this.todayHotStock.forEach( ele => {
-               this.arr.push(ele.STOCKCODE) 
-            })
+          this.arr=[]
+          this.$store.dispatch('jjrl/todayHotStock').then( res => {
+          this.todayHotStock.forEach( ele => {
+              this.arr.push(ele.STOCKCODE) 
+          })
           this.arr=this.arr.join(',')
           this.$store.dispatch('jjrl/todayHotStockPrice',this.arr)
+       //   console.log(123)
         })
   }
   },
@@ -476,16 +487,25 @@ export default {
         chooseDate: this.tradeDate
       }).then(res => {
         this.initConsole(this.saveDate.chooseDate)
+          clearInterval(this.intervalid1)
         if(parseInt(this.curType)===2){
           this.initNotOpenStock(this.saveDate.chooseDate)
+            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===0){
           this.initFp(this.saveDate.chooseDate) 
+            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===1){
          this.initHy(this.hyDate(this.saveDate.chooseDate))
+           clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===3){
         this.initNewsBroadcast(this.saveDate.chooseDate)
+          clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===4){
-         this.initHotStock()
+           clearInterval(this.intervalid1)
+            this.initHotStock()
+        this.intervalid1 =setInterval( () => {
+            this.initHotStock()
+         },5000)
        }
       })
     }
