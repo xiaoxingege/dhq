@@ -153,7 +153,7 @@ const mutations = {
 
     let result = [].concat(stocks).reverse()    // 数据时间倒叙
     let dealData = []
-    if(result.length > 2000){
+    if(result.length > 1000){
             for(let i = 0; i<parseInt(result.length/100); i++){
                 dealData.push(result.slice(i*100,(i+1)*100))
             }
