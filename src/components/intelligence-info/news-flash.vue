@@ -46,6 +46,7 @@
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
+      {{noData}}
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="newsFlash.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
@@ -141,6 +142,7 @@ export default {
     },
     getTopDataClick(){ // 点击刷新最新数据
       if(this.showMsg===false){
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getNewsFlashList', { page: 0,isTop: true,newTime: this.newTime, nextTime: this.lastTime, ids: this.newsId }).then(() => {
           this.showMsg = true
           if(this.newsFlashLength<=0){
