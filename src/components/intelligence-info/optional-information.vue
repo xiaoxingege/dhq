@@ -42,9 +42,7 @@
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <div v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList">
-      <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock"></a>
-      <!-- <img src="../../assets/images/news-img/noStock.png" alt="" /> -->
-      <i class="addStockBg"></i>
+      <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank"><i class="addStockBg"></i></a>
       <p class="tc mt-10">您还没有自选股，快去<a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock">【添加】</a>吧~</p>
     </div>
     <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'optionalInformation'"></scrollTopBar>
