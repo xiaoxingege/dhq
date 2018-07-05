@@ -72,8 +72,7 @@ export default {
       innerHeight: window.innerHeight,
       innerCodes: '',
       flag: true,
-      isBackTop:false,
-      optionalInformationList:[]
+      isBackTop:false
     }
   },
   mounted() {
@@ -511,7 +510,7 @@ export default {
     }
     .addStockBg{
       display: inline-block;
-      width: 41px;
+      width: 51px;
       height: 51px;
       background: url('../../assets/images/news-img/noStock.png') center no-repeat;
       cursor: pointer;
