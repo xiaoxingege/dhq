@@ -46,7 +46,6 @@
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
-      {{noData}}
       <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="newsFlash.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
