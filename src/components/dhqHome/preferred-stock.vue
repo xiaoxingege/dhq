@@ -20,9 +20,6 @@
     border-collapse: collapse;
     border-spacing: 0;
 }
-.preferred-stock-table tr:hover {
-    background-color: $hoverBgColor;
-}
 
 .preferred-stock-table td span {
     cursor: pointer;

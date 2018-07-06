@@ -20,7 +20,7 @@
           <table class="recentin-table">
             <tr v-for="(item,index) of recentInList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
-              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
+              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;color:#1984ea;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>

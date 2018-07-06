@@ -47,11 +47,15 @@
     </div>
     <p class="detail-title">最新调仓（最新调入）</p>
     <RecentIn :dataList="lateInList" :strategyId="strategyId" :nextStart="nextStart"></RecentIn>
+    <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近30日调入股票></div>
     <p class="detail-title">当前持仓</p>
     <HoldStock :strategyId="strategyId"></HoldStock>
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
   </div>
   <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow"></PopWindow>
+  <PopWindow v-if="isPopHistory" :popWidth="popWidth" :popHeight="popHeight" :popTitle="historyPopTitle" @closeWindow="hideHistory">
+    <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :tradeDays="tradeDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
+  </PopWindow>
   <buyModel :showstate='showBuy' @buyClose="cancle"></buyModel>
 </div>
 </template>
@@ -61,9 +65,12 @@ import PopWindow from 'components/jzxg/popup-window'
 import RecentIn from 'components/jzxg/recent-in'
 import HoldStock from 'components/jzxg/hold-stock'
 import buyModel from 'components/touguStudio/buy'
+import PerformRecord from 'components/jzxg/perform-record'
 import {
   mapState
 } from 'vuex'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   props: ['expireDate'],
   data() {
@@ -78,13 +85,14 @@ export default {
       labelList: [],
       isShowIconHelp: false,
       detailTenStock: [],
-      pageSize: 10,
       lateInList: [],
       holdStockList: [],
       popWidth: 780,
       popHeight: 545,
       popTitle: '极智选股-极智模拟仓',
+      historyPopTitle: '极智模拟仓历史战绩',
       isPopHelpWindow: false,
+      isPopHistory: false,
       tenStockTitle: ['波段优选十大牛股', '中线掘金十大牛股', '主力天机十大牛股', '热点狙击十大牛股', '极智十大牛股'],
       descriptionTxt: [
         '万物互联，AI-Martket Wave Band（人工智能市场波段）算法把物理学中电磁波和衍射分析的思想和市场行为结合，打造出波段优选策略。择天时，定低点，判洗盘，抓反转；高抛低吸，道法自然。',
@@ -93,7 +101,17 @@ export default {
         '主力天机利用AI-Pattern Recognition（人工智能形态识别）技术，识别出前期稳定，近期连续突破新高的个股，有效地判断出主力资金的投资行为，从而达到短期的获利。跟对主力，顺势而为。',
         '运用z量化底层算法和AI-Pattern Recognition（人工智能形态识别）算法，通过分析资金面，k线走势形态，策略判断出即将出现主升浪的个股，轻松赢在起跑线；按照黄金盈亏比例预设止损止盈点，跟随策略调仓，无畏恐惧，战胜贪婪。'
       ],
-      showBuy: false
+      showBuy: false,
+      dateFrom: '',
+      dateTo: '',
+      tradeDays: '',
+      buySignalNums: '', // 买入信号个数
+      profitNums: '', // 盈利次数
+      pageSize: 10,
+      pageStart: 0,
+      sort: ['buyTime|asc', 'sellTime|desc', 'profitRatio|desc', 'holdingDays|asc'],
+      performStockList: [],
+      totalCount: ''
     }
   },
   watch: {
@@ -106,11 +124,14 @@ export default {
     PopWindow,
     RecentIn,
     HoldStock,
-    buyModel
+    buyModel,
+    PerformRecord
   },
   computed: mapState({
     navListData: state => state.jzxg.navData,
-    strategyData: state => state.jzxg.strategyDetail
+    strategyData: state => state.jzxg.strategyDetail,
+    performStatisticData: state => state.jzxg.performStatistic,
+    performStockListData: state => state.jzxg.performStockList
   }),
   methods: {
     initNav: function() {
@@ -140,6 +161,35 @@ export default {
           this.detailTenStock = this.strategyData.hotStocks
           this.lateInList = this.strategyData.lastExcellent.stocks
           this.nextStart = this.strategyData.lastExcellent.nextStart
+          this.dateFrom = this.strategyData.lastExcellent.recentInfo.dateFrom
+          this.dateTo = this.strategyData.lastExcellent.recentInfo.dateTo
+          this.tradeDays = this.strategyData.lastExcellent.recentInfo.days
+        }
+      })
+    },
+    initPerformData: function() {
+      this.$store.dispatch('jzxg/queryPerformStatistic', {
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo,
+        strategyId: this.strategyId
+      }).then(() => {
+        if (this.performStatisticData) {
+          this.buySignalNums = this.performStatisticData.buySignalNums
+          this.profitNums = this.performStatisticData.profitNums
+        }
+      })
+      this.$store.dispatch('jzxg/queryPerformStockList', {
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo,
+        pageSize: this.pageSize,
+        pageStart: this.pageStart,
+        sort: 'buyTime|desc',
+        strategyId: this.strategyId
+      }).then(() => {
+        if (this.performStockListData) {
+          this.performStockList = this.performStockListData.list
+          this.pageStart = this.performStockListData.nextStart
+          this.totalCount = this.performStockListData.totalCount
         }
       })
     },
@@ -160,6 +210,13 @@ export default {
     },
     cancle: function() {
       this.showBuy = false;
+    },
+    showHistory: function() {
+      this.isPopHistory = true
+      this.initPerformData()
+    },
+    hideHistory: function() {
+      this.isPopHistory = false
     }
   },
   mounted() {
@@ -229,7 +286,7 @@ export default {
     background-color: $bgConColor;
     padding: 0 20px;
     min-height: 100%;
-    height: 100%;
+    //  height: 100%;
 }
 .nav-list {
     width: 200px;
@@ -318,6 +375,7 @@ export default {
 }
 .profit-sum {
     margin-top: 10px;
+    margin-bottom: 20px;
     color: $grayWordsColor;
     text-align: right;
 }
