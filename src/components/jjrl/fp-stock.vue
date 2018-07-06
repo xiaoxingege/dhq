@@ -64,32 +64,36 @@
         methods: {
          showDetail(index,item){
               this.addCur=index
-            //  debugger
+             // debugger
               this.stopdate=this.getStock[index].STP_DT //   停牌日期
               this.public=this.getStock[index].ESP_HINT //  停牌时间公告
               this.stockCode=item[1]  //  当前股票代码
               this.setDate(this.stopdate)
+              this.$store.dispatch('jjrl/stopStock', { stockCode:this.stockCode,date:this.stopdate })// 请求停牌公告
+              this.$store.dispatch('jjrl/newNews', { stockCode:this.stockCode })
               this.$store.dispatch('jjrl/setStockLine',this.saveDate.chooseDate).then( res => {
-                 this.zszd=this.setStockLine[this.stockCode].return_pct.toFixed(2)
+             //     console.log(this.setStockLine)
+              this.zszd=this.setStockLine[this.stockCode].return_pct.toFixed(2)
               // console.log(this.zszd)
+          
                 this.$store.dispatch('jjrl/storeData',{ // 存储停牌时间，代码，公告和涨跌停数据
                         stopdate:this.stopdate,
                         stockCode:this.stockCode,
                         public:this.public,
                         zszd:this.zszd
                      }).then(res => {
-              //   console.log(this.storeData)
+            //    console.log(this.storeData)
                      }) 
-                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })// 请求停牌公告
-                    this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode })
+                    
               })
+
           }  ,
           addSelfChoice(item,index ){
              this.stockCode=item[1]
              this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
              }).then( res => {
-                 console.log(this.setStock)
+             //    console.log(this.setStock)
                  const len=this.setStock[index].length;
                  const ele = this.isSelfSelection
                  this.setStock[index].splice([len-1],1,ele);

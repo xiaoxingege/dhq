@@ -56,10 +56,8 @@ export default {
     drawCharts() {
       const option = {
         tooltip: {
-          trigger: 'axis',
-          position: function(pt) {
-            return [pt[0], '10%'];
-          }
+          trigger: 'axis'
+         
         },
         grid: {
           left: '3%',

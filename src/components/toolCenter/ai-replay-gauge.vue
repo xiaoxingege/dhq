@@ -39,6 +39,9 @@
 .sud-title2 {
     padding-bottom: 17px;
 }
+.comment {
+    font-size: 14px;
+}
 .charts-box {
     /* width: 50%; */
     width: 26%;

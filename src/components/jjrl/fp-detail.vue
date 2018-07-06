@@ -66,12 +66,14 @@
               if(index===0){
                     this.show=true
                     this.hide=false
+              //   debugger
                     this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate }).then(res => {
                         this.list= this.stopStock
                     })
                 }else{
                     this.show=false
                     this.hide=true
+               //     debugger
                     this.$store.dispatch('jjrl/newNews', { stockCode:this.storeData.stockCode }).then( res => {
                     this.list= this.newNews
                    })
