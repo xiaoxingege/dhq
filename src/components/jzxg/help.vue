@@ -1,19 +1,24 @@
 <template>
 <div class='content-wrap clearfix'>
-  <div class='questions fl'>
+  <div class='left-questions fl'>
     <ul>
-      <li v-for='item of questionList'>
-        <div>{{item.title}}</div>
+      <li v-for='item of questionList' class="question-block">
+        <div class="question-title">{{item.title}}</div>
         <ul>
-          <li v-for='question of item.record'>
-            <span><a>{{question.list}}</a></span>
+          <li v-for='question of item.record' class="question-every">
+            <span><a style="font-size:14px;">{{question.list}}</a></span>
           </li>
         </ul>
       </li>
     </ul>
   </div>
-  <div class='answers fr'>
-
+  <div class='right-answers fr'>
+    <ul>
+      <li v-for="answer of answerList" class="answer-every">
+        <div>{{answer.title}}</div>
+        <p>{{answer.content}}</p>
+      </li>
+    </ul>
   </div>
 </div>
 </template>
@@ -540,6 +545,7 @@ export default {
       const helpData = this.getHelpData()
       // if(this.type === 'jzmnc'){
       this.questionList = helpData.jzmnc.question
+      this.answerList = helpData.jzmnc.answer
       // }
     }
   },
@@ -558,14 +564,46 @@ export default {
     * {
         box-sizing: border-box;
     }
-    .questions {
+    .left-questions {
         width: 34%;
         height: 100%;
         border-right: 1px solid #ddd;
+        font-size: 14px;
+        padding-right: 40px;
     }
-    .answers {
+    .right-answers {
         width: 66%;
         height: 100%;
+        padding-left: 42px;
+    }
+    .question-block {
+        margin-bottom: 32px;
+    }
+    .question-every {
+        margin-bottom: 15px;
+        color: #2388da;
+        padding-left: 13px;
+        position: relative;
+    }
+    .question-title {
+        margin-bottom: 15px;
+        color: #000;
+        font-weight: bold;
+    }
+    .question-every:before {
+        content: "";
+        background: #2388da;
+        width: 3px;
+        height: 3px;
+        overflow: hidden;
+        display: inline-block;
+        position: absolute;
+        top: 11px;
+        left: 0;
+        transform: translateY(-50%);
+    }
+    .question-every a {
+        cursor: pointer;
     }
 }
 </style>
