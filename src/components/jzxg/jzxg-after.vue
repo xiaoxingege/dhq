@@ -52,7 +52,9 @@
     <HoldStock :strategyId="strategyId"></HoldStock>
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
   </div>
-  <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow"></PopWindow>
+  <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow">
+    <Help slot="content"></Help>
+  </PopWindow>
   <PopWindow v-if="isPopHistory" :popWidth="popWidth" :popHeight="popHeight" :popTitle="historyPopTitle" @closeWindow="hideHistory">
     <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :tradeDays="tradeDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
   </PopWindow>
@@ -66,6 +68,7 @@ import RecentIn from 'components/jzxg/recent-in'
 import HoldStock from 'components/jzxg/hold-stock'
 import buyModel from 'components/touguStudio/buy'
 import PerformRecord from 'components/jzxg/perform-record'
+import Help from 'components/jzxg/help'
 import {
   mapState
 } from 'vuex'
@@ -125,7 +128,8 @@ export default {
     RecentIn,
     HoldStock,
     buyModel,
-    PerformRecord
+    PerformRecord,
+    Help
   },
   computed: mapState({
     navListData: state => state.jzxg.navData,
