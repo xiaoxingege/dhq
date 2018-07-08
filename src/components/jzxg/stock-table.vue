@@ -1,10 +1,10 @@
 <template>
 <div class="preferred-stock-con">
   <div class="preferred-stock-table-wrap clearfix">
-    <div v-show="isNoData" class="no-data-stock">
+   <!-- <div v-show="isNoData" class="no-data-stock">
       <span>暂无数据</span>
-    </div>
-    <table class="preferred-stock-table" v-show="!isNoData && stockList.length>0">
+    </div>-->
+    <table class="preferred-stock-table">
       <tr>
         <td>代码</td>
         <td>名称</td>
@@ -63,6 +63,7 @@ export default {
       dateTo: '',
       pageSize: 10,
       pageStart: 0,
+      nextStart:0,
       sortField: 'buyTime', // 排序字段
       sortOrder: 'desc', // 排序顺序
       buyTimeSortOrder: 'desc', // 调入时间排序方式
@@ -109,7 +110,7 @@ export default {
       }).then(() => {
         if (this.performStockListData) {
           this.stockList = this.performStockListData.list
-          this.pageStart = this.performStockListData.nextStart
+          this.nextStart = this.performStockListData.nextStart
           this.totalCount = this.performStockListData.totalCount
         }
       })
@@ -178,8 +179,10 @@ export default {
       }
     },
     goToPage(pageNo) {
-      debugger
-      //  this.stockList = []
+      if(10*pageNo-this.totalCount>=10){
+          return
+      }
+      this.stockList = []
       this.pageStart = 10 * (pageNo - 1)
       this.updateTableData()
     }

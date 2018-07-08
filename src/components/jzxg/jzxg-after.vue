@@ -53,7 +53,7 @@
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
   </div>
   <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow">
-    <Help slot="content"></Help>
+    <Help slot="content" :strategyId="strategyId"></Help>
   </PopWindow>
   <PopWindow v-if="isPopHistory" :popWidth="popWidth" :popHeight="popHeight" :popTitle="historyPopTitle" @closeWindow="hideHistory">
     <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :tradeDays="tradeDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
@@ -159,6 +159,8 @@ export default {
       }).then(() => {
         if (this.strategyData) {
           this.strategyName = this.strategyData.name
+            this.popTitle = '极智选股-'+ this.strategyData.name
+            this.historyPopTitle = this.strategyData.name + '历史战绩'
           this.totalNum = this.strategyData.perform.totalNum
           this.profitNum = this.strategyData.perform.profitNum
           this.labelList = this.strategyData.indicators
@@ -192,7 +194,7 @@ export default {
       }).then(() => {
         if (this.performStockListData) {
           this.performStockList = this.performStockListData.list
-          this.pageStart = this.performStockListData.nextStart
+         // this.pageStart = this.performStockListData.nextStart
           this.totalCount = this.performStockListData.totalCount
         }
       })

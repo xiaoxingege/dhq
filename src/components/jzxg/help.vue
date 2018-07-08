@@ -5,18 +5,18 @@
       <li v-for='item of questionList' class="question-block">
         <div class="question-title">{{item.title}}</div>
         <ul>
-          <li v-for='question of item.record' class="question-every">
-            <span><a style="font-size:14px;">{{question.list}}</a></span>
+          <li v-for='question of item.record' class="question-every" :class="{'active':question.typeId+'-'+question.subTypeId === activeId}" @click="toAnswer(question.typeId+'-'+question.subTypeId)">
+            <span><a style="font-size:14px;" :href="'#'+question.typeId+'-'+question.subTypeId">{{question.list}}</a></span>
           </li>
         </ul>
       </li>
     </ul>
   </div>
-  <div class='right-answers fr'>
+  <div class='right-answers fr' @scroll.stop="scrollAnswers($event)" :class="{auto:isShowSlideBar,hidden:!isShowSlideBar}">
     <ul>
       <li v-for="answer of answerList" class="answer-every">
-        <div>{{answer.title}}</div>
-        <p>{{answer.content}}</p>
+        <div class="answer-title" :id="answer.subTypeId">{{answer.title}}</div>
+        <p v-html="answer.content" class="answer-con"></p>
       </li>
     </ul>
   </div>
@@ -24,10 +24,16 @@
 </template>
 <script>
 export default {
+    props:['strategyId'],
   data() {
     return {
       questionList: [],
-      answerList: []
+      answerList: [],
+      isShowSlideBar:true,
+      nameTxt:['bdyx','zxjj','zltj','rdjj','jzmnc'],
+      activeId:'',
+      activeIndex:-1,
+      isClickQuestion:false
     }
   },
   computed: {
@@ -321,7 +327,11 @@ export default {
             {
               title: '极智模拟仓策略的历史总收益是如何计算的？',
               content: '<p>以2016年3月1日作为策略成立日，当某只股票出现买入信号后，以初始仓位的20%买入该股票，出现止盈或止损信号时卖出，截止到目前的总仓位相对于初始仓位的百分比即历史总收益。</p>'
-            }
+            },
+              {
+                  title: '如何联系到客服？',
+                  content: '<p>用户可通过拨打电话：400-166-1188联系金融界智能投服的客服人员，为您答疑解惑</p>\n                                  <p>如用户有投诉和建议也可拨打：010-83275199。</p>'
+              }
           ]
         },
         'zltj': {
@@ -543,11 +553,36 @@ export default {
     },
     getQuestionList: function() {
       const helpData = this.getHelpData()
-      // if(this.type === 'jzmnc'){
-      this.questionList = helpData.jzmnc.question
-      this.answerList = helpData.jzmnc.answer
-      // }
-    }
+      this.questionList = helpData[this.nameTxt[this.strategyId-1]].question
+      this.answerList = helpData[this.nameTxt[this.strategyId-1]].answer
+      let questions = []
+      this.questionList.forEach((question) => {
+          questions =  questions.concat(question.record)
+      })
+      for(const i in questions){
+          if(this.answerList[i]){
+              this.answerList[i].subTypeId = questions[i].typeId+'-'+questions[i].subTypeId
+          }
+      }
+    },
+      scrollAnswers:function (e) {
+          e.stopPropagation()
+        //  this.isShowSlideBar = true
+          let scrollTop = e.target.scrollTop
+          const answers = document.getElementsByClassName('answer-every')
+          for(let i = 0; i<answers.length; i++){
+              if(scrollTop>=answers[i].offsetTop && scrollTop<=answers[i].offsetTop+answers[i].clientHeight+20 && i !== this.activeIndex){
+                  this.activeId = this.answerList[i].subTypeId
+                  this.activeIndex = i
+                  break
+              }
+          }
+
+      },
+      toAnswer:function (subId) {
+          this.isClickQuestion = true
+          this.activeId = subId
+      }
   },
   mounted() {
     this.getQuestionList()
@@ -560,7 +595,7 @@ export default {
     box-sizing: border-box;
     width: 100%;
     height: 515px;
-    padding: 30px;
+    padding: 30px 20px 30px 0;
     * {
         box-sizing: border-box;
     }
@@ -569,26 +604,36 @@ export default {
         height: 100%;
         border-right: 1px solid #ddd;
         font-size: 14px;
-        padding-right: 40px;
+        padding-right: 0;
+        overflow:auto;
     }
     .right-answers {
         width: 66%;
         height: 100%;
         padding-left: 42px;
+        padding-right:20px;
+        position: relative;
     }
+    .auto{
+      overflow: auto;
+    }
+   .hidden{
+     overflow: hidden;
+   }
     .question-block {
         margin-bottom: 32px;
     }
     .question-every {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: #2388da;
-        padding-left: 13px;
         position: relative;
+        padding:0 35px 0 40px;
     }
     .question-title {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: #000;
         font-weight: bold;
+        padding-left: 30px;
     }
     .question-every:before {
         content: "";
@@ -599,11 +644,46 @@ export default {
         display: inline-block;
         position: absolute;
         top: 11px;
-        left: 0;
+        left: 30px;
         transform: translateY(-50%);
     }
     .question-every a {
         cursor: pointer;
     }
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: transparent !important;
+    border-radius: 10px;
+  }
+
+  /*定义滚动条轨道 内阴影+圆角*/
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: transparent !important;
+  }
+
+  /*定义滑块 内阴影+圆角*/
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: transparent !important;
+  }
+  .answer-every{
+    margin-bottom: 30px;
+  }
+  .answer-title{
+    color:#000;
+    font-size:14px;
+    margin-bottom: 10px;
+  }
+  .answer-con{
+    color:#666;
+  }
+  .active{
+    background-color: #d3d3d3;
+  }
 }
 </style>
