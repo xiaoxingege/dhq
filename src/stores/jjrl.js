@@ -20,12 +20,12 @@ const state = {
   removeSelection: [],
   setStockLine: [],
   saveDate: [],
-  resetChart: [],
   setCount: [], // 存放功能区数据的数量，
   setHyList:[] ,// 会议日历的列表数据
   setHyName:null,
   saveHyUrl:'',//  存储会议URL
   saveHyIndex:'',
+  savaHyList:[],
   getNewsBroadcast:[] ,// 新闻联播
   todayHotStock:[] ,// 今日热点股
   todayHotStockPrice:[]
@@ -42,7 +42,6 @@ const mutationsTypes = {
   UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION',
   SET_STOCK_LINE: 'SET_STOCK_LINE',
   SAVE_DATE: 'SAVE_DATE',
-  RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT',
   SET_HY_LIST:'SET_HY_LIST',
   SET_HY_NAME:'SET_HY_NAME',
@@ -50,11 +49,14 @@ const mutationsTypes = {
   SAVE_HY_INDEX:'SAVE_HY_INDEX',
   GET_NEWS_BROADCAST:'GET_NEWS_BROADCAST',
   TODAY_HOT_STOCKS:'TODAY_HOT_STOCKS',
-  TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE'
+  TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE',
+  SAVE_HY_LIST:'SAVE_HY_LIST'
 }
 
 const actions = {
-  
+  savaHyList({ commit }){
+    commit( mutationsTypes.SAVE_HY_LIST , null)
+  },
   saveHyIndex({ commit },value){
     commit(mutationsTypes.SAVE_HY_INDEX,value)
   },
@@ -66,11 +68,7 @@ const actions = {
   }, value) {
     commit(mutationsTypes.SET_COUNT, value)
   },
-  resetChart({
-    commit
-  }) {
-    commit(mutationsTypes.DATE_CODE, null)
-  },
+
   saveDate({
     commit
   }, value) { // 存放日期 
@@ -373,10 +371,7 @@ const mutations = {
     //   console.log(state.saveDate) //  存放日历时间
     state.saveDate = res
   },
-  [mutationsTypes.RESET_CHART](state, res) {
-    //   console.log(state.saveDate) //  清空复牌数据
-    state.resetChart = res
-  },
+
   [mutationsTypes.SET_COUNT](state, res) {
     state.setCount = res
   },
@@ -412,9 +407,7 @@ const mutations = {
   },
 
   [mutationsTypes.SET_HY_NAME](state,setHyName){
-    if(!state.setHyName){
-      state.setHyName = {}
-    }
+    state.setHyName = {};
  
     setHyName.map((item) => {
       if(!state.setHyName[item[1]]){
@@ -429,6 +422,10 @@ const mutations = {
   [mutationsTypes.SAVE_HY_INDEX](state,saveHyIndex){
     state.saveHyIndex=saveHyIndex
   },
+  [mutationsTypes.SAVE_HY_LIST](state,savaHyList){
+    state.savaHyList=savaHyList
+  },
+
   [mutationsTypes.GET_NEWS_BROADCAST](state,getNewsBroadcast){
     state.getNewsBroadcast=getNewsBroadcast
   },
