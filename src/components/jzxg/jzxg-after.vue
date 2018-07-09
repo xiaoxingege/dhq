@@ -159,8 +159,8 @@ export default {
       }).then(() => {
         if (this.strategyData) {
           this.strategyName = this.strategyData.name
-            this.popTitle = '极智选股-'+ this.strategyData.name
-            this.historyPopTitle = this.strategyData.name + '历史战绩'
+          this.popTitle = '极智选股-' + this.strategyData.name
+          this.historyPopTitle = this.strategyData.name + '历史战绩'
           this.totalNum = this.strategyData.perform.totalNum
           this.profitNum = this.strategyData.perform.profitNum
           this.labelList = this.strategyData.indicators
@@ -194,7 +194,7 @@ export default {
       }).then(() => {
         if (this.performStockListData) {
           this.performStockList = this.performStockListData.list
-         // this.pageStart = this.performStockListData.nextStart
+          // this.pageStart = this.performStockListData.nextStart
           this.totalCount = this.performStockListData.totalCount
         }
       })
@@ -255,7 +255,7 @@ export default {
     width: 240px;
     background-color: $bgConColor;
     top: 3px;
-    left: 1px;
+    left: 0;
     padding: 18px 20px 20px;
     height: 100%;
     z-index: 100;

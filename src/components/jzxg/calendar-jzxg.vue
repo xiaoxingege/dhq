@@ -2,7 +2,7 @@
 <div class="calendar-con">
   <span class="icon-calendar" @click="toggleCalendar"></span>
   <div class="datepicker" v-if="isOpen">
-    <date-picker :language="locale" :value="date" :inline="true" @selected="chooseDate" :option="option" :limit="limit"></date-picker>
+    <date-picker :language="locale" :value="date" :inline="true" @selected="chooseDate" :disabledDates="disabledDates"></date-picker>
   </div>
 </div>
 </template>
@@ -18,19 +18,9 @@ export default {
       date: new Date(),
       isOpen: false,
       locale: zh,
-      option: {
-        buttons: {
-          ok: 'Ok',
-          cancel: 'Cancel'
-        },
-        type: 'day',
-        week: [],
-        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        format: 'YYYY-MM-DD'
-      },
-      limit: {
-        type: 'fromto',
-        from: '2016-01-01'
+      disabledDates: {
+        to: new Date(2016, 0, 1),
+        from: new Date()
       }
     }
   },
