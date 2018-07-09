@@ -38,7 +38,7 @@
         <td>{{formatData(item.sellTime)?'--':item.sellTime}}</td>
         <td>{{formatData(item.buyPrice)?'--':item.buyPrice}}</td>
         <td>{{formatData(item.sellPrice)?'--':item.sellPrice}}</td>
-        <td>{{formatData(item.profitRatio)?'--':(100*item.profitRatio).toFixed(2)+'%'}}</td>
+        <td v-z3-updowncolor="item.profitRatio">{{formatData(item.profitRatio)?'--':(item.profitRatio>0?'+'+(100*item.profitRatio).toFixed(2)+'%':(100*item.profitRatio).toFixed(2)+'%')}}</td>
         <td>{{formatData(item.holdingDays)?'--':item.holdingDays}}</td>
       </tr>
     </table>
