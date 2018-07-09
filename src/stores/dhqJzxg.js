@@ -1,5 +1,4 @@
 import fetch from '../dhq/util/z3fetch'
-import fetchJsonp from 'fetch-jsonp'
 import {
   domain
 } from '../dhq/config'
