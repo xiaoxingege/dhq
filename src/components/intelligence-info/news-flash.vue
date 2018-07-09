@@ -508,8 +508,6 @@ export default {
   .refresh:hover {
     .icon-refresh {
       cursor: pointer;
-      transition: -webkit-transform 0.5s ease-in;
-      transform: rotate(360deg);
     }
   }
 }
