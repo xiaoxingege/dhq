@@ -20,8 +20,7 @@ export default {
     isSelfSelection: false,
     multiSelectionData: [],
     performStatistic: null,
-    performStockList: null,
-    helpData: ''
+    performStockList: null
   },
   mutations: {
     setJzxgBeforeData(state, jzxgData) {
@@ -58,9 +57,6 @@ export default {
     },
     setPerformStockList(state, performStockList) {
       state.performStockList = performStockList;
-    },
-    setHelpData(state, helpData) {
-      state.helpData = helpData;
     }
   },
   actions: {
@@ -320,26 +316,6 @@ export default {
       }).then(res => res.json()).then((result) => {
         if (result.retCode === 0) {
           commit('setPerformStockList', result.data)
-        } else {
-          commit('ERROR', result, {
-            root: true
-          })
-        }
-      })
-    },
-    // 历史战绩-股票列表
-    queryHelpData({
-      commit
-    }) {
-      let url = 'https://i0.jrjimg.cn/zqt-m/one-step/midStrategy/midStrategy.c8b30841e0b2.js'
-      debugger
-      return fetchJsonp(url, {
-        jsonpCallbackFunction: 'jsonp',
-        cache: 'reload'
-      }).then(res => res.json()).then((result) => {
-        debugger
-        if (result.retCode === 0) {
-          commit('setHelpData', result.data)
         } else {
           commit('ERROR', result, {
             root: true
