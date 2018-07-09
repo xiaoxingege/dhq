@@ -177,7 +177,7 @@
           <img src="../../assets/images/touguStudio/QP2.png" />
         </div>
         <div class="sender-headimage">
-          <img src="../../assets/images/touguStudio/AI-headimage.png" />
+          <img src="../../assets/images/touguStudio/userPhotoDefault.png"/>
         </div>
       </div>
       <div style="clear:both"></div>

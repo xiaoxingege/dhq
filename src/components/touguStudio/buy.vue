@@ -8,10 +8,10 @@
       <p class="buy-inf">大行情PC端暂时不支持支付功能，如需支付请下载大行情App并在产品订阅页进行支付，大行情智能投服团队期待为您服务！</p>
       <div class="buy-code">
         <div class="buycode-model">
-          <div id="Android">
-            <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
+          <div id="payCode">
+             <img src="../../assets/images/touguStudio/payCode.jpg">
           </div>
-          <p>大行情Android版</p>
+          <p>扫码下载大行情App</p>
         </div>
       </div>
     </div>
@@ -19,7 +19,6 @@
 </div>
 </template>
 <script>
-import QRCode from 'qrcodejs2'
 export default {
   name: 'buy',
   props: ['type', 'showstate'],
@@ -32,14 +31,6 @@ export default {
   methods: {
     buyClose: function() {
       this.$emit('buyClose');
-    },
-    SCcode:function(){
-        new QRCode(document.getElementById('Android'), {
-          width: 121,
-          height: 121,
-          text:'https://appcms.jrj.com.cn/download.jspa?productId=6300001',
-          render: 'table'
-        });
     }
   },
   mounted: function() {
@@ -91,19 +82,19 @@ export default {
   height: 46px;
 }
 .model {
-  width: 559px;
+  width: 418px;
 }
 
 .model-content {
-  width: 559px;
-  height: 297px;
+  width: 418px;
+  height: 319px;
   background: rgba(245, 235, 220, 1);
   border-radius: 10px;
 }
 
 .model-content .buy-inf {
-  width: 468px;
-  height: 45px;
+  width: 328px;
+  height: 74px;
   font-size: 16px;
   font-family: MicrosoftYaHei;
   color: rgba(207, 153, 83, 1);
@@ -127,17 +118,14 @@ export default {
   align-items: center;
 }
 
-.buy-code div {
-  width: 121px;
+.payCode{
+  width: 119px;
+  height: 119px;
 }
-
-.buycode-model #Android,
-.buycode-model #IOS {
-  width: 121;
-  height: 121;
-  border: 6px solid #fff;
+.payCode img{
+  width: 119px;
+  height: 119px;
 }
-
 .buycode-model p {
   font-size: 14px;
   font-family: MicrosoftYaHei;
