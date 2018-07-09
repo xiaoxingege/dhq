@@ -1,7 +1,8 @@
 <template>
 <div class="hyCon" v-if="model">
      <div class="listCon">
-        <div  v-for='(ele,index) in model.events' @click="chooseHy(ele,index)">
+        <div  v-for='(ele,index) in model' @click="chooseHy(ele,index)">
+            
         <div class="hyTitle" :class="isSelected&&(cur===index)?'cur':''">
             <div :title='curTitle'>{{ele.title}}</div>
             <div>
@@ -18,7 +19,7 @@
             <div class="relateStock" v-if="ele.concepts[0]&&JSON.stringify(setHyName)!=='{}'">
                 <span>相关股票:</span>
                 <ul v-if="ele.concepts[0].stocks && setHyName">
-                   <li v-for="item in ele.concepts[0].stocks.split(',')" @click='jumpDetail(item,index)'> {{ setHyName[item][2] }} </li>  
+                   <li v-for="item in ele.concepts[0].stocks.split(',')" @click='jumpDetail(item,index)'> {{ setHyName&&setHyName[item]?setHyName[item][2]:item }} </li>  
                 </ul>   
             </div>
         </div>
@@ -32,6 +33,7 @@ import {
 } from 'vuex'
 import native from '../../utils/nativeApi'
 import util from '../../dhq/util'
+import $ from 'jquery'
 export default {
     props: ['model', 'active','isSelected'],
     data(){
@@ -52,8 +54,14 @@ export default {
         stocks:state => state.jjrl.stockList,
         setHyName:state => state.jjrl.setHyName,
         saveHyUrl:state => state.jjrl.saveHyUrl,
-        saveHyIndex: state => state.jjrl.saveHyIndex
-    })
+        saveHyIndex: state => state.jjrl.saveHyIndex,
+        saveDate: state => state.jjrl.saveDate,
+        savaHyList: state => state.jjrl.savaHyList
+    }),
+    hyEvents:function(){
+        return this.model.events;
+    }
+
   },
     methods:{
      getDate(date){
@@ -84,13 +92,25 @@ export default {
       }
     },
     chooseHy(ele,index){
-   //    console.log(index)
+      console.log(index)
         this.cur =index
         this.$store.dispatch('jjrl/saveHyUrl',ele.link).then( res => {
-            // console.log(this.saveHyUrl)
+           // console.log(this.saveHyUrl)
         })
-         this.$emit('hyCalenderDetail',this.setHyList)
     }
+    },
+    watch:{
+         setHyName(){
+          this.$forceUpdate();
+         },
+          saveHyIndex(){
+         $('.hyList').animate({ scrollTop: ('107'*this.saveHyIndex)+'px' }, 200)
+        },
+        saveDate(){
+            if(this.cur!==0){
+                this.cur=0
+            }
+        }
     }
    
 }

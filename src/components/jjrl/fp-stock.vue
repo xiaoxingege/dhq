@@ -56,9 +56,6 @@
             }),
             changeCalendar(){
                  return this.saveDate.chooseDate;
-            },  
-            changeCode(){
-                return this.storeData.stockCode
             }
         },
         methods: {
@@ -134,6 +131,7 @@
         },
       watch:{
           changeCalendar:function () { 
+        //      console.log(this.setStock)
             this.addCur=0
             this.index=0
      

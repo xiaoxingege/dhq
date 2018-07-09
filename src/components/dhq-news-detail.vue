@@ -22,8 +22,8 @@ export default {
   },
   methods: {
     init() {
-      console.log(this.iiid);
-      console.log(this.newsUrl);
+     // console.log(this.iiid);
+    // console.log(this.newsUrl);
       if (this.newsUrl) {
         this.$store.dispatch('dhqNews/queryNewsDetail', {
           iiid: this.iiid,

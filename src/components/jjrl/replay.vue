@@ -14,7 +14,7 @@
       </ul>
     </div>
     <div class="detailBox">
-      <component :is='comp' :fpCount='hasCount' :wkbCount='getCount'></component>
+      <component :is='comp' :fpCount='hasCount' :wkbCount='getCount' ></component>
     </div>
   </div>
 </div>
@@ -98,9 +98,6 @@ export default {
       element: '',
       calenderDate: '',
       chartData: [],
-      bkData: [],
-      ggData: [],
-      showDate: [],
       fpCount: '',
       hyCount: '',
       wkbCount: '',
@@ -110,7 +107,8 @@ export default {
       curHyCode:'',
       queryCode:'',
       arr:[],
-      intervalid1:Object
+      intervalid1:Object,
+      saveHyList:[]
     }
   },
   components: {
@@ -134,7 +132,8 @@ export default {
       saveHyIndex: state => state.jjrl.saveHyIndex,
       getNewsBroadcast:state => state.jjrl.getNewsBroadcast,
       todayHotStock:state => state.jjrl.todayHotStock,
-      todayHotStockPrice:state => state.jjrl.todayHotStockPrice
+      todayHotStockPrice:state => state.jjrl.todayHotStockPrice,
+      savaHyList: state => state.jjrl.savaHyList
       
     }),
     comp: function() {
@@ -199,6 +198,20 @@ export default {
       }
       this.stopdate = Y + '-' + M + '-' + D
     },
+      chartDate(date) {
+      var d, Y, M, D
+      d = new Date(date)
+      Y = d.getFullYear()
+      M = d.getMonth() + 1
+      D = d.getDate()
+      if (M < 10) {
+        M = '0' + M;
+      }
+      if (D < 10) {
+        D = '0' + D;
+      }
+      return Y + '-' + M + '-' + D
+    },
     hyDate(date) {
       var d, Y, M
       d = new Date(date)
@@ -261,11 +274,11 @@ export default {
     /* 初始化功能栏 */
     initConsole() {
       this.$store.dispatch('jjrl/setGuide', this.tradeDate).then(res => {
-        this.list[0].count = this.setGuide.tfp_count?"（"+this.setGuide.tfp_count+"只）":"(暂无数据)"
+        this.list[0].count = this.setGuide.tfp_count?'（'+this.setGuide.tfp_count+'只)':'(暂无数据)'
         this.list[0].detail = this.setGuide.tfp_wz
-        this.list[1].count = "（"+this.setGuide.hy_count+"个）"
+        this.list[1].count = '（'+this.setGuide.hy_count+'个）'
         this.list[1].detail = this.setGuide.hy_wz
-        this.list[2].count = this.setGuide.cxg_count?"（"+this.setGuide.cxg_count+"只）":"(暂无数据)"
+        this.list[2].count = this.setGuide.cxg_count?'（'+this.setGuide.cxg_count+'只）':'(暂无数据)'
         this.list[2].detail = this.setGuide.cxg_wz
         this.list[3].count = null
         this.list[3].detail = this.setGuide.xwlb_wz
@@ -292,7 +305,6 @@ export default {
             this.notOpenStockCode=[]
       this.$store.dispatch('jjrl/notOpenStock', this.tradeDate).then(res => {
         //  debugger
-            
              this.notOpenStock.forEach( ele => {
                 this.notOpenStockCode.push(ele.STOCKCODE)
                 })
@@ -342,7 +354,6 @@ export default {
         this.getStockCode.push(ele.STOCKCODE) // 股票代码数组
         })
         let item= this.getStockCode.join(',') // q接口支持多个查询
-          //     debugger
         this.$store.dispatch('jjrl/setStock',item)
         /* 自选股部分 */
         const me=this;
@@ -356,7 +367,6 @@ export default {
                 item:item,
                 type:'fp'
             }).then(res => {
-        //   debugger
                 me.setStock[me.index].push(me.isSelfSelection);
                 if(me.index<me.getStockCode.length-1){
                   me.index++;
@@ -366,59 +376,41 @@ export default {
             }) 
         }
       // console.log(this.isSelfSelection)
-          // console.log(this.storeData)
-      
           this.public=this.getStock[0].ESP_HINT 
           this.$store.dispatch('jjrl/storeData',{
           stopdate:this.stopdate,
           stockCode:this.stockCode,
           public:this.public })
           this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
-         //  console.log(this.storeData)
               /* 图表部分文字 */ 
             //   debugger
           this.$store.dispatch('jjrl/setStockLine',date).then( res => {
-          this.bkData = []
-          this.ggData = []
-          this.showDate = []
+        // debugger
           let code=this.storeData.stockCode
           this.zszd=this.setStockLine[code].return_pct.toFixed(2)
-          // console.log(this.setStockLine)
-      //   console.log( code)
-          this.chartData=this.setStockLine[code]
-          this.chartData.zs.forEach(item => {
-          this.bkData.push(item.index.toFixed(2))
-          })
-          this.chartData.hq.forEach(item => {
-          let time= this.setDate(item.trade_date)
-          this.showDate.push(time)
-          this.ggData.push(item.index.toFixed(2))
-          })
           this.stopdate=this.getStock[0].STP_DT
           this.setDate(this.stopdate)  // 获取停牌日期
-        //  console.log(this.stopdate+"222222222")
           this.$store.dispatch('jjrl/storeData',{
                 stopdate:this.stopdate,
                 stockCode:this.stockCode,
                 public:this.public,
-                zszd:this.zszd ,
-                bkData:this.bkData,
-                ggData:this.ggData }).then( res => {
-        //   console.log(this.storeData)
+                zszd:this.zszd 
+               }).then( res => {
             })
-          })
+          }) 
       })  
 
     },
 
     // 初始化 会议日历
   initHy(date){
-            this.setHyName=null
-            this.setHyList=[]
-            this.$store.dispatch('jjrl/setHyList',this.hyDate(this.saveDate.chooseDate)).then( res => {
+            this.setHyName={}
+            this.getAllCode=[]
             this.arrCode=[]
-            this.hyIndex = 0
-          //  console.log(this.setHyList.data)
+            this.hyIndex = null
+        //  console.log(this.setHyList)
+    // debugger
+            this.$store.dispatch('jjrl/setHyList',this.hyDate(this.saveDate.chooseDate)).then( res => {
             const hasChooseDate = this.setHyList.data.filter((ele,i) => {
               return this.getDayOfDate(this.saveDate.chooseDate)<=this.getDayOfDate(ele.date)
             }) 
@@ -426,15 +418,19 @@ export default {
               if(this.getDayOfDate(this.saveDate.chooseDate)<=this.getDayOfDate(this.setHyList.data[i].date)){
                   this.hyIndex = i
                   break;
+              }else{
+                this.hyIndex =this.setHyList.data.length-1
               }
             } 
-          //  console.log('this.hyIndex================'+this.hyIndex)
+        //  console.log('this.hyIndex================'+this.hyIndex)
             this.$store.dispatch('jjrl/saveHyIndex',this.hyIndex)
+        //  console.log(hasChooseDate.length)
             if(hasChooseDate.length !==0){
               this.$store.dispatch('jjrl/saveHyUrl',hasChooseDate[0].events[0].link)
-           //   console.log(hasChooseDate[0].date+"时间")
+          //    console.log(hasChooseDate[0].date+"时间1")
             }else{
-              this.$store.dispatch('jjrl/saveHyUrl',this.setHyList.data[0].events[0].link)
+              this.$store.dispatch('jjrl/saveHyUrl',this.setHyList.data[this.setHyList.data.length-1].events[0].link)
+            //  console.log(this.setHyList.data[this.setHyList.data.length-1].date+"时间2")
             }
             this.setHyList.data.forEach((ele,i) => {
                 ele.events.forEach( (res,index) => {
@@ -442,9 +438,7 @@ export default {
                 })   
             }) 
             // 将相关股票代码提取出来放进数组中
-        //  console.log(this.setHyList.data)
-          
-           this.getAllCode=[]
+         // console.log(this.setHyList)
             for (let i=0; i<this.arrCode.length; i++){
                 let ele=this.arrCode[i];
                 if(!ele){
@@ -460,8 +454,9 @@ export default {
                 this.getAllCode.push(ele.stocks)
             }
             this.queryCode=this.getAllCode.join(',')
-         //   console.log(this.queryCode)
+          //  console.log(this.queryCode)
             this.$store.dispatch('jjrl/setHyName',this.queryCode)
+          
         }) 
   },
   
@@ -485,7 +480,7 @@ export default {
     tradeDate: function() {
       this.$store.dispatch('jjrl/saveDate', {
         chooseDate: this.tradeDate
-      }).then(res => {
+      }).then(() => {
         this.initConsole(this.saveDate.chooseDate)
           clearInterval(this.intervalid1)
         if(parseInt(this.curType)===2){
@@ -494,8 +489,9 @@ export default {
         }else if(parseInt(this.curType)===0){
           this.initFp(this.saveDate.chooseDate) 
             clearInterval(this.intervalid1)
-        }else if(parseInt(this.curType)===1){
-         this.initHy(this.hyDate(this.saveDate.chooseDate))
+        }else if(parseInt(this.curType)===1){  // 会议日历
+      // debugger
+        this.initHy(this.hyDate(this.saveDate.chooseDate))
            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===3){
         this.initNewsBroadcast(this.saveDate.chooseDate)
@@ -514,7 +510,6 @@ export default {
     this.initConsole(this.tradeDate)
     this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
     this.initFp(this.saveDate.chooseDate)
-
 
   }
 
