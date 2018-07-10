@@ -460,7 +460,7 @@ export default {
   },
   
   initNewsBroadcast(date){
-   debugger
+   
      this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){
@@ -488,7 +488,7 @@ export default {
           this.initFp(this.saveDate.chooseDate) 
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===1){  // 会议日历
-      // debugger
+      // 
         this.initHy(this.hyDate(this.saveDate.chooseDate))
            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===3){
