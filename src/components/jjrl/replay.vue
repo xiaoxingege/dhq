@@ -233,7 +233,8 @@ export default {
       h = d.getHours()
       m = d.getMinutes()
       curM=cur.getMonth() + 1
-     
+      curD=cur.getDate()
+   
       if (M < 10) {
         M = '0' + M;
       }
@@ -243,8 +244,8 @@ export default {
       if (curM< 10) {
         curM = '0' + curM;
       }
-      if (cur.getDate() < 10) {
-        curD = '0' +cur.getDate();
+      if (curD < 10) {
+        curD = '0' +curD;
         }
       if(curD === D&& curM===M ){ //  当天20点半之前,凌晨之后，都显示前一天数据
       if(h < 20&&m < 30){
@@ -304,7 +305,6 @@ export default {
             this.index=0
             this.notOpenStockCode=[]
       this.$store.dispatch('jjrl/notOpenStock', this.tradeDate).then(res => {
-        //  debugger
              this.notOpenStock.forEach( ele => {
                 this.notOpenStockCode.push(ele.STOCKCODE)
                 })
@@ -461,7 +461,7 @@ export default {
   },
   
   initNewsBroadcast(date){
-    // debugger
+   debugger
      this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){

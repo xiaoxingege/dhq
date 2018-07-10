@@ -57,7 +57,7 @@ export default {
           trigger: 'axis'
         },
         grid: {
-          left: '3%',
+          left: '5%',
           right: '1%',
           top: '5px',
           bottom: '10%'
@@ -65,12 +65,15 @@ export default {
 
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: this.showDate
+          data: this.showDate,
+          boundaryGap: false
+         
         },
         yAxis: {
           type: 'value',
-          boundaryGap: [0, '100%'],
+          boundaryGap: true,
+          splitNumber: 5,
+          scale: true,
           splitLine: {
             show: false
           }
