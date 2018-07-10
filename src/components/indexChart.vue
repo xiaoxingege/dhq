@@ -622,7 +622,7 @@ export default {
           left: 65,
           top: 40,
           bottom: 30,
-          right: 25
+          right: 15
         },
         calculable: true,
         xAxis: [{
@@ -872,12 +872,6 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
-      this.chart.on('click', (params) => {
-        if (params.componentType === 'markPoint') {
-          params.event.event.stopPropagation();
-          window.open(ctx + '/siweiIndex?key=zsIndex')
-        }
-      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -919,18 +913,28 @@ export default {
     },
     autoUpdate: function() {
       const _this = this
-      if (this.updateDataPid) {
-        clearInterval(this.updateDataPid)
-      } else {
-        this.updateDataPid = setInterval(function() {
-          _this.$store.dispatch('indexChart/getMoveBlock')
-        }, 60 * _this.intervalTime)
-      }
+      /* if (this.updateDataPid) {
+         clearInterval(this.updateDataPid)
+       } else {
+         this.updateDataPid = setInterval(function() {
+           _this.$store.dispatch('indexChart/getMoveBlock')
+         }, 60 * _this.intervalTime)
+       }*/
       this.chartInterval = setInterval(function() {
-        _this.$store.dispatch('indexChart/getIndexChartData', {
-          stockCode: '000001.SH'
-        }).then(() => {
-          _this.refreshEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        let p1 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getMoveBlock').then(() => {
+            resolve();
+          })
+        });
+        let p2 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+            stockCode: '000001.SH'
+          }).then(() => {
+            resolve();
+          })
+        });
+        Promise.all([p1, p2]).then(() => {
+          _this.refreshSzzsEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         })
         _this.$store.dispatch('indexChart/getIndexChartData', {
           stockCode: '000300.SH'
@@ -1061,6 +1065,13 @@ export default {
     });
     Promise.all([p1, p2]).then(() => {
       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]) || echarts.init(document.getElementsByClassName('indexChart')[0])
+      this.chart.on('click', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          window.open(ctx + '/siweiIndex?key=zsIndex')
+        }
+      })
     });
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
