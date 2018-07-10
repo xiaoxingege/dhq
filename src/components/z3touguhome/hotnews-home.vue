@@ -78,7 +78,7 @@
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
       <router-link class="fl newtitle" :to="{name:'detailPages',params:{id:item.newsId, detailType:'news'}}" target="_blank">{{item.title}}</router-link>
-      <span class="fr news-time" v-z3-time="{ time:item.declareDate+ '' , type: '2' }"></span>
+      <span class="fr news-time" v-z3-time="{ time:item.declareDate+ '' , type: '1' }"></span>
     </li>
   </ul>
 </div>

@@ -86,6 +86,7 @@ import stockBox from 'components/siwei/stock-box'
 
 let pcid1 = '';
 let pcid2 = '';
+let pcid3 = ''
 const minSize = 10;
 const maxSize = 100;
 export default {
@@ -141,7 +142,9 @@ export default {
           top: 0
         }
       },
-      showStockBox: false
+      showStockBox: false,
+      scrollHeight: '',
+      bottomTime:0
     }
   },
   components: {
@@ -206,6 +209,7 @@ export default {
     ...mapState({
       bubbleData: state => state.marketBubble.bubbleData,
       deltaStockList: state => state.marketBubble.abnormalStockList,
+      updateStockList: state => state.marketBubble.updateAbnormalStockList,
       deltaPlateList: state => state.marketBubble.abnormalPlateList,
       marketCount: state => {
         const data = state.marketBubble.marketCount;
@@ -595,48 +599,61 @@ export default {
       this.$store.dispatch('marketBubble/updateAbnormalPlates', {
         startTime: this.plateLastTime
       })
+    },
+    handleScroll(){
+        this.scrollHeight = this.$refs.stocks_list.scrollTop
     }
   },
-  watch: {
-    marketCount: function() {
-      this.updateMarketCount();
+    watch: {
+        marketCount: function() {
+            this.updateMarketCount();
+        },
+        deltaStockList: function() {
+            if (this.deltaStockList.length === 0) {
+                return
+            }
+            this.stockList = [].concat(this.deltaStockList).reverse();
+        },
+        updateStockList: function(){
+            if (this.updateStockList && this.updateStockList.length !== 0) {
+                const delta = [].concat(this.updateStockList).reverse();
+                this.stockList.push(...delta);
+            }
+        },
+        deltaPlateList: function() {
+            if (this.deltaPlateList.length === 0) {
+                return
+            }
+            const delta = [].concat(this.deltaPlateList).reverse();
+            this.plateLastTime = delta[0].tradeTime;
+            this.plateList.unshift(...delta);
+        },
+        scrollHeight: function() {
+            if(this.scrollHeight === 0){
+                this.bottomTime = 0
+                this.updateAbnormalStocks();
+                pcid3 = setInterval(() => {
+                    this.updateAbnormalStocks();
+                }, 6 * 1000);
+            }else{
+                if((this.scrollHeight+this.$refs.stocks_list.clientHeight) === this.$refs.stocks_list.scrollHeight){
+                    // 显示剩余数据的逻辑
+                    // alert('到底了')
+                    this.bottomTime = this.bottomTime+1
+                    this.$store.dispatch('marketBubble/addAbnormalStocks',{ bottomTime:this.bottomTime })
+                }
+                if (pcid3) {
+                    clearInterval(pcid3);
+                }
+            }
+        }
     },
-    deltaStockList: function() {
-      if (this.deltaStockList.length === 0) {
-        return
-      }
-      const delta = [].concat(this.deltaStockList).reverse();
-      this.plateLastTime = delta[0].tradeTime;
-      const stockTradeDate = delta[0].tradeDate;
-      this.stockLastTime = delta[0].tradeTime;
-      // 如果在初始化之前打开页面（取的上一个交易日数据）则再获取新的异动数据前清空上一个交易日的异动信息
-      if(this.stockTradeDate !== stockTradeDate){
-        this.stockList = delta
-        this.stockTradeDate = stockTradeDate;
-      }else{
-        this.stockList.unshift(...delta);
-      }
-      
-      this.$refs['stocks_list'].scrollTop = 0;
-    },
-    deltaPlateList: function() {
-      if (this.deltaPlateList.length === 0) {
-        return
-      }
-      const delta = [].concat(this.deltaPlateList).reverse();
-      this.plateLastTime = delta[0].tradeTime;
-      const plateTradeDate = delta[0].tradeDate;
-      // 如果在初始化之前打开页面（取的上一个交易日数据）则再获取新的异动数据前清空上一个交易日的异动信息
-      if(this.plateTradeDate !== plateTradeDate){
-        this.plateList = delta;
-        this.plateTradeDate = plateTradeDate
-      }else{
-        this.plateList.unshift(...delta);
-      }
-      
-    }
-  },
   mounted() {
+      this.$nextTick(() => {
+          this.scrollHeight = this.$refs.stocks_list.scrollTop
+          this.$refs.stocks_list.addEventListener('scroll', this.handleScroll, false)
+      })
+
     this.initStocks();
     this.updateBubble();
     // this.$store.dispatch('marketBubble/updateBubble', {
@@ -652,7 +669,6 @@ export default {
     this.updateAbnormalStocks();
     this.updateAbnormalPlates();
     pcid1 = setInterval(() => {
-      this.updateAbnormalStocks();
       this.updateBubble();
     }, 6 * 1000);
     pcid2 = setInterval(() => {
@@ -674,6 +690,9 @@ export default {
     }
     if (pcid2) {
       clearInterval(pcid2);
+    }
+    if (pcid3) {
+        clearInterval(pcid3);
     }
   }
 }

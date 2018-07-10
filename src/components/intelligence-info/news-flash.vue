@@ -141,6 +141,7 @@ export default {
     },
     getTopDataClick(){ // 点击刷新最新数据
       if(this.showMsg===false){
+        this.$store.commit('setIsTop', true)
         this.$store.dispatch('getNewsFlashList', { page: 0,isTop: true,newTime: this.newTime, nextTime: this.lastTime, ids: this.newsId }).then(() => {
           this.showMsg = true
           if(this.newsFlashLength<=0){
@@ -507,8 +508,6 @@ export default {
   .refresh:hover {
     .icon-refresh {
       cursor: pointer;
-      transition: -webkit-transform 0.5s ease-in;
-      transform: rotate(360deg);
     }
   }
 }

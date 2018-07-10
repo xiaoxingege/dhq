@@ -139,9 +139,6 @@ export default {
       let topicArr = []
       let indusArr = []
       let newsIdArr = []
-      if (list.rows.length === 0 && state.isTops !== true) {
-        state.noData = true
-      }
       state.temporary = list.rows
       if (state.isTops === true) {
         state.newsFlashLength = 0
@@ -149,6 +146,9 @@ export default {
         console.log('最新资讯条数：'+state.newsFlashLength)
         state.newsFlash = state.temporary.concat(state.newsFlash)
       } else {
+        if (list.rows.length === 0) {
+          state.noData = true
+        }
         state.newsFlash = state.newsFlash.concat(state.temporary)
       }
       // 取出websocket 要更新的字段
