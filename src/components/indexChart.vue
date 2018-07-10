@@ -292,38 +292,50 @@ export default {
       return moveBlockData
     },
     moveUpBlockData: state => {
-      const moveUpBlockData = state.indexChart.moveBlock
-      if (moveUpBlockData && moveUpBlockData.length > 0) {
-        const toTime = moveUpBlockData[0].tradeTime.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveUpBlockData[0].tradeTime = m + ':' + s
-        return moveUpBlockData[0]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveUpBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 2) {
+            moveUpBlockData = block
+            const toTime = moveUpBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveUpBlockData.tradeTime = m + ':' + s
+          }
+        })
+        return moveUpBlockData
       }
     },
     moveDownBlockData: state => {
-      const moveDownBlockData = state.indexChart.moveBlock
-      if (moveDownBlockData && moveDownBlockData.length > 0) {
-        const toTime = moveDownBlockData[1].tradeTime.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveDownBlockData[1].tradeTime = m + ':' + s
-        return moveDownBlockData[1]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveDownBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 1) {
+            moveDownBlockData = block
+            const toTime = moveDownBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveDownBlockData.tradeTime = m + ':' + s
+          }
+        })
       }
+      return moveDownBlockData
     }
   }),
   methods: {
