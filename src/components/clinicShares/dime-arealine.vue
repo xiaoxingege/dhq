@@ -295,10 +295,9 @@ export default ({
             var s = ''
             // console.log(params)
             if (Number(params[0].name) >= Number(lineData.cuur)) {
-
-              s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>' + params[1].seriesName + ' : ' + params[1].value + '%'
-
-
+              if(params[1] !== undefined){
+                s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>' + params[1].seriesName + ' : ' + params[1].value + '%'
+              }
             } else {
               s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[0].color + '"></span>' + params[0].seriesName + ' : ' + params[0].value + '%'
             }
