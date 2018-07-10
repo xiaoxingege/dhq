@@ -317,9 +317,10 @@ html {
     background: #cccfd9;
     border-radius: 3px;
     z-index: 999;
-    /* top: 25px; */
-    /* top: 23px; */
     left: 157px;
+    max-width: 450px;
+    line-height: 1.4;
+    white-space: normal;
 }
 
 .left-con3 strong {
