@@ -85,7 +85,7 @@
               })
 
           }  ,
-          addSelfChoice(item,index ){
+          addSelfChoice(item,index ){                           
              this.stockCode=item[1]
              this.$store.dispatch('jjrl/addSelection', {
                     stockCode: this.stockCode
@@ -135,10 +135,14 @@
             this.addCur=0
             this.index=0
      
+          },
+          setStock(){
+            console.log(this.setStock)
+             // this.$forceUpdate()
           }
         },
         mounted () {
-         
+         console.log(this.setCount)
            /*  this.$store.dispatch('jjrl/setCount').then(
                 console.log(this.setCount)
             ) */

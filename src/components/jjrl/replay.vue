@@ -356,7 +356,7 @@ export default {
         let item= this.getStockCode.join(',') // q接口支持多个查询
         this.$store.dispatch('jjrl/setStock',item)
         /* 自选股部分 */
-        const me=this;
+         const me=this;
         me.index=0
         getState();
         function getState(){
@@ -374,8 +374,15 @@ export default {
                   getState();
                 }
             }) 
-        }
-      // console.log(this.isSelfSelection)
+        } 
+            //  console.log(this.isSelfSelection)
+            //  console.log(this.setStock)
+        
+     //   debugger
+      /*      this.$store.dispatch('jjrl/querySelection',item).then(
+              console.log(this.isSelfSelection)
+           ) */
+     
           this.public=this.getStock[0].ESP_HINT 
           this.$store.dispatch('jjrl/storeData',{
           stopdate:this.stopdate,

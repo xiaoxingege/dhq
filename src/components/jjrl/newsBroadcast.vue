@@ -7,7 +7,7 @@
             <h6>{{resetTitle(item.TITLE)}}</h6>
             <!-- <p class="partCon show">{{item.TXT_CONTENT.slice(0,199)+'...'}}</p> -->
             <p class="allCon">{{item.TXT_CONTENT}}</p> 
-            <div class="btn" v-if="item.TXT_CONTENT.length>=200">
+            <div class="btn" v-if="item.TXT_CONTENT.length>=300">
                 <span class='show all' @click="toggle(index)">点击查看全文<i class='down'></i></span>
                 <span class="hide part" >点击收起 <i  class='up'></i></span>
             </div>
@@ -20,13 +20,14 @@
 import $ from 'jquery'
 import { mapState } from 'vuex'
 export default{
-    data() {
+    data() {        
         return {
     }
   },
     computed: { 
     ...mapState({
-        getNewsBroadcast:state => state.jjrl.getNewsBroadcast
+        getNewsBroadcast:state => state.jjrl.getNewsBroadcast,
+        saveDate: state => state.jjrl.saveDate
         })
     },
     methods:{
@@ -48,6 +49,19 @@ export default{
         resetTitle(title){
            return title.split('A')[1]
         }
+    },
+    watch:{
+    saveDate(){
+        if( $('.btn .all').hasClass("hide")){
+            $('.btn .all').removeClass('hide').addClass('show')
+            $('.allCon').css({
+                    'height':'66px',
+                     '-webkit-line-clamp': '3'
+                })
+            $('.btn .part').removeClass('show').addClass('hide')
+        }
+        
+    }
     },
     mounted() {
    //     this.$store.dispatch('jjrl/getNewsBroadcast','2018-06-22')
