@@ -47,7 +47,7 @@
     </div>
     <p class="detail-title">最新调仓（最新调入）</p>
     <RecentIn :dataList="lateInList" :strategyId="strategyId" :nextStart="nextStart"></RecentIn>
-    <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近30日调入股票></div>
+    <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近{{tradeDays}}日调入股票></div>
     <p class="detail-title">当前持仓</p>
     <HoldStock :strategyId="strategyId"></HoldStock>
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
@@ -56,7 +56,7 @@
     <Help slot="content" :strategyId="strategyId"></Help>
   </PopWindow>
   <PopWindow v-if="isPopHistory" :popWidth="popWidth" :popHeight="popHeight" :popTitle="historyPopTitle" @closeWindow="hideHistory">
-    <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :tradeDays="tradeDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
+    <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :businessDays="businessDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
   </PopWindow>
   <buyModel :showstate='showBuy' @buyClose="cancle"></buyModel>
 </div>
@@ -108,6 +108,7 @@ export default {
       dateFrom: '',
       dateTo: '',
       tradeDays: '',
+      businessDays: '',
       buySignalNums: '', // 买入信号个数
       profitNums: '', // 盈利次数
       pageSize: 10,
@@ -182,6 +183,7 @@ export default {
         if (this.performStatisticData) {
           this.buySignalNums = this.performStatisticData.buySignalNums
           this.profitNums = this.performStatisticData.profitNums
+          this.businessDays = this.performStatisticData.businessDays
         }
       })
       this.$store.dispatch('jzxg/queryPerformStockList', {
@@ -351,7 +353,7 @@ export default {
 .jzxg-help-img {
     width: 15px;
     height: 15px;
-    background: url("../../assets/images/z3img/help.png") no-repeat;
+    background: url("../../assets/images/jzxg/help_tip.png") no-repeat;
     cursor: pointer;
     position: absolute;
     bottom: 15px;

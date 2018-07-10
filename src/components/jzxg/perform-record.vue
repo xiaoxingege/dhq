@@ -6,7 +6,7 @@
     <CalendarJzxg @dateChange="chooseEndDate" class="fl" style=""></CalendarJzxg>
     <span class="fl">
             <span style="display: inline-block;width:78px;color:#000;margin:0 5px 0 5px;">{{formatData(dateTo)?dateTo:'--'}}</span> 共
-    <span style="display: inline-block;width:16px;color:#000;margin:0 3px;">{{formatData(tradeDays)?tradeDays:'--'}}</span>个交易日
+    <span style="display: inline-block;color:#000;margin:0 3px;">{{formatData(tradeDays)?tradeDays:'--'}}</span>个交易日
     </span>
   </div>
   <div class="num-sum">
@@ -25,10 +25,10 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['dateFrom', 'dateTo', 'buySignalNums', 'profitNums', 'strategyId', 'tradeDays', 'performStockList', 'totalCount'],
+  props: ['dateFrom', 'dateTo', 'buySignalNums', 'profitNums', 'strategyId', 'businessDays', 'performStockList', 'totalCount'],
   data() {
     return {
-
+      tradeDays: this.businessDays
     }
   },
   watch: {
@@ -37,6 +37,9 @@ export default {
     },
     dateTo() {
       this.initPerformStatistic()
+    },
+    businessDays() {
+      this.tradeDays = this.businessDays
     }
   },
   components: {
@@ -56,6 +59,7 @@ export default {
         if (this.performStatisticData) {
           this.buySignalNums = this.performStatisticData.buySignalNums
           this.profitNums = this.performStatisticData.profitNums
+          this.tradeDays = this.performStatisticData.businessDays
         }
       })
     },
@@ -96,8 +100,8 @@ export default {
     font-size: 14px;
 }
 .num-sum {
-    width: 275px;
-    margin: 10px auto;
+    margin: 10px 0 10px -30px;
+    text-align: center;
 }
 .perform-wrap {
     width: 100%;
