@@ -96,6 +96,7 @@ html {
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
+    min-width: 1217px;
 }
 .topic-detail a:hover {
     text-decoration: none;
@@ -297,7 +298,7 @@ html {
 .new-srcname {
     line-height: 25px;
     float: left;
-    width: 14%;
+    width: 17%;
     text-align: right;
     color: #c9d0d7;
 }
