@@ -454,7 +454,6 @@ export default {
                 this.getAllCode.push(ele.stocks)
             }
             this.queryCode=this.getAllCode.join(',')
-          //  console.log(this.queryCode)
             this.$store.dispatch('jjrl/setHyName',this.queryCode)
           
         }) 
@@ -472,7 +471,6 @@ export default {
           })
           this.arr=this.arr.join(',')
           this.$store.dispatch('jjrl/todayHotStockPrice',this.arr)
-       //   console.log(123)
         })
   }
   },
