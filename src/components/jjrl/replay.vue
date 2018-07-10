@@ -233,7 +233,8 @@ export default {
       h = d.getHours()
       m = d.getMinutes()
       curM=cur.getMonth() + 1
-     
+      curD=cur.getDate()
+   
       if (M < 10) {
         M = '0' + M;
       }
@@ -243,8 +244,8 @@ export default {
       if (curM< 10) {
         curM = '0' + curM;
       }
-      if (cur.getDate() < 10) {
-        curD = '0' +cur.getDate();
+      if (curD < 10) {
+        curD = '0' +curD;
         }
       if(curD === D&& curM===M ){ //  当天20点半之前,凌晨之后，都显示前一天数据
       if(h < 20&&m < 30){
@@ -304,7 +305,6 @@ export default {
             this.index=0
             this.notOpenStockCode=[]
       this.$store.dispatch('jjrl/notOpenStock', this.tradeDate).then(res => {
-        //  debugger
              this.notOpenStock.forEach( ele => {
                 this.notOpenStockCode.push(ele.STOCKCODE)
                 })
@@ -454,14 +454,13 @@ export default {
                 this.getAllCode.push(ele.stocks)
             }
             this.queryCode=this.getAllCode.join(',')
-          //  console.log(this.queryCode)
             this.$store.dispatch('jjrl/setHyName',this.queryCode)
           
         }) 
   },
   
   initNewsBroadcast(date){
-    // debugger
+   
      this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){
@@ -472,7 +471,6 @@ export default {
           })
           this.arr=this.arr.join(',')
           this.$store.dispatch('jjrl/todayHotStockPrice',this.arr)
-       //   console.log(123)
         })
   }
   },
@@ -490,7 +488,7 @@ export default {
           this.initFp(this.saveDate.chooseDate) 
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===1){  // 会议日历
-      // debugger
+      // 
         this.initHy(this.hyDate(this.saveDate.chooseDate))
            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===3){

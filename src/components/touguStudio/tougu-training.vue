@@ -1,8 +1,8 @@
 <style scoped>
-    .tougu-training { width:96%;bottom:0;margin: 0px 2%;display: flex;flex-direction: row;height:100vh;}
+    .tougu-training { width:96%;bottom:0;margin: 0px 2%;display: flex;flex-direction: row;height: 100%;}
     .video-mask { position:absolute; top:0; left:0; background:rgba(29,30,34,1);opacity:0.6; width:100%; height:100%;}
-    .video-mask-play-icon { position:absolute; top:50%; left:50%; width:98px; height:98px; background:url('../../assets/images/touguStudio/play-icon.png'); background-size:100% 100%; margin-left:-49px; margin-top:-49px; }
-    .video-player { width:77.8%;height: 100%;position: relative;}
+    .video-mask-play-icon { position:absolute; top:50%; left:50%; width:98px; height:98px; background:url('../../assets/images/touguStudio/play-icon.png'); background-size:100% 100%; margin-left:-49px; margin-top:-49px;}
+    .video-player { width:77.8%;height:100%;position: relative;}
     .video-player > video {width:100%;height: 100%;}
     .video-list { width:22.2%; overflow:scroll; padding-left:5px; box-sizing:border-box;overflow-x:hidden}
     .video-list-logo { width:100%; height:90px; background:url('../../assets/images/touguStudio/tougu-training-logo.png'); background-size:100% 100% }

@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @import '../../assets/css/base.css';
 * {
   outline: none;
@@ -42,7 +42,6 @@
 }
 
 .sender-content {
-  width: 100%;
   display: flex;
   flex-direction: row;
   margin-right: 14px;
@@ -52,6 +51,7 @@
   width: 23px;
   height: 17px;
   float: left;
+  margin-top: 3px;
 }
 
 .sender-content img {
@@ -62,11 +62,13 @@
 
 .recipient-content p,
 .sender-content p {
+  max-width: 500px;
   padding: 21px 25px;
   border-radius: 20px;
   font-family: MicrosoftYaHei;
   line-height: 22px;
   font-size: 14px;
+  word-wrap: break-word !important;
 }
 
 .recipient-content p {
@@ -80,7 +82,7 @@
   background: rgba(178, 214, 255, 1);
   color: #525A66;
   margin-top: 7px;
-  float: right;
+  float: right; 
   margin-right: -13px;
 }
 
