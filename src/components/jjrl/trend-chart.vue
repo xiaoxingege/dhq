@@ -170,14 +170,13 @@ export default {
   watch: {
     getStockCode: function(a,b) {
       //  a是初始化的数据，b为undefined 当初始化变化后，b才有值
-      if(b){
+     console.log(a)
+    // console.log(b)
          this.paint(this.saveDate.chooseDate)
-      }
-      // console.log(this.storeData.stockCode)
     }
   },
   created () {
-   this.paint(this.saveDate.chooseDate)
+  // this.paint(this.saveDate.chooseDate)
   }
 }
 </script>

@@ -72,7 +72,7 @@ const actions = {
   saveDate({
     commit
   }, value) { // 存放日期 
-    commit(mutationsTypes.SAVE_DATE, value)
+   commit(mutationsTypes.SAVE_DATE, value)
   },
   storeData({
     commit
@@ -116,7 +116,9 @@ const actions = {
     }).then(data => {
       var hqData = window['hqData_' + vname];
       //  console.log(hqData)
-      commit(mutationsTypes.SET_STOCK, hqData.HqData)
+      commit(mutationsTypes.SET_STOCK, hqData.HqData).then( () => {
+        hqData=null
+      })
     })
   },
   stopStock({
@@ -197,7 +199,6 @@ const actions = {
     },
    value
   ) {
-   // debugger
     const userId = rootState.user.userId || '';
     if (!userId) {
       return;
@@ -211,7 +212,9 @@ const actions = {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then(res => res.json()).then((result) => {
-      if (result.errCode === 0) { // 在自选中
+    //  commit(mutationsTypes.UPDATE_SELF_SELECTION,result.data)
+    
+     if (result.errCode === 0) { // 在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
       } else if (result.errCode === -1) { // 不在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
@@ -219,7 +222,7 @@ const actions = {
         commit('ERROR', result, {
           root: true
         })
-      }
+      } 
     })
 
   },
@@ -279,7 +282,6 @@ const actions = {
       body: `stocks=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
       } else {
         commit('ERROR', result, {
@@ -393,6 +395,7 @@ const mutations = {
   //  是否添加自选
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
     state.isSelfSelection = isSelfSelection
+  //  console.log(state.isSelfSelection)
   },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
