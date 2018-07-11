@@ -16,7 +16,7 @@ const state = {
   notOpenStock: [], // 未开板新股  
   notOpenStockList: [],
   isSelfSelection: [],
-  addSelection: [],
+  saveSelection: [],
   removeSelection: [],
   setStockLine: [],
   saveDate: [],
@@ -50,7 +50,8 @@ const mutationsTypes = {
   GET_NEWS_BROADCAST:'GET_NEWS_BROADCAST',
   TODAY_HOT_STOCKS:'TODAY_HOT_STOCKS',
   TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE',
-  SAVE_HY_LIST:'SAVE_HY_LIST'
+  SAVE_HY_LIST:'SAVE_HY_LIST',
+  SAVE_SELECTION:'SAVE_SELECTION'
 }
 
 const actions = {
@@ -203,7 +204,7 @@ const actions = {
     if (!userId) {
       return;
     }
-    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value.stockCode}&userId=${userId}`
+    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value}&userId=${userId}`
     return z3fetch(url, {
       mode: 'cors',
       headers: {
@@ -212,8 +213,8 @@ const actions = {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then(res => res.json()).then((result) => {
-    //  commit(mutationsTypes.UPDATE_SELF_SELECTION,result.data)
-    
+     commit(mutationsTypes.UPDATE_SELF_SELECTION,result.data)
+ /*    
      if (result.errCode === 0) { // 在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
       } else if (result.errCode === -1) { // 不在自选中
@@ -222,7 +223,7 @@ const actions = {
         commit('ERROR', result, {
           root: true
         })
-      } 
+      }  */
     })
 
   },
@@ -251,7 +252,7 @@ const actions = {
       }
     ).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
+        commit(mutationsTypes.SAVE_SELECTION, true);
       } else {
         commit('ERROR', result, {
           root: true
@@ -282,7 +283,7 @@ const actions = {
       body: `stocks=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
+        commit(mutationsTypes.SAVE_SELECTION, false);
       } else {
         commit('ERROR', result, {
           root: true
@@ -397,6 +398,10 @@ const mutations = {
     state.isSelfSelection = isSelfSelection
   //  console.log(state.isSelfSelection)
   },
+  [mutationsTypes.SAVE_SELECTION](state, saveSelection) {
+    state.saveSelection = saveSelection
+  //  console.log(state.isSelfSelection)
+  },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
 
@@ -442,7 +447,7 @@ const mutations = {
     for (var i=0; i<state.todayHotStock.length; i++){
       if(state.todayHotStock[i].STOCKCODE === state.todayHotStockPrice[i][1] ){
         let obj =state.todayHotStock[i]
-        state.todayHotStock.splice(i,1,{ ...obj, np:state.todayHotStockPrice[i][3].toFixed(2),pl:state.todayHotStockPrice[i][4].toFixed(2) })
+        state.todayHotStock.splice(i,1,{ ...obj, np:state.todayHotStockPrice[i][3].toFixed(2)?state.todayHotStockPrice[i][3].toFixed(2):'',pl:state.todayHotStockPrice[i][4].toFixed(2)+'%'?state.todayHotStockPrice[i][4].toFixed(2)+'%':'' })
       }
     }
    

@@ -237,6 +237,7 @@ export default {
           body: `stocks=${stockCode}&userId=${userId}`
         }
       ).then(res => res.json()).then((result) => {
+     
         if (result.errCode === 0) {
           commit('setSelection', true);
         } else {
@@ -267,6 +268,7 @@ export default {
         method: 'post',
         body: `stocks=${stockCode}&userId=${userId}`
       }).then(res => res.json()).then((result) => {
+    
         if (result.errCode === 0) {
           commit('setSelection', false);
         } else {
