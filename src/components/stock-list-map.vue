@@ -134,7 +134,7 @@ td {
         <td>
           <div class="stocklist-chart" v-trend-line="{'name':stock.name,'catId':stockId}"></div>
         </td>
-        <td class="price">{{stock.price}}</td>
+        <td class="price" v-stock-price="{'name':stock.name,'catId':stockId}"></td>
         <td class="change" :style="{color:typeof(stock.itemStyle)=== 'undefined'?'#2f323d':stock.itemStyle.normal.color}">{{stock.perfText}}</td>
       </tr>
     </tbody>
@@ -165,6 +165,16 @@ export default {
         // 加入到异步执行栈，让JS主执行现成完成，使mouseover,mouseout事件流畅
         setTimeout(() => {
           vm.drawStockLine(el, stockName, catId)
+        }, 0);
+      }
+    },
+    'stock-price': {
+      update(el, binding, vnode) {
+        const stockName = binding.value.name;
+        const catId = binding.value.catId;
+        const vm = vnode.context;
+        setTimeout(() => {
+          vm.renderPrice(el, stockName, catId)
         }, 0);
       }
     }
@@ -351,15 +361,15 @@ export default {
                 _this.stockDownNoGG++
               }
             }
-            stock.chartData = _this.stockChartData[stock.name]
-            if (stock.chartData) {
-              const stockDetailLength = stock.chartData.length
-              if (stock.chartData[stockDetailLength - 1]) {
-                stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-              } else {
-                stock.price = '--'
-              }
-            }
+            /*  stock.chartData = _this.stockChartData[stock.name]
+              if (stock.chartData) {
+                const stockDetailLength = stock.chartData.length
+                if (stock.chartData[stockDetailLength - 1]) {
+                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
+                } else {
+                  stock.price = '--'
+                }
+              }*/
           })
           this.$nextTick(() => {
             let wrapHeight
@@ -472,6 +482,20 @@ export default {
           data: lineData
         }]
       })
+    },
+    renderPrice: function(el, stockName, catId) {
+      if (catId !== this.stockId || el.clientHeight === 0) {
+        return;
+      }
+      if (!this.stockChartData || !this.stockChartData[stockName]) {
+        return
+      }
+      const lineData = this.stockChartData[stockName];
+      if (lineData[lineData.length - 1]) {
+        el.innerHTML = lineData[lineData.length - 1]
+      } else {
+        el.innerHTML = '--'
+      }
     }
   },
   mounted() {
