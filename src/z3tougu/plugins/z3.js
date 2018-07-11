@@ -2,6 +2,8 @@ import config from '../config'
 import {
   formatDate
 } from 'utils/date'
+
+// import StockBox from 'components/stock-box'
 export default {
   install(Vue, options) {
     // 1. 添加全局方法或属性
@@ -15,6 +17,14 @@ export default {
         el.stockCode = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
+        // 将股票弹框组件设置为全局属性
+        if (Vue.stockPopUp) {
+          popupVm = Vue.stockPopUp
+        } else {
+          Vue.stockPopUp = popupVm;
+          // Vue.stockPopUp = popupVm = new Vue.extend(StockBox).$mount('body');
+        }
+
         el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;

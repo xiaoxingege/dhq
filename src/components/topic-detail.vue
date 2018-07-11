@@ -292,13 +292,13 @@ html {
     color: #c9d0d7;
     line-height: 25px;
     float: left;
-    width: 12%;
+    width: 11%;
     text-align: right;
 }
 .new-srcname {
     line-height: 25px;
     float: left;
-    width: 17%;
+    width: 18%;
     text-align: right;
     color: #c9d0d7;
 }

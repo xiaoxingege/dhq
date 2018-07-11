@@ -6,7 +6,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: '微软雅黑';
+  font-family: "Microsoft YaHei";
   font-size: 12px;
 }
 
@@ -105,6 +105,7 @@ export default {
     initStrategy: function(pageNo) {
       const queryV = this.$route.query
       this.query = queryV.query + '&followFlag=' + queryV.followFlag + '&userId=' + queryV.userId + '&sort=' + queryV.sort + '&direction=' + queryV.direction
+      // this.query = '&followFlag=0&userId=d1381deb-0789-465a-bc54-d574638e9a07&sort=avgReturn&direction=desc&size=12&page=0'
       this.$store.dispatch('backtestDetail/getFilterStrategyList', {
           query: this.query,
           size: this.pageSize,
