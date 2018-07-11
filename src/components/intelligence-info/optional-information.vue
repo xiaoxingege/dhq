@@ -362,6 +362,7 @@ export default {
     background-color: #1a1b1f;
     padding-left: 5px;
     .select {
+        font-family: '微软雅黑';
         width: 240px;
         height: 26px;
         background-color: #303539;
