@@ -292,38 +292,50 @@ export default {
       return moveBlockData
     },
     moveUpBlockData: state => {
-      const moveUpBlockData = state.indexChart.moveBlock
-      if (moveUpBlockData && moveUpBlockData.length > 0) {
-        const toTime = moveUpBlockData[0].tradeTime.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveUpBlockData[0].tradeTime = m + ':' + s
-        return moveUpBlockData[0]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveUpBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 2) {
+            moveUpBlockData = block
+            const toTime = moveUpBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveUpBlockData.tradeTime = m + ':' + s
+          }
+        })
+        return moveUpBlockData
       }
     },
     moveDownBlockData: state => {
-      const moveDownBlockData = state.indexChart.moveBlock
-      if (moveDownBlockData && moveDownBlockData.length > 0) {
-        const toTime = moveDownBlockData[1].tradeTime.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveDownBlockData[1].tradeTime = m + ':' + s
-        return moveDownBlockData[1]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveDownBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 1) {
+            moveDownBlockData = block
+            const toTime = moveDownBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveDownBlockData.tradeTime = m + ':' + s
+          }
+        })
       }
+      return moveDownBlockData
     }
   }),
   methods: {
@@ -622,7 +634,7 @@ export default {
           left: 65,
           top: 40,
           bottom: 30,
-          right: 25
+          right: 15
         },
         calculable: true,
         xAxis: [{
@@ -872,12 +884,6 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
-      this.chart.on('click', (params) => {
-        if (params.componentType === 'markPoint') {
-          params.event.event.stopPropagation();
-          window.open(ctx + '/siweiIndex?key=zsIndex')
-        }
-      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -919,18 +925,28 @@ export default {
     },
     autoUpdate: function() {
       const _this = this
-      if (this.updateDataPid) {
-        clearInterval(this.updateDataPid)
-      } else {
-        this.updateDataPid = setInterval(function() {
-          _this.$store.dispatch('indexChart/getMoveBlock')
-        }, 60 * _this.intervalTime)
-      }
+      /* if (this.updateDataPid) {
+         clearInterval(this.updateDataPid)
+       } else {
+         this.updateDataPid = setInterval(function() {
+           _this.$store.dispatch('indexChart/getMoveBlock')
+         }, 60 * _this.intervalTime)
+       }*/
       this.chartInterval = setInterval(function() {
-        _this.$store.dispatch('indexChart/getIndexChartData', {
-          stockCode: '000001.SH'
-        }).then(() => {
-          _this.refreshEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        let p1 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getMoveBlock').then(() => {
+            resolve();
+          })
+        });
+        let p2 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+            stockCode: '000001.SH'
+          }).then(() => {
+            resolve();
+          })
+        });
+        Promise.all([p1, p2]).then(() => {
+          _this.refreshSzzsEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         })
         _this.$store.dispatch('indexChart/getIndexChartData', {
           stockCode: '000300.SH'
@@ -1061,6 +1077,13 @@ export default {
     });
     Promise.all([p1, p2]).then(() => {
       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]) || echarts.init(document.getElementsByClassName('indexChart')[0])
+      this.chart.on('click', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          window.open(ctx + '/siweiIndex?key=zsIndex')
+        }
+      })
     });
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
