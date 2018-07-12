@@ -1,7 +1,7 @@
 <template>
 <div class="playback_con">
   <div class="playback_btn perday" v-if="!isFullScreen || isplaybackShow"><img :src="playbackSrc" alt="" v-on:click="togglePlay()" ref="playBtn"></div>
-  <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*32+playLineLeft+'px'}" v-if="!isFullScreen || isplaybackShow"></div>
+  <div class="play_line" ref="playLine" :style="{left:playbackLineIndex*32+playLineLeft+'px'}" v-if="(!isFullScreen || isplaybackShow) && playbackLineIndex!==-1"></div>
   <!--div v-for="date of playbackDateShow" class="perday" v-if="!isEnlarge || isplaybackShow">{{date}}</div-->
   <div v-for="(time,index) of timeList.slice(1)" :class="datetimeIndex<=index?'perday disable_time':'perday'" @click="index < datetimeIndex && status!==1 && jumpToPlay(index+1)" v-if="!isFullScreen || isplaybackShow">{{Number(time.substring(0,2))+":"+time.substring(2)}}</div>
   <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isFullScreen && !isplaybackShow" v-on:click="switchplayback">

@@ -1,6 +1,6 @@
 <template>
 <!-- 自选情报 -->
-<div class="optionalInformation" @scroll="getScrollTop($event)">
+<div id="optionalInformation" class="optionalInformation" @scroll="getScrollTop($event)">
   <div class="top-bar">
     <select class="select" name="" v-model="optionalStockId" @change="getInnerCode">
         <option v-for="(item,index) in stockPool" :value="item.poolId" :data-index='index'>{{item.poolName}}</option>
@@ -21,21 +21,17 @@
         </div>
         <div>
           <span v-if="item.postiveIndex != null" class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex}}</span>
-          <router-link v-if="item.newsType === '公告'" :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'notice'} }" target="_blank">
+          <router-link class="news-a" v-if="item.newsType === '公告'" :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'notice'} }" target="_blank">
             <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
+            <p class="con-txt"></p>
           </router-link>
-          <router-link v-else :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
+          <router-link class="news-a"  v-else :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
             <span class="name">[{{item.newsType | convert}}]{{item.title}}</span>
-          </router-link>
-        </div>
-        <div class="con-txt">
-          <router-link v-if="item.newsType != '公告'"  :to="{ name: 'detailPages', params: {id: item.newsId, detailType:'news'} }" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
+            <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
           </router-link>
         </div>
         <div class="con-bottom">
-          <span class="source">{{item.srcName}}</span>
-          <span class="time" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
+          <span class="source">{{item.srcName}}</span><span class="time pl-10" v-z3-time="{ time: item.declareDate+'', type: '1' }"></span>
           <span class="price" v-if="item.newsType=== '研报'">目标价格：{{item.equityList.expectPrice | isNull}}</span>
         </div>
       </li>
@@ -43,9 +39,13 @@
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
-      <p v-if="noData" class="tc loadMore">数据已加载完</p>
+      <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
-    <p v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+    <div v-if="optionalInformationList.length===0 && loadingShow != true" class="tc mt-10 noDataList">
+      <a :href="'/SelfStockPageView/'+optionalStockId" target="_blank"><i class="addStockBg"></i></a>
+      <p class="tc mt-10">您还没有自选股，快去<a :href="'/SelfStockPageView/'+optionalStockId" target="_blank" class="lookStock">【添加】</a>吧~</p>
+    </div>
+    <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'optionalInformation'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -53,18 +53,12 @@
 
 <script>
 import 'whatwg-fetch'
-import {
-  cutString
-} from 'utils/date'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { cutString } from 'utils/date'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
-
+import scrollTopBar from '../../components/intelligence-info/scrollTop.vue'
 export default {
   data() {
     return {
@@ -75,7 +69,8 @@ export default {
       scrollTop: 0,
       innerHeight: window.innerHeight,
       innerCodes: '',
-      flag: true
+      flag: true,
+      isBackTop:false
     }
   },
   mounted() {
@@ -200,6 +195,11 @@ export default {
           this.loadMore()
         }
       }
+      if(this.scrollTop>200){
+        this.isBackTop = true
+      }else{
+        this.isBackTop = false
+      }
     },
     cutStr(str, len) {
       return cutString(str, len)
@@ -254,6 +254,12 @@ export default {
         newTime: '',
         nextTime: '',
         ids: ''
+      }).then(() => {
+        let _height = $('.news-list').get(0).offsetHeight
+        if (_height < this.innerHeight) {
+          this.$store.commit('setIsTop', false)
+          this.loadMore()
+        }
       })
       if (this.scrollTop === 0) {
         this.$store.commit('setIsTop', true)
@@ -275,7 +281,8 @@ export default {
     }
   },
   components: {
-    StockBox
+    StockBox,
+    scrollTopBar
   },
   watch: {
     relatedStocks() {
@@ -355,6 +362,7 @@ export default {
     background-color: #1a1b1f;
     padding-left: 5px;
     .select {
+        font-family: 'Microsoft YaHei';
         width: 240px;
         height: 26px;
         background-color: #303539;
@@ -394,10 +402,7 @@ export default {
     margin-right: 5px;
     background-color: #525a65;
 }
-.con-txt {
-    margin-top: 4px;
-    line-height: 18px;
-}
+
 .con-top {
     margin-bottom: 8px;
     span {
@@ -405,34 +410,41 @@ export default {
     }
 }
 .con-bottom {
-    margin-top: 2px;
-    .time {
-        margin-left: 10px;
-    }
+    line-height: 1;
     .price {
         margin-left: 110px;
     }
 }
-.news-list {
-    position: relative;
-    .news-list-item {
-        border: 1px solid #0d1112;
-        background-color: #1a1b1f;
-        padding: 6px 10px 10px 5px;
-        .con-txt {
-            span {
-                font-size: 14px;
-                color: #808ba1;
-                line-height: 20px;
-            }
-        }
-        a {
-            color: $wordsColorBase;
-            &:hover {
-                color: #2388da;
-            }
-        }
+.con-txt {
+  margin: 4px 0 6px;
+  font-size: 14px;
+  color: #808ba1;
+  line-height: 20px;
+}
+.news-a {
+  &:visited {
+    .name {
+      color: #808ba1;
     }
+  }
+}
+.news-list {
+  position: relative;
+  .news-list-item {
+    transition: all .3s;
+    &:hover {
+      background-color: #2e4465;
+    }
+    border: 1px solid #0d1112;
+    background-color: #1a1b1f;
+    padding: 10px 10px 10px 5px;
+    a {
+      color: $wordsColorBase;
+      &:hover {
+        color: #2388da;
+      }
+    }
+  }
 }
 .stock {
     font-size: 0;
@@ -489,6 +501,23 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    font-size: 14px;
+    color: #808ba1;
+    a{
+      font-size: 14px;
+      color:#009afe;
+    }
+    .addStockBg{
+      display: inline-block;
+      width: 51px;
+      height: 51px;
+      background: url('../../assets/images/news-img/noStock.png') center no-repeat;
+      cursor: pointer;
+      transition: all .2s;
+      &:hover{
+        background: url('../../assets/images/news-img/noStock_h.png') center no-repeat;
+      }
+    }
 }
 .fontS14 {
     font-size: 14px;

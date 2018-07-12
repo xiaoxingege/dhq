@@ -1,24 +1,19 @@
 <template>
 <!-- 智头条 -->
-<div class="wisdomHeadlines" @scroll="getScrollTop($event)">
+<div id="wisdomHeadlines" class="wisdomHeadlines" @scroll="getScrollTop($event)">
   <div class="news-wrapper">
     <ul class="news-list">
       <li class="news-list-item" v-for="item in wisdomHeadlinesList">
         <div>
           <span v-if="item.postiveIndex != null " class="labels" :class='status(item.postiveIndex)'>{{item.postiveIndex | isNull}}</span>
-          <span class="fr time" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span>
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
+          
+          <router-link class="news-a" :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
             <span class="name">{{item.title}}</span>
+            <p class="con-txt" v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</p>
           </router-link>
-        </div>
-        <div class="con-txt">
-          <router-link :to="{name:'detailPages',params:{id : item.newsId, detailType:'news'}}" target="_blank">
-            <span v-if="item.summary!==null">{{cutStr(item.summary,370) | trim}}</span>
-          </router-link>
-          <span class="source">( {{item.srcName}} )</span>
         </div>
         <div class="con-bottom">
-          <ul class="stock">
+          <ul class="stock mb-5">
             <li v-if="item.equity !==null" class="stock-item" :class="upAndDownColor(relatedStocks[item.equity.code].chngPct)">
               <a :href="'/stock/'+item.equity.code" target="_blank" v-z3-stock="{ref:'stockbox',code:item.equity.code}" :value='item.equity.code'>
                   <span>{{item.equity.name}}</span>
@@ -33,15 +28,17 @@
               <a :href="'/zstgweb/topic/'+item.topic.code" target="_blank"><span>{{item.topic.name}}</span><span>{{ topicList[item.topic.code].chngPct | chngPct}}</span></a>
             </li>
           </ul>
+          <p class="source">{{item.srcName}}<span class="time pl-10" v-z3-time="{ time:item.declareDate+'', type: '1' }"></span></p>
         </div>
       </li>
       <div v-if="loadingShow" class="pullUptoRefresh">
         <div class="loadIcon"><span class="load_circle loadAnimateInfinite"></span></div>
         <p class="tc">正在加载...</p>
       </div>
-      <p v-if="noData" class="tc loadMore">数据已加载完</p>
+      <p v-if="noData" class="tc loadMore">我是有下限的~</p>
     </ul>
     <p v-if="wisdomHeadlinesList.length===0 && loadingShow != true" class="tc mt-10 noDataList"><img src="../../assets/images/empty_data.png" alt="" /></p>
+    <scrollTopBar :show="isBackTop" @backTop="backTop" :id="'wisdomHeadlines'"></scrollTopBar>
   </div>
   <StockBox ref="stockbox"></StockBox>
 </div>
@@ -51,18 +48,12 @@
 let intervalId = ''
 let intervalId2 = ''
 import 'whatwg-fetch'
-import {
-  cutString
-} from 'utils/date'
-import {
-  mapState
-} from 'vuex'
-import {
-  mapGetters
-} from 'vuex'
+import { cutString } from 'utils/date'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import StockBox from 'components/stock-box'
 import z3websocket from '../../z3tougu/z3socket'
-
+import scrollTopBar from '../../components/intelligence-info/scrollTop.vue'
 export default {
   data() {
     return {
@@ -70,7 +61,8 @@ export default {
       totalPage: 200,
       intervalTime: 60000,
       scrollTop: 0,
-      innerHeight: window.innerHeight
+      innerHeight: window.innerHeight,
+      isBackTop:false
     }
   },
   mounted() {
@@ -154,8 +146,8 @@ export default {
     },
     updateNews() {
       intervalId = setInterval(() => {
-        console.log('启动定时器')
-        console.log(intervalId)
+        // console.log('启动定时器')
+        // console.log(intervalId)
         this.$store.commit('setIsTop', true)
         this.$store.dispatch('getWisdomHeadlinesList', {
           page: 0,
@@ -172,11 +164,10 @@ export default {
       let scrollTop = e.target.scrollTop
       let scrollBottom = offsetHeight + scrollTop
       this.scrollTop = e.target.scrollTop * 2
-
       if (this.scrollTop >= this.innerHeight) {
         if (intervalId) {
-          console.log(intervalId)
-          console.log('清除定时器')
+          // console.log(intervalId)
+          // console.log('清除定时器')
           clearInterval(intervalId)
         }
       }
@@ -187,9 +178,13 @@ export default {
       } else {
         this.$store.commit('setIsTop', false)
       }
-
       if (scrollBottom === scrollHeight && this.noData !== true) {
         this.loadMore()
+      }
+      if(this.scrollTop>200){
+        this.isBackTop = true
+      }else{
+        this.isBackTop = false
       }
     },
     cutStr(str, len) {
@@ -239,7 +234,8 @@ export default {
     }
   },
   components: {
-    StockBox
+    StockBox,
+    scrollTopBar
   },
   watch: {
     relatedStocks() {
@@ -295,6 +291,7 @@ export default {
     font-size: 12px;
     height: 100%;
     overflow: auto;
+    transition: all 0.5s;
 }
 .news-wrapper {
     margin-bottom: 50px;
@@ -320,6 +317,7 @@ export default {
 }
 .source {
     color: #656766;
+    line-height: 1.4;
 }
 .labels {
     display: inline-block;
@@ -329,33 +327,40 @@ export default {
     background-color: #525a65;
 }
 .con-txt {
-    margin: 4px 0 10px;
-    line-height: 18px;
+    margin: 4px 0 6px;
+    font-size: 14px;
+    color: #808ba1;
+    line-height: 20px;
+}
+.news-a{
+  &:visited{
+    .name{
+      color: #808ba1;
+    }
+  }
+  
 }
 .news-list {
     position: relative;
     .news-list-item {
+        transition: all .3s;
+        &:hover{
+          background-color: #2e4465;
+        }
         border: 1px solid #0d1112;
         background-color: #1a1b1f;
         padding: 10px 10px 10px 5px;
-        .con-txt {
-            span {
-                font-size: 14px;
-                color: #808ba1;
-                line-height: 20px;
-            }
-        }
         a {
             color: $wordsColorBase;
             &:hover {
                 color: #2388da;
             }
-
         }
     }
 }
 .stock {
     font-size: 0;
+    margin-bottom: 6px;
     .stock-item {
         font-size: 12px;
         display: inline-block;

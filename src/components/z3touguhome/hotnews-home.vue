@@ -13,7 +13,7 @@
     height: 16.66%;
     padding-top: 8px;
     position: relative;
-    padding-right: 50px;
+    padding-right: 80px;
     padding-left: 11px;
 }
 .newtitle {
@@ -33,7 +33,8 @@
     top: 8px;
     right: 0;
     display: inline-block;
-    width: 50px;
+    width: 80px;
+    text-align: right;
 }
 .finance-news-list > li:before {
     float: left;
@@ -77,7 +78,7 @@
   <ul class="finance-news-list">
     <li v-for="(item,index) of newsList" class="c_txt tl clearfix">
       <router-link class="fl newtitle" :to="{name:'detailPages',params:{id:item.newsId, detailType:'news'}}" target="_blank">{{item.title}}</router-link>
-      <span class="fr news-time">{{timestampToTime(item.declareDate)}}</span>
+      <span class="fr news-time" v-z3-time="{ time:item.declareDate+ '' , type: '1' }"></span>
     </li>
   </ul>
 </div>
@@ -93,6 +94,7 @@ export default {
     return {
       navText: [
         ['智头条', 'ztt'],
+        ['7*24小时','sevenhour'],
         ['上市公司', 'ssgs']
       ],
       type: 'ztt',
@@ -118,6 +120,10 @@ export default {
     listedCompanyNewsData: function() {
       const listedCompanyNewsData = this.$store.state.z3touguIndex.listedCompanyNewsList
       return listedCompanyNewsData
+    },
+    sevenHourNews:function(){
+        const sevenHourNews = this.$store.state.z3touguIndex.sevenhourNews
+        return sevenHourNews
     }
   },
   methods: {
@@ -136,6 +142,13 @@ export default {
           .then(() => {
             this.newsList = this.listedCompanyNewsData
           })
+      }else if(this.type === 'sevenhour'){
+          this.$store.dispatch('z3touguIndex/getSevenNews', {
+              size: this.newsSize
+          }).then(() => {
+             this.newsList = this.sevenHourNews
+          })
+
       }
     },
     changeNavType(data) {
@@ -148,7 +161,7 @@ export default {
       } else {
         this.updateNewsPid = setInterval(function() {
           _this.getNews()
-        }, 60 * 1000 * _this.intervalTime)
+        }, 6 * 1000 * _this.intervalTime)
       }
     },
     timestampToTime: function(timestamp) {
@@ -166,6 +179,8 @@ export default {
         window.open(ctx + '/zInfo/wisdomHeadlines')
       } else if (this.type === 'ssgs') {
         window.open(ctx + '/zInfo/listedCompany')
+      }else if(this.type === 'sevenhour'){
+          window.open(ctx + '/zInfo/newsFlash')
       }
     }
   },

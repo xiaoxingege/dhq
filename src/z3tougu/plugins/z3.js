@@ -2,6 +2,8 @@ import config from '../config'
 import {
   formatDate
 } from 'utils/date'
+
+// import StockBox from 'components/stock-box'
 export default {
   install(Vue, options) {
     // 1. 添加全局方法或属性
@@ -15,13 +17,21 @@ export default {
         el.stockCode = binding.value.code;
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
+        // 将股票弹框组件设置为全局属性
+        if (Vue.stockPopUp) {
+          popupVm = Vue.stockPopUp
+        } else {
+          Vue.stockPopUp = popupVm;
+          // Vue.stockPopUp = popupVm = new Vue.extend(StockBox).$mount('body');
+        }
+
         el._popupStock = function(event) {
           let scrollTop = window.pageYOffset || window.scrollY;
           let scrollleft = window.pageXOffset || window.scrollX;
           const winH = window.document.body.scrollHeight || window.innerHeight;
           const winW = window.document.body.scrollWidth || window.innerWidth;
           let left = event.x + parseInt(scrollleft) + 50;
-          let top = event.y + parseInt(scrollTop) - 20;
+          let top = Math.max(event.y + parseInt(scrollTop) - 20, 0);
           if (winH - top < 300) {
             top = winH - 300;
           }
@@ -91,34 +101,41 @@ export default {
         var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' '
         var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':'
         var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes())
+
+        var curTimeMillis = new Date().getTime() // 系统当前时间戳
+        let yesterdayDate = formatDate(dateTimeStamp, 'MM:dd') //传入日期
+        let todayDate = formatDate(curTimeMillis, 'MM:dd') //今天日期
+        var curDate = new Date(curTimeMillis)
+        var todayHoursSeconds = curDate.getHours() * 60 * 60
+        var todayMinutesSeconds = curDate.getMinutes() * 60
+        var todaySeconds = curDate.getSeconds()
+        var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000
+        var todayStartMillis = curTimeMillis - todayMillis
+        var oneDayMillis = 24 * 60 * 60 * 1000
+        var yesterdayStartMilis = todayStartMillis - oneDayMillis
+
         if (dateType === 1) {
-          if ((time_conver / day_conver) < 1) {
-            temp_conver = (time_conver / hour_conver)
-            if (temp_conver >= 1) {
-              el.innerHTML = parseInt(temp_conver) + "小时前"
-            } else {
-              temp_conver = (time_conver / min_conver)
+          if (todayDate > yesterdayDate) {
+            el.innerHTML = "昨天 " + h + m
+            if (dateTimeStamp <= yesterdayStartMilis) {
+              el.innerHTML = M + D + h + m
+            }
+          } else if (todayDate === yesterdayDate) {
+            if ((time_conver / day_conver) < 1) {
+              temp_conver = (time_conver / hour_conver)
               if (temp_conver >= 1) {
-                el.innerHTML = parseInt(temp_conver) + "分钟前"
+                el.innerHTML = parseInt(temp_conver) + "小时前"
               } else {
-                el.innerHTML = "刚刚"
+                temp_conver = (time_conver / min_conver)
+                if (temp_conver >= 1) {
+                  el.innerHTML = parseInt(temp_conver) + "分钟前"
+                } else {
+                  el.innerHTML = "刚刚"
+                }
               }
             }
-          } else {
-            el.innerHTML = M + D + h + m
           }
         } else {
-          var curTimeMillis = new Date().getTime() // 系统当前时间戳
-          let yesterdayDate = formatDate(dateTimeStamp, 'MM:dd') //传入日期
-          let todayDate = formatDate(curTimeMillis, 'MM:dd') //今天日期
-          var curDate = new Date(curTimeMillis)
-          var todayHoursSeconds = curDate.getHours() * 60 * 60
-          var todayMinutesSeconds = curDate.getMinutes() * 60
-          var todaySeconds = curDate.getSeconds()
-          var todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000
-          var todayStartMillis = curTimeMillis - todayMillis
-          var oneDayMillis = 24 * 60 * 60 * 1000
-          var yesterdayStartMilis = todayStartMillis - oneDayMillis
           if (todayDate > yesterdayDate) {
             el.innerHTML = "昨天 " + h + m
             if (dateTimeStamp <= yesterdayStartMilis) {

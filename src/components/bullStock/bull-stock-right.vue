@@ -342,7 +342,7 @@ export default {
 
   data() {
     return {
-      defaultKeep: 'heatIndex',
+      defaultKeep: 'chngPct',
       iconHelpMsg: '根据近1月涨跌幅排名靠前的股票，通过Barra风格归因算法计算出的牛股风格。风格指数值为0到100，数值越高，风格的偏向性越强。',
       tabledata: {
         th1: ['名称', '风格描述', '风格指数'],

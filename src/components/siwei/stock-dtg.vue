@@ -1033,35 +1033,75 @@ export default {
           }
         })
       })
+    },
+    initStockList(){
+          const that = this
+          const datetime = new Date();
+          const hour = datetime.getHours();
+          const minute = datetime.getMinutes();
+          if((hour < 9 || hour === 9) && minute<5){
+              let picd1 = setInterval(() => {
+                  that.$store.dispatch('bubbles/getBubblesLine', {
+                      type: 1,
+                      currentTime: ''
+                  }).then(() => {
+                      if(that.ztgList.length === 0){
+                          picd1 && clearInterval(picd1)
+                          that.stockListTime = ''
+                          this.interval = setInterval(function() {
+                              that.updateBubbles()
+                              that.updateCompare()
+                              if(that.stockListTime){
+                                  that.$store.dispatch('bubbles/getBubblesLine', {
+                                      type: 4,
+                                      currentTime: that.stockListTime
+                                  }).then(() => {
+                                      if (that.isTop) {
+                                          that.$refs.ztgListUl.scrollTop = 0
+                                      }
+                                  })
+                              }else {
+                                  that.$store.dispatch('bubbles/getBubblesLine', {
+                                      type: 4,
+                                      currentTime: ''
+                                  }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
+                              }
+                          }, Data.refreshTime)
+                      }
+                  })
+              }, 1000);
+          }else{
+              this.interval = setInterval(function() {
+                  that.updateBubbles()
+                  that.updateCompare()
+                  if(that.stockListTime){
+                      that.$store.dispatch('bubbles/getBubblesLine', {
+                          type: 4,
+                          currentTime: that.stockListTime
+                      }).then(() => {
+                          if (that.isTop) {
+                              that.$refs.ztgListUl.scrollTop = 0
+                          }
+                      })
+                  }else {
+                      that.$store.dispatch('bubbles/getBubblesLine', {
+                          type: 4,
+                          currentTime: ''
+                      }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
+                  }
+              }, Data.refreshTime)
+          }
     }
   },
   mounted() {
-    const that = this
+    this.initStockList()
     this.initBubbles()
     this.initZtgCompare()
     this.$store.dispatch('bubbles/getBubblesLine', {
       type: 4,
       currentTime: this.stockListTime
     }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
-    this.interval = setInterval(function() {
-      that.updateBubbles()
-      that.updateCompare()
-        if(that.stockListTime){
-            that.$store.dispatch('bubbles/getBubblesLine', {
-                type: 4,
-                currentTime: that.stockListTime
-            }).then(() => {
-                if (that.isTop) {
-                    that.$refs.ztgListUl.scrollTop = 0
-                }
-            })
-        }else {
-            that.$store.dispatch('bubbles/getBubblesLine', {
-                type: 4,
-                currentTime: ''
-            }).then(() => { /* this.$refs.ztgListUl.scrollTop = this.$refs.ztgListUl.scrollHeight */ })
-        }
-    }, Data.refreshTime)
+
   },
   destroyed() {
     this.$store.state.bubbles.stockListTime = ''
