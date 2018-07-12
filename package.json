@@ -115,6 +115,7 @@
     "pify": "^3.0.0",
     "qrcode": "^0.9.0",
     "request-promise": "^4.2.2",
+    "sa-sdk-javascript": "^1.10.3",
     "sass": "^1.0.0-beta.2",
     "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.4.2",
