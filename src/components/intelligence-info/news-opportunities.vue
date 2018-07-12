@@ -495,6 +495,9 @@ export default {
         }
         border-color: $downColor;
     }
+    &:hover{
+      background: #1984ea;
+    }
     p {
         font-size: 16px;
         margin-top: 10px;
