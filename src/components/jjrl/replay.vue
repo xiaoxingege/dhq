@@ -311,33 +311,10 @@ export default {
             let item=this.notOpenStockCode.join(',')
             this.$store.dispatch('jjrl/notOpenStockList',item) 
           //  console.log(this.notOpenStock)
-              /* 自选股部分 */
-            const me=this;
-             me.index=0;
-             var currentIndex=0;
-            getState(currentIndex);
-            function getState(){
-              // debugger
-              me.element=me.notOpenStockCode[currentIndex];
-              const item =me.notOpenStock[currentIndex];
-            //  console.log("请求之前",currentIndex);
-              me.$store.dispatch('jjrl/querySelection',{
-                stockCode:me.element,
-                item:item,
-                type:'not'
-              }).then(res => {
-          //  console.log(me.notOpenStock);
-            let obj=me.notOpenStock[currentIndex]
-               me.notOpenStock.splice(currentIndex,1,{ ...obj ,zx:me.isSelfSelection })
-           //    me.notOpenStock[currentIndex]['zx']=me.isSelfSelection; 
-              if(currentIndex<me.notOpenStockCode.length-1){
-                currentIndex++;
-                me.element=me.notOpenStockCode[currentIndex]
-                getState(currentIndex);
-              }
-            
-          }) 
-            } 
+            /* 自选股部分 */
+           this.index=0;
+           this.querySelection=[]
+           this.$store.dispatch('jjrl/querySelection',item)
       })
 
     },
@@ -355,56 +332,29 @@ export default {
         })
         let item= this.getStockCode.join(',') // q接口支持多个查询
         this.$store.dispatch('jjrl/setStock',item)
-        /* 自选股部分 */
-         const me=this;
-        me.index=0
-        getState();
-        function getState(){
-            me.element=me.getStockCode[me.index];
-            var item= me.setStock[me.index]
-            me.$store.dispatch('jjrl/querySelection',{
-                stockCode:me.element,
-                item:item,
-                type:'fp'
-            }).then(res => {
-                me.setStock[me.index].push(me.isSelfSelection);
-                if(me.index<me.getStockCode.length-1){
-                  me.index++;
-                  me.element=me.getStockCode[me.index]
-                  getState();
-                }
-            }) 
-        } 
-            //  console.log(this.isSelfSelection)
-            //  console.log(this.setStock)
-        
-     //   debugger
-      /*      this.$store.dispatch('jjrl/querySelection',item).then(
-              console.log(this.isSelfSelection)
-           ) */
-     
-          this.public=this.getStock[0].ESP_HINT 
-          this.$store.dispatch('jjrl/storeData',{
-          stopdate:this.stopdate,
-          stockCode:this.stockCode,
-          public:this.public })
-          this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
-              /* 图表部分文字 */ 
-            //   debugger
-          this.$store.dispatch('jjrl/setStockLine',date).then( res => {
-        // debugger
-          let code=this.storeData.stockCode
-          this.zszd=this.setStockLine[code].return_pct.toFixed(2)
-          this.stopdate=this.getStock[0].STP_DT
-          this.setDate(this.stopdate)  // 获取停牌日期
-          this.$store.dispatch('jjrl/storeData',{
-                stopdate:this.stopdate,
-                stockCode:this.stockCode,
-                public:this.public,
-                zszd:this.zszd 
-               }).then( res => {
-            })
-          }) 
+        this.index=0
+        this.$store.dispatch('jjrl/querySelection',item)
+        this.public=this.getStock[0].ESP_HINT 
+        this.$store.dispatch('jjrl/storeData',{
+        stopdate:this.stopdate,
+        stockCode:this.stockCode,
+        public:this.public })
+        this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
+            /* 图表部分文字 */ 
+          //   debugger
+        this.$store.dispatch('jjrl/setStockLine',date).then( res => {
+        let code=this.storeData.stockCode
+        this.zszd=this.setStockLine[code].return_pct.toFixed(2)
+        this.stopdate=this.getStock[0].STP_DT
+        this.setDate(this.stopdate)  // 获取停牌日期
+        this.$store.dispatch('jjrl/storeData',{
+              stopdate:this.stopdate,
+              stockCode:this.stockCode,
+              public:this.public,
+              zszd:this.zszd 
+              }).then( res => {
+          })
+        }) 
       })  
 
     },
@@ -467,7 +417,6 @@ export default {
   },
   
   initNewsBroadcast(date){
-   
      this.$store.dispatch('jjrl/getNewsBroadcast',this.newsDate(date))
   },
   initHotStock(){
