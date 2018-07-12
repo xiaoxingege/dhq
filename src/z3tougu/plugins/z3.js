@@ -130,12 +130,12 @@ export default {
                 if (temp_conver >= 1) {
                   el.innerHTML = parseInt(temp_conver) + "分钟前"
                 } else {
-                  el.innerHTML = M + D 
+                  el.innerHTML = "刚刚"
                 }
               }
             }
           }else{
-            el.innerHTML = "刚刚"
+            el.innerHTML = M + D 
           }
         } else {
           if (todayDate > yesterdayDate) {
