@@ -46,7 +46,7 @@
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
     <p class="detail-title">最新调仓（最新调入）</p>
-    <RecentIn :dataList="lateInList" :strategyId="strategyId" :nextStart="nextStart"></RecentIn>
+    <RecentIn :strategyId="strategyId"></RecentIn>
     <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近{{tradeDays}}日调入股票></div>
     <p class="detail-title">当前持仓</p>
     <HoldStock :strategyId="strategyId"></HoldStock>
@@ -80,16 +80,12 @@ export default {
     return {
       navList: [],
       strategyId: 5,
-      nextStart: '',
-      holdNextStart: '',
       strategyName: '极智模拟仓',
       totalNum: '', // 调入信号数量，
       profitNum: '', // 盈利股票数量，
       labelList: [],
       isShowIconHelp: false,
       detailTenStock: [],
-      lateInList: [],
-      holdStockList: [],
       popWidth: 780,
       popHeight: 545,
       popTitle: '极智选股-极智模拟仓',
@@ -166,8 +162,6 @@ export default {
           this.profitNum = this.strategyData.perform.profitNum
           this.labelList = this.strategyData.indicators
           this.detailTenStock = this.strategyData.hotStocks
-          this.lateInList = this.strategyData.lastExcellent.stocks
-          this.nextStart = this.strategyData.lastExcellent.nextStart
           this.dateFrom = this.strategyData.lastExcellent.recentInfo.dateFrom
           this.dateTo = this.strategyData.lastExcellent.recentInfo.dateTo
           this.tradeDays = this.strategyData.lastExcellent.recentInfo.days

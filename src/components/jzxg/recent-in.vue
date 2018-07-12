@@ -47,14 +47,14 @@ import {
 } from 'vuex'
 import native from '../../utils/nativeApi'
 export default {
-  props: ['dataList', 'strategyId', 'nextStart'],
+  props: ['strategyId'],
   data() {
     return {
       noFlag: false, // 暂无更多数据显示,
       infiniteLoading: false,
-      num: 5, //  一页显示多少条
-      recentInList: this.dataList,
-      pageStart: this.nextStart,
+      num: 10, //  一页显示多少条
+      recentInList: [],
+      pageStart: 0,
       loadFlag: false,
       multiSelectionList: []
     }
@@ -72,16 +72,14 @@ export default {
 
   },
   watch: {
-    nextStart() {
-      this.pageStart = this.nextStart
-    },
-    dataList() {
-      this.recentInList = this.dataList
-      this.querySelSelection()
-    },
     strategyId() {
+      this.noFlag = false
+      this.loadFlag = false
+      this.pageStart = 0
+      // this.infiniteLoading = true
       this.recentInList = []
       this.multiSelectionList = []
+      this.initRecentInData()
     }
   },
   computed: mapState({
@@ -89,6 +87,19 @@ export default {
     multiSelectionData: state => state.jzxg.multiSelectionData
   }),
   methods: {
+    initRecentInData: function() {
+      this.$store.dispatch('jzxg/getLatestInData', {
+        strategyId: this.strategyId,
+        pageSize: 10,
+        pageStart: 0
+      }).then(() => {
+        if (this.lateInData) {
+          this.pageStart = this.lateInData.nextStart
+          this.recentInList = this.lateInData.stocks
+          this.querySelSelection()
+        }
+      })
+    },
     onInfinite() {
       let more = this.$el.querySelector('.load-more')
       if (!more) {
@@ -118,7 +129,7 @@ export default {
         this.noFlag = true
         this.loadFlag = false
       }
-      if (this.pageStart === -1 || this.infiniteLoading) { // 如果没数据了或者正在加载数据都不执行滚动事件了
+      if (this.pageStart === -1 || this.pageStart === 0 || this.infiniteLoading) { // 如果没数据了或者正在加载数据都不执行滚动事件了
         return
       }
       this.noFlag = false; // 到底啦隐藏
@@ -165,7 +176,7 @@ export default {
     }
   },
   mounted() {
-    //  this.querySelSelection()
+    this.initRecentInData()
   }
 }
 </script>

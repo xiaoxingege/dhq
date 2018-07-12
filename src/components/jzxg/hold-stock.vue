@@ -55,7 +55,7 @@ export default {
     return {
       noFlag: false, // 暂无更多数据显示,
       infiniteLoading: false,
-      num: 5, //  一页显示多少条
+      num: 10, //  一页显示多少条
       holdStockList: [],
       pageStart: 0,
       loadFlag: false,
@@ -75,10 +75,8 @@ export default {
 
   },
   watch: {
-    nextStart() {
-      this.pageStart = this.nextStart
-    },
     strategyId() {
+      this.noFlag = false
       this.holdStockList = []
       this.multiSelectionList = []
       this.initHoldStock()
@@ -149,9 +147,7 @@ export default {
       this.$store.dispatch('jzxg/querySelection', {
         stockCode: codeArr.join(',')
       }).then(() => {
-        this.holdStockList.forEach((stock) => {
-          this.multiSelectionList = this.multiSelectionData
-        })
+        this.multiSelectionList = this.multiSelectionData
       })
     },
     addStock(index, code) {
@@ -264,7 +260,6 @@ export default {
     line-height: 30px;
     text-align: center;
 }
-,
 .add-btn,
 .remove-btn {
     display: inline-block;
