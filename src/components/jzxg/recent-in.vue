@@ -20,7 +20,7 @@
           <table class="recentin-table">
             <tr v-for="(item,index) of recentInList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
-              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;color:#1984ea;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
+              <td @click="toStockDetail(item.stkid)" class="stock-name">{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
@@ -281,5 +281,12 @@ export default {
 .remove-btn {
     border: 1px solid $upColorDhq;
     color: $upColorDhq;
+}
+.stock-name {
+    cursor: pointer;
+    color: #808ba1;
+}
+.stock-name:hover {
+    color: #1984ea;
 }
 </style>

@@ -22,7 +22,7 @@
           <table class="hold-stock-table">
             <tr v-for="(item,index) of holdStockList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
-              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;color:#1984ea;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
+              <td @click="toStockDetail(item.stkid)" class="stock-name">{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
@@ -283,5 +283,12 @@ export default {
     text-align: center;
     line-height: 30px;
     border-bottom: 1px solid $lineAndTitleColor;
+}
+.stock-name {
+    cursor: pointer;
+    color: #808ba1;
+}
+.stock-name:hover {
+    color: #1984ea;
 }
 </style>

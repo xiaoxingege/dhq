@@ -22,9 +22,11 @@
       </div>
       <div class="clearfix" style="height:50px;margin-top:18px;">
         <ul class="label-ul display-box fl">
-          <li v-for="label of labelList" class="box-flex-1">
-            <p v-z3-updowncolor="label.bgColor">{{label.value}}</p>
-            <p>{{label.label}}</p>
+          <li v-for="label of labelList" class="box-flex-1 clearfix">
+            <div style="width:75px;">
+              <p v-z3-updowncolor="label.bgColor">{{label.value}}</p>
+              <p>{{label.label}}</p>
+            </div>
           </li>
         </ul>
         <div class="fl" style="width:10%;height:100%;position: relative;">
@@ -41,14 +43,14 @@
         </div>
       </div>
     </div>
-    <p class="detail-title">{{tenStockTitle[strategyId-1]}}</p>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />{{tenStockTitle[strategyId-1]}}</p>
     <div class="ten-stock">
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
-    <p class="detail-title">最新调仓（最新调入）</p>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />最新调仓（最新调入）</p>
     <RecentIn :strategyId="strategyId"></RecentIn>
     <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近{{tradeDays}}日调入股票></div>
-    <p class="detail-title">当前持仓</p>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />当前持仓</p>
     <HoldStock :strategyId="strategyId"></HoldStock>
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
   </div>
@@ -305,23 +307,33 @@ export default {
 }
 .nav-list li:hover {
     background-color: #1984ea;
-    p {
+    p.nav-name,
+    p.nav-value {
         color: #fff;
+    }
+    p.nav-label {
+        color: rgba(255,255,255,0.5);
     }
 }
 .hover-blue {
     background-color: #1984ea !important;
-    p {
+    p.nav-name,
+    p.nav-value {
         color: #fff !important;
+    }
+    p.nav-label {
+        color: rgba(255,255,255,0.5) !important;
     }
 }
 .nav-name {
     font-size: 14px;
     color: #fff;
+    margin-bottom: 5px;
 }
 .nav-value {
     font-size: 20px;
     color: #fc2721;
+    font-weight: bold;
 }
 .label-wrap {
     height: 116px;
@@ -332,8 +344,15 @@ export default {
     width: 30%;
     height: 100%;
 }
-.label-ul li:nth-child(3) {
-    margin-right: 20px;
+.label-ul li:nth-child(1) > div {
+    float: left;
+}
+.label-ul li:nth-child(3) > div {
+    float: right;
+    margin-right: 10px;
+}
+.label-ul li:nth-child(2) > div {
+    margin: 0 auto;
 }
 .label-ul li p:first-child {
     font-size: 14px;
@@ -374,6 +393,13 @@ export default {
     margin-bottom: 15px;
     font-size: 16px;
     color: #fff;
+    position: relative;
+    padding-left: 12px;
+}
+.detail-title img {
+    position: absolute;
+    top: 4px;
+    left: 0;
 }
 .profit-sum {
     margin-top: 10px;

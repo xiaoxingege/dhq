@@ -154,7 +154,7 @@ export default {
   height: 20px;
   line-height: 20px;
   display: inline-block;
-  width: 40px;
+  width: 48px;
   text-align: center;
   padding: 0 4px;
   font-size: 12px;
