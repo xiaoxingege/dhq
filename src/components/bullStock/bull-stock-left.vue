@@ -2,7 +2,7 @@
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style.scss";
 .bullBox * {
-    font-family: 微软雅黑 !important;
+    font-family: "Microsoft YaHei" !important;
 }
 
 .bullBox {
