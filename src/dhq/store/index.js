@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import nativeApi, {
+  nativeCalls
+} from 'utils/nativeApi'
 import dhqIndex from 'stores/dhqIndex'
 import z3sockjs from 'stores/dhqsocket'
 import stock from 'stores/dhqStock'
@@ -46,142 +49,145 @@ import clinicShares from 'stores/clinic-shares'*/
 Vue.use(Vuex)
 
 const mutationTypes = {
-    'ERROR': 'ERROR',
-    'UPDATE_AUTH_SETTING': 'UPDATE_AUTH_SETTING'
+  'ERROR': 'ERROR',
+  'UPDATE_AUTH_SETTING': 'UPDATE_AUTH_SETTING'
 }
+
 const state = {
-    error: {
-        errorCode: null,
-        errorMsg: null
-    },
-    auth: {
-        authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
-        clientid: '', // 'test_client_id',
-        deviceid: '', // 'test_device_id',
-        updateTime: null, // updateTime
-        expires: 0 // second
-    },
-    user: {
-        userId: null
-    }
+  error: {
+    errorCode: null,
+    errorMsg: null
+  },
+  auth: {
+    authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
+    clientid: '', // 'test_client_id',
+    deviceid: '', // 'test_device_id',
+    updateTime: null, // updateTime
+    expires: 0 // second
+  },
+  user: {
+    userId: null
+  }
 }
 const getters = {
-    authHeader: state => {
-        if (state.auth.accessToken) {
-            return {
-                clientid: state.auth.clientid,
-                deviceid: state.auth.deviceid,
-                userId: state.user.userId,
-                passportId: state.auth.passportId,
-                accessToken: state.auth.accessToken
-            }
-        }
-        return {}
+  authHeader: state => {
+    if (state.auth.accessToken) {
+      return {
+        clientid: state.auth.clientid,
+        deviceid: state.auth.deviceid,
+        userId: state.user.userId,
+        passportId: state.auth.passportId,
+        accessToken: state.auth.accessToken
+      }
     }
+    return {}
+  }
 }
 const actions = {
-    authSetting({
-        state,
-        commit
-    }) {
-        return new Promise((resolve, reject) => {
-            if (window.Z3) {
-                window.Z3.SndTokenInfo((info) => {
-                    const authInfo = JSON.parse(info)
-                        /* for(var key in authInfo){
-                             alert(key+','+authInfo[key])
-                         } */
-                    authInfo.passportId = authInfo.userId
-                    commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-                    resolve(authInfo)
-                })
-            } else {
-                // 如果不是从客户端过来的，则给予测试信息
-                const authInfo = {
-                    accessToken: 'Bearer test_z3quant_accesss_token',
-                    // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
-                    clientid: 'z3client_dhq',
-                    deviceid: 'test_device_id',
-                    updateTime: null, // updateTime
-                    expires: -1, // second
-                    userId: 'userId', // test userid
-                    passportId: null
-                }  
-                commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-                resolve()
-            }
-        })
-    }
+  authSetting({
+    state,
+    commit
+  }) {
+    return new Promise((resolve, reject) => {
+      if (window.Z3) {
+        if (!nativeCalls.authSetting) {
+          nativeCalls._regist('authSetting', function(info) {
+            // alert(info);
+            const authInfo = info;
+            authInfo.passportId = authInfo.userId
+            commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
+            resolve(authInfo)
+          })
+        }
+        // 获取token, 客户端为异步机制，调用H5 nativeCallJs('authSetting',info)方法，需要使用promise保证获取后再执行之后的代码。
+        nativeApi.syncAuthInfo();
+      } else {
+        // 如果不是从客户端过来的，则给予测试信息
+        const authInfo = {
+          accessToken: 'Bearer test_z3quant_accesss_token',
+          // authorization: 'Bearer test_z3quant_accesss_token', // test access_token
+          clientid: 'z3client_dhq',
+          deviceid: 'test_device_id',
+          updateTime: null, // updateTime
+          expires: -1, // second
+          userId: 'userId', // test userid
+          passportId: null
+        }
+        commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
+        resolve()
+      }
+    })
+  }
 }
 const mutations = {
-    [mutationTypes.ERROR](state, error) {
-        state.error = {
-            errorCode: error.errCode,
-            errorMsg: error.msg
-        };
-    },
-    [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
-        state.auth = {
-            authorization: authInfo.authorization,
-            clientid: authInfo.clientid,
-            deviceid: authInfo.deviceid,
-            expires: authInfo.expires,
-            passportId: authInfo.passportId,
-            accessToken: authInfo.accessToken,
-            updateTime: new Date().getTime()
-        }
-        state.user = {
-            userId: authInfo.userId
-        }
+  [mutationTypes.ERROR](state, error) {
+    state.error = {
+      errorCode: error.errCode,
+      errorMsg: error.msg
+    };
+  },
+  [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
+    state.auth = {
+      authorization: authInfo.authorization,
+      clientid: authInfo.clientid,
+      deviceid: authInfo.deviceid,
+      expires: authInfo.expires,
+      passportId: authInfo.passportId,
+      accessToken: authInfo.accessToken,
+      updateTime: new Date().getTime()
     }
+    state.user = {
+      userId: authInfo.userId
+    }
+  }
 }
 export default new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations,
-    modules: {
-        dhqIndex,
-        z3sockjs,
-        stock,
-        topic,
-        industry,
-        zhikuanDetailPages,
-        stockMap,
-        plateMap,
-        touguWorkspaceStore,
-        touguSpaceNav,
-        touguStrategy,
-        touguSpaceConsultation,
-        touguTraining,
-        signal,
-        jjrl,
-        headline,
-        jzxg,
-        dhqNews,
-        aiReplay
-        /* zhikuanSearch,
-         zhikuanSearchList,
-         bubbles,
-         fundIntell,
-         goldStrategy,
-         z3touguIndex,
-         backtestDetail,
-         smartPool,
-         funcArchives,
-         fundRecord,
-         filter,
-         backtestDetailH5,
-         indexChart,
-         finance,
-         customerList,
-         portraitDetail,
-         optionalStock,
-         bullStock,
-         dragonList,
-         intelligenceInfo,
-         zInfoPublic,
-         marketBubble,
-         clinicShares */
-    }
+  state,
+  getters,
+  actions,
+  mutations,
+  modules: {
+    dhqIndex,
+    z3sockjs,
+    stock,
+    topic,
+    industry,
+    zhikuanDetailPages,
+    stockMap,
+    plateMap,
+    touguWorkspaceStore,
+    touguSpaceNav,
+    touguStrategy,
+    touguSpaceConsultation,
+    touguTraining,
+    signal,
+    jjrl,
+    headline,
+    jzxg,
+    dhqNews,
+    aiReplay
+    /* zhikuanSearch,
+     zhikuanSearchList,
+     bubbles,
+     fundIntell,
+     goldStrategy,
+     z3touguIndex,
+     backtestDetail,
+     smartPool,
+     funcArchives,
+     fundRecord,
+     filter,
+     backtestDetailH5,
+     indexChart,
+     finance,
+     customerList,
+     portraitDetail,
+     optionalStock,
+     bullStock,
+     dragonList,
+     intelligenceInfo,
+     zInfoPublic,
+     marketBubble,
+     clinicShares */
+  }
 })
