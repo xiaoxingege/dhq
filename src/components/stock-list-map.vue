@@ -361,7 +361,6 @@ export default {
                 _this.stockDownNoGG++
               }
             }
-<<<<<<< HEAD
             /* stock.chartData = _this.stockChartData[stock.name]
              if (stock.chartData) {
                const stockDetailLength = stock.chartData.length
@@ -371,17 +370,6 @@ export default {
                  stock.price = '--'
                }
              }*/
-=======
-            /*  stock.chartData = _this.stockChartData[stock.name]
-              if (stock.chartData) {
-                const stockDetailLength = stock.chartData.length
-                if (stock.chartData[stockDetailLength - 1]) {
-                  stock.price = stock.chartData[stockDetailLength - 1].toFixed(2)
-                } else {
-                  stock.price = '--'
-                }
-              }*/
->>>>>>> master
           })
           this.$nextTick(() => {
             let wrapHeight
