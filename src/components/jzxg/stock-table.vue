@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       totalPage: Math.ceil(this.totalCount / 10),
+      totalCountCurrent: this.totalCount,
       stockList: this.dataList,
       dateFrom: '',
       dateTo: '',
@@ -91,7 +92,10 @@ export default {
       this.updateTableData()
     },
     totalCount() {
-      this.totalPage = Math.ceil(this.totalCount / 10)
+      this.totalCountCurrent = this.totalCount
+    },
+    totalCountCurrent() {
+      this.totalPage = Math.ceil(this.totalCountCurrent / 10)
     }
   },
   components: {
@@ -113,7 +117,7 @@ export default {
         if (this.performStockListData) {
           this.stockList = this.performStockListData.list
           this.nextStart = this.performStockListData.nextStart
-          this.totalCount = this.performStockListData.totalCount
+          this.totalCountCurrent = this.performStockListData.totalCount
         }
       })
     },
@@ -181,7 +185,7 @@ export default {
       }
     },
     goToPage(pageNo) {
-      if (10 * pageNo - this.totalCount >= 10) {
+      if (10 * pageNo - this.totalCountCurrent >= 10) {
         return
       }
       this.stockList = []
