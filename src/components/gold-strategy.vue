@@ -3,7 +3,7 @@
 @import "../assets/scss/style.scss";
 html {
     height: 100%;
-    font-family: 微软雅黑 !important;
+    font-family: "Microsoft YaHei" !important;
 }
 .goldRecommend {
     min-height: 100%;

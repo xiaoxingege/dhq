@@ -1,6 +1,6 @@
 *{-webkit-tap-highlight-color:rgba(0,0,0,0);}
 
-body, div, p, h1, h2, h3, h4, h5, h6, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, table, th, td, span {
+body, div, p, h1, h2, h3, h4, h5, h6, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, table, th, td, span, select {
     font-family: "Microsoft YaHei";
     margin: 0;
     padding: 0;
