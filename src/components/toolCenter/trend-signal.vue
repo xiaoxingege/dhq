@@ -310,7 +310,6 @@ export default {
           resolve();
           this.qsArr = this.signalTrend.record;
           console.log(this.signalTrend.record)
-          this.qsArr = []
           this.$emit('timeValue', this.signalTrend.updateTime)
           
         })
