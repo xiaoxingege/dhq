@@ -18,7 +18,7 @@ export default {
         let vm = vnode.context;
         let popupVm = vm.$refs[popup];
         // 将股票弹框组件设置为全局属性
-        if (Vue.stockPopUp) {
+        if (Vue.stockPopUp && !Vue.stockPopUp._isDestroyed) {
           popupVm = Vue.stockPopUp
         } else {
           Vue.stockPopUp = popupVm;
@@ -82,7 +82,7 @@ export default {
       if (dateTimeStamp.indexOf('-') == -1) {
         dateTimeStamp = parseInt(binding.value.time)
       }
-      
+
       if (dateTimeStamp != undefined && dateTimeStamp != null && dateTimeStamp != '') {
         if (dateTimeStamp.length == 13) {
           dateTimeStamp = parseInt(binding.value)
@@ -113,7 +113,7 @@ export default {
         var todayStartMillis = curTimeMillis - todayMillis
         var oneDayMillis = 24 * 60 * 60 * 1000
         var yesterdayStartMilis = todayStartMillis - oneDayMillis
-        
+
         if (dateType === 1) {
           if (todayDate > yesterdayDate) {
             el.innerHTML = "昨天 " + h + m
@@ -134,8 +134,8 @@ export default {
                 }
               }
             }
-          }else{
-            el.innerHTML = M + D 
+          } else {
+            el.innerHTML = M + D
           }
         } else {
           if (todayDate > yesterdayDate) {
