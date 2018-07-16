@@ -161,10 +161,10 @@ td a {
       <td colspan="4" @click="moreData" class="more">更多>></td>
     </tr>
   </table>
-  <table v-if='signalTrend && signalTrend.length==0'>
+  <table v-else>
     <tr>
       <td colspan="4">
-        <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{signalTrend.trendTypeName}}</span>
+        <span class="tr-img4" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
       </td>
     </tr>
     <tr>
@@ -194,7 +194,6 @@ export default {
       qskzdArr: [], // 趋势空转多 type 1
       zdsArr: [], // 震荡上升股 type 3
       trendData: []
-
     }
   },
   watch: {
