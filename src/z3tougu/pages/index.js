@@ -12,7 +12,7 @@ import sa from 'sa-sdk-javascript'
 // 神策分析===开始
 sa.init({
   'show_log': true,
-  'server_url': 'http://sensor.jrj.com.cn/?token=z3',
+  'server_url': 'https://sensor.jrj.com.cn/sa.gif?token=z3',
   heatmap: {
     // 是否开启点击图，默认 default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭
     clickmap: 'default',
@@ -47,7 +47,12 @@ initVue({
     historyMode: 'history',
     beforeEach(to, from, next) {
       if (!store.state.auth.authorization) {
-        store.dispatch('authSetting').then(next).catch(next)
+        store.dispatch('authSetting')
+          .then(() => {
+            console.info('sa login:' + store.state.user.userId);
+            sa.login(store.state.user.userId);
+          })
+          .then(next).catch(next)
       } else {
         next()
       }
