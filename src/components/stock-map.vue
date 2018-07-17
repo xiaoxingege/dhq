@@ -1100,7 +1100,7 @@ export default {
     restoreData: function() {
       // 如果处于回放过程中，停止回放
       if (this.playback.status !== 0) {
-        this.$emit('isStopplayback', false);
+        this.$emit('isStopPlayback', false);
         this.stopPlay();
       }
       this.updateData();
@@ -1147,7 +1147,7 @@ export default {
       return treeRoot.hostTree._nodes[params.dataIndex]
     },
     startPlay: function() {
-      this.$emit('isStopplayback', true);
+      this.$emit('isStopPlayback', true);
       clearInterval(this.updateDataPid);
       if (!this.autoUpdate) {
         // 回放前将图表恢复到默认（延迟500ms执行回放）        
@@ -1165,7 +1165,7 @@ export default {
       this.playback.status = 2;
     },
     stopPlay: function() {
-      this.$emit('isStopplayback', false);
+      this.$emit('isStopPlayback', false);
       this.playback.status = 0;
       this.playback.time = '';
       // 回放结束后
