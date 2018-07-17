@@ -204,6 +204,12 @@ export default {
     }
   },
   methods: {
+    scrollToBottom(){
+         this.$nextTick(() => {
+          var consultationContent=this.$refs.cBOX;
+          consultationContent.scrollTop=consultationContent.scrollHeight;
+        })
+    },
     sendMessage() {
       var messageContent = document.getElementById('inputArea').innerHTML;
       if (messageContent !== '') {
@@ -215,9 +221,12 @@ export default {
       document.getElementById('inputArea').innerHTML = '';
     },
     Message(){
+      var _this=this;
       this.$store.dispatch('touguSpaceConsultation/getSpaceConsultation', {
         maxId: this.maxId,
         adviserId: this.studioList.userid
+      }).then(() => {
+         _this.scrollToBottom();
       })
     },
     PullMessage(){
@@ -278,12 +287,18 @@ export default {
     })
   },
   components: {},
-  mounted() {
+   mounted() {
     var _this=this;
     _this.Message();
-    setInterval(() => {
+    _this.scrollToBottom();
+    var timeInterval;
+    timeInterval = setInterval(() => {
       _this.PullMessage();
     }, 1000);
+    // 每次进来之后及时清除一下计时器 然后再次重新渲染
+    _this.$once('hook:beforeDestroy', () => {            
+    clearInterval(timeInterval);                                    
+    });
     var Cbox = _this.$refs.cBOX;
     Cbox.onscroll = () => {
       var scrollTop = Cbox.scrollTop;
