@@ -58,12 +58,12 @@ export default {
         return res.json()
       }).then(result => {
         if (result.retcode === 0) {
-          commit('updateSignalRealTime', result.data.signalList)
-          //   console.log(result.data)
+          commit('updateSignalRealTime', result.data.signalList)        
         } else {
-          commit('ERROR', result, {
-            root: true
-          })
+          // commit('ERROR', result, {
+          //   root: true
+          // })
+          commit('updateSignalRealTime',[])
         }
       })
     },
@@ -77,7 +77,6 @@ export default {
       }).then(result => {
         if (result.retcode === 0) {
           commit('updateSignalType', result.data.items)
-
         } else {
           commit('ERROR', result, {
             root: true
@@ -101,14 +100,16 @@ export default {
       }).then(result => {
         if (result.retCode === 0) {
           commit('updateSignalTrend', result.data)
+        //  console.log(result.data)
           commit('updatePage', {
             page: result.data.nextStart,
             totalPages: result.data.num
           })
         } else {
-          commit('ERROR', result, {
-            root: true
-          })
+          // commit('ERROR', result, {
+          //   root: true
+          // })
+          commit('updateSignalTrend', [])
         }
       })
     }
