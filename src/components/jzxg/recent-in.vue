@@ -32,7 +32,7 @@
                 <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
                 <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && multiSelectionList[index].add === 0">-自选</span>
               </td>
-              <td style="text-align: center;"><span style="display:inline-block;width:80px;height:20px;background-color:#1984ea;">{{item.statusDisp}}</span></td>
+              <td style="text-align: center;"><span style="display:inline-block;width:80px;height:20px;line-height:20px;background-color:#1984ea;">{{item.statusDisp}}</span></td>
             </tr>
           </table>
         </div>
