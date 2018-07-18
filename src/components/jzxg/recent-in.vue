@@ -9,6 +9,8 @@
         <td>建议调入价格</td>
         <td>最新价格</td>
         <td>调入后最高涨幅</td>
+        <td>最大回撤</td>
+        <td></td>
         <td></td>
       </tr>
     </table>
@@ -24,11 +26,13 @@
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
-              <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio)?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio) && item.status === 1?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.maxDrawDown">{{formatData(item.maxDrawDown) && item.status === 1?(100*item.maxDrawDown).toFixed(2)+'%':'--'}}</td>
               <td>
                 <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
                 <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && multiSelectionList[index].add === 0">-自选</span>
               </td>
+              <td style="text-align: center;"><span style="display:inline-block;width:80px;height:20px;background-color:#1984ea;">{{item.statusDisp}}</span></td>
             </tr>
           </table>
         </div>
