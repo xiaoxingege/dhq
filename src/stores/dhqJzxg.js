@@ -17,7 +17,9 @@ export default {
     latestInData: [],
     holdStockData: [],
     isSelfSelection: false,
-    multiSelectionData: []
+    multiSelectionData: [],
+    performStatistic: null,
+    performStockList: null
   },
   mutations: {
     setJzxgBeforeData(state, jzxgData) {
@@ -48,6 +50,12 @@ export default {
     },
     setMultiSelection(state, selfSelectionInfo) {
       state.multiSelectionData = selfSelectionInfo;
+    },
+    setPerformStatistic(state, performStatistic) {
+      state.performStatistic = performStatistic;
+    },
+    setPerformStockList(state, performStockList) {
+      state.performStockList = performStockList;
     }
   },
   actions: {
@@ -229,6 +237,7 @@ export default {
           body: `stocks=${stockCode}&userId=${userId}`
         }
       ).then(res => res.json()).then((result) => {
+     
         if (result.errCode === 0) {
           commit('setSelection', true);
         } else {
@@ -259,8 +268,55 @@ export default {
         method: 'post',
         body: `stocks=${stockCode}&userId=${userId}`
       }).then(res => res.json()).then((result) => {
+    
         if (result.errCode === 0) {
           commit('setSelection', false);
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 历史战绩-统计信息
+    queryPerformStatistic({
+      commit
+    }, {
+      dateFrom,
+      dateTo,
+      strategyId
+    }) {
+      const url = `//itougu.jrj.com.cn/smartstock/api/excellent/queryPerformStatistic.jspa?dateFrom=${dateFrom}&dateTo=${dateTo}&strategyId=${strategyId}`
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setPerformStatistic', result.data)
+        } else {
+          commit('ERROR', result, {
+            root: true
+          })
+        }
+      })
+    },
+    // 历史战绩-股票列表
+    queryPerformStockList({
+      commit
+    }, {
+      dateFrom,
+      dateTo,
+      pageSize,
+      pageStart,
+      sort,
+      strategyId
+    }) {
+      let url = `//itougu.jrj.com.cn/smartstock/api/excellent/queryPerformStockList.jspa?dateFrom=${dateFrom}&dateTo=${dateTo}&pageSize=${pageSize}&pageStart=${pageStart}&sort=${sort}&strategyId=${strategyId}`
+      url = encodeURI(url)
+      return fetch(url, {
+        mode: 'cors'
+      }).then(res => res.json()).then((result) => {
+        if (result.retCode === 0) {
+          commit('setPerformStockList', result.data)
         } else {
           commit('ERROR', result, {
             root: true

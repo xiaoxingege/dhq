@@ -1,7 +1,7 @@
 <template>
  <div class="reservation" v-show="showstate">
     <div class="reservation-input">
-         <div class="close" @click="reservationClose"><img src="../../assets/images/touguStudio/close.png"></div>
+         <div class="reserclose" @click="reservationClose"><img src="../../assets/images/touguStudio/close.png"></div>
          <div class="inout-content">
              <p>了解工作室详情？请立即预约</p>
              <div class="inout-global">
@@ -22,7 +22,7 @@
          </div>
     </div>
     <div class="reservation-success" v-show="reSuccess">
-          <div class="close" @click="cancle"><img src="../../assets/images/touguStudio/close.png"></div>
+          <div class="reserclose" @click="cancle"><img src="../../assets/images/touguStudio/close.png"></div>
          <div class="success-content">
              <div class="re-successicon"><img src="../../assets/images/touguStudio/reSuccess.png"></div>
              <div class="re-successcontent">
@@ -50,7 +50,7 @@
 }
 .reservation-input,.reservation-success{
   width:559px;
-  margin-top: 200px;
+  margin-top: 10%;
 }
 .reservation-success{
     margin-top: 95px;
@@ -104,13 +104,17 @@ line-height:38px;
 .success-content{
 height:147px;
 }
-.close{
+.reserclose{
     width: 32px;
     height: 46px;
     float: right;
-    margin-top: -67px;
+    margin-top: -45px;
     margin-right: 20px;
     cursor: pointer;
+}
+.reserclose img{
+    width: 32px;
+    height: 46px;
 }
 .reservation-btn{
     width:160px;
@@ -232,8 +236,8 @@ export default{
         $('.reservation-btn').each(function(){
             var o=$(this);
             $(this).click(function(){
-               var userName = o.parent().find(".username").val();
-               var phone = o.parent().find(".userphone").val();
+               var userName = o.parent().find('.username').val();
+               var phone = o.parent().find('.userphone').val();
                if(userName===''){
                    showUsernamebox();
                    showTooltip(o.parent().find('.userNamebox'), '姓名不能为空！');
@@ -262,7 +266,7 @@ export default{
                
                 // ajax提交数据，判断预约是否成功
                   $.ajax({
-                    url: 'http://activity.jrj.com.cn/activity/record/web',
+                    url: 'https://activity.jrj.com.cn/activity/record/web',
                     dataType: 'jsonp',
                     data: {
                       aid: '812732510585339904',
@@ -274,8 +278,8 @@ export default{
                     },
                     success: function (data) {
                       if (data.retcode === 0) {
-                          $(".username").val('');
-                          $(".phone").val('');
+                          $('.username').val('');
+                          $('.phone').val('');
                           _this.reSuccess=true;
                       } else {
                           alert(data.msg);

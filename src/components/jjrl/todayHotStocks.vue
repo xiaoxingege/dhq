@@ -2,7 +2,7 @@
     <div class="stocksAll">
         <div class="notice"><span></span>交易日不定时更新利好消息，更新时间<i>{{getDate(todayHotStock[0].CTIME)}}</i></div>
         <div class="stockCon" v-for="(item,index) in todayHotStock">
-            <div class="stockName" > <span @click="jumpDetail(item,index)">{{item.STOCKSNAME}}</span><span :class="item.pl>0?'red':'green'"> {{item.np}}</span><span :class="item.pl>0?'red':'green'">{{item.pl+"%"}}</span></div>
+            <div class="stockName" > <span @click="jumpDetail(item,index)">{{item.STOCKSNAME}}</span><span :class="item.pl>0?'red':'green'"> {{(item.np)?item.np:'--'}}</span><span :class="item.pl>0?'red':'green'">{{(item.pl)?item.pl:'--'}}</span></div>
             <div class="stockDetail">
                 {{item.CONTENT}}
             </div>
@@ -42,7 +42,7 @@ export default{
             s=d.getSeconds()
             if( h< 10 ) { h= '0' + h; }
             if( m < 10 ) { m = '0' + m; }
-            if( s < 10 ) { m = '0' + s; }
+            if( s < 10 ) { s = '0' + s; }
              return  h+ ':' +m +':'+s
     }
         

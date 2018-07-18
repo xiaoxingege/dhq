@@ -4,10 +4,10 @@
             <i></i>要点汇总
         </div>
         <div class="newsCon clearfix " v-for="(item,index) in getNewsBroadcast">
-            <h6>{{item.TITLE}}</h6>
-            <p class="partCon show">{{item.TXT_CONTENT.slice(0,199)+'...'}}</p>
-            <p class="allCon hide">{{item.TXT_CONTENT}}</p> 
-            <div class="btn">
+            <h6>{{resetTitle(item.TITLE)}}</h6>
+            <!-- <p class="partCon show">{{item.TXT_CONTENT.slice(0,199)+'...'}}</p> -->
+            <p class="allCon">{{item.TXT_CONTENT}}</p> 
+            <div class="btn" v-if="item.TXT_CONTENT.length>=300">
                 <span class='show all' @click="toggle(index)">点击查看全文<i class='down'></i></span>
                 <span class="hide part" >点击收起 <i  class='up'></i></span>
             </div>
@@ -20,25 +20,48 @@
 import $ from 'jquery'
 import { mapState } from 'vuex'
 export default{
-    data() {
+    data() {        
         return {
     }
   },
     computed: { 
     ...mapState({
-        getNewsBroadcast:state => state.jjrl.getNewsBroadcast
+        getNewsBroadcast:state => state.jjrl.getNewsBroadcast,
+        saveDate: state => state.jjrl.saveDate
         })
     },
     methods:{
         toggle(index){
             $('.btn .all').click(function () {
-                $(this).removeClass('show').addClass('hide').siblings().addClass('show').removeClass('hide').parent().siblings('.partCon').removeClass('show').addClass('hide').siblings('.allCon').removeClass('hide').addClass('show')
+                $(this).removeClass('show').addClass('hide').siblings().addClass('show').removeClass('hide').parent().siblings('.allCon').css({
+                    'height':'auto',
+                    '-webkit-line-clamp': 'inherit'
+                })
               })
             $('.btn .part').click(function () {
-                $(this).removeClass('show').addClass('hide').siblings().addClass('show').removeClass('hide').parent().siblings('.partCon').removeClass('hide').addClass('show').siblings('.allCon').removeClass('show').addClass('hide')
+                $(this).removeClass('show').addClass('hide').siblings().addClass('show').removeClass('hide').parent().siblings('.allCon').css({
+                    'height':'66px',
+                     '-webkit-line-clamp': '3'
+                })
               })
    
+        },
+        resetTitle(title){
+           return title.split('A')[1]
         }
+    },
+    watch:{
+    saveDate(){
+        if( $('.btn .all').hasClass("hide")){
+            $('.btn .all').removeClass('hide').addClass('show')
+            $('.allCon').css({
+                    'height':'66px',
+                     '-webkit-line-clamp': '3'
+                })
+            $('.btn .part').removeClass('show').addClass('hide')
+        }
+        
+    }
     },
     mounted() {
    //     this.$store.dispatch('jjrl/getNewsBroadcast','2018-06-22')
@@ -86,10 +109,20 @@ export default{
     padding-bottom: 5px;
     border-bottom: 1px solid $bgNavColor;
 }
-.newsCon p{
+.newsCon .allCon{
     text-indent: 2em;
     color: $grayWordsColor;
     line-height: 22px;
+    text-indent: 2em;
+    color: #808ba1;
+    line-height: 22px;
+    height: 66px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;//文本溢出显示省略号
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 .btn{
     float: right;
@@ -107,6 +140,7 @@ export default{
 .up{
     background: url(http://i0.jrjimg.cn/Astock/up.png) no-repeat center;
     background-size: 100%;
+    height: 14px !important;
     
 }
 .down{
@@ -116,8 +150,10 @@ export default{
 }
 .hide{
     display:none;
+    margin-top: 10px;
 }
 .show{
+    margin-top: 10px;
     display: block
 }
 .clearfix:after {

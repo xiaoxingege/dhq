@@ -8,17 +8,10 @@
       <p class="buy-inf">大行情PC端暂时不支持支付功能，如需支付请下载大行情App并在产品订阅页进行支付，大行情智能投服团队期待为您服务！</p>
       <div class="buy-code">
         <div class="buycode-model">
-          <div id="Android">
-            <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
+          <div id="payCode">
+             <img src="../../assets/images/touguStudio/payCode.jpg">
           </div>
-
-          <p>大行情Android版</p>
-        </div>
-        <div class="buycode-model">
-          <div id="IOS">
-            <div class="dhqlogo"><img src="../../assets/images/touguStudio/dhqlogo.png"></div>
-          </div>
-          <p>大行情IOS版</p>
+          <p>扫码下载大行情App</p>
         </div>
       </div>
     </div>
@@ -26,8 +19,6 @@
 </div>
 </template>
 <script>
-import QRCode from 'qrcodejs2'
-import $ from 'jquery'
 export default {
   name: 'buy',
   props: ['type', 'showstate'],
@@ -42,64 +33,9 @@ export default {
       this.$emit('buyClose');
     }
   },
-  watch: {
-    Android: {
-      deep: true,
-      handler: function() {
-        var _this = this;
-        new QRCode(document.getElementById('Android'), {
-          width: 121,
-          height: 121,
-          text: _this.Android,
-          render: 'table'
-        });
-      }
-    },
-    IOS: {
-      deep: true,
-      handler: function() {
-        var _this = this;
-        new QRCode(document.getElementById('IOS'), {
-          width: 121,
-          height: 121,
-          text: _this.IOS,
-          render: 'table'
-        });
-      }
-    }
-  },
   mounted: function() {
     var _this = this;
-    // 请求安卓接口
-    $.ajax({
-      type: 'get',
-      url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300001`,
-      dataType: 'json',
-      success: function(data) {
-        if (data.retCode === 1) {
-          // alert(typeof(data.data));
-          _this.Android = data.data;
-        } else {
-          // 出现异常
-        }
-      }
-    });
-
-    // 请求ios接口
-    $.ajax({
-      type: 'get',
-      url: `https://appcms.jrj.com.cn/queryAppDownloadUrl.jspa?productId=6300002`,
-      dataType: 'json',
-      success: function(data) {
-        if (data.retCode === 1) {
-          // alert(typeof(data.data));
-          _this.IOS = data.data;
-        } else {
-          // 出现异常
-        }
-      }
-    });
-
+    _this.SCcode();
   }
 
 }
@@ -133,29 +69,32 @@ export default {
   align-items: center;
 }
 
-.close {
+.close{
   width: 32px;
   height: 46px;
   float: right;
-  margin-top: -67px;
+  margin-top: -45px;
   margin-right: 20px;
   cursor: pointer;
 }
-
+.close img{
+  width: 32px;
+  height: 46px;
+}
 .model {
-  width: 559px;
+  width: 418px;
 }
 
 .model-content {
-  width: 559px;
-  height: 297px;
+  width: 418px;
+  height: 319px;
   background: rgba(245, 235, 220, 1);
   border-radius: 10px;
 }
 
 .model-content .buy-inf {
-  width: 468px;
-  height: 45px;
+  width: 328px;
+  height: 74px;
   font-size: 16px;
   font-family: MicrosoftYaHei;
   color: rgba(207, 153, 83, 1);
@@ -179,17 +118,14 @@ export default {
   align-items: center;
 }
 
-.buy-code div {
-  width: 121px;
+.payCode{
+  width: 119px;
+  height: 119px;
 }
-
-.buycode-model #Android,
-.buycode-model #IOS {
-  width: 121;
-  height: 121;
-  border: 6px solid #fff;
+.payCode img{
+  width: 119px;
+  height: 119px;
 }
-
 .buycode-model p {
   font-size: 14px;
   font-family: MicrosoftYaHei;

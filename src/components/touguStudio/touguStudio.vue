@@ -2,7 +2,7 @@
 <div class="touguStudio">
   <div class="touguStudio-logol">
     <div class="item item1"></div>
-    <div class="item item2">
+    <div class="item item2" id="item2">
       <div class="in">
         <span class="span1">
                    <i>趋势风向标帮您把控仓位，热点跟踪器狙击热点动态</i>
@@ -26,7 +26,7 @@
           <div class="item4-bh">
              <div class="itemBh-title"></div>
              <div class="itemBh-three">
-                 <div class="fStudio" @click="alertBuy" id="160603010046392493">
+                 <div class="fStudio" id="161226010027925289" @click="checkJurisdiction($event)">
                      <p class="fStudio-title">黑马三期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -34,7 +34,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div> 
-                 <div class="fStudio" @click="alertBuy" id="141126010097487282">
+                 <div class="fStudio" id="141126010097487282" @click="checkJurisdiction($event)">
                      <p class="fStudio-title">黑马二期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -42,7 +42,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div>  
-                 <div class="fStudio" @click="alertBuy" id="141210010098595802">
+                 <div class="fStudio" id="141210010098595802" @click="checkJurisdiction($event)">
                      <p class="fStudio-title">黑马一期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/mine.png" style="width:15px;height:15px;"/>
@@ -55,7 +55,7 @@
           <div class="item4-ai">
              <div class="itemAi-title"></div>
              <div class="itemAi-two">
-                <div class="fStudio" @click="alertBuy" id="140912010047742826">
+                <div class="fStudio" @click="checkJurisdiction($event)" id="140912010047742826">
                      <p class="fStudio-title">AI二期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -63,7 +63,7 @@
                      </div>
                      <div class="button-click"><p class="bcSpan">点击查看</p></div>
                  </div>  
-                 <div class="fStudio" @click="alertBuy" id="100323010017140421">
+                 <div class="fStudio" @click="checkJurisdiction($event)" id="100323010017140421">
                      <p class="fStudio-title">AI一期</p>
                      <div class="image-text">
                         <img src="../../assets/images/touguStudio/hot.png" class="image"/>
@@ -75,8 +75,8 @@
           </div>
           <div class="item4-back"></div>
         </div>
-        <div class="item item5"></div>
-        <div class="item item6"></div>
+        <div class="item item5" id="item5"></div>
+        <div class="item item6" id="item6"></div>
         <div class="item item7">
              <div class="in">
                 <div class="swiper-container">
@@ -101,7 +101,7 @@
         <div class="item item10">
           <a class="gobtn" @click="alertReservation"></a>
         </div>
-        <div class="item item11"></div>
+        <div class="item item11" id="item11"></div>
         <div class="item item12">
           <div class="in">
                 <div class="ul">
@@ -123,19 +123,15 @@
       </div> 
       <div class="rightNav">
            <div class="rightNav-top">
-              <p id="HX">核心产品</p>
-              <p id="FW">服务体系</p>
-              <p id="TS">产品特色</p>
-              <p id="ZC">团队支持</p>
+              <p id="HX" @click="HX">核心产品</p>
+              <p id="FW" @click="FW">服务体系</p>
+              <p id="TS" @click="TS">产品特色</p>
+              <p id="ZC" @click="ZC">团队支持</p>
            </div>
            <div class="rightNav-bottom">
               <div class="aibuybtn" @click="alertBuy">
-                <p class="aiZ">AI尊享</p>
-                <p class="buyD">购买通道</p>
               </div>
               <div class="backbuybtn" @click="alertBuy">
-                <p class="aiZ">量化黑马</p>
-                <p class="buyD">购买通道</p>
               </div>
            </div>
       </div>
@@ -148,9 +144,11 @@
 <script>
 import Swiper from 'swiper'
 import $ from 'jquery'
+import fetch from '../../dhq/util/z3fetch'
 import buyModel from 'components/touguStudio/buy'
 import reservationModel from 'components/touguStudio/reservation'
 import reSuccessModel from 'components/touguStudio/reSuccess'
+import { domain, ctx } from '../../dhq/config'
 export default{
   data:function(){
     return{
@@ -171,6 +169,24 @@ export default{
     alertBuy:function(){
       this.showBuy=true;
     },
+    checkJurisdiction:function(e){
+      // 点击的时候判断用户是否有权限
+      var adviserId=e.currentTarget.id;
+      const url = 'https://itougu.jrj.com.cn/smartstock/api/permission/queryStudioAuth.jspa?adviserId='+adviserId;
+      fetch(url).then((res) => {
+            return res.json()
+        }).then((data) => {
+            if (data.retCode === 0) {
+               if(data.data.auth.valid===1){
+                   window.open(`${domain}${ctx}/tougu-workspace/${adviserId}`,'_blank');
+               }else if(data.data.auth.valid===0){
+                   this.showBuy=true;
+               }
+            } else {
+                // 如果有code 则出现异常
+            }
+        });
+    },
     alertReservation:function(){
       this.showReservation=true;
     },
@@ -182,8 +198,19 @@ export default{
     },
     cancleC:function(){
       this.showReSuccess=false;
+    },
+    HX:function(){
+      document.getElementById('item2').scrollIntoView(true);
+    },
+    FW:function(){
+       document.getElementById('item5').scrollIntoView(true);
+    },
+    TS:function(){
+      document.getElementById('item6').scrollIntoView(true);
+    },
+    ZC:function(){
+      document.getElementById('item11').scrollIntoView(true);
     }
-
   },
   mounted:function(){
      var _this=this;
@@ -200,25 +227,25 @@ export default{
        $(window).scroll(function(){
          if($(window).scrollTop()>=400 && $(window).scrollTop()<= 1202){
              $('.rightNav-top').css('visibility','visible');
-             $('#HX').css('color','#FFF');
-             $('#FW').css('color','rgba(143,137,129,1)');
-             $('#TS').css('color','rgba(143,137,129,1)');
-             $('#ZC').css('color','rgba(143,137,129,1)');
+             $('#HX').css({ 'color':'rgba(230,220,207,1)','background':'-webkit-linear-gradient(top,#665B4A,#2D2922)' });
+             $('#FW').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#TS').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#ZC').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
          }else if($(window).scrollTop()>1202 && $(window).scrollTop()<= 2161){
-             $('#HX').css('color','rgba(143,137,129,1)');
-             $('#FW').css('color','#FFF');
-             $('#TS').css('color','rgba(143,137,129,1)');
-             $('#ZC').css('color','rgba(143,137,129,1)');
+             $('#HX').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#FW').css({ 'color':'rgba(230,220,207,1)','background':'-webkit-linear-gradient(top,#665B4A,#2D2922)' });
+             $('#TS').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#ZC').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
          }else if($(window).scrollTop()>2161 && $(window).scrollTop()<= 5751){
-             $('#HX').css('color','rgba(143,137,129,1)');
-             $('#FW').css('color','rgba(143,137,129,1)');
-             $('#TS').css('color','#FFF');
-             $('#ZC').css('color','rgba(143,137,129,1)');
+             $('#HX').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#FW').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#TS').css({ 'color':'rgba(230,220,207,1)','background':'-webkit-linear-gradient(top,#665B4A,#2D2922)' });
+             $('#ZC').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
          }else if($(window).scrollTop()>5751){
-             $('#HX').css('color','rgba(143,137,129,1)');
-             $('#FW').css('color','rgba(143,137,129,1)');
-             $('#TS').css('color','rgba(143,137,129,1)');
-             $('#ZC').css('color','#FFF');
+             $('#HX').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#FW').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#TS').css({ 'color':'rgba(143,137,129,1)','background':'rgba(61,55,46,1)' });
+             $('#ZC').css({ 'color':'rgba(230,220,207,1)','background':'-webkit-linear-gradient(top,#665B4A,#2D2922)' });
          }else{
             $('.rightNav-top').css('visibility','hidden');
          }
@@ -254,8 +281,8 @@ export default{
         $('.foot-btn').each(function(){
             var o=$(this);
             $(this).click(function(){
-               var userName = o.parent().find(".userName").val();
-               var phone = o.parent().find(".phone").val();
+               var userName = o.parent().find('.userName').val();
+               var phone = o.parent().find('.phone').val();
                if(userName===''){
                    showUsernamebox();
                    showTooltip(o.parent().find('.userNamebox'), '姓名不能为空！');
@@ -283,7 +310,7 @@ export default{
                }
                  // ajax提交数据，判断预约是否成功
                 $.ajax({
-                    url: 'http://activity.jrj.com.cn/activity/record/web',
+                    url: 'https://activity.jrj.com.cn/activity/record/web',
                     dataType: 'jsonp',
                     data: {
                       aid: '812732510585339904',
@@ -295,8 +322,8 @@ export default{
                     },
                     success: function (data) {
                       if (data.retcode === 0) {       
-                          $(".username").val('');
-                          $(".phone").val('');
+                          $('.username').val('');
+                          $('.phone').val('');
                           _this.showReSuccess=true;
                       } else {
                           alert(data.msg);
@@ -571,7 +598,8 @@ margin-left: 11px;
 .fStudio-title{
 height:25px;
 font-size:26px;
-font-family:FZLTZHK--GBK1-0;
+font-family:MicrosoftYaHei;
+font-weight: 800;
 color:rgba(61,34,2,1);
 line-height:14px;
 margin-top: 28px;
@@ -589,7 +617,7 @@ height:14px;
 width:60px;
 height:18px;
 font-size:19px;
-font-family:PingFangSC-Medium;
+font-family:MicrosoftYaHei-Medium;
 color:rgba(173,0,0,1);
 line-height:14px;
 margin-left: 6px;
@@ -601,7 +629,7 @@ background:-webkit-linear-gradient(
     top,#D69A39,#B17E2C
   );
 border-radius:19px;
-box-shadow:4px 0px 8px rgba(102,72,20,1);
+box-shadow:-4px 4px 8px rgba(102,72,20,1),4px 4px 8px rgba(102,72,20,1);
 margin-top: 27px;
 display: flex;
 flex-direction: row;
@@ -641,80 +669,68 @@ line-height:14px;
  width: 100%;
 }
 .gobtn{
-    width: 210px;
-    height: 60px;
-    display: block;
-    margin-left: 640px;
-    margin-top: 60px;
-    cursor: pointer;
+width: 210px;
+height: 60px;
+display: block;
+margin-left: 640px;
+margin-top: 60px;
+cursor: pointer;
 }
 .foot-btn{
-  width: 214px;
-  height: 60px;
-  background-color:none;
-  display: block;
-  position: relative;
-  bottom: 60px;
-  right: 10px;
-  cursor: pointer;
+width: 214px;
+height: 60px;
+background-color:none;
+display: block;
+position: relative;
+bottom: 60px;
+right: 10px;
+cursor: pointer;
 }
 .rightNav{
-  width: 140px;
-  height: 372px;
-  position: fixed;
-  top:42%;
-  right: 10px;
-  display: block; 
+width: 140px;
+height: 372px;
+position: fixed;
+top:40%;
+right: 10px;
+z-index: 999;
+display: block; 
 }
 
 .rightNav-top{
-  visibility: hidden;
+visibility: hidden;
 }
 .rightNav-top p{
 width: 74px;
-height:32;
+height:20px;
 background:rgba(61,55,46,1);
 border-radius:10px;
 font-size:18px;
-font-family:FZLTXHK--GBK1-0;
+font-family:Microsoft YaHei;
 color:rgba(143,137,129,1);
 line-height:26px;
 margin-bottom: 6px;
 padding: 12px 33px;
+cursor: pointer;
 }
 .aibuybtn{
-  width: 100%;
-  height:73px;
-  background:-webkit-linear-gradient(
-    top,#9496F3,#3144B7
-  );
+width: 100%;
+height:83px;
+background:url('../../assets/images/touguStudio/AIBuy.png') center no-repeat;
 border-radius:10px;
-box-shadow:0px 5px 10px rgba(96,101,240,0.4);
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
 margin-top: 11px;
 cursor: pointer;
 }
 .backbuybtn{
- width: 100%;
-  height:73px;
-  background:-webkit-linear-gradient(
-    top,#EBAF70,#A5613C
-  );
+width: 100%;
+height:83px;
+background:url('../../assets/images/touguStudio/heima.png') center no-repeat;
 border-radius:10px;
-box-shadow:0px 5px 10px rgba(185,118,64,0.4);
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
 margin-top: 11px;
 cursor: pointer;
 }
 .aiZ{
 font-size:22px;
-font-family:Lantinghei SC;
+font-family:Microsoft YaHei;
 font-weight: Demibold;
 color:rgba(255,255,255,1);
 line-height:26px;
@@ -722,7 +738,7 @@ font-weight: 550;
 }
 .buyD{
 font-size:22px;
-font-family:Lantinghei SC;
+font-family:Microsoft YaHei;
 font-weight: lighter;
 color:rgba(255,255,255,1);
 line-height:26px;

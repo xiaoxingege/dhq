@@ -154,7 +154,7 @@ export default {
   height: 20px;
   line-height: 20px;
   display: inline-block;
-  width: 40px;
+  width: 48px;
   text-align: center;
   padding: 0 4px;
   font-size: 12px;
@@ -167,7 +167,7 @@ export default {
   background: #e6363a;
   border-radius: 4px;
   display: inline-block;
-  width: 48px;
+  width: 40px;
   text-align: center;
   height: 20px;
   line-height: 20px;

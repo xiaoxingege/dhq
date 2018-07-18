@@ -31,9 +31,7 @@ export default {
       public: '',
       code: '',
       stopdate: ''
-      
-
-
+  
     }
   },
   computed: {
@@ -56,13 +54,10 @@ export default {
     drawCharts() {
       const option = {
         tooltip: {
-          trigger: 'axis',
-          position: function(pt) {
-            return [pt[0], '10%'];
-          }
+          trigger: 'axis'
         },
         grid: {
-          left: '3%',
+          left: '5%',
           right: '1%',
           top: '5px',
           bottom: '10%'
@@ -70,12 +65,15 @@ export default {
 
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: this.showDate
+          data: this.showDate,
+          boundaryGap: false
+         
         },
         yAxis: {
           type: 'value',
-          boundaryGap: [0, '100%'],
+          boundaryGap: true,
+          splitNumber: 5,
+          scale: true,
           splitLine: {
             show: false
           }
@@ -95,7 +93,7 @@ export default {
               width: 1
             },
 
-            data: this.storeData.ggData
+            data: this.ggData
           },
           {
             name: '板块行情',
@@ -122,7 +120,7 @@ export default {
                 }])
               }
             },
-            data: this.storeData.bkData
+            data: this.bkData
           }
         ]
       };
@@ -144,10 +142,10 @@ export default {
       return Y + '-' + M + '-' + D
     },
     paint(date) {
+      this.bkData = []
+      this.ggData = []
+      this.showDate = []
       this.$store.dispatch('jjrl/setStockLine', date).then(res => {
-        this.bkData = []
-        this.ggData = []
-        this.showDate = []
         this.code = this.storeData.stockCode
         this.zszd = this.storeData.zszd
         this.public = this.storeData.public
@@ -156,40 +154,29 @@ export default {
         this.chartData.zs.forEach(item => {
           this.bkData.push(item.index.toFixed(2))
         })
+       // console.log(this.showDate)
         this.chartData.hq.forEach(item => {
           let time = this.setDate(item.trade_date)
           this.showDate.push(time)
           this.ggData.push(item.index.toFixed(2))
 
         })
-
-        this.$store.dispatch('jjrl/storeData', {
-          stopdate: this.stopdate,
-          stockCode: this.code,
-          public: this.public,
-          zszd: this.zszd,
-          bkData: this.bkData,
-          ggData: this.ggData
-        })
         this.initChart()
         this.drawCharts()
-
       })
-
-
     }
 
   },
   watch: {
-    getStockCode: function() {
-      // console.log(this.storeData)
-      this.paint(this.saveDate.chooseDate)
+    getStockCode: function(a,b) {
+      //  a是初始化的数据，b为undefined 当初始化变化后，b才有值
+     console.log(a)
+    // console.log(b)
+         this.paint(this.saveDate.chooseDate)
     }
   },
-  mounted() {
- 
-    this.initChart()
-    this.drawCharts()
+  created () {
+  // this.paint(this.saveDate.chooseDate)
   }
 }
 </script>

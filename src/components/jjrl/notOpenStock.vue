@@ -32,8 +32,8 @@
           <td class="col-8">{{item.INDU_PE.toFixed(2)}}</td>
           <td class="col-9">{{item.PE.toFixed(2)}}</td>
           <td class="col-10">
-            <span class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="!item['zx']">+自选</span>
-            <span class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="item['zx']">-自选</span>
+            <span class="addSelfChoice" @click="addSelfChoice(item,index)" v-if="isSelfSelection.length>0&&isSelfSelection[index]&&isSelfSelection[index].add!==0">+自选</span>
+            <span class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="isSelfSelection.length>0&&isSelfSelection[index]&&isSelfSelection[index].add===0">-自选</span>
           </td>
 
         </tr>
@@ -94,21 +94,16 @@ export default {
     },
     addSelfChoice(item, index) {
       this.stockCode = item.STOCKCODE
+      this.isSelfSelection[index].add=0
       this.$store.dispatch('jjrl/addSelection', {
         stockCode: this.stockCode
-      }).then(res => {
-        //    debugger
-        const ele = this.isSelfSelection
-        this.notOpenStock[index]['zx'] = ele;
       })
     },
     deleteSelfChoice(item, index) {
       this.stockCode = item.STOCKCODE
+       this.isSelfSelection[index].add=-1
       this.$store.dispatch('jjrl/removeSelection', {
         stockCode: this.stockCode
-      }).then(res => {
-        const ele = this.isSelfSelection
-        this.notOpenStock[index]['zx'] = ele;
       })
     }
   },

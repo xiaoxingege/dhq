@@ -1,11 +1,11 @@
 <template>
 <div class="ten-stock-wrap">
-  <div class="left-arrow" @click="rightScroll"><span class="arrowl"></span></div>
-  <div class="right-arrow" @click="leftScroll"><span class="arrowr"></span></div>
+  <div class="left-arrow" @click="leftScroll"><span class="arrowl" :class="{'arrowl-no-end':!isLeftEnd,'arrowl-end':isLeftEnd}"></span></div>
+  <div class="right-arrow" @click="rightScroll"><span class="arrowr" :class="{'arrowr-no-end':!isRightEnd,'arrowr-end':isRightEnd}"></span></div>
   <div class="stock-list-wrap" ref="stockListWrap">
     <ul class="clearfix stock-ul" :style="{left:stockUiLeft+'px'}">
       <li class="fl stock-li" v-for="item of tenStockList">
-        <p @click="toStockDetail(item.stkid)">{{item.stkname}}</p>
+        <p @click="toStockDetail(item.stkid)" style="color:#fff;">{{item.stkname}}</p>
         <ul class="stockLabelList">
           <li>
             <span>累计收益</span>
@@ -39,7 +39,9 @@ export default {
   props: ['tenStockList'],
   data() {
     return {
-      stockUiLeft: 0
+      stockUiLeft: 0,
+      isLeftEnd: true,
+      isRightEnd: false
     }
   },
   computed: {
@@ -54,22 +56,32 @@ export default {
       }
     },
     leftScroll: function() {
+      this.isRightEnd = false
+      const wrapWidth = this.$refs.stockListWrap.offsetWidth // 外框的宽度
+      const scrollNum = Math.floor(wrapWidth / 160) // 滚动的个数
+      if (Math.abs(this.stockUiLeft) < wrapWidth) {
+        this.stockUiLeft = 0 // 左滚到第一个
+        setTimeout(() => {
+          this.isLeftEnd = true
+        }, 1500)
+      } else {
+        this.stockUiLeft = 160 * scrollNum + this.stockUiLeft
+        this.isLeftEnd = false
+      }
+    },
+    rightScroll: function() {
+      this.isLeftEnd = false
       const wrapWidth = this.$refs.stockListWrap.offsetWidth // 外框的宽度
       const stockUlWidth = document.getElementsByClassName('stock-ul')[0].offsetWidth // 牛股列表的总宽度
       const scrollNum = Math.floor(wrapWidth / 160) // 滚动的个数
       if (stockUlWidth - wrapWidth - Math.abs(this.stockUiLeft) < wrapWidth) {
-        this.stockUiLeft = -(stockUlWidth - wrapWidth)
+        this.stockUiLeft = -(stockUlWidth - wrapWidth) // 右滚到最后一个
+        setTimeout(() => {
+          this.isRightEnd = true
+        }, 1500)
       } else {
         this.stockUiLeft = -160 * scrollNum + this.stockUiLeft
-      }
-    },
-    rightScroll: function() {
-      const wrapWidth = this.$refs.stockListWrap.offsetWidth // 外框的宽度
-      const scrollNum = Math.floor(wrapWidth / 160) // 滚动的个数
-      if (Math.abs(this.stockUiLeft) < wrapWidth) {
-        this.stockUiLeft = 0
-      } else {
-        this.stockUiLeft = 160 * scrollNum + this.stockUiLeft
+        this.isRightEnd = false
       }
     },
     toStockDetail: function(code) {
@@ -111,8 +123,9 @@ export default {
         height: 146px;
         margin-right: 15px;
         border: 1px solid #515866;
-        padding: 15px;
+        padding: 11px;
         cursor: pointer;
+        background-color: #222326;
     }
     .stock-li:hover {
         border: 1px solid #1984ea;
@@ -130,6 +143,8 @@ export default {
         top: 43px;
         width: 15px;
         height: 60px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
         background-color: #23272c;
         cursor: pointer;
     }
@@ -139,6 +154,8 @@ export default {
         top: 43px;
         width: 15px;
         height: 60px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
         background-color: #23272c;
         cursor: pointer;
     }
@@ -162,14 +179,24 @@ export default {
         width: 56%;
     }
     .arrowl {
-        border-color: transparent #3d444d transparent transparent;
         left: 0;
         top: 25px;
     }
+    .arrowl-no-end {
+        border-color: transparent #677288 transparent transparent;
+    }
+    .arrowl-end {
+        border-color: transparent #3d444d transparent transparent;
+    }
     .arrowr {
-        border-color: transparent transparent transparent #3d444d;
         right: 0;
         top: 25px;
+    }
+    .arrowr-no-end {
+        border-color: transparent transparent transparent #677288;
+    }
+    .arrowr-end {
+        border-color: transparent transparent transparent #3d444d;
     }
     .arrowl,
     .arrowr {

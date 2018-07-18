@@ -31,7 +31,8 @@ export default {
     preferredTimeData: [],
     bullStockList: [],
     positionList: [],
-    positionListFilter: []
+    positionListFilter: [],
+    sevenhourNews:[]
   },
   mutations: {
     setStrategyList(state, options) {
@@ -163,6 +164,12 @@ export default {
       const result = options.result
       if (result.errCode === 0) {
         state.positionListFilter = result.data
+      }
+    },
+    setSevenNews(state, data){
+      if(data.result.errCode === 0){
+        state.sevenhourNews = data.result.data
+
       }
     }
   },
@@ -482,6 +489,16 @@ export default {
           result: body
         })
       })
+    },
+    getSevenNews({ commit },{ size }){
+        const url = domain + '/openapi/news/newsIndexFlash.shtml?size='+ size
+        return fetch(url).then((res) => {
+            return res.json()
+        }).then((body) => {
+            commit('setSevenNews', {
+                result: body
+            })
+        })
     }
   }
 }

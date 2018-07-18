@@ -1,7 +1,7 @@
 <template>
    <div class="reSuccess" v-show="showstate">
         <div class="reservation-success">
-         <div class="close" @click="resuccessClose"><img src="../../assets/images/touguStudio/close.png"></div>
+         <div class="reclose" @click="resuccessClose"><img src="../../assets/images/touguStudio/close.png"></div>
          <div class="success-content">
              <div class="re-successicon"><img src="../../assets/images/touguStudio/reSuccess.png"></div>
              <div class="re-successcontent">
@@ -35,13 +35,17 @@
     background:rgba(245,235,220,1);
     border-radius:10px;
 }
-.close{
+.reclose{
     width: 32px;
     height: 46px;
     float: right;
-    margin-top: -67px;
+    margin-top: -45px;
     margin-right: 20px;
     cursor: pointer;
+}
+.reclose img{
+    width: 32px;
+    height: 46px;
 }
 .success-content{
     display: flex;

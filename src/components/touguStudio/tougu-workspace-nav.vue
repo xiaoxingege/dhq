@@ -3,9 +3,10 @@
   width: 96%;
   height: 25px;
   line-height: 25px;
-  background: #30353B;
+  background:rgba(48,53,59,1);
   margin: 0px auto;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .nav-item {

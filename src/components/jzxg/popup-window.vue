@@ -5,6 +5,7 @@
       <span class="pop-title">{{popTitle}}</span>
       <span class="pop-close" @click="closePopWindow">×</span>
     </div>
+    <slot name="content"></slot>
   </div>
 </div>
 </template>

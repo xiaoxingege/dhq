@@ -16,16 +16,16 @@ const state = {
   notOpenStock: [], // 未开板新股  
   notOpenStockList: [],
   isSelfSelection: [],
-  addSelection: [],
+  saveSelection: [],
   removeSelection: [],
   setStockLine: [],
   saveDate: [],
-  resetChart: [],
   setCount: [], // 存放功能区数据的数量，
   setHyList:[] ,// 会议日历的列表数据
   setHyName:null,
   saveHyUrl:'',//  存储会议URL
   saveHyIndex:'',
+  savaHyList:[],
   getNewsBroadcast:[] ,// 新闻联播
   todayHotStock:[] ,// 今日热点股
   todayHotStockPrice:[]
@@ -42,7 +42,6 @@ const mutationsTypes = {
   UPDATE_SELF_SELECTION: 'UPDATE_SELF_SELECTION',
   SET_STOCK_LINE: 'SET_STOCK_LINE',
   SAVE_DATE: 'SAVE_DATE',
-  RESET_CHART: 'RESET_CHART',
   SET_COUNT: 'SET_COUNT',
   SET_HY_LIST:'SET_HY_LIST',
   SET_HY_NAME:'SET_HY_NAME',
@@ -50,11 +49,15 @@ const mutationsTypes = {
   SAVE_HY_INDEX:'SAVE_HY_INDEX',
   GET_NEWS_BROADCAST:'GET_NEWS_BROADCAST',
   TODAY_HOT_STOCKS:'TODAY_HOT_STOCKS',
-  TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE'
+  TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE',
+  SAVE_HY_LIST:'SAVE_HY_LIST',
+  SAVE_SELECTION:'SAVE_SELECTION'
 }
 
 const actions = {
-  
+  savaHyList({ commit }){
+    commit( mutationsTypes.SAVE_HY_LIST , null)
+  },
   saveHyIndex({ commit },value){
     commit(mutationsTypes.SAVE_HY_INDEX,value)
   },
@@ -66,15 +69,11 @@ const actions = {
   }, value) {
     commit(mutationsTypes.SET_COUNT, value)
   },
-  resetChart({
-    commit
-  }) {
-    commit(mutationsTypes.DATE_CODE, null)
-  },
+
   saveDate({
     commit
   }, value) { // 存放日期 
-    commit(mutationsTypes.SAVE_DATE, value)
+   commit(mutationsTypes.SAVE_DATE, value)
   },
   storeData({
     commit
@@ -118,7 +117,9 @@ const actions = {
     }).then(data => {
       var hqData = window['hqData_' + vname];
       //  console.log(hqData)
-      commit(mutationsTypes.SET_STOCK, hqData.HqData)
+      commit(mutationsTypes.SET_STOCK, hqData.HqData).then( () => {
+        hqData=null
+      })
     })
   },
   stopStock({
@@ -199,12 +200,11 @@ const actions = {
     },
    value
   ) {
-   // debugger
     const userId = rootState.user.userId || '';
     if (!userId) {
       return;
     }
-    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value.stockCode}&userId=${userId}`
+    const url = `${domain}/openapi/selectStock/findStock.shtml?stock=${value}&userId=${userId}`
     return z3fetch(url, {
       mode: 'cors',
       headers: {
@@ -213,7 +213,9 @@ const actions = {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then(res => res.json()).then((result) => {
-      if (result.errCode === 0) { // 在自选中
+     commit(mutationsTypes.UPDATE_SELF_SELECTION,result.data)
+ /*    
+     if (result.errCode === 0) { // 在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
       } else if (result.errCode === -1) { // 不在自选中
         commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
@@ -221,7 +223,7 @@ const actions = {
         commit('ERROR', result, {
           root: true
         })
-      }
+      }  */
     })
 
   },
@@ -250,7 +252,7 @@ const actions = {
       }
     ).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
+        commit(mutationsTypes.SAVE_SELECTION, true);
       } else {
         commit('ERROR', result, {
           root: true
@@ -281,8 +283,7 @@ const actions = {
       body: `stocks=${stockCode}&userId=${userId}`
     }).then(res => res.json()).then((result) => {
       if (result.errCode === 0) {
-
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
+        commit(mutationsTypes.SAVE_SELECTION, false);
       } else {
         commit('ERROR', result, {
           root: true
@@ -316,17 +317,18 @@ const actions = {
     })
   },
   getNewsBroadcast({ commit },date){
-    const url = `https://mapi.itougu.jrj.com.cn/wireless/information/newsBroadcast.jspa?tradeDate=${date}`
+    const url = `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/newsBroadcast.jspa?tradeDate=${date}`
     return $.ajax({
       type: 'get',
       dataType: 'jsonp',
       url: url
     }).then(res => {
+   //   console.log(res)
       commit(mutationsTypes.GET_NEWS_BROADCAST, res.data)
     })
   },
   todayHotStock({ commit }){
-    const url =  `https://mapi.itougu.jrj.com.cn/wireless/information/hotConcept.jspa`
+    const url =  `https://sslapi.jrj.com.cn/itougu/mapi/wireless/information/hotConcept.jspa`
     return $.ajax({
       type: 'get',
       dataType: 'jsonp',
@@ -372,10 +374,7 @@ const mutations = {
     //   console.log(state.saveDate) //  存放日历时间
     state.saveDate = res
   },
-  [mutationsTypes.RESET_CHART](state, res) {
-    //   console.log(state.saveDate) //  清空复牌数据
-    state.resetChart = res
-  },
+
   [mutationsTypes.SET_COUNT](state, res) {
     state.setCount = res
   },
@@ -397,6 +396,11 @@ const mutations = {
   //  是否添加自选
   [mutationsTypes.UPDATE_SELF_SELECTION](state, isSelfSelection) {
     state.isSelfSelection = isSelfSelection
+  //  console.log(state.isSelfSelection)
+  },
+  [mutationsTypes.SAVE_SELECTION](state, saveSelection) {
+    state.saveSelection = saveSelection
+  //  console.log(state.isSelfSelection)
   },
   [mutationsTypes.SET_STOCK](state, res) {
     state.setStock = res;
@@ -411,9 +415,7 @@ const mutations = {
   },
 
   [mutationsTypes.SET_HY_NAME](state,setHyName){
-    if(!state.setHyName){
-      state.setHyName = {}
-    }
+    state.setHyName = {};
  
     setHyName.map((item) => {
       if(!state.setHyName[item[1]]){
@@ -428,6 +430,10 @@ const mutations = {
   [mutationsTypes.SAVE_HY_INDEX](state,saveHyIndex){
     state.saveHyIndex=saveHyIndex
   },
+  [mutationsTypes.SAVE_HY_LIST](state,savaHyList){
+    state.savaHyList=savaHyList
+  },
+
   [mutationsTypes.GET_NEWS_BROADCAST](state,getNewsBroadcast){
     state.getNewsBroadcast=getNewsBroadcast
   },
@@ -441,7 +447,7 @@ const mutations = {
     for (var i=0; i<state.todayHotStock.length; i++){
       if(state.todayHotStock[i].STOCKCODE === state.todayHotStockPrice[i][1] ){
         let obj =state.todayHotStock[i]
-        state.todayHotStock.splice(i,1,{ ...obj, np:state.todayHotStockPrice[i][3].toFixed(2),pl:state.todayHotStockPrice[i][4].toFixed(2) })
+        state.todayHotStock.splice(i,1,{ ...obj, np:state.todayHotStockPrice[i][3].toFixed(2)?state.todayHotStockPrice[i][3].toFixed(2):'',pl:state.todayHotStockPrice[i][4].toFixed(2)+'%'?state.todayHotStockPrice[i][4].toFixed(2)+'%':'' })
       }
     }
    

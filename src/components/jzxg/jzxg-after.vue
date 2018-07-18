@@ -22,9 +22,11 @@
       </div>
       <div class="clearfix" style="height:50px;margin-top:18px;">
         <ul class="label-ul display-box fl">
-          <li v-for="label of labelList" class="box-flex-1">
-            <p v-z3-updowncolor="label.bgColor">{{label.value}}</p>
-            <p>{{label.label}}</p>
+          <li v-for="label of labelList" class="box-flex-1 clearfix">
+            <div style="width:75px;">
+              <p v-z3-updowncolor="label.bgColor">{{label.value}}</p>
+              <p>{{label.label}}</p>
+            </div>
           </li>
         </ul>
         <div class="fl" style="width:10%;height:100%;position: relative;">
@@ -41,17 +43,23 @@
         </div>
       </div>
     </div>
-    <p class="detail-title">{{tenStockTitle[strategyId-1]}}</p>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />{{tenStockTitle[strategyId-1]}}</p>
     <div class="ten-stock">
       <tenStocks :tenStockList="detailTenStock"></tenStocks>
     </div>
-    <p class="detail-title">最新调仓（最新调入）</p>
-    <RecentIn :dataList="lateInList" :strategyId="strategyId" :nextStart="nextStart"></RecentIn>
-    <p class="detail-title">当前持仓</p>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />最新调仓（最新调入）</p>
+    <RecentIn :strategyId="strategyId"></RecentIn>
+    <div style="text-align: right;color:#1984ea;cursor: pointer;" @click="showHistory">查看最近{{tradeDays}}日调入股票></div>
+    <p class="detail-title"><img src="../../assets/images/jzxg/title.png" />当前持仓</p>
     <HoldStock :strategyId="strategyId"></HoldStock>
     <div class="profit-sum">{{strategyName}}共产生调入信号{{totalNum}}个，{{profitNum}}只股票盈利</div>
   </div>
-  <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow"></PopWindow>
+  <PopWindow v-if="isPopHelpWindow" :popWidth="popWidth" :popHeight="popHeight" :popTitle="popTitle" @closeWindow="closeHelpWindow">
+    <Help slot="content" :strategyId="strategyId"></Help>
+  </PopWindow>
+  <PopWindow v-if="isPopHistory" :popWidth="popWidth" :popHeight="popHeight" :popTitle="historyPopTitle" @closeWindow="hideHistory">
+    <PerformRecord slot="content" :strategyId="strategyId" :dateFrom="dateFrom" :dateTo="dateTo" :businessDays="businessDays" :buySignalNums="buySignalNums" :profitNums="profitNums" :performStockList="performStockList" :totalCount="totalCount"></PerformRecord>
+  </PopWindow>
   <buyModel :showstate='showBuy' @buyClose="cancle"></buyModel>
 </div>
 </template>
@@ -61,39 +69,51 @@ import PopWindow from 'components/jzxg/popup-window'
 import RecentIn from 'components/jzxg/recent-in'
 import HoldStock from 'components/jzxg/hold-stock'
 import buyModel from 'components/touguStudio/buy'
+import PerformRecord from 'components/jzxg/perform-record'
+import Help from 'components/jzxg/help'
 import {
   mapState
 } from 'vuex'
+import jQuery from 'jquery'
+window.jQuery = window.$ = jQuery
 export default {
   props: ['expireDate'],
   data() {
     return {
       navList: [],
       strategyId: 5,
-      nextStart: '',
-      holdNextStart: '',
       strategyName: '极智模拟仓',
       totalNum: '', // 调入信号数量，
       profitNum: '', // 盈利股票数量，
       labelList: [],
       isShowIconHelp: false,
       detailTenStock: [],
-      pageSize: 10,
-      lateInList: [],
-      holdStockList: [],
       popWidth: 780,
       popHeight: 545,
       popTitle: '极智选股-极智模拟仓',
+      historyPopTitle: '极智模拟仓历史战绩',
       isPopHelpWindow: false,
+      isPopHistory: false,
       tenStockTitle: ['波段优选十大牛股', '中线掘金十大牛股', '主力天机十大牛股', '热点狙击十大牛股', '极智十大牛股'],
       descriptionTxt: [
         '万物互联，AI-Martket Wave Band（人工智能市场波段）算法把物理学中电磁波和衍射分析的思想和市场行为结合，打造出波段优选策略。择天时，定低点，判洗盘，抓反转；高抛低吸，道法自然。',
         '用时间换空间，中线掘金策略中期范围内挖掘价格错配个股，并采用是自主研发的Z-Timing择时模型，深度学习市场风格，规避系统性风险，捕捉价值回归。',
-        '热点狙击旨在利用量化趋势分析技术，智能地抓取板块热度的起势点，并通过板块内轮动原理，挖掘未来涨势可能较大的股票。不再追高，坐等风口。',
         '主力天机利用AI-Pattern Recognition（人工智能形态识别）技术，识别出前期稳定，近期连续突破新高的个股，有效地判断出主力资金的投资行为，从而达到短期的获利。跟对主力，顺势而为。',
+        '热点狙击旨在利用量化趋势分析技术，智能地抓取板块热度的起势点，并通过板块内轮动原理，挖掘未来涨势可能较大的股票。不再追高，坐等风口。',
         '运用z量化底层算法和AI-Pattern Recognition（人工智能形态识别）算法，通过分析资金面，k线走势形态，策略判断出即将出现主升浪的个股，轻松赢在起跑线；按照黄金盈亏比例预设止损止盈点，跟随策略调仓，无畏恐惧，战胜贪婪。'
       ],
-      showBuy: false
+      showBuy: false,
+      dateFrom: '',
+      dateTo: '',
+      tradeDays: '',
+      businessDays: '',
+      buySignalNums: '', // 买入信号个数
+      profitNums: '', // 盈利次数
+      pageSize: 10,
+      pageStart: 0,
+      sort: ['buyTime|asc', 'sellTime|desc', 'profitRatio|desc', 'holdingDays|asc'],
+      performStockList: [],
+      totalCount: ''
     }
   },
   watch: {
@@ -106,11 +126,15 @@ export default {
     PopWindow,
     RecentIn,
     HoldStock,
-    buyModel
+    buyModel,
+    PerformRecord,
+    Help
   },
   computed: mapState({
     navListData: state => state.jzxg.navData,
-    strategyData: state => state.jzxg.strategyDetail
+    strategyData: state => state.jzxg.strategyDetail,
+    performStatisticData: state => state.jzxg.performStatistic,
+    performStockListData: state => state.jzxg.performStockList
   }),
   methods: {
     initNav: function() {
@@ -134,12 +158,42 @@ export default {
       }).then(() => {
         if (this.strategyData) {
           this.strategyName = this.strategyData.name
+          this.popTitle = '极智选股-' + this.strategyData.name
+          this.historyPopTitle = this.strategyData.name + '历史战绩'
           this.totalNum = this.strategyData.perform.totalNum
           this.profitNum = this.strategyData.perform.profitNum
           this.labelList = this.strategyData.indicators
           this.detailTenStock = this.strategyData.hotStocks
-          this.lateInList = this.strategyData.lastExcellent.stocks
-          this.nextStart = this.strategyData.lastExcellent.nextStart
+          this.dateFrom = this.strategyData.lastExcellent.recentInfo.dateFrom
+          this.dateTo = this.strategyData.lastExcellent.recentInfo.dateTo
+          this.tradeDays = this.strategyData.lastExcellent.recentInfo.days
+        }
+      })
+    },
+    initPerformData: function() {
+      this.$store.dispatch('jzxg/queryPerformStatistic', {
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo,
+        strategyId: this.strategyId
+      }).then(() => {
+        if (this.performStatisticData) {
+          this.buySignalNums = this.performStatisticData.buySignalNums
+          this.profitNums = this.performStatisticData.profitNums
+          this.businessDays = this.performStatisticData.businessDays
+        }
+      })
+      this.$store.dispatch('jzxg/queryPerformStockList', {
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo,
+        pageSize: this.pageSize,
+        pageStart: this.pageStart,
+        sort: 'buyTime|desc',
+        strategyId: this.strategyId
+      }).then(() => {
+        if (this.performStockListData) {
+          this.performStockList = this.performStockListData.list
+          // this.pageStart = this.performStockListData.nextStart
+          this.totalCount = this.performStockListData.totalCount
         }
       })
     },
@@ -160,6 +214,13 @@ export default {
     },
     cancle: function() {
       this.showBuy = false;
+    },
+    showHistory: function() {
+      this.isPopHistory = true
+      this.initPerformData()
+    },
+    hideHistory: function() {
+      this.isPopHistory = false
     }
   },
   mounted() {
@@ -192,7 +253,7 @@ export default {
     width: 240px;
     background-color: $bgConColor;
     top: 3px;
-    left: 1px;
+    left: 0;
     padding: 18px 20px 20px;
     height: 100%;
     z-index: 100;
@@ -229,7 +290,7 @@ export default {
     background-color: $bgConColor;
     padding: 0 20px;
     min-height: 100%;
-    height: 100%;
+    //  height: 100%;
 }
 .nav-list {
     width: 200px;
@@ -246,23 +307,33 @@ export default {
 }
 .nav-list li:hover {
     background-color: #1984ea;
-    p {
+    p.nav-name,
+    p.nav-value {
         color: #fff;
+    }
+    p.nav-label {
+        color: rgba(255,255,255,0.5);
     }
 }
 .hover-blue {
     background-color: #1984ea !important;
-    p {
+    p.nav-name,
+    p.nav-value {
         color: #fff !important;
+    }
+    p.nav-label {
+        color: rgba(255,255,255,0.5) !important;
     }
 }
 .nav-name {
     font-size: 14px;
     color: #fff;
+    margin-bottom: 5px;
 }
 .nav-value {
     font-size: 20px;
     color: #fc2721;
+    font-weight: bold;
 }
 .label-wrap {
     height: 116px;
@@ -273,8 +344,15 @@ export default {
     width: 30%;
     height: 100%;
 }
-.label-ul li:nth-child(3) {
-    margin-right: 20px;
+.label-ul li:nth-child(1) > div {
+    float: left;
+}
+.label-ul li:nth-child(3) > div {
+    float: right;
+    margin-right: 10px;
+}
+.label-ul li:nth-child(2) > div {
+    margin: 0 auto;
 }
 .label-ul li p:first-child {
     font-size: 14px;
@@ -288,7 +366,7 @@ export default {
 .jzxg-help-img {
     width: 15px;
     height: 15px;
-    background: url("../../assets/images/z3img/help.png") no-repeat;
+    background: url("../../assets/images/jzxg/help_tip.png") no-repeat;
     cursor: pointer;
     position: absolute;
     bottom: 15px;
@@ -315,9 +393,17 @@ export default {
     margin-bottom: 15px;
     font-size: 16px;
     color: #fff;
+    position: relative;
+    padding-left: 12px;
+}
+.detail-title img {
+    position: absolute;
+    top: 4px;
+    left: 0;
 }
 .profit-sum {
     margin-top: 10px;
+    margin-bottom: 20px;
     color: $grayWordsColor;
     text-align: right;
 }

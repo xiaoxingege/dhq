@@ -1,20 +1,21 @@
-<style>
+<style scoped>
 @import '../../assets/css/base.css';
 * {
   outline: none;
 }
-
 .tougu-consultation {
   width: 96%;
-  height: 100%;
-  margin: 0px 2%;
+  margin: 2px 2%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .consultation-content {
   width: 70%;
-  height: 80%;
   margin: 0px 1.7%;
   overflow-y: scroll;
+  flex: 1;
 }
 
 .recipient {
@@ -41,7 +42,6 @@
 }
 
 .sender-content {
-  width: 100%;
   display: flex;
   flex-direction: row;
   margin-right: 14px;
@@ -51,6 +51,7 @@
   width: 23px;
   height: 17px;
   float: left;
+  margin-top: 3px;
 }
 
 .sender-content img {
@@ -61,11 +62,13 @@
 
 .recipient-content p,
 .sender-content p {
+  max-width: 500px;
   padding: 21px 25px;
   border-radius: 20px;
   font-family: MicrosoftYaHei;
   line-height: 22px;
   font-size: 14px;
+  word-wrap: break-word !important;
 }
 
 .recipient-content p {
@@ -79,7 +82,7 @@
   background: rgba(178, 214, 255, 1);
   color: #525A66;
   margin-top: 7px;
-  float: right;
+  float: right; 
   margin-right: -13px;
 }
 
@@ -100,9 +103,9 @@
 }
 
 .usersend-content {
-  width: 70%;
-  height: 20%;
-  margin: 2px 1.7%;
+  width: 71.7%;
+  height:99px;
+  margin: 2px 0%;
   display: flex;
   flex-direction: row;
   position: relative;
@@ -115,7 +118,6 @@
 
 .input-text {
   width: 95%;
-  height: 85%;
   padding: 10px 2.5%;
   overflow: auto;
   font-size: 14px;
@@ -135,7 +137,6 @@
   font-size: 14px;
   font-family: MicrosoftYaHei;
   color: rgba(255, 255, 255, 1);
-  line-height: 18px;
   padding-top: 8px;
   cursor: pointer;
 }
@@ -147,20 +148,21 @@
 }
 
 .divisionTime {
-  width: 20%;
+  width: 15%;
   height: 10px;
   font-size: 12px;
   font-family: MicrosoftYaHei;
   color: rgba(175, 182, 189, 1);
   margin: 0px auto;
+  margin-top: 15px;
 }
 </style>
 
 <template>
 <div class="tougu-consultation">
-  <div class="consultation-content" ref="cBOX">
+  <div class="consultation-content" ref="cBOX" id="consultation-content">
     <div v-for="item in messageList">
-      <div class="divisionTime" v-if="item.showTime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
+      <div class="divisionTime">{{dateFormat(new Date(item.ctime), 'yyyy-mm-dd hh:nn')}}</div>
       <div class="recipient" v-show="item.senderId !== userId">
         <div class="recipient-headimage">
           <img :src="conversationList.userList[0].headImage" />
@@ -177,17 +179,14 @@
           <img src="../../assets/images/touguStudio/QP2.png" />
         </div>
         <div class="sender-headimage">
-          <img src="../../assets/images/touguStudio/AI-headimage.png" />
+          <img src="../../assets/images/touguStudio/userPhotoDefault.png"/>
         </div>
       </div>
       <div style="clear:both"></div>
     </div>
-
   </div>
-  <div class="usersend-content">
-    <div class="sendtocontent">
+   <div class="usersend-content">
       <div id="inputArea" contenteditable="true" class="input-text"></div>
-    </div>
     <div class="usersend-btn" @click="sendMessage()"><img src="../../assets/images/touguStudio/send-icon.png">发送</div>
   </div>
 </div>
@@ -200,26 +199,40 @@ import {
 export default {
   data() {
     return {
-      maxId: 0
+      maxId: 0,
+      topHeight:0
     }
   },
   methods: {
+    scrollToBottom(){
+         this.$nextTick(() => {
+          var consultationContent=this.$refs.cBOX;
+          consultationContent.scrollTop=consultationContent.scrollHeight;
+        })
+    },
     sendMessage() {
-      var messageContent = document.getElementById("inputArea").innerHTML;
+      var messageContent = document.getElementById('inputArea').innerHTML;
       if (messageContent !== '') {
         this.$store.dispatch('touguSpaceConsultation/sendSpaceConsultation', {
           message: messageContent,
           adviserId: this.studioList.userid
         });
       }
-      document.getElementById("inputArea").innerHTML = '';
+      document.getElementById('inputArea').innerHTML = '';
     },
-    pullMessage() {
+    Message(){
+      var _this=this;
       this.$store.dispatch('touguSpaceConsultation/getSpaceConsultation', {
         maxId: this.maxId,
         adviserId: this.studioList.userid
       }).then(() => {
-        this.maxId = this.messageList[this.messageList.length - 1].id;
+         _this.scrollToBottom();
+      })
+    },
+    PullMessage(){
+      this.$store.dispatch('touguSpaceConsultation/getPullSpaceConsultation', {
+        maxId: this.messageList[this.messageList.length - 1].id,
+        adviserId: this.studioList.userid
       })
     },
     leadingZero: function(num, size) {
@@ -228,13 +241,10 @@ export default {
     },
     dateFormat: function(date, formatString) {
       let vm = this;
-
       if (!date.valueOf()) {
         return '';
       }
-
       var d = date
-
       return formatString.replace(/(yyyy|mm|dd|hh|nn|ss)/gi,
         function($1) {
           switch ($1.toLowerCase()) {
@@ -253,6 +263,13 @@ export default {
           }
         }
       );
+    },
+     scrollHistory() {
+      var _this=this;
+      _this.$nextTick(() => {
+       var Cbox = _this.$refs.cBOX;
+       Cbox.scrollTop = _this.topHeight;
+      });
     }
   },
   computed: {
@@ -269,26 +286,33 @@ export default {
       userId: state => state.auth.passportId
     })
   },
-
   components: {},
-  mounted() {
-    this.pullMessage();
-    //     this.$store.dispatch('touguSpaceNav/getStudioInfo',{
-    //          roomId:this.$route.params.roomId
-    //   });
-    setInterval(() => {
-      this.pullMessage();
+   mounted() {
+    var _this=this;
+    _this.Message();
+    _this.scrollToBottom();
+    var timeInterval;
+    timeInterval = setInterval(() => {
+      _this.PullMessage();
     }, 1000);
-    var Cbox = this.$refs.cBOX;
+    // 每次进来之后及时清除一下计时器 然后再次重新渲染
+    _this.$once('hook:beforeDestroy', () => {            
+    clearInterval(timeInterval);                                    
+    });
+    var Cbox = _this.$refs.cBOX;
     Cbox.onscroll = () => {
       var scrollTop = Cbox.scrollTop;
       if (scrollTop === 0) {
         // 异步加载历史数据 
+        var OHeight=Cbox.scrollHeight;
         this.$store.dispatch('touguSpaceConsultation/getSpaceConsultationold', {
-          minId: this.messageList[0].id,
-          adviserId: this.studioList.userid
+          minId: _this.messageList[0].id,
+          adviserId: _this.studioList.userid
+        }).then(() => {
+            var NHeight=Cbox.scrollHeight;
+            _this.topHeight=NHeight-OHeight;
+            _this.scrollHistory();
         });
-
       }
     };
 

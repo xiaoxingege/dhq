@@ -1,7 +1,12 @@
 <template>
 <div class="hyAll">
     <div class="hyList" >
-        <hyList @hyCalenderDetail="hyCalenderDetail" ></hyList>
+       <ul >
+            <li v-for='(item,index) in setHyList' @click="showDetail(item,index)">
+                <div class="hyDate" >{{getDate(item.date)}}</div>
+                <hyDetail :model="item.events" :isSelected="saveHyIndex===index" ></hyDetail>
+            </li>
+        </ul>
     </div>
 
     <div class="hyDetail" ref="hydetail">
@@ -13,38 +18,73 @@
 <script>
 import { mapState } from 'vuex'
 import hyNews from 'components/dhq-news-detail'
-import hyList from 'components/jjrl/hy-list'
+import hyDetail from 'components/jjrl/hy-detail'
 export default {
-      components: {
+    components: {
     hyNews,
-    hyList
+    hyDetail
   },
  
     data(){
         return {
-            hyurl:''
+            hyurl:'',
+            cur:0,
+            hyList:{},
+            arrCode:[],
+            getAllCode:[],
+            curHyCode:'',
+            queryCode:'',
+            renderList:[]
         }
     },
     computed: { 
     ...mapState({
         storeData:state => state.jjrl.dateAndCode,
-        setHyList:state => state.jjrl.setHyList,
-        saveHyUrl:state => state.jjrl.saveHyUrl
-    })
+        setHyList:state => state.jjrl.setHyList && state.jjrl.setHyList.data || [],
+        setHyName:state => state.jjrl.setHyName,
+        saveDate: state => state.jjrl.saveDate,
+        saveHyUrl:state => state.jjrl.saveHyUrl,
+        saveHyIndex: state => state.jjrl.saveHyIndex,
+        savaHyList: state => state.jjrl.savaHyList
+       
+        
+    }),
+    changeCalendar(){
+        return this.saveDate.chooseDate;
+    }
 
     },
-    methods:{
-    hyCalenderDetail(item){
-   
+       methods:{
+        showDetail(item,index){
+     //  console.log(index+'index被选中')
+        this.$store.dispatch('jjrl/saveHyIndex',index)
+      // console.log('saveHyIndex存储的===='+this.saveHyIndex)
+        },
+         hyDate(date) {
+            var d, Y, M
+            d = new Date(date)
+            Y = d.getFullYear()
+            M = d.getMonth() + 1
+            
+            if (M < 10) {
+                M = '0' + M;
+            }
+            return Y +  M 
+        },
+        getDate(date){
+            var d,M,D
+            d = new Date(date)
+            M = d.getMonth()+1
+            D = d.getDate()
+            if( M < 10 ) { M = '0' + M; }
+            if( D < 10 ) { D = '0' + D; }
+            return  M + '-' + D 
+        },
+        getDayOfDate(date){
+          return parseInt(date.substr(date.lastIndexOf('-')+1))
+        }
     }
-    },
-    watch: {
-    hyurl() {
-      this.$refs.hydetail.scrollTop = 0;
-    }
-  }
    
-
 }
 </script>
 
@@ -69,5 +109,14 @@ export default {
     width: 67.5%;
     overflow: auto;
     height: 100%;
+}
+.cur{
+     background-color: $hoverBgColor;
+}
+.hyDate{
+    float: left;
+    width: 40px;
+    margin: 10px 0 0 15px;
+    
 }
 </style>

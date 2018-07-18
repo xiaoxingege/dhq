@@ -9,6 +9,8 @@
         <td>建议调入价格</td>
         <td>最新价格</td>
         <td>调入后最高涨幅</td>
+        <td>最大回撤</td>
+        <td></td>
         <td></td>
       </tr>
     </table>
@@ -20,15 +22,17 @@
           <table class="recentin-table">
             <tr v-for="(item,index) of recentInList">
               <td>{{formatData(item.stkcode)?item.stkcode:'--'}}</td>
-              <td @click="toStockDetail(item.stkid)" style="cursor: pointer;">{{formatData(item.stkname)?item.stkname:'--'}}</td>
+              <td @click="toStockDetail(item.stkid)" class="stock-name">{{formatData(item.stkname)?item.stkname:'--'}}</td>
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
-              <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio)?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.maxRiseRatio">{{formatData(item.maxRiseRatio) && item.status === 1?(100*item.maxRiseRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.maxDrawDown">{{formatData(item.maxDrawDown) && item.status === 1?(100*item.maxDrawDown).toFixed(2)+'%':'--'}}</td>
               <td>
                 <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
                 <span class="remove-btn" @click="removeStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && multiSelectionList[index].add === 0">-自选</span>
               </td>
+              <td style="text-align: center;"><span style="display:inline-block;width:80px;height:20px;background-color:#1984ea;">{{item.statusDisp}}</span></td>
             </tr>
           </table>
         </div>
@@ -47,14 +51,14 @@ import {
 } from 'vuex'
 import native from '../../utils/nativeApi'
 export default {
-  props: ['dataList', 'strategyId', 'nextStart'],
+  props: ['strategyId'],
   data() {
     return {
       noFlag: false, // 暂无更多数据显示,
       infiniteLoading: false,
-      num: 5, //  一页显示多少条
-      recentInList: this.dataList,
-      pageStart: this.nextStart,
+      num: 10, //  一页显示多少条
+      recentInList: [],
+      pageStart: 0,
       loadFlag: false,
       multiSelectionList: []
     }
@@ -72,16 +76,14 @@ export default {
 
   },
   watch: {
-    nextStart() {
-      this.pageStart = this.nextStart
-    },
-    dataList() {
-      this.recentInList = this.dataList
-      this.querySelSelection()
-    },
     strategyId() {
+      this.noFlag = false
+      this.loadFlag = false
+      this.pageStart = 0
+      // this.infiniteLoading = true
       this.recentInList = []
       this.multiSelectionList = []
+      this.initRecentInData()
     }
   },
   computed: mapState({
@@ -89,6 +91,19 @@ export default {
     multiSelectionData: state => state.jzxg.multiSelectionData
   }),
   methods: {
+    initRecentInData: function() {
+      this.$store.dispatch('jzxg/getLatestInData', {
+        strategyId: this.strategyId,
+        pageSize: 10,
+        pageStart: 0
+      }).then(() => {
+        if (this.lateInData) {
+          this.pageStart = this.lateInData.nextStart
+          this.recentInList = this.lateInData.stocks
+          this.querySelSelection()
+        }
+      })
+    },
     onInfinite() {
       let more = this.$el.querySelector('.load-more')
       if (!more) {
@@ -118,7 +133,7 @@ export default {
         this.noFlag = true
         this.loadFlag = false
       }
-      if (this.pageStart === -1 || this.infiniteLoading) { // 如果没数据了或者正在加载数据都不执行滚动事件了
+      if (this.pageStart === -1 || this.pageStart === 0 || this.infiniteLoading) { // 如果没数据了或者正在加载数据都不执行滚动事件了
         return
       }
       this.noFlag = false; // 到底啦隐藏
@@ -165,7 +180,7 @@ export default {
     }
   },
   mounted() {
-    //  this.querySelSelection()
+    this.initRecentInData()
   }
 }
 </script>
@@ -270,5 +285,12 @@ export default {
 .remove-btn {
     border: 1px solid $upColorDhq;
     color: $upColorDhq;
+}
+.stock-name {
+    cursor: pointer;
+    color: #808ba1;
+}
+.stock-name:hover {
+    color: #1984ea;
 }
 </style>
