@@ -474,12 +474,12 @@ export default {
     width: 100%;
 }
 .margin-balance-top {
-    height: 15%;
+    height: 11.5%;
     position: relative;
 }
 .chart-wrap {
     width: 100%;
-    height: 85%;
+    height: 88.5%;
     position: relative;
 }
 .margin-balance-chart {
