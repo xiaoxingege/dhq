@@ -309,7 +309,6 @@ export default {
         }).then(() => {
           resolve();
           this.qsArr = this.signalTrend.record;
-          console.log(this.signalTrend.record)
           this.$emit('timeValue', this.signalTrend.updateTime)
           
         })
@@ -332,7 +331,6 @@ export default {
       });
       Promise.all([p1, p2, p3]).then(() => {
         this.trendData.push(this.qsArr, this.qskzdArr, this.zdsArr)
-
       });
     },
     initTrend() {
@@ -366,7 +364,6 @@ export default {
       }).then(() => {
         this.dialogArr = this.signalTrend
         this.lists = this.signalTrend.record
-
       })
     },
 
@@ -464,6 +461,7 @@ export default {
     // this.initTrend()
     this.initTrendType()
     // this.getList();
+
     console.log(this.trendData)
   },
   destroyed() {
