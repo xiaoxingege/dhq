@@ -131,7 +131,7 @@ td a {
 <div class="signal-table-wrap">
 
   <!-- <div class="table-box display-box"> -->
-  <table class="table1" v-if='signalRealTime.length!=0' ref='datalist'>
+  <table class="table1" v-if='signalRealTime && signalRealTime.length !== 0' ref='datalist'>
     <tr>
       <td colspan="4" v-show='name'>
         <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>

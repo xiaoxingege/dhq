@@ -128,7 +128,7 @@ td a {
 <template>
 <div class="signal-table-wrap">
 
-  <table class="table1" v-if='signalTrend && signalTrend.length!==0'>
+  <table class="table1" v-if='signalTrend && signalTrend.length !== 0'>
     <tr>
       <td colspan="4" v-show='name'>
         <span class="tr-img4" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
