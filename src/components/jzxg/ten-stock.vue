@@ -9,7 +9,7 @@
         <ul class="stockLabelList">
           <li>
             <span>累计收益</span>
-            <span v-z3-updowncolor='item.profitRatio'>{{formatData(item.profitRatio)?(100*item.profitRatio).toFixed(2)+'%':'--'}}</span>
+            <span v-z3-updowncolor='item.profitRatio'>{{formatData(item.profitRatio)?(item.profitRatio>0?'+'+(100*item.profitRatio).toFixed(2)+'%':(100*item.profitRatio).toFixed(2)+'%'):'--'}}</span>
           </li>
           <li>
             <span>调入价格</span>

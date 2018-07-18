@@ -26,7 +26,7 @@
               <td>{{formatData(item.buyDate)?item.buyDate:'--'}}</td>
               <td>{{formatData(item.buyPrice)?item.buyPrice:'--'}}</td>
               <td>{{formatData(item.price)?item.price.toFixed(2):'--'}}</td>
-              <td v-z3-updowncolor="item.profitRatio">{{formatData(item.profitRatio)?(100*item.profitRatio).toFixed(2)+'%':'--'}}</td>
+              <td v-z3-updowncolor="item.profitRatio">{{formatData(item.profitRatio)?(item.profitRatio>0?'+'+(100*item.profitRatio).toFixed(2)+'%':(100*item.profitRatio).toFixed(2)+'%'):'--'}}</td>
               <td>{{formatData(item.holdingDays)?item.holdingDays+'天':'--'}}</td>
               <td>
                 <span class="add-btn" @click="addStock(index,item.stkcode)" v-if="multiSelectionList.length>0 && multiSelectionList[index] && !(multiSelectionList[index].add === 0)">+自选</span>
