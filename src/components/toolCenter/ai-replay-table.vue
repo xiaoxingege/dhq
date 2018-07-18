@@ -315,6 +315,7 @@ export default {
         series: [{
           type: 'bar',
           barWidth: 15,
+          barMinHeight: 1,
           data: fundFlow5Days,
           itemStyle: {
             normal: {
