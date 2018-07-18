@@ -161,10 +161,10 @@ td a {
       <td colspan="4" @click="moreData" class="more">更多>></td>
     </tr>
   </table>
-  <table v-if='signalTrend && signalTrend.length==0'>
+  <table v-else>
     <tr>
       <td colspan="4">
-        <span class="tr-img" :class="checkClass(type)"></span><span class="tr-title">{{signalTrend.trendTypeName}}</span>
+        <span class="tr-img4" :class="checkClass(type)"></span><span class="tr-title">{{name}}</span>
       </td>
     </tr>
     <tr>
@@ -194,7 +194,6 @@ export default {
       qskzdArr: [], // 趋势空转多 type 1
       zdsArr: [], // 震荡上升股 type 3
       trendData: []
-
     }
   },
   watch: {
@@ -231,10 +230,45 @@ export default {
     checkClass(index) {
       return index === 1 ? 'tr-img5' : index === 3 ? 'tr-img6' : ''
     },
+    timeRange(beginTime, endTime, nowTime) {
+      var strb = beginTime.split(':');
+      if (strb.length !== 2) {
+        return false;
+      }
+
+      var stre = endTime.split(':');
+      if (stre.length !== 2) {
+        return false;
+      }
+
+      var b = new Date();
+      var e = new Date();
+      var n = new Date();
+
+      b.setHours(strb[0]);
+      b.setMinutes(strb[1]);
+      e.setHours(stre[0]);
+      e.setMinutes(stre[1]);
+
+      if (n.getDay() === 6 || n.getDay() === 0) {
+        return false;
+      }
+      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+        // this.reFresh()
+        return true;
+      } else {
+        // alert ('当前时间是：' + n.getHours () + ':' + n.getMinutes () + '，不在该时间范围内！');
+        return false;
+      }
+      // return false;
+    },
     checkChngPct(value) {
+      let showFlag = this.timeRange('9:00',"9:30");
       if (value === null || value === '') {
         return '--';
-      } else {
+      }else if(showFlag && Number(value) === 0) {
+        return '--'
+      }else {
         if (value > 0) {
           return '+' + (Number(value) * 100).toFixed(2) + '%';
         } else {

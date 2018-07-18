@@ -308,9 +308,10 @@ export default {
           trendTypeId: 2
         }).then(() => {
           resolve();
-          this.qsArr = this.signalTrend.record
+          this.qsArr = this.signalTrend.record;
+          console.log(this.signalTrend.record)
           this.$emit('timeValue', this.signalTrend.updateTime)
-
+          
         })
       });
       let p2 = new Promise((resolve, reject) => {
@@ -463,6 +464,7 @@ export default {
     // this.initTrend()
     this.initTrendType()
     // this.getList();
+    console.log(this.trendData)
   },
   destroyed() {
 

@@ -42,13 +42,9 @@ export default {
     toggleCalendar() {
       this.isOpen = !this.isOpen;
     },
-    paddNum(num) {
-      num += "";
-      return num.replace(/^(\d)$/, "0$1");
-    },
     crtTimeFtt(date) {
       if (date != null) {
-        return date.getFullYear() + '-' + this.paddNum((date.getMonth() + 1)) + '-' + this.paddNum(date.getDate());
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
       }
     }
   }

@@ -236,7 +236,7 @@ export default {
     background-color: $bgDeepColor;
     font-size: 12px;
     min-width: 1217px;
-    padding: 0 0 0 240px;
+    padding: 3px 1px 3px 242px;
     font-family: "Microsoft YaHei";
     color: $wordsColorBase;
     position: relative;
@@ -250,17 +250,13 @@ export default {
 }
 .nav-wrap {
     position: fixed;
-    width: 242px;
+    width: 240px;
     background-color: $bgConColor;
-    top: 0;
+    top: 3px;
     left: 0;
     padding: 18px 20px 20px;
     height: 100%;
     z-index: 100;
-    border-top: 3px solid $bgDeepColor;
-    border-bottom: 3px solid $bgDeepColor;
-    border-left: 1px solid $bgDeepColor;
-    border-right: 2px solid $bgDeepColor;
 }
 .to-renewals {
     position: absolute;
@@ -295,9 +291,6 @@ export default {
     padding: 0 20px;
     min-height: 100%;
     //  height: 100%;
-    border-top: 3px solid $bgDeepColor;
-    border-bottom: 3px solid $bgDeepColor;
-    border-right: 1px solid $bgDeepColor;
 }
 .nav-list {
     width: 200px;

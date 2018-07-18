@@ -96,6 +96,7 @@ html {
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
     border-bottom: 3px solid #0d0e0f;
+    min-width: 1217px;
 }
 .topic-detail a:hover {
     text-decoration: none;
@@ -291,13 +292,13 @@ html {
     color: #c9d0d7;
     line-height: 25px;
     float: left;
-    width: 12%;
+    width: 11%;
     text-align: right;
 }
 .new-srcname {
     line-height: 25px;
     float: left;
-    width: 14%;
+    width: 18%;
     text-align: right;
     color: #c9d0d7;
 }
@@ -316,9 +317,10 @@ html {
     background: #cccfd9;
     border-radius: 3px;
     z-index: 999;
-    /* top: 25px; */
-    /* top: 23px; */
     left: 157px;
+    max-width: 450px;
+    line-height: 1.4;
+    white-space: normal;
 }
 
 .left-con3 strong {

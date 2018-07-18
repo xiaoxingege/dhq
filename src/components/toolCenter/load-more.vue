@@ -10,7 +10,7 @@
             </header>
             <slot>
             </slot>
-            <footer class="load-more">
+            <footer class="load-more" style="display:none">
                 <slot name="load-more">
                     <!-- <span v-show="downFlag === false">上拉加载更多</span> -->
                     <span v-show="downFlag === false">正在加载</span>

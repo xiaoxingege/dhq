@@ -238,7 +238,8 @@ export default {
     return {
       updateDataPid: null,
       intervalTime: 1000,
-      timeoutID: null
+      timeoutID: null,
+      chartInterval: null
     }
   },
   components: {},
@@ -291,38 +292,50 @@ export default {
       return moveBlockData
     },
     moveUpBlockData: state => {
-      const moveUpBlockData = state.indexChart.moveBlock
-      if (moveUpBlockData && moveUpBlockData.length > 0) {
-        const toTime = moveUpBlockData[0].tradeMin.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveUpBlockData[0].tradeMin = m + ':' + s
-        return moveUpBlockData[0]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveUpBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 2) {
+            moveUpBlockData = block
+            const toTime = moveUpBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveUpBlockData.tradeTime = m + ':' + s
+          }
+        })
+        return moveUpBlockData
       }
     },
     moveDownBlockData: state => {
-      const moveDownBlockData = state.indexChart.moveBlock
-      if (moveDownBlockData && moveDownBlockData.length > 0) {
-        const toTime = moveDownBlockData[1].tradeMin.toString()
-        let m;
-        let s;
-        if (toTime.length === 6) {
-          m = toTime.substring(0, 2)
-          s = toTime.substring(2, 4)
-        } else if (toTime.length === 5) {
-          m = toTime.substring(0, 1)
-          s = toTime.substring(1, 3)
-        }
-        moveDownBlockData[1].tradeMin = m + ':' + s
-        return moveDownBlockData[1]
+      const moveBlockData = state.indexChart.moveBlock
+      let moveDownBlockData = {}
+      if (moveBlockData && moveBlockData.length > 0) {
+        moveBlockData.forEach((block) => {
+          if (block.moveSignalId === 1) {
+            moveDownBlockData = block
+            const toTime = moveDownBlockData.tradeTime.toString()
+            let m;
+            let s;
+            if (toTime.length === 6) {
+              m = toTime.substring(0, 2)
+              s = toTime.substring(2, 4)
+            } else if (toTime.length === 5) {
+              m = toTime.substring(0, 1)
+              s = toTime.substring(1, 3)
+            }
+            moveDownBlockData.tradeTime = m + ':' + s
+          }
+        })
       }
+      return moveDownBlockData
     }
   }),
   methods: {
@@ -582,15 +595,15 @@ export default {
       let moveDownX;
       let moveDownY;
       let moveDownName;
-      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeMin) !== -1) {
-        moveUpX = _this.moveUpBlockData.tradeMin
-        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeMin)]
-        moveUpName = _this.moveUpBlockData.idxName
+      if (_this.moveUpBlockData && timeline.indexOf(_this.moveUpBlockData.tradeTime) !== -1) {
+        moveUpX = _this.moveUpBlockData.tradeTime
+        moveUpY = datas.priceArr[timeline.indexOf(_this.moveUpBlockData.tradeTime)]
+        moveUpName = _this.moveUpBlockData.sectionName
       }
-      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeMin) !== -1) {
-        moveDownX = _this.moveDownBlockData.tradeMin
-        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeMin)]
-        moveDownName = _this.moveDownBlockData.idxName
+      if (_this.moveDownBlockData && timeline.indexOf(_this.moveDownBlockData.tradeTime) !== -1) {
+        moveDownX = _this.moveDownBlockData.tradeTime
+        moveDownY = datas.priceArr[timeline.indexOf(_this.moveDownBlockData.tradeTime)]
+        moveDownName = _this.moveDownBlockData.sectionName
       }
       const chartHeight = (window.innerHeight * 0.37 * 0.74 - 40) * 0.821
       let lineUpY = moveUpY + 5; // 上涨板块指示线的终点Y坐标
@@ -621,7 +634,7 @@ export default {
           left: 65,
           top: 40,
           bottom: 30,
-          right: 25
+          right: 15
         },
         calculable: true,
         xAxis: [{
@@ -871,12 +884,6 @@ export default {
           data: JSON.parse(JSON.stringify(this.removeZero(datas === null ? '' : datas.avgArr)))
         }]
       })
-      this.chart.on('click', (params) => {
-        if (params.componentType === 'markPoint') {
-          params.event.event.stopPropagation();
-          window.open(ctx + '/siweiIndex?key=zsIndex')
-        }
-      })
     },
     toPercent(x, y, n) {
       if (y === 0 || x === null || x === 'null') {
@@ -890,7 +897,7 @@ export default {
     hideAlert(index) {
       document.getElementsByClassName('info-alert')[index].style.display = 'none'
     },
-    indexStock() {
+    /* indexStock() {
       const msg = {
         subject: 'timeline',
         type: '1',
@@ -909,7 +916,7 @@ export default {
         token: ''
       }
       this.$store.dispatch('z3sockjs/send', msg)
-    },
+    }, */
     updateBar(data) {
       this.$store.commit('indexChart/barSocket', data)
     },
@@ -918,13 +925,46 @@ export default {
     },
     autoUpdate: function() {
       const _this = this
-      if (this.updateDataPid) {
-        clearInterval(this.updateDataPid)
-      } else {
-        this.updateDataPid = setInterval(function() {
-          _this.$store.dispatch('indexChart/getMoveBlock')
-        }, 60 * _this.intervalTime)
-      }
+      /* if (this.updateDataPid) {
+         clearInterval(this.updateDataPid)
+       } else {
+         this.updateDataPid = setInterval(function() {
+           _this.$store.dispatch('indexChart/getMoveBlock')
+         }, 60 * _this.intervalTime)
+       }*/
+      this.chartInterval = setInterval(function() {
+        let p1 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getMoveBlock').then(() => {
+            resolve();
+          })
+        });
+        let p2 = new Promise((resolve, reject) => {
+          _this.$store.dispatch('indexChart/getIndexChartData', {
+            stockCode: '000001.SH'
+          }).then(() => {
+            resolve();
+          })
+        });
+        Promise.all([p1, p2]).then(() => {
+          _this.refreshSzzsEcharts(_this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '000300.SH'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.lsChartData, 1, '沪深300')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '399001.SZ'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.szczChartData, 2, '深证成指')
+        })
+        _this.$store.dispatch('indexChart/getIndexChartData', {
+          stockCode: '399006.SZ'
+        }).then(() => {
+          _this.refreshEcharts(_this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
+        })
+        _this.$store.dispatch('indexChart/getBarData').then(() => {})
+      }, 3 * _this.intervalTime)
     },
     toMarketDetail: function() {
       window.open(ctx + '/stock/000001.SH')
@@ -946,7 +986,7 @@ export default {
     }
   },
   watch: {
-    stockMessage() {
+    /* stockMessage() {
       if (this.stockMessage) {
         this.updateStock(this.stockMessage)
       }
@@ -960,7 +1000,7 @@ export default {
         // 断开连接，重新建立连接
         this.$store.dispatch('z3sockjs/init')
       }
-    },
+    }, */
     barMessage() {
       if (this.barMessage) {
         this.updateBar(this.barMessage)
@@ -989,7 +1029,7 @@ export default {
     szzsChartData: {
       deep: true,
       handler: function() {
-        if (this.moveBlockData) {
+        if (this.moveBlockData && this.szzsChartData) {
           this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         }
       }
@@ -1015,7 +1055,9 @@ export default {
     moveBlockData: {
       deep: true,
       handler: function() {
-        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        if (this.moveBlockData && this.szzsChartData) {
+          this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+        }
       }
     }
   },
@@ -1029,18 +1071,20 @@ export default {
       this.$store.dispatch('indexChart/getIndexChartData', {
         stockCode: '000001.SH'
       }).then(() => {
+        this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
         resolve();
       })
     });
     Promise.all([p1, p2]).then(() => {
       this.refreshSzzsEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+      this.chart = echarts.getInstanceByDom(document.getElementsByClassName('indexChart')[0]) || echarts.init(document.getElementsByClassName('indexChart')[0])
+      this.chart.on('click', (params) => {
+        if (params.componentType === 'markPoint') {
+          params.event.event.stopPropagation();
+          window.open(ctx + '/siweiIndex?key=zsIndex')
+        }
+      })
     });
-    this.autoUpdate()
-    /* this.$store.dispatch('indexChart/getIndexChartData', {
-       stockCode: '000001.SH'
-     }).then(() => {
-       this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
-     })*/
     this.$store.dispatch('indexChart/getIndexChartData', {
       stockCode: '000300.SH'
     }).then(() => {
@@ -1057,9 +1101,16 @@ export default {
       this.refreshEcharts(this.$store.state.indexChart.chartData.cybzChartData, 3, '创业板指')
     })
     this.$store.dispatch('indexChart/getBarData').then(() => {})
+    this.autoUpdate()
+    /* this.$store.dispatch('indexChart/getIndexChartData', {
+       stockCode: '000001.SH'
+     }).then(() => {
+       this.refreshEcharts(this.$store.state.indexChart.chartData.szzsChartData, 0, '上证指数')
+     })*/
   },
   destroyed() {
     z3websocket.ws && z3websocket.ws.close()
+    this.chartInterval && clearInterval(this.chartInterval)
   }
 }
 </script>

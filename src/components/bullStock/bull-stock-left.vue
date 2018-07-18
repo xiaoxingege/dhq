@@ -2,7 +2,7 @@
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style.scss";
 .bullBox * {
-    font-family: 微软雅黑 !important;
+    font-family: "Microsoft YaHei" !important;
 }
 
 .bullBox {
@@ -152,7 +152,7 @@ export default {
   data() {
     return {
       currentTime: '',
-      bullSelected: 'heatIndex',
+      bullSelected: 'chngPct',
       colors: {
         // 'heatIndex': colorsList.slice().reverse().slice(20),
         'heatIndex': colorsList.slice().reverse(),

@@ -43,6 +43,8 @@ const state = {
   },
   auth: {
     authorization: '', // 'Bearer test_z3quant_accesss_token', // test access_token
+    accessToken: '',
+    userType: '',
     clientid: '', // 'test_client_id',
     deviceid: '', // 'test_device_id',
     updateTime: null, // updateTime
@@ -54,15 +56,14 @@ const state = {
 }
 const getters = {
   authHeader: state => {
-    if (state.auth.authorization) {
-      return {
-        authorization: state.auth.authorization,
-        clientid: state.auth.clientid,
-        deviceid: state.auth.deviceid,
-        userId: state.user.userId
-      }
+    return {
+      authorization: state.auth.authorization || '',
+      accessToken: state.auth.accessToken || '',
+      userType: state.auth.userType || '',
+      clientid: state.auth.clientid,
+      deviceid: state.auth.deviceid,
+      userId: state.user.userId
     }
-    return {}
   }
 }
 const actions = {
@@ -103,6 +104,8 @@ const mutations = {
   [mutationTypes.UPDATE_AUTH_SETTING](state, authInfo) {
     state.auth = {
       authorization: authInfo.authorization,
+      accessToken: authInfo.accessToken,
+      userType: authInfo.userType,
       clientid: authInfo.clientid,
       deviceid: authInfo.deviceid,
       expires: authInfo.expires,

@@ -167,7 +167,7 @@ export default {
   background: #e6363a;
   border-radius: 4px;
   display: inline-block;
-  width: 48px;
+  width: 40px;
   text-align: center;
   height: 20px;
   line-height: 20px;

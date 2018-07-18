@@ -71,19 +71,6 @@
     padding: 8px 10px 8px 8px;
 }
 
-.perday {
-    width: 37px;
-    height: 20px;
-    line-height: 20px;
-    cursor: default;
-    display: inline-block;
-    float: left;
-    font-size: $fontSizeBase;
-    text-align: center;
-    border-right: 2px solid #141518;
-    background-color: #262626;
-}
-
 .disable_time {
     background-color: #717171;
     color: #999;
