@@ -129,7 +129,7 @@ td {
         <td class="price">{{titlePrice}}</td>
         <td class="change">{{titleStockCondtion}}</td>
       </tr>
-      <tr v-for="stock of stockList">
+      <tr v-for="(stock,index) of stockList" :key="index">
         <td class="tiker">{{stock.name}}</td>
         <td>
           <div class="stocklist-chart" v-trend-line="{'name':stock.name,'catId':stockId}"></div>

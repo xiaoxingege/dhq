@@ -33,7 +33,6 @@
     height: 20px;
     line-height: 20px;
     cursor: default;
-    display: inline-block;
     float: left;
     text-align: center;
     margin-left: 4px;
@@ -125,7 +124,7 @@
       <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
     </div>
     <div class="map_legend clearfix">
-      <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="isLegendShow">{{legend.value}}</div>
+      <div v-for="(legend,index) of legendList" :key="index" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="isLegendShow">{{legend.value}}</div>
     </div>
   </div>
 </div>

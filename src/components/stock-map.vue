@@ -34,7 +34,6 @@
     height: 20px;
     line-height: 20px;
     cursor: default;
-    display: inline-block;
     float: left;
     text-align: center;
     margin-left: 4px;
@@ -225,10 +224,10 @@
     <div class="clearfix playback" v-if="showPlayback">
       <playbackline :status="playback.status" :time="playback.time" :isFullScreen="isEnlarge" @startPlay="startPlay" @pausePlay="pausePlay" @stopPlay="stopPlay" @goPlay="queryPlaybackData"></playbackline>
     </div>
-    <div class="map_legend clearfix">
+    <div class="map_legend clearfix"><!-- 底部色值 -->
       <img src="../assets/images/stock-map/you.png" alt="" class="legend-switch" v-if="isEnlarge && isLegendShow" v-on:click="switchLegend">
       <img src="../assets/images/stock-map/zuo.png" alt="" class="legend-switch" v-if="isEnlarge && !isLegendShow" v-on:click="switchLegend">
-      <div v-for="legend of legendList" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="!isEnlarge || isLegendShow">{{legend.value}}</div>
+      <div v-for="(legend,index) of legendList" :key="index" class="step" :style="{background:legend.backgroundColor,width:legendWidth+'px'}" v-if="!isEnlarge || isLegendShow">{{legend.value}}</div>
     </div>
   </div>
 </div>
