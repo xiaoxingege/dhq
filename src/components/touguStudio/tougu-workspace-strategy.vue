@@ -8,14 +8,14 @@
     .editor-insert-stock a{
         font-size: 14px;
     }
-    .strategy-title { padding-left:2%; color:#D3D9DD; font-size:24px;font-family:MicrosoftYaHei;}
+    .strategy-title { padding-left:2%; color:#D3D9DD; font-size:24px;font-family:"Microsoft YaHei";margin-top: 10px;}
     .strategy-author { padding-left:2%; height:24px; margin-top:8px; }
     .author-headimg { width:23px; height:24px; float:left; border-radius: 50%}
     .author-name { color:#AFB6BD; font-size:12px; line-height:24px; float:left; margin-left:8px;}
     .split-area { width:85%; height:4px; background:#23272C; margin:8px 0; margin-left:2%;}
-    .strategy-item { width:85%; box-sizing:border-box; margin: 0px 2%; border-bottom: 1px solid #23272C;padding-bottom:20px;}
+    .strategy-item { width:81%; box-sizing:border-box; margin: 0px 4%; border-bottom: 2px solid #23272C;padding-bottom:20px;}
     .item-ctime { color:#AFB6BD; font-size:12px; float:right; padding-top:25px;}
-    .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;padding-top:57px;padding-bottom:25px;padding-left:2%;font-size:14px;font-family:MicrosoftYaHei;}
+    .strategy-item-content { color:#D3D9DD; font-size:14px;line-height: 22px;padding-top:57px;padding-bottom:25px;font-size:14px;font-family:"Microsoft YaHei";}
     .showHidden{height:30px;overflow:hidden;}
     .strategy-item-content p,.editor-img-wrap{margin-top:8px;}
     .strategy-item-collapse { width:100%; height:20px; line-height:20px;}

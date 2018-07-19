@@ -5,9 +5,11 @@ body,
 .tougu-workspace-wrapper,
 .tougu-workspace-wrapper-inner {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background-color: #141518;
 }
 .header {
   width: 100%;
@@ -15,8 +17,9 @@ body,
 }
 .content {
   display: flex;
-  flex-Direction: column;
+  flex-direction: column;
   flex: 1;
+  height: 71%;
 }
 </style>
 

@@ -14,12 +14,13 @@
   color: #C9D0D7;
   font-size: 12px;
   text-align: center;
-  cursor: pointer
+  cursor: pointer;
+  border-right: 1px solid rgba(48,53,59,1);
 }
 
 .selected {
   background: #525A65;
-  color: #fff
+  color: #fff;
 }
 
 .live {

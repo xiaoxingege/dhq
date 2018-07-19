@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import nativeApi, {
+    nativeCalls
+} from 'utils/nativeApi'
 import dhqIndex from 'stores/dhqIndex'
 import z3sockjs from 'stores/dhqsocket'
 import stock from 'stores/dhqStock'
@@ -86,15 +89,17 @@ const actions = {
     }) {
         return new Promise((resolve, reject) => {
             if (window.Z3) {
-                window.Z3.SndTokenInfo((info) => {
-                    const authInfo = JSON.parse(info)
-                        /* for(var key in authInfo){
-                             alert(key+','+authInfo[key])
-                         } */
-                    authInfo.passportId = authInfo.userId
-                    commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
-                    resolve(authInfo)
-                })
+                if (!nativeCalls.authSetting) {
+                    nativeCalls._regist('authSetting', function(info) {
+                        // alert(info);
+                        const authInfo = info;
+                        authInfo.passportId = authInfo.userId
+                        commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
+                        resolve(authInfo)
+                    })
+                }
+                // 获取token, 客户端为异步机制，调用H5 nativeCallJs('authSetting',info)方法，需要使用promise保证获取后再执行之后的代码。
+                nativeApi.syncAuthInfo();
             } else {
                 // 如果不是从客户端过来的，则给予测试信息
                 const authInfo = {
@@ -106,7 +111,7 @@ const actions = {
                     expires: -1, // second
                     userId: 'userId', // test userid
                     passportId: null
-                }  
+                }
                 commit(mutationTypes.UPDATE_AUTH_SETTING, authInfo)
                 resolve()
             }
