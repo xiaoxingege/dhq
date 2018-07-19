@@ -11,7 +11,7 @@
                     <span  class="deleteSelfChoice" @click="deleteSelfChoice(item,index)" v-if="isSelfSelection.length>0&&isSelfSelection[index]&&isSelfSelection[index].add===0">-自选</span>
                 </div>
                 <div class="price" v-z3-updowncolor="item[7]" @click="toDetails(item)"><span>{{item[5].toFixed(2)}}</span><span>{{item[6].toFixed(2)}}</span><span>{{item[7].toFixed(2)+"%"}}</span></div>
-                <div class="open"><span >今开：<i :class="item[7]>0?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
+                <div class="open"><span >今开：<i :class="item[4]>item[3]?'red':'green'">{{item[4].toFixed(2)}}</i></span><span>昨收：{{item[3].toFixed(2)}}</span></div>
             </li>
         </ul>
     </div>
