@@ -19,7 +19,7 @@
             <div class="relateStock" v-if="ele.concepts[0]&&JSON.stringify(setHyName)!=='{}'">
                 <span>相关股票:</span>
                 <ul v-if="ele.concepts[0].stocks && setHyName">
-                   <li v-for="item in ele.concepts[0].stocks.split(',')" @click='jumpDetail(item,index)'> {{ setHyName&&setHyName[item]?setHyName[item][2]:item }} </li>  
+                   <li v-for="item in ele.concepts[0].stocks.split(',')" @click='jumpDetail(item,index)'> {{ setHyName&&setHyName[item]?setHyName[item][2]:'' }} </li>  
                 </ul>   
             </div>
         </div>

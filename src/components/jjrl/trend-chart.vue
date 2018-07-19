@@ -172,11 +172,14 @@ export default {
       //  a是初始化的数据，b为undefined 当初始化变化后，b才有值
      console.log(a)
     // console.log(b)
-         this.paint(this.saveDate.chooseDate)
+    if(b){
+        this.paint(this.saveDate.chooseDate)
+    }
+       
     }
   },
   created () {
-  // this.paint(this.saveDate.chooseDate)
+     this.paint(this.saveDate.chooseDate)
   }
 }
 </script>
