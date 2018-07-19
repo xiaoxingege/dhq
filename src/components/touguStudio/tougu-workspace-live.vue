@@ -34,12 +34,13 @@
     .live-time {
         height: 10px;
         font-size: 12px;
-        font-family: MicrosoftYaHei;
+        font-family:'Microsoft YaHei';
         color: rgba(175, 182, 189, 1);
     }
     
     .live-content {
-        width: 80%;
+        max-width: 80% !important;
+        display: inline-block;
         background: rgba(48, 53, 59, 1);
         border-radius: 20px;
         margin-top: 18px;
@@ -54,8 +55,8 @@
         width: 23px;
         height: 18px;
         float: left;
-        margin-top: -5px;
-        margin-right: -3px;
+        margin-top: 14px;
+        margin-right:-10px;
     }
     
     .live-content .editor-insert-stock a,
@@ -69,8 +70,9 @@
     
     .live-content p a,
     .editor-insert-stock a,
-    .live-content a {
+    .live-content a,.live-content span a {
         text-decoration: underline !important;
+        color: #1984ea !important;;
     }
 </style>
 

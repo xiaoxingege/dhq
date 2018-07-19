@@ -2,10 +2,10 @@
     .tougu-workspace-header { height:108px; background:url('../../assets/images/touguStudio/tougu-workspace-header-bg.png') center no-repeat; background-size:cover;width:100%;}
     .studio-info-headimage { width:73px; height:72px; margin-left:36px; margin-top:22px; float:left}
     .studio-info-info { float:left; margin-left:22px; }
-    .studio-info-name {color:#c79b5e;font-size: 32px;margin-top: 20px;}
+    .studio-info-name {color:#c79b5e;font-size: 32px;margin-top: 20px;font-weight: bold;}
     .studio-info-headimage img{width: 100%;height: 100%;border-radius: 50%}
-    .studio-info-desc { color:#C9D0D7; font-size:18px;font-family:MicrosoftYaHei;height:19px;}
-    .studio-info-remaing-day { float:right; color:#C9D0D7; font-size:14px; margin-right:29px; margin-top:70px;font-family:MicrosoftYaHei;}
+    .studio-info-desc { color:#C9D0D7; font-size:18px;font-family:'Microsoft YaHei';height:19px;}
+    .studio-info-remaing-day { float:right; color:#C9D0D7; font-size:14px; margin-right:29px; margin-top:70px;font-family:'Microsoft YaHei';opacity: 0.6;}
     .willExpired{color:red;}
 </style>
 

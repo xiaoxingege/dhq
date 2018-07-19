@@ -279,7 +279,7 @@ export default{
                     success: function (data) {
                       if (data.retcode === 0) {
                           $('.username').val('');
-                          $('.phone').val('');
+                          $('.userphone').val('');
                           _this.reSuccess=true;
                       } else {
                           alert(data.msg);
