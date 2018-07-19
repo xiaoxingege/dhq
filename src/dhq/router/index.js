@@ -1,4 +1,44 @@
+// 板块
+const ThemeIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/theme-index')
+const TopicDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/topic-detail')
+const IndustryIndex = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-index')
+const IndustryDetail = () =>
+  import ( /* webpackChunkName: "plate" */ 'components/industry-detail')
+const DetailPages = () =>
+  import ( /* webpackChunkName: "detail-pages" */ 'components/detail-pages')
+// 大盘云图
+const Map = () =>
+  import ( /* webpackChunkName: "map" */ 'components/z3tougu-map')
+const PlateMap = () =>
+  import ( /* webpackChunkName: "map" */ 'components/plate-map/plate-map-index')
+// 首页
 import DhqIndex from 'components/dhqHome/dhqIndex'
+import NewsList from 'components/dhqHome/newslist'
+// 工具-资讯
+const Replay = () =>
+  import ( /* webpackChunkName: "info" */ 'components/jjrl/replay')
+const Headline = () =>
+  import ( /* webpackChunkName: "info" */ 'components/headlines/headline')
+const DhqNews = () =>
+  import ( /* webpackChunkName: "info" */ 'components/dhq-news-detail')
+// 工具-决策
+const Jzxg = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/jzxg/jzxg')
+const TouguStudio = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/touguStudio/touguStudio')
+const TouguWorkspace = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/touguStudio/tougu-workspace')
+const SignalIndex = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/toolCenter/signal-index')
+const AireplayIndex = () =>
+  import ( /* webpackChunkName: "strategy" */ 'components/toolCenter/ai-replay-index')
+// 测试贯通页
+const TestNative = () =>
+  import ('components/test/test-native')
+/* import DhqIndex from 'components/dhqHome/dhqIndex'
 import NewsList from 'components/dhqHome/newslist'
 import TopicDetail from 'components/topic-detail'
 import IndustryDetail from 'components/industry-detail'
@@ -15,7 +55,7 @@ import Headline from 'components/headlines/headline'
 import SignalIndex from 'components/toolCenter/signal-index'
 import TestNative from 'components/test/test-native'
 import DhqNews from 'components/dhq-news-detail'
-import AireplayIndex from 'components/toolCenter/ai-replay-index'
+import AireplayIndex from 'components/toolCenter/ai-replay-index'*/
 // import notOpenStock from 'components/jjrl/notOpenStock'
 // import Search from 'components/search'
 // import SearchBox from 'components/search-box'
