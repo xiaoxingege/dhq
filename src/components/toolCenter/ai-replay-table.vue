@@ -194,7 +194,7 @@ td a {
     <tr v-for="(item,index) of indexResume">
       <td>
         <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
-        <div @click='toNative({stockCode:(item.stkcode+"."+item.market)})' class="tonative">{{item.stkname ||'--'}}</div>
+        <div @click='toNative({stockCode:(item.stkcode+"."+toUpperCase(item.market))})' class="tonative">{{item.stkname ||'--'}}</div>
       </td>
       <td class="td-chngPct">
         <div v-z3-updowncolor="item.changeRatio">{{item.price | price}}</div>
@@ -338,6 +338,9 @@ export default {
     },
     toNative(stockCode) {
       return native.openStock(stockCode)
+    },
+    toUpperCase(str) {
+      return str.toUpperCase()
     },
     concats(code) {
       return util.formatterInnercode(code)
