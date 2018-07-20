@@ -1,5 +1,9 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import "../../assets/scss/style.scss";
+.finance-news,
+.finance-news * {
+    box-sizing: border-box;
+}
 .finance-news {
     background-color: $bgConColor;
     height: 100%;

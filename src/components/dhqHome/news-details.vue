@@ -1,7 +1,8 @@
-<style lang="scss" scoped="">
+<style lang="scss" scoped>
 @import '../../assets/css/base.css';
 @import "../../assets/scss/style.scss";
-* {
+.news-detail-wrap,
+.news-detail-wrap * {
     box-sizing: border-box;
     font-family: 'Microsoft YaHei';
     font-size: $fontSizeBase;
