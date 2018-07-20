@@ -54,7 +54,7 @@
 <div class="search_wrap">
   <input type="text" @input="search($event)" ref="keyword" class="search_box" placeholder="输入代码/简称/简拼定位个股" autocomplete="off" v-model="message" />
   <ul class="bubSearchResult" v-if="stockSelectList && stockSelectList.length > 0 && message!=''">
-    <li v-for="stock in stockSelectList" v-on:click="focusStock($event)">
+    <li v-for="(stock,index) in stockSelectList" :key="index" v-on:click="focusStock($event)">
       <a href="#">
                     <span class="ticker">{{stock.id}}</span>
                     <span class="company">{{stock.name}}</span>

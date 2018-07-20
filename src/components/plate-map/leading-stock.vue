@@ -11,7 +11,7 @@
       <td>涨跌幅</td>
       <td v-if="condition!='mkt_idx.cur_chng_pct'">{{conditionList[condition]}}</td>
     </tr>
-    <tr v-for="item of leadStockList">
+    <tr v-for="(item,index) of leadStockList" :key="index">
       <td style="color:#666;">{{formatData(item.symbol)?'--':item.symbol.split('.')[0]}}</td>
       <td style="color:#666;">{{formatData(item.stockName)?'--':item.stockName}}</td>
       <td v-z3-updowncolor="item.chg">{{formatData(item.price)?'--':parseFloat(item.price).toFixed(2)}}</td>
@@ -32,7 +32,7 @@
       <td>最新价</td>
       <td>涨跌幅</td>
     </tr>
-    <tr v-for="item of topicLeadStockList">
+    <tr v-for="(item,index) of topicLeadStockList" :key="index">
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
@@ -53,7 +53,7 @@
       <td>最新价</td>
       <td>涨跌幅</td>
     </tr>
-    <tr v-for="item of industryLeadStockList">
+    <tr v-for="(item,index) of industryLeadStockList" :key="index">
       <td style="color:#666;">{{formatData(item.dataCode)?'--':item.dataCode}}</td>
       <td v-if="condition!='chg_pct' && condition.indexOf('chg_pct')!=-1" v-z3-updowncolor="item.condition">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>
       <td v-else-if="condition!='chg_pct'" style="color:#666;">{{formatData(item.condition)?'--':formatConditionPlate(item.condition)}}</td>

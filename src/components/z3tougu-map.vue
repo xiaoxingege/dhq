@@ -87,7 +87,6 @@ html {
     margin-right: 36px;
 }
 .tab-type span {
-    display: inline-block;
     float: left;
     width: 60px;
     height: 22px;
