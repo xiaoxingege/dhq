@@ -145,12 +145,10 @@ html {
     <div class="newDetail">
       <span class="borderR">{{date}}</span>
       <span class="borderR ml-15">来源：{{result === null ? '':result.news.srcName}}</span>
-      <span v-if="result !== null && result.equityList!== null && result.equityList.length!==0" class="ml-15">相关股票：<span
-                        v-for="item in result.equityList"
-                        class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</span></span>
-      <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：<span
-                        class="mr-15"
-                        v-for="item in result.topicList">{{item.topicName}}</span></span>
+      <span v-if="result !== null && result.equityList!== null && result.equityList.length!==0" class="ml-15">相关股票：
+        <a @click="toStock(item.innerCode)" v-for="item in result.equityList" class="mr-10">{{item.name}} [{{item.innerCode.substring(0,item.innerCode.indexOf('.'))}}]</a></span>
+      <span v-if="result !== null && result.topicList!== null && result.topicList.length!==0" class="ml-15">相关题材：
+        <router-link :to="{ name:'topicDetail' , params:{ topicId : item.topicCode }}" target="_blank" class="mr-15" v-for="item in result.topicList">{{item.topicName}}</router-link></span>
     </div>
     <div class="newMain" v-html="reformatNewsContent"></div>
     <span class="moreNews" v-if="moreInfor && moreInfor.length !== 0">更多相关资讯</span>
@@ -317,6 +315,9 @@ export default {
           }
         })
       }
+    },
+    toStock(code){
+        window.open('/stock/' + code + '.shtml')
     }
 
   },

@@ -98,14 +98,14 @@ export default {
           name: 'zbg'
         },
         {
-          text: '强势股',
-          path: ctx + '/siweiIndex/qsg',
-          name: 'qsg'
-        },
-        {
           text: '跌停股',
           path: ctx + '/siweiIndex/dtg',
           name: 'dtg'
+        },
+        {
+            text: '强势股',
+            path: ctx + '/siweiIndex/qsg',
+            name: 'qsg'
         },
         {
           text: '新股',

@@ -172,7 +172,7 @@ export default {
     display: inline-block;
     width: 50px;
     height: 22px;
-    line-height: 18px;
+    line-height: 21px;
     border: 1px solid #DA3D45;
     border-radius: 3px;
     text-align: center;

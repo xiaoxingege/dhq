@@ -6,7 +6,7 @@
   <div class="ztgMain display-box">
     <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
-      <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
+      <div ref="ztgLine" class="ztgLine" :style="{height:lineChartHeight+'px'}" @keydown="zoomData($event)" @mouseover="zoomOver($event)"  tabindex="0"  onfocus='console.log("得到焦点!");'></div>
     </div>
     <div class="ztgList">
       <ul ref="ztgListUl">
@@ -637,6 +637,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (zdCompareData.up[params[0].dataIndex][1] === null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -926,6 +927,7 @@ export default {
       })
     },
     updateCompare() {
+        const that = this
       this.$store.dispatch('bubbles/getZdCompare').then(() => {
         let zdCompareData = this.$store.state.bubbles.ztgCompare
 
@@ -1010,6 +1012,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (zdCompareData.up[params[0].dataIndex][1] === null && zdCompareData.openUp[params[0].dataIndex][1] === null && zdCompareData.down[params[0].dataIndex][1] === null && zdCompareData.openDown[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1091,7 +1094,32 @@ export default {
                   }
               }, Data.refreshTime)
           }
-    }
+    },
+    zoomOver() {
+        this.$refs.ztgLine.focus()
+    },
+    zoomData(event){
+          const that = this
+          if(this.lineChart && event.keyCode === 37){
+              if(that.dataIndex !== 0) {
+                  that.dataIndex = that.dataIndex - 1
+                  this.lineChart.dispatchAction({
+                      type: 'showTip',
+                      seriesIndex: 0,// 第几条series
+                      dataIndex: that.dataIndex// 第几个tooltip
+                  });
+              }
+          }else if(this.lineChart && event.keyCode === 39){
+              if(that.dataIndex !== 240) {
+                  that.dataIndex = that.dataIndex + 1
+                  this.lineChart.dispatchAction({
+                      type: 'showTip',
+                      seriesIndex: 0,// 第几条series
+                      dataIndex: that.dataIndex// 第几个tooltip
+                  });
+              }
+          }
+      }
   },
   mounted() {
     this.initStockList()
@@ -1194,5 +1222,8 @@ export default {
     width: 470px;
     height: 247px;
     position: absolute;
+}
+.ztgLine{
+  outline: none;
 }
 </style>
