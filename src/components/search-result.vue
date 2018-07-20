@@ -11,7 +11,6 @@ body {
     background: #191A1D;
     font-size: 12px;
     color: #c9d0d7;
-    padding-left: 10px;
 }
 
 .searchResult > p {
@@ -21,14 +20,18 @@ body {
 .searchResult ul > p {
     font-size: 14px;
     margin-top: 15px;
+    padding-left: 10px;
 }
 
 .searchResult ul li {
     text-align: left;
-
+    padding:0 10px;
     border-bottom: 1px solid #24262C;
 }
-
+.searchResult ul li:hover {
+  transition: all 0.3s;
+  background-color: #2e4465;
+}
 .searchResult ul li p {
     margin-bottom: 9px;
 }
@@ -44,7 +47,7 @@ body {
 }
 
 .searchTime {
-    color: #505A66;
+    color: #808ba1;
 }
 
 .newsSource {
@@ -53,15 +56,15 @@ body {
 
 .searchSort {
     position: absolute;
-    right: 0;
-    top: 3px;
+    right: 10px;
+    top: -5px;
 }
 
 .searchSort span {
     display: inline-block;
     background: #808BA1;
     color: #c9d0d7;
-    padding: 4px 7px;
+    padding: 2px 7px;
     cursor: pointer;
     border-radius: 3px;
 }
@@ -69,7 +72,7 @@ body {
     margin-right: 15px;
 }
 .searchSort span:last-child {
-    padding: 4px 12px;
+    padding: 2px 12px;
 }
 
 .searchSort span.active {

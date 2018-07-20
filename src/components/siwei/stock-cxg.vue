@@ -6,7 +6,7 @@
   <div class="ztgMain display-box">
     <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
-      <div ref="ztgLine" :style="{height:lineChartHeight+'px'}"></div>
+      <div ref="ztgLine" class="ztgLine" :style="{height:lineChartHeight+'px'}" @keydown="zoomData($event)" @mouseover="zoomOver($event)"  tabindex="0"  onfocus='console.log("得到焦点!");'></div>
     </div>
     <div class="qsgList">
       <div class="qsgListTitle clearfix">
@@ -686,6 +686,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1002,6 +1003,7 @@ export default {
       })
     },
     updateCompare() {
+      const that = this
       this.$store.dispatch('bubbles/getCxLine', {
         type: 0
       }).then(() => {
@@ -1049,6 +1051,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (czgLineData.condition[params[0].dataIndex][1] === null && czgLineData.szIndex[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1116,6 +1119,31 @@ export default {
       } else if (isOver === 'out' && titleTime === 'afterKb') {
         this.$refs.titleDetail.style.display = 'none'
       }
+    },
+    zoomOver() {
+        this.$refs.ztgLine.focus()
+    },
+    zoomData(event){
+        const that = this
+        if(this.lineChart && event.keyCode === 37){
+            if(that.dataIndex !== 0) {
+                that.dataIndex = that.dataIndex - 1
+                this.lineChart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
+            }
+        }else if(this.lineChart && event.keyCode === 39){
+            if(that.dataIndex !== 240) {
+                that.dataIndex = that.dataIndex + 1
+                this.lineChart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,// 第几条series
+                    dataIndex: that.dataIndex// 第几个tooltip
+                });
+            }
+        }
     }
 
   },
@@ -1282,5 +1310,8 @@ export default {
     border-right: 1px solid #000000;
     box-sizing: border-box;
     border-bottom: 1px solid #000;
+}
+.ztgLine{
+  outline: none;
 }
 </style>

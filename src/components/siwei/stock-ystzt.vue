@@ -7,8 +7,8 @@
     <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div class="clearfix" :style="{height:lineChartHeight+'px'}">
-        <div class="fl zrLchart" ref="zrLchart" style="height:100%;width:50%"></div>
-        <div class="fr zrRchart" ref="zrRchart" style="height:100%;width:50%"></div>
+        <div class="fl zrLchart" ref="zrLchart" style="height:100%;width:50%" @keydown="zoomData($event,'lineChart')" @mouseover="zoomOver('zrLchart')"  tabindex="0"  onfocus='console.log("得到焦点!");' ></div>
+        <div class="fr zrRchart" ref="zrRchart" style="height:100%;width:50%" @keydown="zoomData($event,'lxztChart')" @mouseover="zoomOver('zrRchart')"  tabindex="0"  onfocus='console.log("得到焦点!");' ></div>
       </div>
     </div>
     <div class="qsgList">
@@ -650,6 +650,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -789,6 +790,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (lxztData[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1063,6 +1065,7 @@ export default {
       })
     },
     updateCompare() {
+      const that = this
       this.$store.dispatch('bubbles/getCxLine', {
         type: 1
       }).then(() => {
@@ -1111,6 +1114,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (cxLineData.condition[params[0].dataIndex][1] === null && cxLineData.szIndex[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1155,6 +1159,7 @@ export default {
             show: true,
             trigger: 'axis',
             formatter: function(params) {
+              that.dataIndex = params[0].dataIndex
               if (lxztData[params[0].dataIndex][1] === null) {
                 return ''
               }
@@ -1221,7 +1226,32 @@ export default {
       } else if (isOver === 'out' && titleTime === 'ystlbNum') {
         this.$refs.titleDetail.style.display = 'none'
       }
-    }
+    },
+    zoomOver(data) {
+        this.$refs[data].focus()
+    },
+    zoomData(event,chart){
+          const that = this
+          if(this[chart] && event.keyCode === 37){
+              if(that.dataIndex !== 0) {
+                  that.dataIndex = that.dataIndex - 1
+                  this[chart].dispatchAction({
+                      type: 'showTip',
+                      seriesIndex: 0,// 第几条series
+                      dataIndex: that.dataIndex// 第几个tooltip
+                  });
+              }
+          }else if(this[chart]  && event.keyCode === 39){
+              if(that.dataIndex !== 240) {
+                  that.dataIndex = that.dataIndex + 1
+                  this[chart].dispatchAction({
+                      type: 'showTip',
+                      seriesIndex: 0,// 第几条series
+                      dataIndex: that.dataIndex// 第几个tooltip
+                  });
+              }
+          }
+      }
   },
   mounted() {
     const that = this
@@ -1382,4 +1412,5 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid #000;
 }
+.zrLchart,.zrRchart{ outline: none; }
 </style>
