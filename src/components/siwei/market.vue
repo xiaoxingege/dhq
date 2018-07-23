@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class='right'>
-      <div class='stocks'>
-        <div class='tit'>异动个股</div>
+      <div :class='{stocks:true,expend:!hideStock}'>
+        <div class='tit' @click="toggle">异动个股<span :class="{'arrow_up':hideStock,'arrow_down':!hideStock}"></span></div>
         <div class="list" ref="stocks_list">
           <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
             <div class='time'>{{stock.tradeTime | hhmmss}}</div>
@@ -27,7 +27,7 @@
               <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
             </div>
             <div class="news" v-if="stock.moveRelaNewsId">
-              <span :class="stock.moveSignalId > 1?'mark good':'mark bad'">{{stock.moveSignalId > 1?'利好':'利空'}}</span>
+              <span :class="stock.newsPostiveIndex > 1?'mark good':'mark bad'">{{stock.newsPostiveIndex > 1?'利好':'利空'}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
             </div>
             <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
@@ -39,8 +39,9 @@
           </div>
         </div>
       </div>
-      <div class="blocks">
-        <div class="tit">异动板块</div>
+      <div :class="{blocks:true,expend:!hidePlate}">
+        <div class="tit" @click="toggle">异动板块<span :class="{mode:true,active:!textMode}" @click="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"
+            @click="toggle"></span><span :class="{'copy':textMode}" @click="copyPlate" v-show="textMode" title="复制"></span></div>
         <div class="list">
           <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
             <div class="time plate_top">
@@ -49,7 +50,7 @@
               <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
               <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
             </div>
-            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.moveSignalId > 1?'mark good':'mark bad'">{{plate.moveSignalId > 1?'利好':'利空'}}</span>
+            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
             </div>
             <table class="stockList">
@@ -145,7 +146,10 @@ export default {
       },
       showStockBox: false,
       scrollHeight: '',
-      bottomTime: 0
+      bottomTime: 0,
+      hideStock: false,
+      hidePlate: true,
+      textMode: false
     }
   },
   components: {
@@ -609,6 +613,10 @@ export default {
     },
     handleScroll() {
       this.scrollHeight = this.$refs.stocks_list.scrollTop
+    },
+    toggle: function() {
+      this.hideStock = !this.hideStock;
+      this.hidePlate = !this.hidePlate;
     }
   },
   watch: {
@@ -766,7 +774,7 @@ export default {
     box-sizing: border-box;
 }
 .market .stocks {
-    height: 55%;
+    height: 25px;
     border-bottom: 1px solid #32343E;
     .list {
         height: calc(100% - 25px);
@@ -775,6 +783,9 @@ export default {
     .topic {
         color: #a6a6a6;
     }
+}
+.market .stocks.expend {
+    height: calc(100% - 25px);
 }
 .market .news .mark {
     padding: 2px;
@@ -797,17 +808,54 @@ export default {
     color: $blueWordsColor;
 }
 .market .blocks {
-    height: 45%;
+    height: 25px;
+    overflow: hidden;
     .list {
         height: calc(100% - 25px);
         overflow: auto;
     }
+}
+.market .blocks.expend {
+    height: calc(100% - 25px);
 }
 .market .right .tit {
     height: 24px;
     line-height: 24px;
     padding: 0 10px;
     border-bottom: 1px solid #32343E;
+    cursor: pointer;
+    .arrow_up {
+        height: 24px;
+        width: 10px;
+        display: inline-block;
+        float: right;
+        background: url('../../assets/images/z3img/toggle-arrow-up.png') center center no-repeat;
+    }
+    .arrow_down {
+        height: 24px;
+        width: 10px;
+        display: inline-block;
+        float: right;
+        background: url('../../assets/images/z3img/toggle-arrow-down.png') center center no-repeat;
+    }
+    .mode {
+        margin-left: 20px;
+    }
+    .active {
+        color: $blueWordsColor;
+    }
+    .separator {
+        padding: 0 10px;
+        color: #525A65;
+    }
+    .copy {
+        height: 24px;
+        width: 15px;
+        display: inline-block;
+        float: right;
+        margin-right: 10px;
+        background: url('../../assets/images/z3img/copy.png') center center no-repeat;
+    }
 }
 
 .market .block {

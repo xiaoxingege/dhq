@@ -121,9 +121,6 @@ export default {
               color: '#32343E'
             }
           },
-          axisPointer: {
-
-          },
           data: xData
         },
         yAxis: [{
