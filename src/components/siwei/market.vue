@@ -17,7 +17,13 @@
     <div class='right'>
       <div class='stocks'>
         <div class='tit'>异动个股</div>
-        <div class="list" ref="stocks_list">
+        <div class="initWait" v-if="timeRange('9:00','9:30')">
+          <div class="initWait-wrapper">
+            <img src="../../assets/images/icons/wait-cup.png" alt="">
+            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
+          </div>
+        </div>
+        <div class="list" ref="stocks_list" v-else>
           <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
             <div class='time'>{{stock.tradeTime | hhmmss}}</div>
             <div class='item'>
@@ -41,7 +47,12 @@
       </div>
       <div class="blocks">
         <div class="tit">异动板块</div>
-        <div class="list">
+        <div class="initWait" v-if="timeRange('9:00','9:30')">
+          <div class="initWait-wrapper">
+            <p class="cont">请耐心等待哦~</p>
+          </div>
+        </div>
+        <div class="list" v-else>
           <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
             <div class="time plate_top">
               <span>{{plate.tradeTime | hhmm}}</span>
@@ -145,7 +156,8 @@ export default {
       },
       showStockBox: false,
       scrollHeight: '',
-      bottomTime: 0
+      bottomTime: 0,
+      beginTimes : null
     }
   },
   components: {
@@ -609,6 +621,45 @@ export default {
     },
     handleScroll() {
       this.scrollHeight = this.$refs.stocks_list.scrollTop
+    },
+    timeRange(beginTime, endTime, nowTime) {
+      let userBegin = beginTime;
+      let userEnd = endTime;
+      let strb = beginTime.split(':');
+      if (strb.length !== 2) {
+        return false;
+      }
+
+      let stre = endTime.split(':');
+      if (stre.length !== 2) {
+        return false;
+      }
+
+      let b = new Date();
+      let e = new Date();
+      let n = new Date();
+
+      b.setHours(strb[0]);
+      b.setMinutes(strb[1]);
+      e.setHours(stre[0]);
+      e.setMinutes(stre[1]);
+      if (n.getDay() === 6 || n.getDay() === 0) {
+        return false;
+      }
+      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+        let endTimes = e.getMinutes() === 0 ? 60 : e.getMinutes();
+        this.beginTimes = endTimes-n.getMinutes();
+        this.timers && clearTimeout(this.timers)
+        this.timers = setTimeout(() => {
+            this.timeRange(userBegin, userEnd);
+            this.$forceUpdate(); // 手动触发试图更新
+        },3000)
+        return true;
+      } else {
+        this.timers && clearTimeout(this.timers)
+        return false;
+      }
+
     }
   },
   watch: {
@@ -775,6 +826,29 @@ export default {
     .topic {
         color: #a6a6a6;
     }
+}
+.initWait {
+   position:relative;
+   width:100%;
+   height : 100%;
+   .initWait-wrapper {
+     position : absolute;
+     top : 50%;
+     left : 0;
+     width : 100%;
+     transform : translateY(-50%);
+     text-align: center;
+     .cont {
+       margin-top : 10px;
+       font-family : 'Micorsoft yahei';
+       text-align : center;
+       color :  #808ba1;
+       .minutes {
+         color : #18a6f0;
+         padding : 0 2px;
+       }
+     }
+   }
 }
 .market .news .mark {
     padding: 2px;
