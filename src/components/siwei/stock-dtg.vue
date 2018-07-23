@@ -17,13 +17,15 @@
           <div class="mb-10" v-if="String(item.tradeTime).length === 5">
             {{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)+':'+String(item.tradeTime).substring(3)}}
           </div>
-          <div style="margin-bottom: 8px;" class="clearfix">
+          <div style="margin-bottom: 7px;" class="clearfix">
             <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
             <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
             </div>
+            <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
           </div>
-          <ul class="topicStock clearfix">
+            <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
+            <ul class="topicStock clearfix">
             <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
               <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
@@ -1225,5 +1227,12 @@ export default {
 }
 .ztgLine{
   outline: none;
+}
+.markBox{
+    display: inline-block;
+    padding: 2px;
+    color: #fff;
+    margin-right: 4px;
+    background-color: #ca4941;
 }
 </style>
