@@ -7,11 +7,17 @@
     <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
       <div :style="{height:lineChartHeight+'px'}">
-        <div class="ztgLine"  ref="ztgLine" @keydown="zoomData($event)" @mouseover="zoomOver($event)"  tabindex="0"  onfocus='console.log("得到焦点!");' ></div>
+        <div class="ztgLine" ref="ztgLine" @keydown="zoomData($event)" @mouseover="zoomOver($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
       </div>
     </div>
     <div class="ztgList">
-      <ul ref="ztgListUl">
+      <div class="initWait" v-if="timeRange('9:00','9:30')">
+        <div class="initWait-wrapper">
+          <img src="../../assets/images/icons/wait-cup.png" alt="">
+          <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
+        </div>
+      </div>
+      <ul ref="ztgListUl" v-else>
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
           <div class="mb-10" v-if="String(item.tradeTime).length === 6">
             {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
@@ -19,12 +25,14 @@
           <div class="mb-10" v-if="String(item.tradeTime).length === 5">
             {{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)+':'+String(item.tradeTime).substring(3)}}
           </div>
-          <div style="margin-bottom: 8px;" class="clearfix">
+          <div style="margin-bottom: 7px;" class="clearfix">
             <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
             </div>
             <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
             </div>
+            <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
           </div>
+          <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
           <ul class="topicStock clearfix">
             <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
               <div class="name">{{value.topicName}}</div>
@@ -58,7 +66,9 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 1
+        type: 1,
+        beginTimes: null,
+        timers: null
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -92,8 +102,13 @@ export default {
       interval: null,
       tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
-      dataIndex:''
+      dataIndex: ''
 
+    }
+  },
+  watch: {
+    beginTimes: function(newVal) {
+      console.log(newVal + '-----------')
     }
   },
   components: {
@@ -134,11 +149,11 @@ export default {
       return timeline
     },
     initBubbles() {
-        this.$nextTick(() => {
-            // DOM 更新了
-            this.chart = echarts.init(this.$refs.ztgBubbles)
-            this.chart.showLoading(config.loadingConfig);
-        })
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.chart = echarts.init(this.$refs.ztgBubbles)
+        this.chart.showLoading(config.loadingConfig);
+      })
 
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
@@ -470,9 +485,9 @@ export default {
     },
     initZtgCompare() {
       this.$nextTick(() => {
-          // DOM 更新了
-          this.lineChart = echarts.init(this.$refs.ztgLine)
-          this.lineChart.showLoading(config.loadingConfig);
+        // DOM 更新了
+        this.lineChart = echarts.init(this.$refs.ztgLine)
+        this.lineChart.showLoading(config.loadingConfig);
       })
 
       this.$store.dispatch('bubbles/getZdCompare').then(() => {
@@ -1040,98 +1055,138 @@ export default {
         })
       })
     },
-    initStockList(){
-        const that = this
-        const datetime = new Date();
-        const hour = datetime.getHours();
-        const minute = datetime.getMinutes();
-        if((hour < 9 || hour === 9) && minute<5){
-            let picd1 = setInterval(() => {
-                that.$store.dispatch('bubbles/getBubblesLine', {
-                    type: 1,
-                    currentTime: ''
-                }).then(() => {
-                     if(that.ztgList.length === 0){
-                        picd1 && clearInterval(picd1)
-                        that.stockListTime = ''
-                        that.interval = setInterval(function() {
-                            that.updateBubbles()
-                            that.updateCompare()
-                            if(that.stockListTime){
-                                that.$store.dispatch('bubbles/getBubblesLine', {
-                                    type: 1,
-                                    currentTime: that.stockListTime
-                                }).then(() => {
-                                    if (that.isTop) {
-                                        that.$refs.ztgListUl.scrollTop = 0
-                                    }
-                                })
-                            }else {
-                                that.$store.dispatch('bubbles/getBubblesLine', {
-                                    type: 1,
-                                    currentTime: ''
-                                }).then(() => {
-                                    if (that.isTop) {
-                                        that.$refs.ztgListUl.scrollTop = 0
-                                    }
-                                })
-                            }
-
-                        }, Data.refreshTime)
-                    }
-                })
-            }, 1000);
-        }else{
-            that.interval = setInterval(function() {
+    initStockList() {
+      const that = this
+      const datetime = new Date();
+      const hour = datetime.getHours();
+      const minute = datetime.getMinutes();
+      if ((hour < 9 || hour === 9) && minute < 5) {
+        let picd1 = setInterval(() => {
+          that.$store.dispatch('bubbles/getBubblesLine', {
+            type: 1,
+            currentTime: ''
+          }).then(() => {
+            if (that.ztgList.length === 0) {
+              picd1 && clearInterval(picd1)
+              that.stockListTime = ''
+              that.interval = setInterval(function() {
                 that.updateBubbles()
                 that.updateCompare()
-                if(that.stockListTime){
-                    that.$store.dispatch('bubbles/getBubblesLine', {
-                        type: 1,
-                        currentTime: that.stockListTime
-                    }).then(() => {
-                        if (that.isTop) {
-                            that.$refs.ztgListUl.scrollTop = 0
-                        }
-                    })
-                }else {
-                    that.$store.dispatch('bubbles/getBubblesLine', {
-                        type: 1,
-                        currentTime: ''
-                    }).then(() => {
-                        if (that.isTop) {
-                            that.$refs.ztgListUl.scrollTop = 0
-                        }
-                    })
+                if (that.stockListTime) {
+                  that.$store.dispatch('bubbles/getBubblesLine', {
+                    type: 1,
+                    currentTime: that.stockListTime
+                  }).then(() => {
+                    if (that.isTop) {
+                      that.$refs.ztgListUl.scrollTop = 0
+                    }
+                  })
+                } else {
+                  that.$store.dispatch('bubbles/getBubblesLine', {
+                    type: 1,
+                    currentTime: ''
+                  }).then(() => {
+                    if (that.isTop) {
+                      that.$refs.ztgListUl.scrollTop = 0
+                    }
+                  })
                 }
 
-            }, Data.refreshTime)
-        }
+              }, Data.refreshTime)
+            }
+          })
+        }, 1000);
+      } else {
+        that.interval = setInterval(function() {
+          that.updateBubbles()
+          that.updateCompare()
+          if (that.stockListTime) {
+            that.$store.dispatch('bubbles/getBubblesLine', {
+              type: 1,
+              currentTime: that.stockListTime
+            }).then(() => {
+              if (that.isTop) {
+                that.$refs.ztgListUl.scrollTop = 0
+              }
+            })
+          } else {
+            that.$store.dispatch('bubbles/getBubblesLine', {
+              type: 1,
+              currentTime: ''
+            }).then(() => {
+              if (that.isTop) {
+                that.$refs.ztgListUl.scrollTop = 0
+              }
+            })
+          }
+
+        }, Data.refreshTime)
+      }
     },
     zoomOver() {
-        this.$refs.ztgLine.focus()
+      this.$refs.ztgLine.focus()
     },
-    zoomData(event){
-       const that = this
-       if(this.lineChart && event.keyCode === 37){
-           if(that.dataIndex !== 0) {
-               that.dataIndex = that.dataIndex - 1
-               this.lineChart.dispatchAction({
-                   type: 'showTip',
-                   seriesIndex: 0,// 第几条series
-                   dataIndex: that.dataIndex// 第几个tooltip
-               });
-           }
-       }else if(this.lineChart && event.keyCode === 39){
-           if(that.dataIndex !== 240) {
-               that.dataIndex = that.dataIndex + 1
-               this.lineChart.dispatchAction({
-                   type: 'showTip',
-                   seriesIndex: 0,// 第几条series
-                   dataIndex: that.dataIndex// 第几个tooltip
-               });
-           }
-       }
+    zoomData(event) {
+      const that = this
+      if (this.lineChart && event.keyCode === 37) {
+        if (that.dataIndex !== 0) {
+          that.dataIndex = that.dataIndex - 1
+          this.lineChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: that.dataIndex // 第几个tooltip
+          });
+        }
+      } else if (this.lineChart && event.keyCode === 39) {
+        if (that.dataIndex !== 240) {
+          that.dataIndex = that.dataIndex + 1
+          this.lineChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: that.dataIndex // 第几个tooltip
+          });
+        }
+      }
+    },
+    timeRange(beginTime, endTime, nowTime) {
+      let userBegin = beginTime;
+      let userEnd = endTime;
+      let strb = beginTime.split(':');
+      if (strb.length !== 2) {
+        return false;
+      }
+
+      let stre = endTime.split(':');
+      if (stre.length !== 2) {
+        return false;
+      }
+
+      let b = new Date();
+      let e = new Date();
+      let n = new Date();
+
+      b.setHours(strb[0]);
+      b.setMinutes(strb[1]);
+      e.setHours(stre[0]);
+      e.setMinutes(stre[1]);
+      if (n.getDay() === 6 || n.getDay() === 0) {
+        return false;
+      }
+      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+        let endTimes = e.getMinutes() === 0 ? 60 : e.getMinutes();
+        this.beginTimes = endTimes - n.getMinutes();
+        this.timers && clearTimeout(this.timers)
+        this.timers = setTimeout(() => {
+          this.timeRange(userBegin, userEnd);
+          this.$forceUpdate(); // 手动触发试图更新
+        }, 3000)
+
+        return true;
+      } else {
+        this.timers && clearTimeout(this.timers)
+        return false;
+      }
+
     }
   },
   mounted() {
@@ -1235,9 +1290,40 @@ export default {
     height: 247px;
     position: absolute;
 }
-.ztgLine{
-  height:100%;
-  width:100%;
-  outline: none;
+.ztgLine {
+    height: 100%;
+    width: 100%;
+    outline: none;
+}
+.markBox {
+    display: inline-block;
+    padding: 2px;
+    color: #fff;
+    margin-right: 4px;
+    background-color: #ca4941;
+}
+
+.initWait {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .initWait-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+        text-align: center;
+        .cont {
+            margin-top: 10px;
+            font-family: 'Micorsoft yahei';
+            text-align: center;
+            color: #808ba1;
+            .minutes {
+                color: #18a6f0;
+                padding: 0 2px;
+            }
+        }
+    }
 }
 </style>

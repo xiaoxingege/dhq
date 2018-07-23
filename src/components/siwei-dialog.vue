@@ -27,7 +27,7 @@
     margin: 0;
 }
 .bottomLeft > div {
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 .bottomRight {
     width: 320px;
@@ -54,6 +54,10 @@
 
 .deleteSelfChoice {
     color: #DA3D45;
+}
+.stockLine {
+    width: 100%;
+    height: 50px;
 }
 </style>
 <template>
@@ -86,6 +90,9 @@
         <p>{{bubbleColorSelect[bubbleColor]}}</p>
         <p>{{dialogOptions.leftList.bubbleColor.value}}</p>
       </div>
+      <div class="stockLine">
+        <Stockktimeline :stockCode="dialogOptions.stockCode"></Stockktimeline>
+      </div>
     </div>
     <div class="bottomRight fl">
       <Stockkline :stockCode="dialogOptions.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
@@ -95,6 +102,8 @@
 </template>
 <script>
 import Stockkline from 'components/stock-kline'
+import Stockktimeline from 'components/siwei/stock-timeline'
+
 import * as Data from '../z3tougu/constant/siwei.js'
 import {
   mapState
@@ -129,7 +138,8 @@ export default {
     }
   },
   components: {
-    Stockkline
+    Stockkline,
+    Stockktimeline
   },
   watch: {
     'dialogOptions.stockCode': function() {

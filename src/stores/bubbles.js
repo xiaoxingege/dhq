@@ -4,6 +4,28 @@ import {
   domain
 } from '../z3tougu/config'
 
+function autoTimeline(starts, ends) {
+  var timeline = []
+  var startHour = starts.split(':')[0] * 1
+  var startMin = starts.split(':')[1] * 1
+  var endHour = ends.split(':')[0] * 1
+  var endMin = ends.split(':')[1] * 1
+  for (var i = startHour; i <= endHour; i++) {
+    var start = (i === startHour) ? startMin : '0'
+    var end = (i === endHour) ? endMin : '59'
+    for (var j = start; j <= end; j++) {
+      j = (j < 10) ? '0' + j : j
+      timeline.push(i + ':' + j)
+    }
+  }
+  return timeline
+}
+let beforenoon = autoTimeline('9:30', '11:30')
+let afternoon = autoTimeline('13:00', '15:00')
+beforenoon.splice(beforenoon.length - 1, 1)
+afternoon[0] = '11:30/13:00'
+let timeline = beforenoon.concat(afternoon)
+
 // initial state
 export default {
   namespaced: true,
@@ -70,7 +92,8 @@ export default {
       startValue: null,
       endValue: null
     },
-    isInit: true
+    isInit: true,
+    stockLine: []
 
   },
   mutations: {
@@ -268,29 +291,6 @@ export default {
     },
     setZdCompare(state, result) {
 
-      function autoTimeline(starts, ends) {
-        var timeline = []
-        var startHour = starts.split(':')[0] * 1
-        var startMin = starts.split(':')[1] * 1
-        var endHour = ends.split(':')[0] * 1
-        var endMin = ends.split(':')[1] * 1
-        for (var i = startHour; i <= endHour; i++) {
-          var start = (i === startHour) ? startMin : '0'
-          var end = (i === endHour) ? endMin : '59'
-          for (var j = start; j <= end; j++) {
-            j = (j < 10) ? '0' + j : j
-            timeline.push(i + ':' + j)
-          }
-        }
-        return timeline
-      }
-
-      let beforenoon = autoTimeline('9:30', '11:30')
-      let afternoon = autoTimeline('13:00', '15:00')
-      beforenoon.splice(beforenoon.length - 1, 1)
-      afternoon[0] = '11:30/13:00'
-      let timeline = beforenoon.concat(afternoon)
-
       if (result.errCode === 0) {
         state.ztgCompare = {
           up: [],
@@ -329,30 +329,6 @@ export default {
       }
     },
     setZbgLine(state, result) {
-
-      function autoTimeline(starts, ends) {
-        var timeline = []
-        var startHour = starts.split(':')[0] * 1
-        var startMin = starts.split(':')[1] * 1
-        var endHour = ends.split(':')[0] * 1
-        var endMin = ends.split(':')[1] * 1
-        for (var i = startHour; i <= endHour; i++) {
-          var start = (i === startHour) ? startMin : '0'
-          var end = (i === endHour) ? endMin : '59'
-          for (var j = start; j <= end; j++) {
-            j = (j < 10) ? '0' + j : j
-            timeline.push(i + ':' + j)
-          }
-        }
-        return timeline
-      }
-
-      let beforenoon = autoTimeline('9:30', '11:30')
-      let afternoon = autoTimeline('13:00', '15:00')
-      beforenoon.splice(beforenoon.length - 1, 1)
-      afternoon[0] = '11:30/13:00'
-      let timeline = beforenoon.concat(afternoon)
-
 
       if (result.errCode === 0) {
         state.zbgLine = []
@@ -525,29 +501,6 @@ export default {
       }
     },
     setCxLine(state, result) {
-      function autoTimeline(starts, ends) {
-        var timeline = []
-        var startHour = starts.split(':')[0] * 1
-        var startMin = starts.split(':')[1] * 1
-        var endHour = ends.split(':')[0] * 1
-        var endMin = ends.split(':')[1] * 1
-        for (var i = startHour; i <= endHour; i++) {
-          var start = (i === startHour) ? startMin : '0'
-          var end = (i === endHour) ? endMin : '59'
-          for (var j = start; j <= end; j++) {
-            j = (j < 10) ? '0' + j : j
-            timeline.push(i + ':' + j)
-          }
-        }
-        return timeline
-      }
-
-      let beforenoon = autoTimeline('9:30', '11:30')
-      let afternoon = autoTimeline('13:00', '15:00')
-      beforenoon.splice(beforenoon.length - 1, 1)
-      afternoon[0] = '11:30/13:00'
-      let timeline = beforenoon.concat(afternoon)
-
 
       if (result.errCode === 0) {
         state.cxLineData = {
@@ -594,30 +547,6 @@ export default {
       }
     },
     setYstLine(state, result) {
-      function autoTimeline(starts, ends) {
-        var timeline = []
-        var startHour = starts.split(':')[0] * 1
-        var startMin = starts.split(':')[1] * 1
-        var endHour = ends.split(':')[0] * 1
-        var endMin = ends.split(':')[1] * 1
-        for (var i = startHour; i <= endHour; i++) {
-          var start = (i === startHour) ? startMin : '0'
-          var end = (i === endHour) ? endMin : '59'
-          for (var j = start; j <= end; j++) {
-            j = (j < 10) ? '0' + j : j
-            timeline.push(i + ':' + j)
-          }
-        }
-        return timeline
-      }
-
-      let beforenoon = autoTimeline('9:30', '11:30')
-      let afternoon = autoTimeline('13:00', '15:00')
-      beforenoon.splice(beforenoon.length - 1, 1)
-      afternoon[0] = '11:30/13:00'
-      let timeline = beforenoon.concat(afternoon)
-
-
       if (result.errCode === 0) {
         state.ystLineData = []
         let lineResult = {}
@@ -640,6 +569,35 @@ export default {
         })
       } else {
         state.ystLineData = []
+      }
+    },
+    setStockLine(state, result) {
+      if (result.errCode === 0) {
+        state.stockLine = []
+        let stockResult = []
+        let lineResult = {}
+
+        for (let i = 0; i < result.data.dataArray.length; i++) {
+          stockResult[result.data.dataArray[i].tradeMin] = result.data.dataArray[i].currentPx
+        }
+
+        for (let key in stockResult) {
+          let time = String(key).length === 3 ? key.substring(0, 1) + ':' + key.substring(1) : key.substring(0, 2) + ':' + key.substring(2)
+          if (time === '11:30' || time === '13:00') {
+            lineResult['11:30/13:00'] = stockResult[key]
+          } else {
+            lineResult[time] = stockResult[key]
+          }
+        }
+        timeline.forEach(function(k, v) {
+          if (lineResult[k] !== undefined) {
+            state.stockLine.push([k, lineResult[k]])
+          } else {
+            state.stockLine.push([k, null])
+          }
+        })
+      } else {
+        state.stockLine = []
       }
     }
   },
@@ -852,6 +810,19 @@ export default {
         return res.json()
       }).then(body => {
         commit('setYstLine', body)
+      })
+    },
+    getStockLine({
+      commit
+    }, {
+      innerCode: innerCode
+    }) {
+      return fetch(`${domain}/openapi/stock/minRealTime/${innerCode}.shtml`, {
+        mode: 'cors'
+      }).then((res) => {
+        return res.json()
+      }).then(body => {
+        commit('setStockLine', body)
       })
     }
 
