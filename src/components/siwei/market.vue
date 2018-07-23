@@ -65,8 +65,8 @@
               <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
             </div>
             <table class="stockList">
-              <tr v-for="stock of plate.stockDataList">
-                <td class="name" @dblclick.stop="openStock(stock.innerCode)">{{stock.stockName}}</td>
+              <tr v-for="stock of plate.stockDataList" @dblclick.stop="openStock(stock.innerCode)">
+                <td class="name">{{stock.stockName}}</td>
                 <td class="code">{{stock.stockCode}}</td>
                 <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
                 <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
@@ -825,7 +825,7 @@ export default {
     box-sizing: border-box;
 }
 .market .stocks {
-    height: 25px;
+    height: 24px;
     border-bottom: 1px solid #32343E;
     .list {
         height: calc(100% - 25px);
@@ -860,6 +860,11 @@ export default {
             }
         }
     }
+}
+.market .news {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .market .news .mark {
     padding: 2px;
