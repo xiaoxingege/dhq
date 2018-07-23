@@ -32,6 +32,15 @@ export default {
       plates: state => state.marketBubble.indexPlateList
     }),
     indexRange: function() {
+      // 如果数据为空
+      if (this.indexArr.length === 0) {
+        return {
+          min: 0,
+          max: 0,
+          interval: 0,
+          closePx: 0
+        }
+      }
       // 过滤0数据，算最大最小值。
       const data = this.indexArr.filter(value => value !== null);
       const closePx = Number(this.indexData.closePx.toFixed(2));
@@ -56,6 +65,18 @@ export default {
         interval: interval,
         closePx: closePx
       };
+    },
+    lastData: function() {
+      // 倒叙遍历第一个非0值
+      const length = this.indexArr.length;
+      let index = length - 1;
+      for (let i = length - 1; i > 0; i--) {
+        if (this.indexArr[i]) {
+          index = i;
+          break;
+        }
+      }
+      return [this.timeline[index], this.indexArr[index]];
     }
   },
   methods: {
@@ -179,6 +200,20 @@ export default {
             data: this.markPointData
           },
           smooth: true
+        }, {
+          type: 'effectScatter',
+          itemStyle: {
+            normal: {
+              color: '#f0b540'
+            }
+          },
+          rippleEffect: {
+            period: 3,
+            scale: 8,
+            brushType: 'fill'
+          },
+          symbolSize: 2,
+          data: [this.lastData]
         }]
       });
       this.chart.on('dblclick', (params) => {
@@ -254,6 +289,8 @@ export default {
               markLine: {
                 data: this.markLineData
               }
+            }, {
+              data: [this.lastData]
             }]
           })
         }, 0)
@@ -273,6 +310,8 @@ export default {
           }],
           series: [{
             data: this.indexArr
+          }, {
+            data: [this.lastData]
           }]
         });
       })
