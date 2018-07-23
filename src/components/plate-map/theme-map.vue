@@ -163,7 +163,7 @@ export default {
         /* 板块 */
         'topic_market.tech_index': colorsList1.slice().reverse(), // 热度指数 灰-红
         'chg_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
-        'chg_pct.rising_speed':colorsList1.slice().reverse(),
+         // 三分钟涨速
         'chg_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
         'chg_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
         'chg_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
@@ -182,7 +182,7 @@ export default {
         /* 个股 */
         'tech_index': colorsList1.slice().reverse(), // 热度指数 灰-红
         'mkt_idx.cur_chng_pct': colorsList1.slice().reverse(), // 涨跌幅 绿-红
-        'chg_pct.rising_speed': colorsList1.slice().reverse(), // 三分钟涨速 绿-红
+        // 三分钟涨速 绿-红
         'mkt_idx.chng_pct_week': colorsList1.slice().reverse(), // 近1周涨跌幅
         'perf_idx.chng_pct_month': colorsList1.slice().reverse(), // 近1月涨跌幅
         'perf_idx.chng_pct_3month': colorsList1.slice().reverse(), // 近3月涨跌幅
@@ -203,7 +203,7 @@ export default {
         /* 个股 */
         'tech_index': valueRangeRD, // 热度指数
         'mkt_idx.cur_chng_pct': valueRange1d, // 涨跌幅
-        'chg_pct.rising_speed':this.fmtraneValue(valueRange1d,0.125), // 三分钟涨速
+         // 三分钟涨速
         'mkt_idx.chng_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
         'perf_idx.chng_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
         'perf_idx.chng_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
@@ -222,7 +222,7 @@ export default {
         /* 板块 */
         'topic_market.tech_index': valueRangeRD, // 热度指数
         'chg_pct': valueRange1d, // 涨跌幅
-        'chg_pct.rising_speed':this.fmtraneValue(valueRange1d,0.125),// 三分钟涨速
+        // 三分钟涨速
         'chg_pct_week': this.fmtraneValue(valueRange1d, 2), // 近1周涨跌幅
         'chg_pct_month': this.fmtraneValue(valueRange1d, 3), // 近1月涨跌幅
         'chg_pct_3month': this.fmtraneValue(valueRange1d, 6), // 近3月涨跌幅
@@ -243,7 +243,7 @@ export default {
         /* 个股 */
         'tech_index': '', // 热度指数 绿-红
         'mkt_idx.cur_chng_pct': '%', // 个股涨跌幅 绿-红
-        'chg_pct.rising_speed':'', // 三分钟涨速
+         // 三分钟涨速
         'mkt_idx.chng_pct_week': '%', // 个股近1周涨跌幅
         'perf_idx.chng_pct_month': '%', // 近1月涨跌幅
         'perf_idx.chng_pct_3month': '%', // 近3月涨跌幅
