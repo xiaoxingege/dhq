@@ -132,7 +132,7 @@
   top: 60%;
   width: 90px;
   height: 24px;
-  background: rgba(22, 116, 204, 1);
+  background: #1984EA;
   border-radius: 4px;
   font-size: 14px;
   font-family: MicrosoftYaHei;
@@ -140,7 +140,9 @@
   padding-top: 8px;
   cursor: pointer;
 }
-
+.usersend-btn:hover{
+  background:#1674cc;
+}
 .usersend-btn img {
   width: 17px;
   height: 14px;

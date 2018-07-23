@@ -36,9 +36,11 @@
                          resolve();
                      }
                  });
+
              });
 
          },
+
          // 获取服务时间
          getServerTime({
              commit,
