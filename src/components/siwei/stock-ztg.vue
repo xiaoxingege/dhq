@@ -11,7 +11,13 @@
       </div>
     </div>
     <div class="ztgList">
-      <ul ref="ztgListUl">
+    <div class="initWait" v-if="timeRange('9:00','9:30')">
+          <div class="initWait-wrapper">
+            <img src="../../assets/images/icons/wait-cup.png" alt="">
+            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
+          </div>
+    </div>
+      <ul ref="ztgListUl" v-else>
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
           <div class="mb-10" v-if="String(item.tradeTime).length === 6">
             {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
@@ -32,7 +38,7 @@
             </li>
           </ul>
         </li>
-      </ul>
+      </ul>  
     </div>
   </div>
   <div class="legend"></div>
@@ -58,7 +64,9 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 1
+        type: 1,
+        beginTimes : null,
+        timers : null
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -94,6 +102,11 @@ export default {
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
       dataIndex:''
 
+    }
+  },
+  watch : {
+    beginTimes : function(newVal) {
+        console.log(newVal+'-----------')
     }
   },
   components: {
@@ -1132,6 +1145,46 @@ export default {
                });
            }
        }
+    },
+    timeRange(beginTime, endTime, nowTime) {
+      let userBegin = beginTime;
+      let userEnd = endTime;
+      let strb = beginTime.split(':');
+      if (strb.length !== 2) {
+        return false;
+      }
+
+      let stre = endTime.split(':');
+      if (stre.length !== 2) {
+        return false;
+      }
+
+      let b = new Date();
+      let e = new Date();
+      let n = new Date();
+
+      b.setHours(strb[0]);
+      b.setMinutes(strb[1]);
+      e.setHours(stre[0]);
+      e.setMinutes(stre[1]);
+      if (n.getDay() === 6 || n.getDay() === 0) {
+        return false;
+      }
+      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
+        let endTimes = e.getMinutes() === 0 ? 60 : e.getMinutes();
+        this.beginTimes = endTimes-n.getMinutes();
+        this.timers && clearTimeout(this.timers)
+        this.timers = setTimeout(() => {
+            this.timeRange(userBegin, userEnd);
+            this.$forceUpdate(); // 手动触发试图更新
+        },3000)
+        
+        return true;
+      } else {
+        this.timers && clearTimeout(this.timers)
+        return false;
+      }
+
     }
   },
   mounted() {
@@ -1239,5 +1292,29 @@ export default {
   height:100%;
   width:100%;
   outline: none;
+}
+
+.initWait {
+   position:relative;
+   width:100%;
+   height : 100%;
+   .initWait-wrapper {
+     position : absolute;
+     top : 50%;
+     left : 0;
+     width : 100%;
+     transform : translateY(-50%);
+     text-align: center;
+     .cont {
+       margin-top : 10px;
+       font-family : 'Micorsoft yahei';
+       text-align : center;
+       color :  #808ba1;
+       .minutes {
+         color : #18a6f0;
+         padding : 0 2px;
+       }
+     }
+   }
 }
 </style>
