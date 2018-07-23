@@ -9,7 +9,7 @@
     import config from '../../z3tougu/config'
 
     export default {
-        name: "stock-timeline",
+        name: 'stock-timeline',
         props: ['stockCode'],
         watch: {
             'stockCode': function() {
@@ -141,7 +141,11 @@
 
 
             }
+        },
+        destroyed() {
+            this.lineChart && this.lineChart.dispose();
         }
+
     }
 </script>
 
