@@ -46,7 +46,7 @@
         </div>
       </div>
       <div :class="{blocks:true,expend:!hidePlate}">
-        <div class="tit" @click="toggle">异动板块<span :class="{mode:true,active:!textMode}" @click="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"
+        <div class="tit" @click="toggle">异动板块<span :class="{mode:true,active:!textMode}" @click.stop="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click.stop="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"
             @click="toggle"></span><span :class="{'copy':textMode}" @click="copyPlate" v-show="textMode" title="复制"></span></div>
         <div class="initWait" v-if="timeRange('9:00','9:30')">
           <div class="initWait-wrapper">
@@ -160,7 +160,7 @@ export default {
       bottomTime: 0,
       hideStock: false,
       hidePlate: true,
-      textMode: false
+      textMode: false,
       beginTimes: null
     }
   },
