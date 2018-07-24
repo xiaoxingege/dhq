@@ -10,13 +10,10 @@
         <div class="ztgLine"  ref="ztgLine" @keydown="zoomData($event)" @mouseover="zoomOver($event)"  tabindex="0"  onfocus='console.log("得到焦点!");' ></div>
       </div>
     </div>
-    <div class="ztgList">
-    <div class="initWait" v-if="timeRange('9:00','9:30')">
-          <div class="initWait-wrapper">
-            <img src="../../assets/images/icons/wait-cup.png" alt="">
-            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
-          </div>
-    </div>
+    <div class="ztgList" >
+      <StockInit startTime='9:00' endTime='9:30' @propShow="getShow" v-if='isShow'>
+        <img src="../../assets/images/icons/wait-cup.png" alt="">
+      </StockInit>
       <ul ref="ztgListUl" v-else>
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
           <div class="mb-10" v-if="String(item.tradeTime).length === 6">
@@ -41,6 +38,7 @@
           </ul>
         </li>
       </ul>
+      
     </div>
   </div>
   <div class="legend"></div>
@@ -57,6 +55,7 @@ import {
 import {
   ctx
 } from '../../z3tougu/config'
+import StockInit from './stock-init'
 
 export default {
   data() {
@@ -68,7 +67,8 @@ export default {
         colorDefault: 'mkt_idx.cur_chng_pct',
         type: 1,
         beginTimes : null,
-        timers : null
+        timers : null,
+        isShow : true
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -102,8 +102,8 @@ export default {
       interval: null,
       tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
-      dataIndex:''
-
+      dataIndex:'',
+      isShow : true
     }
   },
   watch : {
@@ -112,7 +112,7 @@ export default {
     }
   },
   components: {
-    Siweidialog
+    Siweidialog,StockInit
   },
   computed: mapState({
     ztgList: state => state.bubbles.ztgBubblesLine,
@@ -1148,45 +1148,10 @@ export default {
            }
        }
     },
-    timeRange(beginTime, endTime, nowTime) {
-      let userBegin = beginTime;
-      let userEnd = endTime;
-      let strb = beginTime.split(':');
-      if (strb.length !== 2) {
-        return false;
-      }
-
-      let stre = endTime.split(':');
-      if (stre.length !== 2) {
-        return false;
-      }
-
-      let b = new Date();
-      let e = new Date();
-      let n = new Date();
-
-      b.setHours(strb[0]);
-      b.setMinutes(strb[1]);
-      e.setHours(stre[0]);
-      e.setMinutes(stre[1]);
-      if (n.getDay() === 6 || n.getDay() === 0) {
-        return false;
-      }
-      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
-        let endTimes = e.getMinutes() === 0 ? 60 : e.getMinutes();
-        this.beginTimes = endTimes-n.getMinutes();
-        this.timers && clearTimeout(this.timers)
-        this.timers = setTimeout(() => {
-            this.timeRange(userBegin, userEnd);
-            this.$forceUpdate(); // 手动触发试图更新
-        },3000)
-
-        return true;
-      } else {
-        this.timers && clearTimeout(this.timers)
-        return false;
-      }
-
+    getShow(msg){
+      this.$nextTick(() => {
+        this.isShow = msg
+      })
     }
   },
   mounted() {
@@ -1225,7 +1190,6 @@ export default {
         }
 
         .ztgList {
-
             width: 464px;
             height: 100%;
             background: #232630;
@@ -1301,29 +1265,5 @@ export default {
   color: #fff;
   margin-right: 4px;
   background-color: #ca4941;
-}
-
-.initWait {
-   position:relative;
-   width:100%;
-   height : 100%;
-   .initWait-wrapper {
-     position : absolute;
-     top : 50%;
-     left : 0;
-     width : 100%;
-     transform : translateY(-50%);
-     text-align: center;
-     .cont {
-       margin-top : 10px;
-       font-family : 'Micorsoft yahei';
-       text-align : center;
-       color :  #808ba1;
-       .minutes {
-         color : #18a6f0;
-         padding : 0 2px;
-       }
-     }
-   }
 }
 </style>

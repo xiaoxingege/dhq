@@ -15,64 +15,58 @@
       </div>
     </div>
     <div class='right'>
-      <div class='stocks'>
-        <div class='tit'>异动个股</div>
-        <div class="initWait" v-if="timeRange('9:00','9:30')">
-          <div class="initWait-wrapper">
-            <img src="../../assets/images/icons/wait-cup.png" alt="">
-            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
-          </div>
-        </div>
-        <div class="list" ref="stocks_list" v-else>
-          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
-            <div class='time'>{{stock.tradeTime | hhmmss}}</div>
-            <div class='item'>
-              <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
-              <span v-z3-updowncolor="stock.chng">{{stock.price | price}}</span>
-              <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
-              <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
+      <StockInit startTime='9:00' endTime='9:30' @propShow="getShow" v-if='isShow'>
+        <img src="../../assets/images/icons/wait-cup.png" alt="">
+      </StockInit>
+      <div class="right-content" v-else>
+        <div class='stocks'>
+            <div class='tit'>异动个股</div>
+            <div class="list" ref="stocks_list">
+              <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
+                <div class='time'>{{stock.tradeTime | hhmmss}}</div>
+                <div class='item'>
+                  <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
+                  <span v-z3-updowncolor="stock.chng">{{stock.price | price}}</span>
+                  <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
+                  <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
+                </div>
+                <div class="news" v-if="stock.moveRelaNewsId">
+                  <span :class="stock.moveSignalId > 1?'mark good':'mark bad'">{{stock.moveSignalId > 1?'利好':'利空'}}</span>
+                  <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
+                </div>
+                <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
+                  <li class="topic" v-for="topic in stock.topicDataList">
+                    <div class="name" @dblclick.stop="openPlate(topic.topicCode)">{{topic.topicName}}</div>
+                    <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="news" v-if="stock.moveRelaNewsId">
-              <span :class="stock.moveSignalId > 1?'mark good':'mark bad'">{{stock.moveSignalId > 1?'利好':'利空'}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
-            </div>
-            <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
-              <li class="topic" v-for="topic in stock.topicDataList">
-                <div class="name" @dblclick.stop="openPlate(topic.topicCode)">{{topic.topicName}}</div>
-                <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
-              </li>
-            </ul>
           </div>
-        </div>
-      </div>
-      <div class="blocks">
-        <div class="tit">异动板块</div>
-        <div class="initWait" v-if="timeRange('9:00','9:30')">
-          <div class="initWait-wrapper">
-            <p class="cont">请耐心等待哦~</p>
-          </div>
-        </div>
-        <div class="list" v-else>
-          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
-            <div class="time plate_top">
-              <span>{{plate.tradeTime | hhmm}}</span>
-              <span class="name">{{plate.sectionName}}</span>
-              <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
-              <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
+          <div class="blocks">
+            <div class="tit">异动板块</div>
+            <div class="list">
+              <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
+                <div class="time plate_top">
+                  <span>{{plate.tradeTime | hhmm}}</span>
+                  <span class="name">{{plate.sectionName}}</span>
+                  <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
+                  <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
+                </div>
+                <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.moveSignalId > 1?'mark good':'mark bad'">{{plate.moveSignalId > 1?'利好':'利空'}}</span>
+                  <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
+                </div>
+                <table class="stockList">
+                  <tr v-for="stock of plate.stockDataList">
+                    <td class="name" @dblclick.stop="openStock(stock.innerCode)">{{stock.stockName}}</td>
+                    <td class="code">{{stock.stockCode}}</td>
+                    <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
+                    <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
-            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.moveSignalId > 1?'mark good':'mark bad'">{{plate.moveSignalId > 1?'利好':'利空'}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
-            </div>
-            <table class="stockList">
-              <tr v-for="stock of plate.stockDataList">
-                <td class="name" @dblclick.stop="openStock(stock.innerCode)">{{stock.stockName}}</td>
-                <td class="code">{{stock.stockCode}}</td>
-                <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
-                <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
-              </tr>
-            </table>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -94,6 +88,7 @@ import {
 import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
 import chartLegend from 'components/siwei/legend'
 import stockBox from 'components/siwei/stock-box'
+import StockInit from './stock-init'
 
 let pcid1 = '';
 let pcid2 = '';
@@ -157,13 +152,15 @@ export default {
       showStockBox: false,
       scrollHeight: '',
       bottomTime: 0,
-      beginTimes : null
+      beginTimes : null,
+      isShow:true
     }
   },
   components: {
     abnormalPlatesChart,
     chartLegend,
-    stockBox
+    stockBox,
+    StockInit
   },
   computed: {
     bubbles: function() {
@@ -622,44 +619,10 @@ export default {
     handleScroll() {
       this.scrollHeight = this.$refs.stocks_list.scrollTop
     },
-    timeRange(beginTime, endTime, nowTime) {
-      let userBegin = beginTime;
-      let userEnd = endTime;
-      let strb = beginTime.split(':');
-      if (strb.length !== 2) {
-        return false;
-      }
-
-      let stre = endTime.split(':');
-      if (stre.length !== 2) {
-        return false;
-      }
-
-      let b = new Date();
-      let e = new Date();
-      let n = new Date();
-
-      b.setHours(strb[0]);
-      b.setMinutes(strb[1]);
-      e.setHours(stre[0]);
-      e.setMinutes(stre[1]);
-      if (n.getDay() === 6 || n.getDay() === 0) {
-        return false;
-      }
-      if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
-        let endTimes = e.getMinutes() === 0 ? 60 : e.getMinutes();
-        this.beginTimes = endTimes-n.getMinutes();
-        this.timers && clearTimeout(this.timers)
-        this.timers = setTimeout(() => {
-            this.timeRange(userBegin, userEnd);
-            this.$forceUpdate(); // 手动触发试图更新
-        },3000)
-        return true;
-      } else {
-        this.timers && clearTimeout(this.timers)
-        return false;
-      }
-
+    getShow(msg){
+      this.$nextTick(() => {
+          this.isShow = msg
+      })
     }
   },
   watch: {
@@ -815,6 +778,10 @@ export default {
     background: #23252E;
     height: 100%;
     box-sizing: border-box;
+}
+.market .right-content { 
+  width:100%;
+  height:100%;
 }
 .market .stocks {
     height: 55%;
