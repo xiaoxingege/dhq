@@ -95,7 +95,7 @@ html {
     color: #c9d0d7;
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
-    border-bottom: 3px solid #0d0e0f;
+    /* border-bottom: 3px solid #0d0e0f; */
     min-width: 1217px;
 }
 .topic-detail a:hover {
@@ -148,7 +148,8 @@ html {
     background: #141518;
 }
 .detail-main {
-    margin-bottom: 18px;
+    /* margin-bottom: 18px; */
+    margin-bottom: 21px;
 }
 .main-left {
     width: 60%;
@@ -701,7 +702,8 @@ table {
 bottom: 0; */
     background: #141518;
     color: #808ba1;
-    line-height: 24px;
+    /* line-height: 24px; */
+    padding: 8px 0 10px 10px;
 
 }
 .no-data {
@@ -1065,9 +1067,9 @@ export default {
       isShowCharts2: false,
       topicCode: this.$route.params.topicId,
       // fullHeight1: document.documentElement.clientHeight - 546,
-      fullHeight1: document.documentElement.clientHeight - 535,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
-      fullHeight3: document.documentElement.clientHeight - 166,
+      fullHeight1: document.documentElement.clientHeight - 556,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 186) / 44),
+      fullHeight3: document.documentElement.clientHeight - 186,
       size: 12,
       inforPageSize: 100,
       endAll: '',
