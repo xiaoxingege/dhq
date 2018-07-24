@@ -355,7 +355,7 @@ export default {
       return index === 4 ? 'tr-img2' : index === 3 ? 'tr-img3' : ''
     },
     checkUnit(str) {
-      return str + '亿'
+      return Number(str / 100000000).toFixed(2) + '亿'
     },
     checkChngPct(value) {
       if (value === null || value === '') {

@@ -143,7 +143,6 @@ td a {
             </tr> -->
     <tr v-for="(item,index) of signalRealTime">
       <td>
-        <!--  <router-link :to="{name:'foundpooldetail',params:{id:item.poolId}}" class="blue">{{item.poolName}}</router-link> -->
         <div>{{formatDuring(item.signalTime) ||'--'}}</div>
       </td>
       <td>
@@ -267,12 +266,12 @@ export default {
       // return false;
     },
     checkChngPct(value) {
-      let showFlag = this.timeRange('9:00','9:30');
+      let showFlag = this.timeRange('9:00', '9:30');
       if (value === null || value === '') {
         return '--';
-      }else if(showFlag && Number(value) === 0) {
-          return '--'
-      }else {
+      } else if (showFlag && Number(value) === 0) {
+        return '--'
+      } else {
         if (value > 0) {
           return '+' + (Number(value) * 100).toFixed(2) + '%';
         } else {
