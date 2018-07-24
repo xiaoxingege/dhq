@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="yo-scroll" :class="{'down':(state===0),'up':(state==1),refresh:(state===2),touch:touching}" @touchstart="touchStart($event)" @touchmove="touchMove($event)" @touchend="touchEnd($event)" @scroll="(onInfinite || infiniteLoading) ? onScroll($event) : undefined">
-        <section class="inner" :style="{ transform: 'translate3d(0, ' + top + 'px, 0)' }">
+        <section class="inner">
             <header class="pull-refresh">
                 <slot name="pull-refresh">
                     <span class="down-tip">下拉更新</span>
