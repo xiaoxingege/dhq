@@ -50,7 +50,6 @@
                         this.$forceUpdate(); // 手动触发试图更新
                         this.timeRange(userBegin, userEnd);
                     },3000)
-
                     return true;
                 } else {
                     this.timers && clearTimeout(this.timers)
