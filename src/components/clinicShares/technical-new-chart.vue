@@ -1393,9 +1393,9 @@ export default {
         for (var p in objs2) {
           // console.log(p)
           if (p === 'title') {
-            oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + objs2[p] + '\n'
+            oneStr2 += '<i style="display: inline-block;width: 4px;height: 4px;background: #c9d0d7;border-radius: 50%;position: relative;top: -2px;left:-5px;"></i>' + this.unhtml(objs2[p]) + '\n'
           } else if (p === 'tag') {
-            oneStr2 += objs2[p] + '\n<br/>'
+            oneStr2 += this.unhtml(objs2[p]) + '\n<br/>'
           }
         }
         allStr += oneStr2;
@@ -1403,6 +1403,16 @@ export default {
       }
       return allStr;
 
+    },
+    unhtml(str) {
+      return str ? str.replace(/[<">']/g, (a) => {
+        return {
+          '<': '&lt;',
+          '"': '&quot;',
+          '>': '&gt;',
+          "'": '&#39;'
+        }[a]
+      }) : '';
     },
     showMa(type) {
       this.checkOpacity(type)

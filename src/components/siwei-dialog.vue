@@ -55,9 +55,9 @@
 .deleteSelfChoice {
     color: #DA3D45;
 }
-.stockLine{
-    width:100%;
-    height:50px;
+.stockLine {
+    width: 100%;
+    height: 50px;
 }
 </style>
 <template>
@@ -101,7 +101,6 @@
 </div>
 </template>
 <script>
-
 import Stockkline from 'components/stock-kline'
 import Stockktimeline from 'components/siwei/stock-timeline'
 

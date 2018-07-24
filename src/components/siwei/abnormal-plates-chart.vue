@@ -105,6 +105,12 @@ export default {
           right: 10,
           bottom: 40
         },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
         xAxis: {
           type: 'category',
           axisTick: {
@@ -120,9 +126,6 @@ export default {
             lineStyle: {
               color: '#32343E'
             }
-          },
-          axisPointer: {
-
           },
           data: xData
         },
@@ -209,10 +212,10 @@ export default {
           },
           rippleEffect: {
             period: 3,
-            scale: 8,
+            scale: 18,
             brushType: 'fill'
           },
-          symbolSize: 2,
+          symbolSize: 1,
           data: [this.lastData]
         }]
       });

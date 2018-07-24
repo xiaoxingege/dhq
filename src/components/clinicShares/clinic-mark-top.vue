@@ -514,7 +514,8 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
+          <!-- guid -->
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -561,7 +562,7 @@ body {
       <div class="short-fund clearfix" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo')">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
 
         </div>
       </div>
@@ -639,9 +640,13 @@ export default {
             this.drawCharts(this.radars.radarAllData)
           })
         }, */
-    fundShow(e, type) {
+    fundShow(e, type, newId) {
       // console.log(type)
       e.preventDefault()
+      console.log(newId)
+      if (type === 'newsinfo') {
+        window.open('/zstgweb/detail-pages/news/' + newId, '_blank')
+      }
       this.$emit('changeShowValue', type)
     },
     drawCharts(radarAllData) {

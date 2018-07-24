@@ -95,7 +95,8 @@ html {
     color: #c9d0d7;
     /* height: 100%; */
     border-left: 1px solid #0d0e0f;
-    border-bottom: 3px solid #0d0e0f;
+    /* border-bottom: 3px solid #0d0e0f; */
+    min-width: 1217px;
 }
 .topic-detail a:hover {
     text-decoration: none;
@@ -147,7 +148,8 @@ html {
     background: #141518;
 }
 .detail-main {
-    margin-bottom: 18px;
+    /* margin-bottom: 18px; */
+    margin-bottom: 21px;
 }
 .main-left {
     width: 60%;
@@ -291,13 +293,15 @@ html {
     color: #c9d0d7;
     line-height: 25px;
     float: left;
-    width: 12%;
+    /* width: 12%; */
+    width: 11%;
     text-align: right;
 }
 .new-srcname {
     line-height: 25px;
     float: left;
-    width: 14%;
+    /*  width: 14%; */
+    width: 18%;
     text-align: right;
     color: #c9d0d7;
 }
@@ -319,6 +323,9 @@ html {
     /* top: 25px; */
     /* top: 23px; */
     left: 157px;
+    max-width: 450px;
+    line-height: 1.4;
+    white-space: normal;
 }
 
 .left-con3 strong {
@@ -644,7 +651,8 @@ table {
 bottom: 0; */
     background: #141518;
     color: #808ba1;
-    line-height: 24px;
+    /* line-height: 24px; */
+    padding: 8px 0 10px 10px;
 
 }
 
@@ -1059,9 +1067,12 @@ export default {
       isShowCharts2: false,
       induCode: this.$route.params.industryId,
       // fullHeight1: document.documentElement.clientHeight - 546,
-      fullHeight1: document.documentElement.clientHeight - 505,
-      fullHeight2: parseInt((document.documentElement.clientHeight - 166) / 44),
-      fullHeight3: document.documentElement.clientHeight - 166,
+      // fullHeight1: document.documentElement.clientHeight - 520,
+      // fullHeight2: parseInt((document.documentElement.clientHeight - 225) / 44),
+      // fullHeight3: document.documentElement.clientHeight - 225,
+      fullHeight1: document.documentElement.clientHeight - 520,
+      fullHeight2: parseInt((document.documentElement.clientHeight - 176) / 44),
+      fullHeight3: document.documentElement.clientHeight - 176,
       size: 12,
       inforPageSize: 100,
       endAll: '',

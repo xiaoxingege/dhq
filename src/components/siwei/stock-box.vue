@@ -55,7 +55,8 @@ export default {
     }
   },
   components: {
-    Stockkline,TimeLine
+    Stockkline,
+    TimeLine
   },
   watch: {
     'options.stockCode': function() {
@@ -125,8 +126,7 @@ export default {
     }
 
   },
-  mounted() {
-  }
+  mounted() {}
 }
 </script>
 
@@ -164,8 +164,8 @@ export default {
     margin-bottom: 7px;
 }
 .bottomLeft .bottomLeft-timeline {
-  width:100%;
-  height : 50px;
+    width: 100%;
+    height: 50px;
 }
 .bottomRight {
     width: 320px;
