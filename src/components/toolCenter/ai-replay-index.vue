@@ -31,7 +31,7 @@
     border-left: 1px solid $bgDeepColor;
     border-right: 2px solid $bgDeepColor;
     border-bottom: 5px solid $bgDeepColor;
-    width: 1217px;
+    min-width: 1217px;
 }
 .replay-center {
     margin-top: 6px;
