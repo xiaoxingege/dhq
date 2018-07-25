@@ -179,37 +179,8 @@ input {
         </div>
         <span class="fr closed" @click="hideDialog">×</span>
       </div>
-      <!-- <ul class="clearfix head-th">
-                <li class="fl">时间</li>
-                <li class="fl">时间</li>
-                <li class="fl">时间</li>
-                <li class="fl">时间</li>
-                <li class="fl">时间</li>
-             </ul> -->
     </div>
     <slot name='content'></slot>
-    <!--    <div class="content">
-           <table class="table1" ref='datalist'>
-                    <tr>
-                    </tr>
-                    <tr v-for="(item,index) of dialogArr">
-                        <td>
-                          <div>{{formatDuring(item.signalTime) ||'--'}}</div>
-                        </td>
-                        <td>
-                          <div @click='toNative({stockCode:concats(item.stockCode)})' class="tonative">{{item.stockName ||'--'}}
-                          </div>
-                        </td>
-                        <td class="td-chngPct">
-                          <div v-z3-updowncolor="item.stockPl">{{item.stockPl | chngPct}}</div>
-                        </td>
-                        <td>
-                          <div>{{item.signalName ||'--'}}</div>
-                        </td>
-
-                    </tr>
-            </table> 
-         </div>-->
 
     <div class="footer">
 

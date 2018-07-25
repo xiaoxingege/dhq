@@ -123,13 +123,17 @@
 .leading-box {
     margin-right: 32px;
 }
+.leading-title {
+    display: inline-block;
+    width: 71%;
+}
 </style>
 <template>
 <div class="hot-block-wrap">
   <div class="name-box">
     <em class="block-num">No.{{index+1}}</em><span class="block-name">{{blockData.name ||'--'}}</span><span class="block-chg" v-z3-updowncolor="blockData.changeRatio">{{checkChngPct(blockData.changeRatio) ||'--'}}</span>
   </div>
-  <div class="leading-stock">
+  <div class="leading-stock leading-title">
     <span>相关事件：</span>
     <span v-for="(item,index) of blockData.event"><router-link :to="{name: 'dhqNews',query:{sourceUrl:item.url}}" target="_blank" class="blue">{{item.title ||'--'}}</router-link></span>
   </div>
