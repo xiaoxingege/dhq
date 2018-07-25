@@ -2,7 +2,7 @@
     <div class="initWait" v-if="isShow">
           <div class="initWait-wrapper">
             <slot></slot>
-            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
+            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分，请耐心等待~</p>
           </div>
     </div>
 </template>
@@ -42,9 +42,9 @@
                     return false;
                 }
                 if (n.getTime() - b.getTime() > 0 && n.getTime() - e.getTime() < 0) {
-                    let endMinutes = e.getMinutes() === 0 ? 60 : e.getMinutes();
-                    let nowMinutes = n.getMinutes();
-                    this.beginTimes = Math.abs(endMinutes-nowMinutes);
+                    let timeMsg = e.getTime()-n.getTime();
+                    let beginTime = Math.ceil(timeMsg/1024/60)
+                    this.beginTimes = beginTime
                     this.timers && clearTimeout(this.timers)
                     this.timers = setTimeout(() => {
                         this.$forceUpdate(); // 手动触发试图更新
