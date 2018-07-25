@@ -95,7 +95,7 @@
         <td><span v-z3-updowncolor-bg="bullStockList.length>0 && formatData(item.value)?'--':item.value" :style="{width:formatValueBg(item.value)*2.25+'px'}">{{formatValue(item.value)}}</span></td>
       </tr>
       <tr v-for="item of noDataList" v-if="bullStockList.length===0">
-        <td>{{item.cname | remUseLess}}</td>
+        <td>{{item.cname}}</td>
         <td>{{item.remark}}</td>
         <td>{{item.value}}</td>
       </tr>
