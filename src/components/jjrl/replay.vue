@@ -133,7 +133,8 @@ export default {
       getNewsBroadcast:state => state.jjrl.getNewsBroadcast,
       todayHotStock:state => state.jjrl.todayHotStock,
       todayHotStockPrice:state => state.jjrl.todayHotStockPrice,
-      savaHyList: state => state.jjrl.savaHyList
+      savaHyList: state => state.jjrl.savaHyList,
+      firstCode: state => state.jjrl.firstCode
       
     }),
     comp: function() {
@@ -163,6 +164,8 @@ export default {
         this.initNotOpenStock(this.tradeDate) 
          clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===0){
+        /*  let curArea=0
+         this.$store.dispatch('jjrl/firstCode',curArea) */
         this.initFp(this.saveDate.chooseDate) 
          clearInterval(this.intervalid1)
        }else if(parseInt(this.curType)===1){
@@ -332,6 +335,7 @@ export default {
         })
         let item= this.getStockCode.join(',') // q接口支持多个查询
         this.$store.dispatch('jjrl/setStock',item)
+        this.$store.dispatch('jjrl/firstCode',this.stockCode)
         this.index=0
         this.$store.dispatch('jjrl/querySelection',item)
         this.public=this.getStock[0].ESP_HINT 
@@ -354,9 +358,9 @@ export default {
               zszd:this.zszd 
               }).then( res => {
           })
-        }) 
+        })  
       })  
-
+ 
     },
 
     // 初始化 会议日历
@@ -441,6 +445,8 @@ export default {
           this.initNotOpenStock(this.saveDate.chooseDate)
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===0){
+        /*   let curArea=1
+          this.$store.dispatch('jjrl/firstCode',curArea) */
           this.initFp(this.saveDate.chooseDate) 
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===1){  // 会议日历
@@ -463,7 +469,11 @@ export default {
   mounted() {
     this.initConsole(this.tradeDate)
     this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
+ /*    let curArea=1
+    this.$store.dispatch('jjrl/firstCode',curArea) */
     this.initFp(this.saveDate.chooseDate)
+    
+        
 
   }
 
