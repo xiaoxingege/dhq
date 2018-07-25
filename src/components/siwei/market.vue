@@ -15,51 +15,65 @@
       </div>
     </div>
     <div class='right'>
-      <StockInit startTime='9:00' endTime='9:30' @propShow='getShow' v-if='isShow'>
-        <img src="../../assets/images/icons/wait-cup.png" alt="">
-      </StockInit>
-      <div class='right-content' v-else>
-        <div :class='{stocks:true,expend:!hideStock}'>
-          <div class='tit' @click="toggle">异动个股<span :class="{'arrow_up':hideStock,'arrow_down':!hideStock}"></span></div>
-          <div class="list" ref="stocks_list">
-            <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
-              <div class='time'>{{stock.tradeTime | hhmmss}}</div>
-              <div class='item'>
-                <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
-                <span v-z3-updowncolor="stock.chng">{{stock.price | price}}</span>
-                <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
-                <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
-              </div>
-              <div class="news" v-if="stock.moveRelaNewsId">
-                <span :class="stock.newsPostiveIndex > 1?'mark good':'mark bad'">{{stock.newsPostiveIndex > 1?'利好':'利空'}}</span>
-                <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
-              </div>
+      <div :class="{stocks:true, expend:!hideStock && hidePlate, 'hide-box':hideStock}">
+        <div class='tit' @click="toggle('stock')">异动个股<span :class="{'arrow_up':hideStock,'arrow_down':!hideStock}"></span></div>
+        <div class="no-data" v-if="isShow">
+          <StockInit startTime='9:00' endTime='9:30' @propShow='getShow'>
+            <img src="../../assets/images/icons/wait-cup.png" alt="">
+          </StockInit>
+        </div>
+        <div class="list" ref="stocks_list" v-else>
+          <div class='block' v-for='stock in stockList' @dblclick="openStock(stock.innerCode)">
+            <div class='time'>{{stock.tradeTime | hhmmss}}</div>
+            <div class='item'>
+              <span class=''>{{stock.name}}[{{stock.symbol | simpleCode}}]</span>
+              <span v-z3-updowncolor="stock.chng">{{stock.price | price}}</span>
+              <span v-z3-updowncolor="stock.chngPct">{{stock.chngPct | chngPct}}</span>
+              <span v-z3-updowncolor="stock.moveSignalId -1.5" class='type'>{{stock.reasonShortLine}}</span>
             </div>
+            <div class="news" v-if="stock.moveRelaNewsId">
+              <span :class="stock.newsPostiveIndex > 1?'mark good':'mark bad'">{{stock.newsPostiveIndex > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:stock.moveRelaNewsId}}" target="_blank" class="news_tit">{{stock.title}}</router-link>
+            </div>
+            <ul class='topics' v-if="stock.topicDataList && stock.topicDataList.length > 0">
+              <li class="topic" v-for="topic in stock.topicDataList">
+                <div class="name" @dblclick.stop="openPlate(topic.topicCode)">{{topic.topicName}}</div>
+                <div v-z3-updowncolor="topic.topicChngPct">{{topic.topicChngPct | chngPct}}</div>
+              </li>
+            </ul>
           </div>
         </div>
-        <div :class="{blocks:true,expend:!hidePlate}">
-          <div class="tit" @click="toggle">异动板块<span :class="{mode:true,active:!textMode}" @click.stop="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click.stop="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"
-              @click="toggle"></span><span :class="{'copy':textMode}" @click="copyPlate" v-show="textMode" title="复制"></span></div>
-          <div class="list">
-            <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
-              <div class="time plate_top">
-                <span>{{plate.tradeTime | hhmm}}</span>
-                <span class="name">{{plate.sectionName}}</span>
-                <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
-                <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
-              </div>
-              <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
-                <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
-              </div>
-              <table class="stockList">
-                <tr v-for="stock of plate.stockDataList" @dblclick.stop="openStock(stock.innerCode)">
-                  <td class="name">{{stock.stockName}}</td>
-                  <td class="code">{{stock.stockCode}}</td>
-                  <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
-                  <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
-                </tr>
-              </table>
+      </div>
+      <div :class="{blocks:true, expend:!hidePlate && hideStock, 'hide-box':hidePlate}">
+        <div class="tit" @click="toggle('plate')">异动板块<span :class="{mode:true,active:!textMode}" @click.stop="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click.stop="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"></span>
+          <span
+            :class="{'copy':textMode}" @click="copyPlate" v-show="textMode" title="复制"></span>
+        </div>
+        <div class="no-data" v-if="isShow">
+          <StockInit startTime='9:00' endTime='9:30' @propShow='getShow'>
+            <img src="../../assets/images/icons/wait-cup.png" alt="">
+          </StockInit>
+        </div>
+        <div class="list" v-else>
+          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
+            <div class="time plate_top">
+              <span>{{plate.tradeTime | hhmm}}</span>
+              <span class="name">{{plate.sectionName}}</span>
+              <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
+              <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
             </div>
+            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
+              <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
+            </div>
+            <table class="stockList">
+              <tr v-for="stock of plate.stockDataList" @dblclick.stop="openStock(stock.innerCode)">
+                <td class="name">{{stock.stockName}}</td>
+                <td class="code">{{stock.stockCode}}</td>
+                <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
+                <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -147,10 +161,10 @@ export default {
       scrollHeight: '',
       bottomTime: 0,
       hideStock: false,
-      hidePlate: true,
+      hidePlate: false,
       textMode: false,
       beginTimes: null,
-      isShow : true
+      isShow: true
     }
   },
   components: {
@@ -616,13 +630,22 @@ export default {
     handleScroll() {
       this.scrollHeight = this.$refs.stocks_list.scrollTop
     },
-    toggle: function() {
-      this.hideStock = !this.hideStock;
-      this.hidePlate = !this.hidePlate;
+    toggle: function(type) {
+      if (type === 'stock') {
+        this.hideStock = !this.hideStock;
+        if (this.hideStock) {
+          this.hidePlate = false;
+        }
+      } else {
+        this.hidePlate = !this.hidePlate;
+        if (this.hidePlate) {
+          this.hideStock = false;
+        }
+      }
     },
-    getShow(msg){
-        console.log(msg)
-         this.isShow = msg
+    getShow(msg) {
+      console.log(msg)
+      this.isShow = msg
     }
   },
   watch: {
@@ -779,16 +802,20 @@ export default {
     height: 100%;
     box-sizing: border-box;
 }
-.market .right-content { 
-  width:100%;
-  height:100%;
+.market .right-content {
+    width: 100%;
+    height: 100%;
 }
 .market .stocks {
-    height: 24px;
+    height: 50%;
     border-bottom: 1px solid #32343E;
     .list {
         height: calc(100% - 25px);
         overflow: auto;
+    }
+    .no-data {
+        height: calc(100% - 25px);
+        overflow: hidden;
     }
     .topic {
         color: #a6a6a6;
@@ -796,6 +823,9 @@ export default {
 }
 .market .stocks.expend {
     height: calc(100% - 25px);
+}
+.market .stocks.hide-box {
+    height: 24px;
 }
 .initWait {
     position: relative;
@@ -846,15 +876,22 @@ export default {
     color: $blueWordsColor;
 }
 .market .blocks {
-    height: 25px;
+    height: 50%;
     overflow: hidden;
     .list {
         height: calc(100% - 25px);
         overflow: auto;
     }
+    .no-data {
+        height: calc(100% - 25px);
+        overflow: hidden;
+    }
 }
 .market .blocks.expend {
     height: calc(100% - 25px);
+}
+.market .blocks.hide-box {
+    height: 25px;
 }
 .market .right .tit {
     height: 24px;
