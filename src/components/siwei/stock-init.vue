@@ -2,7 +2,9 @@
     <div class="initWait" v-if="isShow">
           <div class="initWait-wrapper">
             <slot></slot>
-            <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分，请耐心等待~</p>
+            <slot name='user'>
+                <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分，请耐心等待~</p>
+            </slot>
           </div>
     </div>
 </template>
