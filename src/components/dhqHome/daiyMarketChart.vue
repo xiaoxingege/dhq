@@ -205,9 +205,9 @@ export default {
               color: function(params) {
                 var cc = (Number(params.split(',').join('')).toFixed(2) - Number(datas.line).toFixed(2)).toFixed(2)
                 if (cc > 0) {
-                  return '#ca4947'
+                  return '#fc2721'
                 } else if (cc < 0) {
-                  return '#56a870'
+                  return '#0bc846'
                 }
                 return '#fff'
               }
