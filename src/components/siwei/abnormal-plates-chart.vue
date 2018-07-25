@@ -1,6 +1,6 @@
 <template>
 <div class="abnormal-plates-chart">
-  <div class="chart" ref="chart" @dblclick="openIndex"></div>
+  <div class="chart" ref="chart" @dblclick="openIndex" @keydown="indexMove($event)" @mouseover="$refs.chart.focus()" tabindex=0></div>
 </div>
 </template>
 
@@ -21,9 +21,21 @@ export default {
       timeline: util.generateTimeline(),
       markPointData: [],
       markLineData: [],
-      lastPlateTime: ''
+      lastPlateTime: '',
+      dataIndex: null
     }
   },
+  // directives: {
+  //   'z3-cross-move':{
+  //     inserted:function(el, binding, vnode){
+  //       let chart = binding.value.chart;
+  //       debugger;
+  //       if(!chart){
+  //         return
+  //       }
+  //     }
+  //   }
+  // },
   computed: {
     ...mapState({
       indexData: state => state.marketBubble.indexData,
@@ -108,7 +120,14 @@ export default {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross'
+            type: 'cross',
+            label: {
+              precision: 2
+            }
+          },
+          formatter: (params) => {
+            this.dataIndex = params[0].dataIndex;
+            return ''
           }
         },
         xAxis: {
@@ -333,6 +352,31 @@ export default {
     openPlate(code) {
       const path = code.length === 6 ? `${ctx}/industry/${code}` : `${ctx}/topic/${code}`;
       window.open(path);
+    },
+    indexMove(e) {
+      if (this.chart && event.keyCode === 37) {
+        console.log(e);
+        if (this.dataIndex !== 0) {
+          this.dataIndex = this.dataIndex - 1
+          this.chart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: this.dataIndex // 第几个tooltip
+          });
+        }
+      } else if (this.chart && event.keyCode === 39) {
+        if (this.dataIndex !== 240) {
+          this.dataIndex = this.dataIndex + 1
+          this.chart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: this.dataIndex // 第几个tooltip
+          });
+        }
+      }
+    },
+    focusIndex(e) {
+      console.log(e);
     }
   },
   mounted() {
@@ -372,6 +416,7 @@ export default {
     height: 100%;
     .chart {
         height: 100%;
+        outline: none;
     }
 }
 </style>
