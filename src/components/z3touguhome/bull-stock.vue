@@ -89,13 +89,13 @@
         <td>风格描述</td>
         <td>风格指数</td>
       </tr>
-      <tr v-for='item of bullStockList' v-if="bullStockList.length>0">
+      <tr v-for='item of bullStockListFilt' v-if="bullStockList.length>0">
         <td>{{bullStockList.length>0 && formatData(item.cname)?'--':item.cname}}</td>
         <td>{{bullStockList.length>0 && formatData(item.remark)?'--':item.remark}}</td>
         <td><span v-z3-updowncolor-bg="bullStockList.length>0 && formatData(item.value)?'--':item.value" :style="{width:formatValueBg(item.value)*2.25+'px'}">{{formatValue(item.value)}}</span></td>
       </tr>
       <tr v-for="item of noDataList" v-if="bullStockList.length===0">
-        <td>{{item.cname}}</td>
+        <td>{{item.cname | remUseLess}}</td>
         <td>{{item.remark}}</td>
         <td>{{item.value}}</td>
       </tr>
@@ -111,7 +111,7 @@ export default {
   data() {
     return {
       navText: [
-        ['牛股风格', 'bullStockStyle']
+        ['个股风向', 'bullStockStyle']
       ],
       type: 'bullStockStyle',
       updateDataPid: null,
@@ -132,7 +132,17 @@ export default {
     bullStockListData: function() {
       const bullStockListData = this.$store.state.z3touguIndex.bullStockList
       return bullStockListData
+    },
+    bullStockListFilt: function() {
+      let newBull = []
+      this.bullStockList.forEach((item) => {
+          if(item.cname !== '动量' && item.cname !== '股东') {
+            newBull.push(item)
+          }
+      })
+      return newBull;
     }
+    
   },
   methods: {
     changeNavType(data) {
