@@ -168,25 +168,49 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div v-for="(inFace,index) of indexFace" v-if="index===3">
-    <div class="kline-title">
+    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>主力资金控盘度</div>
+    <div class="kline-title" v-else>
       {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'':inFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{inFace.describe==null?'':inFace.describe}}</div>
+    <div class="kline-title2" v-if='statusType == 10'>{{inFace.describe==null?'':inFace.describe}}</div>
 
   </div>
-  <div class="charts-box display-box">
-    <div class="kline-charts box-flex-1" ref="lineChart">
-
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
     </div>
-    <div class="pie-charts box-flex-1" ref="pieChart">
+    <div class="charts-box display-box" v-else>
+      <div class="kline-charts box-flex-1" ref="lineChart">
 
+      </div>
+      <div class="pie-charts box-flex-1" ref="pieChart">
+
+      </div>
     </div>
   </div>
-
 
 </div>
 </template>
@@ -200,10 +224,17 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode'],
+  props: ['innerCode', 'statusType'],
   data() {
     return {
-      showX: true
+      showX: true,
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
+      }
     }
   },
   computed: {
@@ -304,8 +335,10 @@ export default ({
       this.$store.dispatch('clinicShares/queryIndexFace', {
         innerCode: this.innerCode
       }).then(() => {
-        this.drawCharts()
-        this.drawChartsPie()
+        if (this.statusType === 10) {
+          this.drawCharts()
+          this.drawChartsPie()
+        }
       })
 
     },
@@ -592,6 +625,9 @@ export default ({
   },
   watch: {
     innerCode: function() {
+      this.initKline()
+    },
+    statusType: function() {
       this.initKline()
     }
   },

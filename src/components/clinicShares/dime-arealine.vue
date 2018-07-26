@@ -170,11 +170,17 @@ body {
     position: relative;
 }
 .no-data {
-    width: 176px;
-    height: 168px;
+    width: 115px;
+    height: 81px;
     display: inline-block;
     margin-top: 70px;
-    background: url("../../assets/images/z3img/no-data.png") no-repeat;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
 }
 </style>
 <template>
@@ -190,6 +196,7 @@ body {
   <div>
     <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
       <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
     </div>
     <div class="kline-charts" ref="arealineChart" v-else>
 
@@ -271,9 +278,8 @@ export default ({
       this.initKline()
     },
     initKline() {
-
-      this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
       if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
         if (this.indexFace) {
           this.drawCharts()
         }

@@ -163,21 +163,44 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
-    <div class="kline-title">
+    <div class="kline-title" v-if='(statusType==11 || statusType==12 || statusType==13 || statusType==20)'>{{indexName[dataIndex]}}</div>
+    <div class="kline-title" v-else>
       {{baseFace.title}}<span class="assess1" :class="checkStatus(baseFace.status)">{{baseFace.tag==null?'':baseFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{baseFace.describe==null?'':baseFace.describe}}</div>
+    <div class="kline-title2" v-if='statusType == 10'>{{baseFace.describe==null?'':baseFace.describe}}</div>
 
   </div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
+    </div>
+    <div class="kline-charts" ref="lineCharts" v-else>
 
-  <div class="kline-charts" ref="lineCharts">
-
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -190,7 +213,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 // import config from '../../z3tougu/config'
 export default ({
-  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
+  props: ['baseFace', 'dataIndex', 'floatYname', 'legendName1', 'legendName2', 'legendShow', 'innerCode', 'statusType'],
   data() {
     return {
       showX: true,
@@ -224,6 +247,19 @@ export default ({
         vols: [],
         range: [],
         rangeYdata: []
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
+      },
+      indexName: {
+        2: '营业总收入',
+        3: '主每股销售额',
+        4: '净资产收益率',
+        5: 'EPS增长率(季环比)'
       }
     }
   },
@@ -285,13 +321,13 @@ export default ({
       this.initLine()
     },
     initLine() {
-      this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
+        if (this.baseFace) {
+          this.drawCharts()
 
-      if (this.baseFace) {
-        this.drawCharts()
-
+        }
       }
-
     },
     drawCharts() {
       const lineData = this.data
@@ -512,6 +548,9 @@ export default ({
 
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initLine()
     }
   },
 

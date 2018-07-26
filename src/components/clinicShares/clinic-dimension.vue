@@ -226,19 +226,19 @@ body {
     </div>
     <div class="chart-box2">
       <div class="chart-kline box-flex-1 mb-0" v-for='(item,index) of indexFaceData' v-if='index===2'>
-        <Barline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+        <Barline :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
       </div>
       <div class="chart-grop box-flex-1 mb-0">
-        <Pieline :innerCode='innerCode' />
+        <Pieline :innerCode='innerCode' :statusType='statusType' />
       </div>
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'base'">
     <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
+      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' :statusType='statusType' />
     </div>
     <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
+      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' :statusType='statusType' />
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'techs'">

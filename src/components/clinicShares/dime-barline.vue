@@ -170,11 +170,17 @@ body {
     position: relative;
 }
 .no-data {
-    width: 176px;
-    height: 168px;
+    width: 115px;
+    height: 81px;
     display: inline-block;
     margin-top: 70px;
-    background: url("../../assets/images/z3img/no-data.png") no-repeat;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
 }
 </style>
 <template>
@@ -187,10 +193,10 @@ body {
     <div class="kline-title2" v-if='statusType == 10'>{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
-
   <div>
     <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
       <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
     </div>
     <div class="kline-charts" ref="barChart" v-else>
 
@@ -221,6 +227,13 @@ export default ({
         dayGreen: [],
         days5: [],
         vols: []
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
     }
   },
@@ -267,11 +280,10 @@ export default ({
       this.initKline()
     },
     initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
       if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
         if (this.indexFace) {
           this.drawCharts()
-
         }
       }
     },
