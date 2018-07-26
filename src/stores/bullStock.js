@@ -27,22 +27,22 @@ export default {
   mutations: {
     setTopicAndIndustry(state, result) {
       if (result.errCode === 0) {
-        for (var i = 0; i < result.data.题材板块.length; i++) {
+        for (var i = 0; i < result.data.topic_list.length; i++) {
           state.topicData[i] = {
-            heatIndex: result.data.题材板块[i].topicMarket.heatIndex,
-            chngPct: result.data.题材板块[i].topicMarket.chngPct,
-            keepDaysToday: result.data.题材板块[i].topicMarket.keepDaysToday,
-            name: result.data.题材板块[i].topicName,
-            topicCode: result.data.题材板块[i].topicCode
+            heatIndex: result.data.topic_list[i].topicMarket.heatIndex,
+            chngPct: result.data.topic_list[i].topicMarket.chngPct,
+            keepDaysToday: result.data.topic_list[i].topicMarket.keepDaysToday,
+            name: result.data.topic_list[i].topicName,
+            topicCode: result.data.topic_list[i].topicCode
           }
         }
-        for (var j = 0; j < result.data.行业板块.length; j++) {
+        for (var j = 0; j < result.data.indu_list.length; j++) {
           state.industryData[j] = {
-            heatIndex: result.data.行业板块[j].induMarket.heatIndex,
-            chngPct: result.data.行业板块[j].induMarket.chngPct,
-            keepDaysToday: result.data.行业板块[j].induMarket.keepDaysToday,
-            name: result.data.行业板块[j].induName,
-            induCode: result.data.行业板块[j].induCode
+            heatIndex: result.data.indu_list[j].induMarket.heatIndex,
+            chngPct: result.data.indu_list[j].induMarket.chngPct,
+            keepDaysToday: result.data.indu_list[j].induMarket.keepDaysToday,
+            name: result.data.indu_list[j].induName,
+            induCode: result.data.indu_list[j].induCode
           }
         }
       }
@@ -95,7 +95,7 @@ export default {
     }, {
       index
     }) {
-      return fetch(`${domain}/openapi/topicAndIndustry.shtml?index=${index}&limit=20`, {
+      return fetch(`${domain}/openapi/marketVane/topicAndIndustry.shtml?index=${index}`, {
         mode: 'cors'
       }).then((res) => {
         return res.json()
