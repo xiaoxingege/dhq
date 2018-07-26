@@ -124,6 +124,7 @@ td a {
 .more {
     cursor: pointer;
 }
+
 </style>
 <template>
 <div class="signal-table-wrap">
@@ -147,10 +148,10 @@ td a {
         </div>
       </td>
       <td class="td-chngPct">
-        <div v-z3-updowncolor="item.riseAndFall">{{item.price | price}}</div>
+        <div v-z3-updowncolor="item.price!=0?item.riseAndFall:item.price">{{ item.price | price | price1}}</div>
       </td>
       <td class="td-chngPct">
-        <div v-z3-updowncolor="item.riseAndFall">{{checkChngPct(item.riseAndFall)}}</div>
+        <div v-z3-updowncolor="item.price!=0?item.riseAndFall:item.price">{{checkChngPct(item.riseAndFall,item.price)}}</div>
       </td>
       <td>
         <div>{{item.subTypeName ||'--'}}</div>
@@ -181,6 +182,7 @@ td a {
 } from '../../dhq/config' */
 import util from '../../dhq/util'
 import native from 'utils/nativeApi'
+import config from '../../z3tougu/config'
 import {
   mapState
 } from 'vuex'
@@ -204,6 +206,15 @@ export default {
   },
   components: {
 
+  },
+  filters: {
+     price1:function(val){
+        if(Number(val) === 0) {
+           return config.emptyValue
+        }else {
+            return val;
+        }
+     }
   },
   computed: mapState({
     // signalTrend:state => state.signal.signalTrend 
@@ -262,12 +273,9 @@ export default {
       }
       // return false;
     },
-    checkChngPct(value) {
-      let showFlag = this.timeRange('9:00',"9:30");
-      if (value === null || value === '') {
-        return '--';
-      }else if(showFlag && Number(value) === 0) {
-        return '--'
+    checkChngPct(value,price) {
+      if (value === null || value === '' || Number(price) === 0) {
+        return config.emptyValue;
       }else {
         if (value > 0) {
           return '+' + (Number(value) * 100).toFixed(2) + '%';
