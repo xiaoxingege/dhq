@@ -81,7 +81,7 @@ export default {
               fontFamily: 'Microsoft YaHei',
               fontWeight: 400
             },
-            left: 50,
+            left: 6,
             top: 5
           },
           legend: {
@@ -126,7 +126,7 @@ export default {
           },
           grid: {
             left: 10,
-            top: 30,
+            top: 35,
             width: '95%',
             height: '80%',
             containLabel: true
