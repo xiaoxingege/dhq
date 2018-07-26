@@ -214,10 +214,10 @@ export default {
         }
         .col {
             float: left;
-            width: 37%;
+            width: 39%;
         }
         .chg {
-            width: 28%;
+            width: 26%;
             text-align: center;
         }
         .name {
