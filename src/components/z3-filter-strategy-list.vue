@@ -5,15 +5,9 @@
 }
 
 * {
-<<<<<<< HEAD
     box-sizing: border-box;
-    font-family: '微软雅黑';
+    font-family: "Microsoft YaHei";
     font-size: 12px;
-=======
-  box-sizing: border-box;
-  font-family: "Microsoft YaHei";
-  font-size: 12px;
->>>>>>> master
 }
 
 body {
