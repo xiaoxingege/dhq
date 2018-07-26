@@ -266,12 +266,9 @@ export default {
       // return false;
     },
     checkChngPct(value) {
-      let showFlag = this.timeRange('9:00', '9:30');
       if (value === null || value === '') {
         return '--';
-      } else if (showFlag && Number(value) === 0) {
-        return '--'
-      } else {
+      }else {
         if (value > 0) {
           return '+' + (Number(value) * 100).toFixed(2) + '%';
         } else {
