@@ -126,7 +126,7 @@ html {
       <select v-model="conditionTopic" class="condition-select" v-show="mapType === 'plate' && plateType === 'theme'">
                     <option value="topic_market.tech_index">热度指数</option>
                     <option value="chg_pct">涨跌幅</option>
-                    <option value="chg_pct">涨速</option>
+                    <option value="topic_market.rise_speed_3min">涨速</option>
                     <option value="chg_pct_week">近1周涨跌幅</option>
                     <option value="chg_pct_month">近1月涨跌幅</option>
                     <option value="chg_pct_3month">近3月涨跌幅</option>
@@ -146,7 +146,7 @@ html {
       <select v-model="conditionStock" class="condition-select" v-show="mapType === 'stock' && plateType === 'theme'">
                     <option value="tech_index">热度指数</option>
                     <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
-                    <option value="chg_pct">涨速</option>
+                    <option value="mkt_idx.rising_rate">涨速</option>
                     <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
                     <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>
                     <option value="perf_idx.chng_pct_3month">近3月涨跌幅</option>
@@ -166,7 +166,7 @@ html {
       <select v-model="conditionIndustry" class="condition-select" v-show="mapType === 'plate' && plateType === 'industry'">
                     <option value="indu_market.tech_index">热度指数</option>
                     <option value="chg_pct">涨跌幅</option>
-                    <option value="chg_pct">涨速</option>
+                    <option value="indu_market.rise_speed_3min">涨速</option>
                     <option value="chg_pct_week">近1周涨跌幅</option>
                     <option value="chg_pct_month">近1月涨跌幅</option>
                     <option value="chg_pct_3month">近3月涨跌幅</option>
@@ -184,25 +184,25 @@ html {
                     <option value="keep_days">连续涨跌天数</option>
                 </select>
       <select v-model="conditionStockI" class="condition-select" v-show="mapType === 'stock' && plateType === 'industry'">
-                    <option value="tech_index">热度指数</option>
-                    <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
-                    <option value="chg_pct">涨速</option>
-                    <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
-                    <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>
-                    <option value="perf_idx.chng_pct_3month">近3月涨跌幅</option>
-                    <option value="perf_idx.chng_pct_6month">近6月涨跌幅</option>
-                    <option value="perf_idx.chng_pct_year">近1年涨跌幅</option>
-                    <option value="perf_idx.chng_pct_year_sofar">今年以来涨跌幅</option>
-                    <option value="mkt_idx.rela_volume">相对成交量</option>
-                    <option value="mkt_idx.peg">PEG</option>
-                    <option value="mkt_idx.ps">市销率</option>
-                    <option value="mkt_idx.pb">市净率</option>
-                    <option value="mkt_idx.div_rate">股息率</option>
-                    <option value="mkt_idx.pe_ttm">市盈率(TTM)</option>
-                    <option value="mkt_idx.fir_fcst_pe">预测市盈率</option>
-                    <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
-                    <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
-                </select>
+            <option value="tech_index">热度指数</option>
+            <option value="mkt_idx.cur_chng_pct">涨跌幅</option>
+            <option value="mkt_idx.rising_rate">涨速</option>
+            <option value="mkt_idx.chng_pct_week">近1周涨跌幅</option>
+            <option value="perf_idx.chng_pct_month">近1月涨跌幅</option>
+            <option value="perf_idx.chng_pct_3month">近3月涨跌幅</option>
+            <option value="perf_idx.chng_pct_6month">近6月涨跌幅</option>
+            <option value="perf_idx.chng_pct_year">近1年涨跌幅</option>
+            <option value="perf_idx.chng_pct_year_sofar">今年以来涨跌幅</option>
+            <option value="mkt_idx.rela_volume">相对成交量</option>
+            <option value="mkt_idx.peg">PEG</option>
+            <option value="mkt_idx.ps">市销率</option>
+            <option value="mkt_idx.pb">市净率</option>
+            <option value="mkt_idx.div_rate">股息率</option>
+            <option value="mkt_idx.pe_ttm">市盈率(TTM)</option>
+            <option value="mkt_idx.fir_fcst_pe">预测市盈率</option>
+            <option value="fin_idx.eps_5year">EPS增长率(过去5年)</option>
+            <option value="mkt_idx.keep_days_today">连续涨跌天数</option>
+      </select>
     </div>
   </div>
   <ThemeMap v-if="plateType === 'theme'" :plateType="plateType" 
@@ -233,14 +233,14 @@ export default {
       mapType: 'plate',
       conditionIndustry: 'chg_pct',
       conditionStockI: 'mkt_idx.cur_chng_pct',
-      industryIndexs: ['indu_market.tech_index', 'chg_pct','chg_pct','chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
-      industryStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct','chg_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
-      topicIndexs: ['topic_market.tech_index', 'chg_pct','chg_pct', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
-      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct','chg_pct', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
+      industryIndexs: ['indu_market.tech_index', 'chg_pct','indu_market.rise_speed_3min','chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
+      industryStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct','mkt_idx.rising_rate', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
+      topicIndexs: ['topic_market.tech_index', 'chg_pct','topic_market.rise_speed_3min', 'chg_pct_week', 'chg_pct_month', 'chg_pct_3month', 'chg_pct_6month', 'chg_pct_year', 'chg_pct_year_sofar', 'rela_volume', 'peg', 'ps', 'pb', 'div_rate', 'pe_ttm', 'fir_fcst_pe', 'eps_5year', 'keep_days'],
+      topicStockIndexs: ['tech_index', 'mkt_idx.cur_chng_pct','mkt_idx.rising_rate', 'mkt_idx.chng_pct_week', 'perf_idx.chng_pct_month', 'perf_idx.chng_pct_3month', 'perf_idx.chng_pct_6month', 'perf_idx.chng_pct_year', 'perf_idx.chng_pct_year_sofar', 'mkt_idx.rela_volume', 'mkt_idx.peg', 'mkt_idx.ps', 'mkt_idx.pb', 'mkt_idx.div_rate', 'mkt_idx.pe_ttm', 'mkt_idx.fir_fcst_pe', 'fin_idx.eps_5year', 'mkt_idx.keep_days_today'],
       topicConditionList: {
         'topic_market.tech_index': '热度指数',
         'chg_pct': '涨跌幅',
-        'chg_pct.rising_speed': '涨速',
+        'topic_market.rise_speed_3min': '涨速',
         'chg_pct_week': '近1周涨跌幅',
         'chg_pct_month': '近1月涨跌幅',
         'chg_pct_3month': '近3月涨跌幅',
@@ -260,7 +260,7 @@ export default {
       industryConditionList: {
         'indu_market.tech_index': '热度指数',
         'chg_pct': '涨跌幅',
-        'chg_pct.rising_speed':'涨速',
+        'indu_market.rise_speed_3min':'涨速',
         'chg_pct_week': '近1周涨跌幅',
         'chg_pct_month': '近1月涨跌幅',
         'chg_pct_3month': '近3月涨跌幅',

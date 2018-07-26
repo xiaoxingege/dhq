@@ -108,7 +108,7 @@ span {
 }
 .main-list {
     position: absolute;
-    width:100%;
+    width: 100%;
     height: 100%;
     padding-top: 30px;
     overflow-y: auto;
@@ -973,8 +973,16 @@ export default {
     },
     enterTopictit(e) {
       e.preventDefault()
-      this.showNewTit = true
+      var inContent = document.getElementsByClassName('main-list')[0]
+      var inDivHight = inContent.clientHeight
+      var targetOffset = e.currentTarget.offsetParent.offsetTop
+      // console.log(e.currentTarget.offsetParent.offsetTop)
       e.currentTarget.children[0].style.display = 'block'
+      if (targetOffset + 100 >= inDivHight) {
+        e.currentTarget.children[0].style.top = e.currentTarget.offsetTop - 32 + 'px'
+        e.currentTarget.children[0].style.left = e.currentTarget.offsetLeft + 88 + 'px'
+      }
+      this.showNewTit = true
       e.currentTarget.setAttribute('class', 'news-cons news-cons2')
     },
     leaveTopictit(e) {

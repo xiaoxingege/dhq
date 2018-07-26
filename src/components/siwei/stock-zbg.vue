@@ -6,7 +6,7 @@
   <div class="ztgMain display-box">
     <div class="ztgChart box-flex-1">
       <div ref="ztgBubbles" :style="{height:bubbleHeight+'px'}"></div>
-      <div class="ztgLine" ref="ztgLine" :style="{height:lineChartHeight+'px'}" @keydown="zoomData($event)" @mouseover="zoomOver($event)"  tabindex="0"  onfocus='console.log("得到焦点!");' ></div>
+      <div class="ztgLine" ref="ztgLine" :style="{height:lineChartHeight+'px'}" @keydown="zoomData($event)" @mouseover="zoomOver($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
     </div>
     <div class="ztgList">
       <ul ref="ztgListUl">
@@ -154,11 +154,11 @@ export default {
       return timeline
     },
     initBubbles() {
-        this.$nextTick(() => {
-            // DOM 更新了
-            this.chart = echarts.init(this.$refs.ztgBubbles)
-            this.chart.showLoading(config.loadingConfig);
-        })
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.chart = echarts.init(this.$refs.ztgBubbles)
+        this.chart.showLoading(config.loadingConfig);
+      })
 
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
@@ -488,11 +488,11 @@ export default {
 
     },
     initZtgCompare() {
-        this.$nextTick(() => {
-            // DOM 更新了
-            this.lineChart = echarts.init(this.$refs.ztgLine)
-            this.lineChart.showLoading(config.loadingConfig);
-        })
+      this.$nextTick(() => {
+        // DOM 更新了
+        this.lineChart = echarts.init(this.$refs.ztgLine)
+        this.lineChart.showLoading(config.loadingConfig);
+      })
 
       this.$store.dispatch('bubbles/getZbgLine', {
         type: '0'
@@ -895,91 +895,91 @@ export default {
       })
 
     },
-    initStockList(){
-          const that = this
-          const datetime = new Date();
-          const hour = datetime.getHours();
-          const minute = datetime.getMinutes();
-          if((hour < 9 || hour === 9) && minute<5){
-              let picd1 = setInterval(() => {
-                  that.$store.dispatch('bubbles/getBubblesLine', {
-                      type: 1,
-                      currentTime: ''
-                  }).then(() => {
-                      if(that.ztgList.length === 0){
-                          picd1 && clearInterval(picd1)
-                          that.stockListTime = ''
-                          this.interval = setInterval(function() {
-                              that.updateBubbles()
-                              that.updateCompare()
-                              if(that.stockListTime){
-                                  that.$store.dispatch('bubbles/getBubblesLine', {
-                                      type: 2,
-                                      currentTime: that.stockListTime
-                                  }).then(() => {
-                                      if (that.isTop) {
-                                          that.$refs.ztgListUl.scrollTop = 0
-                                      }
-                                  })
-                              }else {
-                                  that.$store.dispatch('bubbles/getBubblesLine', {
-                                      type: 2,
-                                      currentTime: ''
-                                  }).then(() => {})
-                              }
-
-                          }, Data.refreshTime)
-                      }
-                  })
-              }, 1000);
-          }else{
+    initStockList() {
+      const that = this
+      const datetime = new Date();
+      const hour = datetime.getHours();
+      const minute = datetime.getMinutes();
+      if ((hour < 9 || hour === 9) && minute < 5) {
+        let picd1 = setInterval(() => {
+          that.$store.dispatch('bubbles/getBubblesLine', {
+            type: 1,
+            currentTime: ''
+          }).then(() => {
+            if (that.ztgList.length === 0) {
+              picd1 && clearInterval(picd1)
+              that.stockListTime = ''
               this.interval = setInterval(function() {
-                  that.updateBubbles()
-                  that.updateCompare()
-                  if(that.stockListTime){
-                      that.$store.dispatch('bubbles/getBubblesLine', {
-                          type: 2,
-                          currentTime: that.stockListTime
-                      }).then(() => {
-                          if (that.isTop) {
-                              that.$refs.ztgListUl.scrollTop = 0
-                          }
-                      })
-                  }else {
-                      that.$store.dispatch('bubbles/getBubblesLine', {
-                          type: 2,
-                          currentTime: ''
-                      }).then(() => {})
-                  }
+                that.updateBubbles()
+                that.updateCompare()
+                if (that.stockListTime) {
+                  that.$store.dispatch('bubbles/getBubblesLine', {
+                    type: 2,
+                    currentTime: that.stockListTime
+                  }).then(() => {
+                    if (that.isTop) {
+                      that.$refs.ztgListUl.scrollTop = 0
+                    }
+                  })
+                } else {
+                  that.$store.dispatch('bubbles/getBubblesLine', {
+                    type: 2,
+                    currentTime: ''
+                  }).then(() => {})
+                }
 
               }, Data.refreshTime)
-          }
-      },
-    zoomOver() {
-        this.$refs.ztgLine.focus()
-    },
-    zoomData(event){
-          const that = this
-          if(this.lineChart && event.keyCode === 37){
-              if(that.dataIndex !== 0) {
-                  that.dataIndex = that.dataIndex - 1
-                  this.lineChart.dispatchAction({
-                      type: 'showTip',
-                      seriesIndex: 0,// 第几条series
-                      dataIndex: that.dataIndex// 第几个tooltip
-                  });
+            }
+          })
+        }, 1000);
+      } else {
+        this.interval = setInterval(function() {
+          that.updateBubbles()
+          that.updateCompare()
+          if (that.stockListTime) {
+            that.$store.dispatch('bubbles/getBubblesLine', {
+              type: 2,
+              currentTime: that.stockListTime
+            }).then(() => {
+              if (that.isTop) {
+                that.$refs.ztgListUl.scrollTop = 0
               }
-          }else if(this.lineChart && event.keyCode === 39){
-              if(that.dataIndex !== 240) {
-                  that.dataIndex = that.dataIndex + 1
-                  this.lineChart.dispatchAction({
-                      type: 'showTip',
-                      seriesIndex: 0,// 第几条series
-                      dataIndex: that.dataIndex// 第几个tooltip
-                  });
-              }
+            })
+          } else {
+            that.$store.dispatch('bubbles/getBubblesLine', {
+              type: 2,
+              currentTime: ''
+            }).then(() => {})
           }
+
+        }, Data.refreshTime)
       }
+    },
+    zoomOver() {
+      this.$refs.ztgLine.focus()
+    },
+    zoomData(event) {
+      const that = this
+      if (this.lineChart && event.keyCode === 37) {
+        if (that.dataIndex !== 0) {
+          that.dataIndex = that.dataIndex - 1
+          this.lineChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: that.dataIndex // 第几个tooltip
+          });
+        }
+      } else if (this.lineChart && event.keyCode === 39) {
+        if (that.dataIndex !== 240) {
+          that.dataIndex = that.dataIndex + 1
+          this.lineChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0, // 第几条series
+            dataIndex: that.dataIndex // 第几个tooltip
+          });
+        }
+      }
+    }
   },
   mounted() {
     this.initStockList()
@@ -1103,14 +1103,14 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid #000;
 }
-.ztgLine{
-  outline: none;
+.ztgLine {
+    outline: none;
 }
-.markBox{
-  display: inline-block;
-  padding: 2px;
-  color: #fff;
-  margin-right: 4px;
-  background-color: #ca4941;
+.markBox {
+    display: inline-block;
+    padding: 2px;
+    color: #fff;
+    margin-right: 4px;
+    background-color: #ca4941;
 }
 </style>

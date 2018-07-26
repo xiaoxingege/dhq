@@ -16,6 +16,9 @@
         <p>{{item.text}}</p>
         <p>{{item.value}}</p>
       </div>
+      <div class="bottomLeft-timeline">
+        <TimeLine :stockCode="options.stockCode"></TimeLine>
+      </div>
     </div>
     <div class="bottomRight fl">
       <Stockkline :stockCode="options.stockCode" :chartWidth="320" :chartHeight="200"></Stockkline>
@@ -29,7 +32,7 @@ import Stockkline from 'components/stock-kline'
 import {
   mapState
 } from 'vuex'
-
+import TimeLine from './stock-timeline'
 export default {
   //   options: {
   //     stockName: '',
@@ -52,7 +55,8 @@ export default {
     }
   },
   components: {
-    Stockkline
+    Stockkline,
+    TimeLine
   },
   watch: {
     'options.stockCode': function() {
@@ -122,9 +126,7 @@ export default {
     }
 
   },
-  mounted() {
-
-  }
+  mounted() {}
 }
 </script>
 
@@ -160,6 +162,10 @@ export default {
 }
 .bottomLeft > div {
     margin-bottom: 7px;
+}
+.bottomLeft .bottomLeft-timeline {
+    width: 100%;
+    height: 50px;
 }
 .bottomRight {
     width: 320px;

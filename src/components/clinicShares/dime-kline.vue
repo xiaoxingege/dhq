@@ -306,7 +306,7 @@ export default ({
           coord: [data.times[0], stressPrice],
           // symbol: 'rect',
           symbol: 'image://http://i0.jrjimg.cn/Astock/red-bj.png',
-          symbolSize: [92, 23],
+          symbolSize: [96, 23],
           symbolOffset: ['50%', '-65%'],
           itemStyle: {
             normal: {
@@ -350,7 +350,7 @@ export default ({
           name: '当前价',
           coord: [data.times[0], currPirce],
           symbol: 'image://http://i0.jrjimg.cn/Astock/white3-bj.png',
-          symbolSize: [92, 23],
+          symbolSize: [96, 23],
           symbolOffset: ['160%', '65%'],
           /* symbol: 'rect',
           symbolSize: [88, 22], */
@@ -384,7 +384,7 @@ export default ({
           name: '支撑位',
           coord: [data.times[0], supportPrice],
           symbol: 'image://http://i0.jrjimg.cn/Astock/blue-bj.png',
-          symbolSize: [92, 23],
+          symbolSize: [96, 23],
           symbolOffset: ['50%', '65%'],
           /* symbol: 'rect',
            symbolSize: [88, 22], */
