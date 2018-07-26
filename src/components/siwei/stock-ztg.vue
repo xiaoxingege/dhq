@@ -1189,8 +1189,6 @@ export default {
               }
           } */
           for(let i = 0; i<copyTarget.length; i++) {
-              console.log(copyTarget[i].innerText)
-
               // let text = dealStr(copyTarget[i].innerHTML)+'\n'
               let text = copyTarget[i].innerText+'\n'
               allText = allText+text
