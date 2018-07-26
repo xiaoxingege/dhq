@@ -23,7 +23,7 @@
         <li v-for="(item,index) in newStockList" class="clearfix" @dblclick="toStockDetail(item.symbol)">
           <span>{{index+1}}</span>
           <span>{{item.name | isNull}}</span>
-          <span>{{item.symbol.substring(0,6) | isNull}}</span>
+          <span v-if="item.symbol">{{item.symbol.substring(0,6) | isNull}}</span>
           <span v-z3-updowncolor="item.chg">{{item.price === null?'--':Number(item.price).toFixed(2)}}</span>
           <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
           <span v-z3-updowncolor="item.limitNum">{{item.limitNum | isNull}}</span>
@@ -743,7 +743,7 @@ export default {
   destroyed() {
     this.$store.state.bubbles.newStockSortType = ''
     this.$store.state.bubbles.newStockSort = ''
-    this.chart.dispose();
+    this.chart && this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
 }

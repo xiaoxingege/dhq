@@ -994,7 +994,7 @@ export default {
   destroyed() {
     this.$store.state.bubbles.stockListTime = ''
     this.$store.state.bubbles.ztgBubblesLine = []
-    this.chart.dispose();
+    this.chart && this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
 

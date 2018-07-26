@@ -11,36 +11,54 @@
       </div>
     </div>
     <div class="ztgList">
-    <div class="initWait" v-if="timeRange('9:00','9:30')">
+      <div class="initWait" v-if="timeRange('9:00','9:30')">
           <div class="initWait-wrapper">
             <img src="../../assets/images/icons/wait-cup.png" alt="">
             <p class="cont">距开盘还有<span class="minutes">{{ beginTimes }}</span>分,请耐心等待~</p>
           </div>
     </div>
-      <ul ref="ztgListUl" v-else>
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
-          <div class="mb-10" v-if="String(item.tradeTime).length === 6">
-            {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
-          </div>
-          <div class="mb-10" v-if="String(item.tradeTime).length === 5">
-            {{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)+':'+String(item.tradeTime).substring(3)}}
-          </div>
-          <div style="margin-bottom: 7px;" class="clearfix">
-            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
+      <div style="height:100%;" v-else>
+        <div class="list-header">
+          <span>涨停股</span>
+          <span :style="{color: showList ? '#2388da':''}" @click="showList = true">列表</span>
+          <span class="line"></span>
+          <span :style="{color: !showList ? '#2388da':''}" @click="showList = false">文本</span>
+          <img v-show="!showList" class="fr copy" @click="copyListText" src="../../assets/images/z3img/copy.png"/>
+          <textarea ref="copyText" style="opacity: 0;position: absolute;"></textarea>
+        </div>
+        <ul ref="ztgListUl" v-show="showList">
+          <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
+            <div class="mb-10" v-if="String(item.tradeTime).length === 6">{{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}</div>
+            <div class="mb-10" v-if="String(item.tradeTime).length === 5">{{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)+':'+String(item.tradeTime).substring(3)}}</div>
+            <div style="margin-bottom: 7px;" class="clearfix">
+              <div class="fl mr-20"><span style="margin-right: 2px;">{{item.name}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
+              </div>
+              <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
+              </div>
+              <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
             </div>
-            <div class="fl"><span v-z3-updowncolor="item.chngPct">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chngPct">{{item.chngPct | chngPct}}</span>
+            <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
+            <ul class="topicStock clearfix">
+              <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
+                <div class="name">{{value.topicName}}</div>
+                <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul ref="ztgListUl" class = "ztgListUl" v-show="!showList">
+          <li v-for="item in ztgList" class="pb-20 clearfix" @dblclick="toStockDetail(item.innerCode)">
+            <div class="mr-10 fl" v-if="String(item.tradeTime).length === 6">{{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)}}</div>
+            <div class="mr-10 fl" v-if="String(item.tradeTime).length === 5">{{String(item.tradeTime).substring(0,1)+':'+String(item.tradeTime).substring(1,3)}}</div>
+            <div style="width:90%;" class="fl">
+                <span style="margin-right: 2px;">{{item.name}}连涨,</span>
+                <span>{{item.limitUpDays === null ? '' : item.limitUpDays > 0 ? item.limitUpDays+'连板,' : '首板,'}}</span>
+                <span>{{item.topicDataList[0].topicName+'。'}}</span>
+                <span v-if="item.title">{{'消息面，'+item.title+'。'}}</span>
             </div>
-            <div class="fr" style="margin-right: 5px" v-z3-updowncolor="item.moveSignalId -1.5">{{item.reasonShortLine}}</div>
-          </div>
-          <div v-if="item.title" style="margin-bottom: 5px;"><span class="markBox" v-if="item.moveSignalId === 1" style="background-color: #56a870">利空</span><span class="markBox" v-if="item.moveSignalId === 2" style="background-color: #ca4941">利好</span>{{item.title}}</div>
-          <ul class="topicStock clearfix">
-            <li v-for="value in item.topicDataList" @dblclick="toThemeDetail(value.topicCode,$event)">
-              <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
-            </li>
-          </ul>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="legend"></div>
@@ -102,7 +120,8 @@ export default {
       interval: null,
       tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
-      dataIndex:''
+      dataIndex:'',
+      showList:true
 
     }
   },
@@ -1187,6 +1206,41 @@ export default {
         return false;
       }
 
+    },
+    copyListText(){
+        let allText = ''
+        let copyTarget = document.getElementsByClassName('ztgListUl')[0].getElementsByTagName('li')
+        /* function dealStr(str){
+            let resultStr = ''
+            if((str.indexOf('<') >= 0) && (str.indexOf('>') >= 0)){
+                if(str.indexOf('<') === 0){
+                    resultStr = str.substring(str.indexOf('>')+1)
+                }else{
+                    resultStr = str.substring(0,str.indexOf('<'))+str.substring(str.indexOf('>')+1)
+                }
+                return dealStr(resultStr)
+            }else{
+                return str
+            }
+        } */
+        for(let i = 0; i<copyTarget.length; i++) {
+            console.log(copyTarget[i].innerText)
+
+            // let text = dealStr(copyTarget[i].innerHTML)+'\n'
+            let text = copyTarget[i].innerText+'\n'
+            allText = allText+text
+        }
+        this.$refs.copyText.value = allText
+        this.$refs.copyText.select()
+        try{
+            if(document.execCommand('copy', false, null)){
+                console.log('复制成功！')
+            } else{
+                console.log('复制失败！')
+            }
+        } catch(err){
+            console.log('复制异常')
+        }
     }
   },
   mounted() {
@@ -1201,7 +1255,7 @@ export default {
   destroyed() {
     this.$store.state.bubbles.stockListTime = ''
     this.$store.state.bubbles.ztgBubblesLine = []
-    this.chart.dispose();
+    this.chart && this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
 
@@ -1236,7 +1290,7 @@ export default {
 .ztgList {
 
     ul {
-        height: 100%;
+        height: calc(100% - 31px);
         overflow: auto;
 
         li {
@@ -1283,6 +1337,15 @@ export default {
 
         }
     }
+  .ztgListUl{
+    li {
+      padding: 5px 5px 5px 10px;
+      color: #c9d0d7;
+    }
+    li:hover{
+      color:#fff;
+    }
+  }
 
 }
 .siweiDialog {
@@ -1325,5 +1388,35 @@ export default {
        }
      }
    }
+}
+.list-header{
+  width: calc(100% - 10px);
+  height: 30px;
+  padding-left: 10px;
+  border-bottom: 1px solid #2E313B;
+  span{
+    display: inline-block;
+    line-height: 30px;
+    cursor: pointer;
+  }
+  span:first-child{
+    margin-right: 20px;
+    cursor: default;
+  }
+  .line{
+    height:18px;
+    width:1px;
+    border-left: 1px solid #292C34;
+    margin:0 10px;
+    position: relative;
+    top:5px;
+    cursor: none;
+  }
+  .copy{
+    cursor: pointer;
+    position: relative;
+    top: 7px;
+    margin-right: 17px;
+  }
 }
 </style>
