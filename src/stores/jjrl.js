@@ -12,7 +12,7 @@ const state = {
   setStock: [],
   stopStock: [], //   停牌前五天新闻
   newNews: [], //    最新资讯
-  dateAndCode: [], //  存放股票代码和停牌时间
+  dateAndCode: {}, //  存放股票代码和停牌时间
   notOpenStock: [], // 未开板新股  
   notOpenStockList: [],
   isSelfSelection: [],
@@ -28,7 +28,9 @@ const state = {
   savaHyList:[],
   getNewsBroadcast:[] ,// 新闻联播
   todayHotStock:[] ,// 今日热点股
-  todayHotStockPrice:[]
+  todayHotStockPrice:[],
+  firstCode:'',
+  resetData:null
 }
 const mutationsTypes = {
   SET_GUIDE: 'SET_GUIDE',
@@ -51,10 +53,18 @@ const mutationsTypes = {
   TODAY_HOT_STOCKS:'TODAY_HOT_STOCKS',
   TODAY_HOT_STOCKS_PRICE:'TODAY_HOT_STOCKS_PRICE',
   SAVE_HY_LIST:'SAVE_HY_LIST',
-  SAVE_SELECTION:'SAVE_SELECTION'
+  SAVE_SELECTION:'SAVE_SELECTION',
+  FIRST_CODE:'FIRST_CODE',
+  RESET_DATA:'RESET_DATA'
 }
 
 const actions = {
+  resetData({ commit }){
+    commit( mutationsTypes.RESET_DATA)
+  },
+  firstCode({ commit },code){
+    commit( mutationsTypes.FIRST_CODE , code)
+  },
   savaHyList({ commit }){
     commit( mutationsTypes.SAVE_HY_LIST , null)
   },
@@ -214,16 +224,7 @@ const actions = {
       }
     }).then(res => res.json()).then((result) => {
      commit(mutationsTypes.UPDATE_SELF_SELECTION,result.data)
- /*    
-     if (result.errCode === 0) { // 在自选中
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, true);
-      } else if (result.errCode === -1) { // 不在自选中
-        commit(mutationsTypes.UPDATE_SELF_SELECTION, false);
-      } else {
-        commit('ERROR', result, {
-          root: true
-        })
-      }  */
+
     })
 
   },
@@ -408,6 +409,7 @@ const mutations = {
   },
   [mutationsTypes.SET_STOCK_LINE](state, setStockLine) {
     state.setStockLine = setStockLine
+    console.log( state.setStockLine)
   },
   [mutationsTypes.SET_HY_LIST](state,setHyList){
     
@@ -451,6 +453,12 @@ const mutations = {
       }
     }
    
+  },
+  [mutationsTypes.FIRST_CODE](state,firstCode){
+    state.firstCode=firstCode
+  },
+  [mutationsTypes.RESET_DATA](state){
+    state.dateAndCode={}
   }
 }
 

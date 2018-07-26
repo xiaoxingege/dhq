@@ -12,6 +12,9 @@
 <script>
 import fpStock from 'components/jjrl/fp-stock'
 import fpDetail from 'components/jjrl/fp-detail'
+import {
+  mapState
+} from 'vuex'
 export default {
   props:['fpCount'],
   components: {
@@ -24,6 +27,15 @@ export default {
 
     }
 
+  },
+  computed: {
+    ...mapState({
+      storeData: state => state.jjrl.dateAndCode,
+      resetData: state => state.jjrl.resetData
+    })
+  },
+  destroyed(){
+  this.$store.dispatch("jjrl/resetData")
   }
 }
 </script>

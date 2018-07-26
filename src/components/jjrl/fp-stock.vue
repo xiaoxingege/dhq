@@ -53,7 +53,9 @@
                 stopStock:state => state.jjrl.stopStock,
                 saveDate: state => state.jjrl.saveDate,
                 setCount:state => state.jjrl.setCount,
-                saveSelection:state => state.jjrl.saveSelection
+                saveSelection:state => state.jjrl.saveSelection,
+                firstCode: state => state.jjrl.firstCode
+
             }),
             changeCalendar(){
                  return this.saveDate.chooseDate;
@@ -123,12 +125,11 @@
           changeCalendar:function () { 
             this.addCur=0
             this.index=0
-     
           }
         },
         mounted () {
  
-                
+               //  console.log(this.setStock)
         }
         }
     

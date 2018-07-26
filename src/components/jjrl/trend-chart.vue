@@ -31,7 +31,6 @@ export default {
       public: '',
       code: '',
       stopdate: ''
-  
     }
   },
   computed: {
@@ -39,7 +38,8 @@ export default {
       storeData: state => state.jjrl.dateAndCode,
       setStockLine: state => state.jjrl.setStockLine,
       saveDate: state => state.jjrl.saveDate,
-      resetChart: state => state.jjrl.resetChart
+      resetChart: state => state.jjrl.resetChart,
+      firstCode: state => state.jjrl.firstCode
     }),
     getStockCode() {
       // console.log(this.storeData.stockCode)
@@ -49,7 +49,12 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.getInstanceByDom(this.$refs.hqzsChart) || echarts.init(this.$refs.hqzsChart)
+      this.chart = echarts.getInstanceByDom(this.$refs.hqzsChart)
+      if(this.chart){
+        this.chart.clear();
+        this.chart.dispose();
+      }
+      this.chart = echarts.init(this.$refs.hqzsChart)
     },
     drawCharts() {
       const option = {
@@ -142,10 +147,11 @@ export default {
       return Y + '-' + M + '-' + D
     },
     paint(date) {
+    //  debugger
       this.bkData = []
       this.ggData = []
       this.showDate = []
-      this.$store.dispatch('jjrl/setStockLine', date).then(res => {
+      this.$store.dispatch('jjrl/setStockLine', date).then(() => {
         this.code = this.storeData.stockCode
         this.zszd = this.storeData.zszd
         this.public = this.storeData.public
@@ -159,7 +165,6 @@ export default {
           let time = this.setDate(item.trade_date)
           this.showDate.push(time)
           this.ggData.push(item.index.toFixed(2))
-
         })
         this.initChart()
         this.drawCharts()
@@ -168,18 +173,17 @@ export default {
 
   },
   watch: {
-    getStockCode: function(a,b) {
+    getStockCode: function(a,b,c) {
       //  a是初始化的数据，b为undefined 当初始化变化后，b才有值
-     console.log(a)
-    // console.log(b)
-    if(b){
+    if(this.getStockCode){
+      // debugger
         this.paint(this.saveDate.chooseDate)
     }
        
     }
   },
-  created () {
-     this.paint(this.saveDate.chooseDate)
+  mounted() {
+    //  this.paint(this.saveDate.chooseDate)
   }
 }
 </script>
