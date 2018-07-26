@@ -20,6 +20,20 @@ function autoTimeline(starts, ends) {
   }
   return timeline
 }
+function dealNull(arr, key) {
+    let apendArr = []
+    for (var i = 0, flag = true, len = arr.length; i < len; flag ? i++ : i) {
+
+        if (arr[i] && arr[i][key] === null) {
+            apendArr.push(arr[i])
+            arr.splice(i, 1);
+            flag = false;
+        } else {
+            flag = true;
+        }
+    }
+    return arr.concat(apendArr)
+}
 let beforenoon = autoTimeline('9:30', '11:30')
 let afternoon = autoTimeline('13:00', '15:00')
 beforenoon.splice(beforenoon.length - 1, 1)
@@ -265,14 +279,8 @@ export default {
     },
     setBubblesLine(state, result) {
       if (result.body.errCode === 0) {
-        if (result.type === 3) {
-          state.ztgBubblesLine = result.body.data.sort(function(a, b) {
-            return b.chg - a.chg
-          })
-        } else {
           state.ztgBubblesLine = result.body.data.reverse()
           state.stockListTime = state.ztgBubblesLine[0] && state.ztgBubblesLine[0].tradeTime
-        }
       } else {
         state.ztgBubblesLine = null
       }
@@ -355,20 +363,7 @@ export default {
       }
     },
     setNewStockList(state, result) {
-      function dealNull(arr, key) {
-        let apendArr = []
-        for (var i = 0, flag = true, len = arr.length; i < len; flag ? i++ : i) {
 
-          if (arr[i] && arr[i][key] === null) {
-            apendArr.push(arr[i])
-            arr.splice(i, 1);
-            flag = false;
-          } else {
-            flag = true;
-          }
-        }
-        return arr.concat(apendArr)
-      }
       if (result.body.errCode === 0) {
         if (result.type === 0 || result.type === 1) {
           state.newStockList = result.body.data.sort(function(a, b) {
@@ -378,6 +373,11 @@ export default {
         } else if (result.type === 2) {
           state.newStockList = result.body.data.sort(function(a, b) {
             return b.chg - a.chg
+          })
+          state.newStockList = dealNull(state.newStockList, 'chg')
+        } else if (result.type === 3) {
+          state.newStockList = result.body.data.sort(function(a, b) {
+              return b.chg - a.chg
           })
           state.newStockList = dealNull(state.newStockList, 'chg')
         }
@@ -405,21 +405,6 @@ export default {
       state.newStockSortType = result.type
       state.newStockSort = result.sortType
 
-      function dealNull(arr, key) {
-        let apendArr = []
-        for (var i = 0, flag = true, len = arr.length; i < len; flag ? i++ : i) {
-
-          if (arr[i] && arr[i][key] === null) {
-            apendArr.push(arr[i])
-            arr.splice(i, 1);
-            flag = false;
-          } else {
-            flag = true;
-          }
-        }
-        return arr.concat(apendArr)
-      }
-
       if (result.type === 'name') {
         if (result.sortType === 'desc') {
           state.newStockList.sort(compare('chiSpel')).reverse()
@@ -429,11 +414,15 @@ export default {
       } else if (result.type === 'innerCode') {
         if (result.sortType === 'desc') {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return a.symbol.substring(0, 6) - b.symbol.substring(0, 6)
+            if(a.symbol) return a.symbol.substring(0, 6) - b.symbol.substring(0, 6)
+            if(a.innerCode) return a.innerCode.substring(0, 6) - b.innerCode.substring(0, 6)
+
           })
         } else {
           state.newStockList = state.newStockList.sort(function(a, b) {
-            return b.symbol.substring(0, 6) - a.symbol.substring(0, 6)
+            if(a.symbol) return b.symbol.substring(0, 6) - a.symbol.substring(0, 6)
+            if(a.innerCode) return b.innerCode.substring(0, 6) - a.innerCode.substring(0, 6)
+
           })
         }
       } else if (result.type === 'price') {
@@ -498,6 +487,26 @@ export default {
           })
         }
 
+      }else if (result.type === 'weekChg') {
+          if (result.sortType === 'desc') {
+              state.newStockList = state.newStockList.sort(function(a, b) {
+                  return a.chngPctWeek - b.chngPctWeek
+              })
+          } else {
+              state.newStockList = state.newStockList.sort(function(a, b) {
+                  return b.chngPctWeek - a.chngPctWeek
+              })
+          }
+      }else if (result.type === 'monthChg') {
+          if (result.sortType === 'desc') {
+              state.newStockList = state.newStockList.sort(function(a, b) {
+                  return a.chngPctMonth - b.chngPctMonth
+              })
+          } else {
+              state.newStockList = state.newStockList.sort(function(a, b) {
+                  return b.chngPctMonth - a.chngPctMonth
+              })
+          }
       }
     },
     setCxLine(state, result) {
@@ -725,10 +734,17 @@ export default {
         return res.json()
       }).then(body => {
         if (currentTime === '') {
-          commit('setBubblesLine', {
-            body,
-            type
-          })
+          if(type === 3){
+              commit('setNewStockList', {
+                  body,
+                  type
+              })
+          }else{
+              commit('setBubblesLine', {
+                  body,
+                  type
+              })
+          }
         } else {
           commit('updateBubblesLine', body)
         }

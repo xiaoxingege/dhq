@@ -8,23 +8,27 @@
       <div ref="qsgBubbles" :style="{height:bubbleHeight+'px'}"></div>
     </div>
     <div class="qsgList">
+      <div class="qsgListTitle clearfix">
+        <a><span>序号</span></a>
+        <a v-for="(item,index) in newListTitle">
+            <span ref="sortSpan" :sortType="item.type === 'chg' ? 'asce':''" @click="sortList(item.type,index,$event)"
+                  @mouseover="showTitleDetail(item.type,'over',$event)"
+                  @mouseout="showTitleDetail(item.type,'out',$event)">{{item.name}}</span>
+          <img v-show="item.showImg" src="../../assets/images/z3img/siwei-xia.png">
+          <img v-show="item.showBImg" src="../../assets/images/z3img/siwei-shang.png">
+        </a>
+        <span class="titleDetail" ref="titleDetail"></span>
+      </div>
       <ul ref="ztgListUl">
-        <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.symbol)">
-          <div class="mb-10" v-show="false">
-            {{String(item.dateTime).substring(0,2)+':'+String(item.dateTime).substring(2,4)+':'+String(item.dateTime).substring(4)}}
-          </div>
-          <div style="margin-bottom: 8px;" class="clearfix">
-            <div class="fl mr-20"><span style="margin-right: 2px;">{{item.stockName}}</span><span>[{{item.symbol.substring(0,6)}}]</span>
-            </div>
-            <div class="fl"><span v-z3-updowncolor="item.chg">{{item.price | decimal(2)}}</span><span class="ml-10 mr-10" v-z3-updowncolor="item.chg">{{item.chg | chngPct}}</span>
-            </div>
-          </div>
-          <ul class="topicStock clearfix">
-            <li v-for="value in item.topics" :value="value.topicCode" @dblclick="toThemeDetail(value.topicCode,$event)">
-              <div class="name">{{value.topicName}}</div>
-              <div class="price" v-z3-updowncolor="value.topicChngPct">{{value.topicChngPct | chngPct}}</div>
-            </li>
-          </ul>
+        <li v-for="(item,index) in ztgList" class="clearfix" @dblclick="toStockDetail(item.innerCode)">
+          <span>{{index+1}}</span>
+          <span>{{item.name | isNull}}</span>
+          <span v-if="item.innerCode">{{item.innerCode.substring(0,6) | isNull}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.price === null?'--':Number(item.price).toFixed(2)}}</span>
+          <span v-z3-updowncolor="item.chg">{{item.chg === null?'--':Number(item.chg).toFixed(2)+'%' | chng}}</span>
+          <span v-z3-updowncolor="item.chngPctWeek">{{item.chngPctWeek === null?'--':Number(item.chngPctWeek).toFixed(2)+'%' | chng}}</span>
+          <span v-z3-updowncolor="item.chngPctMonth">{{item.chngPctMonth === null?'--':Number(item.chngPctMonth).toFixed(2)+'%' | chng}}</span>
+          <span>{{item.listDate}}</span>
         </li>
       </ul>
     </div>
@@ -94,14 +98,51 @@ export default {
       chgColor: Data.chgColor,
       interval: null,
       tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
-      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11),
+      newListTitle: [{
+          name: '简称',
+          type: 'name',
+          showImg: false,
+          showBImg: false
+      },
+          {
+              name: '代码',
+              type: 'innerCode',
+              showImg: false,
+              showBImg: false
+          },
+          {
+              name: '最新价',
+              type: 'price',
+              showImg: false,
+              showBImg: false
+          },
+          {
+              name: '涨跌幅',
+              type: 'chg',
+              showImg: true,
+              showBImg: false
+          },
+          {
+              name: '周涨幅',
+              type: 'weekChg',
+              showImg: false,
+              showBImg: false
+          },
+          {
+              name: '月涨幅',
+              type: 'monthChg',
+              showImg: false,
+              showBImg: false
+          }
+      ]
     }
   },
   components: {
     Siweidialog
   },
   computed: mapState({
-    ztgList: state => state.bubbles.ztgBubblesLine
+    ztgList: state => state.bubbles.newStockList
   }),
   methods: {
     setDialog(data) {
@@ -117,11 +158,9 @@ export default {
 
     },
     initBubbles() {
-        this.$nextTick(() => {
-            // DOM 更新了
-            this.chart = echarts.init(this.$refs.qsgBubbles)
-            this.chart.showLoading(config.loadingConfig);
-        })
+
+      this.chart = echarts.init(this.$refs.qsgBubbles)
+      this.chart.showLoading(config.loadingConfig);
 
       this.$store.dispatch('bubbles/getStockBubbles', {
         options: this.options
@@ -645,6 +684,58 @@ export default {
           window.open(ctx + '/industry/' + topicCode)
         }
       }
+    },
+    sortList(type, indexNum, e) {
+        const that = this
+        let sortType = e.target.getAttribute('sortType')
+        let clearSort = () => {
+            this.$refs.sortSpan.forEach(function(item, index) {
+                that.newListTitle[index].showImg = false
+                that.newListTitle[index].showBImg = false
+                item.setAttribute('sortType', '')
+            })
+        }
+        if (sortType === '') {
+            clearSort()
+            this.$store.dispatch('bubbles/sortNewStockList', {
+                type: type
+            })
+            this.newListTitle[indexNum].showImg = true
+            e.target.setAttribute('sortType', 'asce')
+        } else if (sortType === 'asce') {
+            clearSort()
+            this.$store.dispatch('bubbles/sortNewStockList', {
+                type: type,
+                sortType: 'desc'
+            })
+            this.newListTitle[indexNum].showImg = false
+            this.newListTitle[indexNum].showBImg = true
+            e.target.setAttribute('sortType', 'desc')
+        } else if (sortType === 'desc') {
+            clearSort()
+            this.$store.dispatch('bubbles/sortNewStockList', {
+                type: type
+            })
+            this.newListTitle[indexNum].showImg = true
+            this.newListTitle[indexNum].showBImg = false
+            e.target.setAttribute('sortType', 'asce')
+        }
+    },
+    showTitleDetail(titleTime, isOver, e) {
+        if (isOver === 'over' && titleTime === 'weekChg') {
+            this.$refs.titleDetail.style.display = 'block'
+            this.$refs.titleDetail.innerHTML = '近1周涨跌幅'
+            this.$refs.titleDetail.style.left = '260px'
+        } else if (isOver === 'out' && titleTime === 'weekChg') {
+            this.$refs.titleDetail.style.display = 'none'
+        }
+        if (isOver === 'over' && titleTime === 'monthChg') {
+            this.$refs.titleDetail.style.display = 'block'
+            this.$refs.titleDetail.innerHTML = '近1月涨跌幅'
+            this.$refs.titleDetail.style.left = '320px'
+        } else if (isOver === 'out' && titleTime === 'monthChg') {
+            this.$refs.titleDetail.style.display = 'none'
+        }
     }
   },
   mounted() {
@@ -663,13 +754,21 @@ export default {
         currentTime: ''
       }).then(() => {
         // that.$refs.ztgListUl.scrollTop = 0
+          that.$store.dispatch('bubbles/sortNewStockList', {
+              type: that.$store.state.bubbles.newStockSortType,
+              sortType: that.$store.state.bubbles.newStockSort
+          })
       })
     }, Data.refreshTime)
   },
   destroyed() {
     this.$store.state.bubbles.stockListTime = ''
     this.$store.state.bubbles.ztgBubblesLine = []
-    this.chart.dispose();
+    this.$store.state.bubbles.newStockSortType = ''
+    this.$store.state.bubbles.newStockSort = ''
+    this.$store.state.bubbles.newStockList = ''
+
+    this.chart && this.chart.dispose();
     this.interval && clearInterval(this.interval)
   }
 }
@@ -691,25 +790,78 @@ export default {
 
         .qsgList {
             height: 100%;
-            width: 464px;
+            width: 450px;
             background: #232630;
         }
 
     }
 }
 .qsgList {
+  .qsgListTitle {
+    width: 100%;
+    border-bottom: 1px solid #131417;
+    padding-top: 10px;
+    position: relative;
+
+    a {
+      width: 14.18%;
+      height: 100%;
+      float: left;
+      display: block;
+      text-align: center;
+
+      span {
+        height: 17px;
+        width: 100%;
+        display: block;
+        line-height: 17px;
+        box-sizing: border-box;
+        /*padding: 0 10px;*/
+        cursor: pointer;
+        margin-bottom: 5px;
+        color: #c9d0d7;
+      }
+
+      img {
+        margin-top: 3px;
+      }
+
+    }
+    a:first-child span {
+      cursor: default;
+    }
+
+    .titleDetail {
+      display: none;
+      padding: 5px 10px;
+      color: #666666;
+      background: #cccfd9;
+      border-radius: 3px;
+      z-index: 999999;
+      line-height: 18px;
+      position: absolute;
+      top: 29px;
+      left: 214px;
+    }
+
+  }
 
     ul {
-        height: 100%;
-        overflow: auto;
+      height: calc(100% - 60px);
+      overflow: auto;
 
         li {
-            padding: 10px 5px 10px 10px;
-            color: #fff;
+          span {
+            float: left;
+            width: 14.28%;
+            display: block;
+            line-height: 25px;
+            text-align: center;
+          }
         }
         li:hover {
-            background: #525A65;
-            cursor: pointer;
+          background: #525A65;
+          cursor: pointer;
 
             .topicStock {
 
