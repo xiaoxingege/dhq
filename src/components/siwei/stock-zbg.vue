@@ -9,7 +9,10 @@
       <div class="ztgLine" ref="ztgLine" :style="{height:lineChartHeight+'px'}" @keydown="zoomData($event)" @mouseover="zoomOver($event)" tabindex="0" onfocus='console.log("得到焦点!");'></div>
     </div>
     <div class="ztgList">
-      <ul ref="ztgListUl">
+      <StockInit startTime='9:00' endTime='9:30' @propShow="getShow" v-if='isShow'>
+        <img src="../../assets/images/icons/wait-cup.png" alt="">
+      </StockInit>
+      <ul ref="ztgListUl" v-else>
         <li v-for="item in ztgList" class="pb-20" @dblclick="toStockDetail(item.innerCode)">
           <div class="mb-10" v-if="String(item.tradeTime).length === 6">
             {{String(item.tradeTime).substring(0,2)+':'+String(item.tradeTime).substring(2,4)+':'+String(item.tradeTime).substring(4)}}
@@ -69,6 +72,7 @@ import {
 import {
   ctx
 } from '../../z3tougu/config'
+import StockInit from './stock-init'
 
 export default {
   data() {
@@ -78,7 +82,8 @@ export default {
         yDefault: 'mkt_idx.exchr',
         sizeDefault: 'mkt_idx.mktcap',
         colorDefault: 'mkt_idx.cur_chng_pct',
-        type: 2
+        type: 2,
+        isShow : true
       },
       defaultColor: '#2F323D',
       groupArr: Data.groupArr,
@@ -113,11 +118,13 @@ export default {
       chgColor: Data.chgColor,
       interval: null,
       tcapMax: Math.sqrt(1.650026740738E12 / 1e11),
-      tcapMin: Math.sqrt(9.722757458E9 / 1e11)
+      tcapMin: Math.sqrt(9.722757458E9 / 1e11),
+      isShow : true
     }
   },
   components: {
-    Siweidialog
+    Siweidialog,
+    StockInit
   },
   computed: mapState({
     ztgList: state => state.bubbles.ztgBubblesLine,
@@ -979,6 +986,11 @@ export default {
           });
         }
       }
+    },
+    getShow(msg){
+        this.$nextTick(() => {
+            this.isShow = msg
+        })
     }
   },
   mounted() {

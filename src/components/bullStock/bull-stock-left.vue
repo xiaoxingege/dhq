@@ -1,96 +1,3 @@
-<style lang="scss">
-@import '../../assets/css/base.css';
-@import "../../assets/scss/style.scss";
-.bullBox * {
-    font-family: "Microsoft YaHei" !important;
-}
-
-.bullBox {
-    width: 100%;
-    height: 100%;
-    color: #c9d0d7;
-    position: relative;
-}
-
-.bullChartHeader {
-    position: absolute;
-    padding: 0 15px;
-    width: 100%;
-    top: 0;
-    height: 40px;
-    line-height: 40px;
-}
-
-.bullChartHeader select {
-    width: 185px;
-    border: 0;
-    height: 24px;
-    border-radius: 3px;
-    line-height: 24px;
-    padding-left: 10px;
-    -webkit-appearance: none;
-    background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
-    background-position-x: 95%;
-    color: #c9d0d7;
-    background-color: #23272C;
-    cursor: pointer;
-}
-
-.currentTime {
-    line-height: 40px;
-    color: #c9d0d7;
-}
-
-.bullChart {
-    position: absolute;
-    width: 100%;
-    top: 40px;
-    bottom: 30px;
-    /*padding-top: 15px;*/
-    box-sizing: border-box;
-}
-
-.chart_con {
-    height: 100%;
-    width: 100%;
-}
-
-.bullChart .chart_con > div {
-    width: 50%;
-    height: 100%;
-}
-
-.bullChart .chart_con > div > p {
-    padding-left: 15px;
-    font-size: 16px;
-}
-
-.themeBox {
-    height: calc(100% - 30px);
-}
-
-.industryBox {
-    height: calc(100% - 30px);
-}
-
-.bullLegend {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    height: 30px;
-    padding: 0 15px;
-}
-
-.bullLegend ul li {
-    float: left;
-    width: 45px;
-    height: 20px;
-    line-height: 20px;
-    margin-right: 2px;
-    color: #fff;
-    text-align: center;
-}
-</style>
 <template>
 <div class="bullBox">
   <div class="bullChartHeader clearfix">
@@ -118,21 +25,21 @@
       <li v-for="item in valueRangeHeat" :style="{background:showColor(colors[bullSelected], ranges[bullSelected],item)}">{{item}}
       </li>
     </ul>
-    <p class="fl">温馨提示：展示热度最高的20个行业和题材</p>
+    <p class="fl">温馨提示：展示题材和行业的热度榜，首尾各12个</p>
   </div>
   <div class="bullLegend clearfix" v-if="bullSelected === 'chngPct'">
     <ul class="clearfix fr">
       <li v-for="item in valueRangePct" :style="{background:showColor(colors[bullSelected], ranges[bullSelected],item)}">{{item}}%
       </li>
     </ul>
-    <p class="fl">温馨提示：展示涨跌幅最高的20个行业和题材</p>
+    <p class="fl">温馨提示：展示题材和行业的涨跌幅榜，首尾各12个</p>
   </div>
   <div class="bullLegend clearfix" v-if="bullSelected === 'keepDaysToday'">
     <ul class="clearfi fr">
       <li v-for="item in valueRangeDay" :style="{background:showColor(colors[bullSelected], ranges[bullSelected],item)}">{{item}}
       </li>
     </ul>
-    <p class="fl">温馨提示：展示连续涨跌天数最高的20个行业和题材</p>
+    <p class="fl">温馨提示：展示题材和行业的连续涨跌天数榜，首尾各12个</p>
   </div>
   <div></div>
 </div>
@@ -213,10 +120,14 @@ export default {
     },
     initChart(key) {
       let model = {
-        yCates: ['1', '2', '3', '4', '5'],
+        yCates: ['1', '2', '3', '4', '5','6'],
         xCates: ['1', '2', '3', '4'],
         topicData: [
           // [yCateIndex, xCateIndex, value]
+          [5, 0],
+          [5, 1],
+          [5, 2],
+          [5, 3],
           [4, 0],
           [4, 1],
           [4, 2],
@@ -240,6 +151,10 @@ export default {
         ],
         induData: [
           // [yCateIndex, xCateIndex, value]
+          [5, 0],
+          [5, 1],
+          [5, 2],
+          [5, 3],
           [4, 0],
           [4, 1],
           [4, 2],
@@ -338,7 +253,7 @@ export default {
             itemStyle: {
               normal: {
                 borderColor: 'black',
-                borderWidth: 10
+                borderWidth: 3
               }
 
             }
@@ -407,7 +322,7 @@ export default {
             itemStyle: {
               normal: {
                 borderColor: 'black',
-                borderWidth: 10
+                borderWidth: 3
               }
             }
           }]
@@ -465,3 +380,96 @@ export default {
 
 }
 </script>
+<style lang="scss">
+  @import '../../assets/css/base.css';
+  @import "../../assets/scss/style.scss";
+  .bullBox * {
+    font-family: "Microsoft YaHei" !important;
+  }
+
+  .bullBox {
+    width: 100%;
+    height: 100%;
+    color: #c9d0d7;
+    position: relative;
+  }
+
+  .bullChartHeader {
+    position: absolute;
+    padding: 0 15px;
+    width: 100%;
+    top: 0;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .bullChartHeader select {
+    width: 185px;
+    border: 0;
+    height: 24px;
+    border-radius: 3px;
+    line-height: 24px;
+    padding-left: 10px;
+    -webkit-appearance: none;
+    background: url("../../assets/images/select-arrow.png") no-repeat scroll right center transparent;
+    background-position-x: 95%;
+    color: #c9d0d7;
+    background-color: #23272C;
+    cursor: pointer;
+  }
+
+  .currentTime {
+    line-height: 40px;
+    color: #c9d0d7;
+  }
+
+  .bullChart {
+    position: absolute;
+    width: 100%;
+    top: 40px;
+    bottom: 30px;
+    /*padding-top: 15px;*/
+    box-sizing: border-box;
+  }
+
+  .chart_con {
+    height: 100%;
+    width: 100%;
+  }
+
+  .bullChart .chart_con > div {
+    width: 50%;
+    height: 100%;
+  }
+
+  .bullChart .chart_con > div > p {
+    padding-left: 15px;
+    font-size: 16px;
+  }
+
+  .themeBox {
+    height: calc(100% - 30px);
+  }
+
+  .industryBox {
+    height: calc(100% - 30px);
+  }
+
+  .bullLegend {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 30px;
+    padding: 0 15px;
+  }
+
+  .bullLegend ul li {
+    float: left;
+    width: 45px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 2px;
+    color: #fff;
+    text-align: center;
+  }
+</style>

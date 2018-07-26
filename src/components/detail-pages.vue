@@ -14,14 +14,14 @@ html {
 .news {
     font-size: 12px;
     text-align: left;
-    background: #131417;
+    background: #fff;
 }
 
 .newTitle {
     text-align: center;
     font-size: 16px;
     font-weight: bold;
-    color: #c9d0d7;
+    color: #666;
     padding-top: 50px;
 
 }
@@ -29,7 +29,7 @@ html {
 .newMain {
     line-height: 20px;
     text-indent: 2em;
-    color: #c9d0d7;
+    color: #666;
 }
 
 .newMain p {
@@ -39,7 +39,7 @@ html {
 .newDetail {
     text-align: center;
     margin: 20px 0;
-    color: #808ba1;
+    color: #666;
 }
 
 .newDetail a,
@@ -78,7 +78,7 @@ html {
     display: block;
     margin-top: 50px;
     margin-bottom: 25px;
-    color: #c9d0d7;
+    color: #666;
 }
 
 .moreNewsList {
@@ -95,7 +95,7 @@ html {
 }
 
 .news a {
-    color: #2388da;
+    color: #1984ea;
     text-decoration: none;
 }
 .news a:hover {
