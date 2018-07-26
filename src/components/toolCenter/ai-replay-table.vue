@@ -362,9 +362,9 @@ export default {
         return '--';
       } else {
         if (value > 0) {
-          return '+' + (Number(value) * 100).toFixed(2) + '%';
+          return '+' + (Number(value)).toFixed(2) + '%';
         } else {
-          return (Number(value) * 100).toFixed(2) + '%';
+          return (Number(value)).toFixed(2) + '%';
         }
       }
     }
