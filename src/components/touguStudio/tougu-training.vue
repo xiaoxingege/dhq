@@ -119,6 +119,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import {
         mapState
     } from 'vuex'
@@ -147,6 +148,7 @@
             playVideo() {
                 this.$store.commit('touguTraining/setVideoMaskStatus', false)
                 document.getElementById('videoPlayer').play()
+                $('#videoPlayer').attr('autoplay', 'autoplay')
             },
             setPlayingIndex(index) {
                 this.$store.commit('touguTraining/setPlayingVideoIndex', index)
@@ -156,6 +158,7 @@
             this.$store.dispatch('touguTraining/getVideoList', {
                 tgid: this.studioList.userid
             })
+            this.$store.commit('touguTraining/setVideoMaskStatus', true)
         }
     }
 </script>
