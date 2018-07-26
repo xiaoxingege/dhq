@@ -274,7 +274,7 @@ export default {
           name: '均值',
           itemStyle: {
             normal: {
-              color: '#f4b53c '
+              color: '#f4b53c'
             }
           },
           lineStyle: {
