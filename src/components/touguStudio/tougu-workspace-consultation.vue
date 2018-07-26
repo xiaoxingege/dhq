@@ -65,7 +65,7 @@
   max-width: 500px;
   padding: 21px 25px;
   border-radius: 20px;
-  font-family: MicrosoftYaHei;
+  font-family: "Microsoft Yahei" !important;
   line-height: 22px;
   font-size: 14px;
   word-wrap: break-word !important;
@@ -88,7 +88,6 @@
 
 .sender-content p a {
   font-size: 14px !important;
-  ;
 }
 
 .recipient-headimage img,
@@ -121,7 +120,7 @@
   padding: 10px 2.5%;
   overflow: auto;
   font-size: 14px;
-  font-family: MicrosoftYaHei;
+  font-family: "Microsoft Yahei";
   color: rgba(255, 255, 255, 1);
   background: rgba(48, 53, 59, 1);
 }
@@ -135,7 +134,7 @@
   background: #1984EA;
   border-radius: 4px;
   font-size: 14px;
-  font-family: MicrosoftYaHei;
+  font-family: "Microsoft Yahei";
   color: rgba(255, 255, 255, 1);
   padding-top: 8px;
   cursor: pointer;
@@ -153,7 +152,7 @@
   width: 15%;
   height: 10px;
   font-size: 12px;
-  font-family: MicrosoftYaHei;
+  font-family: "Microsoft Yahei";
   color: rgba(175, 182, 189, 1);
   margin: 0px auto;
   margin-top: 15px;
