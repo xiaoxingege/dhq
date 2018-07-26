@@ -117,6 +117,7 @@
     "qrcodejs2": "0.0.2",
     "request-promise": "^4.2.2",
     "sass": "^1.0.0-beta.2",
+    "sa-sdk-javascript": "^1.10.3",
     "swiper": "^2.7.6",
     "vue-cookie": "^1.1.4",
     "vue-server-renderer": "^2.4.2",
