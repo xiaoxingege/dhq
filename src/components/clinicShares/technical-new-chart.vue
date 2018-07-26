@@ -225,6 +225,24 @@ body {
 .gray {
     color: $grayWordsColor;
 }
+.in-content-no {
+    text-align: center;
+    height: 450px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 125px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-kline">
@@ -234,7 +252,7 @@ body {
       <!--  {{techFace.title}}<span class="assess1" :class="checkStatus(techFace.status)">{{techFace.tag==null?'':techFace.tag}}</span> -->
     </div>
     <!-- <div class="kline-title2">{{techFace.describe==null?'':techFace.describe}}</div> -->
-    <div id="fstxt" class="txt clearfix">
+    <div id="fstxt" class="txt clearfix" v-if='statusType == 10'>
       <div>
         <span class="num" id="kdate" ref='kdate'>{{endDate}}</span>
       </div>
@@ -261,11 +279,16 @@ body {
       <!--  <div>MA250：<span class="num" id="kma250" ref='kma250'>208.00</span></div> -->
     </div>
   </div>
-  <div id="toolpoint" style="position: absolute;" ref='toolpoint'></div>
-  <div class="kline-charts" ref="klineChart">
+  <div id="toolpoint" style="position: absolute;" ref='toolpoint' v-if='statusType == 10'></div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
+    </div>
+    <div class="kline-charts" ref="klineChart" v-else>
 
+    </div>
   </div>
-
 </div>
 </template>
 <script>
@@ -281,7 +304,7 @@ import util from '../../z3tougu/util'
 import jQuery from 'jquery'
 window.jQuery = window.$ = jQuery
 export default {
-  // props: ['innerCode'],
+  props: ['statusType'],
   data() {
     return {
       code: this.$route.params.innerCode,
@@ -342,6 +365,13 @@ export default {
         openClose: true,
         redNum: 0,
         greenNum: 0
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
     }
   },
@@ -354,71 +384,17 @@ export default {
 
     lineData: state => {
 
-      // const klineData = [].concat(this.techFace.datas).reverse()
-
-
-      // Object.keys(klineTags).forEach((key) => {
-
-      // console.log(klineTags[index][1]);
-
-      //  if(klineTags[key][1] === undefined && klineTags[key][2] === undefined){
-      // console.log(key);
-      //  }else{
-
-      // if(klineTags[key][1] === undefined){
-      //   data.pointColor = config.upColor
-      //   data.pointText = '看涨'
-      //   data.openClose = 'open'
-      //   }else if(klineTags[key][2] === undefined){
-      //   data.pointColor = config.downColor
-      //   data.pointText = '看跌'
-      //   data.openClose = 'close'
-      //    console.log(data.pointText)
-      //  }
-      // console.log(klineTags[key][1]);
-      // console.log(klineTags[key]);
-      //  console.log(key)
-
-      //  var packJson = klineTags[key][1]
-
-      //  var _self = this 
-      /*  for(var p in packJson) { // 遍历json数组时，这么写p为索引，0,1
-           console.log(p)
-           console.log(packJson[p])
-           data.detailJson.push(packJson[p])
-         // console.log(packJson[p].name + " " + packJson[p].password);
-         console.log(data.detailJson)
-       } */
-
-      //   }
-
-      //  }) 
-      /*    for(var key in klineTags){
-                          console.log(key);// 时间
-                          var todayTag = klineTags[key];
-                          console.log(todayTag[1]);// 状态为1的标签(下跌的)
-                          console.log(todayTag[2]);// 状态为2的标签(上涨的)
-           } */
-
     }
   }),
   methods: {
 
     init() {
-      this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
+        if (this.allData) {
+          this.drawCharts()
 
-      /*   this.$store.dispatch('clinicShares/queryTechFace', {
-           innerCode: '600000.SH'
-         }).then(() => {
-           
-           this.allData = this.$store.state.clinicShares.techFace
-
-           this.drawCharts()
-         }) */
-      // console.log(this.lineData)
-      if (this.allData) {
-        this.drawCharts()
-
+        }
       }
       // this.eventPoint()
     },
@@ -1493,6 +1469,9 @@ export default {
     },
     innerCode: function() {
 
+    },
+    statusType: function() {
+      this.init()
     }
   },
   mounted() {

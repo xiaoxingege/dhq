@@ -1,10 +1,15 @@
 <template>
 <div class="newsinfo">
-  <p class="desc">{{newsInfo.title||''}}</p>
+  <p class="desc" v-if='(statusType==11 || statusType==12 || statusType==13 || statusType==20)'>消息事件列表</p>
+  <p class="desc" v-else>{{newsInfo.title||''}}</p>
   <div class="list">
     <div class="latest-news">
       <div class="tit">最新消息</div>
-      <div class="list_con">
+      <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+        <div class="no-data"></div>
+        <div class="no-data-txt">{{status[statusType]}}</div>
+      </div>
+      <div class="list_con" v-else>
         <ul v-if="newsInfo.latestNews && newsInfo.latestNews.length>0">
           <li class="news" v-for='news in newsInfo.latestNews'>
             <div>
@@ -21,7 +26,11 @@
     </div>
     <div class="important-events">
       <div class="tit">重要事件</div>
-      <div class="list_con">
+      <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+        <div class="no-data"></div>
+        <div class="no-data-txt">{{status[statusType]}}</div>
+      </div>
+      <div class="list_con" v-else>
         <ul v-if="newsInfo.importNews && newsInfo.importNews.length>0">
           <li class="news" v-for='news in newsInfo.importNews'>
             <div>
@@ -45,11 +54,18 @@ import {
   mapState
 } from 'vuex'
 export default {
-  props: ['innerCode', 'newsInfo'],
+  props: ['innerCode', 'newsInfo', 'statusType'],
   data() {
     return {
       newsId: '',
-      newsType: '' // 'latest'|'important'
+      newsType: '', // 'latest'|'important'
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
+      }
     }
   },
   computed: mapState({
@@ -184,5 +200,23 @@ export default {
     margin-right: 4px;
     vertical-align: middle;
     display: inline-block;
+}
+.in-content-no {
+    text-align: center;
+    height: 438px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 100px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
 }
 </style>

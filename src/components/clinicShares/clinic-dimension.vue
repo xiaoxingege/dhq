@@ -245,13 +245,15 @@ body {
     <div class="tech-charts1">
       <!--  <TechnicalCharts :testData='tachData' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
       {{tachData}} -->
-      <TechnicalNewChart :innerCode='innerCode' />
+      <TechnicalNewChart :innerCode='innerCode' :statusType='statusType' />
     </div>
 
   </div>
   <div class="dime-charts" v-if="curPage === 'industry'">
     <div class="chart-box1 ">
+      <IndustryStklevelBarchart v-if='(statusType==11 || statusType==12 || statusType==13 || statusType==20)' class="no" :innerCode='innerCode' :industryFace='null' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
       <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
+
         <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
       </div>
       <div class="chart-grop box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
@@ -266,7 +268,7 @@ body {
 
   </div>
   <div class="" v-if="curPage === 'newsinfo'">
-    <newsInfo :innerCode='innerCode' :newsInfo='newsInfo'></newsInfo>
+    <newsInfo :innerCode='innerCode' :newsInfo='newsInfo' :statusType='statusType'></newsInfo>
   </div>
 
 </div>

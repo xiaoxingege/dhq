@@ -329,9 +329,10 @@ export default ({
   },
   methods: {
     initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.lineChart) || echarts.init(this.$refs.lineChart)
-      this.chartPie = echarts.getInstanceByDom(this.$refs.pieChart) || echarts.init(this.$refs.pieChart)
-
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.lineChart) || echarts.init(this.$refs.lineChart)
+        this.chartPie = echarts.getInstanceByDom(this.$refs.pieChart) || echarts.init(this.$refs.pieChart)
+      }
       this.$store.dispatch('clinicShares/queryIndexFace', {
         innerCode: this.innerCode
       }).then(() => {
