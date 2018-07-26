@@ -164,21 +164,39 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 176px;
+    height: 168px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data.png") no-repeat;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
-    <div class="kline-title">
+    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>支撑位与压力位</div>
+    <div class="kline-title" v-else>
       {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
+
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+
+    <div class="kline-title2" v-if='statusType == 10'>{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+    </div>
+    <div class="kline-charts" ref="klineChart" v-else>
 
-  <div class="kline-charts" ref="klineChart">
-
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -191,7 +209,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['innerCode', 'indexFace', 'statusType'],
   data() {
     return {
       showX: true,
@@ -202,6 +220,13 @@ export default ({
         markLineData: [],
         markPointData: [],
         vols: []
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
 
     }
@@ -439,14 +464,17 @@ export default ({
       // return data
       //  console.log(data.kdata)
       this.initKline()
+
     },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.klineChart) || echarts.init(this.$refs.klineChart)
+      if (this.statusType === 10) {
+        if (this.indexFace) {
+          this.drawCharts()
 
-      if (this.indexFace) {
-        this.drawCharts()
-
+        }
       }
+
     },
     drawCharts() {
       const lineData = this.data
@@ -782,6 +810,9 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initKline()
     }
   },
   mounted() {

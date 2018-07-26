@@ -70,8 +70,8 @@ body {
 <template>
 <div class="wrap-all clearfix">
   <div class="clinic-shares-wrap clearfix">
-    <ClinicMarkTop :innerCode='initCode()' @changeShowValue='getShowValue' />
-    <ClinicDimension :innerCode='initCode()' :isShow='isType' />
+    <ClinicMarkTop :innerCode='initCode()' @changeShowValue='getShowValue' @sendStatus='getStatusValue' />
+    <ClinicDimension :innerCode='initCode()' :isShow='isType' :statusType='status' />
   </div>
   <div class="foot-tishi clearfix">
     风险提示：诊股结果基于各统计模型计算而来，仅供投资者投资参考，不作为买卖建议，风险自担！
@@ -90,7 +90,8 @@ export default {
     return {
       // code: this.$route.params.innerCode,
       // innerCode: '',
-      isType: ''
+      isType: '',
+      status: ''
     }
   },
   computed: mapState({}),
@@ -119,6 +120,11 @@ export default {
     getShowValue(type) {
       this.isType = type
       //  console.log(this.isType + '是index 的值')
+    },
+    getStatusValue(n) {
+      console.log(n)
+      this.status = n
+
     }
   },
   watch: {

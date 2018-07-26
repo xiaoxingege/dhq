@@ -164,21 +164,38 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 176px;
+    height: 168px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data.png") no-repeat;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
-    <div class="kline-title">
+    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>主力资金动向</div>
+    <div class="kline-title" v-else>
       {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+    <div class="kline-title2" v-if='statusType == 10'>{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
 
-  <div class="kline-charts" ref="barChart">
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+    </div>
+    <div class="kline-charts" ref="barChart" v-else>
 
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -191,7 +208,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['innerCode', 'indexFace', 'statusType'],
   data() {
     return {
       showX: true,
@@ -251,10 +268,11 @@ export default ({
     },
     initKline() {
       this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
+      if (this.statusType === 10) {
+        if (this.indexFace) {
+          this.drawCharts()
 
-      if (this.indexFace) {
-        this.drawCharts()
-
+        }
       }
     },
     drawCharts() {
@@ -455,6 +473,9 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initKline()
     }
   },
   mounted() {

@@ -454,7 +454,7 @@ body {
 <template>
 <div class="clinic-top-wrap">
   <div class="clinic-top display-box">
-    <div class="clinic-top-left box-flex-1">
+    <div class="clinic-top-left box-flex-1">{{smartStock.statusType}}{{status[smartStock.statusType]}}
       <div class="mark-name">{{smartStock.name || '--'}}[{{smartStock.symbol || '--'}}]综合评分
         <div class="help-img fr"><i>{{this.iconHelpMsg}}</i></div>
       </div>
@@ -467,8 +467,16 @@ body {
           <div id="num">{{changeTofixed1(smartStock.score)}}</div>
           <div class="mask"></div>
         </div>
+        <!-- statusType 10-正常上市，20-暂停上市，11-停牌，12-准退市股票，13-新股 -->
+        <div class="circle" v-if='smartStock.statusType != 10'>
+          <div id="top-score" class="top" :style="{transform:'rotate('+((0 / 10) * 180)+'deg)'}"></div>
+          <div id="num">--</div>
+          <div class="mask"></div>
+        </div>
       </div>
-      <div class="mark-detail">打败了{{checkRecommend(smartStock.wineRate) || '--'}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate) || '--'}}</span></div>
+      <div class="mark-detail" v-if='smartStock.statusType != 10'>{{status[smartStock.statusType]}}</div>
+      <div class="mark-detail" v-else>打败了{{checkRecommend(smartStock.wineRate) || '--'}}的股票<span class="mark-date">{{changeDate(smartStock.tradeDate) || '--'}}</span></div>
+
     </div>
     <div class="clinic-top-center box-flex-1">
       <div class="radar-box">
@@ -480,101 +488,135 @@ body {
         <div class="short-tit">短线评述</div>
         <div class="help-img2 fr"><i>{{this.iconHelpMsg2}}</i></div>
       </div>
-      <div class="short-detail">{{smartStock.shortDescribe}}</div>
+      <div class="short-detail" v-if='smartStock.statusType != 10'>{{status[smartStock.statusType]}}</div>
+      <div class="short-detail" v-else>{{smartStock.shortDescribe}}</div>
       <div class="center-title">中线评述</div>
-      <div class="short-detail">{{smartStock.midDescribe}}</div>
+      <div class="short-detail" v-if='smartStock.statusType != 10'>{{status[smartStock.statusType]}}</div>
+      <div class="short-detail" v-else>{{smartStock.midDescribe}}</div>
     </div>
   </div>
 
   <div class="value-box clearfix">
     <div class="short-line-value clearfix">
       <div class="short-title">短线分析</div>
-      <div class="short-fund clearfix" v-if="smartStock.shortCapital && smartStock.shortCapital.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">资金面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.shortCapital && smartStock.shortCapital.length>0">
         <div class="face-left-title fl">资金面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5" v-for="short of smartStock.shortCapital" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.shortTechs && smartStock.shortTechs.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">技术面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.shortTechs && smartStock.shortTechs.length>0">
         <div class="face-left-title fl">技术面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5 tech-desc" v-for="short of smartStock.shortTechs" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">消息面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <!-- guid -->
           <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
+
     </div>
+
     <div class="mid-line-value clearfix">
       <div class="short-title">中线分析</div>
-      <div class="short-fund clearfix" v-if="smartStock.midCapital && smartStock.midCapital.length>0">
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">资金面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.midCapital && smartStock.midCapital.length>0">
         <div class="face-left-title fl">资金面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5" v-for="short of smartStock.midCapital" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'capital')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">资金面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.bases && smartStock.bases.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">基本面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.bases && smartStock.bases.length>0">
         <div class="face-left-title fl">基本面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5" v-for="short of smartStock.bases" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'base')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">基本面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.midTechs && smartStock.midTechs.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">技术面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.midTechs && smartStock.midTechs.length>0">
         <div class="face-left-title fl">技术面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5 tech-desc" v-for="short of smartStock.midTechs" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'techs')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">技术面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.midMessages && smartStock.midMessages.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">消息面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.midMessages && smartStock.midMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
         <div class="face-left-title fl">消息面：</div>
         <div class="no-value fl">无</div>
       </div>
-      <div class="short-fund clearfix" v-if="smartStock.indus && smartStock.indus.length>0">
+
+      <div class="short-fund clearfix" v-if='smartStock.statusType != 10'>
+        <div class="face-left-title fl">行业面：</div>
+        <div class="no-value fl">{{status[smartStock.statusType]}}</div>
+      </div>
+      <div class="short-fund clearfix" v-else-if="smartStock.indus && smartStock.indus.length>0">
         <div class="face-left-title fl">行业面：</div>
         <div class="face-right-txt fl">
           <a href="#wrap" class="desc pl-5 indu-desc" v-for="short of smartStock.indus" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'industry')">{{short.title}}<i>{{short.tag==null?'--':short.tag}}</i></a>
-
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
@@ -596,7 +638,17 @@ export default {
     return {
       iconHelpMsg: '基于资金面、基本面、技术面、消息面和行业面5维度的综合评分，越高越看好未来表现，越低说明存在未来不确定风险。',
       iconHelpMsg2: '综合资金面、基本面、技术面、消息面和行业面5维度表现，智能给出短线(3天)、中线(20天)行情解读和操盘建议。',
-      labelPosition: 'top'
+      labelPosition: 'top',
+      statusType: 20,
+      /* int类型 statusType 10-正常上市，20-暂停上市，11-停牌，12-准退市股票，13-新股 */
+      /* （新股上市暂不评价/股票停牌暂不评价/退市调整期暂不评价） 12&20：退市调整期不予评价 */
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
+      }
     }
   },
   computed: mapState({
@@ -630,7 +682,14 @@ export default {
       this.$store.dispatch('clinicShares/querySmartStock', {
         innerCode: this.innerCode
       }).then(() => {
-        this.drawCharts(this.radars.radarAllData)
+        this.$emit('sendStatus', this.smartStock.statusType)
+        // console.log(this.smartStock.statusType)
+        if (this.smartStock.statusType === 10) {
+          this.drawCharts(this.radars.radarAllData)
+        } else {
+          this.drawCharts()
+        }
+
       })
     },
     /*    renderCharts() {
@@ -800,6 +859,7 @@ export default {
   mounted() {
     // this.initSmartStock()
     this.initradarChart()
+
   },
   destroyed() {
 

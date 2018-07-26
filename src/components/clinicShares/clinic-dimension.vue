@@ -218,10 +218,10 @@ body {
   <div class="dime-charts" v-if="curPage === 'capital'">
     <div class="chart-box1 ">
       <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===0'>
-        <DimeKline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+        <DimeKline :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
       </div>
       <div class="chart-grop box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===1'>
-        <Arealine :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+        <Arealine :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
       </div>
     </div>
     <div class="chart-box2">
@@ -289,7 +289,7 @@ import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
 import newsInfo from 'components/clinicShares/news-info'
 import TechnicalNewChart from 'components/clinicShares/technical-new-chart'
 export default {
-  props: ['innerCode', 'isShow'],
+  props: ['innerCode', 'isShow', 'statusType'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
@@ -402,7 +402,7 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.statusType)
   },
   destroyed() {
 
