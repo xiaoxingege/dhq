@@ -20,7 +20,7 @@
         </td>
         <td>调入价格</td>
         <td>调出价格</td>
-        <td @click="sortProfitRatio" style="cursor: pointer">累计收益
+        <td @click="sortProfitRatio" style="cursor: pointer">最终涨幅
           <span class="arrow-top-blue" v-if="profitSortOrder === 'asc'"></span><span class="arrow-bottom-gray" v-if="profitSortOrder === 'asc'"></span>
           <span class="arrow-top-gray" v-if="profitSortOrder === 'desc'"></span><span class="arrow-bottom-blue" v-if="profitSortOrder === 'desc'"></span>
           <span class="arrow-top-gray" v-if="profitSortOrder === 'nosort'"></span><span class="arrow-bottom-gray" v-if="profitSortOrder === 'nosort'"></span>
