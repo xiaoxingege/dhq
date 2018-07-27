@@ -400,6 +400,7 @@ export default {
     stockData: function() {
       const map = this.mapData
       const stockData = this.$store.state.stockMap.stockData
+      // console.log(map)
       if (!stockData) {
         return null
       }
@@ -408,26 +409,31 @@ export default {
         industry.children && industry.children.forEach(function(lvl2) {
           lvl2.children && lvl2.children.forEach(function(stock) {
             if (stockData) {
-              if (_this.condition === 'act_date') {
+              if (_this.condition === 'act_date') { 
+                // 公布前为红色，公布后为绿色，用渐进色；
+               // 越红，表示未来公布日距离现在越远；越绿，表示距离已公布日期越远。
                 stock.perf = stockData[stock.name]
                 if (stock.perf !== null && typeof stock.perf !== 'undefined') {
                   const pbDate = new Date(stock.perf)
                   const nowDate = new Date()
-                  stock.perfText = _this.dateFormatUtil(pbDate)
+                  stock.perfText = _this.dateFormatUtil(pbDate) // 年-月-日
+                  let timeBuff = pbDate.getTime()-nowDate.getTime()
+                  let dayDiff = Math.round(timeBuff/(24*3600*1000)) // 相差天数
+                  stock.diff = dayDiff
                   stock.itemStyle = {
                     normal: {
-                      color: nowDate < pbDate ? '#20A29A' : '#BA5297' || '#2f323d'
+                      color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], dayDiff) || 'rgb(79, 69, 84)' // nowDate < pbDate ? '#20A29A' : '#BA5297' || '#2f323d'
                     }
                   }
-                  stock.actDateFlag = nowDate < pbDate ? 0 : 1 // 业绩公布日前0:业绩公布日后1
+                 // stock.actDateFlag = nowDate < pbDate ? 0 : 1 // 业绩公布日前0:业绩公布日后1
                 } else {
                   stock.perfText = '--'
                   stock.itemStyle = {
                     normal: {
-                      color: '#2f323d'
+                      color: 'rgb(79, 69, 84)'
                     }
                   }
-                  stock.actDateFlag = -1
+                 // stock.actDateFlag = -1
                 }
               } else {
                 stock.perf = stockData[stock.id] !== undefined ? stockData[stock.id] : stockData[stock.name];
@@ -463,7 +469,7 @@ export default {
                 }
                 stock.itemStyle = {
                   normal: {
-                    color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || '#2f323d'
+                    color: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.perf) || 'rgb(79, 69, 84)'
                   }
                 }
               }
@@ -471,7 +477,7 @@ export default {
               stock.perfText = '--'
               stock.itemStyle = {
                 normal: {
-                  color: '#2f323d'
+                  color: 'rgb(79, 69, 84)'
                 }
               }
             }
@@ -482,28 +488,13 @@ export default {
         industry.children.forEach(function(lvl2) {
           if (stockData) {
             if (_this.condition === 'act_date') {
-              let actDateBefore = 0
-              let acrDateAfter = 0
               lvl2.children.forEach(function(stock) {
-                if (stock.actDateFlag === 0) { // 业绩公布日前
-                  actDateBefore += stock.value * 1
-                } else if (stock.actDateFlag === 1) { // 业绩公布日后
-                  acrDateAfter += stock.value * 1
-                }
-              })
-              if (actDateBefore >= acrDateAfter) {
                 lvl2.itemStyle = {
                   normal: {
-                    borderColor: '#20A29A'
+                    borderColor: _this.showColor(_this.colors[_this.condition], _this.rangeValues[_this.condition], stock.diff) || 'rgb(79, 69, 84)'
                   }
                 }
-              } else {
-                lvl2.itemStyle = {
-                  normal: {
-                    borderColor: '#BA5297'
-                  }
-                }
-              }
+            })
             } else {
               let totalPerf = 0
               let totalScale = 0
@@ -954,7 +945,7 @@ export default {
         // })
       } else {
         this.legendWidth = 39
-        for (var i = 0; i < this.rangeValues[this.condition].length; i++) {
+        for (let i = 0; i < this.rangeValues[this.condition].length; i++) {
           if (this.condition === 'margin_buy_net_value') {
             if (i === 0) {
               this.legendList.push({
