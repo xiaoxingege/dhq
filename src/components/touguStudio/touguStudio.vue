@@ -182,7 +182,7 @@
                             // 调用贯通 
                             // window.Z3.jsCallNative('207', `{"adviserId ":${adviserId},"arg":""}`);
                             // window.open(`${domain}${ctx}/tougu-workspace/${adviserId}`,'_blank');
-                            alert(adviserId);
+                            // alert(adviserId);
                             nativeAPI.gotoTouguWorkspace({
                                 "adviserId": adviserId,
                                 "arg": ""
