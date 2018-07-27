@@ -297,6 +297,9 @@ export default {
         if(this.list[2].countSave === 0){
           this.getCount === false
         }
+        if(this.list[0].count==='(暂无数据)'){
+        this.$store.dispatch("jjrl/resetData")
+        }
         this.hasCount = this.list[0].countSave
         this.wkbCount = this.list[2].countSave
 
@@ -327,7 +330,6 @@ export default {
         this.$store.dispatch('jjrl/getStock',date).then( res => {
         this.stopdate=this.getStock[0].STP_DT
         this.setDate(this.stopdate)  // 获取停牌日期
-     //   console.log(this.stopdate +"11111111") 
         this.stockCode=this.getStock[0].STOCKCODE // 获取停牌股票
         this.getStockCode=[]
         this.getStock.forEach( ele => {
@@ -335,7 +337,6 @@ export default {
         })
         let item= this.getStockCode.join(',') // q接口支持多个查询
         this.$store.dispatch('jjrl/setStock',item)
-        this.$store.dispatch('jjrl/firstCode',this.stockCode)
         this.index=0
         this.$store.dispatch('jjrl/querySelection',item)
         this.public=this.getStock[0].ESP_HINT 
@@ -345,7 +346,6 @@ export default {
         public:this.public })
         this.$store.dispatch('jjrl/stopStock', { stockCode:this.storeData.stockCode,date:this.storeData.stopdate })
             /* 图表部分文字 */ 
-          //   debugger
         this.$store.dispatch('jjrl/setStockLine',date).then( res => {
         let code=this.storeData.stockCode
         this.zszd=this.setStockLine[code].return_pct.toFixed(2)
@@ -369,8 +369,6 @@ export default {
             this.getAllCode=[]
             this.arrCode=[]
             this.hyIndex = null
-        //  console.log(this.setHyList)
-    // debugger
             this.$store.dispatch('jjrl/setHyList',this.hyDate(this.saveDate.chooseDate)).then( res => {
             const hasChooseDate = this.setHyList.data.filter((ele,i) => {
               return this.getDayOfDate(this.saveDate.chooseDate)<=this.getDayOfDate(ele.date)
@@ -383,15 +381,11 @@ export default {
                 this.hyIndex =this.setHyList.data.length-1
               }
             } 
-        //  console.log('this.hyIndex================'+this.hyIndex)
             this.$store.dispatch('jjrl/saveHyIndex',this.hyIndex)
-        //  console.log(hasChooseDate.length)
             if(hasChooseDate.length !==0){
               this.$store.dispatch('jjrl/saveHyUrl',hasChooseDate[0].events[0].link)
-          //    console.log(hasChooseDate[0].date+"时间1")
             }else{
               this.$store.dispatch('jjrl/saveHyUrl',this.setHyList.data[this.setHyList.data.length-1].events[0].link)
-            //  console.log(this.setHyList.data[this.setHyList.data.length-1].date+"时间2")
             }
             this.setHyList.data.forEach((ele,i) => {
                 ele.events.forEach( (res,index) => {
@@ -399,7 +393,6 @@ export default {
                 })   
             }) 
             // 将相关股票代码提取出来放进数组中
-         // console.log(this.setHyList)
             for (let i=0; i<this.arrCode.length; i++){
                 let ele=this.arrCode[i];
                 if(!ele){
@@ -445,12 +438,9 @@ export default {
           this.initNotOpenStock(this.saveDate.chooseDate)
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===0){
-        /*   let curArea=1
-          this.$store.dispatch('jjrl/firstCode',curArea) */
           this.initFp(this.saveDate.chooseDate) 
             clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===1){  // 会议日历
-      // 
         this.initHy(this.hyDate(this.saveDate.chooseDate))
            clearInterval(this.intervalid1)
         }else if(parseInt(this.curType)===3){
@@ -469,12 +459,7 @@ export default {
   mounted() {
     this.initConsole(this.tradeDate)
     this.$store.dispatch('jjrl/saveDate',{ chooseDate:this.tradeDate })
- /*    let curArea=1
-    this.$store.dispatch('jjrl/firstCode',curArea) */
     this.initFp(this.saveDate.chooseDate)
-    
-        
-
   }
 
 }

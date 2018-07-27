@@ -44,6 +44,9 @@ export default {
     getStockCode() {
       // console.log(this.storeData.stockCode)
       return this.storeData.stockCode;
+    },
+      changeCalendar(){
+        return this.saveDate.chooseDate;
     }
    
   },
@@ -175,15 +178,21 @@ export default {
   watch: {
     getStockCode: function(a,b,c) {
       //  a是初始化的数据，b为undefined 当初始化变化后，b才有值
+      console.log(this.getStockCode)
     if(this.getStockCode){
       // debugger
+
         this.paint(this.saveDate.chooseDate)
     }
        
     }
   },
   mounted() {
-    //  this.paint(this.saveDate.chooseDate)
+/*     if(parseInt(this.firstCode)===0){
+      console.log(this.firstCode)
+       this.paint(this.saveDate.chooseDate)
+    } */
+  //   
   }
 }
 </script>
