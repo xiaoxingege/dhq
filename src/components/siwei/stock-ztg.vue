@@ -1202,20 +1202,24 @@ export default {
           this.$refs.copyText.select()
           try{
               if(document.execCommand('copy', false, null)){
-                  this.toastmsg = '复制成功!'
+                  this.toastmsg = '复制文本成功!'
                   this.showToast = true
                   setTimeout(() => {
                       this.showToast = false
                   }, 2500)
               } else{
-                  this.toastmsg = '复制失败!'
+                  this.toastmsg = '复制文本失败!'
                   this.showToast = true
                   setTimeout(() => {
                       this.showToast = false
                   }, 2500)
               }
           } catch(err){
-              console.log('复制异常')
+              this.toastmsg = '复制文本失败!'
+              this.showToast = true
+              setTimeout(() => {
+                  this.showToast = false
+              }, 2500)
           }
       }
   },
