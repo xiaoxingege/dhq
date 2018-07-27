@@ -16,7 +16,7 @@
     </div>
     <div class='right'>
       <div :class="{stocks:true, expend:!hideStock && hidePlate, 'hide-box':hideStock}">
-        <div class='tit' @click="toggle('stock')">异动个股<span :class="{'arrow_up':hideStock,'arrow_down':!hideStock}"></span></div>
+        <div class='tit' @click="toggle('stock')">异动个股<span :class="{'arrow_up':hideStock,'arrow_down':!hideStock}" :title="hideStock?'显示':'隐藏'"></span></div>
         <div class="no-data" v-if="isShow">
           <StockInit startTime='9:00' endTime='9:30' @propShow='getShow'>
             <img src="../../assets/images/icons/wait-cup.png" alt="">
@@ -45,9 +45,9 @@
         </div>
       </div>
       <div :class="{blocks:true, expend:!hidePlate && hideStock, 'hide-box':hidePlate}">
-        <div class="tit" @click="toggle('plate')">异动板块<span :class="{mode:true,active:!textMode}" @click.stop="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click.stop="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"></span>
-          <span
-            :class="{'copy':textMode}" @click="copyPlate" v-show="textMode" title="复制"></span>
+        <div class="tit" @click="toggle('plate')">异动板块<span :class="{mode:true,active:!textMode}" @click.stop="textMode = false">列表</span><span class="separator">|</span><span :class="{active:textMode}" @click.stop="textMode = true">文本</span><span :class="{'arrow_up':hidePlate,'arrow_down':!hidePlate}"
+            :title="hidePlate?'显示':'隐藏'"></span>
+          <span class="copy" ref="plate_copy" v-show="textMode" @click.stop="" title="复制"></span>
         </div>
         <div class="no-data" v-if="isShow">
           <StockInit startTime='9:00' endTime='9:30' @propShow='getShow'>
@@ -55,24 +55,32 @@
           </StockInit>
         </div>
         <div class="list" v-else>
-          <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
-            <div class="time plate_top">
-              <span>{{plate.tradeTime | hhmm}}</span>
-              <span class="name">{{plate.sectionName}}</span>
-              <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
-              <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
+          <div v-if="!textMode">
+            <div class="block" v-for="plate of plateList" @dblclick="openPlate(plate.sectionCode)">
+              <div class="time plate_top">
+                <span>{{plate.tradeTime | hhmm}}</span>
+                <span class="name">{{plate.sectionName}}</span>
+                <span v-z3-updowncolor="plate.chngPct" class="chg">{{plate.chngPct | chngPct}}</span>
+                <span v-z3-updowncolor="plate.riseSpeed" class="chgmark">{{plate.riseSpeed>0?'板块拉升':'板块打压'}}</span>
+              </div>
+              <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
+                <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
+              </div>
+              <table class="stockList">
+                <tr v-for="stock of plate.stockDataList" @dblclick.stop="openStock(stock.innerCode)">
+                  <td class="name">{{stock.stockName}}</td>
+                  <td class="code">{{stock.stockCode}}</td>
+                  <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
+                  <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
+                </tr>
+              </table>
             </div>
-            <div class="news" v-if="plate.moveRelaNewsId"><span :class="plate.newsPostiveIndex > 1?'mark good':'mark bad'">{{plate.newsPostiveIndex > 1?'利好':'利空'}}</span>
-              <router-link :to="{name:'detailPages', params:{detailType:'news', id:plate.moveRelaNewsId}}" target="_blank" class="news_tit">{{plate.title}}</router-link>
+          </div>
+          <div ref="plate-text" v-else>
+            <toast :msg="toastmsg" v-if="showToast"></toast>
+            <div class="text-block" v-for="plate of plateList">
+              <abnormalText :model="plate"></abnormalText>
             </div>
-            <table class="stockList">
-              <tr v-for="stock of plate.stockDataList" @dblclick.stop="openStock(stock.innerCode)">
-                <td class="name">{{stock.stockName}}</td>
-                <td class="code">{{stock.stockCode}}</td>
-                <td v-z3-updowncolor="stock.stockChng" class="price">{{stock.stockPrice | price}}</td>
-                <td v-z3-updowncolor="stock.stockChng" class="chg">{{stock.stockChngPct | chngPct}}</td>
-              </tr>
-            </table>
           </div>
         </div>
       </div>
@@ -97,6 +105,9 @@ import abnormalPlatesChart from 'components/siwei/abnormal-plates-chart'
 import chartLegend from 'components/siwei/legend'
 import stockBox from 'components/siwei/stock-box'
 import StockInit from './stock-init'
+import abnormalText from './abnormal-text'
+import Clipboard from 'clipboard'
+import toast from 'components/toast'
 
 let pcid1 = '';
 let pcid2 = '';
@@ -164,14 +175,17 @@ export default {
       hidePlate: false,
       textMode: false,
       beginTimes: null,
-      isShow: true
+      isShow: true,
+      showToast: false
     }
   },
   components: {
     abnormalPlatesChart,
     chartLegend,
     stockBox,
-    StockInit
+    StockInit,
+    abnormalText,
+    toast
   },
   computed: {
     bubbles: function() {
@@ -644,8 +658,29 @@ export default {
       }
     },
     getShow(msg) {
-      console.log(msg)
       this.isShow = msg
+    },
+    initCopyFn() {
+      const clipboard = new Clipboard(this.$refs['plate_copy'], {
+        text: () => {
+          const copyData = this.$refs['plate-text'].innerText;
+          return copyData;
+        }
+      })
+      clipboard.on('success', (e) => {
+        this.toastmsg = '已复制板块异动播报!'
+        this.showToast = true
+        setTimeout(() => {
+          this.showToast = false
+        }, 2500)
+      })
+      clipboard.on('error', (e) => {
+        this.toastmsg = '复制失败！'
+        this.showToast = true
+        setTimeout(() => {
+          this.showToast = false
+        }, 2500)
+      })
     }
   },
   watch: {
@@ -708,6 +743,7 @@ export default {
     this.updateBubble();
     this.updateAbnormalStocks();
     this.updateAbnormalPlates();
+    this.initCopyFn();
     pcid1 = setInterval(() => {
       this.updateBubble();
     }, 6 * 1000);
@@ -942,6 +978,15 @@ export default {
         color: #b8b8b8;
     }
 
+}
+.market .text-block {
+    overflow: hidden;
+    margin: 0 0 4px;
+    line-height: 18px;
+}
+.market .text-block:hover {
+    background: $hoverBgColor;
+    color: #fff;
 }
 .market .block:hover .stockList {
     color: #fff;
