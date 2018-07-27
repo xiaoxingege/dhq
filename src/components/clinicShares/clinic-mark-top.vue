@@ -228,6 +228,7 @@ body {
     padding-right: 20px;
     color: #a6a6a6;
     font-size: 14px;
+    min-height: 45px;
 }
 .short-tit {
     font-size: 14px;
