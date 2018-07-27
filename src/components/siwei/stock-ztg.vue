@@ -59,6 +59,7 @@
     </div>
   </div>
   <div class="legend"></div>
+  <toast :msg="toastmsg" v-if="showToast"></toast>
 </div>
 </template>
 <script>
@@ -73,6 +74,8 @@ import {
   ctx
 } from '../../z3tougu/config'
 import StockInit from './stock-init'
+import toast from 'components/toast'
+
 
 export default {
   data() {
@@ -121,7 +124,9 @@ export default {
       tcapMin: Math.sqrt(9.722757458E9 / 1e11),
       dataIndex:'',
       isShow : true,
-      showList:true
+      showList:true,
+      toastmsg: '',
+      showToast: false
 
     }
   },
@@ -131,7 +136,7 @@ export default {
     }
   },
   components: {
-    Siweidialog,StockInit
+    Siweidialog,StockInit,toast
   },
   computed: mapState({
     ztgList: state => state.bubbles.ztgBubblesLine,
@@ -1197,9 +1202,17 @@ export default {
           this.$refs.copyText.select()
           try{
               if(document.execCommand('copy', false, null)){
-                  console.log('复制成功！')
+                  this.toastmsg = '复制成功!'
+                  this.showToast = true
+                  setTimeout(() => {
+                      this.showToast = false
+                  }, 2500)
               } else{
-                  console.log('复制失败！')
+                  this.toastmsg = '复制失败!'
+                  this.showToast = true
+                  setTimeout(() => {
+                      this.showToast = false
+                  }, 2500)
               }
           } catch(err){
               console.log('复制异常')
