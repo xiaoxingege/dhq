@@ -164,21 +164,44 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
-    <div class="kline-title">
+    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>筹码分布</div>
+    <div class="kline-title" v-else>
       {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+    <div class="kline-title2" v-if='statusType == 10'>{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
+    </div>
+    <div class="kline-charts" ref="arealineChart" v-else>
 
-  <div class="kline-charts" ref="arealineChart">
-
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -191,7 +214,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['innerCode', 'indexFace', 'statusType'],
   data() {
     return {
       showX: true,
@@ -205,6 +228,13 @@ export default ({
         vols: [],
         currPirce: [],
         cuur: ''
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
     }
   },
@@ -216,43 +246,47 @@ export default ({
   },
   methods: {
     init() {
-      var data = this.data
-      const klineData = [].concat(this.indexFace.datas.data)
-      const currPirce = this.indexFace.datas.currPirce
-      // data.currPirce.push(currPirce)
-      console.log(currPirce)
-      data.cuur = currPirce + ''
+      if (this.indexFace) {
+        var data = this.data
+        const klineData = [].concat(this.indexFace.datas.data)
+        const currPirce = this.indexFace.datas.currPirce
+        // data.currPirce.push(currPirce)
+        console.log(currPirce)
+        data.cuur = currPirce + ''
 
-      klineData.forEach((item) => {
-        const price = Number(item.price)
-        const proportion = Number(item.proportion * 100).toFixed(2)
-        data.price.push(price)
-        //  data.proportion.push(proportion)
-        if (price >= currPirce) {
-          // data.proportionLast.push(null)
-          // data.proportion.push(proportion)
-          data.proportion.push(proportion)
-          data.proportionLast.push(null)
+        klineData.forEach((item) => {
+          const price = Number(item.price)
+          const proportion = Number(item.proportion * 100).toFixed(2)
+          data.price.push(price)
+          //  data.proportion.push(proportion)
+          if (price >= currPirce) {
+            // data.proportionLast.push(null)
+            // data.proportion.push(proportion)
+            data.proportion.push(proportion)
+            data.proportionLast.push(null)
 
-        } else {
-          // data.proportionLast.push(proportion)
-          // data.proportion.push(null)
-          data.proportion.push(null)
-          data.proportionLast.push(proportion)
-        }
-        /* console.log(data.proportion)
-        console.log(data.proportionLast) */
-        //  console.log(data.price)
+          } else {
+            // data.proportionLast.push(proportion)
+            // data.proportion.push(null)
+            data.proportion.push(null)
+            data.proportionLast.push(proportion)
+          }
+          /* console.log(data.proportion)
+          console.log(data.proportionLast) */
+          //  console.log(data.price)
 
-      })
-      this.initKline()
+        })
+        this.initKline()
+      }
     },
     initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
-
-      if (this.indexFace) {
-        this.drawCharts()
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.arealineChart) || echarts.init(this.$refs.arealineChart)
+        if (this.indexFace) {
+          this.drawCharts()
+        }
       }
+
     },
     drawCharts() {
       const lineData = this.data
@@ -295,9 +329,9 @@ export default ({
             var s = ''
             // console.log(params)
             if (Number(params[0].name) >= Number(lineData.cuur)) {
-              if(params[1] !== undefined){
+              if (params[1] !== undefined) {
                 s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[1].color + '"></span>' + params[1].seriesName + ' : ' + params[1].value + '%'
-              }else{
+              } else {
                 s = s + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[0].color + '"></span>' + params[0].seriesName + ' : ' + params[0].value + '%'
               }
             } else {
@@ -461,7 +495,11 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initKline()
     }
+
   },
 
   mounted() {

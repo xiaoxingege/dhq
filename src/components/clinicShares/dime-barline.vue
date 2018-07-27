@@ -164,21 +164,44 @@ body {
     padding-left: 5px;
     font-size: 14px;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-kline">
   <div>
-    <div class="kline-title">
+    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>主力资金动向</div>
+    <div class="kline-title" v-else>
       {{indexFace.title}}<span class="assess1" :class="checkStatus(indexFace.status)">{{indexFace.tag==null?'':indexFace.tag}}</span>
     </div>
-    <div class="kline-title2">{{indexFace.describe==null?'':indexFace.describe}}</div>
+    <div class="kline-title2" v-if='statusType == 10'>{{indexFace.describe==null?'':indexFace.describe}}</div>
 
   </div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
+    </div>
+    <div class="kline-charts" ref="barChart" v-else>
 
-  <div class="kline-charts" ref="barChart">
-
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -191,7 +214,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['innerCode', 'indexFace'],
+  props: ['innerCode', 'indexFace', 'statusType'],
   data() {
     return {
       showX: true,
@@ -204,6 +227,13 @@ export default ({
         dayGreen: [],
         days5: [],
         vols: []
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
     }
   },
@@ -215,46 +245,47 @@ export default ({
   },
   methods: {
     init() {
+      if (this.indexFace) {
+        var data = this.data
+        const klineData = [].concat(this.indexFace.datas.data).reverse()
 
-      var data = this.data
-      const klineData = [].concat(this.indexFace.datas.data).reverse()
+        klineData.forEach((item) => {
+          let time = ''
+          const day = Number(item.today / 10000).toFixed(2)
+          const days5 = Number(item.fiveDay / 10000).toFixed(2)
 
-      klineData.forEach((item) => {
-        let time = ''
-        const day = Number(item.today / 10000).toFixed(2)
-        const days5 = Number(item.fiveDay / 10000).toFixed(2)
+          time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+          data.times.push(time)
+          data.tradeTimeArr.push(time)
+          // data.day.push(day)
+          data.days5.push(days5)
+          // console.log(day)
+          // var newDay = {
+          //   value: day,
+          //   itemStyle: {
+          //     normal: {
+          //       color: day <= 0 ? config.downColor : config.upColor
+          //     }
+          //   }
+          // }
+          if (day <= 0) {
+            data.dayRed.push('-')
+            data.dayGreen.push(day)
+          } else {
+            data.dayRed.push(day)
+            data.dayGreen.push('-')
+          }
+        })
 
-        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-        data.times.push(time)
-        data.tradeTimeArr.push(time)
-        // data.day.push(day)
-        data.days5.push(days5)
-        // console.log(day)
-        // var newDay = {
-        //   value: day,
-        //   itemStyle: {
-        //     normal: {
-        //       color: day <= 0 ? config.downColor : config.upColor
-        //     }
-        //   }
-        // }
-        if (day <= 0) {
-          data.dayRed.push('-')
-          data.dayGreen.push(day)
-        } else {
-          data.dayRed.push(day)
-          data.dayGreen.push('-')
-        }
-      })
-
-      this.initKline()
+        this.initKline()
+      }
     },
     initKline() {
-      this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
-
-      if (this.indexFace) {
-        this.drawCharts()
-
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.barChart) || echarts.init(this.$refs.barChart)
+        if (this.indexFace) {
+          this.drawCharts()
+        }
       }
     },
     drawCharts() {
@@ -455,6 +486,9 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initKline()
     }
   },
   mounted() {

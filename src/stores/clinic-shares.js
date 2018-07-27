@@ -184,6 +184,7 @@ export default {
           commit('updateIndustryFace', result.data)
           // console.log(result.data)
         } else {
+          console.log('接口显示' + result.errCode)
           commit('ERROR', result, {
             root: true
           })

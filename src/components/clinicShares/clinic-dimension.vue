@@ -216,57 +216,97 @@ body {
    </div> -->
   </div>
   <div class="dime-charts" v-if="curPage === 'capital'">
-    <div class="chart-box1 ">
-      <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===0'>
-        <DimeKline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+    <div class="chart-box1" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="chart-kline box-flex-1">
+        <DimeKline :innerCode='innerCode' :statusType='statusType' />
       </div>
-      <div class="chart-grop box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===1'>
-        <Arealine :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+      <div class="chart-grop box-flex-1">
+        <Arealine :innerCode='innerCode' :statusType='statusType' />
       </div>
     </div>
-    <div class="chart-box2">
-      <div class="chart-kline box-flex-1 mb-0" v-for='(item,index) of indexFaceData' v-if='index===2'>
-        <Barline :innerCode='innerCode' :indexFace='item' :dataIndex='index' />
+    <div class="chart-box2" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="chart-kline box-flex-1 mb-0">
+        <Barline :innerCode='innerCode' :statusType='statusType' />
       </div>
       <div class="chart-grop box-flex-1 mb-0">
-        <Pieline :innerCode='innerCode' />
+        <Pieline :innerCode='innerCode' :statusType='statusType' />
+      </div>
+    </div>
+    <div class="chart-box1" v-if='statusType == 10'>
+      <div class="chart-kline box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===0'>
+        <DimeKline :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
+      </div>
+      <div class="chart-grop box-flex-1" v-for='(item,index) of indexFaceData' v-if='index===1'>
+        <Arealine :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
+      </div>
+    </div>
+    <div class="chart-box2" v-if='statusType == 10'>
+      <div class="chart-kline box-flex-1 mb-0" v-for='(item,index) of indexFaceData' v-if='index===2'>
+        <Barline :innerCode='innerCode' :indexFace='item' :dataIndex='index' :statusType='statusType' />
+      </div>
+      <div class="chart-grop box-flex-1 mb-0">
+        <Pieline :innerCode='innerCode' :statusType='statusType' />
       </div>
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'base'">
-    <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
-      <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' />
+    <div v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="box-flex-1 chart2-kline" v-for='(item,index) of numData' v-if='index<2'>
+        <BasefaceCharts :dataIndex='index' :innerCode='innerCode' :statusType='statusType' />
+      </div>
+      <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of numData' v-if='index>=2'>
+        <FloatfactorCharts :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' :statusType='statusType' />
+      </div>
     </div>
-    <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of baseFaceData' v-if='index>=2'>
-      <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' />
+    <div v-if='statusType == 10'>
+      <div class="box-flex-1 chart2-kline" v-for='(item,index) of baseFaceData' v-if='index<2'>
+        <BasefaceCharts :baseFace='item' :dataIndex='index' :innerCode='innerCode' :statusType='statusType' />
+      </div>
+      <div class="box-flex-1 chart2-kline float-line" v-for='(item,index) of baseFaceData' v-if='index>=2'>
+        <FloatfactorCharts :baseFace='item' :dataIndex='index' :floatYname='floatYname' :legendName1='legendName1' :legendName2='legendName2' :legendShow='legendShow' :innerCode='innerCode' :statusType='statusType' />
+      </div>
     </div>
   </div>
   <div class="charts-base" v-if="curPage === 'techs'">
     <div class="tech-charts1">
       <!--  <TechnicalCharts :testData='tachData' :dataIndex='3' :legendShow='!legendShow' :innerCode='code' />
       {{tachData}} -->
-      <TechnicalNewChart :innerCode='innerCode' />
+      <TechnicalNewChart :innerCode='innerCode' :statusType='statusType' />
     </div>
 
   </div>
   <div class="dime-charts" v-if="curPage === 'industry'">
-    <div class="chart-box1 ">
-      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
-        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' />
+    <div class="chart-box1 " v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="chart-kline box-flex-1">
+        <IndustryStklevelBarchart :innerCode='innerCode' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' :statusType='statusType' />
       </div>
-      <div class="chart-grop box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
-        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' />
+      <div class="chart-grop box-flex-1">
+        <IndustryLinechart :innerCode='innerCode' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' :statusType='statusType' />
       </div>
     </div>
-    <div class="chart-box2">
+    <div class="chart-box2" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="chart-barline box-flex-1 mb-0">
+        <IndustryvoBarchart :innerCode='innerCode' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' :statusType='statusType' />
+      </div>
+    </div>
+    <div class="chart-box1 " v-if='statusType == 10'>
+      <div class="chart-kline box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===0'>
+        <IndustryStklevelBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendName1' :legendName2='legendName2' :legendShow='!legendShow' :statusType='statusType' />
+      </div>
+      <div class="chart-grop box-flex-1" v-for='(item,index) of industryFaceData' v-if='index===1'>
+        <IndustryLinechart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameInfo' :legendName2='legendNameTech' :legendShow='!legendShow' :statusType='statusType' />
+      </div>
+    </div>
+    <div class="chart-box2" v-if='statusType == 10'>
       <div class="chart-barline box-flex-1 mb-0" v-for='(item,index) of industryFaceData' v-if='index===2'>
-        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' />
+        <IndustryvoBarchart :innerCode='innerCode' :industryFace='item' dataIndex='index' :legendName1='legendNameIndu' :legendName2='legendName2' :legendShow='legendShow' :floatYname='industryYname' :statusType='statusType' />
       </div>
     </div>
 
   </div>
   <div class="" v-if="curPage === 'newsinfo'">
-    <newsInfo :innerCode='innerCode' :newsInfo='newsInfo'></newsInfo>
+    <newsInfo :innerCode='innerCode' :statusType='statusType' v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'></newsInfo>
+    <newsInfo :innerCode='innerCode' :newsInfo='newsInfo' :statusType='statusType' v-if='statusType == 10'></newsInfo>
   </div>
 
 </div>
@@ -289,7 +329,7 @@ import IndustryvoBarchart from 'components/clinicShares/industry-vobarchart'
 import newsInfo from 'components/clinicShares/news-info'
 import TechnicalNewChart from 'components/clinicShares/technical-new-chart'
 export default {
-  props: ['innerCode', 'isShow'],
+  props: ['innerCode', 'isShow', 'statusType'],
   data() {
     return {
       floatYname: '未来20日上涨概率',
@@ -301,7 +341,8 @@ export default {
       legendNameIndu: '评分',
       legendShow: false,
       curPage: 'capital', // 'capital'|'base'|'techs'|'newsinfo'|'industry'
-      code: ''
+      code: '',
+      numData: [0, 1, 2, 3, 4, 5]
     }
   },
   computed: mapState({
@@ -402,7 +443,7 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.statusType)
   },
   destroyed() {
 
