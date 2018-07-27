@@ -245,39 +245,40 @@ export default ({
   },
   methods: {
     init() {
+      if (this.indexFace) {
+        var data = this.data
+        const klineData = [].concat(this.indexFace.datas.data).reverse()
 
-      var data = this.data
-      const klineData = [].concat(this.indexFace.datas.data).reverse()
+        klineData.forEach((item) => {
+          let time = ''
+          const day = Number(item.today / 10000).toFixed(2)
+          const days5 = Number(item.fiveDay / 10000).toFixed(2)
 
-      klineData.forEach((item) => {
-        let time = ''
-        const day = Number(item.today / 10000).toFixed(2)
-        const days5 = Number(item.fiveDay / 10000).toFixed(2)
+          time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+          data.times.push(time)
+          data.tradeTimeArr.push(time)
+          // data.day.push(day)
+          data.days5.push(days5)
+          // console.log(day)
+          // var newDay = {
+          //   value: day,
+          //   itemStyle: {
+          //     normal: {
+          //       color: day <= 0 ? config.downColor : config.upColor
+          //     }
+          //   }
+          // }
+          if (day <= 0) {
+            data.dayRed.push('-')
+            data.dayGreen.push(day)
+          } else {
+            data.dayRed.push(day)
+            data.dayGreen.push('-')
+          }
+        })
 
-        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-        data.times.push(time)
-        data.tradeTimeArr.push(time)
-        // data.day.push(day)
-        data.days5.push(days5)
-        // console.log(day)
-        // var newDay = {
-        //   value: day,
-        //   itemStyle: {
-        //     normal: {
-        //       color: day <= 0 ? config.downColor : config.upColor
-        //     }
-        //   }
-        // }
-        if (day <= 0) {
-          data.dayRed.push('-')
-          data.dayGreen.push(day)
-        } else {
-          data.dayRed.push(day)
-          data.dayGreen.push('-')
-        }
-      })
-
-      this.initKline()
+        this.initKline()
+      }
     },
     initKline() {
       if (this.statusType === 10) {

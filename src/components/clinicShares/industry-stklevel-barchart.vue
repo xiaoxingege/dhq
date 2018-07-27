@@ -181,11 +181,11 @@ body {
 <template>
 <div class="dime-tech">
   <div>
-    <!--  <div class="techline-title" >
-      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)">{{industryFace.tag==null?'':industryFace.tag}}</span>
+    <div class="techline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>个股在行业内对比</div>
+    <div class="techline-title" v-if='statusType == 10'>
+      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)" v-if='statusType == 10'>{{industryFace.tag==null?'':industryFace.tag}}</span>
     </div>
     <div class="techline-title2" v-if='statusType == 10'>{{industryFace.describe==null?'':industryFace.describe}}</div>
- -->
   </div>
   <div>
     <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
@@ -321,7 +321,6 @@ export default ({
 
         this.initLine()
       }
-
     },
     initLine() {
       if (this.statusType === 10) {

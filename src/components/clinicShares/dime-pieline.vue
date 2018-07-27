@@ -189,9 +189,9 @@ body {
 </style>
 <template>
 <div class="dime-kline">
-  <div v-for="(inFace,index) of indexFace" v-if="index===3">
-    <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>主力资金控盘度</div>
-    <div class="kline-title" v-else>
+  <div class="kline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>主力资金控盘度</div>
+  <div v-for="(inFace,index) of indexFace" v-if="index===3 && statusType == 10">
+    <div class="kline-title">
       {{inFace.title}}<span class="assess1" :class="checkStatus(inFace.status)">{{inFace.tag===null?'':inFace.tag}}</span>
     </div>
     <div class="kline-title2" v-if='statusType == 10'>{{inFace.describe==null?'':inFace.describe}}</div>

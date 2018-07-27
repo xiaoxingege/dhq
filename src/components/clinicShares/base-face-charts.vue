@@ -271,218 +271,211 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data)
-      // console.log(this.dataIndex)
-      /* if(this.dataIndex === 0){
-          this.legendNames = this.legendName1
-         // console.log(this.legendNames)
-       }else if(this.dataIndex === 1){
-          this.legendNames = this.legendName2
-       }else{
-          this.legendNames = this.legendName3
-       } */
-      klineData.forEach((item, index) => {
-        let time = ''
-        let value = ''
-        const growthRate = Number(item.growthRate * 100).toFixed(2)
-        // console.log(growthRate)
-        if (this.dataIndex === 0) {
-          value = Number(item.value / 100000000).toFixed(2)
-          this.unitName = this.unitTenBillion
-          this.legendNames = this.legendName1
+      if (this.baseFace) {
+        const klineData = [].concat(this.baseFace.datas.data)
+        klineData.forEach((item, index) => {
+          let time = ''
+          let value = ''
+          const growthRate = Number(item.growthRate * 100).toFixed(2)
+          // console.log(growthRate)
+          if (this.dataIndex === 0) {
+            value = Number(item.value / 100000000).toFixed(2)
+            this.unitName = this.unitTenBillion
+            this.legendNames = this.legendName1
 
-        } else if (this.dataIndex === 1) {
-          value = Number(item.value / 100000000).toFixed(2)
-          this.unitName = this.uniBillion
-          this.legendNames = this.legendName2
-        } else {
-          this.legendNames = this.legendName3
-        }
-        /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
-        time = (item.year + '').substring(0, 4)
-        // console.log(this.dataIndex)
-        this.data.times.push(time)
-        this.data.tradeTimeArr.push(time)
-        var newValue = {}
-        // var newGrow = {}
-        /* var newValue = {
-            value: value,
-            itemStyle: {
-              normal: {
-                 color: this.themeColor = value < 0 ? config.downColor : config.upColor,
-                borderColor: value < 0 ? config.downColor : config.upColor,
-                borderType:'',
-                borderWidth:0
-              }
-            }
-        } */
-        if (klineData.length > 3) { // 大于3的时候画后面的
-          if (klineData.length === 4) { // 等于4的时候
-            // console.log('等于4的时候')
-            if (klineData.length - 1 === index) {
-              this.data.growthRate.push(null)
-              this.data.growthRateLast.push(growthRate)
-              newValue = {
-                value: value,
-                itemStyle: {
-                  normal: {
-                    color: 'transparent',
-                    borderType: 'dashed',
-                    borderColor: value < 0 ? config.downColor : config.upColor,
-                    borderWidth: 3
-                  }
-                }
-              }
-            } else {
-              newValue = {
-                value: value,
-                itemStyle: {
-                  normal: {
-                    color: value < 0 ? config.downColor : config.upColor,
-                    // borderColor: value < 0 ? config.downColor : config.upColor,
-                    borderType: '',
-                    borderWidth: 0
-                  }
-                }
-              }
-              if (klineData.length - 2 === index) {
-                this.data.growthRateLast.push(growthRate)
-              } else {
-                this.data.growthRateLast.push(null)
-              }
-              this.data.growthRate.push(growthRate)
-              //  this.data.growthRateLast.push(null)
-
-
-            }
-            this.data.ydata.push(newValue)
+          } else if (this.dataIndex === 1) {
+            value = Number(item.value / 100000000).toFixed(2)
+            this.unitName = this.uniBillion
+            this.legendNames = this.legendName2
           } else {
-
-            if (klineData.length - 1 === index || klineData.length - 2 === index) {
-              /* this.themeColor = 'transparent'
-              this.borderType = 'dashed'
-              this.borderWidth = 3 */
-              // console.log(index)
-              // console.log(klineData.length-2)
-              this.data.growthRate.push(null)
-              this.data.growthRateLast.push(growthRate)
-              newValue = {
-                value: value,
-                itemStyle: {
-                  normal: {
-                    color: 'transparent',
-                    borderType: 'dashed',
-                    borderColor: value < 0 ? config.downColor : config.upColor,
-                    borderWidth: 3
-                  }
+            this.legendNames = this.legendName3
+          }
+          /* time = (item.tradeDate + '').substring(0, 4) + '-' + (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length) */
+          time = (item.year + '').substring(0, 4)
+          // console.log(this.dataIndex)
+          this.data.times.push(time)
+          this.data.tradeTimeArr.push(time)
+          var newValue = {}
+          // var newGrow = {}
+          /* var newValue = {
+              value: value,
+              itemStyle: {
+                normal: {
+                   color: this.themeColor = value < 0 ? config.downColor : config.upColor,
+                  borderColor: value < 0 ? config.downColor : config.upColor,
+                  borderType:'',
+                  borderWidth:0
                 }
               }
-              /* lineStyle: {
-                     normal: {
-                      width: 8,
-                      color: '#fff'
-                    }
-                  } */
-              /* newGrow = {
-                 value: growthRate,
-                 itemStyle: {
-                     normal: {
-                         // color: 'rgba(252,230,48,1)',
-                         // barBorderRadius: 0,
-                         lineStyle:{
-                           color:config.upColor,
-                           type:'dashed'
-                         },
-                         label: {
-                             show: true,
-                             position: 'top',
-                             color: '#c9d0d7',
-                             formatter: function(p) {
-                                 return p.value > 0 ? (p.value) : '';
-                             }
-                         }
-                     }
-                 }
-               } */
-            } else {
-              this.data.growthRate.push(growthRate)
-              if (klineData.length - 3 === index) {
+          } */
+          if (klineData.length > 3) { // 大于3的时候画后面的
+            if (klineData.length === 4) { // 等于4的时候
+              // console.log('等于4的时候')
+              if (klineData.length - 1 === index) {
+                this.data.growthRate.push(null)
                 this.data.growthRateLast.push(growthRate)
+                newValue = {
+                  value: value,
+                  itemStyle: {
+                    normal: {
+                      color: 'transparent',
+                      borderType: 'dashed',
+                      borderColor: value < 0 ? config.downColor : config.upColor,
+                      borderWidth: 3
+                    }
+                  }
+                }
               } else {
-                this.data.growthRateLast.push(null)
-              }
-
-              newValue = {
-                value: value,
-                itemStyle: {
-                  normal: {
-                    color: value < 0 ? config.downColor : config.upColor,
-                    // borderColor: value < 0 ? config.downColor : config.upColor,
-                    borderType: '',
-                    borderWidth: 0
+                newValue = {
+                  value: value,
+                  itemStyle: {
+                    normal: {
+                      color: value < 0 ? config.downColor : config.upColor,
+                      // borderColor: value < 0 ? config.downColor : config.upColor,
+                      borderType: '',
+                      borderWidth: 0
+                    }
                   }
                 }
-              }
+                if (klineData.length - 2 === index) {
+                  this.data.growthRateLast.push(growthRate)
+                } else {
+                  this.data.growthRateLast.push(null)
+                }
+                this.data.growthRate.push(growthRate)
+                //  this.data.growthRateLast.push(null)
 
-              /* newGrow = {
-                value: growthRate,
-                itemStyle: {
-                  normal: {
-                      // color: 'rgba(252,230,48,1)',
-                      // barBorderRadius: 0,
-                      lineStyle:{
-                        color:config.upColor,
-                        type:'dashed'
-                      },
-                      label: {
-                          show: true,
-                          position: 'top',
-                          color: '#c9d0d7',
-                          formatter: function(p) {
-                              return p.value > 0 ? (p.value) : '';
-                          }
+
+              }
+              this.data.ydata.push(newValue)
+            } else {
+
+              if (klineData.length - 1 === index || klineData.length - 2 === index) {
+                /* this.themeColor = 'transparent'
+                this.borderType = 'dashed'
+                this.borderWidth = 3 */
+                // console.log(index)
+                // console.log(klineData.length-2)
+                this.data.growthRate.push(null)
+                this.data.growthRateLast.push(growthRate)
+                newValue = {
+                  value: value,
+                  itemStyle: {
+                    normal: {
+                      color: 'transparent',
+                      borderType: 'dashed',
+                      borderColor: value < 0 ? config.downColor : config.upColor,
+                      borderWidth: 3
+                    }
+                  }
+                }
+                /* lineStyle: {
+                       normal: {
+                        width: 8,
+                        color: '#fff'
                       }
+                    } */
+                /* newGrow = {
+                   value: growthRate,
+                   itemStyle: {
+                       normal: {
+                           // color: 'rgba(252,230,48,1)',
+                           // barBorderRadius: 0,
+                           lineStyle:{
+                             color:config.upColor,
+                             type:'dashed'
+                           },
+                           label: {
+                               show: true,
+                               position: 'top',
+                               color: '#c9d0d7',
+                               formatter: function(p) {
+                                   return p.value > 0 ? (p.value) : '';
+                               }
+                           }
+                       }
+                   }
+                 } */
+              } else {
+                this.data.growthRate.push(growthRate)
+                if (klineData.length - 3 === index) {
+                  this.data.growthRateLast.push(growthRate)
+                } else {
+                  this.data.growthRateLast.push(null)
+                }
+
+                newValue = {
+                  value: value,
+                  itemStyle: {
+                    normal: {
+                      color: value < 0 ? config.downColor : config.upColor,
+                      // borderColor: value < 0 ? config.downColor : config.upColor,
+                      borderType: '',
+                      borderWidth: 0
+                    }
                   }
                 }
-              } */
+
+                /* newGrow = {
+                  value: growthRate,
+                  itemStyle: {
+                    normal: {
+                        // color: 'rgba(252,230,48,1)',
+                        // barBorderRadius: 0,
+                        lineStyle:{
+                          color:config.upColor,
+                          type:'dashed'
+                        },
+                        label: {
+                            show: true,
+                            position: 'top',
+                            color: '#c9d0d7',
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                  }
+                } */
+              }
+              // return newValue
+              // console.log(this.data.growthRateLast)
+              this.data.ydata.push(newValue)
+
+              // console.log(this.data.growthRate)
+              // console.log(this.lineType)
             }
-            // return newValue
-            // console.log(this.data.growthRateLast)
+          } else { // 小于3的时候，不画预测的
+            // console.log('小于3的时候')
+            newValue = {
+              value: value,
+              itemStyle: {
+                normal: {
+                  color: value < 0 ? config.downColor : config.upColor,
+                  // borderColor: value < 0 ? config.downColor : config.upColor,
+                  borderType: '',
+                  borderWidth: 0
+                }
+              }
+            }
+            this.data.growthRate.push(growthRate)
+            // this.data.growthRateLast.push(null)
             this.data.ydata.push(newValue)
 
-            // console.log(this.data.growthRate)
-            // console.log(this.lineType)
           }
-        } else { // 小于3的时候，不画预测的
-          // console.log('小于3的时候')
-          newValue = {
-            value: value,
-            itemStyle: {
-              normal: {
-                color: value < 0 ? config.downColor : config.upColor,
-                // borderColor: value < 0 ? config.downColor : config.upColor,
-                borderType: '',
-                borderWidth: 0
-              }
-            }
-          }
-          this.data.growthRate.push(growthRate)
-          // this.data.growthRateLast.push(null)
-          this.data.ydata.push(newValue)
-
-        }
-      })
-      /* var newVols = {
-           value: volume, // 万手
-           itemStyle: {
-             normal: {
-               color: closePx < prevClosePx ? config.downColor : config.upColor,
-               borderColor: closePx < prevClosePx ? config.downColor : config.upColor
+        })
+        /* var newVols = {
+             value: volume, // 万手
+             itemStyle: {
+               normal: {
+                 color: closePx < prevClosePx ? config.downColor : config.upColor,
+                 borderColor: closePx < prevClosePx ? config.downColor : config.upColor
+               }
              }
            }
-         }
-         data.vols.push(newVols) */
-      this.initLine()
+           data.vols.push(newVols) */
+        this.initLine()
+      }
     },
     initLine() {
       if (this.statusType === 10) {

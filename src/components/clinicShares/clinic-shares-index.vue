@@ -59,12 +59,12 @@ body {
     color: $wordsColorBase;
 }
 .foot-tishi {
-    font-size: 12px;
-    color: $wordsColorBase;
-    line-height: 28px;
+    font-size: 14px;
+    color: #808ba1;
     width: 1200px;
     margin: auto;
     font-family: "Microsoft YaHei";
+    padding: 10px 0 10px 10px;
 }
 </style>
 <template>

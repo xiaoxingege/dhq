@@ -246,36 +246,38 @@ export default ({
   },
   methods: {
     init() {
-      var data = this.data
-      const klineData = [].concat(this.indexFace.datas.data)
-      const currPirce = this.indexFace.datas.currPirce
-      // data.currPirce.push(currPirce)
-      console.log(currPirce)
-      data.cuur = currPirce + ''
+      if (this.indexFace) {
+        var data = this.data
+        const klineData = [].concat(this.indexFace.datas.data)
+        const currPirce = this.indexFace.datas.currPirce
+        // data.currPirce.push(currPirce)
+        console.log(currPirce)
+        data.cuur = currPirce + ''
 
-      klineData.forEach((item) => {
-        const price = Number(item.price)
-        const proportion = Number(item.proportion * 100).toFixed(2)
-        data.price.push(price)
-        //  data.proportion.push(proportion)
-        if (price >= currPirce) {
-          // data.proportionLast.push(null)
-          // data.proportion.push(proportion)
-          data.proportion.push(proportion)
-          data.proportionLast.push(null)
+        klineData.forEach((item) => {
+          const price = Number(item.price)
+          const proportion = Number(item.proportion * 100).toFixed(2)
+          data.price.push(price)
+          //  data.proportion.push(proportion)
+          if (price >= currPirce) {
+            // data.proportionLast.push(null)
+            // data.proportion.push(proportion)
+            data.proportion.push(proportion)
+            data.proportionLast.push(null)
 
-        } else {
-          // data.proportionLast.push(proportion)
-          // data.proportion.push(null)
-          data.proportion.push(null)
-          data.proportionLast.push(proportion)
-        }
-        /* console.log(data.proportion)
-        console.log(data.proportionLast) */
-        //  console.log(data.price)
+          } else {
+            // data.proportionLast.push(proportion)
+            // data.proportion.push(null)
+            data.proportion.push(null)
+            data.proportionLast.push(proportion)
+          }
+          /* console.log(data.proportion)
+          console.log(data.proportionLast) */
+          //  console.log(data.price)
 
-      })
-      this.initKline()
+        })
+        this.initKline()
+      }
     },
     initKline() {
       if (this.statusType === 10) {

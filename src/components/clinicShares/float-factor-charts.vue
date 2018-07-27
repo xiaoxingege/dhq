@@ -286,39 +286,41 @@ export default ({
   },
   methods: {
     init() {
-      const klineData = [].concat(this.baseFace.datas.data)
-      // console.log(this.dataIndex)
-      if (this.dataIndex === 0) {
-        this.legendNames = this.legendName1
-      } else if (this.dataIndex === 1) {
-        this.legendNames = this.legendName2
-      } else {
-        this.legendNames = this.legendName3
-      }
-      klineData.forEach((item, index) => {
-        const winRate20day = Number(item.winRate20day * 100).toFixed(2)
-        const range = item.range
-        this.data.range.push(range)
-        //  console.log(this.baseFace.range)
-        if (this.baseFace.range === range) {
-          var newValue = {}
-          // this.data.rangeYdata.push(range)
-          newValue = {
-            value: winRate20day,
-            itemStyle: {
-              normal: {
-                color: '#1984ea'
+      if (this.baseFace) {
+        const klineData = [].concat(this.baseFace.datas.data)
+        // console.log(this.dataIndex)
+        if (this.dataIndex === 0) {
+          this.legendNames = this.legendName1
+        } else if (this.dataIndex === 1) {
+          this.legendNames = this.legendName2
+        } else {
+          this.legendNames = this.legendName3
+        }
+        klineData.forEach((item, index) => {
+          const winRate20day = Number(item.winRate20day * 100).toFixed(2)
+          const range = item.range
+          this.data.range.push(range)
+          //  console.log(this.baseFace.range)
+          if (this.baseFace.range === range) {
+            var newValue = {}
+            // this.data.rangeYdata.push(range)
+            newValue = {
+              value: winRate20day,
+              itemStyle: {
+                normal: {
+                  color: '#1984ea'
+                }
               }
             }
+            this.data.ydata.push(newValue)
+          } else {
+            this.data.ydata.push(winRate20day)
           }
-          this.data.ydata.push(newValue)
-        } else {
-          this.data.ydata.push(winRate20day)
-        }
-        // console.log(this.data.ydata)
-      })
+          // console.log(this.data.ydata)
+        })
 
-      this.initLine()
+        this.initLine()
+      }
     },
     initLine() {
       if (this.statusType === 10) {
@@ -545,7 +547,6 @@ export default ({
 
   },
   watch: {
-
     innerCode: function() {
       this.init()
     },

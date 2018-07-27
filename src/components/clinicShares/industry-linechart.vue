@@ -160,21 +160,45 @@ body {
     font-size: 14px;
     font-weight: 900;
 }
+.in-content-no {
+    text-align: center;
+    height: 323px;
+    position: relative;
+}
+.no-data {
+    width: 115px;
+    height: 81px;
+    display: inline-block;
+    margin-top: 70px;
+    background: url("../../assets/images/z3img/no-data2.png") no-repeat;
+}
+.no-data-txt {
+    text-align: center;
+    color: #808ba1;
+    font-size: 18px;
+    padding-top: 12px;
+}
 </style>
 <template>
 <div class="dime-tech">
   <div>
-    <div class="techline-title">
-      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)">{{industryFace.tag==null?'':industryFace.tag}}</span>
+    <div class="techline-title" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      (所属申万二级行业)行业指数和舆情指数</div>
+    <div class="techline-title" v-if='statusType == 10'>
+      {{industryFace.title}}<span class="assess1" :class="checkStatus(industryFace.status)" v-if='statusType == 10'>{{industryFace.tag==null?'':industryFace.tag}}</span>
     </div>
-    <div class="techline-title2">{{industryFace.describe==null?'':industryFace.describe}}</div>
+    <div class="techline-title2" v-if='statusType == 10'>{{industryFace.describe==null?'':industryFace.describe}}</div>
 
   </div>
+  <div>
+    <div class="in-content-no" v-if='statusType==11 || statusType==12 || statusType==13 || statusType==20'>
+      <div class="no-data"></div>
+      <div class="no-data-txt">{{status[statusType]}}</div>
+    </div>
+    <div class="kline-charts" ref="lineCharts" v-else>
 
-  <div class="kline-charts" ref="lineCharts">
-
+    </div>
   </div>
-
 </div>
 </template>
 <script type="text/javascript">
@@ -187,7 +211,7 @@ import echarts from 'echarts'
 } from 'utils/date' */
 import config from '../../z3tougu/config'
 export default ({
-  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode'],
+  props: ['industryFace', 'dataIndex', 'legendName1', 'legendName2', 'legendShow', 'innerCode', 'statusType'],
   data() {
     return {
       showX: true,
@@ -224,6 +248,13 @@ export default ({
         infoIndex: [],
         induIndex: [],
         induName: ''
+      },
+      status: {
+        10: '正常上市',
+        11: '股票停牌暂不评价',
+        12: '退市调整期不予评价',
+        13: '新股上市暂不评价',
+        20: '退市调整期不予评价'
       }
     }
   },
@@ -250,51 +281,54 @@ export default ({
   },
   methods: {
     init() {
-      let klineData = [].concat(this.industryFace.datas.datas)
-      if (this.dataIndex === 0) {
-        this.legendNames = this.legendName1
-      } else if (this.dataIndex === 1) {
-        this.legendNames = this.legendName2
-      } else {
-        this.legendNames = this.legendName3
-      }
-      this.data.induName = this.industryFace.datas.induName
-      // if (klineData.length <= 60) {
-      // if (klineData.length >= 60) {
-      //   klineData = klineData.slice(klineData.length - 60, klineData.length);
-      // }
-      klineData.forEach((item, index) => {
-
-        const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
-        const induIndex = Number(item.induIndex).toFixed(2) // 行业指数
-        let time = ''
-        time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
-        this.data.times.push(time)
-        this.data.tradeTimeArr.push(time)
-        if (index === 0) {
-          this.data.infoIndex.push('0')
-          this.data.induIndex.push('0')
+      if (this.industryFace) {
+        let klineData = [].concat(this.industryFace.datas.datas)
+        if (this.dataIndex === 0) {
+          this.legendNames = this.legendName1
+        } else if (this.dataIndex === 1) {
+          this.legendNames = this.legendName2
         } else {
-          this.data.infoIndex.push(infoIndex)
-          this.data.induIndex.push(induIndex)
-
+          this.legendNames = this.legendName3
         }
-        //  console.log(this.data.infoIndex)
-        // console.log(this.data.induIndex)
+        this.data.induName = this.industryFace.datas.induName
+        // if (klineData.length <= 60) {
+        // if (klineData.length >= 60) {
+        //   klineData = klineData.slice(klineData.length - 60, klineData.length);
+        // }
+        klineData.forEach((item, index) => {
 
-      })
-      // }
+          const infoIndex = Number(item.infoIndex).toFixed(2) // 舆情指数
+          const induIndex = Number(item.induIndex).toFixed(2) // 行业指数
+          let time = ''
+          time = (item.tradeDate + '').substring(4, 6) + '-' + (item.tradeDate + '').substring(6, (item.tradeDate + '').length)
+          this.data.times.push(time)
+          this.data.tradeTimeArr.push(time)
+          if (index === 0) {
+            this.data.infoIndex.push('0')
+            this.data.induIndex.push('0')
+          } else {
+            this.data.infoIndex.push(infoIndex)
+            this.data.induIndex.push(induIndex)
 
-      this.initLine()
+          }
+          //  console.log(this.data.infoIndex)
+          // console.log(this.data.induIndex)
+
+        })
+        // }
+
+        this.initLine()
+      }
     },
     initLine() {
-      this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
+      if (this.statusType === 10) {
+        this.chart = echarts.getInstanceByDom(this.$refs.lineCharts) || echarts.init(this.$refs.lineCharts)
 
-      if (this.industryFace) {
-        this.drawCharts()
+        if (this.industryFace) {
+          this.drawCharts()
 
+        }
       }
-
     },
     drawCharts() {
       const lineData = this.data
@@ -533,15 +567,6 @@ export default ({
         ],
         // color: ['#ca4941', '#1984ea'],
         grid: [{
-          // width: '97%',
-          /* width: '100%',
-          height: '80%',
-          left: 0,
-          top: '10%',
-          show: true,
-          borderColor: '#2A2E36',
-          containLabel: true */
-
           /* left: 45,
            right: 10,
            top: '10%',
@@ -571,6 +596,9 @@ export default ({
   watch: {
     innerCode: function() {
       this.init()
+    },
+    statusType: function() {
+      this.initLine()
     }
   },
 

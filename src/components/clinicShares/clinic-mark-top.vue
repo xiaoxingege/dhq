@@ -454,7 +454,7 @@ body {
 <template>
 <div class="clinic-top-wrap">
   <div class="clinic-top display-box">
-    <div class="clinic-top-left box-flex-1">{{smartStock.statusType}}{{status[smartStock.statusType]}}
+    <div class="clinic-top-left box-flex-1">
       <div class="mark-name">{{smartStock.name || '--'}}[{{smartStock.symbol || '--'}}]综合评分
         <div class="help-img fr"><i>{{this.iconHelpMsg}}</i></div>
       </div>
@@ -467,7 +467,6 @@ body {
           <div id="num">{{changeTofixed1(smartStock.score)}}</div>
           <div class="mask"></div>
         </div>
-        <!-- statusType 10-正常上市，20-暂停上市，11-停牌，12-准退市股票，13-新股 -->
         <div class="circle" v-if='smartStock.statusType != 10'>
           <div id="top-score" class="top" :style="{transform:'rotate('+((0 / 10) * 180)+'deg)'}"></div>
           <div id="num">--</div>
@@ -537,7 +536,7 @@ body {
       <div class="short-fund clearfix" v-else-if="smartStock.shortMessages && smartStock.shortMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.shortMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.newsId)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
@@ -601,7 +600,7 @@ body {
       <div class="short-fund clearfix" v-else-if="smartStock.midMessages && smartStock.midMessages.length>0">
         <div class="face-left-title fl">消息面：</div>
         <div class="face-right-txt fl">
-          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.guid)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
+          <a href="#wrap" class="desc pl-5 messdesc-box" v-for="short of smartStock.midMessages" :class="checkStatus(short.status)" v-if="short.title!==null" @click="fundShow($event,'newsinfo',short.newsId)">{{short.title.length<=20?short.title:short.title.substring(0,21)+'…'}}<i>{{short.tag==null?'--':short.tag}}</i></a>
         </div>
       </div>
       <div class="short-fund clearfix" v-else>
